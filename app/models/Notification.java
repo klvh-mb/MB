@@ -4,14 +4,16 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import models.SocialAction.Reaction;
 import play.data.validation.Constraints.Required;
-
 import domain.AuditListener;
 import domain.Creatable;
 import domain.Updatable;
@@ -35,6 +37,26 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 	public String message;
 	
 	public Boolean readed = false;
+	
+	@Enumerated(EnumType.STRING)
+	public NotificationType notificationType;
+	
+	
+	public static enum NotificationType {
+		FRIEND_REQUEST,
+		NEW_MESSAGE,
+		COMMUNITY_JOIN_REQUEST, 
+		COMMUNITY_JOIN_APPROVED,
+	}
+
+
+	
+	public void markNotificationRead() {
+		this.readed = true;
+	    save();
+	}
+	
+	
 	
 	
 

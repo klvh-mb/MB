@@ -19,6 +19,18 @@ public class SocialActivity {
 			break;
 		}
 		
+		switch (socialAction.reaction) {
+			case APPROVED :
+			{
+				Notification notification = new Notification();
+				notification.socialAction = socialAction;
+				notification.recipetent = socialAction.actor;
+				notification.message = "You are now member of " + socialAction.target.name ;
+				notification.save();
+			}
+			break;
+		}
+		
 		
 	}
 

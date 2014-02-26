@@ -12,14 +12,18 @@ import models.Community;
 import models.Notification;
 import models.SocialAction;
 import models.SocialAction.Action;
+import models.SocialAction.Reaction;
 import models.SocialObject;
 import models.User;
 
+import org.hibernate.event.internal.ReattachVisitor;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import play.db.jpa.JPA;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.contains;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
 import com.mnt.exception.SocialObjectNotPostableException;
@@ -144,6 +148,60 @@ public class SocialTest {
 				    	 q.setParameter(2, Action.JOIN_REQUESTED);
 				    	 List<Notification> result = q.getResultList();
 				    	 org.junit.Assert.assertEquals(result.size(), 1);
+				    	 org.junit.Assert.assertEquals(result.get(0).readed, false);
+				    	 
+				    	 //Mark as read
+				    	 user2.markNotificationRead(result.get(0));
+				    	 result = q.getResultList();
+				    	 org.junit.Assert.assertEquals(result.size(), 1);
+				    	 org.junit.Assert.assertEquals(result.get(0).readed, true);
+				    	 
+				    	 
+				    }
+				});
+				
+			}
+			
+		});
+	}
+	
+	@Test
+	public void communityOwnerAccepts_JoinRequestOfCommunity_Test() {
+		running(fakeApplication(), new Runnable() {
+
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+				    public void invoke() {
+				    	 try {
+							user2.joinRequestAccepted(community1, user1);
+						} catch (SocialObjectNotJoinableException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+				    	 Community community = JPA.em().find(Community.class, community1.id);
+				    	 
+				    	 // Assert for new Member
+				    	 assertThat(community.members, contains(user1));
+				    	 
+				    	// Assert for reation
+				    	 CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+				    	 CriteriaQuery<SocialAction> q = cb.createQuery(SocialAction.class);
+				    	 Root<SocialAction> c = q.from(SocialAction.class);
+				    	 q.select(c);
+				    	 q.where(cb.and(cb.equal(c.get("actor"), user1),cb.equal(c.get("target"), community1)));
+				    	 SocialAction socialAction = JPA.em().createQuery(q).getSingleResult();
+				    	 
+				    	 org.junit.Assert.assertEquals(socialAction.reaction,SocialAction.Reaction.APPROVED);
+				    	 
+				    	 // Assert for user accepted notification.
+				    	 Query nq = JPA.em().createQuery("SELECT n from Notification n where recipetent = ?1 and socialAction.reaction = ?2 ");
+				    	 nq.setParameter(1, user1);
+				    	 nq.setParameter(2, Reaction.APPROVED);
+				    	 Notification result = (Notification)nq.getSingleResult();
+				    	 org.junit.Assert.assertNotNull(result);
+				    	 org.junit.Assert.assertEquals(result.message, "You are now member of Test Community 1");
+				    	 
 				    }
 				});
 				

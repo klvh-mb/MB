@@ -21,7 +21,11 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	
 	@OneToMany(cascade=CascadeType.REMOVE)
 	public Set<CommunityPost> posts = new HashSet<CommunityPost>();
-	  
+	
+	@OneToMany(cascade=CascadeType.REMOVE)
+	public Set<User> members = new HashSet<User>();
+	
+	public Boolean openCommunity = false;
 	
 	public Community(){
 		this.objectType = SocialObjectType.COMMUNITY;
@@ -50,9 +54,22 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	
 	@Override
 	public void onJoinRequest(User user) throws SocialObjectNotJoinableException {
-		recordJoinRequest(user);
+		if(openCommunity == false) {
+			recordJoinRequest(user);
+		} else {
+			this.members.add(user);
+			JPA.em().merge(this);
+		}
 	}
 	
 	 
+	@Override
+	@Transactional
+	public void onJoinRequestAccepted(User user)
+			throws SocialObjectNotJoinableException {
+		this.members.add(user);
+		JPA.em().merge(this);
+		recordJoinRequestAccepted(user);
+	}
 	
 }

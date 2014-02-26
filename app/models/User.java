@@ -40,5 +40,12 @@ public class User extends SocialObject {
 		target.onComment(this, comment);
 	}
 	
+	public void joinRequestAccepted(SocialObject target, User toBeMemeber) throws SocialObjectNotJoinableException {
+		target.onJoinRequestAccepted(toBeMemeber);
+	}
+	
+	public void markNotificationRead(Notification notification) {
+		notification.markNotificationRead();
+	}
 
 }

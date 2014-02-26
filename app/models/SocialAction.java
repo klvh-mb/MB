@@ -67,7 +67,7 @@ public class SocialAction extends domain.Entity implements Serializable, Creatab
 	public Action action;
 	
 	@Enumerated(EnumType.ORDINAL)
-	public Rection reaction = Rection.NONE;
+	public Reaction reaction = Reaction.NONE;
 	
 	public Double weight;
 	
@@ -95,7 +95,7 @@ public class SocialAction extends domain.Entity implements Serializable, Creatab
 	}
 	
 	
-	public enum Rection {
+	static public enum Reaction {
 		NONE,
 		YES,
 		NO,
