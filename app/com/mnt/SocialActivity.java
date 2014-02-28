@@ -1,11 +1,11 @@
 package com.mnt;
 
 import models.Notification;
-import models.SocialAction;
+import models.SocialRelation;
 
 public class SocialActivity {
 //TODO
-	public static void handle(SocialAction socialAction) {
+	public static void handle(SocialRelation socialAction) {
 		
 		switch (socialAction.action) {
 			case JOIN_REQUESTED :
@@ -19,8 +19,8 @@ public class SocialActivity {
 			break;
 		}
 		
-		switch (socialAction.reaction) {
-			case APPROVED :
+		switch (socialAction.action) {
+			case MEMBER :
 			{
 				Notification notification = new Notification();
 				notification.socialAction = socialAction;

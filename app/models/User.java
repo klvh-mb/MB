@@ -7,6 +7,7 @@ import com.mnt.exception.SocialObjectNotJoinableException;
 import com.mnt.exception.SocialObjectNotLikableException;
 import com.mnt.exception.SocialObjectNotPostableException;
 
+import domain.CommentType;
 import domain.SocialObjectType;
 
 @Entity
@@ -36,8 +37,19 @@ public class User extends SocialObject {
 		target.onJoinRequest(this);
 	}
 	
+	//TODO: Write Test
 	public void commentedOn(SocialObject target, String comment) throws SocialObjectNotCommentableException {
-		target.onComment(this, comment);
+		target.onComment(this, comment, CommentType.SIMPLE);
+	}
+	
+	//TODO: Write Test
+	public void answeredOn(SocialObject target, String comment) throws SocialObjectNotCommentableException {
+		target.onComment(this, comment, CommentType.ANSWER);
+	}
+	
+	//TODO: Write Test
+	public void questionedOn(SocialObject target, String comment) throws SocialObjectNotCommentableException {
+		target.onComment(this, comment, CommentType.QUESTION);
 	}
 	
 	public void joinRequestAccepted(SocialObject target, User toBeMemeber) throws SocialObjectNotJoinableException {
@@ -47,5 +59,7 @@ public class User extends SocialObject {
 	public void markNotificationRead(Notification notification) {
 		notification.markNotificationRead();
 	}
+	
+	
 
 }

@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import models.SocialAction.Reaction;
 import play.data.validation.Constraints.Required;
 import domain.AuditListener;
 import domain.Creatable;
@@ -27,7 +26,7 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 	
 	/*This notification is due to which Action.*/
 	@ManyToOne
-	public SocialAction socialAction;
+	public SocialRelation socialAction;
 	
 	/*To whom this notification is intended for*/
 	@OneToOne @Required

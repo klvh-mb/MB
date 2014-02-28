@@ -26,6 +26,7 @@ import com.mnt.exception.SocialObjectNotLikableException;
 import com.mnt.exception.SocialObjectNotPostableException;
 
 import domain.AuditListener;
+import domain.CommentType;
 import domain.Commentable;
 import domain.Creatable;
 import domain.Joinable;
@@ -39,7 +40,7 @@ import domain.Updatable;
 @Inheritance(strategy=InheritanceType.JOINED)
 @EntityListeners(AuditListener.class)
 public abstract class SocialObject extends domain.Entity  implements Serializable, 
-	Creatable, Updatable, Likeable, Postable, Commentable, Joinable  {
+	Creatable, Updatable, Commentable, Likeable, Postable,Joinable  {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -54,47 +55,56 @@ public abstract class SocialObject extends domain.Entity  implements Serializabl
 	public SocialObject owner;
 	
 	protected  final void recordLike(User user) {
-		SocialAction action = new SocialAction();
-		action.action = SocialAction.Action.LIKED;
+		SocialRelation action = new SocialRelation();
+		action.action = SocialRelation.Action.LIKED;
 		action.target = this;
 		action.actor = user;
 		action.validateUniquenessAndCreate();
 	}
 	
 	protected  final void recordJoinRequest(User user) {
-		SocialAction action = new SocialAction();
-		action.action = SocialAction.Action.JOIN_REQUESTED;
+		SocialRelation action = new SocialRelation();
+		action.action = SocialRelation.Action.JOIN_REQUESTED;
 		action.target = this;
 		action.actor = user;
 		action.validateUniquenessAndCreate();
 	}
 	
 	protected  final void recordJoinRequestAccepted(User user) {
-		Query q = JPA.em().createQuery("SELECT sa from SocialAction sa where actor = ?1 and target = ?2 and action =?3");
+		Query q = JPA.em().createQuery("SELECT sa from SocialRelation sa where actor = ?1 and target = ?2 and action =?3");
 		q.setParameter(1, user);
 		q.setParameter(2, this);
-		q.setParameter(3, SocialAction.Action.JOIN_REQUESTED);
+		q.setParameter(3, SocialRelation.Action.JOIN_REQUESTED);
 		
-		SocialAction action =  (SocialAction)q.getSingleResult();
-		action.reaction = SocialAction.Reaction.APPROVED;
+		SocialRelation action =  (SocialRelation)q.getSingleResult();
+		action.action = SocialRelation.Action.MEMBER;
 		action.save(); 
 		
 	}
 	
 	protected  final void recordPostOn(User user) {
-		SocialAction action = new SocialAction();
-		action.action = SocialAction.Action.POSTED_ON;
+		SocialRelation action = new SocialRelation();
+		action.action = SocialRelation.Action.POSTED_ON;
 		action.target = this;
 		action.actor = user;
 		action.save();
 	}
 	
 	protected  final void recordPost(SocialObject user) {
-		SocialAction action = new SocialAction();
-		action.action = SocialAction.Action.POSTED;
+		SocialRelation action = new SocialRelation();
+		action.action = SocialRelation.Action.POSTED;
 		action.target = this;
 		action.actor = user;
 		action.save();
+	}
+	
+	protected void recordQnA(SocialObject user) {
+		SocialRelation action = new SocialRelation();
+		action.action = SocialRelation.Action.POSTED_QUESTION;
+		action.target = this;
+		action.actor = user;
+		action.save();
+		
 	}
 	
 	@Override
@@ -116,32 +126,28 @@ public abstract class SocialObject extends domain.Entity  implements Serializabl
 	    }
 	}
 	
-	@Override
 	public void onLike(User user) throws SocialObjectNotLikableException {
 		throw new SocialObjectNotLikableException("Please make sure Social Object you are liking is Likable");
 	}
 	
-	@Override
-	public void onComment(User user, String body) throws SocialObjectNotCommentableException {
+	public void onComment(User user, String body, CommentType type) throws SocialObjectNotCommentableException {
 		throw new SocialObjectNotCommentableException("Please make sure Social Object you are commenting is Commentable");
 	}
 	
-	@Override
 	public void onPost(User user, String body) throws SocialObjectNotPostableException {
 		throw new SocialObjectNotPostableException("Please make sure Social Object you are posting  is Postable");
-		
 	}
 
-	@Override
 	public void onJoinRequest(User user) throws SocialObjectNotJoinableException {
 		throw new SocialObjectNotJoinableException("Please make sure Social Object you are joining  is Joinable");
 	}
 	
-	@Override
 	public void onJoinRequestAccepted(User user)
 			throws SocialObjectNotJoinableException {
 		throw new SocialObjectNotJoinableException("Please make sure Social Object you are joining  is Joinable");
 	}
+
+	
 	
 	
 

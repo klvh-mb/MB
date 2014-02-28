@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 
 import play.data.validation.Constraints.Required;
 import domain.AuditListener;
+import domain.CommentType;
 import domain.Creatable;
 
 /**
@@ -44,6 +45,9 @@ public class Comment extends domain.Entity implements Comparable<Comment>, Seria
   
   @Required @Lob
   public String body;
+  
+  @Required
+  public CommentType commentType;
 
   @Override
   public int compareTo(Comment o) {

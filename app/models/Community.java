@@ -5,12 +5,15 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
-
-import com.mnt.exception.SocialObjectNotJoinableException;
 
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+
+import com.mnt.exception.SocialObjectNotJoinableException;
+
 import domain.Joinable;
 import domain.Likeable;
 import domain.Postable;
@@ -23,9 +26,19 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	public Set<CommunityPost> posts = new HashSet<CommunityPost>();
 	
 	@OneToMany(cascade=CascadeType.REMOVE)
+	public Set<CommunityQnA> qnA = new HashSet<CommunityQnA>();
+	
+	@OneToMany(cascade=CascadeType.REMOVE)
 	public Set<User> members = new HashSet<User>();
 	
-	public Boolean openCommunity = false;
+	@Enumerated(EnumType.ORDINAL)
+	public CommunityType communityType = CommunityType.CLOSE;
+	
+	public static enum CommunityType {
+		OPEN,
+		CLOSE,
+		PRIVATE
+	}
 	
 	public Community(){
 		this.objectType = SocialObjectType.COMMUNITY;
@@ -52,9 +65,17 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		//recordPostOn(user);
 	}
 	
+	public void onQuestionPost(User user, String question) {
+		
+	}
+	
+	public void onAnswerPost(User user, String answer) {
+		
+	}
+	
 	@Override
 	public void onJoinRequest(User user) throws SocialObjectNotJoinableException {
-		if(openCommunity == false) {
+		if( communityType != CommunityType.OPEN) {
 			recordJoinRequest(user);
 		} else {
 			this.members.add(user);

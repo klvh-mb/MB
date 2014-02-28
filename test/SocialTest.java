@@ -1,3 +1,5 @@
+import static org.hamcrest.Matchers.contains;
+import static org.junit.Assert.assertThat;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
 
@@ -10,20 +12,16 @@ import javax.persistence.criteria.Root;
 
 import models.Community;
 import models.Notification;
-import models.SocialAction;
-import models.SocialAction.Action;
-import models.SocialAction.Reaction;
+import models.SocialRelation;
+import models.SocialRelation.Action;
 import models.SocialObject;
 import models.User;
 
-import org.hibernate.event.internal.ReattachVisitor;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import play.db.jpa.JPA;
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.Matchers.contains;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
 import com.mnt.exception.SocialObjectNotPostableException;
@@ -94,14 +92,14 @@ public class SocialTest {
 				JPA.withTransaction(new play.libs.F.Callback0() {
 				    public void invoke() {
 				    	 CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-				    	 CriteriaQuery<SocialAction> q = cb.createQuery(SocialAction.class);
-				    	 Root<SocialAction> c = q.from(SocialAction.class);
+				    	 CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
+				    	 Root<SocialRelation> c = q.from(SocialRelation.class);
 				    	 q.select(c);
-				    	 q.where(cb.and(cb.equal(c.get("actor"), user2),cb.equal(c.get("action"), SocialAction.Action.POSTED)));
-				    	 List<SocialAction> result = JPA.em().createQuery(q).getResultList();
+				    	 q.where(cb.and(cb.equal(c.get("actor"), user2),cb.equal(c.get("action"), SocialRelation.Action.POSTED)));
+				    	 List<SocialRelation> result = JPA.em().createQuery(q).getResultList();
 				    	 org.junit.Assert.assertEquals(result.size(), 2);
 				    	 
-				    	 q.where(cb.and(cb.equal(c.get("actor"), user1),cb.equal(c.get("action"), SocialAction.Action.POSTED)));
+				    	 q.where(cb.and(cb.equal(c.get("actor"), user1),cb.equal(c.get("action"), SocialRelation.Action.POSTED)));
 				    	 result = JPA.em().createQuery(q).getResultList();
 				    	 org.junit.Assert.assertEquals(result.size(), 5);
 				    }
@@ -121,11 +119,11 @@ public class SocialTest {
 				JPA.withTransaction(new play.libs.F.Callback0() {
 				    public void invoke() {
 				    	 CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-				    	 CriteriaQuery<SocialAction> q = cb.createQuery(SocialAction.class);
-				    	 Root<SocialAction> c = q.from(SocialAction.class);
+				    	 CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
+				    	 Root<SocialRelation> c = q.from(SocialRelation.class);
 				    	 q.select(c);
 				    	 q.where(cb.and(cb.equal(c.get("actor"), user1),c.get("target").in(community1.posts)));
-				    	 List<SocialAction> result = JPA.em().createQuery(q).getResultList();
+				    	 List<SocialRelation> result = JPA.em().createQuery(q).getResultList();
 				    	 org.junit.Assert.assertEquals(result.size(), 4);
 				    }
 				});
@@ -186,18 +184,18 @@ public class SocialTest {
 				    	 
 				    	// Assert for reation
 				    	 CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-				    	 CriteriaQuery<SocialAction> q = cb.createQuery(SocialAction.class);
-				    	 Root<SocialAction> c = q.from(SocialAction.class);
+				    	 CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
+				    	 Root<SocialRelation> c = q.from(SocialRelation.class);
 				    	 q.select(c);
 				    	 q.where(cb.and(cb.equal(c.get("actor"), user1),cb.equal(c.get("target"), community1)));
-				    	 SocialAction socialAction = JPA.em().createQuery(q).getSingleResult();
+				    	 SocialRelation socialAction = JPA.em().createQuery(q).getSingleResult();
 				    	 
-				    	 org.junit.Assert.assertEquals(socialAction.reaction,SocialAction.Reaction.APPROVED);
+				    	 org.junit.Assert.assertEquals(socialAction.action,SocialRelation.Action.MEMBER);
 				    	 
 				    	 // Assert for user accepted notification.
-				    	 Query nq = JPA.em().createQuery("SELECT n from Notification n where recipetent = ?1 and socialAction.reaction = ?2 ");
+				    	 Query nq = JPA.em().createQuery("SELECT n from Notification n where recipetent = ?1 and socialAction.action = ?2 ");
 				    	 nq.setParameter(1, user1);
-				    	 nq.setParameter(2, Reaction.APPROVED);
+				    	 nq.setParameter(2, Action.MEMBER);
 				    	 Notification result = (Notification)nq.getSingleResult();
 				    	 org.junit.Assert.assertNotNull(result);
 				    	 org.junit.Assert.assertEquals(result.message, "You are now member of Test Community 1");
@@ -221,11 +219,11 @@ public class SocialTest {
 				    	 
 				    	 List<SocialObject> result_1 = JPA.em().createQuery("SELECT sa from SocialObject sa where name like  'Test%'").getResultList();
 				    	 for(SocialObject _so : result_1) {
-				    		 Query q = JPA.em().createQuery("SELECT sa from SocialAction sa where actor = ?1 or target = ?1");
+				    		 Query q = JPA.em().createQuery("SELECT sa from SocialRelation sa where actor = ?1 or target = ?1");
 				    		 q.setParameter(1, _so);
-				    		 List<SocialAction> result_2 = q.getResultList();
+				    		 List<SocialRelation> result_2 = q.getResultList();
 				    		 
-				    		 for (SocialAction _sa : result_2){
+				    		 for (SocialRelation _sa : result_2){
 				    			 q = JPA.em().createQuery("Delete Notification  where socialAction = ?1 ");
 					    		 q.setParameter(1, _sa);
 					    		 q.executeUpdate();

@@ -1,16 +1,23 @@
 package models;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.mnt.exception.SocialObjectNotCommentableException;
 
 import play.data.validation.Constraints.Required;
+import domain.CommentType;
+import domain.Commentable;
 import domain.Likeable;
 import domain.SocialObjectType;
 
 @Entity
-public class CommunityPost extends SocialObject implements Likeable {
+public class CommunityPost extends SocialObject implements Likeable, Commentable {
 
 	public CommunityPost(){
 		this.objectType = SocialObjectType.COMMUNITY_POST;
@@ -21,6 +28,9 @@ public class CommunityPost extends SocialObject implements Likeable {
 	
 	@ManyToOne(cascade=CascadeType.REMOVE)
 	public Community community;
+	
+	@OneToMany
+	public Set<Comment> comments;
 	
 	@Override
 	public void onLike(User user) {
@@ -38,6 +48,11 @@ public class CommunityPost extends SocialObject implements Likeable {
 	public void save() {
 		super.save();
 		recordPost(owner);
+	}
+	
+	//TOOD: Implementation
+	@Override
+	public void onComment(User user, String body, CommentType type) throws SocialObjectNotCommentableException {
 		
 	}
 

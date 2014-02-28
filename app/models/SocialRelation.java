@@ -55,7 +55,7 @@ import domain.Updatable;
 
 @Entity
 @EntityListeners(AuditListener.class)
-public class SocialAction extends domain.Entity implements Serializable, Creatable, Updatable  {
+public class SocialRelation extends domain.Entity implements Serializable, Creatable, Updatable  {
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long id;
@@ -63,14 +63,13 @@ public class SocialAction extends domain.Entity implements Serializable, Creatab
 	@ManyToOne
 	public SocialObject actor;
 	
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	public Action action;
 	
-	@Enumerated(EnumType.ORDINAL)
-	public Reaction reaction = Reaction.NONE;
+	public Integer relationWeight;
 	
-	public Double weight;
 	
+
 	@ManyToOne
 	public SocialObject target;
 	
@@ -91,34 +90,28 @@ public class SocialAction extends domain.Entity implements Serializable, Creatab
 		FRIEND_REQUESTED,
 		JOIN_REQUESTED,
 		RELATIONSHIP_REQUESTED,
-		MESSAGE_SEND
+		MESSAGE_SEND,
+		MEMBER, POSTED_QUESTION, POSTED_ANSWER;
 	}
 	
 	
-	static public enum Reaction {
-		NONE,
-		YES,
-		NO,
-		APPROVED,
-		NOT_APPROVED,
-		ACKNOWLEDGED
-	}
+	
 
-	public SocialAction(){}
+	public SocialRelation(){}
 	
-	public SocialAction(Long id, SocialObject actor, Action action,
-			Double weight, SocialObject target) {
+	public SocialRelation(Long id, SocialObject actor, Action action,
+			Integer weight, SocialObject target) {
 		super();
 		this.id = id;
 		this.actor = actor;
 		this.action = action;
-		this.weight = weight;
+		this.relationWeight = weight;
 		this.target = target;
 	}
 	
 	@Transactional
 	public void validateUniquenessAndCreate() {
-		Query q = JPA.em().createQuery("Select sa from SocialAction sa where actor = ?1 and action = ?2 and target = ?3");
+		Query q = JPA.em().createQuery("Select sa from SocialRelation sa where actor = ?1 and action = ?2 and target = ?3");
 		q.setParameter(1, this.actor);
 		q.setParameter(2, this.action);
 		q.setParameter(3, this.target);
