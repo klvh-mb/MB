@@ -1,6 +1,7 @@
 package models;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -8,6 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
@@ -91,6 +96,16 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		this.members.add(user);
 		JPA.em().merge(this);
 		recordJoinRequestAccepted(user);
+	}
+	
+	public static List<Community> search(String q) {
+		CriteriaBuilder builder = JPA.em().getCriteriaBuilder();
+		CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
+		Root<Community> root = criteria.from( Community.class );
+		criteria.select(root);
+		Predicate predicate = builder.or(builder.like(root.<String>get("name"), "%" + q + "%"));
+		criteria.where(predicate);
+		return JPA.em().createQuery(criteria).getResultList();
 	}
 	
 }

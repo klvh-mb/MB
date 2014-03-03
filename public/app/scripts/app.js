@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('htdocsApp', [
+angular.module('minibean', [
   'infinite-scroll',
   'ngResource',
   'ngRoute'
@@ -8,10 +8,6 @@ angular.module('htdocsApp', [
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: '/assets/app/views/main.html',
-        controller: 'MainCtrl'
+        templateUrl: '/assets/app/views/home.html'
       })
-      .otherwise({
-        redirectTo: '/'
-      });
   });

@@ -14,12 +14,13 @@ object ApplicationBuild extends Build {
     javaJpa,
     "mysql" % "mysql-connector-java" % "5.1.18",
     "org.hibernate" % "hibernate-entitymanager" % "4.2.7.Final",
-    "org.hamcrest" % "hamcrest-all" % "1.3"
+    "org.hamcrest" % "hamcrest-all" % "1.3",
+    "commons-io" % "commons-io" % "2.1"
     
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
-    // Add your own project settings here      
+    Keys.fork in (Test) := false     
   )
 
 }

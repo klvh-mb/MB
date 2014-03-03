@@ -11,5 +11,5 @@ public enum  SocialObjectType {
      ALBUMN,
      VEDIO,
      CONTEST,
-     MESSAGE;
+     MESSAGE, FOLDER;
 }

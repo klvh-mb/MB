@@ -104,7 +104,14 @@ public abstract class SocialObject extends domain.Entity  implements Serializabl
 		action.target = this;
 		action.actor = user;
 		action.save();
-		
+	}
+	
+	protected void recordAddedPhoto (SocialObject user) {
+		SocialRelation action = new SocialRelation();
+		action.action = SocialRelation.Action.ADDED;
+		action.target = this;
+		action.actor = user;
+		action.save();
 	}
 	
 	@Override
