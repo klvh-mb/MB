@@ -39,7 +39,7 @@ public class Application extends Controller {
 	public static final String USER_ROLE = "user";
 	
 	public static Result index() {
-		return ok(views.html.index.render());
+		return ok(views.html.home.render());
 	}
 
 	public static User getLocalUser(final Session session) {
@@ -64,6 +64,7 @@ public class Application extends Controller {
 		return ok(views.html.login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
 	}
 
+	@Transactional
 	public static Result doLogin() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
@@ -88,6 +89,7 @@ public class Application extends Controller {
 				.as("text/javascript");
 	}
 
+	@Transactional
 	public static Result doSignup() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM

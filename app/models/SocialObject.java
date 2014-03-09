@@ -31,6 +31,7 @@ import domain.Commentable;
 import domain.Creatable;
 import domain.Joinable;
 import domain.Likeable;
+import domain.PostType;
 import domain.Postable;
 import domain.SocialObjectType;
 import domain.Updatable;
@@ -141,7 +142,7 @@ public abstract class SocialObject extends domain.Entity  implements Serializabl
 		throw new SocialObjectNotCommentableException("Please make sure Social Object you are commenting is Commentable");
 	}
 	
-	public void onPost(User user, String body) throws SocialObjectNotPostableException {
+	public void onPost(User user, String body, PostType type) throws SocialObjectNotPostableException {
 		throw new SocialObjectNotPostableException("Please make sure Social Object you are posting  is Postable");
 	}
 

@@ -59,3 +59,11 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 POST    /signupTest                 controllers.Application.doSignupForTest
 POST    /loginTest                  controllers.Application.doLoginForTest
 
+
+
+#User Info Service
+GET		/get-user-info				controllers.UserController.getUserInfo
+GET		/about-user					controllers.UserController.aboutUser
+POST	/updateUserDisplayName		controllers.UserController.updateUserDisplayName
+POST	/upload-profile-photo		controllers.UserController.uploadProfilePhoto
+GET		/get-profile-image			controllers.UserController.getProfileImage

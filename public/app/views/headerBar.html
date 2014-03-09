@@ -1,21 +1,82 @@
-
-	<div style="margin: 0%;background: #0099FF;float: left;width: 100%;">
-		<div style="float: left;">
-			<div style="float: left;width: 45%;">
-				<p style="float: left;font-size: 25px;margin-bottom: 0%;margin-top: 2%;margin-left: 6%;font-weight: bold;color: white;">miniBean</p>
-				<img style="width: 3%;float: left;margin-top: 3.5%;margin-left: 3%;cursor: pointer;" src="/assets/app/images/request_friend.png">
-				<img style="width: 3%;float: left;margin-top: 3.5%;margin-left: 1%;cursor: pointer;" src="/assets/app/images/globe.png">
-				<div data-ng-controller="SearchController" style="float: left; background: white;margin-top: 3%;margin-left: 1%;">
-					<input data-ng-keypress='search()' type="text" name="query" style="width: 90%; border: none; outline: none;" placeholder=" Search " >
-					<img src="/assets/app/images/search_btn.png" style="width: 5%;margin-left: 1%;margin-top: 1%;cursor: pointer;" />
-				</div>
-			</div>
-			<div style="float: right;">
-				<img style="width: 3%;margin-right: 10%;float: right;margin-top: 3.3%;margin-left: 1%;cursor: pointer;" src="/assets/app/images/settings.png">
-				<img style="width: 2.5%;float: right;margin-top: 3%;padding-right:1%;border-right: 1px solid #000000;margin-left: 1%;cursor: pointer;" src="/assets/app/images/lock.png">
-				<p style="float: right;margin-bottom: 0%; margin-right:1%; color: white;padding-right:1%;border-right: 1px solid #000000;"> User Profile </p>
-				<p style="float: right;margin-bottom: 0%; margin-right:1%; color: white;padding-right:1%;border-right: 1px solid #000000;"> Keith Lei </p>
-				<img style="width: 5%;height: 30px;float: right;margin-top: 1.8%;margin-right: 1%;cursor: pointer;" src="/assets/app/images/user_image.jpg"> 
-			</div>
+<div class="navbar hidden-print navbar-default box main" role="navigation">
+	<!-- div class="user-action user-action-btn-navbar pull-right border-left">
+		< a href="#menu-right" class="btn btn-sm btn-navbar btn-open-right"><i class="fa fa-comments fa-2x"></i></a>
+		<div id="chat-notification" data-menu="menu-right" data-toggle="sidr-open" style="">
+			New message from <strong>Mr.Awesome</strong>
 		</div>
 	</div>
+	<div class="user-action user-action-btn-navbar pull-left">
+		<a href="" class="btn btn-sm btn-navbar btn-open-left"><i class="fa fa-bars fa-2x"></i></a>
+	</div-->
+	<div class="user-action pull-right menu-right-hidden-xs menu-left-hidden-xs  border-left" style="margin-right: 10%;">
+			<img  style="cursor: pointer;width:20%;" src="/assets/app/images/settings.png">
+		<img style="cursor: pointer;width:20%;" src="/assets/app/images/lock.png">
+	</div>	
+	<div class="user-action pull-right menu-right-hidden-xs menu-left-hidden-xs border-left" >
+		<div class="dropdown username pull-left">
+			<a class="dropdown-toggle dropdown-hover" data-toggle="dropdown" href="#">
+				<span class="media margin-none" data-ng-controller="UserInfoServiceController">
+					<span class="pull-left"><img src="/get-profile-image" alt="user" class="img-circle"></span>
+					<span class="media-body">{{userInfo.name}}<span class="caret"></span></span>
+				</span>
+			</a>
+			<ul class="dropdown-menu">
+				<li><a ng-href="#/about">About</a></li>
+				<li><a href="#lang=en">Messages</a></li>
+				<li><a href="#">Profile</a></li>
+				<li><a href="#">Logout</a></li>
+		    </ul>
+		</div>
+	</div>
+	<ul class="notifications pull-right hidden-xs">
+		<li class="dropdown notif">
+			<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown"><i class="notif-block icon-envelope-1"></i><span class="fa fa-star"></span></a>
+			<ul class="dropdown-menu chat media-list">
+				<li class="media">
+			        <a class="pull-left" href="#"><img class="media-object thumb" src="../assets/images/people/100/15.jpg" alt="50x50" width="50"></a>
+					<div class="media-body">
+			        	<span class="label label-default pull-right">5 min</span>
+			            <h5 class="media-heading">Adrian D.</h5>
+			            <p class="margin-none">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+			        </div>
+				</li>
+		      	<li class="media">
+		          	<a class="pull-left" href="#"><img class="media-object thumb" src="../assets/images/people/100/16.jpg" alt="50x50" width="50"></a>
+					<div class="media-body">
+			          	<span class="label label-default pull-right">2 days</span>
+			            <h5 class="media-heading">Jane B.</h5>
+			            <p class="margin-none">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+			        </div>
+		        </li>
+			    <li class="media">
+		          	<a class="pull-left" href="#"><img class="media-object thumb" src="../assets/images/people/100/17.jpg" alt="50x50" width="50"></a>
+			      	<div class="media-body">
+						<span class="label label-default pull-right">3 days</span>
+			            <h5 class="media-heading">Andrew M.</h5>
+			            <p class="margin-none">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+			        </div>
+		        </li>
+	      	</ul>
+		</li>
+	</ul>
+
+
+	<div class="pull-left" style="margin-left: 2%;">
+		<p style="float: left;font-size: 25px;margin-bottom: 0%;margin-top: 2%;font-weight: bold;color: white;">miniBean</p>
+		<img style="width: 3%;float: left;margin-top: 2.5%;margin-left: 3%;cursor: pointer;" src="/assets/app/images/request_friend.png">
+		<img style="width: 3%;float: left;margin-top: 2.5%;margin-left: 1%;cursor: pointer;" src="/assets/app/images/globe.png">
+		<div data-ng-controller="SearchController" style="float: left; background: white;margin-top: 3%;margin-left: 1%;">
+			<input data-ng-keypress='search()' type="text" data-ng-model="query" style="width: 90%; border: none; outline: none;" placeholder=" Search " >
+			<img src="/assets/app/images/search_btn.png" style="width: 5%;margin-left: 1%;margin-top: 1%;cursor: pointer;" />
+		</div>
+							
+	</div>			
+	
+	
+</div>
+
+
+
+
+
+

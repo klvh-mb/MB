@@ -1,10 +1,11 @@
 import static org.fest.assertions.Assertions.assertThat;
+import static org.junit.Assert.assertNotNull;
 import static play.test.Helpers.callAction;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.redirectLocation;
 import static play.test.Helpers.running;
-import static play.test.Helpers.status;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,12 +15,13 @@ import models.User;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
-import controllers.routes;
-import static org.junit.Assert.*;
 import play.db.jpa.JPA;
 import play.mvc.Result;
+import controllers.routes;
+@Ignore
 public class AuthTest {
 
 	String unverifiedUser = "unverifiedUser@test.com";

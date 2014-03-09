@@ -19,6 +19,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
@@ -44,6 +46,7 @@ import com.mnt.exception.SocialObjectNotLikableException;
 import com.mnt.exception.SocialObjectNotPostableException;
 
 import domain.CommentType;
+import domain.PostType;
 import domain.SocialObjectType;
 
 @Entity
@@ -57,28 +60,30 @@ public class User extends SocialObject implements Subject {
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date lastLogin;
 
+	@JsonIgnore
 	public boolean active;
 
+	@JsonIgnore
 	public boolean emailValidated;
 
 	@ManyToMany
 	public List<SecurityRole> roles;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL) @JsonIgnore
 	public List<LinkedAccount> linkedAccounts;
 
-	@ManyToMany
+	@ManyToMany @JsonIgnore
 	public List<UserPermission> permissions;
-	@ManyToOne(cascade=CascadeType.REMOVE)
+	@ManyToOne(cascade=CascadeType.REMOVE) @JsonIgnore
 	public Folder albumPhotoProfile;
 	
-	@Override
+	@Override @JsonIgnore
 	public String getIdentifier()
 	{
 		return Long.toString(id);
 	}
 
-	@Override
+	@Override @JsonIgnore
 	public List<? extends Role> getRoles() {
 		return roles;
 	}
@@ -107,7 +112,12 @@ public class User extends SocialObject implements Subject {
 	}
 	
 	public void postedOn(SocialObject target, String post) throws SocialObjectNotPostableException {
-		target.onPost(this, post);
+		target.onPost(this, post, PostType.SIMPLE);
+	}
+	
+	//TODO: Write Test
+	public void questionedOn(SocialObject target, String question) throws SocialObjectNotPostableException {
+		target.onPost(this, question, PostType.QUESTION);
 	}
 	
 	public void requestedToJoin(SocialObject target) throws SocialObjectNotJoinableException {
@@ -124,10 +134,7 @@ public class User extends SocialObject implements Subject {
 		target.onComment(this, comment, CommentType.ANSWER);
 	}
 	
-	//TODO: Write Test
-	public void questionedOn(SocialObject target, String comment) throws SocialObjectNotCommentableException {
-		target.onComment(this, comment, CommentType.QUESTION);
-	}
+	
 	
 	public void joinRequestAccepted(SocialObject target, User toBeMemeber) throws SocialObjectNotJoinableException {
 		target.onJoinRequestAccepted(toBeMemeber);
@@ -183,7 +190,8 @@ public class User extends SocialObject implements Subject {
 	   * get the photo profile
 	   * @return the resource, null if not exist
 	   */
-	  public Resource getPhotoProfile() {
+	 @JsonIgnore
+	 public Resource getPhotoProfile() {
 	    if(this.albumPhotoProfile != null) {
 	      Resource file = this.albumPhotoProfile.getHighPriorityFile();
 	      if(file != null){
@@ -191,7 +199,16 @@ public class User extends SocialObject implements Subject {
 	      }
 	    }
 	    return null;
-	  }
+	 }
+	 
+	 
+	 public String getPhotoProfileURL() {
+		 Resource resource =  getPhotoProfile();
+		 if (resource == null) {
+			 return "";
+		 }
+		 return resource.getPath();
+	 }
 	 
 	 /**
 	   * ensure the existence of the system folder: albumPhotoProfile
@@ -273,7 +290,7 @@ public class User extends SocialObject implements Subject {
 			}
 		}
 
-		@Transactional
+		@Transactional @JsonIgnore
 		private static Query getUsernamePasswordAuthUserFind(
 				final UsernamePasswordAuthUser identity) {
 			
@@ -320,6 +337,7 @@ public class User extends SocialObject implements Subject {
 				final String name = identity.getName();
 				if (name != null) {
 					user.name = name;
+					user.displayName = name;
 				}
 			}
 			
@@ -347,6 +365,7 @@ public class User extends SocialObject implements Subject {
 					User.findByAuthUserIdentity(newUser));
 		}
 
+		@JsonIgnore
 		public Set<String> getProviders() {
 			final Set<String> providerKeys = new HashSet<String>(
 					linkedAccounts.size());
@@ -377,7 +396,7 @@ public class User extends SocialObject implements Subject {
 		}
 
 		
-
+		@JsonIgnore
 		public LinkedAccount getAccountByProvider(final String providerKey) {
 			return LinkedAccount.findByProviderKey(this, providerKey);
 		}

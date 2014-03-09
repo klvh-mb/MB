@@ -21,6 +21,7 @@ import com.mnt.exception.SocialObjectNotJoinableException;
 
 import domain.Joinable;
 import domain.Likeable;
+import domain.PostType;
 import domain.Postable;
 import domain.SocialObjectType;
 
@@ -28,10 +29,7 @@ import domain.SocialObjectType;
 public class Community extends SocialObject  implements Likeable, Postable, Joinable {
 	
 	@OneToMany(cascade=CascadeType.REMOVE)
-	public Set<CommunityPost> posts = new HashSet<CommunityPost>();
-	
-	@OneToMany(cascade=CascadeType.REMOVE)
-	public Set<CommunityQnA> qnA = new HashSet<CommunityQnA>();
+	public Set<Post> posts = new HashSet<Post>();
 	
 	@OneToMany(cascade=CascadeType.REMOVE)
 	public Set<User> members = new HashSet<User>();
@@ -62,8 +60,16 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	
 	@Override
 	@Transactional
-	public void onPost(User user, String body) {
-		CommunityPost post = new CommunityPost(user, body, this);
+	public void onPost(User user, String body, PostType type) {
+		Post post = new Post(user, body, this);
+		
+		if (type == PostType.QUESTION) {
+			post.objectType = SocialObjectType.QUESTION;
+		}
+		
+		if (type == PostType.SIMPLE) {
+			post.objectType = SocialObjectType.POST;
+		}
 		post.save();
 		this.posts.add(post);
 		JPA.em().merge(this);

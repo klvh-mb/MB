@@ -1,0 +1,64 @@
+package controllers;
+
+import java.io.File;
+import java.io.IOException;
+
+import models.User;
+import play.data.DynamicForm;
+import play.data.Form;
+import play.db.jpa.Transactional;
+import play.libs.Json;
+import play.mvc.Controller;
+import play.mvc.Http.MultipartFormData.FilePart;
+import play.mvc.Result;
+
+public class UserController extends Controller {
+	
+	@Transactional(readOnly=true)
+	public static Result getUserInfo() {
+		final User localUser = Application.getLocalUser(session());
+		
+		return ok(Json.toJson(localUser));
+	}
+	
+	@Transactional(readOnly=true)
+	public static Result aboutUser() {
+		final User localUser = Application.getLocalUser(session());
+		
+		return ok(Json.toJson(localUser));
+	}
+	
+	@Transactional
+	public static Result updateUserDisplayName() {
+		Form<String> form = DynamicForm.form(String.class).bindFromRequest();
+		String displayName = form.data().get("displayName");
+		final User localUser = Application.getLocalUser(session());
+		localUser.displayName = displayName;
+		localUser.name = displayName;
+		localUser.merge();
+		return ok("true");
+	}
+	
+	@Transactional
+	public static Result uploadProfilePhoto() {
+		final User localUser = Application.getLocalUser(session());
+		FilePart picture = request().body().asMultipartFormData().getFile("profile-photo");
+		String fileName = picture.getFilename();
+	    String contentType = picture.getContentType(); 
+	    File file = picture.getFile();
+	    try {
+			localUser.setPhotoProfile(file);
+		} catch (IOException e) {
+			return status(500);
+		}
+		return ok();
+	}
+	
+	@Transactional
+	public static Result getProfileImage() {
+		final User localUser = Application.getLocalUser(session());
+		return ok(localUser.getPhotoProfile().getRealFile()).as("image/png");
+		
+	}
+
+}

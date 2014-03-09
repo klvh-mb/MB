@@ -7,11 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import play.db.jpa.JPA;
-import play.db.jpa.Transactional;
-import play.libs.F;
-import akka.japi.Function;
 import be.objectify.deadbolt.core.models.Role;
 
 @Entity
@@ -45,7 +45,10 @@ public class SecurityRole  extends domain.Entity implements Role {
 	}
 	
 	public static int findRowCount() {
-		Query q = JPA.em().createQuery("SELECT l from SecurityRole l");
-		return q.getMaxResults();
+		CriteriaBuilder builder = JPA.em().getCriteriaBuilder();
+		CriteriaQuery<Long> cQuery = builder.createQuery(Long.class);
+		Root<SecurityRole> from = cQuery.from(SecurityRole.class);
+		CriteriaQuery<Long> select = cQuery.select(builder.count(from));
+		return JPA.em().createQuery(select).getFirstResult();
 	}
 }

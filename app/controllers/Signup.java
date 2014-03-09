@@ -4,6 +4,7 @@ import models.TokenAction;
 import models.TokenAction.Type;
 import models.User;
 import play.data.Form;
+import play.db.jpa.Transactional;
 import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -193,6 +194,7 @@ public class Signup extends Controller {
 		return ok(exists.render());
 	}
 
+	@Transactional
 	public static Result verify(final String token) {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final TokenAction ta = tokenIsValid(token, Type.EMAIL_VERIFICATION);

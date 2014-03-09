@@ -61,7 +61,7 @@ public class TokenAction extends domain.Entity {
 
 	
 	public static TokenAction findByToken(final String token, final Type type) {
-		return (TokenAction) JPA.em().createQuery("Select t from TokenAction where token = ?1 and type = ?2").
+		return (TokenAction) JPA.em().createQuery("Select t from TokenAction t where token = ?1 and type = ?2").
 		setParameter(1, token).
 		setParameter(2, type).getSingleResult();
 	}

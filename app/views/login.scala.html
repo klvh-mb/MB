@@ -1,49 +1,67 @@
 @(loginForm: Form[_])
 
 @import helper._
-@import helper.twitterBootstrap._
 
-@main(Messages("playauthenticate.login.title"),"login") {
 
-  <div class="row">
-    <div class="span6">
-      <h1>@Messages("playauthenticate.login.title")</h1>
-    </div>
-  </div>
-    
-  <div id="login" class="row">
+<!DOCTYPE html>
+<html class="app">
+<head>
+	<title>MiniBean</title>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<link rel="stylesheet" href="assets/assets/css/module.stylesheet-complete.min.css" />
+</head>
 
-    <div class="span3">
-      @* Display proprietary login form *@
-    	@helper.form(routes.Application.doLogin) {
-    	
-        @if(loginForm.hasGlobalErrors) { 
-          <p class="error">
-            <span class="label label-important">@loginForm.globalError.message</span>
-          </p>
-        }
-        
-        @_emailPartial(loginForm)
-          
-        @inputPassword(
-          loginForm("password"),
-          '_showConstraints -> false,
-          '_label -> Messages("playauthenticate.login.password.placeholder")
-        )
-          
-        <input type="submit" value="@Messages("playauthenticate.login.now")" class="btn btn-primary"><br/>
-        <br/>
-        <a href="javascript:void(0);" onclick="window.location.href = jsRoutes.controllers.Signup.forgotPassword($('#email').val() || null).absoluteURL();">@Messages("playauthenticate.login.forgot.password")</a>
 
-    	}
-    </div>
-
-    <div class="span3">
-      @Messages("playauthenticate.login.oauth")
-      @* Display list of available providers *@
-      @_providerPartial(skipCurrent=false)
-    </div>
-
-  </div>
-
-}
+<body class="">
+	<div class="container-fluid menu-hidden">
+		<div id="content">
+			<div class="layout-app col-fs">
+				<div class="row row-app">
+					<div class="col-md-12">
+						<div class="col-separator col-separator-first box col-unscrollable col-fs">
+							<div class="col-table">
+								<div class="col-table-row">
+									<div class="col-app col-unscrollable tab-content">
+										<div class="col-app lock-wrapper lock-bg-1 tab-pane active animated fadeIn" id="lock-1-1">
+											<h3 class="text-white innerB text-center">MIniBEan</h3>
+											<div class="lock-container">
+												<div class="innerAll text-center">
+													<img src="assets/images/people/100/22.jpg" class="img-circle"/>
+													<div class="innerLR">
+													@helper.form(routes.Application.doLogin) {
+														@if(loginForm.hasGlobalErrors) { 
+												          <p class="error">
+												            <span class="label label-important">@loginForm.globalError.message</span>
+												          </p>
+												        }
+												       	<input class="form-control text-center bg-gray" name="email" type="email" placeholder="Username"/>
+														<input class="form-control text-center bg-gray" name="password" type="password" placeholder="Enter Password"/>
+														<div class="innerT">
+															<input type="submit" value="@Messages("playauthenticate.login.now")" class="btn btn-primary">
+															<i class="fa fa-fw fa-unlock-alt"></i>
+															<img src="assets/images/facebook.png"/>
+															<img src="assets/images/google.png"/>
+														</div>
+														
+												    }
+													</div>
+													
+													<a href="" class="btn margin-none">Forgot password?</a>
+													<a href="@routes.Application.signup" class="btn margin-none">Don't have Account?</a>
+													
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>	
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
