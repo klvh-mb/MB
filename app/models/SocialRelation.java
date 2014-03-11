@@ -68,7 +68,14 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	
 	public Integer relationWeight;
 	
-	
+	@Enumerated(EnumType.STRING)
+    public ActionType actionType;
+    
+    static public enum ActionType {
+            FRIEND_REQUESTED,
+            JOIN_REQUESTED,
+            GRANT
+    }
 
 	@ManyToOne
 	public SocialObject target;
@@ -82,16 +89,19 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 		COMMENTED,
 		BLOCKED,
 		ADDED,
+		REQUEST,
+		FRIEND,
 		CHANGED,
 		DELETED,
 		SHARED,
 		FOLLOWS,
 		RECOMMENDED,
-		FRIEND_REQUESTED,
-		JOIN_REQUESTED,
 		RELATIONSHIP_REQUESTED,
 		MESSAGE_SEND,
-		MEMBER, POSTED_QUESTION, POSTED_ANSWER;
+		MEMBER,
+		POSTED_QUESTION,
+		POSTED_ANSWER,
+		ANSWERED;
 	}
 	
 	

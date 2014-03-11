@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.CascadeType;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,21 +23,14 @@ import domain.Creatable;
  */
 
 @Entity
-@EntityListeners(AuditListener.class)
-public class Comment extends domain.Entity implements Comparable<Comment>, Serializable, Creatable {
+public class Comment extends SocialObject implements Comparable<Comment>, Serializable, Creatable {
   
-  @Id @GeneratedValue(strategy=GenerationType.AUTO)
-  public Long id;
-  
+  public Comment(){}
   public Comment(SocialObject socialObject, User user, String body) {
-    this.user = user;
+    this.owner = user;
     this.socialObject = socialObject;
     this.body = body;
   }
-  
-  @Required
-  @ManyToOne
-  public User user;
 
   @Required
   @ManyToOne

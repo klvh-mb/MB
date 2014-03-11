@@ -1,10 +1,11 @@
 package domain;
 
+import models.SocialObject;
 import models.User;
 
 import com.mnt.exception.SocialObjectNotPostableException;
 
 public interface Postable {
-	public abstract void onPost(User user, String body,PostType type) throws SocialObjectNotPostableException;
+	public abstract SocialObject onPost(User user, String body,PostType type) throws SocialObjectNotPostableException;
 
 }

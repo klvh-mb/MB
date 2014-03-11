@@ -148,6 +148,10 @@ minibean.controller('UserAboutController',function($scope, userAboutService, $ht
 		return $http.post('/updateUserDisplayName', {"displayName" : data});
 	}
 	
+	$scope.updateUserProfile = function(data) {
+		return $http.post('/updateUserProfile', $scope.result);
+	}
+	
 	$scope.openProfilePhotoModal = function() {
 		profilePhotoModal.OpenModal({
 			 templateUrl: 'change-profile-photo-modal.html',

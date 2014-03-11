@@ -60,27 +60,23 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	
 	@Override
 	@Transactional
-	public void onPost(User user, String body, PostType type) {
+	public SocialObject onPost(User user, String body, PostType type) {
 		Post post = new Post(user, body, this);
 		
 		if (type == PostType.QUESTION) {
 			post.objectType = SocialObjectType.QUESTION;
+			post.postType = type;
 		}
 		
 		if (type == PostType.SIMPLE) {
 			post.objectType = SocialObjectType.POST;
+			post.postType = type;
 		}
 		post.save();
 		this.posts.add(post);
 		JPA.em().merge(this);
 		//recordPostOn(user);
-	}
-	
-	public void onQuestionPost(User user, String question) {
-		
-	}
-	
-	public void onAnswerPost(User user, String answer) {
+		return post;
 		
 	}
 	

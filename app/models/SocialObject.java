@@ -52,7 +52,7 @@ public abstract class SocialObject extends domain.Entity  implements Serializabl
 	
 	public String name;
 	
-	@ManyToOne(cascade=CascadeType.REMOVE)
+	@ManyToOne
 	public SocialObject owner;
 	
 	protected  final void recordLike(User user) {
@@ -65,20 +65,40 @@ public abstract class SocialObject extends domain.Entity  implements Serializabl
 	
 	protected  final void recordJoinRequest(User user) {
 		SocialRelation action = new SocialRelation();
-		action.action = SocialRelation.Action.JOIN_REQUESTED;
+		action.actionType = SocialRelation.ActionType.JOIN_REQUESTED;
 		action.target = this;
 		action.actor = user;
 		action.validateUniquenessAndCreate();
 	}
 	
 	protected  final void recordJoinRequestAccepted(User user) {
-		Query q = JPA.em().createQuery("SELECT sa from SocialRelation sa where actor = ?1 and target = ?2 and action =?3");
+		Query q = JPA.em().createQuery("SELECT sa from SocialRelation sa where actor = ?1 and target = ?2 and actionType =?3");
 		q.setParameter(1, user);
 		q.setParameter(2, this);
-		q.setParameter(3, SocialRelation.Action.JOIN_REQUESTED);
+		q.setParameter(3, SocialRelation.ActionType.JOIN_REQUESTED);
 		
 		SocialRelation action =  (SocialRelation)q.getSingleResult();
 		action.action = SocialRelation.Action.MEMBER;
+		action.save(); 
+		
+	}
+	
+	protected  final void recordFriendRequest(User user) {
+		SocialRelation action = new SocialRelation();
+		action.actionType = SocialRelation.ActionType.FRIEND_REQUESTED;
+		action.target = user;
+		action.actor = this;
+		action.save();
+	}
+	
+	protected  final void recordFriendRequestAccepted(User user) {
+		Query q = JPA.em().createQuery("SELECT sa from SocialRelation sa where actor = ?1 and target = ?2 and actionType =?3");
+		q.setParameter(1, user);
+		q.setParameter(2, this);
+		q.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED);
+		
+		SocialRelation action =  (SocialRelation)q.getSingleResult();
+		action.action = SocialRelation.Action.FRIEND;
 		action.save(); 
 		
 	}
@@ -102,6 +122,22 @@ public abstract class SocialObject extends domain.Entity  implements Serializabl
 	protected void recordQnA(SocialObject user) {
 		SocialRelation action = new SocialRelation();
 		action.action = SocialRelation.Action.POSTED_QUESTION;
+		action.target = this;
+		action.actor = user;
+		action.save();
+	}
+	
+	protected void recordCommentOnCommunityPost(SocialObject user) {
+		SocialRelation action = new SocialRelation();
+		action.action = SocialRelation.Action.COMMENTED;
+		action.target = this;
+		action.actor = user;
+		action.save();
+	}
+	
+	protected void recordAnswerOnCommunityPost(SocialObject user) {
+		SocialRelation action = new SocialRelation();
+		action.action = SocialRelation.Action.ANSWERED;
 		action.target = this;
 		action.actor = user;
 		action.save();
@@ -142,7 +178,7 @@ public abstract class SocialObject extends domain.Entity  implements Serializabl
 		throw new SocialObjectNotCommentableException("Please make sure Social Object you are commenting is Commentable");
 	}
 	
-	public void onPost(User user, String body, PostType type) throws SocialObjectNotPostableException {
+	public SocialObject onPost(User user, String body, PostType type) throws SocialObjectNotPostableException {
 		throw new SocialObjectNotPostableException("Please make sure Social Object you are posting  is Postable");
 	}
 

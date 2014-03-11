@@ -1,5 +1,6 @@
 package models;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
@@ -41,52 +42,57 @@ public class Folder extends SocialObject  {
 	    return super.toString() + " " + name;
 	  }
 
-	  public Resource addFile(java.io.File source, String description, SocialObjectType type) throws IOException {
-	    Resource resource = new Resource(type);
-	    resource.resourceName = source.getName();
-	    resource.description = description;
-	    resource.folder = this;
-	    resource.owner = this.owner;
-        resource.save();
+	public Resource addFile(java.io.File source, String description,
+			SocialObjectType type) throws IOException {
+		
+		
+		Resource resource = new Resource(type);
+		resource.resourceName = source.getName();
+		resource.description = description;
+		resource.folder = this;
+		resource.owner = this.owner;
+		resource.save();
+		FileUtils.copyFile(source, new java.io.File(resource.getPath()));
+		if(type == SocialObjectType.PHOTO) {
+			//Thumbnails.of(source).height(100).keepAspectRatio(true).toFiles( new java.io.File(resource.getPath()).getParentFile(), Rename.PREFIX_DOT_THUMBNAIL);
+		}
+		this.resources.add(resource);
+		merge();
+		recordAddedPhoto(owner);
+		return resource;
+	}
 
-        FileUtils.copyFile(source, new java.io.File(resource.getPath()));
-        
-        this.resources.add(resource);
-        merge();
-        recordAddedPhoto(owner);
-        return resource; 
-	  }
-	  
-	  public Resource addFile(java.io.File file, SocialObjectType type) throws IOException {
-	    return addFile(file, null,type);
-	  }
-	  
-	  public Resource addExternalFile(URL url, String description, SocialObjectType type) throws IOException {
-	    Resource file = new Resource(type);
-	    file.resourceName = url.toString();
-	    file.description = description;
-	    file.folder = this;
-	    file.owner = this.owner;
-        this.resources.add(file);
-	    return file; 
-	  }
-	  
-	  public Resource addExternalFile(URL url, SocialObjectType type) throws IOException {
-	    return addExternalFile(url, null,type);
-	  }
+	public Resource addFile(java.io.File file, SocialObjectType type)
+			throws IOException {
+		return addFile(file, null, type);
+	}
 
-	  public Boolean removeFile(Resource file) {
-	    if(this.resources.contains(file)){
-	      if(!file.isExtrenal()) {
-	        if(!file.getRealFile().delete()) {
-	          return false;
-	        }
-	      }
-	      this.resources.remove(file);
-	    }
-	    return false;
-	  }
-	  
+	public Resource addExternalFile(URL url, String description,
+			SocialObjectType type) throws IOException {
+		Resource file = new Resource(type);
+		file.resourceName = url.toString();
+		file.description = description;
+		file.folder = this;
+		file.owner = this.owner;
+		this.resources.add(file);
+		return file;
+	}
+
+	public Resource addExternalFile(URL url, SocialObjectType type)
+			throws IOException {
+		return addExternalFile(url, null, type);
+	}
+
+	public void removeFile(Resource resource) {
+		File file = new File(resource.getPath());
+		try {
+			FileUtils.cleanDirectory(file.getParentFile());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		this.resources.remove(resource);
+	}
 
 	  public void setHighPriorityFile(Resource high) {
 	    int max = Integer.MIN_VALUE;
