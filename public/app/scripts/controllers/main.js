@@ -144,12 +144,18 @@ minibean.service('profilePhotoModal',function( $modal){
 minibean.controller('UserAboutController',function($scope, userAboutService, $http, profilePhotoModal){
 	$scope.result = userAboutService.UserAbout.get();
 	
+	$scope.genders = [
+	                   {value: 'Male', text: 'Male'},
+	                   {value: 'Female', text: 'Female'}
+	                   ];
+	
+	
 	$scope.updateUserDisplayName = function(data) {
 		return $http.post('/updateUserDisplayName', {"displayName" : data});
 	}
 	
-	$scope.updateUserProfile = function(data) {
-		return $http.post('/updateUserProfile', $scope.result);
+	$scope.updateUserProfileData = function(data) {
+		return $http.post('/updateUserProfileData', $scope.result);
 	}
 	
 	$scope.openProfilePhotoModal = function() {

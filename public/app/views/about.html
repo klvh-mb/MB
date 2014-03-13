@@ -28,20 +28,115 @@
 
 									<div class="innerAll pull-left border-right">
 										<h3 class="margin-none" editable-text="result.displayName" onbeforesave ="updateUserDisplayName($data)">
-										{{result.displayName}}</h3>
-									</div>
-									
-									
-								</div>
-							</div>	
-						</div>	
-					</div>
-				</div>	
-			</div>
-		</div>
-	
-	</div>
-
+                      {{result.displayName}}
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="panel panel-default  col-lg-9 col-md-8">
+            <form role="form" editable-form name="profile_data" onaftersave="updateUserProfileData($data)">
+              
+              <div class="col-md-12">
+	              <div class="row buttons pull-right">
+	                <!-- button to show form -->
+	                <div class="col-md-6">
+		                <button type="button" class="btn btn-default" ng-click="profile_data.$show()" ng-show="!profile_data.$visible">
+		                	<span class="glyphicon glyphicon-pencil"></span>
+		                </button>
+		             </div>
+	              </div>
+              </div>
+              
+              <div class="col-md-12" ng-show="profile_data.$visible">
+              	<div class="row">
+              	</div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row form-group">
+	                	<div class="col-md-6">
+	                    	<label>First Name: </label>
+	                    </div>
+	                    
+	                    <div class="col-md-6">
+	                    	<span editable-text="result.firstName" >{{ result.firstName || 'empty' }}</span>
+	                    </div>
+                  </div>
+                  
+                  <div class="row">
+	                	<div class="col-md-6">
+                   			<label>Last Name: </label>
+                   		</div>
+                   		
+                   		<div class="col-md-6">
+                   			<span editable-text="result.lastName">{{ result.lastName || 'empty' }}</span>
+                   		</div>
+                  </div>
+                  
+                  
+                  <div class="row">
+	                	<div class="col-md-6">
+                    		<label>Status: </label>
+                    	</div>
+                    	
+                    	<div class="col-md-6">
+                    		<span editable-select="result.gender" e-name="gender" e-ng-options="g.value as g.text for g in genders">
+                    			{{ (genders | filter:{value: result.gender})[0].text || 'Not set' }}
+                    		</span>	
+                    	</div>
+                  </div>
+                  
+                  <div class="row">
+                  	<div class="col-md-6">
+                   		<label>Date of Birth:</label>
+                   	</div>
+                   	
+                   	<div class="col-md-6">
+					    <span editable-text="result.date_of_birth">{{ result.date_of_birth || 'Not set' }}
+					    </span>
+					    <span class="glyphicon glyphicon-calendar">
+					    </span>
+				  	</div>
+                  </div>
+               </div>
+                  
+               <div class="col-md-6">
+	             <div class="row">
+	               	<div class="col-md-12">
+	                   	<label>About Me: </label>
+	           	 	</div>
+	             </div>
+	               	
+	             <div class="row">
+	               	<div class="col-md-12">
+		                <span editable-textarea="result.aboutMe" e-rows="7" e-cols="40">
+		                   <pre>{{ result.aboutMe || 'no description' }}</pre>
+		                 </span>
+	                 </div>
+	              </div>
+               </div>
+             </div>
+             <div class="buttons">
+                <!-- buttons to submit / cancel form -->
+                <span ng-show="profile_data.$visible">
+                <button type="submit" class="btn btn-primary" ng-disabled="profile_data.$waiting">
+                <span class="glyphicon glyphicon-ok"></span>
+                </button>
+                <button type="button" class="btn btn-default" ng-disabled="profile_data.$waiting" ng-click="profile_data.$cancel()">
+                <span class="glyphicon glyphicon-remove"></span>
+                </button>
+                </span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 <div>

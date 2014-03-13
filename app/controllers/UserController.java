@@ -57,8 +57,23 @@ public class UserController extends Controller {
 	@Transactional
 	public static Result getProfileImage() {
 		final User localUser = Application.getLocalUser(session());
-		return ok(localUser.getPhotoProfile().getRealFile()).as("image/png");
-		
+		if(localUser.getPhotoProfile() != null) {
+			return ok(localUser.getPhotoProfile().getRealFile()).as("image/png");
+		}
+		return ok("No Image");
 	}
 
+	@Transactional
+	public static Result updateUserProfileData() {
+		Form<User> form = DynamicForm.form(User.class).bindFromRequest("firstName","lastName","gender", "aboutMe", "date_of_birth");
+		User userForUpdation = form.get();
+		final User localUser = Application.getLocalUser(session());
+		localUser.firstName = userForUpdation.firstName;
+		localUser.lastName = userForUpdation.lastName;
+		localUser.gender = userForUpdation.gender;
+		localUser.aboutMe = userForUpdation.aboutMe;
+		localUser.date_of_birth = userForUpdation.date_of_birth;
+		localUser.merge();
+		return ok("true");
+	}
 }

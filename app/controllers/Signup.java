@@ -42,6 +42,7 @@ public class Signup extends Controller {
 
 	private static final Form<PasswordReset> PASSWORD_RESET_FORM = form(PasswordReset.class);
 
+	@Transactional
 	public static Result unverified() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		return ok(unverified.render());
