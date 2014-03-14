@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
@@ -18,6 +19,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
+import models.TokenAction.Type;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -32,7 +35,7 @@ import be.objectify.deadbolt.core.models.Subject;
 import models.LinkedAccount;
 import models.SecurityRole;
 import models.TokenAction;
-import models.TokenAction.Type;
+
 import models.UserPermission;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
 import com.feth.play.module.pa.user.AuthUser;
@@ -61,6 +64,14 @@ public class User extends SocialObject implements Subject, Socializable {
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date lastLogin;
 
+	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+	public Date date_of_birth;
+
+	public String gender;
+	
+	@Lob
+	public String aboutMe;
+	
 	@JsonIgnore
 	public boolean active;
 
