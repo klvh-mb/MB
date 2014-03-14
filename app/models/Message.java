@@ -9,11 +9,11 @@ import javax.persistence.ManyToOne;
 
 import play.data.validation.Constraints.Required;
 
-//@Entity
-public class Message  extends SocialObject   {
-	
+@Entity
+public class Message  extends SocialObject implements Comparable<Message> {
+	/*
 	@Id
-	public Long id;
+	public Long id;*/
 	
 	@Required
 	@ManyToOne
@@ -44,4 +44,11 @@ public class Message  extends SocialObject   {
 	    this.readed = true;
 	    //this.save();
 	  }
+
+	@Override
+	public int compareTo(Message o) {
+		 return date.compareTo(o.date);
+	}
+
+	
 }

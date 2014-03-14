@@ -15,6 +15,8 @@ import javax.persistence.criteria.Root;
 
 import models.Comment;
 import models.Community;
+import models.Conversation;
+import models.Folder;
 import models.Notification;
 import models.Post;
 import models.Resource;
@@ -27,6 +29,7 @@ import models.User;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import play.Play;
@@ -38,6 +41,7 @@ import com.mnt.exception.SocialObjectNotPostableException;
 
 import domain.CommentType;
 import domain.PostType;
+import domain.SocialObjectType;
 
 public class SocialTest {
 
@@ -48,6 +52,7 @@ public class SocialTest {
 	Community community2 = new Community("Test Community 2", user2);
 	SocialObject post, question;
 	Resource photoProfile;
+	Comment photoComment, questionComment;
 
 	@Before
 	public void initSetUp() {
@@ -120,9 +125,6 @@ public class SocialTest {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
 
 	private void userPostedOnCommunity() {
 		try {
@@ -133,7 +135,7 @@ public class SocialTest {
 			JPA.em().persist(post);
 			userCommentedOnSocialObject(post);
 			onLike(post);
-			
+
 			photoProfile = user3.setPhotoProfile(source);
 			JPA.em().persist(photoProfile);
 			userCommentedOnSocialObject(photoProfile);
@@ -142,8 +144,15 @@ public class SocialTest {
 			question = user2.questionedOn(community1, "What is Funtion ????? ");
 			JPA.em().persist(question);
 			userCommentedOnSocialObject(question);
+			questionComment = user2.commentedOn(question, "good");
 			userAnsweredOnSocialObject(question);
 			onLike(question);
+			// onLike(comment);
+
+			// COMMENT ON PROFILEPHOTO, LIKE ON COMMENT
+			photoComment = user2.commentedOn(photoProfile, "nice");
+			JPA.em().persist(photoComment);
+			// onLike(photoComment);
 
 			user1.postedOn(community1, "Hello Community 1, Post 2");
 			user1.postedOn(community1, "Hello Community 1, Post 2");
@@ -153,6 +162,9 @@ public class SocialTest {
 			user2.postedOn(community1, "Hello Community 1");
 
 		} catch (SocialObjectNotPostableException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SocialObjectNotCommentableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -179,6 +191,64 @@ public class SocialTest {
 	}
 
 	@Test
+	public void sendMessage() {
+		running(fakeApplication(), new Runnable() {
+
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						Conversation c1 = user3.sendMessage(user2, "hello");
+
+						Conversation c2 = user2.sendMessage(user3, "hi");
+
+					}
+				});
+			}
+		});
+	}
+
+	@Test
+	public void isSameConversationObject() {
+		running(fakeApplication(), new Runnable() {
+
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						Conversation c1 = user3.sendMessage(user2, "hello");
+
+						Conversation c2 = user2.sendMessage(user3, "hi");
+
+						org.junit.Assert.assertEquals(c1, c2);
+					}
+				});
+			}
+		});
+	}
+
+	@Test
+	public void conversationMessageCount() {
+		running(fakeApplication(), new Runnable() {
+
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						user3.sendMessage(user2, "hello");
+						user3.sendMessage(user2, "hello");
+						user2.sendMessage(user3, "hi");
+						Conversation conversation = user2.conversation.get(0);
+						org.junit.Assert.assertEquals(
+								conversation.messages.size(), 3);
+
+					}
+				});
+			}
+		});
+	}
+
+	@Ignore
 	public void userSetProfileImage() {
 		running(fakeApplication(), new Runnable() {
 			@Override
@@ -220,8 +290,11 @@ public class SocialTest {
 											.getRealFile()));
 							File file = currentPhotoProfile.getRealFile()
 									.getParentFile();
-							/*org.junit.Assert.assertTrue(new File(file,
-									"thumbnail.profile.jpg").exists());*/
+							
+							 org.junit.Assert.assertTrue(new File(file,
+							 "thumbnail.profile.jpg").exists());
+							
+
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -260,6 +333,166 @@ public class SocialTest {
 			}
 		});
 
+	}
+
+	@Test
+	public void userLikeCountOnQuestion() {
+		running(fakeApplication(), new Runnable() {
+			@Override
+			public void run() {
+
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+						CriteriaQuery<SocialRelation> q = cb
+								.createQuery(SocialRelation.class);
+						Root<SocialRelation> c = q.from(SocialRelation.class);
+						q.select(c);
+						q.where(cb.and(cb.equal(c.get("target"), question), cb
+								.equal(c.get("action"),
+										SocialRelation.Action.LIKED)));
+
+						List<SocialRelation> result = JPA.em().createQuery(q)
+								.getResultList();
+						org.junit.Assert.assertEquals(result.size(), 2);
+					}
+				});
+
+			}
+		});
+
+	}
+
+	@Test
+	public void sendNotificationOn_OfLikeUserQuestionComment_Test() {
+		running(fakeApplication(), new Runnable() {
+
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						Query q = JPA
+								.em()
+								.createQuery(
+										"SELECT n from Notification n where recipetent = ?1 and socialAction.action = ?2 ");
+						q.setParameter(1, user2);
+						q.setParameter(2, Action.LIKED);
+						List<Notification> result = q.getResultList();
+						org.junit.Assert.assertEquals(result.size(), 2);
+						org.junit.Assert.assertEquals(result.get(0).readed,
+								false);
+
+						/*
+						 * // Mark as read
+						 * user2.markNotificationRead(result.get(0)); result =
+						 * q.getResultList();
+						 * org.junit.Assert.assertEquals(result.size(), 2);
+						 * org.junit.Assert.assertEquals(result.get(0).readed,
+						 * true);
+						 */
+
+					}
+				});
+
+			}
+
+		});
+	}
+
+	@Test
+	public void sendNotificationOn_OfLikeUserProfileImage_Test() {
+		running(fakeApplication(), new Runnable() {
+
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						Query q = JPA
+								.em()
+								.createQuery(
+										"SELECT n from Notification n where recipetent = ?1 and socialAction.action = ?2 ");
+						q.setParameter(1, user3);
+						q.setParameter(2, Action.LIKED);
+						List<Notification> result = q.getResultList();
+						org.junit.Assert.assertEquals(result.size(), 2);
+						org.junit.Assert.assertEquals(result.get(0).readed,
+								false);
+
+						// Mark as read
+						user2.markNotificationRead(result.get(0));
+						result = q.getResultList();
+						org.junit.Assert.assertEquals(result.size(), 2);
+						org.junit.Assert.assertEquals(result.get(0).readed,
+								true);
+
+					}
+				});
+
+			}
+
+		});
+	}
+
+	@Test
+	public void userLikeCountOnProfilePhotoComment() {
+		running(fakeApplication(), new Runnable() {
+			@Override
+			public void run() {
+
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+						CriteriaQuery<SocialRelation> q = cb
+								.createQuery(SocialRelation.class);
+						Root<SocialRelation> c = q.from(SocialRelation.class);
+						q.select(c);
+						q.where(cb.and(cb.equal(c.get("target"),
+								questionComment.socialObject), cb.equal(
+								c.get("action"), SocialRelation.Action.LIKED)));
+
+						List<SocialRelation> result = JPA.em().createQuery(q)
+								.getResultList();
+						org.junit.Assert.assertEquals(result.size(), 2);
+					}
+				});
+
+			}
+		});
+
+	}
+
+	@Test
+	public void sendNotificationOn_OfLikeUserProfileImageComment_Test() {
+		running(fakeApplication(), new Runnable() {
+
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						Query q = JPA
+								.em()
+								.createQuery(
+										"SELECT n from Notification n where recipetent = ?1 and socialAction.action = ?2 ");
+						q.setParameter(1, user3);
+						q.setParameter(2, Action.LIKED);
+						List<Notification> result = q.getResultList();
+						org.junit.Assert.assertEquals(result.size(), 2);
+						org.junit.Assert.assertEquals(result.get(0).readed,
+								false);
+
+						// Mark as read
+						user2.markNotificationRead(result.get(0));
+						result = q.getResultList();
+						org.junit.Assert.assertEquals(result.size(), 2);
+						org.junit.Assert.assertEquals(result.get(0).readed,
+								true);
+
+					}
+				});
+
+			}
+
+		});
 	}
 
 	@Test
@@ -545,7 +778,7 @@ public class SocialTest {
 
 		});
 	}
-
+	
 	@Test
 	public void userAnswersAndComment_CountOn_AnyCommunityAuestion_Test() {
 		running(fakeApplication(), new Runnable() {
@@ -561,7 +794,7 @@ public class SocialTest {
 						q.setParameter(1, CommentType.SIMPLE);
 						q.setParameter(2, question);
 						List<Comment> result = q.getResultList();
-						org.junit.Assert.assertEquals(result.size(), 3);
+						org.junit.Assert.assertEquals(result.size(), 4);
 
 						q.setParameter(1, CommentType.ANSWER);
 						q.setParameter(2, question);
@@ -594,7 +827,7 @@ public class SocialTest {
 										SocialRelation.Action.COMMENTED)));
 						List<SocialRelation> result = JPA.em().createQuery(q)
 								.getResultList();
-						org.junit.Assert.assertEquals(result.size(), 3);
+						org.junit.Assert.assertEquals(result.size(), 4);
 
 					}
 				});
@@ -671,7 +904,7 @@ public class SocialTest {
 
 		});
 	}
-	
+
 	@Test
 	public void sendNotificationOn_LikeToOwnerOfQusetionpost_Test() {
 		running(fakeApplication(), new Runnable() {
@@ -739,7 +972,7 @@ public class SocialTest {
 
 		});
 	}
-	
+
 	@Test
 	public void sendNotificationOn_AnswerToOwnerOfCommunityQuestion_Test() {
 		running(fakeApplication(), new Runnable() {
@@ -789,14 +1022,14 @@ public class SocialTest {
 						q.setParameter(1, user3);
 						q.setParameter(2, Action.COMMENTED);
 						List<Notification> result = q.getResultList();
-						org.junit.Assert.assertEquals(result.size(), 3);
+						org.junit.Assert.assertEquals(result.size(), 4);
 						org.junit.Assert.assertEquals(result.get(0).readed,
 								false);
 
 						// Mark as read
 						user2.markNotificationRead(result.get(0));
 						result = q.getResultList();
-						org.junit.Assert.assertEquals(result.size(), 3);
+						org.junit.Assert.assertEquals(result.size(), 4);
 						org.junit.Assert.assertEquals(result.get(0).readed,
 								true);
 
@@ -832,8 +1065,8 @@ public class SocialTest {
 		});
 
 	}
-	
-	//@Test
+
+	@Test
 	public void sendNotifiacationOn_RelationShipRequest() {
 		running(fakeApplication(), new Runnable() {
 			@Override
@@ -841,15 +1074,56 @@ public class SocialTest {
 
 				JPA.withTransaction(new play.libs.F.Callback0() {
 					public void invoke() {
-						// Assert for user Friend Request notification.
-						Query nq = JPA
-								.em()
-								.createQuery(
-										"SELECT n from Notification n where recipetent = ?1 and socialAction.action = ?2 ");
-						nq.setParameter(1, user1);
-						nq.setParameter(2, Action.RELATIONSHIP_REQUESTED);
-						List<Notification> result = nq.getResultList();
-						org.junit.Assert.assertEquals(result.size(), 1);
+						try {
+							user2.onFriendRequestAccepted(user3);
+							user2.onFriendRequestAccepted(user1);
+						} catch (SocialObjectNotJoinableException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+						if (user2.friends.contains(user1)) {
+							try {
+								user2.onRelationShipRequest(user1,
+										SocialRelation.Action.BROTHER);
+							} catch (SocialObjectNotJoinableException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+							CriteriaQuery<SocialRelation> q = cb
+									.createQuery(SocialRelation.class);
+							Root<SocialRelation> c = q
+									.from(SocialRelation.class);
+							q.select(c);
+							q.where(cb.and(cb.equal(c.get("target"), user1), cb
+									.equal(c.get("action"),
+											SocialRelation.Action.BROTHER)));
+							SocialRelation result = JPA.em().createQuery(q)
+									.getSingleResult();
+							org.junit.Assert.assertEquals(result.actionType,
+									ActionType.RELATIONSHIP_REQUESTED);
+
+							// Notification
+							Query nq = JPA
+									.em()
+									.createQuery(
+											"SELECT n from Notification n where recipetent = ?1 and socialAction.actionType = ?2 and socialAction.action = ?3 ");
+							nq.setParameter(1, user1);
+							nq.setParameter(2,
+									ActionType.RELATIONSHIP_REQUESTED);
+							nq.setParameter(3, Action.BROTHER);
+							Notification notificationResult = (Notification) nq
+									.getSingleResult();
+							org.junit.Assert.assertEquals(
+									notificationResult.message, user2.name
+											+ " wants to add you in "
+											+ Action.BROTHER + " list. ");
+
+						} else {
+
+						}
+
 					}
 				});
 
@@ -857,7 +1131,72 @@ public class SocialTest {
 		});
 
 	}
-	
+
+	@Test
+	public void userAcceptsOn_RelationShipRequest() {
+		running(fakeApplication(), new Runnable() {
+			@Override
+			public void run() {
+
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						try {
+							user2.onFriendRequestAccepted(user3);
+							user2.onFriendRequestAccepted(user1);
+						} catch (SocialObjectNotJoinableException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+						if (user2.friends.contains(user1)) {
+							try {
+								user2.onRelationShipRequest(user1,
+										SocialRelation.Action.BROTHER);
+							} catch (SocialObjectNotJoinableException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+							CriteriaQuery<SocialRelation> q = cb
+									.createQuery(SocialRelation.class);
+							Root<SocialRelation> c = q
+									.from(SocialRelation.class);
+							q.select(c);
+							q.where(cb.and(cb.equal(c.get("target"), user1), cb
+									.equal(c.get("action"),
+											SocialRelation.Action.BROTHER)));
+							SocialRelation result = JPA.em().createQuery(q)
+									.getSingleResult();
+							org.junit.Assert.assertEquals(result.actionType,
+									ActionType.RELATIONSHIP_REQUESTED);
+
+							try {
+								user1.onRelationShipRequestAccepted(user2,
+										Action.BROTHER);
+							} catch (SocialObjectNotJoinableException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+
+							q.where(cb.and(cb.equal(c.get("target"), user1), cb
+									.equal(c.get("action"),
+											SocialRelation.Action.BROTHER)));
+							result = JPA.em().createQuery(q).getSingleResult();
+							org.junit.Assert.assertEquals(result.actionType,
+									ActionType.GRANT);
+
+						} else {
+
+						}
+
+					}
+				});
+
+			}
+		});
+
+	}
+
 	@Test
 	public void getUser_FriendList() {
 		running(fakeApplication(), new Runnable() {
@@ -868,17 +1207,16 @@ public class SocialTest {
 					public void invoke() {
 						try {
 							user2.onFriendRequestAccepted(user3);
+							user2.onFriendRequestAccepted(user1);
 						} catch (SocialObjectNotJoinableException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						
-						for(User frnd : user2.friends){
-							System.out.println("Friend :::::: "+frnd.name);
-						}
-						org.junit.Assert.assertEquals(user2.friends.size(), 1);
-						
 
+						for (User frnd : user2.friends) {
+							System.out.println("Friend :::::: " + frnd.name);
+						}
+						org.junit.Assert.assertEquals(user2.friends.size(), 2);
 
 					}
 				});
@@ -922,6 +1260,221 @@ public class SocialTest {
 		});
 	}
 
+	@Test
+	public void userCreatesPhotoAlbum() {
+		running(fakeApplication(), new Runnable() {
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						Resource photoProfile;
+						Folder photoAlbum;
+						java.io.File source1 = new java.io.File(Play
+								.application().path() + "/test/files/homer.jpg");
+						java.io.File source2 = new java.io.File(Play
+								.application().path()
+								+ "/test/files/profile.jpg");
+						java.io.File source3 = new java.io.File(Play
+								.application().path()
+								+ "/test/files/profile2.jpg");
+						user3 = User.searchUsername("testuser3@test.com");
+
+						photoAlbum = user3.createAlbum("My Album 1",
+								"this is a album", true);
+						user2 = User.searchUsername("testuser2@test.com");
+						photoAlbum = user2.createAlbum("My Album 1",
+								"this is a album", true);
+						
+						org.junit.Assert.assertEquals(user3.album.size(),
+								1);
+
+					}
+				});
+
+			}
+		});
+
+	}
+
+	@Test
+	public void userAddPhotoToPhotoAlbum() {
+		running(fakeApplication(), new Runnable() {
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						try {
+							Resource photoProfile;
+							Folder photoAlbum;
+							java.io.File source1 = new java.io.File(Play
+									.application().path()
+									+ "/test/files/homer.jpg");
+							java.io.File source2 = new java.io.File(Play
+									.application().path()
+									+ "/test/files/profile.jpg");
+							java.io.File source3 = new java.io.File(Play
+									.application().path()
+									+ "/test/files/profile2.jpg");
+							user3 = User.searchUsername("testuser3@test.com");
+
+							photoAlbum = user3.createAlbum("My Album 1",
+									"this is a album", true);
+
+							photoAlbum.addFile(source1, SocialObjectType.PHOTO);
+							photoAlbum.addFile(source2, SocialObjectType.PHOTO);
+							photoAlbum.addFile(source3, SocialObjectType.PHOTO);
+
+							org.junit.Assert.assertEquals(photoAlbum.name,
+									"My Album 1");
+
+							org.junit.Assert.assertEquals(
+									photoAlbum.resources.size(), 3);
+							Resource profilePhotoPath1 = photoAlbum.resources
+									.get(0);
+							Resource profilePhotoPath2 = photoAlbum.resources
+									.get(1);
+							Long l = photoAlbum.id;
+							System.out.println("????????????" + l);
+
+							File file = profilePhotoPath1.getRealFile()
+									.getParentFile();
+							org.junit.Assert.assertTrue(new File(file,
+									"thumbnail.homer.jpg").exists());
+							System.out.println("File:::::::::::" + file);
+							String[] entries = file.list();
+							for (String s : entries) {
+								File currentFile = new File(file.getPath(), s);
+								currentFile.delete();
+							}
+							System.out.println("File deleted successfully");
+							System.out.println("File:::::::::::" + file);
+							System.out.println(new File(file,
+									"thumbnail.homer.jpg").exists());
+							File d = file.getParentFile();
+							// String[] fileList = d.list();
+							deleteFolder(d);
+							File f1 = profilePhotoPath2.getRealFile()
+									.getParentFile();
+							org.junit.Assert.assertTrue(new File(f1,
+									"thumbnail.profile.jpg").exists());
+
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+				});
+
+			}
+		});
+
+	}
+
+	public static void deleteFolder(File d) {
+		File[] files = d.listFiles();
+
+		for (int i = 0; i < files.length; i++) {
+
+			/*
+			 * if (files[i].isDirectory()) { deleteFolder(files[i]); } else {
+			 * files[i].delete(); }
+			 */
+		}
+
+		// d.delete();
+	}
+
+	@Ignore
+	public void userSetProfilePhotoFormPhotoAlbum() {
+		running(fakeApplication(), new Runnable() {
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						try {
+							Resource photoProfile;
+							Folder photoAlbum;
+							java.io.File source1 = new java.io.File(Play
+									.application().path()
+									+ "/test/files/homer.jpg");
+							java.io.File source2 = new java.io.File(Play
+									.application().path()
+									+ "/test/files/profile.jpg");
+							java.io.File source3 = new java.io.File(Play
+									.application().path()
+									+ "/test/files/profile2.jpg");
+							user3 = User.searchUsername("testuser3@test.com");
+
+							photoAlbum = user3.createAlbum("My Album 1",
+									"this is a album", true);
+
+							photoAlbum.addFile(source1, SocialObjectType.PHOTO);
+							photoAlbum.addFile(source2, SocialObjectType.PHOTO);
+							photoAlbum.addFile(source3, SocialObjectType.PHOTO);
+
+							org.junit.Assert.assertEquals(photoAlbum.name,
+									"My Album 1");
+
+							org.junit.Assert.assertEquals(
+									photoAlbum.resources.size(), 3);
+
+							Resource profilePhotoPath = photoAlbum.resources
+									.get(0);
+
+							user1 = User.searchUsername("testuser1@test.com");
+							photoProfile = user1
+									.setPhotoProfile(profilePhotoPath
+											.getRealFile());
+
+							org.junit.Assert.assertEquals(
+									photoProfile.resourceName, "homer.jpg");
+							user1 = User.searchUsername("testuser1@test.com");
+							org.junit.Assert.assertEquals(
+									user1.albumPhotoProfile.resources.size(), 1);
+
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+				});
+
+			}
+		});
+
+	}
+
+	@Test
+	public void userCreatesPhotoAlbumIsExist() {
+		running(fakeApplication(), new Runnable() {
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						Folder photoAlbum1, photoAlbum2;
+						java.io.File source1 = new java.io.File(Play
+								.application().path() + "/test/files/homer.jpg");
+						java.io.File source2 = new java.io.File(Play
+								.application().path() + "/test/files/homer.jpg");
+						user3 = User.searchUsername("testuser3@test.com");
+
+						photoAlbum1 = user3.createAlbum("My Album 1",
+								"this is a album", true);
+
+						photoAlbum2 = user3.createAlbum("My Album 1",
+								"this is a album", true);
+						org.junit.Assert.assertNull(photoAlbum2);
+
+					}
+				});
+
+			}
+		});
+
+	}
+
 	@After
 	public void end() {
 		running(fakeApplication(), new Runnable() {
@@ -937,6 +1490,17 @@ public class SocialTest {
 										"SELECT sa from SocialObject sa where name like  'Test%'")
 								.getResultList();
 						for (SocialObject _so : result_1) {
+
+							if (_so instanceof User) {
+
+								Query q = JPA
+										.em()
+										.createQuery(
+												"Delete Conversation  where user1 = ?1 or user2 = ?1 ");
+								q.setParameter(1, _so);
+								q.executeUpdate();
+							}
+
 							Query q = JPA
 									.em()
 									.createQuery(

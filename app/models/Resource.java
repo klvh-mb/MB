@@ -95,7 +95,7 @@ public class Resource extends SocialObject {
 	}
 
 	@Override
-	public void onComment(User user, String body, CommentType type)
+	public Comment onComment(User user, String body, CommentType type)
 			throws SocialObjectNotCommentableException {
 		Comment comment = new Comment(this, user, body);
 
@@ -114,6 +114,7 @@ public class Resource extends SocialObject {
 		this.comments.add(comment);
 		JPA.em().merge(this);
 		recordCommentOnCommunityPost(user);
+		return comment;
 	}
 
 }

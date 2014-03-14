@@ -72,9 +72,12 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
     public ActionType actionType;
     
     static public enum ActionType {
+    		MESSAGE_SEND,
             FRIEND_REQUESTED,
             JOIN_REQUESTED,
+            RELATIONSHIP_REQUESTED,
             GRANT
+            
     }
 
 	@ManyToOne
@@ -96,7 +99,12 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 		SHARED,
 		FOLLOWS,
 		RECOMMENDED,
-		RELATIONSHIP_REQUESTED,
+		FATHER,
+		MOTHER, 
+		BROTHER,
+		SISTER,
+		HUSBAND,
+		WIFE,
 		MESSAGE_SEND,
 		MEMBER,
 		POSTED_QUESTION,

@@ -55,7 +55,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
 	}
 	
 	@Override
-	public void onComment(User user, String body, CommentType type)
+	public Comment onComment(User user, String body, CommentType type)
 			throws SocialObjectNotCommentableException {
 		Comment comment = new Comment(this, user, body);
 		
@@ -73,6 +73,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		comment.save();
 		this.comments.add(comment);
 		JPA.em().merge(this);
+		return comment;
 	}
 
 }

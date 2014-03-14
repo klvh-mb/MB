@@ -1,6 +1,7 @@
 package models;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -9,7 +10,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Lob;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
@@ -25,6 +26,7 @@ import models.TokenAction.Type;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.data.format.Formats;
+import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.i18n.Messages;
@@ -34,6 +36,7 @@ import be.objectify.deadbolt.core.models.Subject;
 
 import models.LinkedAccount;
 import models.SecurityRole;
+import models.SocialRelation.Action;
 import models.TokenAction;
 
 import models.UserPermission;
@@ -43,6 +46,7 @@ import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.feth.play.module.pa.user.EmailIdentity;
 import com.feth.play.module.pa.user.FirstLastNameIdentity;
 import com.feth.play.module.pa.user.NameIdentity;
+import com.google.common.collect.Lists;
 import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotJoinableException;
 import com.mnt.exception.SocialObjectNotLikableException;
@@ -95,12 +99,18 @@ public class User extends SocialObject implements Subject, Socializable {
 
 	@OneToMany
 	public Set<User> friends = new HashSet<User>();
-
+	
 	@Override
 	@JsonIgnore
 	public String getIdentifier() {
 		return Long.toString(id);
 	}
+	
+	@OneToMany(cascade=CascadeType.REMOVE)
+	public List<Folder> album;
+
+	@OneToMany
+	public List<Conversation> conversation = new ArrayList<Conversation>();
 
 	@Override
 	@JsonIgnore
@@ -142,11 +152,28 @@ public class User extends SocialObject implements Subject, Socializable {
 		return target.onPost(this, question, PostType.QUESTION);
 	}
 
-	public void commentedOn(SocialObject target, String comment)
-			throws SocialObjectNotCommentableException {
-		target.onComment(this, comment, CommentType.SIMPLE);
+	public Conversation sendMessage(User user, String msg) {
+		Conversation conver = Conversation.findBetween(this, user);
+
+		if (conversation == null || conver == null) {
+			conver = new Conversation(this, user);
+			conversation = Lists.newArrayList();
+			conversation.add(conver);
+			user.conversation.add(conver);
+		}
+		conver.addMessage(this, msg);
+		return conver;
+
 	}
 
+	// TODO: Write Test
+	public Comment commentedOn(SocialObject target, String comment)
+			throws SocialObjectNotCommentableException {
+		
+		return target.onComment(this, comment, CommentType.SIMPLE);
+	}
+
+	// TODO: Write Test
 	public void answeredOn(SocialObject target, String comment)
 			throws SocialObjectNotCommentableException {
 		target.onComment(this, comment, CommentType.ANSWER);
@@ -179,6 +206,18 @@ public class User extends SocialObject implements Subject, Socializable {
 		this.friends.add(user);
 		JPA.em().merge(this);
 		recordFriendRequestAccepted(user);
+	}
+	
+	public void onRelationShipRequest(User user, Action relation)
+			throws SocialObjectNotJoinableException {
+		recordRelationshipRequest(user, relation);
+	}
+
+	@Transactional
+	public void onRelationShipRequestAccepted(User user, Action action)
+			throws SocialObjectNotJoinableException {
+		JPA.em().merge(this);
+		recordRelationshipRequestAccepted(user, action);
 	}
 
 	
@@ -254,44 +293,57 @@ public class User extends SocialObject implements Subject, Socializable {
 		return resource.getPath();
 	}
 
-	/**
-	 * ensure the existence of the system folder: albumPhotoProfile
-	 */
-	private void ensureAlbumPhotoProfileExist() {
+	 /**
+	   * ensure the existence of the system folder: albumPhotoProfile
+	   */
+	  private void ensureAlbumPhotoProfileExist() {
+		  
+	    if(this.albumPhotoProfile == null) {
+	      this.albumPhotoProfile = createAlbum("profile", Messages.get("album.photo-profile.description"), true);
+	      this.merge();
+	    }
+	  }
 
-		if (this.albumPhotoProfile == null) {
-			this.albumPhotoProfile = createAlbum("profile",
-					Messages.get("album.photo-profile.description"), true);
-			this.merge();
-		}
-	}
+	  /**
+	   * create a folder with the type: IMG (contain only image Resource types)
+	   * @param name
+	   * @param description
+	   * @param privacy
+	   * @param system
+	   * @return
+	   */
+	  public Folder createAlbum(String name, String description, Boolean system) {
+		 
+		  if(ensureFolderExistWithGivenName(name)) {
+			  Folder folder =  createFolder(name, description, SocialObjectType.FOLDER,system);
+			  album.add(folder);
+			  this.merge(); // Add folder to existing User as new albumn
+			  return folder;
+		  }
+	    return null; // folder canot be added and same name folder already added before
+	  }
+	  
+	  private Folder createFolder(String name, String description, SocialObjectType type,  Boolean system) {
 
-	/**
-	 * create a folder with the type: IMG (contain only image Resource types)
-	 * 
-	 * @param name
-	 * @param description
-	 * @param privacy
-	 * @param system
-	 * @return
-	 */
-	public Folder createAlbum(String name, String description, Boolean system) {
-		return createFolder(name, description, SocialObjectType.FOLDER, system);
-	}
+		  	Folder folder = new Folder(name);
+		    folder.owner = this;
+		    folder.name = name;
+		    folder.description = description;
+		    folder.objectType = type;
+		    folder.system = system;
+		    folder.save();
+		    return folder;
+	   }
+	  
+ private boolean ensureFolderExistWithGivenName(String name) {
 
-	private Folder createFolder(String name, String description,
-			SocialObjectType type, Boolean system) {
-		Folder folder = new Folder();
-		folder.owner = this;
-		folder.name = name;
-		folder.description = description;
-		folder.objectType = type;
-		folder.system = system;
-		folder.save();
-		return folder;
+		  if(album != null && album.contains(new Folder(name))) {
+			  return false;
+		  }
 
-	}
-
+		  album = new ArrayList<>();
+		  return true;
+	  }
 	public static boolean existsByAuthUserIdentity(
 			final AuthUserIdentity identity) {
 		final Query exp;
