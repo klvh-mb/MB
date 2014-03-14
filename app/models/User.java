@@ -22,7 +22,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import models.TokenAction.Type;
-
+import javax.persistence.Lob;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.data.format.Formats;

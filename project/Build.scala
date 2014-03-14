@@ -19,8 +19,8 @@ object ApplicationBuild extends Build {
      "be.objectify"  %%  "deadbolt-java"     % "2.1-RC2",
      "com.feth" %% "play-easymail" % "0.3-SNAPSHOT",
      "org.mindrot" % "jbcrypt" % "0.3m",
-     "org.apache.httpcomponents" % "httpclient" % "4.2.5"
-     
+     "org.apache.httpcomponents" % "httpclient" % "4.2.5",
+      "net.coobird" % "thumbnailator" % "0.4.7"
     
   )
 
