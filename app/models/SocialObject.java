@@ -19,6 +19,7 @@ import models.SocialRelation.Action;
 import models.SocialRelation.ActionType;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.db.jpa.JPA;
 
@@ -55,6 +56,7 @@ public abstract class SocialObject extends domain.Entity implements
 
 	public String name;
 
+	@JsonIgnore
 	@ManyToOne
 	public SocialObject owner;
 

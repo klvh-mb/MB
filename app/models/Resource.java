@@ -10,12 +10,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.apache.commons.io.FileUtils;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.mnt.exception.SocialObjectNotCommentableException;
 
 import play.Play;
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
+import play.db.jpa.Transactional;
 import domain.CommentType;
 import domain.SocialObjectType;
 
@@ -30,6 +32,7 @@ public class Resource extends SocialObject {
 	public Resource() {
 	}
 
+	@JsonIgnore
 	@Required
 	@ManyToOne
 	public Folder folder;
@@ -75,6 +78,16 @@ public class Resource extends SocialObject {
 			return Play.application().configuration().getString("storage.path")
 					+ owner.id + "/" + folder.id + "/" + id + "/"
 					+ resourceName;
+		}
+	}
+	
+	@Transactional
+	public String getThumbnail() {
+		if (isExtrenal()) {
+			return resourceName;
+		} else {
+			return Play.application().configuration().getString("storage.path")
+					+ owner.id + "/" + folder.id + "/" + id + "/thumbnail."+resourceName;
 		}
 	}
 

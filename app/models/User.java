@@ -10,7 +10,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
@@ -21,12 +21,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import models.SocialRelation.Action;
 import models.TokenAction.Type;
-import javax.persistence.Lob;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.data.format.Formats;
-import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.i18n.Messages;
@@ -34,12 +34,6 @@ import be.objectify.deadbolt.core.models.Permission;
 import be.objectify.deadbolt.core.models.Role;
 import be.objectify.deadbolt.core.models.Subject;
 
-import models.LinkedAccount;
-import models.SecurityRole;
-import models.SocialRelation.Action;
-import models.TokenAction;
-
-import models.UserPermission;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
@@ -68,13 +62,15 @@ public class User extends SocialObject implements Subject, Socializable {
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date lastLogin;
 
-	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+	@Formats.DateTime(pattern = "yyyy-MM-dd")
 	public Date date_of_birth;
 
 	public String gender;
 	
 	@Lob
 	public String aboutMe;
+	
+	public String location;
 	
 	@JsonIgnore
 	public boolean active;
@@ -98,6 +94,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	public Folder albumPhotoProfile;
 
 	@OneToMany
+	@JsonIgnore
 	public Set<User> friends = new HashSet<User>();
 	
 	@Override
@@ -534,4 +531,35 @@ public class User extends SocialObject implements Subject, Socializable {
 		TokenAction.deleteByUser(this, Type.PASSWORD_RESET);
 	}
 
+	public static User findById(Long id) {
+		Query q = JPA.em().createQuery(
+				"SELECT u FROM User u where id = ?1");
+		q.setParameter(1, id);
+		return (User) q.getSingleResult();
+	}
+	
+	public List<User> getFriends(){
+		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+		CriteriaQuery<SocialRelation> q = cb
+				.createQuery(SocialRelation.class);
+		Root<SocialRelation> c = q.from(SocialRelation.class);
+		q.select(c);
+		q.where(cb.and(cb.or(cb.equal(c.get("target"), this),cb.equal(c.get("actor"), this)), cb
+				.equal(c.get("action"),
+						SocialRelation.Action.FRIEND)));
+
+		List<SocialRelation> result = JPA.em().createQuery(q)
+				.getResultList();
+		List<User> frndList = new ArrayList<>();
+		for(SocialRelation rslt:result){
+			if(rslt.actor == this){
+				frndList.add((User) rslt.target);
+			}
+			if(rslt.target == this){
+				frndList.add((User) rslt.actor);
+			}
+			
+		}
+		return frndList;
+	}
 }
