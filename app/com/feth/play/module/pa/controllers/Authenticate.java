@@ -1,5 +1,6 @@
 package com.feth.play.module.pa.controllers;
 
+import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http.Request;
@@ -19,6 +20,7 @@ public class Authenticate extends Controller {
 		response.setHeader(Response.EXPIRES, "0");  // Proxies.
 	}
 
+	@Transactional
 	public static Result authenticate(final String provider) {
 		noCache(response());
 		
