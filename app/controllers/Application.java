@@ -37,7 +37,12 @@ public class Application extends Controller {
 	public static final String FLASH_ERROR_KEY = "error";
 	public static final String USER_ROLE = "user";
 	
+	@Transactional
 	public static Result index() {
+		final User localUser = getLocalUser(session());
+		if(localUser == null) {
+			return login();
+		}
 		return ok(views.html.home.render());
 	}
 
