@@ -19,6 +19,10 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/about.html',
     	controller: 'UserAboutController'
       })
+      .when('/friends',{
+    	templateUrl: '/assets/app/views/allFriends.html',
+    	controller : 'FriendsController'
+      })
       .otherwise({
           redirectTo: '/'
       });

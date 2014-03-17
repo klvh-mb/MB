@@ -167,12 +167,34 @@ minibean.controller('UserAboutController',function($scope, userAboutService, $ht
 	
 });
 
+///////////////////////// User Friends Widget Service Start //////////////////////////////////
+minibean.service('friendWidgetService',function($resource){
+	this.UserFriends = $resource(
+			'/get-user-friends',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get'}
+			}
+	);
+});
 
+minibean.controller('FriendsWidgetController',function($scope, friendWidgetService,userInfoService, $http){
+	$scope.result = friendWidgetService.UserFriends.get();
+	$scope.userInfo = userInfoService.UserInfo.get();
+});
 
-///////////////////////// User Info Notification End //////////////////////////////////
+///////////////////////// User Friends Widget End //////////////////////////////////
+minibean.service('friendService',function($resource){
+	this.UserFriends = $resource(
+			'/get-all-friends',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get'}
+			}
+	);
+});
 
-
-
-
-
-  
+minibean.controller('FriendsController',function($scope, friendService , $http, userInfoService){
+	$scope.userInfo = userInfoService.UserInfo.get();
+	$scope.result = friendService.UserFriends.get();
+});

@@ -68,3 +68,8 @@ POST	/updateUserProfileData		controllers.UserController.updateUserProfileData
 POST	/updateUserDisplayName		controllers.UserController.updateUserDisplayName
 POST	/upload-profile-photo		controllers.UserController.uploadProfilePhoto
 GET		/get-profile-image			controllers.UserController.getProfileImage
+
+#Friends
+GET		/get-user-friends			controllers.FriendsController.getUserFriends
+GET		/get-all-friends			controllers.FriendsController.getAllFriendsOfUser
+GET		/user-image-by-id/:id		controllers.FriendsController.getUserImageById(id :Long)

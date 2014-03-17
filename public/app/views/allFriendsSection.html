@@ -1,0 +1,33 @@
+
+	<div class="input-group innerB">
+	 	<input type="text" class="form-control " ng-model="query" placeholder="Search contacts">
+		<div class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-search"></i></button></div>
+	</div>
+	<div class="row row-merge">
+		<div class="col-md-12 col-lg-6 bg-white border-bottom" ng-repeat="fvm in result.fvm | filter:query ">
+			<div class="row">
+				<div class="col-sm-9">
+					<div class="media">
+						<a class="pull-left margin-none" href="#">
+							<img class="img-clean" data-ng-src="/user-image-by-id/{{fvm.id}}" alt="..." width="100px" height="100px">
+						</a>
+						<div class="media-body innerAll inner-2x padding-right-none padding-bottom-none">
+							 <h4 class="media-heading"><a href="" class="text-inverse">{{fvm.dn}}</a></h4>
+							 <p>
+							 	<!-- <span class="text-success strong"><i class="fa fa-check"></i> Friend</span> &nbsp;  -->
+							 	<!-- Need To add Living in section -->
+							 	<i class="fa fa-fw fa-map-marker text-muted"></i>{{fvm.ln}}</p> 
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="innerAll text-right">
+						<div class="btn-group-vertical btn-group-sm">
+							<a href="#" class="btn btn-default" data-toggle="sidr-open" data-menu="menu-right"><i class="fa fa-fw fa-envelope-o"></i> Message</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

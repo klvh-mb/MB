@@ -3,6 +3,8 @@ package controllers;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
+
 import models.User;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -46,9 +48,13 @@ public class UserController extends Controller {
 		String fileName = picture.getFilename();
 	    String contentType = picture.getContentType(); 
 	    File file = picture.getFile();
+	    File fileTo = new File(fileName);
+	    
 	    try {
-			localUser.setPhotoProfile(file);
+	    	FileUtils.copyFile(file, fileTo);
+			localUser.setPhotoProfile(fileTo);
 		} catch (IOException e) {
+			e.printStackTrace();
 			return status(500);
 		}
 		return ok();
@@ -58,7 +64,7 @@ public class UserController extends Controller {
 	public static Result getProfileImage() {
 		final User localUser = Application.getLocalUser(session());
 		if(localUser.getPhotoProfile() != null) {
-			return ok(localUser.getPhotoProfile().getRealFile()).as("image/png");
+			return ok(localUser.getPhotoProfile().getRealFile());
 		}
 		return ok("No Image");
 	}

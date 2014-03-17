@@ -1,0 +1,20 @@
+<div class="bar-shadow-border" style="width: 274px;">
+	<div class="widget">
+		<div class="widget-head border-bottom bg-gray">
+			<h5 class="pull-left margin-none innerAll">Friends <span class="text-muted">({{result.sn}})</span></h5>
+			<div class="pull-right">
+				<a href="/#/friends" class="text-muted">
+					<label>See All>></label>
+				</a>
+			</div>
+		</div>
+
+		<div class="widget-body margin-none">
+			<div class="innerAll">
+				<a href="#" ng-repeat="fvm in result.fvm">
+					<img data-ng-src="/user-image-by-id/{{fvm.id}}" alt="{{fvm.dn}}" class="innerR innerB half" width="55" height="55">
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
