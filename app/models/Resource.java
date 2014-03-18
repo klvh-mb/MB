@@ -108,7 +108,7 @@ public class Resource extends SocialObject {
 	}
 
 	@Override
-	public Comment onComment(User user, String body, CommentType type)
+	public SocialObject onComment(User user, String body, CommentType type)
 			throws SocialObjectNotCommentableException {
 		Comment comment = new Comment(this, user, body);
 

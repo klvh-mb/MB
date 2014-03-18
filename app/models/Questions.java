@@ -55,7 +55,7 @@ public class Questions extends SocialObject  implements Likeable, Commentable {
 	
 	//TOOD: Implementation
 	@Override
-	public Comment onComment(User user, String body, CommentType type) throws SocialObjectNotCommentableException {
+	public SocialObject onComment(User user, String body, CommentType type) throws SocialObjectNotCommentableException {
 		return null;
 		
 	}

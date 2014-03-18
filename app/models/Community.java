@@ -1,5 +1,8 @@
 package models;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,14 +11,19 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+import play.i18n.Messages;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
 
@@ -26,48 +34,56 @@ import domain.Postable;
 import domain.SocialObjectType;
 
 @Entity
-public class Community extends SocialObject  implements Likeable, Postable, Joinable {
-	
-	@OneToMany(cascade=CascadeType.REMOVE)
+public class Community extends SocialObject implements Likeable, Postable,
+		Joinable {
+
+	@OneToMany(cascade = CascadeType.REMOVE)
 	public Set<Post> posts = new HashSet<Post>();
-	
-	@OneToMany(cascade=CascadeType.REMOVE)
+
+	@OneToMany(cascade = CascadeType.REMOVE)
 	public Set<User> members = new HashSet<User>();
-	
+
 	@Enumerated(EnumType.ORDINAL)
 	public CommunityType communityType = CommunityType.CLOSE;
-	
+
+	@ManyToOne(cascade = CascadeType.REMOVE)
+	@JsonIgnore
+	public Folder albumPhotoProfile;
+
 	public static enum CommunityType {
-		OPEN,
-		CLOSE,
-		PRIVATE
+		OPEN, CLOSE, PRIVATE
 	}
+
+	@OneToMany(cascade = CascadeType.REMOVE)
+	public List<Folder> folders;
 	
-	public Community(){
+	
+
+	public Community() {
 		this.objectType = SocialObjectType.COMMUNITY;
 	}
-	
-	public Community(String name,User owner) {
+
+	public Community(String name, User owner) {
 		this();
 		this.name = name;
 		this.owner = owner;
 	}
-	
+
 	@Override
 	public void onLike(User user) {
 		recordLike(user);
 	}
-	
+
 	@Override
 	@Transactional
 	public SocialObject onPost(User user, String body, PostType type) {
 		Post post = new Post(user, body, this);
-		
+
 		if (type == PostType.QUESTION) {
 			post.objectType = SocialObjectType.QUESTION;
 			post.postType = type;
 		}
-		
+
 		if (type == PostType.SIMPLE) {
 			post.objectType = SocialObjectType.POST;
 			post.postType = type;
@@ -75,22 +91,22 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		post.save();
 		this.posts.add(post);
 		JPA.em().merge(this);
-		//recordPostOn(user);
+		// recordPostOn(user);
 		return post;
-		
+
 	}
-	
+
 	@Override
-	public void onJoinRequest(User user) throws SocialObjectNotJoinableException {
-		if( communityType != CommunityType.OPEN) {
+	public void onJoinRequest(User user)
+			throws SocialObjectNotJoinableException {
+		if (communityType != CommunityType.OPEN) {
 			recordJoinRequest(user);
 		} else {
 			this.members.add(user);
 			JPA.em().merge(this);
 		}
 	}
-	
-	 
+
 	@Override
 	@Transactional
 	public void onJoinRequestAccepted(User user)
@@ -99,15 +115,69 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		JPA.em().merge(this);
 		recordJoinRequestAccepted(user);
 	}
-	
+
 	public static List<Community> search(String q) {
 		CriteriaBuilder builder = JPA.em().getCriteriaBuilder();
-		CriteriaQuery<Community> criteria = builder.createQuery(Community.class);
-		Root<Community> root = criteria.from( Community.class );
+		CriteriaQuery<Community> criteria = builder
+				.createQuery(Community.class);
+		Root<Community> root = criteria.from(Community.class);
 		criteria.select(root);
-		Predicate predicate = builder.or(builder.like(root.<String>get("name"), "%" + q + "%"));
+		Predicate predicate = builder.or(builder.like(
+				root.<String> get("name"), "%" + q + "%"));
 		criteria.where(predicate);
 		return JPA.em().createQuery(criteria).getResultList();
 	}
-	
+
+	public Resource setCoverPhoto(File source) throws IOException {
+		ensureAlbumPhotoProfileExist();
+		Resource cover_photo = this.albumPhotoProfile.addFile(source,
+				SocialObjectType.PHOTO);
+		cover_photo.save();
+		return cover_photo;
+
+	}
+
+	private void ensureAlbumPhotoProfileExist() {
+
+		if (this.albumPhotoProfile == null) {
+			this.albumPhotoProfile = createAlbum("profile",
+					Messages.get("album.photo-profile.description"), true);
+			this.merge();
+		}
+	}
+
+	public Folder createAlbum(String name, String description, Boolean system) {
+
+		if (ensureFolderExistWithGivenName(name)) {
+			Folder folder = createFolder(name, description,
+					SocialObjectType.FOLDER, system);
+			folders.add(folder);
+			this.merge(); // Add folder to existing User as new albumn
+			return folder;
+		}
+		return null;
+	}
+
+	private Folder createFolder(String name, String description,
+			SocialObjectType type, Boolean system) {
+
+		Folder folder = new Folder(name);
+		folder.owner = this;
+		folder.name = name;
+		folder.description = description;
+		folder.objectType = type;
+		folder.system = system;
+		folder.save();
+		return folder;
+	}
+
+	private boolean ensureFolderExistWithGivenName(String name) {
+
+		if (folders != null && folders.contains(new Folder(name))) {
+			return false;
+		}
+
+		folders = new ArrayList<>();
+		return true;
+	}
 }

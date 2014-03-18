@@ -16,6 +16,7 @@ import play.data.validation.Constraints.Required;
 import domain.AuditListener;
 import domain.CommentType;
 import domain.Creatable;
+import domain.Likeable;
 
 /**
  * A Comment by an User on a SocialObject 
@@ -23,7 +24,7 @@ import domain.Creatable;
  */
 
 @Entity
-public class Comment extends SocialObject implements Comparable<Comment>, Serializable, Creatable {
+public class Comment extends SocialObject implements Comparable<Comment>, Likeable,Serializable, Creatable {
   
   public Comment(){}
   public Comment(SocialObject socialObject, User user, String body) {
@@ -38,7 +39,10 @@ public class Comment extends SocialObject implements Comparable<Comment>, Serial
   
   @Required
   public Date date = new Date();
-  
+  @Override
+	public void onLike(User user) {
+		recordLike(user);
+	}
   @Required @Lob
   public String body;
   
@@ -49,5 +53,9 @@ public class Comment extends SocialObject implements Comparable<Comment>, Serial
   public int compareTo(Comment o) {
     return date.compareTo(o.date);
   }
-  
+  @Override
+	public void save() {
+		super.save();
+		recordCommentOnCommunityPost(owner);
+	}
 }

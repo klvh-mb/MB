@@ -2,6 +2,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.running;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,10 +14,12 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import junit.framework.Assert;
+import models.Folder;
+import models.Album;
 import models.Comment;
 import models.Community;
 import models.Conversation;
-import models.Folder;
 import models.Notification;
 import models.Post;
 import models.Resource;
@@ -45,14 +48,16 @@ import domain.SocialObjectType;
 
 public class SocialTest {
 
-	User user1 = new User("Test User 1", "Singh", "Paul", "testuser1@test.com");
-	User user2 = new User("Test User 2", "Singh", "Bedi", "testuser2@test.com");
-	User user3 = new User("Test User 3", "Kumar", "Sodhi", "testuser3@test.com");
+	User user1 = new User("Test User 1", "Singh", "Paul", "testuser1@Test.com");
+	User user2 = new User("Test User 2", "Singh", "Bedi", "testuser2@Test.com");
+	User user3 = new User("Test User 3", "Kumar", "Sodhi", "testuser3@Test.com");
+
 	Community community1 = new Community("Test Community 1", user2);
 	Community community2 = new Community("Test Community 2", user2);
+	Community community3 = new Community("Test Community 3", user2);
 	SocialObject post, question;
 	Resource photoProfile;
-	Comment photoComment, questionComment;
+	SocialObject photoComment, questionComment;
 
 	@Before
 	public void initSetUp() {
@@ -139,6 +144,10 @@ public class SocialTest {
 			photoProfile = user3.setPhotoProfile(source);
 			JPA.em().persist(photoProfile);
 			userCommentedOnSocialObject(photoProfile);
+			photoComment = user2.commentedOn(photoProfile, "nice");
+			JPA.em().persist(photoComment);
+			onLike(photoComment);
+
 			onLike(photoProfile);
 
 			question = user2.questionedOn(community1, "What is Funtion ????? ");
@@ -147,12 +156,7 @@ public class SocialTest {
 			questionComment = user2.commentedOn(question, "good");
 			userAnsweredOnSocialObject(question);
 			onLike(question);
-			// onLike(comment);
-
-			// COMMENT ON PROFILEPHOTO, LIKE ON COMMENT
-			photoComment = user2.commentedOn(photoProfile, "nice");
-			JPA.em().persist(photoComment);
-			// onLike(photoComment);
+			onLike(questionComment);
 
 			user1.postedOn(community1, "Hello Community 1, Post 2");
 			user1.postedOn(community1, "Hello Community 1, Post 2");
@@ -180,10 +184,51 @@ public class SocialTest {
 					public void invoke() {
 						org.junit.Assert.assertEquals(User.searchLike("Singh")
 								.size(), 2);
+
 						org.junit.Assert.assertEquals(User.searchLike("Test")
 								.size(), 3);
+
 						org.junit.Assert.assertEquals(User.searchLike("Sodhi")
 								.size(), 1);
+					}
+				});
+			}
+		});
+	}
+
+	@Test
+	public void SearchCommunity() {
+		running(fakeApplication(), new Runnable() {
+
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						org.junit.Assert
+								.assertEquals(
+										User.searchCommunity("Test Community 1")
+												.size(), 1);
+
+					}
+				});
+			}
+		});
+	}
+
+	@Test
+	public void setCoverPhotoToCommunity() {
+		running(fakeApplication(), new Runnable() {
+
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() throws IOException {
+						java.io.File source = new java.io.File(Play
+								.application().path()
+								+ "/test/files/profile2.jpg");
+						Resource coverPhoto1 = community1.setCoverPhoto(source);
+						org.junit.Assert.assertEquals(coverPhoto1.resourceName,
+								"profile2.jpg");
 					}
 				});
 			}
@@ -248,7 +293,7 @@ public class SocialTest {
 		});
 	}
 
-	@Ignore
+	@Test
 	public void userSetProfileImage() {
 		running(fakeApplication(), new Runnable() {
 			@Override
@@ -261,11 +306,11 @@ public class SocialTest {
 								.application().path()
 								+ "/test/files/profile.jpg");
 						try {
-							user1 = User.searchUsername("testuser1@test.com");
+							user1 = User.searchUsername("testuser1@Test.com");
 							photoProfile = user1.setPhotoProfile(source);
 							org.junit.Assert.assertEquals(
 									photoProfile.resourceName, "profile.jpg");
-							user1 = User.searchUsername("testuser1@test.com");
+							user1 = User.searchUsername("testuser1@Test.com");
 							org.junit.Assert.assertEquals(
 									user1.albumPhotoProfile.resources.size(), 1);
 						} catch (IOException e) {
@@ -281,7 +326,7 @@ public class SocialTest {
 								.application().path()
 								+ "/test/files/profile.jpg");
 						try {
-							user1 = User.searchUsername("testuser1@test.com");
+							user1 = User.searchUsername("testuser1@Test.com");
 							Resource currentPhotoProfile = user1
 									.getPhotoProfile();
 							org.junit.Assert.assertEquals(FileUtils
@@ -290,10 +335,8 @@ public class SocialTest {
 											.getRealFile()));
 							File file = currentPhotoProfile.getRealFile()
 									.getParentFile();
-							
-							 org.junit.Assert.assertTrue(new File(file,
-							 "thumbnail.profile.jpg").exists());
-							
+							org.junit.Assert.assertTrue(new File(file,
+									"thumbnail.profile.jpg").exists());
 
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
@@ -336,7 +379,7 @@ public class SocialTest {
 	}
 
 	@Test
-	public void userLikeCountOnQuestion() {
+	public void userLikeCountOnQuestionComment() {
 		running(fakeApplication(), new Runnable() {
 			@Override
 			public void run() {
@@ -348,9 +391,9 @@ public class SocialTest {
 								.createQuery(SocialRelation.class);
 						Root<SocialRelation> c = q.from(SocialRelation.class);
 						q.select(c);
-						q.where(cb.and(cb.equal(c.get("target"), question), cb
-								.equal(c.get("action"),
-										SocialRelation.Action.LIKED)));
+						q.where(cb.and(cb.equal(c.get("target"),
+								questionComment), cb.equal(c.get("action"),
+								SocialRelation.Action.LIKED)));
 
 						List<SocialRelation> result = JPA.em().createQuery(q)
 								.getResultList();
@@ -374,22 +417,21 @@ public class SocialTest {
 						Query q = JPA
 								.em()
 								.createQuery(
-										"SELECT n from Notification n where recipetent = ?1 and socialAction.action = ?2 ");
+										"SELECT n from Notification n where recipetent = ?1 and socialAction.action = ?2 and socialAction.target = ?3");
 						q.setParameter(1, user2);
 						q.setParameter(2, Action.LIKED);
+						q.setParameter(3, questionComment);
 						List<Notification> result = q.getResultList();
 						org.junit.Assert.assertEquals(result.size(), 2);
 						org.junit.Assert.assertEquals(result.get(0).readed,
 								false);
 
-						/*
-						 * // Mark as read
-						 * user2.markNotificationRead(result.get(0)); result =
-						 * q.getResultList();
-						 * org.junit.Assert.assertEquals(result.size(), 2);
-						 * org.junit.Assert.assertEquals(result.get(0).readed,
-						 * true);
-						 */
+						// Mark as read
+						user2.markNotificationRead(result.get(0));
+						result = q.getResultList();
+						org.junit.Assert.assertEquals(result.size(), 2);
+						org.junit.Assert.assertEquals(result.get(0).readed,
+								true);
 
 					}
 				});
@@ -446,9 +488,9 @@ public class SocialTest {
 								.createQuery(SocialRelation.class);
 						Root<SocialRelation> c = q.from(SocialRelation.class);
 						q.select(c);
-						q.where(cb.and(cb.equal(c.get("target"),
-								questionComment.socialObject), cb.equal(
-								c.get("action"), SocialRelation.Action.LIKED)));
+						q.where(cb.and(cb.equal(c.get("target"), photoComment),
+								cb.equal(c.get("action"),
+										SocialRelation.Action.LIKED)));
 
 						List<SocialRelation> result = JPA.em().createQuery(q)
 								.getResultList();
@@ -538,11 +580,11 @@ public class SocialTest {
 								.application().path()
 								+ "/test/files/profile.jpg");
 						try {
-							user1 = User.searchUsername("testuser1@test.com");
+							user1 = User.searchUsername("testuser1@Test.com");
 							photoProfile = user1.setPhotoProfile(source);
 							org.junit.Assert.assertEquals(
 									photoProfile.resourceName, "profile.jpg");
-							user1 = User.searchUsername("testuser1@test.com");
+							user1 = User.searchUsername("testuser1@Test.com");
 							org.junit.Assert.assertEquals(
 									user1.albumPhotoProfile.resources.size(), 1);
 						} catch (IOException e) {
@@ -556,14 +598,14 @@ public class SocialTest {
 					public void invoke() {
 
 						try {
-							user1 = User.searchUsername("testuser1@test.com");
+							user1 = User.searchUsername("testuser1@Test.com");
 							Resource currentPhotoProfile = user1
 									.getPhotoProfile();
 							String toBeDeletedFilePath = currentPhotoProfile
 									.getPath();
 
 							user1.removePhotoProfile(currentPhotoProfile);
-							user1 = User.searchUsername("testuser1@test.com");
+							user1 = User.searchUsername("testuser1@Test.com");
 							org.junit.Assert.assertEquals(
 									user1.albumPhotoProfile.resources.size(), 0);
 							File f = new File(toBeDeletedFilePath);
@@ -714,7 +756,8 @@ public class SocialTest {
 						}
 
 						// Assert for new Member
-						assertThat(user2.friends, contains(user1));
+						List<User> friends = user2.getFriends();
+						assertThat(friends, contains(user1));
 
 						// Assert for reation
 						CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
@@ -778,9 +821,9 @@ public class SocialTest {
 
 		});
 	}
-	
+
 	@Test
-	public void userAnswersAndComment_CountOn_AnyCommunityAuestion_Test() {
+	public void userAnswersAndComment_CountOn_AnyCommunityQuestion_Test() {
 		running(fakeApplication(), new Runnable() {
 
 			@Override
@@ -882,9 +925,10 @@ public class SocialTest {
 						Query q = JPA
 								.em()
 								.createQuery(
-										"SELECT n from Notification n where recipetent = ?1 and socialAction.action = ?2 ");
+										"SELECT n from Notification n where recipetent = ?1 and socialAction.action = ?2 and socialAction.target = ?3 ");
 						q.setParameter(1, user1);
 						q.setParameter(2, Action.LIKED);
+						q.setParameter(3, post);
 						List<Notification> result = q.getResultList();
 						org.junit.Assert.assertEquals(result.size(), 2);
 						org.junit.Assert.assertEquals(result.get(0).readed,
@@ -916,9 +960,10 @@ public class SocialTest {
 						Query q = JPA
 								.em()
 								.createQuery(
-										"SELECT n from Notification n where recipetent = ?1 and socialAction.action = ?2 ");
+										"SELECT n from Notification n where recipetent = ?1 and socialAction.action = ?2 and socialAction.target = ?3 ");
 						q.setParameter(1, user2);
 						q.setParameter(2, Action.LIKED);
+						q.setParameter(3, question);
 						List<Notification> result = q.getResultList();
 						org.junit.Assert.assertEquals(result.size(), 2);
 						org.junit.Assert.assertEquals(result.get(0).readed,
@@ -950,9 +995,10 @@ public class SocialTest {
 						Query q = JPA
 								.em()
 								.createQuery(
-										"SELECT n from Notification n where recipetent = ?1 and socialAction.action = ?2 ");
+										"SELECT n from Notification n where recipetent = ?1 and socialAction.action = ?2 and socialAction.target = ?3");
 						q.setParameter(1, user1);
 						q.setParameter(2, Action.COMMENTED);
+						q.setParameter(3, post);
 						List<Notification> result = q.getResultList();
 						org.junit.Assert.assertEquals(result.size(), 3);
 						org.junit.Assert.assertEquals(result.get(0).readed,
@@ -1018,9 +1064,10 @@ public class SocialTest {
 						Query q = JPA
 								.em()
 								.createQuery(
-										"SELECT n from Notification n where recipetent = ?1 and socialAction.action = ?2 ");
+										"SELECT n from Notification n where recipetent = ?1 and socialAction.action = ?2 and socialAction.target = ?3");
 						q.setParameter(1, user3);
 						q.setParameter(2, Action.COMMENTED);
+						q.setParameter(3, photoProfile);
 						List<Notification> result = q.getResultList();
 						org.junit.Assert.assertEquals(result.size(), 4);
 						org.junit.Assert.assertEquals(result.get(0).readed,
@@ -1082,7 +1129,9 @@ public class SocialTest {
 							e.printStackTrace();
 						}
 
-						if (user2.friends.contains(user1)) {
+						List<User> friends = user2.getFriends();
+
+						if (friends.contains(user1)) {
 							try {
 								user2.onRelationShipRequest(user1,
 										SocialRelation.Action.BROTHER);
@@ -1133,71 +1182,6 @@ public class SocialTest {
 	}
 
 	@Test
-	public void userAcceptsOn_RelationShipRequest() {
-		running(fakeApplication(), new Runnable() {
-			@Override
-			public void run() {
-
-				JPA.withTransaction(new play.libs.F.Callback0() {
-					public void invoke() {
-						try {
-							user2.onFriendRequestAccepted(user3);
-							user2.onFriendRequestAccepted(user1);
-						} catch (SocialObjectNotJoinableException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
-						if (user2.friends.contains(user1)) {
-							try {
-								user2.onRelationShipRequest(user1,
-										SocialRelation.Action.BROTHER);
-							} catch (SocialObjectNotJoinableException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-							CriteriaQuery<SocialRelation> q = cb
-									.createQuery(SocialRelation.class);
-							Root<SocialRelation> c = q
-									.from(SocialRelation.class);
-							q.select(c);
-							q.where(cb.and(cb.equal(c.get("target"), user1), cb
-									.equal(c.get("action"),
-											SocialRelation.Action.BROTHER)));
-							SocialRelation result = JPA.em().createQuery(q)
-									.getSingleResult();
-							org.junit.Assert.assertEquals(result.actionType,
-									ActionType.RELATIONSHIP_REQUESTED);
-
-							try {
-								user1.onRelationShipRequestAccepted(user2,
-										Action.BROTHER);
-							} catch (SocialObjectNotJoinableException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-
-							q.where(cb.and(cb.equal(c.get("target"), user1), cb
-									.equal(c.get("action"),
-											SocialRelation.Action.BROTHER)));
-							result = JPA.em().createQuery(q).getSingleResult();
-							org.junit.Assert.assertEquals(result.actionType,
-									ActionType.GRANT);
-
-						} else {
-
-						}
-
-					}
-				});
-
-			}
-		});
-
-	}
-
-	@Test
 	public void getUser_FriendList() {
 		running(fakeApplication(), new Runnable() {
 			@Override
@@ -1212,11 +1196,12 @@ public class SocialTest {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						List<User> friends = user2.getFriends();
 
-						for (User frnd : user2.friends) {
+						for (User frnd : friends) {
 							System.out.println("Friend :::::: " + frnd.name);
 						}
-						org.junit.Assert.assertEquals(user2.friends.size(), 2);
+						org.junit.Assert.assertEquals(friends.size(), 2);
 
 					}
 				});
@@ -1267,8 +1252,8 @@ public class SocialTest {
 			public void run() {
 				JPA.withTransaction(new play.libs.F.Callback0() {
 					public void invoke() {
-						Resource photoProfile;
-						Folder photoAlbum;
+						Resource photoProfile, coverPhoto = null;
+						Album photoAlbum1, photoAlbum2;
 						java.io.File source1 = new java.io.File(Play
 								.application().path() + "/test/files/homer.jpg");
 						java.io.File source2 = new java.io.File(Play
@@ -1277,17 +1262,19 @@ public class SocialTest {
 						java.io.File source3 = new java.io.File(Play
 								.application().path()
 								+ "/test/files/profile2.jpg");
-						user3 = User.searchUsername("testuser3@test.com");
+						user3 = User.searchUsername("testuser3@Test.com");
 
-						photoAlbum = user3.createAlbum("My Album 1",
-								"this is a album", true);
-						user2 = User.searchUsername("testuser2@test.com");
-						photoAlbum = user2.createAlbum("My Album 1",
-								"this is a album", true);
-						
-						org.junit.Assert.assertEquals(user3.album.size(),
-								1);
+						photoAlbum1 = user3.createAlbum("Test My Album 1",
+								"this is a album", true,
+								SocialObjectType.ALBUMN);
+						user2 = User.searchUsername("testuser2@Test.com");
+						photoAlbum2 = user2.createAlbum("Test My Album 1",
+								"this is a album", true,
+								SocialObjectType.ALBUMN);
 
+						org.junit.Assert.assertEquals(user3.album.size(), 1);
+						assertThat(user3.album, contains(photoAlbum1));
+						assertThat(user2.album, contains(photoAlbum2));
 					}
 				});
 
@@ -1305,7 +1292,7 @@ public class SocialTest {
 					public void invoke() {
 						try {
 							Resource photoProfile;
-							Folder photoAlbum;
+							Album photoAlbum;
 							java.io.File source1 = new java.io.File(Play
 									.application().path()
 									+ "/test/files/homer.jpg");
@@ -1315,46 +1302,33 @@ public class SocialTest {
 							java.io.File source3 = new java.io.File(Play
 									.application().path()
 									+ "/test/files/profile2.jpg");
-							user3 = User.searchUsername("testuser3@test.com");
+							user3 = User.searchUsername("testuser3@Test.com");
 
-							photoAlbum = user3.createAlbum("My Album 1",
-									"this is a album", true);
+							photoAlbum = user3.createAlbum("Test My Album 1",
+									"this is a album", true,
+									SocialObjectType.ALBUMN);
+							assertNotNull(photoAlbum);
 
 							photoAlbum.addFile(source1, SocialObjectType.PHOTO);
 							photoAlbum.addFile(source2, SocialObjectType.PHOTO);
 							photoAlbum.addFile(source3, SocialObjectType.PHOTO);
 
-							org.junit.Assert.assertEquals(photoAlbum.name,
-									"My Album 1");
-
 							org.junit.Assert.assertEquals(
 									photoAlbum.resources.size(), 3);
+
 							Resource profilePhotoPath1 = photoAlbum.resources
 									.get(0);
 							Resource profilePhotoPath2 = photoAlbum.resources
 									.get(1);
-							Long l = photoAlbum.id;
-							System.out.println("????????????" + l);
 
 							File file = profilePhotoPath1.getRealFile()
 									.getParentFile();
 							org.junit.Assert.assertTrue(new File(file,
 									"thumbnail.homer.jpg").exists());
-							System.out.println("File:::::::::::" + file);
-							String[] entries = file.list();
-							for (String s : entries) {
-								File currentFile = new File(file.getPath(), s);
-								currentFile.delete();
-							}
-							System.out.println("File deleted successfully");
-							System.out.println("File:::::::::::" + file);
-							System.out.println(new File(file,
-									"thumbnail.homer.jpg").exists());
-							File d = file.getParentFile();
-							// String[] fileList = d.list();
-							deleteFolder(d);
+
 							File f1 = profilePhotoPath2.getRealFile()
 									.getParentFile();
+
 							org.junit.Assert.assertTrue(new File(f1,
 									"thumbnail.profile.jpg").exists());
 
@@ -1371,30 +1345,119 @@ public class SocialTest {
 
 	}
 
-	public static void deleteFolder(File d) {
-		File[] files = d.listFiles();
-
-		for (int i = 0; i < files.length; i++) {
-
-			/*
-			 * if (files[i].isDirectory()) { deleteFolder(files[i]); } else {
-			 * files[i].delete(); }
-			 */
-		}
-
-		// d.delete();
-	}
-
-	@Ignore
-	public void userSetProfilePhotoFormPhotoAlbum() {
+	@Test
+	public void setCoverPhotoToPhotoAlbum() {
 		running(fakeApplication(), new Runnable() {
 			@Override
 			public void run() {
 				JPA.withTransaction(new play.libs.F.Callback0() {
 					public void invoke() {
+						Resource photoProfile, coverPhoto1 = null, coverPhoto2 = null;
+						Album photoAlbum1, photoAlbum2;
+						java.io.File source1 = new java.io.File(Play
+								.application().path() + "/test/files/homer.jpg");
+						java.io.File source2 = new java.io.File(Play
+								.application().path()
+								+ "/test/files/profile.jpg");
+						java.io.File source3 = new java.io.File(Play
+								.application().path()
+								+ "/test/files/profile2.jpg");
+						user3 = User.searchUsername("testuser3@Test.com");
+
+						photoAlbum1 = user3
+								.createAlbum("Test My Album 1",
+										"this is a album", true,
+										SocialObjectType.PHOTO);
+						user2 = User.searchUsername("testuser2@Test.com");
+						photoAlbum2 = user2
+								.createAlbum("Test My Album 2",
+										"this is a album", true,
+										SocialObjectType.PHOTO);
 						try {
-							Resource photoProfile;
-							Folder photoAlbum;
+							coverPhoto1 = photoAlbum1
+									.setCoverPhoto_TOAlbum(source1);
+							coverPhoto2 = photoAlbum1
+									.setCoverPhoto_TOAlbum(source2);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+						org.junit.Assert.assertEquals(coverPhoto1.resourceName,
+								"homer.jpg");
+						org.junit.Assert.assertEquals(coverPhoto2.resourceName,
+								"profile.jpg");
+						org.junit.Assert.assertEquals(user3.album.size(), 1);
+
+					}
+				});
+
+			}
+		});
+
+	}
+
+	@Test
+	public void getAllAlbum() {
+
+		running(fakeApplication(), new Runnable() {
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						user3 = User.searchUsername("testuser3@Test.com");
+						Album photoAlbum1 = user3.createAlbum(
+								"Test My Album 1", "this is a album1", true,
+								SocialObjectType.ALBUMN);
+						assertNotNull(photoAlbum1);
+
+					}
+				});
+
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						user3 = User.searchUsername("testuser3@Test.com");
+						Album photoAlbum2 = user3.createAlbum(
+								"Test My Album 2", "this is a album2", true,
+								SocialObjectType.ALBUMN);
+						assertNotNull(photoAlbum2);
+					}
+				});
+
+				// Asserting that duplication albumn not allowed
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						user3 = User.searchUsername("testuser3@Test.com");
+						Album photoAlbum2 = user3.createAlbum(
+								"Test My Album 2", "this is a album2", true,
+								SocialObjectType.ALBUMN);
+						assertNull(photoAlbum2);
+					}
+				});
+
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						user3 = User.searchUsername("testuser3@Test.com");
+
+						assertEquals(user3.album.size(), 2);
+					}
+				});
+
+			}
+		});
+	}
+
+	@Test
+	public void userDeletePhotoToPhotoAlbum() {
+		running(fakeApplication(), new Runnable() {
+
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						try {
+							Resource photoProfile, coverPhoto;
+							Album Album1, Album2;
 							java.io.File source1 = new java.io.File(Play
 									.application().path()
 									+ "/test/files/homer.jpg");
@@ -1404,17 +1467,123 @@ public class SocialTest {
 							java.io.File source3 = new java.io.File(Play
 									.application().path()
 									+ "/test/files/profile2.jpg");
-							user3 = User.searchUsername("testuser3@test.com");
+							user1 = User.searchUsername("testuser1@Test.com");
 
-							photoAlbum = user3.createAlbum("My Album 1",
-									"this is a album", true);
+							Album1 = user1.createAlbum("Test My Album 2",
+									"this is a album", true,
+									SocialObjectType.PHOTO);
+
+							Album1.addFile(source1, SocialObjectType.PHOTO);
+							Album1.addFile(source2, SocialObjectType.PHOTO);
+							Album1.addFile(source3, SocialObjectType.PHOTO);
+
+							org.junit.Assert.assertEquals(
+									Album1.resources.size(), 3);
+							Resource profilePhotoPath1 = Album1.resources
+									.get(0);
+							Resource profilePhotoPath2 = Album1.resources
+									.get(1);
+
+							File file = profilePhotoPath1.getRealFile()
+									.getParentFile();
+							org.junit.Assert.assertTrue(new File(file,
+									"thumbnail.homer.jpg").exists());
+							File f1 = profilePhotoPath2.getRealFile()
+									.getParentFile();
+							org.junit.Assert.assertTrue(new File(f1,
+									"thumbnail.profile.jpg").exists());
+
+							deleteFolder(file);
+							FileUtils.deleteDirectory(file.getParentFile());
+							assertThat(user1.album, contains(Album1));
+
+							user2 = User.searchUsername("testuser2@Test.com");
+
+							Album2 = user2.createAlbum("Test My Album 3",
+									"this is a album", true,
+									SocialObjectType.PHOTO);
+
+							Album2.addFile(source1, SocialObjectType.PHOTO);
+							Album2.addFile(source2, SocialObjectType.PHOTO);
+							Album2.addFile(source3, SocialObjectType.PHOTO);
+
+							org.junit.Assert.assertEquals(
+									Album2.resources.size(), 3);
+							Resource profilePhotoPath3 = Album2.resources
+									.get(0);
+							Resource profilePhotoPath4 = Album2.resources
+									.get(1);
+
+							File file2 = profilePhotoPath3.getRealFile()
+									.getParentFile();
+							org.junit.Assert.assertTrue(new File(file2,
+									"thumbnail.homer.jpg").exists());
+
+							File f2 = profilePhotoPath4.getRealFile()
+									.getParentFile();
+							org.junit.Assert.assertTrue(new File(f2,
+									"thumbnail.profile.jpg").exists());
+
+							deleteFolder(file2);
+							FileUtils.deleteDirectory(file.getParentFile());
+							assertThat(user2.album, contains(Album2));
+
+						} catch (IOException e) { // TODO Auto-generated catch
+													// block
+							e.printStackTrace();
+						}
+
+					}
+				});
+
+			}
+		});
+
+	}
+
+	public static void deleteFolder(File d) {
+		File[] files = d.listFiles();
+
+		for (int i = 0; i < files.length; i++) {
+			if (files[i].isDirectory()) {
+				deleteFolder(files[i]);
+			} else {
+				files[i].delete();
+			}
+
+		}
+
+		d.delete();
+	}
+
+	@Test
+	public void userSetProfilePhotoFormPhotoAlbum() {
+		running(fakeApplication(), new Runnable() {
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						try {
+							Resource photoProfile;
+							Album photoAlbum;
+							java.io.File source1 = new java.io.File(Play
+									.application().path()
+									+ "/test/files/homer.jpg");
+							java.io.File source2 = new java.io.File(Play
+									.application().path()
+									+ "/test/files/profile.jpg");
+							java.io.File source3 = new java.io.File(Play
+									.application().path()
+									+ "/test/files/profile2.jpg");
+							user3 = User.searchUsername("testuser3@Test.com");
+
+							photoAlbum = user3.createAlbum("Test My Album 1",
+									"this is a album", true,
+									SocialObjectType.PHOTO);
 
 							photoAlbum.addFile(source1, SocialObjectType.PHOTO);
 							photoAlbum.addFile(source2, SocialObjectType.PHOTO);
 							photoAlbum.addFile(source3, SocialObjectType.PHOTO);
-
-							org.junit.Assert.assertEquals(photoAlbum.name,
-									"My Album 1");
 
 							org.junit.Assert.assertEquals(
 									photoAlbum.resources.size(), 3);
@@ -1422,14 +1591,14 @@ public class SocialTest {
 							Resource profilePhotoPath = photoAlbum.resources
 									.get(0);
 
-							user1 = User.searchUsername("testuser1@test.com");
+							user1 = User.searchUsername("testuser1@Test.com");
 							photoProfile = user1
 									.setPhotoProfile(profilePhotoPath
 											.getRealFile());
 
 							org.junit.Assert.assertEquals(
 									photoProfile.resourceName, "homer.jpg");
-							user1 = User.searchUsername("testuser1@test.com");
+							user1 = User.searchUsername("testuser1@Test.com");
 							org.junit.Assert.assertEquals(
 									user1.albumPhotoProfile.resources.size(), 1);
 
@@ -1449,23 +1618,29 @@ public class SocialTest {
 	@Test
 	public void userCreatesPhotoAlbumIsExist() {
 		running(fakeApplication(), new Runnable() {
+
 			@Override
 			public void run() {
 				JPA.withTransaction(new play.libs.F.Callback0() {
 					public void invoke() {
-						Folder photoAlbum1, photoAlbum2;
+						Album photoAlbum1, photoAlbum2;
 						java.io.File source1 = new java.io.File(Play
 								.application().path() + "/test/files/homer.jpg");
 						java.io.File source2 = new java.io.File(Play
 								.application().path() + "/test/files/homer.jpg");
-						user3 = User.searchUsername("testuser3@test.com");
+						user3 = User.searchUsername("testuser3@Test.com");
 
-						photoAlbum1 = user3.createAlbum("My Album 1",
-								"this is a album", true);
+						photoAlbum1 = user3
+								.createAlbum("Test My Album 1",
+										"this is a album", true,
+										SocialObjectType.PHOTO);
 
-						photoAlbum2 = user3.createAlbum("My Album 1",
-								"this is a album", true);
-						org.junit.Assert.assertNull(photoAlbum2);
+						photoAlbum2 = user2
+								.createAlbum("Test My Album 1",
+										"this is a album", true,
+										SocialObjectType.PHOTO);
+						assertThat(user3.album, contains(photoAlbum1));
+						assertThat(user2.album, contains(photoAlbum1));
 
 					}
 				});

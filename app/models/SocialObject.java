@@ -207,11 +207,9 @@ public abstract class SocialObject extends domain.Entity implements
 		throw new SocialObjectNotLikableException(
 				"Please make sure Social Object you are liking is Likable");
 	}
-
-	public Comment onComment(User user, String body, CommentType type)
-			throws SocialObjectNotCommentableException {
-		throw new SocialObjectNotCommentableException(
-				"Please make sure Social Object you are commenting is Commentable");
+	
+	public SocialObject onComment(User user, String body, CommentType type) throws SocialObjectNotCommentableException {
+		throw new SocialObjectNotCommentableException("Please make sure Social Object you are commenting is Commentable");
 	}
 
 	public SocialObject onPost(User user, String body, PostType type)

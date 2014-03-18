@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import java.util.ArrayList;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -20,7 +20,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
+import javax.persistence.FetchType;
 import models.SocialRelation.Action;
 import models.TokenAction.Type;
 
@@ -93,18 +93,17 @@ public class User extends SocialObject implements Subject, Socializable {
 	@JsonIgnore
 	public Folder albumPhotoProfile;
 
-	@OneToMany
-	@JsonIgnore
-	public Set<User> friends = new HashSet<User>();
-	
 	@Override
 	@JsonIgnore
 	public String getIdentifier() {
 		return Long.toString(id);
 	}
-	
-	@OneToMany(cascade=CascadeType.REMOVE)
-	public List<Folder> album;
+
+	@OneToMany(cascade = CascadeType.REMOVE)
+	public List<Folder> folders;
+
+	@OneToMany(cascade = CascadeType.REMOVE)
+	public List<Album> album;
 
 	@OneToMany
 	public List<Conversation> conversation = new ArrayList<Conversation>();
@@ -164,9 +163,9 @@ public class User extends SocialObject implements Subject, Socializable {
 	}
 
 	// TODO: Write Test
-	public Comment commentedOn(SocialObject target, String comment)
+	public SocialObject commentedOn(SocialObject target, String comment)
 			throws SocialObjectNotCommentableException {
-		
+
 		return target.onComment(this, comment, CommentType.SIMPLE);
 	}
 
@@ -189,7 +188,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	public void markNotificationRead(Notification notification) {
 		notification.markNotificationRead();
 	}
-	
+
 	@Override
 	public void onFriendRequest(User user)
 			throws SocialObjectNotJoinableException {
@@ -200,11 +199,10 @@ public class User extends SocialObject implements Subject, Socializable {
 	@Transactional
 	public void onFriendRequestAccepted(User user)
 			throws SocialObjectNotJoinableException {
-		this.friends.add(user);
 		JPA.em().merge(this);
 		recordFriendRequestAccepted(user);
 	}
-	
+
 	public void onRelationShipRequest(User user, Action relation)
 			throws SocialObjectNotJoinableException {
 		recordRelationshipRequest(user, relation);
@@ -217,8 +215,28 @@ public class User extends SocialObject implements Subject, Socializable {
 		recordRelationshipRequestAccepted(user, action);
 	}
 
-	
-	
+	public List<User> getFriends() {
+		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+		CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
+		Root<SocialRelation> c = q.from(SocialRelation.class);
+		q.select(c);
+		q.where(cb.and(
+				cb.or(cb.equal(c.get("target"), this),
+						cb.equal(c.get("actor"), this)),
+				cb.equal(c.get("action"), SocialRelation.Action.FRIEND)));
+
+		List<SocialRelation> result = JPA.em().createQuery(q).getResultList();
+		List<User> frndList = new ArrayList<>();
+		for (SocialRelation rslt : result) {
+			if (rslt.actor.name == this.name) {
+				frndList.add((User) rslt.target);
+			}
+			else if (rslt.target.name == this.name) {
+				frndList.add((User) rslt.actor);
+			}
+		}
+		return frndList;
+	}
 
 	public static List<User> searchLike(String q) {
 		CriteriaBuilder builder = JPA.em().getCriteriaBuilder();
@@ -229,6 +247,18 @@ public class User extends SocialObject implements Subject, Socializable {
 				builder.like(root.<String> get("displayName"), "%" + q + "%"),
 				builder.like(root.<String> get("firstName"), "%" + q + "%"),
 				builder.like(root.<String> get("lastName"), "%" + q + "%"));
+		criteria.where(predicate);
+		return JPA.em().createQuery(criteria).getResultList();
+	}
+
+	public static List<Community> searchCommunity(String string) {
+		CriteriaBuilder builder = JPA.em().getCriteriaBuilder();
+		CriteriaQuery<Community> criteria = builder
+				.createQuery(Community.class);
+		Root<Community> root = criteria.from(Community.class);
+		criteria.select(root);
+		Predicate predicate = builder.like(root.<String> get("name"), "%"
+				+ string + "%");
 		criteria.where(predicate);
 		return JPA.em().createQuery(criteria).getResultList();
 	}
@@ -290,57 +320,104 @@ public class User extends SocialObject implements Subject, Socializable {
 		return resource.getPath();
 	}
 
-	 /**
-	   * ensure the existence of the system folder: albumPhotoProfile
-	   */
-	  private void ensureAlbumPhotoProfileExist() {
-		  
-	    if(this.albumPhotoProfile == null) {
-	      this.albumPhotoProfile = createAlbum("profile", Messages.get("album.photo-profile.description"), true);
-	      this.merge();
-	    }
-	  }
+	/**
+	 * ensure the existence of the system folder: albumPhotoProfile
+	 */
+	private void ensureAlbumPhotoProfileExist() {
 
-	  /**
-	   * create a folder with the type: IMG (contain only image Resource types)
-	   * @param name
-	   * @param description
-	   * @param privacy
-	   * @param system
-	   * @return
-	   */
-	  public Folder createAlbum(String name, String description, Boolean system) {
-		 
-		  if(ensureFolderExistWithGivenName(name)) {
-			  Folder folder =  createFolder(name, description, SocialObjectType.FOLDER,system);
-			  album.add(folder);
-			  this.merge(); // Add folder to existing User as new albumn
-			  return folder;
-		  }
-	    return null; // folder canot be added and same name folder already added before
-	  }
-	  
-	  private Folder createFolder(String name, String description, SocialObjectType type,  Boolean system) {
+		if (this.albumPhotoProfile == null) {
+			this.albumPhotoProfile = createAlbum("profile",
+					Messages.get("album.photo-profile.description"), true);
+			this.merge();
+		}
+	}
 
-		  	Folder folder = new Folder(name);
-		    folder.owner = this;
-		    folder.name = name;
-		    folder.description = description;
-		    folder.objectType = type;
-		    folder.system = system;
-		    folder.save();
-		    return folder;
-	   }
-	  
- private boolean ensureFolderExistWithGivenName(String name) {
+	/**
+	 * create a folder with the type: IMG (contain only image Resource types)
+	 * 
+	 * @param name
+	 * @param description
+	 * @param privacy
+	 * @param system
+	 * @return
+	 */
+	public Folder createAlbum(String name, String description, Boolean system) {
 
-		  if(album != null && album.contains(new Folder(name))) {
-			  return false;
-		  }
+		if (ensureFolderExistWithGivenName(name)) {
+			Folder folder = createFolder(name, description,
+					SocialObjectType.FOLDER, system);
+			folders.add(folder);
+			this.merge(); // Add folder to existing User as new albumn
+			return folder;
+		}
+		return null;
+	}
 
-		  album = new ArrayList<>();
-		  return true;
-	  }
+	public Album createAlbum(String name, String description, Boolean system,
+			SocialObjectType type) {
+
+		if (ensureAlbumExistWithGivenName(name)) {
+			Album _album = createAlbum(name, description,
+					SocialObjectType.ALBUMN, system);
+			album.add(_album);
+			this.merge();
+			return _album;
+		}
+		return null;
+	}
+
+	private boolean ensureAlbumExistWithGivenName(String name) {
+
+		if (album == null) {
+			album = new ArrayList<>();
+		}
+
+		if (album.contains(new Album(name))) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private Album createAlbum(String name, String description,
+			SocialObjectType type, Boolean system) {
+		Folder folder = createFolder(name, description,
+				SocialObjectType.FOLDER, system);
+
+		Album _album = new Album(name);
+		_album.owner = this;
+		_album.name = name;
+		_album.description = description;
+		_album.objectType = type;
+		_album.system = system;
+		_album.folder = folder;
+		_album.save();
+		return _album;
+	}
+
+	private Folder createFolder(String name, String description,
+			SocialObjectType type, Boolean system) {
+
+		Folder folder = new Folder(name);
+		folder.owner = this;
+		folder.name = name;
+		folder.description = description;
+		folder.objectType = type;
+		folder.system = system;
+		folder.save();
+		return folder;
+	}
+
+	private boolean ensureFolderExistWithGivenName(String name) {
+
+		if (folders != null && folders.contains(new Folder(name))) {
+			return false;
+		}
+
+		folders = new ArrayList<>();
+		return true;
+	}
+
 	public static boolean existsByAuthUserIdentity(
 			final AuthUserIdentity identity) {
 		final Query exp;
@@ -538,28 +615,5 @@ public class User extends SocialObject implements Subject, Socializable {
 		return (User) q.getSingleResult();
 	}
 	
-	public List<User> getFriends(){
-		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-		CriteriaQuery<SocialRelation> q = cb
-				.createQuery(SocialRelation.class);
-		Root<SocialRelation> c = q.from(SocialRelation.class);
-		q.select(c);
-		q.where(cb.and(cb.or(cb.equal(c.get("target"), this),cb.equal(c.get("actor"), this)), cb
-				.equal(c.get("action"),
-						SocialRelation.Action.FRIEND)));
-
-		List<SocialRelation> result = JPA.em().createQuery(q)
-				.getResultList();
-		List<User> frndList = new ArrayList<>();
-		for(SocialRelation rslt:result){
-			if(rslt.actor == this){
-				frndList.add((User) rslt.target);
-			}
-			if(rslt.target == this){
-				frndList.add((User) rslt.actor);
-			}
-			
-		}
-		return frndList;
-	}
+	
 }

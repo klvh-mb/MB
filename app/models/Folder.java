@@ -4,19 +4,21 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
-
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.name.Rename;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.google.common.base.Objects;
 
@@ -35,8 +37,6 @@ public class Folder extends SocialObject {
 	public Folder(String name) {
 		this.name = name;
 	}
-
-	
 
 	@Required
 	public String name;
@@ -60,8 +60,7 @@ public class Folder extends SocialObject {
 
 	public Resource addFile(java.io.File source, String description,
 			SocialObjectType type) throws IOException {
-		
-		
+
 		Resource resource = new Resource(type);
 		resource.resourceName = source.getName();
 		resource.description = description;
@@ -69,8 +68,15 @@ public class Folder extends SocialObject {
 		resource.owner = this.owner;
 		resource.save();
 		FileUtils.copyFile(source, new java.io.File(resource.getPath()));
-		if(type == SocialObjectType.PHOTO) {
-			Thumbnails.of(source).height(100).keepAspectRatio(true).toFiles( new java.io.File(resource.getPath()).getParentFile(), Rename.PREFIX_DOT_THUMBNAIL);
+		if (type == SocialObjectType.PHOTO) {
+			Thumbnails
+					.of(source)
+					.height(100)
+					.keepAspectRatio(true)
+					.toFiles(
+							new java.io.File(resource.getPath())
+									.getParentFile(),
+							Rename.PREFIX_DOT_THUMBNAIL);
 		}
 		this.resources.add(resource);
 		merge();
@@ -106,7 +112,7 @@ public class Folder extends SocialObject {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
 		this.resources.remove(resource);
 	}
 
@@ -132,22 +138,20 @@ public class Folder extends SocialObject {
 		}
 		return highest;
 	}
-	
+
 	@Override
-	public int hashCode(){
-	    return Objects.hashCode(name);
+	public int hashCode() {
+		return Objects.hashCode(name);
 	}
-	
+
 	@Override
-	public boolean equals(final Object obj){
-	    if(obj instanceof SocialObject){
-	        final SocialObject other = (SocialObject) obj;
-	        return new EqualsBuilder()
-	            .append(name, other.name)
-	            .isEquals();
-	    } else{
-	        return false;
-	    }
+	public boolean equals(final Object obj) {
+		if (obj instanceof SocialObject) {
+			final SocialObject other = (SocialObject) obj;
+			return new EqualsBuilder().append(name, other.name).isEquals();
+		} else {
+			return false;
+		}
 	}
 
 }
