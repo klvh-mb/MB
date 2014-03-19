@@ -2,6 +2,11 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import models.Community;
+import models.User;
 
 import org.apache.commons.io.FileUtils;
 
@@ -13,6 +18,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import viewmodel.SocialObjectVM;
 
 public class UserController extends Controller {
 	
@@ -81,5 +87,21 @@ public class UserController extends Controller {
 		localUser.date_of_birth = userForUpdation.date_of_birth;
 		localUser.merge();
 		return ok("true");
+	}
+	
+	@Transactional
+	public static Result searchSocialObjects(String query) {
+		final User localUser = Application.getLocalUser(session());
+		List<User> users = localUser.searchLike(query);
+		List<SocialObjectVM> socialVMs = new ArrayList<>();
+		for(User user : users) {
+			socialVMs.add(new SocialObjectVM(user.id.toString(), user.displayName, user.objectType.name()));
+		}
+		
+		List<Community> communities = Community.search(query);
+		for(Community community : communities) {
+			//socialVMs.add(new SocialObjectVM(community.id.toString(), community.name, community.objectType.name()));
+		}
+		return ok(Json.toJson(socialVMs));
 	}
 }

@@ -4,20 +4,25 @@ var minibean = angular.module('minibean');
 
 ///////////////////////// Search Service Start //////////////////////////////////
 minibean.service('searchService',function($resource){
-	this.Search = $resource(
-			'/search/:q',
+	this.userSearch = $resource(
+			'/user-search?query=:q',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
-				get: {method:'JSON', params:{q:'@q'}}
+				get: {method:'GET', params:{q:'@q'}, isArray:true}
 			}
 	);
 });
 
-minibean.controller('SearchController',function($scope,searchService){
-	$scope.query;
-	$scope.search= function() {
-		this.searchresult = searchService.Search.get({q:$scope.query});
-	}  
+minibean.controller('SearchController',function($scope, searchService){
+	$scope.search_result = function(query) {
+		if(query != undefined) {
+			this.result = searchService.userSearch.get({q:query});
+		}
+	}
+	
+	$scope.sendinvite = function(id) {
+		alert(id);
+	}
 });
 ///////////////////////// Search Service End //////////////////////////////////
 
