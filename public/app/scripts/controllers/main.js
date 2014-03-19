@@ -43,6 +43,10 @@ minibean.controller('UserInfoServiceController',function($scope,userInfoService)
 	  
 });
 
+minibean.controller('ApplicationController',function($scope, userInfoService){
+	$scope.userInfo = userInfoService.UserInfo.get();
+});
+
 ///////////////////////// User Info Service End //////////////////////////////////
 
 
@@ -199,7 +203,6 @@ minibean.service('friendService',function($resource){
 	);
 });
 
-minibean.controller('FriendsController',function($scope, friendService , $http, userInfoService){
-	$scope.userInfo = userInfoService.UserInfo.get();
+minibean.controller('FriendsController',function($scope, friendService , $http){
 	$scope.result = friendService.UserFriends.get();
 });
