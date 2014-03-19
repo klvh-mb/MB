@@ -426,14 +426,14 @@ public class User extends SocialObject implements Subject, Socializable {
 		} else {
 			exp = getAuthUserFind(identity);
 		}
-		return exp.getMaxResults() > 0;
+		return exp.getResultList().size() > 0;
 	}
 
 	private static Query getAuthUserFind(final AuthUserIdentity identity) {
 		Query q = JPA
 				.em()
 				.createQuery(
-						"SELECT u FROM User u where active = ?1 and linkedAccounts.providerUserId = ?2 and u.linkedAccounts.providerKey = ?3");
+						"SELECT u FROM User u, IN (u.linkedAccounts) l where active = ?1 and l.providerUserId = ?2 and l.providerKey = ?3");
 		q.setParameter(1, true);
 		q.setParameter(2, identity.getId());
 		q.setParameter(3, identity.getProvider());
