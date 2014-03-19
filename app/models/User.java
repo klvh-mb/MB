@@ -424,11 +424,7 @@ public class User extends SocialObject implements Subject, Socializable {
 		if (identity instanceof UsernamePasswordAuthUser) {
 			exp = getUsernamePasswordAuthUserFind((UsernamePasswordAuthUser) identity);
 		} else {
-			try {
 				exp = getAuthUserFind(identity);
-			} catch(javax.persistence.NoResultException e ) {
-				return false;
-			}
 		}
 		return exp.getResultList().size() > 0;
 	}
@@ -451,7 +447,11 @@ public class User extends SocialObject implements Subject, Socializable {
 		if (identity instanceof UsernamePasswordAuthUser) {
 			return findByUsernamePasswordIdentity((UsernamePasswordAuthUser) identity);
 		} else {
-			return (User) getAuthUserFind(identity).getSingleResult();
+			try {
+				return (User) getAuthUserFind(identity).getSingleResult();
+			} catch(javax.persistence.NoResultException e ) {
+				return null;
+			}
 		}
 	}
 
