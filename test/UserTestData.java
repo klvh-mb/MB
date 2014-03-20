@@ -190,36 +190,37 @@ public class UserTestData {
 								.findByEmail("jagbir.friend8@test.com");
 						
 						Community Group7 = new Community(
-								"Test Group3 Jagbir", friend5);
+								"Test Group1", friend5);
 						Group7.save();
 						Community Group6= new Community(
-								"Test Group2 Jagbir", jagbir_friend_Amit);
+								"Test Group2", jagbir_friend_Amit);
 						Group6.save();
 						Community Group3 = new Community(
-								"Test Group3 Jagbir", jagbir);
+								"Test Group3", jagbir);
 						Group3.save();
 						
 						Community Group1 = new Community(
-								"Test Group3 Jagbir", friend2);
+								"Test Group4", friend2);
 						Group1.save();
 						
 						Community Group2 = new Community(
-								"Test Group2 Jagbir", friend1);
+								"Test Group5", friend1);
 						Group2.save();
 						Community Group5 = new Community(
-								"Test Group5 Jagbir", friend3);
+								"Test Group6", friend3);
 						Group5.save();
 						Community Group4 = new Community(
-								"Test Group4 Jagbir", friend4);
+								"Test Group7", friend4);
 						Group4.save();
 						
 						try {
 							Group1.ownerAsMember(friend2);
 							Group2.ownerAsMember(friend1);
 							Group3.ownerAsMember(jagbir);
-							Group7.ownerAsMember(friend5);
-							Group5.ownerAsMember(friend4);
+							Group4.ownerAsMember(friend4);
+							Group5.ownerAsMember(friend3);
 							Group6.ownerAsMember(jagbir_friend_Amit);
+							Group7.ownerAsMember(friend5);
 							
 						} catch (SocialObjectNotJoinableException e) {
 							// TODO Auto-generated catch block
