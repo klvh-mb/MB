@@ -6,13 +6,19 @@ import static play.test.Helpers.status;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Query;
+
 import junit.framework.Assert;
+import models.Community;
+import models.Notification;
 import models.Resource;
 import models.User;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
@@ -21,10 +27,12 @@ import play.Play;
 import play.db.jpa.JPA;
 import play.mvc.Result;
 
+
 public class UserTestData {
 
 	String unverifiedUser = "unverifiedUser@test.com";
 	String verifiedUser = "verifiedUser@test.com";
+	Community Group ;
 
 	Map<String, String> nameEmailMap = new HashMap<>();
 
@@ -55,17 +63,15 @@ public class UserTestData {
 
 	@Before
 	public void init() {
-		/*
-		 * nameEmailMap.put("Jagbir P", "jagbir.singh@test.com");
-		 * nameEmailMap.put("amit G", "jagbir.friend1@test.com");
-		 * nameEmailMap.put("Nagesh D", "jagbir.friend2@test.com");
-		 * nameEmailMap.put("Dherej b", "jagbir.friend3@test.com");
-		 * nameEmailMap.put("Harshad G", "jagbir.friend.Request1@test.com");
-		 * nameEmailMap.put("Pravin B", "jagbir.friend.Request2@test.com");
-		 * nameEmailMap.put("Harbir P", "jagbir.father@test.com");
-		 */
 
-		/*nameEmailMap.put("Ankush P", "jagbir.friend4@test.com");
+		nameEmailMap.put("Jagbir P", "jagbir.singh@test.com");
+		nameEmailMap.put("amit G", "jagbir.friend1@test.com");
+		nameEmailMap.put("Nagesh D", "jagbir.friend2@test.com");
+		nameEmailMap.put("Dherej b", "jagbir.friend3@test.com");
+		nameEmailMap.put("Harshad G", "jagbir.friend.Request1@test.com");
+		nameEmailMap.put("Pravin B", "jagbir.friend.Request2@test.com");
+		nameEmailMap.put("Harbir P", "jagbir.father@test.com");
+		nameEmailMap.put("Ankush P", "jagbir.friend4@test.com");
 		nameEmailMap.put("Ajinkya G", "jagbir.friend5@test.com");
 		nameEmailMap.put("Ashish D", "jagbir.friend6@test.com");
 		nameEmailMap.put("Dhananjay b", "jagbir.friend7@test.com");
@@ -79,7 +85,8 @@ public class UserTestData {
 
 		for (Map.Entry<String, String> entry : nameEmailMap.entrySet()) {
 			addUser(entry.getKey(), entry.getValue());
-		}*/
+			
+		}
 	}
 
 	@Test
@@ -99,6 +106,140 @@ public class UserTestData {
 		});
 		Assert.assertEquals(1, 1);
 	}
+	
+	@Test
+	public void setCoverPhotoToCommunity() {
+		running(fakeApplication(), new Runnable() {
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						java.io.File source1 = new java.io.File(Play
+								.application().path()
+								+ "/test/files/people1.jpg");
+
+						java.io.File source2 = new java.io.File(Play
+								.application().path()
+								+ "/test/files/people2.jpg");
+						
+						Query q = JPA.em().createQuery("SELECT u FROM Community u ");
+						List<Community> commList = q.getResultList();
+						for(Community community : commList){
+							try {
+								community.setCoverPhoto(source1);
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						
+					}
+				});
+			}
+		});
+		Assert.assertEquals(1, 1);
+	}
+	
+	@Test
+	public void getCommList() {
+		running(fakeApplication(), new Runnable() {
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						User jagbir = User.findByEmail("jagbir.singh@test.com");
+						User jagbir_friend_Amit = User
+								.findByEmail("jagbir.friend1@test.com");
+						User friend1 = User
+								.findByEmail("jagbir.friend4@test.com");
+						List<Community> commList = jagbir_friend_Amit.getListOfNotJoinedCommunities();
+						System.out.println("jagbir_friend_Amit ::::: "+commList.size());
+						for(Community community : commList){
+							System.out.println("jagbir_friend_Amit community::::: "+community.name);
+						}
+					}
+				});
+			}
+		});
+		Assert.assertEquals(1, 1);
+	}
+	
+	
+	
+
+	
+	@Test
+	public void communityAdds() {
+		running(fakeApplication(), new Runnable() {
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						User jagbir = User.findByEmail("jagbir.singh@test.com");
+						User jagbir_friend_Amit = User
+								.findByEmail("jagbir.friend9@test.com");
+						User friend1 = User
+								.findByEmail("jagbir.friend4@test.com");
+						User friend2 = User
+								.findByEmail("jagbir.friend5@test.com");
+						User friend3 = User
+								.findByEmail("jagbir.friend6@test.com");
+						User friend4 = User
+								.findByEmail("jagbir.friend7@test.com");
+						User friend5 = User
+								.findByEmail("jagbir.friend8@test.com");
+						
+						Community Group7 = new Community(
+								"Test Group3 Jagbir", friend5);
+						Group7.save();
+						Community Group6= new Community(
+								"Test Group2 Jagbir", jagbir_friend_Amit);
+						Group6.save();
+						Community Group3 = new Community(
+								"Test Group3 Jagbir", jagbir);
+						Group3.save();
+						
+						Community Group1 = new Community(
+								"Test Group3 Jagbir", friend2);
+						Group1.save();
+						
+						Community Group2 = new Community(
+								"Test Group2 Jagbir", friend1);
+						Group2.save();
+						Community Group5 = new Community(
+								"Test Group5 Jagbir", friend3);
+						Group5.save();
+						Community Group4 = new Community(
+								"Test Group4 Jagbir", friend4);
+						Group4.save();
+						
+						try {
+							Group1.ownerAsMember(friend2);
+							Group2.ownerAsMember(friend1);
+							Group3.ownerAsMember(jagbir);
+							Group7.ownerAsMember(friend5);
+							Group5.ownerAsMember(friend4);
+							Group6.ownerAsMember(jagbir_friend_Amit);
+							
+						} catch (SocialObjectNotJoinableException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						
+					
+
+					}
+				});
+
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+					}
+				});
+			}
+		});
+		Assert.assertEquals(1, 1);
+	}
 
 	@Test
 	public void userAdds() {
@@ -107,13 +248,14 @@ public class UserTestData {
 			public void run() {
 				JPA.withTransaction(new play.libs.F.Callback0() {
 					public void invoke() {
-						java.io.File source1 = new java.io.File(Play.application().path()
+						java.io.File source1 = new java.io.File(Play
+								.application().path()
 								+ "/test/files/profile2.jpg");
-						
-						java.io.File source2 = new java.io.File(Play.application().path()
+
+						java.io.File source2 = new java.io.File(Play
+								.application().path()
 								+ "/test/files/profile.jpg");
-						
-						
+
 						User jagbir = User.findByEmail("jagbir.singh@test.com");
 						User friend1 = User
 								.findByEmail("jagbir.friend4@test.com");
@@ -127,8 +269,6 @@ public class UserTestData {
 								.findByEmail("jagbir.friend8@test.com");
 						User friend6 = User
 								.findByEmail("jagbir.friend9@test.com");
-						/*User friend7 = User
-								.findByEmail("jagbir.friend10@test.com");*/
 						User friend8 = User
 								.findByEmail("jagbir.friend11@test.com");
 						User friend9 = User
@@ -160,34 +300,30 @@ public class UserTestData {
 							JPA.em().persist(photoProfile);
 							photoProfile = friend11.setPhotoProfile(source2);
 							JPA.em().persist(photoProfile);
-							
-							/*friend1.onFriendRequest(jagbir);
 
+							friend1.onFriendRequest(jagbir);
 							friend2.onFriendRequest(jagbir);
 							friend3.onFriendRequest(jagbir);
 							friend4.onFriendRequest(jagbir);
 							friend5.onFriendRequest(jagbir);
 							friend6.onFriendRequest(jagbir);
-							//friend7.onFriendRequest(jagbir);
 							friend8.onFriendRequest(jagbir);
 							friend9.onFriendRequest(jagbir);
 							friend10.onFriendRequest(jagbir);
 							friend11.onFriendRequest(jagbir);
-							
-							
+
 							jagbir.onFriendRequestAccepted(friend1);
 							jagbir.onFriendRequestAccepted(friend2);
 							jagbir.onFriendRequestAccepted(friend3);
 							jagbir.onFriendRequestAccepted(friend4);
 							jagbir.onFriendRequestAccepted(friend5);
 							jagbir.onFriendRequestAccepted(friend6);
-//							jagbir.onFriendRequestAccepted(friend7);
 							jagbir.onFriendRequestAccepted(friend8);
 							jagbir.onFriendRequestAccepted(friend9);
 							jagbir.onFriendRequestAccepted(friend10);
-							jagbir.onFriendRequestAccepted(friend11);*/
+							jagbir.onFriendRequestAccepted(friend11);
 
-						} catch (IOException e) {
+						} catch (IOException | SocialObjectNotJoinableException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
