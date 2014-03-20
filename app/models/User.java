@@ -1,5 +1,7 @@
 package models;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,7 +9,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.ArrayList;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -20,12 +22,13 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.FetchType;
+
 import models.SocialRelation.Action;
 import models.TokenAction.Type;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import play.Play;
 import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
@@ -662,6 +665,10 @@ public class User extends SocialObject implements Subject, Socializable {
 		Query q = JPA.em().createQuery("SELECT u FROM User u where id = ?1");
 		q.setParameter(1, id);
 		return (User) q.getSingleResult();
+	}
+
+	public File getDefaultUserPhoto() throws FileNotFoundException {
+		 return new File(Play.application().configuration().getString("storage.user.noimage"));
 	}
 	
 	

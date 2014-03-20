@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,6 @@ import models.User;
 
 import org.apache.commons.io.FileUtils;
 
-import models.User;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -72,7 +72,12 @@ public class UserController extends Controller {
 		if(localUser.getPhotoProfile() != null) {
 			return ok(localUser.getPhotoProfile().getRealFile());
 		}
-		return ok("No Image");
+		try {
+			return ok(localUser.getDefaultUserPhoto());
+		} catch (FileNotFoundException e) {
+			return ok("no image set");
+		}
+		
 	}
 
 	@Transactional
