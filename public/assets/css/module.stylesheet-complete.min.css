@@ -225,6 +225,7 @@ h1 [class*="icon-"],h2 [class*="icon-"],h3 [class*="icon-"],h4 [class*="icon-"],
 .fixed-bottom{position:absolute;left:0;right:0;bottom:0}
 .height-auto{height:auto !important}
 div.row,ul.row{margin:0 -5px}
+div.tm,ul.tm{margin-top:14px}
 .row-merge{margin:0 !important}
 div[class*="col-xs-"],div[class*="col-sm-"],div[class*="col-md-"],div[class*="col-lg-"],li[class*="col-xs-"],li[class*="col-sm-"],li[class*="col-md-"],li[class*="col-lg-"]{padding:0 5px}
 .widget .row-merge{margin:0}

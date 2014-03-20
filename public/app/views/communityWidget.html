@@ -1,45 +1,40 @@
-<div class="bar-shadow-border" style="width: 274px;">
-	<div class="widget">
-		<div class="widget-head border-bottom bg-gray">
-			<h5 class="pull-left margin-none innerAll">
-				Groups <span class="text-muted"></span>
-			</h5>
-			<div class="pull-right">
-				<a href="/#/groups" class="text-muted"> <label>See
-						All>></label>
-				</a>
-			</div>
+<div class="widget bar-shadow-border">
+	<div class="widget-head border-bottom bg-gray">
+		<h5 class="pull-left margin-none innerAll">
+			Groups <span class="text-muted"></span>
+		</h5>
+		<div class="pull-right">
+			<a href="/#/groups" class="text-muted"> <label>See
+					All>></label>
+			</a>
 		</div>
+	</div>
+	
+	
+	<div style="float: left; margin-left: 4%; margin-top: 2%;">
+	</div>
 
-
-		<div style="float: left; margin-left: 4%; margin-top: 2%;">
-			<!-- <img alt="" style="width: 10%;margin-top: 1.5%;float: left;" src="images/people1.jpg">
-		<img alt="" style="width: 10%;margin-top: 1.5%;float: left;margin-left: 0.4%;margin-right: 0.4%;" src="images/people2.jpg">
-		<img alt="" style="width: 10%;margin-top: 1.5%;float: left;" src="images/people1.jpg"> -->
-
-		</div>
-
-		<div class="widget-body margin-none">
-			<div class="innerAll">
-				<a href="#" ng-repeat="fvm in result.fvm">
-					<div style="float: left;width: 100%">
-						<img style="float: left;"
-							data-ng-src="/community-image-by-id/{{fvm.id}}" alt="{{fvm.dn}}"
-							class="innerR innerB half" width="55" height="55">
-						<div style="width: 50%; float: left; margin-left: 2%;">
-							<p style="color: #0083C5; margin-top: 0%; margin-bottom: 0%;">{{fvm.dn}}</p>
-							<div style="width: 100%; float: left;">
-								<p
-									style="margin-top: 0%; margin-bottom: 1%; margin-right: 5%; float: left; color: black;"></p>
-								<p style="margin-top: 0%; margin-bottom: 1%; color: gray;">Members ({{fvm.mm}})</p>
-							</div>
-						</div>
-						<div style="float: right; margin-top: 1.5%; margin-right: 4%;">
-							<button type="button">Join</button>
+	<div class="widget-body margin-none">
+		<div class="innerAll">
+			<a href="#" ng-repeat="fvm in result.fvm">
+				<div style="float: left;width: 100%">
+					<img style="float: left;"
+						data-ng-src="/community-image-by-id/{{fvm.id}}" alt="{{fvm.dn}}"
+						class="innerR innerB half" width="55" height="55">
+					<div style="width: 50%; float: left; margin-left: 2%;">
+						<p style="color: #0083C5; margin-top: 0%; margin-bottom: 0%;">{{fvm.dn}}</p>
+						<div style="width: 100%; float: left;">
+							<p
+								style="margin-top: 0%; margin-bottom: 1%; margin-right: 5%; float: left; color: black;"></p>
+							<p style="margin-top: 0%; margin-bottom: 1%; color: gray;">Members ({{fvm.mm}})</p>
 						</div>
 					</div>
-				</a>
-			</div>
+					<div style="float: right; margin-top: 1.5%; margin-right: 4%;">
+							<button type="button">Join</button>
+					</div>
+				</div>
+			</a>
+			
 		</div>
 	</div>
 </div>

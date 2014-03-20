@@ -13,6 +13,8 @@ minibean.service('searchService',function($resource){
 	);
 });
 
+
+
 minibean.controller('SearchController',function($scope, searchService){
 	$scope.search_result = function(query) {
 		if(query != undefined) {
