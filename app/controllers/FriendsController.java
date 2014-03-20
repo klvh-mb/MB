@@ -64,10 +64,10 @@ public class FriendsController extends Controller {
 	@Transactional
 	public static Result sendInvitation(String id) {
 		final User localUser = Application.getLocalUser(session());
-		User friend = User.findById(Long.parseLong(id));
+		User invitee = User.findById(Long.parseLong(id));
 		
 		try {
-			localUser.onFriendRequest(friend);
+			localUser.sendFriendInviteTo(invitee);
 		} catch (SocialObjectNotJoinableException e) {
 			e.printStackTrace();
 		}

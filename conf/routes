@@ -72,7 +72,8 @@ POST	/upload-cover-photo		    controllers.UserController.uploadCoverPhoto
 GET		/get-profile-image			controllers.UserController.getProfileImage
 GET		/get-cover-image			controllers.UserController.getCoverImage
 GET		/user-search				controllers.UserController.searchSocialObjects(query: String)
-
+GET		/get-friend-requests		controllers.UserController.getAllFriendRequests
+GET		/accept-friend-request		controllers.UserController.acceptFriendRequest(friend_id :Long)
 #Friends
 GET		/get-user-friends			controllers.FriendsController.getUserFriends
 GET		/get-all-friends			controllers.FriendsController.getAllFriendsOfUser

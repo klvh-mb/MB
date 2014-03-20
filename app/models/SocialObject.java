@@ -100,10 +100,10 @@ public abstract class SocialObject extends domain.Entity implements
 
 	}
 
-	protected final void recordFriendRequest(User user) {
+	protected final void recordFriendRequest(User invitee) {
 		SocialRelation action = new SocialRelation();
 		action.actionType = SocialRelation.ActionType.FRIEND_REQUESTED;
-		action.target = user;
+		action.target = invitee;
 		action.actor = this;
 		action.validateUniquenessAndCreate();
 	}

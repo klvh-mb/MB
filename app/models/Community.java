@@ -1,6 +1,7 @@
 package models;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,6 +22,7 @@ import javax.persistence.criteria.Root;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import play.Play;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.i18n.Messages;
@@ -214,5 +216,9 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		Query q = JPA.em().createQuery("SELECT u FROM Community u where id = ?1");
 		q.setParameter(1, id);
 		return (Community) q.getSingleResult();
+	}
+
+	public File getDefaultThumbnailCoverPhoto()  throws FileNotFoundException {
+		return new File(Play.application().configuration().getString("storage.cover.thumbnail.noimage"));
 	}
 }

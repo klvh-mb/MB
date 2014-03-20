@@ -7,9 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.Community;
+import models.Notification;
 import models.User;
 
 import org.apache.commons.io.FileUtils;
+
+import com.mnt.exception.SocialObjectNotJoinableException;
 
 import play.data.DynamicForm;
 import play.data.Form;
@@ -18,6 +21,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import viewmodel.FriendWidgetChildVM;
 import viewmodel.SocialObjectVM;
 
 public class UserController extends Controller {
@@ -138,8 +142,35 @@ public class UserController extends Controller {
 		
 		List<Community> communities = Community.search(query);
 		for(Community community : communities) {
-			//socialVMs.add(new SocialObjectVM(community.id.toString(), community.name, community.objectType.name()));
+			socialVMs.add(new SocialObjectVM(community.id.toString(), community.name, community.objectType.name()));
 		}
 		return ok(Json.toJson(socialVMs));
 	}
+	
+
+    @Transactional
+    public static Result getAllFriendRequests() {
+    	final User localUser = Application.getLocalUser(session());
+    	List<Notification> friendRequests = localUser.getAllFriendRequestNotification();
+    	
+    	List<FriendWidgetChildVM> requests = new ArrayList<>();
+    	for(Notification n : friendRequests) {
+    		requests.add(new FriendWidgetChildVM(n.socialAction.actor.id, n.socialAction.actor.name));
+    	}
+    	return ok(Json.toJson(requests));
+    }
+    
+    @Transactional
+    public static Result acceptFriendRequest(Long id) {
+    	System.out.println("Friend Id:  "+ id);
+    	final User localUser = Application.getLocalUser(session());
+    	User invitee = User.findById(id);
+    	
+    	try {
+			localUser.onFriendRequestAccepted(invitee);
+		} catch (SocialObjectNotJoinableException e) {
+			e.printStackTrace();
+		}
+    	return ok();
+    }
 }

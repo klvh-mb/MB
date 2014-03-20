@@ -86,8 +86,8 @@ public class SocialTest {
 	private void userRequestedToJoin() {
 		try {
 			user1.requestedToJoin(community1);
-			user1.onFriendRequest(user2);
-			user3.onFriendRequest(user2);
+			user1.sendFriendInviteTo(user2);
+			user3.sendFriendInviteTo(user2);
 		} catch (SocialObjectNotJoinableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

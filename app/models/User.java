@@ -24,6 +24,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import models.SocialRelation.Action;
+import models.SocialRelation.ActionType;
 import models.TokenAction.Type;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -198,9 +199,9 @@ public class User extends SocialObject implements Subject, Socializable {
 	}
 
 	@Override
-	public void onFriendRequest(User user)
+	public void sendFriendInviteTo(User invitee)
 			throws SocialObjectNotJoinableException {
-		recordFriendRequest(user);
+		recordFriendRequest(invitee);
 	}
 
 	@Override
@@ -239,7 +240,8 @@ public class User extends SocialObject implements Subject, Socializable {
 		for (SocialRelation rslt : result) {
 			if (rslt.actor.name == this.name) {
 				frndList.add((User) rslt.target);
-			} else if (rslt.target.name == this.name) {
+			}
+			else if (rslt.target.name == this.name) {
 				frndList.add((User) rslt.actor);
 			}
 		}
@@ -715,10 +717,29 @@ public class User extends SocialObject implements Subject, Socializable {
 	public File getDefaultUserPhoto() throws FileNotFoundException {
 		 return new File(Play.application().configuration().getString("storage.user.noimage"));
 	}
-
+	
 	public File getDefaultCoverPhoto()  throws FileNotFoundException {
 		 return new File(Play.application().configuration().getString("storage.cover.noimage"));
 	}
 	
+	
+	@JsonIgnore
+	public List<Notification> getAllFriendRequestNotification() {
+		
+		System.out.println(this.id);
+		Query q = JPA.em().createQuery(
+						"SELECT n from Notification n where recipetent = ?1 and socialAction.actionType = ?2 " +
+						"and readed = ?3 ");
+		q.setParameter(1, this);
+		q.setParameter(2, ActionType.FRIEND_REQUESTED);
+		q.setParameter(3, false);
+		List<Notification> notifications = q.getResultList();
+		
+		for(Notification n : notifications) {
+			System.out.println(n.getSocialAction().getActionType());
+		}
+		
+		return notifications;
+	}
 	
 }

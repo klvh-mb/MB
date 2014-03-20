@@ -302,16 +302,16 @@ public class UserTestData {
 							photoProfile = friend11.setPhotoProfile(source2);
 							JPA.em().persist(photoProfile);
 
-							friend1.onFriendRequest(jagbir);
-							friend2.onFriendRequest(jagbir);
-							friend3.onFriendRequest(jagbir);
-							friend4.onFriendRequest(jagbir);
-							friend5.onFriendRequest(jagbir);
-							friend6.onFriendRequest(jagbir);
-							friend8.onFriendRequest(jagbir);
-							friend9.onFriendRequest(jagbir);
-							friend10.onFriendRequest(jagbir);
-							friend11.onFriendRequest(jagbir);
+							friend1.sendFriendInviteTo(jagbir);
+							friend2.sendFriendInviteTo(jagbir);
+							friend3.sendFriendInviteTo(jagbir);
+							friend4.sendFriendInviteTo(jagbir);
+							friend5.sendFriendInviteTo(jagbir);
+							friend6.sendFriendInviteTo(jagbir);
+							friend8.sendFriendInviteTo(jagbir);
+							friend9.sendFriendInviteTo(jagbir);
+							friend10.sendFriendInviteTo(jagbir);
+							friend11.sendFriendInviteTo(jagbir);
 
 							jagbir.onFriendRequestAccepted(friend1);
 							jagbir.onFriendRequestAccepted(friend2);

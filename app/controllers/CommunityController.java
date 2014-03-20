@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,9 +41,12 @@ public class CommunityController extends Controller{
 		final Community community = Community.findById(id);
 		if(community.getPhotoProfile() != null) {
 			return ok(new File(community.getPhotoProfile().getThumbnail()));
-			//return ok();
 		}
-		return ok("No Image");
+		try {
+			return ok(community.getDefaultThumbnailCoverPhoto());
+		} catch (FileNotFoundException e) {
+			return ok("no image set");
+		}
 	}
 	
 	@Transactional

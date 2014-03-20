@@ -14,11 +14,13 @@ import com.mnt.exception.SocialObjectNotPostableException;
 
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
+
+import com.mnt.exception.SocialObjectNotCommentableException;
+
 import domain.CommentType;
 import domain.Commentable;
 import domain.Likeable;
 import domain.PostType;
-import domain.SocialObjectType;
 
 @Entity
 public class Post extends SocialObject implements Likeable, Commentable {

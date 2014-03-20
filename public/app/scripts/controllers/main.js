@@ -48,13 +48,38 @@ minibean.service('userInfoService',function($resource){
 	);
 });
 
+minibean.service('userNotification',function($resource){
+	this.getAllFriendRequests = $resource(
+			'/get-friend-requests',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'GET', isArray:true}
+			}
+	);
+});
+
+minibean.service('acceptFriendRequestService',function($resource){
+	this.acceptFriendRequest = $resource(
+			'/accept-friend-request?friend_id=:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'GET', params:{id:'@id'}, isArray:true}
+			}
+	);
+});
+
 minibean.controller('UserInfoServiceController',function($scope,userInfoService){
 		$scope.userInfo = userInfoService.UserInfo.get();
 	  
 });
 
-minibean.controller('ApplicationController',function($scope, userInfoService){
+minibean.controller('ApplicationController',function($scope, userInfoService, userNotification,acceptFriendRequestService){
 	$scope.userInfo = userInfoService.UserInfo.get();
+	$scope.friend_requests = userNotification.getAllFriendRequests.get();
+	
+	$scope.accept_friend_request = function(id) {
+		this.acceptFriendRequest = acceptFriendRequestService.acceptFriendRequest.get({id:id});
+	}
 });
 
 ///////////////////////// User Info Service End //////////////////////////////////
