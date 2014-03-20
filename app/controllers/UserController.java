@@ -67,6 +67,25 @@ public class UserController extends Controller {
 	}
 	
 	@Transactional
+	public static Result uploadCoverPhoto() {
+		final User localUser = Application.getLocalUser(session());
+		FilePart picture = request().body().asMultipartFormData().getFile("profile-photo");
+		String fileName = picture.getFilename();
+	    
+	    File file = picture.getFile();
+	    File fileTo = new File(fileName);
+	    
+	    try {
+	    	FileUtils.copyFile(file, fileTo);
+			localUser.setCoverPhoto(fileTo);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return status(500);
+		}
+		return ok();
+	}
+	
+	@Transactional
 	public static Result getProfileImage() {
 		final User localUser = Application.getLocalUser(session());
 		if(localUser.getPhotoProfile() != null) {
@@ -74,6 +93,20 @@ public class UserController extends Controller {
 		}
 		try {
 			return ok(localUser.getDefaultUserPhoto());
+		} catch (FileNotFoundException e) {
+			return ok("no image set");
+		}
+		
+	}
+	
+	@Transactional
+	public static Result getCoverImage() {
+		final User localUser = Application.getLocalUser(session());
+		if(localUser.getCoverProfile() != null) {
+			return ok(localUser.getCoverProfile().getRealFile());
+		}
+		try {
+			return ok(localUser.getDefaultCoverPhoto());
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}

@@ -12,7 +12,12 @@
 							<div class="widget cover image">
 								<div class="widget-body padding-none margin-none">
 									<div class="top">
-											<img src="assets/images/photodune-2755655-party-time-s.jpg" class="img-responsive" />					
+											<div class="top">
+												<img src="/get-cover-image" class="img-responsive" />
+											</div>	
+											<a ng-click="openCoverPhotoModal()" alt="Change" title="Change" class="glyphicons edit" 
+											style="margin: -252px 0px 0px 7px;position: absolute;" href=""  ><i style="color: #DA4212;"></i></a>
+									 
 									</div>
 									<ul class="list-unstyled">
 										<li ><a href="index.html?lang=en"><i class="fa fa-fw fa-clock-o"></i> Timeline</a></li>
@@ -63,7 +68,7 @@
 	                    </div>
 	                    
 	                    <div class="col-md-6">
-	                    	<span editable-text="result.firstName" >{{ result.firstName || 'empty' }}</span>
+	                    	<span editable-text="result.firstName" >{{ result.firstName || 'not set' }}</span>
 	                    </div>
                   </div>
                   
@@ -73,7 +78,7 @@
                    		</div>
                    		
                    		<div class="col-md-6">
-                   			<span editable-text="result.lastName">{{ result.lastName || 'empty' }}</span>
+                   			<span editable-text="result.lastName">{{ result.lastName || 'Not set' }}</span>
                    		</div>
                   </div>
                   
@@ -109,7 +114,7 @@
                    		</div>
                    		
                    		<div class="col-md-6">
-                   			<span editable-text="result.location">{{ result.location || 'empty' }}</span>
+                   			<span editable-text="result.location">{{ result.location || 'Not set' }}</span>
                    		</div>
                   </div>
                   

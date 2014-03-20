@@ -67,7 +67,10 @@ GET		/about-user					controllers.UserController.aboutUser
 POST	/updateUserProfileData		controllers.UserController.updateUserProfileData
 POST	/updateUserDisplayName		controllers.UserController.updateUserDisplayName
 POST	/upload-profile-photo		controllers.UserController.uploadProfilePhoto
+POST	/upload-cover-photo		    controllers.UserController.uploadCoverPhoto
+
 GET		/get-profile-image			controllers.UserController.getProfileImage
+GET		/get-cover-image			controllers.UserController.getCoverImage
 GET		/user-search				controllers.UserController.searchSocialObjects(query: String)
 
 #Friends

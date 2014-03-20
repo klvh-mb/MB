@@ -72,9 +72,8 @@ minibean.service('userAboutService',function($resource){
 	);
 });
 
-// TODO: I dont like way i am defining ProfilePhotoModalController
-var ProfilePhotoModalController = function( $scope, $http, $timeout, $upload, profilePhotoModal) {
-		
+// TODO: I dont like way i am defining PhotoModalController
+var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePhotoModal) {
 	$scope.fileReaderSupported = window.FileReader != null;
 	$scope.uploadRightAway = true;
 	
@@ -129,7 +128,7 @@ var ProfilePhotoModalController = function( $scope, $http, $timeout, $upload, pr
 	$scope.start = function(index) {
 		$scope.progress[index] = 0;
 		$scope.upload[index] = $upload.upload({
-			url : 'upload-profile-photo',
+			url : PhotoModalController.url,
 			method: $scope.httpMethod,
 			//headers: {'myHeaderKey': 'myHeaderVal'},
 			//data : {
@@ -178,9 +177,18 @@ minibean.controller('UserAboutController',function($scope, userAboutService, $ht
 	}
 	
 	$scope.openProfilePhotoModal = function() {
+		PhotoModalController.prototype.url = "upload-profile-photo";
 		profilePhotoModal.OpenModal({
 			 templateUrl: 'change-profile-photo-modal.html',
-			 controller: ProfilePhotoModalController
+			 controller: PhotoModalController
+		});
+	}
+	
+	$scope.openCoverPhotoModal = function() {
+		PhotoModalController.url = "upload-cover-photo";
+		profilePhotoModal.OpenModal({
+			 templateUrl: 'change-profile-photo-modal.html',
+			 controller: PhotoModalController
 		});
 	}
 	

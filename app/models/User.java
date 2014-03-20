@@ -33,6 +33,7 @@ import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.i18n.Messages;
+import play.mvc.Content;
 import be.objectify.deadbolt.core.models.Permission;
 import be.objectify.deadbolt.core.models.Role;
 import be.objectify.deadbolt.core.models.Subject;
@@ -95,6 +96,10 @@ public class User extends SocialObject implements Subject, Socializable {
 	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JsonIgnore
 	public Folder albumPhotoProfile;
+	
+	@ManyToOne(cascade = CascadeType.REMOVE)
+	@JsonIgnore
+	public Folder albumCoverProfile;
 
 	@Override
 	@JsonIgnore
@@ -340,6 +345,15 @@ public class User extends SocialObject implements Subject, Socializable {
 		newPhoto.save();
 		return newPhoto;
 	}
+	
+	public Resource setCoverPhoto(File source) throws IOException {
+		ensureCoverPhotoProfileExist();
+		Resource cover_photo = this.albumCoverProfile.addFile(source,
+				SocialObjectType.PHOTO);
+		this.albumCoverProfile.setHighPriorityFile(cover_photo);
+		cover_photo.save();
+		return cover_photo;
+	}
 
 	public void removePhotoProfile(Resource resource) throws IOException {
 		this.albumPhotoProfile.removeFile(resource);
@@ -368,6 +382,25 @@ public class User extends SocialObject implements Subject, Socializable {
 		}
 		return resource.getPath();
 	}
+	
+	@JsonIgnore
+	public Resource getCoverProfile() {
+		if (this.albumCoverProfile != null) {
+			Resource file = this.albumCoverProfile.getHighPriorityFile();
+			if (file != null) {
+				return file;
+			}
+		}
+		return null;
+	}
+
+	public String getCoverProfileURL() {
+		Resource resource = getCoverProfile();
+		if (resource == null) {
+			return "";
+		}
+		return resource.getPath();
+	}
 
 	/**
 	 * ensure the existence of the system folder: albumPhotoProfile
@@ -377,6 +410,18 @@ public class User extends SocialObject implements Subject, Socializable {
 		if (this.albumPhotoProfile == null) {
 			this.albumPhotoProfile = createAlbum("profile",
 					Messages.get("album.photo-profile.description"), true);
+			this.merge();
+		}
+	}
+	
+	/**
+	 * ensure the existence of the system folder: albumPhotoProfile
+	 */
+	private void ensureCoverPhotoProfileExist() {
+
+		if (this.albumCoverProfile == null) {
+			this.albumCoverProfile = createAlbum("cover",
+					Messages.get("album.photo-cover.description"), true);
 			this.merge();
 		}
 	}
@@ -669,6 +714,10 @@ public class User extends SocialObject implements Subject, Socializable {
 
 	public File getDefaultUserPhoto() throws FileNotFoundException {
 		 return new File(Play.application().configuration().getString("storage.user.noimage"));
+	}
+
+	public File getDefaultCoverPhoto()  throws FileNotFoundException {
+		 return new File(Play.application().configuration().getString("storage.cover.noimage"));
 	}
 	
 	
