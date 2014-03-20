@@ -101,7 +101,16 @@
                    	</div>
                    	
                    	<div class="col-md-6">
-					    <span editable-text="result.date_of_birth">{{ result.date_of_birth | date:'MM/dd/yyyy' || 'Not set' }}
+                   		<!--div class="dropdown">
+						    <a  style="color: #428bca;" class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="">
+						        {{ result.date_of_birth | date:'MM/dd/yyyy' || 'Not set' }}
+						    </a>
+						    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+						        <datetimepicker data-ng-model="result.date_of_birth"
+						                        data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle',minView: 'day' }"></datetimepicker>
+						    </ul>
+						</div-->
+					    <span editable-bsdate="result.date_of_birth"  e-datepicker-popup="dd-MMMM-yyyy">{{ result.date_of_birth | date:'dd/MM/yyyy' || 'Not set' }}
 					    </span>
 					    <span class="glyphicon glyphicon-calendar">
 					    </span>

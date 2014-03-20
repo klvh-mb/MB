@@ -8,7 +8,8 @@ angular.module('minibean', [
   'ngAnimate',
   'ui.bootstrap',
   'ui.bootstrap.tpls',
-  'angularFileUpload'
+  'angularFileUpload',
+  'ui.bootstrap.datetimepicker'
 ])
   .config(function ($routeProvider) {
     $routeProvider
