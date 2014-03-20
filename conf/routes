@@ -74,6 +74,9 @@ GET		/get-cover-image			controllers.UserController.getCoverImage
 GET		/user-search				controllers.UserController.searchSocialObjects(query: String)
 GET		/get-friend-requests		controllers.UserController.getAllFriendRequests
 GET		/accept-friend-request		controllers.UserController.acceptFriendRequest(friend_id :Long)
+GET		/get-join-requests			controllers.UserController.getAllJoinRequests
+GET		/accept-join-request		controllers.UserController.acceptJoinRequest(friend_id :Long)
+
 #Friends
 GET		/get-user-friends			controllers.FriendsController.getUserFriends
 GET		/get-all-friends			controllers.FriendsController.getAllFriendsOfUser
@@ -83,4 +86,7 @@ GET		/send-invite				controllers.FriendsController.sendInvitation(id: String)
 #Community
 GET		/get-not-join-community				controllers.CommunityController.getUserUnJoinCommunity
 GET		/get-all-communities				controllers.CommunityController.getAllCommunitiesOfUser
+GET		/get-users-all-communities			controllers.CommunityController.getMyAllCommunities
 GET		/community-image-by-id/:id			controllers.CommunityController.getCommunityImageById(id :Long)
+GET		/send-request						controllers.CommunityController.sendJoinRequest(id: String)
+

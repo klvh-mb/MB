@@ -82,7 +82,26 @@
 		      	</ul>
 			</li>
 		</ul>
-		<img style="width: 3%;float: left;margin-top: 2.5%;margin-left: 1%;cursor: pointer;" src="/assets/app/images/globe.png">
+		
+		<ul class="notifications pull-left hidden-xs">
+			<li class="dropdown notif">
+				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
+					<i class="notif-block fa fa-fw icon-earth">
+						<span class="badge badge-danger">{{join_requests.length}}</span>
+					</i>
+					
+				</a>
+				<ul class="dropdown-menu chat media-list">
+					<li class="media" data-ng-repeat="request in join_requests">
+				        <a class="pull-left" href="#"><img class="media-object thumb" data-ng-src="/user-image-by-id/{{request.id}}" alt="50x50" width="50"></a>
+						<div class="media-body">
+				        	<button data-ng-click="accept_join_request(friend.id)" class="btn btn-xs btn-success pull-right">accept</button>
+				            <a href="#"><h5 class="media-heading">{{request.dn}}</h5></a>
+				        </div>
+					</li>
+		      	</ul>
+			</li>
+		</ul>
 		<div class="col-lg-7 col-md-5 col-sd-4" data-ng-controller="SearchController" style="padding-top: 2%;">
 			<div class="row">
 				<div class="col-lg-10 col-md-10 col-sd-10">

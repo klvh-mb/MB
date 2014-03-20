@@ -1,0 +1,35 @@
+<div class="bar-shadow-border" style="width: 100%;">
+	<div class="widget" style="width: 100%;float: left">
+		<div class="widget-head border-bottom bg-gray">
+			<h5 class="pull-left margin-none innerAll">
+				<button type="button"><a href="/#/createNewGroup" style="color: black;"><i class="fa fa-fw icon-add-symbol" style="color: black;"></i></button>My Groups <span class="text-muted"></span>
+			</h5>
+			<div class="pull-right">
+				<a href="/#/groups" class="text-muted"> <label>See
+						All>></label>
+				</a>
+			</div>
+		</div>
+
+
+		<div class="widget-body margin-none">
+			<div class="innerAll">
+				<a ng-repeat="fvm in result.fvm">
+					<div style="float: left;width: 100%">
+						<img style="float: left;"
+							data-ng-src="/community-image-by-id/{{fvm.id}}" alt="{{fvm.dn}}"
+							class="innerR innerB half" width="55" height="55">
+						<div style="width: 50%; float: left; margin-left: 2%;">
+							<p style="color: #0083C5; margin-top: 0%; margin-bottom: 0%;">{{fvm.dn}}</p>
+							<div style="width: 100%; float: left;">
+								<p
+									style="margin-top: 0%; margin-bottom: 1%; margin-right: 5%; float: left; color: black;"></p>
+								<p style="margin-top: 0%; margin-bottom: 1%; color: gray;">Members ({{fvm.mm}})</p>
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

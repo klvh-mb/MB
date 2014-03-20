@@ -108,39 +108,6 @@ public class UserTestData {
 	}
 	
 	@Test
-	public void setCoverPhotoToCommunity() {
-		running(fakeApplication(), new Runnable() {
-			@Override
-			public void run() {
-				JPA.withTransaction(new play.libs.F.Callback0() {
-					public void invoke() {
-						java.io.File source1 = new java.io.File(Play
-								.application().path()
-								+ "/test/files/people1.jpg");
-
-						java.io.File source2 = new java.io.File(Play
-								.application().path()
-								+ "/test/files/people2.jpg");
-						
-						Query q = JPA.em().createQuery("SELECT u FROM Community u ");
-						List<Community> commList = q.getResultList();
-						for(Community community : commList){
-							try {
-								community.setCoverPhoto(source1);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-						
-					}
-				});
-			}
-		});
-		Assert.assertEquals(1, 1);
-	}
-	
-	@Test
 	public void getCommList() {
 		running(fakeApplication(), new Runnable() {
 			@Override
@@ -227,6 +194,34 @@ public class UserTestData {
 							e.printStackTrace();
 						}
 						
+						java.io.File source1 = new java.io.File(Play
+								.application().path()
+								+ "/test/files/people1.jpg");
+
+						java.io.File source2 = new java.io.File(Play
+								.application().path()
+								+ "/test/files/people2.jpg");
+						
+						java.io.File source3 = new java.io.File(Play
+								.application().path()
+								+ "/test/files/people3.jpg");
+
+						java.io.File source4 = new java.io.File(Play
+								.application().path()
+								+ "/test/files/people4.jpg");
+						
+						try {
+							Group1.setCoverPhoto(source1);
+							Group2.setCoverPhoto(source2);
+							Group3.setCoverPhoto(source3);
+							Group4.setCoverPhoto(source4);
+							Group5.setCoverPhoto(source3);
+							Group6.setCoverPhoto(source2);
+							Group7.setCoverPhoto(source1);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						
 					
 

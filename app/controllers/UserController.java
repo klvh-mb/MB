@@ -173,4 +173,30 @@ public class UserController extends Controller {
 		}
     	return ok();
     }
+    
+    @Transactional
+    public static Result getAllJoinRequests() {
+    	final User localUser = Application.getLocalUser(session());
+    	List<Notification> joinRequests = localUser.getAllJoinRequestNotification();
+    	System.out.println("::::::::::::::::::::::"+joinRequests.size());
+    	List<FriendWidgetChildVM> requests = new ArrayList<>();
+    	for(Notification n : joinRequests) {
+    		requests.add(new FriendWidgetChildVM(n.socialAction.actor.id, n.socialAction.actor.name));
+    	}
+    	return ok(Json.toJson(requests));
+    }
+    
+    @Transactional
+    public static Result acceptJoinRequest(Long id) {
+    	System.out.println("Friend Id:  "+ id);
+    	final User localUser = Application.getLocalUser(session());
+    	User invitee = User.findById(id);
+    	
+    	try {
+			localUser.onJoinRequestAccepted(invitee);
+		} catch (SocialObjectNotJoinableException e) {
+			e.printStackTrace();
+		}
+    	return ok();
+    }
 }

@@ -734,7 +734,20 @@ public class User extends SocialObject implements Subject, Socializable {
 		q.setParameter(2, ActionType.FRIEND_REQUESTED);
 		q.setParameter(3, false);
 		List<Notification> notifications = q.getResultList();
+		return notifications;
+	}
+	
+	@JsonIgnore
+	public List<Notification> getAllJoinRequestNotification() {
 		
+		System.out.println(this.id);
+		Query q = JPA.em().createQuery(
+						"SELECT n from Notification n where recipetent = ?1 and socialAction.actionType = ?2 " +
+						"and readed = ?3 ");
+		q.setParameter(1, this);
+		q.setParameter(2, ActionType.JOIN_REQUESTED);
+		q.setParameter(3, false);
+		List<Notification> notifications = q.getResultList();
 		return notifications;
 	}
 	

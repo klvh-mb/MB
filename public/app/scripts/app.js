@@ -28,6 +28,10 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/allCommunities.html',
     	controller : 'CommunityController'
       })
+       .when('/createNewGroup',{
+    	templateUrl: '/assets/app/views/createNewCommunity.html',
+    	controller : 'CommunityController'
+      })
       .otherwise({
           redirectTo: '/'
       });

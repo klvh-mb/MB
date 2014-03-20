@@ -1,0 +1,123 @@
+
+	<header>
+			<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/headerBar.html'"></div>
+	</header>
+	
+	<div class="container-fluid menu-hidden">
+		<div id="content">
+			<div class="innerAll">
+				<div class="row">
+					<div class="col-lg-9 col-md-8">
+						<div class="timeline-cover">	
+							<div class="widget cover image">
+								<div class="widget-body padding-none margin-none">
+									<div class="top">
+											<img src="assets/images/photodune-2755655-party-time-s.jpg" class="img-responsive" />					
+									</div>
+									<ul class="list-unstyled">
+										<li ><a href="index.html?lang=en"><i class="fa fa-fw fa-clock-o"></i> Timeline</a></li>
+										<li  class="active"><a href="about_2.html?lang=en"><i class="fa fa-fw fa-user"></i> About</a></li>
+										<li ><a href="media_2.html?lang=en"><i class="icon-photo-camera"></i> Photos <span>(102)</span></a></li>
+										<li ><a href="contacts_2.html?lang=en"><i class="icon-group"></i> Friends <span>(19)</span></a></li>
+										<li><a href="messages.html?lang=en"><i class="icon-envelope-fill-1"></i> Messages <span>(2 new)</span></a></li>
+									</ul>
+									<div class="photo">
+										<img src="/get-profile-image" height="90px" class="img-circle"/>
+										<i class="fa fa-fw icon-compose" ng-click="openProfilePhotoModal()" data-template="/assets/app/views/change-profile-photo-modal.html"></i> 
+									</div>
+
+									<div class="innerAll pull-left border-right">
+										<h3 class="margin-none" editable-text="result.displayName" onbeforesave ="updateUserDisplayName($data)">
+                      {{result.displayName}}
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="panel panel-default  col-lg-9 col-md-8" style="padding-top: 18px;">
+	  		<div class="col-md-6">
+				<div class="row form-group">
+					<div class="col-md-6">
+						<label>Community Name: </label>
+					</div>
+		
+					<div class="col-md-6">
+						<span editable-text="result.firstName" class="ng-scope ng-binding editable editable-empty editable-hide">not set</span><span class="editable-wrap editable-text ng-scope"><div class="editable-controls form-group" ng-class="{'has-error': $error}"><input type="text" class="editable-input form-control ng-pristine ng-valid" ng-model="$data" style=""><div class="editable-error help-block ng-binding ng-hide" ng-show="$error" ng-bind="$error"></div></div></span>
+					</div>
+				</div>
+		
+				<div class="row"  style="padding-top: 10px;">
+					<div class="col-md-6">
+						<label>Description: </label>
+					</div>
+		
+					<div class="col-md-6">
+						<span editable-text="result.lastName" class="ng-scope ng-binding editable editable-empty editable-hide">Not set</span><span class="editable-wrap editable-text ng-scope"><div class="editable-controls form-group" ng-class="{'has-error': $error}"><input type="text" class="editable-input form-control ng-pristine ng-valid" ng-model="$data" style=""><div class="editable-error help-block ng-binding ng-hide" ng-show="$error" ng-bind="$error"></div></div></span>
+					</div>
+				</div>
+				<div class="buttons" style="padding-bottom: 10px;">
+					<span class="">
+						<button type="submit" class="btn btn-primary" data-ng-click="createCommunity(fvm.id)">
+							<span class="glyphicon glyphicon-ok"></span>
+						</button>
+					</span>
+				</div>
+			</div>
+		</div>
+      </div>
+    </div>
+  </div>
+
+<div>
+<script type="text/ng-template" id="change-profile-photo-modal.html">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Change Profile Photo</h4>
+      </div>
+      <div class="modal-body">
+
+        <input type="file" ng-file-select="onFileSelect($files)" >
+         
+         <div ng-file-drop="onFileSelect($files)" class="drop-box" ng-show="dropSupported">drop files here</div>
+        
+         <div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+		
+		 <br/>
+		 <br/>
+		 <div ng-show="selectedFiles != null">
+			<div class="sel-file" ng-repeat="f in selectedFiles">
+				<img ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
+				<button class="button" ng-click="start($index)" ng-show="progress[$index] < 0">Start</button>
+				<span class="progress" ng-show="progress[$index] >= 0">						
+					<div style="width:{{progress[$index]}}%">{{progress[$index]}}%</div>
+				</span>				
+				<button class="button" ng-click="abort($index)" ng-show="hasUploader($index) && progress[$index] < 100">Abort</button>
+				{{f.name}} - size: {{f.size}}B - type: {{f.type}}
+			</div>
+		 </div>
+		 <div class="response" ng-show="uploadResult.length > 0">
+			<ul>
+				<li ng-repeat="result in uploadResult">
+					<ul>
+						<li ng-repeat="item in result.result">
+							<div data-ng-show="item.name">file name: {{item.name}}</div>
+							<div data-ng-show="item.fieldName">name: {{item.fieldName}}</div>
+							<div data-ng-show="item.size">size on the serve: {{item.size}}</div>
+							<div data-ng-show="item.value">value: {{item.value}}</div>
+						</li>
+					</ul>
+					<div data-ng-show="result.requestHeaders" class="reqh">request headers: {{result.requestHeaders}}</div>
+				</li>
+			</ul>
+		 </div>
+
+      </div>
+      <div class="modal-footer">
+        
+      </div>
+	  
+</script>
+</div>
