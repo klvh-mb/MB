@@ -14,6 +14,8 @@ import play.mvc.Result;
 import viewmodel.NotJoinedCommunitiesParentVM;
 import viewmodel.NotJoinedCommunitiesWidgetChildVM;
 
+import com.mnt.exception.SocialObjectNotJoinableException;
+
 public class CommunityController extends Controller{
 
 	@Transactional
