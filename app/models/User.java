@@ -735,10 +735,6 @@ public class User extends SocialObject implements Subject, Socializable {
 		q.setParameter(3, false);
 		List<Notification> notifications = q.getResultList();
 		
-		for(Notification n : notifications) {
-			System.out.println(n.getSocialAction().getActionType());
-		}
-		
 		return notifications;
 	}
 	
