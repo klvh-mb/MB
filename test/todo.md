@@ -1,14 +1,21 @@
-Merge Code base for Notification.
+root@li664-78:# cd /home/MB
+root@li664-78:/home/MB# ./pullandsynch
+root@li664-78:/home/MB# cd ../parent-social-1.0-SNAPSHOT/
 
-Write functionality and test case for Remove Profile photo.
 
-Add java lib for thumbnail (take reference from Saipem)
 
-Write functionality and test case for Photo type. Add enum ImageType Thumnail and big.
 
-Add model for contest
 
-Look for some autheticate module in Play using JPA.
+
+root@li664-78:/home/parent-social-1.0-SNAPSHOT#  rm nohup.out
+root@li664-78:/home/parent-social-1.0-SNAPSHOT# rm RUNNING_PID
+
+root@li664-78:/home/parent-social-1.0-SNAPSHOT# ps -ef
+root     22764 22086  2 20:22 pts/0    00:00:28 java -Dhttp.port=80 -cp 
+kill -9 22764 
+
+
+nohup  ./start -Dhttp.port=80 &
 
 
 
