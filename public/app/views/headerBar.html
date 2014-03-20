@@ -66,16 +66,16 @@
 		<ul class="notifications pull-left hidden-xs">
 			<li class="dropdown notif">
 				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
-					<i class="notif-block fa fa-fw icon-group">
-						<span class="badge badge-danger">{{friend_requests.length}}</span>
+					<i class="notif-block fa fa-fw icon-group" >
+						<span class="badge badge-danger" data-ng-show="friend_requests.length > 0">{{friend_requests.length}}</span>
 					</i>
 					
 				</a>
-				<ul class="dropdown-menu chat media-list">
+				<ul class="dropdown-menu chat media-list" data-ng-show="friend_requests.length > 0" >
 					<li class="media" data-ng-repeat="friend in friend_requests">
 				        <a class="pull-left" href="#"><img class="media-object thumb" data-ng-src="/user-image-by-id/{{friend.id}}" alt="50x50" width="50"></a>
 						<div class="media-body">
-				        	<button data-ng-click="accept_friend_request(friend.id)" class="btn btn-xs btn-success pull-right">accept</button>
+				        	<button data-ng-show="isFriendAccepted == false" data-ng-click="accept_friend_request(friend.id)" class="btn btn-xs btn-success pull-right">accept</button>
 				            <a href="#"><h5 class="media-heading">{{friend.dn}}</h5></a>
 				        </div>
 					</li>
@@ -85,7 +85,7 @@
 		<img style="width: 3%;float: left;margin-top: 2.5%;margin-left: 1%;cursor: pointer;" src="/assets/app/images/globe.png">
 		<div class="col-lg-7 col-md-5 col-sd-4" data-ng-controller="SearchController" style="padding-top: 2%;">
 			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sd-12">
+				<div class="col-lg-10 col-md-10 col-sd-10">
 					<input type="text" class="form-control" data-ng-keyup="search_result(query)" data-ng-model="query">
 				</div>
 			</div>

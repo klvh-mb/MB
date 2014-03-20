@@ -76,10 +76,16 @@ minibean.controller('UserInfoServiceController',function($scope,userInfoService)
 minibean.controller('ApplicationController',function($scope, userInfoService, userNotification,acceptFriendRequestService){
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.friend_requests = userNotification.getAllFriendRequests.get();
-	
+	$scope.isFriendAccepted = false;
 	$scope.accept_friend_request = function(id) {
-		this.acceptFriendRequest = acceptFriendRequestService.acceptFriendRequest.get({id:id});
-	}
+		this.acceptFriendRequest = acceptFriendRequestService.acceptFriendRequest.get({id:id}, 
+			function() {
+				$scope.isFriendAccepted = true;
+			}
+		);
+	};
+	
+	
 });
 
 ///////////////////////// User Info Service End //////////////////////////////////
