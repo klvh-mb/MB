@@ -1,15 +1,12 @@
 package models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,15 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.OneToMany;
 import javax.persistence.Query;
-import javax.print.attribute.standard.MediaSize.Other;
-
-import org.apache.commons.lang3.builder.EqualsBuilder;
-
-import com.google.common.base.Objects;
 
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
-import domain.AuditListener;
 import domain.Creatable;
 import domain.Updatable;
 

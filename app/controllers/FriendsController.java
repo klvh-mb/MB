@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mnt.exception.SocialObjectNotJoinableException;
+
 import models.User;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -57,5 +59,19 @@ public class FriendsController extends Controller {
 		
 		FriendsParentVM fwVM = new FriendsParentVM(friends.size(), friends);
 		return ok(Json.toJson(fwVM));
+	}
+	
+	@Transactional
+	public static Result sendInvitation(String id) {
+		final User localUser = Application.getLocalUser(session());
+		User friend = User.findById(Long.parseLong(id));
+		
+		try {
+			localUser.onFriendRequest(friend);
+		} catch (SocialObjectNotJoinableException e) {
+			e.printStackTrace();
+		}
+		
+		return ok();
 	}
 }

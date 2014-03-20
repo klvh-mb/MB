@@ -13,17 +13,25 @@ minibean.service('searchService',function($resource){
 	);
 });
 
+minibean.service('sendInvitation',function($resource){
+	this.inviteFriend = $resource(
+			'/send-invite?id=:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'GET', params:{id:'@id'}}
+			}
+	);
+});
 
-
-minibean.controller('SearchController',function($scope, searchService){
+minibean.controller('SearchController',function($scope, searchService, sendInvitation){
 	$scope.search_result = function(query) {
 		if(query != undefined) {
 			this.result = searchService.userSearch.get({q:query});
 		}
 	}
 	
-	$scope.sendinvite = function(id) {
-		alert(id);
+	$scope.send_invite = function(id) {
+		this.invite = sendInvitation.inviteFriend.get({id:id});
 	}
 });
 ///////////////////////// Search Service End //////////////////////////////////

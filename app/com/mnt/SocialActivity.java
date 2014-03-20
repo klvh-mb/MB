@@ -7,32 +7,6 @@ public class SocialActivity {
 	// TODO
 	public static void handle(SocialRelation socialAction) {
 
-		if (socialAction.actionType != null) {
-			switch (socialAction.actionType) {
-				case JOIN_REQUESTED: {
-					Notification notification = new Notification();
-					notification.socialAction = socialAction;
-					notification.recipetent = socialAction.target.owner;
-					notification.message = socialAction.actor.name
-							+ "has requested to Join" + socialAction.target.name;
-					notification.save();
-				}
-					break;
-	
-				case FRIEND_REQUESTED: {
-					Notification notification = new Notification();
-					notification.socialAction = socialAction;
-					notification.recipetent = socialAction.target;
-					notification.message = socialAction.actor.name
-							+ " wants to be Your Friend "
-							+ socialAction.target.name;
-					notification.save();
-				}
-					break;
-	
-				}
-		}
-		
 		if(socialAction.action != null) {
 			switch (socialAction.action) {
 
@@ -88,7 +62,9 @@ public class SocialActivity {
 
 			}
 			
-		} if (socialAction.actionType != null) {
+		} 
+		
+		if (socialAction.actionType != null) {
 			switch (socialAction.actionType) {
 			case JOIN_REQUESTED: {
 				Notification notification = new Notification();

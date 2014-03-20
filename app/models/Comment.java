@@ -4,16 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.CascadeType;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 import play.data.validation.Constraints.Required;
-import domain.AuditListener;
 import domain.CommentType;
 import domain.Creatable;
 import domain.Likeable;

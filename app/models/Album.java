@@ -21,11 +21,11 @@ import net.coobird.thumbnailator.name.Rename;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.h2.engine.User;
+
+import play.data.validation.Constraints.Required;
 
 import com.google.common.base.Objects;
 
-import play.data.validation.Constraints.Required;
 import domain.SocialObjectType;
 
 /**
