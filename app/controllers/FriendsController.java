@@ -48,7 +48,7 @@ public class FriendsController extends Controller {
 	@Transactional
 	public static Result getAllFriendsOfUser() {
 		final User localUser = Application.getLocalUser(session());
-		System.out.println(localUser.getFriends().size());
+	
 		int count=0;
 		List<FriendsChildVM> friends = new ArrayList<>();
 		for(User friend : localUser.getFriends()) {

@@ -75,6 +75,14 @@ public abstract class SocialObject extends domain.Entity implements
 		action.actor = user;
 		action.validateUniquenessAndCreate();
 	}
+	
+	protected final void beMemberForOwner(User user) {
+		SocialRelation action = new SocialRelation();
+		action.action = SocialRelation.Action.MEMBER;
+		action.target = this;
+		action.actor = user;
+		action.validateUniquenessAndCreate();
+	}
 
 	protected final void recordJoinRequestAccepted(User user) {
 		Query q = JPA
@@ -86,6 +94,7 @@ public abstract class SocialObject extends domain.Entity implements
 		q.setParameter(3, SocialRelation.ActionType.JOIN_REQUESTED);
 
 		SocialRelation action = (SocialRelation) q.getSingleResult();
+		action.actionType = null;
 		action.action = SocialRelation.Action.MEMBER;
 		action.save();
 
@@ -109,6 +118,7 @@ public abstract class SocialObject extends domain.Entity implements
 		q.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED);
 
 		SocialRelation action = (SocialRelation) q.getSingleResult();
+		action.actionType = null;
 		action.action = SocialRelation.Action.FRIEND;
 		action.save();
 	}

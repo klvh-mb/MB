@@ -193,6 +193,28 @@ minibean.controller('FriendsWidgetController',function($scope, friendWidgetServi
 });
 
 ///////////////////////// User Friends Widget End //////////////////////////////////
+
+
+///////////////////////// User UnJoined Communities Widget Service Start //////////////////////////////////
+minibean.service('unJoinedCommunityWidgetService',function($resource){
+	this.UserCommunitiesNot = $resource(
+			'/get-not-join-community',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get'}
+			}
+	);
+});
+
+minibean.controller('UnknownCommunityWidgetController',function($scope, unJoinedCommunityWidgetService, userInfoService, $http){
+	$scope.result = unJoinedCommunityWidgetService.UserCommunitiesNot.get();
+	$scope.userInfo = userInfoService.UserInfo.get();
+});
+
+///////////////////////// User UnJoined Communities Widget End //////////////////////////////////
+
+
+
 minibean.service('friendService',function($resource){
 	this.UserFriends = $resource(
 			'/get-all-friends',
@@ -206,3 +228,22 @@ minibean.service('friendService',function($resource){
 minibean.controller('FriendsController',function($scope, friendService , $http){
 	$scope.result = friendService.UserFriends.get();
 });
+
+
+///////////////////////// User All Communities  //////////////////////////////////
+minibean.service('communityService',function($resource){
+	this.UserCommunitiesNot = $resource(
+			'/get-all-communities',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get'}
+			}
+	);
+});
+
+minibean.controller('CommunityController',function($scope, communityService , $http, userInfoService){
+	$scope.userInfo = userInfoService.UserInfo.get();
+	$scope.result = communityService.UserCommunitiesNot.get();
+});
+
+///////////////////////// User All Communities End //////////////////////////////////

@@ -11,9 +11,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -34,10 +36,9 @@ import domain.Postable;
 import domain.SocialObjectType;
 
 @Entity
-public class Community extends SocialObject implements Likeable, Postable,
-		Joinable {
-
-	@OneToMany(cascade = CascadeType.REMOVE)
+public class Community extends SocialObject  implements Likeable, Postable, Joinable {
+	
+	@OneToMany(cascade=CascadeType.REMOVE)
 	public Set<Post> posts = new HashSet<Post>();
 
 	@OneToMany(cascade = CascadeType.REMOVE)
@@ -51,7 +52,9 @@ public class Community extends SocialObject implements Likeable, Postable,
 	public Folder albumPhotoProfile;
 
 	public static enum CommunityType {
-		OPEN, CLOSE, PRIVATE
+		OPEN,
+		CLOSE,
+		PRIVATE
 	}
 
 	@OneToMany(cascade = CascadeType.REMOVE)
@@ -95,7 +98,14 @@ public class Community extends SocialObject implements Likeable, Postable,
 		return post;
 
 	}
-
+	
+	public void ownerAsMember(User user)
+			throws SocialObjectNotJoinableException {
+		this.members.add(user);
+		JPA.em().merge(this);
+		beMemberForOwner(user);
+	}
+	
 	@Override
 	public void onJoinRequest(User user)
 			throws SocialObjectNotJoinableException {
@@ -132,10 +142,31 @@ public class Community extends SocialObject implements Likeable, Postable,
 		ensureAlbumPhotoProfileExist();
 		Resource cover_photo = this.albumPhotoProfile.addFile(source,
 				SocialObjectType.PHOTO);
+		this.albumPhotoProfile.setHighPriorityFile(cover_photo);
 		cover_photo.save();
 		return cover_photo;
-
 	}
+	
+	@JsonIgnore
+	public Resource getPhotoProfile() {
+		if (this.albumPhotoProfile != null) {
+			Resource file = this.albumPhotoProfile.getHighPriorityFile();
+			if (file != null) {
+				return file;
+			}
+		}
+		return null;
+	}
+	
+	
+	public String getPhotoProfileURL() {
+		Resource resource = getPhotoProfile();
+		if (resource == null) {
+			return "";
+		}
+		return resource.getPath();
+	}
+	
 
 	private void ensureAlbumPhotoProfileExist() {
 
@@ -179,5 +210,11 @@ public class Community extends SocialObject implements Likeable, Postable,
 
 		folders = new ArrayList<>();
 		return true;
+	}
+	
+	public static Community findById(Long id) {
+		Query q = JPA.em().createQuery("SELECT u FROM Community u where id = ?1");
+		q.setParameter(1, id);
+		return (Community) q.getSingleResult();
 	}
 }

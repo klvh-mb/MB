@@ -23,6 +23,10 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/allFriends.html',
     	controller : 'FriendsController'
       })
+      .when('/groups',{
+    	templateUrl: '/assets/app/views/allCommunities.html',
+    	controller : 'CommunityController'
+      })
       .otherwise({
           redirectTo: '/'
       });

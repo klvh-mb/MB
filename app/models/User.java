@@ -215,6 +215,7 @@ public class User extends SocialObject implements Subject, Socializable {
 		recordRelationshipRequestAccepted(user, action);
 	}
 
+	@JsonIgnore
 	public List<User> getFriends() {
 		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
 		CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
@@ -230,12 +231,57 @@ public class User extends SocialObject implements Subject, Socializable {
 		for (SocialRelation rslt : result) {
 			if (rslt.actor.name == this.name) {
 				frndList.add((User) rslt.target);
-			}
-			else if (rslt.target.name == this.name) {
+			} else if (rslt.target.name == this.name) {
 				frndList.add((User) rslt.actor);
 			}
 		}
 		return frndList;
+	}
+	
+	@JsonIgnore
+	public List<Community> getListOfJoinedCommunities() {
+		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+		CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
+		Root<SocialRelation> c = q.from(SocialRelation.class);
+		q.select(c);
+		q.where(cb.and(cb.equal(c.get("actor"), this),
+				cb.equal(c.get("action"), Action.MEMBER)));
+
+		List<SocialRelation> result = JPA.em().createQuery(q).getResultList();
+
+		List<Community> communityList = new ArrayList<>();
+		System.out.println("CommunityList :: " + result.size());
+		for (SocialRelation rslt : result) {
+			if (rslt.actor.name == this.name
+					&& rslt.target.objectType == SocialObjectType.COMMUNITY) {
+				communityList.add((Community) rslt.target);
+				System.out.println("Target" + rslt.target);
+			} else if (rslt.target.name == this.name
+					&& rslt.actor.objectType == SocialObjectType.COMMUNITY) {
+				communityList.add((Community) rslt.actor);
+				System.out.println("actor" + rslt.actor);
+			}
+		}
+		return communityList;
+	}
+
+	@JsonIgnore
+	public List<Community> getListOfNotJoinedCommunities() {
+		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+		CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
+		Root<SocialRelation> c = q.from(SocialRelation.class);
+		q.select(c);
+		q.where(cb.and(cb.equal(c.get("action"), Action.MEMBER),
+				cb.notEqual(c.get("actor"), this)));
+
+		List<SocialRelation> result = JPA.em().createQuery(q).getResultList();
+
+		List<Community> communityList = new ArrayList<>();
+		System.out.println("getListOfNotJoinedCommunities :: " + result.size());
+		for (SocialRelation rslt : result) {
+			communityList.add((Community) rslt.target);
+		}
+		return communityList;
 	}
 
 	public static List<User> searchLike(String q) {
@@ -410,11 +456,11 @@ public class User extends SocialObject implements Subject, Socializable {
 
 	private boolean ensureFolderExistWithGivenName(String name) {
 
-		if (folders != null && folders.contains(new Folder(name))) {
+		if (album != null && album.contains(new Folder(name))) {
 			return false;
 		}
 
-		folders = new ArrayList<>();
+		album = new ArrayList<>();
 		return true;
 	}
 
@@ -613,8 +659,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	}
 
 	public static User findById(Long id) {
-		Query q = JPA.em().createQuery(
-				"SELECT u FROM User u where id = ?1");
+		Query q = JPA.em().createQuery("SELECT u FROM User u where id = ?1");
 		q.setParameter(1, id);
 		return (User) q.getSingleResult();
 	}
