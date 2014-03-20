@@ -470,7 +470,7 @@ public class User extends SocialObject implements Subject, Socializable {
 		if (identity instanceof UsernamePasswordAuthUser) {
 			exp = getUsernamePasswordAuthUserFind((UsernamePasswordAuthUser) identity);
 		} else {
-				exp = getAuthUserFind(identity);
+			exp = getAuthUserFind(identity);
 		}
 		return exp.getResultList().size() > 0;
 	}
