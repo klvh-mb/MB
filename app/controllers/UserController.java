@@ -137,7 +137,9 @@ public class UserController extends Controller {
 		List<User> users = localUser.searchLike(query);
 		List<SocialObjectVM> socialVMs = new ArrayList<>();
 		for(User user : users) {
-			socialVMs.add(new SocialObjectVM(user.id.toString(), user.displayName, user.objectType.name()));
+			if(localUser != user) {
+				socialVMs.add(new SocialObjectVM(user.id.toString(), user.displayName, user.objectType.name()));
+			}
 		}
 		
 		List<Community> communities = Community.search(query);

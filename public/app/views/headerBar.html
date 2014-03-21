@@ -28,48 +28,20 @@
 		    </ul>
 		</div>
 	</div>
-	<ul class="notifications pull-right hidden-xs">
-		<li class="dropdown notif">
-			<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown"><i class="notif-block icon-envelope-1"></i><span class="fa fa-star"></span></a>
-			<ul class="dropdown-menu chat media-list">
-				<li class="media">
-			        <a class="pull-left" href="#"><img class="media-object thumb" src="../assets/images/people/100/15.jpg" alt="50x50" width="50"></a>
-					<div class="media-body">
-			        	<span class="label label-default pull-right">5 min</span>
-			            <h5 class="media-heading">Adrian D.</h5>
-			            <p class="margin-none">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-			        </div>
-				</li>
-		      	<li class="media">
-		          	<a class="pull-left" href="#"><img class="media-object thumb" src="../assets/images/people/100/16.jpg" alt="50x50" width="50"></a>
-					<div class="media-body">
-			          	<span class="label label-default pull-right">2 days</span>
-			            <h5 class="media-heading">Jane B.</h5>
-			            <p class="margin-none">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-			        </div>
-		        </li>
-			    <li class="media">
-		          	<a class="pull-left" href="#"><img class="media-object thumb" src="../assets/images/people/100/17.jpg" alt="50x50" width="50"></a>
-			      	<div class="media-body">
-						<span class="label label-default pull-right">3 days</span>
-			            <h5 class="media-heading">Andrew M.</h5>
-			            <p class="margin-none">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-			        </div>
-		        </li>
-	      	</ul>
-		</li>
-	</ul>
 	
 	<div class="pull-left" style="margin-left: 2%;">
 		<p style="float: left;font-size: 25px;margin-bottom: 0%;margin-top: 2%;font-weight: bold;color: white;">miniBean</p>
 		
 		<ul class="notifications pull-left hidden-xs">
+			
 			<li class="dropdown notif">
 				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
-					<i class="notif-block fa fa-fw icon-group" >
-						<span class="badge badge-danger" data-ng-show="friend_requests.length > 0">{{friend_requests.length}}</span>
-					</i>
-					
+					<button class="btn btn-stroke btn-circle btn-success" style="margin: 10px 0 0 0;">
+						<span data-ng-show="friend_requests.length > 0">
+							<span class="badge pull-right">{{friend_requests.length}}</span>
+						</span>
+						<i class="fa fa-group"></i>
+					</button>
 				</a>
 				<ul class="dropdown-menu chat media-list" data-ng-show="friend_requests.length > 0" >
 					<li class="media" data-ng-repeat="friend in friend_requests">
@@ -81,17 +53,17 @@
 					</li>
 		      	</ul>
 			</li>
-		</ul>
-		
-		<ul class="notifications pull-left hidden-xs">
+			
 			<li class="dropdown notif">
 				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
-					<i class="notif-block fa fa-fw icon-earth">
-						<span class="badge badge-danger">{{join_requests.length}}</span>
-					</i>
-					
+					<button class="btn btn-stroke btn-circle btn-inverse" style="margin: 10px 0 0 0;">
+						<span data-ng-show="join_requests.length > 0">
+							<span class="badge pull-right">{{join_requests.length}}</span>
+						</span>
+						<i class="fa icon-earth"></i>
+					</button>
 				</a>
-				<ul class="dropdown-menu chat media-list">
+				<ul class="dropdown-menu chat media-list" data-ng-show="join_requests.length > 0">
 					<li class="media" data-ng-repeat="request in join_requests">
 				        <a class="pull-left" href="#"><img class="media-object thumb" data-ng-src="/user-image-by-id/{{request.id}}" alt="50x50" width="50"></a>
 						<div class="media-body">
@@ -102,41 +74,31 @@
 		      	</ul>
 			</li>
 		</ul>
-		<div class="col-lg-5 col-md-3 col-sd-3" data-ng-controller="SearchController" style="padding-top: 2%;">
-			<div class="row">
-				<div class="col-lg-10 col-md-10 col-sd-10">
-					<input type="text" class="form-control" data-ng-keyup="search_result(query)" data-ng-model="query">
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sd-12">
-					<ul class="notifications pull-left hidden-xs">
-						<li class="dropdown notif">
-							<ul class="dropdown-menu chat media-list hide" ng-class="{show : result.length > 0 && query.length > 0}" style="top: -2px;">
-								<li class="media" ng-repeat="sr in result">
-							        <a class="pull-left" href="#" ng-switch="sr.tp">
-							        	
-							        	<img ng-switch-when="USER" class="media-object thumb" data-ng-src="/user-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
-							        	
-							        	<img ng-switch-when="COMMUNITY" class="media-object thumb" data-ng-src="/community-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
-							        </a>
-									<div class="media-body">
-							        	<button class="btn btn-xs pull-right" data-ng-click="send_invite(sr.id)">invite</button>
-							            <h5 class="media-heading">{{sr.nm}}</h5>
-							            <p class="margin-none">{{sr.tp}}</p>
-							        </div>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</div>
-			
-				
-		</div>
 	</div>			
 	
+	<div class="col-lg-3 col-md-3 col-sd-3 pull-left" data-ng-controller="SearchController" style="padding-top: 1%;">
+			<div class="col-lg-12 col-md-12 col-sd-12">
+				<input type="text" class="form-control" data-ng-keyup="search_result(query)" data-ng-model="query">
+			</div>
+		
+			<div class="row">
+				<ul class="col-lg-12 col-md-12 col-sd-12 dropdown-menu chat media-list hide" ng-class="{show : result.length > 0 && query.length > 0}" style="left: 5px;">
+					<li class="media" ng-repeat="sr in result">
+				        <a class="pull-left" href="#" ng-switch="sr.tp">
+				        	
+				        	<img ng-switch-when="USER" class="media-object thumb" data-ng-src="/user-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
+				        	
+				        	<img ng-switch-when="COMMUNITY" class="media-object thumb" data-ng-src="/community-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
+				        </a>
+						<div class="media-body">
+				        	<button class="btn btn-xs pull-right" data-ng-click="send_invite(sr.id)">invite</button>
+				            <h5 class="media-heading">{{sr.nm}}</h5>
+				            <p class="margin-none">{{sr.tp}}</p>
+				        </div>
+					</li>
+				</ul>
+			</div>
+		</div>
 	
 </div>
 
