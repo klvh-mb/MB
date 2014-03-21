@@ -46,6 +46,7 @@ import domain.CommentType;
 import domain.PostType;
 import domain.SocialObjectType;
 
+@Ignore
 public class SocialTest {
 
 	User user1 = new User("Test User 1", "Singh", "Paul", "testuser1@Test.com");
