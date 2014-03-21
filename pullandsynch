@@ -1,0 +1,11 @@
+#!/bin/bash
+git pull
+java -Xms512M -Xmx1536M -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=384M -jar ../../opt/play-2.1.3/framework/sbt/sbt-launch.jar -Dsbt.log.noformat=true dist
+cd dist
+unzip parent-social-1.0-SNAPSHOT.zip
+cd parent-social-1.0-SNAPSHOT/
+rsync -avzh lib/ ../../../parent-social-1.0-SNAPSHOT/lib 
+cd ../../..
+cd parent-social-1.0-SNAPSHOT/
+
+

@@ -28,7 +28,7 @@ import play.db.jpa.JPA;
 import play.mvc.Result;
 
 
-public class UserTestData {
+public class BuildDataForTest {
 
 	String unverifiedUser = "unverifiedUser@test.com";
 	String verifiedUser = "verifiedUser@test.com";
