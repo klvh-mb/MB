@@ -23,16 +23,14 @@ minibean.service('sendInvitation',function($resource){
 	);
 });
 
-minibean.controller('SearchController',function($scope, searchService, sendInvitation){
+minibean.controller('SearchController',function($scope, searchService){
 	$scope.search_result = function(query) {
 		if(query != undefined) {
 			this.result = searchService.userSearch.get({q:query});
 		}
 	}
 	
-	$scope.send_invite = function(id) {
-		this.invite = sendInvitation.inviteFriend.get({id:id});
-	}
+	
 });
 ///////////////////////// Search Service End //////////////////////////////////
 
@@ -393,7 +391,7 @@ minibean.service('profileService',function($resource){
 	);
 });
 
-minibean.controller('ProfileController',function($scope, $routeParams, profileService, friendsService){
+minibean.controller('ProfileController',function($scope, $routeParams, profileService, friendsService,sendInvitation){
 	$scope.navigateTo = function (navigateTo) {
 		$scope.active = navigateTo;
 		if(navigateTo === 'friends') {
@@ -401,7 +399,9 @@ minibean.controller('ProfileController',function($scope, $routeParams, profileSe
 		}
 		
 	}
-	
+	$scope.send_invite = function(id) {
+		this.invite = sendInvitation.inviteFriend.get({id:id});
+	}
 	$scope.active = "about";
 	$scope.profile = profileService.Profile.get({id:$routeParams.id});
 });
