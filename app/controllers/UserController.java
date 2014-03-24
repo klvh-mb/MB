@@ -22,6 +22,7 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import viewmodel.FriendWidgetChildVM;
+import viewmodel.ProfileVM;
 import viewmodel.SocialObjectVM;
 
 public class UserController extends Controller {
@@ -199,4 +200,40 @@ public class UserController extends Controller {
 		}
     	return ok();
     }
+    
+    @Transactional
+    public static Result getProfile(Long id) {
+    	User user = User.findById(id);
+    	final User localUser = Application.getLocalUser(session());
+    	
+    	return ok(Json.toJson(ProfileVM.profile(user,localUser)));
+    }
+    
+    @Transactional
+	public static Result getProfileImageByID(Long id) {
+    	User user = User.findById(id);
+		if(user.getPhotoProfile() != null) {
+			return ok(user.getPhotoProfile().getRealFile());
+		}
+		try {
+			return ok(user.getDefaultUserPhoto());
+		} catch (FileNotFoundException e) {
+			return ok("no image set");
+		}
+		
+	}
+	
+	@Transactional
+	public static Result getCoverImageByID(Long id) {
+		User user = User.findById(id);
+		if(user.getCoverProfile() != null) {
+			return ok(user.getCoverProfile().getRealFile());
+		}
+		try {
+			return ok(user.getDefaultCoverPhoto());
+		} catch (FileNotFoundException e) {
+			return ok("no image set");
+		}
+		
+	}
 }

@@ -369,3 +369,40 @@ minibean.controller('UserCommunityWidgetController',function($scope, communitySe
 });
 
 ///////////////////////// User All Communities End //////////////////////////////////
+
+
+///////////////////////// User Profile Start //////////////////////////////////
+
+minibean.service('friendsService',function($resource){
+	this.Friends = $resource(
+			'/friends/:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{id:'@id'},isArray:true}
+			}
+	);
+});
+
+minibean.service('profileService',function($resource){
+	this.Profile = $resource(
+			'/profile/:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{id:'@id'}}
+			}
+	);
+});
+
+minibean.controller('ProfileController',function($scope, $routeParams, profileService, friendsService){
+	$scope.navigateTo = function (navigateTo) {
+		$scope.active = navigateTo;
+		if(navigateTo === 'friends') {
+			$scope.friends = friendsService.Friends.get({id:$routeParams.id});
+		}
+		
+	}
+	
+	$scope.active = "about";
+	$scope.profile = profileService.Profile.get({id:$routeParams.id});
+});
+///////////////////////// User Profile End //////////////////////////////////

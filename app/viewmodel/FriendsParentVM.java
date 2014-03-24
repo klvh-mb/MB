@@ -4,9 +4,9 @@ import java.util.List;
 
 public class FriendsParentVM {
 	public int sn;
-	public List<FriendsChildVM> fvm;
+	public List<FriendsVM> fvm;
 	
-	public FriendsParentVM(int sn, List<FriendsChildVM> fvm) {
+	public FriendsParentVM(int sn, List<FriendsVM> fvm) {
 		this.sn = sn; 
 		this.fvm = fvm;
 	}

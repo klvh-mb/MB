@@ -45,10 +45,10 @@
 				</a>
 				<ul class="dropdown-menu chat media-list" data-ng-show="friend_requests.length > 0" >
 					<li class="media" data-ng-repeat="friend in friend_requests">
-				        <a class="pull-left" href="#"><img class="media-object thumb" data-ng-src="/user-image-by-id/{{friend.id}}" alt="50x50" width="50"></a>
+				        <a class="pull-left" ng-href="#/profile/{{friend.id}}"><img class="media-object thumb" data-ng-src="/user-image-by-id/{{friend.id}}" alt="50x50" width="50"></a>
 						<div class="media-body">
 				        	<button data-ng-show="isFriendAccepted == false" data-ng-click="accept_friend_request(friend.id)" class="btn btn-xs btn-success pull-right">accept</button>
-				            <a href="#"><h5 class="media-heading">{{friend.dn}}</h5></a>
+				            <a href="#/profile/{{friend.id}}"><h5 class="media-heading">{{friend.dn}}</h5></a>
 				        </div>
 					</li>
 		      	</ul>
@@ -84,7 +84,7 @@
 			<div class="row">
 				<ul class="col-lg-12 col-md-12 col-sd-12 dropdown-menu chat media-list hide" ng-class="{show : result.length > 0 && query.length > 0}" style="left: 5px;">
 					<li class="media" ng-repeat="sr in result">
-				        <a class="pull-left" href="#" ng-switch="sr.tp">
+				        <a class="pull-left" href="#/profile/{{sr.id}}" ng-switch="sr.tp">
 				        	
 				        	<img ng-switch-when="USER" class="media-object thumb" data-ng-src="/user-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
 				        	

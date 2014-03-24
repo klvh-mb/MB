@@ -249,6 +249,15 @@ public class User extends SocialObject implements Subject, Socializable {
 	}
 	
 	@JsonIgnore
+	public Long _getFriendsCount() {
+		Query query = JPA.em().createQuery("SELECT count(*) from SocialRelation where (target = ?1 or actor = ?1) and action = ?2");
+		query.setParameter(1, this);
+		query.setParameter(2, SocialRelation.Action.FRIEND);
+		Long result = (Long) query.getSingleResult();
+		return result;
+	}
+	
+	@JsonIgnore
 	public List<Community> getListOfJoinedCommunities() {
 		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
 		CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
@@ -260,7 +269,6 @@ public class User extends SocialObject implements Subject, Socializable {
 		List<SocialRelation> result = JPA.em().createQuery(q).getResultList();
 
 		List<Community> communityList = new ArrayList<>();
-		System.out.println("CommunityList :: " + result.size());
 		for (SocialRelation rslt : result) {
 			if (rslt.actor.name == this.name
 					&& rslt.target.objectType == SocialObjectType.COMMUNITY) {
@@ -717,7 +725,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	public File getDefaultUserPhoto() throws FileNotFoundException {
 		 return new File(Play.application().configuration().getString("storage.user.noimage"));
 	}
-	
+
 	public File getDefaultCoverPhoto()  throws FileNotFoundException {
 		 return new File(Play.application().configuration().getString("storage.cover.noimage"));
 	}
@@ -749,6 +757,15 @@ public class User extends SocialObject implements Subject, Socializable {
 		q.setParameter(3, false);
 		List<Notification> notifications = q.getResultList();
 		return notifications;
+	}
+
+	public boolean isFriendOf(User localUser) {
+		Query query = JPA.em().createQuery("SELECT count(*) from SocialRelation where ((target = ?1 and actor = ?2) or (actor = ?1 and target = ?2)) and action = ?3");
+		query.setParameter(1, this);
+		query.setParameter(2, localUser);
+		query.setParameter(3, SocialRelation.Action.FRIEND);
+		Long result = (Long) query.getSingleResult();
+		return result == 1;
 	}
 	
 }

@@ -13,7 +13,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import viewmodel.FriendWidgetChildVM;
 import viewmodel.FriendWidgetParentVM;
-import viewmodel.FriendsChildVM;
+import viewmodel.FriendsVM;
 import viewmodel.FriendsParentVM;
 
 public class FriendsController extends Controller {
@@ -21,7 +21,6 @@ public class FriendsController extends Controller {
 	@Transactional
 	public static Result getUserFriends() {
 		final User localUser = Application.getLocalUser(session());
-		System.out.println(localUser.getFriends().size());
 		int count=0;
 		List<FriendWidgetChildVM> friends = new ArrayList<>();
 		for(User friend : localUser.getFriends()) {
@@ -38,6 +37,13 @@ public class FriendsController extends Controller {
 	}
 	
 	@Transactional
+	public static Result getUserFriendsByID(Long id) {
+		final User user = User.findById(id);
+		List<FriendsVM> friends = FriendsVM.friends(user);
+		return ok(Json.toJson(friends));
+	}
+	
+	@Transactional
 	public static Result getUserImageById(Long id) {
 		final User user = User.findById(id);
 		if(user.getPhotoProfile() != null) {
@@ -50,13 +56,7 @@ public class FriendsController extends Controller {
 	@Transactional
 	public static Result getAllFriendsOfUser() {
 		final User localUser = Application.getLocalUser(session());
-	
-		int count=0;
-		List<FriendsChildVM> friends = new ArrayList<>();
-		for(User friend : localUser.getFriends()) {
-			friends.add(new FriendsChildVM(friend.id, friend.firstName + " " + friend.lastName,friend.displayName, friend.location));
-		}
-		
+		List<FriendsVM> friends = FriendsVM.friends(localUser);
 		FriendsParentVM fwVM = new FriendsParentVM(friends.size(), friends);
 		return ok(Json.toJson(fwVM));
 	}
