@@ -759,6 +759,7 @@ public class User extends SocialObject implements Subject, Socializable {
 		return notifications;
 	}
 
+	@JsonIgnore
 	public boolean isFriendOf(User localUser) {
 		Query query = JPA.em().createQuery("SELECT count(*) from SocialRelation where ((target = ?1 and actor = ?2) or (actor = ?1 and target = ?2)) and action = ?3");
 		query.setParameter(1, this);

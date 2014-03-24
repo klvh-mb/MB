@@ -235,7 +235,7 @@ minibean.controller('UserAboutController',function($scope, userAboutService, $ht
 	}
 	
 	$scope.openProfilePhotoModal = function() {
-		PhotoModalController.prototype.url = "upload-profile-photo";
+		PhotoModalController.url = "upload-profile-photo";
 		profilePhotoModal.OpenModal({
 			 templateUrl: 'change-profile-photo-modal.html',
 			 controller: PhotoModalController
