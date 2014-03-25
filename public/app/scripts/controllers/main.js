@@ -23,6 +23,16 @@ minibean.service('sendInvitation',function($resource){
 	);
 });
 
+minibean.service('unFriendService',function($resource){
+	this.doUnfriend = $resource(
+			'/un-friend?id=:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'GET', params:{id:'@id'}}
+			}
+	);
+});
+
 minibean.controller('SearchController',function($scope, searchService){
 	$scope.search_result = function(query) {
 		if(query != undefined) {
@@ -391,7 +401,7 @@ minibean.service('profileService',function($resource){
 	);
 });
 
-minibean.controller('ProfileController',function($scope, $routeParams, profileService, friendsService,sendInvitation){
+minibean.controller('ProfileController',function($scope, $routeParams, profileService, friendsService,sendInvitation, unFriendService){
 	$scope.navigateTo = function (navigateTo) {
 		$scope.active = navigateTo;
 		if(navigateTo === 'friends') {
@@ -402,6 +412,11 @@ minibean.controller('ProfileController',function($scope, $routeParams, profileSe
 	$scope.send_invite = function(id) {
 		this.invite = sendInvitation.inviteFriend.get({id:id});
 	}
+	
+	$scope.un_friend = function(id) {
+		this.unFriendHim = unFriendService.doUnfriend.get({id:id});
+	}
+	
 	$scope.active = "about";
 	$scope.profile = profileService.Profile.get({id:$routeParams.id});
 });
@@ -423,7 +438,6 @@ minibean.service('communityPageService',function($resource){
 
 minibean.controller('CommunityPageController', function($scope, $routeParams, communityPageService){
 	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id});
-	
 });
 
 

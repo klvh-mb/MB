@@ -76,8 +76,8 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
             FRIEND_REQUESTED,
             JOIN_REQUESTED,
             RELATIONSHIP_REQUESTED,
-            GRANT
-            
+            GRANT,
+            UNFRIEND
     }
 
 	@ManyToOne

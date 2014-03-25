@@ -73,4 +73,16 @@ public class FriendsController extends Controller {
 		
 		return ok();
 	}
+	
+
+	@Transactional
+	public static Result doUnFriend(Long id) {
+		System.out.println(id);
+		final User localUser = Application.getLocalUser(session());
+		User tobeUnfriend = User.findById(id);
+		
+		localUser.doUnFriend(tobeUnfriend);
+		
+		return ok();
+	}
 }
