@@ -727,7 +727,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	}
 
 	public File getDefaultCoverPhoto()  throws FileNotFoundException {
-		 return new File(Play.application().configuration().getString("storage.cover.noimage"));
+		 return new File(Play.application().configuration().getString("storage.user.cover.noimage"));
 	}
 	
 	

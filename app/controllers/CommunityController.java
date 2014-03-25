@@ -11,6 +11,7 @@ import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import viewmodel.CommunityVM;
 import viewmodel.NotJoinedCommunitiesParentVM;
 import viewmodel.NotJoinedCommunitiesWidgetChildVM;
 
@@ -21,7 +22,6 @@ public class CommunityController extends Controller{
 	@Transactional
 	public static Result getUserUnJoinCommunity() {
 		final User localUser = Application.getLocalUser(session());
-		System.out.println(localUser.getListOfNotJoinedCommunities().size());
 		int count=0;
 		List<NotJoinedCommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		for(Community community : localUser.getListOfNotJoinedCommunities()) {
@@ -39,13 +39,32 @@ public class CommunityController extends Controller{
 	
 	
 	@Transactional
-	public static Result getCommunityImageById(Long id) {
+	public static Result getCommunityInfoById(Long id) {
+		final Community community = Community.findById(id);
+		return ok(Json.toJson(CommunityVM.communityVM(community)));
+	}
+	
+	@Transactional
+	public static Result getThumbnailCoverCommunityImageById(Long id) {
 		final Community community = Community.findById(id);
 		if(community.getPhotoProfile() != null) {
 			return ok(new File(community.getPhotoProfile().getThumbnail()));
 		}
 		try {
 			return ok(community.getDefaultThumbnailCoverPhoto());
+		} catch (FileNotFoundException e) {
+			return ok("no image set");
+		}
+	}
+	
+	@Transactional
+	public static Result getFullCoverCommunityImageById(Long id)  {
+		final Community community = Community.findById(id);
+		if(community.getPhotoProfile() != null) {
+			return ok(community.getPhotoProfile().getRealFile());
+		}
+		try {
+			return ok(community.getDefaultCoverPhoto());
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}

@@ -1,0 +1,42 @@
+<!-- Reference to social-v1.0.0/admin/timeline_2.html?lang=en -->
+<div class="widget">
+	<div class="bg-primary">
+		<div class="media">
+			<a href="" class="pull-left">
+				<img src="/user-image-by-id/{{post.oid}}" width="60" class="media-object">
+			</a>
+			<div class="media-body innerTB">
+				<a href="#" class="pull-right innerT innerR text-white">
+					<i class="icon-reply-all-fill fa fa-2x "></i>
+				</a>
+				<a href="" class="text-white display-block">{{post.p}}</a>
+				<span>posted on {{post.t}} <i class="icon-time-clock"></i></span>
+			</div>
+		</div>
+	</div>
+	
+	<div data-ng-show="post.hasImages" class="innerAll">
+		<p class="lead"></p>
+		<a data-ng-repeat="imageID in post.imgs" href="">
+			<img src="/get-post-image-by-id/imageID" alt="" class="img-post">
+		</a>
+	</div>
+	
+	<div class="bg-gray innerAll border-top border-bottom text-small ">
+		<span>View all <a href="" class="text-primary">{{post.n_c}} Comments</a></span>
+	</div>
+	
+	<div data-ng-repeat="comment in post.cs" class="media border-bottom margin-none bg-gray">
+		<a href="" class="pull-left innerAll half">
+			<img src="/user-image-by-id/comment.oid" width="60" class="media-object">
+		</a>
+		<div class="media-body innerTB">
+			<a href="#" class="pull-right innerT innerR text-muted">
+				<i class="icon-reply-all-fill fa fa-2x "></i>
+			</a>
+			<a href="" class="strong text-inverse">{{comment.on}}</a> 	<small class="text-muted ">wrote on {{comment.cd}}</small>
+			<div>{{comment.d}}</div>
+
+		</div>
+	</div>
+</div>

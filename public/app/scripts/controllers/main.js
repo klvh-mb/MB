@@ -338,9 +338,9 @@ minibean.service('sendJoinRequest',function($resource){
 	);
 });
 
-minibean.controller('CommunityController',function($scope, communityService, sendJoinRequest , $http, userInfoService){
+minibean.controller('CommunityWidgetController',function($scope, communityWidgetService, sendJoinRequest , $http, userInfoService){
 	$scope.userInfo = userInfoService.UserInfo.get();
-	$scope.result = communityService.UserCommunitiesNot.get();
+	$scope.result = communityWidgetService.UserCommunitiesNot.get();
 	
 	$scope.send_request = function(id) {
 		this.invite = sendJoinRequest.sendRequest.get({id:id});
@@ -351,7 +351,7 @@ minibean.controller('CommunityController',function($scope, communityService, sen
 
 
 ///////////////////////// User All Communities  //////////////////////////////////
-minibean.service('communityService',function($resource){
+minibean.service('communityWidgetService',function($resource){
 	this.UserCommunitiesNot = $resource(
 			'/get-users-all-communities',
 			{alt:'json',callback:'JSON_CALLBACK'},
@@ -406,3 +406,27 @@ minibean.controller('ProfileController',function($scope, $routeParams, profileSe
 	$scope.profile = profileService.Profile.get({id:$routeParams.id});
 });
 ///////////////////////// User Profile End //////////////////////////////////
+
+
+
+///////////////////////// Community Page Start //////////////////////////////////
+
+minibean.service('communityPageService',function($resource){
+	this.CommunityPage = $resource(
+			'/community/:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{id:'@id'}}
+			}
+	);
+});
+
+minibean.controller('CommunityPageController', function($scope, $routeParams, communityPageService){
+	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id});
+	
+});
+
+
+
+
+///////////////////////// Community Page  End //////////////////////////////////

@@ -36,6 +36,10 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/visit-profile.html',
     	controller : 'ProfileController'  
       })
+      .when('/community/:id',{
+    	templateUrl: '/assets/app/views/communityPage.html',
+    	controller : 'CommunityPageController'  
+      })
       .otherwise({
           redirectTo: '/'
       });

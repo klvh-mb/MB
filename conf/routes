@@ -89,9 +89,11 @@ GET		/send-invite				controllers.FriendsController.sendInvitation(id: String)
 GET     /friends/:id  				controllers.FriendsController.getUserFriendsByID(id :Long)
 
 #Community
-GET		/get-not-join-community				controllers.CommunityController.getUserUnJoinCommunity
-GET		/get-all-communities				controllers.CommunityController.getAllCommunitiesOfUser
-GET		/get-users-all-communities			controllers.CommunityController.getMyAllCommunities
-GET		/community-image-by-id/:id			controllers.CommunityController.getCommunityImageById(id :Long)
-GET		/send-request						controllers.CommunityController.sendJoinRequest(id: String)
+GET		/get-not-join-community					controllers.CommunityController.getUserUnJoinCommunity
+GET		/get-all-communities					controllers.CommunityController.getAllCommunitiesOfUser
+GET		/get-users-all-communities				controllers.CommunityController.getMyAllCommunities
+GET		/community-image-by-id/:id				controllers.CommunityController.getThumbnailCoverCommunityImageById(id :Long)
+GET		/send-request							controllers.CommunityController.sendJoinRequest(id: String)
+GET		/get-cover-community-image-by-id/:id	controllers.CommunityController.getFullCoverCommunityImageById(id :Long)
+GET		/community/:id							controllers.CommunityController.getCommunityInfoById(id :Long)
 
