@@ -404,6 +404,17 @@ public class User extends SocialObject implements Subject, Socializable {
 		return null;
 	}
 
+	@JsonIgnore
+	public Resource getMiniProfileImage() {
+		if (this.albumPhotoProfile != null) {
+			Resource file = this.albumPhotoProfile.getHighPriorityFile();
+			if (file != null) {
+				return file;
+			}
+		}
+		return null;
+	}
+	
 	public String getCoverProfileURL() {
 		Resource resource = getCoverProfile();
 		if (resource == null) {

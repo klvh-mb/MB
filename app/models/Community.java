@@ -26,7 +26,6 @@ import play.Play;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.i18n.Messages;
-import play.mvc.Content;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
 

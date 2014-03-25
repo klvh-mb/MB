@@ -1,16 +1,10 @@
 package domain;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Embedded;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;

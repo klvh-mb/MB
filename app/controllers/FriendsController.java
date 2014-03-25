@@ -48,7 +48,6 @@ public class FriendsController extends Controller {
 		final User user = User.findById(id);
 		if(user.getPhotoProfile() != null) {
 			return ok(new File(user.getPhotoProfile().getThumbnail()));
-			//return ok();
 		}
 		return ok("No Image");
 	}

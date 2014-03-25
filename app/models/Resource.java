@@ -90,6 +90,16 @@ public class Resource extends SocialObject {
 					+ owner.id + "/" + folder.id + "/" + id + "/thumbnail."+resourceName;
 		}
 	}
+	
+	@Transactional
+	public String getMini() {
+		if (isExtrenal()) {
+			return resourceName;
+		} else {
+			return Play.application().configuration().getString("storage.path")
+					+ owner.id + "/" + folder.id + "/" + id + "/mini."+resourceName;
+		}
+	}
 
 	public java.io.File getRealFile() {
 		java.io.File f = new java.io.File(getPath());

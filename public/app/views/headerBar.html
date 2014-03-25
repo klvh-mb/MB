@@ -45,7 +45,7 @@
 				</a>
 				<ul class="dropdown-menu chat media-list" data-ng-show="friend_requests.length > 0" >
 					<li class="media" data-ng-repeat="friend in friend_requests">
-				        <a class="pull-left" ng-href="#/profile/{{friend.id}}"><img class="media-object thumb" data-ng-src="/user-image-by-id/{{friend.id}}" alt="50x50" width="50"></a>
+				        <a class="pull-left" ng-href="#/profile/{{friend.id}}"><img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{friend.id}}" alt="50x50" width="50"></a>
 						<div class="media-body">
 				        	<button data-ng-show="isFriendAccepted == false" data-ng-click="accept_friend_request(friend.id)" class="btn btn-xs btn-success pull-right">accept</button>
 				            <a href="#/profile/{{friend.id}}"><h5 class="media-heading">{{friend.dn}}</h5></a>

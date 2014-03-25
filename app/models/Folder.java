@@ -71,12 +71,21 @@ public class Folder extends SocialObject {
 		if (type == SocialObjectType.PHOTO) {
 			Thumbnails
 					.of(source)
-					.height(100)
+					.height(120)
+					.width(120)
 					.keepAspectRatio(true)
 					.toFiles(
 							new java.io.File(resource.getPath())
 									.getParentFile(),
 							Rename.PREFIX_DOT_THUMBNAIL);
+			
+			Thumbnails
+					.of(source)
+					.height(60)
+					.width(60)
+					.keepAspectRatio(true)
+					.toFile(new java.io.File(resource.getPath()).getParentFile()
+									+"\\mini."+new java.io.File(resource.getPath()).getName());
 		}
 		this.resources.add(resource);
 		merge();

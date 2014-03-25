@@ -26,11 +26,11 @@ angular.module('minibean', [
       })
       .when('/groups',{
     	templateUrl: '/assets/app/views/allCommunities.html',
-    	controller : 'CommunityController'
+    	controller : 'CommunityWidgetController'
       })
        .when('/createNewGroup',{
     	templateUrl: '/assets/app/views/createNewCommunity.html',
-    	controller : 'CommunityController'
+    	controller : 'CommunityWidgetController'
       })
       .when('/profile/:id',{
     	templateUrl: '/assets/app/views/visit-profile.html',

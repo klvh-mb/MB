@@ -213,6 +213,19 @@ public class UserController extends Controller {
 	public static Result getProfileImageByID(Long id) {
     	User user = User.findById(id);
 		if(user.getPhotoProfile() != null) {
+			return ok(user.getPhotoProfile().getThumbnail());
+		}
+		try {
+			return ok(user.getDefaultUserPhoto());
+		} catch (FileNotFoundException e) {
+			return ok("no image set");
+		}
+	}
+	
+    @Transactional
+	public static Result getOriginalImageByID(Long id) {
+    	User user = User.findById(id);
+		if(user.getPhotoProfile() != null) {
 			return ok(user.getPhotoProfile().getRealFile());
 		}
 		try {
@@ -222,7 +235,7 @@ public class UserController extends Controller {
 		}
 		
 	}
-	
+    
 	@Transactional
 	public static Result getCoverImageByID(Long id) {
 		User user = User.findById(id);
@@ -235,5 +248,23 @@ public class UserController extends Controller {
 			return ok("no image set");
 		}
 		
+	}
+	
+	@Transactional
+	public static Result getMiniVersionImageByID(Long id) {
+		final User user = User.findById(id);
+		if(user.getPhotoProfile() != null) {
+			return ok(new File(user.getPhotoProfile().getMini()));
+		}
+		return ok("No Image");
+	}
+	
+	@Transactional
+	public static Result getThumbnailVersionImageByID(Long id) {
+		final User user = User.findById(id);
+		if(user.getPhotoProfile() != null) {
+			return ok(new File(user.getPhotoProfile().getThumbnail()));
+		}
+		return ok("No Image");
 	}
 }
