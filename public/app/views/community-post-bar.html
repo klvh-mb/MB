@@ -1,9 +1,9 @@
 <!-- Reference to social-v1.0.0/admin/timeline_2.html?lang=en -->
-<div class="widget">
+<div class="widget" data-ng-repeat="post in community.posts">
 	<div class="bg-primary">
 		<div class="media">
 			<a href="" class="pull-left">
-				<img src="/user-image-by-id/{{post.oid}}" width="60" class="media-object">
+				<img data-ng-src="/user-image-by-id/{{post.oid}}" width="60" class="media-object">
 			</a>
 			<div class="media-body innerTB">
 				<a href="#" class="pull-right innerT innerR text-white">
@@ -13,6 +13,10 @@
 				<span>posted on {{post.t}} <i class="icon-time-clock"></i></span>
 			</div>
 		</div>
+	</div>
+	
+	<div class="innerAll">
+		<p>{{post.pt}}</p>
 	</div>
 	
 	<div data-ng-show="post.hasImages" class="innerAll">
@@ -28,15 +32,18 @@
 	
 	<div data-ng-repeat="comment in post.cs" class="media border-bottom margin-none bg-gray">
 		<a href="" class="pull-left innerAll half">
-			<img src="/user-image-by-id/comment.oid" width="60" class="media-object">
+			<img data-ng-src="/user-image-by-id/{{comment.oid}}" width="60" class="media-object">
 		</a>
 		<div class="media-body innerTB">
 			<a href="#" class="pull-right innerT innerR text-muted">
 				<i class="icon-reply-all-fill fa fa-2x "></i>
 			</a>
-			<a href="" class="strong text-inverse">{{comment.on}}</a> 	<small class="text-muted ">wrote on {{comment.cd}}</small>
-			<div>{{comment.d}}</div>
+			<a href="" class="strong text-inverse">{{comment.on}}</a>  <small class="text-muted ">wrote on {{comment.cd | date: 'dd-MM-yyyy'}}</small>
+			<div>- {{comment.d}}</div>
 
 		</div>
 	</div>
+	
+	<input type="text" class="form-control" placeholder="Comment here..." data-ng-model="commentText">
+	<button type="button" class="btn btn-warning btn-xs" data-ng-click="comment_on_post(post.id, commentText)">comment</button>
 </div>

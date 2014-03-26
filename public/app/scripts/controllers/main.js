@@ -438,6 +438,10 @@ minibean.service('communityPageService',function($resource){
 
 minibean.controller('CommunityPageController', function($scope, $routeParams, communityPageService){
 	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id});
+	$scope.comment_on_post = function(id, commentText) {
+		alert(commentText);
+		alert(id);
+	}
 });
 
 
