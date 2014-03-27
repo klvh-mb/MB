@@ -99,4 +99,4 @@ GET		/community-image-by-id/:id				controllers.CommunityController.getThumbnailC
 GET		/send-request							controllers.CommunityController.sendJoinRequest(id: String)
 GET		/get-cover-community-image-by-id/:id	controllers.CommunityController.getFullCoverCommunityImageById(id :Long)
 GET		/community/:id							controllers.CommunityController.getCommunityInfoById(id :Long)
-
+POST	/community/comment						controllers.CommunityController.commentOnCommunityPost()

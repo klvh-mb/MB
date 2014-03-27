@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.Community;
+import models.Post;
 import models.User;
+import play.data.DynamicForm;
+import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -15,7 +18,12 @@ import viewmodel.CommunityVM;
 import viewmodel.NotJoinedCommunitiesParentVM;
 import viewmodel.NotJoinedCommunitiesWidgetChildVM;
 
+import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotJoinableException;
+
+import domain.CommentType;
+
+import static play.data.Form.form;
 
 public class CommunityController extends Controller{
 
@@ -40,8 +48,9 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getCommunityInfoById(Long id) {
+		final User localUser = Application.getLocalUser(session());
 		final Community community = Community.findById(id);
-		return ok(Json.toJson(CommunityVM.communityVM(community)));
+		return ok(Json.toJson(CommunityVM.communityVM(community, localUser.id, localUser.displayName)));
 	}
 	
 	@Transactional
@@ -85,7 +94,6 @@ public class CommunityController extends Controller{
 	@Transactional
 	public static Result getMyAllCommunities() {
 		final User localUser = Application.getLocalUser(session());
-		System.out.println("LIST ::::: "+localUser.getListOfJoinedCommunities().size());
 		int count=0;
 		List<NotJoinedCommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		for(Community community : localUser.getListOfJoinedCommunities()) {
@@ -105,7 +113,6 @@ public class CommunityController extends Controller{
 	@Transactional
 	public static Result sendJoinRequest(String id) {
 		final User localUser = Application.getLocalUser(session());
-		System.out.println("COmmunity :: "+id);
 		Community community = Community.findById(Long.parseLong(id));
 		
 		try {
@@ -115,6 +122,26 @@ public class CommunityController extends Controller{
 		}
 		
 		return ok();
+	}
+	
+	@Transactional
+	public static Result commentOnCommunityPost() {
+		final User localUser = Application.getLocalUser(session());
+		DynamicForm form = form().bindFromRequest();
+		
+		Long postId = Long.parseLong(form.get("post_id"));
+		String commentText = form.get("commentText");
+		
+		Post p = Post.findById(postId);
+		
+		try {
+			//NOTE: Currently commentType is hardcoded to SIMPLE
+			p.onComment(localUser, commentText, CommentType.SIMPLE);
+		} catch (SocialObjectNotCommentableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ok(Json.toJson(p.id));
 	}
 	
 	

@@ -77,7 +77,6 @@ public class FriendsController extends Controller {
 
 	@Transactional
 	public static Result doUnFriend(Long id) {
-		System.out.println(id);
 		final User localUser = Application.getLocalUser(session());
 		User tobeUnfriend = User.findById(id);
 		

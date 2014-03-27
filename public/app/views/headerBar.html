@@ -46,8 +46,14 @@
 				<ul class="dropdown-menu chat media-list" data-ng-show="friend_requests.length > 0" >
 					<li class="media" data-ng-repeat="friend in friend_requests">
 				        <a class="pull-left" ng-href="#/profile/{{friend.id}}"><img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{friend.id}}" alt="50x50" width="50"></a>
-						<div class="media-body">
-				        	<button data-ng-show="isFriendAccepted == false" data-ng-click="accept_friend_request(friend.id)" class="btn btn-xs btn-success pull-right">accept</button>
+						<div class="media-body" data-ng-init="friend.isLoadingEnable = false">
+				        	
+				        	<button data-ng-show="friend.isFriendAccepted == false && friend.isLoadingEnable == false" data-ng-init="friend.isFriendAccepted = false"
+				        		 data-ng-click="accept_friend_request(friend.id)" class="btn btn-xs btn-success pull-right">accept</button>
+				        	<label class="label label-default pull-right" data-ng-show="friend.isFriendAccepted == true">Friends</label>
+				        	
+				        	<span class="label label-primary pull-right" data-ng-show="friend.isLoadingEnable == true">Loading...</span>
+				            
 				            <a href="#/profile/{{friend.id}}"><h5 class="media-heading">{{friend.dn}}</h5></a>
 				        </div>
 					</li>

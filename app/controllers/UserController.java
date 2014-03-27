@@ -164,11 +164,13 @@ public class UserController extends Controller {
     }
     
     @Transactional
-    public static Result acceptFriendRequest(Long id) {
-    	System.out.println("Friend Id:  "+ id);
+    public static Result acceptFriendRequest(Long id) throws InterruptedException {
     	final User localUser = Application.getLocalUser(session());
     	User invitee = User.findById(id);
     	
+    	//added for testing purpose so that we can see loading sign
+    	
+    	Thread.sleep(3000);
     	try {
 			localUser.onFriendRequestAccepted(invitee);
 		} catch (SocialObjectNotJoinableException e) {

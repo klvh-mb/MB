@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Query;
 
 import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotPostableException;
@@ -54,6 +55,12 @@ public class Post extends SocialObject implements Likeable, Commentable {
 	public void save() {
 		super.save();
 		recordPost(owner);
+	}
+	
+	public static Post findById(Long id) {
+		Query q = JPA.em().createQuery("SELECT p FROM Post p where id = ?1");
+		q.setParameter(1, id);
+		return (Post) q.getSingleResult();
 	}
 	
 	@Override

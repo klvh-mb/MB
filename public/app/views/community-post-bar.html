@@ -1,6 +1,6 @@
 <!-- Reference to social-v1.0.0/admin/timeline_2.html?lang=en -->
 <div class="widget" data-ng-repeat="post in community.posts">
-	<div class="bg-primary">
+	<div class="bg-primary" style="background: #0099FF !important;">
 		<div class="media">
 			<a href="" class="pull-left">
 				<img data-ng-src="/user-image-by-id/{{post.oid}}" width="60" class="media-object">
@@ -38,7 +38,7 @@
 			<a href="#" class="pull-right innerT innerR text-muted">
 				<i class="icon-reply-all-fill fa fa-2x "></i>
 			</a>
-			<a href="" class="strong text-inverse">{{comment.on}}</a>  <small class="text-muted ">wrote on {{comment.cd | date: 'dd-MM-yyyy'}}</small>
+			<a href="" class="strong text-inverse">{{comment.on}}</a>  <small class="text-muted ">wrote on {{comment.cd | date: 'dd MMM, yyyy'}}</small>
 			<div>- {{comment.d}}</div>
 
 		</div>

@@ -745,7 +745,6 @@ public class User extends SocialObject implements Subject, Socializable {
 	@JsonIgnore
 	public List<Notification> getAllFriendRequestNotification() {
 		
-		System.out.println(this.id);
 		Query q = JPA.em().createQuery(
 						"SELECT n from Notification n where recipetent = ?1 and socialAction.actionType = ?2 " +
 						"and readed = ?3 ");
@@ -759,7 +758,6 @@ public class User extends SocialObject implements Subject, Socializable {
 	@JsonIgnore
 	public List<Notification> getAllJoinRequestNotification() {
 		
-		System.out.println(this.id);
 		Query q = JPA.em().createQuery(
 						"SELECT n from Notification n where recipetent = ?1 and socialAction.actionType = ?2 " +
 						"and readed = ?3 ");
@@ -789,7 +787,6 @@ public class User extends SocialObject implements Subject, Socializable {
 		query.setParameter(4, SocialRelation.Action.FRIEND);
 		
 		int updateCount = query.executeUpdate();
-		System.out.println(updateCount);
 		
 		return updateCount;
 	}

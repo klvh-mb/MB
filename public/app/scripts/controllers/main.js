@@ -108,12 +108,25 @@ minibean.controller('ApplicationController',function($scope, userInfoService, us
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.friend_requests = userNotification.getAllFriendRequests.get();
 	$scope.join_requests = userSimpleNotifications.getAllJoinRequests.get();
-	$scope.isFriendAccepted = false;
+	
 	$scope.accept_friend_request = function(id) {
-		this.acceptFriendRequest = acceptFriendRequestService.acceptFriendRequest.get({id:id}, 
-			function() {
-				$scope.isFriendAccepted = true;
+		
+		angular.forEach($scope.friend_requests, function(request, key){
+			if(request.id == id) {
+				request.isLoadingEnable = true;
 			}
+		});
+		
+		this.acceptFriendRequest = acceptFriendRequestService.acceptFriendRequest.get({id:id}, 
+				//success
+				function() {
+					angular.forEach($scope.friend_requests, function(request, key){
+						if(request.id == id) {
+							request.isLoadingEnable = false;
+							request.isFriendAccepted = true;
+						}
+					});
+				}
 		);
 	};
 	$scope.accept_join_request = function(id) {
@@ -436,11 +449,22 @@ minibean.service('communityPageService',function($resource){
 	);
 });
 
-minibean.controller('CommunityPageController', function($scope, $routeParams, communityPageService){
+minibean.controller('CommunityPageController', function($scope, $routeParams, $http, communityPageService){
 	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id});
 	$scope.comment_on_post = function(id, commentText) {
-		alert(commentText);
-		alert(id);
+		
+		var data = {
+			"post_id" : id,
+			"commentText" : commentText
+		};
+		$http.post('/community/comment', data).success(function(post_id) {
+			angular.forEach($scope.community.posts, function(post, key){
+				if(post.id == post_id) {
+					var comment = {"oid" : $scope.community.lu, "d" : commentText, "on" : $scope.community.lun, "cd" : new Date()};
+					post.cs.push(comment);
+				}
+			});
+		});
 	}
 });
 
