@@ -778,7 +778,6 @@ public class User extends SocialObject implements Subject, Socializable {
 		return result == 1;
 	}
 	
-	@JsonIgnore
 	public int doUnFriend(User toBeUnfriend) {
 		Query query = JPA.em().createQuery("UPDATE SocialRelation sr SET sr.actionType=?1, sr.action = NULL where ((sr.target = ?2 and sr.actor = ?3) or (sr.actor = ?2 and sr.target = ?3)) and sr.action = ?4");
 		query.setParameter(1, SocialRelation.ActionType.UNFRIEND);
