@@ -73,8 +73,8 @@
 					<li class="media" data-ng-repeat="request in join_requests">
 				        <a class="pull-left" href="#"><img class="media-object thumb" data-ng-src="/user-image-by-id/{{request.id}}" alt="50x50" width="50"></a>
 						<div class="media-body">
-				        	<button data-ng-click="accept_join_request(friend.id)" class="btn btn-xs btn-success pull-right">accept</button>
-				            <a href="#"><h5 class="media-heading">{{request.dn}}</h5></a>
+				        	<button data-ng-click="accept_join_request(request.id, request.mm)" class="btn btn-xs btn-success pull-right">accept</button>
+				            <a href="#/community/{{request.id}}"><h5 class="media-heading">{{request.dn}}</h5></a>
 				        </div>
 					</li>
 		      	</ul>

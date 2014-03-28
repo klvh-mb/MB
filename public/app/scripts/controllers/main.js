@@ -129,8 +129,13 @@ minibean.controller('ApplicationController',function($scope, userInfoService, us
 				}
 		);
 	};
-	$scope.accept_join_request = function(id) {
-		this.acceptJoinRequest = acceptjoinRequestService.acceptJoinRequest.get({id:id});
+	$scope.accept_join_request = function(member_id,group_id) {
+		
+		this.acceptJoinRequest = acceptJoinRequestService.acceptJoinRequest.get({"member_id":member_id, "group_id":group_id},
+				function() {
+			$scope.isRequestAccepted = true;
+		}
+	);
 	}
 	
 	
@@ -273,6 +278,49 @@ minibean.controller('UserAboutController',function($scope, userAboutService, $ht
 	
 });
 
+
+///////////////////////// Create community Home Page  //////////////////////////////////
+minibean.service('groupAboutService',function($resource){
+	this.UserAbout = $resource(
+			'/about-group',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get'}
+			}
+	);
+	
+});
+
+minibean.controller('GroupController',function($scope, $upload, profilePhotoModal){
+
+	$scope.openCoverPhotoModal = function() {
+		PhotoModalController.url = "upload-cover-photo-group?id=:id";
+		profilePhotoModal.OpenModal({
+			 templateUrl: 'change-profile-photo-modal.html',
+			 controller: PhotoModalController
+		});
+	}
+	$scope.formData = {};
+	$scope.selectedFiles =[];
+	
+	$scope.submit = function() {
+		$upload.upload({
+			url: '/createCommunity',
+			method: 'POST',
+			file: $scope.selectedFiles[0],
+			data: $scope.formData
+		});
+	
+	}
+	
+	$scope.onFileSelect = function($files) {
+		$scope.selectedFiles = $files;
+	}
+	
+	
+	
+});
+
 ///////////////////////// User Friends Widget Service Start //////////////////////////////////
 minibean.service('friendWidgetService',function($resource){
 	this.UserFriends = $resource(
@@ -361,9 +409,9 @@ minibean.service('sendJoinRequest',function($resource){
 	);
 });
 
-minibean.controller('CommunityWidgetController',function($scope, communityWidgetService, sendJoinRequest , $http, userInfoService){
+minibean.controller('CommunityWidgetController',function($scope, communityService, sendJoinRequest , $http, userInfoService){
 	$scope.userInfo = userInfoService.UserInfo.get();
-	$scope.result = communityWidgetService.UserCommunitiesNot.get();
+	$scope.result = communityService.UserCommunitiesNot.get();
 	
 	$scope.send_request = function(id) {
 		this.invite = sendJoinRequest.sendRequest.get({id:id});
@@ -375,7 +423,7 @@ minibean.controller('CommunityWidgetController',function($scope, communityWidget
 
 ///////////////////////// User All Communities  //////////////////////////////////
 minibean.service('communityWidgetService',function($resource){
-	this.UserCommunitiesNot = $resource(
+	this.UserCommunities = $resource(
 			'/get-users-all-communities',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
@@ -384,9 +432,9 @@ minibean.service('communityWidgetService',function($resource){
 	);
 });
 
-minibean.controller('UserCommunityWidgetController',function($scope, communityService , $http, userInfoService){
+minibean.controller('UserCommunityWidgetController',function($scope, communityWidgetService , $http, userInfoService){
 	$scope.userInfo = userInfoService.UserInfo.get();
-	$scope.result = communityService.UserCommunitiesNot.get();
+	$scope.result = communityWidgetService.UserCommunities.get();
 });
 
 ///////////////////////// User All Communities End //////////////////////////////////

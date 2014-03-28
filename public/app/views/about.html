@@ -34,15 +34,15 @@
 									<div class="innerAll pull-left border-right">
 										<h3 class="margin-none" editable-text="result.displayName" onbeforesave ="updateUserDisplayName($data)">
                       {{result.displayName}}
-                    </h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-	        	<div class="col-lg-3 col-md-4" ng-controller="UserCommunityWidgetController">
-					<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/myCommunityWidget.html'"></div>
-	            </div>
-        </div>
+                   						 </h3>
+                  					</div>
+                				</div>
+              				</div>
+           			 	</div>
+        			</div>
+			        <div class="col-lg-3 col-md-4" ng-controller="UserCommunityWidgetController">
+								<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/myCommunityWidget.html'"></div>
+				     </div>
         <div class="row">
           <div class="panel panel-default  col-lg-9 col-md-8">
             <form role="form" editable-form name="profile_data" onaftersave="updateUserProfileData($data)">

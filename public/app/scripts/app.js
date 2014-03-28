@@ -30,7 +30,7 @@ angular.module('minibean', [
       })
        .when('/createNewGroup',{
     	templateUrl: '/assets/app/views/createNewCommunity.html',
-    	controller : 'CommunityWidgetController'
+    	controller : 'GroupController'
       })
       .when('/profile/:id',{
     	templateUrl: '/assets/app/views/visit-profile.html',

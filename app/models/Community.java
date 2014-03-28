@@ -125,7 +125,24 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		JPA.em().merge(this);
 		recordJoinRequestAccepted(user);
 	}
+	
+	@JsonIgnore
+	public List<User> getMembers() {
+		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+		CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
+		Root<SocialRelation> c = q.from(SocialRelation.class);
+		q.select(c);
+		q.where(cb.and(cb.equal(c.get("target"), this)),
+				cb.equal(c.get("action"), SocialRelation.Action.MEMBER));
 
+		List<SocialRelation> result = JPA.em().createQuery(q).getResultList();
+		List<User> Members = new ArrayList<>();
+		for (SocialRelation rslt : result) {
+			Members.add(User.findById(rslt.actor.id));
+		}
+		return Members;
+	}
+	
 	public static List<Community> search(String q) {
 		CriteriaBuilder builder = JPA.em().getCriteriaBuilder();
 		CriteriaQuery<Community> criteria = builder

@@ -188,12 +188,15 @@ public class UserController extends Controller {
     }
     
     @Transactional
-    public static Result acceptJoinRequest(Long id) {
+    public static Result acceptJoinRequest(Long member_id,Long group_id) {
+    	System.out.println("Friend Id:  "+ member_id);
+    	System.out.println("group ID:  "+ group_id);
     	final User localUser = Application.getLocalUser(session());
-    	User invitee = User.findById(id);
+    	User invitee = User.findById(member_id);
+    	Community community = Community.findById(group_id);
     	
     	try {
-			localUser.onJoinRequestAccepted(invitee);
+			localUser.joinRequestAccepted(community, invitee);
 		} catch (SocialObjectNotJoinableException e) {
 			e.printStackTrace();
 		}
