@@ -104,3 +104,4 @@ POST	/community/post/comment					controllers.CommunityController.commentOnCommun
 POST	/community/post							controllers.CommunityController.postOnCommunity()
 GET		/community/join/:id						controllers.CommunityController.joinToCommunity(id : Long)
 GET		/community/leave/:id					controllers.CommunityController.leaveThisCommunity(id : Long)
+GET		/community-mini-image-by-id/:id				controllers.CommunityController.getMiniCoverCommunityImageById(id :Long)

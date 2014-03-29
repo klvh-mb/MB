@@ -37,7 +37,7 @@
 			<li class="dropdown notif">
 				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
 					<div style="margin: 10px 0 0 0;">
-						<span data-ng-show="isFRreaded == true" data-ng-mouseover="reset_fr_count()">
+						<span data-ng-show="isFRreaded == true && friend_requests.length > 0" data-ng-mouseover="reset_fr_count()">
 							<span class="badge pull-right">{{friend_requests.length}}</span>
 						</span>
 						<i class="fa fa-group"></i>
@@ -63,7 +63,7 @@
 			<li class="dropdown notif">
 				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
 					<div style="margin: 10px 0 0 0;">
-						<span data-ng-show="isNOreaded == true" data-ng-mouseover="reset_notify_count()">
+						<span data-ng-show="isNOreaded == true && join_requests.length > 0" data-ng-mouseover="reset_notify_count()">
 							<span class="badge pull-right">{{join_requests.length}}</span>
 						</span>
 						<i class="fa icon-earth"></i>
@@ -108,7 +108,7 @@
 				        
 				        <!-- shows community section -->
 				        <a ng-switch-when="COMMUNITY" class="pull-left" href="#/community/{{sr.id}}">
-				        	<img class="media-object thumb" data-ng-src="/community-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
+				        	<img class="media-object thumb" data-ng-src="/community-mini-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
 				        </a>
 				        
 						<div class="media-body">

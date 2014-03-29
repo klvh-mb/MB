@@ -237,6 +237,10 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		return new File(Play.application().configuration().getString("storage.community.cover.thumbnail.noimage"));
 	}
 	
+	public File getDefaultMiniCoverPhoto()  throws FileNotFoundException {
+		return new File(Play.application().configuration().getString("storage.community.cover.mini.noimage"));
+	}
+	
 	public File getDefaultCoverPhoto()  throws FileNotFoundException {
 		 return new File(Play.application().configuration().getString("storage.community.cover.noimage"));
 	}

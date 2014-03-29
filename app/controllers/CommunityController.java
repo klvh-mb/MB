@@ -53,6 +53,20 @@ public class CommunityController extends Controller{
 		return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
 	}
 	
+	
+	@Transactional
+	public static Result getMiniCoverCommunityImageById(Long id) {
+		Community community = Community.findById(id);
+		if(community.getPhotoProfile() != null) {
+			return ok(new File(community.getPhotoProfile().getMini()));
+		}
+		try {
+			return ok(community.getDefaultMiniCoverPhoto());
+		} catch (FileNotFoundException e) {
+			return ok("no image set");
+		}
+	}
+	
 	@Transactional
 	public static Result getThumbnailCoverCommunityImageById(Long id) {
 		final Community community = Community.findById(id);
