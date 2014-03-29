@@ -12,6 +12,8 @@ import models.User;
 
 import org.apache.commons.io.FileUtils;
 
+import com.mnt.exception.SocialObjectNotJoinableException;
+
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -21,6 +23,7 @@ import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import viewmodel.CommunitiesWidgetChildVM;
 import viewmodel.FriendWidgetChildVM;
+import viewmodel.CommunitiesParentVM;
 import viewmodel.ProfileVM;
 import viewmodel.SocialObjectVM;
 

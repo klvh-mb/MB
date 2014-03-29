@@ -40,16 +40,15 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	
 	@OneToMany(cascade=CascadeType.REMOVE)
 	public Set<Post> posts = new HashSet<Post>();
-
-	@OneToMany(cascade = CascadeType.REMOVE)
-	public Set<User> members = new HashSet<User>();
-
+	
 	@Enumerated(EnumType.ORDINAL)
 	public CommunityType communityType = CommunityType.CLOSE;
 
 	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JsonIgnore
 	public Folder albumPhotoProfile;
+	
+	public String description;
 
 	public static enum CommunityType {
 		OPEN,
@@ -60,33 +59,32 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	@OneToMany(cascade = CascadeType.REMOVE)
 	public List<Folder> folders;
 	
-	
-
-	public Community() {
+	public Community(){
 		this.objectType = SocialObjectType.COMMUNITY;
 	}
-
-	public Community(String name, User owner) {
+	
+	public Community(String name,String description, User owner) {
 		this();
 		this.name = name;
 		this.owner = owner;
+		this.description = description;
 	}
-
+	
 	@Override
 	public void onLike(User user) {
 		recordLike(user);
 	}
-
+	
 	@Override
 	@Transactional
 	public SocialObject onPost(User user, String body, PostType type) {
 		Post post = new Post(user, body, this);
-
+		
 		if (type == PostType.QUESTION) {
 			post.objectType = SocialObjectType.QUESTION;
 			post.postType = type;
 		}
-
+		
 		if (type == PostType.SIMPLE) {
 			post.objectType = SocialObjectType.POST;
 			post.postType = type;
@@ -94,15 +92,14 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		post.save();
 		this.posts.add(post);
 		JPA.em().merge(this);
-		// recordPostOn(user);
+		//recordPostOn(user);
 		return post;
-
+		
 	}
 	
+	@Transactional
 	public void ownerAsMember(User user)
 			throws SocialObjectNotJoinableException {
-		this.members.add(user);
-		JPA.em().merge(this);
 		beMemberForOwner(user);
 	}
 	
@@ -111,10 +108,7 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 			throws SocialObjectNotJoinableException {
 		if (communityType != CommunityType.OPEN) {
 			recordJoinRequest(user);
-		} else {
-			this.members.add(user);
-			JPA.em().merge(this);
-		}
+		} 
 	}
 
 	@Override

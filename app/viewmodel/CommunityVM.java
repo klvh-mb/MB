@@ -14,6 +14,7 @@ public class CommunityVM {
 	@JsonProperty("lun") public String loggedUserName;
 	
 	@JsonProperty("n") public String name;
+	@JsonProperty("d") public String description;
 	@JsonProperty("i") public long id;
 	@JsonProperty("isM") public boolean isMyCommunity;
 	@JsonProperty("posts") public List<CommunityPostVM> posts;
@@ -24,6 +25,7 @@ public class CommunityVM {
 		vm.loggedUserName = user.displayName;
 		
 		vm.name = c.name;
+		vm.description = c.description;
 		vm.id = c.id;
 		
 		//TODO Logic required

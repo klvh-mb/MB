@@ -4,7 +4,7 @@
 		<div class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-search"></i></button></div>
 	</div>
 	<div class="row row-merge">
-		<div class="col-md-12 col-lg-6 bg-white border-bottom" ng-repeat="fvm in result.fvm | filter:query ">
+		<div class="col-md-12 col-lg-6 bg-white border-bottom" ng-repeat="fvm in allResult.fvm | filter:query ">
 			<div class="row">
 				<div class="col-sm-8">
 					<div class="media">
@@ -24,7 +24,7 @@
 					<div class="innerAll text-right">
 					
 						<div class="btn-group-vertical btn-group-sm">
-							<button type="button" data-menu="menu-right" data-ng-click="send_request(fvm.id)"> Send Join Request </a>
+							<a data-ng-href="#/editCommunity/{{fvm.id}}" ><button type="button" data-menu="menu-right"><i class="fa fa-fw fa-edit"></i> Edit </button></a>
 						</div>
 					</div>
 				</div>

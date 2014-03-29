@@ -310,10 +310,30 @@ minibean.service('groupAboutService',function($resource){
 	
 });
 
-minibean.controller('GroupController',function($scope, $upload, profilePhotoModal){
+minibean.service('communityPageService',function($resource){
+	this.CommunityPage = $resource(
+			'/community/:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{id:'@id'}}
+			}
+	);
+});
 
-	$scope.openCoverPhotoModal = function() {
-		PhotoModalController.url = "upload-cover-photo-group?id=:id";
+minibean.controller('GroupController',function($scope, $routeParams, $http, communityPageService, $upload, profilePhotoModal){
+	
+	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id});
+	
+	$scope.updateGroupDisplayName = function(data) {
+		return $http.post('/updateGroupDisplayName', {"groupName" : data});
+	}
+	
+	$scope.updateGroupProfileData = function(data) {
+		return $http.post('/updateGroupProfileData', $scope.community);
+	}
+
+	$scope.openGroupCoverPhotoModal = function(id) {
+		PhotoModalController.url = "upload-cover-photo-group/"+id;
 		profilePhotoModal.OpenModal({
 			 templateUrl: 'change-profile-photo-modal.html',
 			 controller: PhotoModalController
@@ -327,7 +347,8 @@ minibean.controller('GroupController',function($scope, $upload, profilePhotoModa
 			url: '/createCommunity',
 			method: 'POST',
 			file: $scope.selectedFiles[0],
-			data: $scope.formData
+			data: $scope.formData,
+			fileFormDataName: 'cover-photo'
 		});
 	
 	}
@@ -443,6 +464,15 @@ minibean.controller('CommunityWidgetController',function($scope, communityServic
 ///////////////////////// User All Communities  //////////////////////////////////
 minibean.service('communityWidgetService',function($resource){
 	this.UserCommunities = $resource(
+			'/get-users-three-communities',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get'}
+			}
+	);
+});
+minibean.service('allCommunityWidgetService',function($resource){
+	this.UserAllCommunities = $resource(
 			'/get-users-all-communities',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
@@ -451,9 +481,10 @@ minibean.service('communityWidgetService',function($resource){
 	);
 });
 
-minibean.controller('UserCommunityWidgetController',function($scope, communityWidgetService , $http, userInfoService){
+minibean.controller('UserCommunityWidgetController',function($scope, allCommunityWidgetService, communityWidgetService , $http, userInfoService){
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.result = communityWidgetService.UserCommunities.get();
+	$scope.allResult = allCommunityWidgetService.UserAllCommunities.get();
 });
 
 ///////////////////////// User All Communities End //////////////////////////////////

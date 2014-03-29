@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import java.util.ArrayList;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -22,7 +22,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
+import javax.persistence.FetchType;
 import models.SocialRelation.Action;
 import models.SocialRelation.ActionType;
 import models.TokenAction.Type;
@@ -445,6 +445,16 @@ public class User extends SocialObject implements Subject, Socializable {
 					Messages.get("album.photo-cover.description"), true);
 			this.merge();
 		}
+	}
+	
+	@Transactional
+	public Community createCommunity(String name, String description){
+
+		Community community = new Community(
+				name, description, this);
+		community.save();
+		return community;
+		
 	}
 
 	/**

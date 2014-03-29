@@ -28,6 +28,14 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/allCommunities.html',
     	controller : 'CommunityWidgetController'
       })
+      .when('/myGroups',{
+    	templateUrl: '/assets/app/views/myAllCommunities.html',
+    	controller : 'UserCommunityWidgetController'
+      })
+      .when('/editCommunity/:id',{
+    	templateUrl: '/assets/app/views/edit-community.html',
+    	controller : 'GroupController'
+      })
        .when('/createNewGroup',{
     	templateUrl: '/assets/app/views/createNewCommunity.html',
     	controller : 'GroupController'

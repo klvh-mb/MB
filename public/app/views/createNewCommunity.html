@@ -12,64 +12,76 @@
 							<div class="widget cover image">
 								<div class="widget-body padding-none margin-none">
 									<div class="top">
-											<img src="assets/images/photodune-2755655-party-time-s.jpg" class="img-responsive" />					
+											<div class="top">
+												<img data-ng-src="/get-cover-community-image-by-id/{{community.i}}" class="img-responsive" />
+											</div>	
 									</div>
-									<ul class="list-unstyled">
-										<li ><a href="index.html?lang=en"><i class="fa fa-fw fa-clock-o"></i> Timeline</a></li>
-										<li  class="active"><a href="about_2.html?lang=en"><i class="fa fa-fw fa-user"></i> About</a></li>
-										<li ><a href="media_2.html?lang=en"><i class="icon-photo-camera"></i> Photos <span>(102)</span></a></li>
-										<li ><a href="contacts_2.html?lang=en"><i class="icon-group"></i> Friends <span>(19)</span></a></li>
-										<li><a href="messages.html?lang=en"><i class="icon-envelope-fill-1"></i> Messages <span>(2 new)</span></a></li>
-									</ul>
-									<div class="photo">
-										<img src="/get-profile-image" height="90px" class="img-circle"/>
-										<i class="fa fa-fw icon-compose" ng-click="openProfilePhotoModal()" data-template="/assets/app/views/change-profile-photo-modal.html"></i> 
-									</div>
-
-									<div class="innerAll pull-left border-right">
-										<h3 class="margin-none" editable-text="result.displayName" onbeforesave ="updateUserDisplayName($data)">
-                      {{result.displayName}}
-                    </h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="panel panel-default  col-lg-9 col-md-8" style="padding-top: 18px;">
-	  		<div class="col-md-6">
-				<div class="row form-group">
-					<div class="col-md-6">
-						<label>Community Name: </label>
+				                </div>
+				              </div>
+				            </div>
+				        </div>
+				          <div class="panel panel-default  col-lg-9 col-md-8">
+							<form name="formData" novalidate ng-submit="submit()"  method="post" enctype="multipart/form-data" >				              
+				              <div class="row tm">
+				                <div class="col-md-12">
+				                  <div class="row form-group">
+					                	
+					                	<div class="col-md-6">
+					                    	<label>Community Name: </label>
+					                    </div>
+					                    
+					                    <div class="col-md-6">
+					                    	<input type="text" class="form-control" placeholder="Community Name" data-ng-model="formData.groupName" required >
+					                    </div>
+				                  </div>
+				                 </div>
+				               </div>
+				               
+				               <div class="row tm">
+				               	<div class="col-md-12">
+				                  <div class="row form-group">
+					                	
+					                	<div class="col-md-6">
+					                    	<label>Description: </label>
+					                    </div>
+					                    
+					                    <div class="col-md-6">
+					                    	<textarea  class="form-control" placeholder="Community Description" data-ng-model="formData.groupDesc" required >
+						               		 </textarea>
+					                    </div>
+				                  </div>
+				                 </div>
+				               </div>
+				               
+				               <div class="row tm">
+				               	<div class="col-md-12">
+				                  <div class="row form-group">
+					                	
+					                	<div class="col-md-6">
+					                    	<label>Cover Photo: </label>
+					                    </div>
+					                    
+					                    <div class="col-md-6">
+					                    	<input type="file" required name="cover-photo" ng-file-select="onFileSelect($files)"/>
+					                    </div>
+				                  </div>
+				                 </div>
+				               </div>
+				                  
+				               <div class="row tm">
+				              		 <a ng-href="/#/about">
+					              	<button ng-disabled="formData.$pristine || formData.$dirty && formData.$invalid" type="submit" class="btn btn-primary" >
+										<span class="glyphicon glyphicon-ok"></span>
+									</button>
+									</a>
+									
+							</div>
+						  </form>
+						</div>
 					</div>
-		
-					<div class="col-md-6">
-						<span editable-text="result.firstName" class="ng-scope ng-binding editable editable-empty editable-hide">not set</span><span class="editable-wrap editable-text ng-scope"><div class="editable-controls form-group" ng-class="{'has-error': $error}"><input type="text" class="editable-input form-control ng-pristine ng-valid" ng-model="$data" style=""><div class="editable-error help-block ng-binding ng-hide" ng-show="$error" ng-bind="$error"></div></div></span>
-					</div>
-				</div>
-		
-				<div class="row"  style="padding-top: 10px;">
-					<div class="col-md-6">
-						<label>Description: </label>
-					</div>
-		
-					<div class="col-md-6">
-						<span editable-text="result.lastName" class="ng-scope ng-binding editable editable-empty editable-hide">Not set</span><span class="editable-wrap editable-text ng-scope"><div class="editable-controls form-group" ng-class="{'has-error': $error}"><input type="text" class="editable-input form-control ng-pristine ng-valid" ng-model="$data" style=""><div class="editable-error help-block ng-binding ng-hide" ng-show="$error" ng-bind="$error"></div></div></span>
-					</div>
-				</div>
-				<div class="buttons" style="padding-bottom: 10px;">
-					<span class="">
-						<button type="submit" class="btn btn-primary" data-ng-click="createCommunity(fvm.id)">
-							<span class="glyphicon glyphicon-ok"></span>
-						</button>
-					</span>
-				</div>
-			</div>
-		</div>
-      </div>
-    </div>
-  </div>
+     		 	</div>
+    		</div>
+  		</div>
 
 <div>
 <script type="text/ng-template" id="change-profile-photo-modal.html">
