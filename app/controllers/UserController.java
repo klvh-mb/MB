@@ -189,8 +189,6 @@ public class UserController extends Controller {
     
     @Transactional
     public static Result acceptJoinRequest(Long member_id,Long group_id) {
-    	System.out.println("Friend Id:  "+ member_id);
-    	System.out.println("group ID:  "+ group_id);
     	final User localUser = Application.getLocalUser(session());
     	User invitee = User.findById(member_id);
     	Community community = Community.findById(group_id);

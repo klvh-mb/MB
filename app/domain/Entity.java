@@ -41,6 +41,10 @@ public class Entity
     this.auditFields.setUpdatedDate(updatedDate);
   }
   
+  public Date getCreatedDate() {
+	  return this.auditFields.getCreatedDate();
+  }
+  
   @Transactional
   public void save() {
 	  JPA.em().persist(this);

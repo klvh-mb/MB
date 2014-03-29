@@ -30,4 +30,8 @@ public class AuditFields {
 	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;
 	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
 }
