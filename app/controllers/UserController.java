@@ -66,7 +66,7 @@ public class UserController extends Controller {
 	    	FileUtils.copyFile(file, fileTo);
 			localUser.setPhotoProfile(fileTo);
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return status(500);
 		}
 		return ok();
@@ -85,7 +85,7 @@ public class UserController extends Controller {
 	    	FileUtils.copyFile(file, fileTo);
 			localUser.setCoverPhoto(fileTo);
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return status(500);
 		}
 		return ok();
