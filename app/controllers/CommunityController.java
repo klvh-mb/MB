@@ -126,7 +126,6 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getMyAnyThreeCommunities() {
-		System.out.println("getMyAnyThreeCommunities");
 		final User localUser = Application.getLocalUser(session());
 		int count=0;
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
@@ -144,7 +143,6 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getMyAllCommunities() {
-		System.out.println("getMyAllCommunities");
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		for(Community community : localUser.getListOfJoinedCommunities()) {

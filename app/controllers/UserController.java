@@ -214,7 +214,7 @@ public class UserController extends Controller {
 	public static Result getProfileImageByID(Long id) {
     	User user = User.findById(id);
 		if(user.getPhotoProfile() != null) {
-			return ok(user.getPhotoProfile().getThumbnail());
+			return ok(new File(user.getPhotoProfile().getThumbnail()));
 		}
 		try {
 			return ok(user.getDefaultUserPhoto());
@@ -256,8 +256,15 @@ public class UserController extends Controller {
 		final User user = User.findById(id);
 		if(user.getPhotoProfile() != null) {
 			return ok(new File(user.getPhotoProfile().getMini()));
+		} 
+		
+		try {
+			// TODO:
+			return ok(user.getDefaultUserPhoto());
+		} catch (FileNotFoundException e) {
+			return ok("no image set");
 		}
-		return ok("No Image");
+		
 	}
 	
 	@Transactional
@@ -266,6 +273,11 @@ public class UserController extends Controller {
 		if(user.getPhotoProfile() != null) {
 			return ok(new File(user.getPhotoProfile().getThumbnail()));
 		}
-		return ok("No Image");
+		try {
+			// TODO:
+			return ok(user.getDefaultUserPhoto());
+		} catch (FileNotFoundException e) {
+			return ok("no image set");
+		}
 	}
 }
