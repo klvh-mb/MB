@@ -85,7 +85,7 @@ public class Folder extends SocialObject {
 					.width(60)
 					.keepAspectRatio(true)
 					.toFile(new java.io.File(resource.getPath()).getParentFile()
-									+"\\mini."+new java.io.File(resource.getPath()).getName());
+									+"/mini."+new java.io.File(resource.getPath()).getName());
 		}
 		this.resources.add(resource);
 		merge();
