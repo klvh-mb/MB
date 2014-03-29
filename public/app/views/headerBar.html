@@ -37,7 +37,7 @@
 			<li class="dropdown notif">
 				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
 					<div style="margin: 10px 0 0 0;">
-						<span data-ng-show="friend_requests.length > 0">
+						<span data-ng-show="isFRreaded == true" data-ng-mouseover="reset_fr_count()">
 							<span class="badge pull-right">{{friend_requests.length}}</span>
 						</span>
 						<i class="fa fa-group"></i>
@@ -63,7 +63,7 @@
 			<li class="dropdown notif">
 				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
 					<div style="margin: 10px 0 0 0;">
-						<span data-ng-show="join_requests.length > 0">
+						<span data-ng-show="isNOreaded == true" data-ng-mouseover="reset_notify_count()">
 							<span class="badge pull-right">{{join_requests.length}}</span>
 						</span>
 						<i class="fa icon-earth"></i>
@@ -71,7 +71,7 @@
 				</a>
 				<ul class="dropdown-menu chat media-list" data-ng-show="join_requests.length > 0">
 					<li class="media" data-ng-repeat="request in join_requests">
-				        <a class="pull-left" href="#"><img class="media-object thumb" data-ng-src="/user-image-by-id/{{request.id}}" alt="50x50" width="50"></a>
+				        <a class="pull-left" href="#"><img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{request.id}}" alt="50x50" width="50"></a>
 						<div class="media-body" data-ng-init="request.isLoadingEnable = false">
 				        	
 				        	<button data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
@@ -99,11 +99,11 @@
 			</div>
 		
 			<div class="row">
-				<ul class="col-lg-12 col-md-12 col-sd-12 dropdown-menu chat media-list hide" ng-class="{show : result.length > 0 && query.length > 0}" style="left: 5px;">
+				<ul class="col-lg-11 col-md-11 col-sd-11 dropdown-menu chat media-list hide" ng-class="{show : result.length > 0 && query.length > 0}" style="left: 12px;">
 					<li class="media" ng-repeat="sr in result" ng-switch="sr.tp">
 				        <!-- shows user section -->
 				        <a ng-switch-when="USER" class="pull-left" href="#/profile/{{sr.id}}">
-				        	<img class="media-object thumb" data-ng-src="/user-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
+				        	<img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
 				        </a>
 				        
 				        <!-- shows community section -->
@@ -148,6 +148,10 @@
 	
 	.btn .no-margin {
 		margin: 0 -3px !important;
+	}
+	
+	.navbar .dropdown a.dropdown-toggle:focus {
+		color: #ffffff;
 	}
 </style>
 

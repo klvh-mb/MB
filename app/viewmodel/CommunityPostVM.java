@@ -28,7 +28,7 @@ public class CommunityPostVM {
 		postVM.postId = post.id;
 		postVM.ownerId = post.owner.id;
 		postVM.postedBy = post.owner.name;
-		postVM.postedOn = df.format(new Date());
+		postVM.postedOn = df.format(post.getCreatedDate());
 		postVM.postedText = post.body;
 		postVM.noOfComments = post.comments.size();
 		

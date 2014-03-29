@@ -108,6 +108,8 @@ minibean.controller('ApplicationController',function($scope, userInfoService, us
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.friend_requests = userNotification.getAllFriendRequests.get();
 	$scope.join_requests = userSimpleNotifications.getAllJoinRequests.get();
+	$scope.isFRreaded = true;
+	$scope.isNOreaded = true;
 	
 	$scope.accept_friend_request = function(id) {
 		
@@ -144,13 +146,18 @@ minibean.controller('ApplicationController',function($scope, userInfoService, us
 						request.isLoadingEnable = false;
 						request.isRequestAccepted = true;
 					}
-					console.log(request);
 				});
 			}
 		);
 	}
 	
+	$scope.reset_fr_count = function() {
+		$scope.isFRreaded = false;
+	}
 	
+	$scope.reset_notify_count = function() {
+		$scope.isNOreaded = false;
+	}
 });
 
 ///////////////////////// User Info Service End //////////////////////////////////
