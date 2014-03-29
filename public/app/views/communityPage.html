@@ -18,12 +18,18 @@
         				</h3>
               		</div>
               		
-   					<div ng-show="community.isM" class="innerAll pull-right border-right">
+   					<div ng-show="community.isM == true && isLoadingEnabled==false" class="innerAll pull-right border-right">
    						<button class="btn btn-primary" style="background: #0099FF;" data-ng-click="leave_community(community.i)"><i class="fa fa-thumbs-down"></i> Leave</button>
    					</div>
-   					<div ng-show="!community.isM" class="innerAll pull-right border-right">
+   					<div ng-show="community.isM == false && isLoadingEnabled==false" class="innerAll pull-right border-right">
    						<button class="btn btn-primary" style="background: #0099FF;" data-ng-click="send_join(community.i)"><i class="fa fa-user"></i> Join</button>
-   					</div>	
+   					</div>
+   					
+   					<div ng-show="isLoadingEnabled==true" class="innerAll pull-right border-right">
+       					<span class="label label-warning" style="font-size: 110% !important;padding: 9px 12px;">
+       						Loading .. 
+       					</span>
+       				</div>	
             	</div>
          	</div>
        </div>

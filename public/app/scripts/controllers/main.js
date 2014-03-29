@@ -513,6 +513,7 @@ minibean.service('profileService',function($resource){
 });
 
 minibean.controller('ProfileController',function($scope, $routeParams, profileService, friendsService,sendInvitation, unFriendService){
+	$scope.isLoadingEnabled = false;
 	$scope.navigateTo = function (navigateTo) {
 		$scope.active = navigateTo;
 		if(navigateTo === 'friends') {
@@ -521,11 +522,19 @@ minibean.controller('ProfileController',function($scope, $routeParams, profileSe
 		
 	}
 	$scope.send_invite = function(id) {
-		this.invite = sendInvitation.inviteFriend.get({id:id});
+		$scope.isLoadingEnabled = true;
+		this.invite = sendInvitation.inviteFriend.get({id:id}, function(data) {
+			$scope.isLoadingEnabled = false;
+			$scope.profile.isf = true;
+		});
 	}
 	
 	$scope.un_friend = function(id) {
-		this.unFriendHim = unFriendService.doUnfriend.get({id:id});
+		$scope.isLoadingEnabled = true;
+		this.unFriendHim = unFriendService.doUnfriend.get({id:id}, function(data) {
+			$scope.isLoadingEnabled = false;
+			$scope.profile.isf = false;
+		});
 	}
 	
 	$scope.active = "about";
@@ -567,8 +576,10 @@ minibean.service('communityJoinService',function($resource){
 
 minibean.controller('CommunityPageController', function($scope, $routeParams, $http, communityPageService, communityJoinService){
 	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id});
+	
+	$scope.isLoadingEnabled = false;
+	
 	$scope.comment_on_post = function(id, commentText) {
-		
 		var data = {
 			"post_id" : id,
 			"commentText" : commentText
@@ -599,11 +610,19 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	};
 
 	$scope.send_join = function(id) {
-		this.send_join_request = communityJoinService.sendJoinRequest.get({"id":id});
+		$scope.isLoadingEnabled = true;
+		this.send_join_request = communityJoinService.sendJoinRequest.get({"id":id}, function(data) {
+			$scope.isLoadingEnabled = false;
+			$scope.community.isM = true;
+		});
 	}
 	
 	$scope.leave_community = function(id) {
-		this.leave_this_community = communityJoinService.leaveCommunity.get({"id":id});
+		$scope.isLoadingEnabled = true;
+		this.leave_this_community = communityJoinService.leaveCommunity.get({"id":id}, function(data) {
+			$scope.isLoadingEnabled = false;
+			$scope.community.isM = false;
+		});
 	}
 });
 

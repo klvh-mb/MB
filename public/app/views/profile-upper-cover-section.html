@@ -21,12 +21,18 @@
 										<h3 class="margin-none">{{profile.dn}}
                     					</h3>
                   					</div>
-                  					<div ng-show="profile.isf" class="innerAll pull-right border-right">
+                  					<div ng-show="profile.isf==true && isLoadingEnabled==false" class="innerAll pull-right border-right">
                   						<button class="btn btn-primary" data-ng-click="un_friend(profile.i)"><i class="fa fa-thumbs-down"></i> UnFriend</button>
                   					</div>
-                  					<div ng-show="!profile.isf" class="innerAll pull-right border-right">
+                  					<div ng-show="profile.isf==false && isLoadingEnabled==false" class="innerAll pull-right border-right">
                   						<button class="btn btn-primary" data-ng-click="send_invite(profile.i)"><i class="fa fa-user"></i> Invite</button>
                   					</div>	
+                  					
+                  					<div ng-show="isLoadingEnabled==true" class="innerAll pull-right border-right">
+	                  					<span class="label label-warning" style="font-size: 110% !important;padding: 9px 12px;">
+	                  						Loading .. 
+	                  					</span>
+	                  				</div>
                 				</div>
               				</div>
             		   </div>
