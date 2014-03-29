@@ -59,6 +59,7 @@ public class Signup extends Controller {
 		return ok(password_forgot.render(form));
 	}
 
+	@Transactional
 	public static Result doForgotPassword() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<MyIdentity> filledForm = FORGOT_PASSWORD_FORM
@@ -131,6 +132,7 @@ public class Signup extends Controller {
 		return ret;
 	}
 
+	@Transactional
 	public static Result resetPassword(final String token) {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final TokenAction ta = tokenIsValid(token, Type.PASSWORD_RESET);
@@ -142,6 +144,7 @@ public class Signup extends Controller {
 				.fill(new PasswordReset(token))));
 	}
 
+	@Transactional
 	public static Result doResetPassword() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<PasswordReset> filledForm = PASSWORD_RESET_FORM

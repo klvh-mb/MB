@@ -165,13 +165,10 @@ public class UserController extends Controller {
     }
     
     @Transactional
-    public static Result acceptFriendRequest(Long id) throws InterruptedException {
+    public static Result acceptFriendRequest(Long id) {
     	final User localUser = Application.getLocalUser(session());
     	User invitee = User.findById(id);
     	
-    	//added for testing purpose so that we can see loading sign
-    	
-    	Thread.sleep(3000);
     	try {
 			localUser.onFriendRequestAccepted(invitee);
 		} catch (SocialObjectNotJoinableException e) {
@@ -192,12 +189,11 @@ public class UserController extends Controller {
     }
     
     @Transactional
-    public static Result acceptJoinRequest(Long member_id,Long group_id) throws InterruptedException {
+    public static Result acceptJoinRequest(Long member_id,Long group_id) {
     	final User localUser = Application.getLocalUser(session());
     	User invitee = User.findById(member_id);
     	Community community = Community.findById(group_id);
     	
-    	Thread.sleep(3000);
     	try {
 			localUser.joinRequestAccepted(community, invitee);
 		} catch (SocialObjectNotJoinableException e) {
