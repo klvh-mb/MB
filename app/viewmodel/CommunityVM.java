@@ -5,6 +5,7 @@ import java.util.List;
 
 import models.Community;
 import models.Post;
+import models.User;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -17,16 +18,16 @@ public class CommunityVM {
 	@JsonProperty("isM") public boolean isMyCommunity;
 	@JsonProperty("posts") public List<CommunityPostVM> posts;
 	
-	public static CommunityVM communityVM (Community c, Long userId, String userName) {
+	public static CommunityVM communityVM (Community c, User user) {
 		CommunityVM vm = new CommunityVM();
-		vm.loggedUserId = userId;
-		vm.loggedUserName = userName;
+		vm.loggedUserId = user.id;
+		vm.loggedUserName = user.displayName;
 		
 		vm.name = c.name;
 		vm.id = c.id;
 		
 		//TODO Logic required
-		vm.isMyCommunity = true;
+		vm.isMyCommunity = user.isMemberOf(c);
 		
 		List<CommunityPostVM> posts = new ArrayList<>();
 		

@@ -121,8 +121,6 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	@Transactional
 	public void onJoinRequestAccepted(User user)
 			throws SocialObjectNotJoinableException {
-		this.members.add(user);
-		JPA.em().merge(this);
 		recordJoinRequestAccepted(user);
 	}
 	

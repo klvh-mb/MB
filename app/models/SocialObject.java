@@ -94,7 +94,7 @@ public abstract class SocialObject extends domain.Entity implements
 		q.setParameter(3, SocialRelation.ActionType.JOIN_REQUESTED);
 
 		SocialRelation action = (SocialRelation) q.getSingleResult();
-		action.actionType = null;
+		action.actionType = SocialRelation.ActionType.GRANT;
 		action.action = SocialRelation.Action.MEMBER;
 		action.save();
 

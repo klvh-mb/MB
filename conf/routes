@@ -75,7 +75,7 @@ GET		/user-search				controllers.UserController.searchSocialObjects(query: Strin
 GET		/get-friend-requests		controllers.UserController.getAllFriendRequests
 GET		/accept-friend-request		controllers.UserController.acceptFriendRequest(friend_id :Long)
 GET		/get-join-requests			controllers.UserController.getAllJoinRequests
-GET		/accept-join-request		controllers.UserController.acceptJoinRequest(member_id :Long, group_id :Long)
+GET		/accept-join-request/:member_id/:group_id		controllers.UserController.acceptJoinRequest(member_id :Long, group_id :Long)
 
 GET     /profile/:id                controllers.UserController.getProfile(id :Long)
 GET		/get-profile-image-by-id/:id		controllers.UserController.getProfileImageByID(id :Long)
@@ -91,6 +91,7 @@ GET		/user-image-by-id/:id		controllers.FriendsController.getUserImageById(id :L
 GET		/send-invite				controllers.FriendsController.sendInvitation(id: String)
 GET     /friends/:id  				controllers.FriendsController.getUserFriendsByID(id :Long)
 GET		/un-friend					controllers.FriendsController.doUnFriend(id: Long)
+
 #Community
 GET		/get-not-join-community					controllers.CommunityController.getUserUnJoinCommunity
 GET		/get-all-communities					controllers.CommunityController.getAllCommunitiesOfUser
@@ -99,4 +100,7 @@ GET		/community-image-by-id/:id				controllers.CommunityController.getThumbnailC
 GET		/send-request							controllers.CommunityController.sendJoinRequest(id: String)
 GET		/get-cover-community-image-by-id/:id	controllers.CommunityController.getFullCoverCommunityImageById(id :Long)
 GET		/community/:id							controllers.CommunityController.getCommunityInfoById(id :Long)
-POST	/community/comment						controllers.CommunityController.commentOnCommunityPost()
+POST	/community/post/comment					controllers.CommunityController.commentOnCommunityPost()
+POST	/community/post							controllers.CommunityController.postOnCommunity()
+GET		/community/join/:id						controllers.CommunityController.joinToCommunity(id : Long)
+GET		/community/leave/:id					controllers.CommunityController.leaveThisCommunity(id : Long)

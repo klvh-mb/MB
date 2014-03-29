@@ -778,12 +778,37 @@ public class User extends SocialObject implements Subject, Socializable {
 		return result == 1;
 	}
 	
+
+	@JsonIgnore
+	public boolean isMemberOf(Community community) {
+		Query query = JPA.em().createQuery("SELECT count(*) from SocialRelation where ((target = ?1 and actor = ?2) or (actor = ?1 and target = ?2)) and action = ?3");
+		query.setParameter(1, this);
+		query.setParameter(2, community);
+		query.setParameter(3, SocialRelation.Action.MEMBER);
+		Long result = (Long) query.getSingleResult();
+		return result == 1;
+	}
+	
+	@JsonIgnore
 	public int doUnFriend(User toBeUnfriend) {
 		Query query = JPA.em().createQuery("UPDATE SocialRelation sr SET sr.actionType=?1, sr.action = NULL where ((sr.target = ?2 and sr.actor = ?3) or (sr.actor = ?2 and sr.target = ?3)) and sr.action = ?4");
 		query.setParameter(1, SocialRelation.ActionType.UNFRIEND);
 		query.setParameter(2, this);
 		query.setParameter(3, toBeUnfriend);
 		query.setParameter(4, SocialRelation.Action.FRIEND);
+		
+		int updateCount = query.executeUpdate();
+		
+		return updateCount;
+	}
+	
+	@JsonIgnore
+	public int leaveCommunity(Community community) {
+		Query query = JPA.em().createQuery("UPDATE SocialRelation sr SET sr.actionType=?1, sr.action = NULL where ((sr.target = ?2 and sr.actor = ?3) or (sr.actor = ?2 and sr.target = ?3)) and sr.action = ?4");
+		query.setParameter(1, SocialRelation.ActionType.LEAVE_COMMUNITY);
+		query.setParameter(2, this);
+		query.setParameter(3, community);
+		query.setParameter(4, SocialRelation.Action.MEMBER);
 		
 		int updateCount = query.executeUpdate();
 		

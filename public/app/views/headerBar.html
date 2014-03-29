@@ -16,7 +16,7 @@
 		<div class="dropdown username pull-left">
 			<a class="dropdown-toggle dropdown-hover" data-toggle="dropdown" href="#">
 				<span class="media margin-none" >
-					<span class="pull-left"><img src="/get-profile-image" alt="user" class="img-circle"></span>
+					<span class="pull-left"><img data-ng-src="/get-mini-image-by-id/{{userInfo.id}}" alt="user" class="img-circle"></span>
 					<span class="media-body">{{userInfo.name}}<span class="caret"></span></span>
 				</span>
 			</a>
@@ -36,12 +36,12 @@
 			
 			<li class="dropdown notif">
 				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
-					<button class="btn btn-stroke btn-circle btn-success" style="margin: 10px 0 0 0;">
+					<div style="margin: 10px 0 0 0;">
 						<span data-ng-show="friend_requests.length > 0">
 							<span class="badge pull-right">{{friend_requests.length}}</span>
 						</span>
 						<i class="fa fa-group"></i>
-					</button>
+					</div>
 				</a>
 				<ul class="dropdown-menu chat media-list" data-ng-show="friend_requests.length > 0" >
 					<li class="media" data-ng-repeat="friend in friend_requests">
@@ -62,18 +62,25 @@
 			
 			<li class="dropdown notif">
 				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
-					<button class="btn btn-stroke btn-circle btn-inverse" style="margin: 10px 0 0 0;">
+					<div style="margin: 10px 0 0 0;">
 						<span data-ng-show="join_requests.length > 0">
 							<span class="badge pull-right">{{join_requests.length}}</span>
 						</span>
 						<i class="fa icon-earth"></i>
-					</button>
+					</div>
 				</a>
 				<ul class="dropdown-menu chat media-list" data-ng-show="join_requests.length > 0">
 					<li class="media" data-ng-repeat="request in join_requests">
 				        <a class="pull-left" href="#"><img class="media-object thumb" data-ng-src="/user-image-by-id/{{request.id}}" alt="50x50" width="50"></a>
-						<div class="media-body">
-				        	<button data-ng-click="accept_join_request(request.id, request.mm)" class="btn btn-xs btn-success pull-right">accept</button>
+						<div class="media-body" data-ng-init="request.isLoadingEnable = false">
+				        	
+				        	<button data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
+				        	 	data-ng-click="accept_join_request(request.id, request.mm)" class="btn btn-xs btn-success pull-right">accept</button>
+				        	
+				        	<label class="label label-default pull-right" data-ng-show="request.isRequestAccepted == true">Accepted</label>
+				        	
+				        	<span class="label label-primary pull-right" data-ng-show="request.isLoadingEnable == true">Loading...</span>
+				            
 				            <a href="#/community/{{request.id}}"><h5 class="media-heading">{{request.dn}}</h5></a>
 				        </div>
 					</li>
@@ -83,19 +90,27 @@
 	</div>			
 	
 	<div class="col-lg-3 col-md-3 col-sd-3 pull-left" data-ng-controller="SearchController" style="padding-top: 1%;">
+			
 			<div class="col-lg-12 col-md-12 col-sd-12">
-				<input type="text" class="form-control" data-ng-keyup="search_result(query)" data-ng-model="query">
+				<div class="input-group input-group-sm innerC">
+				 	<input type="text" class="form-control" data-ng-keyup="search_result(query)" placeholder="Search Users" data-ng-model="query">
+					<div class="input-group-btn"><button class="btn btn-default" type="button" style="margin: 0 -3px !important;"><i class="fa fa-search"></i></button></div>
+				</div>
 			</div>
 		
 			<div class="row">
 				<ul class="col-lg-12 col-md-12 col-sd-12 dropdown-menu chat media-list hide" ng-class="{show : result.length > 0 && query.length > 0}" style="left: 5px;">
-					<li class="media" ng-repeat="sr in result">
-				        <a class="pull-left" href="#/profile/{{sr.id}}" ng-switch="sr.tp">
-				        	
-				        	<img ng-switch-when="USER" class="media-object thumb" data-ng-src="/user-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
-				        	
-				        	<img ng-switch-when="COMMUNITY" class="media-object thumb" data-ng-src="/community-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
+					<li class="media" ng-repeat="sr in result" ng-switch="sr.tp">
+				        <!-- shows user section -->
+				        <a ng-switch-when="USER" class="pull-left" href="#/profile/{{sr.id}}">
+				        	<img class="media-object thumb" data-ng-src="/user-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
 				        </a>
+				        
+				        <!-- shows community section -->
+				        <a ng-switch-when="COMMUNITY" class="pull-left" href="#/community/{{sr.id}}">
+				        	<img class="media-object thumb" data-ng-src="/community-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
+				        </a>
+				        
 						<div class="media-body">
 				        	
 				            <h5 class="media-heading">{{sr.nm}}</h5>
@@ -108,6 +123,29 @@
 	
 </div>
 
+<!-- Css Style -->
+<style type="text/css">
+	.notifications>li.open {
+		background: #0099FF !important;
+	}
+	
+	.navbar .input-group {
+		height: 0px !important;
+	}
+	
+	.navbar .input-group .form-control {
+		height: 30px !important;
+		padding-left: 1%;
+	}
+	
+	.innerC {
+		padding-bottom: 0px;
+	}
+	
+	.btn .no-margin {
+		margin: 0 -3px !important;
+	}
+</style>
 
 
 

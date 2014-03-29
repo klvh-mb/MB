@@ -12,8 +12,6 @@ import models.User;
 
 import org.apache.commons.io.FileUtils;
 
-import com.mnt.exception.SocialObjectNotJoinableException;
-
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -21,9 +19,12 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import viewmodel.CommunitiesWidgetChildVM;
 import viewmodel.FriendWidgetChildVM;
 import viewmodel.ProfileVM;
 import viewmodel.SocialObjectVM;
+
+import com.mnt.exception.SocialObjectNotJoinableException;
 
 public class UserController extends Controller {
 	
@@ -164,10 +165,13 @@ public class UserController extends Controller {
     }
     
     @Transactional
-    public static Result acceptFriendRequest(Long id) {
+    public static Result acceptFriendRequest(Long id) throws InterruptedException {
     	final User localUser = Application.getLocalUser(session());
     	User invitee = User.findById(id);
     	
+    	//added for testing purpose so that we can see loading sign
+    	
+    	Thread.sleep(3000);
     	try {
 			localUser.onFriendRequestAccepted(invitee);
 		} catch (SocialObjectNotJoinableException e) {
@@ -180,19 +184,20 @@ public class UserController extends Controller {
     public static Result getAllJoinRequests() {
     	final User localUser = Application.getLocalUser(session());
     	List<Notification> joinRequests = localUser.getAllJoinRequestNotification();
-    	List<FriendWidgetChildVM> requests = new ArrayList<>();
+    	List<CommunitiesWidgetChildVM> requests = new ArrayList<>();
     	for(Notification n : joinRequests) {
-    		requests.add(new FriendWidgetChildVM(n.socialAction.actor.id, n.socialAction.actor.name));
+    		requests.add(new CommunitiesWidgetChildVM(n.socialAction.actor.id, n.socialAction.target.id, n.socialAction.actor.name));
     	}
     	return ok(Json.toJson(requests));
     }
     
     @Transactional
-    public static Result acceptJoinRequest(Long member_id,Long group_id) {
+    public static Result acceptJoinRequest(Long member_id,Long group_id) throws InterruptedException {
     	final User localUser = Application.getLocalUser(session());
     	User invitee = User.findById(member_id);
     	Community community = Community.findById(group_id);
     	
+    	Thread.sleep(3000);
     	try {
 			localUser.joinRequestAccepted(community, invitee);
 		} catch (SocialObjectNotJoinableException e) {

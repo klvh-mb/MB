@@ -1,5 +1,7 @@
 package controllers;
 
+import static play.data.Form.form;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -9,21 +11,19 @@ import models.Community;
 import models.Post;
 import models.User;
 import play.data.DynamicForm;
-import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import viewmodel.CommunitiesWidgetChildVM;
 import viewmodel.CommunityVM;
 import viewmodel.NotJoinedCommunitiesParentVM;
-import viewmodel.NotJoinedCommunitiesWidgetChildVM;
 
 import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotJoinableException;
 
 import domain.CommentType;
-
-import static play.data.Form.form;
+import domain.PostType;
 
 public class CommunityController extends Controller{
 
@@ -31,9 +31,9 @@ public class CommunityController extends Controller{
 	public static Result getUserUnJoinCommunity() {
 		final User localUser = Application.getLocalUser(session());
 		int count=0;
-		List<NotJoinedCommunitiesWidgetChildVM> communityList = new ArrayList<>();
+		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		for(Community community : localUser.getListOfNotJoinedCommunities()) {
-			communityList.add(new NotJoinedCommunitiesWidgetChildVM(community.id,  (long) community.members.size(), community.name));
+			communityList.add(new CommunitiesWidgetChildVM(community.id,  (long) community.members.size(), community.name));
 			++count;
 			
 			if(count == 3) {
@@ -50,7 +50,7 @@ public class CommunityController extends Controller{
 	public static Result getCommunityInfoById(Long id) {
 		final User localUser = Application.getLocalUser(session());
 		final Community community = Community.findById(id);
-		return ok(Json.toJson(CommunityVM.communityVM(community, localUser.id, localUser.displayName)));
+		return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
 	}
 	
 	@Transactional
@@ -82,9 +82,9 @@ public class CommunityController extends Controller{
 	@Transactional
 	public static Result getAllCommunitiesOfUser() {
 		final User localUser = Application.getLocalUser(session());
-		List<NotJoinedCommunitiesWidgetChildVM> communityList = new ArrayList<>();
+		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		for(Community community : localUser.getListOfNotJoinedCommunities()) {
-			communityList.add(new NotJoinedCommunitiesWidgetChildVM(community.id,  (long) community.members.size(), community.name));
+			communityList.add(new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name));
 		}
 		
 		NotJoinedCommunitiesParentVM fwVM = new NotJoinedCommunitiesParentVM(communityList.size(), communityList);
@@ -95,9 +95,9 @@ public class CommunityController extends Controller{
 	public static Result getMyAllCommunities() {
 		final User localUser = Application.getLocalUser(session());
 		int count=0;
-		List<NotJoinedCommunitiesWidgetChildVM> communityList = new ArrayList<>();
+		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		for(Community community : localUser.getListOfJoinedCommunities()) {
-			communityList.add(new NotJoinedCommunitiesWidgetChildVM(community.id,  (long) community.members.size(), community.name));
+			communityList.add(new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name));
 			++count;
 			
 			if(count == 3) {
@@ -144,7 +144,42 @@ public class CommunityController extends Controller{
 		return ok(Json.toJson(p.id));
 	}
 	
+	@Transactional
+	public static Result postOnCommunity() {
+		final User localUser = Application.getLocalUser(session());
+		DynamicForm form = form().bindFromRequest();
+		
+		Long communityId = Long.parseLong(form.get("community_id"));
+		String postText = form.get("postText");
+		
+		Community c = Community.findById(communityId);
+		
+		Post p = (Post) c.onPost(localUser, postText, PostType.SIMPLE);
+		
+		return ok(Json.toJson(p.id));
+	}
 	
+	@Transactional
+	public static Result joinToCommunity(Long id) {
+		final User localUser = Application.getLocalUser(session());
+		Community community = Community.findById(id);
+		try {
+			localUser.requestedToJoin(community);
+		} catch (SocialObjectNotJoinableException e) {
+			e.printStackTrace();
+		}
+		return ok();
+	}
+	
+	@Transactional
+	public static Result leaveThisCommunity(Long community_id) {
+		final User localUser = Application.getLocalUser(session());
+		Community community = Community.findById(community_id);
+		
+		localUser.leaveCommunity(community);
+		
+		return ok();
+	}
 }
 	
 	

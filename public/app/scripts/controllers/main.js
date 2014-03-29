@@ -88,10 +88,10 @@ minibean.service('userSimpleNotifications',function($resource){
 
 minibean.service('acceptJoinRequestService',function($resource){
 	this.acceptJoinRequest = $resource(
-			'/accept-join-request?friend_id=:id',
+			'/accept-join-request/:member_id/:group_id',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
-				get: {method:'GET', params:{id:'@id'}, isArray:true}
+				get: {method:'GET', params:{member_id:'@member_id',group_id:'@group_id'}, isArray:true}
 			}
 	);
 });
@@ -131,11 +131,23 @@ minibean.controller('ApplicationController',function($scope, userInfoService, us
 	};
 	$scope.accept_join_request = function(member_id,group_id) {
 		
-		this.acceptJoinRequest = acceptJoinRequestService.acceptJoinRequest.get({"member_id":member_id, "group_id":group_id},
-				function() {
-			$scope.isRequestAccepted = true;
-		}
-	);
+		angular.forEach($scope.join_requests, function(request, key){
+			if(request.id == member_id) {
+				request.isLoadingEnable = true;
+			}
+		});
+		
+		this.accept_join_request = acceptJoinRequestService.acceptJoinRequest.get({"member_id":member_id, "group_id":group_id},
+			function() {
+				angular.forEach($scope.join_requests, function(request, key){
+					if(request.id == member_id) {
+						request.isLoadingEnable = false;
+						request.isRequestAccepted = true;
+					}
+					console.log(request);
+				});
+			}
+		);
 	}
 	
 	
@@ -497,7 +509,25 @@ minibean.service('communityPageService',function($resource){
 	);
 });
 
-minibean.controller('CommunityPageController', function($scope, $routeParams, $http, communityPageService){
+minibean.service('communityJoinService',function($resource){
+	this.sendJoinRequest = $resource(
+			'/community/join/:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{id:'@id'}}
+			}
+	);
+	
+	this.leaveCommunity = $resource(
+			'/community/leave/:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{id:'@id'}}
+			}
+	);
+});
+
+minibean.controller('CommunityPageController', function($scope, $routeParams, $http, communityPageService, communityJoinService){
 	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id});
 	$scope.comment_on_post = function(id, commentText) {
 		
@@ -505,14 +535,37 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 			"post_id" : id,
 			"commentText" : commentText
 		};
-		$http.post('/community/comment', data).success(function(post_id) {
+		$http.post('/community/post/comment', data).success(function(post_id) {
 			angular.forEach($scope.community.posts, function(post, key){
 				if(post.id == post_id) {
-					var comment = {"oid" : $scope.community.lu, "d" : commentText, "on" : $scope.community.lun, "cd" : new Date()};
+					post.n_c++;
+					var comment = {"oid" : $scope.community.lu, "d" : commentText, "on" : $scope.community.lun, 
+							"cd" : new Date(), "n_c" : post.n_c};
 					post.cs.push(comment);
 				}
 			});
 		});
+	};
+	
+	$scope.post_on_community = function(id, postText) {
+		
+		var data = {
+			"community_id" : id,
+			"postText" : postText
+		};
+		$http.post('/community/post', data).success(function(post_id) {
+				var post = {"oid" : $scope.community.lu, "pt" : postText, 
+							"p" : $scope.community.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
+				$scope.community.posts.push(post);
+		});
+	};
+
+	$scope.send_join = function(id) {
+		this.send_join_request = communityJoinService.sendJoinRequest.get({"id":id});
+	}
+	
+	$scope.leave_community = function(id) {
+		this.leave_this_community = communityJoinService.leaveCommunity.get({"id":id});
 	}
 });
 

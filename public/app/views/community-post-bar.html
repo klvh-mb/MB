@@ -1,4 +1,7 @@
 <!-- Reference to social-v1.0.0/admin/timeline_2.html?lang=en -->
+<input type="text" class="form-control" placeholder="Share your mood" data-ng-model="postText">
+<button type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.i, postText)">post it!</button>
+	
 <div class="widget" data-ng-repeat="post in community.posts">
 	<div class="bg-primary" style="background: #0099FF !important;">
 		<div class="media">
@@ -10,7 +13,7 @@
 					<i class="icon-reply-all-fill fa fa-2x "></i>
 				</a>
 				<a href="" class="text-white display-block">{{post.p}}</a>
-				<span>posted on {{post.t}} <i class="icon-time-clock"></i></span>
+				<span>posted on {{post.t | date: 'MMMM dd, yyyy'}} <i class="icon-time-clock"></i></span>
 			</div>
 		</div>
 	</div>
