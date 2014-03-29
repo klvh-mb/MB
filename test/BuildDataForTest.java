@@ -9,23 +9,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.Query;
-
 import junit.framework.Assert;
 import models.Community;
-import models.Notification;
 import models.Resource;
 import models.User;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-
-import com.mnt.exception.SocialObjectNotJoinableException;
 
 import play.Play;
 import play.db.jpa.JPA;
 import play.mvc.Result;
+
+import com.mnt.exception.SocialObjectNotJoinableException;
 
 
 public class BuildDataForTest {
@@ -157,27 +153,27 @@ public class BuildDataForTest {
 								.findByEmail("jagbir.friend8@test.com");
 						
 						Community Group7 = new Community(
-								"Test Group1", friend5);
+								"Test Group1","Test Description 1", friend5);
 						Group7.save();
 						Community Group6= new Community(
-								"Test Group2", jagbir_friend_Amit);
+								"Test Group2","Test Description 2", jagbir_friend_Amit);
 						Group6.save();
 						Community Group3 = new Community(
-								"Test Group3", jagbir);
+								"Test Group3","Test Description 3", jagbir);
 						Group3.save();
 						
 						Community Group1 = new Community(
-								"Test Group4", friend2);
+								"Test Group4","Test Description4", friend2);
 						Group1.save();
 						
 						Community Group2 = new Community(
-								"Test Group5", friend1);
+								"Test Group5","Test Description 5", friend1);
 						Group2.save();
 						Community Group5 = new Community(
-								"Test Group6", friend3);
+								"Test Group6","Test Description 6", friend3);
 						Group5.save();
 						Community Group4 = new Community(
-								"Test Group7", friend4);
+								"Test Group7","Test Description 7", friend4);
 						Group4.save();
 						
 						try {
