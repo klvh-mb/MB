@@ -1,9 +1,13 @@
 package controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import models.TokenAction;
 import models.TokenAction.Type;
 import models.User;
 import play.data.Form;
+import play.data.validation.ValidationError;
 import play.db.jpa.Transactional;
 import play.i18n.Messages;
 import play.mvc.Controller;
@@ -11,6 +15,7 @@ import play.mvc.Result;
 import providers.MyLoginUsernamePasswordAuthUser;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyIdentity;
+import providers.MyUsernamePasswordAuthProvider.MySignup;
 import providers.MyUsernamePasswordAuthUser;
 import views.html.account.signup.*;
 
@@ -195,7 +200,14 @@ public class Signup extends Controller {
 
 	public static Result exists() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-		return ok(exists.render());
+		final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM
+				.bindFromRequest();
+		List<ValidationError> arg1 = new ArrayList<>();
+		arg1.add(new ValidationError("userExist", "User Exist"));
+		filledForm.errors().put("userExist", arg1 );
+		
+		
+		return ok(views.html.signup.render(filledForm));
 	}
 
 	@Transactional
