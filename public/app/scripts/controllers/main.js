@@ -361,6 +361,44 @@ minibean.controller('GroupController',function($scope, $routeParams, $http, comm
 	
 });
 
+
+
+minibean.controller('CreateCommunityController',function($scope,  $http,  $upload, $validator){
+	
+	$scope.formData = {};
+	$scope.selectedFiles =[];
+	$scope.submitBtn = "Save";
+	$scope.submit = function() {
+		 $validator.validate($scope, 'formData')
+		    .success(function () {
+		    	$upload.upload({
+					url: '/createCommunity',
+					method: 'POST',
+					file: $scope.selectedFiles[0],
+					data: $scope.formData,
+					fileFormDataName: 'cover-photo'
+				}).progress(function(evt) {
+					$scope.submitBtn = "Please Wait";
+			    }).success(function(data, status, headers, config) {
+			    	$scope.submitBtn = "Done";
+			    }).error(function(data, status, headers, config) {
+			    	$scope.submitBtn = "Try Again";
+			    });
+		    })
+		    .error(function () {
+		        console.log('error');
+		    });
+		
+	
+	}
+	
+	$scope.onFileSelect = function($files) {
+		$scope.selectedFiles = $files;
+		$scope.formData.photo = 'cover-photo';
+	}
+	
+});
+
 ///////////////////////// User Friends Widget Service Start //////////////////////////////////
 minibean.service('friendWidgetService',function($resource){
 	this.UserFriends = $resource(
@@ -613,7 +651,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		$scope.isLoadingEnabled = true;
 		this.send_join_request = communityJoinService.sendJoinRequest.get({"id":id}, function(data) {
 			$scope.isLoadingEnabled = false;
-			$scope.community.isM = true;
+			$scope.community.isP = true;
 		});
 	}
 	

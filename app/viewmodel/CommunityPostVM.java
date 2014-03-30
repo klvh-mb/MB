@@ -37,7 +37,6 @@ public class CommunityPostVM {
 		
 		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
 		for(Comment comment : post.comments) {
-			System.out.println(comment.owner.name);
 			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
 			commentsToShow.add(commentVM);
 		}

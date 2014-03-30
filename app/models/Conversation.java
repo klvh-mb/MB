@@ -73,7 +73,6 @@ public class Conversation extends domain.Entity implements Serializable,
 	}
 
 	public static Conversation findBetween(User u1, User u2) {
-	//	System.out.println(user1);
 		Query q = JPA
 				.em()
 				.createQuery(
@@ -85,7 +84,6 @@ public class Conversation extends domain.Entity implements Serializable,
 			
 			return (Conversation) q.getSingleResult();
 		} catch (NoResultException e) {
-			System.out.println("hi");
 			return null;
 		}
 	}

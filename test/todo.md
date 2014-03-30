@@ -1,5 +1,5 @@
 root@li664-78:# cd /home/MB
-root@li664-78:/home/MB# ./pullandsynch
+root@li664-78:/home/MB# ./pullandsynchtest
 root@li664-78:/home/MB# play test (Only in case you need to populate test data)
 root@li664-78:/home/MB# cd ../parent-social-1.0-SNAPSHOT/
 

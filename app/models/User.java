@@ -273,11 +273,9 @@ public class User extends SocialObject implements Subject, Socializable {
 			if (rslt.actor.name == this.name
 					&& rslt.target.objectType == SocialObjectType.COMMUNITY) {
 				communityList.add((Community) rslt.target);
-				System.out.println("Target" + rslt.target);
 			} else if (rslt.target.name == this.name
 					&& rslt.actor.objectType == SocialObjectType.COMMUNITY) {
 				communityList.add((Community) rslt.actor);
-				System.out.println("actor" + rslt.actor);
 			}
 		}
 		return communityList;
@@ -295,7 +293,6 @@ public class User extends SocialObject implements Subject, Socializable {
 		List<SocialRelation> result = JPA.em().createQuery(q).getResultList();
 
 		List<Community> communityList = new ArrayList<>();
-		System.out.println("getListOfNotJoinedCommunities :: " + result.size());
 		for (SocialRelation rslt : result) {
 			communityList.add((Community) rslt.target);
 		}
@@ -800,6 +797,16 @@ public class User extends SocialObject implements Subject, Socializable {
 	}
 	
 	@JsonIgnore
+	public boolean isJoinRequestPendingFor(Community community) {
+		Query query = JPA.em().createQuery("SELECT count(*) from SocialRelation where ((target = ?1 and actor = ?2) or (actor = ?1 and target = ?2)) " +
+				"and actionType = ?3");
+		query.setParameter(1, this);
+		query.setParameter(2, community);
+		query.setParameter(3, SocialRelation.ActionType.JOIN_REQUESTED);
+		Long result = (Long) query.getSingleResult();
+		return result == 1;
+	}
+	
 	public int doUnFriend(User toBeUnfriend) {
 		Query query = JPA.em().createQuery("UPDATE SocialRelation sr SET sr.actionType=?1, sr.action = NULL where ((sr.target = ?2 and sr.actor = ?3) or (sr.actor = ?2 and sr.target = ?3)) and sr.action = ?4");
 		query.setParameter(1, SocialRelation.ActionType.UNFRIEND);

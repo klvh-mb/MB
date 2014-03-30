@@ -9,7 +9,9 @@ angular.module('minibean', [
   'ui.bootstrap',
   'ui.bootstrap.tpls',
   'angularFileUpload',
-  'ui.bootstrap.datetimepicker'
+  'ui.bootstrap.datetimepicker',
+  'validator',
+  'validator.rules'
 ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -38,7 +40,7 @@ angular.module('minibean', [
       })
        .when('/createNewGroup',{
     	templateUrl: '/assets/app/views/createNewCommunity.html',
-    	controller : 'GroupController'
+    	controller : 'CreateCommunityController'
       })
       .when('/profile/:id',{
     	templateUrl: '/assets/app/views/visit-profile.html',

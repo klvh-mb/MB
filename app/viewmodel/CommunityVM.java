@@ -16,7 +16,8 @@ public class CommunityVM {
 	@JsonProperty("n") public String name;
 	@JsonProperty("d") public String description;
 	@JsonProperty("i") public long id;
-	@JsonProperty("isM") public boolean isMyCommunity;
+	@JsonProperty("isM") public boolean isMember;
+	@JsonProperty("isP") public boolean isRequested;
 	@JsonProperty("posts") public List<CommunityPostVM> posts;
 	
 	public static CommunityVM communityVM (Community c, User user) {
@@ -29,7 +30,9 @@ public class CommunityVM {
 		vm.id = c.id;
 		
 		//TODO Logic required
-		vm.isMyCommunity = user.isMemberOf(c);
+		vm.isMember = user.isMemberOf(c);
+		
+		vm.isRequested = user.isJoinRequestPendingFor(c);
 		
 		List<CommunityPostVM> posts = new ArrayList<>();
 		

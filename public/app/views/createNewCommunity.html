@@ -31,7 +31,7 @@
 					                    </div>
 					                    
 					                    <div class="col-md-6">
-					                    	<input type="text" class="form-control" placeholder="Community Name" data-ng-model="formData.groupName" required >
+					                    	<input type="text" class="form-control" placeholder="Community Name" validator="[required]" data-ng-model="formData.groupName" required >
 					                    </div>
 				                  </div>
 				                 </div>
@@ -46,7 +46,7 @@
 					                    </div>
 					                    
 					                    <div class="col-md-6">
-					                    	<textarea  class="form-control" placeholder="Community Description" data-ng-model="formData.groupDesc" required >
+					                    	<textarea  class="form-control" placeholder="Community Description" validator="[required]" data-ng-model="formData.groupDesc" required >
 						               		 </textarea>
 					                    </div>
 				                  </div>
@@ -62,20 +62,21 @@
 					                    </div>
 					                    
 					                    <div class="col-md-6">
-					                    	<input type="file" required name="cover-photo" ng-file-select="onFileSelect($files)"/>
+					                    	<input type="file" name="cover-photo"  ng-file-select="onFileSelect($files)"/>
+					                    	<input type="hidden" data-ng-model="formData.photo" validator="[required]" />
 					                    </div>
 				                  </div>
 				                 </div>
 				               </div>
 				                  
 				               <div class="row tm">
-				              		 <a ng-href="/#/about">
+				               	<div class="col-md-12">
 					              	<button ng-disabled="formData.$pristine || formData.$dirty && formData.$invalid" type="submit" class="btn btn-primary" >
 										<span class="glyphicon glyphicon-ok"></span>
+										{{submitBtn}}
 									</button>
-									</a>
-									
-							</div>
+								</div>	
+							   </div>
 						  </form>
 						</div>
 					</div>

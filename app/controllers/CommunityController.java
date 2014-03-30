@@ -171,8 +171,6 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result uploadCoverPhoto(Long id) {
-		Form<String> form = DynamicForm.form(String.class).bindFromRequest();
-		String groupID = form.data().get("i");
 		Community community = Community.findById(id);
 		FilePart picture = request().body().asMultipartFormData().getFile("profile-photo");
 		String fileName = picture.getFilename();
@@ -230,15 +228,11 @@ public class CommunityController extends Controller{
 	@Transactional
 	public static Result updateGroupProfileData() {
 		Form<String> form = DynamicForm.form(String.class).bindFromRequest();
-		String groupName = form.data().get("n");
-		String groupDesc = form.data().get("d");
 		String groupID = form.data().get("i");
 		Community community = Community.findById(Long.parseLong(groupID));
-		System.out.println(community.name+" ::: Group Name ::: "+groupName+" ::: Group Desc ::: "+groupDesc); 
 		community.name = form.data().get("n");
 		community.description = form.data().get("d");
 		community.merge();
-		System.out.println(community.name+" ::: Group Name ::: "+groupName+" ::: Group Desc ::: "+groupDesc); 
 		return ok("true");
 	}
 	
