@@ -19,18 +19,15 @@
 				<div style="float: left;width: 100%">
 					<img style="float: left;"
 						data-ng-src="/community-mini-image-by-id/{{fvm.id}}" alt="{{fvm.dn}}"
-						class="innerR innerB half" width="55" height="55">
-					<div style="width: 50%; float: left; margin-left: 2%;">
-						<p style="color: #0083C5; margin-top: 0%; margin-bottom: 0%;">{{fvm.dn}}</p>
+						class="innerR innerB half widget-img-mini">
+					<div style="float: left; margin-left: 2%;">
+						<p style="color: #0083C5; margin-top: 0%; margin-bottom: 0%;">{{fvm.dn}} ({{fvm.mm}})</p>
 						<div style="width: 100%; float: left;">
-							<p
-								style="margin-top: 0%; margin-bottom: 1%; margin-right: 5%; float: left; color: black;"></p>
-							<p style="margin-top: 0%; margin-bottom: 1%; color: gray;">Members ({{fvm.mm}})</p>
+							<p style="margin-top: 0%; margin-bottom: 1%; margin-right: 5%; float: left; color: black;"></p>
+							<button type="button" class="btn btn-primary btn-mini" data-ng-click="send_request(fvm.id)">Join</button>
 						</div>
 					</div>
-					<div style="float: right; margin-top: 1.5%; margin-right: 4%;">
-							<button type="button" data-ng-click="send_request(fvm.id)">Join</button>
-					</div>
+					
 				</div>
 			</a>
 			
