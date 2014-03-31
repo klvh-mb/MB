@@ -14,7 +14,7 @@
 								<div class="widget-body padding-none margin-none">
 									<div class="top">
 											<div class="top">
-												<img src="/get-cover-image" class="img-responsive" />
+												<img data-ng-src="{{coverImage}}" class="img-responsive" />
 											</div>	
 											<a ng-click="openCoverPhotoModal()" alt="Change" title="Change"  
 											style="margin: -245px 0px 0px 7px;position: absolute;" href=""  ><img src="/assets/app/images/edit.png"/></a>
@@ -28,7 +28,7 @@
 										<li><a href="messages.html?lang=en"><i class="icon-envelope-fill-1"></i> Messages <span>(2 new)</span></a></li>
 									</ul>
 									<div class="photo">
-										<img src="/get-profile-image" height="90px" class="img-circle"/>
+										<img data-ng-src="{{profileImage}}" height="90px" class="img-circle"/>
 										<i class="fa fa-fw icon-compose" ng-click="openProfilePhotoModal()" data-template="/assets/app/views/change-profile-photo-modal.html"></i> 
 									</div>
 

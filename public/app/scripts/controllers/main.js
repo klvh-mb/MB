@@ -248,12 +248,14 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 
 minibean.service('profilePhotoModal',function( $modal){
 	
-	this.OpenModal = function(arg) {
+	this.OpenModal = function(arg, successCallback) {
 		this.instance = $modal.open(arg);
+		this.onSuccess = successCallback;
 	}
 	
 	this.CloseModal = function() {
 		this.instance.dismiss('close');
+		this.onSuccess();
 	}
 	
 	
@@ -263,7 +265,12 @@ minibean.service('profilePhotoModal',function( $modal){
 
 
 minibean.controller('UserAboutController',function($scope, userAboutService, $http, profilePhotoModal){
+	var profileImage = "/get-profile-image";
+	var coverImage = "/get-cover-image";
+	
 	$scope.result = userAboutService.UserAbout.get();
+	$scope.profileImage = profileImage;
+	$scope.coverImage = coverImage;
 	
 	$scope.genders = [
 	                   {value: 'Male', text: 'Male'},
@@ -284,6 +291,8 @@ minibean.controller('UserAboutController',function($scope, userAboutService, $ht
 		profilePhotoModal.OpenModal({
 			 templateUrl: 'change-profile-photo-modal.html',
 			 controller: PhotoModalController
+		},function() {
+			$scope.profileImage = profileImage + "?q="+ Math.random();
 		});
 	}
 	
@@ -292,6 +301,8 @@ minibean.controller('UserAboutController',function($scope, userAboutService, $ht
 		profilePhotoModal.OpenModal({
 			 templateUrl: 'change-profile-photo-modal.html',
 			 controller: PhotoModalController
+		},function() {
+			$scope.coverImage = coverImage + "?q="+ Math.random();
 		});
 	}
 	
@@ -337,6 +348,8 @@ minibean.controller('GroupController',function($scope, $routeParams, $http, comm
 		profilePhotoModal.OpenModal({
 			 templateUrl: 'change-profile-photo-modal.html',
 			 controller: PhotoModalController
+		},function() {
+		
 		});
 	}
 	$scope.formData = {};
