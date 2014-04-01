@@ -576,7 +576,7 @@ minibean.controller('ProfileController',function($scope, $routeParams, profileSe
 		$scope.isLoadingEnabled = true;
 		this.invite = sendInvitation.inviteFriend.get({id:id}, function(data) {
 			$scope.isLoadingEnabled = false;
-			$scope.profile.isf = true;
+			$scope.profile.isP = true;
 		});
 	}
 	
