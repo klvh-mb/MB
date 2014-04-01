@@ -70,8 +70,7 @@ public class SocialActivity {
 				Notification notification = new Notification();
 				notification.socialAction = socialAction;
 				notification.recipetent = socialAction.target.owner;
-				notification.message = socialAction.actor.name
-						+ "has requested to Join" + socialAction.target.name;
+				notification.message = "wants to join community " + socialAction.target.name;
 				notification.save();
 			}
 				break;

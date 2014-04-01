@@ -73,7 +73,7 @@ public abstract class SocialObject extends domain.Entity implements
 		action.actionType = SocialRelation.ActionType.JOIN_REQUESTED;
 		action.target = this;
 		action.actor = user;
-		action.validateUniquenessAndCreate();
+		action.createOrUpdateForTargetAndActorPair();
 	}
 	
 	protected final void beMemberForOwner(User user) {

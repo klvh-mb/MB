@@ -183,7 +183,7 @@ public class UserController extends Controller {
     	List<Notification> joinRequests = localUser.getAllJoinRequestNotification();
     	List<CommunitiesWidgetChildVM> requests = new ArrayList<>();
     	for(Notification n : joinRequests) {
-    		requests.add(new CommunitiesWidgetChildVM(n.socialAction.actor.id, n.socialAction.target.id, n.socialAction.actor.name));
+    		requests.add(new CommunitiesWidgetChildVM(n.socialAction.actor.id, n.socialAction.target.id, n.socialAction.actor.name, n.message));
     	}
     	return ok(Json.toJson(requests));
     }

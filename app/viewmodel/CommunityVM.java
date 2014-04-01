@@ -18,6 +18,7 @@ public class CommunityVM {
 	@JsonProperty("i") public long id;
 	@JsonProperty("isM") public boolean isMember;
 	@JsonProperty("isP") public boolean isRequested;
+	@JsonProperty("isO") public boolean isOwner;
 	@JsonProperty("posts") public List<CommunityPostVM> posts;
 	
 	public static CommunityVM communityVM (Community c, User user) {
@@ -33,6 +34,8 @@ public class CommunityVM {
 		vm.isMember = user.isMemberOf(c);
 		
 		vm.isRequested = user.isJoinRequestPendingFor(c);
+		
+		vm.isOwner = (user == c.owner) ? true : false;
 		
 		List<CommunityPostVM> posts = new ArrayList<>();
 		

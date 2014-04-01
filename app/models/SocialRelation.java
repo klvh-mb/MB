@@ -142,6 +142,22 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 		}
 	}
 	
+	// NOTE: Caution, call this method when target and actor pair is one to one.
+	@Transactional
+	public void createOrUpdateForTargetAndActorPair() {
+		Query q = JPA.em().createQuery("Select sa from SocialRelation sa where actor = ?1 and target = ?2");
+		q.setParameter(1, this.actor);
+		q.setParameter(2, this.target);
+		
+		SocialRelation sa = (SocialRelation) q.getSingleResult();
+		if(sa == null ) {
+			save();
+		} else {
+			sa.actionType = this.actionType;
+			sa.merge();
+		}
+	}
+	
 	@Override
 	public void postSave() {
 		SocialActivity.handle(this);
