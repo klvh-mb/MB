@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 
 import models.Community;
+import models.Community.CommunityType;
 import models.Post;
 import models.User;
 import play.data.DynamicForm;
@@ -189,21 +190,23 @@ public class CommunityController extends Controller{
 	}
 	
 	@Transactional
-	public static Result createGroup() {
+	public static Result createGroup(){
 		final User localUser = Application.getLocalUser(session());
-		DynamicForm form = form().bindFromRequest();
-        String groupName = form.get("groupName");
-        String groupDesc = form.get("groupDesc");
+		Form<Community> form = DynamicForm.form(Community.class).bindFromRequest("name","description","communityType","tagetDistrict");
+		Community community = form.get();
+       
         FilePart picture = request().body().asMultipartFormData().getFile("cover-photo");
 		String fileName = picture.getFilename();
 		File file = picture.getFile();
 		File fileTo = new File(fileName);
 		
-		Community community = localUser.createCommunity(groupName, groupDesc);
+		Community newCommunity = localUser.createCommunity(community.name, community.description);
 		try {
-			community.ownerAsMember(localUser);
+			newCommunity.ownerAsMember(localUser);
+			newCommunity.tagetDistrict = community.tagetDistrict;
+			newCommunity.communityType = community.communityType;
 			FileUtils.copyFile(file, fileTo);
-			community.setCoverPhoto(fileTo);
+			newCommunity.setCoverPhoto(fileTo);
 		} catch (SocialObjectNotJoinableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -215,23 +218,18 @@ public class CommunityController extends Controller{
 	}
 	
 	@Transactional
-	public static Result updateGroupDisplayName() {
-		Form<String> form = DynamicForm.form(String.class).bindFromRequest();
-		String displayName = form.data().get("n");
-		final User localUser = Application.getLocalUser(session());
-		localUser.displayName = displayName;
-		localUser.name = displayName;
-		localUser.merge();
-		return ok("true");
-	}
-	
-	@Transactional
-	public static Result updateGroupProfileData() {
+	public static Result updateGroupProfileData(){
 		Form<String> form = DynamicForm.form(String.class).bindFromRequest();
 		String groupID = form.data().get("i");
 		Community community = Community.findById(Long.parseLong(groupID));
 		community.name = form.data().get("n");
 		community.description = form.data().get("d");
+		community.tagetDistrict = form.data().get("td");
+		if(form.data().get("typ") == "OPEN"){
+			community.communityType = CommunityType.OPEN;
+		}else{
+			community.communityType = CommunityType.CLOSE;
+		}
 		community.merge();
 		return ok("true");
 	}

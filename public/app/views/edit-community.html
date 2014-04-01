@@ -57,12 +57,49 @@
                   
                   <div class="row">
 	                	<div class="col-md-6">
+                    		<label>Community Type: </label>
+                    	</div>
+                    	
+                    	<div class="col-md-6">
+                    		<span editable-select="community.typ" e-name="communityType" e-ng-options="gtyp.value as gtyp.text for gtyp in communityType">
+                    			{{ (communityType | filter:{value: community.typ})[0].text || 'Not set' }}
+                    		</span>	
+                    	</div>
+                  </div>
+                  
+                  <div class="row">
+	                	<div class="col-md-6">
+                    		<label>Target District: </label>
+                    	</div>
+                    	
+                    	<div class="col-md-6">
+                    		<span editable-select="community.td" e-name="targetDistrict" e-ng-options="gtd.value as gtd.text for gtd in tagetDistrict">
+                    			{{ (tagetDistrict | filter:{value: community.td})[0].text || 'Not set' }}
+                    		</span>	
+                    	</div>
+                  </div>
+                  
+                   <div class="row">
+	                  	<div class="col-md-6">
+	                   		<label>Target Birth Date:</label>
+	                   	</div>
+	                   	
+	                   	<div class="col-md-6">
+						    <span editable-bsdate="community.dte"  e-datepicker-popup="dd-MMMM-yyyy">{{ community.dte | date:'dd/MM/yyyy' || 'Not set' }}
+						    </span>
+						    <span class="glyphicon glyphicon-calendar">
+						    </span>
+					  	</div>
+			       </div>
+                  
+                  <div class="row">
+	                	<div class="col-md-6">
                    			<label>Community Description: </label>
                    		</div>
                    		
                    		<div class="row">
 			               	<div class="col-md-12">
-				                <span editable-textarea="result.aboutMe" e-rows="7" e-cols="40">
+				                <span editable-textarea="community.d" e-rows="7" e-cols="40">
 				                   <pre>{{ community.d || 'no description' }}</pre>
 				                 </span>
 			                 </div>

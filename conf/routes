@@ -107,5 +107,4 @@ POST	/community/post/comment					controllers.CommunityController.commentOnCommun
 POST	/community/post							controllers.CommunityController.postOnCommunity()
 POST	/createCommunity						controllers.CommunityController.createGroup()
 POST	/upload-cover-photo-group/:id		   	controllers.CommunityController.uploadCoverPhoto(id : Long)
-POST	/updateGroupDisplayName					controllers.CommunityController.updateGroupDisplayName
 POST	/updateGroupProfileData					controllers.CommunityController.updateGroupProfileData

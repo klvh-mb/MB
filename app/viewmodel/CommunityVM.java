@@ -1,9 +1,11 @@
 package viewmodel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import models.Community;
+import models.Community.CommunityType;
 import models.Post;
 import models.User;
 
@@ -15,6 +17,9 @@ public class CommunityVM {
 	
 	@JsonProperty("n") public String name;
 	@JsonProperty("d") public String description;
+	@JsonProperty("typ") public CommunityType communityType;
+	@JsonProperty("dte") public Date createDate;
+	@JsonProperty("td") public String tagetDistrict;
 	@JsonProperty("i") public long id;
 	@JsonProperty("isM") public boolean isMember;
 	@JsonProperty("isP") public boolean isRequested;
@@ -28,6 +33,9 @@ public class CommunityVM {
 		
 		vm.name = c.name;
 		vm.description = c.description;
+		vm.communityType = c.communityType;
+		vm.tagetDistrict = c.tagetDistrict;
+		vm.createDate = c.createDate;
 		vm.id = c.id;
 		
 		//TODO Logic required

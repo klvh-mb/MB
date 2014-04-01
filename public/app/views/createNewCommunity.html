@@ -21,44 +21,78 @@
 				            </div>
 				        </div>
 				          <div class="panel panel-default  col-lg-9 col-md-8">
-							<form name="formData" novalidate ng-submit="submit()"  method="post" enctype="multipart/form-data" >				              
+							<form name="formData"  editable-form novalidate ng-submit="submit()"  method="post" enctype="multipart/form-data" >				              
 				              <div class="row tm">
 				                <div class="col-md-12">
 				                  <div class="row form-group">
 					                	
 					                	<div class="col-md-6">
-					                    	<label>Community Name: </label>
+					                    	<label> Community Name: </label>
 					                    </div>
 					                    
 					                    <div class="col-md-6">
-					                    	<input type="text" class="form-control" placeholder="Community Name" validator="[required]" data-ng-model="formData.groupName" required >
+					                    	<input type="text" class="form-control" placeholder="Community Name" validator="[required]" data-ng-model="formData.name" required >
 					                    </div>
 				                  </div>
 				                 </div>
 				               </div>
 				               
 				               <div class="row tm">
+				               	  <div class="col-md-12">
+				                  	<div class="row form-group">
+					                	<div class="col-md-6">
+				                    		<label> Community Type: </label>
+				                    	</div>
+				                    	
+				                    	<div class="col-md-6">
+				                    		<select class="form-control" data-ng-model="formData.communityType" required ng-options="gt.value as gt.text for gt in communityType">
+				                    			</select>
+				                    	</div>
+					                </div>
+					              </div>
+					           </div>
+				               
+				               <div class="row tm">
 				               	<div class="col-md-12">
 				                  <div class="row form-group">
 					                	
 					                	<div class="col-md-6">
-					                    	<label>Description: </label>
+					                    	<label> Target District: </label>
 					                    </div>
 					                    
 					                    <div class="col-md-6">
-					                    	<textarea  class="form-control" placeholder="Community Description" validator="[required]" data-ng-model="formData.groupDesc" required >
+					                    	<select class="form-control" data-ng-model="formData.tagetDistrict" required ng-options="gl.value as gl.text for gl in tagetDistrict">
+					                    			</select>
+					                    </div>
+				                  </div>
+				                 </div>
+				               </div>
+				               
+				               
+				               <div class="row tm">
+				               	<div class="col-md-12">
+				                  <div class="row form-group">
+					                	
+					                	<div class="col-md-6">
+					                    	<label> Description: </label>
+					                    </div>
+					                    
+					                    <div class="col-md-6">
+					                    	<textarea  class="form-control" placeholder="Community Description" validator="[required]" data-ng-model="formData.description" required >
 						               		 </textarea>
 					                    </div>
 				                  </div>
 				                 </div>
 				               </div>
 				               
+				               
+				               
 				               <div class="row tm">
 				               	<div class="col-md-12">
 				                  <div class="row form-group">
 					                	
 					                	<div class="col-md-6">
-					                    	<label>Cover Photo: </label>
+					                    	<label> Cover Photo: </label>
 					                    </div>
 					                    
 					                    <div class="col-md-6">

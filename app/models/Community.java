@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,6 +24,7 @@ import javax.persistence.criteria.Root;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.Play;
+import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.i18n.Messages;
@@ -49,6 +51,11 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	public Folder albumPhotoProfile;
 	
 	public String description;
+	
+	public String tagetDistrict;
+	
+	@Formats.DateTime(pattern = "yyyy-MM-dd")
+	public Date createDate;
 
 	public static enum CommunityType {
 		OPEN,
@@ -63,7 +70,7 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		this.objectType = SocialObjectType.COMMUNITY;
 	}
 	
-	public Community(String name,String description, User owner) {
+	public Community(String name, String description, User owner) {
 		this();
 		this.name = name;
 		this.owner = owner;

@@ -335,9 +335,19 @@ minibean.controller('GroupController',function($scope, $routeParams, $http, comm
 	
 	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id});
 	
-	$scope.updateGroupDisplayName = function(data) {
-		return $http.post('/updateGroupDisplayName', {"groupName" : data});
-	}
+	$scope.communityType = [
+	 	                   {value: 'OPEN', text: 'Open'},
+	 	                   {value: 'CLOSE', text: 'Close'}
+	 	                   ];
+	
+	$scope.tagetDistrict = [
+ 		                   {value: 'Pune', text: 'Pune'},
+ 		                   {value: 'Mumbai', text: 'Mumbai'},
+ 		                   {value: 'Kolakata', text: 'Kolakata'},
+ 		                   {value: 'Nagpur', text: 'Nagpur'},
+ 		                   {value: 'Delhi', text: 'Delhi'},
+ 		                   {value: 'Surat', text: 'Surat'}
+ 		                   ];
 	
 	$scope.updateGroupProfileData = function(data) {
 		return $http.post('/updateGroupProfileData', $scope.community);
@@ -352,23 +362,8 @@ minibean.controller('GroupController',function($scope, $routeParams, $http, comm
 		
 		});
 	}
-	$scope.formData = {};
-	$scope.selectedFiles =[];
 	
-	$scope.submit = function() {
-		$upload.upload({
-			url: '/createCommunity',
-			method: 'POST',
-			file: $scope.selectedFiles[0],
-			data: $scope.formData,
-			fileFormDataName: 'cover-photo'
-		});
 	
-	}
-	
-	$scope.onFileSelect = function($files) {
-		$scope.selectedFiles = $files;
-	}
 	
 	
 	
@@ -377,6 +372,21 @@ minibean.controller('GroupController',function($scope, $routeParams, $http, comm
 
 
 minibean.controller('CreateCommunityController',function($scope,  $http,  $upload, $validator){
+	
+	
+	
+	$scope.communityType = [
+	                   {value: 'OPEN', text: 'Open'},
+	                   {value: 'CLOSE', text: 'Close'}
+	                   ];
+	$scope.tagetDistrict = [
+		                   {value: 'Pune', text: 'Pune'},
+		                   {value: 'Mumbai', text: 'Mumbai'},
+		                   {value: 'Kolakata', text: 'Kolakata'},
+		                   {value: 'Nagpur', text: 'Nagpur'},
+		                   {value: 'Delhi', text: 'Delhi'},
+		                   {value: 'Surat', text: 'Surat'}
+		                   ];
 	
 	$scope.formData = {};
 	$scope.selectedFiles =[];
