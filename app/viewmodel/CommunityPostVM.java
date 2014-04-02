@@ -3,7 +3,6 @@ package viewmodel;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import models.Comment;
@@ -22,7 +21,7 @@ public class CommunityPostVM {
 	@JsonProperty("cs") public List<CommunityPostCommentVM> comments;
 	
 	public static CommunityPostVM communityPostVM(Post post) {
-		DateFormat df = new SimpleDateFormat("MMMM d, yyyy");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		
 		CommunityPostVM postVM = new CommunityPostVM();
 		postVM.postId = post.id;
@@ -36,7 +35,9 @@ public class CommunityPostVM {
 		postVM.hasImage = hasImage;
 		
 		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
-		for(Comment comment : post.comments) {
+		
+		List<Comment> comments = post.getCommentsOfPost();
+		for(Comment comment : comments) {
 			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
 			commentsToShow.add(commentVM);
 		}

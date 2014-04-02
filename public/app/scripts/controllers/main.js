@@ -405,6 +405,9 @@ minibean.controller('CreateCommunityController',function($scope,  $http,  $uploa
 			    }).success(function(data, status, headers, config) {
 			    	$scope.submitBtn = "Done";
 			    }).error(function(data, status, headers, config) {
+			    	if( status == 505 ) {
+			    		$scope.uniqueName = true;
+			    	}  
 			    	$scope.submitBtn = "Try Again";
 			    });
 		    })
@@ -666,7 +669,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		$http.post('/community/post', data).success(function(post_id) {
 				var post = {"oid" : $scope.community.lu, "pt" : postText, 
 							"p" : $scope.community.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
-				$scope.community.posts.push(post);
+				$scope.community.posts.unshift(post);
 		});
 	};
 

@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import play.db.jpa.JPA;
@@ -149,7 +150,14 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 		q.setParameter(1, this.actor);
 		q.setParameter(2, this.target);
 		
-		SocialRelation sa = (SocialRelation) q.getSingleResult();
+		SocialRelation sa=null;
+		
+		try{
+			sa = (SocialRelation) q.getSingleResult();
+		}
+		catch (NoResultException nre){
+		}
+		
 		if(sa == null ) {
 			save();
 		} else {

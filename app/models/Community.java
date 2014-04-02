@@ -13,7 +13,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.NoResultException;
 import javax.persistence.OneToMany;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -40,7 +42,7 @@ import domain.SocialObjectType;
 @Entity
 public class Community extends SocialObject  implements Likeable, Postable, Joinable {
 	
-	@OneToMany(cascade=CascadeType.REMOVE)
+	@OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY)
 	public Set<Post> posts = new HashSet<Post>();
 	
 	@Enumerated(EnumType.ORDINAL)
@@ -229,7 +231,7 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	}
 	
 	public static Community findById(Long id) {
-		Query q = JPA.em().createQuery("SELECT u FROM Community u where id = ?1");
+		Query q = JPA.em().createQuery("SELECT c FROM Community c where id = ?1");
 		q.setParameter(1, id);
 		return (Community) q.getSingleResult();
 	}
@@ -244,5 +246,30 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	
 	public File getDefaultCoverPhoto()  throws FileNotFoundException {
 		 return new File(Play.application().configuration().getString("storage.community.cover.noimage"));
+	}
+	
+	public boolean checkCommunityNameExists(User owner) {
+		Query q = JPA.em().createQuery("Select so from SocialObject so where owner = ?1 and objectType = ?2 and name= ?3");
+		q.setParameter(1, owner);
+		q.setParameter(2, SocialObjectType.COMMUNITY);
+		q.setParameter(3, this.name);
+		
+		Community community = null;
+		try {
+			community = (Community) q.getSingleResult();
+		}
+		catch(NoResultException nre) {
+		}
+		
+		return (community == null);
+	}
+	
+	@JsonIgnore
+	public List<Post> getPostsOfCommunity(int offset, int limit) {
+		Query q = JPA.em().createQuery("Select p from Post p where community=?1 order by createdDate desc");
+		q.setParameter(1, this);
+		q.setFirstResult(offset);
+		q.setMaxResults(limit);
+		return (List<Post>)q.getResultList();
 	}
 }

@@ -1,17 +1,18 @@
 package models;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Query;
 
-import com.mnt.exception.SocialObjectNotCommentableException;
-import com.mnt.exception.SocialObjectNotPostableException;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
@@ -34,12 +35,13 @@ public class Post extends SocialObject implements Likeable, Commentable {
 	@ManyToOne(cascade=CascadeType.REMOVE)
 	public Community community;
 
-	@OneToMany(cascade = CascadeType.REMOVE)
+	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
 	public Set<Comment> comments;
 
 	@Required
 	public PostType postType;
 
+	public Date createdDate;
 	@Override
 	public void onLike(User user) {
 		recordLike(user);
@@ -83,6 +85,13 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		this.comments.add(comment);
 		JPA.em().merge(this);
 		return comment;
+	}
+	
+	@JsonIgnore
+	public List<Comment> getCommentsOfPost() {
+		Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 order by date");
+		q.setParameter(1, this);
+		return (List<Comment>)q.getResultList();
 	}
 
 }

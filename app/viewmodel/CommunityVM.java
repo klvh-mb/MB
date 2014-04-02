@@ -47,7 +47,9 @@ public class CommunityVM {
 		
 		List<CommunityPostVM> posts = new ArrayList<>();
 		
-		for(Post p: c.posts) {
+		List<Post> postsFromDB = c.getPostsOfCommunity(0, 5);
+		
+		for(Post p: postsFromDB) {
 			CommunityPostVM post = CommunityPostVM.communityPostVM(p);
 			posts.add(post);
 		}

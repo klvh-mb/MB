@@ -47,6 +47,7 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
   public int compareTo(Comment o) {
     return date.compareTo(o.date);
   }
+  
   @Override
 	public void save() {
 		super.save();

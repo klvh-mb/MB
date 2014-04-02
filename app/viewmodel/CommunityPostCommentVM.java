@@ -15,12 +15,12 @@ public class CommunityPostCommentVM {
 	@JsonProperty("d") public String commentText;
 	
 	public static CommunityPostCommentVM communityPostCommentVM(Comment comment) {
-		DateFormat df = new SimpleDateFormat("d MMM, yyyy");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		
 		CommunityPostCommentVM postCommentVM = new CommunityPostCommentVM();
 		postCommentVM.ownerId = comment.owner.id;
 		postCommentVM.name = comment.owner.name;
-		postCommentVM.creationDate = df.format(new Date());
+		postCommentVM.creationDate = df.format(comment.getCreatedDate());
 		postCommentVM.commentText = comment.body;
 		return postCommentVM;
 	}
