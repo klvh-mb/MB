@@ -273,9 +273,6 @@ public class User extends SocialObject implements Subject, Socializable {
 			if (rslt.actor.name == this.name
 					&& rslt.target.objectType == SocialObjectType.COMMUNITY) {
 				communityList.add((Community) rslt.target);
-			} else if (rslt.target.name == this.name
-					&& rslt.actor.objectType == SocialObjectType.COMMUNITY) {
-				communityList.add((Community) rslt.actor);
 			}
 		}
 		return communityList;
@@ -283,19 +280,10 @@ public class User extends SocialObject implements Subject, Socializable {
 
 	@JsonIgnore
 	public List<Community> getListOfNotJoinedCommunities() {
-		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-		CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
-		Root<SocialRelation> c = q.from(SocialRelation.class);
-		q.select(c);
-		q.where(cb.and(cb.equal(c.get("action"), Action.MEMBER),
-				cb.notEqual(c.get("actor"), this)));
-
-		List<SocialRelation> result = JPA.em().createQuery(q).getResultList();
-
-		List<Community> communityList = new ArrayList<>();
-		for (SocialRelation rslt : result) {
-			communityList.add((Community) rslt.target);
-		}
+		
+		Query q = JPA.em().createQuery("select c from Community c, SocialRelation sr, SocialObject so where so.id = c.id and c.id = sr.target.id and sr.actor.id <> ?1 and so.owner.id = sr.actor.id");
+		q.setParameter(1, this.id);
+		List<Community> communityList = q.getResultList();
 		return communityList;
 	}
 

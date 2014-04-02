@@ -373,21 +373,6 @@ minibean.controller('GroupController',function($scope, $routeParams, $http, comm
 
 minibean.controller('CreateCommunityController',function($scope,  $http,  $upload, $validator){
 	
-	
-	
-	$scope.communityType = [
-	                   {value: 'OPEN', text: 'Open'},
-	                   {value: 'CLOSE', text: 'Close'}
-	                   ];
-	$scope.tagetDistrict = [
-		                   {value: 'Pune', text: 'Pune'},
-		                   {value: 'Mumbai', text: 'Mumbai'},
-		                   {value: 'Kolakata', text: 'Kolakata'},
-		                   {value: 'Nagpur', text: 'Nagpur'},
-		                   {value: 'Delhi', text: 'Delhi'},
-		                   {value: 'Surat', text: 'Surat'}
-		                   ];
-	
 	$scope.formData = {};
 	$scope.selectedFiles =[];
 	$scope.submitBtn = "Save";
@@ -513,9 +498,23 @@ minibean.service('sendJoinRequest',function($resource){
 	);
 });
 
-minibean.controller('CommunityWidgetController',function($scope, communityService, sendJoinRequest , $http, userInfoService){
+minibean.service('allCommunityWidgetService',function($resource){
+	this.UserAllCommunities = $resource(
+			'/get-users-all-communities',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get'}
+			}
+	);
+});
+
+minibean.controller('CommunityWidgetController',function($scope,$routeParams, communityService, allCommunityWidgetService, sendJoinRequest , $http, userInfoService){
+	
+	$scope.mygroups = $routeParams.type == "myGroups" ? null : "active" ;
+	
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.result = communityService.UserCommunitiesNot.get();
+	$scope.allResult = allCommunityWidgetService.UserAllCommunities.get();
 	
 	$scope.send_request = function(id) {
 		this.invite = sendJoinRequest.sendRequest.get({id:id});

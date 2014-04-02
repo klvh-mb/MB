@@ -26,13 +26,13 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/allFriends.html',
     	controller : 'FriendsController'
       })
-      .when('/groups',{
-    	templateUrl: '/assets/app/views/allCommunities.html',
+      .when('/groups/:type',{
+    	templateUrl: '/assets/app/views/myAllCommunities.html',
     	controller : 'CommunityWidgetController'
       })
-      .when('/myGroups',{
+      .when('/myGroups/:type',{
     	templateUrl: '/assets/app/views/myAllCommunities.html',
-    	controller : 'UserCommunityWidgetController'
+    	controller : 'CommunityWidgetController'
       })
       .when('/editCommunity/:id',{
     	templateUrl: '/assets/app/views/edit-community.html',
