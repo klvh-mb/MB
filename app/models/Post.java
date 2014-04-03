@@ -1,5 +1,9 @@
 package models;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +20,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
+import play.i18n.Messages;
 
 import com.mnt.exception.SocialObjectNotCommentableException;
 
@@ -23,6 +28,7 @@ import domain.CommentType;
 import domain.Commentable;
 import domain.Likeable;
 import domain.PostType;
+import domain.SocialObjectType;
 
 @Entity
 public class Post extends SocialObject implements Likeable, Commentable {
@@ -40,6 +46,10 @@ public class Post extends SocialObject implements Likeable, Commentable {
 
 	@Required
 	public PostType postType;
+	
+	@ManyToOne(cascade = CascadeType.REMOVE)
+	
+	public Folder folder;
 
 	public Date createdDate;
 	@Override
@@ -93,5 +103,43 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		q.setParameter(1, this);
 		return (List<Comment>)q.getResultList();
 	}
+	
+	public Resource addPostPhoto(File source) throws IOException {
+		ensureAlbumExist();
+		Resource cover_photo = this.folder.addFile(source,
+				SocialObjectType.PHOTO);
+		cover_photo.save();
+		return cover_photo;
+	}
+	
+	private void ensureAlbumExist() {
+
+		if (this.folder == null) {
+			this.folder = createAlbum("post-photos",
+					Messages.get("post-photos.photo-profile.description"), true);
+			this.merge();
+		}
+	}
+	
+	public Folder createAlbum(String name, String description, Boolean system) {
+			Folder folder = createFolder(name, description,
+					SocialObjectType.FOLDER, system);
+			return folder;
+	}
+	
+	private Folder createFolder(String name, String description,
+			SocialObjectType type, Boolean system) {
+
+		Folder folder = new Folder(name);
+		folder.owner = this;
+		folder.name = name;
+		folder.description = description;
+		folder.objectType = type;
+		folder.system = system;
+		folder.save();
+		return folder;
+	}
+
+	
 
 }

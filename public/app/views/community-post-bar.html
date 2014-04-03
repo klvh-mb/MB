@@ -1,6 +1,16 @@
-<!-- Reference to social-v1.0.0/admin/timeline_2.html?lang=en -->
+
+
 <input type="text" class="form-control" placeholder="Share your mood" data-ng-model="postText">
-<button type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.i, postText)">post it!</button>
+<div style="background-color: white;" ng-show="selectedFiles != null">
+		<img ng-repeat="f in selectedFiles" style="width: 100px;height: 100px;" ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
+</div>
+<div>
+	<i data-ng-show="selectedFiles.length < 3" data-ng-click="postPhoto()"  style="color: cadetblue;" class="fa fa-camera"></i>
+	<button type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.i, postText)">post it!</button>
+	
+	<input style="visibility: hidden;" id="post-photo-id" type="file"  name="post-photo" ng-file-select="onFileSelect($files)"/>
+</div>
+
 	
 <div class="widget" data-ng-repeat="post in community.posts">
 	<div class="bg-primary" style="background: #0099FF !important;">

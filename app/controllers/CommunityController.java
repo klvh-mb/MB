@@ -50,6 +50,30 @@ public class CommunityController extends Controller{
 		return ok(Json.toJson(fwVM));
 	}
 	
+	@Transactional
+	public static Result uploadPhotoOfPost() {
+		DynamicForm form = DynamicForm.form().bindFromRequest();
+		String postId = form.get("postId");
+		
+		FilePart picture = request().body().asMultipartFormData().getFile("post-photo0");
+		String fileName = picture.getFilename();
+	    
+		File file = picture.getFile();
+	    File fileTo = new File(fileName);
+	    // TOBE TESTED
+	    try {
+	    	FileUtils.copyFile(file, fileTo);
+	    	Post.findById(Long.valueOf(postId)).addPostPhoto(fileTo);
+			
+		} catch (IOException e) {
+			//e.printStackTrace();
+			return status(500);
+		}
+		
+	    
+		return ok();
+	}
+	
 	
 	@Transactional
 	public static Result getCommunityInfoById(Long id) {

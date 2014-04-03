@@ -637,21 +637,51 @@ minibean.service('communityJoinService',function($resource){
 	);
 });
 
-minibean.controller('CommunityPageController', function($scope, $routeParams, $http, communityPageService, communityJoinService){
+minibean.controller('CommunityPageController', function($scope, $routeParams, $http, communityPageService, communityJoinService, $upload, $timeout){
 	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id});
 	
 	$scope.isLoadingEnabled = false;
+	
+	$scope.postPhoto = function() {
+		$("#post-photo-id").click();
+	}
+	$scope.selectedFiles = [];
+	$scope.dataUrls = [];
+	
+	$scope.onFileSelect = function($files) {
+		
+		$scope.selectedFiles.push($files);
+		for ( var i = 0; i < $files.length; i++) {
+			var $file = $files[i];
+			if (window.FileReader && $file.type.indexOf('image') > -1) {
+				var fileReader = new FileReader();
+				fileReader.readAsDataURL($files[i]);
+				var loadFile = function(fileReader, index) {
+					fileReader.onload = function(e) {
+						$timeout(function() {
+							$scope.dataUrls.push(e.target.result);
+						});
+					}
+				}(fileReader, i);
+			}
+		}
+		
+		console.log($scope.dataUrls);
+	}
+	
 	
 	$scope.comment_on_post = function(id, commentText) {
 		var data = {
 			"post_id" : id,
 			"commentText" : commentText
 		};
-		$http.post('/community/post/comment', data).success(function(post_id) {
-			angular.forEach($scope.community.posts, function(post, key){
-				if(post.id == post_id) {
-					post.n_c++;
-					var comment = {"oid" : $scope.community.lu, "d" : commentText, "on" : $scope.community.lun, 
+		
+		$http.post('/community/post/comment', data) 
+			.success(function(post_id) {
+				angular.forEach($scope.community.posts, function(post, key){
+					if(post.id == post_id) {
+						post.n_c++;
+						var comment = {"oid" : $scope.community.lu, "d" : commentText, "on" : $scope.community.lun, 
 							"cd" : new Date(), "n_c" : post.n_c};
 					post.cs.push(comment);
 				}
@@ -665,7 +695,27 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 			"community_id" : id,
 			"postText" : postText
 		};
-		$http.post('/community/post', data).success(function(post_id) {
+		$http.post('/community/post', data)// first create post with post text.
+			.success(function(post_id) {
+				
+				// when post is done in BE then do photo upload
+				for(var i=0 ; i<$scope.selectedFiles.length ; i++) {
+					$upload.upload({
+						url : '/uploadPostPhoto',
+						method: $scope.httpMethod,
+						data : {
+							postId : post_id
+						},
+						file: $scope.selectedFiles[i],
+						fileFormDataName: 'post-photo'
+					}).success(function(data, status, headers, config) {
+						
+					});
+					
+				}
+				
+				
+				
 				var post = {"oid" : $scope.community.lu, "pt" : postText, 
 							"p" : $scope.community.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
 				$scope.community.posts.unshift(post);
