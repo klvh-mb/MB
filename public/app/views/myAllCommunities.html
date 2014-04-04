@@ -75,6 +75,8 @@
                </div>
              </div>
              
+              <hr style="margin-top: 1%;">
+             
              <div class="row tm">
              	  <div class="col-md-12">
                 	<div class="row form-group">
@@ -84,20 +86,22 @@
                   	
                   	<div class="col-md-8">
                   		
-                  			<label>
-   								<input type="radio" name="optionsRadios" data-ng-model="formData.communityType" id="optionsRadios1" value="OPEN" checked>
+                  			<label style="width: 100%">
+   								<input type="radio" data-ng-model="community.typ" id="optionsRadios1" value="OPEN" >
    								Open
   							</label>
+  							<div class="fsm fwn fcg" style="margin-left: 10%;">Request for Join directly granted, without approval.</div>
   							<label>
-   								<input type="radio" name="optionsRadios" data-ng-model="formData.communityType" id="optionsRadios1" value="CLOSE" >
-   								Close
+   								<input type="radio" data-ng-model="community.typ" id="optionsRadios2" value="CLOSE" >
+   								Closed
   							</label>
+  							<div class="fsm fwn fcg"  style="margin-left: 10%;">Admin must approve the request.</div>
                   	</div>
                </div>
              </div>
           </div>
           
-          
+           <hr style="margin-top: 1%;">
              
              <div class="row tm">
              	<div class="col-md-12">
@@ -115,7 +119,7 @@
                </div>
              </div>
              
-             
+              <hr style="margin-top: 1%;">
              
              <div class="row tm">
              	<div class="col-md-12">
