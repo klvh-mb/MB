@@ -25,15 +25,20 @@ import viewmodel.ProfileVM;
 import viewmodel.SocialObjectVM;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
+import com.mnt.utils.MailJob;
+import com.mnt.utils.MailJob.Mail.Body;
 
 public class UserController extends Controller {
 	
 	@Transactional(readOnly=true)
 	public static Result getUserInfo() {
 		final User localUser = Application.getLocalUser(session());
-		
+		//MailJob.sendMail("Some subject",new Body("test hello"), "mindnervestech@gmail.com");
 		return ok(Json.toJson(localUser));
 	}
+	
+	
+	
 	
 	@Transactional(readOnly=true)
 	public static Result aboutUser() {
