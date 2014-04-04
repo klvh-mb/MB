@@ -22,6 +22,10 @@ import play.mvc.Http.MultipartFormData.FilePart;
 import viewmodel.CommunitiesWidgetChildVM;
 import viewmodel.CommunityVM;
 import viewmodel.CommunitiesParentVM;
+import viewmodel.FriendWidgetChildVM;
+import viewmodel.FriendWidgetParentVM;
+import viewmodel.MemberWidgetParentVM;
+import viewmodel.MembersWidgetChildVM;
 
 import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotJoinableException;
@@ -171,7 +175,9 @@ public class CommunityController extends Controller{
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		for(Community community : localUser.getListOfJoinedCommunities()) {
-			communityList.add(new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name));
+			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name);
+			vm.isO = (localUser == community.owner) ? true : false;
+			communityList.add(vm);
 		}
 		CommunitiesParentVM fwVM = new CommunitiesParentVM(localUser.getListOfNotJoinedCommunities().size(), communityList);
 		return ok(Json.toJson(fwVM));
@@ -216,7 +222,7 @@ public class CommunityController extends Controller{
 	@Transactional
 	public static Result createGroup(){
 		final User localUser = Application.getLocalUser(session());
-		Form<Community> form = DynamicForm.form(Community.class).bindFromRequest("name","description","communityType","tagetDistrict");
+		Form<Community> form = DynamicForm.form(Community.class).bindFromRequest("name","description","communityType");
 		Community community = form.get();
        
         FilePart picture = request().body().asMultipartFormData().getFile("cover-photo");
@@ -227,7 +233,6 @@ public class CommunityController extends Controller{
 		Community newCommunity = localUser.createCommunity(community.name, community.description);
 		try {
 			newCommunity.ownerAsMember(localUser);
-			newCommunity.tagetDistrict = community.tagetDistrict;
 			newCommunity.communityType = community.communityType;
 			FileUtils.copyFile(file, fileTo);
 			newCommunity.setCoverPhoto(fileTo);
@@ -249,7 +254,7 @@ public class CommunityController extends Controller{
 		community.name = form.data().get("n");
 		community.description = form.data().get("d");
 		community.tagetDistrict = form.data().get("td");
-		if(form.data().get("typ") == "OPEN"){
+		if(form.data().get("typ").equalsIgnoreCase("open")){
 			community.communityType = CommunityType.OPEN;
 		}else{
 			community.communityType = CommunityType.CLOSE;
@@ -314,6 +319,22 @@ public class CommunityController extends Controller{
 		localUser.leaveCommunity(community);
 		
 		return ok();
+	}
+	
+	@Transactional
+	public static Result getCommunityMembers(Long id) {
+		Community community = Community.findById(id);
+		int count=0;
+		List<MembersWidgetChildVM> members = new ArrayList<>();
+		for(User member : community.getMembers()) {
+			members.add(new MembersWidgetChildVM(member.id, member.displayName));
+			++count;
+			if(count == 12) {
+				break;
+			}
+		}
+		MemberWidgetParentVM fwVM = new MemberWidgetParentVM(community.getMembers().size(), members);
+		return ok(Json.toJson(fwVM));
 	}
 }
 	

@@ -109,6 +109,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	}
 
 	@OneToMany(cascade = CascadeType.REMOVE)
+	@JsonIgnore
 	public List<Folder> folders;
 
 	@OneToMany(cascade = CascadeType.REMOVE)

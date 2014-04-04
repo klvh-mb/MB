@@ -2,6 +2,7 @@ package models;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,6 +11,12 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -23,21 +30,36 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import com.google.common.base.Objects;
 
 import play.data.validation.Constraints.Required;
+import domain.AuditListener;
+import domain.Creatable;
 import domain.SocialObjectType;
+import domain.Updatable;
 
 /**
  * Represent a folder containins a set of Resources
  * 
  */
 @Entity
-public class Folder extends SocialObject {
+@EntityListeners(AuditListener.class)
+public class Folder extends  domain.Entity implements
+Serializable, Creatable, Updatable{
 
 	public Folder() {}
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	public Long id;
 	
 	public Folder(String name) {
 		this.name = name;
 	}
 
+	@ManyToOne
+	public SocialObject owner;
+	
+	@Enumerated(EnumType.STRING)
+	public SocialObjectType objectType;
+	
 	@Required
 	public String name;
 
@@ -89,7 +111,7 @@ public class Folder extends SocialObject {
 		}
 		this.resources.add(resource);
 		merge();
-		recordAddedPhoto(owner);
+		//recordAddedPhoto(owner);
 		return resource;
 	}
 

@@ -46,7 +46,7 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	public Set<Post> posts = new HashSet<Post>();
 	
 	@Enumerated(EnumType.ORDINAL)
-	public CommunityType communityType = CommunityType.CLOSE;
+	public CommunityType communityType;
 
 	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JsonIgnore
@@ -109,7 +109,7 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	@Transactional
 	public void ownerAsMember(User user)
 			throws SocialObjectNotJoinableException {
-		beMemberForOwner(user);
+		beMemberOfCommunity(user);
 	}
 	
 	@Override
@@ -118,6 +118,9 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		if (communityType != CommunityType.OPEN) {
 			recordJoinRequest(user);
 		} 
+		else{
+			beMemberOfCommunity(user);
+		}
 	}
 
 	@Override
@@ -197,21 +200,21 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 
 	public Folder createAlbum(String name, String description, Boolean system) {
 
-		if (ensureFolderExistWithGivenName(name)) {
+		//if (ensureFolderExistWithGivenName(name)) {
 			Folder folder = createFolder(name, description,
 					SocialObjectType.FOLDER, system);
-			folders.add(folder);
+			//folders.add(folder);
 			this.merge(); // Add folder to existing User as new albumn
 			return folder;
-		}
-		return null;
+		//}
+		//return null;
 	}
 
 	private Folder createFolder(String name, String description,
 			SocialObjectType type, Boolean system) {
 
 		Folder folder = new Folder(name);
-		folder.owner = this;
+		folder.owner = this.owner;
 		folder.name = name;
 		folder.description = description;
 		folder.objectType = type;

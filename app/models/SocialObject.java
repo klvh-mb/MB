@@ -28,6 +28,8 @@ import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotJoinableException;
 import com.mnt.exception.SocialObjectNotLikableException;
 import com.mnt.exception.SocialObjectNotPostableException;
+import com.mnt.utils.MailJob;
+import com.mnt.utils.MailJob.Mail.Body;
 
 import domain.AuditListener;
 import domain.CommentType;
@@ -76,11 +78,13 @@ public abstract class SocialObject extends domain.Entity implements
 		action.createOrUpdateForTargetAndActorPair();
 	}
 	
-	protected final void beMemberForOwner(User user) {
+	protected final void beMemberOfCommunity(User user) {
 		SocialRelation action = new SocialRelation();
 		action.action = SocialRelation.Action.MEMBER;
 		action.target = this;
 		action.actor = user;
+		String message = "Congratulation "+user.name+","+"\n"+" You are now mwmber of "+this.name+" Community.";
+		MailJob.sendMail("Some subject",new Body(message), user.email);
 		action.validateUniquenessAndCreate();
 	}
 
@@ -96,6 +100,8 @@ public abstract class SocialObject extends domain.Entity implements
 		SocialRelation action = (SocialRelation) q.getSingleResult();
 		action.actionType = SocialRelation.ActionType.GRANT;
 		action.action = SocialRelation.Action.MEMBER;
+		String message = "Congratulation "+user.name+","+"\n"+" You are now mwmber of "+this.name+" Community.";
+		MailJob.sendMail("Some subject",new Body(message), user.email);
 		action.save();
 
 	}

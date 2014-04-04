@@ -19,9 +19,10 @@
 							 	Members({{fvm.mm}})</p> 
 						</div>
 					</div>
+					<div  ng-show="{{fvm.isO}}" class="ribbon-wrapper"><div class="ribbon primary">Admin</div></div>
 				</div>
 				<div class="col-sm-4">
-					<div class="innerAll text-right">
+					<div ng-show="{{fvm.isO}}" class="innerAll text-right">
 					
 						<div class="btn-group-vertical btn-group-sm">
 							<a data-ng-href="#/editCommunity/{{fvm.id}}" ><button type="button" data-menu="menu-right"><i class="fa fa-fw fa-edit"></i> Edit </button></a>

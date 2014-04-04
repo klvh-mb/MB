@@ -26,10 +26,6 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/allFriends.html',
     	controller : 'FriendsController'
       })
-      .when('/groups/:type',{
-    	templateUrl: '/assets/app/views/myAllCommunities.html',
-    	controller : 'CommunityWidgetController'
-      })
       .when('/myGroups/:type',{
     	templateUrl: '/assets/app/views/myAllCommunities.html',
     	controller : 'CommunityWidgetController'
@@ -37,10 +33,6 @@ angular.module('minibean', [
       .when('/editCommunity/:id',{
     	templateUrl: '/assets/app/views/edit-community.html',
     	controller : 'GroupController'
-      })
-       .when('/createNewGroup',{
-    	templateUrl: '/assets/app/views/createNewCommunity.html',
-    	controller : 'CreateCommunityController'
       })
       .when('/profile/:id',{
     	templateUrl: '/assets/app/views/visit-profile.html',

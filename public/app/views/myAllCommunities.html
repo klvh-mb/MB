@@ -64,11 +64,11 @@
               <div class="col-md-12">
                 <div class="row form-group">
                	
-               	<div class="col-md-6">
+               	<div class="col-md-4">
                    	<label> Community Name: </label>
                    </div>
                    
-                   <div class="col-md-6">
+                   <div class="col-md-8">
                    	<input type="text" class="form-control" placeholder="Community Name" validator="[required]" data-ng-model="formData.name" required >
                    </div>
                 </div>
@@ -78,11 +78,11 @@
              <div class="row tm">
              	  <div class="col-md-12">
                 	<div class="row form-group">
-               	<div class="col-md-6">
+               	<div class="col-md-4">
                   		<label> Community Type: </label>
                   	</div>
                   	
-                  	<div class="col-md-6">
+                  	<div class="col-md-8">
                   		
                   			<label>
    								<input type="radio" name="optionsRadios" data-ng-model="formData.communityType" id="optionsRadios1" value="OPEN" checked>
@@ -103,11 +103,11 @@
              	<div class="col-md-12">
                 <div class="row form-group">
                	
-               	<div class="col-md-6">
+               	<div class="col-md-4">
                    	<label> Description: </label>
                    </div>
                    
-                   <div class="col-md-6">
+                   <div class="col-md-8">
                    	<textarea  class="form-control" placeholder="Community Description" validator="[required]" data-ng-model="formData.description" required >
                		 </textarea>
                    </div>
@@ -121,11 +121,11 @@
              	<div class="col-md-12">
                 <div class="row form-group">
                	
-               	<div class="col-md-6">
+               	<div class="col-md-4">
                    	<label> Cover Photo: </label>
                    </div>
                    
-                   <div class="col-md-6">
+                   <div class="col-md-8">
                    	<input type="file" name="cover-photo"  ng-file-select="onFileSelect($files)"/>
                    	<input type="hidden" data-ng-model="formData.photo" validator="[required]" />
                    </div>

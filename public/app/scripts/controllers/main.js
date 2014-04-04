@@ -332,10 +332,10 @@ minibean.service('communityPageService',function($resource){
 });
 
 minibean.controller('GroupController',function($scope, $routeParams, $http, communityPageService, $upload, profilePhotoModal){
-	
+
+	$scope.submitBtn = "Save";
 	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id});
-	
-	$scope.communityType = [
+	$scope.community.typ = [
 	 	                   {value: 'OPEN', text: 'Open'},
 	 	                   {value: 'CLOSE', text: 'Close'}
 	 	                   ];
@@ -350,7 +350,9 @@ minibean.controller('GroupController',function($scope, $routeParams, $http, comm
  		                   ];
 	
 	$scope.updateGroupProfileData = function(data) {
-		return $http.post('/updateGroupProfileData', $scope.community);
+		return $http.post('/updateGroupProfileData', $scope.community).success(function(data){
+			$scope.submitBtn = "Done";
+		});
 	}
 
 	$scope.openGroupCoverPhotoModal = function(id) {
@@ -428,6 +430,22 @@ minibean.controller('FriendsWidgetController',function($scope, friendWidgetServi
 
 ///////////////////////// User Friends Widget End //////////////////////////////////
 
+///////////////////////// Community Members Widget Service Start //////////////////////////////////
+minibean.service('membersWidgetService',function($resource){
+	this.CommunityMembers = $resource(
+			'/get-community-members/:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get'}
+			}
+	);
+});
+
+minibean.controller('CommunityMembersWidgetController',function($scope, $routeParams, membersWidgetService, $http){
+	$scope.result = membersWidgetService.CommunityMembers.get({id:$routeParams.id});
+});
+
+///////////////////////// Community Members Widget Service Ends //////////////////////////////////
 
 ///////////////////////// User UnJoined Communities Widget Service Start //////////////////////////////////
 minibean.service('unJoinedCommunityWidgetService',function($resource){

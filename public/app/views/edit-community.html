@@ -4,6 +4,7 @@
 		data-src="'/assets/app/views/headerBar.html'"></div>
 </header>
 
+<div class="innerAll">
 <div class="row">
 	<div class="col-lg-9 col-md-8">
 		<div class="timeline-cover">	
@@ -25,100 +26,98 @@
          	</div>
        </div>
        <div class="row">
-          <div class="panel panel-default">
-            <form role="form" editable-form name="group_data" onaftersave="updateGroupProfileData($data)">
-              
-              <div class="col-md-12">
-	              <div class="row buttons pull-right">
-	                <!-- button to show form -->
-	                <div class="col-md-6">
-		                <button type="button" class="btn btn-default" ng-click="group_data.$show()" ng-show="!group_data.$visible">
-		                	<span class="glyphicon glyphicon-pencil"></span>
-		                </button>
-		             </div>
-	              </div>
-              </div>
+          <div class="panel panel-default innerAll">
+             <form role="form" editable-form name="group_data" onaftersave="updateGroupProfileData($data)">
               
               <div class="col-md-12" ng-show="group_data.$visible">
               	<div class="row">
               	</div>
               </div>
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <div class="row form-group">
-	                	<div class="col-md-6">
+	                	<div class="col-md-4">
+	                	<div class="pull-right">
 	                    	<label>Community Name: </label>
+	                    	</div>
 	                    </div>
 	                    
 	                    <div class="col-md-6">
-	                    	<span editable-text="community.n" >{{ community.n || 'not set' }}</span>
+	                    	<input type="text" class="inputtext pls form-control" data-ng-model="community.n" name="name">
 	                    </div>
                   </div>
+                  <hr style="margin-top: 1%;">
                   
-                  <div class="row">
-	                	<div class="col-md-6">
+                  <div class="row form-group tm">
+	                	<div class="col-md-4">
+	                	<div class="pull-right">
                     		<label>Community Type: </label>
+                    		</div>
                     	</div>
                     	
                     	<div class="col-md-6">
-                    		<span editable-select="community.typ" e-name="communityType" e-ng-options="gtyp.value as gtyp.text for gtyp in communityType">
-                    			{{ (communityType | filter:{value: community.typ})[0].text || 'Not set' }}
-                    		</span>	
-                    	</div>
+                  		
+                  			<label style="width: 100%">
+   								<input type="radio" data-ng-model="community.typ" id="optionsRadios1" value="OPEN" >
+   								Open
+  							</label>
+  							<label>
+   								<input type="radio" data-ng-model="community.typ" id="optionsRadios2" value="CLOSE" >
+   								Closed
+  							</label>
+                  	</div>
                   </div>
                   
-                  <div class="row">
-	                	<div class="col-md-6">
+                   <hr style="margin-top: 1%;">
+                  
+                  <div class="row tm">
+	                	<div class="col-md-4">
+	                	<div class="pull-right">
                     		<label>Target District: </label>
+                    		</div>
                     	</div>
                     	
                     	<div class="col-md-6">
-                    		<span editable-select="community.td" e-name="targetDistrict" e-ng-options="gtd.value as gtd.text for gtd in tagetDistrict">
-                    			{{ (tagetDistrict | filter:{value: community.td})[0].text || 'Not set' }}
-                    		</span>	
+                    		<select class="form-control" data-ng-model="community.td" required ng-options="gl.value as gl.text for gl in tagetDistrict">
+					                    			</select>
                     	</div>
                   </div>
                   
-                   <div class="row">
-	                  	<div class="col-md-6">
-	                   		<label>Target Birth Date:</label>
-	                   	</div>
-	                   	
-	                   	<div class="col-md-6">
-						    <span editable-bsdate="community.dte"  e-datepicker-popup="dd-MMMM-yyyy">{{ community.dte | date:'dd/MM/yyyy' || 'Not set' }}
-						    </span>
-						    <span class="glyphicon glyphicon-calendar">
-						    </span>
-					  	</div>
-			       </div>
+                   <hr style="margin-top: 1%;">
                   
-                  <div class="row">
-	                	<div class="col-md-6">
+                  <div class="row tm">
+	                	<div class="col-md-4">
+	                	<div class="pull-right">
                    			<label>Community Description: </label>
+                   			</div>
                    		</div>
                    		
                    		<div class="row">
-			               	<div class="col-md-12">
-				                <span editable-textarea="community.d" e-rows="7" e-cols="40">
-				                   <pre>{{ community.d || 'no description' }}</pre>
-				                 </span>
+			               	<div class="col-md-6">
+				                <textarea class="inputtext pls form-control" data-ng-model="community.d">
+									</textarea>		                 
 			                 </div>
 				        </div>
                   </div>
-					<div class="buttons">
-						<!-- buttons to submit / cancel form -->
-						<span ng-show="group_data.$visible">
-							<button type="submit" class="btn btn-primary"
-								ng-disabled="group_data.$waiting">
+                  
+                 
+                  
+                  </div>
+					<div class="row tm">
+					<div class="pull-right">
+				        <button type="submit" class="btn btn-primary"  >
 								<span class="glyphicon glyphicon-ok"></span>
+								{{submitBtn}}
 							</button>
-						</span>
+							</div>
+				      </div>
 					</div>
 				</form>
 		    </div>
 		 </div>
     </div>
 </div>
+
 
 <script type="text/ng-template" id="change-profile-photo-modal.html">
       <div class="modal-header">

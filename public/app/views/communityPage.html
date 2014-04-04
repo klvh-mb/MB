@@ -2,7 +2,7 @@
 	<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/headerBar.html'"></div>
 </header>
 
-<div class="row">
+<!-- <div class="row">
 	<div class="col-lg-9 col-md-8">
 		<div class="timeline-cover">	
 			<div class="widget cover image">
@@ -47,11 +47,65 @@
 			<div>
 				<div data-ng-include style="height: 100px;" data-src="'/assets/app/views/community-post-bar.html'"></div>
 			</div>
-			<!-- div style="width: 100%;margin-left: 1%;margin-right: 1%;float: right;">
+			div style="width: 100%;margin-left: 1%;margin-right: 1%;float: right;">
 				<div data-ng-include style="width: 100%;height: 330px;" data-src="'/assets/app/views/likeCommentBar.html'"></div>
-			</div-->
+			</div
 		</div>
     </div>
 </div>
 
 
+ -->
+ 
+ 
+ <div class="container-fluid menu-hidden">
+	<div id="content">
+		<div class="innerAll" >
+			<div class="row">
+				<div class="col-lg-2 col-md-3">
+					<div class="row tm">
+						<div class="" style="padding: 0px 40px;background-image: url(/assets/app/images/background.jpg);background-repeat:no-repeat;background-size: cover;">
+							<div class="widget-body text-center">
+								<a> 
+									<img src="/community-image-by-id/{{community.i}}" width="120" alt="" class="img-circle">
+								</a>
+								<h2 class="strong margin-none">{{community.n}}</h2>
+
+              				</div>
+              		</div>
+              	</div>
+              	<div class="row tm">
+              		<div class="bar-shadow-border" style="width: 100%;">
+						<div class="widget" style="width: 100%;float: left">
+							<div class="widget-head border-bottom bg-gray">
+								<h5 class="pull-left margin-none innerAll">
+									Description
+								</h5>
+							</div>
+							<div class="widget-body margin-none">
+								<div class="innerAll">
+									{{community.d}}
+								</div>
+							</div>
+						</div>
+					</div>	
+				</div>
+			</div>
+       	     <div class="col-lg-8 col-md-6">
+				<div>
+					<div class="row tm">
+						<div data-ng-include style="height: 100px;" data-src="'/assets/app/views/community-post-bar.html'"></div>
+					</div>
+				</div>
+			 </div>
+       	     <div class="col-lg-2 col-md-3">
+       	     	<div class="row tm">
+            		<div class="col-lg-12 col-md-12" ng-controller="CommunityMembersWidgetController">
+						<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/membersBar.html'"></div>
+					</div>
+            	</div>
+       	     </div>
+         </div>
+     </div>
+  </div>
+</div>
