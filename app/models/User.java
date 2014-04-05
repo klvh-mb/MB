@@ -187,6 +187,7 @@ public class User extends SocialObject implements Subject, Socializable {
 
 	public void requestedToJoin(SocialObject target)
 			throws SocialObjectNotJoinableException {
+		if(!this.isJoinRequestPendingFor((Community) target))
 		target.onJoinRequest(this);
 	}
 
@@ -282,8 +283,9 @@ public class User extends SocialObject implements Subject, Socializable {
 	@JsonIgnore
 	public List<Community> getListOfNotJoinedCommunities() {
 		
-		Query q = JPA.em().createQuery("select c from Community c, SocialRelation sr, SocialObject so where so.id = c.id and c.id = sr.target.id and sr.actor.id <> ?1 and so.owner.id = sr.actor.id");
+		Query q = JPA.em().createQuery("Select c from Community c where c.id not in (select sr.target.id from  SocialRelation sr where sr.action = ?2 and sr.actor.id = ?1)");
 		q.setParameter(1, this.id);
+		q.setParameter(2, Action.MEMBER);
 		List<Community> communityList = q.getResultList();
 		return communityList;
 	}

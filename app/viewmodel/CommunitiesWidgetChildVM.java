@@ -6,6 +6,7 @@ public class CommunitiesWidgetChildVM {
 	public String dn;
 	public String msg;
 	public Boolean isO;
+	public Boolean isP;
 	
 	public CommunitiesWidgetChildVM(Long id, Long mm, String dn, String msg) {
 		this.id = id;

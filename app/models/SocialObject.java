@@ -83,6 +83,7 @@ public abstract class SocialObject extends domain.Entity implements
 		action.action = SocialRelation.Action.MEMBER;
 		action.target = this;
 		action.actor = user;
+		action.actionType = SocialRelation.ActionType.GRANT;
 		String message = "Congratulation "+user.name+","+"\n"+" You are now mwmber of "+this.name+" Community.";
 		MailJob.sendMail("Some subject",new Body(message), user.email);
 		action.validateUniquenessAndCreate();
