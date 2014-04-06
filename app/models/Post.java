@@ -112,7 +112,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		return cover_photo;
 	}
 	
-	private void ensureAlbumExist() {
+	public void ensureAlbumExist() {
 
 		if (this.folder == null) {
 			this.folder = createAlbum("post-photos",
@@ -121,7 +121,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		}
 	}
 	
-	public Folder createAlbum(String name, String description, Boolean system) {
+	private Folder createAlbum(String name, String description, Boolean system) {
 			Folder folder = createFolder(name, description,
 					SocialObjectType.FOLDER, system);
 			return folder;

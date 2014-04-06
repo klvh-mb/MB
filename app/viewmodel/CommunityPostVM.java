@@ -7,6 +7,7 @@ import java.util.List;
 
 import models.Comment;
 import models.Post;
+import models.Resource;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -19,6 +20,7 @@ public class CommunityPostVM {
 	@JsonProperty("hasImage") public boolean hasImage;
 	@JsonProperty("n_c") public int noOfComments;
 	@JsonProperty("cs") public List<CommunityPostCommentVM> comments;
+	@JsonProperty("imgs") public Long[] images;
 	
 	public static CommunityPostVM communityPostVM(Post post) {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -31,8 +33,15 @@ public class CommunityPostVM {
 		postVM.postedText = post.body;
 		postVM.noOfComments = post.comments.size();
 		
-		boolean hasImage = true;
-		postVM.hasImage = hasImage;
+		
+		if(post.folder != null && post.folder.resources != null && !post.folder.resources.isEmpty()) {
+			postVM.hasImage = true;
+			postVM.images = new Long[post.folder.resources.size()];
+			int i = 0;
+			for (Resource rs : post.folder.resources) {
+				postVM.images[i++] = rs.id;
+			}
+		}
 		
 		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
 		

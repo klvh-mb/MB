@@ -1,29 +1,31 @@
 package controllers;
 
+import static play.data.Form.form;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
-
 import models.Community;
 import models.Community.CommunityType;
 import models.Post;
+import models.Resource;
 import models.User;
+
+import org.apache.commons.io.FileUtils;
+
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
-import play.mvc.Result;
 import play.mvc.Http.MultipartFormData.FilePart;
+import play.mvc.Result;
+import viewmodel.CommunitiesParentVM;
 import viewmodel.CommunitiesWidgetChildVM;
 import viewmodel.CommunityVM;
-import viewmodel.CommunitiesParentVM;
-import viewmodel.FriendWidgetChildVM;
-import viewmodel.FriendWidgetParentVM;
 import viewmodel.MemberWidgetParentVM;
 import viewmodel.MembersWidgetChildVM;
 
@@ -32,7 +34,6 @@ import com.mnt.exception.SocialObjectNotJoinableException;
 
 import domain.CommentType;
 import domain.PostType;
-import static play.data.Form.form;
 
 public class CommunityController extends Controller{
 
@@ -86,6 +87,10 @@ public class CommunityController extends Controller{
 		return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
 	}
 	
+	@Transactional
+	public static Result getPostImageById(Long id) {
+		return ok(Resource.findById(id).getThumbnailFile());
+	}
 	
 	@Transactional
 	public static Result getMiniCoverCommunityImageById(Long id) {
@@ -293,11 +298,13 @@ public class CommunityController extends Controller{
 		
 		Long communityId = Long.parseLong(form.get("community_id"));
 		String postText = form.get("postText");
-		
+		String withPhotos = form.get("withPhotos");
 		Community c = Community.findById(communityId);
 		
 		Post p = (Post) c.onPost(localUser, postText, PostType.SIMPLE);
-		
+		if(Boolean.getBoolean(withPhotos)) {
+			p.ensureAlbumExist();
+		}
 		return ok(Json.toJson(p.id));
 	}
 	

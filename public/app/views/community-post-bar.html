@@ -32,10 +32,10 @@
 		<p>{{post.pt}}</p>
 	</div>
 	
-	<div data-ng-show="post.hasImages" class="innerAll">
+	<div data-ng-show="post.hasImage" class="innerAll">
 		<p class="lead"></p>
 		<a data-ng-repeat="imageID in post.imgs" href="">
-			<img src="/get-post-image-by-id/imageID" alt="" class="img-post">
+			<img width="90" data-ng-src="/get-post-image-by-id/{{imageID}}" alt="" class="img-post">
 		</a>
 	</div>
 	

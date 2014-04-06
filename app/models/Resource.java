@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Query;
 
 import org.apache.commons.io.FileUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -91,6 +92,14 @@ public class Resource extends SocialObject {
 		}
 	}
 	
+	public java.io.File getThumbnailFile() {
+		java.io.File f = new java.io.File(getThumbnail());
+		if (f.exists()) {
+			return f;
+		}
+		return null;
+	}
+	
 	@Transactional
 	public String getMini() {
 		if (isExtrenal()) {
@@ -138,6 +147,12 @@ public class Resource extends SocialObject {
 		JPA.em().merge(this);
 		recordCommentOnCommunityPost(user);
 		return comment;
+	}
+	
+	public static Resource findById(Long id) {
+		Query q = JPA.em().createQuery("SELECT r FROM Resource r where id = ?1");
+		q.setParameter(1, id);
+		return (Resource) q.getSingleResult();
 	}
 
 }

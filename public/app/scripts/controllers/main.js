@@ -711,7 +711,8 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		
 		var data = {
 			"community_id" : id,
-			"postText" : postText
+			"postText" : postText,
+			"withPhotos" : $scope.selectedFiles.length != 0
 		};
 		$http.post('/community/post', data)// first create post with post text.
 			.success(function(post_id) {
