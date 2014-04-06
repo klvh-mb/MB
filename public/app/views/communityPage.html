@@ -46,12 +46,25 @@
 									<li class="col-md-2 glyphicons circle_info"><a href="#tab3-4" data-toggle="tab"><i></i> <span> Context</span></a></li>
 									<li class="col-md-2 "></li>
 									<li class="col-md-2 ">
-										<div ng-show="community.isM" class=" pull-right border-right">
+										
+					   					
+					   					<div ng-show="community.isM == true && isLoadingEnabled==false && community.isO == false" class="pull-right border-right">
 					   						<button class="btn btn-primary" style="background: #0099FF;" data-ng-click="leave_community(community.i)"><i class="fa fa-thumbs-down"></i> Leave</button>
-   										</div>
-					   					<div ng-show="!community.isM" class=" pull-right border-right">
+					   					</div>
+					   					
+					   					<div ng-show="community.isM == false && community.isP == false && isLoadingEnabled==false && community.isO == false" class="pull-right border-right">
 					   						<button class="btn btn-primary" style="background: #0099FF;" data-ng-click="send_join(community.i)"><i class="fa fa-user"></i> Join</button>
 					   					</div>
+					   					
+					   					<div ng-show="community.isP == true && isLoadingEnabled==false" class="pull-right border-right">
+					   						<button class="btn btn-primary" style="background: #0099FF;" disabled="disabled" ><i class="fa fa-user"></i> Pending Approval</button>
+					   					</div>
+					   					
+					   					<div ng-show="isLoadingEnabled==true" class="pull-right border-right">
+					       					<span class="label label-warning" style="font-size: 110% !important;padding: 9px 12px;">
+					       						Loading .. 
+					       					</span>
+					       				</div>	
 					   				</li>
 									<li class="col-md-2 ">	
   										<div class="pull-right border-right">
