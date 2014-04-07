@@ -114,7 +114,8 @@
                    </div>
                    
                    <div class="col-md-8">
-                   	<input type="text" class="form-control" placeholder="Community Name" validator="[required]" data-ng-model="formData.name" required >
+                   		<input type="text" class="form-control" placeholder="Community Name" validator="[required]" data-ng-model="formData.name" required >
+                   		<label data-ng-show="uniqueName" class="label label-warning">Such name exists! Please Choose Another Name.</label>
                    </div>
                 </div>
                </div>

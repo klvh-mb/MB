@@ -232,6 +232,10 @@ public class CommunityController extends Controller{
 		Form<Community> form = DynamicForm.form(Community.class).bindFromRequest("name","description","communityType");
 		Community community = form.get();
        
+		if(!community.checkCommunityNameExists(localUser)) {
+			return status(505, "PLEASE CHOOSE OTHER NAME");
+		}
+		
         FilePart picture = request().body().asMultipartFormData().getFile("cover-photo");
 		String fileName = picture.getFilename();
 		File file = picture.getFile();

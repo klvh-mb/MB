@@ -394,8 +394,8 @@ minibean.controller('CreateCommunityController',function($scope,  $http,  $uploa
 			    }).error(function(data, status, headers, config) {
 			    	if( status == 505 ) {
 			    		$scope.uniqueName = true;
+			    		$scope.submitBtn = "Try Again";
 			    	}  
-			    	$scope.submitBtn = "Try Again";
 			    });
 		    })
 		    .error(function () {
