@@ -104,7 +104,8 @@ minibean.controller('UserInfoServiceController',function($scope,userInfoService)
 	  
 });
 
-minibean.controller('ApplicationController',function($scope, userInfoService, userNotification, userSimpleNotifications, acceptJoinRequestService, acceptFriendRequestService){
+minibean.controller('ApplicationController',function($scope, userInfoService, userNotification, userSimpleNotifications,
+	acceptJoinRequestService, acceptFriendRequestService, usSpinnerService){
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.friend_requests = userNotification.getAllFriendRequests.get();
 	$scope.join_requests = userSimpleNotifications.getAllJoinRequests.get();
@@ -133,20 +134,16 @@ minibean.controller('ApplicationController',function($scope, userInfoService, us
 	};
 	$scope.accept_join_request = function(member_id,group_id) {
 		
-		angular.forEach($scope.join_requests, function(request, key){
-			if(request.id == member_id) {
-				request.isLoadingEnable = true;
-			}
-		});
+		var spinner = new Spinner().spin();
 		
+		$(".a_" + member_id + "_" + group_id).append(spinner.el);    
 		this.accept_join_request = acceptJoinRequestService.acceptJoinRequest.get({"member_id":member_id, "group_id":group_id},
 			function() {
-				angular.forEach($scope.join_requests, function(request, key){
-					if(request.id == member_id) {
-						request.isLoadingEnable = false;
-						request.isRequestAccepted = true;
-					}
-				});
+				$(".a_" + member_id + "_" + group_id).html("member");
+				$(".a_" + member_id + "_" + group_id).removeClass("btn-success");
+				$(".a_" + member_id + "_" + group_id).addClass("btn-default");
+				$(".a_" + member_id + "_" + group_id).attr("disabled", true)
+				spinner.stop();
 			}
 		);
 	}

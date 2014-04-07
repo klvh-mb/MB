@@ -11,7 +11,8 @@ angular.module('minibean', [
   'angularFileUpload',
   'ui.bootstrap.datetimepicker',
   'validator',
-  'validator.rules'
+  'validator.rules',
+  'angularSpinner'
 ])
   .config(function ($routeProvider) {
     $routeProvider

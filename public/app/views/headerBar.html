@@ -75,9 +75,10 @@
 						<div class="media-body" data-ng-init="request.isLoadingEnable = false">
 				        	
 				        	<button data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
-				        	 	data-ng-click="accept_join_request(request.id, request.mm)" class="btn btn-xs btn-success pull-right">accept</button>
+				        	 	data-ng-click="accept_join_request(request.id, request.mm);$event.stopPropagation();" 
+				        	 	class="btn btn-xs btn-success pull-right a_{{request.id}}_{{request.mm}}">accept</button>
+					        
 				        	
-				        	<label class="label label-default pull-right" data-ng-show="request.isRequestAccepted == true">Accepted</label>
 				        	
 				        	<span class="label label-primary pull-right" data-ng-show="request.isLoadingEnable == true">Loading...</span>
 				            
@@ -94,7 +95,7 @@
 			
 			<div class="col-lg-12 col-md-12 col-sd-12">
 				<div class="input-group input-group-sm innerC">
-				 	<input type="text" class="form-control" data-ng-keyup="search_result(query)" placeholder="Search Users" data-ng-model="query">
+				 	<input type="text" class="form-control" data-ng-keyup="search_result(query)" placeholder="Search Users, Community" data-ng-model="query">
 					<div class="input-group-btn"><button class="btn btn-default" type="button" style="margin: 0 -3px !important;"><i class="fa fa-search"></i></button></div>
 				</div>
 			</div>
