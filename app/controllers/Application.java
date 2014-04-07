@@ -64,7 +64,12 @@ public class Application extends Controller {
 		return ok(views.html.profile.render(localUser));
 	}
 
+	@Transactional
 	public static Result login() {
+		final User localUser = getLocalUser(session());
+		if(localUser != null) {
+			return redirect("/");
+		}
 		return ok(views.html.login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
 	}
 
@@ -81,8 +86,12 @@ public class Application extends Controller {
 			return UsernamePasswordAuthProvider.handleLogin(ctx());
 		}
 	}
-
+	@Transactional
 	public static Result signup() {
+		final User localUser = getLocalUser(session());
+		if(localUser != null) {
+			return redirect("/");
+		}
 		return ok(signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));
 	}
 
