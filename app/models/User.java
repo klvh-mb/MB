@@ -23,6 +23,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.FetchType;
+
+import models.Community.CommunityType;
 import models.SocialRelation.Action;
 import models.SocialRelation.ActionType;
 import models.TokenAction.Type;
@@ -436,10 +438,10 @@ public class User extends SocialObject implements Subject, Socializable {
 	}
 	
 	@Transactional
-	public Community createCommunity(String name, String description){
+	public Community createCommunity(String name, String description, CommunityType type){
 
 		Community community = new Community(
-				name, description, this);
+				name, description, this, type);
 		community.save();
 		return community;
 		

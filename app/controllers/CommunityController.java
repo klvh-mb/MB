@@ -25,6 +25,7 @@ import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import viewmodel.CommunitiesParentVM;
 import viewmodel.CommunitiesWidgetChildVM;
+import viewmodel.CommunityPostCommentVM;
 import viewmodel.CommunityVM;
 import viewmodel.MemberWidgetParentVM;
 import viewmodel.MembersWidgetChildVM;
@@ -190,6 +191,23 @@ public class CommunityController extends Controller{
 		return ok(Json.toJson(fwVM));
 	}
 	
+	@Transactional
+	public static Result getAllComments(Long id) {
+		Post post = Post.findById(id);
+		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
+		int i = 0;
+		List<Comment> comments = post.getCommentsOfPost();
+		for(Comment comment : comments) {
+			i++;
+			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
+			commentsToShow.add(commentVM);
+		}
+		
+		
+		
+		return ok(Json.toJson(commentsToShow));
+	}
+	
 	
 	@Transactional
 	public static Result sendJoinRequest(String id) {
@@ -241,7 +259,7 @@ public class CommunityController extends Controller{
 		File file = picture.getFile();
 		File fileTo = new File(fileName);
 		
-		Community newCommunity = localUser.createCommunity(community.name, community.description);
+		Community newCommunity = localUser.createCommunity(community.name, community.description,community.communityType);
 		try {
 			newCommunity.ownerAsMember(localUser);
 			newCommunity.communityType = community.communityType;

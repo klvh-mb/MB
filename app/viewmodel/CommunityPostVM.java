@@ -44,11 +44,15 @@ public class CommunityPostVM {
 		}
 		
 		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
-		
+		int i = 0;
 		List<Comment> comments = post.getCommentsOfPost();
 		for(Comment comment : comments) {
+			i++;
 			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
 			commentsToShow.add(commentVM);
+			if(i == 3){
+				break;
+			}
 		}
 		
 		postVM.comments = commentsToShow;

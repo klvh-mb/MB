@@ -43,7 +43,7 @@ import domain.SocialObjectType;
 public class Community extends SocialObject  implements Likeable, Postable, Joinable {
 	
 	@OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY)
-	public Set<Post> posts = new HashSet<Post>();
+	public List<Post> posts = new ArrayList<Post>();
 	
 	@Enumerated(EnumType.ORDINAL)
 	public CommunityType communityType;
@@ -72,11 +72,12 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		this.objectType = SocialObjectType.COMMUNITY;
 	}
 	
-	public Community(String name, String description, User owner) {
+	public Community(String name, String description, User owner,CommunityType type) {
 		this();
 		this.name = name;
 		this.owner = owner;
 		this.description = description;
+		this.communityType =type;
 	}
 	
 	@Override

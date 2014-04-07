@@ -634,6 +634,16 @@ minibean.service('communityPageService',function($resource){
 	);
 });
 
+minibean.service('allCommentsService',function($resource){
+	this.comments = $resource(
+			'/comments/:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{id:'@id'},isArray:true}
+			}
+	);
+});
+
 minibean.service('communityJoinService',function($resource){
 	this.sendJoinRequest = $resource(
 			'/community/join/:id',
@@ -652,16 +662,25 @@ minibean.service('communityJoinService',function($resource){
 	);
 });
 
-minibean.controller('CommunityPageController', function($scope, $routeParams, $http, communityPageService, communityJoinService, $upload, $timeout){
+minibean.controller('CommunityPageController', function($scope, $routeParams, $http, allCommentsService, communityPageService, communityJoinService, $upload, $timeout){
 	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id});
 	
 	$scope.isLoadingEnabled = false;
-	
+	$scope.show = false;
 	$scope.postPhoto = function() {
 		$("#post-photo-id").click();
 	}
 	$scope.selectedFiles = [];
 	$scope.dataUrls = [];
+	
+	$scope.get_all_comments = function(id) {
+		allCommentsService.comments.get({id:id});
+		angular.forEach($scope.community.posts, function(post, key){
+			if(post.id == id) {
+				post.cs = allCommentsService.comments.get({id:id});
+			}
+		});
+	}
 	
 	$scope.onFileSelect = function($files) {
 		
