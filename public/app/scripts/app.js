@@ -43,6 +43,10 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/communityPage.html',
     	controller : 'CommunityPageController'  
       })
+      .when('/communityQnA/:id',{
+    	templateUrl: '/assets/app/views/communityQnA.html',
+    	controller : 'CreateQnACommunityController'  
+      })
       .otherwise({
           redirectTo: '/'
       });

@@ -773,8 +773,124 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		});
 	}
 });
+///////////////////////// Community Page  End ////////////////////////////////
 
 
+minibean.service('communityQnAPageService',function($resource){
+	this.CommunityPage = $resource(
+			'/communityQnA/:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{id:'@id'}}
+			}
+	);
+});
 
-
-///////////////////////// Community Page  End //////////////////////////////////
+minibean.controller('CreateQnACommunityController',function($scope, communityQnAPageService,$timeout, $routeParams, $http,  $upload, $validator){
+	$scope.community = communityQnAPageService.CommunityPage.get({id:$routeParams.id});
+	
+	$scope.postPhoto = function() {
+		$("#post-photo-id").click();
+	}
+	$scope.selectedFiles = [];
+	$scope.dataUrls = [];
+	
+	$scope.formData = {};
+	$scope.submitBtn = "Save";
+	$scope.submit = function() {
+		 $validator.validate($scope, 'formData')
+		    .success(function () {
+		    	$upload.upload({
+					url: '/createQnACommunity',
+					method: 'POST',
+					file: $scope.selectedFiles[0],
+					data: $scope.formData,
+					fileFormDataName: 'cover-photo'
+				}).progress(function(evt) {
+					$scope.submitBtn = "Please Wait";
+			    }).success(function(data, status, headers, config) {
+			    	$scope.submitBtn = "Done";
+			    }).error(function(data, status, headers, config) {
+			    	if( status == 505 ) {
+			    		$scope.uniqueName = true;
+			    	}  
+			    	$scope.submitBtn = "Try Again";
+			    });
+		    })
+		    .error(function () {
+		        console.log('error');
+		    });
+		
+	
+	}
+	
+	$scope.ask_question_community = function(id, questionText) {
+		var data = {
+				"community_id" : id,
+				"questionText" : questionText,
+				"withPhotos" : $scope.selectedFiles.length != 0
+			};
+			$http.post('/communityQnA/question/post', data)// first create post with question text.
+				.success(function(post_id) {
+					// when post is done in BE then do photo upload
+					for(var i=0 ; i<$scope.selectedFiles.length ; i++) {
+						$upload.upload({
+							url : '/uploadPostPhoto',
+							method: $scope.httpMethod,
+							data : {
+								postId : post_id
+							},
+							file: $scope.selectedFiles[i],
+							fileFormDataName: 'post-photo'
+						}).success(function(data, status, headers, config) {
+							
+						});
+						
+					}
+					
+					var post = {"oid" : $scope.community.lu, "pt" : questionText, 
+								"p" : $scope.community.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
+					$scope.community.posts.unshift(post);
+			});
+	};
+	
+	$scope.answer_to_question = function(question_post_id, answerText) {
+		var data = {
+				"post_id" : question_post_id,
+				"answerText" : answerText
+			};
+			
+			$http.post('/communityQnA/question/answer', data) 
+				.success(function(post_id) {
+					angular.forEach($scope.community.posts, function(post, key){
+						if(post.id == post_id) {
+							post.n_c++;
+							var answer = {"oid" : $scope.community.lu, "d" : answerText, "on" : $scope.community.lun, 
+								"cd" : new Date(), "n_c" : post.n_c};
+						post.cs.push(answer);
+					}
+				});
+			});
+	}
+	
+	$scope.onFileSelect = function($files) {
+		$scope.selectedFiles.push($files);
+		for ( var i = 0; i < $files.length; i++) {
+			var $file = $files[i];
+			if (window.FileReader && $file.type.indexOf('image') > -1) {
+				var fileReader = new FileReader();
+				fileReader.readAsDataURL($files[i]);
+				var loadFile = function(fileReader, index) {
+					fileReader.onload = function(e) {
+						$timeout(function() {
+							$scope.dataUrls.push(e.target.result);
+						});
+					}
+				}(fileReader, i);
+			}
+		}
+		
+		console.log($scope.dataUrls);
+	}
+	
+});

@@ -111,5 +111,8 @@ POST	/community/post							controllers.CommunityController.postOnCommunity()
 POST	/createCommunity						controllers.CommunityController.createGroup()
 POST	/upload-cover-photo-group/:id		   	controllers.CommunityController.uploadCoverPhoto(id : Long)
 POST	/updateGroupProfileData					controllers.CommunityController.updateGroupProfileData
-
+POST	/createQnACommunity						controllers.CommunityController.createQnACommunity()
+GET		/communityQnA/:id						controllers.CommunityController.getQnACommunityInfoById(id : Long)
+POST	/communityQnA/question/post				controllers.CommunityController.postQuestionOnCommunity()
+POST	/communityQnA/question/answer			controllers.CommunityController.answerToQuestionOnQnACommunity()
 POST	/uploadPostPhoto						controllers.CommunityController.uploadPhotoOfPost()

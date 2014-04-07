@@ -11,6 +11,7 @@ import java.util.Map;
 
 import junit.framework.Assert;
 import models.Community;
+import models.Community.CommunityType;
 import models.Resource;
 import models.User;
 
@@ -22,6 +23,8 @@ import play.db.jpa.JPA;
 import play.mvc.Result;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
+
+import domain.CommentType;
 
 
 public class BuildDataForTest {
@@ -153,27 +156,27 @@ public class BuildDataForTest {
 								.findByEmail("jagbir.friend8@test.com");
 						
 						Community Group7 = new Community(
-								"Test Group1","Test Description 1", friend5);
+								"Test Group1","Test Description 1", friend5, CommunityType.OPEN);
 						Group7.save();
 						Community Group6= new Community(
-								"Test Group2","Test Description 2", jagbir_friend_Amit);
+								"Test Group2","Test Description 2", jagbir_friend_Amit, CommunityType.OPEN);
 						Group6.save();
 						Community Group3 = new Community(
-								"Test Group3","Test Description 3", jagbir);
+								"Test Group3","Test Description 3", jagbir, CommunityType.OPEN);
 						Group3.save();
 						
 						Community Group1 = new Community(
-								"Test Group4","Test Description4", friend2);
+								"Test Group4","Test Description4", friend2, CommunityType.OPEN);
 						Group1.save();
 						
 						Community Group2 = new Community(
-								"Test Group5","Test Description 5", friend1);
+								"Test Group5","Test Description 5", friend1, CommunityType.OPEN);
 						Group2.save();
 						Community Group5 = new Community(
-								"Test Group6","Test Description 6", friend3);
+								"Test Group6","Test Description 6", friend3, CommunityType.OPEN);
 						Group5.save();
 						Community Group4 = new Community(
-								"Test Group7","Test Description 7", friend4);
+								"Test Group7","Test Description 7", friend4, CommunityType.OPEN);
 						Group4.save();
 						
 						try {

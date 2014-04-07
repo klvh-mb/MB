@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.Comment;
 import models.Community;
 import models.Community.CommunityType;
 import models.Post;
@@ -35,6 +36,7 @@ import com.mnt.exception.SocialObjectNotJoinableException;
 
 import domain.CommentType;
 import domain.PostType;
+import domain.SocialObjectType;
 
 public class CommunityController extends Controller{
 
@@ -85,7 +87,10 @@ public class CommunityController extends Controller{
 	public static Result getCommunityInfoById(Long id) {
 		final User localUser = Application.getLocalUser(session());
 		final Community community = Community.findById(id);
-		return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
+		if(community.objectType == SocialObjectType.COMMUNITY) {
+			return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
+		}
+		return status(404);
 	}
 	
 	@Transactional
@@ -195,19 +200,13 @@ public class CommunityController extends Controller{
 	public static Result getAllComments(Long id) {
 		Post post = Post.findById(id);
 		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
-		int i = 0;
 		List<Comment> comments = post.getCommentsOfPost();
 		for(Comment comment : comments) {
-			i++;
 			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
 			commentsToShow.add(commentVM);
 		}
-		
-		
-		
 		return ok(Json.toJson(commentsToShow));
 	}
-	
 	
 	@Transactional
 	public static Result sendJoinRequest(String id) {
@@ -222,8 +221,6 @@ public class CommunityController extends Controller{
 		
 		return ok();
 	}
-	
-
 	
 	@Transactional
 	public static Result uploadCoverPhoto(Long id) {
@@ -266,7 +263,6 @@ public class CommunityController extends Controller{
 			FileUtils.copyFile(file, fileTo);
 			newCommunity.setCoverPhoto(fileTo);
 		} catch (SocialObjectNotJoinableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -366,6 +362,78 @@ public class CommunityController extends Controller{
 		}
 		MemberWidgetParentVM fwVM = new MemberWidgetParentVM(community.getMembers().size(), members);
 		return ok(Json.toJson(fwVM));
+	}
+	
+	@Transactional
+	public static Result getQnACommunityInfoById(Long id) {
+		final User localUser = Application.getLocalUser(session());
+		final Community community = Community.findById(id);
+		if(community.objectType == SocialObjectType.COMMUNITY_QnA) {
+			return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
+		}
+		return status(404);
+	}
+	
+	@Transactional
+	public static Result createQnACommunity() {
+		final User localUser = Application.getLocalUser(session());
+		Form<Community> form = DynamicForm.form(Community.class).bindFromRequest("name","description","communityType");
+		Community community = form.get();
+       
+        FilePart picture = request().body().asMultipartFormData().getFile("cover-photo");
+		String fileName = picture.getFilename();
+		File file = picture.getFile();
+		File fileTo = new File(fileName);
+		
+		Community newCommunity = localUser.createCommunity(community.name, community.description, community.communityType);
+		try {
+			newCommunity.ownerAsMember(localUser);
+			newCommunity.objectType = SocialObjectType.COMMUNITY_QnA;
+			newCommunity.communityType = community.communityType;
+			FileUtils.copyFile(file, fileTo);
+			newCommunity.setCoverPhoto(fileTo);
+		} catch (SocialObjectNotJoinableException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return status(500);
+		}
+		return ok("true");
+	}
+	
+	@Transactional
+	public static Result postQuestionOnCommunity() {
+		final User localUser = Application.getLocalUser(session());
+		DynamicForm form = DynamicForm.form().bindFromRequest();
+		Long communityId = Long.parseLong(form.get("community_id"));
+		String questionText = form.get("questionText");
+		Community c = Community.findById(communityId);
+		String withPhotos = form.get("withPhotos");
+		
+		Post p = (Post) c.onPost(localUser, questionText, PostType.QUESTION);
+		if(Boolean.getBoolean(withPhotos)) {
+			p.ensureAlbumExist();
+		}
+		
+		return ok(Json.toJson(p.id));
+	}
+	
+	@Transactional
+	public static Result answerToQuestionOnQnACommunity() {
+		final User localUser = Application.getLocalUser(session());
+		DynamicForm form = form().bindFromRequest();
+		
+		Long postId = Long.parseLong(form.get("post_id"));
+		String answerText = form.get("answerText");
+		
+		Post p = Post.findById(postId);
+		
+		try {
+			p.onComment(localUser, answerText, CommentType.ANSWER);
+		} catch (SocialObjectNotCommentableException e) {
+			e.printStackTrace();
+		}
+		return ok(Json.toJson(p.id));
 	}
 }
 	

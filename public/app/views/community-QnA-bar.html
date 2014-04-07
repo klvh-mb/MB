@@ -1,0 +1,62 @@
+
+
+<input type="text" class="form-control" placeholder="Ask Question here!" data-ng-model="questionText">
+<div style="background-color: white;" ng-show="selectedFiles != null">
+		<img ng-repeat="f in selectedFiles" style="width: 100px;height: 100px;" ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
+</div>
+
+<div>
+	<i data-ng-show="selectedFiles.length < 1" data-ng-click="postPhoto()"  style="color: cadetblue;" class="fa fa-camera"></i>
+	<button type="button" class="btn btn-warning btn-xs" data-ng-click="ask_question_community(community.i, questionText)">ask it!</button>
+	<input style="visibility: hidden;" id="post-photo-id" type="file"  name="post-photo" ng-file-select="onFileSelect($files)"/>
+</div>
+
+	
+<div class="widget" data-ng-repeat="post in community.posts">
+	<div class="bg-primary" style="background: #0099FF !important;">
+		<div class="media">
+			<a href="" class="pull-left">
+				<img data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}" width="60" class="media-object">
+			</a>
+			<div class="media-body innerTB">
+				<a href="#" class="pull-right innerT innerR text-white">
+					<i class="icon-reply-all-fill fa fa-2x "></i>
+				</a>
+				<a href="" class="text-white display-block">{{post.p}}</a>
+				<span>posted on {{post.t | date: 'MMMM dd, yyyy'}} <i class="icon-time-clock"></i></span>
+			</div>
+		</div>
+	</div>
+	
+	<div class="innerAll">
+		<p>{{post.pt}}</p>
+	</div>
+	
+	<div data-ng-show="post.hasImage" class="innerAll">
+		<p class="lead"></p>
+		<a data-ng-repeat="imageID in post.imgs" href="">
+			<img width="90" data-ng-src="/get-post-image-by-id/{{imageID}}" alt="" class="img-post">
+		</a>
+	</div>
+	
+	<div class="bg-gray innerAll border-top border-bottom text-small ">
+		<span>View all <a href="" class="text-primary">{{post.n_c}} Answers</a></span>
+	</div>
+	
+	<div data-ng-repeat="comment in post.cs" class="media border-bottom margin-none bg-gray">
+		<a href="" class="pull-left innerAll half">
+			<img data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}" width="60" class="media-object">
+		</a>
+		<div class="media-body innerTB">
+			<a href="#" class="pull-right innerT innerR text-muted">
+				<i class="icon-reply-all-fill fa fa-2x "></i>
+			</a>
+			<a href="" class="strong text-inverse">{{comment.on}}</a>  <small class="text-muted ">wrote on {{comment.cd | date: 'dd MMM, yyyy'}}</small>
+			<div>- {{comment.d}}</div>
+
+		</div>
+	</div>
+	
+	<input type="text" class="form-control" placeholder="answer here..." data-ng-model="answerText">
+	<button type="button" class="btn btn-warning btn-xs" data-ng-click="answer_to_question(post.id, answerText)">answer it!</button>
+</div>
