@@ -680,6 +680,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		$("#post-photo-id").click();
 	}
 	$scope.selectedFiles = [];
+	$scope.tempSelectedFiles = [];
 	$scope.dataUrls = [];
 	
 	$scope.get_all_comments = function(id) {
@@ -693,7 +694,12 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	
 	$scope.onFileSelect = function($files) {
 		
+		if($scope.selectedFiles.length == 0) {
+			$scope.tempSelectedFiles = [];
+		}
+		
 		$scope.selectedFiles.push($files);
+		$scope.tempSelectedFiles.push($files);
 		for ( var i = 0; i < $files.length; i++) {
 			var $file = $files[i];
 			if (window.FileReader && $file.type.indexOf('image') > -1) {
@@ -709,7 +715,6 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 			}
 		}
 		
-		console.log($scope.dataUrls);
 	}
 	
 	
@@ -743,8 +748,19 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		$http.post('/community/post', data)// first create post with post text.
 			.success(function(post_id) {
 				usSpinnerService.stop('loading...');
+				var post = {"oid" : $scope.community.lu, "pt" : postText, 
+				"p" : $scope.community.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
+				$scope.community.posts.unshift(post);
+				
+				if($scope.selectedFiles.length == 0) {
+					return;
+				}
+				
+				$scope.selectedFiles = [];
+				$scope.dataUrls = [];
+				
 				// when post is done in BE then do photo upload
-				for(var i=0 ; i<$scope.selectedFiles.length ; i++) {
+				for(var i=0 ; i<$scope.tempSelectedFiles.length ; i++) {
 					usSpinnerService.spin('loading...');
 					$upload.upload({
 						url : '/uploadPostPhoto',
@@ -752,19 +768,27 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 						data : {
 							postId : post_id
 						},
-						file: $scope.selectedFiles[i],
+						file: $scope.tempSelectedFiles[i],
 						fileFormDataName: 'post-photo'
 					}).success(function(data, status, headers, config) {
 						usSpinnerService.stop('loading...');
+						angular.forEach($scope.community.posts, function(post, key){
+							if(post.id == post_id) {
+								post.hasImage = true;
+								if(post.imgs) { 
+								} else {
+									post.imgs = [];
+								}
+								post.imgs.push(data);
+							}
+						});
 					});
 					
 				}
 				
 				
 				
-				var post = {"oid" : $scope.community.lu, "pt" : postText, 
-							"p" : $scope.community.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
-				$scope.community.posts.unshift(post);
+				
 		});
 	};
 

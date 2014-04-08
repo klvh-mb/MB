@@ -6,7 +6,7 @@
 </div>
 <div>
 	<i data-ng-show="selectedFiles.length < 3" data-ng-click="postPhoto()"  style="color: cadetblue;" class="fa fa-camera"></i>
-	<button  data-ng-show="postText.length > 3" type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.i, postText)">post it!</button>
+	<button  data-ng-show="postText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.i, postText)">post it!</button>
 	
 	<input style="visibility: hidden;" id="post-photo-id" type="file"  name="post-photo" ng-file-select="onFileSelect($files)"/>
 </div>

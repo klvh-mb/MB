@@ -72,15 +72,15 @@ public class CommunityController extends Controller{
 	    // TOBE TESTED
 	    try {
 	    	FileUtils.copyFile(file, fileTo);
-	    	Post.findById(Long.valueOf(postId)).addPostPhoto(fileTo);
-			
+	    	Long id = Post.findById(Long.valueOf(postId)).addPostPhoto(fileTo).id;
+	    	return ok(id.toString());
 		} catch (IOException e) {
 			//e.printStackTrace();
 			return status(500);
 		}
 		
 	    
-		return ok();
+	
 	}
 	
 	
