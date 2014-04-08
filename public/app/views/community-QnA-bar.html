@@ -11,7 +11,7 @@
 	<input style="visibility: hidden;" id="QnA-photo-id" type="file"  name="post-photo" ng-file-select="onQnAFileSelect($files)"/>
 </div>
 
-	
+<div infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>	
 <div class="widget" data-ng-repeat="post in QnA.posts">
 	<div class="bg-primary" style="background: #0099FF !important;">
 		<div class="media">
@@ -39,8 +39,8 @@
 		</a>
 	</div>
 	
-	<div class="bg-gray innerAll border-top border-bottom text-small ">
-		<span>View all <a href="" class="text-primary">{{post.n_c}} Answers</a></span>
+	<div data-ng-click="get_all_answers(post.id)" class="bg-gray innerAll border-top border-bottom text-small ">
+		<span>View all <a href=""  class="text-primary">{{post.n_c}} Answers</a></span>
 	</div>
 	
 	<div data-ng-repeat="comment in post.cs" class="media border-bottom margin-none bg-gray">
@@ -59,4 +59,7 @@
 	
 	<input type="text" class="form-control" placeholder="answer here..." data-ng-model="answerText">
 	<button type="button" class="btn btn-warning btn-xs" data-ng-click="answer_to_question(post.id, answerText)">answer it!</button>
+</div>
+
+<span ng-show="isBusy" spinner-start-active="1" us-spinner="{top: 'inherit'}" ></span>
 </div>

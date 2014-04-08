@@ -11,7 +11,7 @@
 	<input style="visibility: hidden;" id="post-photo-id" type="file"  name="post-photo" ng-file-select="onFileSelect($files)"/>
 </div>
 
-	
+<div infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>	
 <div class="widget" data-ng-repeat="post in community.posts">
 	<div class="bg-primary" style="background: #0099FF !important;">
 		<div class="media">
@@ -59,4 +59,7 @@
 	
 	<input type="text" class="form-control" placeholder="Comment here..." data-ng-model="commentText">
 	<button type="button" class="btn btn-warning btn-xs" data-ng-click="comment_on_post(post.id, commentText)">comment</button>
+</div>
+
+<span ng-show="isBusy" spinner-start-active="1" us-spinner="{top: 'inherit'}" ></span>
 </div>

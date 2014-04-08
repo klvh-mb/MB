@@ -27,6 +27,7 @@ import play.mvc.Result;
 import viewmodel.CommunitiesParentVM;
 import viewmodel.CommunitiesWidgetChildVM;
 import viewmodel.CommunityPostCommentVM;
+import viewmodel.CommunityPostVM;
 import viewmodel.CommunityVM;
 import viewmodel.MemberWidgetParentVM;
 import viewmodel.MembersWidgetChildVM;
@@ -210,6 +211,18 @@ public class CommunityController extends Controller{
 	}
 	
 	@Transactional
+	public static Result getAllAnswers(Long id) {
+		Post post = Post.findById(id);
+		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
+		List<Comment> comments = post.getCommentsOfPost();
+		for(Comment comment : comments) {
+			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
+			commentsToShow.add(commentVM);
+		}
+		return ok(Json.toJson(commentsToShow));
+	}
+	
+	@Transactional
 	public static Result sendJoinRequest(String id) {
 		final User localUser = Application.getLocalUser(session());
 		Community community = Community.findById(Long.parseLong(id));
@@ -222,6 +235,33 @@ public class CommunityController extends Controller{
 		
 		return ok();
 	}
+	
+	@Transactional
+	public static Result getNextPosts(String id,String offset) {
+		Community community = Community.findById(Long.parseLong(id));
+		int start = Integer.parseInt(offset) * 5 + 5;
+		List<CommunityPostVM> postsVM = new ArrayList<>();
+		List<Post> posts =  community.getPostsOfCommunity(start, 5);
+		for(Post p: posts) {
+			CommunityPostVM post = CommunityPostVM.communityPostVM(p);
+			postsVM.add(post);
+		}
+		return ok(Json.toJson(postsVM));
+	}
+	
+	@Transactional
+	public static Result getNextQuests(String id,String offset) {
+		Community community = Community.findById(Long.parseLong(id));
+		int start = Integer.parseInt(offset) * 5 + 5;
+		List<CommunityPostVM> postsVM = new ArrayList<>();
+		List<Post> posts =  community.getQuestionsOfCommunity(start, 5);
+		for(Post p: posts) {
+			CommunityPostVM post = CommunityPostVM.communityPostVM(p);
+			postsVM.add(post);
+		}
+		return ok(Json.toJson(postsVM));
+	}
+	
 	
 	@Transactional
 	public static Result uploadCoverPhoto(Long id) {

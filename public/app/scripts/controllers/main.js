@@ -318,15 +318,7 @@ minibean.service('groupAboutService',function($resource){
 	
 });
 
-minibean.service('communityPageService',function($resource){
-	this.CommunityPage = $resource(
-			'/community/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{id:'@id'}}
-			}
-	);
-});
+
 
 minibean.controller('GroupController',function($scope, $routeParams, $http, communityPageService, $upload, profilePhotoModal){
 
@@ -378,6 +370,7 @@ minibean.controller('CreateCommunityController',function($scope,  $http,  $uploa
 	$scope.submit = function() {
 		 $validator.validate($scope, 'formData')
 		    .success(function () {
+		    	usSpinnerService.spin('loading...');
 		    	$upload.upload({
 					url: '/createCommunity',
 					method: 'POST',
@@ -388,6 +381,7 @@ minibean.controller('CreateCommunityController',function($scope,  $http,  $uploa
 					$scope.submitBtn = "Please Wait";
 			    }).success(function(data, status, headers, config) {
 			    	$scope.submitBtn = "Done";
+			    	usSpinnerService.stop('loading...');
 			    }).error(function(data, status, headers, config) {
 			    	if( status == 505 ) {
 			    		$scope.uniqueName = true;
@@ -632,6 +626,14 @@ minibean.service('communityPageService',function($resource){
 				get: {method:'get', params:{id:'@id'}}
 			}
 	);
+	
+	this.GetPosts = $resource(
+			'/posts?id=:id&offset=:offset',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{id:'@id',offset:'@offset'},isArray:true}
+			}
+	);
 });
 
 minibean.service('allCommentsService',function($resource){
@@ -684,7 +686,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	$scope.dataUrls = [];
 	
 	$scope.get_all_comments = function(id) {
-		allCommentsService.comments.get({id:id});
+	
 		angular.forEach($scope.community.posts, function(post, key){
 			if(post.id == id) {
 				post.cs = allCommentsService.comments.get({id:id});
@@ -717,6 +719,29 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		
 	}
 	
+	var offset = 0;
+	var noMore = false;
+	$scope.nextPost = function() {
+		if ($scope.isBusy) return;
+		if (noMore) return;
+		
+		$scope.isBusy = true;
+		communityPageService.GetPosts.get({id:$routeParams.id,offset:offset},
+				function(data){
+			var posts = data;
+			if(data.length < 5 ) {
+				noMore = true;
+				$scope.isBusy = false;
+			}
+			
+			for (var i = 0; i < posts.length; i++) {
+				$scope.community.posts.push(posts[i]);
+		    }
+			$scope.isBusy = false;
+			offset++;
+		});
+		
+	}
 	
 	$scope.comment_on_post = function(id, commentText) {
 		var data = {
@@ -817,9 +842,28 @@ minibean.service('communityQnAPageService',function($resource){
 				get: {method:'get', params:{id:'@id'}}
 			}
 	);
+	this.GetQuests = $resource(
+			'/questions?id=:id&offset=:offset',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{id:'@id',offset:'@offset'},isArray:true}
+			}
+	);
 });
 
-minibean.controller('CreateQnACommunityController',function($scope, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
+
+minibean.service('allAnswersService',function($resource){
+	this.answers = $resource(
+			'/answers/:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{id:'@id'},isArray:true}
+			}
+	);
+});
+
+
+minibean.controller('CreateQnACommunityController',function($scope,allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
 	$scope.QnA = communityQnAPageService.QnAPosts.get({id:$routeParams.id}, function(){
 		usSpinnerService.stop('loading...');
 	});
@@ -827,8 +871,41 @@ minibean.controller('CreateQnACommunityController',function($scope, communityQnA
 	$scope.postPhoto = function() {
 		$("#QnA-photo-id").click();
 	}
+	
+	$scope.get_all_answers = function(id) {
+		angular.forEach($scope.QnA.posts, function(post, key){
+			if(post.id == id) {
+				post.cs = allAnswersService.answers.get({id:id});
+			}
+		});
+	}
+	
 	$scope.QnASelectedFiles = [];
 	$scope.dataUrls = [];
+	
+	var offsetq = 0;
+	var noMore = false;
+	$scope.nextPost = function() {
+		if ($scope.isBusy) return;
+		if (noMore) return;
+		
+		$scope.isBusy = true;
+		communityQnAPageService.GetQuests.get({id:$routeParams.id,offset:offsetq},
+				function(data){
+			var posts = data;
+			if(data.length < 5 ) {
+				noMore = true;
+				$scope.isBusy = false;
+			}
+			
+			for (var i = 0; i < posts.length; i++) {
+				$scope.QnA.posts.push(posts[i]);
+		    }
+			$scope.isBusy = false;
+			offsetq++;
+		});
+		
+	}
 	
 	console.log($scope.QnA);
 	
