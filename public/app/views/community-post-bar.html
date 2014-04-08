@@ -2,7 +2,9 @@
 
 <input type="text" class="form-control" placeholder="Share your mood" data-ng-model="postText">
 <div style="background-color: white;" ng-show="selectedFiles != null">
-		<img ng-repeat="f in selectedFiles" style="width: 100px;height: 100px;" ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
+	<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
+		ng-repeat="f in selectedFiles" tooltip-placement="bottom" tooltip="delete it!" style="width: 100px;height: 100px;" data-ng-click="remove_image($index)"
+			ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
 </div>
 <div>
 	<i data-ng-show="selectedFiles.length < 3" data-ng-click="postPhoto()"  style="color: cadetblue;" class="fa fa-camera"></i>
@@ -63,3 +65,8 @@
 
 <span ng-show="isBusy" spinner-start-active="1" us-spinner="{top: 'inherit'}" ></span>
 </div>
+
+<style type="text/css">
+	.partial_fade {
+		opacity: 0.6 !important;
+	}

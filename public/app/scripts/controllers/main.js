@@ -832,6 +832,11 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 			$scope.community.isM = false;
 		});
 	}
+	
+	$scope.remove_image = function(index) {
+		$scope.selectedFiles.splice(index, 1);
+		$scope.dataUrls.splice(index, 1);
+	}
 });
 ///////////////////////// Community Page  End ////////////////////////////////
 minibean.service('communityQnAPageService',function($resource){
@@ -974,6 +979,11 @@ minibean.controller('CreateQnACommunityController',function($scope,allAnswersSer
 				}(fileReader, i);
 			}
 		}
+	}
+	
+	$scope.remove_image = function(index) {
+		$scope.QnASelectedFiles.splice(index, 1);
+		$scope.dataUrls.splice(index, 1);
 	}
 	
 });

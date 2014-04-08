@@ -2,7 +2,9 @@
 
 <input type="text" class="form-control" placeholder="Ask Question here!" data-ng-model="questionText">
 <div style="background-color: white;" ng-show="QnASelectedFiles != null">
-		<img ng-repeat="f in QnASelectedFiles" style="width: 100px;height: 100px;" ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
+		<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
+		ng-repeat="f in QnASelectedFiles" style="width: 100px;height: 100px;" ng-show="dataUrls[$index]" 
+		ng-src="{{dataUrls[$index]}}" tooltip-placement="bottom" tooltip="delete it!" data-ng-click="remove_image($index)">
 </div>
 
 <div>
@@ -63,3 +65,8 @@
 
 <span ng-show="isBusy" spinner-start-active="1" us-spinner="{top: 'inherit'}" ></span>
 </div>
+<style type="text/css">
+	.partial_fade {
+		opacity: 0.6 !important;
+	}
+</style>
