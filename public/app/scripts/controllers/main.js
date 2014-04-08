@@ -370,7 +370,7 @@ minibean.controller('GroupController',function($scope, $routeParams, $http, comm
 
 
 
-minibean.controller('CreateCommunityController',function($scope,  $http,  $upload, $validator){
+minibean.controller('CreateCommunityController',function($scope,  $http,  $upload, $validator,usSpinnerService){
 	
 	$scope.formData = {};
 	$scope.selectedFiles =[];
@@ -662,8 +662,17 @@ minibean.service('communityJoinService',function($resource){
 	);
 });
 
-minibean.controller('CommunityPageController', function($scope, $routeParams, $http, allCommentsService, communityPageService, communityJoinService, $upload, $timeout){
-	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id});
+minibean.controller('CommunityPageController', function($scope, $routeParams, $http, allCommentsService, 
+	communityPageService, communityJoinService, $upload, $timeout, usSpinnerService){
+	
+	$scope.$on('$viewContentLoaded', function() {
+		usSpinnerService.spin('loading...');
+	});
+	
+	
+	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id}, function(){
+		usSpinnerService.stop('loading...');
+	});
 	
 	$scope.isLoadingEnabled = false;
 	$scope.show = false;
@@ -709,7 +718,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 			"post_id" : id,
 			"commentText" : commentText
 		};
-		
+		usSpinnerService.spin('loading...');
 		$http.post('/community/post/comment', data) 
 			.success(function(post_id) {
 				angular.forEach($scope.community.posts, function(post, key){
@@ -719,12 +728,13 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 							"cd" : new Date(), "n_c" : post.n_c};
 					post.cs.push(comment);
 				}
+				usSpinnerService.stop('loading...');	
 			});
 		});
 	};
 	
 	$scope.post_on_community = function(id, postText) {
-		
+		usSpinnerService.spin('loading...');
 		var data = {
 			"community_id" : id,
 			"postText" : postText,
@@ -732,9 +742,10 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		};
 		$http.post('/community/post', data)// first create post with post text.
 			.success(function(post_id) {
-				
+				usSpinnerService.stop('loading...');
 				// when post is done in BE then do photo upload
 				for(var i=0 ; i<$scope.selectedFiles.length ; i++) {
+					usSpinnerService.spin('loading...');
 					$upload.upload({
 						url : '/uploadPostPhoto',
 						method: $scope.httpMethod,
@@ -744,7 +755,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 						file: $scope.selectedFiles[i],
 						fileFormDataName: 'post-photo'
 					}).success(function(data, status, headers, config) {
-						
+						usSpinnerService.stop('loading...');
 					});
 					
 				}
