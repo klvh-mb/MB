@@ -44,7 +44,7 @@
 									<li class="col-md-2 glyphicons cargo active"><a href="#tab1-4" data-toggle="tab"><i></i> News Feed</a></li>
 									<li class="col-md-2 "><a href="#tab2-4" data-toggle="tab"><i class="icon-group"></i> <span>Members</span></a></li>
 									<li class="col-md-2 glyphicons circle_info"><a href="#tab3-4" data-toggle="tab"><i></i> <span> Context</span></a></li>
-									<!-- <li class="col-md-2 "></li> -->
+									<li class="col-md-2 "></li>
 									<li class="col-md-2 ">
 										
 					   					
@@ -71,18 +71,22 @@
 	                 						<button class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-fw  fa-group"></i> Create New</button>
 	                 					</div>
 		                 			</li>
-		                 			
-		                 			<li class="col-md-2">
-		                 				<div class="pull-right">
-	                 						<button class="btn btn-primary" data-toggle="modal" data-target="#topicModal"><i class="fa fa-fw  fa-group"></i> Create Topic</button>
-	                 					</div>
-		                 			</li>
 								</ul>
 							</div>
 						</div>	
-						<div class="row" ng-show="community.isM" id="post">
-								<div data-ng-include style="height: 100px;" data-src="'/assets/app/views/community-post-bar.html'"></div>
-						</div>
+						
+						<tabset class="inboxSectionTab">
+    						<tab  heading="Moment">
+								<div class="row" ng-show="community.isM" id="post">
+									<div data-ng-include style="height: 100px;" data-src="'/assets/app/views/community-post-bar.html'"></div>
+								</div>    						
+    						</tab>
+    						<tab active="mygroups" heading="QnA">
+    							<div class="row" ng-show="community.isM" id="qnapost" ng-controller="CreateQnACommunityController">
+									<div data-ng-include style="height: 100px;" data-src="'/assets/app/views/community-QnA-bar.html'"></div>
+								</div>
+    						</tab>
+       	    		 	</tabset>
        	    		 </div>
        	    		 <div class="col-lg-2 col-md-3">
               			<div class="row tm">

@@ -30,6 +30,7 @@ import viewmodel.CommunityPostCommentVM;
 import viewmodel.CommunityVM;
 import viewmodel.MemberWidgetParentVM;
 import viewmodel.MembersWidgetChildVM;
+import viewmodel.QnAPostsVM;
 
 import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotJoinableException;
@@ -320,7 +321,7 @@ public class CommunityController extends Controller{
 		Community c = Community.findById(communityId);
 		
 		Post p = (Post) c.onPost(localUser, postText, PostType.SIMPLE);
-		if(Boolean.getBoolean(withPhotos)) {
+		if(Boolean.parseBoolean(withPhotos)) {
 			p.ensureAlbumExist();
 		}
 		return ok(Json.toJson(p.id));
@@ -365,43 +366,6 @@ public class CommunityController extends Controller{
 	}
 	
 	@Transactional
-	public static Result getQnACommunityInfoById(Long id) {
-		final User localUser = Application.getLocalUser(session());
-		final Community community = Community.findById(id);
-		if(community.objectType == SocialObjectType.COMMUNITY_QnA) {
-			return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
-		}
-		return status(404);
-	}
-	
-	@Transactional
-	public static Result createQnACommunity() {
-		final User localUser = Application.getLocalUser(session());
-		Form<Community> form = DynamicForm.form(Community.class).bindFromRequest("name","description","communityType");
-		Community community = form.get();
-       
-        FilePart picture = request().body().asMultipartFormData().getFile("cover-photo");
-		String fileName = picture.getFilename();
-		File file = picture.getFile();
-		File fileTo = new File(fileName);
-		
-		Community newCommunity = localUser.createCommunity(community.name, community.description, community.communityType);
-		try {
-			newCommunity.ownerAsMember(localUser);
-			newCommunity.objectType = SocialObjectType.COMMUNITY_QnA;
-			newCommunity.communityType = community.communityType;
-			FileUtils.copyFile(file, fileTo);
-			newCommunity.setCoverPhoto(fileTo);
-		} catch (SocialObjectNotJoinableException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return status(500);
-		}
-		return ok("true");
-	}
-	
-	@Transactional
 	public static Result postQuestionOnCommunity() {
 		final User localUser = Application.getLocalUser(session());
 		DynamicForm form = DynamicForm.form().bindFromRequest();
@@ -434,6 +398,13 @@ public class CommunityController extends Controller{
 			e.printStackTrace();
 		}
 		return ok(Json.toJson(p.id));
+	}
+	
+	@Transactional
+	public static Result getAllQuestionsOfCommunity(Long id) {
+		final User localUser = Application.getLocalUser(session());
+		final Community community = Community.findById(id);
+		return ok(Json.toJson(QnAPostsVM.qnaPosts(community, localUser)));
 	}
 }
 	

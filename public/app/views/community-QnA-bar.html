@@ -1,18 +1,18 @@
 
 
 <input type="text" class="form-control" placeholder="Ask Question here!" data-ng-model="questionText">
-<div style="background-color: white;" ng-show="selectedFiles != null">
-		<img ng-repeat="f in selectedFiles" style="width: 100px;height: 100px;" ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
+<div style="background-color: white;" ng-show="QnASelectedFiles != null">
+		<img ng-repeat="f in QnASelectedFiles" style="width: 100px;height: 100px;" ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
 </div>
 
 <div>
-	<i data-ng-show="selectedFiles.length < 1" data-ng-click="postPhoto()"  style="color: cadetblue;" class="fa fa-camera"></i>
-	<button type="button" class="btn btn-warning btn-xs" data-ng-click="ask_question_community(community.i, questionText)">ask it!</button>
-	<input style="visibility: hidden;" id="post-photo-id" type="file"  name="post-photo" ng-file-select="onFileSelect($files)"/>
+	<i data-ng-show="QnASelectedFiles.length < 1" data-ng-click="postPhoto()"  style="color: cadetblue;" class="fa fa-camera"></i>
+	<button data-ng-show="questionText.length > 3" type="button" class="btn btn-warning btn-xs" data-ng-click="ask_question_community(community.i, questionText)">ask it!</button>
+	<input style="visibility: hidden;" id="QnA-photo-id" type="file"  name="post-photo" ng-file-select="onQnAFileSelect($files)"/>
 </div>
 
 	
-<div class="widget" data-ng-repeat="post in community.posts">
+<div class="widget" data-ng-repeat="post in QnA.posts">
 	<div class="bg-primary" style="background: #0099FF !important;">
 		<div class="media">
 			<a href="" class="pull-left">

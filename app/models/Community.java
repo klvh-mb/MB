@@ -270,7 +270,15 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	
 	@JsonIgnore
 	public List<Post> getPostsOfCommunity(int offset, int limit) {
-		Query q = JPA.em().createQuery("Select p from Post p where community=?1 order by createdDate desc");
+		Query q = JPA.em().createQuery("Select p from Post p where community=?1 and postType= 1 order by createdDate desc");
+		q.setParameter(1, this);
+		q.setFirstResult(offset);
+		q.setMaxResults(limit);
+		return (List<Post>)q.getResultList();
+	}
+
+	public List<Post> getQuestionsOfCommunity(int offset, int limit) {
+		Query q = JPA.em().createQuery("Select p from Post p where community=?1 and postType= 0 order by createdDate desc");
 		q.setParameter(1, this);
 		q.setFirstResult(offset);
 		q.setMaxResults(limit);

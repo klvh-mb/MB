@@ -48,7 +48,6 @@ public class Post extends SocialObject implements Likeable, Commentable {
 	public PostType postType;
 	
 	@ManyToOne(cascade = CascadeType.REMOVE)
-	
 	public Folder folder;
 
 	public Date createdDate;
