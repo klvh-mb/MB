@@ -1,4 +1,4 @@
-<div class="navbar hidden-print navbar-default box main" role="navigation" style="margin-top: -8px;height: 54px;">
+<div class="navbar hidden-print navbar-default box main navbar-fixed-top" id="nav_bar" role="navigation" style="margin-top: -8px;height: 54px;">
 	<!-- div class="user-action user-action-btn-navbar pull-right border-left">
 		< a href="#menu-right" class="btn btn-sm btn-navbar btn-open-right"><i class="fa fa-comments fa-2x"></i></a>
 		<div id="chat-notification" data-menu="menu-right" data-toggle="sidr-open" style="">
@@ -17,7 +17,7 @@
 			<a class="dropdown-toggle dropdown-hover" data-toggle="dropdown" href="#">
 				<span class="media margin-none" >
 					<span class="pull-left"><img data-ng-src="/get-mini-image-by-id/{{userInfo.id}}" alt="user" class="img-circle"></span>
-					<span class="media-body">{{userInfo.name}}<span class="caret"></span></span>
+					<span class="media-body userName">{{userInfo.name}}<span class="caret"></span></span>
 				</span>
 			</a>
 			<ul class="dropdown-menu">
@@ -101,7 +101,7 @@
 			</div>
 		
 			<div class="row">
-				<ul class="col-lg-11 col-md-11 col-sd-11 dropdown-menu chat media-list hide" ng-class="{show : result.length > 0 && query.length > 0}" style="left: 12px;">
+				<ul class="col-lg-11 col-md-11 col-sd-11 dropdown-menu chat media-list hide" ng-class="{show : result.length > 0 && query.length > 0}" style="left: 12px;overflow-y: scroll;height: 345px;">
 					<li class="media" ng-repeat="sr in result" ng-switch="sr.tp">
 				        <!-- shows user section -->
 				        <a ng-switch-when="USER" class="pull-left" href="#/profile/{{sr.id}}">
@@ -155,8 +155,13 @@
 	.navbar .dropdown a.dropdown-toggle:focus {
 		color: #ffffff;
 	}
+	
+	.fa{color: white;}
+	a:hover .fa {color: gray;}
+	
+	.userName{color: white;}
+	.userName:hover{color: gray;}
 </style>
-
 
 
 
