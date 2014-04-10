@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import models.Comment;
 import models.Community;
@@ -159,7 +160,7 @@ public class CommunityController extends Controller{
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		for(Community community : localUser.getListOfNotJoinedCommunities()) {
-			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name);
+			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name,"",community.iconName);
 			vm.isP = localUser.isJoinRequestPendingFor(community);
 			communityList.add(vm);
 		}
@@ -190,7 +191,7 @@ public class CommunityController extends Controller{
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		for(Community community : localUser.getListOfJoinedCommunities()) {
-			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name);
+			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name,"",community.iconName);
 			vm.isO = (localUser == community.owner) ? true : false;
 			communityList.add(vm);
 		}
@@ -315,16 +316,18 @@ public class CommunityController extends Controller{
 	@Transactional
 	public static Result updateGroupProfileData(){
 		Form<String> form = DynamicForm.form(String.class).bindFromRequest();
-		String groupID = form.data().get("i");
+		Map<String, String> dataToUpdate = form.data();
+		String groupID = dataToUpdate.get("i");
 		Community community = Community.findById(Long.parseLong(groupID));
-		community.name = form.data().get("n");
-		community.description = form.data().get("d");
-		community.tagetDistrict = form.data().get("td");
-		if(form.data().get("typ").equalsIgnoreCase("open")){
+		community.name = dataToUpdate.get("n");
+		community.description = dataToUpdate.get("d");
+		community.tagetDistrict = dataToUpdate.get("td");
+		if(dataToUpdate.get("typ").equalsIgnoreCase("open")){
 			community.communityType = CommunityType.OPEN;
 		}else{
 			community.communityType = CommunityType.CLOSE;
 		}
+		community.iconName = dataToUpdate.get("iconName");
 		community.merge();
 		return ok("true");
 	}

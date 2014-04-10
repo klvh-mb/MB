@@ -12,7 +12,8 @@
 							<img class="img-clean" data-ng-src="/community-image-by-id/{{fvm.id}}" alt="..." width="100px" height="100px">
 						</a>
 						<div class="media-body innerAll inner-2x padding-right-none padding-bottom-none">
-							 <h4 class="media-heading"><a data-ng-href="#/community/{{fvm.id}}" class="text-inverse">{{fvm.dn}}</a></h4>
+							 <h4 class="media-heading"><a data-ng-href="#/community/{{fvm.id}}" class="text-inverse">{{fvm.dn}}</a><img class="pull-right media-object" alt="" data-ng-src="{{fvm.gi}}"></h4>
+							 
 							 <p>
 							 	<!-- <span class="text-success strong"><i class="fa fa-check"></i> Friend</span> &nbsp;  -->
 							 	<!-- Need To add Living in section -->
@@ -24,7 +25,7 @@
 				<div ng-show="fvm.isO" class="ribbon-wrapper"><div class="ribbon primary">Admin</div></div>
                   <div ng-show="fvm.isO" class="innerAll text-right" style="float: left;">
 						<div class="btn-group-vertical btn-group-sm">
-							<a data-ng-href="#/editCommunity/18" href="#/editCommunity/18"><button type="button" data-menu="menu-right"><i class="fa fa-fw fa-edit"></i> Edit </button></a>
+							<a data-ng-href="#/editCommunity/{{fvm.id}}"><button type="button" data-menu="menu-right"><i class="fa fa-fw fa-edit"></i> Edit </button></a>
 						</div>
 					</div>
 				</div>

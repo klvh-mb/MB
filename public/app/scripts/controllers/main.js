@@ -324,6 +324,7 @@ minibean.controller('GroupController',function($scope, $routeParams, $http, comm
 
 	$scope.submitBtn = "Save";
 	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id});
+
 	$scope.community.typ = [
 	 	                   {value: 'OPEN', text: 'Open'},
 	 	                   {value: 'CLOSE', text: 'Close'}
@@ -337,6 +338,23 @@ minibean.controller('GroupController',function($scope, $routeParams, $http, comm
  		                   {value: 'Delhi', text: 'Delhi'},
  		                   {value: 'Surat', text: 'Surat'}
  		                   ];
+	 
+	
+	$scope.IconsToSelects = [
+	    {name:'SWISS', img:'assets/app/icons/common.png'},
+		{name:'UNITED', img:'assets/app/icons/contact.png'},
+		{name:'KLM', img:'assets/app/icons/info.png'},
+		{name:'EL AL', img:'assets/app/icons/legan.png'},
+		{name:'Ethiopian', img:'assets/app/icons/partners.png'}
+	];
+	
+
+	$scope.select_icon = function(img, text) {
+		$scope.icon_chosen = img;
+		$scope.icon_text = text;
+		$scope.isChosen = true;
+		$scope.community.iconName = img;
+	}
 	
 	$scope.updateGroupProfileData = function(data) {
 		return $http.post('/updateGroupProfileData', $scope.community).success(function(data){
