@@ -12,7 +12,8 @@ angular.module('minibean', [
   'ui.bootstrap.datetimepicker',
   'validator',
   'validator.rules',
-  'angularSpinner'
+  'angularSpinner',
+  'truncate'
 ])
   .config(function ($routeProvider) {
     $routeProvider
