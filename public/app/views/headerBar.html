@@ -40,7 +40,7 @@
 						<span data-ng-show="isFRreaded == true && friend_requests.length > 0" data-ng-mouseover="reset_fr_count()">
 							<span class="badge pull-right">{{friend_requests.length}}</span>
 						</span>
-						<i class="fa fa-group"></i>
+						<i class="fa fa-group iconImage"></i>
 					</div>
 				</a>
 				<ul class="dropdown-menu chat media-list" data-ng-show="friend_requests.length > 0" >
@@ -66,7 +66,7 @@
 						<span data-ng-show="isNOreaded == true && join_requests.length > 0" data-ng-mouseover="reset_notify_count()">
 							<span class="badge pull-right">{{join_requests.length}}</span>
 						</span>
-						<i class="fa icon-earth"></i>
+						<i class="fa icon-earth iconImage"></i>
 					</div>
 				</a>
 				<ul class="dropdown-menu chat media-list" data-ng-show="join_requests.length > 0">
@@ -156,8 +156,8 @@
 		color: #ffffff;
 	}
 	
-	
-	
+	.iconImage{color: white;}
+	a:hover .iconImage{color: gray;}
 	.userName{color: white;}
 	.userName:hover{color: gray;}
 </style>
