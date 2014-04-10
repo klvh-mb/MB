@@ -23,6 +23,7 @@ import viewmodel.CommunitiesWidgetChildVM;
 import viewmodel.FriendWidgetChildVM;
 import viewmodel.ProfileVM;
 import viewmodel.SocialObjectVM;
+import viewmodel.UserVM;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
 import com.mnt.utils.MailJob;
@@ -33,8 +34,9 @@ public class UserController extends Controller {
 	@Transactional(readOnly=true)
 	public static Result getUserInfo() {
 		final User localUser = Application.getLocalUser(session());
+		UserVM userInfo = new UserVM(localUser);
 		//MailJob.sendMail("Some subject",new Body("test hello"), "mindnervestech@gmail.com");
-		return ok(Json.toJson(localUser));
+		return ok(Json.toJson(userInfo));
 	}
 	
 	

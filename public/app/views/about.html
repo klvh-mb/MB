@@ -9,40 +9,10 @@
 			  <div class="row">
 				<div class="col-lg-9 col-md-8">
 					<div class="row">
-						<div class="timeline-cover">	
-							<div class="widget cover image">
-								<div class="widget-body padding-none margin-none">
-									<div class="top">
-											<div class="top">
-												<img data-ng-src="{{coverImage}}" class="img-responsive" />
-											</div>	
-											<a ng-click="openCoverPhotoModal()" alt="Change" title="Change"  
-											style="margin: -245px 0px 0px 7px;position: absolute;" href=""  ><img src="/assets/app/images/edit.png"/></a>
-									 
-									</div>
-									<ul class="list-unstyled">
-										<li ><a href="index.html?lang=en"><i class="fa fa-fw fa-clock-o"></i> Timeline</a></li>
-										<li  class="active"><a ng-href="/#/about"><i class="fa fa-fw fa-user"></i> About</a></li>
-										<li ><a href="media_2.html?lang=en"><i class="icon-photo-camera"></i> Photos <span>(102)</span></a></li>
-										<li ><a ng-href="/#/friends"><i class="icon-group"></i> Friends <span>(19)</span></a></li>
-										<li><a href="messages.html?lang=en"><i class="icon-envelope-fill-1"></i> Messages <span>(2 new)</span></a></li>
-									</ul>
-									<div class="photo">
-										<img data-ng-src="{{profileImage}}" height="90px" class="img-circle"/>
-										<i class="fa fa-fw icon-compose" ng-click="openProfilePhotoModal()" data-template="/assets/app/views/change-profile-photo-modal.html"></i> 
-									</div>
-
-									<div class="innerAll pull-left border-right">
-										<h3 class="margin-none" editable-text="result.displayName" onbeforesave ="updateUserDisplayName($data)">
-                      {{result.displayName}}
-                   						 </h3>
-                  					</div>
-                				</div>
-              				</div>
-           			 	</div>
+           			 	<div  data-ng-include style="width: 100%;" data-src="'/assets/app/views/user-upper-cover-section.html'"></div>
         			</div>
 			        <div class="row">
-			          <div class="panel panel-default col-lg-9 col-md-8">
+			          <div class="panel panel-default ">
 			            <form role="form" editable-form name="profile_data" onaftersave="updateUserProfileData($data)">
 			              
 			              <div class="col-md-12">
@@ -101,15 +71,6 @@
 			                   	</div>
 			                   	
 			                   	<div class="col-md-6">
-			                   		<!--div class="dropdown">
-									    <a  style="color: #428bca;" class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="">
-									        {{ result.date_of_birth | date:'MM/dd/yyyy' || 'Not set' }}
-									    </a>
-									    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-									        <datetimepicker data-ng-model="result.date_of_birth"
-									                        data-datetimepicker-config="{ dropdownSelector: '.dropdown-toggle',minView: 'day' }"></datetimepicker>
-									    </ul>
-									</div-->
 								    <span editable-bsdate="result.date_of_birth"  e-datepicker-popup="dd-MMMM-yyyy">{{ result.date_of_birth | date:'dd/MM/yyyy' || 'Not set' }}
 								    </span>
 								    <span class="glyphicon glyphicon-calendar">

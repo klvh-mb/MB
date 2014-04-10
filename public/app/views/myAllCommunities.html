@@ -10,39 +10,16 @@
 			<div class="innerAll">
 				<div class="row">
 					<div class="col-lg-9 col-md-8">
-						<div class="timeline-cover">
-							<div class="widget cover image">
-								<div class="widget-body padding-none margin-none">
-									<div class="top">
-											<img src="/get-cover-image-by-id/{{userInfo.id}}"  class="img-responsive">					
-									</div>
-									<ul class="list-unstyled">
-										<li ><a href="index.html?lang=en"><i class="fa fa-fw fa-clock-o"></i> Timeline</a></li>
-										<li><a href="about_2.html?lang=en"><i class="fa fa-fw fa-user"></i> About</a></li>
-										<li ><a href="media_2.html?lang=en"><i class="icon-photo-camera"></i> Photos <span>(102)</span></a></li>
-										<li class="active"><a href="/#/friends"><i class="icon-group"></i> Friends <span>()</span></a></li>
-										<li><a href="messages.html?lang=en"><i class="icon-envelope-fill-1"></i> Messages <span>(2 new)</span></a></li>
-									</ul>
-									<div class="photo">
-										<img src="/get-profile-image" height="90px" class="img-circle"/>
-										 
-									</div>
-
-									<div class="innerAll pull-left border-right">
-										<h3 class="margin-none" >
-                      						{{userInfo.displayName}}
-                    					</h3>
-				                  </div>
+						<div  data-ng-include style="width: 100%;" data-src="'/assets/app/views/user-upper-cover-section.html'"></div>
 				                  
-				                  <div class="innerAll pull-right border-right">
-                  						<button class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-fw  fa-group"></i> Create New</button>
-                  					</div>
-                				</div>
-              				</div>
-            		   </div>
+				                  
+                				
             		  <tabset class="inboxSectionTab">
     					<tab  heading="My Groups"><div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/myAllCommunitiesSection.html'"></div></tab>
     					<tab  active="mygroups" heading="Groups"><div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/allCommunitiesSection.html'"></div></tab>
+    					<div class="innerAll pull-right border-right">
+                  				<button class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-fw  fa-group"></i> Create New</button>
+                  		</div>
        	    		 </tabset>
        	    		 </div>
         	      </div>
@@ -100,6 +77,43 @@
                </div>
              </div>
           </div>
+
+			 <hr style="margin-top: 1%;">
+             
+             <div class="row tm">
+             	  <div class="col-md-12">
+                	<div class="row form-group">
+               			<div class="col-md-4">
+                  			<label> Community Icon: </label>
+                  		</div>
+                  	
+                  		<div class="col-md-8">
+                  			<li class="col-md-12 dropdown">
+	                  			<div class="form-control dropdown-toggle">
+	                  				<img class="pull-left media-object" data-ng-src={{icon_chosen}} width="25">
+	                  				<div class="media-body">
+								       	<p class="margin-none pull-right">{{icon_text}}</p>
+								    </div>
+	    							<div data-ng-if="!isChosen" data-ng-init="isChosen=false">
+	    								Please select icon
+	    							</div>
+	  							</div>
+		                  		<ul class="dropdown-menu chat media-list" style="left:2%; width: 96%;">
+									<li class="media" data-ng-repeat="icon in IconsToSelects" style="margin-top: 1%;">
+								        <a href="" data-ng-click="select_icon(icon.img, icon.name)">
+								        	<img class="pull-left media-object" data-ng-src="{{icon.img}}" alt="50x50" width="25" >
+								        	<input type="hidden" data-ng-model="formData.iconName" >
+											<div class="media-body">
+								            	<p class="margin-none pull-right">{{icon.name}}</p>
+								        	</div>							        	
+								        </a>
+									</li>
+						      	</ul>
+						      </li>
+                  		</div>
+                  	</div>
+               </div>
+             </div>
           
            <hr style="margin-top: 1%;">
              

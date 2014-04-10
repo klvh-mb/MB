@@ -268,7 +268,7 @@ minibean.service('profilePhotoModal',function( $modal){
 minibean.controller('UserAboutController',function($scope, userAboutService, $http, profilePhotoModal){
 	var profileImage = "/get-profile-image";
 	var coverImage = "/get-cover-image";
-	
+	$scope.isEdit = true;
 	$scope.result = userAboutService.UserAbout.get();
 	$scope.profileImage = profileImage;
 	$scope.coverImage = coverImage;
