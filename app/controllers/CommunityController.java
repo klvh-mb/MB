@@ -5,6 +5,8 @@ import static play.data.Form.form;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -327,6 +329,17 @@ public class CommunityController extends Controller{
 		}else{
 			community.communityType = CommunityType.CLOSE;
 		}
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
+		
+		try {
+			java.util.Date date = sdf.parse(dataToUpdate.get("dte"));
+			community.createDate =date;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		community.iconName = dataToUpdate.get("iconName");
 		community.merge();
 		return ok("true");

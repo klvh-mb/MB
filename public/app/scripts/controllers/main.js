@@ -324,7 +324,7 @@ minibean.service('groupAboutService',function($resource){
 
 
 
-minibean.controller('GroupController',function($scope, $routeParams, $http, communityPageService, $upload, profilePhotoModal){
+minibean.controller('GroupController',function($scope, $routeParams, usSpinnerService, $http, communityPageService, $upload, profilePhotoModal){
 
 	$scope.submitBtn = "Save";
 	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id});
@@ -361,8 +361,10 @@ minibean.controller('GroupController',function($scope, $routeParams, $http, comm
 	}
 	
 	$scope.updateGroupProfileData = function(data) {
+		usSpinnerService.spin('loading...');
 		return $http.post('/updateGroupProfileData', $scope.community).success(function(data){
 			$scope.submitBtn = "Done";
+			usSpinnerService.stop('loading...');
 		});
 	}
 
@@ -923,6 +925,7 @@ minibean.controller('CreateQnACommunityController',function($scope,allAnswersSer
 	
 	$scope.QnASelectedFiles = [];
 	$scope.dataUrls = [];
+	$scope.tempSelectedFiles = [];
 	
 	var offsetq = 0;
 	var noMore = false;
@@ -951,32 +954,58 @@ minibean.controller('CreateQnACommunityController',function($scope,allAnswersSer
 	console.log($scope.QnA);
 	
 	$scope.ask_question_community = function(id, questionText) {
+		usSpinnerService.spin('loading...');
 		var data = {
 				"community_id" : id,
 				"questionText" : questionText,
 				"withPhotos" : $scope.QnASelectedFiles.length != 0
 			};
+		
+		
+		
 			$http.post('/communityQnA/question/post', data)// first create post with question text.
 				.success(function(post_id) {
+					usSpinnerService.stop('loading...');
+					var post = {"oid" : $scope.QnA.lu, "pt" : questionText, 
+							"p" : $scope.QnA.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
+					$scope.QnA.posts.unshift(post);
+					
+					if($scope.QnASelectedFiles.length == 0) {
+						return;
+					}
+					
+					$scope.QnASelectedFiles = [];
+					$scope.dataUrls = [];
+					
+					
 					// when post is done in BE then do photo upload
-					for(var i=0 ; i<$scope.QnASelectedFiles.length ; i++) {
+					for(var i=0 ; i<$scope.tempSelectedFiles.length ; i++) {
+						usSpinnerService.spin('loading...');
 						$upload.upload({
 							url : '/uploadPostPhoto',
 							method: $scope.httpMethod,
 							data : {
 								postId : post_id
 							},
-							file: $scope.QnASelectedFiles[i],
+							file: $scope.tempSelectedFiles[i],
 							fileFormDataName: 'post-photo'
 						}).success(function(data, status, headers, config) {
-							
+							usSpinnerService.stop('loading...');
+							angular.forEach($scope.QnA.posts, function(post, key){
+								if(post.id == post_id) {
+									post.hasImage = true;
+									if(post.imgs) { 
+									} else {
+										post.imgs = [];
+									}
+									post.imgs.push(data);
+								}
+							});
 						});
 						
 					}
 					
-					var post = {"oid" : $scope.QnA.lu, "pt" : questionText, 
-								"p" : $scope.QnA.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
-					$scope.QnA.posts.unshift(post);
+					
 			});
 	};
 	
@@ -1000,6 +1029,10 @@ minibean.controller('CreateQnACommunityController',function($scope,allAnswersSer
 	}
 	
 	$scope.onQnAFileSelect = function($files) {
+		if($scope.QnASelectedFiles.length == 0) {
+			$scope.tempSelectedFiles = [];
+		}
+		$scope.tempSelectedFiles.push($files);
 		$scope.QnASelectedFiles.push($files);
 		for ( var i = 0; i < $files.length; i++) {
 			var $file = $files[i];
