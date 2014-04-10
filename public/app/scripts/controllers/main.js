@@ -686,11 +686,11 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	
 	 
 	$scope.IconsToSelects = [
-	    {name:'SWISS', img:'http://s9.postimage.org/d9t33we17/Swiss.png'},
-		{name:'UNITED', img:'http://s9.postimage.org/ykqn85w5n/United.png'},
-		{name:'KLM', img:'http://s9.postimage.org/p7unhshsb/Klm.png'},
-		{name:'EL AL', img:'http://s18.postimage.org/oi8ndntud/image.gif'},
-		{name:'Ethiopian', img:'http://s9.postimage.org/hqlg2ks97/image.gif'}
+	    {name:'SWISS', img:'assets/app/icons/common.png'},
+		{name:'UNITED', img:'assets/app/icons/contact.png'},
+		{name:'KLM', img:'assets/app/icons/info.png'},
+		{name:'EL AL', img:'assets/app/icons/legan.png'},
+		{name:'Ethiopian', img:'assets/app/icons/partners.png'}
 	];
 	
 	$scope.isLoadingEnabled = false;
