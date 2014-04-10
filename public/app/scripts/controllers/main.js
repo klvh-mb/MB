@@ -186,6 +186,10 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 		$scope.upload[index] = null;
 	};
 	
+	$scope.close = function() {
+		profilePhotoModal.CloseModal();
+	}
+	
 	$scope.onFileSelect = function($files) {
 		
 		$scope.selectedFiles = [];
