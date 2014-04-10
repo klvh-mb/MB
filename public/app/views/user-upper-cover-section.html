@@ -1,0 +1,35 @@
+			<div class="row">
+						<div class="timeline-cover">	
+							<div class="widget cover image">
+								<div class="widget-body padding-none margin-none">
+									<div class="top">
+											<div class="top">
+												<img data-ng-src="/get-cover-image-by-id/{{userInfo.id}}" class="img-responsive" />
+											</div>
+											<div ng-show="isEdit">	
+												<a ng-click="openCoverPhotoModal()" alt="Change" title="Change"  
+												style="margin: -245px 0px 0px 7px;position: absolute;" href=""  ><img src="/assets/app/images/edit.png"/></a>
+											</div>
+									 
+									</div>
+									<ul class="list-unstyled">
+										<li ><a href="index.html?lang=en"><i class="fa fa-fw fa-clock-o"></i> Timeline</a></li>
+										<li  class="active"><a ng-href="/#/about"><i class="fa fa-fw fa-user"></i> About</a></li>
+										<li ><a href="media_2.html?lang=en"><i class="icon-photo-camera"></i> Photos <span>(102)</span></a></li>
+										<li ><a ng-href="/#/friends"><i class="icon-group"></i> Friends <span>({{userInfo.noOfFriends}})</span></a></li>
+										<li><a href="messages.html?lang=en"><i class="icon-envelope-fill-1"></i> Messages <span>(2 new)</span></a></li>
+									</ul>
+									<div class="photo">
+										<img data-ng-src="/get-profile-image-by-id/{{userInfo.id}}" height="90px" class="img-circle"/>
+										<div ng-show="isEdit">	<i class="fa fa-fw icon-compose" ng-click="openProfilePhotoModal()" data-template="/assets/app/views/change-profile-photo-modal.html"></i></div> 
+									</div>
+
+									<div class="innerAll pull-left border-right">
+										<h3 class="margin-none" editable-text="result.displayName" onbeforesave ="updateUserDisplayName($data)">
+                      {{userInfo.displayName}}
+                   						 </h3>
+                  					</div>
+                				</div>
+              				</div>
+           			 	</div>
+        			</div>
