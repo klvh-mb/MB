@@ -24,9 +24,15 @@
 										<div ng-show="isEdit">	<i class="fa fa-fw icon-compose" ng-click="openProfilePhotoModal()" data-template="/assets/app/views/change-profile-photo-modal.html"></i></div> 
 									</div>
 
-									<div class="innerAll pull-left border-right">
-										<h3 class="margin-none" editable-text="result.displayName" onbeforesave ="updateUserDisplayName($data)">
-                      {{userInfo.displayName}}
+									<div class="innerAll pull-left border-right" data-ng-show="!isEdit">
+										<h3 class="margin-none">
+                      						{{userInfo.displayName}}
+                   						 </h3>
+                  					</div>
+                  					
+									<div class="innerAll pull-left border-right" data-ng-show="isEdit">
+										<h3 class="margin-none" editable-text="userInfo.displayName" onbeforesave ="updateUserDisplayName($data)">
+                      						{{userInfo.displayName}}
                    						 </h3>
                   					</div>
                 				</div>

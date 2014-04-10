@@ -335,8 +335,10 @@ public class CommunityController extends Controller{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
 		
 		try {
-			java.util.Date date = sdf.parse(dataToUpdate.get("dte"));
-			community.createDate =date;
+			if(dataToUpdate.get("dte") != null) {
+				java.util.Date date = sdf.parse(dataToUpdate.get("dte"));
+				community.createDate =date;
+			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

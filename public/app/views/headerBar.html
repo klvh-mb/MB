@@ -101,7 +101,7 @@
 			</div>
 		
 			<div class="row">
-				<ul class="col-lg-11 col-md-11 col-sd-11 dropdown-menu chat media-list hide" ng-class="{show : result.length > 0 && query.length > 0}" style="left: 12px;overflow-y: scroll;height: 345px;">
+				<ul class="col-lg-11 col-md-11 col-sd-11 dropdown-menu chat media-list hide" ng-class="{show : result.length > 0 && query.length > 0}" style="left: 12px;overflow-y: scroll; max-height: 345px;">
 					<li class="media" ng-repeat="sr in result" ng-switch="sr.tp">
 				        <!-- shows user section -->
 				        <a ng-switch-when="USER" class="pull-left" href="#/profile/{{sr.id}}">
