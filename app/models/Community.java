@@ -68,6 +68,8 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	@OneToMany(cascade = CascadeType.REMOVE)
 	public List<Folder> folders;
 	
+	public String iconName;
+
 	public Community(){
 		this.objectType = SocialObjectType.COMMUNITY;
 	}

@@ -438,10 +438,11 @@ public class User extends SocialObject implements Subject, Socializable {
 	}
 	
 	@Transactional
-	public Community createCommunity(String name, String description, CommunityType type){
+	public Community createCommunity(String name, String description, CommunityType type, String iconName){
 
 		Community community = new Community(
 				name, description, this, type);
+		community.iconName = iconName;
 		community.save();
 		return community;
 		

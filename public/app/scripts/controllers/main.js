@@ -396,6 +396,14 @@ minibean.controller('CreateCommunityController',function($scope,  $http,  $uploa
 	
 	}
 	
+
+	$scope.select_icon = function(img, text) {
+		$scope.icon_chosen = img;
+		$scope.icon_text = text;
+		$scope.isChosen = true;
+		$scope.formData.iconName = img;
+	}
+	
 	$scope.onFileSelect = function($files) {
 		$scope.selectedFiles = $files;
 		$scope.formData.photo = 'cover-photo';
@@ -676,6 +684,15 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		usSpinnerService.stop('loading...');
 	});
 	
+	 
+	$scope.IconsToSelects = [
+	    {name:'SWISS', img:'http://s9.postimage.org/d9t33we17/Swiss.png'},
+		{name:'UNITED', img:'http://s9.postimage.org/ykqn85w5n/United.png'},
+		{name:'KLM', img:'http://s9.postimage.org/p7unhshsb/Klm.png'},
+		{name:'EL AL', img:'http://s18.postimage.org/oi8ndntud/image.gif'},
+		{name:'Ethiopian', img:'http://s9.postimage.org/hqlg2ks97/image.gif'}
+	];
+	
 	$scope.isLoadingEnabled = false;
 	$scope.show = false;
 	$scope.postPhoto = function() {
@@ -810,10 +827,6 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 					});
 					
 				}
-				
-				
-				
-				
 		});
 	};
 
@@ -835,6 +848,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	
 	$scope.remove_image = function(index) {
 		$scope.selectedFiles.splice(index, 1);
+		$scope.tempSelectedFiles.splice(index, 1);
 		$scope.dataUrls.splice(index, 1);
 	}
 });

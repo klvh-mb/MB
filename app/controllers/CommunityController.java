@@ -285,7 +285,7 @@ public class CommunityController extends Controller{
 	@Transactional
 	public static Result createGroup(){
 		final User localUser = Application.getLocalUser(session());
-		Form<Community> form = DynamicForm.form(Community.class).bindFromRequest("name","description","communityType");
+		Form<Community> form = DynamicForm.form(Community.class).bindFromRequest("name","description","iconName","communityType");
 		Community community = form.get();
        
 		if(!community.checkCommunityNameExists(localUser)) {
@@ -297,7 +297,7 @@ public class CommunityController extends Controller{
 		File file = picture.getFile();
 		File fileTo = new File(fileName);
 		
-		Community newCommunity = localUser.createCommunity(community.name, community.description,community.communityType);
+		Community newCommunity = localUser.createCommunity(community.name, community.description,community.communityType, community.iconName);
 		try {
 			newCommunity.ownerAsMember(localUser);
 			newCommunity.communityType = community.communityType;

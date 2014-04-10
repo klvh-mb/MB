@@ -1,6 +1,7 @@
 
 
 <input type="text" class="form-control" placeholder="Share your mood" data-ng-model="postText">
+
 <div style="background-color: white;" ng-show="selectedFiles != null">
 	<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
 		ng-repeat="f in selectedFiles" tooltip-placement="bottom" tooltip="delete it!" style="width: 100px;height: 100px;" data-ng-click="remove_image($index)"
@@ -70,3 +71,4 @@
 	.partial_fade {
 		opacity: 0.6 !important;
 	}
+</style>
