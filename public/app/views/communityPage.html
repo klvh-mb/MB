@@ -170,40 +170,40 @@
           
            <hr style="margin-top: 1%;">
              
-             <div class="row tm">
-             	  <div class="col-md-12">
-                	<div class="row form-group">
-               			<div class="col-md-4">
-                  			<label> Community Icon: </label>
-                  		</div>
-                  	
-                  		<div class="col-md-8">
-                  			<li class="col-md-12 dropdown">
-	                  			<div class="form-control dropdown-toggle">
-	                  				<img class="pull-left media-object" data-ng-src={{icon_chosen}} width="25">
-	                  				<div class="media-body">
-								       	<p class="margin-none pull-right">{{icon_text}}</p>
-								    </div>
-	    							<div data-ng-if="!isChosen" data-ng-init="isChosen=false">
-	    								Please select icon
-	    							</div>
-	  							</div>
-		                  		<ul class="dropdown-menu chat media-list" style="left:2%; width: 96%;">
-									<li class="media" data-ng-repeat="icon in IconsToSelects" style="margin-top: 1%;">
-								        <a href="" data-ng-click="select_icon(icon.img, icon.name)">
-								        	<img class="pull-left media-object" data-ng-src="{{icon.img}}" alt="50x50" width="25" >
-								        	<input type="hidden" data-ng-model="formData.iconName" >
-											<div class="media-body">
-								            	<p class="margin-none pull-right">{{icon.name}}</p>
-								        	</div>							        	
-								        </a>
-									</li>
-						      	</ul>
-						      </li>
-                  		</div>
-                  	</div>
-               </div>
+           <div class="row tm">
+           	  <div class="col-md-12">
+              	<div class="row form-group">
+             			<div class="col-md-4">
+                			<label> Community Icon: </label>
+                		</div>
+                	
+                		<div class="col-md-8">
+                			<li class="col-md-12 dropdown">
+                 			<div class="form-control dropdown-toggle">
+                 				<img class="pull-left media-object" data-ng-src={{icon_chosen}} width="25">
+                 				<div class="media-body">
+						       		<p class="margin-none pull-right">{{icon_text}}</p>
+						    	</div>
+	   							<div data-ng-if="!isChosen" data-ng-init="isChosen=false">
+	   								Please select icon
+	   							</div>
+ 							</div>
+                  		<ul class="dropdown-menu chat media-list" style="left:2%; width: 96%;">
+							<li class="media" data-ng-repeat="icon in IconsToSelects" style="margin-top: 1%;">
+						        <a href="" data-ng-click="select_icon(icon.url, icon.name)">
+						        	<img class="pull-left media-object" data-ng-src="{{icon.url}}" alt="50x50" width="25" >
+						        	<input type="hidden" data-ng-model="formData.iconName" >
+									<div class="media-body">
+						            	<p class="margin-none pull-right">{{icon.name}}</p>
+						        	</div>							        	
+						        </a>
+							</li>
+				      	</ul>
+				      </li>
+                		</div>
+                	</div>
              </div>
+           </div>
           
            <hr style="margin-top: 1%;">
              

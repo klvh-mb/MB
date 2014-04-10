@@ -14,6 +14,7 @@ import java.util.Map;
 import models.Comment;
 import models.Community;
 import models.Community.CommunityType;
+import models.Icons;
 import models.Post;
 import models.Resource;
 import models.User;
@@ -32,6 +33,7 @@ import viewmodel.CommunitiesWidgetChildVM;
 import viewmodel.CommunityPostCommentVM;
 import viewmodel.CommunityPostVM;
 import viewmodel.CommunityVM;
+import viewmodel.IconVM;
 import viewmodel.MemberWidgetParentVM;
 import viewmodel.MembersWidgetChildVM;
 import viewmodel.QnAPostsVM;
@@ -462,7 +464,20 @@ public class CommunityController extends Controller{
 		final Community community = Community.findById(id);
 		return ok(Json.toJson(QnAPostsVM.qnaPosts(community, localUser)));
 	}
+	
+	@Transactional
+	public static Result getAllIcons() {
+		List<Icons> icons = Icons.getAllIcons();
+		
+		List<IconVM> iconVMs = new ArrayList<>();
+		for(Icons icon : icons) {
+			IconVM vm = IconVM.iconVM(icon);
+			iconVMs.add(vm);
+		}
+		return ok(Json.toJson(iconVMs));
+	}
 }
+
 	
 	
 	

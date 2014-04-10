@@ -324,7 +324,7 @@ minibean.service('groupAboutService',function($resource){
 
 
 
-minibean.controller('GroupController',function($scope, $routeParams, usSpinnerService, $http, communityPageService, $upload, profilePhotoModal){
+minibean.controller('GroupController',function($scope, $routeParams, $http, usSpinnerService, iconsService, communityPageService, $upload, profilePhotoModal){
 
 	$scope.submitBtn = "Save";
 	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id});
@@ -344,14 +344,7 @@ minibean.controller('GroupController',function($scope, $routeParams, usSpinnerSe
  		                   ];
 	 
 	
-	$scope.IconsToSelects = [
-	    {name:'SWISS', img:'assets/app/icons/common.png'},
-		{name:'UNITED', img:'assets/app/icons/contact.png'},
-		{name:'KLM', img:'assets/app/icons/info.png'},
-		{name:'EL AL', img:'assets/app/icons/legan.png'},
-		{name:'Ethiopian', img:'assets/app/icons/partners.png'}
-	];
-	
+	$scope.IconsToSelects = iconsService.getAllIcons.get();
 
 	$scope.select_icon = function(img, text) {
 		$scope.icon_chosen = img;
@@ -386,7 +379,7 @@ minibean.controller('GroupController',function($scope, $routeParams, usSpinnerSe
 
 
 
-minibean.controller('CreateCommunityController',function($scope,  $http,  $upload, $validator,usSpinnerService){
+minibean.controller('CreateCommunityController',function($scope,  $http,  $upload, $validator, iconsService, usSpinnerService){
 	
 	$scope.formData = {};
 	$scope.selectedFiles =[];
@@ -420,6 +413,7 @@ minibean.controller('CreateCommunityController',function($scope,  $http,  $uploa
 	
 	}
 	
+	$scope.IconsToSelects = iconsService.getAllIcons.get();
 
 	$scope.select_icon = function(img, text) {
 		$scope.icon_chosen = img;
@@ -696,7 +690,17 @@ minibean.service('communityJoinService',function($resource){
 	);
 });
 
-minibean.controller('CommunityPageController', function($scope, $routeParams, $http, allCommentsService, 
+minibean.service('iconsService',function($resource){
+	this.getAllIcons = $resource(
+			'/getAllIcons',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get' ,isArray:true}
+			}
+	);
+});
+
+minibean.controller('CommunityPageController', function($scope, $routeParams, $http,iconsService, allCommentsService, 
 	communityPageService, communityJoinService, $upload, $timeout, usSpinnerService){
 	
 	$scope.$on('$viewContentLoaded', function() {
@@ -709,13 +713,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	});
 	
 	 
-	$scope.IconsToSelects = [
-	    {name:'SWISS', img:'assets/app/icons/common.png'},
-		{name:'UNITED', img:'assets/app/icons/contact.png'},
-		{name:'KLM', img:'assets/app/icons/info.png'},
-		{name:'EL AL', img:'assets/app/icons/legan.png'},
-		{name:'Ethiopian', img:'assets/app/icons/partners.png'}
-	];
+	$scope.IconsToSelects = iconsService.getAllIcons.get();
 	
 	$scope.isLoadingEnabled = false;
 	$scope.show = false;
@@ -877,6 +875,8 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	}
 });
 ///////////////////////// Community Page  End ////////////////////////////////
+
+///////////////////////// Community QnA Page Start ////////////////////////////////
 minibean.service('communityQnAPageService',function($resource){
 	this.QnAPosts = $resource(
 			'/communityQnA/questions/:id',
@@ -950,8 +950,6 @@ minibean.controller('CreateQnACommunityController',function($scope,allAnswersSer
 		});
 		
 	}
-	
-	console.log($scope.QnA);
 	
 	$scope.ask_question_community = function(id, questionText) {
 		usSpinnerService.spin('loading...');
@@ -1056,3 +1054,5 @@ minibean.controller('CreateQnACommunityController',function($scope,allAnswersSer
 	}
 	
 });
+
+///////////////////////// Community QnA Page End ////////////////////////////////

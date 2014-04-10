@@ -28,7 +28,7 @@
       </div>
       
  
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" data-backdrop="false">
   <div class="modal-dialog">
     <div class="modal-content">
       <form ng-controller = "CreateCommunityController"  name="formData" novalidate ng-submit="submit()"  method="post" enctype="multipart/form-data" >				              
@@ -100,8 +100,8 @@
 	  							</div>
 		                  		<ul class="dropdown-menu chat media-list" style="left:2%; width: 96%;">
 									<li class="media" data-ng-repeat="icon in IconsToSelects" style="margin-top: 1%;">
-								        <a href="" data-ng-click="select_icon(icon.img, icon.name)">
-								        	<img class="pull-left media-object" data-ng-src="{{icon.img}}" alt="50x50" width="25" >
+								        <a href="" data-ng-click="select_icon(icon.url, icon.name)">
+								        	<img class="pull-left media-object" data-ng-src="{{icon.url}}" alt="50x50" width="25" >
 								        	<input type="hidden" data-ng-model="formData.iconName" >
 											<div class="media-body">
 								            	<p class="margin-none pull-right">{{icon.name}}</p>

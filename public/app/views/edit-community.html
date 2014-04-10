@@ -95,8 +95,8 @@
 		 							</div>
 		                  		<ul class="dropdown-menu chat media-list" style="width: 100%;">
 									<li class="media" data-ng-repeat="icon in IconsToSelects" style="margin-top: 1%;">
-								        <a href="" data-ng-click="select_icon(icon.img, icon.name)">
-								        	<img class="pull-left media-object" data-ng-src="{{icon.img}}" alt="50x50" width="25" >
+								        <a href="" data-ng-click="select_icon(icon.url, icon.name)">
+								        	<img class="pull-left media-object" data-ng-src="{{icon.url}}" alt="50x50" width="25" >
 								        	<input type="hidden" data-ng-model="community.iconName" >
 											<div class="media-body">
 								            	<p class="margin-none pull-right">{{icon.name}}</p>
