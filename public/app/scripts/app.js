@@ -13,7 +13,8 @@ angular.module('minibean', [
   'validator',
   'validator.rules',
   'angularSpinner',
-  'truncate'
+  'truncate',
+  'ui.tinymce'
 ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -43,6 +44,18 @@ angular.module('minibean', [
       .when('/community/:id',{
     	templateUrl: '/assets/app/views/communityPage.html',
     	controller : 'CommunityPageController'  
+      })
+      .when('/article/id/:id',{
+    	templateUrl: '/assets/app/views/articlePage.html',
+    	controller : 'ViewArticleController'  
+      })
+      .when('/article/create',{
+    	templateUrl: '/assets/app/views/createArticlePage.html',
+    	controller : 'CreateArticleController'  
+      })
+      .when('/article/show',{
+    	templateUrl: '/assets/app/views/showArticlesPage.html',
+    	controller : 'ShowArticleController'  
       })
       .otherwise({
           redirectTo: '/'

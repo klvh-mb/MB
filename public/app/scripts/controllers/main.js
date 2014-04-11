@@ -1055,4 +1055,12 @@ minibean.controller('CreateQnACommunityController',function($scope,allAnswersSer
 	
 });
 
+
 ///////////////////////// Community QnA Page End ////////////////////////////////
+minibean.controller('CreateArticleController',function($scope){
+	$scope.article;
+	//Refer to http://www.tinymce.com/
+	$scope.tinymceOptions = {
+	       
+	}
+});

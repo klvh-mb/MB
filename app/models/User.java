@@ -67,6 +67,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	public String username;
 	public String email;
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonIgnore
 	public Date lastLogin;
 
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
@@ -118,6 +119,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	public List<Album> album;
 
 	@OneToMany
+	@JsonIgnore
 	public List<Conversation> conversation = new ArrayList<Conversation>();
 
 	@Override
