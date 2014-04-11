@@ -8,6 +8,7 @@ import java.util.List;
 
 import models.Community;
 import models.Notification;
+import models.SocialObject;
 import models.User;
 
 import org.apache.commons.io.FileUtils;
@@ -21,6 +22,7 @@ import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import viewmodel.CommunitiesWidgetChildVM;
 import viewmodel.FriendWidgetChildVM;
+import viewmodel.NotificationVM;
 import viewmodel.ProfileVM;
 import viewmodel.SocialObjectVM;
 import viewmodel.UserVM;
@@ -188,9 +190,9 @@ public class UserController extends Controller {
     public static Result getAllJoinRequests() {
     	final User localUser = Application.getLocalUser(session());
     	List<Notification> joinRequests = localUser.getAllJoinRequestNotification();
-    	List<CommunitiesWidgetChildVM> requests = new ArrayList<>();
+    	List<NotificationVM> requests = new ArrayList<>();
     	for(Notification n : joinRequests) {
-    		requests.add(new CommunitiesWidgetChildVM(n.socialAction.actor.id, n.socialAction.target.id, n.socialAction.actor.name, n.message));
+    		requests.add(new NotificationVM(n.socialAction.actor.id, n.socialAction.target.id, n.socialAction.actor.name, n.message, n.socialAction.actor.objectType.name()));
     	}
     	return ok(Json.toJson(requests));
     }
@@ -198,11 +200,27 @@ public class UserController extends Controller {
     @Transactional
     public static Result acceptJoinRequest(Long member_id,Long group_id) {
     	final User localUser = Application.getLocalUser(session());
+    	
     	User invitee = User.findById(member_id);
     	Community community = Community.findById(group_id);
     	
     	try {
 			localUser.joinRequestAccepted(community, invitee);
+		} catch (SocialObjectNotJoinableException e) {
+			e.printStackTrace();
+		}
+    	return ok();
+    }
+    
+    @Transactional
+    public static Result acceptInviteRequest(Long group_id, Long member_id) {
+    	final User localUser = Application.getLocalUser(session());
+    	
+    	User invitee = User.findById(member_id);
+    	Community community = Community.findById(group_id);
+    	
+    	try {
+			localUser.inviteRequestAccepted(community, invitee);
 		} catch (SocialObjectNotJoinableException e) {
 			e.printStackTrace();
 		}

@@ -133,6 +133,13 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		recordJoinRequestAccepted(user);
 	}
 	
+	@Override
+	@Transactional
+	public void onInviteRequestAccepted(User user)
+			throws SocialObjectNotJoinableException {
+		recordInviteRequestAccepted(user);
+	}
+	
 	@JsonIgnore
 	public List<User> getMembers() {
 		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
@@ -278,13 +285,28 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		q.setMaxResults(limit);
 		return (List<Post>)q.getResultList();
 	}
+	
 	@JsonIgnore
-
 	public List<Post> getQuestionsOfCommunity(int offset, int limit) {
 		Query q = JPA.em().createQuery("Select p from Post p where community=?1 and postType= 0 order by createdDate desc");
 		q.setParameter(1, this);
 		q.setFirstResult(offset);
 		q.setMaxResults(limit);
 		return (List<Post>)q.getResultList();
+	}
+	
+	@JsonIgnore
+	public List<User> getNonMembersOfCommunity(String query) {
+		Query q = JPA.em().createQuery("Select u from User u where u.displayName LIKE '%"+ query +"%' AND " +
+				"u.id not in (select sr.actor.id from " +
+				"SocialRelation sr where sr.target = ?1 and sr.action = 'MEMBER')");
+		q.setParameter(1, this);
+		return (List<User>)q.getResultList();
+	}
+	
+
+	public void sendInviteToJoin(User invitee)
+			throws SocialObjectNotJoinableException {
+		recordInviteRequestByCommunity(invitee);
 	}
 }

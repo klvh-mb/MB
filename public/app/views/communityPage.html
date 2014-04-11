@@ -35,6 +35,27 @@
 						</div>
 					</div>		
 						</div>
+						
+						<div class="row tm">
+							<div class="input-group-btn">
+								<input type="text" class="form-control" data-ng-keyup="search_unjoined_users(community.i, searchQuery)" placeholder="+ Invite Users" data-ng-model="searchQuery">
+							</div>
+							
+							<div class="row">
+								<ul class="col-lg-12 col-md-11 col-sd-11 dropdown-menu chat media-list hide" ng-class="{show : nonMembers.length > 0 && searchQuery.length > 0}" style="overflow-y: scroll; max-height: 345px;">
+									<li class="media" ng-repeat="sr in nonMembers" ng-switch="sr.tp" style="margin-top: 2% !important;">
+								        <!-- shows user section -->
+								        <a class="pull-left" href="#/profile/{{sr.id}}">
+								        	<img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
+								        </a>
+								        
+										<div class="media-body">
+								            <h5 class="media-heading">{{sr.nm}} <i data-ng-click="send_invite_to_join(community.i, sr.id)" class="fa fa-plus-square pull-right"></i></h5>
+								        </div>
+									</li>
+								</ul>
+							</div>
+						</div>
 					</div>
        	    		 <div class="col-lg-8 col-md-6 innerAll">
        	    		 	<div class="row tm">

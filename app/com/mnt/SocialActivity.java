@@ -96,6 +96,15 @@ public class SocialActivity {
 				notification.save();
 			}
 				break;
+				
+			case INVITE_REQUESTED: {
+				Notification notification = new Notification();
+				notification.socialAction = socialAction;
+				notification.recipetent = socialAction.target;
+				notification.message = "You are invited to join community " + socialAction.actor.name;
+				notification.save();
+			}
+				break;
 
 			}
 		}

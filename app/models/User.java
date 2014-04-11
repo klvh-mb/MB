@@ -200,6 +200,11 @@ public class User extends SocialObject implements Subject, Socializable {
 		target.onJoinRequestAccepted(toBeMemeber);
 	}
 
+	public void inviteRequestAccepted(SocialObject target, User toBeMemeber)
+			throws SocialObjectNotJoinableException {
+		target.onInviteRequestAccepted(toBeMemeber);
+	}
+	
 	public void markNotificationRead(Notification notification) {
 		notification.markNotificationRead();
 	}
@@ -762,11 +767,12 @@ public class User extends SocialObject implements Subject, Socializable {
 	public List<Notification> getAllJoinRequestNotification() {
 		
 		Query q = JPA.em().createQuery(
-						"SELECT n from Notification n where recipetent = ?1 and socialAction.actionType = ?2 " +
-						"and readed = ?3 ");
+						"SELECT n from Notification n where recipetent = ?1 and socialAction.actionType in (?2,?3) " +
+						" and readed = ?4 ");
 		q.setParameter(1, this);
 		q.setParameter(2, ActionType.JOIN_REQUESTED);
-		q.setParameter(3, false);
+		q.setParameter(3, ActionType.INVITE_REQUESTED);
+		q.setParameter(4, false);
 		List<Notification> notifications = q.getResultList();
 		return notifications;
 	}

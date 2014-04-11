@@ -106,6 +106,22 @@ public abstract class SocialObject extends domain.Entity implements
 		action.save();
 
 	}
+	
+	protected final void recordInviteRequestAccepted(User user) {
+		Query q = JPA
+				.em()
+				.createQuery(
+						"SELECT sa from SocialRelation sa where actor = ?1 and target = ?2 and actionType =?3");
+		q.setParameter(1, this);
+		q.setParameter(2, user);
+		q.setParameter(3, SocialRelation.ActionType.INVITE_REQUESTED);
+
+		SocialRelation action = (SocialRelation) q.getSingleResult();
+		action.actionType = SocialRelation.ActionType.GRANT;
+		action.action = SocialRelation.Action.MEMBER;
+		action.save();
+
+	}
 
 	protected final void recordFriendRequest(User invitee) {
 		SocialRelation action = new SocialRelation();
@@ -203,6 +219,14 @@ public abstract class SocialObject extends domain.Entity implements
 		action.save();
 	}
 
+	protected final void recordInviteRequestByCommunity(User invitee) {
+		SocialRelation action = new SocialRelation();
+		action.actionType = SocialRelation.ActionType.INVITE_REQUESTED;
+		action.target = invitee;
+		action.actor = this;
+		action.validateUniquenessAndCreate();
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(name, objectType, id);
@@ -241,7 +265,13 @@ public abstract class SocialObject extends domain.Entity implements
 				"Please make sure Social Object you are joining  is Joinable");
 	}
 
-	public void onJoinRequestAccepted(User user)
+	public void onJoinRequestAccepted(User toBeMemeber)
+			throws SocialObjectNotJoinableException {
+		throw new SocialObjectNotJoinableException(
+				"Please make sure Social Object you are joining  is Joinable");
+	}
+	
+	public void onInviteRequestAccepted(User toBeMemeber)
 			throws SocialObjectNotJoinableException {
 		throw new SocialObjectNotJoinableException(
 				"Please make sure Social Object you are joining  is Joinable");

@@ -37,6 +37,7 @@ import viewmodel.IconVM;
 import viewmodel.MemberWidgetParentVM;
 import viewmodel.MembersWidgetChildVM;
 import viewmodel.QnAPostsVM;
+import viewmodel.SocialObjectVM;
 
 import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotJoinableException;
@@ -472,6 +473,33 @@ public class CommunityController extends Controller{
 			iconVMs.add(vm);
 		}
 		return ok(Json.toJson(iconVMs));
+	}
+	
+	@Transactional
+	public static Result getAllUnjoinedUsers(Long comm_id, String query) {
+		Community community = Community.findById(comm_id);
+		List<User> nonMembers = community.getNonMembersOfCommunity(query);
+		List<SocialObjectVM> objectVMs = new ArrayList<>();
+		
+		SocialObjectVM object;
+		for(User user : nonMembers) {
+			object = new SocialObjectVM(user.id.toString(), user.name, "");
+			objectVMs.add(object);
+		}
+		return ok(Json.toJson(objectVMs));
+	}
+	@Transactional
+	public static Result sendInviteToJoinCommunity(Long group_id, Long user_id) {
+		Community community = Community.findById(group_id);
+		User invitee = User.findById(user_id);
+		
+		try {
+			community.sendInviteToJoin(invitee);
+		} catch (SocialObjectNotJoinableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ok();
 	}
 }
 

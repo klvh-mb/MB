@@ -76,6 +76,7 @@ GET		/get-friend-requests		controllers.UserController.getAllFriendRequests
 GET		/accept-friend-request		controllers.UserController.acceptFriendRequest(friend_id :Long)
 GET		/get-join-requests			controllers.UserController.getAllJoinRequests
 GET		/accept-join-request/:member_id/:group_id		controllers.UserController.acceptJoinRequest(member_id :Long, group_id :Long)
+GET		/accept-invite-request/:member_id/:group_id		controllers.UserController.acceptInviteRequest(member_id :Long, group_id :Long)
 
 GET     /profile/:id                controllers.UserController.getProfile(id :Long)
 GET		/get-profile-image-by-id/:id		controllers.UserController.getProfileImageByID(id :Long)
@@ -119,3 +120,5 @@ POST	/communityQnA/question/post				controllers.CommunityController.postQuestion
 POST	/communityQnA/question/answer			controllers.CommunityController.answerToQuestionOnQnACommunity()
 POST	/uploadPostPhoto						controllers.CommunityController.uploadPhotoOfPost()
 GET		/getAllIcons							controllers.CommunityController.getAllIcons()
+GET		/getAllUnjoinedMembers/:id/:query		controllers.CommunityController.getAllUnjoinedUsers(id : Long, query: String)
+GET		/inviteToCommunity/:group_id/:user_id   controllers.CommunityController.sendInviteToJoinCommunity(group_id : Long, user_id: Long)

@@ -70,15 +70,22 @@
 					</div>
 				</a>
 				<ul class="dropdown-menu chat media-list" data-ng-show="join_requests.length > 0">
-					<li class="media" data-ng-repeat="request in join_requests">
-				        <a class="pull-left" href="#"><img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{request.id}}" alt="50x50" width="50"></a>
+					<li class="media" data-ng-repeat="request in join_requests" ng-switch="request.tp">
+				        
+				        <a ng-switch-when="USER"  class="pull-left" href="#"><img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{request.id}}" alt="50x50" width="50"></a>
+				        
+				        <a ng-switch-when="COMMUNITY" class="pull-left" href="#"><img class="media-object thumb" data-ng-src="/community-mini-image-by-id/{{request.id}}" alt="50x50" width="50"></a>
+				        
 						<div class="media-body" data-ng-init="request.isLoadingEnable = false">
 				        	
-				        	<button data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
+				        	<button ng-switch-when="USER"  data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
 				        	 	data-ng-click="accept_join_request(request.id, request.mm);$event.stopPropagation();" 
 				        	 	class="btn btn-xs btn-success pull-right a_{{request.id}}_{{request.mm}}">accept</button>
 					        
-				        	
+				        	<button ng-switch-when="COMMUNITY" data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
+				        	 	data-ng-click="accept_invite_request(request.id, request.mm);$event.stopPropagation();" 
+				        	 	class="btn btn-xs btn-success pull-right a_{{request.id}}_{{request.mm}}">accept</button>
+					        
 				        	
 				        	<span class="label label-primary pull-right" data-ng-show="request.isLoadingEnable == true">Loading...</span>
 				            

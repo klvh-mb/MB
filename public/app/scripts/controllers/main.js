@@ -94,6 +94,14 @@ minibean.service('acceptJoinRequestService',function($resource){
 				get: {method:'GET', params:{member_id:'@member_id',group_id:'@group_id'}, isArray:true}
 			}
 	);
+	
+	this.acceptInviteRequest = $resource(
+			'/accept-invite-request/:member_id/:group_id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'GET', params:{member_id:'@member_id',group_id:'@group_id'}, isArray:true}
+			}
+	);
 });
 
 
@@ -148,6 +156,22 @@ minibean.controller('ApplicationController',function($scope, userInfoService, us
 		);
 	}
 	
+	$scope.accept_invite_request = function(member_id,group_id) {
+		
+		var spinner = new Spinner().spin();
+		
+		$(".a_" + member_id + "_" + group_id).append(spinner.el);    
+		this.accept_invite_request = acceptJoinRequestService.acceptInviteRequest.get({"member_id":member_id, "group_id":group_id},
+			function() {
+				$(".a_" + member_id + "_" + group_id).html("member");
+				$(".a_" + member_id + "_" + group_id).removeClass("btn-success");
+				$(".a_" + member_id + "_" + group_id).addClass("btn-default");
+				$(".a_" + member_id + "_" + group_id).attr("disabled", true)
+				spinner.stop();
+			}
+		);
+	}
+
 	$scope.reset_fr_count = function() {
 		$scope.isFRreaded = false;
 	}
@@ -702,8 +726,26 @@ minibean.service('iconsService',function($resource){
 	);
 });
 
-minibean.controller('CommunityPageController', function($scope, $routeParams, $http,iconsService, allCommentsService, 
-	communityPageService, communityJoinService, $upload, $timeout, usSpinnerService){
+minibean.service('searchMembersService',function($resource){
+	this.getUnjoinedUsers = $resource(
+			'/getAllUnjoinedMembers/:id/:query',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{id:'@id',query : '@query'}, isArray:true}
+			}
+	);
+	
+	this.sendInvitationToNonMember = $resource(
+			'/inviteToCommunity/:group_id/:user_id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{group_id:'@group_id',user_id : '@user_id'}, isArray:true}
+			}
+	);
+});
+
+minibean.controller('CommunityPageController', function($scope, $routeParams, $http, searchMembersService, iconsService,
+		allCommentsService, communityPageService, communityJoinService, $upload, $timeout, usSpinnerService){
 	
 	$scope.$on('$viewContentLoaded', function() {
 		usSpinnerService.spin('loading...');
@@ -714,7 +756,18 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		usSpinnerService.stop('loading...');
 	});
 	
-	 
+	$scope.nonMembers = [];
+	$scope.search_unjoined_users = function(comm_id, query) {
+		if(query.length >1){
+			$scope.nonMembers = searchMembersService.getUnjoinedUsers.get({id : comm_id, query: query});
+			console.log($scope.nonMembers);
+		}
+	}
+	
+	$scope.send_invite_to_join = function(group_id, user_id) {
+		searchMembersService.sendInvitationToNonMember.get({group_id : group_id, user_id: user_id});
+	}
+	
 	$scope.IconsToSelects = iconsService.getAllIcons.get();
 	
 	$scope.isLoadingEnabled = false;
