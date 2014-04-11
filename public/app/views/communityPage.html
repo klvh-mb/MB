@@ -46,58 +46,70 @@
 								</div>
 							</div>
 						</div>
-							<div class="tabsbar tabsbar-2 tm">
-								<ul class="row row-merge">
-									<li class="col-md-2 glyphicons cargo active"><a href="#tab1-4" data-toggle="tab"><i></i> News Feed</a></li>
-									<li class="col-md-2 "><a href="#tab2-4" data-toggle="tab"><i class="icon-group"></i> <span>Members</span></a></li>
-									<li class="col-md-2 glyphicons circle_info"><a href="#tab3-4" data-toggle="tab"><i></i> <span> Context</span></a></li>
-									<li class="col-md-2 "></li>
-									<li class="col-md-2 ">
-										
-					   					
-					   					<div ng-show="community.isM == true && isLoadingEnabled==false && community.isO == false" class="pull-right border-right">
-					   						<button class="btn btn-primary" style="background: #0099FF;" data-ng-click="leave_community(community.i)"><i class="fa fa-thumbs-down"></i> Leave</button>
-					   					</div>
-					   					
-					   					<div ng-show="community.isM == false && community.isP == false && isLoadingEnabled==false && community.isO == false" class="pull-right border-right">
-					   						<button class="btn btn-primary" style="background: #0099FF;" data-ng-click="send_join(community.i)"><i class="fa fa-user"></i> Join</button>
-					   					</div>
-					   					
-					   					<div ng-show="community.isP == true && isLoadingEnabled==false" class="pull-right border-right">
-					   						<button class="btn btn-primary" style="background: #0099FF;" disabled="disabled" ><i class="fa fa-user"></i> Pending Approval</button>
-					   					</div>
-					   					
-					   					<div ng-show="isLoadingEnabled==true" class="pull-right border-right">
-					       					<span class="label label-warning" style="font-size: 110% !important;padding: 9px 12px;">
-					       						Loading .. 
-					       					</span>
-					       				</div>	
-					   				</li>
-									<li class="col-md-2 ">	
-  										<div class="pull-right border-right">
-	                 						<button class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-fw  fa-group"></i> Create New</button>
-	                 					</div>
-		                 			</li>
-								</ul>
+						<div class="col-lg-12 col-md-12 innerAll tm">
+							<div class="tabbable tabs-below col-lg-7 col-md-7 ">
+							  <ul class="nav nav-pills">
+							    <li  class="col-lg-4 col-md-4" ng-class="{active: selectedTab == 1}">
+							      <a ng-click="selectedTab = 1;"><i class="fa fa-comments-o"></i>  News Feed</a>
+							    </li>
+							    <li class="col-lg-4 col-md-4"  ng-class="{active: selectedTab == 2}">
+							      <a  ng-click="selectedTab = 2;"><span><i class="fa fa-group"></i>  Members</span></a>
+							    </li>
+							    <li class="col-lg-3 col-md-3" ng-class="{active: selectedTab == 3}">
+							      <a ng-click="selectedTab = 3;"><i class="fa fa-exclamation-circle"></i><span>  Context</span></a>
+							    </li>
+							  </ul>
+               			   </div>
+               					 
+               				<div class="col-lg-5 col-md-5">
+							    <div ng-show="community.isM == true && isLoadingEnabled==false && community.isO == false" class="pull-right border-right">
+			   						<button class="btn btn-primary" style="background: #0099FF;" data-ng-click="leave_community(community.i)"><i class="fa fa-thumbs-down"></i> Leave</button>
+			   					</div>
+			   					
+			   					<div ng-show="community.isM == false && community.isP == false && isLoadingEnabled==false && community.isO == false" class="pull-right border-right">
+			   						<button class="btn btn-primary" style="background: #0099FF;" data-ng-click="send_join(community.i)"><i class="fa fa-user"></i> Join</button>
+			   					</div>
+			   					
+			   					<div ng-show="community.isP == true && isLoadingEnabled==false" class="pull-right border-right">
+			   						<button class="btn btn-primary" style="background: #0099FF;" disabled="disabled" ><i class="fa fa-user"></i> Pending Approval</button>
+			   					</div>
+			   					
+			   					<div ng-show="isLoadingEnabled==true" class="pull-right border-right">
+			       					<span class="label label-warning" style="font-size: 110% !important;padding: 9px 12px;">
+			       						Loading .. 
+			       					</span>
+			       				</div>	
+							     <div class="pull-right border-right">
+               						<button class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-fw  fa-group"></i> Create New</button>
+               					 </div>
+               				</div>
+							  
+						<div class="col-lg-11 col-md-11 row tm">
+							  <div class="tab-content" ng-show="selectedTab == 1">
+							  	<div data-ng-include style="height: 100px;" data-src="'/assets/app/views/news-feed-section.html'"></div>
+							  </div>
+							  
+							  <div class="tab-content" ng-show="selectedTab == 2" >
+								  <div ng-controller="CommunityMembersWidgetController">
+								    <div data-ng-include style="height: 100px;" data-src="'/assets/app/views/allFriendsSection.html'"></div>
+								   </div>
+							  </div>
+							  
+							  <div class="tab-content" ng-show="selectedTab == 3">
+							    3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+							    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+							    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+							  </div>
 							</div>
-						</div>	
+						</div>
 						
-						<tabset class="inboxSectionTab">
-    						<tab > <tab-heading>
-   						 				<span><i class="fa fa-fw fa-pencil-square"></i> Moment</span>
-							</tab-heading>
-								<div class="row" ng-show="community.isM" id="post">
-									<div data-ng-include style="height: 100px;" data-src="'/assets/app/views/community-post-bar.html'"></div>
-								</div>    						
-    						</tab>
-    						<tab active="mygroups" ><tab-heading>
-   						 				<span><i class="fa fa-fw fa-question-circle"></i> QnA</span>
-							</tab-heading>
-    							<div class="row" ng-show="community.isM" id="qnapost" ng-controller="CreateQnACommunityController">
-									<div data-ng-include style="height: 100px;" data-src="'/assets/app/views/community-QnA-bar.html'"></div>
-								</div>
-    						</tab>
-       	    		 	</tabset>
+							
+						
+
+       	    		 	</div>
        	    		 </div>
        	    		 <div class="col-lg-2 col-md-3">
               			<div class="row tm">
@@ -257,8 +269,9 @@
 
 </body>
  <style>
-.tabsbar.tabsbar-2 ul li a i {
-	top: 2px !important;
+.nav.nav-pills a {
+	background: #ffffff;
+	color: #fff;
 }
 </style>
 

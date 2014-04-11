@@ -1,0 +1,21 @@
+<tabset class="inboxSectionTab">
+	<tab> 
+		<tab-heading>
+			<span><i class="fa fa-fw fa-pencil-square"></i> Moment</span>
+		</tab-heading>
+
+		<div class="row" ng-show="community.isM" id="post">
+			<div data-ng-include style="height: 100px;" data-src="'/assets/app/views/community-post-bar.html'"></div>
+		</div>    						
+	</tab>
+
+	<tab active="mygroups" >
+		<tab-heading>
+			<span><i class="fa fa-fw fa-question-circle"></i> QnA</span>
+		</tab-heading>
+
+		<div class="row" ng-show="community.isM" id="qnapost" ng-controller="CreateQnACommunityController">
+			<div data-ng-include style="height: 100px;" data-src="'/assets/app/views/community-QnA-bar.html'"></div>
+		</div>
+	</tab>
+</tabset>

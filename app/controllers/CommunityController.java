@@ -412,14 +412,9 @@ public class CommunityController extends Controller{
 	@Transactional
 	public static Result getCommunityMembers(Long id) {
 		Community community = Community.findById(id);
-		int count=0;
 		List<MembersWidgetChildVM> members = new ArrayList<>();
 		for(User member : community.getMembers()) {
 			members.add(new MembersWidgetChildVM(member.id, member.displayName));
-			++count;
-			if(count == 12) {
-				break;
-			}
 		}
 		MemberWidgetParentVM fwVM = new MemberWidgetParentVM(community.getMembers().size(), members);
 		return ok(Json.toJson(fwVM));

@@ -508,6 +508,7 @@ minibean.service('friendService',function($resource){
 });
 
 minibean.controller('FriendsController',function($scope, friendService , $http){
+	$scope.sendMessage = true;
 	$scope.result = friendService.UserFriends.get();
 });
 
@@ -550,6 +551,7 @@ minibean.controller('CommunityWidgetController',function($scope,$routeParams, co
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.result = communityService.UserCommunitiesNot.get();
 	$scope.allResult = allCommunityWidgetService.UserAllCommunities.get();
+	$scope.selectedTab = 1;
 	
 	$scope.send_request = function(id) {
 		this.invite = sendJoinRequest.sendRequest.get({id:id});
