@@ -4,10 +4,10 @@ import java.util.List;
 
 public class MemberWidgetParentVM {
 	public int sn;
-	public List<MembersWidgetChildVM> mvm;
+	public List<MembersWidgetChildVM> fvm;
 	
 	public MemberWidgetParentVM(int sn, List<MembersWidgetChildVM> members) {
 		this.sn = sn; 
-		this.mvm = members;
+		this.fvm = members;
 	}
 }
