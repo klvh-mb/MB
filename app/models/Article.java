@@ -26,7 +26,6 @@ public class Article extends domain.Entity {
 	
 	public Integer targetAge;
 	
-	
 	@ManyToOne
 	public ArticleCategory category;
 	
@@ -38,6 +37,11 @@ public class Article extends domain.Entity {
 	public Article findById() {
 		// TODO
 		return null;
+	}
+	
+	public void saveArticle()
+	{
+		this.save();
 	}
 	
 }

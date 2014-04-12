@@ -266,7 +266,7 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		q.setParameter(1, owner);
 		q.setParameter(2, SocialObjectType.COMMUNITY);
 		q.setParameter(3, this.name);
-		
+	
 		Community community = null;
 		try {
 			community = (Community) q.getSingleResult();

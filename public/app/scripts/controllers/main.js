@@ -1129,10 +1129,40 @@ minibean.controller('CreateQnACommunityController',function($scope,allAnswersSer
 
 
 ///////////////////////// Community QnA Page End ////////////////////////////////
-minibean.controller('CreateArticleController',function($scope){
+minibean.controller('CreateArticleController',function($scope,$http, articleCategoryService){
 	$scope.article;
 	//Refer to http://www.tinymce.com/
 	$scope.tinymceOptions = {
-	       
+			selector: "textarea",
+		    plugins: [
+		        "advlist autolink lists link image charmap print preview anchor",
+		        "searchreplace visualblocks code fullscreen",
+		        "insertdatetime media table contextmenu paste"
+		    ],
+		    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
 	}
+	
+	$scope.articleCategories = articleCategoryService.getAllArticleCategory.get();
+	
+	$scope.select_category = function(id, name, pn) {
+		$scope.category_id = id;
+		$scope.category_picture = pn;
+		$scope.category_name = name;
+		$scope.formData.category_id= id;
+		$scope.isChosen = true;
+	}
+	console.log($scope.articleCategories);
+	$scope.submit = function() {
+				$http.post('/createArticle', $scope.formData);
+	}
+});
+
+minibean.service('articleCategoryService',function($resource){
+	this.getAllArticleCategory = $resource(
+			'/getAllArticleCategory',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get' ,isArray:true}
+			}
+	);
 });
