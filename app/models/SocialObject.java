@@ -112,8 +112,8 @@ public abstract class SocialObject extends domain.Entity implements
 				.em()
 				.createQuery(
 						"SELECT sa from SocialRelation sa where actor = ?1 and target = ?2 and actionType =?3");
-		q.setParameter(1, this);
-		q.setParameter(2, user);
+		q.setParameter(1, user);
+		q.setParameter(2, this);
 		q.setParameter(3, SocialRelation.ActionType.INVITE_REQUESTED);
 
 		SocialRelation action = (SocialRelation) q.getSingleResult();
@@ -222,8 +222,8 @@ public abstract class SocialObject extends domain.Entity implements
 	protected final void recordInviteRequestByCommunity(User invitee) {
 		SocialRelation action = new SocialRelation();
 		action.actionType = SocialRelation.ActionType.INVITE_REQUESTED;
-		action.target = invitee;
-		action.actor = this;
+		action.target = this;
+		action.actor = invitee;
 		action.validateUniquenessAndCreate();
 	}
 	

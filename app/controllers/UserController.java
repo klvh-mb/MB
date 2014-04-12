@@ -192,7 +192,7 @@ public class UserController extends Controller {
     	List<Notification> joinRequests = localUser.getAllJoinRequestNotification();
     	List<NotificationVM> requests = new ArrayList<>();
     	for(Notification n : joinRequests) {
-    		requests.add(new NotificationVM(n.socialAction.actor.id, n.socialAction.target.id, n.socialAction.actor.name, n.message, n.socialAction.actor.objectType.name()));
+    		requests.add(new NotificationVM(n.socialAction.actor.id, n.socialAction.target.id, n.socialAction.actor.name, n.notificationType.name(), n.message));
     	}
     	return ok(Json.toJson(requests));
     }
@@ -213,7 +213,7 @@ public class UserController extends Controller {
     }
     
     @Transactional
-    public static Result acceptInviteRequest(Long group_id, Long member_id) {
+    public static Result acceptInviteRequest(Long member_id, Long group_id) {
     	final User localUser = Application.getLocalUser(session());
     	
     	User invitee = User.findById(member_id);

@@ -496,7 +496,6 @@ public class CommunityController extends Controller{
 		try {
 			community.sendInviteToJoin(invitee);
 		} catch (SocialObjectNotJoinableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return ok();

@@ -1,6 +1,7 @@
 package com.mnt;
 
 import models.Notification;
+import models.Notification.NotificationType;
 import models.SocialRelation;
 
 public class SocialActivity {
@@ -14,6 +15,7 @@ public class SocialActivity {
 				Notification notification = new Notification();
 				notification.socialAction = socialAction;
 				notification.recipetent = socialAction.actor;
+				notification.notificationType = NotificationType.COMMUNITY_JOIN_APPROVED;
 				notification.message = "You are now member of "
 						+ socialAction.target.name;
 				notification.save();
@@ -24,6 +26,7 @@ public class SocialActivity {
 				Notification notification = new Notification();
 				notification.socialAction = socialAction;
 				notification.recipetent = socialAction.actor;
+				notification.notificationType = NotificationType.FRIEND_ACCEPTED;
 				notification.message = "You are now Friend of "
 						+ socialAction.target.name;
 				notification.save();
@@ -44,6 +47,7 @@ public class SocialActivity {
 				Notification notification = new Notification();
 				notification.socialAction = socialAction;
 				notification.recipetent = socialAction.target.owner;
+				notification.notificationType = NotificationType.COMMENT;
 				notification.message = socialAction.actor.name
 						+ " Commented on your Post";
 				notification.save();
@@ -54,6 +58,7 @@ public class SocialActivity {
 				Notification notification = new Notification();
 				notification.socialAction = socialAction;
 				notification.recipetent = socialAction.target;
+				notification.notificationType = NotificationType.ANSWERED;
 				notification.message = socialAction.actor.name
 						+ " Answered to your Question";
 				notification.save();
@@ -70,6 +75,7 @@ public class SocialActivity {
 				Notification notification = new Notification();
 				notification.socialAction = socialAction;
 				notification.recipetent = socialAction.target.owner;
+				notification.notificationType = NotificationType.COMMUNITY_JOIN_REQUEST;
 				notification.message = "wants to join community " + socialAction.target.name;
 				notification.save();
 			}
@@ -79,6 +85,7 @@ public class SocialActivity {
 				Notification notification = new Notification();
 				notification.socialAction = socialAction;
 				notification.recipetent = socialAction.target;
+				notification.notificationType = NotificationType.FRIEND_REQUEST;
 				notification.message = socialAction.actor.name
 						+ " wants to be Your Friend "
 						+ socialAction.target.name;
@@ -100,8 +107,9 @@ public class SocialActivity {
 			case INVITE_REQUESTED: {
 				Notification notification = new Notification();
 				notification.socialAction = socialAction;
-				notification.recipetent = socialAction.target;
-				notification.message = "You are invited to join community " + socialAction.actor.name;
+				notification.recipetent = socialAction.actor;
+				notification.notificationType = NotificationType.COMMUNITY_INVITE_REQUEST;
+				notification.message = "You are invited to join community " + socialAction.target.name;
 				notification.save();
 			}
 				break;

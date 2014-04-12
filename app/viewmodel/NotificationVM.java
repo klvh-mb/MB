@@ -7,7 +7,7 @@ public class NotificationVM {
 	public String dn;
 	public String tp;
 	
-	public NotificationVM(Long id,Long mm, String dn,String msg, String tp) {
+	public NotificationVM(Long id,Long mm, String dn, String tp,String msg) {
 		this.id = id;
 		this.mm = mm;
 		this.dn = dn;

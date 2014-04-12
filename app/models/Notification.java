@@ -43,9 +43,13 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 	
 	public static enum NotificationType {
 		FRIEND_REQUEST,
+		FRIEND_ACCEPTED,
 		NEW_MESSAGE,
 		COMMUNITY_JOIN_REQUEST, 
 		COMMUNITY_JOIN_APPROVED,
+		COMMUNITY_INVITE_REQUEST,
+		COMMENT,
+		ANSWERED
 	}
 
 

@@ -152,6 +152,12 @@ minibean.controller('ApplicationController',function($scope, userInfoService, us
 				$(".a_" + member_id + "_" + group_id).addClass("btn-default");
 				$(".a_" + member_id + "_" + group_id).attr("disabled", true)
 				spinner.stop();
+				
+				angular.forEach($scope.join_requests, function(request, key){
+					if(request.id == member_id) {
+						$scope.join_requests.splice($scope.join_requests.indexOf(request),1);
+					}
+				});
 			}
 		);
 	}
@@ -168,6 +174,12 @@ minibean.controller('ApplicationController',function($scope, userInfoService, us
 				$(".a_" + member_id + "_" + group_id).addClass("btn-default");
 				$(".a_" + member_id + "_" + group_id).attr("disabled", true)
 				spinner.stop();
+				
+				angular.forEach($scope.join_requests, function(request, key){
+					if(request.id == member_id) {
+						$scope.join_requests.splice($scope.join_requests.indexOf(request),1);
+					}
+				});
 			}
 		);
 	}
@@ -760,12 +772,18 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	$scope.search_unjoined_users = function(comm_id, query) {
 		if(query.length >1){
 			$scope.nonMembers = searchMembersService.getUnjoinedUsers.get({id : comm_id, query: query});
-			console.log($scope.nonMembers);
 		}
 	}
 	
 	$scope.send_invite_to_join = function(group_id, user_id) {
-		searchMembersService.sendInvitationToNonMember.get({group_id : group_id, user_id: user_id});
+		searchMembersService.sendInvitationToNonMember.get({group_id : group_id, user_id: user_id}, function() {
+			
+			angular.forEach($scope.nonMembers, function(member, key){
+				if(member.id == user_id) {
+					$scope.nonMembers.splice($scope.nonMembers.indexOf(member),1);
+				}
+			});
+		});
 	}
 	
 	$scope.IconsToSelects = iconsService.getAllIcons.get();
@@ -1013,7 +1031,6 @@ minibean.controller('CreateQnACommunityController',function($scope,allAnswersSer
 				"questionText" : questionText,
 				"withPhotos" : $scope.QnASelectedFiles.length != 0
 			};
-		
 		
 		
 			$http.post('/communityQnA/question/post', data)// first create post with question text.
