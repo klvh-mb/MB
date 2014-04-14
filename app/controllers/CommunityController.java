@@ -51,15 +51,9 @@ public class CommunityController extends Controller{
 	@Transactional
 	public static Result getUserUnJoinCommunity() {
 		final User localUser = Application.getLocalUser(session());
-		int count=0;
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
-		for(Community community : localUser.getListOfNotJoinedCommunities()) {
+		for(Community community : localUser.getListOfNotJoinedCommunities(0,3)) {
 			communityList.add(new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name));
-			++count;
-			
-			if(count == 3) {
-				break;
-			}
 		}
 		
 		CommunitiesParentVM fwVM = new CommunitiesParentVM(localUser.getListOfNotJoinedCommunities().size(), communityList);
@@ -195,7 +189,7 @@ public class CommunityController extends Controller{
 	public static Result getMyAllCommunities() {
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
-		for(Community community : localUser.getListOfJoinedCommunities()) {
+		for(Community community : localUser.getListOfJoinedCommunities(0,3)) {
 			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name,"",community.iconName);
 			vm.isO = (localUser == community.owner) ? true : false;
 			communityList.add(vm);
@@ -499,6 +493,38 @@ public class CommunityController extends Controller{
 			e.printStackTrace();
 		}
 		return ok();
+	}
+	
+	@Transactional
+	public static Result getUnknownCommunities(Integer offset) {
+		int start = offset * 3 + 3;
+		List<CommunitiesWidgetChildVM> communityVM = new ArrayList<>();
+		
+		final User localUser = Application.getLocalUser(session());
+		List<Community> communities = localUser.getListOfNotJoinedCommunities(start, 3);
+		
+		for(Community c: communities) {
+			CommunitiesWidgetChildVM comVM = new CommunitiesWidgetChildVM(c.id, (long)c.getMembers().size(), c.name);
+			comVM.isO = (localUser == c.owner) ? true : false;
+			communityVM.add(comVM);
+		}
+		return ok(Json.toJson(communityVM));
+	}
+	
+	@Transactional
+	public static Result getMyNextCommunities(Integer offset) {
+		int start = offset * 3 + 3;
+		List<CommunitiesWidgetChildVM> communityVM = new ArrayList<>();
+		
+		final User localUser = Application.getLocalUser(session());
+		List<Community> communities = localUser.getListOfJoinedCommunities(start, 3);
+		
+		for(Community c: communities) {
+			CommunitiesWidgetChildVM comVM = new CommunitiesWidgetChildVM(c.id, (long)c.getMembers().size(), c.name);
+			comVM.isO = (localUser == c.owner) ? true : false;
+			communityVM.add(comVM);
+		}
+		return ok(Json.toJson(communityVM));
 	}
 }
 

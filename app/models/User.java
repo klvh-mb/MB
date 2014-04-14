@@ -288,6 +288,28 @@ public class User extends SocialObject implements Subject, Socializable {
 		}
 		return communityList;
 	}
+	
+	@JsonIgnore
+	public List<Community> getListOfJoinedCommunities(int offset, int limit) {
+		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+		CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
+		Root<SocialRelation> c = q.from(SocialRelation.class);
+		q.select(c);
+		q.where(cb.and(cb.equal(c.get("actor"), this),
+				cb.equal(c.get("action"), Action.MEMBER)));
+		
+		List<SocialRelation> result = JPA.em().createQuery(q).setFirstResult(offset)
+					.setMaxResults(limit).getResultList();
+
+		List<Community> communityList = new ArrayList<>();
+		for (SocialRelation rslt : result) {
+			if (rslt.actor.name == this.name
+					&& rslt.target.objectType == SocialObjectType.COMMUNITY) {
+				communityList.add((Community) rslt.target);
+			}
+		}
+		return communityList;
+	}
 
 	@JsonIgnore
 	public List<Community> getListOfNotJoinedCommunities() {
@@ -299,6 +321,18 @@ public class User extends SocialObject implements Subject, Socializable {
 		return communityList;
 	}
 
+	@JsonIgnore
+	public List<Community> getListOfNotJoinedCommunities(int offset, int limit) {
+		
+		Query q = JPA.em().createQuery("Select c from Community c where c.id not in (select sr.target.id from  SocialRelation sr where sr.action = ?2 and sr.actor.id = ?1)");
+		q.setParameter(1, this.id);
+		q.setParameter(2, Action.MEMBER);
+		q.setFirstResult(offset);
+		q.setMaxResults(limit);
+		List<Community> communityList = q.getResultList();
+		return communityList;
+	}
+	
 	public static List<User> searchLike(String q) {
 		CriteriaBuilder builder = JPA.em().getCriteriaBuilder();
 		CriteriaQuery<User> criteria = builder.createQuery(User.class);

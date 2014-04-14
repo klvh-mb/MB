@@ -521,12 +521,45 @@ minibean.service('sendJoinRequest',function($resource){
 	);
 });
 
-minibean.controller('UnknownCommunityWidgetController',function($scope, sendJoinRequest, unJoinedCommunityWidgetService, userInfoService, $http){
+minibean.service('getMoreUnknownCommunity',function($resource){
+	this.get_next_communities = $resource(
+			'/get-next-unknown-communities/:offset',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'GET', params:{offset:'@offset'}, isArray : true}
+			}
+	);
+});
+
+minibean.controller('UnknownCommunityWidgetController',function($scope, getMoreUnknownCommunity, sendJoinRequest, unJoinedCommunityWidgetService, userInfoService, $http){
 	$scope.result = unJoinedCommunityWidgetService.UserCommunitiesNot.get();
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.send_request = function(id) {
 		this.invite = sendJoinRequest.sendRequest.get({id:id});
 	}
+
+	var offsetC = 0;
+	var noMore = false;
+	$scope.nextGroups = function() {
+		$scope.noMoreResult = false;
+		if ($scope.isBusy) return;
+		if (noMore){ $scope.noMoreResult = true; return;}
+		
+		$scope.isBusy = true;
+		getMoreUnknownCommunity.get_next_communities.get({offset:offsetC}, function( response ){
+			var groups = response;
+			if(groups.length < 3 ) {
+				noMore = true;
+				$scope.isBusy = false;
+			}
+			
+			for (var i = 0; i < groups.length; i++) {
+				$scope.result.fvm.push(groups[i]);
+		    }
+			$scope.isBusy = false;
+			offsetC++;
+		});
+	};
 });
 
 ///////////////////////// User UnJoined Communities Widget End //////////////////////////////////
@@ -607,6 +640,7 @@ minibean.service('communityWidgetService',function($resource){
 			}
 	);
 });
+
 minibean.service('allCommunityWidgetService',function($resource){
 	this.UserAllCommunities = $resource(
 			'/get-users-all-communities',
@@ -617,10 +651,43 @@ minibean.service('allCommunityWidgetService',function($resource){
 	);
 });
 
-minibean.controller('UserCommunityWidgetController',function($scope, allCommunityWidgetService, communityWidgetService , $http, userInfoService){
+minibean.service('myNextCommunitiesService',function($resource){
+	this.get_my_next_communities = $resource(
+			'/get-my-next-communities/:offset',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', isArray:true, params:{offset:'@offset'}}
+			}
+	);
+});
+
+minibean.controller('UserCommunityWidgetController',function($scope, myNextCommunitiesService, allCommunityWidgetService, communityWidgetService , $http, userInfoService){
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.result = communityWidgetService.UserCommunities.get();
 	$scope.allResult = allCommunityWidgetService.UserAllCommunities.get();
+	
+	var offsetC = 0;
+	var noMore = false;
+	
+	$scope.nextMyGroups = function() {
+		myNextCommunitiesService.get_my_next_communities.get({offset:offsetC}, function( response ){
+			$scope.noMoreResult = false;
+			if ($scope.isBusy) return;
+			if (noMore){ $scope.noMoreResult = true; return;}
+			
+			var groups = response;
+			if(groups.length < 3 ) {
+				noMore = true;
+				$scope.isBusy = false;
+			}
+			
+			for (var i = 0; i < groups.length; i++) {
+				$scope.result.fvm.push(groups[i]);
+		    }
+			$scope.isBusy = false;
+			offsetC++;
+		});
+	}
 });
 
 ///////////////////////// User All Communities End //////////////////////////////////
@@ -926,17 +993,19 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	};
 
 	$scope.send_join = function(id) {
-		$scope.isLoadingEnabled = true;
+		usSpinnerService.spin('loading...');
 		this.send_join_request = communityJoinService.sendJoinRequest.get({"id":id}, function(data) {
-			$scope.isLoadingEnabled = false;
-			$scope.community.isP = true;
+			usSpinnerService.stop('loading...');
+			console.log($scope.community.typ);
+			$scope.community.isP = $scope.community.typ == 'CLOSE' ?  true : false;
+			$scope.community.isM = $scope.community.typ == 'OPEN'? true : false;
 		});
 	}
 	
 	$scope.leave_community = function(id) {
-		$scope.isLoadingEnabled = true;
+		usSpinnerService.spin('loading...');
 		this.leave_this_community = communityJoinService.leaveCommunity.get({"id":id}, function(data) {
-			$scope.isLoadingEnabled = false;
+			usSpinnerService.stop('loading...');
 			$scope.community.isM = false;
 		});
 	}

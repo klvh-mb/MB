@@ -2,7 +2,6 @@ package models;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
@@ -16,7 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Query;
 
 import models.SocialRelation.Action;
-import models.SocialRelation.ActionType;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.codehaus.jackson.annotate.JsonIgnore;
