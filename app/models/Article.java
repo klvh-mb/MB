@@ -8,6 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Query;
+
+import play.db.jpa.JPA;
+import play.db.jpa.Transactional;
 
 @Entity
 public class Article extends domain.Entity {
@@ -29,9 +33,22 @@ public class Article extends domain.Entity {
 	@ManyToOne
 	public ArticleCategory category;
 	
-	public List<Article> all() {
-		// TODO
-		return null;
+	@Transactional
+	public static List<Article> getAllArticles() {
+		Query q = JPA.em().createQuery("Select a from Article a order by CREATED_DATE desc");
+		return (List<Article>)q.getResultList();
+	}
+	
+	public static Article findById(Long id) {
+		Query q = JPA.em().createQuery("SELECT u FROM Article u where id = ?1");
+		q.setParameter(1, id);
+		return (Article) q.getSingleResult();
+	}
+	
+	public static int deleteByID(Long id) {
+		Query q = JPA.em().createQuery("DELETE FROM Article u where id = ?1");
+		q.setParameter(1, id);
+		return q.executeUpdate();
 	}
 	
 	public Article findById() {
@@ -39,6 +56,10 @@ public class Article extends domain.Entity {
 		return null;
 	}
 	
+	public void updateById()
+	{
+		this.merge();
+	}
 	public void saveArticle()
 	{
 		this.save();

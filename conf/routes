@@ -21,8 +21,13 @@ GET     /profile                    controllers.Application.profile
 GET     /login                      controllers.Application.login
 POST    /login                      controllers.Application.doLogin
 POST	/createArticle				controllers.ArticleController.addArticle
+POST	/editArticle				controllers.ArticleController.updateArticle
 
 GET		/getAllArticleCategory		controllers.ArticleController.getAllArticleCategory
+GET     /get-all-Articles			controllers.ArticleController.getAllArticles
+GET		/getDescriptionOdArticle/:id  	controllers.ArticleController.getDescriptionOdArticle(id :Long)
+GET		/deleteArticle/:id			controllers.ArticleController.deleteArticle(id :Long)
+GET		/Article/:id				controllers.ArticleController.infoArticle(id :Long)
 GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
 GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
 

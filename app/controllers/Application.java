@@ -6,6 +6,8 @@ import indexing.PostIndex;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import models.Article;
+import models.Community;
 import models.User;
 
 import org.elasticsearch.index.query.AndFilterBuilder;
@@ -14,6 +16,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 
 import play.Play;
 import play.Routes;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;

@@ -53,6 +53,10 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/createArticlePage.html',
     	controller : 'CreateArticleController'  
       })
+      .when('/article/edit/:id',{
+    	templateUrl: '/assets/app/views/editArticlePage.html',
+    	controller : 'EditArticleController'  
+      })
       .when('/article/show',{
     	templateUrl: '/assets/app/views/showArticlesPage.html',
     	controller : 'ShowArticleController'  
