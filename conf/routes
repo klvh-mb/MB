@@ -126,3 +126,6 @@ GET		/getAllUnjoinedMembers/:id/:query		controllers.CommunityController.getAllUn
 GET		/inviteToCommunity/:group_id/:user_id   controllers.CommunityController.sendInviteToJoinCommunity(group_id : Long, user_id: Long)
 GET		/get-next-unknown-communities/:offset	controllers.CommunityController.getUnknownCommunities(offset:Integer)
 GET		/get-my-next-communities/:offset		controllers.CommunityController.getMyNextCommunities(offset:Integer)
+
+# indexing with elasic search
+GET		/searchForPosts/:query/:community_id	controllers.Application.searchForPosts(query: String, community_id: Long)

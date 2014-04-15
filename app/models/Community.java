@@ -1,5 +1,7 @@
 package models;
 
+import indexing.PostIndex;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -102,9 +104,14 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		post.save();
 		this.posts.add(post);
 		JPA.em().merge(this);
+		
+		PostIndex postIndex = new PostIndex();
+		postIndex.post_id = post.id;
+		postIndex.community_id = post.community.id;
+		postIndex.description = post.body;
+		postIndex.index();
 		//recordPostOn(user);
 		return post;
-		
 	}
 	
 	@Transactional

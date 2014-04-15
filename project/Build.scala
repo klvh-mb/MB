@@ -20,7 +20,8 @@ object ApplicationBuild extends Build {
      "com.feth" %% "play-easymail" % "0.3-SNAPSHOT",
      "org.mindrot" % "jbcrypt" % "0.3m",
      "org.apache.httpcomponents" % "httpclient" % "4.2.5",
-      "net.coobird" % "thumbnailator" % "0.4.7"
+     "net.coobird" % "thumbnailator" % "0.4.7",
+     "com.clever-age" % "play2-elasticsearch" % "0.6-SNAPSHOT"
     
   )
 
@@ -36,8 +37,9 @@ object ApplicationBuild extends Build {
       resolvers += Resolver.url("Objectify Play Repository (release)", url("http://schaloner.github.com/releases/"))(Resolver.ivyStylePatterns),
       resolvers += Resolver.url("Objectify Play Repository (snapshot)", url("http://schaloner.github.com/snapshots/"))(Resolver.ivyStylePatterns),
       resolvers += Resolver.url("play-easymail (release)", url("http://joscha.github.com/play-easymail/repo/releases/"))(Resolver.ivyStylePatterns),
-      resolvers += Resolver.url("play-easymail (snapshot)", url("http://joscha.github.com/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns)
-        
+      resolvers += Resolver.url("play-easymail (snapshot)", url("http://joscha.github.com/play-easymail/repo/snapshots/"))(Resolver.ivyStylePatterns),
+      resolvers += Resolver.url("play-plugin-releases", new URL("http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/"))(Resolver.ivyStylePatterns),
+  	  resolvers += Resolver.url("play-plugin-snapshots", new URL("http://repo.scala-sbt.org/scalasbt/sbt-plugin-snapshots/"))(Resolver.ivyStylePatterns)
   )
 
 }

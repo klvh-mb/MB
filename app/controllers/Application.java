@@ -1,12 +1,17 @@
 package controllers;
 
 
+import indexing.PostIndex;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.persistence.criteria.CriteriaBuilder.Case;
-
 import models.User;
+
+import org.elasticsearch.index.query.AndFilterBuilder;
+import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.QueryBuilders;
+
 import play.Play;
 import play.Routes;
 import play.data.Form;
@@ -25,6 +30,8 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
+import com.github.cleverage.elasticsearch.IndexQuery;
+import com.github.cleverage.elasticsearch.IndexResults;
 public class Application extends Controller {
   
    
@@ -159,6 +166,20 @@ public class Application extends Controller {
 		return new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(new Date(t));
 	}
     
-    
+	@Transactional
+    public static Result searchForPosts(String query, Long community_id){
+		
+		AndFilterBuilder andFilterBuilder = FilterBuilders.andFilter();
+		andFilterBuilder.add(FilterBuilders.queryFilter(QueryBuilders.fieldQuery("description", query)));
+		andFilterBuilder.add(FilterBuilders.queryFilter(QueryBuilders.fieldQuery("community_id", community_id)));
+		
+		IndexQuery<PostIndex> indexQuery = PostIndex.find.query();
+		indexQuery.setBuilder(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), 
+				 andFilterBuilder));
+		IndexResults<PostIndex> allPosts = PostIndex.find.search(indexQuery);
+		
+		System.out.println(allPosts.getTotalCount());
+    	return ok();
+    }
   
 }
