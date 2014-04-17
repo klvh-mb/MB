@@ -82,7 +82,7 @@
 							  </ul>
                			   </div>
                					 
-               				<div ng-show="!community.isO" class="col-lg-5 col-md-5">
+               				<div ng-show="!community.isO && !community.isSearch" class="col-lg-4 col-md-4">
 							    <div ng-show="community.isM == true" class="pull-right border-right">
 			   						<button class="btn btn-primary" style="background: #0099FF;" data-ng-click="leave_community(community.i)"><i class="fa fa-thumbs-down"></i> Leave</button>
 			   					</div>
@@ -92,13 +92,28 @@
 			   					</div>
 			   					
 			   					<div ng-show="community.isP == true" class="pull-right border-right">
-			   						<button class="btn btn-primary" style="background: #0099FF;" disabled="disabled" ><i class="fa fa-user"></i> Pending Approval</button>
+			   						<button class="btn btn-primary" style="background: #0099FF;" disabled="disabled" ><i class="fa fa-user"></i> Pending</button>
 			   					</div>
-			   					
 			   					
 							     <div class="pull-right border-right">
                						<button class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-fw  fa-group"></i> Create New</button>
                					 </div>
+               				</div>
+							
+							<div ng-show="!community.isSearch && selectedTab == 1" class="pull-left border-right col-lg-1 col-md-1" data-ng-init="community.isSearch = false">
+              					<button class="btn btn-square btn-warning" data-ng-click="community.isSearch = true;">
+              						<i class="fa fa-fw icon-search"></i>
+              					</button>
+               				</div>              
+               				 				
+               				<!-- To show search box -->
+               				<div class="col-lg-5 col-md-5" ng-show="community.isSearch" data-ng-init="community.isSearch=false">
+								<div class="col-lg-9 col-md-8">
+									<input type="text" class="form-control" placeholder="Search in Moment" data-ng-model="highlightQuery">								
+								</div>
+								<div class="col-lg-3 col-md-3" >
+									<button type="button" data-ng-show="highlightQuery.length > 2" class="btn btn-success btn-sm" data-ng-click="search_and_highlight(community.i, highlightQuery)">search it!</button>								
+								</div>
                				</div>
 							  
 						<div class="col-lg-11 col-md-11 row tm">

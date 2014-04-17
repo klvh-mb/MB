@@ -14,7 +14,9 @@ angular.module('minibean', [
   'validator.rules',
   'angularSpinner',
   'truncate',
-  'ui.tinymce'
+  'ui.tinymce',
+  'ui.utils',
+  'ngSanitize'
 ])
   .config(function ($routeProvider) {
     $routeProvider

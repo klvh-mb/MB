@@ -1,8 +1,11 @@
 package models;
 
+import indexing.CommentIndex;
+import indexing.PostIndex;
+
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -17,11 +20,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Query;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.QueryBuilders;
 
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 import play.i18n.Messages;
 
+import com.github.cleverage.elasticsearch.IndexQuery;
+import com.github.cleverage.elasticsearch.IndexResults;
 import com.mnt.exception.SocialObjectNotCommentableException;
 
 import domain.CommentType;
@@ -94,6 +101,30 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		comment.save();
 		this.comments.add(comment);
 		JPA.em().merge(this);
+		
+		IndexQuery<PostIndex> indexQuery = PostIndex.find.query();
+		indexQuery.setBuilder(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), 
+				FilterBuilders.termFilter("post_id", comment.socialObject.id)));
+		IndexResults<PostIndex> postIndex = PostIndex.find.search(indexQuery);
+		
+		SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+		
+		CommentIndex commentIndex = new CommentIndex();
+		commentIndex.post_id = comment.socialObject.id;
+		commentIndex.comment_id = comment.id;
+		commentIndex.commentText = comment.body;
+		commentIndex.creationDate = formatDate.format(comment.date);
+		commentIndex.name = comment.name;
+		commentIndex.owner_id = comment.owner.id;
+		commentIndex.index();
+		
+		//hard-coding
+		PostIndex pi = postIndex.getResults().get(0);
+		pi.noOfComments = Post.findById(comment.socialObject.id).comments.size();
+		pi.comments.add(commentIndex);
+		pi.index();
+		
+		PostIndex.find.search(indexQuery);
 		return comment;
 	}
 	

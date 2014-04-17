@@ -4,27 +4,29 @@ package controllers;
 import indexing.PostIndex;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import models.Article;
-import models.Community;
 import models.User;
 
 import org.elasticsearch.index.query.AndFilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.OrFilterBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 
 import play.Play;
 import play.Routes;
-import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.Session;
 import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
+import viewmodel.PostIndexVM;
 import views.html.signup;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
@@ -173,8 +175,13 @@ public class Application extends Controller {
     public static Result searchForPosts(String query, Long community_id){
 		
 		AndFilterBuilder andFilterBuilder = FilterBuilders.andFilter();
-		andFilterBuilder.add(FilterBuilders.queryFilter(QueryBuilders.fieldQuery("description", query)));
 		andFilterBuilder.add(FilterBuilders.queryFilter(QueryBuilders.fieldQuery("community_id", community_id)));
+		
+		OrFilterBuilder orFilterBuilder = FilterBuilders.orFilter();
+		orFilterBuilder.add(FilterBuilders.queryFilter(QueryBuilders.fieldQuery("description", query)));
+		orFilterBuilder.add(FilterBuilders.queryFilter(QueryBuilders.fieldQuery("comments.commentText", query)));
+		
+		andFilterBuilder.add(orFilterBuilder);
 		
 		IndexQuery<PostIndex> indexQuery = PostIndex.find.query();
 		indexQuery.setBuilder(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), 
@@ -182,7 +189,13 @@ public class Application extends Controller {
 		IndexResults<PostIndex> allPosts = PostIndex.find.search(indexQuery);
 		
 		System.out.println(allPosts.getTotalCount());
-    	return ok();
+		
+		List<PostIndexVM> vm = new ArrayList<>();
+		for(PostIndex post : allPosts.results) {
+			PostIndexVM p = new PostIndexVM(post);
+			vm.add(p);
+		}
+    	return ok(Json.toJson(vm));
     }
   
 }

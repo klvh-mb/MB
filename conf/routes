@@ -134,4 +134,4 @@ GET		/get-next-unknown-communities/:offset	controllers.CommunityController.getUn
 GET		/get-my-next-communities/:offset		controllers.CommunityController.getMyNextCommunities(offset:Integer)
 
 # indexing with elasic search
-GET		/searchForPosts/:query/:community_id	controllers.Application.searchForPosts(query: String, community_id: Long)
+GET		/searchForPosts/index/:query/:community_id	controllers.Application.searchForPosts(query: String, community_id: Long)

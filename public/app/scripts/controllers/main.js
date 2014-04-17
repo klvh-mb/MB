@@ -765,6 +765,14 @@ minibean.service('communityPageService',function($resource){
 				get: {method:'get', params:{id:'@id',offset:'@offset'},isArray:true}
 			}
 	);
+	
+	this.GetPostsFromIndex = $resource(
+			'/searchForPosts/index/:query/:community_id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{community_id:'@community_id',query:'@query'},isArray:true}
+			}
+	);
 });
 
 minibean.service('allCommentsService',function($resource){
@@ -834,6 +842,17 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id}, function(){
 		usSpinnerService.stop('loading...');
 	});
+	
+	$scope.highlightText="";
+	$scope.search_and_highlight = function(community_id, query) {
+		$scope.community.posts=[];
+		communityPageService.GetPostsFromIndex.get({community_id: community_id, query : query}, function( results ) {
+			angular.forEach(results, function(post, key){
+				$scope.community.posts.push(post);
+			});
+			$scope.highlightText = query;
+		});
+	};
 	
 	$scope.nonMembers = [];
 	$scope.search_unjoined_users = function(comm_id, query) {
