@@ -1244,6 +1244,13 @@ minibean.service('allArticlesService',function($resource){
 				get: {method:'get' ,isArray:true}
 			}
 	);
+	this.EightArticles = $resource(
+			'/get-Eight-Articles',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get'}
+			}
+	);
 });
 
 minibean.service('getDescriptionService',function($resource){
@@ -1268,6 +1275,11 @@ minibean.service('deleteArticleService',function($resource){
 
 minibean.controller('ShowArticleController',function($scope, $modal, deleteArticleService, allArticlesService, getDescriptionService){
 	$scope.result = allArticlesService.AllArticles.get();
+	
+	$scope.resultSlidder = allArticlesService.EightArticles.get();
+	
+	
+	
 	
 	$scope.open = function (id) {
 	    var modalInstance = $modal.open({

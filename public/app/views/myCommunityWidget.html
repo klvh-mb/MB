@@ -1,3 +1,30 @@
+<div id="myCommunity" class="general-box">
+                <div class="con-title">
+                    <span class="icon-box icon-box-blueDark icon-title-community"></span>My Community
+                    <div class="pull-right">
+                    	<a href="/#/myGroups/myGroups" class="text-muted"><i class="fa fa-2x fa-th-large"></i></a>
+					</div>
+                </div>
+                <div id="div1" class="innerAll" style="overflow-y: scroll;height: 150px;">
+	                    <a data-ng-href="#/community/{{fvm.id}}" ng-repeat="fvm in result.fvm">
+						<div style="float: left;width: 110%" >
+							<img style="float: left;"
+								data-ng-src="/community-mini-image-by-id/{{fvm.id}}" alt="{{fvm.dn}}"
+								class="innerR innerB half" width="50" height="50">
+							<div style="width: 60%; float: left; margin-left: 2%;">
+								<p  style="color: #0083C5; margin-top: 0%; margin-bottom: 0%;">{{fvm.dn|characters:15:false}}</p>
+								<div style="width: 100%; float: left;">
+									<p style="margin-top: 0%; margin-bottom: 1%; margin-right: 5%; float: left; color: black;"></p>
+									<p style="margin-top: 0%; margin-bottom: 1%; color: gray;">Members ({{fvm.mm}})</p>
+								</div>
+							</div>
+						</div>
+					</a>
+					<div style="text-align: center;width: 100%; float: left; background-color: rgb(245, 245, 245);"><a data-ng-show="!noMoreResult" data-ng-click="nextMyGroups()"  ><span style="color: cornflowerblue;font-size: smaller;">See More</span></a></div>
+                </div>
+            </div>
+
+<!-- 
 <div class="bar-shadow-border" style="width: 100%;">
 	<div class="widget" style="width: 100%;float: left">
 		<div class="widget-head border-bottom bg-gray">
@@ -35,4 +62,4 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->

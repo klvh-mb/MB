@@ -17,6 +17,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import viewmodel.ArticleCategoryVM;
 import viewmodel.ArticleVM;
+import viewmodel.SlidderfArticleVM;
 
 public class ArticleController extends Controller {
 
@@ -73,10 +74,30 @@ public class ArticleController extends Controller {
 		List<Article> allArticles = Article.getAllArticles();
 		List<ArticleVM> listOfArticles = new ArrayList<>();
 		for(Article article:allArticles) {
-			ArticleVM vm = new ArticleVM(article.category, article.name, article.id, article.isFeatured);
+			ArticleVM vm = new ArticleVM(article);
 			listOfArticles.add(vm);
 		}
 		return ok(Json.toJson(listOfArticles));
+	}
+	
+	@Transactional
+	public static Result getEightArticles() {
+		int i = 0;
+		List<Article> allArticles = Article.getEightArticles();
+		List<ArticleVM> leftArticles = new ArrayList<>();
+		List<ArticleVM> rightArticles = new ArrayList<>();
+		for(Article article:allArticles) {
+			if(i<4){
+				ArticleVM vm = new ArticleVM(article);
+				leftArticles.add(vm);
+			}else {
+				ArticleVM vm = new ArticleVM(article);
+				rightArticles.add(vm);
+			}
+			i++;
+		}
+		SlidderfArticleVM articleVM = new SlidderfArticleVM(leftArticles, rightArticles);
+		return ok(Json.toJson(articleVM));
 	}
 	
 	@Transactional

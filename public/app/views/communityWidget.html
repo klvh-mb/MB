@@ -1,4 +1,4 @@
-<div class="widget bar-shadow-border">
+<!-- <div class="widget bar-shadow-border">
 	<div class="widget-head border-bottom bg-gray">
 		<h5 class="pull-left margin-none innerAll">
 			Groups <span class="text-muted"></span>
@@ -15,7 +15,7 @@
 
 	<div class="widget-body margin-none">
 		<div class="innerAll" style="overflow-y: scroll;height: 200px;" >
-			<!-- <div infinite-scroll='nextGroups()' style="overflow: scroll;height: 200px;" infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'> -->
+			<div infinite-scroll='nextGroups()' style="overflow: scroll;height: 200px;" infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>
 				<a data-ng-href="#/community/{{fvm.id}}" ng-repeat="fvm in result.fvm">
 					<div style="float: left;width: 100%">
 						<img style="float: left;"
@@ -29,7 +29,7 @@
 									<p style="margin-top: 0%; margin-bottom: 1%; margin-right: 5%; float: left; color: black;"></p>
 									<p style="margin-top: 0%; margin-bottom: 1%; color: gray;" class="ng-binding">Members (1)</p>
 								</div>
-								<!-- button type="button" class="btn btn-primary btn-mini" data-ng-click="send_request(fvm.id)">Join</button-->
+								button type="button" class="btn btn-primary btn-mini" data-ng-click="send_request(fvm.id)">Join</button
 							</div>
 						</div>
 						
@@ -37,7 +37,32 @@
 				</a>
 				
 				<button data-ng-show="!noMoreResult" data-ng-click="nextGroups()" >see more</button>
-			<!-- </div> -->
+			</div>
 		</div>
 	</div>
 </div>
+
+
+
+ -->
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <div id="newCommunity" class="general-box">
+                <div class="con-title">
+                    <span class="icon-box icon-box-green icon-title-newcommunity"></span><a href="#">New Community</a>
+                    <div class="pull-right">
+                    	<a href="/#/myGroups/groups" class="text-muted"><i class="fa fa-2x fa-th-large"></i></a>
+					</div>
+                </div>
+                <div class="photo-wrapper-A">
+                    <ul class="photo-list">
+                        <li ng-repeat="fvm in result.fvm"><a data-ng-href="#/community/{{fvm.id}}" ><p class="photo-title-B">{{fvm.dn}}</p><span class="mask-100percent-height"></span><img src="/community-image-by-id/{{fvm.id}}" width="175" height="125"></a></li>
+                    </ul>
+                </div>
+            </div>

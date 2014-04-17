@@ -5,11 +5,14 @@ import static play.test.Helpers.running;
 import static play.test.Helpers.status;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
+import models.Article;
+import models.ArticleCategory;
 import models.Community;
 import models.Community.CommunityType;
 import models.Resource;
@@ -17,13 +20,16 @@ import models.User;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.internal.seleniumemulation.Open;
 
 import play.Play;
 import play.db.jpa.JPA;
 import play.mvc.Result;
 
+import com.feth.play.module.mail.Mailer.Mail.Body;
 import com.mnt.exception.SocialObjectNotJoinableException;
 
+import controllers.Application;
 import domain.CommentType;
 
 
@@ -32,6 +38,7 @@ public class BuildDataForTest {
 	String unverifiedUser = "unverifiedUser@test.com";
 	String verifiedUser = "verifiedUser@test.com";
 	Community Group ;
+	public ArticleCategory category1, category2, category3, category4, category5;
 
 	Map<String, String> nameEmailMap = new HashMap<>();
 
@@ -107,22 +114,57 @@ public class BuildDataForTest {
 	}
 	
 	@Test
-	public void getCommList() {
+	public void createArticleCategory() {
 		running(fakeApplication(), new Runnable() {
 			@Override
 			public void run() {
 				JPA.withTransaction(new play.libs.F.Callback0() {
 					public void invoke() {
-						User jagbir = User.findByEmail("jagbir.singh@test.com");
-						User jagbir_friend_Amit = User
-								.findByEmail("jagbir.friend1@test.com");
-						User friend1 = User
-								.findByEmail("jagbir.friend4@test.com");
-						List<Community> commList = jagbir_friend_Amit.getListOfNotJoinedCommunities();
-						System.out.println("jagbir_friend_Amit ::::: "+commList.size());
-						for(Community community : commList){
-							System.out.println("jagbir_friend_Amit community::::: "+community.name);
-						}
+						category1 = new ArticleCategory("Soccer", "Football", "/assets/app/icons/common.png");
+						category2 = new ArticleCategory("Teacher", "School Staff", "/assets/app/icons/contact.png");
+						category3 = new ArticleCategory("Office", "Employee", "/assets/app/icons/info.png");
+						category4 = new ArticleCategory("Friends", "Guys", "/assets/app/icons/legan.png");
+						category5 = new ArticleCategory("Sport", "Play games", "/assets/app/icons/partners.png");
+						category1.save();
+						category2.save();
+						category3.save();
+						category4.save();
+						category5.save();
+					}
+				});
+			}
+		});
+		Assert.assertEquals(1, 1);
+	}
+	
+	@Test
+	public void createArticle() {
+		running(fakeApplication(), new Runnable() {
+			@Override
+			public void run() {
+				JPA.withTransaction(new play.libs.F.Callback0() {
+					public void invoke() {
+						Article article1 = new Article("Article 1", "Article Description 1", true, 2, category2);
+						Article article2 = new Article("Article 2", "Article Description 2", true, 3, category1);
+						Article article3 = new Article("Article 3", "Article Description 3", false, 1, category3);
+						Article article4 = new Article("Article 4", "Article Description 4", true, 5, category1);
+						Article article5 = new Article("Article 5", "Article Description 5", true, 2, category4);
+						Article article6 = new Article("Article 6", "Article Description 6", true, 5, category5);
+						Article article7 = new Article("Article 7", "Article Description 7", true, 3, category3);
+						Article article8 = new Article("Article 8", "Article Description 8", false, 5, category1);
+						Article article9 = new Article("Article 8", "Article Description 9", true, 2, category2);
+						Article article10 = new Article("Article 8", "Article Description 10", true, 1, category3);
+						
+						article1.save();
+						article2.save();
+						article3.save();
+						article4.save();
+						article5.save();
+						article6.save();
+						article7.save();
+						article8.save();
+						article9.save();
+						article10.save();
 					}
 				});
 			}

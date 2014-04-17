@@ -189,7 +189,7 @@ public class CommunityController extends Controller{
 	public static Result getMyAllCommunities() {
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
-		for(Community community : localUser.getListOfJoinedCommunities(0,3)) {
+		for(Community community : localUser.getListOfJoinedCommunities()) {
 			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name,"",community.iconName);
 			vm.isO = (localUser == community.owner) ? true : false;
 			communityList.add(vm);

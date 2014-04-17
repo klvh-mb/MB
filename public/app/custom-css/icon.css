@@ -1,0 +1,137 @@
+.icon-title-announce {
+    background-image: url(../images/general/icon_png/w_announce.png);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 30% 30%;
+}
+.icon-title-community {
+    background-image: url(../images/general/icon_png/w_community.png);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 30% 30%;
+}
+.icon-title-competition {
+    background-image: url(../images/general/icon_png/w_competition.png);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 30% 30%;
+}
+.icon-title-forum {
+    background-image: url(../images/general/icon_png/w_forum.png);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 30% 30%;
+}
+.icon-title-friends {
+    background-image: url(../images/general/icon_png/w_friends.png);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 30% 30%;
+}
+.icon-title-friendwall {
+    background-image: url(../images/general/icon_png/w_friendwall.png);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 30% 30%;
+}
+.icon-title-gathering {
+    background-image: url(../images/general/icon_png/w_gathering.png);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 30% 30%;
+}
+.icon-title-home {
+    background-image: url(../images/general/icon_png/w_home.png);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 30% 30%;
+}
+.icon-title-hotforum {
+    background-image: url(../images/general/icon_png/w_hotforum.png);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 30% 30%;
+}
+.icon-title-hottopic {
+    background-image: url(../images/general/icon_png/w_hottopic.png);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 30% 30%;
+}
+.icon-title-mayknow {
+    background-image: url(../images/general/icon_png/w_mayknow.png);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 30% 30%;
+}
+.icon-title-message {
+    background-image: url(../images/general/icon_png/w_message.png);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 30% 30%;
+}
+.icon-title-newcommunity {
+    background-image: url(../images/general/icon_png/w_newcommunity.png);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 30% 30%;
+}
+.icon-title-notification {
+    background-image: url(../images/general/icon_png/w_notification.png);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 30% 30%;
+}
+.icon-title-profile {
+    background-image: url(../images/general/icon_png/w_profile.png);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 30% 30%;
+}
+.icon-title-setup {
+    background-image: url(../images/general/icon_png/w_setup.png);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 30% 30%;
+}
+.icon-title-search {
+    background-image: url(../images/general/icon_png/search.png);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: 30% 30%;
+}
+.icon-box {
+    border-radius: 25px;
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+.icon-box-red {
+    background-color: #E60012;
+}
+.icon-box-blueLight {
+    background-color: #55C2F1;
+}
+.icon-box-orange {
+    background-color: #F19149;
+}
+.icon-box-blueDark {
+    background-color: #556FB5;
+}
+.icon-box-pink {
+    background-color: #E4007F;
+}
+.icon-box-purpleLight {
+    background-color: #D9A0D3;
+}
+.icon-box-purpleDark {
+    background-color: #AA89BD;
+}
+.icon-box-green {
+    background-color: #8AC733;
+}
+.icon-box-blueSky {
+    background-color: #19CADA;
+}

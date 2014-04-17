@@ -1,0 +1,94 @@
+
+<header>
+	<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/headerBar.html'"></div>
+</header>
+
+
+<div class="col-md-3">
+
+</div>
+<div class="col-md-6">
+	<div class="panel panel-default">
+		<div class="row tm" >
+	       	<div class="col-md-4">
+	        	<div class="pull-right">
+	         		<label>Title: </label>
+	           </div>
+	        </div>
+	            		
+	        <div class="row">
+	           	<div class="col-md-6">
+	        	   	{{article.name}}
+	           	</div>
+	     	</div>
+		</div>
+		   
+	    <div class="row tm" >
+	       	<div class="col-md-4">
+	        	<div class="pull-right">
+	        		<label>Target Age: </label>
+	          	</div>
+	        </div>
+	              		
+	        <div class="row">
+	           	<div class="col-md-6">
+	             	{{article.targetAge}}
+	           	</div>
+	       	</div>
+	   </div>
+		   
+	   <div class="row tm">
+	        <div class="col-md-4">
+	       		<div class="pull-right">
+	         				<label>Category: </label>
+	         	</div>
+	         </div>
+	               		
+	         <div class="row">
+	          	<div class="col-md-6">
+	          		<div class="col-md-2"> 	<img class="pull-left media-object" data-ng-src="{{article.category.pictureName}}" alt="50x50" width="25" ></div>
+	          		<div class="col-md-8">  {{article.category.name}} </div>
+	          	</div>
+	    	</div>
+	    </div>
+		    
+	    <div class="row tm" >
+			<div class="col-md-4">
+				<div class="pull-right">
+					<label>Description: </label>
+				</div>
+			</div>
+	
+			<div class="row">
+				<div class="col-md-6">
+	                <span e-rows="7" e-cols="40">
+	                   <pre class="ng-binding">{{article.description}}</pre>
+	                 </span>
+		       </div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel panel-default">
+		<div data-ng-repeat="comment in article.comments" class="media border-bottom margin-none bg-gray">
+			<a href="" class="pull-left innerAll half">
+				<img data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}" width="60" class="media-object">
+			</a>
+			<div class="media-body innerTB">
+				<a href="#" class="pull-right innerT innerR text-muted">
+					<i class="icon-reply-all-fill fa fa-2x "></i>
+				</a>
+				<a href="" class="strong text-inverse">{{comment.on}}</a>  <small class="text-muted ">wrote on {{comment.cd | date: 'dd MMM, yyyy'}}</small>
+				<div>- {{comment.d}}</div>
+	
+			</div>
+		</div>
+	
+		<input type="text" class="form-control" placeholder="Comment here..." data-ng-model="commentText">
+		<button type="button" class="btn btn-warning btn-xs" data-ng-click="comment_on_post(post.id, commentText)">comment</button>
+	</div>
+	
+	
+	
+</div>   
+	

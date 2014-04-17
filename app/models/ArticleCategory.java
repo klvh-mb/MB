@@ -19,7 +19,7 @@ import play.db.jpa.JPA;
  * No UI Crud operation for this model. this Model will be populated by Admin directly in DB.
  */
 @Entity
-public class ArticleCategory {
+public class ArticleCategory extends domain.Entity {
 
 	private static String CATEGORY_PATH = Play.application().configuration().getString("storage.categoty.path");
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,6 +31,14 @@ public class ArticleCategory {
 	public String description;
 	
 	public String pictureName;
+	
+	public ArticleCategory(){}
+	
+	public ArticleCategory( String name, String description, String pictureName){
+		this.name = name;
+		this.description = description;
+		this.pictureName = pictureName;
+	}
 	
 	// TODO: Add more Attributes when required. 
 	

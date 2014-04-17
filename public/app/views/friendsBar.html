@@ -1,20 +1,17 @@
-	<div class="widget bar-shadow-border">
-		<div class="widget-head border-bottom bg-gray">
-			<h5 class="pull-left margin-none innerAll">Friends <span class="text-muted">({{result.sn}})</span></h5>
-			<div class="pull-right">
-				<a href="/#/friends" class="text-muted">
-					<label>See All>></label>
-				</a>
-			</div>
-		</div>
 
-		<div class="widget-body margin-none">
-			<div class="innerAll">
-				<a href="#" ng-repeat="fvm in result.fvm">
-					<img data-toggle="tooltip" data-placement="top" data-tooltip="{{fvm.dn}}"  data-ng-src="/get-mini-image-by-id/{{fvm.id}}" alt="{{fvm.dn}}" 
-					class="innerR innerB half widget-img-mini" 
-					>
+	
+	<div id="friends" class="general-box">
+         <div class="con-title">
+             <span class="icon-box icon-box-purpleLight icon-title-friends"></span>Friends <span class="text-muted">({{result.sn}})</span>
+             <div class="pull-right">
+				<a href="/#/friends" class="text-muted">
+					<i class="fa fa-2x fa-th-large"></i>
 				</a>
 			</div>
-		</div>
-	</div>
+         </div>
+         <div class="photo-wrapper-B">
+             <a href="#" ng-repeat="fvm in result.fvm">
+                <span class="mask-100percent-height"></span><img style="margin-top: 1%;" data-toggle="tooltip" data-placement="top"  data-ng-src="/get-thumbnail-image-by-id/{{fvm.id}}" alt="{{fvm.dn}}" data-tooltip="{{fvm.dn}}"  width="75" height="65">
+              </a>
+         </div>
+    </div>
