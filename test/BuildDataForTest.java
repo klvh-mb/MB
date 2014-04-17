@@ -134,11 +134,6 @@ public class BuildDataForTest {
 				});
 			}
 		});
-		Assert.assertEquals(1, 1);
-	}
-	
-	@Test
-	public void createArticle() {
 		running(fakeApplication(), new Runnable() {
 			@Override
 			public void run() {
