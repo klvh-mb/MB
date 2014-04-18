@@ -57,6 +57,11 @@ public class CommunityController extends Controller{
 		}
 		
 		CommunitiesParentVM fwVM = new CommunitiesParentVM(localUser.getListOfNotJoinedCommunities().size(), communityList);
+		if(localUser.getListOfNotJoinedCommunities().size() < 3){
+			fwVM.isMore = true;
+		}else{
+			fwVM.isMore = false;
+		}
 		return ok(Json.toJson(fwVM));
 	}
 	
@@ -182,6 +187,11 @@ public class CommunityController extends Controller{
 			}
 		}
 		CommunitiesParentVM fwVM = new CommunitiesParentVM(localUser.getListOfNotJoinedCommunities().size(), communityList);
+		if(count < 3){
+			fwVM.isMore = true;
+		}else {
+			fwVM.isMore = false;
+		}
 		return ok(Json.toJson(fwVM));
 	}
 	

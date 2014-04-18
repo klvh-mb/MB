@@ -4,65 +4,64 @@
 </header>
 
 
-<div class="col-md-3">
+<div class="col-md-1">
 
 </div>
-<div class="col-md-6">
+<div class="col-md-10">
 	<div class="panel panel-default">
 		<div class="row tm" >
-	       	<div class="col-md-4">
-	        	<div class="pull-right">
-	         		<label>Title: </label>
-	           </div>
-	        </div>
-	            		
+	       	<div class="col-md-1"></div>        		
 	        <div class="row">
 	           	<div class="col-md-6">
-	        	   	{{article.name}}
+	        	   <h2>	{{article.name}}</h2>
 	           	</div>
 	     	</div>
 		</div>
-		   
+		   <div class="row ">
+	         	<div class="top innerAll">
+					<img style="height: 300px; width:95%"data-ng-src="../assets/app/images/user_image.jpg" class="img-responsive" />
+				</div>
+	         </div>
 	    <div class="row tm" >
-	       	<div class="col-md-4">
-	        	<div class="pull-right">
-	        		<label>Target Age: </label>
-	          	</div>
-	        </div>
-	              		
-	        <div class="row">
-	           	<div class="col-md-6">
-	             	{{article.targetAge}}
-	           	</div>
+	       	<div class="col-md-6">
+		       	<div class="col-md-4">
+		        	<div class="pull-right">
+		        		<label>Target Age: </label>
+		          	</div>
+		        </div>
+		              		
+		        <div class="row">
+		           	<div class="col-md-3">
+		             	{{article.targetAge}}
+		           	</div>
+		       	</div>
 	       	</div>
+	       	
+	       	<div class="col-md-6">
+		       	 <div class="col-md-4">
+		       		<div class="pull-right">
+		         				<label>Category: </label>
+		         	</div>
+		         </div>
+		               		
+		         <div class="row">
+		          	<div class="col-md-6">
+		          		<div class="col-md-2"> 	<img class="pull-left media-object" data-ng-src="{{article.category.pictureName}}" alt="50x50" width="25" ></div>
+		          		<div class="col-md-8">  {{article.category.name}} </div>
+		          	</div>
+		    	</div>
+	    	</div>
 	   </div>
 		   
 	   <div class="row tm">
-	        <div class="col-md-4">
-	       		<div class="pull-right">
-	         				<label>Category: </label>
-	         	</div>
-	         </div>
-	               		
-	         <div class="row">
-	          	<div class="col-md-6">
-	          		<div class="col-md-2"> 	<img class="pull-left media-object" data-ng-src="{{article.category.pictureName}}" alt="50x50" width="25" ></div>
-	          		<div class="col-md-8">  {{article.category.name}} </div>
-	          	</div>
-	    	</div>
+	       
 	    </div>
 		    
-	    <div class="row tm" >
-			<div class="col-md-4">
-				<div class="pull-right">
-					<label>Description: </label>
-				</div>
-			</div>
-	
+	    <div class="row tm innerAll" >
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-12 ">
 	                <span e-rows="7" e-cols="40">
-	                   <pre class="ng-binding">{{article.description}}</pre>
+	                   <pre class="ng-binding" ng-bind-html="article.description"></pre>
 	                 </span>
 		       </div>
 			</div>
@@ -70,6 +69,8 @@
 	</div>
 	
 	<div class="panel panel-default">
+		<div class="row tm innerAll"><h4>  Leave a Reply</h4></div>
+		
 		<div data-ng-repeat="comment in article.comments" class="media border-bottom margin-none bg-gray">
 			<a href="" class="pull-left innerAll half">
 				<img data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}" width="60" class="media-object">

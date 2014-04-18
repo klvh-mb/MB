@@ -1,7 +1,7 @@
 <html>
 <body>
 <form method="post" ng-submit="submit()">
-<table class="table" style="width: 50%;margin-left: 15%;">
+<table class="table" style="width: 60%;margin-left: 15%;">
 	<tr>
 			<td>
 		 		<label> Title	: </label>
@@ -23,7 +23,7 @@
 		 		<label> Target Age	: </label>
 		 	</td>
 		 	<td>
-		 		<input type="text" class="form-control ng-pristine ng-invalid ng-invalid-required" placeholder="Enter Age" data-ng-model="formData.targetAge" >
+		 		<select class="form-control" data-ng-model="formData.targetAge" data-ng-options="range for range in targetAge"></select>
 			</td>
 	</tr>
 	<tr>
@@ -62,15 +62,22 @@
 			</td>
 	</tr>
 </table>
-		<div style="width: 50%;margin-left: 15%;">
-			<textarea data-ui-tinymce='tinymceOptions' data-ng-model="formData.description" style="width: 100%; height: 300px;"></textarea>
+		<div style="margin-left: 15%;width: 60%">
+			<textarea data-ui-tinymce='tinymceOptions' data-ng-model="formData.description" ></textarea>
 		</div>
-		<div style="margin-top: 4%;margin-left: 59%;">
+		<div style="margin-top: 4%;margin-left: 69%;">
 		<button type="submit" class="btn btn-primary ng-binding">
 				<span class="glyphicon glyphicon-ok" ></span>
-				Save
+				{{submitBtn}}
 		</button>
 		</div>
 </form>		
 </body>		
+<style>
+
+.mce-panel{
+	width: 100% !important;
+}
+
+</style>
 </html>		

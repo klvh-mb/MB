@@ -1229,15 +1229,22 @@ minibean.controller('CreateQnACommunityController',function($scope,allAnswersSer
 
 
 ///////////////////////// Community QnA Page End ////////////////////////////////
-minibean.controller('CreateArticleController',function($scope,$http, articleCategoryService){
+minibean.controller('CreateArticleController',function($scope,$http,usSpinnerService, articleCategoryService){
 	$scope.article;
+	$scope.submitBtn = "Save";
+	
+	var range = [];
+	for(var i=0;i<100;i++) {
+		  range.push(i);
+	}
+	$scope.targetAge = range;
 	//Refer to http://www.tinymce.com/
 	$scope.tinymceOptions = {
 			selector: "textarea",
 		    plugins: [
-		        "advlist autolink lists link image charmap print preview anchor",
-		        "searchreplace visualblocks code fullscreen",
-		        "insertdatetime media table contextmenu paste"
+						"advlist autolink lists link image charmap print preview anchor",
+						"searchreplace visualblocks code fullscreen",
+						"insertdatetime media table contextmenu paste"
 		    ],
 		    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
 	}
@@ -1252,7 +1259,11 @@ minibean.controller('CreateArticleController',function($scope,$http, articleCate
 		$scope.isChosen = true;
 	}
 	$scope.submit = function() {
-				$http.post('/createArticle', $scope.formData);
+		usSpinnerService.spin('loading...');
+				$http.post('/createArticle', $scope.formData).success(function(data){
+					$scope.submitBtn = "Done";
+					usSpinnerService.stop('loading...');
+				});
 	}
 });
 
@@ -1350,11 +1361,25 @@ minibean.service('ArticleService',function($resource){
 });
 
 
-minibean.controller('EditArticleController',function($scope,$routeParams, ArticleService,articleCategoryService,$http,usSpinnerService){
+minibean.controller('EditArticleController',function($scope,$routeParams, usSpinnerService, ArticleService,articleCategoryService,$http){
 	$scope.submitBtn = "Save";
+	var range = [];
+	for(var i=0;i<100;i++) {
+		  range.push(i);
+	}
+	$scope.targetAge = range;
 	$scope.article = ArticleService.ArticleInfo.get({id:$routeParams.id});
 	$scope.articleCategorys = articleCategoryService.getAllArticleCategory.get();
-	
+	$scope.open = function (id) {
+	    var modalInstance = $modal.open({
+	      templateUrl: 'myModalContent.html',
+	    });
+	    var msg = getDescriptionService.GetDescription.get({id:id}	, function(data) {
+	    	console.log(data.description);
+	    	$('.modal-body').html(data.description);
+	    });
+	    
+	  };
 	
 	$scope.tinymceOptions = {
 			selector: "textarea",

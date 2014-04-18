@@ -4,28 +4,16 @@
 		<div ng-onmouseover="suspendAutoPlayTab(); clickTab(this, 1);" ng-mouseleave="startAutoPlayTab();" class="pointer rel_pos or_vslider_sep round_corners_tr o21_vtab or_vslider_tab_h62 v_align_middle or_vslider_tab1" data-ng-repeat="article in resultSlidder.la" style="padding-top: 12px;">
 		<a ng-href="/#/article/id/{{article.id}}">
 		<div class="row" >
-          	<div class="col-md-6">
-           		<div class="pull-right">
-             				<label>Title: </label>
-             	</div>
-             </div>
-               		
              <div class="row">
-              	<div class="col-md-6">
+              	<div style="text-align: center;">
               	{{article.nm}}
               	</div>
         	</div>
 	   </div>
 	   <div class="row">
-	            <div class="col-md-5">
-	           		<div class="pull-right">
-	             				<label>Category: </label>
-	             	</div>
-	             </div>
-	               		
 	             <div class="row">
-	              	<div class="col-md-6">
-	              		<div class="col-md-4"> 	<img class="pull-left media-object" data-ng-src="{{article.ct.pictureName}}" alt="50x50" width="25" ></div>
+	              	<div style="text-align: center;">
+	              		<div class="col-md-4"> 	<img class="pull-right media-object" data-ng-src="{{article.ct.pictureName}}" alt="50x50" width="25" ></div>
 	              		<div class="col-md-8">  {{article.ct.name}} </div>
 	              	</div>
 	        	</div>
@@ -40,28 +28,16 @@
 		<div class="round_corners_tr o21_vtab or_vslider_tab_h62 v_align_middle or_vslider_tab1" data-ng-repeat="article in resultSlidder.ra" style="padding-top: 12px;">
 		<a ng-href="/#/article/id/{{article.id}}">
 			<div class="row" >
-	          	<div class="col-md-6">
-	           		<div class="pull-right">
-	             				<label>Title: </label>
-	             	</div>
-	             </div>
-	               		
 	             <div class="row">
-	              	<div class="col-md-6">
+	              	<div style="text-align: center;">
 	              	{{article.nm}}
 	              	</div>
 	        	</div>
 		   </div>
 	  		<div class="row">
-	            <div class="col-md-5">
-	           		<div class="pull-right">
-	             				<label>Category: </label>
-	             	</div>
-	             </div>
-	               		
 	             <div class="row">
-	              	<div class="col-md-6">
-	              		<div class="col-md-4"> 	<img class="pull-left media-object" data-ng-src="{{article.ct.pictureName}}" alt="50x50" width="25" ></div>
+	              	<div style="text-align: center;">
+	              		<div class="col-md-4"> 	<img class="pull-right media-object" data-ng-src="{{article.ct.pictureName}}" alt="50x50" width="25" ></div>
 	              		<div class="col-md-8">  {{article.ct.name}} </div>
 	              	</div>
 	        	</div>

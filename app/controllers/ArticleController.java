@@ -17,7 +17,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import viewmodel.ArticleCategoryVM;
 import viewmodel.ArticleVM;
-import viewmodel.SlidderfArticleVM;
+import viewmodel.SlidderArticleVM;
 
 public class ArticleController extends Controller {
 
@@ -96,7 +96,7 @@ public class ArticleController extends Controller {
 			}
 			i++;
 		}
-		SlidderfArticleVM articleVM = new SlidderfArticleVM(leftArticles, rightArticles);
+		SlidderArticleVM articleVM = new SlidderArticleVM(leftArticles, rightArticles);
 		return ok(Json.toJson(articleVM));
 	}
 	

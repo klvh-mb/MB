@@ -20,7 +20,7 @@
 							</div>
 						</div>
 					</a>
-					<div style="text-align: center;width: 100%; float: left; background-color: rgb(245, 245, 245);"><a data-ng-show="!noMoreResult" data-ng-click="nextMyGroups()"  ><span style="color: cornflowerblue;font-size: smaller;">See More</span></a></div>
+					<div style="text-align: center;width: 100%; float: left; background-color: rgb(245, 245, 245);"data-ng-show="!result.isMore"><a data-ng-show="!result.isMore | !noMoreResult" data-ng-click="nextMyGroups()"  ><span style="color: cornflowerblue;font-size: smaller;">See More</span></a></div>
                 </div>
             </div>
 
