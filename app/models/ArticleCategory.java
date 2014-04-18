@@ -14,12 +14,13 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.Play;
 import play.db.jpa.JPA;
+import play.db.jpa.Transactional;
 
 /*
  * No UI Crud operation for this model. this Model will be populated by Admin directly in DB.
  */
 @Entity
-public class ArticleCategory extends domain.Entity {
+public class ArticleCategory  {
 
 	private static String CATEGORY_PATH = Play.application().configuration().getString("storage.categoty.path");
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,7 +41,29 @@ public class ArticleCategory extends domain.Entity {
 		this.pictureName = pictureName;
 	}
 	
-	// TODO: Add more Attributes when required. 
+	  @Transactional
+	  public void save() {
+		  JPA.em().persist(this);
+		  JPA.em().flush();
+		  
+	  }
+	  
+	  @Transactional
+	  public void delete() {
+		  JPA.em().remove(this);
+		  
+	  }
+	  
+	  @Transactional
+	  public void merge() {
+		  JPA.em().merge(this);
+		  
+	  }
+	  @Transactional
+	  public void refresh() {
+		  JPA.em().refresh(this);
+		  
+	  }
 	
 	@JsonIgnore
 	public File getPicture() {
