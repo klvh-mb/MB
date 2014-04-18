@@ -82,7 +82,7 @@
 							  </ul>
                			   </div>
                					 
-               				<div ng-show="!community.isO && !community.isSearch" class="col-lg-4 col-md-4">
+               				<div ng-show="!community.isO" class="col-lg-4 col-md-4">
 							    <div ng-show="community.isM == true" class="pull-right border-right">
 			   						<button class="btn btn-primary" style="background: #0099FF;" data-ng-click="leave_community(community.i)"><i class="fa fa-thumbs-down"></i> Leave</button>
 			   					</div>
@@ -106,17 +106,7 @@
               					</button>
                				</div>              
                				 				
-               				<!-- To show search box -->
-               				<div class="col-lg-5 col-md-5" ng-show="community.isSearch" data-ng-init="community.isSearch=false">
-								<div class="col-lg-9 col-md-8">
-									<input type="text" class="form-control" placeholder="Search in Moment" data-ng-model="highlightQuery">								
-								</div>
-								<div class="col-lg-3 col-md-3" >
-									<button type="button" data-ng-show="highlightQuery.length > 2" class="btn btn-success btn-sm" data-ng-click="search_and_highlight(community.i, highlightQuery)">search it!</button>								
-								</div>
-               				</div>
-							  
-						<div class="col-lg-11 col-md-11 row tm">
+						<div class="col-lg-11 col-md-11 row tm" style="margin-left: 1%;">
 							  <div class="tab-content" ng-show="selectedTab == 1">
 							  	<div data-ng-include style="height: 100px;" data-src="'/assets/app/views/news-feed-section.html'"></div>
 							  </div>

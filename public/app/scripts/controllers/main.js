@@ -112,7 +112,7 @@ minibean.controller('UserInfoServiceController',function($scope,userInfoService)
 	  
 });
 
-minibean.controller('ApplicationController',function($scope, userInfoService, userNotification, userSimpleNotifications,
+minibean.controller('ApplicationController',function($scope,$location, userInfoService, userNotification, userSimpleNotifications,
 	acceptJoinRequestService, acceptFriendRequestService, usSpinnerService){
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.friend_requests = userNotification.getAllFriendRequests.get();
@@ -191,6 +191,18 @@ minibean.controller('ApplicationController',function($scope, userInfoService, us
 	$scope.reset_notify_count = function() {
 		$scope.isNOreaded = false;
 	}
+	
+	$scope.$on('$locationChangeSuccess', function() {
+		if($location.path()=='/about') {
+			$scope.selectedTab = 1;
+		}
+		else if($location.path()=='/friends') {
+			$scope.selectedTab = 2;
+		}
+		else if($location.path()=='/messages') {
+			$scope.selectedTab = 3;
+		}
+	});
 });
 
 ///////////////////////// User Info Service End //////////////////////////////////
@@ -833,7 +845,7 @@ minibean.service('searchMembersService',function($resource){
 
 minibean.controller('CommunityPageController', function($scope, $routeParams, $http, searchMembersService, iconsService,
 		allCommentsService, communityPageService, communityJoinService, $upload, $timeout, usSpinnerService){
-	
+	$scope.highlightQuery = "";
 	$scope.$on('$viewContentLoaded', function() {
 		usSpinnerService.spin('loading...');
 	});
@@ -842,7 +854,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id}, function(){
 		usSpinnerService.stop('loading...');
 	});
-	
+	$scope.selectedTab =1;
 	$scope.highlightText="";
 	$scope.search_and_highlight = function(community_id, query) {
 		$scope.community.posts=[];

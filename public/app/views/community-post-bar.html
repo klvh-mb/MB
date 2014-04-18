@@ -1,4 +1,19 @@
-<input type="text" class="form-control" placeholder="Share your mood" data-ng-model="postText">
+<div class="col-lg-12 col-md-12" ng-show="community.isSearch" data-ng-init="community.isSearch=false">
+	<div class="input-group" style="margin-bottom: 1%; margin-top: 1%;">
+		<input type="text" class="form-control" placeholder="Search in Moment" data-ng-model="highlightQuery">
+		
+		<span class="input-group-btn">
+        	<button class="btn btn-default" type="button" data-ng-show="highlightQuery.length==0" data-ng-click="community.isSearch=false">search it!</button>
+        	<button class="btn btn-default" type="button" data-ng-show="highlightQuery.length>0" data-ng-click="search_and_highlight(community.i, highlightQuery)">search it!</button>
+      	</span>								
+	</div>
+</div>
+
+<div class="col-lg-12 col-md-12" style="margin-bottom: 1%; margin-top: 1%;">
+	<div class="row_tm">
+		<input type="text" class="form-control" placeholder="Share your mood" data-ng-model="postText">
+	</div>
+</div>
 
 <div style="background-color: white;" ng-show="selectedFiles != null">
 	<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
@@ -6,13 +21,13 @@
 			ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
 </div>
 <div>
-	<i data-ng-show="selectedFiles.length < 3" data-ng-click="postPhoto()"  style="color: cadetblue;" class="fa fa-camera"></i>
+	<i data-ng-show="selectedFiles.length < 3" data-ng-click="postPhoto()"  style="color: cadetblue;margin-left: 2%;" class="fa fa-camera"></i>
 	<button  data-ng-show="postText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.i, postText)">post it!</button>
 	
 	<input style="visibility: hidden;" id="post-photo-id" type="file"  name="post-photo" ng-file-select="onFileSelect($files)"/>
 </div>
 
-<div infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>	
+<div infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1' style="margin-left: 1%;">	
 <div class="widget" data-ng-repeat="post in community.posts">
 	<div class="bg-primary" style="background: #0099FF !important;">
 		<div class="media">
