@@ -134,5 +134,7 @@ GET		/inviteToCommunity/:group_id/:user_id   controllers.CommunityController.sen
 GET		/get-next-unknown-communities/:offset	controllers.CommunityController.getUnknownCommunities(offset:Integer)
 GET		/get-my-next-communities/:offset		controllers.CommunityController.getMyNextCommunities(offset:Integer)
 
+GET		/get-my-updates/:timestamp				controllers.CommunityController.getMyUpdates(timestamp:Long)
+GET		/get-my-live-updates/:timestamp			controllers.CommunityController.getMyLiveUpdates(timestamp:Long)
 # indexing with elasic search
 GET		/searchForPosts/index/:query/:community_id	controllers.Application.searchForPosts(query: String, community_id: Long)

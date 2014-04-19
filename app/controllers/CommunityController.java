@@ -36,6 +36,7 @@ import viewmodel.CommunityVM;
 import viewmodel.IconVM;
 import viewmodel.MemberWidgetParentVM;
 import viewmodel.MembersWidgetChildVM;
+import viewmodel.NewsFeedVM;
 import viewmodel.QnAPostsVM;
 import viewmodel.SocialObjectVM;
 
@@ -535,6 +536,34 @@ public class CommunityController extends Controller{
 			communityVM.add(comVM);
 		}
 		return ok(Json.toJson(communityVM));
+	}
+	
+	@Transactional
+	public static Result getMyUpdates(Long timestamps){
+		final User localUser = Application.getLocalUser(session());
+		
+		List<CommunityPostVM> posts = new ArrayList<>();
+		for(Post p :localUser.getMyUpdates(timestamps)) {
+			CommunityPostVM post = CommunityPostVM.communityPostVM(p);
+			posts.add(post);
+		}
+		NewsFeedVM vm = new NewsFeedVM(localUser, posts);
+		return ok(Json.toJson(vm));
+	}
+	
+	@Transactional
+	public static Result getMyLiveUpdates(Long timestamps){
+		final User localUser = Application.getLocalUser(session());
+		
+		List<CommunityPostVM> posts = new ArrayList<>();
+		for(Post p :localUser.getMyLiveUpdates(timestamps)) {
+			CommunityPostVM post = CommunityPostVM.communityPostVM(p);
+			posts.add(post);
+		}
+		
+		NewsFeedVM vm = new NewsFeedVM(localUser, posts);
+		
+		return ok(Json.toJson(vm));
 	}
 }
 

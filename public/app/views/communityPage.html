@@ -61,6 +61,15 @@
        	    		 	<div class="row tm">
        	    		 	<div  class="row strong" style="margin-left: 7px;">	
 							<h2 class="margin-none" style="float : left; margin-left: 5px;">{{community.n}}</h2>
+							
+							<span ng-show="community.typ=='OPEN'">
+								<i class="fa fa-fw icon-unlock-fill"></i>
+							</span>
+							
+							<span ng-show="community.typ=='CLOSE'">
+								<i class="fa fa-fw icon-lock-fill"></i>
+							</span>
+							
 							<div ng-show="community.isO" class="pull-right" style="float: left;">
 								<div class="pull-right">
 									<a data-ng-href="#/editCommunity/{{community.i}}" ><i style="color: cadetblue;" class="fa fa-2x fa-edit"></i></a>
@@ -82,16 +91,16 @@
 							  </ul>
                			   </div>
                					 
-               				<div ng-show="!community.isO" class="col-lg-4 col-md-4">
-							    <div ng-show="community.isM == true" class="pull-right border-right">
+               				<div class="col-lg-4 col-md-4">
+							    <div ng-show="!community.isO && community.isM == true" class="pull-right border-right">
 			   						<button class="btn btn-primary" style="background: #0099FF;" data-ng-click="leave_community(community.i)"><i class="fa fa-thumbs-down"></i> Leave</button>
 			   					</div>
 			   					
-			   					<div ng-show="community.isM == false && community.isP == false" class="pull-right border-right">
+			   					<div ng-show="!community.isO && community.isM == false && community.isP == false" class="pull-right border-right">
 			   						<button class="btn btn-primary" style="background: #0099FF;" data-ng-click="send_join(community.i)"><i class="fa fa-user"></i> Join</button>
 			   					</div>
 			   					
-			   					<div ng-show="community.isP == true" class="pull-right border-right">
+			   					<div ng-show="!community.isO && community.isP == true" class="pull-right border-right">
 			   						<button class="btn btn-primary" style="background: #0099FF;" disabled="disabled" ><i class="fa fa-user"></i> Pending</button>
 			   					</div>
 			   					
@@ -213,27 +222,27 @@
                 	
                 		<div class="col-md-8">
                 			<li class="col-md-12 dropdown">
-                 			<div class="form-control dropdown-toggle">
-                 				<img class="pull-left media-object" data-ng-src={{icon_chosen}} width="25">
-                 				<div class="media-body">
-						       		<p class="margin-none pull-right">{{icon_text}}</p>
-						    	</div>
-	   							<div data-ng-if="!isChosen" data-ng-init="isChosen=false">
-	   								Please select icon
-	   							</div>
- 							</div>
-                  		<ul class="dropdown-menu chat media-list" style="left:2%; width: 96%;">
-							<li class="media" data-ng-repeat="icon in IconsToSelects" style="margin-top: 1%;">
-						        <a href="" data-ng-click="select_icon(icon.url, icon.name)">
-						        	<img class="pull-left media-object" data-ng-src="{{icon.url}}" alt="50x50" width="25" >
-						        	<input type="hidden" data-ng-model="formData.iconName" >
-									<div class="media-body">
-						            	<p class="margin-none pull-right">{{icon.name}}</p>
-						        	</div>							        	
-						        </a>
-							</li>
-				      	</ul>
-				      </li>
+	                 			<div class="form-control dropdown-toggle">
+	                 				<img class="pull-left media-object" data-ng-src={{icon_chosen}} width="25">
+	                 				<div class="media-body">
+							       		<p class="margin-none pull-right">{{icon_text}}</p>
+							    	</div>
+		   							<div data-ng-if="!isChosen" data-ng-init="isChosen=false">
+		   								Please select icon
+		   							</div>
+	 							</div>
+		                  		<ul class="dropdown-menu chat media-list" style="left:2%; width: 96%;">
+									<li class="media" data-ng-repeat="icon in IconsToSelects" style="margin-top: 1%;">
+								        <a href="" data-ng-click="select_icon(icon.url, icon.name)">
+								        	<img class="pull-left media-object" data-ng-src="{{icon.url}}" alt="50x50" width="25" >
+								        	<input type="hidden" data-ng-model="formData.iconName" >
+											<div class="media-body">
+								            	<p class="margin-none pull-right">{{icon.name}}</p>
+								        	</div>							        	
+								        </a>
+									</li>
+						      	</ul>
+					      </li>
                 		</div>
                 	</div>
              </div>

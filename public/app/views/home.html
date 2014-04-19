@@ -63,8 +63,9 @@
 			            <div id="slider" class="general-box" >
 			                <div  ng-controller="ShowArticleController" data-ng-include style="width: 100%;" data-src="'/assets/app/views/postWallMessageBar.html'"></div>
 			            </div><!--Slider End -->
-			            <div id="wall" class="general-box">
-			                
+			            <div id="wall" class="general-box" style="height: auto !important;">
+			                <div data-ng-controller="NewsFeedController" data-ng-include style="width: 100%;"
+			                	 data-src="'/assets/app/views/home-news-feed-section.html'"></div>
 			            </div><!--Wall End -->
 			        </div>
 			        

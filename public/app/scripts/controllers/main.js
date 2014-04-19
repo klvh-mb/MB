@@ -1428,6 +1428,68 @@ minibean.controller('EditArticleController',function($scope,$routeParams, usSpin
 	
 });
 
+minibean.service('newsFeedService',function($resource){
+	this.getMyUpdates = $resource(
+			'/get-my-updates/:timestamp',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'GET', params:{timestamp:'@timestamp'}}
+			}
+	);
+	
+	this.getMyLiveUpdates = $resource(
+			'/get-my-live-updates/:timestamp',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'GET', params:{timestamp:'@timestamp'}}
+			}
+	);
+});
+
+minibean.controller('NewsFeedController', function($scope, $interval, $http, allCommentsService, usSpinnerService, newsFeedService) {
+	$scope.newsFeeds = [];
+	var timestamp = moment().unix();
+	$scope.newsFeeds = newsFeedService.getMyUpdates.get({timestamp : timestamp});
+	
+	$interval(function() {
+		var timestamp = moment().unix();
+		newsFeedService.getMyLiveUpdates.get({timestamp : timestamp}, function(result) {
+			angular.forEach(result.posts, function(post, key){
+				$scope.newsFeeds.posts.splice(key, 0, post);
+			});
+		});
+	}, 60*1000);
+	
+	$scope.comment_on_post = function(id, commentText) {
+		var data = {
+			"post_id" : id,
+			"commentText" : commentText
+		};
+		usSpinnerService.spin('loading...');
+		$http.post('/community/post/comment', data) 
+			.success(function(post_id) {
+				angular.forEach($scope.newsFeeds.posts, function(post, key){
+					if(post.id == post_id) {
+						post.n_c++;
+						var comment = {"oid" : $scope.newsFeeds.lu, "d" : commentText, "on" : $scope.newsFeeds.lun, 
+								"cd" : new Date(), "n_c" : post.n_c};
+					post.cs.push(comment);
+				}
+				usSpinnerService.stop('loading...');	
+			});
+		});
+	};
+	
+	$scope.get_all_comments = function(id) {
+		
+		angular.forEach($scope.newsFeeds.posts, function(post, key){
+			if(post.id == id) {
+				post.cs = allCommentsService.comments.get({id:id});
+			}
+		});
+	}
+});
+
 	  
 
 
