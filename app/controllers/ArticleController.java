@@ -1,14 +1,22 @@
 package controllers;
 
+import static play.data.Form.form;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mnt.exception.SocialObjectNotCommentableException;
+
+import domain.CommentType;
+
 import models.Article;
 import models.ArticleCategory;
 import models.Community;
+import models.Post;
+import models.User;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -101,6 +109,26 @@ public class ArticleController extends Controller {
 	}
 	
 	@Transactional
+	public static Result commentOnArticle() {
+		final User localUser = Application.getLocalUser(session());
+		DynamicForm form = form().bindFromRequest();
+		
+		Long postId = Long.parseLong(form.get("article_id"));
+		String commentText = form.get("commentText");
+		
+		Article p = Article.findById(postId);
+		
+		try {
+			//NOTE: Currently commentType is hardcoded to SIMPLE
+			p.onComment(localUser, commentText, CommentType.SIMPLE);
+		} catch (SocialObjectNotCommentableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ok(Json.toJson(p.id));
+	}
+	
+	@Transactional
 	public static Result getDescriptionOdArticle(Long art_id) {
 		Article article = Article.findById(art_id);
 		Map<String, String> description = new HashMap<>();
@@ -117,6 +145,7 @@ public class ArticleController extends Controller {
 	@Transactional
 	public static Result infoArticle(Long art_id) {
 		Article article = Article.findById(art_id);
-		return ok(Json.toJson(article));
+		ArticleVM vm = new ArticleVM(article);
+		return ok(Json.toJson(vm));
 	}
 }

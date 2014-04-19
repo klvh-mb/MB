@@ -1405,6 +1405,27 @@ minibean.controller('EditArticleController',function($scope,$routeParams, usSpin
 			usSpinnerService.stop('loading...');
 		});
 	}
+	
+	$scope.comment_on_article = function(id, commentText) {
+		var data = {
+			"article_id" : id,
+			"commentText" : commentText
+		};
+		usSpinnerService.spin('loading...');
+		$http.post('/article/comment', data) 
+			.success(function(article_id) {
+				angular.forEach($scope.article, function(article, key){
+					if(article.id == article_id) {
+						article.n_c++;
+						var comment = {"oid" : $scope.community.lu, "d" : commentText, "on" : $scope.community.lun, 
+							"cd" : new Date(), "n_c" : post.n_c};
+					post.cs.push(comment);
+				}
+				usSpinnerService.stop('loading...');	
+			});
+		});
+	};
+	
 });
 
 	  

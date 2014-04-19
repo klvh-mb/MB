@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="../assets/app/custom-css/spriteDemo.css">
 <div class="col-lg-12 col-md-12 col-sd-12" style="padding: 0 0px;" >
-	<div class="col-lg-4 col-md-4 col-sd-4" style="padding: 0 0px;"  >
+	<!-- <div class="col-lg-4 col-md-4 col-sd-4" style="padding: 0 0px;"  >
 		<div ng-onmouseover="suspendAutoPlayTab(); clickTab(this, 1);" ng-mouseleave="startAutoPlayTab();" class="pointer rel_pos or_vslider_sep round_corners_tr o21_vtab or_vslider_tab_h62 v_align_middle or_vslider_tab1" data-ng-repeat="article in resultSlidder.la" style="padding-top: 12px;">
 		<a ng-href="/#/article/id/{{article.id}}">
 		<div class="row" >
@@ -44,6 +44,35 @@
 	         </div>
 	    </a>
 	</div>
+</div> -->
+
+		<div id="slider" class="general-box">
+     <ul class="slider-menu">
+         <li  data-ng-repeat="article in resultSlidder.la">
+	         <a href="/#/article/id/{{article.id}}">
+		         <p>
+		         	<font>
+		         		<font style="text-align: center;">{{article.nm}} <img class="media-object pull-right" data-ng-src="{{article.ct.pictureName}}" alt="50x50" width="25" ></font><br>
+		         		<font style="text-align: center;" class="pull-left">
+		         			{{article.ct.name}}
+		         		</font>
+		         	</font>
+		         	<img class="slider-arrow-left" src="../assets/app/images/general/sliderArrow_right.png">
+	         	</p>
+         	</a>
+        </li>
+     </ul>
+     <div class="slider-photo"><a href="#"><span class="mask-blue"><p class="slider-title"><strong><font><font>Insist on pursuing a dream come true taste tasting</font></font></strong><font><font> Vicky has the well-paid job in New York, but for the ideals, decided to go to the famous Cordon Bleu College Le Cordon Bleu attending desserts and dishes highest diploma.</font></font></p></span><img src="../assets/app/images/home/photo_slider.jpg"></a></div>
+     <ul class="slider-menu">
+         <li  data-ng-repeat="article in resultSlidder.ra"><a href="/#/article/id/{{article.id}}"><p>
+         <font>
+		         		<font style="text-align: center;">{{article.nm}} <img class="media-object pull-right" data-ng-src="{{article.ct.pictureName}}" alt="50x50" width="25" ></font><br>
+		         		<font style="text-align: center;" class="pull-left">
+		         			{{article.ct.name}}
+		         		</font>
+		         	</font>
+         <img class="slider-arrow-right" src="../assets/app/images/general/sliderArrow_left.png"></p></a></li>
+     </ul>
 </div>
 </div>
 

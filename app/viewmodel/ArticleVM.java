@@ -1,6 +1,7 @@
 package viewmodel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import models.Article;
@@ -16,7 +17,10 @@ public class ArticleVM {
 	@JsonProperty("frd") public Boolean isFeatured;	
 	@JsonProperty("ct") public ArticleCategory category;
 	@JsonProperty("n_c") public int noOfComments;
+	@JsonProperty("ta") public int targetAge;
 	@JsonProperty("cs") public List<CommunityPostCommentVM> comments;
+	@JsonProperty("pd") public Date publishedDate;
+	
 	
 	public ArticleVM(Article article) {
 		this.category = article.category;
@@ -24,7 +28,9 @@ public class ArticleVM {
 		this.id = article.id;
 		this.isFeatured = article.isFeatured;
 		this.description = article.description;
+		this.targetAge = article.targetAge;
 		this.noOfComments = article.getCommentsOfPost().size();
+		this.publishedDate = article.publishedDate;
 
 		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
 		int i = 0;

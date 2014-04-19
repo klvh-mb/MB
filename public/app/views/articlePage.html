@@ -13,15 +13,10 @@
 	       	<div class="col-md-1"></div>        		
 	        <div class="row">
 	           	<div class="col-md-6">
-	        	   <h2>	{{article.name}}</h2>
+	        	   <h2>	{{article.nm}}</h2>
 	           	</div>
 	     	</div>
 		</div>
-		   <div class="row ">
-	         	<div class="top innerAll">
-					<img style="height: 300px; width:95%"data-ng-src="../assets/app/images/user_image.jpg" class="img-responsive" />
-				</div>
-	         </div>
 	    <div class="row tm" >
 	       	<div class="col-md-6">
 		       	<div class="col-md-4">
@@ -32,7 +27,7 @@
 		              		
 		        <div class="row">
 		           	<div class="col-md-3">
-		             	{{article.targetAge}}
+		             	{{article.ta}}
 		           	</div>
 		       	</div>
 	       	</div>
@@ -46,23 +41,22 @@
 		               		
 		         <div class="row">
 		          	<div class="col-md-6">
-		          		<div class="col-md-2"> 	<img class="pull-left media-object" data-ng-src="{{article.category.pictureName}}" alt="50x50" width="25" ></div>
-		          		<div class="col-md-8">  {{article.category.name}} </div>
+		          		<div class="col-md-2"> 	<img class="pull-left media-object" data-ng-src="{{article.ct.pictureName}}" alt="50x50" width="25" ></div>
+		          		<div class="col-md-8">  {{article.ct.name}} </div>
 		          	</div>
 		    	</div>
 	    	</div>
 	   </div>
 		   
-	   <div class="row tm">
-	       
+	   <div class="row tm" style="padding-left: 3%">
+	       <font><font>Posted on </font></font><font type="date">{{article.pd | date: 'MMMM dd, yyyy'}}</font>
 	    </div>
 		    
 	    <div class="row tm innerAll" >
 			<div class="row">
-				<div class="col-md-12 ">
-	                <span e-rows="7" e-cols="40">
-	                   <pre class="ng-binding" ng-bind-html="article.description"></pre>
-	                 </span>
+			<div class="col-md-1 "></div>
+				<div class="col-md-10 ">
+	                   <div style="font-size:16px" class="ng-binding" ng-bind-html="article.ds"></div>
 		       </div>
 			</div>
 		</div>
@@ -71,7 +65,7 @@
 	<div class="panel panel-default">
 		<div class="row tm innerAll"><h4>  Leave a Reply</h4></div>
 		
-		<div data-ng-repeat="comment in article.comments" class="media border-bottom margin-none bg-gray">
+		<div data-ng-repeat="comment in article.cs" class="media border-bottom margin-none bg-gray">
 			<a href="" class="pull-left innerAll half">
 				<img data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}" width="60" class="media-object">
 			</a>
@@ -86,7 +80,7 @@
 		</div>
 	
 		<input type="text" class="form-control" placeholder="Comment here..." data-ng-model="commentText">
-		<button type="button" class="btn btn-warning btn-xs" data-ng-click="comment_on_post(post.id, commentText)">comment</button>
+		<button type="button" class="btn btn-warning btn-xs" data-ng-click="comment_on_article(article.id, commentText)">comment</button>
 	</div>
 	
 	

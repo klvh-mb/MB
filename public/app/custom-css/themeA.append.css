@@ -1,0 +1,92 @@
+#shortcut-wrapper ul
+{
+	display:none;
+}
+#uPicture
+{
+	position:relative;
+	height:100%;
+	padding-left:30%;
+	padding-right:30%;
+	padding-top:10%;
+	padding-bottom:30%;
+	overflow:hidden;
+}
+#uPicture img
+{
+	border-radius:5px;
+	width:95px;
+}
+#uPhoto-wrapper-gradient
+{
+	width:100%;
+	height:100%;
+	background:none;
+}
+#uPhoto-wrapper
+{
+	background:url(../images/home/uPic_BG.jpg) center center no-repeat;
+	background-size:cover;
+	width:100%;
+	height:187px;
+	display:block;
+	margin-bottom:10px;
+	border-radius:8px;
+}
+.menu-text
+{
+	color:white;
+	vertical-align:middle;
+}
+.wall-title a
+{
+	vertical-align:middle;
+}
+.whose-like:after
+{
+	content:" like this";
+}
+.wall-forum-post-time:before
+{
+	content:"asked ";
+}
+.wall-forum-post-time:after
+{
+	content:" hours ago"
+}
+.wall-forum-post-time:after
+{
+	content:" hours ago"
+}
+.wall-forum-post-last-time:before
+{
+	content:"Last replied "
+}
+.wall-forum-post-last-time:after
+{
+	content:" hourse ago"
+}
+.wall-forum-post-checked:before
+{
+	content:"Views: "
+}
+.wall-forum-post-reply:before
+{
+	content:"Replies: "
+}
+.wall-user-actState-from:after
+{
+	content:" asked in "
+}
+.wall-user-actState-share:after
+{
+	content:" Share"
+}
+.wall-user-actState-ask:after
+{
+	content:" "
+}
+
+
+
+

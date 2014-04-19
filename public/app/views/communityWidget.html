@@ -49,10 +49,20 @@
  
  
  
+ <div id="newCommunity" class="general-box">
+                <div class="con-title">
+	                <span class="icon-box icon-box-green icon-title-newcommunity"></span><a href="#"><font><font class="">Suggested Communities</font></font></a>
+	                    <div class="pull-right">
+	                    	<a href="/#/myGroups/groups" class="text-muted"><i class="fa fa-2x fa-th-large"></i></a>
+						</div>
+                </div>
+                <ul class="newCommunity-info">
+                    <li ng-repeat="fvm in result.fvm"><img src="/community-image-by-id/{{fvm.id}}"><p><a href="#/community/{{fvm.id}}"><b><font><font>{{fvm.dn}}</font></font></b></a><br><a class="community-attribute" href="#"><font><font>Closed Community</font></font></a><span class="community-member-counter"><font><font>{{fvm.mm}} members</font></font></span></p><a class="btn-general" href="#"><font><font>Join</font></font></a></li>
+                </ul>
+            </div>
  
  
- 
- 
+ <!-- 
  <div id="newCommunity" class="general-box">
                 <div class="con-title">
                     <span class="icon-box icon-box-green icon-title-newcommunity"></span><a href="#">New Community</a>
@@ -65,4 +75,4 @@
                         <li ng-repeat="fvm in result.fvm"><a data-ng-href="#/community/{{fvm.id}}" ><p class="photo-title-B">{{fvm.dn}}</p><span class="mask-100percent-height"></span><img src="/community-image-by-id/{{fvm.id}}" width="175" height="125"></a></li>
                     </ul>
                 </div>
-            </div>
+            </div> -->

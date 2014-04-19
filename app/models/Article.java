@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +23,7 @@ import com.mnt.exception.SocialObjectNotCommentableException;
 import domain.CommentType;
 import domain.Commentable;
 
+import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
@@ -37,6 +39,9 @@ public class Article extends SocialObject implements Commentable {
 	
 	public Boolean isFeatured;
 	
+	@Formats.DateTime(pattern = "yyyy-MM-dd")
+	public Date publishedDate;
+	
 	public Integer targetAge;
 	
 	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
@@ -51,6 +56,7 @@ public class Article extends SocialObject implements Commentable {
 		this.isFeatured = isFeatured;
 		this.targetAge = targetAge;
 		this.category = category;
+		this.publishedDate = new Date();
 		
 	}
 
@@ -62,14 +68,9 @@ public class Article extends SocialObject implements Commentable {
 		if (comments == null) {
 			comments = new HashSet<Comment>();
 		}
-		if (type == CommentType.ANSWER) {
-			comment.commentType = type;
-			recordAnswerOnCommunityPost(user);
-		}
-		if (type == CommentType.SIMPLE) {
-			comment.commentType = type;
-			recordCommentOnCommunityPost(user);
-		}
+	
+		comment.commentType = type;
+		recordCommentOnArticle(user);
 		comment.save();
 		this.comments.add(comment);
 		JPA.em().merge(this);
@@ -100,7 +101,7 @@ public class Article extends SocialObject implements Commentable {
 	}
 	
 	public static Article findById(Long id) {
-		Query q = JPA.em().createQuery("SELECT u FROM Article u where id = ?1");
+		Query q = JPA.em().createQuery("SELECT a FROM Article a where id = ?1");
 		q.setParameter(1, id);
 		return (Article) q.getSingleResult();
 	}
