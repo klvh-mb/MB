@@ -11,6 +11,8 @@ import models.Resource;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import domain.PostType;
+
 public class CommunityPostVM {
 	@JsonProperty("id") public Long postId;
 	@JsonProperty("oid") public Long ownerId;
@@ -21,6 +23,8 @@ public class CommunityPostVM {
 	@JsonProperty("n_c") public int noOfComments;
 	@JsonProperty("cs") public List<CommunityPostCommentVM> comments;
 	@JsonProperty("imgs") public Long[] images;
+	@JsonProperty("ts") public Long timestamp;
+	@JsonProperty("type") public String postType;
 	
 	public static CommunityPostVM communityPostVM(Post post) {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -32,7 +36,8 @@ public class CommunityPostVM {
 		postVM.postedOn = df.format(post.getCreatedDate());
 		postVM.postedText = post.body;
 		postVM.noOfComments = post.comments.size();
-		
+		postVM.timestamp = post.createdDate.getTime()/1000;
+		postVM.postType = post.postType.name();
 		
 		if(post.folder != null && post.folder.resources != null && !post.folder.resources.isEmpty()) {
 			postVM.hasImage = true;

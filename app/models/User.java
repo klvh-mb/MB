@@ -883,6 +883,8 @@ public class User extends SocialObject implements Subject, Socializable {
 				"from SocialRelation sr where sr.actor=?1 and sr.action = ?2) order by p.createdDate desc");
 		query.setParameter(1, this);
 		query.setParameter(2, SocialRelation.Action.MEMBER);
+		query.setFirstResult(0);
+		query.setMaxResults(5);
 		return (List<Post>)query.getResultList();
 	}
 	
@@ -891,6 +893,16 @@ public class User extends SocialObject implements Subject, Socializable {
 				"from SocialRelation sr where sr.actor=?1 and sr.action = ?2) and "+(timestamp-60)+" < UNIX_TIMESTAMP(p.createdDate) and  "+ timestamp+" > UNIX_TIMESTAMP(p.createdDate) order by p.createdDate desc");
 		query.setParameter(1, this);
 		query.setParameter(2, SocialRelation.Action.MEMBER);
+		query.setMaxResults(5);
+		return (List<Post>)query.getResultList();
+	}
+
+	public List<Post> getMyNextNewsFeeds(Long timestamp) {
+		Query query = JPA.em().createQuery("SELECT p from Post p where p.community in (select sr.target " +
+				"from SocialRelation sr where sr.actor=?1 and sr.action = ?2) and  "+ timestamp+" > UNIX_TIMESTAMP(p.createdDate) order by p.createdDate desc");
+		query.setParameter(1, this);
+		query.setParameter(2, SocialRelation.Action.MEMBER);
+		query.setMaxResults(5);
 		return (List<Post>)query.getResultList();
 	}
 }

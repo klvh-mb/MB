@@ -1444,12 +1444,26 @@ minibean.service('newsFeedService',function($resource){
 				get: {method:'GET', params:{timestamp:'@timestamp'}}
 			}
 	);
+	
+	this.GetNextNewsFeeds = $resource(
+			'/get-next-news-feeds/:timestamp',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'GET', params:{timestamp:'@timestamp'}, isArray:true}
+			}
+	);
 });
 
 minibean.controller('NewsFeedController', function($scope, $interval, $http, allCommentsService, usSpinnerService, newsFeedService) {
 	$scope.newsFeeds = [];
 	var timestamp = moment().unix();
-	$scope.newsFeeds = newsFeedService.getMyUpdates.get({timestamp : timestamp});
+	$scope.newsFeeds = newsFeedService.getMyUpdates.get({timestamp : timestamp}, function(vm) {
+		var posts = vm.posts;
+		var lastIndex = posts.length -1;
+		if(posts[lastIndex] != undefined) {
+			timestamp = posts[lastIndex].ts;
+		}
+	});
 	
 	$interval(function() {
 		var timestamp = moment().unix();
@@ -1487,6 +1501,34 @@ minibean.controller('NewsFeedController', function($scope, $interval, $http, all
 				post.cs = allCommentsService.comments.get({id:id});
 			}
 		});
+	}
+	
+	var noMore = false;
+	$scope.nextNewsFeeds = function() {
+		if ($scope.isBusy) return;
+		if (noMore) return;
+		
+		$scope.isBusy = true;
+		
+		newsFeedService.GetNextNewsFeeds.get({timestamp : timestamp},
+			function(data){
+				var posts = data;
+				if(posts.length < 5 ) {
+					noMore = true;
+					$scope.isBusy = false;
+				}
+				
+				for (var i = 0; i < posts.length; i++) {
+					$scope.newsFeeds.posts.push(posts[i]);
+			    }
+				
+				var lastIndex = posts.length - 1;
+				if(posts[lastIndex] != undefined) {
+					timestamp = posts[lastIndex].ts;
+				}
+				$scope.isBusy = false;
+			}
+		);
 	}
 });
 

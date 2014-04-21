@@ -565,6 +565,18 @@ public class CommunityController extends Controller{
 		
 		return ok(Json.toJson(vm));
 	}
+	
+	@Transactional
+	public static Result getNextNewsFeeds(Long timestamp) {
+		final User localUser = Application.getLocalUser(session());
+		List<CommunityPostVM> posts = new ArrayList<>();
+		for(Post p :localUser.getMyNextNewsFeeds(timestamp)) {
+			CommunityPostVM post = CommunityPostVM.communityPostVM(p);
+			posts.add(post);
+		}
+		
+		return ok(Json.toJson(posts));
+	}
 }
 
 	
