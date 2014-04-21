@@ -57,7 +57,9 @@
 						</div>
                 </div>
                 <ul class="newCommunity-info">
-                    <li ng-repeat="fvm in result.fvm"><img src="/community-image-by-id/{{fvm.id}}"><p><a href="#/community/{{fvm.id}}"><b><font><font>{{fvm.dn}}</font></font></b></a><br><a class="community-attribute" href="#"><font><font>Closed Community</font></font></a><span class="community-member-counter"><font><font>{{fvm.mm}} members</font></font></span></p><a class="btn-general" href="#"><font><font>Join</font></font></a></li>
+                    <li ng-repeat="fvm in result.fvm"><img src="/community-image-by-id/{{fvm.id}}"><p><a href="#/community/{{fvm.id}}"><b><font><font>{{fvm.dn}}</font></font></b></a><br><a class="community-attribute" href="#"><font><font>Closed Community</font></font></a><span class="community-member-counter"><font><font>{{fvm.mm}} members</font></font></span></p>
+                    <a ng-show="fvm.isP" class="btn-general btn""><font><font>Pending</font></font></a>
+                    <a ng-show="!fvm.isP" class="btn-general btn" ng-click="send_request(fvm.id)"><font><font>Join</font></font></a></li>
                 </ul>
             </div>
  

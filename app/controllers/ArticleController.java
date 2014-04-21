@@ -39,6 +39,7 @@ public class ArticleController extends Controller {
 		ArticleCategory ac = ArticleCategory.getCategoryById(category_id);
 		Article article = articleForm.get();
 		article.category = ac;
+		article.publishedDate = new Date();
 		article.setCreatedDate(new Date());
 		article.saveArticle();
 		return ok();

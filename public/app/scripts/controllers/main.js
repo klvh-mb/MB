@@ -1392,9 +1392,9 @@ minibean.controller('EditArticleController',function($scope,$routeParams, usSpin
 	}
 	
 	$scope.select_category = function(id, name, pn) {
-		$scope.article.category.id = id;
-		$scope.article.category.name = name;
-		$scope.article.category.pictureName = pn;
+		$scope.article.ct.id = id;
+		$scope.article.ct.name = name;
+		$scope.article.ct.pictureName = pn;
 		$scope.isChosen = true;
 	}
 	
