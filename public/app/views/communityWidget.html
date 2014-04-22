@@ -51,10 +51,8 @@
  
  <div id="newCommunity" class="general-box">
                 <div class="con-title">
-	                <span class="icon-box icon-box-green icon-title-newcommunity"></span><a href="#"><font><font class="">Suggested Communities</font></font></a>
-	                    <div class="pull-right">
-	                    	<a href="/#/myGroups/groups" class="text-muted"><i class="fa fa-2x fa-th-large"></i></a>
-						</div>
+	               <a href="/#/myGroups/groups" class="text-muted"> <span class="icon-box icon-box-green icon-title-newcommunity"></span><font><font class="">Suggested Communities</font></font>
+					</a>
                 </div>
                 <ul class="newCommunity-info">
                     <li ng-repeat="fvm in result.fvm"><img src="/community-image-by-id/{{fvm.id}}"><p><a href="#/community/{{fvm.id}}"><b><font><font>{{fvm.dn}}</font></font></b></a><br><a class="community-attribute" href="#"><font><font>Closed Community</font></font></a><span class="community-member-counter"><font><font>{{fvm.mm}} members</font></font></span></p>

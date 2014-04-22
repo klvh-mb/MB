@@ -22,7 +22,7 @@ GET     /login                      controllers.Application.login
 POST    /login                      controllers.Application.doLogin
 POST	/createArticle				controllers.ArticleController.addArticle
 POST	/editArticle				controllers.ArticleController.updateArticle
-POST		/article/comment			controllers.ArticleController.commentOnArticle()
+POST	/article/comment			controllers.ArticleController.commentOnArticle()
 
 GET		/getAllArticleCategory		controllers.ArticleController.getAllArticleCategory
 GET     /get-all-Articles			controllers.ArticleController.getAllArticles
@@ -30,6 +30,9 @@ GET     /get-Eight-Articles			controllers.ArticleController.getEightArticles
 GET		/getDescriptionOdArticle/:id  	controllers.ArticleController.getDescriptionOdArticle(id :Long)
 GET		/deleteArticle/:id			controllers.ArticleController.deleteArticle(id :Long)
 GET		/Article/:id				controllers.ArticleController.infoArticle(id :Long)
+GET		/ArticleComments/:id		controllers.ArticleController.getAllComments(id : Long)
+
+
 GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
 GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
 

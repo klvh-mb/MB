@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -45,7 +46,7 @@ public class Article extends SocialObject implements Commentable {
 	public Integer targetAge;
 	
 	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-	public Set<Comment> comments;
+	public List<Comment> comments;
 	
 	@ManyToOne
 	public ArticleCategory category;
@@ -66,11 +67,10 @@ public class Article extends SocialObject implements Commentable {
 		Comment comment = new Comment(this, user, body);
 		
 		if (comments == null) {
-			comments = new HashSet<Comment>();
+			comments = new ArrayList<Comment>();
 		}
 	
 		comment.commentType = type;
-		recordCommentOnArticle(user);
 		comment.save();
 		this.comments.add(comment);
 		JPA.em().merge(this);
@@ -79,9 +79,7 @@ public class Article extends SocialObject implements Commentable {
 	
 	@JsonIgnore
 	public List<Comment> getCommentsOfPost() {
-		Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 order by date desc");
-		q.setParameter(1, this);
-		return (List<Comment>)q.getResultList();
+		return (comments);
 	}
 	
 	@Transactional
@@ -93,7 +91,7 @@ public class Article extends SocialObject implements Commentable {
 	@Transactional
 	public static List<Article> getEightArticles() {
 		//  Select * from Article where featured = 1 limit <= 8
-		Query q = JPA.em().createQuery("Select a from Article a where a.isFeatured  = ?1");
+		Query q = JPA.em().createQuery("Select a from Article a where a.isFeatured  = ?1 order by publishedDate desc");
 		q.setParameter(1, true);
 		q.setFirstResult(0);
 		q.setMaxResults(8);

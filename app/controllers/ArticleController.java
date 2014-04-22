@@ -14,6 +14,7 @@ import domain.CommentType;
 
 import models.Article;
 import models.ArticleCategory;
+import models.Comment;
 import models.Community;
 import models.Post;
 import models.User;
@@ -25,6 +26,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import viewmodel.ArticleCategoryVM;
 import viewmodel.ArticleVM;
+import viewmodel.CommunityPostCommentVM;
 import viewmodel.SlidderArticleVM;
 
 public class ArticleController extends Controller {
@@ -148,5 +150,17 @@ public class ArticleController extends Controller {
 		Article article = Article.findById(art_id);
 		ArticleVM vm = new ArticleVM(article);
 		return ok(Json.toJson(vm));
+	}
+	
+	@Transactional
+	public static Result getAllComments(Long id) {
+		Article article = Article.findById(id);
+		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
+		List<Comment> comments = article.getCommentsOfPost();
+		for(Comment comment : comments) {
+			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
+			commentsToShow.add(commentVM);
+		}
+		return ok(Json.toJson(commentsToShow));
 	}
 }
