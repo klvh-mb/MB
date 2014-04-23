@@ -64,7 +64,9 @@
 	
 	<div class="panel panel-default">
 		<div class="row tm innerAll"><h4>  Leave a Reply</h4></div>
-		
+		<div data-ng-click="get_all_comments(article.id)" class="bg-gray innerAll border-top border-bottom text-small ">
+			<span>View all <a class="text-primary">{{article.n_c}} Comments</a></span>
+		</div>
 		<div data-ng-repeat="comment in article.cs" class="media border-bottom margin-none bg-gray">
 			<a href="" class="pull-left innerAll half">
 				<img data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}" width="60" class="media-object">

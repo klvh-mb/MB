@@ -25,6 +25,7 @@ public class CommunityPostVM {
 	@JsonProperty("imgs") public Long[] images;
 	@JsonProperty("ts") public Long timestamp;
 	@JsonProperty("type") public String postType;
+	@JsonProperty("cn") public String communityName;
 	
 	public static CommunityPostVM communityPostVM(Post post) {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -38,6 +39,7 @@ public class CommunityPostVM {
 		postVM.noOfComments = post.comments.size();
 		postVM.timestamp = post.createdDate.getTime()/1000;
 		postVM.postType = post.postType.name();
+		postVM.communityName = post.community.name;
 		
 		if(post.folder != null && post.folder.resources != null && !post.folder.resources.isEmpty()) {
 			postVM.hasImage = true;

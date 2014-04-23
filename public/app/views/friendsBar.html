@@ -2,12 +2,9 @@
 	
 	<div id="friends" class="general-box">
          <div class="con-title">
-             <span class="icon-box icon-box-purpleLight icon-title-friends"></span>Friends <span class="text-muted">({{result.sn}})</span>
-             <div class="pull-right">
-				<a href="/#/friends" class="text-muted">
-					<i class="fa fa-2x fa-th-large"></i>
-				</a>
-			</div>
+             <a href="/#/friends" class="text-muted">
+             	<span class="icon-box icon-box-purpleLight icon-title-friends"></span>Friends <span class="text-muted">({{result.sn}})</span>
+			</a>
          </div>
          <div class="photo-wrapper-B">
              <a href="#" ng-repeat="fvm in result.fvm">
