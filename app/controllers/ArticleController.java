@@ -40,7 +40,6 @@ public class ArticleController extends Controller {
 		Article article = articleForm.get();
 		article.category = ac;
 		article.publishedDate = new Date();
-		article.setCreatedDate(new Date());
 		article.saveArticle();
 		return ok();
 	}
@@ -52,15 +51,15 @@ public class ArticleController extends Controller {
 		
 		Long id = Long.parseLong(dataToUpdate.get("id"));
 		Article article = Article.findById(id);
-		article.name = dataToUpdate.get("name");
-		if(dataToUpdate.get("isFeatured").equals("true"))
+		article.name = dataToUpdate.get("nm");
+		if(dataToUpdate.get("frd").equals("true"))
 				article.isFeatured = true;
-		if(dataToUpdate.get("isFeatured").equals("false"))
+		if(dataToUpdate.get("frd").equals("false"))
 				article.isFeatured = false;
-		article.targetAge = Integer.parseInt(dataToUpdate.get("targetAge"));
-		ArticleCategory ac = ArticleCategory.getCategoryById(Long.parseLong(dataToUpdate.get("category.id")));
+		article.targetAge = Integer.parseInt(dataToUpdate.get("ta"));
+		ArticleCategory ac = ArticleCategory.getCategoryById(Long.parseLong(dataToUpdate.get("ct.id")));
 		article.category = ac;
-		article.description = dataToUpdate.get("description");
+		article.description = dataToUpdate.get("ds");
 		article.setUpdatedDate(new Date());
 		article.updateById();
 		return ok();
