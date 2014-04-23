@@ -1,6 +1,6 @@
 
 
-<input type="text" class="form-control" placeholder="Ask Question here!" data-ng-model="questionText">
+<textarea class="form-control" placeholder="Ask Question here!" data-ng-model="questionText"></textarea>
 <div style="background-color: white;" ng-show="QnASelectedFiles != null">
 		<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
 		ng-repeat="f in QnASelectedFiles" style="width: 100px;height: 100px;" ng-show="dataUrls[$index]" 
@@ -59,7 +59,7 @@
 		</div>
 	</div>
 	
-	<input type="text" class="form-control" placeholder="answer here..." data-ng-model="answerText">
+	<textarea class="form-control" placeholder="answer here..." data-ng-model="answerText"></textarea>
 	<button type="button" class="btn btn-warning btn-xs" data-ng-click="answer_to_question(post.id, answerText)">answer it!</button>
 </div>
 

@@ -24,7 +24,7 @@
 	             <li><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{newsFeeds.lu}}"/></a>
 	             		<form id="userCommentwrapper" name="userComment">
 		                     <label for="User Comment"></label>
-		                     <input type="text" name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." data-ng-model="commentText"/>
+		                     <textarea name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." data-ng-model="commentText" style="width: 100%;"></textarea>
 		                     <input id="submit-userComment" name="submit" type="button" data-ng-click="comment_on_post(post.id, commentText)"/>
 	                    </form>
 	              </li>
