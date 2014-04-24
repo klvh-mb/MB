@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.Transient;
 
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
@@ -20,6 +21,7 @@ import com.mnt.SocialActivity;
 
 import domain.AuditListener;
 import domain.Creatable;
+import domain.SocialObjectType;
 import domain.Updatable;
 
 
@@ -61,8 +63,11 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long id;
 	
-	@ManyToOne
-	public SocialObject actor;
+	
+	public Long actor;
+	@Enumerated(EnumType.STRING)
+	public SocialObjectType actorType;
+	
 	
 	@Enumerated(EnumType.STRING)
 	public Action action;
@@ -83,8 +88,15 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
             INVITE_REQUESTED
     }
 
-	@ManyToOne
-	public SocialObject target;
+	
+	public Long target;
+	@Enumerated(EnumType.STRING)
+	public SocialObjectType targetType;
+
+	@Transient
+	public String targetname;
+	@Transient
+	public String actorname;
 	
 	static public enum Action {
 		
@@ -124,10 +136,12 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 			Integer weight, SocialObject target) {
 		super();
 		this.id = id;
-		this.actor = actor;
+		this.actor = actor.id;
+		this.actorname = actor.name;
 		this.action = action;
 		this.relationWeight = weight;
-		this.target = target;
+		this.target = target.id;
+		this.targetname = target.name;
 	}
 	
 	@Transactional
@@ -170,6 +184,32 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	@Override
 	public void postSave() {
 		SocialActivity.handle(this);
+	}
+	
+	public <T> T getTargetObject(Class<T> claszz){
+		String query = "Select c from " + claszz.getName() + " c where id = ?1";
+		Query q = JPA.em().createQuery(query);
+		q.setParameter(1, this.target);
+		return (T)q.getSingleResult();
+	}
+	
+	public SocialObject getTargetObject(){
+		if(this.targetType == SocialObjectType.USER) return getTargetObject(User.class); 
+		if(this.targetType == SocialObjectType.COMMUNITY) return getTargetObject(Community.class);
+		return getTargetObject(User.class); 
+	}
+	
+	public SocialObject getActorObject(){
+		if(this.actorType == SocialObjectType.USER) return getActorObject(User.class); 
+		if(this.actorType == SocialObjectType.COMMUNITY) return getActorObject(Community.class);
+		return getActorObject(User.class); 
+	}
+	
+	public <T> T getActorObject(Class<T> claszz){
+		String query = "Select c from " + claszz.getName() + " c where id = ?1";
+		Query q = JPA.em().createQuery(query);
+		q.setParameter(1, this.actor);
+		return (T)q.getSingleResult();
 	}
 	
 

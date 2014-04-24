@@ -33,7 +33,7 @@ public class Article extends SocialObject implements Commentable {
 
 	public Article() {}
 	
-	public String name;
+	
 	
 	@Lob
 	public String description;

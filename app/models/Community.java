@@ -114,7 +114,7 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		postIndex.owner_id = post.owner.id;
 		postIndex.description = post.body;
 		postIndex.postedBy = (post.owner.name != null) ?  post.owner.name : "No Name";
-		postIndex.postedOn = formatDate.format(post.createdDate);
+		postIndex.postedOn = formatDate.format(post.getCreatedDate());
 		postIndex.index();
 		//recordPostOn(user);
 		return post;
@@ -157,13 +157,13 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
 		Root<SocialRelation> c = q.from(SocialRelation.class);
 		q.select(c);
-		q.where(cb.and(cb.equal(c.get("target"), this)),
+		q.where(cb.and(cb.equal(c.get("target"), this.id)),
 				cb.equal(c.get("action"), SocialRelation.Action.MEMBER));
 
 		List<SocialRelation> result = JPA.em().createQuery(q).getResultList();
 		List<User> Members = new ArrayList<>();
 		for (SocialRelation rslt : result) {
-			Members.add(User.findById(rslt.actor.id));
+			Members.add(User.findById(rslt.actor));
 		}
 		return Members;
 	}
@@ -273,10 +273,10 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	}
 	
 	public boolean checkCommunityNameExists(User owner) {
-		Query q = JPA.em().createQuery("Select so from SocialObject so where owner = ?1 and objectType = ?2 and name= ?3");
+		Query q = JPA.em().createQuery("Select so from Community so where owner = ?1  and name= ?2");
 		q.setParameter(1, owner);
-		q.setParameter(2, SocialObjectType.COMMUNITY);
-		q.setParameter(3, this.name);
+		//q.setParameter(2, SocialObjectType.COMMUNITY);
+		q.setParameter(2, this.name);
 	
 		Community community = null;
 		try {
@@ -290,7 +290,7 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	
 	@JsonIgnore
 	public List<Post> getPostsOfCommunity(int offset, int limit) {
-		Query q = JPA.em().createQuery("Select p from Post p where community=?1 and postType= 1 order by createdDate desc");
+		Query q = JPA.em().createQuery("Select p from Post p where community=?1 and postType= 1 order by p.auditFields.createdDate desc");
 		q.setParameter(1, this);
 		q.setFirstResult(offset);
 		q.setMaxResults(limit);
@@ -299,7 +299,7 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	
 	@JsonIgnore
 	public List<Post> getQuestionsOfCommunity(int offset, int limit) {
-		Query q = JPA.em().createQuery("Select p from Post p where community=?1 and postType= 0 order by createdDate desc");
+		Query q = JPA.em().createQuery("Select p from Post p where community=?1 and postType= 0 order by p.auditFields.createdDate desc");
 		q.setParameter(1, this);
 		q.setFirstResult(offset);
 		q.setMaxResults(limit);
@@ -309,9 +309,9 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	@JsonIgnore
 	public List<User> getNonMembersOfCommunity(String query) {
 		Query q = JPA.em().createQuery("Select u from User u where u.displayName LIKE '%"+ query +"%' AND " +
-				"u.id not in (select sr.actor.id from " +
+				"u.id not in (select sr.actor from " +
 				"SocialRelation sr where sr.target = ?1 and (sr.action = 'MEMBER' OR sr.actionType = 'INVITE_REQUESTED'))");
-		q.setParameter(1, this);
+		q.setParameter(1, this.id);
 		return (List<User>)q.getResultList();
 	}
 	
@@ -319,5 +319,69 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	public void sendInviteToJoin(User invitee)
 			throws SocialObjectNotJoinableException {
 		recordInviteRequestByCommunity(invitee);
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
+	}
+
+	public CommunityType getCommunityType() {
+		return communityType;
+	}
+
+	public void setCommunityType(CommunityType communityType) {
+		this.communityType = communityType;
+	}
+
+	public Folder getAlbumPhotoProfile() {
+		return albumPhotoProfile;
+	}
+
+	public void setAlbumPhotoProfile(Folder albumPhotoProfile) {
+		this.albumPhotoProfile = albumPhotoProfile;
+	}
+
+	public String getTagetDistrict() {
+		return tagetDistrict;
+	}
+
+	public void setTagetDistrict(String tagetDistrict) {
+		this.tagetDistrict = tagetDistrict;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public List<Folder> getFolders() {
+		return folders;
+	}
+
+	public void setFolders(List<Folder> folders) {
+		this.folders = folders;
+	}
+
+	public String getIconName() {
+		return iconName;
+	}
+
+	public void setIconName(String iconName) {
+		this.iconName = iconName;
 	}
 }

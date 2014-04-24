@@ -14,7 +14,7 @@ public class Entity
 {
   @Embedded
   @AttributeOverrides({@javax.persistence.AttributeOverride(name="createdBy", column=@javax.persistence.Column(name="CREATED_BY")), @javax.persistence.AttributeOverride(name="createdDate", column=@javax.persistence.Column(name="CREATED_DATE")), @javax.persistence.AttributeOverride(name="updatedBy", column=@javax.persistence.Column(name="UPDATED_BY")), @javax.persistence.AttributeOverride(name="updatedDate", column=@javax.persistence.Column(name="UPDATED_DATE"))})
-  private AuditFields auditFields;
+  public AuditFields auditFields;
   
   public Entity()
   {

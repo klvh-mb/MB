@@ -37,7 +37,7 @@ public class CommunityPostVM {
 		postVM.postedOn = df.format(post.getCreatedDate());
 		postVM.postedText = post.body;
 		postVM.noOfComments = post.comments.size();
-		postVM.timestamp = post.createdDate.getTime()/1000;
+		postVM.timestamp = post.getCreatedDate().getTime()/1000;
 		postVM.postType = post.postType.name();
 		postVM.communityName = post.community.name;
 		

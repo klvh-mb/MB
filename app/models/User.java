@@ -242,18 +242,18 @@ public class User extends SocialObject implements Subject, Socializable {
 		Root<SocialRelation> c = q.from(SocialRelation.class);
 		q.select(c);
 		q.where(cb.and(
-				cb.or(cb.equal(c.get("target"), this),
-						cb.equal(c.get("actor"), this)),
+				cb.or(cb.equal(c.get("target"), this.id),
+						cb.equal(c.get("actor"), this.id)),
 				cb.equal(c.get("action"), SocialRelation.Action.FRIEND)));
 
 		List<SocialRelation> result = JPA.em().createQuery(q).getResultList();
 		List<User> frndList = new ArrayList<>();
 		for (SocialRelation rslt : result) {
-			if (rslt.actor.name == this.name) {
-				frndList.add((User) rslt.target);
+			if (rslt.actor == this.id) {
+				frndList.add((User) rslt.getTargetObject(User.class));
 			}
-			else if (rslt.target.name == this.name) {
-				frndList.add((User) rslt.actor);
+			else if (rslt.target == this.id) {
+				frndList.add((User) rslt.getActorObject(User.class));
 			}
 		}
 		return frndList;
@@ -262,7 +262,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	@JsonIgnore
 	public Long _getFriendsCount() {
 		Query query = JPA.em().createQuery("SELECT count(*) from SocialRelation where (target = ?1 or actor = ?1) and action = ?2");
-		query.setParameter(1, this);
+		query.setParameter(1, this.id);
 		query.setParameter(2, SocialRelation.Action.FRIEND);
 		Long result = (Long) query.getSingleResult();
 		return result;
@@ -274,16 +274,16 @@ public class User extends SocialObject implements Subject, Socializable {
 		CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
 		Root<SocialRelation> c = q.from(SocialRelation.class);
 		q.select(c);
-		q.where(cb.and(cb.equal(c.get("actor"), this),
+		q.where(cb.and(cb.equal(c.get("actor"), this.id),
 				cb.equal(c.get("action"), Action.MEMBER)));
 
 		List<SocialRelation> result = JPA.em().createQuery(q).getResultList();
 
 		List<Community> communityList = new ArrayList<>();
 		for (SocialRelation rslt : result) {
-			if (rslt.actor.name == this.name
-					&& rslt.target.objectType == SocialObjectType.COMMUNITY) {
-				communityList.add((Community) rslt.target);
+			if (rslt.actor == this.id
+					&& rslt.targetType == SocialObjectType.COMMUNITY) {
+				communityList.add((Community) rslt.getTargetObject(Community.class));
 			}
 		}
 		return communityList;
@@ -295,7 +295,7 @@ public class User extends SocialObject implements Subject, Socializable {
 		CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
 		Root<SocialRelation> c = q.from(SocialRelation.class);
 		q.select(c);
-		q.where(cb.and(cb.equal(c.get("actor"), this),
+		q.where(cb.and(cb.equal(c.get("actor"), this.id),
 				cb.equal(c.get("action"), Action.MEMBER)));
 		
 		List<SocialRelation> result = JPA.em().createQuery(q).setFirstResult(offset)
@@ -303,9 +303,9 @@ public class User extends SocialObject implements Subject, Socializable {
 
 		List<Community> communityList = new ArrayList<>();
 		for (SocialRelation rslt : result) {
-			if (rslt.actor.name == this.name
-					&& rslt.target.objectType == SocialObjectType.COMMUNITY) {
-				communityList.add((Community) rslt.target);
+			if (rslt.actor == this.id
+					&& rslt.targetType == SocialObjectType.COMMUNITY) {
+				communityList.add((Community) rslt.getTargetObject(Community.class));
 			}
 		}
 		return communityList;
@@ -314,7 +314,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	@JsonIgnore
 	public List<Community> getListOfNotJoinedCommunities() {
 		
-		Query q = JPA.em().createQuery("Select c from Community c where c.id not in (select sr.target.id from  SocialRelation sr where sr.action = ?2 and sr.actor.id = ?1)");
+		Query q = JPA.em().createQuery("Select c from Community c where c.id not in (select sr.target from  SocialRelation sr where sr.action = ?2 and sr.actor = ?1)");
 		q.setParameter(1, this.id);
 		q.setParameter(2, Action.MEMBER);
 		List<Community> communityList = q.getResultList();
@@ -324,7 +324,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	@JsonIgnore
 	public List<Community> getListOfNotJoinedCommunities(int offset, int limit) {
 		
-		Query q = JPA.em().createQuery("Select c from Community c where c.id not in (select sr.target.id from  SocialRelation sr where sr.action = ?2 and sr.actor.id = ?1)");
+		Query q = JPA.em().createQuery("Select c from Community c where c.id not in (select sr.target from  SocialRelation sr where sr.action = ?2 and sr.actor = ?1)");
 		q.setParameter(1, this.id);
 		q.setParameter(2, Action.MEMBER);
 		q.setFirstResult(offset);
@@ -790,7 +790,7 @@ public class User extends SocialObject implements Subject, Socializable {
 		Query q = JPA.em().createQuery(
 						"SELECT n from Notification n where recipetent = ?1 and socialAction.actionType = ?2 " +
 						"and readed = ?3 ");
-		q.setParameter(1, this);
+		q.setParameter(1, this.id);
 		q.setParameter(2, ActionType.FRIEND_REQUESTED);
 		q.setParameter(3, false);
 		List<Notification> notifications = q.getResultList();
@@ -803,7 +803,7 @@ public class User extends SocialObject implements Subject, Socializable {
 		Query q = JPA.em().createQuery(
 						"SELECT n from Notification n where recipetent = ?1 and socialAction.actionType in (?2,?3) " +
 						" and readed = ?4 ");
-		q.setParameter(1, this);
+		q.setParameter(1, this.id);
 		q.setParameter(2, ActionType.JOIN_REQUESTED);
 		q.setParameter(3, ActionType.INVITE_REQUESTED);
 		q.setParameter(4, false);
@@ -814,8 +814,8 @@ public class User extends SocialObject implements Subject, Socializable {
 	@JsonIgnore
 	public boolean isFriendOf(User localUser) {
 		Query query = JPA.em().createQuery("SELECT count(*) from SocialRelation where ((target = ?1 and actor = ?2) or (actor = ?1 and target = ?2)) and action = ?3");
-		query.setParameter(1, this);
-		query.setParameter(2, localUser);
+		query.setParameter(1, this.id);
+		query.setParameter(2, localUser.id);
 		query.setParameter(3, SocialRelation.Action.FRIEND);
 		Long result = (Long) query.getSingleResult();
 		return result == 1;
@@ -825,8 +825,8 @@ public class User extends SocialObject implements Subject, Socializable {
 	@JsonIgnore
 	public boolean isMemberOf(Community community) {
 		Query query = JPA.em().createQuery("SELECT count(*) from SocialRelation where ((target = ?1 and actor = ?2) or (actor = ?1 and target = ?2)) and action = ?3");
-		query.setParameter(1, this);
-		query.setParameter(2, community);
+		query.setParameter(1, this.id);
+		query.setParameter(2, community.id);
 		query.setParameter(3, SocialRelation.Action.MEMBER);
 		Long result = (Long) query.getSingleResult();
 		return result == 1;
@@ -836,8 +836,8 @@ public class User extends SocialObject implements Subject, Socializable {
 	public boolean isJoinRequestPendingFor(Community community) {
 		Query query = JPA.em().createQuery("SELECT count(*) from SocialRelation where ((target = ?1 and actor = ?2) or (actor = ?1 and target = ?2)) " +
 				"and actionType = ?3");
-		query.setParameter(1, this);
-		query.setParameter(2, community);
+		query.setParameter(1, this.id);
+		query.setParameter(2, community.id);
 		query.setParameter(3, SocialRelation.ActionType.JOIN_REQUESTED);
 		Long result = (Long) query.getSingleResult();
 		return result == 1;
@@ -847,8 +847,8 @@ public class User extends SocialObject implements Subject, Socializable {
 	public boolean isFriendRequestPendingFor(User user) {
 		Query query = JPA.em().createQuery("SELECT count(*) from SocialRelation where ((target = ?1 and actor = ?2) or (actor = ?1 and target = ?2)) " +
 				"and actionType = ?3");
-		query.setParameter(1, this);
-		query.setParameter(2, user);
+		query.setParameter(1, this.id);
+		query.setParameter(2, user.id);
 		query.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED);
 		Long result = (Long) query.getSingleResult();
 		return result == 1;
@@ -857,8 +857,8 @@ public class User extends SocialObject implements Subject, Socializable {
 	public int doUnFriend(User toBeUnfriend) {
 		Query query = JPA.em().createQuery("UPDATE SocialRelation sr SET sr.actionType=?1, sr.action = NULL where ((sr.target = ?2 and sr.actor = ?3) or (sr.actor = ?2 and sr.target = ?3)) and sr.action = ?4");
 		query.setParameter(1, SocialRelation.ActionType.UNFRIEND);
-		query.setParameter(2, this);
-		query.setParameter(3, toBeUnfriend);
+		query.setParameter(2, this.id);
+		query.setParameter(3, toBeUnfriend.id);
 		query.setParameter(4, SocialRelation.Action.FRIEND);
 		
 		int updateCount = query.executeUpdate();
@@ -869,8 +869,8 @@ public class User extends SocialObject implements Subject, Socializable {
 	public int leaveCommunity(Community community) {
 		Query query = JPA.em().createQuery("UPDATE SocialRelation sr SET sr.actionType=?1, sr.action = NULL where ((sr.target = ?2 and sr.actor = ?3) or (sr.actor = ?2 and sr.target = ?3)) and sr.action = ?4");
 		query.setParameter(1, SocialRelation.ActionType.LEAVE_COMMUNITY);
-		query.setParameter(2, this);
-		query.setParameter(3, community);
+		query.setParameter(2, this.id);
+		query.setParameter(3, community.id);
 		query.setParameter(4, SocialRelation.Action.MEMBER);
 		
 		int updateCount = query.executeUpdate();
@@ -880,8 +880,8 @@ public class User extends SocialObject implements Subject, Socializable {
 	
 	public List<Post> getMyUpdates(Long timestamp) {
 		Query query = JPA.em().createQuery("SELECT p from Post p where p.community in (select sr.target " +
-				"from SocialRelation sr where sr.actor=?1 and sr.action = ?2) order by p.createdDate desc");
-		query.setParameter(1, this);
+				"from SocialRelation sr where sr.actor=?1 and sr.action = ?2) order by p.auditFields.createdDate desc");
+		query.setParameter(1, this.id);
 		query.setParameter(2, SocialRelation.Action.MEMBER);
 		query.setFirstResult(0);
 		query.setMaxResults(5);
@@ -890,8 +890,8 @@ public class User extends SocialObject implements Subject, Socializable {
 	
 	public List<Post> getMyLiveUpdates(Long timestamp) {
 		Query query = JPA.em().createQuery("SELECT p from Post p where p.community in (select sr.target " +
-				"from SocialRelation sr where sr.actor=?1 and sr.action = ?2) and "+(timestamp-60)+" < UNIX_TIMESTAMP(p.createdDate) and  "+ timestamp+" > UNIX_TIMESTAMP(p.createdDate) order by p.createdDate desc");
-		query.setParameter(1, this);
+				"from SocialRelation sr where sr.actor=?1 and sr.action = ?2) and "+(timestamp-60)+" < UNIX_TIMESTAMP(p.auditFields.createdDate) and  "+ timestamp+" > UNIX_TIMESTAMP(p.auditFields.createdDate) order by p.auditFields.createdDate desc");
+		query.setParameter(1, this.id);
 		query.setParameter(2, SocialRelation.Action.MEMBER);
 		query.setMaxResults(5);
 		return (List<Post>)query.getResultList();
@@ -899,10 +899,162 @@ public class User extends SocialObject implements Subject, Socializable {
 
 	public List<Post> getMyNextNewsFeeds(Long timestamp) {
 		Query query = JPA.em().createQuery("SELECT p from Post p where p.community in (select sr.target " +
-				"from SocialRelation sr where sr.actor=?1 and sr.action = ?2) and  "+ timestamp+" > UNIX_TIMESTAMP(p.createdDate) order by p.createdDate desc");
-		query.setParameter(1, this);
+				"from SocialRelation sr where sr.actor=?1 and sr.action = ?2) and  "+ timestamp+" > UNIX_TIMESTAMP(p.auditFields.createdDate) order by p.auditFields.createdDate desc");
+		query.setParameter(1, this.id);
 		query.setParameter(2, SocialRelation.Action.MEMBER);
 		query.setMaxResults(5);
 		return (List<Post>)query.getResultList();
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+
+	public Date getDate_of_birth() {
+		return date_of_birth;
+	}
+
+	public void setDate_of_birth(Date date_of_birth) {
+		this.date_of_birth = date_of_birth;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getAboutMe() {
+		return aboutMe;
+	}
+
+	public void setAboutMe(String aboutMe) {
+		this.aboutMe = aboutMe;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public boolean isEmailValidated() {
+		return emailValidated;
+	}
+
+	public void setEmailValidated(boolean emailValidated) {
+		this.emailValidated = emailValidated;
+	}
+
+	public List<LinkedAccount> getLinkedAccounts() {
+		return linkedAccounts;
+	}
+
+	public void setLinkedAccounts(List<LinkedAccount> linkedAccounts) {
+		this.linkedAccounts = linkedAccounts;
+	}
+
+	public Folder getAlbumPhotoProfile() {
+		return albumPhotoProfile;
+	}
+
+	public void setAlbumPhotoProfile(Folder albumPhotoProfile) {
+		this.albumPhotoProfile = albumPhotoProfile;
+	}
+
+	public Folder getAlbumCoverProfile() {
+		return albumCoverProfile;
+	}
+
+	public void setAlbumCoverProfile(Folder albumCoverProfile) {
+		this.albumCoverProfile = albumCoverProfile;
+	}
+
+	public List<Folder> getFolders() {
+		return folders;
+	}
+
+	public void setFolders(List<Folder> folders) {
+		this.folders = folders;
+	}
+
+	public List<Album> getAlbum() {
+		return album;
+	}
+
+	public void setAlbum(List<Album> album) {
+		this.album = album;
+	}
+
+	public List<Conversation> getConversation() {
+		return conversation;
+	}
+
+	public void setConversation(List<Conversation> conversation) {
+		this.conversation = conversation;
+	}
+
+	public void setRoles(List<SecurityRole> roles) {
+		this.roles = roles;
+	}
+
+	public void setPermissions(List<UserPermission> permissions) {
+		this.permissions = permissions;
 	}
 }

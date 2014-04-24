@@ -29,8 +29,8 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 	public SocialRelation socialAction;
 	
 	/*To whom this notification is intended for*/
-	@OneToOne @Required
-	public SocialObject recipetent;
+	 @Required
+	public Long recipetent;
 	
 	@Required
 	public String message;
@@ -57,6 +57,66 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 	public void markNotificationRead() {
 		this.readed = true;
 	    save();
+	}
+
+
+
+	public SocialRelation getSocialAction() {
+		return socialAction;
+	}
+
+
+
+	public void setSocialAction(SocialRelation socialAction) {
+		this.socialAction = socialAction;
+	}
+
+
+
+	public Long getRecipetent() {
+		return recipetent;
+	}
+
+
+
+	public void setRecipetent(Long recipetent) {
+		this.recipetent = recipetent;
+	}
+
+
+
+	public String getMessage() {
+		return message;
+	}
+
+
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+
+
+	public Boolean getReaded() {
+		return readed;
+	}
+
+
+
+	public void setReaded(Boolean readed) {
+		this.readed = readed;
+	}
+
+
+
+	public NotificationType getNotificationType() {
+		return notificationType;
+	}
+
+
+
+	public void setNotificationType(NotificationType notificationType) {
+		this.notificationType = notificationType;
 	}
 	
 	

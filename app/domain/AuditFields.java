@@ -11,7 +11,7 @@ public class AuditFields {
 	private String createdBy;
 	private String updatedBy;
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdDate;
+	public Date createdDate;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updatedDate;
 

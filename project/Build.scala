@@ -21,7 +21,14 @@ object ApplicationBuild extends Build {
      "org.mindrot" % "jbcrypt" % "0.3m",
      "org.apache.httpcomponents" % "httpclient" % "4.2.5",
      "net.coobird" % "thumbnailator" % "0.4.7",
-     "com.clever-age" % "play2-elasticsearch" % "0.6-SNAPSHOT"
+     "com.clever-age" % "play2-elasticsearch" % "0.6-SNAPSHOT",
+     "commons-pool" % "commons-pool" % "1.5.5",
+     //"commons-lang" % "commons-lang" % "2.6",
+     "biz.source_code" % "base64coder" % "2010-12-19",
+     //"com.typesafe" % "play-plugins-util_2.10" % "2.1.1",
+     "redis.clients" % "jedis" % "2.0.0",
+     "org.sedis" % "sedis" % "1.0.1"
+     //"com.typesafe" %% "play-plugins-redis" % "2.1-1-RC2"
     
   )
 

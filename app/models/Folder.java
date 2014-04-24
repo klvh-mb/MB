@@ -40,28 +40,22 @@ import domain.Updatable;
  * 
  */
 @Entity
-@EntityListeners(AuditListener.class)
-public class Folder extends  domain.Entity implements
+
+public class Folder extends  SocialObject implements
 Serializable, Creatable, Updatable{
 
 	public Folder() {}
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Long id;
+	
 	
 	public Folder(String name) {
 		this.name = name;
 	}
 
-	@ManyToOne
-	public SocialObject owner;
+
 	
-	@Enumerated(EnumType.STRING)
-	public SocialObjectType objectType;
 	
-	@Required
-	public String name;
+	
 
 	@Lob
 	public String description;
@@ -183,6 +177,42 @@ Serializable, Creatable, Updatable{
 		} else {
 			return false;
 		}
+	}
+
+
+
+	public String getDescription() {
+		return description;
+	}
+
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+
+
+	public List<Resource> getResources() {
+		return resources;
+	}
+
+
+
+	public void setResources(List<Resource> resources) {
+		this.resources = resources;
+	}
+
+
+
+	public Boolean getSystem() {
+		return system;
+	}
+
+
+
+	public void setSystem(Boolean system) {
+		this.system = system;
 	}
 
 }

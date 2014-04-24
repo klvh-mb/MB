@@ -1,3 +1,4 @@
+550:com.typesafe.plugin.RedisPlugin
 1500:com.typesafe.plugin.CommonsMailerPlugin
 9000:com.github.cleverage.elasticsearch.plugin.IndexPlugin
 10000:be.objectify.deadbolt.java.DeadboltPlugin

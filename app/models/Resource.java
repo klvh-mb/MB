@@ -33,6 +33,8 @@ public class Resource extends SocialObject {
 	public Resource() {
 	}
 
+	
+	
 	@JsonIgnore
 	@Required
 	@ManyToOne
@@ -77,7 +79,7 @@ public class Resource extends SocialObject {
 			return resourceName;
 		} else {
 			return Play.application().configuration().getString("storage.path")
-					+ owner.id + "/" + folder.id + "/" + id + "/"
+					+ getOwner().id + "/" + folder.id + "/" + id + "/"
 					+ resourceName;
 		}
 	}
@@ -153,6 +155,46 @@ public class Resource extends SocialObject {
 		Query q = JPA.em().createQuery("SELECT r FROM Resource r where id = ?1");
 		q.setParameter(1, id);
 		return (Resource) q.getSingleResult();
+	}
+
+	public Folder getFolder() {
+		return folder;
+	}
+
+	public void setFolder(Folder folder) {
+		this.folder = folder;
+	}
+
+	public String getResourceName() {
+		return resourceName;
+	}
+
+	public void setResourceName(String resourceName) {
+		this.resourceName = resourceName;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Integer getPriority() {
+		return priority;
+	}
+
+	public void setPriority(Integer priority) {
+		this.priority = priority;
+	}
+
+	public Set<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
 	}
 
 }

@@ -45,8 +45,7 @@ public class Album extends SocialObject {
 	@OneToOne(cascade=CascadeType.REMOVE)
 	public Resource cover_photo;
 
-	@Required
-	public String name;
+	
 
 	@Lob
 	public String description;

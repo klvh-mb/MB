@@ -168,7 +168,7 @@ public class UserController extends Controller {
     	
     	List<FriendWidgetChildVM> requests = new ArrayList<>();
     	for(Notification n : friendRequests) {
-    		requests.add(new FriendWidgetChildVM(n.socialAction.actor.id, n.socialAction.actor.name));
+    		requests.add(new FriendWidgetChildVM(n.socialAction.actor, n.socialAction.getActorObject().name));
     	}
     	return ok(Json.toJson(requests));
     }
@@ -192,7 +192,7 @@ public class UserController extends Controller {
     	List<Notification> joinRequests = localUser.getAllJoinRequestNotification();
     	List<NotificationVM> requests = new ArrayList<>();
     	for(Notification n : joinRequests) {
-    		requests.add(new NotificationVM(n.socialAction.actor.id, n.socialAction.target.id, n.socialAction.actor.name, n.notificationType.name(), n.message));
+    		requests.add(new NotificationVM(n.socialAction.actor, n.socialAction.target, n.socialAction.getActorObject().name, n.notificationType.name(), n.message));
     	}
     	return ok(Json.toJson(requests));
     }

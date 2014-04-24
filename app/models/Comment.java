@@ -23,13 +23,13 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
   public Comment(){}
   public Comment(SocialObject socialObject, User user, String body) {
     this.owner = user;
-    this.socialObject = socialObject;
+    this.socialObject = socialObject.id;
     this.body = body;
   }
 
   @Required
-  @ManyToOne
-  public SocialObject socialObject;
+  
+  public Long socialObject;
   
   @Required
   public Date date = new Date();

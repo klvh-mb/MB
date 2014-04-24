@@ -58,7 +58,6 @@ public class Post extends SocialObject implements Likeable, Commentable {
 	
 	public Folder folder;
 
-	public Date createdDate;
 	@Override
 	public void onLike(User user) {
 		recordLike(user);
@@ -104,13 +103,13 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		
 		IndexQuery<PostIndex> indexQuery = PostIndex.find.query();
 		indexQuery.setBuilder(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), 
-				FilterBuilders.termFilter("post_id", comment.socialObject.id)));
+				FilterBuilders.termFilter("post_id", comment.socialObject)));
 		IndexResults<PostIndex> postIndex = PostIndex.find.search(indexQuery);
 		
 		SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
 		
 		CommentIndex commentIndex = new CommentIndex();
-		commentIndex.post_id = comment.socialObject.id;
+		commentIndex.post_id = comment.socialObject;
 		commentIndex.comment_id = comment.id;
 		commentIndex.commentText = comment.body;
 		commentIndex.creationDate = formatDate.format(comment.date);
@@ -120,7 +119,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		
 		//hard-coding
 		PostIndex pi = postIndex.getResults().get(0);
-		pi.noOfComments = Post.findById(comment.socialObject.id).comments.size();
+		pi.noOfComments = Post.findById(comment.socialObject).comments.size();
 		pi.comments.add(commentIndex);
 		pi.index();
 		
@@ -131,7 +130,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
 	@JsonIgnore
 	public List<Comment> getCommentsOfPost() {
 		Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 order by date desc");
-		q.setParameter(1, this);
+		q.setParameter(1, this.id);
 		return (List<Comment>)q.getResultList();
 	}
 	
@@ -162,13 +161,53 @@ public class Post extends SocialObject implements Likeable, Commentable {
 			SocialObjectType type, Boolean system) {
 
 		Folder folder = new Folder(name);
-		folder.owner = this;
+		folder.owner = this.owner;
 		folder.name = name;
 		folder.description = description;
 		folder.objectType = type;
 		folder.system = system;
 		folder.save();
 		return folder;
+	}
+
+	public String getBody() {
+		return body;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+
+	public Community getCommunity() {
+		return community;
+	}
+
+	public void setCommunity(Community community) {
+		this.community = community;
+	}
+
+	public Set<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public PostType getPostType() {
+		return postType;
+	}
+
+	public void setPostType(PostType postType) {
+		this.postType = postType;
+	}
+
+	public Folder getFolder() {
+		return folder;
+	}
+
+	public void setFolder(Folder folder) {
+		this.folder = folder;
 	}
 
 	

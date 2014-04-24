@@ -97,10 +97,10 @@ public class CommunityController extends Controller{
 	public static Result getCommunityInfoById(Long id) {
 		final User localUser = Application.getLocalUser(session());
 		final Community community = Community.findById(id);
-		if(community.objectType == SocialObjectType.COMMUNITY) {
+		//if(community.objectType == SocialObjectType.COMMUNITY) {
 			return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
-		}
-		return status(404);
+		//}
+		//return status(404);
 	}
 	
 	@Transactional

@@ -28,7 +28,7 @@ public class SocialActivity {
 				notification.recipetent = socialAction.actor;
 				notification.notificationType = NotificationType.FRIEND_ACCEPTED;
 				notification.message = "You are now Friend of "
-						+ socialAction.target.name;
+						+ socialAction.targetname;
 				notification.save();
 			}
 				break;
@@ -36,9 +36,9 @@ public class SocialActivity {
 			case LIKED: {
 				Notification notification = new Notification();
 				notification.socialAction = socialAction;
-				notification.recipetent = socialAction.target.owner;
-				notification.message = socialAction.actor.name
-						+ " Liked on your " + socialAction.target.objectType;
+				notification.recipetent = socialAction.target;
+				notification.message = socialAction.actorname
+						+ " Liked on your " + socialAction.targetType;
 				notification.save();
 			}
 				break;
@@ -46,9 +46,9 @@ public class SocialActivity {
 			case COMMENTED: {
 				Notification notification = new Notification();
 				notification.socialAction = socialAction;
-				notification.recipetent = socialAction.target.owner;
+				notification.recipetent = socialAction.target;
 				notification.notificationType = NotificationType.COMMENT;
-				notification.message = socialAction.actor.name
+				notification.message = socialAction.actorname
 						+ " Commented on your Post";
 				notification.save();
 			}
@@ -59,7 +59,7 @@ public class SocialActivity {
 				notification.socialAction = socialAction;
 				notification.recipetent = socialAction.target;
 				notification.notificationType = NotificationType.ANSWERED;
-				notification.message = socialAction.actor.name
+				notification.message = socialAction.actorname
 						+ " Answered to your Question";
 				notification.save();
 			}
@@ -74,9 +74,9 @@ public class SocialActivity {
 			case JOIN_REQUESTED: {
 				Notification notification = new Notification();
 				notification.socialAction = socialAction;
-				notification.recipetent = socialAction.target.owner;
+				notification.recipetent = socialAction.target;
 				notification.notificationType = NotificationType.COMMUNITY_JOIN_REQUEST;
-				notification.message = "wants to join community " + socialAction.target.name;
+				notification.message = "wants to join community " + socialAction.targetname;
 				notification.save();
 			}
 				break;
@@ -86,9 +86,9 @@ public class SocialActivity {
 				notification.socialAction = socialAction;
 				notification.recipetent = socialAction.target;
 				notification.notificationType = NotificationType.FRIEND_REQUEST;
-				notification.message = socialAction.actor.name
+				notification.message = socialAction.actorname
 						+ " wants to be Your Friend "
-						+ socialAction.target.name;
+						+ socialAction.targetname;
 				notification.save();
 			}
 				break;
@@ -97,7 +97,7 @@ public class SocialActivity {
 				Notification notification = new Notification();
 				notification.socialAction = socialAction;
 				notification.recipetent = socialAction.target;
-				notification.message = socialAction.actor.name
+				notification.message = socialAction.actorname
 						+ " wants to add you in " + socialAction.action
 						+ " list. ";
 				notification.save();
@@ -109,7 +109,7 @@ public class SocialActivity {
 				notification.socialAction = socialAction;
 				notification.recipetent = socialAction.actor;
 				notification.notificationType = NotificationType.COMMUNITY_INVITE_REQUEST;
-				notification.message = "You are invited to join community " + socialAction.target.name;
+				notification.message = "You are invited to join community " + socialAction.targetname;
 				notification.save();
 			}
 				break;
