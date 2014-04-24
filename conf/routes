@@ -113,6 +113,7 @@ GET		/community-image-by-id/:id				controllers.CommunityController.getThumbnailC
 GET		/send-request							controllers.CommunityController.sendJoinRequest(id: String)
 GET		/get-cover-community-image-by-id/:id	controllers.CommunityController.getFullCoverCommunityImageById(id :Long)
 GET		/community/:id							controllers.CommunityController.getCommunityInfoById(id :Long)
+GET		/editCommunity/:id						controllers.CommunityController.getEditCommunityInfo(id :Long)
 GET		/community/join/:id						controllers.CommunityController.joinToCommunity(id : Long)
 GET		/community/leave/:id					controllers.CommunityController.leaveThisCommunity(id : Long)
 GET		/community-mini-image-by-id/:id			controllers.CommunityController.getMiniCoverCommunityImageById(id :Long)

@@ -7,7 +7,7 @@
 			</a>
          </div>
          <div class="photo-wrapper-B">
-             <a href="#" ng-repeat="fvm in result.fvm">
+             <a href="/#/profile/{{fvm.id}}" ng-repeat="fvm in result.fvm">
                 <span class="mask-100percent-height"></span><img style="margin-top: 1%;" data-toggle="tooltip" data-placement="top"  data-ng-src="/get-thumbnail-image-by-id/{{fvm.id}}" alt="{{fvm.dn}}" data-tooltip="{{fvm.dn}}"  width="75" height="65">
               </a>
          </div>

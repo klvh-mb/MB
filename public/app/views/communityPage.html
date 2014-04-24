@@ -57,7 +57,7 @@
 							</div>
 						</div>
 					</div>
-       	    		 <div class="col-lg-8 col-md-6 innerAll">
+       	    		 <div class="col-lg-7 col-md-5 innerAll">
        	    		 	<div class="row tm">
        	    		 	<div  class="row strong" style="margin-left: 7px;">	
 							<h2 class="margin-none" style="float : left; margin-left: 5px;">{{community.n}}</h2>
@@ -85,31 +85,31 @@
 							    <li class="col-lg-4 col-md-4"  ng-class="{active: selectedTab == 2}">
 							      <a  ng-click="selectedTab = 2;"><span><i class="fa fa-group"></i>  Members</span></a>
 							    </li>
-							    <li class="col-lg-3 col-md-3" ng-class="{active: selectedTab == 3}">
-							      <a ng-click="selectedTab = 3;"><i class="fa fa-exclamation-circle"></i><span>  Context</span></a>
+							    <li class="col-lg-3 col-md-3" ng-class="{active: selectedTab == 3}" >
+							      <a ng-click="selectedTab = 3;"><i style="float: left;margin-top: 5%; margin-right: 2%;" class="fa fa-exclamation-circle"></i><span>  Context</span></a>
 							    </li>
 							  </ul>
                			   </div>
                					 
-               				<div class="col-lg-4 col-md-4">
-							    <div ng-show="!community.isO && community.isM == true" class="pull-right border-right">
+               				<div class="col-lg-4 col-md-4" style="width: 34%;">
+							    <div ng-show="!community.isO && community.isM == true" class=" border-right" style="float: left;">
 			   						<button class="btn btn-primary" style="background: #0099FF;" data-ng-click="leave_community(community.i)"><i class="fa fa-thumbs-down"></i> Leave</button>
 			   					</div>
 			   					
-			   					<div ng-show="!community.isO && community.isM == false && community.isP == false" class="pull-right border-right">
+			   					<div ng-show="!community.isO && community.isM == false && community.isP == false" class=" border-right" style="float: left;">
 			   						<button class="btn btn-primary" style="background: #0099FF;" data-ng-click="send_join(community.i)"><i class="fa fa-user"></i> Join</button>
 			   					</div>
 			   					
-			   					<div ng-show="!community.isO && community.isP == true" class="pull-right border-right">
+			   					<div ng-show="!community.isO && community.isP == true" class=" border-right" style="float: left;">
 			   						<button class="btn btn-primary" style="background: #0099FF;" disabled="disabled" ><i class="fa fa-user"></i> Pending</button>
 			   					</div>
 			   					
-							     <div class="pull-right border-right">
+							     <div class=" border-right" style="float: left;">
                						<button class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-fw  fa-group"></i> Create New</button>
                					 </div>
                				</div>
 							
-							<div ng-show="!community.isSearch && selectedTab == 1" class="pull-left border-right col-lg-1 col-md-1" data-ng-init="community.isSearch = false">
+							<div ng-show="!community.isSearch && selectedTab == 1" class="pull-left border-right col-lg-1 col-md-1" style="width: 7.5%;" data-ng-init="community.isSearch = false">
               					<button class="btn btn-square btn-warning" data-ng-click="community.isSearch = true;">
               						<i class="fa fa-fw icon-search"></i>
               					</button>
@@ -142,7 +142,7 @@
 
        	    		 	</div>
        	    		 </div>
-       	    		 <div class="col-lg-2 col-md-3">
+       	    		 <div class="col-lg-3 col-md-4">
               			<div class="row tm">
               				<div class="col-lg-12 col-md-12" ng-controller="CommunityMembersWidgetController">
 								<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/membersBar.html'"></div>
@@ -259,7 +259,7 @@
                    </div>
                    
                    <div class="col-md-8">
-                   	<textarea  class="form-control" placeholder="Community Description" validator="[required]" data-ng-model="formData.description" required >
+                   	<textarea  class="form-control" placeholder="Community Description" data-ng-model="formData.description" required >
                		 </textarea>
                    </div>
                 </div>

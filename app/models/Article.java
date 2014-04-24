@@ -110,11 +110,7 @@ public class Article extends SocialObject implements Commentable {
 		return q.executeUpdate();
 	}
 	
-	public Article findById() {
-		// TODO
-		return null;
-	}
-	
+
 	public void updateById()
 	{
 		this.merge();

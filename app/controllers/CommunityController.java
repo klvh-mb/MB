@@ -104,6 +104,18 @@ public class CommunityController extends Controller{
 	}
 	
 	@Transactional
+	public static Result getEditCommunityInfo(Long id) {
+		final User localUser = Application.getLocalUser(session());
+		final Community community = Community.findById(id);
+		if(community.owner.id == localUser.id) {
+			System.out.println("Owner");
+			return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
+		}
+		System.out.println("Not Owner");
+		return status(404);
+	}
+	
+	@Transactional
 	public static Result getPostImageById(Long id) {
 		return ok(Resource.findById(id).getThumbnailFile());
 	}

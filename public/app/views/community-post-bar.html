@@ -74,7 +74,7 @@
 	</div>
 	
 	<textarea class="form-control" placeholder="Comment here..." data-ng-model="commentText"></textarea>
-	<button type="button" class="btn btn-warning btn-xs" data-ng-click="comment_on_post(post.id, commentText)">comment</button>
+	<button data-ng-show="commentText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="comment_on_post(post.id, commentText)">comment</button>
 </div>
 
 <span ng-show="isBusy" spinner-start-active="1" us-spinner="{top: 'inherit'}" ></span>

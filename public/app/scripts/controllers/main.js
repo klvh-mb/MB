@@ -359,23 +359,21 @@ minibean.controller('UserAboutController',function($scope, userAboutService, $ht
 
 
 ///////////////////////// Create community Home Page  //////////////////////////////////
-minibean.service('groupAboutService',function($resource){
-	this.UserAbout = $resource(
-			'/about-group',
+minibean.service('editCommunityPageService',function($resource){
+	this.EditCommunityPage = $resource(
+			'/editCommunity/:id',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
-				get: {method:'get'}
+				get: {method:'get', params:{id:'@id'}}
 			}
 	);
-	
 });
 
 
-
-minibean.controller('GroupController',function($scope, $routeParams, $http, usSpinnerService, iconsService, communityPageService, $upload, profilePhotoModal){
-
+minibean.controller('GroupController',function($scope, $routeParams, $http, usSpinnerService, iconsService, editCommunityPageService, $upload, profilePhotoModal){
+   
 	$scope.submitBtn = "Save";
-	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id});
+	$scope.community = editCommunityPageService.EditCommunityPage.get({id:$routeParams.id});
 
 	$scope.community.typ = [
 	 	                   {value: 'OPEN', text: 'Open'},
@@ -444,12 +442,14 @@ minibean.controller('CreateCommunityController',function($scope,  $http,  $uploa
 					fileFormDataName: 'cover-photo'
 				}).progress(function(evt) {
 					$scope.submitBtn = "Please Wait";
+					usSpinnerService.stop('loading...');
 			    }).success(function(data, status, headers, config) {
 			    	$scope.submitBtn = "Done";
 			    	usSpinnerService.stop('loading...');
 			    }).error(function(data, status, headers, config) {
 			    	if( status == 505 ) {
 			    		$scope.uniqueName = true;
+			    		usSpinnerService.stop('loading...');
 			    		$scope.submitBtn = "Try Again";
 			    	}  
 			    });
