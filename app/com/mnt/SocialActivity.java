@@ -76,7 +76,7 @@ public class SocialActivity {
 				notification.socialAction = socialAction;
 				notification.recipetent = socialAction.targetOwner;
 				notification.notificationType = NotificationType.COMMUNITY_JOIN_REQUEST;
-				notification.message = "wants to join community " + socialAction.targetname;
+				notification.message = "wants to join community " + socialAction.getTargetObject().name;
 				notification.save();
 			}
 				break;

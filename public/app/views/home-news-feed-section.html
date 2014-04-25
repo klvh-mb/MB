@@ -10,13 +10,13 @@
 	<div  data-ng-repeat="post in newsFeeds.posts">
 		<div class="general-box" data-ng-show="post.type=='SIMPLE'">
 			<ul>
-	            <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}"/><p class="wall-user-actState"><a href="#" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a href="#" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span></p><span class="wall-user-actState-date">{{post.t}}</span><span class="wall-user-actState-time">{{post.t}}</span></li>
+	            <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}"/><p class="wall-user-actState"><a href="#" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a href="#" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span></p><span class="wall-user-actState-date">{{post.t}}</span><span class="wall-user-actState-time"></span></li>
 	            <li><p class="wall-user-post-text">{{post.pt}}</p></li>
-	            <li><a class="btn-like" href="#" style="color: #428bca !important;">Like</a><a class="btn-comment" href="#" style="color: #428bca !important;">Comment</a></li>
+	            
        		</ul>
 	   
 		   	<ul class="wall-user-post-respond">
-	             <li><p class="whose-like"><a href="#" style="color: #428bca !important;">Wynee Lam</a></p></li>
+	             
 	             <li data-ng-click="get_all_comments(post.id)"><a href="">View {{post.n_c}} more comments</a></li>
 	             <ul>
 	                 <li data-ng-repeat="comment in post.cs"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><div><p class="user-comment"><a href="#" style="color: #428bca !important;">{{comment.on}}</a>{{comment.d}}</p><span class="wall-user-actState-date">{{comment.cd| date: 'dd MMM, yyyy'}}</span><span class="wall-user-actState-time">15:25</span><a class="btn-like" href="#" style="color: #428bca !important;">Like</a></div></li>
@@ -24,8 +24,9 @@
 	             <li><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{newsFeeds.lu}}"/></a>
 	             		<form id="userCommentwrapper" name="userComment">
 		                     <label for="User Comment"></label>
-		                     <textarea name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." data-ng-model="commentText" style="width: 100%;"></textarea>
-		                     <input id="submit-userComment" name="submit" type="button" data-ng-click="comment_on_post(post.id, commentText)"/>
+		                     <textarea name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." rows="1" data-ng-model="commentText"></textarea>
+		                     <!-- <input id="submit-userComment" name="submit" type="button" data-ng-click="comment_on_post(post.id, commentText)"/> -->
+		                     <span class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText)"></i></span>
 	                    </form>
 	              </li>
 	         </ul>
@@ -34,7 +35,7 @@
 		<div id="wall-forum" data-ng-show="post.type=='QUESTION'">
 		      <div class="general-box">
 		          <ul>
-		              <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}" /><p class="wall-user-actState"><a href="#" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a href="#" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-ask"></span></p><span class="wall-forum-post-time">{{post.t}}</span><span class="wall-forum-post-last-time">5</span><div id="wall-forum-info"><span class="shortcut-box text-center">?</span><span class="wall-forum-post-checked">1925191</span><span class="wall-forum-post-reply">{{post.n_c}}</span></div></li>
+		              <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}" /><p class="wall-user-actState"><a href="#" style="color: #428bca !important;">{{post.p}}</a><!-- <span class="wall-user-actState-from"></span> --><a href="#" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-ask"></span></p><span><!--  class="wall-forum-post-time" -->{{post.t}}</span><!--<span class="wall-forum-post-last-time">5</span>  --><div id="wall-forum-info"><span class="shortcut-box text-center">?</span><!-- <span class="wall-forum-post-checked">1925191</span><span class="wall-forum-post-reply">{{post.n_c}}</span> --></div></li>
 		              <li><p class="wall-user-post-text"><a href="#">{{post.pt}}</p>
 		              	   <div data-ng-show="post.hasImage" class="innerAll">
 								<p class="lead"></p>
@@ -43,20 +44,18 @@
 								</a>
 						   </div>
 		              </li>
-		              <li><a class="btn-like" href="#">Like</a><a class="btn-comment" href="#">Comment</a></li>
 		          </ul>
 		          <ul class="wall-user-forum-respond">
-		              <li><p class="whose-like"><a href="#">Wynee Lam</a></p></li>
 		              <ul>
-		                  <li data-ng-repeat="comment in post.cs"><div class="wall-user-forum-comment" style="min-height: 75px;"><div class="pull-right"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><span class="wall-user-actState-date">3月20日</span><span class="wall-user-actState-time">15:25</span></div><div><p class="user-comment"><a href="#">{{comment.on}}</a>{{comment.d}}</p><a class="btn-like" href="#">Like</a></div></div></li>
+		                  <li data-ng-repeat="comment in post.cs"><div class="wall-user-forum-comment" style="min-height: 75px;"><div class="pull-right"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><span class="wall-user-actState-date">3月20日</span><span class="wall-user-actState-time">15:25</span></div><div><p class="user-comment"><a href="#">{{comment.on}}</a>{{comment.d}}</p></div>
 		                  <li data-ng-click="get_all_comments(post.id)"><a href="">View {{post.n_c}} more comments</a></li>
 		              </ul>
 		          <li>
 		          		<a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{newsFeeds.lu}}"/></a>
 	                     <form id="userCommentwrapper" name="userComment" method="post" action="">
 	                      	<label for="User Comment"></label>
-	                     	<input type="text" name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." data-ng-model="commentText"/>
-	                      	<input id="submit-userComment" name="submit" type="button" data-ng-click="comment_on_post(post.id, commentText)"/>
+	                     	<textarea name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." data-ng-model="commentText" rows="1"></textarea>
+	                      	<span class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText)"></i></span>
 	                     </form>
 		          </li>
 		          </ul>

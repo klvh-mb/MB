@@ -76,6 +76,7 @@ public abstract class SocialObject extends domain.Entity implements
 		action.targetType = this.objectType;
 		action.actor = user.id;
 		action.actorType = user.objectType;
+		action.targetOwner = this.owner.id == null ? null : this.owner.id;
 		action.createOrUpdateForTargetAndActorPair();
 	}
 	
@@ -87,6 +88,7 @@ public abstract class SocialObject extends domain.Entity implements
 		action.actor = user.id;
 		action.actorType = user.objectType;
 		action.actionType = SocialRelation.ActionType.GRANT;
+		action.targetOwner = this.owner.id;
 		String message = "Congratulation "+user.name+","+"\n"+" You are now member of "+this.name+" Community.";
 		MailJob.sendMail("Some subject",new Body(message), user.email);
 		action.validateUniquenessAndCreate();
@@ -216,7 +218,7 @@ public abstract class SocialObject extends domain.Entity implements
 		action.actor = user.id;
 		action.actorType = user.objectType;
 		action.targetType = this.objectType;
-		
+		action.targetOwner = this.owner.id == null ? null : this.owner.id;;
 		action.save();
 	}
 	
@@ -227,6 +229,7 @@ public abstract class SocialObject extends domain.Entity implements
 		action.actor = user.id;
 		action.actorType = user.objectType;
 		action.targetType = this.objectType;
+		action.targetOwner = this.owner.id == null ? null : this.owner.id;;
 		action.save();
 	}
 

@@ -1,10 +1,7 @@
-<html>
-<link rel="stylesheet" href="../assets/app/custom-css/themeA.min.css">
-<link rel="stylesheet" href="../assets/app/custom-css/icon.css">
 
 <!-- <div class="navbar hidden-print navbar-default box main navbar-fixed-top" id="nav_bar" role="navigation" style="margin-top: -8px;height: 54px;">
-	div class="user-action user-action-btn-navbar pull-right border-left">
-		< a href="#menu-right" class="btn btn-sm btn-navbar btn-open-right"><i class="fa fa-comments fa-2x"></i></a>
+	<div class="user-action user-action-btn-navbar pull-right border-left">
+		<a href="#menu-right" class="btn btn-sm btn-navbar btn-open-right"><i class="fa fa-comments fa-2x"></i></a>
 		<div id="chat-notification" data-menu="menu-right" data-toggle="sidr-open" style="">
 			New message from <strong>Mr.Awesome</strong>
 		</div>
@@ -138,12 +135,10 @@
 	
 </div> -->
 
-<body>
-	<div id="header">
-        <div class="header-wrapper">
-            <p class="pull-left" style="float: left;font-size: 25px;margin-bottom: 0%;font-weight: bold;color: white;">miniBean</p>
+        <div id="header" class="header-wrapper navbar hidden-print navbar-default box main navbar-fixed-top" id="nav_bar" role="navigation" style="top:0px; height: 42px;box-shadow: none;">
+            <p class="pull-left" style="margin-left: 64px;float: left;font-size: 25px;margin-bottom: 0%;font-weight: bold;color: white;">miniBean</p>
             
-            <ul class="notifications pull-left hidden-xs">
+            <ul class="pull-left hidden-xs">
 			
 			<li class="dropdown notif pull-left" >
 				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
@@ -152,7 +147,7 @@
 						</span>
 						<img class="colorChange" src="../assets/app/images/general/icon_png/w_profile.png" />
 				</a>
-				<ul class="dropdown-menu chat media-list" data-ng-show="friend_requests.length > 0" >
+				<ul class="dropdown-menu chat media-list" data-ng-show="friend_requests.length > 0" style="top: 28px !important;" >
 					<li class="media" data-ng-repeat="friend in friend_requests">
 				        <a class="pull-left" ng-href="#/profile/{{friend.id}}"><img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{friend.id}}" alt="50x50" width="50"></a>
 						<div class="media-body" data-ng-init="friend.isLoadingEnable = false">
@@ -163,22 +158,22 @@
 				        	
 				        	<span class="label label-primary pull-right" data-ng-show="friend.isLoadingEnable == true">Loading...</span>
 				            
-				            <a href="#/profile/{{friend.id}}"><h5 class="media-heading">{{friend.dn}}</h5></a>
+				            <a href="#/profile/{{friend.id}}" style="margin-right: 0px !important;"><h5 class="media-heading">{{friend.dn}}</h5></a>
 				        </div>
 					</li>
 		      	</ul>
 			</li>
-			<li class="dropdown" style="float: left;">
+			<li class="dropdown notif pull-left">
 				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
 						<span data-ng-show="isNOreaded == true && join_requests.length > 0" data-ng-mouseover="reset_notify_count()">
 							<span class="badge pull-right">{{join_requests.length}}</span>
 						</span>
 						<img class="colorChange" src="../assets/app/images/general/icon_png/w_notification.png" />
 				</a>
-				<ul class="dropdown-menu chat media-list" data-ng-show="join_requests.length > 0">
+				<ul class="dropdown-menu chat media-list" data-ng-show="join_requests.length > 0" style="top: 28px !important;">
 					<li class="media" data-ng-repeat="request in join_requests" ng-switch="request.tp">
 				        
-				        <a ng-switch-when="COMMUNITY_JOIN_REQUEST"  class="pull-left" href="#"><img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{request.id}}" alt="50x50" width="50"></a>
+				        <a ng-switch-when="COMMUNITY_JOIN_REQUEST" class="pull-left" href="#"><img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{request.id}}" alt="50x50" width="50"></a>
 				        
 				        <a ng-switch-when="COMMUNITY_INVITE_REQUEST" class="pull-left" href="#"><img class="media-object thumb" data-ng-src="/community-mini-image-by-id/{{request.mm}}" alt="50x50" width="50"></a>
 				        
@@ -195,9 +190,9 @@
 				        	
 				        	<span class="label label-primary pull-right" data-ng-show="request.isRequestAccepted == true">member</span>
 				            
-				            <a ng-switch-when="COMMUNITY_JOIN_REQUEST" ng-href="#/profile/{{request.id}}"><h5 class="media-heading">{{request.dn}}</h5></a>
+				            <a ng-switch-when="COMMUNITY_JOIN_REQUEST" style="margin-right: 0px !important;" ng-href="#/profile/{{request.id}}"><h5 class="media-heading">{{request.dn}}</h5></a>
 				            
-				            <a ng-switch-when="COMMUNITY_INVITE_REQUEST" ng-href="#/community/{{request.id}}"><h5 class="media-heading">{{request.dn}}</h5></a>
+				            <a ng-switch-when="COMMUNITY_INVITE_REQUEST" style="margin-right: 0px !important;" ng-href="#/community/{{request.id}}"><h5 class="media-heading">{{request.dn}}</h5></a>
 				            <p class="margin-none">{{request.msg}}</p>
 				        </div>
 					</li>
@@ -251,9 +246,7 @@
                 <a href="#"><img src="../assets/app/images/general/icon_png/w_setup.png" /></a>
             </div>
         </div>
-    </div>
-</body>
-</html>
+        
 <!-- Css Style -->
 <style type="text/css">
 	.notifications>li.open {

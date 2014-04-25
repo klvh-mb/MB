@@ -25,6 +25,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.FetchType;
 
 import models.Community.CommunityType;
+import models.Notification.NotificationType;
 import models.SocialRelation.Action;
 import models.SocialRelation.ActionType;
 import models.TokenAction.Type;
@@ -281,8 +282,7 @@ public class User extends SocialObject implements Subject, Socializable {
 
 		List<Community> communityList = new ArrayList<>();
 		for (SocialRelation rslt : result) {
-			if (rslt.actor == this.id
-					&& rslt.targetType == SocialObjectType.COMMUNITY) {
+			if (rslt.actor == this.id && rslt.targetType == SocialObjectType.COMMUNITY) {
 				communityList.add((Community) rslt.getTargetObject(Community.class));
 			}
 		}
@@ -801,11 +801,11 @@ public class User extends SocialObject implements Subject, Socializable {
 	public List<Notification> getAllJoinRequestNotification() {
 		
 		Query q = JPA.em().createQuery(
-						"SELECT n from Notification n where recipetent = ?1 and socialAction.actionType in (?2,?3) " +
+						"SELECT n from Notification n where recipetent = ?1 and notificationType in (?2,?3) " +
 						" and readed = ?4 ");
 		q.setParameter(1, this.id);
-		q.setParameter(2, ActionType.JOIN_REQUESTED);
-		q.setParameter(3, ActionType.INVITE_REQUESTED);
+		q.setParameter(2, NotificationType.COMMUNITY_JOIN_REQUEST);
+		q.setParameter(3, NotificationType.COMMUNITY_INVITE_REQUEST);
 		q.setParameter(4, false);
 		List<Notification> notifications = q.getResultList();
 		return notifications;
