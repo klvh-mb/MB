@@ -181,8 +181,8 @@
 
 
 <script type="text/ng-template" id="change-profile-photo-modal.html">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	<div class="modal-header">
+        <button type="button" ng-click="close()" class="close" data-dismiss="modal" data-target="#change-profile-photo-modal.html">&times;</button>
         <h4 class="modal-title">Change Photo</h4>
       </div>
       <div class="modal-body">
