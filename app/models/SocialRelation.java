@@ -96,6 +96,8 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	@Transient
 	public String targetname;
 	@Transient
+	public Long targetOwner;
+	@Transient
 	public String actorname;
 	
 	static public enum Action {
@@ -142,6 +144,7 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 		this.relationWeight = weight;
 		this.target = target.id;
 		this.targetname = target.name;
+		this.targetOwner = target.owner == null ? null :target.owner.id;
 	}
 	
 	@Transactional

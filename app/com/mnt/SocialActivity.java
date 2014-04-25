@@ -36,7 +36,7 @@ public class SocialActivity {
 			case LIKED: {
 				Notification notification = new Notification();
 				notification.socialAction = socialAction;
-				notification.recipetent = socialAction.target;
+				notification.recipetent = socialAction.targetOwner;
 				notification.message = socialAction.actorname
 						+ " Liked on your " + socialAction.targetType;
 				notification.save();
@@ -46,7 +46,7 @@ public class SocialActivity {
 			case COMMENTED: {
 				Notification notification = new Notification();
 				notification.socialAction = socialAction;
-				notification.recipetent = socialAction.target;
+				notification.recipetent = socialAction.targetOwner;
 				notification.notificationType = NotificationType.COMMENT;
 				notification.message = socialAction.actorname
 						+ " Commented on your Post";
@@ -74,7 +74,7 @@ public class SocialActivity {
 			case JOIN_REQUESTED: {
 				Notification notification = new Notification();
 				notification.socialAction = socialAction;
-				notification.recipetent = socialAction.target;
+				notification.recipetent = socialAction.targetOwner;
 				notification.notificationType = NotificationType.COMMUNITY_JOIN_REQUEST;
 				notification.message = "wants to join community " + socialAction.targetname;
 				notification.save();
