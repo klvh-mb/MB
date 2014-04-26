@@ -566,6 +566,18 @@ public class CommunityController extends Controller{
 	}
 	
 	@Transactional
+	public static Result getNewsfeeds(int offset) {
+		final User localUser = Application.getLocalUser(session());
+		List<CommunityPostVM> posts = new ArrayList<>();
+		for(Post p :localUser.getNewsfeeds(offset, 5)) {
+			CommunityPostVM post = CommunityPostVM.communityPostVM(p);
+			posts.add(post);
+		}
+		NewsFeedVM vm = new NewsFeedVM(localUser, posts);
+		return ok(Json.toJson(vm));
+	}
+	
+	@Transactional
 	public static Result getMyLiveUpdates(Long timestamps){
 		final User localUser = Application.getLocalUser(session());
 		
@@ -591,6 +603,8 @@ public class CommunityController extends Controller{
 		
 		return ok(Json.toJson(posts));
 	}
+	
+	
 }
 
 	

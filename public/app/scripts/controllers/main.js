@@ -1440,50 +1440,44 @@ minibean.controller('EditArticleController',function($scope,$routeParams, Articl
 });
 
 minibean.service('newsFeedService',function($resource){
-	this.getMyUpdates = $resource(
-			'/get-my-updates/:timestamp',
+	
+//	this.getMyUpdates = $resource(
+//			'/get-my-updates/:timestamp',
+//			{alt:'json',callback:'JSON_CALLBACK'},
+//			{
+//				get: {method:'GET', params:{timestamp:'@timestamp'}}
+//			}
+//	);
+//	
+//	this.getMyLiveUpdates = $resource(
+//			'/get-my-live-updates/:timestamp',
+//			{alt:'json',callback:'JSON_CALLBACK'},
+//			{
+//				get: {method:'GET', params:{timestamp:'@timestamp'}}
+//			}
+//	);
+//	
+//	this.GetNextNewsFeeds = $resource(
+//			'/get-next-news-feeds/:timestamp',
+//			{alt:'json',callback:'JSON_CALLBACK'},
+//			{
+//				get: {method:'GET', params:{timestamp:'@timestamp'}, isArray:true}
+//			}
+//	);
+	
+	this.NewsFeeds = $resource(
+			'/get-newsfeeds/:offset',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
-				get: {method:'GET', params:{timestamp:'@timestamp'}}
+				get: {method:'GET', params:{offset:'@offset'}}
 			}
 	);
 	
-	this.getMyLiveUpdates = $resource(
-			'/get-my-live-updates/:timestamp',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{timestamp:'@timestamp'}}
-			}
-	);
 	
-	this.GetNextNewsFeeds = $resource(
-			'/get-next-news-feeds/:timestamp',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{timestamp:'@timestamp'}, isArray:true}
-			}
-	);
 });
 
 minibean.controller('NewsFeedController', function($scope, $interval, $http, allCommentsService, usSpinnerService, newsFeedService) {
-	$scope.newsFeeds = [];
-	var timestamp = moment().unix();
-	$scope.newsFeeds = newsFeedService.getMyUpdates.get({timestamp : timestamp}, function(vm) {
-		var posts = vm.posts;
-		var lastIndex = posts.length -1;
-		if(posts[lastIndex] != undefined) {
-			timestamp = posts[lastIndex].ts;
-		}
-	});
-	
-	$interval(function() {
-		var timestamp = moment().unix();
-		newsFeedService.getMyLiveUpdates.get({timestamp : timestamp}, function(result) {
-			angular.forEach(result.posts, function(post, key){
-				$scope.newsFeeds.posts.splice(key, 0, post);
-			});
-		});
-	}, 60*1000);
+	$scope.newsFeeds = { posts: [] };
 	
 	$scope.comment_on_post = function(id, commentText) {
 		var data = {
@@ -1514,16 +1508,22 @@ minibean.controller('NewsFeedController', function($scope, $interval, $http, all
 		});
 	}
 	
+	
+
 	var noMore = false;
+	var offset = 0;
+
+	//$scope.newsFeeds = newsFeedService.NewsFeeds.get({offset:0}, function(vm) {
+	//	offset++;
+	//});
+	
 	$scope.nextNewsFeeds = function() {
 		if ($scope.isBusy) return;
 		if (noMore) return;
-		
 		$scope.isBusy = true;
-		
-		newsFeedService.GetNextNewsFeeds.get({timestamp : timestamp},
+		newsFeedService.NewsFeeds.get({offset:offset},
 			function(data){
-				var posts = data;
+				var posts = data.posts;
 				if(posts.length < 5 ) {
 					noMore = true;
 					$scope.isBusy = false;
@@ -1532,12 +1532,8 @@ minibean.controller('NewsFeedController', function($scope, $interval, $http, all
 				for (var i = 0; i < posts.length; i++) {
 					$scope.newsFeeds.posts.push(posts[i]);
 			    }
-				
-				var lastIndex = posts.length - 1;
-				if(posts[lastIndex] != undefined) {
-					timestamp = posts[lastIndex].ts;
-				}
-				$scope.isBusy = false;
+			    $scope.isBusy = false;
+				offset++;
 			}
 		);
 	}

@@ -38,6 +38,7 @@ import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.i18n.Messages;
 import play.mvc.Content;
+import processor.FeedProcessor;
 import be.objectify.deadbolt.core.models.Permission;
 import be.objectify.deadbolt.core.models.Role;
 import be.objectify.deadbolt.core.models.Subject;
@@ -282,7 +283,8 @@ public class User extends SocialObject implements Subject, Socializable {
 
 		List<Community> communityList = new ArrayList<>();
 		for (SocialRelation rslt : result) {
-			if (rslt.actor == this.id && rslt.targetType == SocialObjectType.COMMUNITY) {
+			if (rslt.actor == this.id
+					&& rslt.targetType == SocialObjectType.COMMUNITY) {
 				communityList.add((Community) rslt.getTargetObject(Community.class));
 			}
 		}
@@ -885,6 +887,13 @@ public class User extends SocialObject implements Subject, Socializable {
 		query.setParameter(2, SocialRelation.Action.MEMBER);
 		query.setFirstResult(0);
 		query.setMaxResults(5);
+		return (List<Post>)query.getResultList();
+	}
+	
+	public List<Post> getNewsfeeds(int offset, int page) {
+		List<String> ids = FeedProcessor.getUserFeedIds(this, offset, page);
+		String idsForIn = ids.toString().replace("[", "").replace("]", "");
+		Query query = JPA.em().createQuery("SELECT p from Post p where p.id in (" + idsForIn + ")");
 		return (List<Post>)query.getResultList();
 	}
 	

@@ -103,7 +103,7 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 			post.postType = type;
 		}
 		post.save();
-		this.posts.add(post);
+		this.posts.add(post);// DO WE NEED THIS??
 		JPA.em().merge(this);
 		
 		SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");

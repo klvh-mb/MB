@@ -26,6 +26,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 import play.i18n.Messages;
+import processor.FeedProcessor;
 
 import com.github.cleverage.elasticsearch.IndexQuery;
 import com.github.cleverage.elasticsearch.IndexResults;
@@ -73,6 +74,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
 	public void save() {
 		super.save();
 		recordPost(owner);
+		FeedProcessor.pushToMemebes(this);
 	}
 	
 	public static Post findById(Long id) {

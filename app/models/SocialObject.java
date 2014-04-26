@@ -70,25 +70,15 @@ public abstract class SocialObject extends domain.Entity implements
 	}
 
 	protected final void recordJoinRequest(User user) {
-		SocialRelation action = new SocialRelation();
+		SocialRelation action = new SocialRelation(user, this);
 		action.actionType = SocialRelation.ActionType.JOIN_REQUESTED;
-		action.target = this.id;
-		action.targetType = this.objectType;
-		action.actor = user.id;
-		action.actorType = user.objectType;
-		action.targetOwner = this.owner.id == null ? null : this.owner.id;
 		action.createOrUpdateForTargetAndActorPair();
 	}
 	
 	protected final void beMemberOfCommunity(User user) {
-		SocialRelation action = new SocialRelation();
+		SocialRelation action = new SocialRelation(user, this);
 		action.action = SocialRelation.Action.MEMBER;
-		action.target = this.id;
-		action.targetType = this.objectType;
-		action.actor = user.id;
-		action.actorType = user.objectType;
 		action.actionType = SocialRelation.ActionType.GRANT;
-		action.targetOwner = this.owner.id;
 		String message = "Congratulation "+user.name+","+"\n"+" You are now member of "+this.name+" Community.";
 		MailJob.sendMail("Some subject",new Body(message), user.email);
 		action.validateUniquenessAndCreate();
@@ -129,12 +119,8 @@ public abstract class SocialObject extends domain.Entity implements
 	}
 
 	protected final void recordFriendRequest(User invitee) {
-		SocialRelation action = new SocialRelation();
+		SocialRelation action = new SocialRelation(this, invitee);
 		action.actionType = SocialRelation.ActionType.FRIEND_REQUESTED;
-		action.target = invitee.id;
-		action.targetType = invitee.objectType;
-		action.actor = this.id;
-		action.actorType = this.objectType;
 		action.validateUniquenessAndCreate();
 	}
 
@@ -154,13 +140,9 @@ public abstract class SocialObject extends domain.Entity implements
 	}
 
 	protected final void recordRelationshipRequest(User user, Action relation) {
-		SocialRelation action = new SocialRelation();
+		SocialRelation action = new SocialRelation(this,user);
 		action.actionType = SocialRelation.ActionType.RELATIONSHIP_REQUESTED;
 		action.action = relation;
-		action.target = user.id;
-		action.targetType = user.objectType;
-		action.actor = this.id;
-		action.actorType = this.objectType;
 		action.validateUniquenessAndCreate();
 	}
 
@@ -181,75 +163,44 @@ public abstract class SocialObject extends domain.Entity implements
 	}
 
 	protected final void recordPostOn(User user) {
-		SocialRelation action = new SocialRelation();
+		SocialRelation action = new SocialRelation(user, this);
 		action.action = SocialRelation.Action.POSTED_ON;
-		action.target = this.id;
-		action.actor = user.id;
-		action.actorType = user.objectType;
-		action.targetType = this.objectType;
-		
 		action.save();
 	}
 
 	protected final void recordPost(SocialObject user) {
-		SocialRelation action = new SocialRelation();
+		SocialRelation action = new SocialRelation(user, this);
 		action.action = SocialRelation.Action.POSTED;
-		action.target = this.id;
-		action.actor = user.id;
-		action.actorType = user.objectType;
-		action.targetType = this.objectType;
 		action.save();
 	}
 
 	protected void recordQnA(SocialObject user) {
-		SocialRelation action = new SocialRelation();
+		SocialRelation action = new SocialRelation(user, this);
 		action.action = SocialRelation.Action.POSTED_QUESTION;
-		action.target = this.id;
-		action.actor = user.id;
-		action.actorType = user.objectType;
-		action.targetType = this.objectType;
 		action.save();
 	}
 
 	protected void recordCommentOnCommunityPost(SocialObject user) {
-		SocialRelation action = new SocialRelation();
+		SocialRelation action = new SocialRelation(user, this);
 		action.action = SocialRelation.Action.COMMENTED;
-		action.target = this.id;
-		action.actor = user.id;
-		action.actorType = user.objectType;
-		action.targetType = this.objectType;
-		action.targetOwner = this.owner.id == null ? null : this.owner.id;;
 		action.save();
 	}
 	
 	protected void recordAnswerOnCommunityPost(SocialObject user) {
-		SocialRelation action = new SocialRelation();
+		SocialRelation action = new SocialRelation(user, this);
 		action.action = SocialRelation.Action.ANSWERED;
-		action.target = this.id;
-		action.actor = user.id;
-		action.actorType = user.objectType;
-		action.targetType = this.objectType;
-		action.targetOwner = this.owner.id == null ? null : this.owner.id;;
 		action.save();
 	}
 
 	protected void recordAddedPhoto(SocialObject user) {
-		SocialRelation action = new SocialRelation();
+		SocialRelation action = new SocialRelation(user, this);
 		action.action = SocialRelation.Action.ADDED;
-		action.target = this.id;
-		action.actor = user.id;
-		action.actorType = user.objectType;
-		action.targetType = this.objectType;
 		action.save();
 	}
 
 	protected final void recordInviteRequestByCommunity(User invitee) {
-		SocialRelation action = new SocialRelation();
+		SocialRelation action = new SocialRelation(invitee, this);
 		action.actionType = SocialRelation.ActionType.INVITE_REQUESTED;
-		action.target = this.id;
-		action.actor = invitee.id;
-		action.actorType = invitee.objectType;
-		action.targetType = this.objectType;
 		action.validateUniquenessAndCreate();
 	}
 	

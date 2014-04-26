@@ -6,6 +6,7 @@ import play.GlobalSettings;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Call;
+import processor.FeedProcessor;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.PlayAuthenticate.Resolver;
@@ -75,6 +76,8 @@ public class Global extends GlobalSettings {
 				initialData();;
 			}
 		});
+		
+		FeedProcessor.updatesUserLevelFeed();
 		
 	}
 

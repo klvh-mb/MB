@@ -141,6 +141,6 @@ GET		/get-my-next-communities/:offset		controllers.CommunityController.getMyNext
 GET		/get-my-updates/:timestamp				controllers.CommunityController.getMyUpdates(timestamp:Long)
 GET		/get-my-live-updates/:timestamp			controllers.CommunityController.getMyLiveUpdates(timestamp:Long)
 GET		/get-next-news-feeds/:timestamp			controllers.CommunityController.getNextNewsFeeds(timestamp:Long)	
-
+GET		/get-newsfeeds/:offset					controllers.CommunityController.getNewsfeeds(offset:Integer)
 # indexing with elasic search
 GET		/searchForPosts/index/:query/:community_id	controllers.Application.searchForPosts(query: String, community_id: Long)

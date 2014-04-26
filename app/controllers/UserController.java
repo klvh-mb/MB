@@ -8,7 +8,6 @@ import java.util.List;
 
 import models.Community;
 import models.Notification;
-import models.SocialObject;
 import models.User;
 
 import org.apache.commons.io.FileUtils;
@@ -20,7 +19,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import viewmodel.CommunitiesWidgetChildVM;
+import processor.FeedProcessor;
 import viewmodel.FriendWidgetChildVM;
 import viewmodel.NotificationVM;
 import viewmodel.ProfileVM;
@@ -28,8 +27,6 @@ import viewmodel.SocialObjectVM;
 import viewmodel.UserVM;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
-import com.mnt.utils.MailJob;
-import com.mnt.utils.MailJob.Mail.Body;
 
 public class UserController extends Controller {
 	
@@ -37,7 +34,7 @@ public class UserController extends Controller {
 	public static Result getUserInfo() {
 		final User localUser = Application.getLocalUser(session());
 		UserVM userInfo = new UserVM(localUser);
-		//MailJob.sendMail("Some subject",new Body("test hello"), "mindnervestech@gmail.com");
+		System.out.println(FeedProcessor.getUserFeedIds(localUser));
 		return ok(Json.toJson(userInfo));
 	}
 	

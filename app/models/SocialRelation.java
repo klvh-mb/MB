@@ -146,6 +146,16 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 		this.targetOwner = target.owner == null ? null :target.owner.id;
 	}
 	
+	public SocialRelation(SocialObject actor, SocialObject target) {
+		this.actor = actor.id;
+		this.actorname = actor.name;
+		this.target = target.id;
+		this.targetname = target.name;
+		this.targetOwner = target.owner == null ? null :target.owner.id;
+		this.targetType = target.objectType;
+		this.actorType = actor.objectType;
+	}
+	
 	@Transactional
 	public void validateUniquenessAndCreate() {
 		Query q = JPA.em().createQuery("Select sa from SocialRelation sa where actor = ?1 and action = ?2 and target = ?3");
