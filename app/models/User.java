@@ -894,6 +894,9 @@ public class User extends SocialObject implements Subject, Socializable {
 		List<String> ids = FeedProcessor.getUserFeedIds(this, offset, page);
 		String idsForIn = ids.toString().replace("[", "").replace("]", "");
 		Query query = JPA.em().createQuery("SELECT p from Post p where p.id in (" + idsForIn + ")");
+		if(ids.size()== 0){
+			return null;
+		}
 		return (List<Post>)query.getResultList();
 	}
 	

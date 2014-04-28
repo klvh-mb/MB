@@ -10,9 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.Query;
 
 import play.data.validation.Constraints.Required;
+import play.db.jpa.JPA;
 import domain.AuditListener;
 import domain.Creatable;
 import domain.Updatable;
@@ -119,8 +120,12 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 		this.notificationType = notificationType;
 	}
 	
-	
-	
+	public static Notification findById(Long id) {
+		String sql = "SELECT n FROM Notification n WHERE id=?1";
+		Query query = JPA.em().createQuery(sql);
+		query.setParameter(1, id);
+		return (Notification) query.getSingleResult();
+	}
 	
 
 }

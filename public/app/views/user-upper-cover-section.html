@@ -4,7 +4,7 @@
 								<div class="widget-body padding-none margin-none">
 									<div class="top">
 											<div class="top">
-												<img data-ng-src="/get-cover-image-by-id/{{userInfo.id}}" class="img-responsive" />
+												<img data-ng-src="{{coverImage}}"  class="img-responsive" />
 											</div>
 											<div ng-show="isEdit">	
 												<a ng-click="openCoverPhotoModal()" alt="Change" title="Change"  
@@ -18,7 +18,7 @@
 										<li ng-class="{active: selectedTab == 3}"><a href="/#/messages"><i class="icon-envelope-fill-1"></i> Messages <span>(2 new)</span></a></li>
 									</ul>
 									<div class="photo">
-										<img data-ng-src="/get-profile-image-by-id/{{userInfo.id}}" height="90px" class="img-rounded"/>
+										<img data-ng-src="{{profileImage}}"  height="90px" class="img-rounded"/>
 										<div ng-show="isEdit">	<i class="fa fa-fw icon-compose" ng-click="openProfilePhotoModal()" data-template="/assets/app/views/change-profile-photo-modal.html"></i></div> 
 									</div>
 

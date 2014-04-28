@@ -153,7 +153,7 @@
 						<div class="media-body" data-ng-init="friend.isLoadingEnable = false">
 				        	
 				        	<button data-ng-show="friend.isFriendAccepted == false && friend.isLoadingEnable == false" data-ng-init="friend.isFriendAccepted = false"
-				        		 data-ng-click="accept_friend_request(friend.id)" class="btn btn-xs btn-success pull-right">accept</button>
+				        		 data-ng-click="accept_friend_request(friend.id, friend.nid)" class="btn btn-xs btn-success pull-right">accept</button>
 				        	<label class="label label-default pull-right" data-ng-show="friend.isFriendAccepted == true">Friends</label>
 				        	
 				        	<span class="label label-primary pull-right" data-ng-show="friend.isLoadingEnable == true">Loading...</span>
@@ -180,7 +180,7 @@
 						<div class="media-body" data-ng-init="request.isLoadingEnable = false">
 				        	
 				        	<button ng-switch-when="COMMUNITY_JOIN_REQUEST"  data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
-				        	 	data-ng-click="accept_join_request(request.id, request.mm);$event.stopPropagation();" 
+				        	 	data-ng-click="accept_join_request(request.id, request.mm, request.nid);$event.stopPropagation();" 
 				        	 	class="btn btn-xs btn-success pull-right a_{{request.id}}_{{request.mm}}">accept</button>
 					        
 				        	<button ng-switch-when="COMMUNITY_INVITE_REQUEST" data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"

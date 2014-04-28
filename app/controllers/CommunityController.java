@@ -569,10 +569,16 @@ public class CommunityController extends Controller{
 	public static Result getNewsfeeds(int offset) {
 		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostVM> posts = new ArrayList<>();
-		for(Post p :localUser.getNewsfeeds(offset, 5)) {
-			CommunityPostVM post = CommunityPostVM.communityPostVM(p);
-			posts.add(post);
+		
+		List<Post> newsFeeds = localUser.getNewsfeeds(offset, 5);
+		
+		if(newsFeeds != null ){
+			for(Post p : newsFeeds) {
+				CommunityPostVM post = CommunityPostVM.communityPostVM(p);
+				posts.add(post);
+			}
 		}
+		
 		NewsFeedVM vm = new NewsFeedVM(localUser, posts);
 		return ok(Json.toJson(vm));
 	}
