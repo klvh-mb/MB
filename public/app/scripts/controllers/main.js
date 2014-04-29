@@ -96,10 +96,10 @@ minibean.service('acceptJoinRequestService',function($resource){
 	);
 	
 	this.acceptInviteRequest = $resource(
-			'/accept-invite-request/:member_id/:group_id',
+			'/accept-invite-request/:member_id/:group_id/:notify_id',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
-				get: {method:'GET', params:{member_id:'@member_id',group_id:'@group_id'}, isArray:true}
+				get: {method:'GET', params:{member_id:'@member_id',group_id:'@group_id',notify_id:'@notify_id'}, isArray:true}
 			}
 	);
 });
@@ -166,12 +166,12 @@ minibean.controller('ApplicationController',function($scope,$location, userInfoS
 		);
 	}
 	
-	$scope.accept_invite_request = function(member_id,group_id) {
+	$scope.accept_invite_request = function(member_id,group_id, notification_id) {
 		
 		var spinner = new Spinner().spin();
 		
 		$(".a_" + member_id + "_" + group_id).append(spinner.el);    
-		this.accept_invite_request = acceptJoinRequestService.acceptInviteRequest.get({"member_id":member_id, "group_id":group_id},
+		this.accept_invite_request = acceptJoinRequestService.acceptInviteRequest.get({"member_id":member_id, "group_id":group_id, "notify_id":notification_id},
 			function() {
 				$(".a_" + member_id + "_" + group_id).html("member");
 				$(".a_" + member_id + "_" + group_id).removeClass("btn-success");

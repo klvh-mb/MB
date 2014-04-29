@@ -184,7 +184,7 @@
 				        	 	class="btn btn-xs btn-success pull-right a_{{request.id}}_{{request.mm}}">accept</button>
 					        
 				        	<button ng-switch-when="COMMUNITY_INVITE_REQUEST" data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
-				        	 	data-ng-click="accept_invite_request(request.id, request.mm);$event.stopPropagation();" 
+				        	 	data-ng-click="accept_invite_request(request.id, request.mm, request.nid);$event.stopPropagation();" 
 				        	 	class="btn btn-xs btn-success pull-right a_{{request.id}}_{{request.mm}}">accept</button>
 					        
 				        	

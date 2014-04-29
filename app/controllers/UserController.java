@@ -217,7 +217,7 @@ public class UserController extends Controller {
     }
     
     @Transactional
-    public static Result acceptInviteRequest(Long member_id, Long group_id) {
+    public static Result acceptInviteRequest(Long member_id, Long group_id, Long notify_id) {
     	final User localUser = Application.getLocalUser(session());
     	
     	User invitee = User.findById(member_id);
@@ -228,6 +228,10 @@ public class UserController extends Controller {
 		} catch (SocialObjectNotJoinableException e) {
 			e.printStackTrace();
 		}
+    	
+    	Notification notification = Notification.findById(notify_id);
+    	notification.readed = true;
+    	notification.merge();
     	return ok();
     }
     

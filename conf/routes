@@ -88,7 +88,7 @@ GET		/get-friend-requests		controllers.UserController.getAllFriendRequests
 GET		/accept-friend-request		controllers.UserController.acceptFriendRequest(friend_id :Long, notify_id: Long)
 GET		/get-join-requests			controllers.UserController.getAllJoinRequests
 GET		/accept-join-request/:member_id/:group_id/:notify_id		controllers.UserController.acceptJoinRequest(member_id :Long, group_id :Long, notify_id: Long)
-GET		/accept-invite-request/:member_id/:group_id		controllers.UserController.acceptInviteRequest(member_id :Long, group_id :Long)
+GET		/accept-invite-request/:member_id/:group_id/:notify_id		controllers.UserController.acceptInviteRequest(member_id :Long, group_id :Long, notify_id: Long)
 
 GET     /profile/:id                controllers.UserController.getProfile(id :Long)
 GET		/get-profile-image-by-id/:id		controllers.UserController.getProfileImageByID(id :Long)
