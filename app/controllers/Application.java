@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import models.Post;
 import models.User;
 
 import org.elasticsearch.index.query.AndFilterBuilder;
@@ -26,6 +27,7 @@ import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
+import viewmodel.CommunityPostVM;
 import viewmodel.PostIndexVM;
 import views.html.signup;
 import be.objectify.deadbolt.java.actions.Group;
@@ -172,7 +174,7 @@ public class Application extends Controller {
 	}
     
 	@Transactional
-    public static Result searchForPosts(String query, Long community_id){
+    public static Result searchForPosts(String query, Long community_id, Long offset){
 		
 		AndFilterBuilder andFilterBuilder = FilterBuilders.andFilter();
 		andFilterBuilder.add(FilterBuilders.queryFilter(QueryBuilders.fieldQuery("community_id", community_id)));
@@ -186,6 +188,9 @@ public class Application extends Controller {
 		IndexQuery<PostIndex> indexQuery = PostIndex.find.query();
 		indexQuery.setBuilder(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), 
 				 andFilterBuilder));
+		
+		indexQuery.from((int) (offset*5));
+        indexQuery.size(5);
 		IndexResults<PostIndex> allPosts = PostIndex.find.search(indexQuery);
 		
 		System.out.println(allPosts.getTotalCount());

@@ -760,7 +760,36 @@ minibean.controller('ProfileController',function($scope, $routeParams, profileSe
 });
 ///////////////////////// User Profile End //////////////////////////////////
 
+minibean.controller('SearchPageController', function($scope, $routeParams, $http, communityPageService, usSpinnerService){
+	$scope.highlightText="";
+	$scope.highlightQuery = "";
 
+	var offset = 0;
+	var noMore = false;
+	$scope.search_and_highlight = function(query) {
+		if ($scope.isBusy) return;
+		if (noMore) return;
+		var id = $routeParams.id;
+		$scope.isBusy = true;
+		$scope.community.posts = [];
+		communityPageService.GetPostsFromIndex.get({community_id:id , query : query,offset:offset}, function( data ) {
+			var posts = data;
+			if(data.length < 5 ) {
+				noMore = true;
+				$scope.isBusy = false;
+			}
+			
+			for (var i = 0; i < posts.length; i++) {
+				$scope.community.posts.push(posts[i]);
+		    }
+			$scope.isBusy = false;
+			offset++;
+			$scope.highlightText = query;
+		});
+	};
+	
+	
+});
 
 ///////////////////////// Community Page Start //////////////////////////////////
 
@@ -782,10 +811,10 @@ minibean.service('communityPageService',function($resource){
 	);
 	
 	this.GetPostsFromIndex = $resource(
-			'/searchForPosts/index/:query/:community_id',
+			'/searchForPosts/index/:query/:community_id/:offset',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
-				get: {method:'get', params:{community_id:'@community_id',query:'@query'},isArray:true}
+				get: {method:'get', params:{community_id:'@community_id',query:'@query',offset:'@offset'},isArray:true}
 			}
 	);
 });
@@ -848,7 +877,6 @@ minibean.service('searchMembersService',function($resource){
 
 minibean.controller('CommunityPageController', function($scope, $routeParams, $http, searchMembersService, iconsService,
 		allCommentsService, communityPageService, communityJoinService, $upload, $timeout, usSpinnerService){
-	$scope.highlightQuery = "";
 	$scope.$on('$viewContentLoaded', function() {
 		usSpinnerService.spin('loading...');
 	});
@@ -858,16 +886,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		usSpinnerService.stop('loading...');
 	});
 	$scope.selectedTab =1;
-	$scope.highlightText="";
-	$scope.search_and_highlight = function(community_id, query) {
-		$scope.community.posts=[];
-		communityPageService.GetPostsFromIndex.get({community_id: community_id, query : query}, function( results ) {
-			angular.forEach(results, function(post, key){
-				$scope.community.posts.push(post);
-			});
-			$scope.highlightText = query;
-		});
-	};
+	$scope.selectedTab1 =1;
 	
 	$scope.nonMembers = [];
 	$scope.search_unjoined_users = function(comm_id, query) {
