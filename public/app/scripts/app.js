@@ -16,7 +16,8 @@ angular.module('minibean', [
   'truncate',
   'ui.tinymce',
   'ui.utils',
-  'ngSanitize'
+  'ngSanitize',
+  'angularMoment'
 ])
   .config(function ($routeProvider) {
     $routeProvider

@@ -17,7 +17,7 @@ public class CommunityPostVM {
 	@JsonProperty("id") public Long postId;
 	@JsonProperty("oid") public Long ownerId;
 	@JsonProperty("p") public String postedBy;
-	@JsonProperty("t") public String postedOn;
+	@JsonProperty("t") public long postedOn;
 	@JsonProperty("pt") public String postedText;
 	@JsonProperty("hasImage") public boolean hasImage;
 	@JsonProperty("n_c") public int noOfComments;
@@ -34,7 +34,7 @@ public class CommunityPostVM {
 		postVM.postId = post.id;
 		postVM.ownerId = post.owner.id;
 		postVM.postedBy = post.owner.name;
-		postVM.postedOn = df.format(post.getCreatedDate());
+		postVM.postedOn = post.getCreatedDate().getTime();
 		postVM.postedText = post.body;
 		postVM.noOfComments = post.comments.size();
 		postVM.timestamp = post.getCreatedDate().getTime()/1000;

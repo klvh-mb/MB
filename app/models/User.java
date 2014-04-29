@@ -341,9 +341,9 @@ public class User extends SocialObject implements Subject, Socializable {
 		Root<User> root = criteria.from(User.class);
 		criteria.select(root);
 		Predicate predicate = builder.or(
-				builder.like(root.<String> get("displayName"), "%" + q + "%"),
-				builder.like(root.<String> get("firstName"), "%" + q + "%"),
-				builder.like(root.<String> get("lastName"), "%" + q + "%"));
+				builder.like(builder.upper(root.<String> get("displayName")), "%" + q.toUpperCase() + "%"),
+				builder.like(builder.upper(root.<String> get("firstName")), "%" + q.toUpperCase() + "%"),
+				builder.like(builder.upper(root.<String> get("lastName")), "%" + q.toUpperCase() + "%"));
 		criteria.where(predicate);
 		return JPA.em().createQuery(criteria).getResultList();
 	}

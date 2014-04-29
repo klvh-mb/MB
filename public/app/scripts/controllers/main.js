@@ -137,8 +137,7 @@ minibean.controller('ApplicationController',function($scope,$location, userInfoS
 				function() {
 					angular.forEach($scope.friend_requests, function(request, key){
 						if(request.id == id) {
-							request.isLoadingEnable = false;
-							request.isFriendAccepted = true;
+							$scope.friend_requests.splice($scope.friend_requests.indexOf(request),1);
 						}
 					});
 				}
