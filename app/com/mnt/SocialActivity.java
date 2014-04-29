@@ -17,7 +17,8 @@ public class SocialActivity {
 				notification.recipetent = socialAction.actor;
 				notification.notificationType = NotificationType.COMMUNITY_JOIN_APPROVED;
 				notification.message = "You are now member of "
-						+ socialAction.target.name;
+						+ socialAction.targetname;
+				notification.readed = true;
 				notification.save();
 			}
 				break;*/
@@ -29,6 +30,7 @@ public class SocialActivity {
 				notification.notificationType = NotificationType.FRIEND_ACCEPTED;
 				notification.message = "You are now Friend of "
 						+ socialAction.targetname;
+				notification.readed = true;
 				notification.save();
 			}
 				break;

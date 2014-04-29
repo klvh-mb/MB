@@ -165,13 +165,13 @@ public class UserController extends Controller {
     	
     	List<FriendWidgetChildVM> requests = new ArrayList<>();
     	for(Notification n : friendRequests) {
-    		requests.add(new FriendWidgetChildVM(n.socialAction.actor, n.socialAction.getActorObject().name));
+    		requests.add(new FriendWidgetChildVM(n.socialAction.actor, n.socialAction.getActorObject().name,n.id));
     	}
     	return ok(Json.toJson(requests));
     }
     
     @Transactional
-    public static Result acceptFriendRequest(Long id) {
+    public static Result acceptFriendRequest(Long id, Long notify_id) {
     	final User localUser = Application.getLocalUser(session());
     	User invitee = User.findById(id);
     	
@@ -180,6 +180,9 @@ public class UserController extends Controller {
 		} catch (SocialObjectNotJoinableException e) {
 			e.printStackTrace();
 		}
+    	Notification notification = Notification.findById(notify_id);
+    	notification.readed = true;
+    	notification.merge();
     	return ok();
     }
     
@@ -189,13 +192,13 @@ public class UserController extends Controller {
     	List<Notification> joinRequests = localUser.getAllJoinRequestNotification();
     	List<NotificationVM> requests = new ArrayList<>();
     	for(Notification n : joinRequests) {
-    		requests.add(new NotificationVM(n.socialAction.actor, n.socialAction.target, n.socialAction.getActorObject().name, n.notificationType.name(), n.message));
+    		requests.add(new NotificationVM(n));
     	}
     	return ok(Json.toJson(requests));
     }
     
     @Transactional
-    public static Result acceptJoinRequest(Long member_id,Long group_id) {
+    public static Result acceptJoinRequest(Long member_id,Long group_id,Long notify_id) {
     	final User localUser = Application.getLocalUser(session());
     	
     	User invitee = User.findById(member_id);
@@ -203,9 +206,13 @@ public class UserController extends Controller {
     	
     	try {
 			localUser.joinRequestAccepted(community, invitee);
+			
 		} catch (SocialObjectNotJoinableException e) {
 			e.printStackTrace();
 		}
+    	Notification notification = Notification.findById(notify_id);
+    	notification.readed = true;
+    	notification.merge();
     	return ok();
     }
     

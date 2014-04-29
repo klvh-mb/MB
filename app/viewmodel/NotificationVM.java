@@ -1,17 +1,21 @@
 package viewmodel;
 
+import models.Notification;
+
 public class NotificationVM {
 	public Long id;
 	public Long mm;
+	public Long nid;
 	public String msg;
 	public String dn;
 	public String tp;
 	
-	public NotificationVM(Long id,Long mm, String dn, String tp,String msg) {
-		this.id = id;
-		this.mm = mm;
-		this.dn = dn;
-		this.tp = tp;
-		this.msg = msg;
+	public NotificationVM(Notification no) {
+		this.id = no.socialAction.actor;
+		this.mm = no.socialAction.target;
+		this.nid = no.id;
+		this.dn = no.socialAction.getActorObject().name;
+		this.tp = no.notificationType.name();
+		this.msg = no.message;
 	}
 }

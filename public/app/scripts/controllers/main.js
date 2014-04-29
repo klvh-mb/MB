@@ -68,10 +68,10 @@ minibean.service('userNotification',function($resource){
 
 minibean.service('acceptFriendRequestService',function($resource){
 	this.acceptFriendRequest = $resource(
-			'/accept-friend-request?friend_id=:id',
+			'/accept-friend-request?friend_id=:id&notify_id=:notify_id',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
-				get: {method:'GET', params:{id:'@id'}, isArray:true}
+				get: {method:'GET', params:{id:'@id',notify_id:'@notify_id'}, isArray:true}
 			}
 	);
 });
@@ -88,10 +88,10 @@ minibean.service('userSimpleNotifications',function($resource){
 
 minibean.service('acceptJoinRequestService',function($resource){
 	this.acceptJoinRequest = $resource(
-			'/accept-join-request/:member_id/:group_id',
+			'/accept-join-request/:member_id/:group_id/:notify_id',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
-				get: {method:'GET', params:{member_id:'@member_id',group_id:'@group_id'}, isArray:true}
+				get: {method:'GET', params:{member_id:'@member_id',group_id:'@group_id',notify_id:'@notify_id'}, isArray:true}
 			}
 	);
 	
@@ -114,13 +114,17 @@ minibean.controller('UserInfoServiceController',function($scope,userInfoService)
 
 minibean.controller('ApplicationController',function($scope,$location, userInfoService, userNotification, userSimpleNotifications,
 	acceptJoinRequestService, acceptFriendRequestService, usSpinnerService){
+	
 	$scope.userInfo = userInfoService.UserInfo.get();
+	$scope.set_background_image = function() {
+		return {background : 'url(/get-cover-image-by-id/'+$scope.userInfo.id+')'};
+	} 
 	$scope.friend_requests = userNotification.getAllFriendRequests.get();
 	$scope.join_requests = userSimpleNotifications.getAllJoinRequests.get();
 	$scope.isFRreaded = true;
 	$scope.isNOreaded = true;
 	
-	$scope.accept_friend_request = function(id) {
+	$scope.accept_friend_request = function(id, notify_id) {
 		
 		angular.forEach($scope.friend_requests, function(request, key){
 			if(request.id == id) {
@@ -128,7 +132,7 @@ minibean.controller('ApplicationController',function($scope,$location, userInfoS
 			}
 		});
 		
-		this.acceptFriendRequest = acceptFriendRequestService.acceptFriendRequest.get({id:id}, 
+		this.acceptFriendRequest = acceptFriendRequestService.acceptFriendRequest.get({id:id, notify_id:notify_id}, 
 				//success
 				function() {
 					angular.forEach($scope.friend_requests, function(request, key){
@@ -140,12 +144,12 @@ minibean.controller('ApplicationController',function($scope,$location, userInfoS
 				}
 		);
 	};
-	$scope.accept_join_request = function(member_id,group_id) {
-		
+	$scope.accept_join_request = function(member_id,group_id, notification_id) {
+		console.log(notification_id);
 		var spinner = new Spinner().spin();
 		
 		$(".a_" + member_id + "_" + group_id).append(spinner.el);    
-		this.accept_join_request = acceptJoinRequestService.acceptJoinRequest.get({"member_id":member_id, "group_id":group_id},
+		this.accept_join_request = acceptJoinRequestService.acceptJoinRequest.get({"member_id":member_id, "group_id":group_id, "notify_id":notification_id},
 			function() {
 				$(".a_" + member_id + "_" + group_id).html("member");
 				$(".a_" + member_id + "_" + group_id).removeClass("btn-success");
