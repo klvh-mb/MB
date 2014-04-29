@@ -114,7 +114,11 @@ minibean.controller('UserInfoServiceController',function($scope,userInfoService)
 
 minibean.controller('ApplicationController',function($scope,$location, userInfoService, userNotification, userSimpleNotifications,
 	acceptJoinRequestService, acceptFriendRequestService, usSpinnerService){
+	
 	$scope.userInfo = userInfoService.UserInfo.get();
+	$scope.set_background_image = function() {
+		return {background : 'url(/get-cover-image-by-id/'+$scope.userInfo.id+')'};
+	} 
 	$scope.friend_requests = userNotification.getAllFriendRequests.get();
 	$scope.join_requests = userSimpleNotifications.getAllJoinRequests.get();
 	$scope.isFRreaded = true;
