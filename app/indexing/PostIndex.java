@@ -1,6 +1,7 @@
 package indexing;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class PostIndex extends Index{
 	@JsonProperty("comments") public List<CommentIndex> comments = new ArrayList<CommentIndex>();
 	
 	@JsonProperty("p") public String postedBy;
-	@JsonProperty("t") public String postedOn;
+	@JsonProperty("t") public Date postedOn;
 	@JsonProperty("n_c") public int noOfComments;
 	
 	@Override
@@ -38,7 +39,7 @@ public class PostIndex extends Index{
 		this.description = (String) map.get("description");
 		this.comments = IndexUtils.getIndexables(map, "comments", CommentIndex.class);
 		this.postedBy = (String) map.get("p");
-		this.postedOn = (String) map.get("t");
+		this.postedOn = (Date) IndexUtils.convertValue(map.get("t"), Date.class);
 		this.noOfComments = (int) map.get("n_c");
 		return this;
 	}

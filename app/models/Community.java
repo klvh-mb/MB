@@ -114,7 +114,7 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		postIndex.owner_id = post.owner.id;
 		postIndex.description = post.body;
 		postIndex.postedBy = (post.owner.name != null) ?  post.owner.name : "No Name";
-		postIndex.postedOn = formatDate.format(post.getCreatedDate());
+		postIndex.postedOn = post.getCreatedDate();
 		postIndex.index();
 		//recordPostOn(user);
 		return post;

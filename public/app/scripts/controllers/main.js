@@ -779,10 +779,8 @@ minibean.controller('SearchPageController', function($scope, $routeParams, commu
 	
 	var offset = 0;
 	var searchPost = true;
-	var noMore = false;
 	$scope.search_and_highlight = function(query) {
 		if ($scope.isBusy) return;
-		if (noMore) return;
 		var id = $routeParams.id;
 		$scope.isBusy = true;
 		if(searchPost){
@@ -792,8 +790,10 @@ minibean.controller('SearchPageController', function($scope, $routeParams, commu
 		
 		communitySearchPageService.GetPostsFromIndex.get({community_id : id , query : query, offset:offset}, function( data ) {
 			var posts = data;
+			
 			if(data.length < 5 ) {
-				noMore = true;
+				offset = -1;
+				$scope.community.searchPosts.length=0;
 				$scope.isBusy = false;
 			}
 			

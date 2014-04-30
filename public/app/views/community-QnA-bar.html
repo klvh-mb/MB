@@ -48,7 +48,7 @@
 		<div id="wall-forum">
 			      <div class="general-box">
 			          <ul>
-			              <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}" /><p class="wall-user-actState"><a href="#" style="color: #428bca !important;">{{post.p}}</a><!-- <span class="wall-user-actState-from"></span> --><a href="#" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-ask"></span></p><span><!--  class="wall-forum-post-time" -->{{post.t}}</span><!--<span class="wall-forum-post-last-time">5</span>  --><div id="wall-forum-info"><span class="shortcut-box text-center">?</span><!-- <span class="wall-forum-post-checked">1925191</span><span class="wall-forum-post-reply">{{post.n_c}}</span> --></div></li>
+			              <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}" /><p class="wall-user-actState"><a href="#" style="color: #428bca !important;">{{post.p}}</a><!-- <span class="wall-user-actState-from"></span> --><a href="#" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-ask">{{post.t| date:'MMM dd - hh:mm a'}}</span></p><div id="wall-forum-info"><span class="shortcut-box text-center">?</span><!-- <span class="wall-forum-post-checked">1925191</span><span class="wall-forum-post-reply">{{post.n_c}}</span> --></div></li>
 			              <li><p class="wall-user-post-text"><a href="#">{{post.pt}}</p>
 			              	   <div data-ng-show="post.hasImage" class="innerAll">
 									<p class="lead"></p>
@@ -60,7 +60,7 @@
 			          </ul>
 			          <ul class="wall-user-forum-respond">
 			              <ul>
-			                  <li data-ng-repeat="comment in post.cs"><div class="wall-user-forum-comment" style="min-height: 75px;"><div class="pull-right"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><span class="wall-user-actState-date">3月20日</span><span class="wall-user-actState-time">15:25</span></div><div><p class="user-comment"><a href="#">{{comment.on}}</a>{{comment.d}}</p></div>
+			                  <li data-ng-repeat="comment in post.cs"><div class="wall-user-forum-comment" style="min-height: 75px;"><div class="pull-right"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><span class="wall-user-actState-date">{{comment.cd| date:'MMM dd - hh:mm a'}}</span></div><div><p class="user-comment"><a href="#">{{comment.on}}</a>{{comment.d}}</p></div>
 			                  <li data-ng-click="get_all_comments(post.id)"><a href="">View {{post.n_c}} more comments</a></li>
 			              </ul>
 			          <li>
