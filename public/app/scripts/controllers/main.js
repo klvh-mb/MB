@@ -1581,6 +1581,10 @@ minibean.controller('NewsFeedController', function($scope, $interval, $http, all
 			}
 		);
 	}
+	
+	$scope.showImage = function(imageId) {
+		$scope.img_id = imageId;
+	}
 });
 
 	  

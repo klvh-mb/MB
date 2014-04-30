@@ -610,7 +610,11 @@ public class CommunityController extends Controller{
 		return ok(Json.toJson(posts));
 	}
 	
-	
+	@Transactional
+	public static Result getOriginalPostImageByID(Long id) {
+		Resource resource = Resource.findById(id);
+		return ok(resource.getRealFile());
+	}
 }
 
 	

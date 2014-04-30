@@ -119,6 +119,7 @@ GET		/community/leave/:id					controllers.CommunityController.leaveThisCommunity
 GET		/community-mini-image-by-id/:id			controllers.CommunityController.getMiniCoverCommunityImageById(id :Long)
 GET		/get-community-members/:id				controllers.CommunityController.getCommunityMembers(id : Long)
 GET 	/get-post-image-by-id/:id				controllers.CommunityController.getPostImageById(id : Long)
+GET		/get-original-post-image-by-id/:id			controllers.CommunityController.getOriginalPostImageByID(id : Long)
 GET		/comments/:id							controllers.CommunityController.getAllComments(id : Long)
 GET		/answers/:id							controllers.CommunityController.getAllAnswers(id : Long)
 GET		/posts									controllers.CommunityController.getNextPosts(id: String,offset: String)
