@@ -143,11 +143,14 @@
 	                <div class="wall-title">
 	                    <span class="wall-icon icon-title-friendwall" ng-class="{active: selectedTab1 == 1}"><a ng-click="selectedTab1 = 1;"></span><font style="color: white;">Moments</font></a>
 	                    <span class="wall-icon icon-title-community"ng-class="{active: selectedTab1 == 2}"><a ng-click="selectedTab1 = 2;"></span><font style="color: white;">Questions</font></a>
-	                    <form ng-controller="SearchPageController" id="mainSearch" name="mainSearch" method="post" action="" class="pull-right">
+	                     <span class="wall-icon"ng-class="{active: selectedTab1 == 3}"  data-ng-init="isSearch = true"><i class="fa fa-search" style="color: white;"></i><a ng-click="selectedTab1 = 3;"></span><font style="color: white;">Search</font></a>
+	                    
+	                    <!-- <form ng-controller="SearchPageController" id="mainSearch" name="mainSearch" method="post" action="" class="pull-right">
 	                        <label for="Main Search"></label>
 	                        <input type="text" id="searchfield"  placeholder="Search in Moment" data-ng-model="highlightQuery"/>
-	                        <span ng-class="{active: selectedTab1 == 3}"><input id="submit-search" type="button" data-ng-click="search_and_highlight(highlightQuery)"/></span>
-	                    </form>
+	                        <span><input id="submit-search" type="button"  ng-class="{active: selectedTab1 == 3}" data-ng-click="search_and_highlight(highlightQuery)"/></span>
+	                        
+	                    </form> -->
 	                </div>
                     
                     <!-- 
@@ -201,7 +204,7 @@
 						  <div class="tab-content" ng-show="selectedTab1 == 2 && community.isM" id="qnapost" ng-controller="CreateQnACommunityController">
 							    <div data-ng-include style="height: 100px;" data-src="'/assets/app/views/community-QnA-bar.html'"></div>
 						  </div>
-						  <div class="tab-content" ng-show="selectedTab1 == 3 && community.isM" id="qnapost">
+						  <div class="tab-content" ng-show="selectedTab1 == 3 && community.isM" ng-controller="SearchPageController">
 							    <div data-ng-include style="height: 100px;" data-src="'/assets/app/views/community-search-bar.html'"></div>
 						  </div>
 					  </div>

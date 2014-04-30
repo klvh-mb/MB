@@ -760,19 +760,37 @@ minibean.controller('ProfileController',function($scope, $routeParams, profileSe
 });
 ///////////////////////// User Profile End //////////////////////////////////
 
-minibean.controller('SearchPageController', function($scope, $routeParams, $http, communityPageService, usSpinnerService){
+minibean.service('communitySearchPageService',function($resource){
+	this.GetPostsFromIndex = $resource(
+			'/searchForPosts/index/:query/:community_id/:offset',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{community_id:'@community_id',query:'@query',offset:'@offset'},isArray:true}
+			}
+	);
+});
+
+minibean.controller('SearchPageController', function($scope, $routeParams, communityPageService, $http, communitySearchPageService, usSpinnerService){
 	$scope.highlightText="";
 	$scope.highlightQuery = "";
-
+	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id}, function(){
+		usSpinnerService.stop('loading...');
+	});
+	
 	var offset = 0;
+	var searchPost = true;
 	var noMore = false;
 	$scope.search_and_highlight = function(query) {
 		if ($scope.isBusy) return;
 		if (noMore) return;
 		var id = $routeParams.id;
 		$scope.isBusy = true;
-		$scope.community.posts = [];
-		communityPageService.GetPostsFromIndex.get({community_id:id , query : query,offset:offset}, function( data ) {
+		if(searchPost){
+			$scope.community.searchPosts = [];
+			searchPost = false;
+		}
+		
+		communitySearchPageService.GetPostsFromIndex.get({community_id : id , query : query, offset:offset}, function( data ) {
 			var posts = data;
 			if(data.length < 5 ) {
 				noMore = true;
@@ -780,7 +798,7 @@ minibean.controller('SearchPageController', function($scope, $routeParams, $http
 			}
 			
 			for (var i = 0; i < posts.length; i++) {
-				$scope.community.posts.push(posts[i]);
+				$scope.community.searchPosts.push(posts[i]);
 		    }
 			$scope.isBusy = false;
 			offset++;
@@ -810,13 +828,7 @@ minibean.service('communityPageService',function($resource){
 			}
 	);
 	
-	this.GetPostsFromIndex = $resource(
-			'/searchForPosts/index/:query/:community_id/:offset',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{community_id:'@community_id',query:'@query',offset:'@offset'},isArray:true}
-			}
-	);
+	
 });
 
 minibean.service('allCommentsService',function($resource){

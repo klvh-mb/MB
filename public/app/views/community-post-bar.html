@@ -65,7 +65,12 @@
 			<ul>
 	            <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}"/><p class="wall-user-actState"><a href="#" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a href="#" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span></p><span class="wall-user-actState-date">{{post.t}}</span><span class="wall-user-actState-time"></span></li>
 	            <li><p ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></p></li>
-	            
+	            	 <div data-ng-show="post.hasImage" class="innerAll">
+									<p class="lead"></p>
+									<a data-ng-repeat="imageID in post.imgs" href="">
+										<img width="90" data-ng-src="/get-post-image-by-id/{{imageID}}" alt="" class="img-post">
+									</a>
+							   </div>
        		</ul>
 	   
 		   	<ul class="wall-user-post-respond">
