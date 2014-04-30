@@ -373,10 +373,20 @@ minibean.service('editCommunityPageService',function($resource){
 });
 
 
-minibean.controller('GroupController',function($scope, $routeParams, $http, usSpinnerService, iconsService, editCommunityPageService, $upload, profilePhotoModal){
+minibean.controller('GroupController',function($scope,$q, $location,$routeParams, $http, usSpinnerService, iconsService, editCommunityPageService, $upload, profilePhotoModal){
    
 	$scope.submitBtn = "Save";
-	$scope.community = editCommunityPageService.EditCommunityPage.get({id:$routeParams.id});
+	$scope.community = editCommunityPageService.EditCommunityPage.get({id:$routeParams.id}, 
+			function(response) {
+				
+			},
+			function(rejection) {
+				if(rejection.status === 500) {
+					$location.path('/error');
+				}
+				return $q.reject(rejection);
+			}
+	);
 
 	$scope.community.typ = [
 	 	                   {value: 'OPEN', text: 'Open'},

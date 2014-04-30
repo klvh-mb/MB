@@ -64,6 +64,9 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/showArticlesPage.html',
     	controller : 'ShowArticleController'  
       })
+      .when('/error', {
+    	  templateUrl: '/assets/app/views/errorPage.html',
+      })
       .otherwise({
           redirectTo: '/'
       });

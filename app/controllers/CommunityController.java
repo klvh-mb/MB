@@ -112,7 +112,7 @@ public class CommunityController extends Controller{
 			return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
 		}
 		System.out.println("Not Owner");
-		return status(404);
+		return status(500);
 	}
 	
 	@Transactional

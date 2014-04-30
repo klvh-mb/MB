@@ -32,6 +32,7 @@ import com.mnt.exception.SocialObjectNotJoinableException;
 import controllers.Application;
 import domain.CommentType;
 
+
 public class BuildDataForTest {
 
 	String unverifiedUser = "unverifiedUser@test.com";
