@@ -47,7 +47,14 @@
  -->
  
  
- 
+ <style type="text/css">
+ 	.check_mark {
+ 		color: #25ad9f !important;
+ 		position: relative;
+ 		top: 0px;
+ 		left: 30px;
+ 	}
+ </style>
  
  <div id="newCommunity" class="general-box">
                 <div class="con-title">
@@ -56,8 +63,8 @@
                 </div>
                 <ul class="newCommunity-info">
                     <li ng-repeat="fvm in result.fvm"><img src="/community-image-by-id/{{fvm.id}}"><p><a href="#/community/{{fvm.id}}"><b><font><font>{{fvm.dn}}</font></font></b></a><br><a class="community-attribute" href="#"><font><font data-ng-show="fvm.tp=='OPEN'">Open Community</font><font data-ng-show="fvm.tp=='CLOSE'">Closed Community</font></font></a><span class="community-member-counter"><font><font>{{fvm.mm}} members</font></font></span></p>
-                    <a ng-show="fvm.isP" class="btn-general btn""><font><font>Pending</font></font></a>
-                    <a ng-show="!fvm.isP" class="btn-general btn" ng-click="send_request(fvm.id)"><font><font>Join</font></font></a></li>
+                    <span data-ng-show="fvm.isP" class="check_mark"><i class="fa fa-check-square fa-2x"></i></span>
+                    <a ng-show="!fvm.isP" class="btn-general btn" data-ng-click="send_request(fvm.id)"><font><font>Join</font></font></a></li>
                 </ul>
             </div>
  

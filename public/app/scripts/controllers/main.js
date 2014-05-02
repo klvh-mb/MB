@@ -430,10 +430,6 @@ minibean.controller('GroupController',function($scope,$q, $location,$routeParams
 		});
 	}
 	
-	
-	
-	
-	
 });
 
 
@@ -556,11 +552,22 @@ minibean.service('getMoreUnknownCommunity',function($resource){
 	);
 });
 
-minibean.controller('UnknownCommunityWidgetController',function($scope, getMoreUnknownCommunity, sendJoinRequest, unJoinedCommunityWidgetService, userInfoService, $http){
+minibean.controller('UnknownCommunityWidgetController',function($scope, usSpinnerService, getMoreUnknownCommunity, sendJoinRequest, unJoinedCommunityWidgetService, userInfoService, $http){
 	$scope.result = unJoinedCommunityWidgetService.UserCommunitiesNot.get();
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.send_request = function(id) {
-		this.invite = sendJoinRequest.sendRequest.get({id:id});
+		usSpinnerService.spin('loading...');
+		this.invite = sendJoinRequest.sendRequest.get({id:id},
+				function(data) {
+					usSpinnerService.stop('loading...');
+					
+					angular.forEach($scope.result.fvm, function(request, key){
+						if(request.id == id) {
+							request.isP = true;
+						}
+					});
+				}
+		);
 	}
 
 	var offsetC = 0;
