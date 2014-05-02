@@ -17,6 +17,7 @@ public class CommunityVM {
 	
 	@JsonProperty("n") public String name;
 	@JsonProperty("d") public String description;
+	@JsonProperty("nom") public int noOfMembers;
 	@JsonProperty("typ") public CommunityType communityType;
 	@JsonProperty("iconName") public String iconName;
 	@JsonProperty("dte") public Date createDate;
@@ -39,7 +40,7 @@ public class CommunityVM {
 		vm.tagetDistrict = c.tagetDistrict;
 		vm.createDate = c.createDate;
 		vm.id = c.id;
-		
+		vm.noOfMembers = c.getMembers().size();
 		//TODO Logic required
 		vm.isMember = user.isMemberOf(c);
 		

@@ -1,7 +1,5 @@
 package viewmodel;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +8,6 @@ import models.Post;
 import models.Resource;
 
 import org.codehaus.jackson.annotate.JsonProperty;
-
-import domain.PostType;
 
 public class CommunityPostVM {
 	@JsonProperty("id") public Long postId;
@@ -28,8 +24,6 @@ public class CommunityPostVM {
 	@JsonProperty("cn") public String communityName;
 	
 	public static CommunityPostVM communityPostVM(Post post) {
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		
 		CommunityPostVM postVM = new CommunityPostVM();
 		postVM.postId = post.id;
 		postVM.ownerId = post.owner.id;
