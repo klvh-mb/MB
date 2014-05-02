@@ -897,7 +897,7 @@ minibean.service('searchMembersService',function($resource){
 	);
 });
 
-minibean.controller('CommunityPageController', function($scope, $routeParams, $http, searchMembersService, iconsService,
+minibean.controller('CommunityPageController', function($scope, $routeParams, $http, profilePhotoModal, searchMembersService, iconsService,
 		allCommentsService, communityPageService, communityJoinService, $upload, $timeout, usSpinnerService){
 	$scope.$on('$viewContentLoaded', function() {
 		usSpinnerService.spin('loading...');
@@ -1089,6 +1089,16 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		$scope.selectedFiles.splice(index, 1);
 		$scope.tempSelectedFiles.splice(index, 1);
 		$scope.dataUrls.splice(index, 1);
+	}
+	
+	$scope.openGroupCoverPhotoModal = function(id) {
+		PhotoModalController.url = "upload-cover-photo-group/"+id;
+		profilePhotoModal.OpenModal({
+			 templateUrl: 'change-profile-photo-modal.html',
+			 controller: PhotoModalController
+		},function() {
+		
+		});
 	}
 });
 ///////////////////////// Community Page  End ////////////////////////////////
