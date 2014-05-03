@@ -1347,6 +1347,13 @@ minibean.service('allArticlesService',function($resource){
 				get: {method:'get' ,isArray:true}
 			}
 	);
+	this.ArticleCategorywise = $resource(
+			'/get-Articles-Categorywise/:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get' ,isArray:true}
+			}
+	);
 	this.EightArticles = $resource(
 			'/get-Eight-Articles',
 			{alt:'json',callback:'JSON_CALLBACK'},
@@ -1386,12 +1393,23 @@ minibean.service('deleteArticleService',function($resource){
 	);
 });
 
-minibean.controller('ShowArticleController',function($scope, $modal, deleteArticleService, allArticlesService, getDescriptionService,allRelatedArticlesService){
+minibean.controller('ShowArticleController',function($scope, $modal, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService,allRelatedArticlesService){
 	$scope.result = allArticlesService.AllArticles.get();
 	
 	$scope.resultSlidder = allArticlesService.EightArticles.get();
 	
-		
+	$scope.get_result = function(id) {
+		usSpinnerService.spin('loading...');
+		$scope.result = [];
+		$scope.result = allArticlesService.ArticleCategorywise.get({id:id}	, function(data) {
+			console.log($scope.result);
+			usSpinnerService.stop('loading...');
+	    });
+	    
+	  };
+	
+	
+	
 	
 	$scope.open = function (id) {
 	    var modalInstance = $modal.open({

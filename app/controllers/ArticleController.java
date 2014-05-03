@@ -91,6 +91,17 @@ public class ArticleController extends Controller {
 	}
 	
 	@Transactional
+	public static Result getArticlesCategorywise(Long cat_id) {
+		List<Article> allArticles = Article.getArticlesByCategory(cat_id);
+		List<ArticleVM> listOfArticles = new ArrayList<>();
+		for(Article article:allArticles) {
+			ArticleVM vm = new ArticleVM(article);
+			listOfArticles.add(vm);
+		}
+		return ok(Json.toJson(listOfArticles));
+	}
+	
+		@Transactional
 	public static Result getRelatedArticles(long id, Long categoy_id) {
 		System.out.println(categoy_id);
 		List<Article> allArticles = Article.relatedArticles(id,categoy_id);
