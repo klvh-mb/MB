@@ -308,7 +308,7 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	
 	@JsonIgnore
 	public List<User> getNonMembersOfCommunity(String query) {
-		Query q = JPA.em().createQuery("Select u from User u where u.displayName LIKE '%"+ query.toLowerCase() +"%' AND " +
+		Query q = JPA.em().createQuery("Select u from User u where lower(u.displayName) LIKE '%"+ query.toLowerCase() +"%' AND " +
 				"u.id not in (select sr.actor from " +
 				"SocialRelation sr where sr.target = ?1 and (sr.action = 'MEMBER' OR sr.actionType = 'INVITE_REQUESTED'))");
 		q.setParameter(1, this.id);

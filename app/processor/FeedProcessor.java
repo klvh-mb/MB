@@ -55,10 +55,11 @@ public class FeedProcessor {
 		return ids;
 	}
 	
-	public static List<String> getUserFeedIds(User u,int offset, int page) {
+	public static List<String> getUserFeedIds(User u,int offset, int pagerows) {
 		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 		Jedis j = jedisPool.getResource();
-		List<String> ids = j.lrange(USER + u.id, offset, (offset + 1)*page);
+		List<String> ids = j.lrange(USER + u.id, offset * pagerows, ((offset + 1)*pagerows-1));
+		//List<String> ids = j.sort(USER + u.id, new SortingParams().alpha().asc());
 		jedisPool.returnResource(j);
 		return ids;
 	}
@@ -90,7 +91,7 @@ public class FeedProcessor {
 									j.del(USER + userID.longValue());
 									
 									for(Post p: posts){
-										j.lpush(USER + userID.longValue(), p.id.toString());
+										j.rpush(USER + userID.longValue(), p.id.toString());
 									}
 								}
 								jedisPool.returnResource(j);
