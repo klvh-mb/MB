@@ -7,85 +7,82 @@
 <div class="col-md-1">
 
 </div>
-<div class="col-md-10">
-	<div class="panel panel-default">
-		<div class="row tm" >
-	       	<div class="col-md-1"></div>        		
-	        <div class="row">
-	           	<div class="col-md-6">
-	        	   <h2>	{{article.nm}}</h2>
-	           	</div>
-	     	</div>
-		</div>
-	    <div class="row tm" >
-	       	<div class="col-md-6">
-		       	<div class="col-md-4">
-		        	<div class="pull-right">
-		        		<label>Target Age: </label>
-		          	</div>
-		        </div>
-		              		
-		        <div class="row">
-		           	<div class="col-md-3">
-		             	{{article.ta}}
-		           	</div>
-		       	</div>
-	       	</div>
-	       	
-	       	<div class="col-md-6">
-		       	 <div class="col-md-4">
-		       		<div class="pull-right">
-		         				<label>Category: </label>
-		         	</div>
-		         </div>
-		               		
-		         <div class="row">
-		          	<div class="col-md-6">
-		          		<div class="col-md-2"> 	<img class="pull-left media-object" data-ng-src="{{article.ct.pictureName}}" alt="50x50" width="25" ></div>
-		          		<div class="col-md-8">  {{article.ct.name}} </div>
-		          	</div>
-		    	</div>
-	    	</div>
-	   </div>
-		   
-	   <div class="row tm" style="padding-left: 3%">
-	       <font><font>Posted on </font></font><font type="date">{{article.pd | date: 'MMMM dd, yyyy'}}</font>
-	    </div>
-		    
-	    <div class="row tm innerAll" >
-			<div class="row">
-			<div class="col-md-1 "></div>
-				<div class="col-md-10 ">
-	                   <div style="font-size:16px" class="ng-binding" ng-bind-html="article.ds"></div>
-		       </div>
+
+<div class="themeA-container">
+        <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-6">
+            <div id="wall">
+                <div class="general-box">
+                    <ul class="post-detail-wrapper">
+                        <li><img data-ng-src="{{article.ct.pictureName}}" /><div><h5>{{article.ct.name}}</h5><h3>{{article.nm}}</h3></div><h6><font><font>Posted on </font></font><font type="date">{{article.pd | date: 'MMMM dd, yyyy'}}</font></h6></li>
+                        <li><p class="post-like-num">201</p><a href="#">Like</a><a class="btn-general" href="#">Share to Community</a></li>
+                        <li><div style="font-size:16px" class="ng-binding" ng-bind-html="article.ds"></div></li>
+                        <li><p class="post-like-num">201</p><a href="#">Like</a><a class="btn-general" href="#">Share to Community</a></li>
+                    </ul>
+                </div>
+            </div><!--Post Detail End -->
+            
+            <div class="panel panel-default">
+				<div class="row tm innerAll"><h4>  Leave a Reply</h4></div>
+					<div data-ng-click="get_all_comments(article.id)" class="bg-gray innerAll border-top border-bottom text-small ">
+						<span>View all <a class="text-primary">{{article.n_c}} Comments</a></span>
+					</div>
+				<div data-ng-repeat="comment in article.cs" class="media border-bottom margin-none bg-gray">
+						<a href="" class="pull-left innerAll half">
+							<img data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}" width="60" class="media-object">
+						</a>
+					<div class="media-body innerTB">
+						<a href="#" class="pull-right innerT innerR text-muted">
+						<i class="icon-reply-all-fill fa fa-2x "></i>
+						</a>
+						<a href="" class="strong text-inverse">{{comment.on}}</a>  <small class="text-muted ">wrote on {{comment.cd | date: 'dd MMM, yyyy'}}</small>
+					<div>- {{comment.d}}</div>
+					</div>
+				</div>
+				<textarea class="form-control" placeholder="Comment here..." data-ng-model="commentText"></textarea>
+				<button data-ng-show="commentText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="comment_on_article(article.id, commentText)">comment</button>
 			</div>
-		</div>
-	</div>
-	
-	<div class="panel panel-default">
-		<div class="row tm innerAll"><h4>  Leave a Reply</h4></div>
-		<div data-ng-click="get_all_comments(article.id)" class="bg-gray innerAll border-top border-bottom text-small ">
-			<span>View all <a class="text-primary">{{article.n_c}} Comments</a></span>
-		</div>
-		<div data-ng-repeat="comment in article.cs" class="media border-bottom margin-none bg-gray">
-			<a href="" class="pull-left innerAll half">
-				<img data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}" width="60" class="media-object">
-			</a>
-			<div class="media-body innerTB">
-				<a href="#" class="pull-right innerT innerR text-muted">
-					<i class="icon-reply-all-fill fa fa-2x "></i>
-				</a>
-				<a href="" class="strong text-inverse">{{comment.on}}</a>  <small class="text-muted ">wrote on {{comment.cd | date: 'dd MMM, yyyy'}}</small>
-				<div>- {{comment.d}}</div>
-	
-			</div>
-		</div>
-	
-		<textarea class="form-control" placeholder="Comment here..." data-ng-model="commentText" style="width: 50%;"></textarea>
-		<button data-ng-show="commentText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="comment_on_article(article.id, commentText)">comment</button>
-	</div>
-	
-	
-	
+			
+            <div id="relatePost" class="general-box">
+                <div class="con-title">
+                    <span class="icon-box icon-box-brown icon-title-relatePost"></span><p>Related Articles</p>
+                </div>
+                    <ul>
+                        <li data-ng-repeat="relatedArticle in relatedResult"><p><a href="/#/article/id/{{relatedArticle.id}}"><img data-ng-src="{{relatedArticle.ct.pictureName}}"/>{{relatedArticle.nm}}</a></p></li>
+                    </ul>
+            </div><!--Relate Post End -->
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4 ">
+            <div id="hotPost" class="general-box">
+                <div class="con-title">
+                    <span class="icon-box icon-box-orange icon-title-hotforum"></span><a href="#">Hot Articles</a>
+                </div>
+                <div class="static-content-wrapper">
+                    <ul>
+                        <li><img src="images/static/hotpost.jpg" /><div class="pull-right"><a href="#">9種方法培養有耐心的孩子</a><p>愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛</p></div></li>
+                        <li><img src="images/static/hotpost.jpg" /><div class="pull-right"><a href="#">9種方法培養有耐心的孩子</a><p>愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛</p></div></li>
+                        <li><img src="images/static/hotpost.jpg" /><div class="pull-right"><a href="#">9種方法培養有耐心的孩子</a><p>愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛</p></div></li>
+                        <li><img src="images/static/hotpost.jpg" /><div class="pull-right"><a href="#">9種方法培養有耐心的孩子</a><p>愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛</p></div></li>
+                        <li><img src="images/static/hotpost.jpg" /><div class="pull-right"><a href="#">9種方法培養有耐心的孩子</a><p>愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛</p></div></li>
+                    </ul>
+                </div>
+            </div><!--HotTopic End -->
+            <div id="latestPost" class="general-box">
+                <div class="con-title">
+                    <span class="icon-box icon-box-green icon-title-latestPost"></span><a href="#">New Articles</a>
+                </div>
+                <div class="static-content-wrapper">
+                    <ul>
+                        <li><img src="images/static/hotpost.jpg" /><div class="pull-right"><a href="#">9種方法培養有耐心的孩子</a><p>愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛</p></div></li>
+                        <li><img src="images/static/hotpost.jpg" /><div class="pull-right"><a href="#">9種方法培養有耐心的孩子</a><p>愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛</p></div></li>
+                        <li><img src="images/static/hotpost.jpg" /><div class="pull-right"><a href="#">9種方法培養有耐心的孩子</a><p>愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛</p></div></li>
+                        <li><img src="images/static/hotpost.jpg" /><div class="pull-right"><a href="#">9種方法培養有耐心的孩子</a><p>愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛</p></div></li>
+                        <li><img src="images/static/hotpost.jpg" /><div class="pull-right"><a href="#">9種方法培養有耐心的孩子</a><p>愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛：每個孩子都需要愛，許多孩子對愛</p></div></li>
+                    </ul>
+                </div>
+            </div><!--Latest Post End -->
+        </div>
+        </div>
+    </div>
 </div>   
 	

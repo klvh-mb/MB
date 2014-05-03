@@ -89,6 +89,14 @@ public class Article extends SocialObject implements Commentable {
 	}
 	
 	@Transactional
+	public static List<Article> relatedArticles(long id,long categoy_id) {
+		Query q = JPA.em().createQuery("Select a from Article a where id != ?1 AND a.category.id = ?2");
+		q.setParameter(1, id);
+		q.setParameter(2, categoy_id);
+		return (List<Article>)q.getResultList();
+	}
+	
+	@Transactional
 	public static List<Article> getEightArticles() {
 		//  Select * from Article where featured = 1 limit <= 8
 		Query q = JPA.em().createQuery("Select a from Article a where a.isFeatured  = ?1 order by publishedDate desc");

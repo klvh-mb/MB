@@ -1366,6 +1366,16 @@ minibean.service('getDescriptionService',function($resource){
 	);
 });
 
+minibean.service('allRelatedArticlesService',function($resource){
+	this.getRelatedArticles = $resource(
+			'/get-Related-Articles/:id/:category_id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get',isArray:true}
+			}
+	);
+});
+
 minibean.service('deleteArticleService',function($resource){
 	this.DeleteArticle = $resource(
 			'/deleteArticle/:id',
@@ -1376,13 +1386,12 @@ minibean.service('deleteArticleService',function($resource){
 	);
 });
 
-minibean.controller('ShowArticleController',function($scope, $modal, deleteArticleService, allArticlesService, getDescriptionService){
+minibean.controller('ShowArticleController',function($scope, $modal, deleteArticleService, allArticlesService, getDescriptionService,allRelatedArticlesService){
 	$scope.result = allArticlesService.AllArticles.get();
 	
 	$scope.resultSlidder = allArticlesService.EightArticles.get();
 	
-	
-	
+		
 	
 	$scope.open = function (id) {
 	    var modalInstance = $modal.open({
@@ -1432,7 +1441,7 @@ minibean.service('ArticleallCommentsService',function($resource){
 });
 
 
-minibean.controller('EditArticleController',function($scope,$routeParams, ArticleallCommentsService, userInfoService, usSpinnerService, ArticleService,articleCategoryService,$http){
+minibean.controller('EditArticleController',function($scope,$routeParams, ArticleallCommentsService, userInfoService, usSpinnerService, ArticleService,articleCategoryService,allRelatedArticlesService,$http){
 	$scope.submitBtn = "Save";
 	$scope.userInfo = userInfoService.UserInfo.get();
 	var range = [];
@@ -1440,8 +1449,13 @@ minibean.controller('EditArticleController',function($scope,$routeParams, Articl
 		  range.push(i);
 	}
 	$scope.targetAge = range;
-	$scope.article = ArticleService.ArticleInfo.get({id:$routeParams.id});
+	$scope.article = ArticleService.ArticleInfo.get({id:$routeParams.id}, function(response) {
+		console.log(response.ct.id);
+		$scope.relatedResult = allRelatedArticlesService.getRelatedArticles.get({id:$routeParams.id, category_id:response.ct.id});
+	});
+	console.log($scope.article);
 	$scope.articleCategorys = articleCategoryService.getAllArticleCategory.get();
+	
 	$scope.open = function (id) {
 	    var modalInstance = $modal.open({
 	      templateUrl: 'myModalContent.html',

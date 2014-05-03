@@ -27,6 +27,7 @@ POST	/article/comment			controllers.ArticleController.commentOnArticle()
 GET		/getAllArticleCategory		controllers.ArticleController.getAllArticleCategory
 GET     /get-all-Articles			controllers.ArticleController.getAllArticles
 GET     /get-Eight-Articles			controllers.ArticleController.getEightArticles
+GET		/get-Related-Articles/:id/:category_id   controllers.ArticleController.getRelatedArticles(id :Long,category_id :Long)
 GET		/getDescriptionOdArticle/:id  	controllers.ArticleController.getDescriptionOdArticle(id :Long)
 GET		/deleteArticle/:id			controllers.ArticleController.deleteArticle(id :Long)
 GET		/Article/:id				controllers.ArticleController.infoArticle(id :Long)
