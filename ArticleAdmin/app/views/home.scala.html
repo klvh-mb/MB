@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>minibean</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="assets/assets/css/module.stylesheet-complete.min.css" />
+  	<link rel="stylesheet" href="@routes.Assets.at("app/bower_components/ng-file-upload/css/file-upload.css")" />
+  	
+  	<link  href="@routes.Assets.at("app/bower_components/angular-xeditable/dist/css/xeditable.css")" rel="stylesheet">
+  	<link  href="@routes.Assets.at("app/bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css")" rel="stylesheet"/>
+  	
+  	<style type="text/css">
+  		.widget-img-mini {
+  			width:50px;
+  			height:50px;
+  		}
+  		.btn-mini {
+  			padding: 0px 3px 0px 3px !important;
+  			font-size: smaller !important;
+  		}
+  		.error {
+			padding-top: 0px !important;
+		}
+  	
+  	</style>
+	
+  </head>
+  <body class="menu-right-hidden" ng-app="minibean" >
+  <span us-spinner spinner-key="loading..." ></span>
+  	<div class="container-fluid menu-hidden">
+  		<div id="content" ng-view="">
+    	
+  		</div>
+  	</div>
+    
+    <script src="@routes.Assets.at("components/library/jquery/jquery.min.js")"></script>
+    <script src="@routes.Assets.at("app/bower_components/ng-file-upload/angular-file-upload-shim.min.js")"></script>
+    <script src="@routes.Assets.at("app/bower_components/angular/angular.js")"></script>
+    <script src="@routes.Assets.at("app/bower_components/angular-resource/angular-resource.js")"></script>
+    <script src="@routes.Assets.at("app/bower_components/angular-route/angular-route.js")"></script>
+    <script src="@routes.Assets.at("app/bower_components/ngInfiniteScroll/ng-infinite-scroll.js")"></script>
+    <script src="@routes.Assets.at("app/bower_components/angular-route/angular-route.js")"></script>
+    <script src="@routes.Assets.at("app/bower_components/angular-animate/angular-animate.min.js")"></script>
+    <script src="@routes.Assets.at("app/bower_components/angular-bootstrap/ui-bootstrap.js")"></script>
+	<script src="@routes.Assets.at("app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js")"></script> 
+	<script src="@routes.Assets.at("app/bower_components/ng-file-upload/angular-file-upload.min.js")"></script> 
+	<script src="@routes.Assets.at("app/bower_components/angular-xeditable/dist/js/xeditable.js")"></script>
+    <script src="@routes.Assets.at("app/bower_components/moment/moment.js")"></script>
+    <script src="@routes.Assets.at("app/bower_components/angular-validator/dist/angular-validator.js")"></script>
+    <script src="@routes.Assets.at("app/bower_components/angular-validator/dist/angular-validator-rules.js")"></script>
+    <script src="@routes.Assets.at("app/bower_components/spin.js/spin.js")"></script>
+	<script src="@routes.Assets.at("app/bower_components/angular-spinner/angular-spinner.min.js")"></script>
+    <script src="@routes.Assets.at("app/bower_components/angular-truncate/dist/angular-truncate.min.js")"></script>
+    <script src="@routes.Assets.at("app/bower_components/tinymce/tinymce.min.js")"></script>
+    <script src="@routes.Assets.at("app/bower_components/angular-ui-tinymce/src/tinymce.js")"></script>
+    
+    <script src="@routes.Assets.at("components/library/bootstrap/js/bootstrap.min.js")"></script>
+    <script src="@routes.Assets.at("app/bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js")"></script>
+    <script src="@routes.Assets.at("components/plugins/ajaxify/script.min.js?v=v1.0.0&sv=v0.0.1")"></script>
+    
+	<script>var App = {};</script>
+	<script data-id="App.Scripts">
+		App.Scripts = {
+		
+			/* CORE scripts always load first; */
+			core: [
+				'@routes.Assets.at("components/library/jquery/jquery.min.js?v=v1.0.0&sv=v0.0.1")', 
+				'@routes.Assets.at("components/library/modernizr/modernizr.js?v=v1.0.0&sv=v0.0.1")'
+			],
+		
+			/* PLUGINS_DEPENDENCY always load after CORE but before PLUGINS; */
+			plugins_dependency: [
+				'@routes.Assets.at("components/library/bootstrap/js/bootstrap.min.js?v=v1.0.0&sv=v0.0.1")', 
+				'@routes.Assets.at("components/library/jquery/jquery-migrate.min.js?v=v1.0.0&sv=v0.0.1")'
+			],
+		
+			/* PLUGINS always load after CORE and PLUGINS_DEPENDENCY, but before the BUNDLE / initialization scripts; */
+			plugins: [
+				'@routes.Assets.at("components/plugins/nicescroll/jquery.nicescroll.min.js?v=v1.0.0&sv=v0.0.1")', 
+				'@routes.Assets.at("components/plugins/breakpoints/breakpoints.js?v=v1.0.0&sv=v0.0.1")', 
+				//'@routes.Assets.at("components/plugins/ajaxify/davis.min.js?v=v1.0.0&sv=v0.0.1")', 
+				//'@routes.Assets.at("components/plugins/ajaxify/jquery.lazyjaxdavis.min.js?v=v1.0.0&sv=v0.0.1")', 
+				//'@routes.Assets.at("components/plugins/preload/pace/pace.min.js?v=v1.0.0&sv=v0.0.1")', 
+				'@routes.Assets.at("components/plugins/menus/sidr/jquery.sidr.js?v=v1.0.0")', 
+				'@routes.Assets.at("components/plugins/holder/holder.js?v=v1.0.0&sv=v0.0.1")', 
+				'@routes.Assets.at("components/common/forms/elements/bootstrap-select/assets/lib/js/bootstrap-select.js?v=v1.0.0&sv=v0.0.1")', 
+				'@routes.Assets.at("components/plugins/mixitup/jquery.mixitup.min.js?v=v1.0.0&sv=v0.0.1")', 
+				'@routes.Assets.at("components/plugins/less-js/less.min.js?v=v1.0.0&sv=v0.0.1")', 
+				'@routes.Assets.at("components/modules/admin/charts/flot/assets/lib/excanvas.js?v=v1.0.0&sv=v0.0.1")', 
+				'@routes.Assets.at("components/plugins/browser/ie/ie.prototype.polyfill.js?v=v1.0.0&sv=v0.0.1")'
+			],
+		
+			/* The initialization scripts always load last and are automatically and dynamically loaded when AJAX navigation is enabled; */
+			bundle: [
+				//'@routes.Assets.at("components/plugins/ajaxify/ajaxify.init.js?v=v1.0.0&sv=v0.0.1")', 
+				'@routes.Assets.at("components/core/js/sidebar.main.init.js?v=v1.0.0")', 
+				'@routes.Assets.at("components/core/js/sidebar.collapse.init.js?v=v1.0.0")', 
+				'@routes.Assets.at("components/common/forms/elements/bootstrap-select/assets/custom/js/bootstrap-select.init.js?v=v1.0.0&sv=v0.0.1")', 
+				'@routes.Assets.at("components/modules/admin/menus/menus.sidebar.chat.init.js?v=v1.0.0")', 
+				'@routes.Assets.at("components/plugins/mixitup/mixitup.init.js?v=v1.0.0&sv=v0.0.1")', 
+				'@routes.Assets.at("components/core/js/core.init.js?v=v1.0.0")'
+			]
+		
+		};
+	</script>
+
+	<script>
+		$script(App.Scripts.core, 'core');
+		
+		$script.ready(['core'], function(){
+			$script(App.Scripts.plugins_dependency, 'plugins_dependency');
+		});
+		$script.ready(['core', 'plugins_dependency'], function(){
+			$script(App.Scripts.plugins, 'plugins');
+		});
+		$script.ready(['core', 'plugins_dependency', 'plugins'], function(){
+			$script(App.Scripts.bundle, 'bundle');
+		});
+	</script>
+	
+	
+    <script src="@routes.Assets.at("app/scripts/app.js")"></script>
+    <script src="@routes.Assets.at("app/scripts/controllers/main.js")"></script>
+</body>
+
+	<script data-id="App.Config">
+		var basePath = '',
+		commonPath = '@routes.Assets.at("")',
+		rootPath = '../',
+		DEV = false,
+		componentsPath = '@routes.Assets.at("components/")';
+	
+	var primaryColor = '#25ad9f',
+		dangerColor = '#b55151',
+		successColor = '#609450',
+		infoColor = '#4a8bc2',
+		warningColor = '#ab7a4b',
+		inverseColor = '#45484d';
+	
+	var themerPrimaryColor = primaryColor;
+
+		App.Config = {
+		ajaxify_menu_selectors: ['#menu'],
+		ajaxify_layout_app: false	};
+	</script>
+</html>

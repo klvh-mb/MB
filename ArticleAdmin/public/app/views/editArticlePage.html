@@ -1,0 +1,83 @@
+<html>
+<body>
+<form method="post" editable-form name="article_data" onaftersave="updateArticleData($data)">
+<table class="table" style="width: 50%;margin-left: 15%;">
+	<tr>
+			<td>
+		 		<label> Title	: </label>
+		 	</td>
+		 	<td>
+	    		<input type="text" class="form-control ng-pristine ng-invalid ng-invalid-required" data-ng-model="article.nm">
+	    		<input type="hidden" data-ng-model="article.id">
+	    	</td>
+	</tr>
+	<tr>
+			<td>
+		 		<label> Featured	: </label>
+		 	</td>
+		 	<td>
+		 		<input type="checkbox" data-ng-model="article.frd" data-ng-init="article.frd=false">
+		 	</td>	
+	</tr>
+	<tr>
+			<td>
+		 		<label> Target Age	: </label>
+		 	</td>
+		 	<td>
+		 		<select class="form-control" data-ng-model="article.ta" data-ng-options="range for range in targetAge"></select>
+			</td>
+	</tr>
+	<tr>
+			<td>
+		 		<label> Category	: </label>
+		 	</td>
+		 	<td>
+		 		<!-- <input type="text" class="form-control ng-pristine ng-invalid ng-invalid-required" placeholder="Choose Category" data-ng-model="formData.category" name="category"> -->
+			
+				<div class="col-md-8" style="padding: 0 0px;">
+                			<li class="col-md-12 dropdown" style="padding: 0 0px;">
+                 			<div class="form-control dropdown-toggle">
+                 				<img class="pull-left media-object" data-ng-src={{article.ct.pictureName}} width="25">
+                 				<div class="media-body">
+						       		<p class="margin-none pull-right">{{article.ct.name}}</p>
+						    	</div>
+ 							</div>
+ 							<input type="hidden" data-ng-model="article.ct.id">
+                  		<ul class="dropdown-menu chat media-list" style="left:2%; width: 96%;">
+							<li class="media" data-ng-repeat="category in articleCategorys" style="margin-top: 1%;">
+						        <a href="" data-ng-click="select_category(category.id, category.name,category.pn)">
+						        	<img class="pull-left media-object" data-ng-model="category.pn" data-ng-src="{{category.pn}}" alt="50x50" width="25" >
+									<input type="hidden" data-ng-model="category.id" >
+									<div class="media-body">
+						            	<p class="margin-none pull-right">{{category.name}}</p>
+						        	</div>							        	
+						        </a>
+							</li>
+				      	</ul>
+				      </li>
+                		</div>
+			
+			</td>
+	</tr>
+</table>
+		<div style=" width: 50%;margin-left: 15%;">
+			<textarea data-ui-tinymce='tinymceOptions' data-ng-model="article.ds" style="height: 300px;">article.description</textarea>
+		</div>
+		<div style="margin-top: 4%;margin-left: 59%;">
+		<button type="submit" class="btn btn-primary ng-binding">
+				<span class="glyphicon glyphicon-ok" ></span>
+				{{submitBtn}}
+		</button>
+		</div>
+</form>		
+</body>		
+</html>		
+	<style>
+
+.mce-panel{
+	width: 100% !important;
+	left: 0px !important;
+
+}
+
+</style>
