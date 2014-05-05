@@ -334,7 +334,7 @@ public class CommunityController extends Controller{
 			e.printStackTrace();
 			return status(500);
 		}
-		return ok("true");
+		return ok(Json.toJson(newCommunity.id));
 	}
 	
 	@Transactional

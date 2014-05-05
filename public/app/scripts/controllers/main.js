@@ -104,6 +104,15 @@ minibean.service('acceptJoinRequestService',function($resource){
 	);
 });
 
+minibean.service('notificationMarkReadService',function($resource){
+	this.markAsRead = $resource(
+			'/mark-as-read/:notify_id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'GET', params:{member_id:'@member_id',group_id:'@group_id',notify_id:'@notify_id'}, isArray:true}
+			}
+	);
+});
 
 
 
@@ -113,7 +122,7 @@ minibean.controller('UserInfoServiceController',function($scope,userInfoService)
 });
 
 minibean.controller('ApplicationController',function($scope,$location, userInfoService, userNotification, userSimpleNotifications,
-	acceptJoinRequestService, acceptFriendRequestService, usSpinnerService){
+	acceptJoinRequestService, acceptFriendRequestService, notificationMarkReadService, usSpinnerService){
 	
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.set_background_image = function() {
@@ -185,6 +194,10 @@ minibean.controller('ApplicationController',function($scope,$location, userInfoS
 				});
 			}
 		);
+	}
+	
+	$scope.mark_as_read = function(notification_id) {
+		notificationMarkReadService.markAsRead.get({"notify_id":notification_id});
 	}
 
 	$scope.reset_fr_count = function() {
@@ -434,7 +447,7 @@ minibean.controller('GroupController',function($scope,$q, $location,$routeParams
 
 
 
-minibean.controller('CreateCommunityController',function($scope,  $http,  $upload, $validator, iconsService, usSpinnerService){
+minibean.controller('CreateCommunityController',function($scope, $location, $http, $upload, $validator, iconsService, usSpinnerService){
 	
 	$scope.formData = {};
 	$scope.selectedFiles =[];
@@ -455,6 +468,8 @@ minibean.controller('CreateCommunityController',function($scope,  $http,  $uploa
 			    }).success(function(data, status, headers, config) {
 			    	$scope.submitBtn = "Done";
 			    	usSpinnerService.stop('loading...');
+			    	$location.path('/community/'+data);
+			    	$("#myModal").modal('hide');
 			    }).error(function(data, status, headers, config) {
 			    	if( status == 505 ) {
 			    		$scope.uniqueName = true;
@@ -910,6 +925,8 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		usSpinnerService.spin('loading...');
 	});
 	
+	var coverImage = "/get-cover-community-image-by-id/"+$routeParams.id;
+	$scope.coverImage = coverImage;
 	
 	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id}, function(){
 		usSpinnerService.stop('loading...');
@@ -1104,7 +1121,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 			 templateUrl: 'change-profile-photo-modal.html',
 			 controller: PhotoModalController
 		},function() {
-		
+			$scope.coverImage = coverImage + "?q="+ Math.random();
 		});
 	}
 });

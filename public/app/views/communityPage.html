@@ -20,7 +20,7 @@
     <div class="themeA-container">
         <div class="row">
         <div class="col-md-2 col-sm-2 col-xs-2">
-            <div id="uPhoto-wrapper">
+            <div id="uPhoto-wrapper" data-ng-style="set_background_image()">
                 <div id="uPhoto-wrapper-gradient">
                     <div id="uPicture">
                     <a href="#"><img src="/get-thumbnail-image-by-id/{{userInfo.id}}" alt="user photo"></a>
@@ -99,7 +99,7 @@
             <div id="community-header">
                 <ul>
                     <li>
-                    	<img style="height: 250px;width: 560px;" id="community-banner" src="/community-image-by-id/{{community.i}}" />
+                    	<img style="height: 250px;width: 560px;" id="community-banner" data-ng-src="{{coverImage}}"/>
                     	<a data-ng-show="community.isO" data-ng-click="openGroupCoverPhotoModal(community.i)" alt="Change" title="Change"  
 											style="margin: -245px 0px 0px 7px;position: absolute;" href=""  ><img src="/assets/app/images/edit.png"/></a>	
                     </li>

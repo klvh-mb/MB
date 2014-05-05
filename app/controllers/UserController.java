@@ -236,6 +236,13 @@ public class UserController extends Controller {
     }
     
     @Transactional
+    public static Result markNotificationAsRead (Long id) {
+    	Notification notification=Notification.findById(id);
+    	notification.markNotificationRead();
+    	return ok();
+    }
+    
+    @Transactional
     public static Result getProfile(Long id) {
     	User user = User.findById(id);
     	final User localUser = Application.getLocalUser(session());

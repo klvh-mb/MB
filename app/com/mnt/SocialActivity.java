@@ -11,7 +11,7 @@ public class SocialActivity {
 		if(socialAction.action != null) {
 			switch (socialAction.action) {
 
-			/*case MEMBER: {
+			case MEMBER: {
 				Notification notification = new Notification();
 				notification.socialAction = socialAction;
 				notification.recipetent = socialAction.actor;
@@ -21,7 +21,7 @@ public class SocialActivity {
 				notification.readed = true;
 				notification.save();
 			}
-				break;*/
+				break;
 
 			case FRIEND: {
 				Notification notification = new Notification();

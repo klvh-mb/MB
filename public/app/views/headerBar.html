@@ -187,12 +187,17 @@
 				        	 	data-ng-click="accept_invite_request(request.id, request.mm, request.nid);$event.stopPropagation();" 
 				        	 	class="btn btn-xs btn-success pull-right a_{{request.id}}_{{request.mm}}">accept</button>
 					        
+				        	<button ng-switch-when="COMMUNITY_JOIN_APPROVED" style="margin-right: 0px !important;" 
+				        		data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
+				        		data-ng-click="mark_as_read(request.nid);$event.stopPropagation();"
+				        		class="btn btn-xs btn-success pull-right a_{{request.id}}_{{request.mm}}">mark as read</button>
 				        	
 				        	<span class="label label-primary pull-right" data-ng-show="request.isRequestAccepted == true">member</span>
 				            
 				            <a ng-switch-when="COMMUNITY_JOIN_REQUEST" style="margin-right: 0px !important;" ng-href="#/profile/{{request.id}}"><h5 class="media-heading">{{request.dn}}</h5></a>
 				            
 				            <a ng-switch-when="COMMUNITY_INVITE_REQUEST" style="margin-right: 0px !important;" ng-href="#/community/{{request.id}}"><h5 class="media-heading">{{request.dn}}</h5></a>
+				            
 				            <p class="margin-none">{{request.msg}}</p>
 				        </div>
 					</li>

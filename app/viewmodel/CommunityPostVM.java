@@ -22,6 +22,7 @@ public class CommunityPostVM {
 	@JsonProperty("ts") public Long timestamp;
 	@JsonProperty("type") public String postType;
 	@JsonProperty("cn") public String communityName;
+	@JsonProperty("cid") public Long communityId;
 	
 	public static CommunityPostVM communityPostVM(Post post) {
 		CommunityPostVM postVM = new CommunityPostVM();
@@ -34,6 +35,7 @@ public class CommunityPostVM {
 		postVM.timestamp = post.getCreatedDate().getTime()/1000;
 		postVM.postType = post.postType.name();
 		postVM.communityName = post.community.name;
+		postVM.communityId = post.community.id;
 		
 		if(post.folder != null && post.folder.resources != null && !post.folder.resources.isEmpty()) {
 			postVM.hasImage = true;

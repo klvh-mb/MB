@@ -91,6 +91,7 @@ GET		/accept-friend-request		controllers.UserController.acceptFriendRequest(frie
 GET		/get-join-requests			controllers.UserController.getAllJoinRequests
 GET		/accept-join-request/:member_id/:group_id/:notify_id		controllers.UserController.acceptJoinRequest(member_id :Long, group_id :Long, notify_id: Long)
 GET		/accept-invite-request/:member_id/:group_id/:notify_id		controllers.UserController.acceptInviteRequest(member_id :Long, group_id :Long, notify_id: Long)
+GET		/mark-as-read/:id						controllers.UserController.markNotificationAsRead(id:Long)
 
 GET     /profile/:id                controllers.UserController.getProfile(id :Long)
 GET		/get-profile-image-by-id/:id		controllers.UserController.getProfileImageByID(id :Long)
@@ -145,5 +146,6 @@ GET		/get-my-updates/:timestamp				controllers.CommunityController.getMyUpdates(
 GET		/get-my-live-updates/:timestamp			controllers.CommunityController.getMyLiveUpdates(timestamp:Long)
 GET		/get-next-news-feeds/:timestamp			controllers.CommunityController.getNextNewsFeeds(timestamp:Long)	
 GET		/get-newsfeeds/:offset					controllers.CommunityController.getNewsfeeds(offset:Integer)
+
 # indexing with elasic search
 GET		/searchForPosts/index/:query/:community_id/:offset	controllers.Application.searchForPosts(query: String, community_id: Long,offset:Long)
