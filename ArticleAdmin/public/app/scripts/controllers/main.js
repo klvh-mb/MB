@@ -2,8 +2,15 @@
 
 var minibean = angular.module('minibean');
 
-minibean.controller('CreateArticleController',function($scope,$http, articleCategoryService){
+minibean.controller('CreateArticleController',function($scope,$http, articleCategoryService,usSpinnerService){
 	$scope.article;
+	$scope.submitBtn = "Save";
+	
+	var range = [];
+	for(var i=0;i<100;i++) {
+		  range.push(i);
+	}
+	$scope.targetAge = range;
 	//Refer to http://www.tinymce.com/
 	$scope.tinymceOptions = {
 			selector: "textarea",
@@ -15,11 +22,7 @@ minibean.controller('CreateArticleController',function($scope,$http, articleCate
 		    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
 	}
 	
-	var range = [];
-	for(var i=0;i<100;i++) {
-		  range.push(i);
-	}
-	$scope.targetAge = range;
+
 	
 	$scope.articleCategories = articleCategoryService.getAllArticleCategory.get();
 	
@@ -38,9 +41,15 @@ minibean.controller('CreateArticleController',function($scope,$http, articleCate
 				}).error(function(data, status, headers, config) {
 			    	if( status == 505 ) {
 			    		$scope.uniqueName = true;
+			    		$scope.categoryNotChoose = true;
 			    		usSpinnerService.stop('loading...');
 			    		$scope.submitBtn = "Try Again";
 			    	}  
+			    	if( status == 506 ) {
+			    		$scope.categoryNotChoose = true;
+			    		usSpinnerService.stop('loading...');
+			    		$scope.submitBtn = "Try Again";
+			    	}
 			    });
 	}
 });

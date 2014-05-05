@@ -7,7 +7,7 @@
 		 		<label> Title	: </label>
 		 	</td>
 		 	<td>
-	    		<input type="text" class="form-control ng-pristine ng-invalid ng-invalid-required" data-ng-model="article.nm">
+	    		<input type="text" class="form-control ng-pristine ng-invalid ng-invalid-required" data-ng-model="article.name">
 	    		<input type="hidden" data-ng-model="article.id">
 	    	</td>
 	</tr>
@@ -16,7 +16,7 @@
 		 		<label> Featured	: </label>
 		 	</td>
 		 	<td>
-		 		<input type="checkbox" data-ng-model="article.frd" data-ng-init="article.frd=false">
+		 		<input type="checkbox" data-ng-model="article.isFeatured" data-ng-init="article.frd=false">
 		 	</td>	
 	</tr>
 	<tr>
@@ -24,7 +24,7 @@
 		 		<label> Target Age	: </label>
 		 	</td>
 		 	<td>
-		 		<select class="form-control" data-ng-model="article.ta" data-ng-options="range for range in targetAge"></select>
+		 		<select class="form-control" data-ng-model="article.targetAge" data-ng-options="range for range in targetAge"></select>
 			</td>
 	</tr>
 	<tr>
@@ -37,9 +37,9 @@
 				<div class="col-md-8" style="padding: 0 0px;">
                 			<li class="col-md-12 dropdown" style="padding: 0 0px;">
                  			<div class="form-control dropdown-toggle">
-                 				<img class="pull-left media-object" data-ng-src={{article.ct.pictureName}} width="25">
+                 				<img class="pull-left media-object" data-ng-src={{article.category.pictureName}} width="25">
                  				<div class="media-body">
-						       		<p class="margin-none pull-right">{{article.ct.name}}</p>
+						       		<p class="margin-none pull-right">{{article.category.name}}</p>
 						    	</div>
  							</div>
  							<input type="hidden" data-ng-model="article.ct.id">
@@ -61,7 +61,7 @@
 	</tr>
 </table>
 		<div style=" width: 50%;margin-left: 15%;">
-			<textarea data-ui-tinymce='tinymceOptions' data-ng-model="article.ds" style="height: 300px;">article.description</textarea>
+			<textarea data-ui-tinymce='tinymceOptions' data-ng-model="article.description" style="height: 300px;"></textarea>
 		</div>
 		<div style="margin-top: 4%;margin-left: 59%;">
 		<button type="submit" class="btn btn-primary ng-binding">

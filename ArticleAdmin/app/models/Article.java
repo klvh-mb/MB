@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -9,7 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Query;
+import javax.persistence.NoResultException;
 
+import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
@@ -30,12 +33,15 @@ public class Article extends domain.Entity {
 	
 	public Integer targetAge;
 	
+	@Formats.DateTime(pattern = "yyyy-MM-dd")
+	public Date publishedDate;
+	
 	@ManyToOne
 	public ArticleCategory category;
 	
 	@Transactional
 	public static List<Article> getAllArticles() {
-		Query q = JPA.em().createQuery("Select a from Article a order by publishedDate DESC");
+		Query q = JPA.em().createQuery("Select a from Article a order by CREATED_DATE desc");
 		return (List<Article>)q.getResultList();
 	}
 	

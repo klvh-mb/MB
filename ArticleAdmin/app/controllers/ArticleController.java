@@ -23,13 +23,16 @@ public class ArticleController extends Controller {
 	public static Result addArticle() {
 		Form<Article> articleForm = DynamicForm.form(Article.class).bindFromRequest();
 		DynamicForm form = DynamicForm.form().bindFromRequest();
-		
-		Long category_id = Long.parseLong(form.get("category_id"));
-		
+		Long category_id;
+		try{
+			 category_id = Long.parseLong(form.get("category_id"));
+		}
+		catch(NumberFormatException e){return status(506, "PLEASE CHOOSE CATEGORY");}
 		ArticleCategory ac = ArticleCategory.getCategoryById(category_id);
 		Article article = articleForm.get();
 		article.category = ac;
 		article.publishedDate = new Date();
+		
 		if(!Article.checkTitleExists(article.name))
 		{
 			return status(505, "PLEASE CHOOSE OTHER TITLE");
@@ -48,15 +51,15 @@ public class ArticleController extends Controller {
 		
 		Long id = Long.parseLong(dataToUpdate.get("id"));
 		Article article = Article.findById(id);
-		article.name = dataToUpdate.get("nm");
-		if(dataToUpdate.get("frd").equals("true"))
+		article.name = dataToUpdate.get("name");
+		if(dataToUpdate.get("isFeatured").equals("true"))
 				article.isFeatured = true;
-		if(dataToUpdate.get("frd").equals("false"))
+		if(dataToUpdate.get("isFeatured").equals("false"))
 				article.isFeatured = false;
-		article.targetAge = Integer.parseInt(dataToUpdate.get("ta"));
-		ArticleCategory ac = ArticleCategory.getCategoryById(Long.parseLong(dataToUpdate.get("ct.id")));
+		article.targetAge = Integer.parseInt(dataToUpdate.get("targetAge"));
+		ArticleCategory ac = ArticleCategory.getCategoryById(Long.parseLong(dataToUpdate.get("category.id")));
 		article.category = ac;
-		article.description = dataToUpdate.get("ds");
+		article.description = dataToUpdate.get("description");
 		article.setUpdatedDate(new Date());
 		article.updateById();
 		return ok();
@@ -102,7 +105,6 @@ public class ArticleController extends Controller {
 	@Transactional
 	public static Result infoArticle(Long art_id) {
 		Article article = Article.findById(art_id);
-		ArticleVM vm = new ArticleVM(article);
-		return ok(Json.toJson(vm));
+		return ok(Json.toJson(article));
 	}
 }

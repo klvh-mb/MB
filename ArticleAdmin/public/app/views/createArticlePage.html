@@ -7,7 +7,8 @@
 		 		<label> Title	: </label>
 		 	</td>
 		 	<td>
-	    		<input type="text" class="form-control ng-pristine ng-invalid ng-invalid-required" data-ng-model="formData.name" >
+	    		<input type="text" class="form-control ng-pristine ng-invalid ng-invalid-required" validator="[required]" data-ng-model="formData.name" required>
+	    		<label class="control-label error" data-ng-show="uniqueName==true" style="color: red;">Please enter another title.</label>
 	    	</td>
 	</tr>
 	<tr>
@@ -34,7 +35,7 @@
 		 		<!-- <input type="text" class="form-control ng-pristine ng-invalid ng-invalid-required" placeholder="Choose Category" data-ng-model="formData.category" name="category"> -->
 			
 				<div class="col-md-8" style="padding: 0 0px;">
-                			<li class="col-md-12 dropdown" style="padding: 0 0px;">
+                			<li class="col-md-12 dropdown" style="padding: 0 0px;" validator="[required]" required>
                  			<div class="form-control dropdown-toggle">
                  				<img class="pull-left media-object" data-ng-src={{category_picture}} width="25">
                  				<div class="media-body">
@@ -57,13 +58,14 @@
 							</li>
 				      	</ul>
 				      </li>
+				      <label class="control-label error" data-ng-show="categoryNotChoose==true" style="color: red;">Please select category.</label>
                 		</div>
 			
 			</td>
 	</tr>
 </table>
 		<div style="margin-left: 15%;width: 60%">
-			<textarea data-ui-tinymce='tinymceOptions' data-ng-model="formData.description" style="width: 100%;"></textarea>
+			<textarea data-ui-tinymce='tinymceOptions' data-ng-model="formData.description"></textarea>
 		</div>
 		<div style="margin-top: 4%;margin-left: 69%;">
 		<button type="submit" class="btn btn-primary ng-binding">
