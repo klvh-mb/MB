@@ -29,9 +29,16 @@ public class ArticleController extends Controller {
 		ArticleCategory ac = ArticleCategory.getCategoryById(category_id);
 		Article article = articleForm.get();
 		article.category = ac;
-		article.setCreatedDate(new Date());
-		article.saveArticle();
-		return ok();
+		article.publishedDate = new Date();
+		if(!Article.checkTitleExists(article.name))
+		{
+			return status(505, "PLEASE CHOOSE OTHER TITLE");
+		}
+		else
+		{
+			article.saveArticle();
+			return ok();
+		}
 	}
 	
 	@Transactional
@@ -41,15 +48,15 @@ public class ArticleController extends Controller {
 		
 		Long id = Long.parseLong(dataToUpdate.get("id"));
 		Article article = Article.findById(id);
-		article.name = dataToUpdate.get("name");
-		if(dataToUpdate.get("isFeatured").equals("true"))
+		article.name = dataToUpdate.get("nm");
+		if(dataToUpdate.get("frd").equals("true"))
 				article.isFeatured = true;
-		if(dataToUpdate.get("isFeatured").equals("false"))
+		if(dataToUpdate.get("frd").equals("false"))
 				article.isFeatured = false;
-		article.targetAge = Integer.parseInt(dataToUpdate.get("targetAge"));
-		ArticleCategory ac = ArticleCategory.getCategoryById(Long.parseLong(dataToUpdate.get("category.id")));
+		article.targetAge = Integer.parseInt(dataToUpdate.get("ta"));
+		ArticleCategory ac = ArticleCategory.getCategoryById(Long.parseLong(dataToUpdate.get("ct.id")));
 		article.category = ac;
-		article.description = dataToUpdate.get("description");
+		article.description = dataToUpdate.get("ds");
 		article.setUpdatedDate(new Date());
 		article.updateById();
 		return ok();
@@ -95,6 +102,7 @@ public class ArticleController extends Controller {
 	@Transactional
 	public static Result infoArticle(Long art_id) {
 		Article article = Article.findById(art_id);
-		return ok(Json.toJson(article));
+		ArticleVM vm = new ArticleVM(article);
+		return ok(Json.toJson(vm));
 	}
 }

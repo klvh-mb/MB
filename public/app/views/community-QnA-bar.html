@@ -61,7 +61,7 @@
 			          <ul class="wall-user-forum-respond">
 			              <ul>
 			                  <li data-ng-repeat="comment in post.cs"><div class="wall-user-forum-comment" style="min-height: 75px;"><div class="pull-right"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><span class="wall-user-actState-date">{{comment.cd| date:'MMM dd - hh:mm a'}}</span></div><div><p class="user-comment"><a href="#">{{comment.on}}</a>{{comment.d}}</p></div>
-			                  <li data-ng-click="get_all_comments(post.id)"><a href="">View {{post.n_c}} more comments</a></li>
+			                  <li ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><a href="">View all</a></li></div>
 			              </ul>
 			          <li>
 			          		<a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}"/></a>

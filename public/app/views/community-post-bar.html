@@ -76,7 +76,7 @@
 	   
 		   	<ul class="wall-user-post-respond">
 	             
-	             <li data-ng-click="get_all_comments(post.id)"><a href="">View {{post.n_c}} more comments</a></li>
+	             <li ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><a href="">View all</a></li>
 	             <ul>
 	                 <li data-ng-repeat="comment in post.cs"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><div><p class="user-comment"><a href="#" style="color: #428bca !important;">{{comment.on}}</a><span  ng-bind-html="comment.d | highlight: highlightText"></span></p>
 	                 <span class="wall-user-actState-date">{{comment.cd| date:'MMM dd - hh:mm a'}}</span><span class="wall-user-actState-time"></span><a class="btn-like" href="#" style="color: #428bca !important;">Like</a></div></li>

@@ -35,7 +35,7 @@ public class Article extends domain.Entity {
 	
 	@Transactional
 	public static List<Article> getAllArticles() {
-		Query q = JPA.em().createQuery("Select a from Article a order by CREATED_DATE desc");
+		Query q = JPA.em().createQuery("Select a from Article a order by publishedDate DESC");
 		return (List<Article>)q.getResultList();
 	}
 	
@@ -51,9 +51,18 @@ public class Article extends domain.Entity {
 		return q.executeUpdate();
 	}
 	
-	public Article findById() {
-		// TODO
-		return null;
+	public static boolean checkTitleExists(String title)
+	{
+		Query q = JPA.em().createQuery("Select a from Article a where a.name = ?1");
+		q.setParameter(1, title);
+		Article article = null;
+		try {
+			article = (Article) q.getSingleResult();
+		}
+		catch(NoResultException nre) {
+		}
+		
+		return (article == null);
 	}
 	
 	public void updateById()

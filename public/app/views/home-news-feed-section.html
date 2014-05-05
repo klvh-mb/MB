@@ -24,7 +24,7 @@
 	   
 		   	<ul class="wall-user-post-respond">
 	             
-	             <li data-ng-click="get_all_comments(post.id)"><a href="">View {{post.n_c}} more comments</a></li>
+	             <li ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><a href="">View all</a></li>
 	             <ul>
 	                 <li data-ng-repeat="comment in post.cs"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><div><p class="user-comment"><a href="#" style="color: #428bca !important;">{{comment.on}}</a>{{comment.d}}</p><span class="wall-user-actState-date" am-time-ago="comment.cd"></span><a class="btn-like" href="#" style="color: #428bca !important;">Like</a></div></li>
 	             </ul>
@@ -52,10 +52,18 @@
 						   </div>
 		              </li>
 		          </ul>
-		          <ul class="wall-user-forum-respond">
+		          <ul class="wall-user-post-respond">
+		           <li ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><a href="">View all</a>
 		              <ul>
-		                  <li data-ng-repeat="comment in post.cs"><div class="wall-user-forum-comment" style="min-height: 75px;"><div class="pull-right"><img class="wall-userpic" style="margin-right: 30px !important;" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><span class="wall-user-actState-date" am-time-ago="comment.cd"></span><!-- <span class="wall-user-actState-time">15:25</span> --></div><div><p class="user-comment"><a href="#">{{comment.on}}</a>{{comment.d}}</p></div>
-		                  <li data-ng-click="get_all_comments(post.id)"><a href="">View {{post.n_c}} more comments</a></li>
+		                  <li data-ng-repeat="comment in post.cs">
+		                  <div class="wall-user-forum-comment" style="min-height: 75px;">
+			                  <div class="pull-right"><img class="wall-userpic" style="margin-right: 30px !important;" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/>
+			                  <span class="wall-user-actState-date" am-time-ago="comment.cd"></span><!-- <span class="wall-user-actState-time">15:25</span> -->
+			                  </div>
+			                  <div><p class="user-comment"><a href="#">{{comment.on}}</a>{{comment.d}}</p></div>
+		                  </div>
+		                  </li>
+		                 
 		              </ul>
 		          <li>
 		          		<a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}"/></a>

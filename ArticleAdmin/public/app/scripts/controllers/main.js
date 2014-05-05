@@ -31,7 +31,17 @@ minibean.controller('CreateArticleController',function($scope,$http, articleCate
 		$scope.isChosen = true;
 	}
 	$scope.submit = function() {
-				$http.post('/createArticle', $scope.formData);
+		usSpinnerService.spin('loading...');
+				$http.post('/createArticle', $scope.formData).success(function(data){
+					$scope.submitBtn = "Done";
+					usSpinnerService.stop('loading...');
+				}).error(function(data, status, headers, config) {
+			    	if( status == 505 ) {
+			    		$scope.uniqueName = true;
+			    		usSpinnerService.stop('loading...');
+			    		$scope.submitBtn = "Try Again";
+			    	}  
+			    });
 	}
 });
 
