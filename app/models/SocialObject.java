@@ -6,7 +6,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
@@ -16,6 +15,8 @@ import models.SocialRelation.Action;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import play.db.jpa.JPA;
 
@@ -47,7 +48,11 @@ public abstract class SocialObject extends domain.Entity implements
 		Joinable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	//MySQL5Dialect does not support sequence
+	@GeneratedValue(generator = "social-sequence")
+	 @GenericGenerator(name = "social-sequence",
+		        	        strategy = "com.mnt.persist.generator.SocialSequenceGenerator")
+	//@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
 
 	@Enumerated(EnumType.STRING)
