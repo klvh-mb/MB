@@ -64,7 +64,7 @@
 		<div class="general-box">
 			<ul>
 	            <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}"/><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span></p>
-	            <span class="wall-user-actState-date">{{post.t| date:'MMM dd - hh:mm a'}}</span></li>
+	            <span class="wall-user-actState-date" am-time-ago="post.t"></span></li>
 	            <li><p ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></p></li>
 	            	 <div data-ng-show="post.hasImage" class="innerAll">
 						<p class="lead"></p>
@@ -79,7 +79,7 @@
 	             <li ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><a href="">View all</a></li>
 	             <ul>
 	                 <li data-ng-repeat="comment in post.cs"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><div><p class="user-comment"><a href="#" style="color: #428bca !important;">{{comment.on}}</a><span  ng-bind-html="comment.d | highlight: highlightText"></span></p>
-	                 <span class="wall-user-actState-date">{{comment.cd| date:'MMM dd - hh:mm a'}}</span><span class="wall-user-actState-time"></span><a class="btn-like" href="#" style="color: #428bca !important;">Like</a></div></li>
+	                 <span class="wall-user-actState-date" am-time-ago="comment.cd"></span><span class="wall-user-actState-time"></span><a class="btn-like" href="#" style="color: #428bca !important;">Like</a></div></li>
 	             </ul>
 	             <li><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}"/></a>
 	             		<form id="userCommentwrapper" name="userComment">

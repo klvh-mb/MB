@@ -13,7 +13,7 @@
 	.ui-match { background: rgba(88, 144, 255, .15); border-bottom: 1px solid rgba(88, 144, 255, .3);}
 </style>
 
-<header>
+	<header>
 			<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/headerBar.html'"></div>
 	</header>
  
@@ -28,6 +28,7 @@
                     </div>
                 </div>
             </div><!--ProfilePicture End -->
+            
             <div id="announce" class="general-box">
                 <div class="con-title">
                     <span class="icon-box icon-box-red icon-title-announce"></span><a href="#">通知大家</a>
@@ -131,8 +132,8 @@
                 <div class="general-box">
 	                <div class="wall-title">
 	                    <span class="wall-icon icon-title-friendwall" ng-class="{active: selectedTab1 == 1}"><a ng-click="selectedTab1 = 1;"></span><font style="color: white;">Moments</font></a>
-	                    <span class="wall-icon icon-title-community"ng-class="{active: selectedTab1 == 2}"><a ng-click="selectedTab1 = 2;"></span><font style="color: white;">Questions</font></a>
-	                     <span class="wall-icon"ng-class="{active: selectedTab1 == 3}"  data-ng-init="isSearch = true"><i class="fa fa-search" style="color: white;"></i><a ng-click="selectedTab1 = 3;"></span><font style="color: white;">Search</font></a>
+	                    <span class="wall-icon icon-title-community" ng-class="{active: selectedTab1 == 2}"><a ng-click="selectedTab1 = 2;"></span><font style="color: white;">Questions</font></a>
+	                     <span class="wall-icon" ng-class="{active: selectedTab1 == 3}"  data-ng-init="isSearch = true"><i class="fa fa-search" style="color: white;"></i><a ng-click="selectedTab1 = 3;"></span><font style="color: white;">Search</font></a>
 	                    
 	                    <!-- <form ng-controller="SearchPageController" id="mainSearch" name="mainSearch" method="post" action="" class="pull-right">
 	                        <label for="Main Search"></label>
@@ -383,7 +384,7 @@
                    </div>
                    
                    <div class="col-md-8">
-                   	<textarea  class="form-control" placeholder="Community Description" data-ng-model="formData.description" required >
+                   	<textarea  class="form-control" placeholder="Community Description" data-ng-model="formData.description" data-ng-maxlength=1400 required >
                		 </textarea>
                    </div>
                 </div>

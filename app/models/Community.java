@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -53,6 +54,7 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	@JsonIgnore
 	public Folder albumPhotoProfile;
 	
+	@Column(length=8192)
 	public String description;
 	
 	public String tagetDistrict;

@@ -18,6 +18,12 @@ import models.Comment;
 import models.Community;
 import models.Post;
 import models.User;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -147,7 +153,6 @@ public class ArticleController extends Controller {
 			//NOTE: Currently commentType is hardcoded to SIMPLE
 			p.onComment(localUser, commentText, CommentType.SIMPLE);
 		} catch (SocialObjectNotCommentableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return ok(Json.toJson(p.id));
@@ -184,5 +189,19 @@ public class ArticleController extends Controller {
 			commentsToShow.add(commentVM);
 		}
 		return ok(Json.toJson(commentsToShow));
+	}
+	
+	@Transactional
+	public static Result getImageUrl(Long id) {
+		Article article = Article.findById(id);
+		Document document = Jsoup.parse(article.description);
+		Elements links = document.select("img");
+		Map<String, String> map = new HashMap<String, String>();
+		if(links.size() > 0) {
+			map.put("img_src",links.get(0).attr("src"));
+			return ok(Json.toJson(map));
+		}
+		map.put("img_src","no image");
+		return ok(Json.toJson(map));
 	}
 }

@@ -1051,7 +1051,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		$http.post('/community/post', data)// first create post with post text.
 			.success(function(post_id) {
 				usSpinnerService.stop('loading...');
-				var post = {"oid" : $scope.community.lu, "pt" : postText, 
+				var post = {"oid" : $scope.community.lu, "pt" : postText, "cn" : $scope.community.n,
 				"p" : $scope.community.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
 				$scope.community.posts.unshift(post);
 				
@@ -1210,51 +1210,50 @@ minibean.controller('CreateQnACommunityController',function($scope,allAnswersSer
 				"withPhotos" : $scope.QnASelectedFiles.length != 0
 			};
 		
-		
-			$http.post('/communityQnA/question/post', data)// first create post with question text.
-				.success(function(post_id) {
-					usSpinnerService.stop('loading...');
-					var post = {"oid" : $scope.QnA.lu, "pt" : questionText, 
-							"p" : $scope.QnA.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
-					$scope.QnA.posts.unshift(post);
-					
-					if($scope.QnASelectedFiles.length == 0) {
-						return;
-					}
-					
-					$scope.QnASelectedFiles = [];
-					$scope.dataUrls = [];
-					
-					
-					// when post is done in BE then do photo upload
-					for(var i=0 ; i<$scope.tempSelectedFiles.length ; i++) {
-						usSpinnerService.spin('loading...');
-						$upload.upload({
-							url : '/uploadPostPhoto',
-							method: $scope.httpMethod,
-							data : {
-								postId : post_id
-							},
-							file: $scope.tempSelectedFiles[i],
-							fileFormDataName: 'post-photo'
-						}).success(function(data, status, headers, config) {
-							usSpinnerService.stop('loading...');
-							angular.forEach($scope.QnA.posts, function(post, key){
-								if(post.id == post_id) {
-									post.hasImage = true;
-									if(post.imgs) { 
-									} else {
-										post.imgs = [];
-									}
-									post.imgs.push(data);
+		$http.post('/communityQnA/question/post', data)// first create post with question text.
+			.success(function(post_id) {
+				usSpinnerService.stop('loading...');
+				var post = {"oid" : $scope.QnA.lu, "pt" : questionText,"cn" : $scope.community.n, 
+						"p" : $scope.QnA.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
+				$scope.QnA.posts.unshift(post);
+				
+				if($scope.QnASelectedFiles.length == 0) {
+					return;
+				}
+				
+				$scope.QnASelectedFiles = [];
+				$scope.dataUrls = [];
+				
+				
+				// when post is done in BE then do photo upload
+				for(var i=0 ; i<$scope.tempSelectedFiles.length ; i++) {
+					usSpinnerService.spin('loading...');
+					$upload.upload({
+						url : '/uploadPostPhoto',
+						method: $scope.httpMethod,
+						data : {
+							postId : post_id
+						},
+						file: $scope.tempSelectedFiles[i],
+						fileFormDataName: 'post-photo'
+					}).success(function(data, status, headers, config) {
+						usSpinnerService.stop('loading...');
+						angular.forEach($scope.QnA.posts, function(post, key){
+							if(post.id == post_id) {
+								post.hasImage = true;
+								if(post.imgs) { 
+								} else {
+									post.imgs = [];
 								}
-							});
+								post.imgs.push(data);
+							}
 						});
-						
-					}
+					});
 					
-					
-			});
+				}
+				
+				
+		});
 	};
 	
 	$scope.answer_to_question = function(question_post_id, answerText) {
@@ -1410,7 +1409,17 @@ minibean.service('deleteArticleService',function($resource){
 	);
 });
 
-minibean.controller('ShowArticleController',function($scope, $modal, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService,allRelatedArticlesService){
+minibean.service('showImageService',function($resource){
+	this.getImage = $resource(
+			'/get-image-url/:id',
+			{alt:'json',callback:'JSON_CALLBACK', },
+			{
+				get: {method:'get'}
+			}
+	);
+});
+
+minibean.controller('ShowArticleController',function($scope, $modal, showImageService, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService,allRelatedArticlesService){
 	$scope.result = allArticlesService.AllArticles.get();
 	
 	$scope.resultSlidder = allArticlesService.EightArticles.get();
@@ -1419,16 +1428,17 @@ minibean.controller('ShowArticleController',function($scope, $modal, usSpinnerSe
 		usSpinnerService.spin('loading...');
 		$scope.result = [];
 		$scope.result = allArticlesService.ArticleCategorywise.get({id:id}	, function(data) {
-			console.log($scope.result);
 			usSpinnerService.stop('loading...');
 	    });
 	    
-	  };
-	
-	
-	
-	
-	$scope.open = function (id) {
+	 };
+	 
+	 $scope.changeInsideImage = function(article_id) {
+		 showImageService.getImage.get({id:article_id}, function(response) {
+			  $scope.image_source= response.img_src;
+		 });
+	 };
+	 $scope.open = function (id) {
 	    var modalInstance = $modal.open({
 	      templateUrl: 'myModalContent.html',
 	    });
@@ -1600,7 +1610,7 @@ minibean.controller('NewsFeedController', function($scope, $interval, $http, all
 				angular.forEach($scope.newsFeeds.posts, function(post, key){
 					if(post.id == post_id) {
 						post.n_c++;
-						var comment = {"oid" : $scope.newsFeeds.lu, "d" : commentText, "on" : $scope.newsFeeds.lun, 
+						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName, 
 								"cd" : new Date(), "n_c" : post.n_c};
 					post.cs.push(comment);
 				}
