@@ -117,6 +117,7 @@
 .wall-user-forum-comment {
     border-bottom: thin solid #d0d0d0;
     margin: -5px 0 15px 0;
+    height: 80px;
 }
 #userCommentwrapper {
     display: inline-block;
