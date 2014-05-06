@@ -37,19 +37,17 @@
 				<div class="col-md-8" style="padding: 0 0px;">
                 			<li class="col-md-12 dropdown" style="padding: 0 0px;">
                  			<div class="form-control dropdown-toggle">
-                 				<img class="pull-left media-object" data-ng-src={{article.category.pictureName}} width="25">
                  				<div class="media-body">
-						       		<p class="margin-none pull-right">{{article.category.name}}</p>
+						       		<p class="margin-none pull-left">{{article.category.name}}</p>
 						    	</div>
  							</div>
  							<input type="hidden" data-ng-model="article.ct.id">
                   		<ul class="dropdown-menu chat media-list" style="left:2%; width: 96%;">
 							<li class="media" data-ng-repeat="category in articleCategorys" style="margin-top: 1%;">
 						        <a href="" data-ng-click="select_category(category.id, category.name,category.pn)">
-						        	<img class="pull-left media-object" data-ng-model="category.pn" data-ng-src="{{category.pn}}" alt="50x50" width="25" >
 									<input type="hidden" data-ng-model="category.id" >
 									<div class="media-body">
-						            	<p class="margin-none pull-right">{{category.name}}</p>
+						            	<p class="margin-none pull-left">{{category.name}}</p>
 						        	</div>							        	
 						        </a>
 							</li>
