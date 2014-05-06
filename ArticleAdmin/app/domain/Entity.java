@@ -26,10 +26,7 @@ public class Entity
     this.auditFields.setCreatedBy(createdBy);
   }
   
-  public void setCreatedDate(Date createdDate)
-  {
-    this.auditFields.setCreatedDate(createdDate);
-  }
+  
   
   public void setUpdatedBy(String updatedBy)
   {
@@ -41,9 +38,7 @@ public class Entity
     this.auditFields.setUpdatedDate(updatedDate);
   }
   
-  public Date getCreatedDate() {
-	  return this.auditFields.getCreatedDate();
-  }
+ 
   
   @Transactional
   public void save() {

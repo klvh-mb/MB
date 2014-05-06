@@ -41,7 +41,7 @@ public class Article extends domain.Entity {
 	
 	@Transactional
 	public static List<Article> getAllArticles() {
-		Query q = JPA.em().createQuery("Select a from Article a order by CREATED_DATE desc");
+		Query q = JPA.em().createQuery("Select a from Article a order by publishedDate desc");
 		return (List<Article>)q.getResultList();
 	}
 	

@@ -37,11 +37,12 @@ minibean.controller('CreateArticleController',function($scope,$http, articleCate
 		usSpinnerService.spin('loading...');
 				$http.post('/createArticle', $scope.formData).success(function(data){
 					$scope.submitBtn = "Done";
+					$scope.uniqueName = false;
+					$scope.categoryNotChoose = false;
 					usSpinnerService.stop('loading...');
 				}).error(function(data, status, headers, config) {
 			    	if( status == 505 ) {
 			    		$scope.uniqueName = true;
-			    		$scope.categoryNotChoose = true;
 			    		usSpinnerService.stop('loading...');
 			    		$scope.submitBtn = "Try Again";
 			    	}  

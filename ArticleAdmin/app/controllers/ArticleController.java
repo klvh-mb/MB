@@ -24,24 +24,24 @@ public class ArticleController extends Controller {
 		Form<Article> articleForm = DynamicForm.form(Article.class).bindFromRequest();
 		DynamicForm form = DynamicForm.form().bindFromRequest();
 		Long category_id;
-		try{
-			 category_id = Long.parseLong(form.get("category_id"));
-		}
-		catch(NumberFormatException e){return status(506, "PLEASE CHOOSE CATEGORY");}
-		ArticleCategory ac = ArticleCategory.getCategoryById(category_id);
-		Article article = articleForm.get();
-		article.category = ac;
-		article.publishedDate = new Date();
 		
+		Article article = articleForm.get();
 		if(!Article.checkTitleExists(article.name))
 		{
 			return status(505, "PLEASE CHOOSE OTHER TITLE");
 		}
-		else
-		{
+		try{
+			 category_id = Long.parseLong(form.get("category_id"));
+		}
+		catch(NumberFormatException e){
+			return status(506, "PLEASE CHOOSE CATEGORY");
+		}
+		ArticleCategory ac = ArticleCategory.getCategoryById(category_id);
+		article.category = ac;
+		article.publishedDate = new Date();
+		
 			article.saveArticle();
 			return ok();
-		}
 	}
 	
 	@Transactional
@@ -56,11 +56,12 @@ public class ArticleController extends Controller {
 				article.isFeatured = true;
 		if(dataToUpdate.get("isFeatured").equals("false"))
 				article.isFeatured = false;
-		article.targetAge = Integer.parseInt(dataToUpdate.get("targetAge"));
+		try{
+			article.targetAge = Integer.parseInt(dataToUpdate.get("targetAge"));
+		}catch(NumberFormatException e){}
 		ArticleCategory ac = ArticleCategory.getCategoryById(Long.parseLong(dataToUpdate.get("category.id")));
 		article.category = ac;
 		article.description = dataToUpdate.get("description");
-		article.setUpdatedDate(new Date());
 		article.updateById();
 		return ok();
 	}
