@@ -102,6 +102,7 @@ GET		/get-original-image-by-id/:id		controllers.UserController.getOriginalImageB
 
 #Friends
 GET		/get-user-friends			controllers.FriendsController.getUserFriends
+GET		/get-suggested-friends		controllers.FriendsController.getSuggestedFriends
 GET		/get-all-friends			controllers.FriendsController.getAllFriendsOfUser
 GET		/send-invite				controllers.FriendsController.sendInvitation(id: String)
 GET     /friends/:id  				controllers.FriendsController.getUserFriendsByID(id :Long)

@@ -1,13 +1,86 @@
-#main-search-field {
-    border-radius: 13px;
+.general-textfield {
+    border-radius: 10px;
     border: white thin solid;
     padding: 7px 35px 7px 7px;
+    width: 80%;
 }
-#main-search-field+p {
-    color: gray;
+.general-textfield:focus {
+    outline: none;
+    box-shadow: 0 0 10px #a37cde;
+    border: thin solid #a37cde;
+}
+.general-textfield+.icon-box {
     position: relative;
     left: -35px;
+    bottom: 2px;
+    border: none;
+    background-color: white;
+    outline: none;
 }
-#main-search-field:focus {
-    box-shadow: 0px 0px 8px gray;
+#main-search {
+    position: fixed;
+    top: 5px;
+    left: 27%;
+    width: 620px; 
 }
+#main-search .general-textfield {
+    height: 30px;
+    box-shadow: none;
+    border: none;
+}
+#userCommentwrapper .general-textfield {
+    border: thin solid #bcbcbc;
+}
+#userCommentwrapper .general-textfield:focus {
+    border: thin solid #a37cde;
+}
+#contentSearchwrapper {
+    width: 50%;
+    position: relative;
+    top: -2px;
+    right: -40px;
+}
+#contentSearchwrapper .general-textfield {
+    height: 30px;
+    box-shadow: none;
+    border: none;
+}
+#content-upload-wrapper {
+    border-top: #c8c8c8 thin solid;
+}
+#content-upload-input { 
+    margin: 10px 0 0 0;
+    border: none;
+    padding: 5px;
+    width: 100%;
+}
+#group-addnew-member {
+    vertical-align: middle;
+}
+#group-addnew-member .general-textfield {
+    border: thin solid #bcbcbc;
+    padding: 7px;
+    height: 30px;
+}
+#group-addnew-member .general-textfield:focus {
+    border: thin solid #bcbcbc;
+    box-shadow: none;
+}
+/*#userCommentfield {
+    width: 90%;
+    border: none;
+    background-color: white;
+    border-radius: 5px;
+}*/
+/*#submit-userComment {
+    float: right;
+    border-radius: 5px;
+    background-color: white;
+    background-image: url(../images/general/icon_png/search.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+    width: 20px;
+    height: 20px;
+    text-indent: -999px;
+}*/

@@ -10,6 +10,8 @@
     font-size: small;
     font-weight: normal;
     margin-right: 25px;
+    position: relative;
+    top: 2px;
 }
 .wall-title a.pull-right{
     position: relative;
@@ -117,33 +119,6 @@
 .wall-user-forum-comment {
     border-bottom: thin solid #d0d0d0;
     margin: -5px 0 15px 0;
-    height: 80px;
-}
-#userCommentwrapper {
-    display: inline-block;
-    border: thin #d0d0d0 solid;
-    background-color: white;
-    border-radius: 5px;
-    padding: 3px;
-    width: 80%;
-}
-#userCommentfield {
-    width: 90%;
-    border: none;
-    background-color: white;
-    border-radius: 5px;
-}
-#submit-userComment {
-    float: right;
-    border-radius: 5px;
-    background-color: white;
-    background-image: url(../images/general/icon_png/search.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    border: none;
-    width: 20px;
-    height: 20px;
-    text-indent: -999px;
 }
 #wall-forum {
 }

@@ -131,9 +131,9 @@
             <div id="wall">
                 <div class="general-box">
 	                <div class="wall-title">
-	                    <span class="wall-icon icon-title-friendwall" ng-class="{active: selectedTab1 == 1}"><a ng-click="selectedTab1 = 1;"></span><font style="color: white;">Moments</font></a>
-	                    <span class="wall-icon icon-title-community" ng-class="{active: selectedTab1 == 2}"><a ng-click="selectedTab1 = 2;"></span><font style="color: white;">Questions</font></a>
-	                     <span class="wall-icon" ng-class="{active: selectedTab1 == 3}"  data-ng-init="isSearch = true"><i class="fa fa-search" style="color: white;"></i><a ng-click="selectedTab1 = 3;"></span><font style="color: white;">Search</font></a>
+	                    <span class="wall-icon icon-title-friendwall" ><a ng-click="selectedTab1 = 1;"></span><font style="color: white;" ng-class="{activeTab: selectedTab1 == 1}">Moments</font></a>
+	                    <span class="wall-icon icon-title-community"><a ng-click="selectedTab1 = 2;" ></span><font style="color: white;" ng-class="{activeTab: selectedTab1 == 2}">Questions</font></a>
+	                     <span class="wall-icon" data-ng-init="isSearch = true" ><i class="fa fa-search" style="color: white;"></i><a ng-click="selectedTab1 = 3;"></span><font style="color: white;" ng-class="{activeTab: selectedTab1 == 3}">Search</font></a>
 	                    
 	                    <!-- <form ng-controller="SearchPageController" id="mainSearch" name="mainSearch" method="post" action="" class="pull-right">
 	                        <label for="Main Search"></label>
@@ -422,7 +422,14 @@
     </div>
   </div>
 </div>
-      
+ <style>
+
+.activeTab{
+    font-weight: bold;
+    text-decoration:underline;
+}
+
+</style>  
   
     
     <script type="text/ng-template" id="change-profile-photo-modal.html">

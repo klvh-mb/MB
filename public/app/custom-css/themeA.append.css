@@ -1,6 +1,192 @@
+/*!
+ * bootstrap
+ */
+.col-xs-2 {
+  width: 20%;
+}
+.col-sm-2 {
+    width: 20%;
+}
+.col-md-2 {
+    width: 20%;
+}
+.col-lg-2 {
+    width: 20%;
+}
+.col-xs-4 {
+  width: 30%;
+}
+.col-sm-4 {
+    width: 30%;
+}
+.col-md-4 {
+    width: 30%;
+}
+.col-lg-4 {
+    width: 30%;
+}
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+  position: relative;
+  min-height: 1px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+/*
+a {
+  color: #324fe1;
+  text-decoration: none;
+}
+a:hover,
+a:focus {
+  color: #324fe1;
+  text-decoration: underline;
+}
+*/
+
+/*!
+ * theme
+ */
+#announce {
+    width:100%; 
+    height:auto;
+}
+#forum {
+    width:100%; 
+    height:auto;
+}
+#myCommunity {
+    width:100%; 
+    height:auto;
+}
+#hotTopic {
+    width:100%; 
+    height:auto;
+}
+#newCommunity {
+    width:100%; 
+    height:auto;
+}
+#friends {
+    width:100%; 
+    height:auto;
+}
+#competition {
+    width:100%; 
+    height:auto;
+}
+#about {
+    width:100%;
+    height:auto;
+}
+#hotPost {
+    width:100%; 
+    height:auto;
+}
+#latestPost {
+    width:100%; 
+    height:auto;
+}
+#postCategory {
+    width:100%; 
+    height:auto;
+}
+.general-box {
+    border-radius:4px;
+}
+.con-title a {
+    color:#383838;
+    line-height:14pt;
+    font-family:sans-serif;
+    font-size:14px;
+    font-weight:700;
+}
+.wall-title {
+    background-color:#826EEE;
+}
+.right-side {
+	position: absolute;
+	top: 11px;
+	right: 0%;
+}
+#back-to-top {
+	background-color: black;
+	opacity: 0.3;
+	border-radius: 5px;
+	width: 48px;
+	position: fixed;
+	bottom: 20px;
+	right: 2%;
+}
+#back-to-top a {
+	color: white;
+	opacity: 1.0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	padding: 5px 10px;
+}
+#header
+{
+    box-shadow: 0 0 9px 0 #500095;
+    border-bottom: 1px solid #6253AF;
+    background:linear-gradient(to bottom,rgba(106, 91, 221, 1) 0,rgba(132, 129, 245, 1) 100%);
+}
+#about {
+    border: #764193 thin solid;
+    color: #383838;
+    font-size: 13px; 
+}
+#about .con-title {
+    border-bottom: #764193 solid thin;
+}
+#about a {
+    color: #383838;
+}
+#about ul {
+    color: #383838;
+}
 #shortcut-wrapper ul
 {
 	display:none;
+}
+#main-uphoto {
+    width: 100%;
+    height: 135px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+#main-uphoto a[title="user-picture"] {
+    position: relative;
+    left: 35%;
+    top: 10%;
+}
+#main-uphoto img[alt="user-picture"] {
+    z-index: -5;
+    box-shadow: 0 0 5px white;
+    border: 3px solid white;
+    border-radius: 5px;
+    width: 70px;
+    height: 70px;
+}
+#profile-header #profile-user-name {
+    width: 50%;
+    position: absolute;
+    top: -40px;
+    left: 175px;
+    color: white;
+    font-size: 26px;
+    font-weight: bold;
+    text-align: left;
+}
+#profile-header-menu img[alt="profile-pic"]{
+    border: white 5px solid;
+    box-shadow: 0 0 8px gray;
+    position: absolute;
+    top: -120px;
+    width: 150px;
+    height: 150px;
+    border-radius: 5px;
 }
 #uPicture
 {
@@ -25,6 +211,7 @@
 }
 #uPhoto-wrapper
 {
+	background:url(../images/home/uPic_BG.jpg) center center no-repeat;
 	background-size:cover;
 	width:100%;
 	height:187px;
@@ -32,60 +219,122 @@
 	margin-bottom:10px;
 	border-radius:8px;
 }
-.menu-text
-{
-	color:white;
-	vertical-align:middle;
+.userName {
+	text-align: center;
+	white-space: nowrap;
+	/* text-overflow: ellipsis; */
+	color: white;
+	line-height: 18pt;
+	font-family: sans-serif;
+	font-size: large;
+	font-weight: bold;
+	position: relative;
+	top: 70px;
+	padding: 0px;
 }
-.wall-title a
-{
-	vertical-align:middle;
+#all-post-thumbnail {
+    width: 100%;
+    height: 190px;
 }
-.whose-like:after
-{
-	content:" like this";
+#all-post-thumbnail li {
+    padding: 8px 0 0 8px;
 }
-.wall-forum-post-time:before
-{
-	content:"asked ";
+.post-detail-wrapper li:first-child > a > img {
+    float: left;
 }
-.wall-forum-post-time:after
-{
-	content:" hours ago"
+.allsc-wrapper a {
+    color: #324fe1;
 }
-.wall-forum-post-time:after
-{
-	content:" hours ago"
+#profile-header {
+    background-color: white;
+    height: 300px;
+    margin-bottom: 10px;
 }
-.wall-forum-post-last-time:before
-{
-	content:"Last replied "
+#profile-header-menu {
+    padding: 11px 11px;
+    position: relative;
 }
-.wall-forum-post-last-time:after
-{
-	content:" hourse ago"
+#profile-header-menu div:first-child a {
+    position: absolute;
+    display: none;
+    left: 25px;
+    top: -20px;
 }
-.wall-forum-post-checked:before
-{
-	content:"Views: "
+#profile-header-menu div:first-child a span:first-child {
+    position: absolute;
+    z-index: 10;
 }
-.wall-forum-post-reply:before
-{
-	content:"Replies: "
+#profile-header-menu div:first-child:hover > a {
+    display: block;
 }
-.wall-user-actState-from:after
-{
-	content:" asked in "
+.slider-menu p {    
+    margin: 0;
+    width: 130px;
+    height: 35px;
+    overflow: hidden;
+    word-break: break-all;
 }
-.wall-user-actState-share:after
-{
-	content:" Share"
+.slider-photo {
+	position: relative;
+	float: left;
+	width: 40%;
+	height: 282px;
 }
-.wall-user-actState-ask:after
-{
-	content:" "
+.friends-info {
+    padding: 5px 5px;
+    width: 100%;
+    height: auto;
+}
+.newCommunity-info {
+    list-style: none;
+    padding: 5px;
+}
+#notification-box{
+    width:400px;
+    height:500px
+}
+#notification-box{
+    left:30px;
+    top:10px
+}
+#notification-box .scroller{
+    right:2px;
+    top:45px
+}
+#notification-box ul{
+    height:auto;    /* override */
+    overflow:hidden;
+    width:100%
+}
+#notification-box li{
+    position:relative
+}
+#notification-box:before {
+    content: ' ';
+    position: absolute;
+    bottom: 100%;
+    left: 30px;
+    top: 10px;
+    border-color: transparent transparent #bcbcbc transparent;
+    border-style: solid;
+    border-width: 10px;
+}
+#notification-box:after {
+    content: ' ';
+    position: absolute;
+    bottom: 100%;
+    left: 31px;
+    top: 10px;
+    border-color: transparent transparent white transparent;
+    border-style: solid;
+    border-width: 9px;
 }
 
-
-
-
+/* new for scollable notifications */
+.scrollableAreaWrap {
+    height: 100%;
+    outline: none;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position: relative;
+}

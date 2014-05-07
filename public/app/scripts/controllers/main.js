@@ -519,6 +519,25 @@ minibean.controller('FriendsWidgetController',function($scope, friendWidgetServi
 
 ///////////////////////// User Friends Widget End //////////////////////////////////
 
+
+///////////////////////// Suggested Friends Widget Service Start //////////////////////////////////
+minibean.service('friendSuggestedWidgetService',function($resource){
+	this.UserFriends = $resource(
+			'/get-suggested-friends',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get'}
+			}
+	);
+});
+
+minibean.controller('SuggestedFriendsWidgetController',function($scope, friendSuggestedWidgetService,userInfoService, $http){
+	$scope.result = friendSuggestedWidgetService.UserFriends.get();
+	$scope.userInfo = userInfoService.UserInfo.get();
+});
+
+///////////////////////// User Friends Widget End //////////////////////////////////
+
 ///////////////////////// Community Members Widget Service Start //////////////////////////////////
 minibean.service('membersWidgetService',function($resource){
 	this.CommunityMembers = $resource(

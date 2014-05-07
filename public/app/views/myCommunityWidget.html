@@ -3,7 +3,7 @@
                     <a href="/#/myGroups/myGroups" class="text-muted"><span class="icon-box icon-box-blueDark icon-title-community"></span>My Community
                     </a>
                 </div>
-                <div id="div1" class="innerAll" style="overflow-y: scroll;height: 150px;">
+                <!-- <div id="div1" class="innerAll" style="overflow-y: scroll;height: 150px;">
 	                    <a data-ng-href="#/community/{{fvm.id}}" ng-repeat="fvm in result.fvm">
 						<div style="float: left;width: 110%" >
 							<img style="float: left;"
@@ -18,8 +18,16 @@
 							</div>
 						</div>
 					</a>
+					
 					<div style="text-align: center;width: 100%; float: left; background-color: rgb(245, 245, 245);"data-ng-show="!result.isMore"><a data-ng-show="!noMoreResult" data-ng-click="nextMyGroups()"  ><span style="color: cornflowerblue;font-size: smaller;">See More</span></a></div>
-                </div>
+                </div> -->
+                <ul class="newCommunity-info" style="overflow-y: scroll;height: 150px;">
+                    <li ng-repeat="fvm in result.fvm"><img src="/get-cover-community-image-by-id/{{fvm.id}}"><p><a href="#/community/{{fvm.id}}"><b><font><font>{{fvm.dn|characters:15:false}}</font></font></b></a><br>
+                    
+                    <span class="community-member-counter"><font><font>{{fvm.mm}} members</font></font></span></p>
+                    </li>
+                    <li style="text-align: center;width: 100%; float: left; background-color: rgb(245, 245, 245);"data-ng-show="!result.isMore"><a data-ng-show="!noMoreResult" data-ng-click="nextMyGroups()"  ><span style="color: cornflowerblue;font-size: smaller;">See More</span></a></li>
+                </ul>
             </div>
 
 <!-- 

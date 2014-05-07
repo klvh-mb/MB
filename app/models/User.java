@@ -262,6 +262,16 @@ public class User extends SocialObject implements Subject, Socializable {
 	}
 	
 	@JsonIgnore
+	public List<User> getSuggestedFriends() {
+		Query q = JPA.em().createNativeQuery("Select * from User u where u.id not in (select sr.target from  SocialRelation sr where sr.action = ?2 and sr.actor = ?1 union select sr1.actor from  SocialRelation sr1 where sr1.action = ?2 and sr1.target = ?1)",User.class);
+		q.setParameter(1, this.id);
+		q.setParameter(2, SocialRelation.Action.FRIEND.name());
+	    List<User> frndList = ( List<User> )q.getResultList();
+		
+		return frndList;
+	}
+	
+	@JsonIgnore
 	public Long _getFriendsCount() {
 		Query query = JPA.em().createQuery("SELECT count(*) from SocialRelation where (target = ?1 or actor = ?1) and action = ?2");
 		query.setParameter(1, this.id);

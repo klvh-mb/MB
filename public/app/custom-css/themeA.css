@@ -232,10 +232,28 @@ a:hover {
     width: 100%;
     height: 100%;
 }
-
+#back-to-top {
+    background-color: black;
+    opacity: 0.5;
+    border-radius: 5px;
+    width: 48px;
+    position: fixed;
+    bottom: 20px;
+    right: 175px;
+}
+#back-to-top a {
+    color: white;
+    opacity: 1.0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+}
+#back-to-top a:hover {
+text-decoration: none;
+}
 
 /*Notification Box Start*/
-
 #notification-box{
     left: 80px;
     top: 10px;
@@ -615,43 +633,61 @@ a:hover {
     font-family: sans-serif;
     font-size: small;
 }
-/*#mainSearch {
-    position: relative;
-    display: inline-block;
-    width: 40%;
-    background-color: white;
-    padding: 2px;
-    border-radius: 10px;
-}
-#mainSearch #searchfield {
-    border-radius: 10px;
-    border: none;
-    width: 90%;
-    position: absolute;
-    left: 2%;
-}
-#mainSearch #submit-search {
-    float: right;
-    background-color: white;
-    background-image: url(../images/general/icon_png/search.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    position: relative;
-    right: 2%;
-    top: 1px;
-    border: none;
-    width: 20px;
-    height: 20px;
-    text-indent: -999px;
-}*/
 .right-side {
     position: absolute;
-    top: 3%;
+    top: 11px;
     right: 5%;
 }
 /* Header End */
 
 /* User Profile Picture Start */
+#main-uphoto {
+    width: 100%;
+    height: 187px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+#main-uphoto a[title="user-picture"] {
+    position: relative;
+    left: 19%;
+    top: 12%;
+}
+#main-uphoto img[alt="user-picture-bg"] {
+    width: 100%;
+    height: 187px;
+    position: absolute;
+    z-index: -10;
+}
+#main-uphoto img[alt="gradient-black"] {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity: 0.7;
+}
+#main-uphoto img[alt="user-picture"] {
+    z-index: -5;
+    box-shadow: 0 0 10px gray;
+    border: 5px solid white;
+    border-radius: 5px;
+}
+.userName{
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: white;
+    line-height: 18pt;
+    font-family: sans-serif;
+    font-size: large;
+    font-weight: bold;
+    position: relative;
+    top: 30px;
+    padding: 15px;
+}
+.userName:hover {
+    color: white;
+}
+/* 
 #uPhoto-wrapper {
     background: url(../images/home/uPic_BG.jpg) center center no-repeat;
     background-size: cover;
@@ -663,13 +699,13 @@ a:hover {
 #uPhoto-wrapper-gradient {
     width: 100%;
     height: 100%;
-    background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* IE10+ */
-    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 ); /* IE6-9 */
+    background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); 
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65))); 
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); 
+    background: -o-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); 
+    background: -ms-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); 
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 ); 
 }
 #uPicture {
     position: relative;
@@ -683,18 +719,8 @@ a:hover {
     border-radius: 8px;
     width: 93px;
     height: auto;
-}
-.userName{
-    text-overflow: ellipsis;
-    color: white;
-    line-height: 18pt;
-    font-family: sans-serif;
-    font-size: large;
-    font-weight: bold;
-}
-.userName:hover {
-    color: white;
-}
+} 
+*/
 /* User Profile Picture End */
 
 /* Friends Start */
@@ -827,10 +853,11 @@ a:hover {
     position: relative;
     float: left;
     width: 40%;
-    height: 100%;
+    height: 89%;
     overflow: hidden;
-    border-left: #c8c8c8 solid 1px;
-    border-right: #c8c8c8 solid 1px;
+    border-left: #c8c8c8 solid thin;
+    border-right: #c8c8c8 solid thin;
+    border-bottom: #c8c8c8 solid thin;
 }
 .slider-photo img{
     width: auto;
@@ -868,6 +895,25 @@ a:hover {
 .slider-photo a:hover > span p {
     text-decoration: underline;
 }
+.slider-category {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 5px 0 5px 15px;
+}
+.slider-category p {
+    position: absolute;
+    bottom: 0;
+    width: 95%;
+}
+.slider-category p a {
+    font-size: small;
+    color: #9064d5;
+    padding-right: 30px;
+}
+.slider-category p a.pull-right {
+    padding-right: 0;
+}
 /* Slider End */
 
 /* Community Page Header Start */
@@ -895,6 +941,19 @@ a:hover {
     position: relative;
     top: -5px;
 }
+#community-header div:first-child a {
+    position: absolute;
+    display: none;
+    right: 40px;
+    top: 30px;
+}
+#community-header div:first-child a span:first-child {
+    position: absolute;
+    z-index: 10;
+}
+#community-header div:first-child:hover > a {
+    display: block;
+}
 /* Community Page header submenu*/
 #commun-header-menu ul {
     position: absolute;
@@ -908,6 +967,10 @@ a:hover {
     font-size: small;
     margin: 15px 0 15px 15px;
     border: none;
+}
+#community-banner {
+    width: 100%;
+    height: auto;
 }
 /* Community Page Header End */
 
@@ -958,11 +1021,40 @@ a:hover {
     white-space: pre-line;
     line-height: 18px;
 }
-#about .content-wrapper .general-input-box {
+/*#about .content-wrapper .general-input-box {
     vertical-align: middle;
     border: gray thin solid;
-}
+}*/
 /* About End */
+
+/* Profile About Start */
+#profile-about .content-wrapper {
+    padding: 5px 20px;
+}
+#profile-about a {
+    font-weight: bold;
+    color: gray;
+}
+#profile-about ul {
+    width: 100%;
+}
+#profile-about li {
+    border-top: #bcbcbc thin solid;
+}
+#profile-about li:first-child {
+    border: none;
+}
+#profile-about li a:hover {
+    background-color: transparent;
+}
+#profile-about li .icon-title-liveplace+p {
+    display: inline-block;
+}
+#profile-about li .icon-title-liveplace+p:before {
+    font-weight: bold;
+    content: "現居 ";
+}
+/* Profile About End */
 
 /* Content Uploader Start */
 .content-uploader ul{
@@ -978,15 +1070,6 @@ a:hover {
     position: relative;
     top: 4px;
     border-color: #c8c8c8;
-}
-#content-upload-wrapper {
-    border-top: #c8c8c8 thin solid;
-}
-#content-upload-input { 
-    margin: 10px 0 0 0;
-    border: none;
-    padding: 5px;
-    width: 100%;
 }
 /* Content Uploader End */
 
@@ -1268,3 +1351,84 @@ a:hover {
     font-size: small;
 }
 /*Related Post End*/
+
+/* Profile page Header Start */
+#profile-header {
+    background-color: white;
+    height: 400px;
+    margin-bottom: 10px;
+}
+
+#profile-header ul {
+    padding: 0;
+    list-style: none;
+}
+#profile-header li {
+    border-bottom: #bcbcbc solid thin;
+}
+#profile-header-menu {
+    padding: 12px 13px;
+    position: relative;
+}
+#profile-header-menu a.toolsbox-end {
+}
+#profile-header-menu div {
+    display: inline;
+}
+#profile-header-menu #menu-title {
+    position: relative;
+    left: 160px;
+}
+#profile-header-menu img[alt="profile-pic"]{
+    border: white 5px solid;
+    box-shadow: 0 0 8px gray;
+    position: absolute;
+    top: -60px;
+    width: 140px;
+    height: auto;
+}
+#profile-header #profile-user-name {
+    width: 25%;
+    position: absolute;
+    top: 95px;
+    color: black;
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+}
+#profile-header-menu .pull-right {
+    position: relative;
+    top: -5px;
+}
+#profile-header div:first-child a {
+    position: absolute;
+    display: none;
+    right: 25px;
+    top: 20px;
+}
+#profile-header div:first-child a span:first-child {
+    position: absolute;
+    z-index: 10;
+}
+#profile-header div:first-child:hover > a {
+    display: block;
+}
+/* Profile Page header submenu*/
+#profile-header-menu ul {
+    position: absolute;
+    right: 20px;
+    top: 40px;
+}
+#profile-header-menu .subtoolsbox a:active {
+    font-weight: bold;
+}
+#profile-header-menu .subtoolsbox li {
+    font-size: small;
+    margin: 15px 0 15px 15px;
+    border: none;
+}
+#profile-banner {
+    width: 100%;
+    height: auto;
+}
+/* Profile page Header End */
