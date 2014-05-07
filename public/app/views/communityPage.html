@@ -13,69 +13,91 @@
 	.ui-match { background: rgba(88, 144, 255, .15); border-bottom: 1px solid rgba(88, 144, 255, .3);}
 </style>
 
-	<header>
-			<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/headerBar.html'"></div>
-	</header>
- 
-    <div class="themeA-container">
-        <div class="row">
-        <div class="col-md-2 col-sm-2 col-xs-2">
-            <div id="uPhoto-wrapper" data-ng-style="set_background_image()">
-                <div id="uPhoto-wrapper-gradient">
-                    <div id="uPicture">
-                    <a href="#"><img src="/get-thumbnail-image-by-id/{{userInfo.id}}" alt="user photo"></a>
-                    <label class="userName">{{userInfo.displayName}}</label>
-                    </div>
-                </div>
-            </div><!--ProfilePicture End -->
-            
-            <div id="announce" class="general-box">
-                <div class="con-title">
-                    <span class="icon-box icon-box-red icon-title-announce"></span><a href="#">通知大家</a>
-                </div>
-                <div class="content-wrapper">
-                    <ul>
-                        <li><a href="#">超級英雄的時尚觸覺：6 大經典英雄服</a></li>
-                        <li><a href="#">你的歐洲時裝專家 名意網 MAGin Online Shop 全新網上購物體驗</a></li>
-                        <li><a href="#">超級英雄的時尚觸覺：6 大經典英雄服</a></li>
-                        <li><a href="#">你的歐洲時裝專家 名意網 MAGin Online Shop 全新網上購物體驗</a></li>
-                        <li><a href="#">超級英雄的時尚觸覺：6 大經典英雄服</a></li>
-                    </ul>
-                </div>
-            </div><!--Announce End -->
-            <div id="forum" class="general-box">
-                <div class="con-title">
-                    <span class="icon-box icon-box-orange icon-title-forum"></span><a href="#">討論區</a>
-                </div>
-                <div class="content-wrapper">
-                    <ul>
-                        <li><a href="#" class="tag">[甜品]</a><a href="#">超級英雄的時尚觸覺：6 大經典英雄服</a></li>
-                        <li><a href="#" class="tag">[甜品]</a><a href="#">你的歐洲時裝專家 名意網 MAGin Online Shop 全新網上購物體驗</a></li>
-                        <li><a href="#" class="tag">[甜品]</a><a href="#">超級英雄的時尚觸覺：6 大經典英雄服</a></li>
-                        <li><a href="#" class="tag">[甜品]</a><a href="#">你的歐洲時裝專家 名意網 MAGin Online Shop 全新網上購物體驗</a></li>
-                        <li><a href="#" class="tag">[甜品]</a><a href="#">超級英雄的時尚觸覺：6 大經典英雄服</a></li>
-                        <li><a href="#" class="tag">[甜品]</a><a href="#">超級英雄的時尚觸覺：6 大經典英雄服</a></li>
-                        <li><a href="#" class="tag">[甜品]</a><a href="#">你的歐洲時裝專家 名意網 MAGin Online Shop 全新網上購物體驗</a></li>
-                        <li><a href="#" class="tag">[甜品]</a><a href="#">超級英雄的時尚觸覺：6 大經典英雄服</a></li>
-                        <li><a href="#" class="tag">[甜品]</a><a href="#">你的歐洲時裝專家 名意網 MAGin Online Shop 全新網上購物體驗</a></li>
-                        <li><a href="#" class="tag">[甜品]</a><a href="#">超級英雄的時尚觸覺：6 大經典英雄服</a></li>
-                    </ul>
-                </div>
-            </div><!--Forum End -->
-            
-            <div id="myCommunity" class="general-box" ng-controller="UserCommunityWidgetController">
-                <div class="con-title">
-                    <span class="icon-box icon-box-blueDark icon-title-community"></span><a href="/#/myGroups/myGroups"><font><font class="">My Community</font></font></a>
-                </div>
-                <div class="content-wrapper">
-                    <ul>
-                        <li  ng-repeat="fvm in allResult.fvm"><span class="icon-box"> <img class="pull-left media-object" alt="" data-ng-src="{{fvm.gi}}" style="width: 85%"> </span><a data-ng-href="#/community/{{fvm.id}}"><font><font>{{fvm.dn|characters:15:false}}</font></font></a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            
-            <!-- <div id="myCommunity" class="general-box">
+<header>
+	<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/headerBar.html'"></div>
+</header>
+
+<div class="themeA-container">
+	<div >
+		<div class="col-md-2 col-sm-2 col-xs-2" style="width: 20%;">
+			<div id="uPhoto-wrapper" data-ng-style="set_background_image()">
+				<div id="uPhoto-wrapper-gradient">
+					<div id="uPicture">
+						<a href="#">
+							<img src="/get-thumbnail-image-by-id/{{userInfo.id}}" alt="user photo">
+						</a>
+						<label class="userName">{{userInfo.displayName}}</label>
+					</div>
+				</div>
+			</div>
+			<!--ProfilePicture End -->
+			<div id="announce" class="general-box">
+				<div class="con-title">
+					<span class="icon-box icon-box-red icon-title-announce"></span>
+					<a href="#">通知大家</a>
+				</div>
+				<div class="content-wrapper">
+					<ul>
+						<li><a href="#">超級英雄的時尚觸覺：6 大經典英雄服</a></li>
+						<li><a href="#">你的歐洲時裝專家 名意網 MAGin Online Shop 全新網上購物體驗</a></li>
+						<li><a href="#">超級英雄的時尚觸覺：6 大經典英雄服</a></li>
+						<li><a href="#">你的歐洲時裝專家 名意網 MAGin Online Shop 全新網上購物體驗</a></li>
+						<li><a href="#">超級英雄的時尚觸覺：6 大經典英雄服</a></li>
+					</ul>
+				</div>
+			</div>
+			<!--Announce End -->
+			<div id="forum" class="general-box">
+				<div class="con-title">
+					<span class="icon-box icon-box-orange icon-title-forum"></span><a
+						href="#">討論區</a>
+				</div>
+				<div class="content-wrapper">
+					<ul>
+						<li><a href="#" class="tag">[甜品]</a><a href="#">超級英雄的時尚觸覺：6
+								大經典英雄服</a></li>
+						<li><a href="#" class="tag">[甜品]</a><a href="#">你的歐洲時裝專家
+								名意網 MAGin Online Shop 全新網上購物體驗</a></li>
+						<li><a href="#" class="tag">[甜品]</a><a href="#">超級英雄的時尚觸覺：6
+								大經典英雄服</a></li>
+						<li><a href="#" class="tag">[甜品]</a><a href="#">你的歐洲時裝專家
+								名意網 MAGin Online Shop 全新網上購物體驗</a></li>
+						<li><a href="#" class="tag">[甜品]</a><a href="#">超級英雄的時尚觸覺：6
+								大經典英雄服</a></li>
+						<li><a href="#" class="tag">[甜品]</a><a href="#">超級英雄的時尚觸覺：6
+								大經典英雄服</a></li>
+						<li><a href="#" class="tag">[甜品]</a><a href="#">你的歐洲時裝專家
+								名意網 MAGin Online Shop 全新網上購物體驗</a></li>
+						<li><a href="#" class="tag">[甜品]</a><a href="#">超級英雄的時尚觸覺：6
+								大經典英雄服</a></li>
+						<li><a href="#" class="tag">[甜品]</a><a href="#">你的歐洲時裝專家
+								名意網 MAGin Online Shop 全新網上購物體驗</a></li>
+						<li><a href="#" class="tag">[甜品]</a><a href="#">超級英雄的時尚觸覺：6
+								大經典英雄服</a></li>
+					</ul>
+				</div>
+			</div>
+			<!--Forum End -->
+
+			<div id="myCommunity" class="general-box"
+				ng-controller="UserCommunityWidgetController">
+				<div class="con-title">
+					<span class="icon-box icon-box-blueDark icon-title-community"></span><a
+						href="/#/myGroups/myGroups"><font><font class="">My
+								Community</font></font></a>
+				</div>
+				<div class="content-wrapper">
+					<ul>
+						<li ng-repeat="fvm in allResult.fvm"><span class="icon-box">
+								<img class="pull-left media-object" alt=""
+								data-ng-src="{{fvm.gi}}" style="width: 85%">
+						</span><a data-ng-href="#/community/{{fvm.id}}"><font><font>{{fvm.dn|characters:15:false}}</font></font></a></li>
+					</ul>
+				</div>
+			</div>
+
+
+			<!-- <div id="myCommunity" class="general-box">
                 <div ng-controller="UserCommunityWidgetController">
 					<div id="myCommunity" class="general-box">
 		                <div class="con-title">
@@ -94,198 +116,200 @@
 		                </div>
            			</div>
 				</div>	
-            </div> --><!--MyCommunity End -->
-        </div>
-        <div class="col-md-6 col-sm-6 col-xs-6">
-            <div id="community-header">
-                <ul>
-                    <li>
-                    	<img style="height: 250px;width: 560px;" id="community-banner" data-ng-src="{{coverImage}}"/>
-                    	<a data-ng-show="community.isO" data-ng-click="openGroupCoverPhotoModal(community.i)" alt="Change" title="Change"  
-											style="margin: -245px 0px 0px 7px;position: absolute;" href=""  ><img src="/assets/app/images/edit.png"/></a>	
-                    </li>
-                    <li id="commun-header-menu">
-                        <div class="h5"><b>{{community.n}}</b></div>
-                        <div class="divider-cus"></div>
-                        <div ng-class="{active: selectedTab == 1}"><a ng-click="selectedTab = 1;">Activity</a></div>
-                        <div class="divider-cus"></div>
-                        <div ng-class="{active: selectedTab == 2}"><a ng-click="selectedTab = 2;">Members</a></div>
-                        <div class="divider-cus"></div>
-                        <div ng-class="{active: selectedTab == 3}"><a ng-click="selectedTab = 3;">Photo Contest</a></div>
-                        <div class="dropdown pull-right">
-                            <a class="toolsbox toolsbox-start" ">Notice</a>
-                            <a class="toolsbox toolsbox-end btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="icon-title-contentSetup"></span></a>
-                            <ul class="subtoolsbox dropdown-menu">
-                            <li><a >All Posts</a></li>
-                            <li><a >off</a></li>
-                        </ul>
-                        </div>
-                        
-                        
-                    </li>
-                    
-                    
-                    
-                </ul>
-            </div><!--Community Header End -->
-            <div id="wall">
-                <div class="general-box">
-	                <div class="wall-title">
-	                    <span class="wall-icon icon-title-friendwall" ><a ng-click="selectedTab1 = 1;"></span><font style="color: white;" ng-class="{activeTab: selectedTab1 == 1}">Moments</font></a>
-	                    <span class="wall-icon icon-title-community"><a ng-click="selectedTab1 = 2;" ></span><font style="color: white;" ng-class="{activeTab: selectedTab1 == 2}">Questions</font></a>
-	                     <span class="wall-icon" data-ng-init="isSearch = true" ><i class="fa fa-search" style="color: white;"></i><a ng-click="selectedTab1 = 3;"></span><font style="color: white;" ng-class="{activeTab: selectedTab1 == 3}">Search</font></a>
-	                    
-	                    <!-- <form ng-controller="SearchPageController" id="mainSearch" name="mainSearch" method="post" action="" class="pull-right">
-	                        <label for="Main Search"></label>
-	                        <input type="text" id="searchfield"  placeholder="Search in Moment" data-ng-model="highlightQuery"/>
-	                        <span><input id="submit-search" type="button"  ng-class="{active: selectedTab1 == 3}" data-ng-click="search_and_highlight(highlightQuery)"/></span>
-	                        
-	                    </form> -->
-	                </div>
-                    
-                    <!-- 
-<textarea class="form-control" placeholder="Ask Question here!" data-ng-model="questionText"></textarea>
-<div style="background-color: white;" ng-show="QnASelectedFiles != null">
-		<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
-		ng-repeat="f in QnASelectedFiles" style="width: 100px;height: 100px;" ng-show="dataUrls[$index]" 
-		ng-src="{{dataUrls[$index]}}" tooltip-placement="bottom" tooltip="delete it!" data-ng-click="remove_image($index)">
+            </div> -->
+			<!--MyCommunity End -->
+		</div>
+		<div class="col-md-6 col-sm-6 col-xs-6" style="width: 50%;">
+			<div id="community-header">
+				<ul>
+					<li><img style="height: 250px; width: 560px;"
+						id="community-banner" data-ng-src="{{coverImage}}" /> <a
+						data-ng-show="community.isO"
+						data-ng-click="openGroupCoverPhotoModal(community.i)" alt="Change"
+						title="Change"
+						style="margin: -245px 0px 0px 7px; position: absolute;" href=""><img
+							src="/assets/app/images/edit.png" /></a></li>
+					<li id="commun-header-menu">
+						<div class="h5">
+							<b>{{community.n}}</b>
+						</div>
+						<div class="divider-cus"></div>
+						<div ng-class="{active: selectedTab == 1}">
+							<a ng-click="selectedTab = 1;">Activity</a>
+						</div>
+						<div class="divider-cus"></div>
+						<div ng-class="{active: selectedTab == 2}">
+							<a ng-click="selectedTab = 2;">Members</a>
+						</div>
+						<div class="divider-cus"></div>
+						<div ng-class="{active: selectedTab == 3}">
+							<a ng-click="selectedTab = 3;">Photo Contest</a>
+						</div>
+						<div class="dropdown pull-right">
+							<a class="toolsbox toolsbox-start"">Notice</a> <a
+								class="toolsbox toolsbox-end btn dropdown-toggle"
+								data-toggle="dropdown" href="#"><span
+								class="icon-title-contentSetup"></span></a>
+							<ul class="subtoolsbox dropdown-menu">
+								<li><a>All Posts</a></li>
+								<li><a>off</a></li>
+							</ul>
+						</div>
+
+
+					</li>
+
+
+
+				</ul>
+			</div>
+			<!--Community Header End -->
+			<div id="wall">
+				<div class="general-box">
+					<div class="wall-title">
+						<span class="wall-icon icon-title-friendwall">
+						</span><a ng-click="selectedTab1 = 1;">
+						<font style="color: white;" ng-class="{activeTab: selectedTab1 == 1}">Moments</font> </a>
+						<span class="wall-icon icon-title-community">
+						</span><a	ng-click="selectedTab1 = 2;">
+						<font style="color: white;"	ng-class="{activeTab: selectedTab1 == 2}">Questions</font> </a>
+						<span class="wall-icon" data-ng-init="isSearch = true"><i class="fa fa-search" style="color: white;"></i>
+						</span><a ng-click="selectedTab1 = 3;">
+						<font style="color: white;" ng-class="{activeTab: selectedTab1 == 3}">Search</font></a>
+					</div>
+				</div>
+
+				<div class="tab-content row" ng-show="selectedTab == 1 ">
+					<div class="tab-content row"
+						ng-show="selectedTab1 == 1 && community.isM" id="post">
+						<div data-ng-include style="height: 100px;"
+							data-src="'/assets/app/views/community-post-bar.html'"></div>
+					</div>
+					<div class="tab-content"
+						ng-show="selectedTab1 == 2 && community.isM" id="qnapost"
+						ng-controller="CreateQnACommunityController">
+						<div data-ng-include style="height: 100px;"
+							data-src="'/assets/app/views/community-QnA-bar.html'"></div>
+					</div>
+					<div class="tab-content"
+						ng-show="selectedTab1 == 3 && community.isM"
+						ng-controller="SearchPageController">
+						<div data-ng-include style="height: 100px;"
+							data-src="'/assets/app/views/community-search-bar.html'"></div>
+					</div>
+				</div>
+				<div class="tab-content row" ng-show="selectedTab == 2 ">
+					<div data-ng-controller="CommunityMembersWidgetController"
+						data-ng-include style="width: 100%; height: 50px;"
+						data-src="'/assets/app/views/allFriendsSection.html'"></div>
+				</div>
+
+
+
+
+
+			</div>
+			<!--Wall End -->
+		</div>
+		<div class="col-md-4 col-sm-4 col-xs-4 " style="width: 30%;">
+			<button class="btn-general-b pull-right" data-toggle="modal"
+				data-target="#myModal">
+				<h4 style="display: inline;">+</h4>
+				Create a group
+			</button>
+			<button ng-show="!community.isO && community.isM == true"
+				class="btn-general-b pull-right"
+				data-ng-click="leave_community(community.i)">
+				<i class="fa fa-thumbs-down"></i> Leave
+			</button>
+			<button
+				ng-show="!community.isO && community.isM == false && community.isP == false"
+				class="btn-general-b pull-right"
+				data-ng-click="send_join(community.i)">
+				<i class="fa fa-user"></i> Join
+			</button>
+			<button ng-show="!community.isO && community.isP == true"
+				class="btn-general-b pull-right" disabled="disabled">
+				<i class="fa fa-user"></i> Pending
+			</button>
+			<div id="about" class="general-box">
+				<div class="con-title">
+					<span class="icon-box icon-box-blueLight icon-title-profile-about"></span><a
+						href="#">About</a>
+					<div class="pull-right">
+						<a href="#">{{community.nom}} Members</a>
+						<p data-ng-show="community.typ=='CLOSE'" class="small">Closed
+							Community</p>
+						<p data-ng-show="community.typ=='OPEN'" class="small">Open
+							Community</p>
+					</div>
+				</div>
+
+				<div class="content-wrapper" style="height: 200px;">
+					<ul>
+						<li>{{community.d}}</li>
+					</ul>
+				</div>
+
+			</div>
+			<!--About End -->
+
+			<div id="about" style="height: 36px; border: white;">
+				<div class="content-wrapper">
+					<ul>
+						<li>
+							<form id="commun-add-member-wrapper"
+								name="commun-add-member-wrapper" method="post" action="">
+								<label for="Add Member"></label> <input type="text"
+									name="commun-add-member" id="commun-add-member"
+									class="general-input-box" data-ng-model="searchQuery"
+									data-ng-keyup="search_unjoined_users(community.i, searchQuery)"
+									placeholder="+ Invite New Members" style="width: 90%;" />
+								<div>
+									<div class="row">
+										<ul
+											class="col-lg-12 col-md-11 col-sd-11 dropdown-menu chat media-list hide"
+											ng-class="{show : nonMembers.length > 0 && searchQuery.length > 0}"
+											style="overflow-y: scroll; max-height: 244px;">
+											<li class="media" ng-repeat="sr in nonMembers"
+												ng-switch="sr.tp" style="margin-top: 2% !important;">
+												<!-- shows user section --> <a class="pull-left"
+												href="#/profile/{{sr.id}}"> <img
+													class="media-object thumb"
+													data-ng-src="/get-mini-image-by-id/{{sr.id}}" alt="50x50"
+													width="50" />
+											</a>
+
+												<div class="media-body">
+													<h5 class="media-heading">
+														{{sr.nm}} <i
+															data-ng-click="send_invite_to_join(community.i, sr.id)"
+															class="fa fa-plus-square pull-right"></i>
+													</h5>
+												</div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</form>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div id="newCommunity" class="row tm">
+				<div class="col-lg-12 col-md-12"
+					ng-controller="UnknownCommunityWidgetController">
+					<div data-ng-include style="width: 100%;"
+						data-src="'/assets/app/views/communityWidget.html'"></div>
+				</div>
+			</div>
+			<!--NewCommunity End -->
+		</div>
+	</div>
 </div>
 
-<div>
-	<i data-ng-show="QnASelectedFiles.length < 1" data-ng-click="postPhoto()"  style="color: cadetblue;" class="fa fa-camera"></i>
-	<button data-ng-show="questionText.length > 3" type="button" class="btn btn-warning btn-xs" data-ng-click="ask_question_community(community.i, questionText)">ask it!</button>
-	<input style="visibility: hidden;" id="QnA-photo-id" type="file"  name="post-photo" "/>
-</div> -->
-                    
-                    
-                </div>
-                
-                
-                
-                
-                
-                
-                
-                   <!-- <ul>
-                        <li><img class="wall-userpic" src="images/home/wall_userPic.jpg" /><p class="wall-user-actState"><a href="#">Iris Au Yeung</a><span class="wall-user-actState-from"></span><a href="#">龍年媽媽會</a><span class="wall-user-actState-share"></span></p><span class="wall-user-actState-date">3月20日</span><span class="wall-user-actState-time">15:25</span></li>
-                        <li><p class="wall-user-post-text">Post contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost contentPost content</p></li>
-                        <li><a class="btn-like" href="#">讚好</a><a class="btn-comment" href="#">回應</a></li>
-                    </ul>
-                    <ul class="wall-user-post-respond">
-                        <li><p class="whose-like"><a href="#">Wynee Lam</a></p></li>
-                        <li><a href="#">檢視另外8則回應</a></li>
-                        <ul>
-                            <li><img class="wall-userpic" src="images/home/wall_userPic.jpg" /><div><p class="user-comment"><a href="#">Iris Au Yeung</a>Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~</p><span class="wall-user-actState-date">3月20日</span><span class="wall-user-actState-time">15:25</span><a class="btn-like" href="#">讚好</a></div></li>
-                            <li><img class="wall-userpic" src="images/home/wall_userPic.jpg" /><div><p class="user-comment"><a href="#">Iris Au Yeung</a>Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~Thanks all~~<img class="wall-user-uploadimage" src="images/home/wall_userUploadImage.jpg" /></p><span class="wall-user-actState-date">3月20日</span><span class="wall-user-actState-time">15:25</span><a class="btn-like" href="#">讚好</a></div></li>
-                        </ul>
-                        <li><a><img class="wall-userpic" src="images/home/wall_userPic.jpg" /></a>
-                                <form id="userCommentwrapper" name="userComment" method="post" action="">
-                                <label for="User Comment"></label>
-                                <textarea cols="45" rows="3" name="userCommentfield" id="userCommentfield" placeholder="發表一個回應..."></textarea>
-                                <input id="submit-userComment" name="submit" type="submit" />
-                                </form>
-                         </li>
-                    </ul> -->
-                    
-                    <div class="tab-content row"  ng-show="selectedTab == 1 " >
-		                    <div class="tab-content row"  ng-show="selectedTab1 == 1 && community.isM" id="post">
-								<div data-ng-include style="height: 100px;" data-src="'/assets/app/views/community-post-bar.html'"></div>
-							</div>  
-						  <div class="tab-content" ng-show="selectedTab1 == 2 && community.isM" id="qnapost" ng-controller="CreateQnACommunityController">
-							    <div data-ng-include style="height: 100px;" data-src="'/assets/app/views/community-QnA-bar.html'"></div>
-						  </div>
-						  <div class="tab-content" ng-show="selectedTab1 == 3 && community.isM" ng-controller="SearchPageController">
-							    <div data-ng-include style="height: 100px;" data-src="'/assets/app/views/community-search-bar.html'"></div>
-						  </div>
-					  </div>
-					  <div class="tab-content row"  ng-show="selectedTab == 2 " >
-					  	<div data-ng-controller="CommunityMembersWidgetController" data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/allFriendsSection.html'"></div>
-					  </div>
-                    
-                    
-                    
-                    
-                    
-            </div><!--Wall End -->
-        </div>
-        <div class="col-md-4 col-sm-4 col-xs-4 ">
-            <button class="btn-general-b pull-right"  data-toggle="modal" data-target="#myModal"><h4 style="display: inline;">+</h4> Create a group</button>
-            <button ng-show="!community.isO && community.isM == true" class="btn-general-b pull-right" data-ng-click="leave_community(community.i)"><i class="fa fa-thumbs-down"></i> Leave</button>
-            <button ng-show="!community.isO && community.isM == false && community.isP == false" class="btn-general-b pull-right" data-ng-click="send_join(community.i)"><i class="fa fa-user"></i> Join</button>
-            <button ng-show="!community.isO && community.isP == true" class="btn-general-b pull-right" disabled="disabled" ><i class="fa fa-user"></i> Pending</button>
-            <div id="about" class="general-box">
-                <div class="con-title">
-                    <span class="icon-title-about"></span><a href="#">About</a>
-                    <div class="pull-right">
-                        <a href="#">{{community.nom}} Members</a>
-                        <p data-ng-show="community.typ=='CLOSE'" class="small">Closed Community</p>
-                        <p data-ng-show="community.typ=='OPEN'" class="small">Open Community</p>
-                    </div>
-                </div>
-                
-                <div class="content-wrapper" style="height:200px;">
-                    <ul>
-                        <li>{{community.d}}</li>
-                    </ul>
-                </div>
-            </div><!--About End -->
-            
-            <div id="about" style="height: 36px;border: white;">
-                <div  class="content-wrapper">
-                	<ul>
-                		<li>
-                			<form id="commun-add-member-wrapper" name="commun-add-member-wrapper" method="post" action="" >
-                                <label for="Add Member"></label>
-                                <input type="text" name="commun-add-member" id="commun-add-member" class="general-input-box"  
-                                	data-ng-model="searchQuery" data-ng-keyup="search_unjoined_users(community.i, searchQuery)" placeholder="+ Invite New Members" style="width: 90%;"/>
-                                <div>
-		 							<div class="row">
-		 								<ul class="col-lg-12 col-md-11 col-sd-11 dropdown-menu chat media-list hide" ng-class="{show : nonMembers.length > 0 && searchQuery.length > 0}" style="overflow-y: scroll; max-height: 244px;">
-		 									<li class="media" ng-repeat="sr in nonMembers" ng-switch="sr.tp" style="margin-top: 2% !important;">
-		 								        <!-- shows user section -->
-		 								        <a class="pull-left" href="#/profile/{{sr.id}}">
-		 								        	<img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
-		 								        </a>
-		 								        
-		 										<div class="media-body">
-		 								            <h5 class="media-heading">{{sr.nm}} <i data-ng-click="send_invite_to_join(community.i, sr.id)" class="fa fa-plus-square pull-right"></i></h5>
-		 								        </div>
-		 									</li>
-		 								</ul>
-		 							</div>
- 								</div>
-                            </form>
-                		</li>
-                	</ul>
-                </div>
-             </div>
-                
-            <div id="newCommunity" class="row tm">
-                <div class="col-lg-12 col-md-12" ng-controller="UnknownCommunityWidgetController">
-					<div data-ng-include style="width: 100%;" data-src="'/assets/app/views/communityWidget.html'"></div>
-				</div>
-            </div><!--NewCommunity End -->
-            <div id="competition" class="general-box">
-                <div class="con-title">
-                    <span class="icon-box icon-box-blueSky icon-title-competition"></span><a href="#">照片比賽</a>
-                </div>
-                <div class="competition-wrapper">
-                    <h4><a href="#">2013蛇年媽媽BB會</a></h4><h5>Newborn Photo Contest</h5><p>還有十日</p>
-                    <ul>
-                        <li><span class="mask-30percent-height"><a href="#">讚好</a><a href="#">回應</a></span><img src="images/home/photo_competition.jpg" /></li>
-                        <li><span class="mask-30percent-height"><a href="#">讚好</a><a href="#">回應</a></span><img src="images/home/photo_competition.jpg" /></li>
-                        <li><span class="mask-30percent-height"><a href="#">讚好</a><a href="#">回應</a></span><img src="images/home/photo_competition.jpg" /></li>
-                        <li><span class="mask-30percent-height"><a href="#">讚好</a><a href="#">回應</a></span><img src="images/home/photo_competition.jpg" /></li>
-                        <li><span class="mask-30percent-height"><a href="#">讚好</a><a href="#">回應</a></span><img src="images/home/photo_competition.jpg" /></li>
-                        <li><span class="mask-30percent-height"><a href="#">讚好</a><a href="#">回應</a></span><img src="images/home/photo_competition.jpg" /></li>
-                    </ul>
-                </div>
-            </div><!--Competition End -->
-        </div>
-        </div>
-    </div>
-  
-  <div class="modal fade" id="myModal" data-backdrop="false">
+<div class="modal fade" id="myModal" data-backdrop="false">
   <div class="modal-dialog">
     <div class="modal-content">
       <form ng-controller = "CreateCommunityController"  name="formData" novalidate ng-submit="submit()"  method="post" enctype="multipart/form-data" >				              
@@ -427,6 +451,13 @@
 .activeTab{
     font-weight: bold;
     text-decoration:underline;
+}
+
+.container-fluid {
+	padding-right: 0px !important;
+	padding-left: 0px !important;
+	margin-right: auto;
+	margin-left: auto;
 }
 
 </style>  

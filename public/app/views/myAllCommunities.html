@@ -10,7 +10,31 @@
 			<div class="innerAll">
 				<div class="row">
 					<div class="col-lg-9 col-md-8">
-						<div  data-ng-include style="width: 100%;" data-src="'/assets/app/views/user-upper-cover-section.html'"></div>
+						<div style="width: 100%;" ng-controller="UserAboutController">
+							<div class="row">
+						<div class="timeline-cover">	
+							<div class="widget cover image">
+								<div class="widget-body padding-none margin-none">
+									<div class="top">
+											<div class="top">
+												<img data-ng-src="{{coverImage}}"  class="img-responsive" />
+											</div>
+									</div>
+									<div class="photo">
+										<img data-ng-src="{{profileImage}}"  height="90px" class="img-rounded"/>
+									</div>
+
+									<div class="innerAll pull-left border-right" data-ng-show="!isEdit">
+										<h3 class="margin-none">
+                      						{{userInfo.displayName}}
+                   						 </h3>
+                  					</div>
+                				</div>
+              				</div>
+           			 	</div>
+        			</div>
+						
+						</div>
 				                  
 				                  
                 				
