@@ -56,7 +56,7 @@
                 </div>
                 <div class="static-content-wrapper" >
                     <ul>
-                        <li  data-ng-repeat="article in resultSlidder.ra" ><img src="/assets/app/images/static/hotpost.jpg"><div class="pull-right"><a href="/#/article/id/{{article.id}}"><font><font style="color: black;">{{article.nm}}</font></font></a><p ng-bind-html="article.ds"><font><font>{{article.ds}}</font></font></p></div></li>
+                        <li  data-ng-repeat="article in resultSlidder.ra"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"><div class="pull-right"><a href="/#/article/id/{{article.id}}"><font><font style="color: black;">{{article.nm}}</font></font></a><p ng-bind-html="article.ds"><font><font>{{article.ds}}</font></font></p></div></li>
                     </ul>
                 </div>
             </div><!--HotTopic End -->
@@ -66,7 +66,7 @@
                 </div>
                 <div class="static-content-wrapper">
                     <ul>
-						<li  data-ng-repeat="article in resultSlidder.la"><img src="/assets/app/images/static/hotpost.jpg"><div class="pull-right"><a href="/#/article/id/{{article.id}}"><font><font style="color: black;">{{article.nm}}</font></font></a><p ng-bind-html="article.ds"><font><font>{{article.ds}}</font></font></p></div></li>                    
+						<li  data-ng-repeat="article in resultSlidder.la"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"><div class="pull-right"><a href="/#/article/id/{{article.id}}"><font><font style="color: black;">{{article.nm}}</font></font></a><p ng-bind-html="article.ds"><font><font>{{article.ds}}</font></font></p></div></li>                    
 					</ul>
                 </div>
             </div><!--Latest Post End -->
