@@ -27,7 +27,8 @@ object ApplicationBuild extends Build {
      "biz.source_code" % "base64coder" % "2010-12-19",
      //"com.typesafe" % "play-plugins-util_2.10" % "2.1.1",
      "redis.clients" % "jedis" % "2.0.0",
-     "org.sedis" % "sedis" % "1.0.1"
+     "org.sedis" % "sedis" % "1.0.1",
+     "org.jsoup" % "jsoup" % "1.7.3"
      //"com.typesafe" %% "play-plugins-redis" % "2.1-1-RC2"
     
   )
