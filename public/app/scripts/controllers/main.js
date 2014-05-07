@@ -1441,7 +1441,9 @@ minibean.service('showImageService',function($resource){
 minibean.controller('ShowArticleController',function($scope, $modal, showImageService, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService,allRelatedArticlesService){
 	$scope.result = allArticlesService.AllArticles.get();
 	
-	$scope.resultSlidder = allArticlesService.EightArticles.get();
+	$scope.resultSlidder = allArticlesService.EightArticles.get({}, function() {
+		$scope.image_source= $scope.resultSlidder.la[0].img_url;
+	});
 	
 	$scope.get_result = function(id) {
 		usSpinnerService.spin('loading...');
@@ -1453,10 +1455,13 @@ minibean.controller('ShowArticleController',function($scope, $modal, showImageSe
 	 };
 	 
 	 $scope.changeInsideImage = function(article_id) {
-		 showImageService.getImage.get({id:article_id}, function(response) {
-			  $scope.image_source= response.img_src;
-		 });
+		 angular.forEach($scope.result, function(element, key){
+				if(element.id == article_id) {
+					$scope.image_source= element.img_url;
+				}
+		})
 	 };
+	 
 	 $scope.open = function (id) {
 	    var modalInstance = $modal.open({
 	      templateUrl: 'myModalContent.html',

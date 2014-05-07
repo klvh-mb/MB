@@ -18,6 +18,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Query;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import com.mnt.exception.SocialObjectNotCommentableException;
 
@@ -125,6 +128,14 @@ public class Article extends SocialObject implements Commentable {
 		return q.executeUpdate();
 	}
 	
+	public String getFirstImageFromDescription(String description) {
+		Document document = Jsoup.parse(description);
+		Elements links = document.select("img");
+		if(links.size()>0) {
+			return links.get(0).attr("src");
+		}
+		return "No Image";
+	}
 
 	public void updateById()
 	{

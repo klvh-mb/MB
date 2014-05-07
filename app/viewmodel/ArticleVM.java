@@ -20,7 +20,7 @@ public class ArticleVM {
 	@JsonProperty("ta") public int targetAge;
 	@JsonProperty("cs") public List<CommunityPostCommentVM> comments;
 	@JsonProperty("pd") public Date publishedDate;
-	
+	@JsonProperty("img_url") public String img_url;
 	
 	public ArticleVM(Article article) {
 		this.category = article.category;
@@ -31,7 +31,8 @@ public class ArticleVM {
 		this.targetAge = article.targetAge;
 		this.noOfComments = article.getCommentsOfPost().size();
 		this.publishedDate = article.publishedDate;
-
+		this.img_url = article.getFirstImageFromDescription(article.description);
+		
 		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
 		int i = 0;
 		List<Comment> comments = article.getCommentsOfPost();

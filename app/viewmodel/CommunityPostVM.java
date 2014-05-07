@@ -23,6 +23,7 @@ public class CommunityPostVM {
 	@JsonProperty("type") public String postType;
 	@JsonProperty("cn") public String communityName;
 	@JsonProperty("cid") public Long communityId;
+	@JsonProperty("nov") public int noOfViews;
 	
 	public static CommunityPostVM communityPostVM(Post post) {
 		CommunityPostVM postVM = new CommunityPostVM();
@@ -36,6 +37,8 @@ public class CommunityPostVM {
 		postVM.postType = post.postType.name();
 		postVM.communityName = post.community.name;
 		postVM.communityId = post.community.id;
+		//need to write logic for showing no of views
+		postVM.noOfViews = 0;
 		
 		if(post.folder != null && post.folder.resources != null && !post.folder.resources.isEmpty()) {
 			postVM.hasImage = true;

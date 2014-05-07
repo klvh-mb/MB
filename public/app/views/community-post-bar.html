@@ -86,7 +86,7 @@
 		                     <label for="User Comment"></label>
 		                     <textarea name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." rows="1" data-ng-model="commentText"></textarea>
 		                     <!-- <input id="submit-userComment" name="submit" type="button" data-ng-click="comment_on_post(post.id, commentText)"/> -->
-		                     <span class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText)"></i></span>
+		                     <span data-ng-show="commentText.length>1" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText)"></i></span>
 	                    </form>
 	              </li>
 	         </ul>

@@ -68,7 +68,7 @@
 		                     <form id="userCommentwrapper" name="userComment" method="post" action="">
 		                      	<label for="User Comment"></label>
 		                     	<textarea name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." data-ng-model="commentText" rows="1"></textarea>
-		                      	<span class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="answer_to_question(post.id, commentText)"></i></span>
+		                      	<span data-ng-show="commentText.length>1" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="answer_to_question(post.id, commentText)"></i></span>
 		                     </form>
 			          </li>
 			          </ul>

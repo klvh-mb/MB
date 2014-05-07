@@ -12,7 +12,7 @@ public class SocialSequenceGenerator implements IdentifierGenerator {
 	public Serializable generate(SessionImplementor arg0, Object arg1)
 			throws HibernateException {
 		
-		return System.currentTimeMillis();
+		return Math.round(System.currentTimeMillis() * (Math.random()*10000));
 	}
 
 }

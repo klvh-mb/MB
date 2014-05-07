@@ -190,18 +190,4 @@ public class ArticleController extends Controller {
 		}
 		return ok(Json.toJson(commentsToShow));
 	}
-	
-	@Transactional
-	public static Result getImageUrl(Long id) {
-		Article article = Article.findById(id);
-		Document document = Jsoup.parse(article.description);
-		Elements links = document.select("img");
-		Map<String, String> map = new HashMap<String, String>();
-		if(links.size() > 0) {
-			map.put("img_src",links.get(0).attr("src"));
-			return ok(Json.toJson(map));
-		}
-		map.put("img_src","no image");
-		return ok(Json.toJson(map));
-	}
 }

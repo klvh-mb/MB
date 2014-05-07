@@ -251,10 +251,10 @@ public class User extends SocialObject implements Subject, Socializable {
 		List<SocialRelation> result = JPA.em().createQuery(q).getResultList();
 		List<User> frndList = new ArrayList<>();
 		for (SocialRelation rslt : result) {
-			if (rslt.actor == this.id) {
+			if (rslt.actor.equals(this.id)) {
 				frndList.add((User) rslt.getTargetObject(User.class));
 			}
-			else if (rslt.target == this.id) {
+			else if (rslt.actor.equals(this.id)) {
 				frndList.add((User) rslt.getActorObject(User.class));
 			}
 		}
@@ -293,7 +293,7 @@ public class User extends SocialObject implements Subject, Socializable {
 
 		List<Community> communityList = new ArrayList<>();
 		for (SocialRelation rslt : result) {
-			if (rslt.actor == this.id
+			if (rslt.actor.equals(this.id)
 					&& rslt.targetType == SocialObjectType.COMMUNITY) {
 				communityList.add((Community) rslt.getTargetObject(Community.class));
 			}
@@ -315,7 +315,7 @@ public class User extends SocialObject implements Subject, Socializable {
 
 		List<Community> communityList = new ArrayList<>();
 		for (SocialRelation rslt : result) {
-			if (rslt.actor == this.id
+			if (rslt.actor.equals(this.id)
 					&& rslt.targetType == SocialObjectType.COMMUNITY) {
 				communityList.add((Community) rslt.getTargetObject(Community.class));
 			}
