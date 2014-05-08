@@ -928,6 +928,18 @@ public class User extends SocialObject implements Subject, Socializable {
 		return (List<Post>)query.getResultList();
 	}
 	
+	@JsonIgnore
+	public List<Post> getUserNewsfeeds(int offset, int limit) {
+		Query query = JPA.em().createQuery("Select p from Post p where p.id in (select sr.target from  SocialRelation sr where sr.action = ?1 and sr.actor = ?2)");	
+		query.setParameter(1, SocialRelation.Action.POSTED);
+		query.setParameter(2, this.id);
+		System.out.println(limit+ " :: "+offset +":: (List<Post>)query.getResultList(); :: "+query.getResultList().size());
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+		
+		return (List<Post>)query.getResultList();
+	}
+	
 	public List<Post> getMyLiveUpdates(Long timestamp) {
 		Query query = JPA.em().createQuery("SELECT p from Post p where p.community in (select sr.target " +
 				"from SocialRelation sr where sr.actor=?1 and sr.action = ?2) and "+(timestamp-60)+" < UNIX_TIMESTAMP(p.auditFields.createdDate) and  "+ timestamp+" > UNIX_TIMESTAMP(p.auditFields.createdDate) order by p.auditFields.createdDate desc");

@@ -1,4 +1,4 @@
-
+<!-- 
 	<header>
 			<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/headerBar.html'"></div>
 	</header>
@@ -12,5 +12,40 @@
         		<div ng-show="'communities' == active" data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/profile-all-communities-section.html'"></div>
       		</div>
     	</div>
-  </div>
-
+  </div> -->
+  
+  <div id="header">
+        <div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/headerBar.html'"></div>
+    </div>
+    <div class="themeA-container">
+        <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-6">
+            <div  data-ng-include style="width: 100%;" data-src="'/assets/app/views/profile-upper-cover-section.html'"></div><!--Profile Header End -->
+            <div id="wall" style="height: auto !important;">
+			                <div data-ng-controller="UserNewsFeedController" data-ng-include style="width: 100%;"
+			                	 data-src="'/assets/app/views/home-news-feed-section.html'"></div>
+			 </div>
+            <!--Wall End -->
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4 ">
+            <div id="profile-about" class="general-box">
+                <div data-ng-include style="width: 100%;" data-src="'/assets/app/views/profile-about-section.html'"></div>
+        </div>
+        <div id="newCommunity" class="row tm">
+				<div class="col-lg-12 col-md-12"
+					ng-controller="UnknownCommunityWidgetController">
+					<div data-ng-include style="width: 100%;"
+						data-src="'/assets/app/views/communityWidget.html'"></div>
+				</div>
+			</div><!--NewCommunity End -->
+         <div>
+           	<div class="col-lg-12 col-md-12" ng-controller="UserFriendsWidgetController">
+				<div data-ng-include style="width: 100%;" data-src="'/assets/app/views/friendsBar.html'"></div>
+			</div>
+          </div><!--Friends End -->
+        </div>
+    </div>
+    </div>
+    <div id="back-to-top">
+        <a href="#"><span class="icon-title-arrow-up"></span>Top</a>
+    </div>

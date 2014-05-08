@@ -517,6 +517,26 @@ minibean.controller('FriendsWidgetController',function($scope, friendWidgetServi
 	$scope.userInfo = userInfoService.UserInfo.get();
 });
 
+///////////////////////// My Friends Widget End //////////////////////////////////
+
+
+
+///////////////////////// User Friends Widget Service Start //////////////////////////////////
+minibean.service('userFriendWidgetService',function($resource){
+	this.UserFriends = $resource(
+			'/get-user-friends-by-ID/:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get'}
+			}
+	);
+});
+
+minibean.controller('UserFriendsWidgetController',function($scope,$routeParams, userFriendWidgetService,userInfoService, $http){
+	$scope.userInfo = userInfoService.UserInfo.get();
+	$scope.result = userFriendWidgetService.UserFriends.get({id:$routeParams.id});
+});
+
 ///////////////////////// User Friends Widget End //////////////////////////////////
 
 
@@ -1737,6 +1757,91 @@ minibean.controller('NewsFeedController', function($scope, $interval, $http, all
 });
 
 	  
+minibean.service('userNewsFeedService',function($resource){
+
+	this.NewsFeeds = $resource(
+			'/get-user-newsfeeds/:offset/:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'GET', params:{offset:'@offset'}}
+			}
+	);
+	
+	
+});
+
+minibean.controller('UserNewsFeedController', function($scope,$routeParams, $interval, userInfoService, $http, allCommentsService, usSpinnerService, userNewsFeedService) {
+	$scope.newsFeeds = { posts: [] };
+	
+	$scope.comment_on_post = function(id, commentText) {
+		var data = {
+			"post_id" : id,
+			"commentText" : commentText
+		};
+		usSpinnerService.spin('loading...');
+		$http.post('/community/post/comment', data) 
+			.success(function(post_id) {
+				angular.forEach($scope.newsFeeds.posts, function(post, key){
+					if(post.id == post_id) {
+						post.n_c++;
+						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName, 
+								"cd" : new Date(), "n_c" : post.n_c};
+					post.cs.push(comment);
+				}
+				usSpinnerService.stop('loading...');	
+			});
+		});
+	};
+	
+	$scope.get_all_comments = function(id) {
+		
+		angular.forEach($scope.newsFeeds.posts, function(post, key){
+			if(post.id == id) {
+				post.cs = allCommentsService.comments.get({id:id});
+			}
+		});
+	}
+	
+	
+
+	var noMore = false;
+	var offset = 0;
+	$scope.userInfo = userInfoService.UserInfo.get();
+	
+
+	//$scope.newsFeeds = newsFeedService.NewsFeeds.get({offset:0}, function(vm) {
+	//	offset++;
+	//});
+	
+	$scope.nextNewsFeeds = function() {
+		var id = $scope.userInfo.id;
+		if($routeParams.id != undefined){
+			id = $routeParams.id;
+		}
+		if ($scope.isBusy) return;
+		if (noMore) return;
+		$scope.isBusy = true;
+		userNewsFeedService.NewsFeeds.get({offset:offset,id:id},
+			function(data){
+				var posts = data.posts;
+				if(posts.length < 5 ) {
+					noMore = true;
+					$scope.isBusy = false;
+				}
+				
+				for (var i = 0; i < posts.length; i++) {
+					$scope.newsFeeds.posts.push(posts[i]);
+			    }
+			    $scope.isBusy = false;
+				offset++;
+			}
+		);
+	}
+	
+	$scope.showImage = function(imageId) {
+		$scope.img_id = imageId;
+	}
+});
 
 
 

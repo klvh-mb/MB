@@ -84,6 +84,7 @@ POST	/upload-profile-photo		controllers.UserController.uploadProfilePhoto
 POST	/upload-cover-photo		    controllers.UserController.uploadCoverPhoto
 
 GET		/get-profile-image			controllers.UserController.getProfileImage
+GET 	/get-user-newsfeeds/:offset/:id 		controllers.UserController.getUserNewsfeeds(offset : String, id : Long)
 GET		/get-cover-image			controllers.UserController.getCoverImage
 GET		/user-search				controllers.UserController.searchSocialObjects(query: String)
 GET		/get-friend-requests		controllers.UserController.getAllFriendRequests
@@ -102,6 +103,7 @@ GET		/get-original-image-by-id/:id		controllers.UserController.getOriginalImageB
 
 #Friends
 GET		/get-user-friends			controllers.FriendsController.getUserFriends
+GET 	/get-user-friends-by-ID/:id controllers.FriendsController.getFriendsOfUser(id: Long)
 GET		/get-suggested-friends		controllers.FriendsController.getSuggestedFriends
 GET		/get-all-friends			controllers.FriendsController.getAllFriendsOfUser
 GET		/send-invite				controllers.FriendsController.sendInvitation(id: String)

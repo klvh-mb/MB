@@ -1036,7 +1036,7 @@ text-decoration: none;
     color: gray;
 }
 #profile-about ul {
-    width: 100%;
+    left: -131px !important;
 }
 #profile-about li {
     border-top: #bcbcbc thin solid;
@@ -1429,6 +1429,6 @@ text-decoration: none;
 }
 #profile-banner {
     width: 100%;
-    height: auto;
+    height: 258px;
 }
 /* Profile page Header End */

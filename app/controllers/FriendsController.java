@@ -36,6 +36,25 @@ public class FriendsController extends Controller {
 	}
 	
 	@Transactional
+	public static Result getFriendsOfUser(Long id) {
+		final User user = User.findById(id);
+		int count=0;
+		List<FriendWidgetChildVM> friends = new ArrayList<>();
+		for(User friend : user.getFriends()) {
+			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName));
+			++count;
+			if(count == 8) {
+				break;
+			}
+		}
+		
+		FriendWidgetParentVM fwVM = new FriendWidgetParentVM(user.getFriends().size(), friends);
+		return ok(Json.toJson(fwVM));
+	}
+	
+	
+	
+	@Transactional
 	public static Result getSuggestedFriends() {
 		final User localUser = Application.getLocalUser(session());
 		int count=0;

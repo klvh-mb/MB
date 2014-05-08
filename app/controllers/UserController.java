@@ -8,6 +8,7 @@ import java.util.List;
 
 import models.Community;
 import models.Notification;
+import models.Post;
 import models.User;
 
 import org.apache.commons.io.FileUtils;
@@ -20,7 +21,9 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import processor.FeedProcessor;
+import viewmodel.CommunityPostVM;
 import viewmodel.FriendWidgetChildVM;
+import viewmodel.NewsFeedVM;
 import viewmodel.NotificationVM;
 import viewmodel.ProfileVM;
 import viewmodel.SocialObjectVM;
@@ -44,7 +47,6 @@ public class UserController extends Controller {
 	@Transactional(readOnly=true)
 	public static Result aboutUser() {
 		final User localUser = Application.getLocalUser(session());
-		
 		return ok(Json.toJson(localUser));
 	}
 	
@@ -127,16 +129,34 @@ public class UserController extends Controller {
 
 	@Transactional
 	public static Result updateUserProfileData() {
-		Form<User> form = DynamicForm.form(User.class).bindFromRequest("firstName","lastName","gender", "aboutMe", "date_of_birth");
+		Form<User> form = DynamicForm.form(User.class).bindFromRequest("firstName","lastName","gender", "aboutMe", "date_of_birth","location");
 		User userForUpdation = form.get();
 		final User localUser = Application.getLocalUser(session());
 		localUser.firstName = userForUpdation.firstName;
 		localUser.lastName = userForUpdation.lastName;
 		localUser.gender = userForUpdation.gender;
 		localUser.aboutMe = userForUpdation.aboutMe;
+		localUser.location = userForUpdation.location;
 		localUser.date_of_birth = userForUpdation.date_of_birth;
 		localUser.merge();
 		return ok("true");
+	}
+	
+	@Transactional
+	public static Result getUserNewsfeeds(String offset, Long id) {
+		final User user = User.findById(id);
+		List<CommunityPostVM> posts = new ArrayList<>();
+		List<Post> newsFeeds =  user.getUserNewsfeeds(Integer.parseInt(offset), 5);
+		
+		if(newsFeeds != null ){
+			for(Post p : newsFeeds) {
+				CommunityPostVM post = CommunityPostVM.communityPostVM(p);
+				posts.add(post);
+			}
+		}
+		
+		NewsFeedVM vm = new NewsFeedVM(user, posts);
+		return ok(Json.toJson(vm));
 	}
 	
 	@Transactional

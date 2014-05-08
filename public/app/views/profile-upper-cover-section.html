@@ -1,4 +1,4 @@
-				<div class="row">
+<!-- 				<div class="row">
 					<div class="col-lg-9 col-md-8">
 						<div class="timeline-cover">	
 							<div class="widget cover image">
@@ -41,4 +41,33 @@
               				</div>
             		   </div>
 	        	     </div>
-                 </div>
+                 </div> -->
+                 
+                 
+                 <div id="profile-header">
+                <ul>
+                    <li>
+                    	<div><img id="profile-banner" src="/get-cover-image-by-id/{{profile.i}}" /></div>
+                    </li>
+                    <li id="profile-header-menu">
+                        <div><img src="/get-profile-image-by-id/{{profile.i}}" alt="profile-pic" />
+                        </div>
+                        <p id="profile-user-name">{{profile.dn}}</p>
+                        <div id="menu-title">
+                            <a href="/#/about" ng-class="{active: selectedTab == 1}">Recent Activities</a>
+                            <div class="divider-cus"></div>
+                            <a href="" ng-class="{active: selectedTab == 3}">Communities</a>
+                            <div class="divider-cus"></div>
+                            <a href="/#/friends" ng-class="{active: selectedTab == 2}">Friends</a>
+                        </div>
+                        <div class="dropdown pull-right ">
+							<a class="toolsbox toolsbox-start" data-toggle="dropdown">Notify</a> 
+							<a class="toolsbox toolsbox-end  dropdown-toggle" data-toggle="dropdown"><span class="icon-title-contentSetup"></span></a>
+							<ul class="subtoolsbox dropdown-menu">
+								<li><a>All Posts</a></li>
+								<li><a>off</a></li>
+							</ul>
+						</div>
+                    </li>
+                </ul>
+            </div><!--Profile Header End -->
