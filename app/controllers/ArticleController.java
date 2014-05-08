@@ -99,9 +99,11 @@ public class ArticleController extends Controller {
 	@Transactional
 	public static Result getArticlesCategorywise(Long cat_id) {
 		List<Article> allArticles = Article.getArticlesByCategory(cat_id);
+		ArticleCategory ac = ArticleCategory.getCategoryById(cat_id);
 		List<ArticleVM> listOfArticles = new ArrayList<>();
 		for(Article article:allArticles) {
 			ArticleVM vm = new ArticleVM(article);
+			vm.category_url = ac.pictureName;
 			listOfArticles.add(vm);
 		}
 		return ok(Json.toJson(listOfArticles));
@@ -176,6 +178,7 @@ public class ArticleController extends Controller {
 	public static Result infoArticle(Long art_id) {
 		Article article = Article.findById(art_id);
 		ArticleVM vm = new ArticleVM(article);
+		vm.description = article.description;
 		return ok(Json.toJson(vm));
 	}
 	
@@ -190,4 +193,6 @@ public class ArticleController extends Controller {
 		}
 		return ok(Json.toJson(commentsToShow));
 	}
+	
+	
 }

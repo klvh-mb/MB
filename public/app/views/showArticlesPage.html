@@ -199,22 +199,14 @@
 		</tabset> -->
 		
 		
-		<div class="themeA-container" ng-conyroller="ShowArticleController">
+		<div class="themeA-container" ng-controller="ShowArticleController">
         <div class="row">
         <div class="col-md-2 col-sm-2 col-xs-2">
             <div id="all-post-thumbnail" class="general-box">
                 <ul>
                     <li>
-                        <a href="#"><span></span><img src="/assets/app/images/static/postThumbnail_image.jpg"></a>
-                        <a href="#"><span></span><img src="/assets/app/images/static/postThumbnail_image.jpg"></a>
-                        <a href="#"><span></span><img src="/assets/app/images/static/postThumbnail_image.jpg"></a>
+                        <a href="#"><span></span><img data-ng-src="{{categoryImage}}" style="width:100%; height: 180px;"></a>
                     </li>
-                    <li>
-                        <a href="#"><span></span><img src="/assets/app/images/static/postThumbnail_image.jpg"></a>
-                        <a href="#"><span></span><img src="/assets/app/images/static/postThumbnail_image.jpg"></a>
-                        <a href="#"><span></span><img src="/assets/app/images/static/postThumbnail_image.jpg"></a>
-                    </li>
-                    <li><div><p><font><font>All Articles</font></font></p></div></li>
                 </ul>
             </div><!--All Post Thumbnail End -->
             <div id="postCategory" class="general-box" style="height: 201px;">
@@ -223,7 +215,7 @@
                 </div>
                 <div class="content-wrapper" ng-controller="EditArticleController">
                     <ul>
-                        <li><a href="#"><font><font>All Articles</font></font></a></li>
+                        <li><a data-ng-click="getAllArticles()"><font><font>All Articles</font></font></a></li>
                         <li data-ng-repeat="category in articleCategorys"><a data-ng-click="get_result(category.id)"><font><font>{{category.name}}</font></font></a></li>
                     </ul>
                 </div>
@@ -236,7 +228,7 @@
             <div id="wall">
                 <div class="general-box">
                 <div class="wall-title">
-                    <span class="wall-icon icon-title-friendwall"></span><a href="#"><font><font>All Articles</font></font></a>
+                    <span class="wall-icon icon-title-friendwall"></span><a data-ng-click="getAllArticles()"><font><font>All Articles</font></font></a>
                 </div>
                 </div>
                 <div class="general-box">

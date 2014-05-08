@@ -21,6 +21,7 @@ public class ArticleVM {
 	@JsonProperty("cs") public List<CommunityPostCommentVM> comments;
 	@JsonProperty("pd") public Date publishedDate;
 	@JsonProperty("img_url") public String img_url;
+	@JsonProperty("category_url") public String category_url;
 	
 	
 	public ArticleVM(Article article) {
@@ -28,16 +29,19 @@ public class ArticleVM {
 		this.name = article.name;
 		this.id = article.id;
 		this.isFeatured = article.isFeatured;
-		this.description = article.description;
-		try{
-		this.targetAge = article.targetAge;
-		}catch(NullPointerException e){}
+		if(article.targetAge != null ) { 
+			this.targetAge = article.targetAge;
+		}
+		
 		this.noOfComments = article.getCommentsOfPost().size();
 		this.publishedDate = article.publishedDate;
-		try{
-		if(article.description.isEmpty())
-			this.img_url = "No Image";
-		}catch(NullPointerException e){article.description="";}
+		
+		if(article.description == null || article.description.isEmpty()) {
+			article.description = "";
+		} else {
+			this.img_url = article.getFirstImageFromDescription(article.description);
+			this.description = article.getShortDescription(article.description);
+		}
 		this.img_url = article.getFirstImageFromDescription(article.description);
 		
 		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();

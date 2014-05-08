@@ -1441,6 +1441,10 @@ minibean.service('showImageService',function($resource){
 minibean.controller('ShowArticleController',function($scope, $modal, showImageService, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService,allRelatedArticlesService){
 	$scope.result = allArticlesService.AllArticles.get();
 	
+	$scope.getAllArticles = function(){
+		$scope.result = allArticlesService.AllArticles.get();
+	};
+	
 	$scope.resultSlidder = allArticlesService.EightArticles.get({}, function() {
 		$scope.image_source= $scope.resultSlidder.la[0].img_url;
 	});
@@ -1449,6 +1453,7 @@ minibean.controller('ShowArticleController',function($scope, $modal, showImageSe
 		usSpinnerService.spin('loading...');
 		$scope.result = [];
 		$scope.result = allArticlesService.ArticleCategorywise.get({id:id}	, function(data) {
+			$scope.categoryImage = $scope.result[0].category_url;
 			usSpinnerService.stop('loading...');
 	    });
 	    
