@@ -24,6 +24,7 @@ import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
 
 import com.mnt.exception.SocialObjectNotCommentableException;
+import com.mnt.exception.SocialObjectNotLikableException;
 
 import domain.CommentType;
 import domain.Commentable;
@@ -151,6 +152,19 @@ public class Article extends SocialObject implements Commentable {
 	public void saveArticle()
 	{
 		this.save();
+	}
+
+	@Override
+	public void onLikedBy(User so) throws SocialObjectNotLikableException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onUnlikedBy(User so)
+			throws SocialObjectNotLikableException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

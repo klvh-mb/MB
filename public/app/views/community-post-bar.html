@@ -66,12 +66,15 @@
 	            <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}"/><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span></p>
 	            <span class="wall-user-actState-date" am-time-ago="post.t"></span></li>
 	            <li><p ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></p></li>
-	            	 <div data-ng-show="post.hasImage" class="innerAll">
+	            <li><div data-ng-show="post.hasImage" class="innerAll">
 						<p class="lead"></p>
 						<a data-ng-repeat="imageID in post.imgs" href="">
 							<img width="90" data-ng-src="/get-post-image-by-id/{{imageID}}" alt="" class="img-post">
 						</a>
 				     </div>
+				</li>
+				<li><a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)" style="color: #428bca !important;">Like</a></li>
+				<li><a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)" style="color: #428bca !important;">Unlike</a></li>
        		</ul>
 	   
 		   	<ul class="wall-user-post-respond">

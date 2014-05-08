@@ -16,8 +16,6 @@ import models.SocialRelation.Action;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 
 import play.db.jpa.JPA;
 
@@ -65,13 +63,24 @@ public abstract class SocialObject extends domain.Entity implements
 	public User owner;
 
 	protected final void recordLike(User user) {
-		SocialRelation action = new SocialRelation();
+		SocialRelation action = new SocialRelation(user, this);
 		action.action = SocialRelation.Action.LIKED;
-		action.target = this.id;
-		action.targetType = this.objectType;
-		action.actor = user.id;
-		action.actorType = user.objectType;
 		action.validateUniquenessAndCreate();
+	}
+	
+	protected final void recordUnlike(User user) {
+		
+		Query query = JPA.em().createQuery("SELECT sr FROM SocialRelation sr " +
+				" where sr.actionType=?1 And " +
+				" ((sr.target = ?2 and sr.actor = ?3) or (sr.actor = ?2 and sr.target = ?3))", SocialRelation.class
+				);
+		query.setParameter(1, SocialRelation.Action.LIKED);
+		query.setParameter(2, this.id);
+		query.setParameter(3, user.id);
+		
+		SocialRelation action = new SocialRelation(user, this);
+		action.action = SocialRelation.Action.UNLIKED;
+		action.createOrUpdateForTargetAndActorPair();
 	}
 
 	protected final void recordJoinRequest(User user) {
@@ -80,12 +89,21 @@ public abstract class SocialObject extends domain.Entity implements
 		action.createOrUpdateForTargetAndActorPair();
 	}
 	
-	protected final void beMemberOfCommunity(User user) {
+	protected final void ownerMemberOfCommunity(User user) {
+		SocialRelation action = new SocialRelation(user, this);
+		action.action = SocialRelation.Action.MEMBER;
+		action.actionType = SocialRelation.ActionType.GRANT;
+		action.isPostSave = false;
+		action.validateUniquenessAndCreate();
+	}
+	
+	protected final void beMemberOfOpenCommunity(User user) {
 		SocialRelation action = new SocialRelation(user, this);
 		action.action = SocialRelation.Action.MEMBER;
 		action.actionType = SocialRelation.ActionType.GRANT;
 		String message = "Congratulation "+user.name+","+"\n"+" You are now member of "+this.name+" Community.";
 		MailJob.sendMail("Some subject",new Body(message), user.email);
+		action.memberJoinedOpenCommunity = true;
 		action.validateUniquenessAndCreate();
 	}
 
@@ -226,9 +244,14 @@ public abstract class SocialObject extends domain.Entity implements
 		}
 	}
 
-	public void onLike(User user) throws SocialObjectNotLikableException {
+	public void onLikedBy(User user) throws SocialObjectNotLikableException {
 		throw new SocialObjectNotLikableException(
 				"Please make sure Social Object you are liking is Likable");
+	}
+	
+	public void onUnlikedBy(User user) throws SocialObjectNotLikableException {
+		throw new SocialObjectNotLikableException(
+				"Please make sure Social Object you are unliking is Likable");
 	}
 	
 	public SocialObject onComment(User user, String body, CommentType type) throws SocialObjectNotCommentableException {

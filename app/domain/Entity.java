@@ -69,6 +69,12 @@ public class Entity
 	  
   }
   
+  @Transactional
+  public void remove() {
+	  JPA.em().remove(this);
+	  
+  }
+  
   public void postSave() {
 	  
   }

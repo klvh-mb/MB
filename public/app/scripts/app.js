@@ -60,7 +60,7 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/editArticlePage.html',
     	controller : 'EditArticleController'  
       })
-      .when('/article/show',{
+      .when('/article/show/:catid',{
     	templateUrl: '/assets/app/views/showArticlesPage.html',
     	controller : 'ShowArticleController'  
       })

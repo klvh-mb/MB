@@ -35,7 +35,7 @@ public class Questions extends SocialObject  implements Likeable, Commentable {
 	public Community community;
 	
 	@Override
-	public void onLike(User user) {
+	public void onLikedBy(User user) {
 		recordLike(user);
 	}
 	

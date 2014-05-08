@@ -70,7 +70,7 @@ public class Resource extends SocialObject {
 	}
 
 	@Override
-	public void onLike(User user) {
+	public void onLikedBy(User user) {
 		recordLike(user);
 	}
 

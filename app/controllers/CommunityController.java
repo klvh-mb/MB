@@ -42,6 +42,7 @@ import viewmodel.SocialObjectVM;
 
 import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotJoinableException;
+import com.mnt.exception.SocialObjectNotLikableException;
 
 import domain.CommentType;
 import domain.PostType;
@@ -263,12 +264,13 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getNextPosts(String id,String offset) {
+		final User localUser = Application.getLocalUser(session());
 		Community community = Community.findById(Long.parseLong(id));
 		int start = Integer.parseInt(offset) * 5 + 5;
 		List<CommunityPostVM> postsVM = new ArrayList<>();
 		List<Post> posts =  community.getPostsOfCommunity(start, 5);
 		for(Post p: posts) {
-			CommunityPostVM post = CommunityPostVM.communityPostVM(p);
+			CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser);
 			postsVM.add(post);
 		}
 		return ok(Json.toJson(postsVM));
@@ -276,12 +278,13 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getNextQuests(String id,String offset) {
+		final User localUser = Application.getLocalUser(session());
 		Community community = Community.findById(Long.parseLong(id));
 		int start = Integer.parseInt(offset) * 5 + 5;
 		List<CommunityPostVM> postsVM = new ArrayList<>();
 		List<Post> posts =  community.getQuestionsOfCommunity(start, 5);
 		for(Post p: posts) {
-			CommunityPostVM post = CommunityPostVM.communityPostVM(p);
+			CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
 			postsVM.add(post);
 		}
 		return ok(Json.toJson(postsVM));
@@ -558,7 +561,7 @@ public class CommunityController extends Controller{
 		
 		List<CommunityPostVM> posts = new ArrayList<>();
 		for(Post p :localUser.getMyUpdates(timestamps)) {
-			CommunityPostVM post = CommunityPostVM.communityPostVM(p);
+			CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
 			posts.add(post);
 		}
 		NewsFeedVM vm = new NewsFeedVM(localUser, posts);
@@ -574,7 +577,7 @@ public class CommunityController extends Controller{
 		
 		if(newsFeeds != null ){
 			for(Post p : newsFeeds) {
-				CommunityPostVM post = CommunityPostVM.communityPostVM(p);
+				CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
 				posts.add(post);
 			}
 		}
@@ -589,7 +592,7 @@ public class CommunityController extends Controller{
 		
 		List<CommunityPostVM> posts = new ArrayList<>();
 		for(Post p :localUser.getMyLiveUpdates(timestamps)) {
-			CommunityPostVM post = CommunityPostVM.communityPostVM(p);
+			CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
 			posts.add(post);
 		}
 		
@@ -603,7 +606,7 @@ public class CommunityController extends Controller{
 		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostVM> posts = new ArrayList<>();
 		for(Post p :localUser.getMyNextNewsFeeds(timestamp)) {
-			CommunityPostVM post = CommunityPostVM.communityPostVM(p);
+			CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
 			posts.add(post);
 		}
 		
@@ -614,6 +617,24 @@ public class CommunityController extends Controller{
 	public static Result getOriginalPostImageByID(Long id) {
 		Resource resource = Resource.findById(id);
 		return ok(resource.getRealFile());
+	}
+	
+	@Transactional
+	public static Result likeThePost(Long post_id) {
+		User loggedUser = Application.getLocalUser(session());
+		Post post = Post.findById(post_id);
+		post.noOfLikes++;
+		post.onLikedBy(loggedUser);
+		return ok();
+	}
+	
+	@Transactional
+	public static Result unlikeThePost(Long post_id) throws SocialObjectNotLikableException {
+		User loggedUser = Application.getLocalUser(session());
+		Post post = Post.findById(post_id);
+		post.noOfLikes--;
+		post.onUnlikedBy(loggedUser);
+		return ok();
 	}
 }
 

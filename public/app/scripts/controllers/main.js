@@ -938,8 +938,26 @@ minibean.service('searchMembersService',function($resource){
 	);
 });
 
+minibean.service('likeFrameworkService', function($resource) {
+	this.hitLikeOnPost = $resource(
+			'/like-post/:post_id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{post_id:'@post_id'}}
+			}
+	);
+	
+	this.hitUnlikeOnPost = $resource(
+			'/unlike-post/:post_id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{post_id:'@post_id'}}
+			}
+	);
+});
+
 minibean.controller('CommunityPageController', function($scope, $routeParams, $http, profilePhotoModal, searchMembersService, iconsService,
-		allCommentsService, communityPageService, communityJoinService, $upload, $timeout, usSpinnerService){
+		allCommentsService, communityPageService,likeFrameworkService, communityJoinService, $upload, $timeout, usSpinnerService){
 	$scope.$on('$viewContentLoaded', function() {
 		usSpinnerService.spin('loading...');
 	});
@@ -1141,6 +1159,26 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 			 controller: PhotoModalController
 		},function() {
 			$scope.coverImage = coverImage + "?q="+ Math.random();
+		});
+	}
+	
+	$scope.like_post = function(post_id) {
+		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
+			angular.forEach($scope.community.posts, function(post, key){
+				if(post.id == post_id) {
+					post.isLike=false;
+				}
+			})
+		});
+	}
+	
+	$scope.unlike_post = function(post_id) {
+		likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
+			angular.forEach($scope.community.posts, function(post, key){
+				if(post.id == post_id) {
+					post.isLike=true;
+				}
+			})
 		});
 	}
 });
@@ -1438,21 +1476,11 @@ minibean.service('showImageService',function($resource){
 	);
 });
 
-minibean.controller('ShowArticleController',function($scope, $modal, showImageService, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService,allRelatedArticlesService){
-	$scope.result = allArticlesService.AllArticles.get();
-	
-	$scope.getAllArticles = function(){
-		$scope.result = allArticlesService.AllArticles.get();
-	};
-	
-	$scope.resultSlidder = allArticlesService.EightArticles.get({}, function() {
-		$scope.image_source= $scope.resultSlidder.la[0].img_url;
-	});
-	
-	$scope.get_result = function(id) {
+minibean.controller('ShowArticleController',function($scope, $modal,$routeParams, showImageService, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService,allRelatedArticlesService){
+	$scope.get_result = function(catId) {
 		usSpinnerService.spin('loading...');
 		$scope.result = [];
-		$scope.result = allArticlesService.ArticleCategorywise.get({id:id}	, function(data) {
+		$scope.result = allArticlesService.ArticleCategorywise.get({id:catId}	, function(data) {
 			$scope.categoryImage = $scope.result[0].category_url;
 			$scope.categoryName = $scope.result[0].ct.name;
 			usSpinnerService.stop('loading...');
@@ -1460,6 +1488,21 @@ minibean.controller('ShowArticleController',function($scope, $modal, showImageSe
 	    
 	 };
 	 
+	var catId = $routeParams.catid;
+
+	if(catId === "all" || catId == undefined) {
+		$scope.result = allArticlesService.AllArticles.get();
+	}
+	else{
+		$scope.get_result(catId);
+	}
+	
+	
+	
+	$scope.resultSlidder = allArticlesService.EightArticles.get({}, function() {
+		$scope.image_source= $scope.resultSlidder.la[0].img_url;
+	});
+	
 	 $scope.changeInsideImage = function(article_id) {
 		 angular.forEach($scope.result, function(element, key){
 				if(element.id == article_id) {

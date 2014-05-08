@@ -151,7 +151,7 @@ public class User extends SocialObject implements Subject, Socializable {
 
 	public void likesOn(SocialObject target)
 			throws SocialObjectNotLikableException {
-		target.onLike(this);
+		target.onLikedBy(this);
 	}
 
 	public SocialObject postedOn(SocialObject target, String post)
@@ -254,7 +254,7 @@ public class User extends SocialObject implements Subject, Socializable {
 			if (rslt.actor.equals(this.id)) {
 				frndList.add((User) rslt.getTargetObject(User.class));
 			}
-			else if (rslt.actor.equals(this.id)) {
+			else if (rslt.target.equals(this.id)) {
 				frndList.add((User) rslt.getActorObject(User.class));
 			}
 		}
@@ -868,27 +868,44 @@ public class User extends SocialObject implements Subject, Socializable {
 	}
 	
 	public int doUnFriend(User toBeUnfriend) {
-		Query query = JPA.em().createQuery("UPDATE SocialRelation sr SET sr.actionType=?1, sr.action = NULL where ((sr.target = ?2 and sr.actor = ?3) or (sr.actor = ?2 and sr.target = ?3)) and sr.action = ?4");
+				
+		Query query = JPA.em().createQuery("SELECT sr FROM SocialRelation sr " +
+				" where sr.actionType=?1 And  sr.action = ?4 And " +
+				" ((sr.target = ?2 and sr.actor = ?3) or (sr.actor = ?2 and sr.target = ?3))", SocialRelation.class
+				);
 		query.setParameter(1, SocialRelation.ActionType.UNFRIEND);
 		query.setParameter(2, this.id);
 		query.setParameter(3, toBeUnfriend.id);
 		query.setParameter(4, SocialRelation.Action.FRIEND);
 		
-		int updateCount = query.executeUpdate();
+		SocialRelation sr= (SocialRelation) query.getSingleResult();
+		query = JPA.em().createQuery("DELETE  Notification n where socialAction =?1");
+		query.setParameter(1, sr);
+		query.executeUpdate();
 		
-		return updateCount;
+		sr.remove();
+		
+		return 1;
 	}
 	
 	public int leaveCommunity(Community community) {
-		Query query = JPA.em().createQuery("UPDATE SocialRelation sr SET sr.actionType=?1, sr.action = NULL where ((sr.target = ?2 and sr.actor = ?3) or (sr.actor = ?2 and sr.target = ?3)) and sr.action = ?4");
-		query.setParameter(1, SocialRelation.ActionType.LEAVE_COMMUNITY);
+		Query query = JPA.em().createQuery("SELECT sr FROM SocialRelation sr " +
+				" where sr.actionType=?1 And  sr.action = ?4 And " +
+				" ((sr.target = ?2 and sr.actor = ?3) or (sr.actor = ?2 and sr.target = ?3))", SocialRelation.class
+				);
+		query.setParameter(1, SocialRelation.ActionType.GRANT);
 		query.setParameter(2, this.id);
 		query.setParameter(3, community.id);
 		query.setParameter(4, SocialRelation.Action.MEMBER);
 		
-		int updateCount = query.executeUpdate();
+		SocialRelation sr= (SocialRelation) query.getSingleResult();
+		query = JPA.em().createQuery("DELETE  Notification n where socialAction =?1");
+		query.setParameter(1, sr);
+		query.executeUpdate();
 		
-		return updateCount;
+		sr.remove();
+		
+		return 1;
 	}
 	
 	public List<Post> getMyUpdates(Long timestamp) {

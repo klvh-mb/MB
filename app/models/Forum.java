@@ -5,7 +5,7 @@ import domain.Likeable;
 public class Forum extends SocialObject  implements Likeable {
 
 	@Override
-	public void onLike(User user) {
+	public void onLikedBy(User user) {
 		recordLike(user);
 	}
 }

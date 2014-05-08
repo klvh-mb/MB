@@ -137,7 +137,15 @@ public class ArticleController extends Controller {
 			}
 			i++;
 		}
-		SlidderArticleVM articleVM = new SlidderArticleVM(leftArticles, rightArticles);
+		
+		List<ArticleCategoryVM> categoryVMs = new ArrayList<>();
+		List<ArticleCategory> categories = ArticleCategory.getFourCategories(4);
+		for(ArticleCategory ac : categories) {
+			ArticleCategoryVM vm = ArticleCategoryVM.articleCategoryVM(ac);
+			categoryVMs.add(vm);
+		}
+		
+		SlidderArticleVM articleVM = new SlidderArticleVM(leftArticles, rightArticles, categoryVMs);
 		return ok(Json.toJson(articleVM));
 	}
 	

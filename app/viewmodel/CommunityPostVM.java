@@ -6,6 +6,7 @@ import java.util.List;
 import models.Comment;
 import models.Post;
 import models.Resource;
+import models.User;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -25,7 +26,9 @@ public class CommunityPostVM {
 	@JsonProperty("cid") public Long communityId;
 	@JsonProperty("nov") public int noOfViews;
 	
-	public static CommunityPostVM communityPostVM(Post post) {
+	@JsonProperty("isLike") public boolean isLike=true;
+	
+	public static CommunityPostVM communityPostVM(Post post, User user) {
 		CommunityPostVM postVM = new CommunityPostVM();
 		postVM.postId = post.id;
 		postVM.ownerId = post.owner.id;
@@ -39,6 +42,9 @@ public class CommunityPostVM {
 		postVM.communityId = post.community.id;
 		//need to write logic for showing no of views
 		postVM.noOfViews = 0;
+		
+		//need to write logic
+		postVM.isLike = post.isLikedBy(user);
 		
 		if(post.folder != null && post.folder.resources != null && !post.folder.resources.isEmpty()) {
 			postVM.hasImage = true;

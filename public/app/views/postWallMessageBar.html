@@ -47,34 +47,35 @@
 </div> -->
 
 <div id="slider" class="general-box" style="height:327px;">
-     <ul class="slider-menu">
-         <li  data-ng-repeat="article in resultSlidder.la" data-ng-mouseOver="changeInsideImage(article.id)">
-	         <a href="/#/article/id/{{article.id}}">
-		         <p>
-		         	<font>
-		         		<font style="text-align: center;">{{article.nm}} </font><br>
-		         		<font style="text-align: center;" class="pull-left">
-		         			{{article.ct.name}}
-		         		</font>
-		         	</font>
-		         	<img class="slider-arrow-left" src="../assets/app/images/general/sliderArrow_right.png">
-	         	</p>
-         	</a>
-        </li>
-     </ul>
-     <div class="slider-photo"><img style="width: 100% !important;" data-ng-src="{{image_source}}"></div>
-     <ul class="slider-menu">
-         <li  data-ng-repeat="article in resultSlidder.ra" data-ng-mouseOver="changeInsideImage(article.id)"><a href="/#/article/id/{{article.id}}"><p>
-         <font>
-		         		<font style="text-align: center;">{{article.nm}} </font><br>
-		         		<font style="text-align: center;" class="pull-left">
-		         			{{article.ct.name}}
-		         		</font>
-		         	</font>
-         <img class="slider-arrow-right" src="../assets/app/images/general/sliderArrow_left.png"></p></a></li>
-     </ul>
-     
-     <div class="slider-category"><p><a href="#"><font><font class="">Parenting </font></font></a><a href="#"><font><font class="">Health Care </font></font></a><a href="#"><font><font class="">Moms Sharing </font></font></a><a href="#"><font><font class="">Education </font></font></a><a href="/#/article/show" class="pull-right"><font><font class="">See all</font></font></a></p></div>
+	<div style="height:86%">
+	     <ul class="slider-menu" >
+	         <li  data-ng-repeat="article in resultSlidder.la" data-ng-mouseOver="changeInsideImage(article.id)">
+		         <a href="/#/article/id/{{article.id}}">
+			         <p>
+			         	<font>
+			         		<font style="text-align: center;">{{article.nm}} </font><br>
+			         		<font style="text-align: center;" class="pull-left">
+			         			{{article.ct.name}}
+			         		</font>
+			         	</font>
+			         	<img class="slider-arrow-left" src="../assets/app/images/general/sliderArrow_right.png">
+		         	</p>
+	         	</a>
+	        </li>
+	     </ul>
+	     <div class="slider-photo" style="height: 280px;"><img style="width: 100% !important;" data-ng-src="{{image_source}}"></div>
+	     <ul class="slider-menu" >
+	         <li  data-ng-repeat="article in resultSlidder.ra" data-ng-mouseOver="changeInsideImage(article.id)"><a href="/#/article/id/{{article.id}}"><p>
+	         <font>
+			         		<font style="text-align: center;">{{article.nm}} </font><br>
+			         		<font style="text-align: center;" class="pull-left">
+			         			{{article.ct.name}}
+			         		</font>
+			         	</font>
+	         <img class="slider-arrow-right" src="../assets/app/images/general/sliderArrow_left.png"></p></a></li>
+	     </ul>
+     </div>
+     <div style="height:14%" class="slider-category"><p><a data-ng-repeat="category in resultSlidder.ct" data-ng-href="/#/article/show/{{category.id}}"><font><font class="">{{category.name}} </font></font></a><a href="/#/article/show" class="pull-right"><font><font class="">See all</font></font></a></p></div>
 </div>
 </div>
 
@@ -107,7 +108,6 @@ body{
 	width: 30%;
 	height: 100%;
 }
-
 .or_vslider_arrow_left{
 	top: 50%;
 	left: 175px;

@@ -34,7 +34,7 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
   @Required
   public Date date = new Date();
   @Override
-	public void onLike(User user) {
+	public void onLikedBy(User user) {
 		recordLike(user);
 	}
   @Required @Lob
@@ -43,6 +43,8 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
   @Required
   public CommentType commentType;
 
+  public int noOfLikes=0;
+  
   @Override
   public int compareTo(Comment o) {
     return date.compareTo(o.date);

@@ -86,7 +86,7 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	}
 	
 	@Override
-	public void onLike(User user) {
+	public void onLikedBy(User user) {
 		recordLike(user);
 	}
 	
@@ -125,7 +125,7 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	@Transactional
 	public void ownerAsMember(User user)
 			throws SocialObjectNotJoinableException {
-		beMemberOfCommunity(user);
+		ownerMemberOfCommunity(user);
 	}
 	
 	@Override
@@ -135,7 +135,7 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 			recordJoinRequest(user);
 		} 
 		else{
-			beMemberOfCommunity(user);
+			beMemberOfOpenCommunity(user);
 		}
 	}
 

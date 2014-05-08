@@ -99,9 +99,16 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	@Transient
 	public String actorname;
 	
+	@Transient
+	boolean isPostSave = true;
+
+	@Transient
+	public boolean memberJoinedOpenCommunity;
+	
 	static public enum Action {
 		
 		LIKED,
+		UNLIKED,
 		RATTED,
 		POSTED_ON,
 		POSTED,
@@ -198,7 +205,8 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	
 	@Override
 	public void postSave() {
-		SocialActivity.handle(this);
+		if(isPostSave)
+			SocialActivity.handle(this);
 	}
 	
 	public <T> T getTargetObject(Class<T> claszz){

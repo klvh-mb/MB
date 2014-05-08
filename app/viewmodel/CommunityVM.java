@@ -53,7 +53,7 @@ public class CommunityVM {
 		List<Post> postsFromDB = c.getPostsOfCommunity(0, 5);
 		
 		for(Post p: postsFromDB) {
-			CommunityPostVM post = CommunityPostVM.communityPostVM(p);
+			CommunityPostVM post = CommunityPostVM.communityPostVM(p,user);
 			posts.add(post);
 		}
 		

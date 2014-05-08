@@ -18,7 +18,11 @@ public class SocialActivity {
 				notification.notificationType = NotificationType.COMMUNITY_JOIN_APPROVED;
 				notification.message = "You are now member of "
 						+ socialAction.targetname;
-				notification.readed = true;
+				if(socialAction.memberJoinedOpenCommunity) {
+					notification.readed = false;
+				} else {
+					notification.readed = true;
+				}
 				notification.save();
 			}
 				break;
@@ -36,12 +40,12 @@ public class SocialActivity {
 				break;
 
 			case LIKED: {
-				Notification notification = new Notification();
+				/*Notification notification = new Notification();
 				notification.socialAction = socialAction;
 				notification.recipetent = socialAction.targetOwner;
 				notification.message = socialAction.actorname
 						+ " Liked on your " + socialAction.targetType;
-				notification.save();
+				notification.save();*/
 			}
 				break;
 

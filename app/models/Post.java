@@ -6,7 +6,6 @@ import indexing.PostIndex;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,8 +15,11 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.NoResultException;
 import javax.persistence.OneToMany;
 import javax.persistence.Query;
+
+import models.SocialRelation.Action;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.elasticsearch.index.query.FilterBuilders;
@@ -59,9 +61,16 @@ public class Post extends SocialObject implements Likeable, Commentable {
 	
 	public Folder folder;
 
+	public int noOfLikes=0;
+	
 	@Override
-	public void onLike(User user) {
+	public void onLikedBy(User user) {
 		recordLike(user);
+	}
+	
+	@Override
+	public void onUnlikedBy(User user) {
+		recordUnlike(user);
 	}
 	
 	public Post(User actor, String post , Community community) {
@@ -210,6 +219,25 @@ public class Post extends SocialObject implements Likeable, Commentable {
 
 	public void setFolder(Folder folder) {
 		this.folder = folder;
+	}
+
+	public boolean isLikedBy(User user) {
+		Query q = JPA.em().createQuery("Select sr from SocialRelation sr where sr.action=?1 and sr.actor=?2 " +
+				"and sr.target=?3 and sr.targetType=?4");
+		q.setParameter(1, Action.LIKED);
+		q.setParameter(2, user.id);
+		q.setParameter(3, this.id);
+		q.setParameter(4, SocialObjectType.POST);
+		
+		SocialRelation sr = null;
+		try {
+			sr = (SocialRelation)q.getSingleResult();
+		}
+		catch(NoResultException nre) {
+			System.out.println("No Result For SR");
+			return true;
+		}
+		return false;
 	}
 
 	

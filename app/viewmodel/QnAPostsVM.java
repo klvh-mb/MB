@@ -27,7 +27,7 @@ public class QnAPostsVM {
 		List<Post> postsFromDB = c.getQuestionsOfCommunity(0, 5);
 		
 		for(Post p: postsFromDB) {
-			CommunityPostVM post = CommunityPostVM.communityPostVM(p);
+			CommunityPostVM post = CommunityPostVM.communityPostVM(p,user);
 			posts.add(post);
 		}
 		vm.posts = posts;
