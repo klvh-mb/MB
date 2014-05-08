@@ -1454,6 +1454,7 @@ minibean.controller('ShowArticleController',function($scope, $modal, showImageSe
 		$scope.result = [];
 		$scope.result = allArticlesService.ArticleCategorywise.get({id:id}	, function(data) {
 			$scope.categoryImage = $scope.result[0].category_url;
+			$scope.categoryName = $scope.result[0].ct.name;
 			usSpinnerService.stop('loading...');
 	    });
 	    
