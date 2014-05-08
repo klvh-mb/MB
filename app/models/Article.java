@@ -21,6 +21,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.jsoup.nodes.Element;
 
 import com.mnt.exception.SocialObjectNotCommentableException;
 
@@ -126,6 +127,12 @@ public class Article extends SocialObject implements Commentable {
 		Query q = JPA.em().createQuery("DELETE FROM Article u where id = ?1");
 		q.setParameter(1, id);
 		return q.executeUpdate();
+	}
+	
+	public String getShortDescription(String description) {
+		Document document = Jsoup.parse(description);
+		document.select("img").remove();
+		return document.toString();
 	}
 	
 	public String getFirstImageFromDescription(String description) {
