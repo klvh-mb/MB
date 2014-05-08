@@ -6,6 +6,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
@@ -49,10 +50,9 @@ public abstract class SocialObject extends domain.Entity implements
 
 	@Id
 	//MySQL5Dialect does not support sequence
-	@GeneratedValue(generator = "social-sequence")
-	 @GenericGenerator(name = "social-sequence",
-		        	        strategy = "com.mnt.persist.generator.SocialSequenceGenerator")
-	//@GeneratedValue(strategy = GenerationType.AUTO)
+	//@GeneratedValue(generator = "social-sequence")
+	//@GenericGenerator(name = "social-sequence",strategy = "com.mnt.persist.generator.SocialSequenceGenerator")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
 
 	@Enumerated(EnumType.STRING)

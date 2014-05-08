@@ -158,10 +158,12 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	
 	@Transactional
 	public void validateUniquenessAndCreate() {
-		Query q = JPA.em().createQuery("Select sa from SocialRelation sa where actor = ?1 and action = ?2 and target = ?3");
+		Query q = JPA.em().createQuery("Select sa from SocialRelation sa where actor = ?1 and action = ?2 and target = ?3 and actorType = ?4 and targetType = ?5");
 		q.setParameter(1, this.actor);
 		q.setParameter(2, this.action);
 		q.setParameter(3, this.target);
+		q.setParameter(4, this.actorType);
+		q.setParameter(5, this.targetType);
 		if(q.getResultList().size() > 0 ) {
 			// Already liked ; Any logic !
 			return;
@@ -173,11 +175,12 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	// NOTE: Caution, call this method when target and actor pair is one to one.
 	@Transactional
 	public void createOrUpdateForTargetAndActorPair() {
-		Query q = JPA.em().createQuery("Select sa from SocialRelation sa where actor = ?1 and target = ?2");
+		Query q = JPA.em().createQuery("Select sa from SocialRelation sa where actor = ?1 and target = ?2 and actorType = ?3 and targetType = ?4");
 		q.setParameter(1, this.actor);
 		q.setParameter(2, this.target);
-		
-		SocialRelation sa=null;
+		q.setParameter(3, this.actorType);
+		q.setParameter(4, this.targetType);
+		SocialRelation sa = null;
 		
 		try{
 			sa = (SocialRelation) q.getSingleResult();
