@@ -55,7 +55,8 @@
 		          <ul class="wall-user-forum-respond">
                         <!-- <li><p class="whose-like"><a href="#">Wynee Lam</a></p></li> -->
                         <ul>
-                            <li data-ng-repeat="comment in post.cs"><div class="wall-user-forum-comment" style="min-height:60px;"><div class="pull-right"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><span class="wall-user-actState-date" am-time-ago="comment.cd" style="margin-left: 48px;"></span></div><div><p class="user-comment"><a href="/#/profile/{{comment.oid}}">{{comment.on}}</a>{{comment.d}}</p></div></div></li>
+ 						<li data-ng-repeat="comment in post.cs"><div class="wall-user-forum-comment" style="min-height:60px;"><div class="pull-right"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><span class="wall-user-actState-date" am-time-ago="comment.cd" style="margin-left: 48px;"></span></div><div><p class="user-comment"><a href="/#/profile/{{comment.oid}}">{{comment.on}}</a>
+							<pre>{{comment.d}}</pre></p></div></div></li>
                         </ul>
 	                    <li><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}" /></a>
 	                                <form id="userCommentwrapper" name="userComment" method="post" action="">

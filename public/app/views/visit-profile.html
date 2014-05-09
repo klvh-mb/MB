@@ -28,7 +28,18 @@
             <!--Wall End -->
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4 ">
-            <div id="profile-about" class="general-box">
+	        <div class="rpw" >
+	        	<div ng-show="profile.isf==true && isLoadingEnabled==false" class="innerAll pull-right border-right">
+					<button class="btn btn-primary" data-ng-click="un_friend(profile.i)"><i class="fa fa-thumbs-down"></i> UnFriend</button>
+				</div>
+				<div ng-show="profile.isf==false && profile.isP == false && isLoadingEnabled==false" class="innerAll pull-right border-right">
+					<button class="btn btn-primary" data-ng-click="send_invite(profile.i)"><i class="fa fa-user"></i> Invite</button>
+				</div>	
+				<div ng-show="profile.isP == true && isLoadingEnabled==false" class="innerAll pull-right border-right">
+					<button class="btn btn-primary" style="background: #0099FF;" disabled="disabled" ><i class="fa fa-user"></i> Pending Approval</button>
+				</div>
+	        </div>
+            <div id="profile-about" class="general-box col-md-12 col-sm-12 col-xs-12 ">
                 <div data-ng-include style="width: 100%;" data-src="'/assets/app/views/profile-about-section.html'"></div>
         </div>
         <div id="newCommunity" class="row tm">

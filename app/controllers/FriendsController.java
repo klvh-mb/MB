@@ -117,9 +117,7 @@ public class FriendsController extends Controller {
 	public static Result doUnFriend(Long id) {
 		final User localUser = Application.getLocalUser(session());
 		User tobeUnfriend = User.findById(id);
-		
 		localUser.doUnFriend(tobeUnfriend);
-		
 		return ok();
 	}
 }

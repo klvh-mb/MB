@@ -1101,7 +1101,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 						post.n_c++;
 						var comment = {"oid" : $scope.community.lu, "d" : commentText, "on" : $scope.community.lun, 
 							"cd" : new Date(), "n_c" : post.n_c};
-					post.cs.push(comment);
+					post.cs.unshift(comment);
 				}
 				usSpinnerService.stop('loading...');	
 			});
@@ -1356,7 +1356,7 @@ minibean.controller('CreateQnACommunityController',function($scope,allAnswersSer
 							post.n_c++;
 							var answer = {"oid" : $scope.QnA.lu, "d" : answerText, "on" : $scope.QnA.lun, 
 								"cd" : new Date(), "n_c" : post.n_c};
-						post.cs.push(answer);
+						post.cs.unshift(answer);
 					}
 				});
 			});

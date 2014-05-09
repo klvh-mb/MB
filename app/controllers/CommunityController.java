@@ -326,6 +326,9 @@ public class CommunityController extends Controller{
 		File fileTo = new File(fileName);
 		
 		Community newCommunity = localUser.createCommunity(community.name, community.description,community.communityType, community.iconName);
+		if(community == null) {
+			return status(505, "Valid param missing");
+		}
 		try {
 			newCommunity.ownerAsMember(localUser);
 			newCommunity.communityType = community.communityType;

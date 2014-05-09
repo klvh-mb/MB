@@ -90,7 +90,7 @@
 					<ul>
 						<li ng-repeat="fvm in allResult.fvm"><span class="icon-box">
 								<img class="pull-left media-object" alt=""
-								data-ng-src="{{fvm.gi}}" style="width: 60% margin-top: 15%; margin-left: 20%;">
+								data-ng-src="{{fvm.gi}}" style="width: 65%; margin-top: 15%; margin-left: 20%;">
 						</span><a data-ng-href="#/community/{{fvm.id}}"><font><font>{{fvm.dn|characters:15:false}}</font></font></a></li>
 					</ul>
 				</div>
@@ -134,17 +134,17 @@
 							<b>{{community.n}}</b>
 						</div>
 						<div class="divider-cus"></div>
-						<div ng-class="{active: selectedTab == 1}">
+						<div ng-class="{activeTab: selectedTab == 1}">
 							<a ng-click="selectedTab = 1;">Activity</a>
 						</div>
 						<div class="divider-cus"></div>
-						<div ng-class="{active: selectedTab == 2}">
+						<div ng-class="{activeTab: selectedTab == 2}">
 							<a ng-click="selectedTab = 2;">Members</a>
 						</div>
-						<div class="divider-cus"></div>
+						<!-- <div class="divider-cus"></div>
 						<div ng-class="{active: selectedTab == 3}">
 							<a ng-click="selectedTab = 3;">Photo Contest</a>
-						</div>
+						</div> -->
 						<div class="dropdown pull-right ">
 							<a class="toolsbox toolsbox-start" data-toggle="dropdown">Notice</a> 
 							<a class="toolsbox toolsbox-end  dropdown-toggle" data-toggle="dropdown"><span class="icon-title-contentSetup"></span></a>
@@ -163,21 +163,20 @@
 			</div>
 			<!--Community Header End -->
 			<div id="wall">
-				<div class="general-box">
-					<div class="wall-title">
-						<span class="wall-icon icon-title-friendwall">
-						</span><a ng-click="selectedTab1 = 1;">
-						<font style="color: white;" ng-class="{activeTab: selectedTab1 == 1}">Moments</font> </a>
-						<span class="wall-icon icon-title-community">
-						</span><a	ng-click="selectedTab1 = 2;">
-						<font style="color: white;"	ng-class="{activeTab: selectedTab1 == 2}">Questions</font> </a>
-						<span class="wall-icon" data-ng-init="isSearch = true"><i class="fa fa-search" style="color: white;"></i>
-						</span><a ng-click="selectedTab1 = 3;">
-						<font style="color: white;" ng-class="{activeTab: selectedTab1 == 3}">Search</font></a>
-					</div>
-				</div>
-
 				<div class="tab-content row" ng-show="selectedTab == 1 ">
+					<div class="general-box">
+						<div class="wall-title">
+							<span class="wall-icon icon-title-friendwall">
+							</span><a ng-click="selectedTab1 = 1;">
+							<font style="color: white;" ng-class="{activeTab: selectedTab1 == 1}">Moments</font> </a>
+							<span class="wall-icon icon-title-community">
+							</span><a	ng-click="selectedTab1 = 2;">
+							<font style="color: white;"	ng-class="{activeTab: selectedTab1 == 2}">Questions</font> </a>
+							<span class="wall-icon" data-ng-init="isSearch = true"><i class="fa fa-search" style="color: white;"></i>
+							</span><a ng-click="selectedTab1 = 3;">
+							<font style="color: white;" ng-class="{activeTab: selectedTab1 == 3}">Search</font></a>
+						</div>
+					</div>
 					<div class="tab-content row"
 						ng-show="selectedTab1 == 1 && community.isM" id="post">
 						<div data-ng-include style="height: 100px;"
@@ -196,41 +195,41 @@
 							data-src="'/assets/app/views/community-search-bar.html'"></div>
 					</div>
 				</div>
+				
+				
+				
 				<div class="tab-content row" ng-show="selectedTab == 2 ">
 					<div data-ng-controller="CommunityMembersWidgetController"
 						data-ng-include style="width: 100%; height: 50px;"
 						data-src="'/assets/app/views/allFriendsSection.html'"></div>
 				</div>
-
-
-
-
-
 			</div>
 			<!--Wall End -->
 		</div>
 		<div class="col-md-4 col-sm-4 col-xs-4 " style="width: 30%;">
-			<button class="btn-general-b pull-right" data-toggle="modal"
-				data-target="#myModal">
-				<h4 style="display: inline;">+</h4>
-				Create a group
-			</button>
-			<button ng-show="!community.isO && community.isM == true"
-				class="btn-general-b pull-right"
-				data-ng-click="leave_community(community.i)">
-				<i class="fa fa-thumbs-down"></i> Leave
-			</button>
-			<button
-				ng-show="!community.isO && community.isM == false && community.isP == false"
-				class="btn-general-b pull-right"
-				data-ng-click="send_join(community.i)">
-				<i class="fa fa-user"></i> Join
-			</button>
-			<button ng-show="!community.isO && community.isP == true"
-				class="btn-general-b pull-right" disabled="disabled">
-				<i class="fa fa-user"></i> Pending
-			</button>
-			<div id="about" class="general-box">
+			<div class="row">
+				<button class="btn-general-b pull-right" data-toggle="modal"
+					data-target="#myModal">
+					<h4 style="display: inline;">+</h4>
+					Create a group
+				</button>
+				<button ng-show="!community.isO && community.isM == true"
+					class="btn-general-b pull-right"
+					data-ng-click="leave_community(community.i)">
+					<i class="fa fa-thumbs-down"></i> Leave
+				</button>
+				<button
+					ng-show="!community.isO && community.isM == false && community.isP == false"
+					class="btn-general-b pull-right"
+					data-ng-click="send_join(community.i)">
+					<i class="fa fa-user"></i> Join
+				</button>
+				<button ng-show="!community.isO && community.isP == true"
+					class="btn-general-b pull-right" disabled="disabled">
+					<i class="fa fa-user"></i> Pending
+				</button>
+			</div>
+			<div id="about" class="general-box" style="height:277px">
 				<div class="con-title">
 					<span class="icon-box icon-box-blueLight icon-title-profile-about"></span><a
 						href="#">About</a>
@@ -248,19 +247,14 @@
 						<pre>{{community.d}}</pre>
 					</ul>
 				</div>
-
-			</div>
-			<!--About End -->
-
-			<div id="about" style="height: 36px; border: white;">
 				<div class="content-wrapper">
 					<ul>
 						<li>
 							<form id="commun-add-member-wrapper"
 								name="commun-add-member-wrapper" method="post" action="">
 								<label for="Add Member"></label> <input type="text"
-									name="commun-add-member" id="commun-add-member"
-									class="general-input-box" data-ng-model="searchQuery"
+									name="add-member-field" id="add-member-field"
+									class="general-textfield general-input-box" data-ng-model="searchQuery"
 									data-ng-keyup="search_unjoined_users(community.i, searchQuery)"
 									placeholder="+ Invite New Members" style="width: 90%;" />
 								<div>
@@ -344,7 +338,7 @@
                   	<div class="col-md-8">
                   		
                   			<label style="width: 100%">
-   								<input type="radio" data-ng-model="formData.communityType" id="optionsRadios1" value="OPEN" >
+   								<input type="radio" data-ng-model="formData.communityType" id="optionsRadios1" value="OPEN" ng-checked="true">
    								Open
   							</label>
   							<div class="fsm fwn fcg" style="margin-left: 10%;">Request for Join directly granted, without approval.</div>
@@ -382,7 +376,7 @@
 									<li class="media" data-ng-repeat="icon in IconsToSelects" style="margin-top: 1%;">
 								        <a href="" data-ng-click="select_icon(icon.url, icon.name)">
 								        	<img class="pull-left media-object" data-ng-src="{{icon.url}}" alt="50x50" width="25" >
-								        	<input type="hidden" data-ng-model="formData.iconName" >
+								        	<input type="hidden" data-ng-model="formData.iconName" required>
 											<div class="media-body">
 								            	<p class="margin-none pull-right">{{icon.name}}</p>
 								        	</div>							        	
@@ -406,8 +400,10 @@
                    </div>
                    
                    <div class="col-md-8">
-                   	<textarea  class="form-control" placeholder="Community Description" data-ng-model="formData.description" data-ng-maxlength=1400 required >
+                   	<textarea  class="form-control" placeholder="Community Description" data-ng-model="formData.description" >
                		 </textarea>
+               		 	<label ng-show="formData.description.length < 6" class="control-label error" style="color: #a94442;" >Minimun 6 character.</label>
+               		 	<label ng-show="formData.description.length > 1400" class="control-label error" style="color: #a94442;" > Maximum 1400 character.</label>
                    </div>
                 </div>
                </div>
@@ -456,6 +452,20 @@
 	padding-left: 0px !important;
 	margin-right: auto;
 	margin-left: auto;
+}
+.general-box {
+	border-radius: 10px;
+	border: 1px solid #c8c8c8;
+	background-color: white;
+	margin-bottom: 10px;
+	overflow: initial !important;
+}
+.general-textfield {
+	border-radius: 10px !important;
+	border:  #bcbcbc thin solid !important;
+	padding: 7px 35px 7px 7px !important;
+	width: 80% !important;
+	height: 30px !important;
 }
 
 </style>  
