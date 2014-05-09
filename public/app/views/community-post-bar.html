@@ -81,7 +81,7 @@
 	             
 	             <li ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><a href="">View all</a></li>
 	             <ul>
-	                 <li data-ng-repeat="comment in post.cs"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><div><p class="user-comment"><a href="#" style="color: #428bca !important;">{{comment.on}}</a><span  ng-bind-html="comment.d | highlight: highlightText"></span></p>
+	                 <li data-ng-repeat="comment in post.cs"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><div><p class="user-comment"><a href="#" style="color: #428bca !important;">{{comment.on}}</a><pre  ng-bind-html="comment.d | highlight: highlightText"></pre>
 	                 <span class="wall-user-actState-date" am-time-ago="comment.cd"></span><span class="wall-user-actState-time"></span><a class="btn-like" href="#" style="color: #428bca !important;">Like</a></div></li>
 	             </ul>
 	             <li><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}"/></a>

@@ -699,7 +699,7 @@ minibean.service('allCommunityWidgetService',function($resource){
 	);
 });
 
-minibean.controller('CommunityWidgetController',function($scope,$routeParams, communityService, allCommunityWidgetService, sendJoinRequest , $http, userInfoService){
+minibean.controller('CommunityWidgetController',function($scope,$routeParams, usSpinnerService, communityService, allCommunityWidgetService, sendJoinRequest , $http, userInfoService){
 	
 	$scope.mygroups = $routeParams.type == "myGroups" ? null : "active" ;
 	
@@ -709,7 +709,17 @@ minibean.controller('CommunityWidgetController',function($scope,$routeParams, co
 	$scope.selectedTab = 1;
 	
 	$scope.send_request = function(id) {
-		this.invite = sendJoinRequest.sendRequest.get({id:id});
+		usSpinnerService.spin('loading...');
+		this.invite = sendJoinRequest.sendRequest.get({id:id},
+				function(data) {
+					angular.forEach($scope.result.fvm, function(request, key){
+						if(request.id == id) {
+							request.isP = true;
+						}
+					});
+					usSpinnerService.stop('loading...');
+				}
+		);
 	}
 });
 
