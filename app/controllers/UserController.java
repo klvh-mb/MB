@@ -150,7 +150,7 @@ public class UserController extends Controller {
 		
 		if(newsFeeds != null ){
 			for(Post p : newsFeeds) {
-				CommunityPostVM post = CommunityPostVM.communityPostVM(p);
+				CommunityPostVM post = CommunityPostVM.communityPostVM(p,user);
 				posts.add(post);
 			}
 		}
