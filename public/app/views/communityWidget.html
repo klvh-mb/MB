@@ -59,13 +59,12 @@
  <div id="newCommunity" class="general-box">
                 <div class="con-title">
                     <span class="icon-box icon-box-green icon-title-newcommunity"></span><a href="/#/myGroups/groups">Recommended Communities</a>
-                    <a href="/#/myGroups/groups" class="pull-right">See all</a>
                 </div>
                 <ul class="newCommunity-info">
                     <li ng-repeat="fvm in result.fvm"><img src="/get-cover-community-image-by-id/{{fvm.id}}"><p><a href="#/community/{{fvm.id}}"><b><font><font>{{fvm.dn}}</font></font></b></a><br>
                     <span class="community-attribute"><font><font data-ng-show="fvm.tp=='OPEN'">Open Community</font><font data-ng-show="fvm.tp=='CLOSE'">Closed Community</font></font></span><span class="community-member-counter"><font><font>{{fvm.mm}} members</font></font></span></p>
                     <span data-ng-show="fvm.isP" class="check_mark"><i class="fa fa-check-square fa-2x"></i></span>
-                    <a ng-show="!fvm.isP" class="btn-general btn" data-ng-click="send_request(fvm.id)"><font><font>Join</font></font></a></li>
+                    <a ng-show="!fvm.isP" class="btn-general" data-ng-click="send_request(fvm.id)">Join</a></li>
                 </ul>
             </div>
  

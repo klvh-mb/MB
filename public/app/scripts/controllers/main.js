@@ -1517,10 +1517,16 @@ minibean.controller('ShowArticleController',function($scope, $modal,$routeParams
 	    });
 	    
 	 };
-	 
+	 $scope.getAllArticles = function(){
+		 usSpinnerService.spin('loading...');
+			$scope.result = [];
+			$scope.result = allArticlesService.AllArticles.get(function(data) {
+				usSpinnerService.stop('loading...');
+		    });
+		};
 	var catId = $routeParams.catid;
 
-	if(catId === "all" || catId == undefined) {
+	if(catId == "all" || catId == undefined) {
 		$scope.result = allArticlesService.AllArticles.get();
 	}
 	else{

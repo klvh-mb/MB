@@ -1,8 +1,8 @@
 <div class="general-box">
     <div class="wall-title">
-        <span class="wall-icon icon-title-community"></span><a href="#" style="color: white !important;">My Communities</a>
-        <span class="wall-icon icon-title-friendwall"></span><a href="#" style="color: white !important;">Forums</a>
-        <span class="pull-right menu-text">Newsfeed</span>
+        <span class="wall-icon icon-title-community"></span><a href="#" style="color: white !important;border-bottom: 3px solid;">My Communities</a>
+        <span class="wall-icon icon-title-friendwall"></span><a href="#" style="color: white !important;border-bottom: 3px solid;">Forums</a>
+        <span class="pull-right menu-text"><a href="#" style="color: white !important;border-bottom: 3px solid;">Newsfeed</a></span>
     </div>
 </div>
 
@@ -11,7 +11,7 @@
 		<div class="general-box" data-ng-show="post.type=='SIMPLE'">
 			<ul>
 	            <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}"/><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span></p><span class="wall-user-actState-date" am-time-ago="post.t"></span><span class="wall-user-actState-time"></span></li>
-	            <li><p class="wall-user-post-text">{{post.pt}}</p>
+	            <li><p class="wall-user-post-text"><font><font style="color: #324fe1;">{{post.pt}}</font></font></p>
 	            	<div data-ng-show="post.hasImage" class="innerAll">
 						<p class="lead"></p>
 						<a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
@@ -43,7 +43,7 @@
 		      <div class="general-box">
 		          <ul>
 		              <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}" /><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-ask"></span></p><span class="wall-user-actState-date" am-time-ago="post.t"></span><span class="wall-forum-post-last-time">5</span><div id="wall-forum-info"><span class="shortcut-box text-center">?</span><span class="wall-forum-post-checked">{{post.nov}}</span><span class="wall-forum-post-reply">{{post.n_c}}</span></div></li>
-		              <li><p class="wall-user-post-text"><a href="#">{{post.pt}}</p>
+		              <li><p class="wall-user-post-text"><a href="#"><font><font style="color: #324fe1;">{{post.pt}}</font></font></p>
 		              	   <div data-ng-show="post.hasImage" class="innerAll">
 								<p class="lead"></p>
 								<a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
@@ -55,7 +55,7 @@
 		          <ul class="wall-user-forum-respond">
                         <!-- <li><p class="whose-like"><a href="#">Wynee Lam</a></p></li> -->
                         <ul>
-                            <li data-ng-repeat="comment in post.cs"><div class="wall-user-forum-comment" style="min-height:60px;"><div class="pull-right"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><span class="wall-user-actState-date" am-time-ago="comment.cd"></span></div><div><p class="user-comment"><a href="/#/profile/{{comment.oid}}">{{comment.on}}</a><pre>{{comment.d}}</pre></p></div></div></li>
+                            <li data-ng-repeat="comment in post.cs"><div class="wall-user-forum-comment" style="min-height:60px;"><div class="pull-right"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><span class="wall-user-actState-date" am-time-ago="comment.cd" style="margin-left: 48px;"></span></div><div><p class="user-comment"><a href="/#/profile/{{comment.oid}}">{{comment.on}}</a>{{comment.d}}</p></div></div></li>
                         </ul>
 	                    <li><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}" /></a>
 	                                <form id="userCommentwrapper" name="userComment" method="post" action="">
