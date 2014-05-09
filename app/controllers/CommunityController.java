@@ -212,6 +212,27 @@ public class CommunityController extends Controller{
 	}
 	
 	@Transactional
+	public static Result getThreeCommunitiesOfUser(Long id) {
+		final User user = User.findById(id);
+		final User localUser = Application.getLocalUser(session());
+		int count=0;
+		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
+		for(Community community : user.getListOfJoinedCommunities()) {
+			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name,community.communityType);
+			communityList.add(vm);
+			++count;
+			vm.isP = localUser.isJoinRequestPendingFor(community);
+			if(count == 3) {
+				break;
+			}
+		}
+		CommunitiesParentVM fwVM = new CommunitiesParentVM(user.getListOfNotJoinedCommunities().size(), communityList);
+		return ok(Json.toJson(fwVM));
+	}
+	
+	
+	
+	@Transactional
 	public static Result getMyAllCommunities() {
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
@@ -221,6 +242,20 @@ public class CommunityController extends Controller{
 			communityList.add(vm);
 		}
 		CommunitiesParentVM fwVM = new CommunitiesParentVM(localUser.getListOfNotJoinedCommunities().size(), communityList);
+		return ok(Json.toJson(fwVM));
+	}
+	
+	@Transactional
+	public static Result getAllCommunitiesOfUserID(Long id) {
+		final User user = User.findById(id);
+		final User localUser = Application.getLocalUser(session());
+		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
+		for(Community community : user.getListOfJoinedCommunities()) {
+			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name,"",community.iconName,community.communityType);
+			vm.isP = localUser.isJoinRequestPendingFor(community);
+			communityList.add(vm);
+		}
+		CommunitiesParentVM fwVM = new CommunitiesParentVM(user.getListOfNotJoinedCommunities().size(), communityList);
 		return ok(Json.toJson(fwVM));
 	}
 	

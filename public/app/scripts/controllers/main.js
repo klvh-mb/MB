@@ -789,6 +789,38 @@ minibean.controller('UserCommunityWidgetController',function($scope, myNextCommu
 ///////////////////////// User All Communities End //////////////////////////////////
 
 
+///////////////////////// User All Communities  //////////////////////////////////
+minibean.service('communityWidgetByUserService',function($resource){
+	this.UserCommunities = $resource(
+			'/get-three-communities-userID/:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get'}
+			}
+	);
+});
+
+minibean.service('allCommunityWidgetByUserService',function($resource){
+	this.UserAllCommunities = $resource(
+			'/get-all-communities-userID/:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get'}
+			}
+	);
+});
+
+
+minibean.controller('CommunityWidgetByUserIDController',function($scope, $routeParams, allCommunityWidgetByUserService, communityWidgetByUserService , $http, userInfoService){
+	$scope.userInfo = userInfoService.UserInfo.get();
+	$scope.result = communityWidgetByUserService.UserCommunities.get({id:$routeParams.id});
+	$scope.allResult = allCommunityWidgetByUserService.UserAllCommunities.get({id:$routeParams.id});
+});
+
+///////////////////////// User All Communities End //////////////////////////////////
+
+
+
 ///////////////////////// User Profile Start //////////////////////////////////
 
 minibean.service('friendsService',function($resource){
@@ -813,6 +845,7 @@ minibean.service('profileService',function($resource){
 
 minibean.controller('ProfileController',function($scope, $routeParams, profileService, friendsService,sendInvitation, unFriendService){
 	$scope.isLoadingEnabled = false;
+	$scope.selectedTab = 1;
 	$scope.navigateTo = function (navigateTo) {
 		$scope.active = navigateTo;
 		if(navigateTo === 'friends') {

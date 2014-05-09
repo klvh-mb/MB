@@ -21,9 +21,13 @@
         <div class="row">
         <div class="col-md-6 col-sm-6 col-xs-6">
             <div  data-ng-include style="width: 100%;" data-src="'/assets/app/views/profile-upper-cover-section.html'"></div><!--Profile Header End -->
-            <div id="wall" style="height: auto !important;">
+            <div ng-show="selectedTab == 1" id="wall" style="height: auto !important;">
 			                <div data-ng-controller="UserNewsFeedController" data-ng-include style="width: 100%;"
 			                	 data-src="'/assets/app/views/home-news-feed-section.html'"></div>
+			 </div>
+			 
+			 <div ng-show="selectedTab == 2">
+			 	<div ng-controller="CommunityWidgetByUserIDController" data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/allCommunitiesSection.html'"></div>
 			 </div>
             <!--Wall End -->
         </div>
@@ -44,7 +48,7 @@
         </div>
         <div id="newCommunity" class="row tm">
 				<div class="col-lg-12 col-md-12"
-					ng-controller="UnknownCommunityWidgetController">
+					ng-controller="CommunityWidgetByUserIDController">
 					<div data-ng-include style="width: 100%;"
 						data-src="'/assets/app/views/communityWidget.html'"></div>
 				</div>

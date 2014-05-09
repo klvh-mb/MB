@@ -54,11 +54,11 @@
                         </div>
                         <p id="profile-user-name">{{profile.dn}}</p>
                         <div id="menu-title">
-                            <a href="/#/about" ng-class="{active: selectedTab == 1}">Recent Activities</a>
+                            <a ng-class="{activeTab: selectedTab == 1}" ng-click="selectedTab = 1;">Recent Activities</a>
                             <div class="divider-cus"></div>
-                            <a href="" ng-class="{active: selectedTab == 3}">Communities</a>
+                            <a ng-class="{activeTab: selectedTab == 2}" ng-click="selectedTab = 2;">Communities</a>
                             <div class="divider-cus"></div>
-                            <a href="/#/friends" ng-class="{active: selectedTab == 2}">Friends</a>
+                            <a ng-class="{activeTab: selectedTab == 3}" ng-click="selectedTab = 3;">Friends</a>
                         </div>
                         <div class="dropdown pull-right ">
 							<a class="toolsbox toolsbox-start" data-toggle="dropdown">Notify</a> 
@@ -71,3 +71,12 @@
                     </li>
                 </ul>
             </div><!--Profile Header End -->
+            
+            
+<style>
+
+	.activeTab{
+	    font-weight: bold;
+	    text-decoration:underline;
+	}
+</style>
