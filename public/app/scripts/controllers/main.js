@@ -811,10 +811,30 @@ minibean.service('allCommunityWidgetByUserService',function($resource){
 });
 
 
-minibean.controller('CommunityWidgetByUserIDController',function($scope, $routeParams, allCommunityWidgetByUserService, communityWidgetByUserService , $http, userInfoService){
+minibean.controller('CommunityWidgetByUserIDController',function($scope, $routeParams, usSpinnerService, sendJoinRequest, communityJoinService, communityService, allCommunityWidgetService, allCommunityWidgetByUserService, communityWidgetByUserService , $http, userInfoService){
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.result = communityWidgetByUserService.UserCommunities.get({id:$routeParams.id});
 	$scope.allResult = allCommunityWidgetByUserService.UserAllCommunities.get({id:$routeParams.id});
+	
+	$scope.userInfo = userInfoService.UserInfo.get();
+	$scope.result = communityService.UserCommunitiesNot.get();
+	$scope.allResult = allCommunityWidgetService.UserAllCommunities.get();
+	$scope.selectedTab = 1;
+	
+	$scope.send_request = function(id) {
+		usSpinnerService.spin('loading...');
+		this.invite = sendJoinRequest.sendRequest.get({id:id},
+				function(data) {
+					angular.forEach($scope.result.fvm, function(request, key){
+						if(request.id == id) {
+							request.isP = true;
+						}
+					});
+					usSpinnerService.stop('loading...');
+				}
+		);
+	}
+	
 });
 
 ///////////////////////// User All Communities End //////////////////////////////////
