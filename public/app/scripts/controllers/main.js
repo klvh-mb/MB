@@ -699,7 +699,7 @@ minibean.service('allCommunityWidgetService',function($resource){
 	);
 });
 
-minibean.controller('CommunityWidgetController',function($scope,$routeParams, communityService, allCommunityWidgetService, sendJoinRequest , $http, userInfoService){
+minibean.controller('CommunityWidgetController',function($scope,$routeParams, usSpinnerService, communityService, allCommunityWidgetService, sendJoinRequest , $http, userInfoService){
 	
 	$scope.mygroups = $routeParams.type == "myGroups" ? null : "active" ;
 	
@@ -709,7 +709,17 @@ minibean.controller('CommunityWidgetController',function($scope,$routeParams, co
 	$scope.selectedTab = 1;
 	
 	$scope.send_request = function(id) {
-		this.invite = sendJoinRequest.sendRequest.get({id:id});
+		usSpinnerService.spin('loading...');
+		this.invite = sendJoinRequest.sendRequest.get({id:id},
+				function(data) {
+					angular.forEach($scope.result.fvm, function(request, key){
+						if(request.id == id) {
+							request.isP = true;
+						}
+					});
+					usSpinnerService.stop('loading...');
+				}
+		);
 	}
 });
 
@@ -779,6 +789,38 @@ minibean.controller('UserCommunityWidgetController',function($scope, myNextCommu
 ///////////////////////// User All Communities End //////////////////////////////////
 
 
+///////////////////////// User All Communities  //////////////////////////////////
+minibean.service('communityWidgetByUserService',function($resource){
+	this.UserCommunities = $resource(
+			'/get-three-communities-userID/:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get'}
+			}
+	);
+});
+
+minibean.service('allCommunityWidgetByUserService',function($resource){
+	this.UserAllCommunities = $resource(
+			'/get-all-communities-userID/:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get'}
+			}
+	);
+});
+
+
+minibean.controller('CommunityWidgetByUserIDController',function($scope, $routeParams, allCommunityWidgetByUserService, communityWidgetByUserService , $http, userInfoService){
+	$scope.userInfo = userInfoService.UserInfo.get();
+	$scope.result = communityWidgetByUserService.UserCommunities.get({id:$routeParams.id});
+	$scope.allResult = allCommunityWidgetByUserService.UserAllCommunities.get({id:$routeParams.id});
+});
+
+///////////////////////// User All Communities End //////////////////////////////////
+
+
+
 ///////////////////////// User Profile Start //////////////////////////////////
 
 minibean.service('friendsService',function($resource){
@@ -803,6 +845,7 @@ minibean.service('profileService',function($resource){
 
 minibean.controller('ProfileController',function($scope, $routeParams, profileService, friendsService,sendInvitation, unFriendService){
 	$scope.isLoadingEnabled = false;
+	$scope.selectedTab = 1;
 	$scope.navigateTo = function (navigateTo) {
 		$scope.active = navigateTo;
 		if(navigateTo === 'friends') {
@@ -1091,7 +1134,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 						post.n_c++;
 						var comment = {"oid" : $scope.community.lu, "d" : commentText, "on" : $scope.community.lun, 
 							"cd" : new Date(), "n_c" : post.n_c};
-					post.cs.push(comment);
+					post.cs.unshift(comment);
 				}
 				usSpinnerService.stop('loading...');	
 			});
@@ -1346,7 +1389,7 @@ minibean.controller('CreateQnACommunityController',function($scope,allAnswersSer
 							post.n_c++;
 							var answer = {"oid" : $scope.QnA.lu, "d" : answerText, "on" : $scope.QnA.lun, 
 								"cd" : new Date(), "n_c" : post.n_c};
-						post.cs.push(answer);
+						post.cs.unshift(answer);
 					}
 				});
 			});
@@ -1507,10 +1550,16 @@ minibean.controller('ShowArticleController',function($scope, $modal,$routeParams
 	    });
 	    
 	 };
-	 
+	 $scope.getAllArticles = function(){
+		 usSpinnerService.spin('loading...');
+			$scope.result = [];
+			$scope.result = allArticlesService.AllArticles.get(function(data) {
+				usSpinnerService.stop('loading...');
+		    });
+		};
 	var catId = $routeParams.catid;
 
-	if(catId === "all" || catId == undefined) {
+	if(catId == "all" || catId == undefined) {
 		$scope.result = allArticlesService.AllArticles.get();
 	}
 	else{

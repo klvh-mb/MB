@@ -49,6 +49,7 @@ import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.feth.play.module.pa.user.EmailIdentity;
 import com.feth.play.module.pa.user.FirstLastNameIdentity;
 import com.feth.play.module.pa.user.NameIdentity;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotJoinableException;
@@ -263,7 +264,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	
 	@JsonIgnore
 	public List<User> getSuggestedFriends() {
-		Query q = JPA.em().createNativeQuery("Select * from User u where u.id not in (select sr.target from  SocialRelation sr where sr.action = ?2 and sr.actor = ?1 union select sr1.actor from  SocialRelation sr1 where sr1.action = ?2 and sr1.target = ?1)",User.class);
+		Query q = JPA.em().createNativeQuery("Select * from User u where u.id not in (select sr.target from  SocialRelation sr where sr.action = ?2 and sr.actor = ?1 union select sr1.actor from  SocialRelation sr1 where sr1.action = ?2 and sr1.target = ?1 union select user.id from user where user.id = ?1 )",User.class);
 		q.setParameter(1, this.id);
 		q.setParameter(2, SocialRelation.Action.FRIEND.name());
 	    List<User> frndList = ( List<User> )q.getResultList();
@@ -493,6 +494,9 @@ public class User extends SocialObject implements Subject, Socializable {
 	@Transactional
 	public Community createCommunity(String name, String description, CommunityType type, String iconName){
 
+		if(Strings.isNullOrEmpty(name) || Strings.isNullOrEmpty(description) || Strings.isNullOrEmpty(iconName) || type == null) {
+			return null;
+		}
 		Community community = new Community(
 				name, description, this, type);
 		community.iconName = iconName;
@@ -873,7 +877,7 @@ public class User extends SocialObject implements Subject, Socializable {
 				" where sr.actionType=?1 And  sr.action = ?4 And " +
 				" ((sr.target = ?2 and sr.actor = ?3) or (sr.actor = ?2 and sr.target = ?3))", SocialRelation.class
 				);
-		query.setParameter(1, SocialRelation.ActionType.UNFRIEND);
+		query.setParameter(1, SocialRelation.ActionType.GRANT);
 		query.setParameter(2, this.id);
 		query.setParameter(3, toBeUnfriend.id);
 		query.setParameter(4, SocialRelation.Action.FRIEND);

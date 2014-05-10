@@ -89,12 +89,12 @@
                   	<div class="col-md-8">
                   		
                   			<label style="width: 100%">
-   								<input type="radio" data-ng-model="formData.communityType" id="optionsRadios1" value="OPEN" >
+   								<input type="radio" data-ng-model="formData.communityType" id="optionsRadios1" value="OPEN" ng-checked="true">
    								Open
   							</label>
   							<div class="fsm fwn fcg" style="margin-left: 10%;">Request for Join directly granted, without approval.</div>
   							<label>
-   								<input type="radio" data-ng-model="formData.communityType" id="optionsRadios2" value="CLOSE" >
+   								<input type="radio" data-ng-model="formData.communityType" id="optionsRadios2" value="CLOSE">
    								Closed
   							</label>
   							<div class="fsm fwn fcg"  style="margin-left: 10%;">Admin must approve the request.</div>
@@ -127,7 +127,7 @@
 									<li class="media" data-ng-repeat="icon in IconsToSelects" style="margin-top: 1%;">
 								        <a href="" data-ng-click="select_icon(icon.url, icon.name)">
 								        	<img class="pull-left media-object" data-ng-src="{{icon.url}}" alt="50x50" width="25" >
-								        	<input type="hidden" data-ng-model="formData.iconName" >
+								        	<input type="hidden" data-ng-model="formData.iconName" required>
 											<div class="media-body">
 								            	<p class="margin-none pull-right">{{icon.name}}</p>
 								        	</div>							        	
@@ -151,8 +151,10 @@
                    </div>
                    
                    <div class="col-md-8">
-                   	<textarea  class="form-control" placeholder="Community Description" data-ng-model="formData.description" required >
+                   	<textarea  class="form-control" placeholder="Community Description" data-ng-model="formData.description" >
                		 </textarea>
+               		 	<label ng-show="formData.description.length < 6" class="control-label error" style="color: #a94442;" >Minimun 6 character.</label>
+               		 	<label ng-show="formData.description.length > 1400" class="control-label error" style="color: #a94442;" > Maximum 1400 character.</label>
                    </div>
                 </div>
                </div>

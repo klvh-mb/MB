@@ -60,7 +60,7 @@
 			          </ul>
 			          <ul class="wall-user-forum-respond">
 			              <ul>
-			                  <li data-ng-repeat="comment in post.cs"><div class="wall-user-forum-comment"><div class="pull-right"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><span class="wall-user-actState-date" am-time-ago="comment.cd"></span></div><div><p class="user-comment"><a href="/#/profile/{{comment.oid}}">{{comment.on}}</a>{{comment.d}}</p></div>
+			                  <li data-ng-repeat="comment in post.cs"><div class="wall-user-forum-comment"><div class="pull-right"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><span class="wall-user-actState-date" am-time-ago="comment.cd"></span></div><div><p class="user-comment"><a href="/#/profile/{{comment.oid}}">{{comment.on}}</a><pre>{{comment.d}}</pre></div>
 			                  <li ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><a href="">View all</a></li></div>
 			              </ul>
 			          <li>

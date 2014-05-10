@@ -11,6 +11,19 @@ a {
 a:hover {
   text-decoration: underline;  
 }
+pre {
+		display: text !important;
+		padding: 0px !important;
+		margin: 0 0 0px !important;
+		font-size: 13px;
+		line-height: 1.42857143;
+		color: #000 !important;
+		word-break: break-all;
+		word-wrap: break-word;
+		background-color: transparent !important; 
+		border: 0px solid #ccc !important;
+		border-radius: 0px !important;
+	}
 .btn-general {
     font-family: sans-serif;
     font-size: x-small !important;
