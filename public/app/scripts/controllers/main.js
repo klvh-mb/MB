@@ -551,9 +551,34 @@ minibean.service('friendSuggestedWidgetService',function($resource){
 	);
 });
 
-minibean.controller('SuggestedFriendsWidgetController',function($scope, friendSuggestedWidgetService,userInfoService, $http){
+minibean.controller('SuggestedFriendsWidgetController',function($scope, unFriendService, usSpinnerService, sendInvitation, friendSuggestedWidgetService,userInfoService, $http){
 	$scope.result = friendSuggestedWidgetService.UserFriends.get();
+	$scope.isLoadingEnabled = false;
 	$scope.userInfo = userInfoService.UserInfo.get();
+	$scope.send_invite = function(id) {
+		$scope.isLoadingEnabled = true;
+		this.invite = sendInvitation.inviteFriend.get({id:id}, function(data) {
+			$scope.isLoadingEnabled = false;
+			angular.forEach($scope.result.fvm, function(request, key){
+				if(request.id == id) {
+					request.isP = true;
+				}
+				
+			});
+		});
+	}
+	
+	$scope.un_friend = function(id) {
+		$scope.isLoadingEnabled = true;
+		this.unFriendHim = unFriendService.doUnfriend.get({id:id}, function(data) {
+			$scope.isLoadingEnabled = false;
+			angular.forEach($scope.result.fvm, function(request, key){
+				if(request.id == id) {
+					request.isF = true;
+				}
+			});
+		});
+	}
 });
 
 ///////////////////////// User Friends Widget End //////////////////////////////////
@@ -816,16 +841,11 @@ minibean.controller('CommunityWidgetByUserIDController',function($scope, $routeP
 	$scope.result = communityWidgetByUserService.UserCommunities.get({id:$routeParams.id});
 	$scope.allResult = allCommunityWidgetByUserService.UserAllCommunities.get({id:$routeParams.id});
 	
-	$scope.userInfo = userInfoService.UserInfo.get();
-	$scope.result = communityService.UserCommunitiesNot.get();
-	$scope.allResult = allCommunityWidgetService.UserAllCommunities.get();
-	$scope.selectedTab = 1;
-	
 	$scope.send_request = function(id) {
 		usSpinnerService.spin('loading...');
 		this.invite = sendJoinRequest.sendRequest.get({id:id},
 				function(data) {
-					angular.forEach($scope.result.fvm, function(request, key){
+					angular.forEach($scope.allResult.fvm, function(request, key){
 						if(request.id == id) {
 							request.isP = true;
 						}

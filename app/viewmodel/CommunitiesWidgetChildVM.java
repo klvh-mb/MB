@@ -10,6 +10,7 @@ public class CommunitiesWidgetChildVM {
 	public String msg;
 	public Boolean isO;
 	public Boolean isP;
+	public Boolean isM;
 	public String tp;
 	
 	public CommunitiesWidgetChildVM(Long id, Long mm, String dn, String msg,String gi,Community.CommunityType type) {

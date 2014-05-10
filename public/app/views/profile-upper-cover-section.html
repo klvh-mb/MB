@@ -44,7 +44,7 @@
                  </div> -->
                  
                  
-                 <div id="profile-header">
+             <div id="profile-header">
                 <ul>
                     <li>
                     	<div><img id="profile-banner" src="/get-cover-image-by-id/{{profile.i}}" /></div>
@@ -54,11 +54,19 @@
                         </div>
                         <p id="profile-user-name">{{profile.dn}}</p>
                         <div id="menu-title">
-                            <a ng-class="{activeTab: selectedTab == 1}" ng-click="selectedTab = 1;">Recent Activities</a>
+                        	<a ng-click="selectedTab = 1;">
+							<font ng-class="{activeTab: selectedTab == 1}">Recent Activities</font> </a>
+							<a	ng-click="selectedTab = 2;">
+							<font ng-class="{activeTab: selectedTab == 2}">Communities</font> </a>
+							<a ng-click="selectedTab = 3;">
+							<font ng-class="{activeTab: selectedTab == 3}">Friends</font></a>
+                        
+                        
+                            <!-- <a data-ng-click="selectedTab = 1;"> <div ng-class="{activeTab: selectedTab == 1}">Recent Activities</div></a>
                             <div class="divider-cus"></div>
-                            <a ng-class="{activeTab: selectedTab == 2}" ng-click="selectedTab = 2;">Communities</a>
-                            <div class="divider-cus"></div>
-                            <a ng-class="{activeTab: selectedTab == 3}" ng-click="selectedTab = 3;">Friends</a>
+                            <div ng-class="{activeTab: selectedTab == 2}"><a data-ng-click="selectedTab = 2;">Communities</a></div>
+                            <div class="divider-cus"></div> -->
+                            <!-- <div ng-class="{activeTab: selectedTab == 3}"><a ng-click="selectedTab = 3;">Friends</a></div> -->
                         </div>
                         <div class="dropdown pull-right ">
 							<a class="toolsbox toolsbox-start" data-toggle="dropdown">Notify</a> 
