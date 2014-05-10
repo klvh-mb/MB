@@ -1,0 +1,32 @@
+-- --------------------------------------------------------
+-- Host:                         localhost
+-- Server version:               5.0.90-community-nt - MySQL Community Edition (GPL)
+-- Server OS:                    Win32
+-- HeidiSQL version:             6.0.0.4004
+-- Date/time:                    2014-05-10 09:17:41
+-- --------------------------------------------------------
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!40014 SET FOREIGN_KEY_CHECKS=0 */;
+
+-- Dumping structure for table parent-social.articlecategory
+CREATE TABLE IF NOT EXISTS `articlecategory` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `description` longtext,
+  `name` varchar(255) default NULL,
+  `pictureName` varchar(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table parent-social.articlecategory: ~5 rows (approximately)
+/*!40000 ALTER TABLE `articlecategory` DISABLE KEYS */;
+INSERT INTO `articlecategory` (`id`, `description`, `name`, `pictureName`) VALUES
+	(1, 'Football', 'Soccer', '/assets/app/icons/common.png'),
+	(2, 'School Staff', 'Teacher', '/assets/app/icons/contact.png'),
+	(3, 'Employee', 'Office', '/assets/app/icons/info.png'),
+	(4, 'Guys', 'Friends', '/assets/app/icons/legan.png'),
+	(5, 'Play games', 'Sport', '/assets/app/icons/partners.png');
+/*!40000 ALTER TABLE `articlecategory` ENABLE KEYS */;
+/*!40014 SET FOREIGN_KEY_CHECKS=1 */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
