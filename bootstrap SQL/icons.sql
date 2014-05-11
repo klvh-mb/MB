@@ -20,12 +20,11 @@ CREATE TABLE IF NOT EXISTS `icons` (
 
 -- Dumping data for table parent-social.icons: ~5 rows (approximately)
 /*!40000 ALTER TABLE `icons` DISABLE KEYS */;
-INSERT INTO `icons` (`id`, `name`, `url`) VALUES
-	(1, 'Football', '/assets/app/icons/common.png'),
-	(2, 'School', '/assets/app/icons/info.png'),
-	(3, 'Employee', '/assets/app/icons/legan.png'),
-	(4, 'Play', '/assets/app/icons/partners.png'),
-	(5, 'Office', '/assets/app/icons/contact.png');
+insert into `icons` (`name`, `url`) values
+('親子資訊','/assets/app/icons/info.png'),                                                                           
+('家長必讀','/assets/app/icons/info.png'),  
+('教養專題','/assets/app/icons/info.png'),  
+('分享專區','/assets/app/icons/info.png');
 /*!40000 ALTER TABLE `icons` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

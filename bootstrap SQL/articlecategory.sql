@@ -21,12 +21,11 @@ CREATE TABLE IF NOT EXISTS `articlecategory` (
 
 -- Dumping data for table parent-social.articlecategory: ~5 rows (approximately)
 /*!40000 ALTER TABLE `articlecategory` DISABLE KEYS */;
-INSERT INTO `articlecategory` (`id`, `description`, `name`, `pictureName`) VALUES
-	(1, 'Football', 'Soccer', '/assets/app/icons/common.png'),
-	(2, 'School Staff', 'Teacher', '/assets/app/icons/contact.png'),
-	(3, 'Employee', 'Office', '/assets/app/icons/info.png'),
-	(4, 'Guys', 'Friends', '/assets/app/icons/legan.png'),
-	(5, 'Play games', 'Sport', '/assets/app/icons/partners.png');
+insert into `ArticleCategory` (`name`,`description`,`pictureName`) values
+('親子資訊','親子資訊','/assets/app/icons/info.png'), 
+('家長必讀','家長必讀','/assets/app/icons/info.png'),  
+('教養專題','教養專題','/assets/app/icons/info.png'),  
+('分享專區','分享專區','/assets/app/icons/info.png');
 /*!40000 ALTER TABLE `articlecategory` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
