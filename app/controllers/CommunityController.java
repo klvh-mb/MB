@@ -350,7 +350,9 @@ public class CommunityController extends Controller{
 		final User localUser = Application.getLocalUser(session());
 		Form<Community> form = DynamicForm.form(Community.class).bindFromRequest("name","description","iconName","communityType");
 		Community community = form.get();
-       
+        if(community.communityType == null) {
+        	community.communityType = CommunityType.OPEN;
+        }
 		if(!community.checkCommunityNameExists(localUser)) {
 			return status(505, "PLEASE CHOOSE OTHER NAME");
 		}
@@ -361,7 +363,7 @@ public class CommunityController extends Controller{
 		File fileTo = new File(fileName);
 		
 		Community newCommunity = localUser.createCommunity(community.name, community.description,community.communityType, community.iconName);
-		if(community == null) {
+		if(newCommunity == null) {
 			return status(505, "Valid param missing");
 		}
 		try {
