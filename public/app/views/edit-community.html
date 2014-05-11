@@ -43,7 +43,7 @@
 	                    </div>
 	                    
 	                    <div class="col-md-6">
-	                    	<input type="text" class="inputtext pls form-control" data-ng-model="community.n" name="name">
+	                    	<input type="text" class="inputtext pls form-control" data-ng-model="community.n" name="name" disabled="disabled">
 	                    </div>
                   </div>
                   <hr style="margin-top: 1%;">
@@ -156,7 +156,9 @@
                    		<div class="row">
 			               	<div class="col-md-6">
 				                <textarea style="width:100%" class="inputtext pls form-control" data-ng-model="community.d">
-									</textarea>		                 
+									</textarea>	
+									<label ng-show="community.d.length < 6" class="control-label error" style="color: #a94442;" >Minimun 6 character.</label>
+               		 				<label ng-show="community.d.length > 1400" class="control-label error" style="color: #a94442;" > Maximum 1400 character.</label>	                 
 			                 </div>
 				        </div>
                   </div>
