@@ -98,9 +98,12 @@ public class CommunityController extends Controller{
 		final User localUser = Application.getLocalUser(session());
 		final Community community = Community.findById(id);
 		//if(community.objectType == SocialObjectType.COMMUNITY) {
+		if(localUser.isMemberOf(community) || community.owner.id == localUser.id || community.communityType.toString().equals("OPEN") && localUser.isMemberOf(community) == false || community.communityType.toString().equals("CLOSE") && localUser.isMemberOf(community) == true)
+		{
 			return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
-		//}
-		//return status(404);
+		}
+		else
+		return ok();
 	}
 	
 	@Transactional
