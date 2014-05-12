@@ -1,6 +1,7 @@
 package models;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -13,12 +14,13 @@ import javax.persistence.Query;
 import org.apache.commons.io.FileUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import com.mnt.exception.SocialObjectNotCommentableException;
-
 import play.Play;
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+
+import com.mnt.exception.SocialObjectNotCommentableException;
+
 import domain.CommentType;
 import domain.SocialObjectType;
 
@@ -155,6 +157,12 @@ public class Resource extends SocialObject {
 		Query q = JPA.em().createQuery("SELECT r FROM Resource r where id = ?1");
 		q.setParameter(1, id);
 		return (Resource) q.getSingleResult();
+	}
+	
+	public static List<Resource> findAllResourceOfFolder(Long id) {
+		Query q = JPA.em().createQuery("SELECT r FROM Resource r where folder.id = ?1");
+		q.setParameter(1, id);
+		return (List<Resource>) q.getResultList();
 	}
 
 	public Folder getFolder() {

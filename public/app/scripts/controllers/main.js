@@ -945,6 +945,10 @@ minibean.controller('SearchPageController', function($scope, $routeParams, commu
 		communitySearchPageService.GetPostsFromIndex.get({community_id : id , query : query, offset:offset}, function( data ) {
 			var posts = data;
 			
+			if(posts.length == 0){
+				$scope.community.searchPosts.length=0;
+				$scope.noresult = "No Results Found";
+			}
 			if(data.length < 5 ) {
 				offset = -1;
 				$scope.community.searchPosts.length=0;

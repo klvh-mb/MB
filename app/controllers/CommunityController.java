@@ -46,7 +46,6 @@ import com.mnt.exception.SocialObjectNotLikableException;
 
 import domain.CommentType;
 import domain.PostType;
-import domain.SocialObjectType;
 
 public class CommunityController extends Controller{
 
@@ -99,9 +98,12 @@ public class CommunityController extends Controller{
 		final User localUser = Application.getLocalUser(session());
 		final Community community = Community.findById(id);
 		//if(community.objectType == SocialObjectType.COMMUNITY) {
+		if(localUser.isMemberOf(community) || community.owner.id == localUser.id || community.communityType.toString().equals("OPEN") && localUser.isMemberOf(community) == false || community.communityType.toString().equals("CLOSE") && localUser.isMemberOf(community) == true)
+		{
 			return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
-		//}
-		//return status(404);
+		}
+		else
+		return ok();
 	}
 	
 	@Transactional
@@ -447,6 +449,9 @@ public class CommunityController extends Controller{
 		if(Boolean.parseBoolean(withPhotos)) {
 			p.ensureAlbumExist();
 		}
+		
+		p.indexPost(Boolean.parseBoolean(withPhotos));
+		
 		return ok(Json.toJson(p.id));
 	}
 	
@@ -493,10 +498,12 @@ public class CommunityController extends Controller{
 		String withPhotos = form.get("withPhotos");
 		
 		Post p = (Post) c.onPost(localUser, questionText, PostType.QUESTION);
-		if(Boolean.getBoolean(withPhotos)) {
+		
+		if(Boolean.parseBoolean(withPhotos)) {
 			p.ensureAlbumExist();
 		}
 		
+		p.indexPost(Boolean.parseBoolean(withPhotos));
 		return ok(Json.toJson(p.id));
 	}
 	

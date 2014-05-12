@@ -108,16 +108,6 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		
 		JPA.em().merge(this);
 		
-		SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-		
-		PostIndex postIndex = new PostIndex();
-		postIndex.post_id = post.id;
-		postIndex.community_id = post.community.id;
-		postIndex.owner_id = post.owner.id;
-		postIndex.description = post.body;
-		postIndex.postedBy = (post.owner.name != null) ?  post.owner.name : "No Name";
-		postIndex.postedOn = post.getCreatedDate();
-		postIndex.index();
 		//recordPostOn(user);
 		return post;
 	}
