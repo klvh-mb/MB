@@ -46,7 +46,6 @@ import com.mnt.exception.SocialObjectNotLikableException;
 
 import domain.CommentType;
 import domain.PostType;
-import domain.SocialObjectType;
 
 public class CommunityController extends Controller{
 
@@ -447,6 +446,9 @@ public class CommunityController extends Controller{
 		if(Boolean.parseBoolean(withPhotos)) {
 			p.ensureAlbumExist();
 		}
+		
+		p.indexPost(Boolean.parseBoolean(withPhotos));
+		
 		return ok(Json.toJson(p.id));
 	}
 	
@@ -493,10 +495,12 @@ public class CommunityController extends Controller{
 		String withPhotos = form.get("withPhotos");
 		
 		Post p = (Post) c.onPost(localUser, questionText, PostType.QUESTION);
-		if(Boolean.getBoolean(withPhotos)) {
+		
+		if(Boolean.parseBoolean(withPhotos)) {
 			p.ensureAlbumExist();
 		}
 		
+		p.indexPost(Boolean.parseBoolean(withPhotos));
 		return ok(Json.toJson(p.id));
 	}
 	

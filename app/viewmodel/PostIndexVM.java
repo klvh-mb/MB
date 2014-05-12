@@ -1,10 +1,12 @@
 package viewmodel;
 
+import indexing.CommentIndex;
+import indexing.PostIndex;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import indexing.CommentIndex;
-import indexing.PostIndex;
+import models.Resource;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -16,6 +18,9 @@ public class PostIndexVM {
 	@JsonProperty("pt") public String postedText;
 	@JsonProperty("n_c") public int noOfComments;
 	@JsonProperty("cs") public List<CommentIndexVM> comments;
+	@JsonProperty("hasImage") public boolean hasImage;
+	@JsonProperty("imgs") public List<Long> images;
+	@JsonProperty("cn") public String communityName;
 	
 	public PostIndexVM(PostIndex post) {
 		this.postId = post.post_id;
@@ -24,6 +29,20 @@ public class PostIndexVM {
 		this.postedText = post.description;
 		this.ownerId = post.owner_id;
 		this.noOfComments = post.noOfComments;
+		this.communityName = post.communityName;
+		this.images = new ArrayList<Long>();
+		
+		List<Resource> resources = null;
+		if(post.hasImages != false ) {
+			this.hasImage = true;
+			resources = Resource.findAllResourceOfFolder(post.folder_id);
+			
+			if(resources.size()>0){
+				for(Resource rs : resources) {
+					this.images.add(rs.id);
+				}
+			}
+		}
 		
 		List<CommentIndexVM> comments = new ArrayList<>();
 		for(CommentIndex comment: post.comments) {

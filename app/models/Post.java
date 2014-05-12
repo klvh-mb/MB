@@ -138,6 +138,23 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		return comment;
 	}
 	
+	public void indexPost(boolean withPhotos) {
+		PostIndex postIndex = new PostIndex();
+		postIndex.post_id = this.id;
+		postIndex.community_id = this.community.id;
+		postIndex.owner_id = this.owner.id;
+		postIndex.description = this.body;
+		postIndex.postedBy = (this.owner.name != null) ?  this.owner.name : "No Name";
+		postIndex.postedOn = this.getCreatedDate();
+	
+		if(withPhotos){
+			postIndex.hasImages = true;
+			postIndex.folder_id = this.folder.id;
+		}
+		
+		postIndex.index();
+	}
+	
 	@JsonIgnore
 	public List<Comment> getCommentsOfPost() {
 		Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 order by date desc");
