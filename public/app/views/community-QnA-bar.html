@@ -67,7 +67,7 @@
 			          		<a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}"/></a>
 		                     <form id="userCommentwrapper" name="userComment" method="post" action="">
 		                      	<label for="User Comment"></label>
-		                     	<textarea class="commentBox" name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." data-ng-model="commentText" rows="1"></textarea>
+		                     	<textarea class="form-control commentBox" name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." data-ng-model="commentText" rows="1"></textarea>
 		                      	<span data-ng-show="commentText.length>1" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="answer_to_question(post.id, commentText)"></i></span>
 		                     </form>
 			          </li>
