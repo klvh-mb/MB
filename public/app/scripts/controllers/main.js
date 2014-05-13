@@ -1199,6 +1199,9 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		usSpinnerService.spin('loading...');
 		$http.post('/community/post/comment', data) 
 			.success(function(post_id) {
+				$('.commentBox').val('');
+				
+				$scope.commentText = "";
 				angular.forEach($scope.community.posts, function(post, key){
 					if(post.id == post_id) {
 						post.n_c++;
@@ -1212,17 +1215,23 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	};
 	
 	$scope.post_on_community = function(id, postText) {
+		
 		usSpinnerService.spin('loading...');
 		var data = {
 			"community_id" : id,
 			"postText" : postText,
 			"withPhotos" : $scope.selectedFiles.length != 0
 		};
+		
+		$scope.postText="";
+		
 		$http.post('/community/post', data)// first create post with post text.
 			.success(function(post_id) {
 				usSpinnerService.stop('loading...');
+				$('.postBox').val('');
+				$scope.postText = "";
 				var post = {"oid" : $scope.community.lu, "pt" : postText, "cn" : $scope.community.n,
-				"p" : $scope.community.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
+						"isLike" : true, "p" : $scope.community.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
 				$scope.community.posts.unshift(post);
 				
 				if($scope.selectedFiles.length == 0) {
@@ -1403,6 +1412,7 @@ minibean.controller('CreateQnACommunityController',function($scope,allAnswersSer
 		$http.post('/communityQnA/question/post', data)// first create post with question text.
 			.success(function(post_id) {
 				usSpinnerService.stop('loading...');
+				$('.postBox').val('');
 				var post = {"oid" : $scope.QnA.lu, "pt" : questionText,"cn" : $scope.community.n, 
 						"p" : $scope.QnA.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
 				$scope.QnA.posts.unshift(post);
@@ -1454,6 +1464,7 @@ minibean.controller('CreateQnACommunityController',function($scope,allAnswersSer
 			
 			$http.post('/communityQnA/question/answer', data) 
 				.success(function(post_id) {
+					$('.commentBox').val('');
 					angular.forEach($scope.QnA.posts, function(post, key){
 						if(post.id == post_id) {
 							post.n_c++;
