@@ -1,4 +1,4 @@
-
+<!-- 
 	<div class="input-group innerB">
 	 	<input type="text" class="form-control " ng-model="query" placeholder="Search contacts">
 		<div class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-search"></i></button></div>
@@ -15,8 +15,8 @@
 							 <h4 class="media-heading"><a data-ng-href="#/community/{{fvm.id}}" class="text-inverse">{{fvm.dn}}</a><img class="pull-right media-object" alt="" data-ng-src="{{fvm.gi}}"></h4>
 							 
 							 <p>
-							 	<!-- <span class="text-success strong"><i class="fa fa-check"></i> Friend</span> &nbsp;  -->
-							 	<!-- Need To add Living in section -->
+							 	<span class="text-success strong"><i class="fa fa-check"></i> Friend</span> &nbsp; 
+							 	Need To add Living in section
 							 	Members({{fvm.mm}})</p> 
 						</div>
 					</div>
@@ -32,4 +32,44 @@
 			</div>
 		</div>
 	</div>
+</div> -->
+
+
+<div class="input-group innerB">
+ 	<input type="text" class="form-control " ng-model="query" placeholder="Search contacts">
+	<div class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-search"></i></button></div>
 </div>
+<div class="row row-merge">
+	<div class="col-md-12 col-lg-6 bg-white border-bottom" ng-repeat="fvm in allResult.fvm | filter:query ">
+		<div class="row" style="height: 50px;">
+			<div class="col-sm-3">
+				<div class="media">
+					<a href="#/community/{{fvm.id}}"><img src="/community-mini-image-by-id/{{fvm.id}}">
+					</a><br>
+				</div>
+			</div>
+			<div class="col-sm-9" style="padding: 0px;">
+					<font><font style="color: #428bca;">{{fvm.dn|characters:15:false}}</font></font>
+					<div class="text-right pull-right" style="padding-top: 5px;padding-right: 10px;">
+	                  	<div ng-show="fvm.isO" class="text-right" style="float: left;">
+							<a data-ng-href="#/editCommunity/{{fvm.id}}"><div class="btn-general">
+								<i class="fa fa-fw fa-edit"></i> Edit 
+							</div></a>
+						</div>
+					</div>
+					<br>
+					<span class="community-attribute ">
+						 <font>
+							 <font data-ng-show="fvm.tp=='OPEN'">Open Community</font>
+							 <font data-ng-show="fvm.tp=='CLOSE'">Closed Community</font>
+						</font>
+					</span>
+					<span class="community-member-counter ">
+						<font>
+							 <font>{{fvm.mm}} members</font>
+						 </font>
+					</span>
+			</div>
+			</div>
+		</div>
+	</div>
