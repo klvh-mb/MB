@@ -1,51 +1,29 @@
 <body style="margin:0; background-color:#F4FBFF;">
-	        
-    <link rel="stylesheet" href="../assets/app/custom-css/friendsCSS.css">
-	<header>
-			<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/headerBar.html'"></div>
-	</header>
-
 	<div class="container-fluid menu-hidden">
 		<div id="content">
 			<div class="innerAll">
 				<div class="row">
-					<div class="col-lg-9 col-md-8">
-						<div style="width: 100%;" ng-controller="UserAboutController">
-							<div class="row">
-						<div class="timeline-cover">	
-							<div class="widget cover image">
-								<div class="widget-body padding-none margin-none">
-									<div class="top">
-											<div class="top">
-												<img data-ng-src="{{coverImage}}"  class="img-responsive" />
-											</div>
-									</div>
-									<div class="photo">
-										<img data-ng-src="{{profileImage}}"  height="90px" class="img-rounded"/>
-									</div>
-
-									<div class="innerAll pull-left border-right" data-ng-show="!isEdit">
-										<h3 class="margin-none">
-                      						{{userInfo.displayName}}
-                   						 </h3>
-                  					</div>
-                				</div>
-              				</div>
-           			 	</div>
-        			</div>
-						
-						</div>
-				                  
-				                  
-                				
-            		  <tabset class="inboxSectionTab">
-    					<tab  heading="My Groups"><div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/myAllCommunitiesSection.html'"></div></tab>
-    					<tab  active="mygroups" heading="Groups"><div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/allCommunitiesSection.html'"></div></tab>
-    					<div class="innerAll pull-right border-right">
-                  				<button class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fa fa-fw  fa-group"></i> Create New</button>
-                  		</div>
-       	    		 </tabset>
-       	    		 </div>
+					<div class="wall-title">
+				        <span class="wall-icon icon-title-community"></span>
+				        	<a ng-click="selectedTab = 1;" style="color: white !important;">
+				        	<font ng-class="{activeTab: selectedTab == 1}">My Groups</font>
+				        	</a>
+				        <span class="wall-icon icon-title-friendwall"></span>
+				        	<a ng-click="selectedTab = 2;" style="color: white !important;">
+				        	<font ng-class="{activeTab: selectedTab == 2}">Groups</font></a>
+				        <span class="pull-right menu-text">
+				        	<a style="color: white !important;">
+				        	<i class="fa fa-fw  fa-group"></i> <font data-toggle="modal" data-target="#myModal">Create New</font></a></span>
+				    </div>
+            
+		            <div ng-show="selectedTab == 1" id="wall" style="height: auto !important;" >
+					   <div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/myAllCommunitiesSection.html'"></div>
+					 </div>
+					 
+					 <div ng-show="selectedTab == 2" >
+					 	<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/allCommunitiesSection.html'"></div>
+					 </div>
+			 
         	      </div>
               </div>
          </div>

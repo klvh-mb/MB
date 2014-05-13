@@ -329,7 +329,27 @@ minibean.service('profilePhotoModal',function( $modal){
 
 
 
-minibean.controller('UserAboutController',function($scope, userAboutService, $http, profilePhotoModal){
+minibean.controller('UserAboutController',function($routeParams, $scope, userAboutService, $http, profilePhotoModal){
+	
+	var tab = $routeParams.tab;
+	
+	if (tab == 'activities' || tab == undefined) {
+		$scope.selectedTab = 1;
+	}
+	
+	if (tab == 'friends' ) {
+		$scope.selectedTab = 3;
+	}
+	
+	if (tab == 'communities' ) {
+		$scope.selectedTab = 2;
+	}
+	
+	if (tab == 'myCommunities' ) {
+		$scope.selectedTab = 2;
+	}
+	
+	
 	var profileImage = "/get-profile-image";
 	var coverImage = "/get-cover-image";
 	$scope.isEdit = true;
@@ -727,11 +747,17 @@ minibean.service('allCommunityWidgetService',function($resource){
 minibean.controller('CommunityWidgetController',function($scope,$routeParams, usSpinnerService, communityService, allCommunityWidgetService, sendJoinRequest , $http, userInfoService){
 	
 	$scope.mygroups = $routeParams.type == "myGroups" ? null : "active" ;
-	
+	var tab = $routeParams.tab;
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.result = communityService.UserCommunitiesNot.get();
 	$scope.allResult = allCommunityWidgetService.UserAllCommunities.get();
-	$scope.selectedTab = 1;
+	if(tab == 'communities'){
+		$scope.selectedTab = 2;
+	}
+	
+	if(tab == 'myCommunities'){
+		$scope.selectedTab = 1;
+	}
 	
 	$scope.send_request = function(id) {
 		usSpinnerService.spin('loading...');
@@ -786,7 +812,7 @@ minibean.controller('UserCommunityWidgetController',function($scope, myNextCommu
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.result = communityWidgetService.UserCommunities.get();
 	$scope.allResult = allCommunityWidgetService.UserAllCommunities.get();
-	
+	$scope.selectedTab = 1;
 	var offsetC = 0;
 	var noMore = false;
 	
