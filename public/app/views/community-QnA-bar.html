@@ -22,7 +22,7 @@
                             </li>
                             <li>
                                 <form id="content-upload-wrapper" name="content-upload-wrapper" class="no-margin no-padding" method="post" action="" >
-                                <textarea cols="45" rows="2" name="content-upload-input" id="content-upload-input" class="general-input-box form-control" placeholder="Ask Question here!" data-ng-model="questionText"></textarea>
+                                <textarea cols="45" rows="2" name="content-upload-input" id="content-upload-input" class="postBox general-input-box form-control" placeholder="Ask Question here!" data-ng-model="questionText"></textarea>
                                 
                                 
 									<div style="background-color: white;" ng-show="QnASelectedFiles != null">
@@ -49,7 +49,7 @@
 			      <div class="general-box">
 			          <ul>
 			              <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}" /><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}" style="color: #428bca !important;">{{post.cn}}</a></p><span class="wall-user-actState-ask" am-time-ago="post.t"></span><div id="wall-forum-info"><span class="shortcut-box text-center">?</span><!-- <span class="wall-forum-post-checked">1925191</span><span class="wall-forum-post-reply">{{post.n_c}}</span> --></div></li>
-			              <li><p class="wall-user-post-text"><a href="#">{{post.pt}}</p>
+			              <li><p class="wall-user-post-text">{{post.pt}}</p>
 			              	   <div data-ng-show="post.hasImage" class="innerAll">
 									<p class="lead"></p>
 									<a data-ng-repeat="imageID in post.imgs" href="">
@@ -58,16 +58,16 @@
 							   </div>
 			              </li>
 			          </ul>
-			          <ul class="wall-user-forum-respond">
+			          <ul>
 			              <ul>
-			                  <li data-ng-repeat="comment in post.cs"><div class="wall-user-forum-comment"><div class="pull-right"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><span class="wall-user-actState-date" am-time-ago="comment.cd"></span></div><div class="comment-box-height"><p class="user-comment"><a href="/#/profile/{{comment.oid}}">{{comment.on}}</a><pre>{{comment.d}}</pre></div>
-			                  <li ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><a href="">View all</a></li></div>
+			                  <li data-ng-repeat="comment in post.cs"><div class="pull-right"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><span class="wall-user-actState-date" am-time-ago="comment.cd"></span></div><div class="comment-box-height"><p class="user-comment"><a href="/#/profile/{{comment.oid}}">{{comment.on}}</a><pre>{{comment.d}}</pre></div>
+			                  <li ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><a href="">View all</a></li>
 			              </ul>
 			          <li>
 			          		<a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}"/></a>
 		                     <form id="userCommentwrapper" name="userComment" method="post" action="">
 		                      	<label for="User Comment"></label>
-		                     	<textarea name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." data-ng-model="commentText" rows="1"></textarea>
+		                     	<textarea class="form-control commentBox" name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." data-ng-model="commentText" rows="1"></textarea>
 		                      	<span data-ng-show="commentText.length>1" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="answer_to_question(post.id, commentText)"></i></span>
 		                     </form>
 			          </li>

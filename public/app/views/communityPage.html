@@ -166,26 +166,23 @@
 						</div>
 					</div>
 					<div class="tab-content row"
-						ng-show="selectedTab1 == 1 && community.isM" id="post" style="width: 573px;">
+						ng-show="selectedTab1 == 1" id="post">
 						<div data-ng-include style="height: 100px;"
 							data-src="'/assets/app/views/community-post-bar.html'"></div>
 					</div>
 					<div class="tab-content"
-						ng-show="selectedTab1 == 2 && community.isM" id="qnapost" style="width: 573px;"
+						ng-show="selectedTab1 == 2" id="qnapost"
 						ng-controller="CreateQnACommunityController">
 						<div data-ng-include style="height: 100px;"
 							data-src="'/assets/app/views/community-QnA-bar.html'"></div>
 					</div>
 					<div class="tab-content"
-						ng-show="selectedTab1 == 3 && community.isM"
+						ng-show="selectedTab1 == 3" id="srchbar"
 						ng-controller="SearchPageController">
 						<div data-ng-include style="height: 100px;"
 							data-src="'/assets/app/views/community-search-bar.html'"></div>
 					</div>
 				</div>
-				
-				
-				
 				<div class="tab-content row" ng-show="selectedTab == 2 ">
 					<div data-ng-controller="CommunityMembersWidgetController"
 						data-ng-include style="width: 100%; height: 50px;"

@@ -123,7 +123,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		commentIndex.post_id = comment.socialObject;
 		commentIndex.comment_id = comment.id;
 		commentIndex.commentText = comment.body;
-		commentIndex.creationDate = formatDate.format(comment.date);
+		commentIndex.creationDate = comment.date.getTime();
 		commentIndex.name = comment.name;
 		commentIndex.owner_id = comment.owner.id;
 		commentIndex.index();

@@ -19,7 +19,7 @@ public class CommentIndex extends Index{
 	@JsonProperty("comment_id")	public Long comment_id;
 	@JsonProperty("oid") public Long owner_id;
 	@JsonProperty("on") public String name;
-	@JsonProperty("cd") public String creationDate;
+	@JsonProperty("cd") public Long creationDate;
 	@JsonProperty("commentText") public String commentText;
 	
 	@Override
@@ -31,7 +31,7 @@ public class CommentIndex extends Index{
 		this.comment_id = (Long) IndexUtils.convertValue(map.get("comment_id"), Long.class);
 		this.owner_id = (Long) IndexUtils.convertValue(map.get("oid"), Long.class);
 		this.name = (String) map.get("on");
-		this.creationDate = (String) map.get("cd");
+		this.creationDate = (Long) IndexUtils.convertValue(map.get("cd"),Long.class);
 		this.commentText = (String) map.get("commentText");
 		return this;
 	}

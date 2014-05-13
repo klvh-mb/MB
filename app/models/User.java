@@ -842,7 +842,7 @@ public class User extends SocialObject implements Subject, Socializable {
 
 	@JsonIgnore
 	public boolean isMemberOf(Community community) {
-		Query query = JPA.em().createQuery("SELECT count(*) from SocialRelation where ((target = ?1 and actor = ?2) or (actor = ?1 and target = ?2)) and action = ?3");
+		Query query = JPA.em().createQuery("SELECT count(*) from SocialRelation where actor = ?1 and target = ?2 and action = ?3");
 		query.setParameter(1, this.id);
 		query.setParameter(2, community.id);
 		query.setParameter(3, SocialRelation.Action.MEMBER);
@@ -896,7 +896,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	public int leaveCommunity(Community community) {
 		Query query = JPA.em().createQuery("SELECT sr FROM SocialRelation sr " +
 				" where sr.actionType=?1 And  sr.action = ?4 And " +
-				" ((sr.target = ?2 and sr.actor = ?3) or (sr.actor = ?2 and sr.target = ?3))", SocialRelation.class
+				" sr.actor = ?2 and sr.target = ?3", SocialRelation.class
 				);
 		query.setParameter(1, SocialRelation.ActionType.GRANT);
 		query.setParameter(2, this.id);
