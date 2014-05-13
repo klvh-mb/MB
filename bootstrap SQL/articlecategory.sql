@@ -10,22 +10,23 @@
 /*!40101 SET NAMES utf8 */;
 /*!40014 SET FOREIGN_KEY_CHECKS=0 */;
 
--- Dumping structure for table parent-social.articlecategory
-CREATE TABLE IF NOT EXISTS `articlecategory` (
+-- Dumping structure for table parent-social.ArticleCategory
+DROP TABLE IF EXISTS `ArticleCategory`;
+CREATE TABLE IF NOT EXISTS `ArticleCategory` (
   `id` bigint(20) NOT NULL auto_increment,
   `description` longtext,
   `name` varchar(255) default NULL,
   `pictureName` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
--- Dumping data for table parent-social.articlecategory: ~5 rows (approximately)
-/*!40000 ALTER TABLE `articlecategory` DISABLE KEYS */;
+-- Dumping data for table parent-social.ArticleCategory: ~5 rows (approximately)
+/*!40000 ALTER TABLE `ArticleCategory` DISABLE KEYS */;
 insert into `ArticleCategory` (`name`,`description`,`pictureName`) values
 ('親子資訊','親子資訊','/assets/app/icons/info.png'), 
 ('家長必讀','家長必讀','/assets/app/icons/info.png'),  
 ('教養專題','教養專題','/assets/app/icons/info.png'),  
 ('分享專區','分享專區','/assets/app/icons/info.png');
-/*!40000 ALTER TABLE `articlecategory` ENABLE KEYS */;
+/*!40000 ALTER TABLE `ArticleCategory` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

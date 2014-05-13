@@ -10,21 +10,22 @@
 /*!40101 SET NAMES utf8 */;
 /*!40014 SET FOREIGN_KEY_CHECKS=0 */;
 
--- Dumping structure for table parent-social.icons
-CREATE TABLE IF NOT EXISTS `icons` (
+-- Dumping structure for table parent-social.Icons
+DROP TABLE IF EXISTS `Icons`;
+CREATE TABLE IF NOT EXISTS `Icons` (
   `id` bigint(20) NOT NULL auto_increment,
   `name` varchar(255) default NULL,
   `url` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
--- Dumping data for table parent-social.icons: ~5 rows (approximately)
-/*!40000 ALTER TABLE `icons` DISABLE KEYS */;
-insert into `icons` (`name`, `url`) values
+-- Dumping data for table parent-social.Icons: ~5 rows (approximately)
+/*!40000 ALTER TABLE `Icons` DISABLE KEYS */;
+insert into `Icons` (`name`, `url`) values
 ('親子資訊','/assets/app/icons/info.png'),                                                                           
 ('家長必讀','/assets/app/icons/info.png'),  
 ('教養專題','/assets/app/icons/info.png'),  
 ('分享專區','/assets/app/icons/info.png');
-/*!40000 ALTER TABLE `icons` ENABLE KEYS */;
+/*!40000 ALTER TABLE `Icons` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
