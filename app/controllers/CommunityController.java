@@ -53,14 +53,14 @@ public class CommunityController extends Controller{
 	public static Result getUserUnJoinCommunity() {
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
-		for(Community community : localUser.getListOfNotJoinedCommunities(0,3)) {
+		for(Community community : localUser.getListOfNotJoinedCommunities(0,5)) {
 			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name,community.communityType);
 			vm.isP = localUser.isJoinRequestPendingFor(community);
 			communityList.add(vm);
 		}
 		
 		CommunitiesParentVM fwVM = new CommunitiesParentVM(localUser.getListOfNotJoinedCommunities().size(), communityList);
-		if(localUser.getListOfNotJoinedCommunities().size() < 3){
+		if(localUser.getListOfNotJoinedCommunities().size() < 5){
 			fwVM.isMore = true;
 		}else{
 			fwVM.isMore = false;
@@ -200,12 +200,12 @@ public class CommunityController extends Controller{
 			communityList.add(new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name,community.communityType));
 			++count;
 			
-			if(count == 3) {
+			if(count == 5) {
 				break;
 			}
 		}
 		CommunitiesParentVM fwVM = new CommunitiesParentVM(localUser.getListOfNotJoinedCommunities().size(), communityList);
-		if(count < 3){
+		if(count < 5){
 			fwVM.isMore = true;
 		}else {
 			fwVM.isMore = false;
@@ -224,7 +224,7 @@ public class CommunityController extends Controller{
 			communityList.add(vm);
 			++count;
 			vm.isP = localUser.isJoinRequestPendingFor(community);
-			if(count == 3) {
+			if(count == 5) {
 				break;
 			}
 		}
@@ -576,7 +576,7 @@ public class CommunityController extends Controller{
 		List<CommunitiesWidgetChildVM> communityVM = new ArrayList<>();
 		
 		final User localUser = Application.getLocalUser(session());
-		List<Community> communities = localUser.getListOfNotJoinedCommunities(start, 3);
+		List<Community> communities = localUser.getListOfNotJoinedCommunities(start, 5);
 		
 		for(Community c: communities) {
 			CommunitiesWidgetChildVM comVM = new CommunitiesWidgetChildVM(c.id, (long)c.getMembers().size(), c.name,c.communityType);
