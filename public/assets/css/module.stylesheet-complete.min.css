@@ -320,8 +320,8 @@ html.app .layout-app .col-scrollable{overflow-y:auto;overflow-x:hidden}
 html.app .layout-app .col-unscrollable{overflow-y:hidden}
 html.app.footer-sticky .layout-app{bottom:48px}
 }
-.container-fluid{background:#f6f6f6;padding-bottom:12px}
-#content{position:relative;overflow:hidden;min-width:320px;min-height:500px;padding:0 0 48px;background:#f6f6f6;z-index:1}
+.container-fluid{background:inherit;padding-bottom:12px}
+#content{position:relative;overflow:hidden;min-width:320px;min-height:500px;padding:0 0 48px;background:inherit;z-index:1}
 .sidebar.sidebar-social #content{margin-left:250px}
 .app #content{padding-top:56px}
 @media (max-width:767px){.container-fluid{position:relative;overflow-x:hidden}

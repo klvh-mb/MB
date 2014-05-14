@@ -18,11 +18,11 @@ public class SocialActivity {
 				notification.notificationType = NotificationType.COMMUNITY_JOIN_APPROVED;
 				notification.message = "You are now member of "
 						+ socialAction.targetname;
-				if(socialAction.memberJoinedOpenCommunity) {
+				//if(socialAction.memberJoinedOpenCommunity) {
 					notification.readed = false;
-				} else {
-					notification.readed = true;
-				}
+				//} else {
+				//	notification.readed = true;
+				//}
 				notification.save();
 			}
 				break;

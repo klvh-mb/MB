@@ -10,7 +10,7 @@
 	<div  data-ng-repeat="post in newsFeeds.posts">
 		<div class="general-box" data-ng-show="post.type=='SIMPLE'">
 			<ul>
-	            <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}"/><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span></p><span class="wall-user-actState-date" am-time-ago="post.t"></span><span class="wall-user-actState-time"></span></li>
+	            <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}"/><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span></p><span class="wall-user-actState-date" am-time-ago="post.t"></span><span class="wall-user-actState-time"></span></li>
 	            <li><p class="wall-user-post-text"><font><font style="color: #324fe1;">{{post.pt}}</font></font></p>
 	            	<div data-ng-show="post.hasImage" class="innerAll">
 						<p class="lead"></p>
@@ -31,9 +31,9 @@
 	             <li><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}"/></a>
 	             		<form id="userCommentwrapper" name="userComment">
 		                     <label for="User Comment"></label>
-		                     <textarea name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." rows="1" data-ng-model="commentText"></textarea>
+		                     <textarea name="userCommentfield" id="userCommentfield" class="general-textfield" placeholder="Write a comment..." cols="80" rows="1" style="width: 85%; overflow: hidden;line-height: 2.3em;height: 35px; border-radius: 10px;padding: 3px 35px 7px 7px;" data-ng-model="commentText"></textarea>
 		                     <!-- <input id="submit-userComment" name="submit" type="button" data-ng-click="comment_on_post(post.id, commentText)"/> -->
-		                     <span data-ng-show="commentText.length>1" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText)"></i></span>
+		                     <span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText); commentText=''"></i></span>
 	                    </form>
 	              </li>
 	         </ul>
@@ -42,7 +42,7 @@
 		<div id="wall-forum" data-ng-show="post.type=='QUESTION'">
 		      <div class="general-box">
 		          <ul>
-		              <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}" /><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-ask"></span></p><span class="wall-user-actState-date" am-time-ago="post.t"></span><span class="wall-forum-post-last-time">5</span><div id="wall-forum-info">
+		              <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}" /><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/question" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-ask"></span></p><span class="wall-user-actState-date" am-time-ago="post.t"></span><span class="wall-forum-post-last-time">5</span><div id="wall-forum-info">
 		              	<span class="shortcut-box text-center">?</span>
 		              	<!-- <span class="wall-forum-post-checked">{{post.nov}}</span> -->
 		              	<span class="wall-forum-post-reply">{{post.n_c}}</span></div></li>
@@ -63,9 +63,9 @@
                         </ul>
 	                    <li><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}" /></a>
 	                                <form id="userCommentwrapper" name="userComment" method="post" action="">
-	                                <label for="User Comment"></label>
-	                                <textarea type="text" name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." data-ng-model="commentText" rows="1"></textarea>
-	                                <span data-ng-show="commentText.length>1" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText)"></i></span>
+		                                <label for="User Comment"></label>
+		                                <textarea type="text" name="userCommentfield" class="general-textfield" id="userCommentfield" placeholder="Write a comment..." cols="80" data-ng-model="commentText" rows="1" style="width: 85%;height: 35px; overflow: hidden;line-height: 2.3em; border-radius: 10px;padding: 7px 35px 7px 7px;"></textarea>
+		                                <span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText); commentText=''"></i></span>
 	                                </form>
 	                     </li>
                     </ul>
@@ -142,5 +142,9 @@
   </div>
 </div>
 <style>
-
+.general-textfield:focus {
+    outline: none;
+    box-shadow: 0 0 10px #a37cde !important;
+    border: thin solid #a37cde !important;
+}
 </style>

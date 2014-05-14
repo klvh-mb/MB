@@ -27,7 +27,7 @@
 	<input style="visibility: hidden;" id="post-photo-id" type="file"  name="post-photo" ng-file-select="onFileSelect($files)"/>
 </div> -->
 
-<div  class="content-uploader" class="tab-content">
+<div  class="content-uploader general-box tab-content">
                         <ul ng-show="community.isM == true || community.isO == true">
                             <li>
                                 <a id="upload-post" ><b><span class="icon-title-uploader-writePost"></span>Write Posts </b></a>
@@ -36,7 +36,7 @@
                             </li>
                             <li>
                                 <form id="content-upload-wrapper" name="content-upload-wrapper" class="no-margin no-padding" method="post" action="" >
-                                <textarea cols="45" rows="2" name="content-upload-input" id="content-upload-input" class="postBox general-input-box form-control" placeholder="Share your mood" data-ng-model="postText"></textarea>
+                                <textarea cols="45" rows="2" style="font-size: small; margin-bottom: 1%;" name="content-upload-input" id="content-upload-input" class="postBox inputBoxFocus form-control" placeholder="Share your mood...." data-ng-model="postText"></textarea>
                                 
                                 
 									<div style="background-color: white;" ng-show="selectedFiles != null">
@@ -63,15 +63,15 @@
 <div id="wall-forum">
 		<div class="general-box">
 			<ul>
-	            <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}"/><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span></p>
+	            <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}"/><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span></p>
 	            <span class="wall-user-actState-date" am-time-ago="post.t"></span></li>
 	            <li><p ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></p></li>
 	            <li><div data-ng-show="post.hasImage" class="innerAll">
 						<p class="lead"></p>
-						<a data-ng-repeat="imageID in post.imgs" href="">
-							<img width="90" data-ng-src="/get-post-image-by-id/{{imageID}}" alt="" class="img-post">
+						<a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
+							<img width="90" data-ng-src="/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="" class="img-post">
 						</a>
-				     </div>
+				   </div>
 				</li>
 				<li><a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)" style="color: #428bca !important;">Like</a></li>
 				<li><a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)" style="color: #428bca !important;">Unlike</a></li>
@@ -85,11 +85,11 @@
 	                 <span class="wall-user-actState-date" am-time-ago="comment.cd"></span><span class="wall-user-actState-time"></span><a class="btn-like" href="#" style="color: #428bca !important;">Like</a></div></li>
 	             
 	             <li><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}"/></a>
-	             		<form id="userCommentwrapper" name="userComment" style=" border-radius: 10px;">
-		                     <textarea style="width:80%; padding: 7px 35px 7px 7px; border-radius: 10px;" name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." rows="1" class="form-control commentBox" data-ng-model="commentText"></textarea>
-		                     <!-- <input id="submit-userComment" name="submit" type="button" data-ng-click="comment_on_post(post.id, commentText)"/> -->
+	                    <form id="userCommentwrapper" name="userComment" method="post" action="">
+                               <label for="User Comment"></label>
+                               <textarea type="text" name="userCommentfield" id="userCommentfield" class="general-textfield commentBox"  placeholder="Write a comment..." cols="80" data-ng-model="commentText" rows="1" style="width: 84% !important;border-radius: 10px;overflow: hidden;line-height: 2em; padding: 3px 35px 7px 7px !important;"></textarea>
+                               <span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText)); commentText=''"></i></span>
 	                    </form>
-	                    <span data-ng-show="commentText.length>1" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText)"></i></span>
 	              </li>
 	              </ul>
 	         </ul>
@@ -100,10 +100,40 @@
 <span ng-show="isBusy" spinner-start-active="1" us-spinner="{top: 'inherit'}" ></span>
 </div>
 
+<div class="modal fade" id="imageModal" data-backdrop="false">>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel"></h4>
+      </div>
+      <div class="modal-body">
+      		<div>
+        		<img data-ng-src="/get-original-post-image-by-id/{{img_id}}" alt="" style="max-height: 75%;width: 100%;">
+        	</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 <style type="text/css">
-	.partial_fade {
-		opacity: 0.6 !important;
+.partial_fade {
+	opacity: 0.6 !important;
+}
+#content-upload-input:focus {
+   	border: 2px solid #8DC3F1 !important;
+}
+
+.general-textfield:focus {
+    outline: none;
+    box-shadow: 0 0 10px #a37cde !important;
+    border: thin solid #a37cde !important;
+}
+
+.ui-match { 
+	background: rgba(88, 144, 255, .15); 
+	border-bottom: 1px solid rgba(88, 144, 255, .3);
 	}
-	
-	.ui-match { background: rgba(88, 144, 255, .15); border-bottom: 1px solid rgba(88, 144, 255, .3);}
 </style>
