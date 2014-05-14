@@ -1,14 +1,5 @@
 
  <div class="col-lg-12 col-md-12" ng-show="community.isM && community.typ == 'OPEN' || community.isM == false && community.typ == 'OPEN' || community.isM && community.typ == 'CLOSE' || community.isO && community.typ == 'CLOSE'">
-	 <form class="row" ng:submit="search_and_highlight(highlightQuery)">
-		<div class="input-group" style="margin-bottom: 1%; margin-left: 2%; width: 96%%;">
-			<input type="text" class="form-control" placeholder="Search in Moment" data-ng-model="highlightQuery">
-			
-			<span class="input-group-btn">
-	        	<button class="btn btn-default" type="button" data-ng-show="highlightQuery.length>0" data-ng-click="search_and_highlight(highlightQuery)">search it!</button>
-	      	</span>								
-		</div>
-	</form>
 	
 	<div class="row" id="wall-forum" data-ng-repeat="post in community.searchPosts">
 		<div class="general-box">

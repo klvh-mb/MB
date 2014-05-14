@@ -513,7 +513,9 @@ minibean.controller('CreateCommunityController',function($scope, $location, $htt
 		$scope.isChosen = true;
 		$scope.formData.iconName = img;
 	}
-	
+	$scope.showImage = function(imageId) {
+		$scope.img_id = imageId;
+	}
 	$scope.onFileSelect = function($files) {
 		$scope.selectedFiles = $files;
 		$scope.formData.photo = 'cover-photo';
@@ -957,6 +959,15 @@ minibean.controller('SearchPageController', function($scope, $routeParams, commu
 		usSpinnerService.stop('loading...');
 	});
 	
+	$scope.$watch('search_trigger', function(query) {
+	       if(query != undefined) {
+	    	   $scope.search_and_highlight(query);
+	       }
+	   });
+	$scope.showImage = function(imageId) {
+		$scope.img_id = imageId;
+	}
+	
 	var offset = 0;
 	var searchPost = true;
 	$scope.search_and_highlight = function(query) {
@@ -1094,6 +1105,10 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	$scope.$on('$viewContentLoaded', function() {
 		usSpinnerService.spin('loading...');
 	});
+	
+	$scope.showImage = function(imageId) {
+		$scope.img_id = imageId;
+	}
 	
 	var coverImage = "/get-cover-community-image-by-id/"+$routeParams.id;
 	$scope.coverImage = coverImage;

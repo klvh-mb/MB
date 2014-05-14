@@ -68,10 +68,10 @@
 	            <li><p ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></p></li>
 	            <li><div data-ng-show="post.hasImage" class="innerAll">
 						<p class="lead"></p>
-						<a data-ng-repeat="imageID in post.imgs" href="">
-							<img width="90" data-ng-src="/get-post-image-by-id/{{imageID}}" alt="" class="img-post">
+						<a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
+							<img width="90" data-ng-src="/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="" class="img-post">
 						</a>
-				     </div>
+				   </div>
 				</li>
 				<li><a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)" style="color: #428bca !important;">Like</a></li>
 				<li><a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)" style="color: #428bca !important;">Unlike</a></li>
@@ -88,7 +88,7 @@
 	                    <form id="userCommentwrapper" name="userComment" method="post" action="">
                                <label for="User Comment"></label>
                                <textarea type="text" name="userCommentfield" id="userCommentfield" class="general-textfield commentBox"  placeholder="Write a comment..." cols="80" data-ng-model="commentText" rows="1" style="width: 84% !important;border-radius: 10px;overflow: hidden;line-height: 2em; padding: 3px 35px 7px 7px !important;"></textarea>
-                               <span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText)"></i></span>
+                               <span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText)); commentText=''"></i></span>
 	                    </form>
 	              </li>
 	              </ul>
@@ -99,6 +99,24 @@
 
 <span ng-show="isBusy" spinner-start-active="1" us-spinner="{top: 'inherit'}" ></span>
 </div>
+
+<div class="modal fade" id="imageModal" data-backdrop="false">>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel"></h4>
+      </div>
+      <div class="modal-body">
+      		<div>
+        		<img data-ng-src="/get-original-post-image-by-id/{{img_id}}" alt="" style="max-height: 75%;width: 100%;">
+        	</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 <style type="text/css">
 .partial_fade {
