@@ -165,7 +165,7 @@
 							<font style="color: white;" ng-class="{activeTab: selectedTab1 == 3}">Search</font></a>
 						</div>
 					</div>
-					<div class="tab-content row"
+					<div class="tab-content"
 						ng-show="selectedTab1 == 1" id="post">
 						<div data-ng-include style="height: 100px;"
 							data-src="'/assets/app/views/community-post-bar.html'"></div>
@@ -433,10 +433,14 @@
 }
 
 .container-fluid {
+	background: inherit !important;
 	padding-right: 0px !important;
 	padding-left: 0px !important;
 	margin-right: auto;
 	margin-left: auto;
+}
+#content{
+	background: inherit !important;	
 }
 .general-box {
 	border-radius: 10px;
