@@ -1,5 +1,7 @@
 package viewmodel;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import models.Notification;
 
 public class NotificationVM {
@@ -9,6 +11,7 @@ public class NotificationVM {
 	public String msg;
 	public String dn;
 	public String tp;
+	@JsonProperty("cn") public String communityName;
 	
 	public NotificationVM(Notification no) {
 		this.id = no.socialAction.actor;
@@ -17,5 +20,6 @@ public class NotificationVM {
 		this.dn = no.socialAction.getActorObject().name;
 		this.tp = no.notificationType.name();
 		this.msg = no.message;
+		this.communityName = no.socialAction.getTargetObject().name;
 	}
 }

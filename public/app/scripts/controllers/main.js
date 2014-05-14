@@ -1229,7 +1229,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 						post.n_c++;
 						var comment = {"oid" : $scope.community.lu, "d" : commentText, "on" : $scope.community.lun, 
 							"cd" : new Date(), "n_c" : post.n_c};
-						post.cs.unshift(comment);
+						post.cs.push(comment);
 				}
 				usSpinnerService.stop('loading...');	
 			});
@@ -1857,7 +1857,7 @@ minibean.controller('NewsFeedController', function($scope, $interval, $http, all
 						post.n_c++;
 						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName, 
 								"cd" : new Date(), "n_c" : post.n_c};
-					post.cs.unshift(comment);
+					post.cs.push(comment);
 				}
 				usSpinnerService.stop('loading...');	
 			});
@@ -1938,7 +1938,7 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $int
 						post.n_c++;
 						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName, 
 								"cd" : new Date(), "n_c" : post.n_c};
-					post.cs.unshift(comment);
+					post.cs.push(comment);
 				}
 				usSpinnerService.stop('loading...');	
 			});

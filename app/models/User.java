@@ -852,7 +852,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	
 	@JsonIgnore
 	public boolean isJoinRequestPendingFor(Community community) {
-		Query query = JPA.em().createQuery("SELECT count(*) from SocialRelation where ((target = ?1 and actor = ?2) or (actor = ?1 and target = ?2)) " +
+		Query query = JPA.em().createQuery("SELECT count(*) from SocialRelation where (actor = ?1 and target = ?2) " +
 				"and actionType = ?3");
 		query.setParameter(1, this.id);
 		query.setParameter(2, community.id);
