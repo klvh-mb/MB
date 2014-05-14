@@ -1101,8 +1101,15 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id}, function(){
 		usSpinnerService.stop('loading...');
 	});
+	var tab = $routeParams.tab;
+	if(tab == 'moment'){
+		$scope.selectedTab1 =1;
+	}
+	if(tab == 'question'){
+		$scope.selectedTab1 =2;
+	}
 	$scope.selectedTab =1;
-	$scope.selectedTab1 =1;
+	
 	
 	$scope.nonMembers = [];
 	$scope.search_unjoined_users = function(comm_id, query) {
@@ -1207,7 +1214,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 						post.n_c++;
 						var comment = {"oid" : $scope.community.lu, "d" : commentText, "on" : $scope.community.lun, 
 							"cd" : new Date(), "n_c" : post.n_c};
-						post.cs.push(comment);
+						post.cs.unshift(comment);
 				}
 				usSpinnerService.stop('loading...');	
 			});
@@ -1835,7 +1842,7 @@ minibean.controller('NewsFeedController', function($scope, $interval, $http, all
 						post.n_c++;
 						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName, 
 								"cd" : new Date(), "n_c" : post.n_c};
-					post.cs.push(comment);
+					post.cs.unshift(comment);
 				}
 				usSpinnerService.stop('loading...');	
 			});
@@ -1916,7 +1923,7 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $int
 						post.n_c++;
 						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName, 
 								"cd" : new Date(), "n_c" : post.n_c};
-					post.cs.push(comment);
+					post.cs.unshift(comment);
 				}
 				usSpinnerService.stop('loading...');	
 			});

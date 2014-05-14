@@ -44,7 +44,7 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/visit-profile.html',
     	controller : 'ProfileController'  
       })
-      .when('/community/:id',{
+      .when('/community/:id/:tab',{
     	templateUrl: '/assets/app/views/communityPage.html',
     	controller : 'CommunityPageController'  
       })
