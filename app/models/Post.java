@@ -111,7 +111,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		comment.save();
 		this.comments.add(comment);
 		JPA.em().merge(this);
-		
+		try {
 		IndexQuery<PostIndex> indexQuery = PostIndex.find.query();
 		indexQuery.setBuilder(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), 
 				FilterBuilders.termFilter("post_id", comment.socialObject)));
@@ -129,12 +129,18 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		commentIndex.index();
 		
 		//hard-coding
-		PostIndex pi = postIndex.getResults().get(0);
-		pi.noOfComments = Post.findById(comment.socialObject).comments.size();
-		pi.comments.add(commentIndex);
-		pi.index();
+		if(postIndex.getResults().size() > 0) {
+			PostIndex pi = postIndex.getResults().get(0);
+			pi.noOfComments = Post.findById(comment.socialObject).comments.size();
+			pi.comments.add(commentIndex);
+			pi.index();
+		}
+		} catch(Exception e) {
+			// Ideally code should not land here. this will happen in case of data inconsistency
+			System.out.println("Ideally code should not land here. this will happen in case of data inconsistency " + e.getMessage());
+		}
 		
-		PostIndex.find.search(indexQuery);
+		//PostIndex.find.search(indexQuery);
 		return comment;
 	}
 	
@@ -160,6 +166,13 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 order by date desc");
 		q.setParameter(1, this.id);
 		return (List<Comment>)q.getResultList();
+	}
+	
+	@JsonIgnore
+	public List<Comment> getCommentsOfPost(int limit) {
+		Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 order by date desc" );
+		q.setParameter(1, this.id);
+		return (List<Comment>)q.setMaxResults(limit).getResultList();
 	}
 	
 	public Resource addPostPhoto(File source) throws IOException {
