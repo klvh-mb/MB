@@ -2,7 +2,7 @@
 
 var minibean = angular.module('minibean');
 
-minibean.controller('CreateArticleController',function($scope,$http, articleCategoryService,usSpinnerService){
+minibean.controller('CreateArticleController',function($scope,$http, $location, articleCategoryService,usSpinnerService){
 	$scope.article;
 	$scope.submitBtn = "Save";
 	
@@ -40,6 +40,7 @@ minibean.controller('CreateArticleController',function($scope,$http, articleCate
 					$scope.uniqueName = false;
 					$scope.categoryNotChoose = false;
 					usSpinnerService.stop('loading...');
+					$location.path('/');
 				}).error(function(data, status, headers, config) {
 			    	if( status == 505 ) {
 			    		$scope.uniqueName = true;
@@ -137,7 +138,7 @@ minibean.service('ArticleService',function($resource){
 });
 
 
-minibean.controller('EditArticleController',function($scope,$routeParams, ArticleService,articleCategoryService,$http,usSpinnerService){
+minibean.controller('EditArticleController',function($scope,$routeParams, $location, ArticleService,articleCategoryService,$http,usSpinnerService){
 	$scope.submitBtn = "Save";
 	$scope.article = ArticleService.ArticleInfo.get({id:$routeParams.id});
 	$scope.articleCategorys = articleCategoryService.getAllArticleCategory.get();
@@ -170,6 +171,7 @@ minibean.controller('EditArticleController',function($scope,$routeParams, Articl
 		return $http.post('/editArticle', $scope.article).success(function(data){
 			$scope.submitBtn = "Done";
 			usSpinnerService.stop('loading...');
+			$location.path('/');
 		});
 	}
 });

@@ -58,7 +58,9 @@ public class ArticleController extends Controller {
 				article.isFeatured = false;
 		try{
 			article.targetAge = Integer.parseInt(dataToUpdate.get("targetAge"));
-		}catch(NumberFormatException e){}
+		}catch(NumberFormatException e){
+			e.printStackTrace();
+			}
 		ArticleCategory ac = ArticleCategory.getCategoryById(Long.parseLong(dataToUpdate.get("category.id")));
 		article.category = ac;
 		article.description = dataToUpdate.get("description");
