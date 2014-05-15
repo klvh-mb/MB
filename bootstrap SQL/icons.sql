@@ -11,7 +11,7 @@
 /*!40014 SET FOREIGN_KEY_CHECKS=0 */;
 
 -- Dumping structure for table parent-social.Icons
-DROP TABLE IF EXISTS `Icons`;
+-- DROP TABLE IF EXISTS `Icons`;
 CREATE TABLE IF NOT EXISTS `Icons` (
   `id` bigint(20) NOT NULL auto_increment,
   `name` varchar(255) default NULL,

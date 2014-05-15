@@ -11,7 +11,7 @@
 /*!40014 SET FOREIGN_KEY_CHECKS=0 */;
 
 -- Dumping structure for table parent-social.ArticleCategory
-DROP TABLE IF EXISTS `ArticleCategory`;
+-- DROP TABLE IF EXISTS `ArticleCategory`;
 CREATE TABLE IF NOT EXISTS `ArticleCategory` (
   `id` bigint(20) NOT NULL auto_increment,
   `description` longtext,
