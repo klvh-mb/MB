@@ -46,6 +46,7 @@ import com.mnt.exception.SocialObjectNotLikableException;
 
 import domain.CommentType;
 import domain.PostType;
+import domain.SocialObjectType;
 
 public class CommunityController extends Controller{
 
@@ -97,9 +98,8 @@ public class CommunityController extends Controller{
 	public static Result getCommunityInfoById(Long id) {
 		final User localUser = Application.getLocalUser(session());
 		final Community community = Community.findById(id);
-		//if(community.objectType == SocialObjectType.COMMUNITY) {
-		if(localUser.isMemberOf(community) || community.owner.id == localUser.id || community.communityType.toString().equals("OPEN") && localUser.isMemberOf(community) == false || community.communityType.toString().equals("CLOSE") && localUser.isMemberOf(community) == true)
-		{
+		if(community.objectType == SocialObjectType.COMMUNITY) {
+		//if(localUser.isMemberOf(community) || community.owner.id == localUser.id || community.communityType.toString().equals("OPEN") && localUser.isMemberOf(community) == false || community.communityType.toString().equals("CLOSE") && localUser.isMemberOf(community) == true){
 			return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
 		}
 		else
@@ -680,7 +680,7 @@ public class CommunityController extends Controller{
 		User loggedUser = Application.getLocalUser(session());
 		Post post = Post.findById(post_id);
 		post.noOfLikes--;
-		post.onUnlikedBy(loggedUser);
+		loggedUser.doUnLike(post_id, post.objectType);
 		return ok();
 	}
 }

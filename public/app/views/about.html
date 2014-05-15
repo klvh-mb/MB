@@ -133,7 +133,7 @@
     <div id="header">
         <div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/headerBar.html'"></div>
     </div>
-    <div class="themeA-container">
+    <div class="themeA-container" style="top: 55px;">
         <div class="row">
         <div class="col-md-6 col-sm-6 col-xs-6">
             <div id="profile-header">
@@ -173,6 +173,7 @@
             <!--Wall End -->
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4 ">
+        	<div class="col-md-12 col-sm-12 col-xs-12 ">
             <div id="profile-about" class="general-box">
                 <form role="form" editable-form name="profile_data" onaftersave="updateUserProfileData($data)">
                 <div class="con-title">
@@ -281,7 +282,8 @@
             
 			</form>
         </div>
-        <div id="newCommunity" class="row tm">
+        </div>
+        <div id="newCommunity">
 				<div class="col-lg-12 col-md-12"
 					ng-controller="UnknownCommunityWidgetController">
 					<div data-ng-include style="width: 100%;"

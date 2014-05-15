@@ -24,8 +24,8 @@
             
             <div class="panel panel-default">
 				<div class="row tm innerAll"><h4>  Leave a Reply</h4></div>
-					<div data-ng-click="get_all_comments(article.id)" class="bg-gray innerAll border-top border-bottom text-small ">
-						<span>View all <a class="text-primary">{{article.n_c}} Comments</a></span>
+					<div ng-show="article.n_c > 3" data-ng-click="get_all_comments(article.id)" class="bg-gray innerAll border-top border-bottom text-small ">
+						<span style="cursor: pointer;">View all <a class="text-primary"></a></span>
 					</div>
 				<div data-ng-repeat="comment in article.cs" class="media border-bottom margin-none bg-gray">
 						<a href="" class="pull-left innerAll half">
@@ -33,11 +33,11 @@
 						</a>
 					<div class="media-body innerTB">
 						<a href="" class="strong text-inverse">{{comment.on}}</a>  <small class="text-muted ">wrote on {{comment.cd | date: 'dd MMM, yyyy'}}</small>
-					<div>- {{comment.d}}</div>
+					<pre  ng-bind-html="comment.d | highlight: highlightText"></pre>
 					</div>
 				</div>
 				<textarea class="form-control" placeholder="Comment here..." data-ng-model="commentText"></textarea>
-				<button data-ng-show="commentText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="comment_on_article(article.id, commentText)">comment</button>
+				<button data-ng-show="commentText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="comment_on_article(article.id, commentText);commentText=''">comment</button>
 			</div>
 			
             <div id="relatePost" class="general-box">
@@ -76,3 +76,10 @@
 	<div id="back-to-top">
         <a href="#"><span class="icon-title-arrow-up"></span>Top</a>
     </div>
+    
+    
+<style>  
+  pre{
+	font-family: sans-serif !important;
+}
+</style>

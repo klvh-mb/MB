@@ -30,7 +30,7 @@
 <div  class="content-uploader general-box tab-content">
                         <ul ng-show="community.isM == true || community.isO == true">
                             <li>
-                                <a id="upload-post" ><b><span class="icon-title-uploader-writePost"></span>Write Posts </b></a>
+                                <a id="upload-post" style="float:left"><b><span class="icon-title-uploader-writePost"></span>Write Posts </b></a>
                                 <span class="divider-cus"></span>
                                 <a id="upload-image"><b><span class="icon-title-uploader-upImage" ></span><i data-ng-show="selectedFiles.length < 3" data-ng-click="postPhoto()">Add photos</i></b></a>
                             </li>
@@ -58,14 +58,14 @@
 
 
 
-<div infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1' style="margin-left: 1%;">	
+<div infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1' >	
 <div  data-ng-repeat="post in community.posts">
 <div id="wall-forum">
 		<div class="general-box">
 			<ul>
 	            <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}"/><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span></p>
 	            <span class="wall-user-actState-date" am-time-ago="post.t"></span></li>
-	            <li><p ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></p></li>
+	            <li><pre ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></pre></li>
 	            <li><div data-ng-show="post.hasImage" class="innerAll">
 						<p class="lead"></p>
 						<a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
@@ -89,7 +89,7 @@
                                <label for="User Comment"></label>
                                <textarea type="text" name="userCommentfield" id="userCommentfield" class="general-textfield commentBox"  placeholder="Write a comment..." cols="80" data-ng-model="commentText" rows="1" style="width: 84% !important;border-radius: 10px;overflow: hidden;line-height: 2em; padding: 3px 35px 7px 7px !important;"></textarea>
                                <span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right">
-                               <i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText);"></i></span>
+                               <i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText); commentText='';"></i></span>
 	                    </form>
 	                    
 	                    <!-- <form id="userCommentwrapper" name="userComment" style=" border-radius: 10px;">
@@ -125,9 +125,11 @@
 
 
 <style type="text/css">
+
 .partial_fade {
 	opacity: 0.6 !important;
 }
+
 #content-upload-input:focus {
    	border: 2px solid #8DC3F1 !important;
 }
@@ -142,4 +144,8 @@
 	background: rgba(88, 144, 255, .15); 
 	border-bottom: 1px solid rgba(88, 144, 255, .3);
 	}
+	
+pre{
+	font-family: sans-serif !important;
+}
 </style>

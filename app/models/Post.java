@@ -68,11 +68,6 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		recordLike(user);
 	}
 	
-	@Override
-	public void onUnlikedBy(User user) {
-		recordUnlike(user);
-	}
-	
 	public Post(User actor, String post , Community community) {
 		this.owner = actor;
 		this.body = post;
@@ -163,7 +158,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
 	
 	@JsonIgnore
 	public List<Comment> getCommentsOfPost() {
-		Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 order by date desc");
+		Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 ");
 		q.setParameter(1, this.id);
 		return (List<Comment>)q.getResultList();
 	}
@@ -257,7 +252,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		q.setParameter(1, Action.LIKED);
 		q.setParameter(2, user.id);
 		q.setParameter(3, this.id);
-		q.setParameter(4, SocialObjectType.POST);
+		q.setParameter(4, this.objectType);
 		
 		SocialRelation sr = null;
 		try {
