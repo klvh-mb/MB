@@ -68,21 +68,6 @@ public abstract class SocialObject extends domain.Entity implements
 		action.validateUniquenessAndCreate();
 	}
 	
-	protected final void recordUnlike(User user) {
-		
-		Query query = JPA.em().createQuery("SELECT sr FROM SocialRelation sr " +
-				" where sr.actionType=?1 And " +
-				" ((sr.target = ?2 and sr.actor = ?3) or (sr.actor = ?2 and sr.target = ?3))", SocialRelation.class
-				);
-		query.setParameter(1, SocialRelation.Action.LIKED);
-		query.setParameter(2, this.id);
-		query.setParameter(3, user.id);
-		
-		SocialRelation action = new SocialRelation(user, this);
-		action.action = SocialRelation.Action.UNLIKED;
-		action.createOrUpdateForTargetAndActorPair();
-	}
-
 	protected final void recordJoinRequest(User user) {
 		SocialRelation action = new SocialRelation(user, this);
 		action.actionType = SocialRelation.ActionType.JOIN_REQUESTED;
