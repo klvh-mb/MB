@@ -175,7 +175,7 @@
 				        
 				        <a ng-switch-when="COMMUNITY_JOIN_REQUEST" class="pull-left" ng-href="#/profile/{{request.id}}"><img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{request.id}}" alt="50x50" width="50"></a>
 				        
-				        <a ng-switch-when="COMMUNITY_INVITE_REQUEST" class="pull-left" ng-href="#/community/{{request.id}}"><img class="media-object thumb" data-ng-src="/community-mini-image-by-id/{{request.mm}}" alt="50x50" width="50"></a>
+				        <a ng-switch-when="COMMUNITY_INVITE_REQUEST" class="pull-left" ng-href="#/community/{{request.id}}/moment"><img class="media-object thumb" data-ng-src="/community-mini-image-by-id/{{request.mm}}" alt="50x50" width="50"></a>
 				        
 						<div class="media-body" data-ng-init="request.isLoadingEnable = false">
 				        	
@@ -196,7 +196,7 @@
 				            
 				            <a ng-switch-when="COMMUNITY_JOIN_REQUEST" style="margin-right: 0px !important;" ng-href="#/profile/{{request.id}}"><h5 class="media-heading">{{request.dn}}</h5></a>
 				            
-				            <a ng-switch-when="COMMUNITY_INVITE_REQUEST" style="margin-right: 0px !important;" ng-href="#/community/{{request.id}}"><h5 class="media-heading">{{request.cn}}</h5></a>
+				            <a ng-switch-when="COMMUNITY_INVITE_REQUEST" style="margin-right: 0px !important;" ng-href="#/community/{{request.id}}/moment"><h5 class="media-heading">{{request.cn}}</h5></a>
 				            
 				            <p class="margin-none">{{request.msg}}</p>
 				        </div>
@@ -220,7 +220,7 @@
 					        	<img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
 					        </a>
 					        
-					        <a ng-switch-when="COMMUNITY" class="pull-left" href="#/community/{{sr.id}}">
+					        <a ng-switch-when="COMMUNITY" class="pull-left" href="#/community/{{sr.id}}/moment">
 					        	<img class="media-object thumb" data-ng-src="/community-mini-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
 					        </a>
 					        
