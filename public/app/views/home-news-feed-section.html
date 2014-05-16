@@ -19,6 +19,7 @@
 						</a>
 				   </div>
 	            </li>
+	            <li><div ng-show="post.nol > 0" style="float:left;">{{post.nol}}</div><img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/><a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)" style="color: #428bca !important;">Like</a> <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)" style="color: #428bca !important;">Unlike</a></li>
 	            
        		</ul>
 	   
@@ -26,7 +27,16 @@
 	             
 	             <li ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><a href="">View all</a></li>
 	             <ul>
-	                 <li data-ng-repeat="comment in post.cs"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><div><p class="user-comment"><a href="#" style="color: #428bca !important;">{{comment.on}}</a><pre>{{comment.d}}</pre></p><span class="wall-user-actState-date" am-time-ago="comment.cd"></span><a class="btn-like" href="#" style="color: #428bca !important;">Like</a></div></li>
+	                 <li data-ng-repeat="comment in post.cs"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/>
+		                 <div>
+		                 	<p class="user-comment"><a href="#" style="color: #428bca !important;">{{comment.on}}</a><pre>{{comment.d}}</pre></p>
+		                 	<span class="wall-user-actState-date" am-time-ago="comment.cd"></span>
+		                 	<span ng-show="comment.nol > 0" >{{comment.nol}}</span>
+		                 	<img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/>
+		                 	<a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)" style="color: #428bca !important;">Like</a> 
+		                 	<a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)" style="color: #428bca !important;">Unlike</a>
+						</div>
+					</li>
 	             </ul>
 	             <li><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}"/></a>
 	             		<form id="userCommentwrapper" name="userComment">
@@ -54,12 +64,21 @@
 								</a>
 						   </div>
 		              </li>
+		              <li><div ng-show="post.nol > 0" style="float:left;">{{post.nol}}</div><img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/><a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)" style="color: #428bca !important;">Like</a> <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)" style="color: #428bca !important;">Unlike</a></li>
 		          </ul>
 		          <ul class="wall-user-forum-respond">
                         <!-- <li><p class="whose-like"><a href="#">Wynee Lam</a></p></li> -->
                         <ul>
- 						<li data-ng-repeat="comment in post.cs"><div class="wall-user-forum-comment" style="min-height:60px;"><div class="pull-right"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><span class="wall-user-actState-date" am-time-ago="comment.cd" style="margin-left: 48px;"></span></div><div><p class="user-comment"><a href="/#/profile/{{comment.oid}}">{{comment.on}}</a>
-							<pre>{{comment.d}}</pre></p></div></div></li>
+	 						<li data-ng-repeat="comment in post.cs">
+	 							<div class="wall-user-forum-comment" style="min-height:60px;"><div class="pull-right"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><span class="wall-user-actState-date" am-time-ago="comment.cd" style="margin-left: 48px;"></span></div><div><p class="user-comment"><a href="/#/profile/{{comment.oid}}">{{comment.on}}</a>
+									<pre>{{comment.d}}</pre></p></div>
+									<div class="row">
+										<div ng-show="comment.nol > 0" style="float:left;">{{comment.nol}}</div><img style="height:18px; float:left;" data-ng-src="/assets/app/images/like_1.jpg"/>
+						                 <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)" style="color: #428bca !important;">Like</a> 
+						                 <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)" style="color: #428bca !important;">Unlike</a>
+					                 </div>
+								</div>
+							</li>
                         </ul>
 	                    <li><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}" /></a>
 	                                <form id="userCommentwrapper" name="userComment" method="post" action="">

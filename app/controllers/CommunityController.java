@@ -424,15 +424,15 @@ public class CommunityController extends Controller{
 		String commentText = form.get("commentText");
 		
 		Post p = Post.findById(postId);
-		
+		Comment comment = null;
 		try {
 			//NOTE: Currently commentType is hardcoded to SIMPLE
-			p.onComment(localUser, commentText, CommentType.SIMPLE);
+			comment = (Comment) p.onComment(localUser, commentText, CommentType.SIMPLE);
 		} catch (SocialObjectNotCommentableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return ok(Json.toJson(p.id));
+		return ok(Json.toJson(comment.id));
 	}
 	
 	@Transactional
@@ -681,6 +681,26 @@ public class CommunityController extends Controller{
 		Post post = Post.findById(post_id);
 		post.noOfLikes--;
 		loggedUser.doUnLike(post_id, post.objectType);
+		return ok();
+	}
+	
+	@Transactional
+	public static Result likeTheComment(Long comment_id) {
+		User loggedUser = Application.getLocalUser(session());
+		Comment comment = Comment.findById(comment_id);
+		System.out.println("GOT IT :: "+comment.noOfLikes);
+		comment.noOfLikes++;
+		System.out.println("GOT IT :: "+comment.noOfLikes);
+		comment.onLikedBy(loggedUser);
+		return ok();
+	}
+	
+	@Transactional
+	public static Result unlikeTheComment(Long comment_id) throws SocialObjectNotLikableException {
+		User loggedUser = Application.getLocalUser(session());
+		Comment comment = Comment.findById(comment_id);
+		comment.noOfLikes--;
+		loggedUser.doUnLike(comment_id, comment.objectType);
 		return ok();
 	}
 }

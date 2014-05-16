@@ -103,6 +103,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
 			comment.commentType = type;
 			recordCommentOnCommunityPost(user);
 		}
+		comment.objectType = SocialObjectType.COMMENT;
 		comment.save();
 		this.comments.add(comment);
 		JPA.em().merge(this);
@@ -253,7 +254,6 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		q.setParameter(2, user.id);
 		q.setParameter(3, this.id);
 		q.setParameter(4, this.objectType);
-		
 		SocialRelation sr = null;
 		try {
 			sr = (SocialRelation)q.getSingleResult();
