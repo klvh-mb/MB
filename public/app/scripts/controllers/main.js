@@ -1679,6 +1679,9 @@ minibean.controller('ShowArticleController',function($scope, $modal,$routeParams
 		 angular.forEach($scope.result, function(element, key){
 				if(element.id == article_id) {
 					$scope.image_source= element.img_url;
+					$scope.description = element.ds
+					$scope.title = element.nm;
+					$scope.category_id = element.id;
 				}
 		})
 	 };

@@ -216,8 +216,8 @@
                 </div>
                 <div class="content-wrapper" ng-controller="EditArticleController">
                     <ul>
-                        <li><a data-ng-click="getAllArticles()"><font><font>All Articles</font></font></a></li>
-                        <li data-ng-repeat="category in articleCategorys"><a data-ng-click="get_result(category.id)"><font><font>{{category.name}}</font></font></a></li>
+                        <li><a data-ng-click="getAllArticles()" style="cursor : pointer;"><font><font>All Articles</font></font></a></li>
+                        <li data-ng-repeat="category in articleCategorys"><a data-ng-click="get_result(category.id)" style="cursor: pointer;" id="categoryselect"><font><font>{{category.name}}</font></font></a></li>
                     </ul>
                 </div>
             </div><!--Post Category End -->
@@ -229,7 +229,7 @@
             <div id="wall">
                 <div class="general-box">
                 <div class="wall-title">
-                    <span class="wall-icon icon-title-friendwall"></span><a data-ng-click="getAllArticles()"><font><font>All Articles</font></font></a>
+                    <span class="wall-icon icon-title-friendwall"></span><a data-ng-click="getAllArticles()" style="cursor: pointer;"><font><font>All Articles</font></font></a>
                 </div>
                 </div>
                 <div class="general-box">
@@ -290,6 +290,5 @@
 a{
 	color: black;
 }
-
 </style>
 	
