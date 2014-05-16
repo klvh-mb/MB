@@ -1751,19 +1751,24 @@ minibean.controller('ShowArticleController',function($scope, $modal,$routeParams
 		$scope.result = allArticlesService.ArticleCategorywise.get({id:catId}	, function(data) {
 			$scope.categoryImage = $scope.result[0].category_url;
 			$scope.categoryName = $scope.result[0].ct.name;
+			$scope.allCategory = false;
+			$scope.oneCategory = true;
 			usSpinnerService.stop('loading...');
 	    });
 	    
 	 };
 	 $scope.getAllArticles = function(){
 		 usSpinnerService.spin('loading...');
+		 	$scope.allCategory = true;
+			$scope.oneCategory = false;
 			$scope.result = [];
 			$scope.result = allArticlesService.AllArticles.get(function(data) {
 				usSpinnerService.stop('loading...');
 		    });
 		};
 	var catId = $routeParams.catid;
-
+	$scope.allCategory = true;
+	$scope.oneCategory = false;
 	if(catId == "all" || catId == undefined) {
 		$scope.result = allArticlesService.AllArticles.get();
 	}
