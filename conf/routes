@@ -153,5 +153,7 @@ GET		/get-newsfeeds/:offset					controllers.CommunityController.getNewsfeeds(off
 
 GET		/like-post/:post_id						controllers.CommunityController.likeThePost(post_id:Long)
 GET		/unlike-post/:post_id					controllers.CommunityController.unlikeThePost(post_id:Long)
+GET		/like-comment/:comment_id				controllers.CommunityController.likeTheComment(comment_id:Long)
+GET		/unlike-comment/:comment_id				controllers.CommunityController.unlikeTheComment(comment_id:Long)
 # indexing with elasic search
 GET		/searchForPosts/index/:query/:community_id/:offset	controllers.Application.searchForPosts(query: String, community_id: Long,offset:Long)

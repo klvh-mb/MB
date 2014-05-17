@@ -25,6 +25,7 @@ public class CommunityPostVM {
 	@JsonProperty("cn") public String communityName;
 	@JsonProperty("cid") public Long communityId;
 	@JsonProperty("nov") public int noOfViews;
+	@JsonProperty("nol") public int noOfLikes;
 	
 	@JsonProperty("isLike") public boolean isLike=true;
 	
@@ -43,6 +44,8 @@ public class CommunityPostVM {
 		//need to write logic for showing no of views
 		postVM.noOfViews = 0;
 		
+		postVM.noOfLikes = post.noOfLikes;
+		
 		//need to write logic
 		postVM.isLike = post.isLikedBy(user);
 		
@@ -58,7 +61,9 @@ public class CommunityPostVM {
 		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
 		List<Comment> comments = post.getCommentsOfPost(3);
 		for(int i = comments.size() - 1; i >= 0 ; i--) {
-			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comments.get(i));
+			Comment comment = comments.get(i);
+			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
+			commentVM.isLike = comment.isLikedBy(user);
 			commentsToShow.add(commentVM);
 		}
 		
