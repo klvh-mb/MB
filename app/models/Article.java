@@ -157,8 +157,7 @@ public class Article extends SocialObject implements Commentable {
 			}
 			count++;
 		}
-		System.out.println(noHTMLString);
-		return noHTMLString;
+		return sb.toString();
 	}
 	public String getFirstImageFromDescription(String description) {
 		Document document = Jsoup.parse(description);
