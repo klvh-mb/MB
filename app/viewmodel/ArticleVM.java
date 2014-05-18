@@ -1,5 +1,6 @@
 package viewmodel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +23,7 @@ public class ArticleVM {
 	@JsonProperty("pd") public Date publishedDate;
 	@JsonProperty("img_url") public String img_url;
 	@JsonProperty("category_url") public String category_url;
-	
+	@JsonProperty("lds") public String lines;
 	
 	public ArticleVM(Article article) {
 		this.category = article.category;
@@ -41,6 +42,7 @@ public class ArticleVM {
 		} else {
 			this.img_url = article.getFirstImageFromDescription(article.description);
 			this.description = article.getShortDescription(article.description);
+			this.lines = article.getLinesFromDescription(article.description);
 		}
 		this.img_url = article.getFirstImageFromDescription(article.description);
 		
