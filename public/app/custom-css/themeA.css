@@ -1154,8 +1154,11 @@ text-decoration: none;
     text-overflow: ellipsis;
     overflow: hidden;
 }
+.sta-con-mainslide a:hover {
+    color: white;
+}
 .sta-con-mainslide a[title=subsilde] {
-    font-size: 11pt;
+    font-size: 12pt;
     position: absolute;
     z-index: 10;
     left: 10px;

@@ -106,7 +106,7 @@ a:focus {
 .right-side {
 	position: absolute;
 	top: 11px;
-	right: 0%;
+	right: 5%;
 }
 #back-to-top {
 	background-color: black;
@@ -288,6 +288,9 @@ a:focus {
 .newCommunity-info {
     list-style: none;
     padding: 5px;
+}
+#relatePost li a {
+    white-space: normal;
 }
 #notification-box{
     width:400px;
