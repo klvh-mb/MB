@@ -250,14 +250,14 @@
 								name="commun-add-member-wrapper" method="post" action="">
 								<label for="Add Member"></label> <input type="text"
 									name="add-member-field" id="add-member-field"
-									class="general-textfield general-input-box" data-ng-model="searchQuery"
-									data-ng-keyup="search_unjoined_users(community.i, searchQuery)"
+									class="general-textfield general-input-box" data-ng-model="searchQuery1"
+									data-ng-keyup="search_unjoined_users(community.i, searchQuery1)"
 									placeholder="+ Invite New Members" style="width: 90%;" />
 								<div>
 									<div class="row">
 										<ul
 											class="col-lg-12 col-md-11 col-sd-11 dropdown-menu chat media-list hide"
-											ng-class="{show : nonMembers.length > 0 && searchQuery.length > 0}"
+											ng-class="{show : nonMembers.length > 0 && searchQuery1.length > 0}"
 											style="overflow-y: scroll; max-height: 244px;">
 											<li class="media" ng-repeat="sr in nonMembers"
 												ng-switch="sr.tp" style="margin-top: 2% !important;">

@@ -82,7 +82,7 @@
 		              	<span class="shortcut-box text-center">?</span>
 		              	<!-- <span class="wall-forum-post-checked">{{post.nov}}</span> -->
 		              	<span class="wall-forum-post-reply">{{post.n_c}}</span></div></li>
-		              <li><pre class="wall-user-post-text"><font><font style="color: #324fe1;">{{post.pt}}</font></font></pre>
+		              <li><span style="white-space: pre-wrap;"class="wall-user-post-text"><font><font style="color: #324fe1;">{{post.pt}}</font></font></span>
 		              	   <div data-ng-show="post.hasImage" class="innerAll">
 								<p class="lead"></p>
 								<a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
@@ -106,7 +106,7 @@
 			 							<span class="wall-user-actState-date" am-time-ago="comment.cd" style="float: right"></span>
 			 						</div>
 			 						<div><p class="user-comment" ><a href="/#/profile/{{comment.oid}}" style="color: #428bca !important;">{{comment.on}}</a>
-										<pre>{{comment.d}}</pre>
+										<span style="white-space: pre-wrap;">{{comment.d}}</span>
 										<div ng-show="comment.nol > 0" style="float:left;">{{comment.nol}}</div>
 						                 <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)" style="color: #428bca !important;"><img style="height:18px;float:left;" data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
 						                 <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)" style="color: #428bca !important;"><img style="height:18px;float:left;" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a>
