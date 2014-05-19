@@ -1,5 +1,9 @@
 package models;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -136,6 +140,25 @@ public class Article extends SocialObject implements Commentable {
 		return document.toString();
 	}
 	
+	public String getLinesFromDescription(String description) {
+		String noHTMLString = description.replaceAll("\\<.*?>","");
+		noHTMLString = noHTMLString.replaceAll("&nbsp;", "");
+		StringBuffer sb = new StringBuffer();
+		BufferedReader br = new BufferedReader(new StringReader(noHTMLString));
+		int count = 0;
+		while(count<2)
+		{
+			try{
+			sb.append(br.readLine());
+			}
+			catch(IOException e)
+			{
+				e.printStackTrace();
+			}
+			count++;
+		}
+		return sb.toString();
+	}
 	public String getFirstImageFromDescription(String description) {
 		Document document = Jsoup.parse(description);
 		Elements links = document.select("img");

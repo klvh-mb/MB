@@ -65,7 +65,7 @@
 			<ul>
 	            <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}"/><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span></p>
 	            <span class="wall-user-actState-date" am-time-ago="post.t"></span></li>
-	            <li><pre ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></pre></li>
+	            <li><span style="white-space: pre-wrap;" ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></span></li>
 	            <li><div data-ng-show="post.hasImage" class="innerAll">
 						<p class="lead"></p>
 						<a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
@@ -84,7 +84,8 @@
 	             
 	             <li ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><a href="">View all</a></li>
 	             <ul>
-	                 <li data-ng-repeat="comment in post.cs"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><div><p class="user-comment"><a href="#" style="color: #428bca !important;">{{comment.on}}</a><pre  ng-bind-html="comment.d | highlight: highlightText"></pre>
+	                 <li data-ng-repeat="comment in post.cs"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><div><p class="user-comment"><a href="#" style="color: #428bca !important; width: 100%; float: left;">{{comment.on}}</a>
+	                 <span style="white-space: pre-wrap; "ng-bind-html="comment.d | highlight: highlightText"></span>
 	                 <span class="wall-user-actState-date" am-time-ago="comment.cd"></span><span class="wall-user-actState-time"></span>
 	                 <span class="wall-user-actState-time"></span>
 	                 <span ng-show="comment.nol > 0" >{{comment.nol}}</span>

@@ -1749,18 +1749,38 @@ minibean.controller('ShowArticleController',function($scope, $modal,$routeParams
 		usSpinnerService.spin('loading...');
 		$scope.result = [];
 		$scope.result = allArticlesService.ArticleCategorywise.get({id:catId}	, function(data) {
+			var count = 1;
+			angular.forEach($scope.result, function(element, key){
+					if(count == 1) {
+						$scope.desc = element.ds;
+						$scope.article1 = element;
+					}
+					if(count == 2) {
+						$scope.article2 = element;
+					}
+					if(count == 3) {
+						$scope.article3 = element;
+					}
+					count++;
+				})
 			$scope.categoryImage = $scope.result[0].category_url;
 			$scope.categoryName = $scope.result[0].ct.name;
 			$scope.allCategory = false;
 			$scope.oneCategory = true;
+			$scope.seeAllCategory = false;
+			$scope.threeCategory = true;
 			usSpinnerService.stop('loading...');
 	    });
 	    
 	 };
+
+	 
 	 $scope.getAllArticles = function(){
 		 usSpinnerService.spin('loading...');
 		 	$scope.allCategory = true;
 			$scope.oneCategory = false;
+			$scope.seeAllCategory = true;
+			$scope.threeCategory = false;
 			$scope.result = [];
 			$scope.result = allArticlesService.AllArticles.get(function(data) {
 				usSpinnerService.stop('loading...');
@@ -1769,8 +1789,11 @@ minibean.controller('ShowArticleController',function($scope, $modal,$routeParams
 	var catId = $routeParams.catid;
 	$scope.allCategory = true;
 	$scope.oneCategory = false;
+	
 	if(catId == "all" || catId == undefined) {
 		$scope.result = allArticlesService.AllArticles.get();
+		$scope.seeAllCategory = true;
+		$scope.threeCategory = false;
 	}
 	else{
 		$scope.get_result(catId);
