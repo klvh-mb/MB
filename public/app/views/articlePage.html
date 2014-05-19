@@ -14,7 +14,7 @@
             <div id="wall">
                 <div class="general-box">
                     <ul class="post-detail-wrapper">
-                        <li><img data-ng-src="{{article.ct.pictureName}}" /><div><h5>{{article.ct.name}}</h5><h3>{{article.nm}}</h3></div><h6><font><font>Posted on </font></font><font type="date">{{article.pd | date: 'MMMM dd, yyyy'}}</font></h6></li>
+                        <li><a href="/#/article/show/{{article.ct.id}}"><img data-ng-src="{{article.ct.pictureName}}" /></a><div><h5><a href="/#/article/show/{{article.ct.id}}">{{article.ct.name}}</a></h5><h3>{{article.nm}}</h3></div><h6><font><font>Posted on </font></font><font type="date">{{article.pd | date: 'MMMM dd, yyyy'}}</font></h6></li>
                         <li><a href="#">Like </a><a class="btn-general" href="#">Share to Community</a></li>
                         <li><div style="font-size:16px" class="ng-binding" ng-bind-html="article.ds"></div></li>
                         <li><a href="#">Like </a><a class="btn-general" href="#">Share to Community</a></li>
@@ -56,7 +56,7 @@
                 </div>
                 <div class="static-content-wrapper" >
                     <ul>
-                        <li  data-ng-repeat="article in resultSlidder.ra"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font><font>{{article.nm}}</font></font></a><p ng-bind-html="article.ds"><font><font>{{article.ds}}</font></font></p></div></li>
+                        <li  data-ng-repeat="article in resultSlidder.ra"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font><font>{{article.nm}}</font></font></a><p><font><font>{{article.lds|characters:35:false}}</font></font></p></div></li>
                     </ul>
                 </div>
             </div><!--HotTopic End -->
@@ -66,7 +66,7 @@
                 </div>
                 <div class="static-content-wrapper">
                     <ul>
-						<li  data-ng-repeat="article in resultSlidder.la"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font><font>{{article.nm}}</font></font></a><p ng-bind-html="article.ds"><font><font>{{article.ds}}</font></font></p></div></li>                    
+						<li  data-ng-repeat="article in resultSlidder.la"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font><font>{{article.nm}}</font></font></a><p><font><font>{{article.lds|characters:35:false}}</font></font></p></div></li>                    
 					</ul>
                 </div>
             </div><!--Latest Post End -->
