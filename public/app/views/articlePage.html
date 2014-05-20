@@ -17,7 +17,7 @@
                         <li><a href="/#/article/show/{{article.ct.id}}"><img class="scCatMiniThumbnail" data-ng-src="{{article.ct.pictureName}}" /></a><div><h5><a href="/#/article/show/{{article.ct.id}}">{{article.ct.name}}</a></h5><h6><font><font>Posted on </font></font><font type="date">{{article.pd | date: 'MMMM dd, yyyy'}}</font></h6></div></li>
                         <li><font class="scTitle">{{article.nm}}</font><a data-ng-show="article.isLike" class="btn-like" href="" data-ng-click="like_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
 	                 <a data-ng-show="!article.isLike" class="btn-like" href="" data-ng-click="unlike_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a><a class="btn-general" href="#">Share to Community</a></li>
-                        <li><div style="font-size:16px" class="ng-binding" ng-bind-html="article.ds"></div></li>
+                        <li><div style="font-size:16px; width:100%;" class="ng-binding" ng-bind-html="article.ds"></div></li>
                         <li><a data-ng-show="article.isLike" class="btn-like" href="" data-ng-click="like_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
 	                 <a data-ng-show="!article.isLike" class="btn-like" href="" data-ng-click="unlike_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a><a class="btn-general" href="#">Share to Community</a></li>
                     </ul>
@@ -51,7 +51,7 @@
                     <span class="icon-box icon-box-brown icon-title-relatePost"></span><p>Related Articles</p>
                 </div>
                     <ul>
-                        <li data-ng-repeat="relatedArticle in relatedResult"><p><a href="/#/article/id/{{relatedArticle.id}}" style="color: #324fe1;"><img data-ng-src="{{relatedArticle.ct.pictureName}}"/>{{relatedArticle.nm}}</a></p></li>
+                        <li data-ng-repeat="relatedArticle in relatedResult"><p><a href="/#/article/id/{{relatedArticle.id}}" style="color: #324fe1;"><img data-ng-src="{{relatedArticle.ct.pictureName}}"/>{{relatedArticle.nm|characters:10:false}}</a></p></li>
                     </ul>
             </div><!--Relate Post End -->
         </div>
