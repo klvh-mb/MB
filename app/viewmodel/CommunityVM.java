@@ -11,6 +11,8 @@ import models.User;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import domain.CommentType;
+
 public class CommunityVM {
 	@JsonProperty("lu") public Long loggedUserId;
 	@JsonProperty("lun") public String loggedUserName;
@@ -51,10 +53,11 @@ public class CommunityVM {
 		List<CommunityPostVM> posts = new ArrayList<>();
 		
 		List<Post> postsFromDB = c.getPostsOfCommunity(0, 5);
-		
-		for(Post p: postsFromDB) {
-			CommunityPostVM post = CommunityPostVM.communityPostVM(p,user);
-			posts.add(post);
+		if(vm.isMember == true || vm.isOwner == true || vm.communityType == CommunityType.OPEN){
+			for(Post p: postsFromDB) {
+				CommunityPostVM post = CommunityPostVM.communityPostVM(p,user);
+				posts.add(post);
+			}
 		}
 		
 		vm.posts = posts;

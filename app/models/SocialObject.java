@@ -194,6 +194,14 @@ public abstract class SocialObject extends domain.Entity implements
 		action.save();
 	}
 	
+	protected void recordCommentOnArticle(SocialObject user) {
+		SocialRelation action = new SocialRelation(user, this);
+		action.action = SocialRelation.Action.COMMENTED;
+		 JPA.em().persist(this);
+		  JPA.em().flush();
+		  postSave();
+	}
+	
 	protected void recordAnswerOnCommunityPost(SocialObject user) {
 		SocialRelation action = new SocialRelation(user, this);
 		action.action = SocialRelation.Action.ANSWERED;

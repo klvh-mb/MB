@@ -33,6 +33,8 @@ GET		/getDescriptionOdArticle/:id  	controllers.ArticleController.getDescription
 GET		/deleteArticle/:id			controllers.ArticleController.deleteArticle(id :Long)
 GET		/Article/:id				controllers.ArticleController.infoArticle(id :Long)
 GET		/ArticleComments/:id		controllers.ArticleController.getAllComments(id : Long)
+GET     /like-article/:id			controllers.ArticleController.onLike(id : Long)
+GET     /unlike-article/:id			controllers.ArticleController.onUnlike(id : Long)
 
 
 GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout

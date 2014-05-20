@@ -14,6 +14,7 @@ public enum  SocialObjectType {
      MESSAGE, 
      FOLDER, 
      QUESTION,
+     ARTICLE,
      COMMENT;
      
 }

@@ -15,14 +15,16 @@
                 <div class="general-box">
                     <ul class="post-detail-wrapper">
                         <li><a href="/#/article/show/{{article.ct.id}}"><img class="scCatMiniThumbnail" data-ng-src="{{article.ct.pictureName}}" /></a><div><h5><a href="/#/article/show/{{article.ct.id}}">{{article.ct.name}}</a></h5><h6><font><font>Posted on </font></font><font type="date">{{article.pd | date: 'MMMM dd, yyyy'}}</font></h6></div></li>
-                        <li><font class="scTitle">{{article.nm}}</font><a href="#">Like </a><a class="btn-general" href="#">Share to Community</a></li>
+                        <li><font class="scTitle">{{article.nm}}</font><a data-ng-show="article.isLike" class="btn-like" href="" data-ng-click="like_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
+	                 <a data-ng-show="!article.isLike" class="btn-like" href="" data-ng-click="unlike_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a><a class="btn-general" href="#">Share to Community</a></li>
                         <li><div style="font-size:16px" class="ng-binding" ng-bind-html="article.ds"></div></li>
-                        <li><a href="#">Like </a><a class="btn-general" href="#">Share to Community</a></li>
+                        <li><a data-ng-show="article.isLike" class="btn-like" href="" data-ng-click="like_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
+	                 <a data-ng-show="!article.isLike" class="btn-like" href="" data-ng-click="unlike_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a><a class="btn-general" href="#">Share to Community</a></li>
                     </ul>
                 </div>
             </div><!--Post Detail End -->
             
-            <div class="panel panel-default">
+            <!-- <div class="panel panel-default">
 				<div class="row tm innerAll"><h4>  Leave a Reply</h4></div>
 					<div ng-show="article.n_c > 3" data-ng-click="get_all_comments(article.id)" class="bg-gray innerAll border-top border-bottom text-small ">
 						<span style="cursor: pointer;">View all <a class="text-primary"></a></span>
@@ -32,13 +34,17 @@
 							<img data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}" width="60" class="media-object">
 						</a>
 					<div class="media-body innerTB">
-						<a href="" class="strong text-inverse">{{comment.on}}</a>  <small class="text-muted ">wrote on {{comment.cd | date: 'dd MMM, yyyy'}}</small>
-					<pre  ng-bind-html="comment.d | highlight: highlightText"></pre>
+						<div style="width:100%; float:left"><a href="" class="strong text-inverse">{{comment.on}}</a>  <small class="text-muted ">wrote on {{comment.cd | date: 'dd MMM, yyyy'}}</small></div>
+					<pre  ng-bind-html="comment.d | highlight: highlightText" style="width:100%; float:left"></pre>
+					<span ng-show="comment.nol > 0" >{{comment.nol}}</span>
+	                 <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="like_comment(comment.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
+	                 <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(comment.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a>
 					</div>
 				</div>
 				<textarea class="form-control" placeholder="Comment here..." data-ng-model="commentText"></textarea>
 				<button data-ng-show="commentText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="comment_on_article(article.id, commentText);commentText=''">comment</button>
-			</div>
+			</div> -->
+			
 			
             <div id="relatePost" class="general-box">
                 <div class="con-title">

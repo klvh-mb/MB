@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.mnt.exception.SocialObjectNotCommentableException;
+import com.mnt.exception.SocialObjectNotLikableException;
 
 import domain.CommentType;
 
@@ -99,11 +100,13 @@ public class ArticleController extends Controller {
 	@Transactional
 	public static Result getArticlesCategorywise(Long cat_id) {
 		List<Article> allArticles = Article.getArticlesByCategory(cat_id);
-		ArticleCategory ac = ArticleCategory.getCategoryById(cat_id);
 		List<ArticleVM> listOfArticles = new ArrayList<>();
 		for(Article article:allArticles) {
 			ArticleVM vm = new ArticleVM(article);
-			vm.category_url = ac.pictureName;
+			if(cat_id != 0){
+				ArticleCategory ac = ArticleCategory.getCategoryById(cat_id);
+				vm.category_url = ac.pictureName;
+			}
 			listOfArticles.add(vm);
 		}
 		return ok(Json.toJson(listOfArticles));
@@ -184,8 +187,9 @@ public class ArticleController extends Controller {
 	
 	@Transactional
 	public static Result infoArticle(Long art_id) {
+		final User localUser = Application.getLocalUser(session());
 		Article article = Article.findById(art_id);
-		ArticleVM vm = new ArticleVM(article);
+		ArticleVM vm = new ArticleVM(article, localUser);
 		vm.description = article.description;
 		return ok(Json.toJson(vm));
 	}
@@ -193,13 +197,36 @@ public class ArticleController extends Controller {
 	@Transactional
 	public static Result getAllComments(Long id) {
 		Article article = Article.findById(id);
+		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
 		List<Comment> comments = article.getCommentsOfPost();
 		for(Comment comment : comments) {
 			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
+			commentVM.isLike = comment.isLikedBy(localUser);
 			commentsToShow.add(commentVM);
 		}
 		return ok(Json.toJson(commentsToShow));
+	}
+	
+
+	@Transactional
+	public static Result onLike(Long article_id) throws SocialObjectNotLikableException {
+		User loggedUser = Application.getLocalUser(session());
+		Article article = Article.findById(article_id);
+		System.out.println("GOT IT :: "+article.noOfLikes);
+		article.noOfLikes++;
+		System.out.println("GOT IT :: "+article.noOfLikes);
+		article.onLikedBy(loggedUser);
+		return ok();
+	}
+	
+	@Transactional
+	public static Result onUnlike(Long article_id) throws SocialObjectNotLikableException {
+		User loggedUser = Application.getLocalUser(session());
+		Article article = Article.findById(article_id);
+		article.noOfLikes--;
+		loggedUser.doUnLike(article_id, article.objectType);
+		return ok();
 	}
 	
 	

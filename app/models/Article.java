@@ -18,27 +18,36 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.NoResultException;
 import javax.persistence.OneToMany;
 import javax.persistence.Query;
 
+import models.SocialRelation.Action;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.elasticsearch.index.query.FilterBuilders;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
 
+import com.github.cleverage.elasticsearch.IndexQuery;
+import com.github.cleverage.elasticsearch.IndexResults;
 import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotLikableException;
 
 import domain.CommentType;
 import domain.Commentable;
+import domain.Likeable;
+import domain.SocialObjectType;
 
 import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
 @Entity
-public class Article extends SocialObject implements Commentable {
+public class Article extends SocialObject implements Commentable, Likeable {
 
 	public Article() {}
 	
@@ -54,6 +63,8 @@ public class Article extends SocialObject implements Commentable {
 	
 	public Integer targetAge;
 	
+	public int noOfLikes=0;
+	
 	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
 	public List<Comment> comments;
 	
@@ -67,7 +78,7 @@ public class Article extends SocialObject implements Commentable {
 		this.targetAge = targetAge;
 		this.category = category;
 		this.publishedDate = new Date();
-		
+		this.objectType = SocialObjectType.ARTICLE;
 	}
 
 	@Override
@@ -78,7 +89,9 @@ public class Article extends SocialObject implements Commentable {
 		if (comments == null) {
 			comments = new ArrayList<Comment>();
 		}
-	
+		recordCommentOnArticle(user);
+		comment.objectType = SocialObjectType.COMMENT;
+
 		comment.commentType = type;
 		comment.save();
 		this.comments.add(comment);
@@ -99,8 +112,14 @@ public class Article extends SocialObject implements Commentable {
 	
 	@Transactional
 	public static List<Article> getArticlesByCategory(Long id) {
-		Query q = JPA.em().createQuery("Select a from Article a where category_id = ?1 order by publishedDate DESC");
-		q.setParameter(1, id);
+		Query q  = null;
+		if(id == 0){
+			q = JPA.em().createQuery("Select a from Article a order by publishedDate DESC");
+			
+		}else{
+			q = JPA.em().createQuery("Select a from Article a where category_id = ?1 order by publishedDate DESC");
+			q.setParameter(1, id);
+		}
 		return (List<Article>)q.getResultList();
 	}
 	
@@ -178,9 +197,8 @@ public class Article extends SocialObject implements Commentable {
 	}
 
 	@Override
-	public void onLikedBy(User so) throws SocialObjectNotLikableException {
-		// TODO Auto-generated method stub
-		
+	public void onLikedBy(User user) {
+		recordLike(user);
 	}
 
 	@Override
@@ -188,6 +206,25 @@ public class Article extends SocialObject implements Commentable {
 			throws SocialObjectNotLikableException {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public boolean isLikedBy(User user) throws SocialObjectNotLikableException {
+		Query q = JPA.em().createQuery("Select sr from SocialRelation sr where sr.action=?1 and sr.actor=?2 " +
+				"and sr.target=?3 and sr.targetType=?4");
+		q.setParameter(1, Action.LIKED);
+		q.setParameter(2, user.id);
+		q.setParameter(3, this.id);
+		q.setParameter(4, this.objectType);
+		SocialRelation sr = null;
+		try {
+			sr = (SocialRelation)q.getSingleResult();
+			System.out.println("SR ::"+sr.id);
+		}
+		catch(NoResultException nre) {
+			System.out.println("No Result For SR");
+			return true;
+		}
+		return false;
 	}
 	
 }

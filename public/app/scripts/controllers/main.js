@@ -952,7 +952,7 @@ minibean.service('communitySearchPageService',function($resource){
 	);
 });
 
-minibean.controller('SearchPageController', function($scope, $routeParams, communityPageService, $http, communitySearchPageService, usSpinnerService){
+minibean.controller('SearchPageController', function($scope, $routeParams, likeFrameworkService, communityPageService, $http, communitySearchPageService, usSpinnerService){
 	$scope.highlightText="";
 	$scope.highlightQuery = "";
 	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id}, function(){
@@ -1112,6 +1112,22 @@ minibean.service('likeFrameworkService', function($resource) {
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
 				get: {method:'get', params:{post_id:'@post_id'}}
+			}
+	);
+	
+	this.hitLikeOnArticle = $resource(
+			'/like-article/:article_id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{article_id:'@article_id'}}
+			}
+	);
+	
+	this.hitUnlikeOnArticle = $resource(
+			'/unlike-article/:article_id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{article_id:'@article_id'}}
 			}
 	);
 });
@@ -1864,7 +1880,7 @@ minibean.service('ArticleallCommentsService',function($resource){
 });
 
 
-minibean.controller('EditArticleController',function($scope,$routeParams, ArticleallCommentsService, userInfoService, usSpinnerService, ArticleService,articleCategoryService,allRelatedArticlesService,$http){
+minibean.controller('EditArticleController',function($scope,$routeParams, likeFrameworkService, ArticleallCommentsService, userInfoService, usSpinnerService, ArticleService,articleCategoryService,allRelatedArticlesService,$http){
 	$scope.submitBtn = "Save";
 	$scope.userInfo = userInfoService.UserInfo.get();
 	var range = [];
@@ -1926,14 +1942,28 @@ minibean.controller('EditArticleController',function($scope,$routeParams, Articl
 		};
 		usSpinnerService.spin('loading...');
 		$http.post('/article/comment', data) 
-			.success(function(article_id) {
+			.success(function(comment_id) {
 				$scope.article.n_c++;
 				var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName, 
-					"cd" : new Date(), "n_c" :$scope.article.n_c};
+						"isLike" : true, "cd" : new Date(), "n_c" :$scope.article.n_c, "id" : comment_id};
 				$scope.article.cs.push(comment);
 				usSpinnerService.stop('loading...');	
 		});
 	};
+	
+		 $scope.like_article = function(article_id) {
+				likeFrameworkService.hitLikeOnArticle.get({"article_id":article_id}, function(data) {
+					$scope.article.nol++;
+					$scope.article.isLike=false;
+				});
+			}
+			
+			$scope.unlike_article = function(article_id) {
+				likeFrameworkService.hitUnlikeOnArticle.get({"article_id":article_id}, function(data) {
+					$scope.article.nol--;
+					$scope.article.isLike=true;
+				});
+			}
 	
 });
 
