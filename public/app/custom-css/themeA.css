@@ -1233,7 +1233,6 @@ text-decoration: none;
 #all-post-thumbnail li {
     display: inline-block;
     position: relative;
-    padding: 5px 0 0 5px;
     white-space: nowrap;
     width: 100%;
 }
@@ -1266,14 +1265,16 @@ text-decoration: none;
 }
 #all-post-thumbnail li div {
     position: relative;
-    left: -5%;
-    width: 110%;
     border-top: #bcbcbc thin solid;
     padding-top: 5px;
 }
 #all-post-thumbnail li p {
     position: absolute;
     left: 5%;
+}
+#all-post-thumbnail img {
+    width: 100%;
+    height: 165px;
 }
 /*All Post Thumbnail End*/
 
