@@ -235,6 +235,17 @@ a:focus {
 .scCatName {
     padding-left: 10px;
 }
+.scCatMiniThumbnail {
+    width: 80px;
+    height: 62px;
+    border-radius: 5px;
+}
+.scTitle {
+    font-size: 28px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+}
 .post-detail-wrapper li:first-child > a > img {
     float: left;
 }

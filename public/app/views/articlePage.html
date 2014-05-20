@@ -14,8 +14,8 @@
             <div id="wall">
                 <div class="general-box">
                     <ul class="post-detail-wrapper">
-                        <li><a href="/#/article/show/{{article.ct.id}}"><img data-ng-src="{{article.ct.pictureName}}" /></a><div><h5><a href="/#/article/show/{{article.ct.id}}">{{article.ct.name}}</a></h5><h3>{{article.nm}}</h3></div><h6><font><font>Posted on </font></font><font type="date">{{article.pd | date: 'MMMM dd, yyyy'}}</font></h6></li>
-                        <li><a href="#">Like </a><a class="btn-general" href="#">Share to Community</a></li>
+                        <li><a href="/#/article/show/{{article.ct.id}}"><img class="scCatMiniThumbnail" data-ng-src="{{article.ct.pictureName}}" /></a><div><h5><a href="/#/article/show/{{article.ct.id}}">{{article.ct.name}}</a></h5><h6><font><font>Posted on </font></font><font type="date">{{article.pd | date: 'MMMM dd, yyyy'}}</font></h6></div></li>
+                        <li><font class="scTitle">{{article.nm}}</font><a href="#">Like </a><a class="btn-general" href="#">Share to Community</a></li>
                         <li><div style="font-size:16px" class="ng-binding" ng-bind-html="article.ds"></div></li>
                         <li><a href="#">Like </a><a class="btn-general" href="#">Share to Community</a></li>
                     </ul>
