@@ -250,7 +250,7 @@
                     <ul class="allpost-wrapper">
                         <li data-ng-repeat="article in result">
                         <a href="/#/article/id/{{article.id}}">
-                            <img data-ng-src="{{article.img_url}}" style="height: 150px; width:150px;">
+                            <img data-ng-src="{{article.img_url}}" style="width:165px; height:130px;">
                             <div><h4 style="color: #324fe1;"><font><font>{{article.nm}}</font></font></h4><h6><a class="tag" data-ng-click="get_result(article.ct.id)"> <font><font>{{article.ct.name}}</font></font></a><font><font>{{article.pd | date:'yyyy'  }}</font></font>  <font><font>{{article.pd | date:'MMM'  }}</font></font>  <font><font>{{article.pd | date:'dd'  }}</font></font></h6><p ng-bind-html="article.ds"><font><font>{{article.ds}}</font></font></p></div>
                            </a>
                         </li>
