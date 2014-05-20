@@ -93,7 +93,7 @@
 	                 <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a>
 	                 </li>
 	             
-	             <li><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}"/></a>
+	             <li ng-show="community.isM == true || community.isO == true"><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}"/></a>
 	                    <form id="userCommentwrapper" name="userComment">
                                <label for="User Comment"></label>
                                <textarea type="text" name="userCommentfield" id="userCommentfield" class="general-textfield commentBox"  placeholder="Write a comment..." cols="80" data-ng-model="commentText" rows="1" style="width: 84% !important;border-radius: 10px;overflow: hidden;line-height: 2em; padding: 3px 35px 7px 7px !important;"></textarea>
