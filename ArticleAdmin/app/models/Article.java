@@ -33,6 +33,8 @@ public class Article extends domain.Entity {
 	
 	public Integer targetAge;
 	
+	public int noOfLikes=0;
+	
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
 	public Date publishedDate;
 	

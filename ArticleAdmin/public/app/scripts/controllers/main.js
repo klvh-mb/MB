@@ -106,15 +106,14 @@ minibean.controller('ShowArticleController',function($scope, $modal, deleteArtic
 	    });
 	    var msg = getDescriptionService.GetDescription.get({id:id}	, function(data) {
 	    	console.log(data.description);
-	    	$('.modal-body').html(data.description);
+	    	$('#showDescription').html(data.description);
 	    });
 	    
 	  };
 	 
-	  
 	  $scope.deleteArticle = function (id){
 		  deleteArticleService.DeleteArticle.get({id :id}, function(data){
-			  
+			  $('#myModal').modal('hide');
 			  angular.forEach($scope.result, function(request, key){
 					if(request.id == id) {
 						$scope.result.splice($scope.result.indexOf(request),1);
