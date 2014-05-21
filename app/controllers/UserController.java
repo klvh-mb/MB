@@ -1,10 +1,13 @@
 package controllers;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import models.Community;
 import models.Notification;
@@ -12,6 +15,7 @@ import models.Post;
 import models.User;
 
 import org.apache.commons.io.FileUtils;
+import org.codehaus.jackson.JsonNode;
 
 import play.data.DynamicForm;
 import play.data.Form;
@@ -64,18 +68,36 @@ public class UserController extends Controller {
 	@Transactional
 	public static Result uploadProfilePhoto() {
 		final User localUser = Application.getLocalUser(session());
+		String coords[] = request().body().asMultipartFormData().asFormUrlEncoded().get("cords");
+		//String[] coords = request().body().asFormUrlEncoded().get("cords");
+		
 		FilePart picture = request().body().asMultipartFormData().getFile("profile-photo");
 		String fileName = picture.getFilename();
 	    String contentType = picture.getContentType(); 
 	    File file = picture.getFile();
 	    File fileTo = new File(fileName);
-	    
-	    try {
-	    	FileUtils.copyFile(file, fileTo);
-			localUser.setPhotoProfile(fileTo);
-		} catch (IOException e) {
-			//e.printStackTrace();
-			return status(500);
+		
+	    if(coords == null) {
+			// No cropping is performed
+	    	try {
+		    	FileUtils.copyFile(file, fileTo);
+				localUser.setPhotoProfile(file);
+			} catch (IOException e) {
+				//e.printStackTrace();
+				return status(500);
+			}
+		} else {
+			JsonNode jn = Json.parse(coords[0]);
+			BufferedImage originalImage;
+			try {
+				originalImage = ImageIO.read(file);
+				BufferedImage croppedImage = originalImage.getSubimage(jn.get("x").asInt(), jn.get("y").asInt(), jn.get("w").asInt(), jn.get("h").asInt());
+				ImageIO.write(croppedImage, "jpg", fileTo);
+				localUser.setPhotoProfile(fileTo);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 		}
 		return ok();
 	}

@@ -64,8 +64,9 @@
     <script src="@routes.Assets.at("components/plugins/ajaxify/script.min.js?v=v1.0.0&sv=v0.0.1")"></script>
     
 	<script src="@routes.Assets.at("app/bower_components/angular-moment/angular-moment.js")"></script>
+	<script src="@routes.Assets.at("components/common/gallery/image-crop/assets/lib/js/jquery.Jcrop.js")"></script>
 	
-	<script>var App = {};</script>
+	<!-- <script>var App = {};</script>
 	<script data-id="App.Scripts">
 		App.Scripts = {
 		
@@ -85,6 +86,7 @@
 			plugins: [
 				'@routes.Assets.at("components/plugins/nicescroll/jquery.nicescroll.min.js?v=v1.0.0&sv=v0.0.1")', 
 				'@routes.Assets.at("components/plugins/breakpoints/breakpoints.js?v=v1.0.0&sv=v0.0.1")', 
+				//'',
 				//'@routes.Assets.at("components/plugins/ajaxify/davis.min.js?v=v1.0.0&sv=v0.0.1")', 
 				//'@routes.Assets.at("components/plugins/ajaxify/jquery.lazyjaxdavis.min.js?v=v1.0.0&sv=v0.0.1")', 
 				//'@routes.Assets.at("components/plugins/preload/pace/pace.min.js?v=v1.0.0&sv=v0.0.1")', 
@@ -109,21 +111,21 @@
 			]
 		
 		};
-	</script>
+	</script> -->
 
-	<script>
-		$script(App.Scripts.core, 'core');
+<!-- 	<script>
+		//$script(App.Scripts.core, 'core');
 		
-		$script.ready(['core'], function(){
-			$script(App.Scripts.plugins_dependency, 'plugins_dependency');
-		});
-		$script.ready(['core', 'plugins_dependency'], function(){
-			$script(App.Scripts.plugins, 'plugins');
-		});
-		$script.ready(['core', 'plugins_dependency', 'plugins'], function(){
-			$script(App.Scripts.bundle, 'bundle');
-		});
-	</script>
+		//$script.ready(['core'], function(){
+		//	$script(App.Scripts.plugins_dependency, 'plugins_dependency');
+		//});
+		//$script.ready(['core', 'plugins_dependency'], function(){
+		//	$script(App.Scripts.plugins, 'plugins');
+		//});
+		//$script.ready(['core', 'plugins_dependency', 'plugins'], function(){
+		//	$script(App.Scripts.bundle, 'bundle');
+		//});
+	</script> -->
 	
 	
     <script src="@routes.Assets.at("app/scripts/app.js")"></script>
@@ -132,13 +134,14 @@
     <link rel="stylesheet" href="../assets/app/custom-css/boxSetup.css">
     <link rel="stylesheet" href="../assets/app/custom-css/textfield.css">
     <link rel="stylesheet" href="../assets/app/custom-css/themeA.css">
+    <link rel="stylesheet" href="../assets/app/custom-css/themeA.min.css">
 	<link rel="stylesheet" href="../assets/app/custom-css/themeA.append.css">
 	<link rel="stylesheet" href="../assets/app/custom-css/bootstrap.css">
 	<link rel="stylesheet" href="../assets/app/custom-css/mainWall.css">
 	<link rel="stylesheet" href="../assets/app/custom-css/mainWall-mnt.css">
 </body>
 
-	<script data-id="App.Config">
+<!-- 	<script data-id="App.Config">
 		var basePath = '',
 		commonPath = '@routes.Assets.at("")',
 		rootPath = '../',
@@ -157,5 +160,5 @@
 		App.Config = {
 		ajaxify_menu_selectors: ['#menu'],
 		ajaxify_layout_app: false	};
-	</script>
+	</script> -->
 </html>

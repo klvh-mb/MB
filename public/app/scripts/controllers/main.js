@@ -239,8 +239,8 @@ minibean.service('userAboutService',function($resource){
 // TODO: I dont like way i am defining PhotoModalController
 var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePhotoModal) {
 	$scope.fileReaderSupported = window.FileReader != null;
-	$scope.uploadRightAway = true;
-	
+	$scope.uploadRightAway = false;
+	$scope.isProfileOn = PhotoModalController.isProfileOn;
 	$scope.hasUploader = function(index) {
 		return $scope.upload[index] != null;
 	};
@@ -292,16 +292,17 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 	        });
 	    }
 	}
+	
+	$scope.selectedCoords = function(cords) {
+		$scope.cords = cords;	
+	}
 
 	$scope.start = function(index) {
 		$scope.progress[index] = 0;
 		$scope.upload[index] = $upload.upload({
 			url : PhotoModalController.url,
 			method: $scope.httpMethod,
-			//headers: {'myHeaderKey': 'myHeaderVal'},
-			//data : {
-			//	myModel : $scope.myModel
-			//},
+			data: $scope.cords,
 			file: $scope.selectedFiles[index],
 			fileFormDataName: 'profile-photo'
 		}).success(function(data, status, headers, config) {
@@ -371,6 +372,9 @@ minibean.controller('UserAboutController',function($routeParams, $scope, userAbo
 		return $http.post('/updateUserProfileData', $scope.result);
 	}
 	
+	
+	$scope.isProfileOn = true; 
+	$scope.isCoverOn = !$scope.isProfileOn;
 	$scope.openProfilePhotoModal = function() {
 		PhotoModalController.url = "upload-profile-photo";
 		profilePhotoModal.OpenModal({
@@ -379,6 +383,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, userAbo
 		},function() {
 			$scope.profileImage = profileImage + "?q="+ Math.random();
 		});
+		PhotoModalController.isProfileOn = true;
 	}
 	
 	$scope.openCoverPhotoModal = function() {
@@ -389,6 +394,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, userAbo
 		},function() {
 			$scope.coverImage = coverImage + "?q="+ Math.random();
 		});
+		PhotoModalController.isProfileOn = false;
 	}
 	
 });

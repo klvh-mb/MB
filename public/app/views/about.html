@@ -1,134 +1,3 @@
-<!-- 
-	<header>
-			<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/headerBar.html'"></div>
-	</header>
-	
-	<div class="container-fluid menu-hidden">
-		<div id="content">
-			<div class="innerAll">
-			  <div class="row">
-				<div class="col-lg-9 col-md-8">
-					<div class="row">
-           			 	<div  data-ng-include style="width: 100%;" data-src="'/assets/app/views/user-upper-cover-section.html'"></div>
-        			</div>
-			        <div class="row">
-			          <div class="panel panel-default ">
-			            <form role="form" editable-form name="profile_data" onaftersave="updateUserProfileData($data)">
-			              
-			              <div class="col-md-12">
-				              <div class="row buttons pull-right">
-				                button to show form
-				                <div class="col-md-6">
-					                <button type="button" class="btn btn-default" ng-click="profile_data.$show()" ng-show="!profile_data.$visible">
-					                	<span class="glyphicon glyphicon-pencil"></span>
-					                </button>
-					             </div>
-				              </div>
-			              </div>
-			              
-			              <div class="col-md-12" ng-show="profile_data.$visible">
-			              	<div class="row">
-			              	</div>
-			              </div>
-			              <div class="row">
-			                <div class="col-md-6">
-			                  <div class="row form-group">
-				                	<div class="col-md-6">
-				                    	<label>First Name: </label>
-				                    </div>
-				                    
-				                    <div class="col-md-6">
-				                    	<span editable-text="result.firstName" >{{ result.firstName || 'not set' }}</span>
-				                    </div>
-			                  </div>
-			                  
-			                  <div class="row">
-				                	<div class="col-md-6">
-			                   			<label>Last Name: </label>
-			                   		</div>
-			                   		
-			                   		<div class="col-md-6">
-			                   			<span editable-text="result.lastName">{{ result.lastName || 'Not set' }}</span>
-			                   		</div>
-			                  </div>
-			                  
-			                  
-			                  <div class="row">
-				                	<div class="col-md-6">
-			                    		<label>Gender: </label>
-			                    	</div>
-			                    	
-			                    	<div class="col-md-6">
-			                    		<span editable-select="result.gender" e-name="gender" e-ng-options="g.value as g.text for g in genders">
-			                    			{{ (genders | filter:{value: result.gender})[0].text || 'Not set' }}
-			                    		</span>	
-			                    	</div>
-			                  </div>
-			                  
-			                  <div class="row">
-			                  	<div class="col-md-6">
-			                   		<label>Date of Birth:</label>
-			                   	</div>
-			                   	
-			                   	<div class="col-md-6">
-								    <span editable-bsdate="result.date_of_birth"  e-datepicker-popup="dd-MMMM-yyyy">{{ result.date_of_birth | date:'dd/MM/yyyy' || 'Not set' }}
-								    </span>
-								    <span class="glyphicon glyphicon-calendar">
-								    </span>
-							  	</div>
-			                  </div>
-			                  
-			                  <div class="row">
-				                	<div class="col-md-6">
-			                   			<label>Location: </label>
-			                   		</div>
-			                   		
-			                   		<div class="col-md-6">
-			                   			<span editable-text="result.location">{{ result.location || 'Not set' }}</span>
-			                   		</div>
-			                  </div>
-			                  
-			               </div>
-			                  
-			               <div class="col-md-6">
-				             <div class="row">
-				               	<div class="col-md-12">
-				                   	<label>About Me: </label>
-				           	 	</div>
-				             </div>
-				               	
-				             <div class="row">
-				               	<div class="col-md-12">
-					                <span editable-textarea="result.aboutMe" e-rows="7" e-cols="40">
-					                   <pre>{{ result.aboutMe || 'no description' }}</pre>
-					                 </span>
-				                 </div>
-				              </div>
-			               </div>
-			             </div>
-			             <div class="buttons">
-			                buttons to submit / cancel form
-			                <span ng-show="profile_data.$visible">
-			                <button type="submit" class="btn btn-primary" ng-disabled="profile_data.$waiting">
-			                <span class="glyphicon glyphicon-ok"></span>
-			                </button>
-			                <button type="button" class="btn btn-default" ng-disabled="profile_data.$waiting" ng-click="profile_data.$cancel()">
-			                <span class="glyphicon glyphicon-remove"></span>
-			                </button>
-			                </span>
-			            </div>
-			       </form>
-			    </div>
-			 </div>
-        </div>
-        <div class="col-lg-3 col-md-4" ng-controller="UserCommunityWidgetController">
-			<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/myCommunityWidget.html'"></div>
-		</div>
-      </div>
-    </div>
-  </div>
-
-<div> -->
 
     <div id="header">
         <div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/headerBar.html'"></div>
@@ -318,10 +187,10 @@
 		 <br/>
 		 <br/>
 		 <div ng-show="selectedFiles != null">
-			<div class="sel-file" ng-repeat="f in selectedFiles">
+			<div  ng-repeat="f in selectedFiles">
 				<button class="button" ng-click="start($index)" ng-show="progress[$index] < 0">Start</button>
-				<button class="button" ng-click="abort($index)" ng-show="hasUploader($index) && progress[$index] < 100">Abort</button>
-				{{f.name}} - size: {{f.size}}B - type: {{f.type}}
+				<img ng-show="isProfileOn" aspectRatio="1" minW="100" minH="100" maxH="200" maxW="200" ng-imgcropped   ng-src="{{dataUrls[$index]}}">
+				<img ng-show="!isProfileOn"aspectRatio="1.5" ng-imgcropped   ng-src="{{dataUrls[$index]}}">
 			</div>
 		 </div>
 		 <div class="response" ng-show="uploadResult.length > 0">
