@@ -1150,8 +1150,8 @@ text-decoration: none;
     display: block;
     color: white;
     text-shadow: 1px 1px 1px black;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    /*white-space: nowrap;*/
+    /*text-overflow: ellipsis;*/
     overflow: hidden;
 }
 .sta-con-mainslide a:hover {
@@ -1163,6 +1163,12 @@ text-decoration: none;
     z-index: 10;
     left: 10px;
     bottom: 10px;
+}
+.sta-con-mainslide a[title=summary] {
+    font-size: 10pt;
+}
+.sta-con-mainslide a[title=summary]:hover {
+    text-decoration: none;
 }
 /*Static Content Page Slider End*/
 
