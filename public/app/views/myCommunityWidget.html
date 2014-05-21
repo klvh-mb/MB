@@ -22,9 +22,9 @@
 					<div style="text-align: center;width: 100%; float: left; background-color: rgb(245, 245, 245);"data-ng-show="!result.isMore"><a data-ng-show="!noMoreResult" data-ng-click="nextMyGroups()"  ><span style="color: cornflowerblue;font-size: smaller;">See More</span></a></div>
                 </div> -->
                 <ul class="newCommunity-info" style="min-height: 120px;">
-                    <li ng-repeat="fvm in result.fvm"><img src="/community-mini-image-by-id/{{fvm.id}}"><p><a href="#/community/{{fvm.id}}/moment"><b><font><font>{{fvm.dn|characters:15:false}}</font></font></b></a><br>
+                    <li ng-repeat="fvm in result.fvm"><img src="/community-mini-image-by-id/{{fvm.id}}"><p><a href="#/community/{{fvm.id}}/moment"><b><font>{{fvm.dn|characters:15:false}}</font></b></a><br>
                     
-                    <span class="community-member-counter"><font><font>{{fvm.mm}} members</font></font></span></p>
+                    <span class="community-member-counter"><font>{{fvm.mm}} members</font></span></p>
                     </li>
                     <!-- <li style="text-align: center;width: 100%; float: left; background-color: rgb(245, 245, 245);"data-ng-show="!result.isMore"><a data-ng-show="!noMoreResult" data-ng-click="nextMyGroups()"  ><span style="color: cornflowerblue;font-size: smaller;">See More</span></a></li> -->
                 </ul>

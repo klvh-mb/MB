@@ -221,12 +221,12 @@
             <!--All Post Thumbnail End -->
             <div id="postCategory" class="general-box" style="height: 201px;">
                 <div class="con-title">
-                    <span class="icon-box icon-box-blueDark icon-title-postCat"></span><a href="/#/article/show"><font><font>Category</font></font></a>
+                    <span class="icon-box icon-box-blueDark icon-title-postCat"></span><a href="/#/article/show"><font>Category</font></a>
                 </div>
                 <div class="content-wrapper" ng-controller="EditArticleController">
                     <ul>
-                        <li><a href="/#/article/show/all" style="cursor : pointer;"><font><font>All Articles</font></font></a></li>
-                        <li data-ng-repeat="category in articleCategorys"><a data-ng-href="/#/article/show/{{category.id}}" style="cursor: pointer;" id="categoryselect"><font><font>{{category.name}}</font></font></a></li>
+                        <li><a href="/#/article/show/all" style="cursor : pointer;"><font>All Articles</font></a></li>
+                        <li data-ng-repeat="category in articleCategorys"><a data-ng-href="/#/article/show/{{category.id}}" style="cursor: pointer;" id="categoryselect"><font>{{category.name}}</font></a></li>
                     </ul>
                 </div>
             </div><!--Post Category End -->
@@ -243,7 +243,7 @@
             <div id="wall">
                 <div class="general-box">
                 <div class="wall-title">
-                    <span class="wall-icon icon-title-friendwall"></span><a href="/#/article/show/all" style="cursor: pointer;"><font><font>All Articles</font></font></a>
+                    <span class="wall-icon icon-title-friendwall"></span><a href="/#/article/show/all" style="cursor: pointer;"><font>All Articles</font></a>
                 </div>
                 </div>
                 <div class="general-box">
@@ -251,7 +251,7 @@
                         <li data-ng-repeat="article in result">
                             <a href="/#/article/id/{{article.id}}">
                                 <img data-ng-src="{{article.img_url}}" style="width:165px; height:130px;">
-                                <div><h4 style="color: #324fe1;"><font><font>{{article.nm}}</font></font></h4><h6><a class="tag" data-ng-click="get_result(article.ct.id)"> <font><font>{{article.ct.name}}</font></font></a><font><font>{{article.pd | date:'yyyy'  }}</font></font>  <font><font>{{article.pd | date:'MMM'  }}</font></font>  <font><font>{{article.pd | date:'dd'  }}</font></font></h6><p ng-bind-html="article.ds"><font><font>{{article.ds}}</font></font></p></div>
+                                <div><h4 style="color: #324fe1;"><font>{{article.nm}}</font></h4><h6><a class="tag" data-ng-click="get_result(article.ct.id)"> <font>{{article.ct.name}}</font></a><font>{{article.pd | date:'yyyy'  }}</font>  <font>{{article.pd | date:'MMM'  }}</font>  <font>{{article.pd | date:'dd'  }}</font></h6><p ng-bind-html="article.ds"><font>{{article.ds}}</font></p></div>
                            </a>
                         </li>
                     </ul>
@@ -261,21 +261,21 @@
         <div class="col-md-4 col-sm-4 col-xs-4 " style="width: 30%;">
             <div id="hotPost" class="general-box">
                 <div class="con-title">
-                    <span class="icon-box icon-box-orange icon-title-hotforum"></span><a href="#"><font><font>Hot Articles</font></font></a>
+                    <span class="icon-box icon-box-orange icon-title-hotforum"></span><a href="#"><font>Hot Articles</font></a>
                 </div>
                 <div class="static-content-wrapper" >
                     <ul>
-                        <li  data-ng-repeat="article in resultSlidder.ra"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font><font>{{article.nm}}</font></font></a><p><font><font>{{article.lds|characters:35:false}}</font></font></p></div></li>
+                        <li  data-ng-repeat="article in resultSlidder.ra"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>
                     </ul>
                 </div>
             </div><!--HotTopic End -->
             <div id="latestPost" class="general-box">
                 <div class="con-title">
-                    <span class="icon-box icon-box-green icon-title-latestPost"></span><a href="#"><font><font>New Articles</font></font></a>
+                    <span class="icon-box icon-box-green icon-title-latestPost"></span><a href="#"><font>New Articles</font></a>
                 </div>
                 <div class="static-content-wrapper">
                     <ul>
-						<li  data-ng-repeat="article in resultSlidder.la"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font><font>{{article.nm}}</font></font></a><p><font><font>{{article.lds|characters:35:false}}</font></font></p></div></li>                    
+						<li  data-ng-repeat="article in resultSlidder.la"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>                    
 					</ul>
                 </div>
             </div><!--Latest Post End -->

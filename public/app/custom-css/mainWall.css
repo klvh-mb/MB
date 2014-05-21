@@ -46,6 +46,8 @@
     color: #7e7e7e;
     margin: 0;
     white-space: pre;
+    font-weight: bold;
+    font-size: 15px;
 }
 .wall-user-actState-from:after {
     content:" 於 ";
@@ -69,6 +71,8 @@
 .wall-user-post-text {
     padding: 10px 0 5px 0;
     margin: 0;
+    color: #141823;
+    font-size: 15px;
 }
 .whose-like {
     padding: 5px;
@@ -174,7 +178,7 @@
     color: blue;
 }
 #wall-forum .wall-user-post-text {
-    font-size: small;
+    font-size: 15px;
     width: 75%;
 }
 #wall-forum .wall-user-post-text a {

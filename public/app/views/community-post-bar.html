@@ -22,32 +22,32 @@
 </div>
 <div>
 	<i data-ng-show="selectedFiles.length < 3" data-ng-click="postPhoto()"  style="color: cadetblue;margin-left: 2%;" class="fa fa-camera"></i>
-	<button  data-ng-show="postText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.i, postText)">post it!</button>
+	<button  data-ng-show="postText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.i, postText)">Post</button>
 	
 	<input style="visibility: hidden;" id="post-photo-id" type="file"  name="post-photo" ng-file-select="onFileSelect($files)"/>
 </div> -->
 
-<div  class="content-uploader general-box tab-content">
-                        <ul ng-show="community.isM == true || community.isO == true">
-                            <li>
+                    <div  class="content-uploader general-box tab-content">
+                        <ul ng-show="community.isM == true || community.isO == true" style="padding:5px;">
+                            <li style="margin:0px;">
                                 <a id="upload-post" style="float:left"><b><span class="icon-title-uploader-writePost"></span>Write Posts </b></a>
                                 <span class="divider-cus"></span>
-                                <a id="upload-image"><b><span class="icon-title-uploader-upImage" ></span><i data-ng-show="selectedFiles.length < 3" data-ng-click="postPhoto()">Add photos</i></b></a>
+                                <a id="upload-image"><span class="icon-title-uploader-upImage" ></span><b data-ng-show="selectedFiles.length < 3" data-ng-click="postPhoto()">Add photos</b></a>
                             </li>
                             <li>
                                 <form id="content-upload-wrapper" name="content-upload-wrapper" class="no-margin no-padding" method="post" action="" >
-                                <textarea cols="45" rows="2" style="font-size: small; margin-bottom: 1%;" name="content-upload-input" id="content-upload-input" class="postBox inputBoxFocus form-control" placeholder="Share your mood...." data-ng-model="postText"></textarea>
+                                <textarea cols="45" rows="2" name="content-upload-input" id="content-upload-input" class="postBox inputBoxFocus form-control" placeholder="Share your mood...." data-ng-model="postText"></textarea>
                                 
                                 
 									<div style="background-color: white;" ng-show="selectedFiles != null">
 										<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
-											ng-repeat="f in selectedFiles" tooltip-placement="bottom" tooltip="delete it!" style="width: 100px;height: 100px;" data-ng-click="remove_image($index)"
+											ng-repeat="f in selectedFiles" tooltip-placement="bottom" tooltip="Remove this photo" style="width: 100px;height: 100px;" data-ng-click="remove_image($index)"
 													ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
 									</div>
 									<div>
 									<i data-ng-show="selectedFiles.length < 3" data-ng-click="postPhoto()"></i>
-										<button  data-ng-show="postText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.i, postText)">post it!</button>
-										<input style="visibility: hidden;" id="post-photo-id" type="file"  name="post-photo" ng-file-select="onFileSelect($files)"/>
+										<button  data-ng-show="postText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.i, postText)">Post</button>
+										<input style="visibility:hidden;height:0px;" id="post-photo-id" type="file"  name="post-photo" ng-file-select="onFileSelect($files)"/>
 									</div>
                                 
                                 </form>
@@ -134,26 +134,18 @@
 
 
 <style type="text/css">
-
 .partial_fade {
 	opacity: 0.6 !important;
 }
-
-#content-upload-input:focus {
-   	border: 2px solid #8DC3F1 !important;
-}
-
 .general-textfield:focus {
     outline: none;
     box-shadow: 0 0 10px #a37cde !important;
     border: thin solid #a37cde !important;
 }
-
 .ui-match { 
 	background: rgba(88, 144, 255, .15); 
 	border-bottom: 1px solid rgba(88, 144, 255, .3);
-	}
-	
+}
 pre{
 	font-family: sans-serif !important;
 }

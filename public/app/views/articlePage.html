@@ -14,7 +14,7 @@
             <div id="wall">
                 <div class="general-box">
                     <ul class="post-detail-wrapper">
-                        <li><a href="/#/article/show/{{article.ct.id}}"><img class="scCatMiniThumbnail" data-ng-src="{{article.ct.pictureName}}" /></a><div><h5><a href="/#/article/show/{{article.ct.id}}">{{article.ct.name}}</a></h5><h6><font><font>Posted on </font></font><font type="date">{{article.pd | date: 'MMMM dd, yyyy'}}</font></h6></div></li>
+                        <li><a href="/#/article/show/{{article.ct.id}}"><img class="scCatMiniThumbnail" data-ng-src="{{article.ct.pictureName}}" /></a><div><h5><a href="/#/article/show/{{article.ct.id}}">{{article.ct.name}}</a></h5><h6><font>Posted on </font><font type="date">{{article.pd | date: 'MMMM dd, yyyy'}}</font></h6></div></li>
                         <li><font class="scTitle">{{article.nm}}</font><a data-ng-show="article.isLike" class="btn-like" href="" data-ng-click="like_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
 	                 <a data-ng-show="!article.isLike" class="btn-like" href="" data-ng-click="unlike_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a><a class="btn-general" href="#">Share to Community</a></li>
                         <li><div style="font-size:16px; width:100%;" class="ng-binding" ng-bind-html="article.ds"></div></li>
@@ -58,21 +58,21 @@
         <div class="col-md-4 col-sm-4 col-xs-4 " ng-controller="ShowArticleController">
             <div id="hotPost" class="general-box">
                 <div class="con-title">
-                    <span class="icon-box icon-box-orange icon-title-hotforum"></span><a href="#"><font><font>Hot Articles</font></font></a>
+                    <span class="icon-box icon-box-orange icon-title-hotforum"></span><a href="#"><font>Hot Articles</font></a>
                 </div>
                 <div class="static-content-wrapper" >
                     <ul>
-                        <li  data-ng-repeat="article in resultSlidder.ra"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font><font>{{article.nm}}</font></font></a><p><font><font>{{article.lds|characters:35:false}}</font></font></p></div></li>
+                        <li  data-ng-repeat="article in resultSlidder.ra"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>
                     </ul>
                 </div>
             </div><!--HotTopic End -->
             <div id="latestPost" class="general-box">
                 <div class="con-title">
-                    <span class="icon-box icon-box-green icon-title-latestPost"></span><a href="#"><font><font>New Articles</font></font></a>
+                    <span class="icon-box icon-box-green icon-title-latestPost"></span><a href="#"><font>New Articles</font></a>
                 </div>
                 <div class="static-content-wrapper">
                     <ul>
-						<li  data-ng-repeat="article in resultSlidder.la"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font><font>{{article.nm}}</font></font></a><p><font><font>{{article.lds|characters:35:false}}</font></font></p></div></li>                    
+						<li  data-ng-repeat="article in resultSlidder.la"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>                    
 					</ul>
                 </div>
             </div><!--Latest Post End -->
