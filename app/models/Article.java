@@ -111,7 +111,7 @@ public class Article extends SocialObject implements Commentable, Likeable {
 	}
 	
 	@Transactional
-	public static List<Article> getArticlesByCategory(Long id) {
+	public static List<Article> getArticlesByCategory(Long id, int offset) {
 		Query q  = null;
 		if(id == 0){
 			q = JPA.em().createQuery("Select a from Article a order by publishedDate DESC");
@@ -120,6 +120,9 @@ public class Article extends SocialObject implements Commentable, Likeable {
 			q = JPA.em().createQuery("Select a from Article a where category_id = ?1 order by publishedDate DESC");
 			q.setParameter(1, id);
 		}
+		q.setFirstResult(offset);
+		q.setMaxResults(5);
+		System.out.println("OFFSET :: "+offset);
 		return (List<Article>)q.getResultList();
 	}
 	

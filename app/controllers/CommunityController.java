@@ -2,6 +2,7 @@ package controllers;
 
 import static play.data.Form.form;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import models.Comment;
 import models.Community;
@@ -20,6 +23,7 @@ import models.Resource;
 import models.User;
 
 import org.apache.commons.io.FileUtils;
+import org.codehaus.jackson.JsonNode;
 
 import play.data.DynamicForm;
 import play.data.Form;
@@ -331,18 +335,33 @@ public class CommunityController extends Controller{
 	@Transactional
 	public static Result uploadCoverPhoto(Long id) {
 		Community community = Community.findById(id);
+		String coords[] = request().body().asMultipartFormData().asFormUrlEncoded().get("cords");
 		FilePart picture = request().body().asMultipartFormData().getFile("profile-photo");
 		String fileName = picture.getFilename();
 	    
 	    File file = picture.getFile();
 	    File fileTo = new File(fileName);
 	    
-	    try {
-	    	FileUtils.copyFile(file, fileTo);
-	    	community.setCoverPhoto(fileTo);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return status(500);
+	    if(coords == null) {
+			// No cropping is performed
+	    	try {
+		    	FileUtils.copyFile(file, fileTo);
+		    	community.setCoverPhoto(file);
+			} catch (IOException e) {
+				//e.printStackTrace();
+				return status(500);
+			}
+		} else {
+			JsonNode jn = Json.parse(coords[0]);
+			BufferedImage originalImage;
+			try {
+				originalImage = ImageIO.read(file);
+				BufferedImage croppedImage = originalImage.getSubimage(jn.get("x").asInt(), jn.get("y").asInt(), jn.get("w").asInt(), jn.get("h").asInt());
+				ImageIO.write(croppedImage, "jpg", fileTo);
+				community.setCoverPhoto(fileTo);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return ok();
 	}

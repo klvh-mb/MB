@@ -98,8 +98,10 @@ public class ArticleController extends Controller {
 	}
 	
 	@Transactional
-	public static Result getArticlesCategorywise(Long cat_id) {
-		List<Article> allArticles = Article.getArticlesByCategory(cat_id);
+	public static Result getArticlesCategorywise(Long cat_id, String offset) {
+		int start = Integer.parseInt(offset) * 5;
+		System.out.println(start+":: OFFSET :: "+offset);
+		List<Article> allArticles = Article.getArticlesByCategory(cat_id, start);
 		List<ArticleVM> listOfArticles = new ArrayList<>();
 		for(Article article:allArticles) {
 			ArticleVM vm = new ArticleVM(article);

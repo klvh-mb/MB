@@ -486,14 +486,10 @@ cursor: pointer;
 		 <br/>
 		 <br/>
 		 <div ng-show="selectedFiles != null">
-			<div class="sel-file" ng-repeat="f in selectedFiles">
-				<img ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
+			<div  ng-repeat="f in selectedFiles">
 				<button class="button" ng-click="start($index)" ng-show="progress[$index] < 0">Start</button>
-				<span class="progress" ng-show="progress[$index] >= 0">						
-					<div style="width:{{progress[$index]}}%">{{progress[$index]}}%</div>
-				</span>				
-				<button class="button" ng-click="abort($index)" ng-show="hasUploader($index) && progress[$index] < 100">Abort</button>
-				{{f.name}} - size: {{f.size}}B - type: {{f.type}}
+				<img ng-show="isProfileOn" aspectRatio="1" minW="100" minH="100" maxH="200" maxW="200" ng-imgcropped   ng-src="{{dataUrls[$index]}}">
+				<img ng-show="!isProfileOn"aspectRatio="1.5" ng-imgcropped   ng-src="{{dataUrls[$index]}}">
 			</div>
 		 </div>
 		 <div class="response" ng-show="uploadResult.length > 0">
