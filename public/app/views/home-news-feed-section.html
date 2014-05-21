@@ -45,7 +45,7 @@
 	             <li><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}"/></a>
 	             		<form id="userCommentwrapper" name="userComment">
 		                     <label for="User Comment"></label>
-		                     <textarea name="userCommentfield" id="userCommentfield" class="general-textfield" placeholder="Write a comment..." cols="80" rows="1" style="width: 85%; overflow: hidden;line-height: 2.3em;height: 35px; border-radius: 10px;padding: 3px 35px 7px 7px;" data-ng-model="commentText"></textarea>
+		                     <textarea name="userCommentfield" id="userCommentfield" class="general-textfield" placeholder="Write a comment..." cols="80" rows="1" data-ng-model="commentText"></textarea>
 		                     <!-- <input id="submit-userComment" name="submit" type="button" data-ng-click="comment_on_post(post.id, commentText)"/> -->
 		                     <span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText); commentText=''"></i></span>
 	                    </form>
@@ -87,7 +87,7 @@
 	                    <li><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}" /></a>
 	                                <form id="userCommentwrapper" name="userComment" method="post" action="">
 		                                <label for="User Comment"></label>
-		                                <textarea type="text" name="userCommentfield" class="general-textfield" id="userCommentfield" placeholder="Write a comment..." cols="80" data-ng-model="commentText" rows="1" style="width: 85%;height: 35px; overflow: hidden;line-height: 2.3em; border-radius: 10px;padding: 7px 35px 7px 7px;"></textarea>
+		                                <textarea type="text" name="userCommentfield" class="general-textfield" id="userCommentfield" placeholder="Write a comment..." cols="80" data-ng-model="commentText" rows="1"></textarea>
 		                                <span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText); commentText=''"></i></span>
 	                                </form>
 	                     </li>
@@ -164,14 +164,3 @@
     </div>
   </div>
 </div>
-<style>
-.general-textfield:focus {
-    outline: none;
-    box-shadow: 0 0 10px #a37cde !important;
-    border: thin solid #a37cde !important;
-}
-
-pre{
-	font-family: sans-serif !important;
-}
-</style>

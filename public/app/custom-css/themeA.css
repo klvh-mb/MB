@@ -1,4 +1,4 @@
-body {
+pbody {
     font-family:Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
     margin: 0;
     padding: 0;
@@ -1105,15 +1105,18 @@ text-decoration: none;
 /* Profile About End */
 
 /* Content Uploader Start */
-.content-uploader ul {
+#content-uploader {
+    border-radius: 0px 0px 4px 4px;
+}
+#content-uploader ul {
     list-style: none;
 }
-.content-uploader li a{
+#content-uploader li a {
     font-size: small;
     display: inline-block;
     margin-bottom: 5px; 
 }
-.content-uploader li .divider-cus{
+#content-uploader li .divider-cus {
     height: 15px;
     position: relative;
     top: 4px;
@@ -1388,7 +1391,7 @@ text-decoration: none;
     padding-bottom: 10px;
 }
 #relatePost li:hover{
-    background-color: #d5d4ea;
+    background-color: #DCDCE9;
 }
 #relatePost li p{
     position: relative;
@@ -1406,7 +1409,10 @@ text-decoration: none;
     display: inline-block;
     white-space: nowrap;
     text-overflow: ellipsis;
-    font-size: small;
+    font-size: 13px;
+}
+#relatePost li a:hover {
+    text-decoration: none;
 }
 /*Related Post End*/
 

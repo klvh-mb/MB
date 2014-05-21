@@ -1,13 +1,14 @@
 .general-textfield {
-    border-radius: 10px;
-    border: white thin solid;
-    padding: 7px 35px 7px 7px;
+    border-radius: 3px;
+    border: #bcbcbc thin solid;
+    padding: 5px 5px 5px 5px;
     width: 80%;
+    height: 30px;
 }
 .general-textfield:focus {
     outline: none;
-    box-shadow: 0 0 10px #a37cde;
-    border: thin solid #a37cde;
+    box-shadow: 0 0 3px #a37cde !important;
+    border: thin solid #a37cde !important;
 }
 .general-textfield+.icon-box {
     position: relative;
@@ -30,9 +31,29 @@
 }
 #userCommentwrapper .general-textfield {
     border: thin solid #bcbcbc;
+    font-size: 13px;
+    font-weight: normal;
 }
 #userCommentwrapper .general-textfield:focus {
     border: thin solid #a37cde;
+}
+#userCommentfield {
+    width: 85%;
+    background-color: white;
+    border-radius: 3px;
+    padding: 5px 5px 5px 5px;
+}
+#submit-userComment {
+    float: right;
+    border-radius: 5px;
+    background-color: white;
+    background-image: url(../images/general/icon_png/search.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+    width: 20px;
+    height: 20px;
+    text-indent: -999px;
 }
 #contentSearchwrapper {
     width: 50%;
@@ -59,28 +80,10 @@
 }
 #group-addnew-member .general-textfield {
     border: thin solid #bcbcbc;
-    padding: 7px;
+    padding: 5px;
     height: 30px;
 }
 #group-addnew-member .general-textfield:focus {
     border: thin solid #bcbcbc;
     box-shadow: none;
 }
-/*#userCommentfield {
-    width: 90%;
-    border: none;
-    background-color: white;
-    border-radius: 5px;
-}*/
-/*#submit-userComment {
-    float: right;
-    border-radius: 5px;
-    background-color: white;
-    background-image: url(../images/general/icon_png/search.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    border: none;
-    width: 20px;
-    height: 20px;
-    text-indent: -999px;
-}*/

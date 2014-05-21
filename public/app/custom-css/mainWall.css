@@ -90,9 +90,9 @@
     width: 100%;
 }
 .wall-user-post-respond .wall-userpic {
-    margin-right: 10px; 
-    width: 35px;
-    height: 35px;
+    margin-right: 3px; 
+    width: 30px;
+    height: 30px;
     display: block;
 }
 .wall-user-post-respond img {
@@ -105,7 +105,7 @@
     width: 95%; 
 }
 .wall-user-forum-respond {
-    font-size: small;
+    font-size: 15px;
     color: black;
     border-top: thin solid #cccccc;
     background-color: white;
@@ -113,9 +113,10 @@
     width: 100%;
 }
 .wall-user-forum-respond .wall-userpic {
-    margin-right: 10px; 
-    width: 35px;
-    height: 35px;
+    margin-right: 3px; 
+    width: 30px;
+    height: 30px;
+    display: block;
 }
 .wall-user-forum-respond img {
     display: block;
