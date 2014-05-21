@@ -62,7 +62,7 @@ angular.module('minibean', [
       })
       .when('/article/show/:catid',{
     	templateUrl: '/assets/app/views/showArticlesPage.html',
-    	controller : 'ShowArticleController'  
+    	controller : 'ShowArticleControllerNew'  
       })
       .when('/error', {
     	  templateUrl: '/assets/app/views/errorPage.html',

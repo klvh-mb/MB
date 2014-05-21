@@ -965,6 +965,32 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 		usSpinnerService.stop('loading...');
 	});
 	
+	$scope.comment_on_post = function(id, commentText) {
+		var data = {
+			"post_id" : id,
+			"commentText" : commentText
+		};
+		usSpinnerService.spin('loading...');
+		$http.post('/community/post/comment', data) 
+			.success(function(comment_id) {
+				alert("GOT It");
+				$('.commentBox').val('');
+				
+				$scope.commentText = "";
+				angular.forEach($scope.community.searchPosts, function(post, key){
+					alert("GOT IT searchPosts");
+					if(post.id == data.post_id) {
+						alert("GOT IT comment");
+						post.n_c++;
+						var comment = {"oid" : $scope.userInfo.id, "commentText" : commentText, "on" : $scope.userInfo.displayName,
+								"isLike" : true, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+						post.cs.push(comment);
+				}
+				usSpinnerService.stop('loading...');	
+			});
+		});
+	};
+	
 	$scope.$watch('search_trigger', function(query) {
 	       if(query != undefined) {
 	    	   $scope.search_and_highlight(query);
@@ -1006,6 +1032,59 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 			$scope.highlightText = query;
 		});
 	};
+	
+	
+	$scope.like_post = function(post_id) {
+		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
+			angular.forEach($scope.community.searchPosts, function(post, key){
+				if(post.id == post_id) {
+					post.isLike=false;
+					post.nol++;
+				}
+			})
+		});
+	}
+	
+	$scope.unlike_post = function(post_id) {
+		likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
+			angular.forEach($scope.community.searchPosts, function(post, key){
+				if(post.id == post_id) {
+					post.nol--;
+					post.isLike=true;
+				}
+			})
+		});
+	}
+	
+	$scope.like_comment = function(post_id,comment_id) {
+		likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
+			angular.forEach($scope.community.searchPosts, function(post, key){
+				if(post.id == post_id) {
+					angular.forEach(post.cs, function(comment, key){
+						if(comment.id == comment_id) {
+							comment.nol++;
+							comment.isLike=false;
+						}
+					})
+				}
+			})
+		});
+	}
+	
+	$scope.unlike_comment = function(post_id,comment_id) {
+		likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
+			angular.forEach($scope.community.searchPosts, function(post, key){
+				if(post.id == post_id) {
+					angular.forEach(post.cs, function(comment, key){
+						if(comment.id == comment_id) {
+							comment.nol--;
+							comment.isLike=true;
+						}
+					})
+				}
+			})
+		});
+	}
 	
 	
 });
@@ -1711,7 +1790,7 @@ minibean.service('allArticlesService',function($resource){
 			}
 	);
 	this.ArticleCategorywise = $resource(
-			'/get-Articles-Categorywise/:id',
+			'/get-Articles-Categorywise/:id/:offset',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
 				get: {method:'get' ,isArray:true}
@@ -1768,6 +1847,9 @@ minibean.service('showImageService',function($resource){
 
 minibean.controller('ShowArticleController',function($scope, $modal,$routeParams, showImageService, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService,allRelatedArticlesService){
 	$scope.get_result = function(catId) {
+		if(catId == "all" || catId == undefined) {
+			catId = 0;
+		}
 		usSpinnerService.spin('loading...');
 		$scope.result = [];
 		$scope.result = allArticlesService.ArticleCategorywise.get({id:catId}	, function(data) {
@@ -1861,8 +1943,119 @@ minibean.controller('ShowArticleController',function($scope, $modal,$routeParams
 			  
 		  });
 	  }
+	
+	
+	 $scope.changeInsideImage = function(article_id) {
+		 angular.forEach($scope.result, function(element, key){
+				if(element.id == article_id) {
+					$scope.image_source= element.img_url;
+					$scope.description = element.ds
+					$scope.title = element.nm;
+					$scope.category_id = element.id;
+				}
+		})
+	 };
 	  
 });
+
+
+minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routeParams, showImageService, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService,allRelatedArticlesService){
+	$scope.result = [];
+	var offset = 0;
+	var noMore = false;
+	
+	$scope.get_result = function(catId) {
+		usSpinnerService.spin('loading...');
+		$scope.isBusy = true;
+		$scope.result = allArticlesService.ArticleCategorywise.get({id:catId, offset: offset}	, function(data) {
+			var count = 1;
+			offset++;
+			angular.forEach($scope.result, function(element, key){
+					if(count == 1) {
+						$scope.desc = element.ds;
+						$scope.article1 = element;
+					}
+					if(count == 2) {
+						$scope.article2 = element;
+					}
+					if(count == 3) {
+						$scope.article3 = element;
+					}
+					count++;
+				})
+				if ($scope.result.length > 5){
+					noMore = true;
+				}
+			$scope.categoryImage = $scope.result[0].category_url;
+			$scope.categoryName = $scope.result[0].ct.name;
+			$scope.allCategory = false;
+			$scope.oneCategory = true;
+			$scope.seeAllCategory = false;
+			$scope.threeCategory = true;
+			$scope.isBusy = false;
+			usSpinnerService.stop('loading...');
+	    });
+	    
+	 };
+
+	 
+	var catId = $routeParams.catid;
+	$scope.allCategory = true;
+	$scope.oneCategory = false;
+	
+	if(catId == "all" || catId == undefined) {
+		$scope.get_result(catId);
+		$scope.seeAllCategory = true;
+		$scope.threeCategory = false;
+	}
+	else{
+		$scope.get_result(catId);
+	}
+	$scope.next_result = function() {
+		if ($scope.isBusy) return;
+		if (noMore) return;
+		$scope.isBusy = true;
+		console.log($scope.result);
+		usSpinnerService.spin('loading...');
+		allArticlesService.ArticleCategorywise.get({id:catId, offset: offset},
+			function(data){
+			console.log(data);
+				var posts = data;
+				if(posts.length < 5 ) {
+					noMore = true;
+					$scope.isBusy = false;
+				}
+				
+				for (var i = 0; i < posts.length; i++) {
+					$scope.result.push(posts[i]);
+			    }
+				console.log($scope.result);
+			    $scope.isBusy = false;
+			    offset++;
+			    usSpinnerService.stop('loading...');
+			}
+		);
+	}
+		
+	$scope.resultSlidder = allArticlesService.EightArticles.get({}, function() {
+		$scope.image_source= $scope.resultSlidder.la[0].img_url;
+	});
+	
+	 $scope.changeInsideImage = function(article_id) {
+		 angular.forEach($scope.result, function(element, key){
+				if(element.id == article_id) {
+					$scope.image_source= element.img_url;
+					$scope.description = element.ds
+					$scope.title = element.nm;
+					$scope.category_id = element.id;
+				}
+		})
+	 };
+	 
+	 
+	  
+});
+
 
 
 minibean.service('ArticleService',function($resource){

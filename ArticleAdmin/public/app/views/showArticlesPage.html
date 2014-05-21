@@ -60,7 +60,7 @@
             </div>
             
             <div class="innerAll pull-right border-right ng-scope">
-            	<button class="btn btn-primary" data-ng-click="deleteArticle(article.id)" ><span class="glyphicon glyphicon-remove-circle"></span> Delete </button>
+            	<button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ><span class="glyphicon glyphicon-remove-circle"></span> Delete </button>
             </div>
             
             <div class="innerAll pull-right border-right">
@@ -68,17 +68,34 @@
           	</div>
             
 		 </div>
-	
 	</div>
 	
 	<div class="col-md-3 col-lg-3"></div>
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Article Delete</h4>
+      </div>
+      <div class="modal-body" id="deleteArticleBody">
+        Are you sure you want to delete article?
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-primary" data-ng-click="deleteArticle(article.id)">Yes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
 	<script type="text/ng-template" id="myModalContent.html">
 	    	<div class="modal-header">
 		        <h4 class="modal-title" id="myModalLabel">Article Description</h4>
 		     </div>
 
 		   
-      		<div class="modal-body">
+      		<div class="modal-body" id="showDescription">
 			</div>
 
 
