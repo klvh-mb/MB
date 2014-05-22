@@ -1,32 +1,32 @@
-pbody {
-    font-family:Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
+body {
+    font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
     margin: 0;
     padding: 0;
     background-image: url(../images/general/mainBG_1.jpg);
     background-attachment: fixed;
 }
-
 a {
-  text-decoration: none;  
+  text-decoration: none;
+  cursor: pointer;
 }
 a:hover {
   text-decoration: underline;  
 }
 pre {
-		display: text !important;
-		padding: 0px !important;
-		margin: 0 0 0px !important;
-		font-size: 13px;
-		line-height: 1.42857143;
-		color: #000 !important;
-		word-break: break-all;
-		word-wrap: break-word;
-		background-color: transparent !important; 
-		border: 0px solid #ccc !important;
-		border-radius: 0px !important;
-	}
+    font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif !important;
+    display: text !important;
+    padding: 0px !important;
+    margin: 0 0 0px !important;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #000 !important;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: transparent !important; 
+    border: 0px solid #ccc !important;
+    border-radius: 0px !important;
+}
 .btn-general {
-    font-family: sans-serif;
     font-size: x-small !important;
     color: black !important;
     display: inline-block;
@@ -59,7 +59,6 @@ pre {
 
 }
 .btn-general-b {
-    font-family: sans-serif;
     font-size: small !important;
     font-weight: bold;
     color: black !important;
@@ -99,7 +98,7 @@ pre {
     margin: 0 10px 0 0;
 }
 .user-comment {
-    font: sans-serif small black;
+    font-size: 13px;
     margin: 0;
 }
 .themeA-container{
@@ -447,7 +446,7 @@ text-decoration: none;
     border-top: none;
 }
 #setup-box li a {
-    color: gray;
+    color: #77737E;
 }
 #setup-box a img {
     padding-right: 3px;
@@ -478,8 +477,7 @@ text-decoration: none;
     margin-bottom: 0;
 }
 .content-wrapper ul{
-    color: gray;
-    font-family: sans-serif;
+    color: #77737E;
     font-size: small;
     line-height: 200%;
     width: 90%;
@@ -491,8 +489,7 @@ text-decoration: none;
     text-overflow:ellipsis;
 }
 .content-wrapper a{
-    color: gray;
-    font-family: sans-serif;
+    color: #77737E;
     font-size: small;
 }
 .content-wrapper a:hover{
@@ -505,14 +502,13 @@ text-decoration: none;
     padding: 7px;
 }
 .con-title a{
-    color: gray;
+    color: #77737E;
     line-height: 14pt;
-    font-family: sans-serif;
     font-size: small;
     font-weight: normal;
 }
 .con-title a:hover{
-    color: gray;
+    color: #77737E;
 }
 .tag{
     margin-right: 5px;
@@ -534,7 +530,6 @@ text-decoration: none;
     margin-right: 25px;
 }
 #shortcut-wrapper a{
-    font-family: sans-serif;
     font-size: normal;
     color: black;
 }
@@ -557,7 +552,6 @@ text-decoration: none;
 .mayKnowFD-info a {
     margin-right: 8px;
     float: left;
-    font-family: sans-serif;
     font-size: small;
     font-weight: bold;
 }
@@ -583,7 +577,6 @@ text-decoration: none;
 }
 .newCommunity-info a {
     font-weight: bold;
-    font-family: sans-serif;
     font-size: normal;
     position: relative;
     top: 0;
@@ -636,7 +629,6 @@ text-decoration: none;
 .competition-wrapper .mask-30percent-height a {
     float: right;
     color: white;
-    font-family: sans-serif;
     font-size: small;
     z-index: 20;
     margin-right: 5%;
@@ -645,7 +637,6 @@ text-decoration: none;
     font-weight: bold;
 }
 .competition-wrapper p{
-    font-family: sans-serif;
     font-size: x-small;
     color: #8b8b8b;
 }
@@ -678,7 +669,6 @@ text-decoration: none;
 .header-wrapper a{
     margin-right: 7px;
     color: white;
-    font-family: sans-serif;
     font-size: small;
 }
 .right-side {
@@ -725,7 +715,6 @@ text-decoration: none;
     text-overflow: ellipsis;
     color: white;
     line-height: 18pt;
-    font-family: sans-serif;
     font-size: large;
     font-weight: bold;
     position: relative;
@@ -807,7 +796,6 @@ text-decoration: none;
     margin-left: 20%;
     position: absolute;
     color: white;
-    font-family: sans-serif;
     font-size: small;
     display: none;
     z-index: 20;
@@ -828,14 +816,12 @@ text-decoration: none;
 }
 .weather-wrapper a{
     color: black;
-    font-family: sans-serif;
     font-size: x-large;
     position: relative;
     left: 15px;
 }
 .weather-wrapper p{
     color: black;
-    font-family: sans-serif;
     font-size: medium;
     position: relative;
     display: block;
@@ -879,14 +865,14 @@ text-decoration: none;
 .slider-menu p{
     margin: 0;
     width: 130px;
-    height: 38px;
+    height: 35px;
     overflow: hidden;
     word-break: break-all;
 }
 .slider-menu a {
-    color: gray;
-    font-family: sans-serif;
-    font-size: normal;
+    color: #324fe1;
+    font-size: 14px;
+    font-weight: bold;
 }
 .slider-menu li:hover > a p img.slider-arrow-left{
     display: block;
@@ -928,7 +914,6 @@ text-decoration: none;
 .slider-title {
     text-align: right;
     color: #434343;
-    font-family: sans-serif;
     font-size: small;
     position: relative;
     padding: 12px;
@@ -956,7 +941,7 @@ text-decoration: none;
 }
 .slider-category p a {
     font-size: small;
-    color: #9064d5;
+    color: #77737E;
     padding-right: 30px;
 }
 .slider-category p a.pull-right {
@@ -1025,7 +1010,7 @@ text-decoration: none;
 /* About Start */
 #about {
     border: gray thin solid;
-    color: gray;
+    color: #77737E;
     background: rgb(255,255,255); /* Old browsers */
     background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(47%,rgba(246,246,246,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
@@ -1038,7 +1023,7 @@ text-decoration: none;
 }
 #about a {
     font-weight: bold;
-    color: gray;
+    color: #77737E;
 }
 #about a:hover {
     background-color: transparent;
@@ -1052,7 +1037,7 @@ text-decoration: none;
 #about ul {
     position: relative;
     left: 20px;
-    color: gray;
+    color: #77737E;
 }
 #about .con-title div.pull-right {
     position: relative;
@@ -1081,7 +1066,7 @@ text-decoration: none;
 }
 #profile-about a {
     font-weight: bold;
-    color: gray;
+    color: #77737E;
 }
 #profile-about ul {
     left: -131px !important;
@@ -1419,7 +1404,6 @@ text-decoration: none;
 /* Profile page Header Start */
 #profile-header {
     background-color: white;
-    height: 400px;
     margin-bottom: 10px;
 }
 

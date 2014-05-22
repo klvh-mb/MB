@@ -1,9 +1,9 @@
 .general-textfield {
     border-radius: 3px;
     border: #bcbcbc thin solid;
-    padding: 5px 5px 5px 5px;
+    padding: 7px;
     width: 80%;
-    height: 30px;
+    height: 32px;
 }
 .general-textfield:focus {
     outline: none;
@@ -41,7 +41,7 @@
     width: 85%;
     background-color: white;
     border-radius: 3px;
-    padding: 5px 5px 5px 5px;
+    padding: 7px;
 }
 #submit-userComment {
     float: right;
