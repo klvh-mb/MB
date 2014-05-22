@@ -917,7 +917,15 @@ minibean.service('profileService',function($resource){
 	);
 });
 
-minibean.controller('ProfileController',function($scope, $routeParams, profileService, friendsService,sendInvitation, unFriendService){
+minibean.controller('ProfileController',function($scope, $routeParams, $location, profileService, friendsService,sendInvitation, unFriendService){
+	
+	$scope.$watch( $routeParams.id , function (navigateTo) {
+		if( $routeParams.id  == $scope.userInfo.id){
+			 $location.path("about/activities");
+		}
+	});
+	
+	
 	$scope.isLoadingEnabled = false;
 	$scope.selectedTab = 1;
 	$scope.navigateTo = function (navigateTo) {
