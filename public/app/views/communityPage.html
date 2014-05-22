@@ -19,7 +19,7 @@
 		<div class="col-md-2 col-sm-2 col-xs-2" style="width: 20%;">
             <div id="main-uphoto" data-ng-style="set_background_image()">
                 <img src="images/home/uPic_BG.jpg" alt="user-picture-bg">
-                <img src="/assets/app/images/general/gradient_black.png" alt="gradient-black">
+                <img src="/assets/app/images/general/gradient_black_30.png" alt="gradient-black">
                 <a title="user-picture" href="#/about/activities"><img src="/get-thumbnail-image-by-id/{{userInfo.id}}" alt="user-picture"></a>
                 <a href="#/about/activities" class="userName">{{userInfo.displayName}}</a>
             </div>
@@ -42,8 +42,8 @@
 			<!--Announce End -->
 			<div id="forum" class="general-box">
 				<div class="con-title">
-					<span class="icon-box icon-box-orange icon-title-forum"></span><a
-						href="#">討論區</a>
+					<span class="icon-box icon-box-orange icon-title-forum"></span>
+					<a href="#">討論區</a>
 				</div>
 				<div class="content-wrapper">
 					<ul>
@@ -59,32 +59,10 @@
 				</div>
 			</div>
 			<!--Forum End -->
-
 			<div ng-controller="UserCommunityWidgetController">
-				<div ng-init="niceScroll()" data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/myCommunityWidget.html'"></div>
-			</div>
-
-			<!-- <div id="myCommunity" class="general-box">
-                <div ng-controller="UserCommunityWidgetController">
-					<div id="myCommunity" class="general-box">
-		                <div class="con-title">
-		                    <a href="/#/myGroups/myGroups" class="text-muted"><span class="icon-box icon-box-blueDark icon-title-community"></span>My Community
-		                    </a>
-		                </div>
-		                <div id="div1" class="innerAll" style="overflow-y: scroll;height: 150px;">
-			                    <a data-ng-href="#/community/{{fvm.id}}" ng-repeat="fvm in allResult.fvm">
-								<div style="float: left;width: 110%" >
-									<img class="pull-left media-object" alt="" data-ng-src="{{fvm.gi}}" style="width: 15%">
-									<div style="width: 60%; float: left; margin-left: 2%;">
-										<p  style="color: #0083C5; margin-top: 0%; margin-bottom: 0%;">{{fvm.dn|characters:15:false}}</p>
-									</div>
-								</div>
-							</a>
-		                </div>
-           			</div>
-				</div>	
-            </div> -->
-			<!--MyCommunity End -->
+                <div ng-init="niceScroll()" data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/myCommunityWidget.html'"></div>
+            </div>
+            <!--MyCommunity End -->
 		</div>
 		<div class="col-md-6 col-sm-6 col-xs-6" style="width: 50%;">
 			<div class="col-md-12 col-sm-12 col-xs-12">

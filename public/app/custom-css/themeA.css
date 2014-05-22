@@ -870,9 +870,12 @@ text-decoration: none;
     word-break: break-all;
 }
 .slider-menu a {
-    color: #324fe1;
+    color: #4440AC;
     font-size: 14px;
     font-weight: bold;
+}
+.slider-menu a:hover {
+    color: #4440AC;
 }
 .slider-menu li:hover > a p img.slider-arrow-left{
     display: block;
@@ -1111,42 +1114,50 @@ text-decoration: none;
 
 /* Static Content Page General Box Start */
 .static-content-wrapper {
-    padding: 15px;
+    padding: 10px;
     margin-bottom: 0;
     height: 100%;
 }
 .static-content-wrapper img {
-    margin-right: 5px;
+    border-radius: 5px;
 }
 .static-content-wrapper ul {
     padding: 0;
     list-style: none;
 }
 .static-content-wrapper li {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 .static-content-wrapper div {
     font-size: small;
     clear: right;
-    width: 77%;
+    width: 78%;
     height: 65px;
     overflow: hidden;
 }
 /*Static Content Page General Box End*/
 
 /*Static Content Page Slider Start*/
-#sta-con-slider div:first-child{
-    width: 59%;
+#sta-con-slider div:first-child {
+    width: 64%;
     height: 100%;
     float: left;
-    margin-right: 1%;
+    margin-right: 4px;
+}
+#sta-con-slider div:nth-child(2) {
+    width: 35%;
+    height: 49%;
+    float: left;
+    margin-bottom: 4px;
+}
+#sta-con-slider div:nth-child(3) {
+    width: 35%;
+    height: 49%;
+    float: left;
 }
 .sta-con-mainslide {
-    width: 40%;
-    height: 49%;
     position: relative;
     overflow: hidden;
-    margin-bottom: 1%;
 }
 .sta-con-mainslide img[alt=photo] {
     position: absolute;
@@ -1176,16 +1187,17 @@ text-decoration: none;
     /*white-space: nowrap;*/
     /*text-overflow: ellipsis;*/
     overflow: hidden;
+    line-height: 1.2;
 }
 .sta-con-mainslide a:hover {
     color: white;
 }
-.sta-con-mainslide a[title=subsilde] {
+.sta-con-mainslide a[title=subslide] {
     font-size: 12pt;
     position: absolute;
     z-index: 10;
     left: 10px;
-    bottom: 10px;
+    bottom: 5px;
 }
 .sta-con-mainslide a[title=summary] {
     font-size: 10pt;
