@@ -165,20 +165,18 @@ public class Article extends SocialObject implements Commentable, Likeable {
 	public String getLinesFromDescription(String description) {
 		String noHTMLString = description.replaceAll("\\<.*?>","");
 		noHTMLString = noHTMLString.replaceAll("&nbsp;", "");
+		noHTMLString = noHTMLString.replaceAll("[\\\r\\\n]+", "");
+		System.out.println(noHTMLString);
 		StringBuffer sb = new StringBuffer();
 		BufferedReader br = new BufferedReader(new StringReader(noHTMLString));
-		int count = 0;
-		while(count<2)
-		{
+		
 			try{
-			sb.append(br.readLine());
+					sb.append(br.readLine());
 			}
 			catch(IOException e)
 			{
 				e.printStackTrace();
 			}
-			count++;
-		}
 		return sb.toString();
 	}
 	public String getFirstImageFromDescription(String description) {

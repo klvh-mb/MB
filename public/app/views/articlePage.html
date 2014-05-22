@@ -60,7 +60,7 @@
                 </div>
                 <div class="static-content-wrapper" >
                     <ul>
-                        <li  data-ng-repeat="article in resultSlidder.ra"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>
+                        <li  data-ng-repeat="article in resultSlidder.ra"><a href="/#/article/id/{{article.id}}"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>
                     </ul>
                 </div>
             </div><!--HotTopic End -->
@@ -70,7 +70,7 @@
                 </div>
                 <div class="static-content-wrapper">
                     <ul>
-						<li  data-ng-repeat="article in resultSlidder.la"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>                    
+						<li  data-ng-repeat="article in resultSlidder.la"><a href="/#/article/id/{{article.id}}"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>                    
 					</ul>
                 </div>
             </div><!--Latest Post End -->

@@ -199,7 +199,7 @@
 		</tabset> -->
 		
 		
-		<div class="themeA-container" >
+		<div class="themeA-container">
         <div class="row">
         <div class="col-md-2 col-sm-2 col-xs-2" style="width: 20%;">
             <div id="all-post-thumbnail" class="general-box" ng-show="oneCategory">
@@ -223,7 +223,7 @@
                 <div class="con-title">
                     <span class="icon-box icon-box-blueDark icon-title-postCat"></span><a href="/#/article/show"><font><font>Category</font></font></a>
                 </div>
-                <div class="content-wrapper" ng-controller="EditArticleController">
+                <div class="content-wrapper">
                     <ul>
                         <li><a href="/#/article/show/0" style="cursor : pointer;"><font><font>All Articles</font></font></a></li>
                         <li data-ng-repeat="category in articleCategorys"><a data-ng-href="/#/article/show/{{category.id}}" style="cursor: pointer;" id="categoryselect"><font><font>{{category.name}}</font></font></a></li>
@@ -243,7 +243,7 @@
             <div id="wall">
                 <div class="general-box">
                 <div class="wall-title">
-                    <span class="wall-icon icon-title-friendwall"></span><a href="/#/article/show/all" style="cursor: pointer;"><font><font>All Articles</font></font></a>
+                    <span class="wall-icon icon-title-friendwall"></span><a href="/#/article/show/0" style="cursor: pointer;"><font><font>All Articles</font></font></a>
                 </div>
                 </div>
                 <div infinite-scroll='next_result()'  infinite-scroll-distance='0' >
@@ -252,7 +252,7 @@
 	                        <li data-ng-repeat="article in result">
 	                            <a href="/#/article/id/{{article.id}}">
 	                                <img data-ng-src="{{article.img_url}}" style="width:165px; height:130px;">
-	                                <div><h4 style="color: #324fe1;"><font><font>{{article.nm}}</font></font></h4><h6><a class="tag" data-ng-click="get_result(article.ct.id)"> <font><font>{{article.ct.name}}</font></font></a><font><font>{{article.pd | date:'yyyy'  }}</font></font>  <font><font>{{article.pd | date:'MMM'  }}</font></font>  <font><font>{{article.pd | date:'dd'  }}</font></font></h6><p ng-bind-html="article.ds"><font><font>{{article.ds}}</font></font></p></div>
+	                                <div><h4 style="color: #324fe1;"><font><font>{{article.nm}}</font></font></h4><h6><a class="tag" data-ng-click="get_result(article.ct.id)"> <font><font>{{article.ct.name}}</font></font></a><font><font>{{article.pd | date:'yyyy'  }}</font></font>  <font><font>{{article.pd | date:'MMM'  }}</font></font>  <font><font>{{article.pd | date:'dd'  }}</font></font></h6><p><font><font>{{article.lds|characters:60:false}}</font></font></p></div>
 	                           </a>
 	                        </li>
 	                    </ul>
@@ -267,7 +267,7 @@
                 </div>
                 <div class="static-content-wrapper" >
                     <ul>
-                        <li  data-ng-repeat="article in resultSlidder.ra"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>
+                        <li  data-ng-repeat="article in resultSlidder.ra"><a href="/#/article/id/{{article.id}}"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>
                     </ul>
                 </div>
             </div><!--HotTopic End -->
@@ -277,7 +277,7 @@
                 </div>
                 <div class="static-content-wrapper">
                     <ul>
-						<li  data-ng-repeat="article in resultSlidder.la"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>                    
+						<li  data-ng-repeat="article in resultSlidder.la"><a href="/#/article/id/{{article.id}}"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>                    
 					</ul>
                 </div>
             </div><!--Latest Post End -->

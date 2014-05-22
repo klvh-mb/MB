@@ -1967,11 +1967,11 @@ minibean.controller('ShowArticleController',function($scope, $modal,$routeParams
 });
 
 
-minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routeParams, showImageService, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService,allRelatedArticlesService){
+minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routeParams, articleCategoryService, showImageService, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService,allRelatedArticlesService){
 	$scope.result = [];
 	var offset = 0;
 	var noMore = false;
-	
+	$scope.articleCategorys = articleCategoryService.getAllArticleCategory.get();
 	$scope.get_result = function(catId) {
 		usSpinnerService.spin('loading...');
 		$scope.isBusy = true;
@@ -1996,9 +1996,16 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 				}
 			$scope.categoryImage = $scope.result[0].category_url;
 			$scope.categoryName = $scope.result[0].ct.name;
-			$scope.allCategory = false;
-			$scope.oneCategory = true;
-			$scope.seeAllCategory = false;
+				if(catId == 0)
+				{
+					$scope.allCategory = true;
+					$scope.oneCategory = false;
+				}
+				else
+				{
+					$scope.allCategory = false;
+					$scope.oneCategory = true;
+				}
 			$scope.threeCategory = true;
 			$scope.isBusy = false;
 			usSpinnerService.stop('loading...');
@@ -2006,15 +2013,10 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 	    
 	 };
 
-	 
 	var catId = $routeParams.catid;
-	$scope.allCategory = true;
-	$scope.oneCategory = false;
 	
-	if(catId == "all" || catId == undefined) {
+	if(catId == 0 || catId == undefined) {
 		$scope.get_result(catId);
-		$scope.seeAllCategory = true;
-		$scope.threeCategory = false;
 	}
 	else{
 		$scope.get_result(catId);
