@@ -1,0 +1,161 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET		/get-post                   controllers.Application.getPost(offset:Int, limit:Int)
+
+
+
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index
+GET     /restricted                 controllers.Application.restricted
+GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
+
+GET     /profile                    controllers.Application.profile
+
+GET     /login                      controllers.Application.login
+POST    /login                      controllers.Application.doLogin
+POST	/createArticle				controllers.ArticleController.addArticle
+POST	/editArticle				controllers.ArticleController.updateArticle
+POST	/article/comment			controllers.ArticleController.commentOnArticle()
+
+GET		/getAllArticleCategory		controllers.ArticleController.getAllArticleCategory
+GET     /get-all-Articles			controllers.ArticleController.getAllArticles
+GET     /get-Articles-Categorywise/:id/:offset		controllers.ArticleController.getArticlesCategorywise(id: Long, offset:String)
+GET     /get-Eight-Articles			controllers.ArticleController.getEightArticles
+GET		/get-Related-Articles/:id/:category_id   controllers.ArticleController.getRelatedArticles(id :Long,category_id :Long)
+GET		/getDescriptionOdArticle/:id  	controllers.ArticleController.getDescriptionOdArticle(id :Long)
+GET		/deleteArticle/:id			controllers.ArticleController.deleteArticle(id :Long)
+GET		/Article/:id				controllers.ArticleController.infoArticle(id :Long)
+GET     /like-article/:id			controllers.ArticleController.onLike(id : Long)
+GET     /unlike-article/:id			controllers.ArticleController.onUnlike(id : Long)
+
+
+GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
+GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
+
+GET     /signup                     controllers.Application.signup
+POST    /signup                     controllers.Application.doSignup
+
+GET     /accounts/unverified        controllers.Signup.unverified
+GET     /authenticate/:provider/denied     controllers.Signup.oAuthDenied(provider: String)
+
+GET     /accounts/verify/:token     controllers.Signup.verify(token: String)
+GET     /accounts/exists            controllers.Signup.exists
+
+GET     /accounts/password/reset/:token     controllers.Signup.resetPassword(token: String)
+POST    /accounts/password/reset            controllers.Signup.doResetPassword
+
+GET    /accounts/password/change    controllers.Account.changePassword
+POST   /accounts/password/change    controllers.Account.doChangePassword
+
+GET     /accounts/verify            controllers.Account.verifyEmail
+
+GET     /accounts/add               controllers.Account.link
+
+GET     /accounts/link              controllers.Account.askLink
+POST    /accounts/link              controllers.Account.doLink
+
+GET     /accounts/merge             controllers.Account.askMerge
+POST    /accounts/merge             controllers.Account.doMerge
+
+GET     /login/password/forgot     controllers.Signup.forgotPassword(email: String ?= "")
+POST    /login/password/forgot     controllers.Signup.doForgotPassword
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+#For Testing ONLY
+POST    /signupTest                 controllers.Application.doSignupForTest
+POST    /loginTest                  controllers.Application.doLoginForTest
+
+
+
+#User Info Service
+GET		/get-user-info				controllers.UserController.getUserInfo
+GET		/about-user					controllers.UserController.aboutUser
+POST	/updateUserProfileData		controllers.UserController.updateUserProfileData
+POST	/updateUserDisplayName		controllers.UserController.updateUserDisplayName
+POST	/upload-profile-photo		controllers.UserController.uploadProfilePhoto
+POST	/upload-cover-photo		    controllers.UserController.uploadCoverPhoto
+
+GET		/get-profile-image			controllers.UserController.getProfileImage
+GET 	/get-user-newsfeeds/:offset/:id 		controllers.UserController.getUserNewsfeeds(offset : String, id : Long)
+GET		/get-cover-image			controllers.UserController.getCoverImage
+GET		/user-search				controllers.UserController.searchSocialObjects(query: String)
+GET		/get-friend-requests		controllers.UserController.getAllFriendRequests
+GET		/accept-friend-request		controllers.UserController.acceptFriendRequest(friend_id :Long, notify_id: Long)
+GET		/get-join-requests			controllers.UserController.getAllJoinRequests
+GET		/accept-join-request/:member_id/:group_id/:notify_id		controllers.UserController.acceptJoinRequest(member_id :Long, group_id :Long, notify_id: Long)
+GET		/accept-invite-request/:member_id/:group_id/:notify_id		controllers.UserController.acceptInviteRequest(member_id :Long, group_id :Long, notify_id: Long)
+GET		/mark-as-read/:id						controllers.UserController.markNotificationAsRead(id:Long)
+
+GET     /profile/:id                controllers.UserController.getProfile(id :Long)
+GET		/get-profile-image-by-id/:id		controllers.UserController.getProfileImageByID(id :Long)
+GET		/get-cover-image-by-id/:id		controllers.UserController.getCoverImageByID(id :Long)
+GET		/get-mini-image-by-id/:id		controllers.UserController.getMiniVersionImageByID(id :Long)
+GET		/get-comment-mini-image-by-id/:id		controllers.UserController.getMiniCommentVersionImageByID(id :Long)
+GET		/get-thumbnail-image-by-id/:id		controllers.UserController.getThumbnailVersionImageByID(id :Long)
+GET		/get-original-image-by-id/:id		controllers.UserController.getOriginalImageByID(id :Long)
+
+#Friends
+GET		/get-user-friends			controllers.FriendsController.getUserFriends
+GET 	/get-user-friends-by-ID/:id controllers.FriendsController.getFriendsOfUser(id: Long)
+GET		/get-suggested-friends		controllers.FriendsController.getSuggestedFriends
+GET		/get-all-friends			controllers.FriendsController.getAllFriendsOfUser
+GET		/send-invite				controllers.FriendsController.sendInvitation(id: String)
+GET     /friends/:id  				controllers.FriendsController.getUserFriendsByID(id :Long)
+GET		/un-friend					controllers.FriendsController.doUnFriend(id: Long)
+
+#Community
+GET		/get-not-join-community					controllers.CommunityController.getUserUnJoinCommunity
+GET		/get-all-communities					controllers.CommunityController.getAllCommunitiesOfUser
+GET		/get-users-three-communities			controllers.CommunityController.getMyAnyThreeCommunities
+GET		/get-three-communities-userID/:id		controllers.CommunityController.getThreeCommunitiesOfUser(id :Long)
+GET		/get-all-communities-userID/:id			controllers.CommunityController.getAllCommunitiesOfUserID(id: Long)
+GET		/get-users-all-communities				controllers.CommunityController.getMyAllCommunities
+GET		/send-request							controllers.CommunityController.sendJoinRequest(id: String)
+GET		/get-cover-community-image-by-id/:id	controllers.CommunityController.getFullCoverCommunityImageById(id :Long)
+GET		/community/:id							controllers.CommunityController.getCommunityInfoById(id :Long)
+GET		/editCommunity/:id						controllers.CommunityController.getEditCommunityInfo(id :Long)
+GET		/community/join/:id						controllers.CommunityController.joinToCommunity(id : Long)
+GET		/community/leave/:id					controllers.CommunityController.leaveThisCommunity(id : Long)
+GET		/community-mini-image-by-id/:id			controllers.CommunityController.getMiniCoverCommunityImageById(id :Long)
+GET		/get-community-members/:id				controllers.CommunityController.getCommunityMembers(id : Long)
+GET 	/get-post-image-by-id/:id				controllers.CommunityController.getPostImageById(id : Long)
+GET		/get-original-post-image-by-id/:id			controllers.CommunityController.getOriginalPostImageByID(id : Long)
+GET		/comments/:id							controllers.CommunityController.getAllComments(id : Long)
+GET		/answers/:id							controllers.CommunityController.getAllAnswers(id : Long)
+GET		/posts									controllers.CommunityController.getNextPosts(id: String,offset: String)
+GET		/questions								controllers.CommunityController.getNextQuests(id: String,offset: String)
+POST	/community/post/comment					controllers.CommunityController.commentOnCommunityPost()
+POST	/community/post							controllers.CommunityController.postOnCommunity()
+POST	/createCommunity						controllers.CommunityController.createGroup()
+POST	/upload-cover-photo-group/:id		   	controllers.CommunityController.uploadCoverPhoto(id : Long)
+POST	/updateGroupProfileData					controllers.CommunityController.updateGroupProfileData
+GET		/communityQnA/questions/:id				controllers.CommunityController.getAllQuestionsOfCommunity(id : Long)
+POST	/communityQnA/question/post				controllers.CommunityController.postQuestionOnCommunity()
+POST	/communityQnA/question/answer			controllers.CommunityController.answerToQuestionOnQnACommunity()
+POST	/uploadPostPhoto						controllers.CommunityController.uploadPhotoOfPost()
+GET		/getAllIcons							controllers.CommunityController.getAllIcons()
+GET		/getAllUnjoinedMembers/:id/:query		controllers.CommunityController.getAllUnjoinedUsers(id : Long, query: String)
+GET		/inviteToCommunity/:group_id/:user_id   controllers.CommunityController.sendInviteToJoinCommunity(group_id : Long, user_id: Long)
+GET		/get-next-unknown-communities/:offset	controllers.CommunityController.getUnknownCommunities(offset:Integer)
+GET		/get-my-next-communities/:offset		controllers.CommunityController.getMyNextCommunities(offset:Integer)
+
+GET		/get-my-updates/:timestamp				controllers.CommunityController.getMyUpdates(timestamp:Long)
+GET		/get-my-live-updates/:timestamp			controllers.CommunityController.getMyLiveUpdates(timestamp:Long)
+GET		/get-next-news-feeds/:timestamp			controllers.CommunityController.getNextNewsFeeds(timestamp:Long)	
+GET		/get-newsfeeds/:offset					controllers.CommunityController.getNewsfeeds(offset:Integer)
+
+GET		/like-post/:post_id						controllers.CommunityController.likeThePost(post_id:Long)
+GET		/unlike-post/:post_id					controllers.CommunityController.unlikeThePost(post_id:Long)
+GET		/like-comment/:comment_id				controllers.CommunityController.likeTheComment(comment_id:Long)
+GET		/unlike-comment/:comment_id				controllers.CommunityController.unlikeTheComment(comment_id:Long)
+# indexing with elasic search
+GET		/searchForPosts/index/:query/:community_id/:offset	controllers.Application.searchForPosts(query: String, community_id: Long,offset:Long)

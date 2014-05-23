@@ -1,0 +1,132 @@
+<!-- <div class="col-lg-12 col-md-12" ng-show="community.isSearch" data-ng-init="community.isSearch=false">
+	<div class="input-group" style="margin-bottom: 1%; margin-top: 1%;">
+		<input type="text" class="form-control" placeholder="Search in Moment" data-ng-model="highlightQuery">
+		
+		<span class="input-group-btn">
+        	<button class="btn btn-default" type="button" data-ng-show="highlightQuery.length==0" data-ng-click="community.isSearch=false">search it!</button>
+        	<button class="btn btn-default" type="button" data-ng-show="highlightQuery.length>0" data-ng-click="search_and_highlight(community.i, highlightQuery)">search it!</button>
+      	</span>								
+	</div>
+</div>
+
+<div class="col-lg-12 col-md-12" style="margin-bottom: 1%; margin-top: 1%;">
+	<div class="row_tm">
+		<textarea class="form-control" placeholder="Share your mood" data-ng-model="postText"></textarea>
+	</div>
+</div>
+
+<div style="background-color: white;" ng-show="selectedFiles != null">
+	<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
+		ng-repeat="f in selectedFiles" tooltip-placement="bottom" tooltip="delete it!" style="width: 100px;height: 100px;" data-ng-click="remove_image($index)"
+			ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
+</div>
+<div>
+	<i data-ng-show="selectedFiles.length < 3" data-ng-click="postPhoto()"  style="color: cadetblue;margin-left: 2%;" class="fa fa-camera"></i>
+	<button  data-ng-show="postText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.i, postText)">Post</button>
+	
+	<input style="visibility: hidden;" id="post-photo-id" type="file"  name="post-photo" ng-file-select="onFileSelect($files)"/>
+</div> -->
+
+                    <div id="content-uploader" class="general-box tab-content">
+                        <ul ng-show="community.isM == true || community.isO == true" style="padding:5px;">
+                            <li style="margin:0px;">
+                                <a id="upload-post" style="float:left"><b><span class="icon-title-uploader-writePost"></span>Write Posts </b></a>
+                                <span class="divider-cus"></span>
+                                <a id="upload-image"><span class="icon-title-uploader-upImage" ></span><b data-ng-show="selectedFiles.length < 3" data-ng-click="postPhoto()">Add photos</b></a>
+                            </li>
+                            <li>
+                                <form id="content-upload-wrapper" name="content-upload-wrapper" class="no-margin no-padding" method="post" action="" >
+                                <textarea cols="45" rows="2" name="content-upload-input" id="content-upload-input" class="postBox inputBoxFocus form-control" placeholder="Share your mood...." data-ng-model="postText"></textarea>
+                                
+                                
+									<div style="background-color: white;" ng-show="selectedFiles != null">
+										<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
+											ng-repeat="f in selectedFiles" tooltip-placement="bottom" tooltip="Remove this photo" style="width: 100px;height: 100px;" data-ng-click="remove_image($index)"
+													ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
+									</div>
+									<div>
+									<i data-ng-show="selectedFiles.length < 3" data-ng-click="postPhoto()"></i>
+										<button  data-ng-show="postText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.i, postText)">Post</button>
+										<input style="visibility:hidden;height:0px;" id="post-photo-id" type="file"  name="post-photo" ng-file-select="onFileSelect($files)"/>
+									</div>
+                                
+                                </form>
+                                
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+<div infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1' >	
+<div  data-ng-repeat="post in community.posts">
+<div id="wall-forum">
+		<div class="general-box">
+			<ul>
+	            <li><a data-ng-href="/#/profile/{{post.oid}}" ><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}"/></a><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span></p>
+	            <span class="wall-user-actState-date" am-time-ago="post.t"></span></li>
+	            <li><span style="white-space: pre-wrap;" ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></span></li>
+	            <li><div data-ng-show="post.hasImage" class="innerAll">
+						<p class="lead"></p>
+						<a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
+							<img width="90" data-ng-src="/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="" class="img-post">
+						</a>
+				   </div>
+				</li>
+				<li><div ng-show="post.nol > 0" style="float:left;">{{post.nol}}</div>
+				<a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)" style="color: #428bca !important;">
+				<img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
+				<a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)" style="color: #428bca !important;">
+				<img style="height:18px" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a></li>
+       		</ul>
+	   
+		   	<ul class="wall-user-post-respond">
+	             
+	             <li ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><a href="">View all</a></li>
+	             <ul>
+	                 <li data-ng-repeat="comment in post.cs"><a data-ng-href="/#/profile/{{comment.oid}}" ><img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{comment.oid}}"/></a><div><p class="user-comment"><a data-ng-href="/#/profile/{{comment.oid}}" style="color: #428bca !important; width: 100%; float: left;">{{comment.on}}</a>
+	                 <span style="white-space: pre-wrap; "ng-bind-html="comment.d | highlight: highlightText"></span>
+	                 <span class="wall-user-actState-date" am-time-ago="comment.cd"></span><span class="wall-user-actState-time"></span>
+	                 <span class="wall-user-actState-time"></span>
+	                 <span ng-show="comment.nol > 0" >{{comment.nol}}</span>
+	                 <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
+	                 <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a>
+	                 </li>
+	             
+	             <li ng-show="community.isM == true || community.isO == true"><img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{userInfo.id}}"/>
+	                    <form id="userCommentwrapper" name="userComment">
+                               <label for="User Comment"></label>
+                               <textarea type="text" name="userCommentfield" id="userCommentfield" class="general-textfield commentBox"  placeholder="Write a comment..." cols="80" data-ng-model="commentText" rows="1"></textarea>
+                               <span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right">
+                               <i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText); commentText='';"></i></span>
+	                    </form>
+	                    
+	                    <!-- <form id="userCommentwrapper" name="userComment" style=" border-radius: 10px;">
+		                     <textarea style="width:80%; padding: 7px 35px 7px 7px; border-radius: 10px;" name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." rows="1" class="form-control commentBox" data-ng-model="commentText"></textarea>
+  	                    </form>
+	                    <span data-ng-show="commentText.length>1" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText)"></i></span> -->
+	              </li>
+	              </ul>
+	         </ul>
+		</div>
+		</div>
+	</div>
+
+<span ng-show="isBusy" spinner-start-active="1" us-spinner="{top: 'inherit'}" ></span>
+</div>
+
+<div class="modal fade" id="imageModal" data-backdrop="false">>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel"></h4>
+      </div>
+      <div class="modal-body">
+      		<div>
+        		<img data-ng-src="/get-original-post-image-by-id/{{img_id}}" alt="" style="max-height: 75%;width: 100%;">
+        	</div>
+      </div>
+    </div>
+  </div>
+</div>

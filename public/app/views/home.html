@@ -1,0 +1,118 @@
+	<header>
+			<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/headerBar.html'"></div>
+	</header>
+	
+	<div class="themeA-container" >
+		<div id="content">
+				<div class="row">
+					<div class="col-lg-2 col-md-2 col-xs-2" style="width: 20%">
+                        <div id="main-uphoto" data-ng-style="set_background_image()">
+                            <img src="images/home/uPic_BG.jpg" alt="user-picture-bg">
+                            <img src="/assets/app/images/general/gradient_black_30.png" alt="gradient-black">
+                            <a title="user-picture" href="#/about/activities"><img src="/get-thumbnail-image-by-id/{{userInfo.id}}" alt="user-picture"></a>
+                            <a href="#/about/activities" class="userName">{{userInfo.displayName}}</a>
+                        </div>
+                        <!--ProfilePicture End -->
+                        <div id="announce" class="general-box">
+                            <div class="con-title">
+                                <span class="icon-box icon-box-red icon-title-announce"></span>
+                                <a href="#">通知大家</a>
+                            </div>
+                            <div class="content-wrapper">
+                                <ul>
+                                    <li><a href="#">超級英雄的時尚觸覺：6 大經典英雄服</a></li>
+                                    <li><a href="#">你的歐洲時裝專家 名意網 MAGin Online Shop 全新網上購物體驗</a></li>
+                                    <li><a href="#">超級英雄的時尚觸覺：6 大經典英雄服</a></li>
+                                    <li><a href="#">你的歐洲時裝專家 名意網 MAGin Online Shop 全新網上購物體驗</a></li>
+                                    <li><a href="#">超級英雄的時尚觸覺：6 大經典英雄服</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--Announce End -->
+                        <div id="forum" class="general-box">
+                            <div class="con-title">
+                                <span class="icon-box icon-box-orange icon-title-forum"></span>
+                                <a href="#">討論區</a>
+                            </div>
+                            <div class="content-wrapper">
+                                <ul>
+                                    <li><a href="#" class="tag">[甜品]</a><a href="#">超級英雄的時尚觸覺：6
+                                            大經典英雄服</a></li>
+                                    <li><a href="#" class="tag">[甜品]</a><a href="#">你的歐洲時裝專家
+                                            名意網 MAGin Online Shop 全新網上購物體驗</a></li>
+                                    <li><a href="#" class="tag">[甜品]</a><a href="#">超級英雄的時尚觸覺：6
+                                            大經典英雄服</a></li>
+                                    <li><a href="#" class="tag">[甜品]</a><a href="#">你的歐洲時裝專家
+                                            名意網 MAGin Online Shop 全新網上購物體驗</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--Forum End -->
+                        <div ng-controller="UserCommunityWidgetController">
+                            <div ng-init="niceScroll()" data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/myCommunityWidget.html'"></div>
+                        </div>
+                        <!--MyCommunity End -->
+                     </div>
+       	    		 <div class="col-md-6 col-sm-6 col-xs-6 " style="width: 50%">
+			            <div id="shortcut-wrapper">
+			                <ul>
+			                <li>
+			                    <div class="shortcut-box"><a href="#"><span class="icon-box icon-box-blueLight icon-title-message"></span></a></div>
+			                    <div class="text-center"><a href="#">Msg</a></div>
+			                    <div class="text-center"><a href="#">9</a></div>
+			                </li>
+			                <li>
+			                    <div class="shortcut-box"><a href="#"><span class="icon-box icon-box-pink icon-title-gathering"></span></a></div>
+			                    <div class="text-center"><a href="#">Gat</a></div>
+			                    <div class="text-center"><a href="#">9</a></div>
+			                </li>
+			                <li>
+			                    <div class="shortcut-box"><a href="#"><span class="icon-box icon-box-purpleLight icon-title-friends"></span></a></div>
+			                    <div class="text-center"><a href="#">Fri</a></div>
+			                    <div class="text-center"><a href="#">9</a></div>
+			                </li>
+			                </ul>
+			            </div><!--Shortcut End -->
+			                
+			            <div  ng-controller="ShowArticleController" data-ng-include style="width: 100%;" data-src="'/assets/app/views/postWallMessageBar.html'"></div>
+			            
+			            <div id="wall">
+			                <div data-ng-controller="NewsFeedController" data-ng-include style="width: 100%;"
+			                	 data-src="'/assets/app/views/home-news-feed-section.html'"></div>
+			            </div><!--Wall End -->
+			        </div>
+			        
+			        
+			        
+       	    		 <div class="col-md-4 col-sm-4 col-xs-4 " style="width: 30%">
+       	    		 	<div class="">
+								<div id="weather" class="general-box">
+					                <div class="weather-wrapper">
+					                    <img src="../assets/app/images/general/weather_png/rainnySun.png">
+					                    <a href="#">Wah Fu Esate - 20&deg;C</a>
+					                    <p>Partly Cloudy</p>
+					                </div>
+					            </div>
+              			</div>	
+              			<div class="row tm">
+              				<div class="col-lg-12 col-md-12" ng-controller="SuggestedFriendsWidgetController">
+								<div data-ng-include style="width: 100%;" data-src="'/assets/app/views/suggestedFriendsBar.html'"></div>
+							</div>
+              			</div>
+              			
+              			<div class="row tm">
+              				<div class="col-lg-12 col-md-12" ng-controller="FriendsWidgetController">
+								<div data-ng-include style="width: 100%;" data-src="'/assets/app/views/friendsBar.html'"></div>
+							</div>
+              			</div>
+              			<div class="row tm">
+              				<div class="col-lg-12 col-md-12" ng-controller="UnknownCommunityWidgetController">
+									<div data-ng-include style="width: 100%;" data-src="'/assets/app/views/communityWidget.html'"></div>
+							</div>
+              			</div>
+       	    		 </div>
+       	    		 
+       	    		 
+        	    </div>
+          </div>
+      </div>

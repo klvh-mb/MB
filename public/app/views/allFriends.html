@@ -1,0 +1,52 @@
+<body style="margin:0; background-color:#F4FBFF;">
+	<header>
+			<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/headerBar.html'"></div>
+	</header>
+
+	<div class="container-fluid menu-hidden">
+		<div id="content">
+			<div class="innerAll">
+				<div class="row">
+					<div class="col-lg-9 col-md-8">
+            		   <div style="width: 100%;" ng-controller="UserAboutController">
+							<div class="row">
+						<div class="timeline-cover">	
+							<div class="widget cover image">
+								<div class="widget-body padding-none margin-none">
+									<div class="top">
+											<div class="top">
+												<img data-ng-src="{{coverImage}}"  class="img-responsive" />
+											</div>
+									</div>
+									<ul class="list-unstyled">
+										<li ng-class="{active: selectedTab == 1}"><a ng-href="/#/about" ><i class="fa fa-fw fa-user"></i> About</a></li>
+										<li ng-class="{active: selectedTab == 2}"><a ng-href="/#/friends" ><i class="icon-group"></i> Friends <span>({{userInfo.noOfFriends}})</span></a></li>
+										<!-- <li ng-class="{active: selectedTab == 3}"><a ><i class="icon-envelope-fill-1"></i> Messages <span>(2 new)</span></a></li> -->
+									</ul>
+									<div class="photo">
+										<img data-ng-src="{{profileImage}}"  height="90px" class="img-rounded"/>
+									</div>
+
+									<div class="innerAll pull-left border-right" data-ng-show="!isEdit">
+										<h3 class="margin-none">
+                      						{{userInfo.displayName}}
+                   						 </h3>
+                  					</div>
+                				</div>
+              				</div>
+           			 	</div>
+        			</div>
+						
+						</div>
+            		   <div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/allFriendsSection.html'"></div>
+       	    		 </div>
+       	    		 
+       	    		 <div class="right-pane">
+						<div class="col-lg-3 col-md-4 col-sd-4">
+						</div>
+					</div>
+        	      </div>
+              </div>
+         </div>
+      </div>	
+</body>

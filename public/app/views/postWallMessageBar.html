@@ -1,0 +1,143 @@
+<div class="col-lg-12 col-md-12 col-sd-12" style="padding: 0 0px;" >
+	<!-- <div class="col-lg-4 col-md-4 col-sd-4" style="padding: 0 0px;"  >
+		<div ng-onmouseover="suspendAutoPlayTab(); clickTab(this, 1);" ng-mouseleave="startAutoPlayTab();" class="pointer rel_pos or_vslider_sep round_corners_tr o21_vtab or_vslider_tab_h62 v_align_middle or_vslider_tab1" data-ng-repeat="article in resultSlidder.la" style="padding-top: 12px;">
+		<a ng-href="/#/article/id/{{article.id}}">
+		<div class="row" >
+             <div class="row">
+              	<div style="text-align: center;">
+              	{{article.nm}}
+              	</div>
+        	</div>
+	   </div>
+	   <div class="row">
+	             <div class="row">
+	              	<div style="text-align: center;">
+	              		<div class="col-md-4"> 	<img class="pull-right media-object" data-ng-src="{{article.ct.pictureName}}" alt="50x50" width="25" ></div>
+	              		<div class="col-md-8">  {{article.ct.name}} </div>
+	              	</div>
+	        	</div>
+	   	 </div>
+       </a>
+	</div>
+</div>
+	<div class="col-lg-4 col-md-4 col-sd-4" style="padding: 0 0px;" >
+	
+	</div>
+	<div class="col-lg-4 col-md-4 col-sd-4" style="padding: 0 0px;" >
+		<div class="round_corners_tr o21_vtab or_vslider_tab_h62 v_align_middle or_vslider_tab1" data-ng-repeat="article in resultSlidder.ra" style="padding-top: 12px;">
+		<a ng-href="/#/article/id/{{article.id}}">
+			<div class="row" >
+	             <div class="row">
+	              	<div style="text-align: center;">
+	              	{{article.nm}}
+	              	</div>
+	        	</div>
+		   </div>
+	  		<div class="row">
+	             <div class="row">
+	              	<div style="text-align: center;">
+	              		<div class="col-md-4"> 	<img class="pull-right media-object" data-ng-src="{{article.ct.pictureName}}" alt="50x50" width="25" ></div>
+	              		<div class="col-md-8">  {{article.ct.name}} </div>
+	              	</div>
+	        	</div>
+	         </div>
+	    </a>
+	</div>
+</div> -->
+
+<div id="slider" class="general-box" style="height:320px;">
+	<div style="height:90%">
+	     <ul class="slider-menu" >
+	         <li  data-ng-repeat="article in resultSlidder.la" data-ng-mouseOver="changeInsideImage(article.id)">
+		         <a href="/#/article/id/{{article.id}}">
+			         <p>
+			         	<font>
+			         		<font style="text-align: center;">{{article.nm|characters:18:false}} </font><br>
+			         	</font>
+			         	<img class="slider-arrow-left" src="../assets/app/images/general/sliderArrow_right.png">
+		         	</p>
+	         	</a>
+	        </li>
+	     </ul>
+	     <div class="slider-photo" style="height: 280px;"><a href="/#/article/id/{{category_id}}"><span class="mask-blue"><p class="slider-title"><strong>{{title}}</strong></p><p class="slider-title" ng-bind-html="description" style="margin-top: -62px;">{{description}}</p></span><img style="width: 100% !important;" data-ng-src="{{image_source}}"></a></div>
+	     <ul class="slider-menu" >
+	         <li  data-ng-repeat="article in resultSlidder.ra" data-ng-mouseOver="changeInsideImage(article.id)"><a href="/#/article/id/{{article.id}}"><p>
+	         <font>
+			         		<font style="text-align: center;">{{article.nm|characters:18:false}} </font><br>
+			         	</font>
+	         <img class="slider-arrow-right" src="../assets/app/images/general/sliderArrow_left.png"></p></a></li>
+	     </ul>
+     </div>
+     <div style="height:10%" class="slider-category"><p><a data-ng-repeat="category in resultSlidder.ct" data-ng-href="/#/article/show/{{category.id}}"><font>{{category.name}} </font></a><a href="/#/article/show/0" class="pull-right"><font>See all</font></a></p></div>
+</div>
+</div>
+
+
+
+<style>
+.sprite-global-featureSlider-arrow {
+	background: url(../assets/app/images/global.png) no-repeat top left;
+	background-position: 0 -5580px;
+	width: 11px;
+	height: 22px;
+}
+.or_bento12{
+	width: 592px;
+	margin: 0%;
+}
+body{
+ 	background-image: none; 
+ 	min-width: 0px;
+ 	margin: 0%;
+}
+.gu8{
+	width: 400px;	
+}
+.or_vslider_blocks {
+	width: 40%;
+	height: 100%;
+}
+.or_vslider_tabs {
+	width: 30%;
+	height: 100%;
+}
+.or_vslider_arrow_left{
+	top: 50%;
+	left: 175px;
+	margin-top: -11px;
+	z-index: 1000;
+}
+.or_vslider_tab2 {
+	color: #ff592c;
+	width: 100%;
+	font-size: 15px;
+	background-color: #eee;
+	background-image: none;
+	width: auto;
+}
+
+.sprite-global-featureSlider-arrow_left {
+	background: url(../assets/app/images/global_left_arrow.png) no-repeat top left;
+	width: 11px;
+	height: 22px;
+}
+
+.or_vslider_tab2:HOVER {
+	background-color: #fff;
+	width: auto;
+}
+
+.pointer rel_pos or_vslider_sep{
+	background-color: #d1c7b8 !important;
+}
+.col {
+	padding-left: 0px; 
+}
+
+</style>
+
+<script type="text/javascript">
+        
+        
+      
+    </script>

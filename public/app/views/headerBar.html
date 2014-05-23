@@ -1,0 +1,303 @@
+
+<!-- <div class="navbar hidden-print navbar-default box main navbar-fixed-top" id="nav_bar" role="navigation" style="margin-top: -8px;height: 54px;">
+	<div class="user-action user-action-btn-navbar pull-right border-left">
+		<a href="#menu-right" class="btn btn-sm btn-navbar btn-open-right"><i class="fa fa-comments fa-2x"></i></a>
+		<div id="chat-notification" data-menu="menu-right" data-toggle="sidr-open" style="">
+			New message from <strong>Mr.Awesome</strong>
+		</div>
+	</div>
+	<div class="user-action user-action-btn-navbar pull-left">
+		<a href="" class="btn btn-sm btn-navbar btn-open-left"><i class="fa fa-bars fa-2x"></i></a>
+	</div
+	<div class="user-action pull-right menu-right-hidden-xs menu-left-hidden-xs  border-left" style="margin-right: 10%;">
+			<img  style="cursor: pointer;width:20%;" src="/assets/app/images/settings.png">
+		<img style="cursor: pointer;width:20%;" src="/assets/app/images/lock.png">
+	</div>	
+	<div class="user-action pull-right menu-right-hidden-xs menu-left-hidden-xs border-left" >
+		<div class="dropdown username pull-left">
+			<a class="dropdown-toggle dropdown-hover" data-toggle="dropdown" href="#">
+				<span class="media margin-none" >
+					<span class="pull-left"><img data-ng-src="/get-mini-image-by-id/{{userInfo.id}}" alt="user" class="img-circle"></span>
+					<span class="media-body userName">{{userInfo.name}}<span class="caret"></span></span>
+				</span>
+			</a>
+			<ul class="dropdown-menu">
+				<li><a ng-href="#/">Home</a></li>
+				<li><a href="#lang=en">Messages</a></li>
+				<li><a ng-href="#/about">Profile</a></li>
+				<li><a href="/logout">Logout</a></li>
+		    </ul>
+		</div>
+	</div>
+	
+	<div class="pull-left" style="margin-left: 2%;">
+		<p style="float: left;font-size: 25px;margin-bottom: 0%;margin-top: 13px;font-weight: bold;color: white;">miniBean</p>
+		
+		<ul class="notifications pull-left hidden-xs">
+			
+			<li class="dropdown notif">
+				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
+					<div style="margin: 10px 0 0 0;">
+						<span data-ng-show="isFRreaded == true && friend_requests.length > 0" data-ng-mouseover="reset_fr_count()">
+							<span class="badge pull-right">{{friend_requests.length}}</span>
+						</span>
+						<i class="fa fa-group iconImage"></i>
+					</div>
+				</a>
+				<ul class="dropdown-menu chat media-list" data-ng-show="friend_requests.length > 0" >
+					<li class="media" data-ng-repeat="friend in friend_requests">
+				        <a class="pull-left" ng-href="#/profile/{{friend.id}}"><img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{friend.id}}" alt="50x50" width="50"></a>
+						<div class="media-body" data-ng-init="friend.isLoadingEnable = false">
+				        	
+				        	<button data-ng-show="friend.isFriendAccepted == false && friend.isLoadingEnable == false" data-ng-init="friend.isFriendAccepted = false"
+				        		 data-ng-click="accept_friend_request(friend.id)" class="btn btn-xs btn-success pull-right">accept</button>
+				        	<label class="label label-default pull-right" data-ng-show="friend.isFriendAccepted == true">Friends</label>
+				        	
+				        	<span class="label label-primary pull-right" data-ng-show="friend.isLoadingEnable == true">Loading...</span>
+				            
+				            <a href="#/profile/{{friend.id}}"><h5 class="media-heading">{{friend.dn}}</h5></a>
+				        </div>
+					</li>
+		      	</ul>
+			</li>
+			
+			<li class="dropdown notif">
+				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
+					<div style="margin: 10px 0 0 0;">
+						<span data-ng-show="isNOreaded == true && join_requests.length > 0" data-ng-mouseover="reset_notify_count()">
+							<span class="badge pull-right">{{join_requests.length}}</span>
+						</span>
+						<i class="fa icon-earth iconImage"></i>
+					</div>
+				</a>
+				<ul class="dropdown-menu chat media-list" data-ng-show="join_requests.length > 0">
+					<li class="media" data-ng-repeat="request in join_requests" ng-switch="request.tp">
+				        
+				        <a ng-switch-when="COMMUNITY_JOIN_REQUEST"  class="pull-left" href="#"><img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{request.id}}" alt="50x50" width="50"></a>
+				        
+				        <a ng-switch-when="COMMUNITY_INVITE_REQUEST" class="pull-left" href="#"><img class="media-object thumb" data-ng-src="/community-mini-image-by-id/{{request.mm}}" alt="50x50" width="50"></a>
+				        
+						<div class="media-body" data-ng-init="request.isLoadingEnable = false">
+				        	
+				        	<button ng-switch-when="COMMUNITY_JOIN_REQUEST"  data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
+				        	 	data-ng-click="accept_join_request(request.id, request.mm);$event.stopPropagation();" 
+				        	 	class="btn btn-xs btn-success pull-right a_{{request.id}}_{{request.mm}}">accept</button>
+					        
+				        	<button ng-switch-when="COMMUNITY_INVITE_REQUEST" data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
+				        	 	data-ng-click="accept_invite_request(request.id, request.mm);$event.stopPropagation();" 
+				        	 	class="btn btn-xs btn-success pull-right a_{{request.id}}_{{request.mm}}">accept</button>
+					        
+				        	
+				        	<span class="label label-primary pull-right" data-ng-show="request.isRequestAccepted == true">member</span>
+				            
+				            <a ng-switch-when="COMMUNITY_JOIN_REQUEST" ng-href="#/profile/{{request.id}}"><h5 class="media-heading">{{request.dn}}</h5></a>
+				            
+				            <a ng-switch-when="COMMUNITY_INVITE_REQUEST" ng-href="#/community/{{request.id}}"><h5 class="media-heading">{{request.dn}}</h5></a>
+				            <p class="margin-none">{{request.msg}}</p>
+				        </div>
+					</li>
+		      	</ul>
+			</li>
+		</ul>
+	</div>			
+	
+	<div class="col-lg-3 col-md-3 col-sd-3 pull-left" data-ng-controller="SearchController" style="padding-top: 1%;">
+			
+			<div class="col-lg-12 col-md-12 col-sd-12">
+				<div class="input-group input-group-sm innerC">
+				 	<input type="text" class="form-control" data-ng-keyup="search_result(query)" placeholder="Search Users, Community" data-ng-model="query">
+					<div class="input-group-btn"><button class="btn btn-default" type="button" style="margin: 0 -3px !important;"><i class="fa fa-search"></i></button></div>
+				</div>
+			</div>
+		
+			<div class="row">
+				<ul class="col-lg-11 col-md-11 col-sd-11 dropdown-menu chat media-list hide" ng-class="{show : result.length > 0 && query.length > 0}" style="left: 12px;overflow-y: scroll; max-height: 345px;">
+					<li class="media" ng-repeat="sr in result" ng-switch="sr.tp">
+				        shows user section
+				        <a ng-switch-when="USER" class="pull-left" href="#/profile/{{sr.id}}">
+				        	<img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
+				        </a>
+				        
+				        shows community section
+				        <a ng-switch-when="COMMUNITY" class="pull-left" href="#/community/{{sr.id}}">
+				        	<img class="media-object thumb" data-ng-src="/community-mini-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
+				        </a>
+				        
+						<div class="media-body">
+				        	
+				            <h5 class="media-heading">{{sr.nm}}</h5>
+				            <p class="margin-none">{{sr.tp}}</p>
+				        </div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	
+</div> -->
+
+        <div id="header" class="header-wrapper navbar hidden-print navbar-default box main navbar-fixed-top" id="nav_bar" role="navigation" style="top:0px; height: 42px;box-shadow: none;">
+            <p class="pull-left" style="margin-left: 64px;float: left;font-size: 25px;margin-bottom: 0%;font-weight: bold;color: white;">miniBean</p>
+            
+            <ul class="pull-left hidden-xs">
+			
+			<li class="dropdown notif pull-left" >
+				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
+						<span data-ng-show="isFRreaded == true && friend_requests.length > 0" data-ng-mouseover="reset_fr_count()">
+							<span class="badge pull-right">{{friend_requests.length}}</span>
+						</span>
+						<img class="colorChange" src="../assets/app/images/general/icon_png/w_profile.png" />
+				</a>
+				<ul class="dropdown-menu chat media-list" data-ng-show="friend_requests.length > 0" style="top: 28px !important;" >
+					<li class="media" data-ng-repeat="friend in friend_requests">
+				        <a class="pull-left" ng-href="#/profile/{{friend.id}}"><img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{friend.id}}" alt="50x50" width="50"></a>
+						<div class="media-body" data-ng-init="friend.isLoadingEnable = false">
+				        	
+				        	<button data-ng-show="friend.isFriendAccepted == false && friend.isLoadingEnable == false" data-ng-init="friend.isFriendAccepted = false"
+				        		 data-ng-click="accept_friend_request(friend.id, friend.nid)" class="btn btn-xs btn-success pull-right">accept</button>
+				        	<label class="label label-default pull-right" data-ng-show="friend.isFriendAccepted == true">Friends</label>
+				        	
+				        	<span class="label label-primary pull-right" data-ng-show="friend.isLoadingEnable == true">Loading...</span>
+				            
+				            <a href="#/profile/{{friend.id}}" style="margin-right: 0px !important;"><h5 class="media-heading">{{friend.dn}}</h5></a>
+				        </div>
+					</li>
+		      	</ul>
+			</li>
+			<li class="dropdown notif pull-left">
+				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
+						<span data-ng-show="isNOreaded == true && join_requests.length > 0" data-ng-mouseover="reset_notify_count()">
+							<span class="badge pull-right">{{join_requests.length}}</span>
+						</span>
+						<img class="colorChange" src="../assets/app/images/general/icon_png/w_notification.png" />
+				</a>
+				<ul class="dropdown-menu chat media-list" data-ng-show="join_requests.length > 0" style="top: 28px !important;">
+					<li class="media" data-ng-repeat="request in join_requests" ng-switch="request.tp">
+				        
+				        <a ng-switch-when="COMMUNITY_JOIN_REQUEST" class="pull-left" ng-href="#/profile/{{request.id}}"><img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{request.id}}" alt="50x50" width="50"></a>
+				        
+				        <a ng-switch-when="COMMUNITY_INVITE_REQUEST" class="pull-left" ng-href="#/community/{{request.id}}/moment"><img class="media-object thumb" data-ng-src="/community-mini-image-by-id/{{request.mm}}" alt="50x50" width="50"></a>
+				        
+						<div class="media-body" data-ng-init="request.isLoadingEnable = false">
+				        	
+				        	<button ng-switch-when="COMMUNITY_JOIN_REQUEST"  data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
+				        	 	data-ng-click="accept_join_request(request.id, request.mm, request.nid);$event.stopPropagation();" 
+				        	 	class="btn btn-xs btn-success pull-right a_{{request.id}}_{{request.mm}}">accept</button>
+					        
+				        	<button ng-switch-when="COMMUNITY_INVITE_REQUEST" data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
+				        	 	data-ng-click="accept_invite_request(request.id, request.mm, request.nid);$event.stopPropagation();" 
+				        	 	class="btn btn-xs btn-success pull-right a_{{request.id}}_{{request.mm}}">accept</button>
+					        
+				        	<button ng-switch-when="COMMUNITY_JOIN_APPROVED" style="margin-right: 0px !important;" 
+				        		data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
+				        		data-ng-click="mark_as_read(request.nid);$event.stopPropagation();"
+				        		class="btn btn-xs btn-success pull-right a_{{request.id}}_{{request.mm}}">mark as read</button>
+				        	
+				        	<span class="label label-primary pull-right" data-ng-show="request.isRequestAccepted == true">member</span>
+				            
+				            <a ng-switch-when="COMMUNITY_JOIN_REQUEST" style="margin-right: 0px !important;" ng-href="#/profile/{{request.id}}"><h5 class="media-heading">{{request.dn}}</h5></a>
+				            
+				            <a ng-switch-when="COMMUNITY_INVITE_REQUEST" style="margin-right: 0px !important;" ng-href="#/community/{{request.id}}/moment"><h5 class="media-heading">{{request.cn}}</h5></a>
+				            
+				            <p class="margin-none">{{request.msg}}</p>
+				        </div>
+					</li>
+		      	</ul>
+			</li>
+		</ul>
+           
+            <form id="mainSearch" name="mainSearch" method="post" action="">
+            
+            
+            <div class="col-lg-12 col-md-12 col-sd-12 pull-left" data-ng-controller="SearchController" >
+               	<label for="Main Search"></label>
+               	<input type="text" name="searchfield" id="searchfield"  data-ng-keyup="search_result(query)" placeholder="Search Users, Community" data-ng-model="query" style="height: 20px;">
+               	<input id="submit-search" name="submit" type="submit">
+			
+				<div class="row">
+					<ul class="col-lg-11 col-md-11 col-sd-11 dropdown-menu chat media-list hide" ng-class="{show : result.length > 0 && query.length > 0}" style="left: 12px;overflow-y: scroll; max-height: 345px;">
+						<li class="media" ng-repeat="sr in result" ng-switch="sr.tp">
+					        <a ng-switch-when="USER" class="pull-left" href="#/profile/{{sr.id}}">
+					        	<img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
+					        </a>
+					        
+					        <a ng-switch-when="COMMUNITY" class="pull-left" href="#/community/{{sr.id}}/moment">
+					        	<img class="media-object thumb" data-ng-src="/community-mini-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
+					        </a>
+					        
+							<div class="media-body">
+					        	
+					            <h5 class="media-heading">{{sr.nm}}</h5>
+					            <p class="margin-none">{{sr.tp}}</p>
+					        </div>
+						</li>
+					</ul>
+				</div>
+			</div>
+            
+            
+            
+            </form>
+            <div class="right-side">
+				<a style="color: #ffffff !important;font-weight: bold;" class="dropdown-toggle dropdown-hover colorChange" data-toggle="dropdown" href="#">
+						{{userInfo.displayName}}
+				</a>
+				<ul class="dropdown-menu">
+					<li><a ng-href="#/">Home</a></li>
+					<!-- <li><a >Messages</a></li> -->
+					<li><a ng-href="#/about/activities">Profile</a></li>
+					<li><a href="/logout">Logout</a></li>
+			    </ul>
+                <a href="#"><img src="../assets/app/images/general/icon_png/w_home.png" /></a>
+                <a href="#"><img src="../assets/app/images/general/icon_png/w_setup.png" /></a>
+            </div>
+        </div>
+        
+<!-- Css Style -->
+<style type="text/css">
+	.notifications>li.open {
+		border-right: none  !important;
+		padding-left: 0px  !important;
+		padding-right: 0px  !important;
+		border-left: none  !important;
+	}
+	
+	.navbar .input-group {
+		height: 0px !important;
+	}
+	
+	.navbar .input-group .form-control {
+		height: 30px !important;
+		padding-left: 1%;
+	}
+	
+	.innerC {
+		padding-bottom: 0px;
+	}
+	
+	.btn .no-margin {
+		margin: 0 -3px !important;
+	}
+	
+	.navbar .dropdown a.dropdown-toggle:focus {
+		color: #ffffff;
+	}
+	
+	.dropdown open{
+		float: right;
+	}
+	span.badge {
+    position: relative;
+    top:  -10px;
+    left: -10px;
+	}
+	
+   .colorChange{color: gray;} 
+	a:hover .iconImage{color: gray;}
+	a:hover .iconImage{color: gray;}
+	.userName{color: white;}
+	.userName:hover{color: gray;}
+</style>
+
+
+
+

@@ -1,0 +1,46 @@
+
+ <div class="col-lg-12 col-md-12" ng-show="community.isM && community.typ == 'OPEN' || community.isM == false && community.typ == 'OPEN' || community.isM && community.typ == 'CLOSE' || community.isO && community.typ == 'CLOSE'">
+	
+	<div class="row" id="wall-forum" data-ng-repeat="post in community.searchPosts">
+		<div class="general-box">
+			<ul>
+				<li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}"/><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span></p>
+	            <span class="wall-user-actState-date" am-time-ago="post.t"></span></li>
+	            <li><p ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></p></li>
+	            <li><div data-ng-show="post.hasImage" class="innerAll">
+						<p class="lead"></p>
+						<a data-ng-repeat="imageID in post.imgs" href="">
+							<img width="90" data-ng-src="/get-post-image-by-id/{{imageID}}" alt="" class="img-post">
+						</a>
+				     </div>
+				</li>
+				<li><a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)" style="color: #428bca !important;">Like</a></li>
+				<li><a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)" style="color: #428bca !important;">Unlike</a></li>
+	      		</ul>
+	   
+		   	<ul class="wall-user-post-respond">
+	             
+	             <li data-ng-click="get_all_comments(post.id)"><a href="">View {{post.n_c}} more comments</a></li>
+	             <ul>
+	                 <li data-ng-repeat="comment in post.cs"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><div><p class="user-comment"><a href="#" style="color: #428bca !important;">{{comment.on}}</a><pre ng-bind-html="comment.d | highlight: highlightText"></pre></p><span class="wall-user-actState-date" am-time-ago="comment.cd"></span><a class="btn-like" href="#" style="color: #428bca !important;">Like</a></div></li>
+	             </ul>
+	             <li><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}"/></a>
+	             		<form id="userCommentwrapper" name="userComment">
+		                     <label for="User Comment"></label>
+		                     <textarea name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." rows="1" data-ng-model="commentText"></textarea>
+		                     <!-- <input id="submit-userComment" name="submit" type="button" data-ng-click="comment_on_post(post.id, commentText)"/> -->
+		                     <span class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText)"></i></span>
+	                    </form>
+	              </li>
+	         </ul>
+		</div>
+	</div>
+	
+	<div data-ng-show="community.searchPosts.length==0" class="row" id="wall-forum">
+		<div class="general-box" style="min-height: 100px;">
+			{{noresult}}
+		</div>
+	</div>	
+</div>
+
+<button data-ng-show="community.searchPosts.length > 0" style="width:100%" data-ng-click="search_and_highlight(highlightQuery)">See More<span ng-show="isBusy" spinner-start-active="1" us-spinner="{top: 'inherit'}" ></span></button>

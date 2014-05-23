@@ -1,0 +1,310 @@
+		
+		<header>
+			<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/headerBar.html'"></div>
+		</header>
+		
+		
+		
+		<!-- <tabset class="inboxSectionTab tabbable tabs-below">
+		   	<tab  heading="All Articles">
+				<div  data-ng-repeat="article in result"  class="row tm">
+		
+					<div class="col-md-3 col-lg-3"></div>
+						<a ng-href="/#/article/id/{{article.id}}">			
+					<div class="col-md-6 col-lg-6 bg-white border-bottom" >
+						<div  class="col-md-9 col-lg-9">
+							 <div class="row tm">
+					            <div class="col-md-4">
+					           		<div class="pull-right">
+					             				<label>Title: </label>
+					             	</div>
+					             </div>
+					               		
+					             <div class="row">
+					              	<div class="col-md-6">
+					              	{{article.nm}}
+					              	</div>
+					        	</div>
+					         </div>
+					         
+					         <div class="row tm">
+					            <div class="col-md-4">
+					           		<div class="pull-right">
+					             				<label>Featured: </label>
+					             	</div>
+					             </div>
+					               		
+					             <div class="row">
+					              	<div class="col-md-6">
+					              	<div ng-app="myApp">
+					              	 <input type="checkbox" ng-disabled="true" ng-model="article.frd" class="ng-valid ng-dirty">
+					              	</div>
+					              	</div>
+					              	
+					        	</div>
+					         </div>
+					         
+					         <div class="row tm">
+					            <div class="col-md-4">
+					           		<div class="pull-right">
+					             				<label>Category: </label>
+					             	</div>
+					             </div>
+					               		
+					             <div class="row">
+					              	<div class="col-md-6">
+					              		<div class="col-md-2"> 	<img class="pull-left media-object" data-ng-src="{{article.ct.pictureName}}" alt="50x50" width="25" ></div>
+					              		<div class="col-md-10">  {{article.ct.name}} </div>
+					              	</div>
+					        	</div>
+					         </div>
+							
+							 <div class="row tm"></div>
+						</div> 
+								
+					</div>
+						</a>
+					<div class="col-md-3 col-lg-3"></div>
+					
+					
+				</div>
+			</tab>
+		
+			<tab  active="mygroups" heading="Recommended">
+					<div ng-controller="ShowArticleController"  data-ng-repeat="article in resultSlidder.la"  class="row tm">
+		
+					<div class="col-md-3 col-lg-3"></div>
+					<a ng-href="/#/article/id/{{article.id}}">		
+					<div class="col-md-6 col-lg-6 bg-white border-bottom" >
+						<div  class="col-md-9 col-lg-9">
+							 <div class="row tm">
+					            <div class="col-md-4">
+					           		<div class="pull-right">
+					             				<label>Title: </label>
+					             	</div>
+					             </div>
+					               		
+					             <div class="row">
+					              	<div class="col-md-6">
+					              	{{article.nm}}
+					              	</div>
+					        	</div>
+					         </div>
+					         
+					         <div class="row tm">
+					            <div class="col-md-4">
+					           		<div class="pull-right">
+					             				<label>Featured: </label>
+					             	</div>
+					             </div>
+					               		
+					             <div class="row">
+					              	<div class="col-md-6">
+					              	<div ng-app="myApp">
+					              	 <input type="checkbox" ng-disabled="true" ng-model="article.frd" class="ng-valid ng-dirty">
+					              	</div>
+					              	</div>
+					              	
+					        	</div>
+					         </div>
+					         
+					         <div class="row tm">
+					            <div class="col-md-4">
+					           		<div class="pull-right">
+					             				<label>Category: </label>
+					             	</div>
+					             </div>
+					               		
+					             <div class="row">
+					              	<div class="col-md-6">
+					              		<div class="col-md-2"> 	<img class="pull-left media-object" data-ng-src="{{article.ct.pictureName}}" alt="50x50" width="25" ></div>
+					              		<div class="col-md-10">  {{article.ct.name}} </div>
+					              	</div>
+					        	</div>
+					         </div>
+							
+							 <div class="row tm"></div>
+						</div> 
+								
+					</div>
+					</a>
+								
+					<div class="col-md-3 col-lg-3"></div>
+					
+					
+				</div>
+				<div ng-controller="ShowArticleController"  data-ng-repeat="article in resultSlidder.ra"  class="row tm">
+		
+					<div class="col-md-3 col-lg-3"></div>
+					<a ng-href="/#/article/id/{{article.id}}">				
+					<div class="col-md-6 col-lg-6 bg-white border-bottom" >
+						<div  class="col-md-9 col-lg-9">
+							 <div class="row tm">
+					            <div class="col-md-4">
+					           		<div class="pull-right">
+					             				<label>Title: </label>
+					             	</div>
+					             </div>
+					               		
+					             <div class="row">
+					              	<div class="col-md-6">
+					              	{{article.nm}}
+					              	</div>
+					        	</div>
+					         </div>
+					         
+					         <div class="row tm">
+					            <div class="col-md-4">
+					           		<div class="pull-right">
+					             				<label>Featured: </label>
+					             	</div>
+					             </div>
+					               		
+					             <div class="row">
+					              	<div class="col-md-6">
+					              	<div ng-app="myApp">
+					              	 <input type="checkbox" ng-disabled="true" ng-model="article.frd" class="ng-valid ng-dirty">
+					              	</div>
+					              	</div>
+					              	
+					        	</div>
+					         </div>
+					         
+					         <div class="row tm">
+					            <div class="col-md-4">
+					           		<div class="pull-right">
+					             				<label>Category: </label>
+					             	</div>
+					             </div>
+					               		
+					             <div class="row">
+					              	<div class="col-md-6">
+					              		<div class="col-md-2"> 	<img class="pull-left media-object" data-ng-src="{{article.ct.pictureName}}" alt="50x50" width="25" ></div>
+					              		<div class="col-md-10">  {{article.ct.name}} </div>
+					              	</div>
+					        	</div>
+					         </div>
+							
+							 <div class="row tm"></div>
+						</div> 
+								
+					</div>
+						</a>		
+					<div class="col-md-3 col-lg-3"></div>
+					
+					
+				</div>
+					
+			</tab>
+		</tabset> -->
+		
+		
+		<div class="themeA-container">
+        <div class="row">
+        <div class="col-md-2 col-sm-2 col-xs-2" style="width: 20%;">
+            <div id="all-post-thumbnail" class="general-box" ng-show="oneCategory">
+                <ul>
+                    <li>
+                        <a href="#"><span></span><img data-ng-src="{{categoryImage}}"></a>
+                    </li>
+                    <li><div><font class="scCatName">{{categoryName}}</font></div></li>
+                </ul>
+            </div>
+			<div id="all-post-thumbnail" class="general-box" ng-controller="EditArticleController" ng-show="allCategory">
+				<ul>
+                    <li data-ng-repeat="category in articleCategorys" style="width: 50%;">
+                        <a href="#"><span></span><img data-ng-src="{{category.pn}}" style="width: 100%; height: 82px"></a>
+                    </li>
+                    <li><div><font class="scCatName">All Articles</font></div></li>
+                </ul>
+			</div>	
+            <!--All Post Thumbnail End -->
+            <div id="postCategory" class="general-box" style="height: 201px;">
+                <div class="con-title">
+                    <span class="icon-box icon-box-blueDark icon-title-postCat"></span><a href="/#/article/show"><font><font>Category</font></font></a>
+                </div>
+                <div class="content-wrapper">
+                    <ul>
+                        <li><a href="/#/article/show/0" style="cursor : pointer;"><font><font>All Articles</font></font></a></li>
+                        <li data-ng-repeat="category in articleCategorys"><a data-ng-href="/#/article/show/{{category.id}}" style="cursor: pointer;" id="categoryselect"><font><font>{{category.name}}</font></font></a></li>
+                    </ul>
+                </div>
+            </div><!--Post Category End -->
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-6" style="width:50%;">
+            <div id="slider" class="general-box" >
+			                	<div data-ng-include style="width: 100%;" data-src="'/assets/app/views/postWallMessageBar.html'" ng-show="seeAllCategory == true"></div>
+									<div id="sta-con-slider" ng-show="threeCategory == true">
+						                <div class="sta-con-mainslide"><p><a href="/#/article/id/{{article1.id}}">{{article1.nm|characters:18:false}}</a><a title="summary" href="/#/article/id/{{article1.id}}">{{article1.lds|characters:60:false}}</a></p><a href="/#/article/id/{{article1.id}}"><img data-ng-src="{{article1.img_url}}"></a><a href="/#/article/id/{{article1.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+						                <div class="sta-con-mainslide"><a title="subslide" href="/#/article/id/{{article2.id}}">{{article2.nm|characters:18:false}}</a><a href="/#/article/id/{{article2.id}}"><img data-ng-src="{{article2.img_url}}"></a><a href="/#/article/id/{{article2.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+						                <div class="sta-con-mainslide"><a title="subslide" href="/#/article/id/{{article3.id}}">{{article3.nm|characters:18:false}}</a><a href="/#/article/id/{{article3.id}}"><img data-ng-src="{{article3.img_url}}"></a><a href="/#/article/id/{{article3.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+						            </div>
+			            </div><!--Slider End -->
+            <div id="wall">
+                <div class="general-box">
+                <div class="wall-title">
+                    <span class="wall-icon icon-title-friendwall"></span><a href="/#/article/show/0" style="cursor: pointer;"><font><font>All Articles</font></font></a>
+                </div>
+                </div>
+                <div infinite-scroll='next_result()'  infinite-scroll-distance='0' >
+	                <div class="general-box" >
+	                    <ul class="allpost-wrapper">
+	                        <li data-ng-repeat="article in result">
+	                            <a href="/#/article/id/{{article.id}}">
+	                                <img data-ng-src="{{article.img_url}}" style="width:165px; height:130px;">
+	                                <div><h4 style="color: #324fe1;"><font><font>{{article.nm}}</font></font></h4><h6><a class="tag" data-ng-click="get_result(article.ct.id)"> <font><font>{{article.ct.name}}</font></font></a><font><font>{{article.pd | date:'yyyy'  }}</font></font>  <font><font>{{article.pd | date:'MMM'  }}</font></font>  <font><font>{{article.pd | date:'dd'  }}</font></font></h6><p><font><font>{{article.lds|characters:60:false}}</font></font></p></div>
+	                           </a>
+	                        </li>
+	                    </ul>
+	                </div>
+                </div>
+            </div><!--Wall End -->
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4 " style="width: 30%;">
+            <div id="hotPost" class="general-box">
+                <div class="con-title">
+                    <span class="icon-box icon-box-orange icon-title-hotforum"></span><a href="#"><font>Hot Articles</font></a>
+                </div>
+                <div class="static-content-wrapper" >
+                    <ul>
+                        <li  data-ng-repeat="article in resultSlidder.ra"><a href="/#/article/id/{{article.id}}"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>
+                    </ul>
+                </div>
+            </div><!--HotTopic End -->
+            <div id="latestPost" class="general-box">
+                <div class="con-title">
+                    <span class="icon-box icon-box-green icon-title-latestPost"></span><a href="#"><font>New Articles</font></a>
+                </div>
+                <div class="static-content-wrapper">
+                    <ul>
+						<li  data-ng-repeat="article in resultSlidder.la"><a href="/#/article/id/{{article.id}}"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>                    
+					</ul>
+                </div>
+            </div><!--Latest Post End -->
+        </div>
+        </div>
+    </div>
+		
+		
+	
+	<script type="text/ng-template" id="myModalContent.html">
+	    	<div class="modal-header">
+		        <h4 class="modal-title" id="myModalLabel">Article Description</h4>
+		     </div>
+
+		   
+      		<div class="modal-body">
+			</div>
+
+
+			 <div class="modal-footer">
+       		 </div>
+	</script>
+	
+<style>
+
+a{
+	color: black;
+}
+</style>
+	
