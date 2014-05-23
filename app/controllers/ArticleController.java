@@ -53,26 +53,7 @@ public class ArticleController extends Controller {
 		return ok();
 	}
 	
-	@Transactional
-	public static Result updateArticle() {
-		Form<String> form = DynamicForm.form(String.class).bindFromRequest();
-		Map<String, String> dataToUpdate = form.data();
-		
-		Long id = Long.parseLong(dataToUpdate.get("id"));
-		Article article = Article.findById(id);
-		article.name = dataToUpdate.get("nm");
-		if(dataToUpdate.get("frd").equals("true"))
-				article.isFeatured = true;
-		if(dataToUpdate.get("frd").equals("false"))
-				article.isFeatured = false;
-		article.targetAge = Integer.parseInt(dataToUpdate.get("ta"));
-		ArticleCategory ac = ArticleCategory.getCategoryById(Long.parseLong(dataToUpdate.get("ct.id")));
-		article.category = ac;
-		article.description = dataToUpdate.get("ds");
-		article.setUpdatedDate(new Date());
-		article.updateById();
-		return ok();
-	}
+	
 	
 	@Transactional
 	public static Result getAllArticleCategory() {
@@ -196,19 +177,7 @@ public class ArticleController extends Controller {
 		return ok(Json.toJson(vm));
 	}
 	
-	@Transactional
-	public static Result getAllComments(Long id) {
-		Article article = Article.findById(id);
-		final User localUser = Application.getLocalUser(session());
-		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
-		List<Comment> comments = article.getCommentsOfPost();
-		for(Comment comment : comments) {
-			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
-			commentVM.isLike = comment.isLikedBy(localUser);
-			commentsToShow.add(commentVM);
-		}
-		return ok(Json.toJson(commentsToShow));
-	}
+
 	
 
 	@Transactional

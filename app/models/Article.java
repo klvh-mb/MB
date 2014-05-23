@@ -56,17 +56,20 @@ public class Article extends SocialObject implements Commentable, Likeable {
 	@Lob
 	public String description;
 	
-	public Boolean isFeatured;
 	
+	public int TargetAgeMinMonth;
+	public int TargetAgeMaxMonth;
+	
+	public int noOfLikes=0;
+	public int TargetGender;                
+    public int TargetParentGender;      
+    public String TargetDistrict;             
+    
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
 	public Date publishedDate;
 	
-	public Integer targetAge;
-	
-	public int noOfLikes=0;
-	
-	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-	public List<Comment> comments;
+
+
 	
 	@ManyToOne
 	public ArticleCategory category;
@@ -74,39 +77,16 @@ public class Article extends SocialObject implements Commentable, Likeable {
 	public Article(String name, String description, Boolean isFeatured, Integer targetAge, ArticleCategory category) {
 		this.name = name;
 		this.description = description;
-		this.isFeatured = isFeatured;
-		this.targetAge = targetAge;
 		this.category = category;
 		this.publishedDate = new Date();
 		this.objectType = SocialObjectType.ARTICLE;
 	}
 
-	@Override
-	public SocialObject onComment(User user, String body, CommentType type)
-			throws SocialObjectNotCommentableException {
-		Comment comment = new Comment(this, user, body);
-		
-		if (comments == null) {
-			comments = new ArrayList<Comment>();
-		}
-		recordCommentOnArticle(user);
-		comment.objectType = SocialObjectType.COMMENT;
 
-		comment.commentType = type;
-		comment.save();
-		this.comments.add(comment);
-		JPA.em().merge(this);
-		return comment;
-	}
-	
-	@JsonIgnore
-	public List<Comment> getCommentsOfPost() {
-		return (comments);
-	}
 	
 	@Transactional
 	public static List<Article> getAllArticles() {
-		Query q = JPA.em().createQuery("Select a from Article a order by publishedDate DESC");
+		Query q = JPA.em().createQuery("Select a from Article a order by publishedDate desc");
 		return (List<Article>)q.getResultList();
 	}
 	
@@ -137,8 +117,7 @@ public class Article extends SocialObject implements Commentable, Likeable {
 	@Transactional
 	public static List<Article> getEightArticles() {
 		//  Select * from Article where featured = 1 limit <= 8
-		Query q = JPA.em().createQuery("Select a from Article a where a.isFeatured  = ?1 order by publishedDate desc");
-		q.setParameter(1, true);
+		Query q = JPA.em().createQuery("Select a from Article a order by publishedDate desc");
 		q.setFirstResult(0);
 		q.setMaxResults(8);
 		return (List<Article>)q.getResultList();

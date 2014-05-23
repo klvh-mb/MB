@@ -32,7 +32,6 @@ GET		/get-Related-Articles/:id/:category_id   controllers.ArticleController.getR
 GET		/getDescriptionOdArticle/:id  	controllers.ArticleController.getDescriptionOdArticle(id :Long)
 GET		/deleteArticle/:id			controllers.ArticleController.deleteArticle(id :Long)
 GET		/Article/:id				controllers.ArticleController.infoArticle(id :Long)
-GET		/ArticleComments/:id		controllers.ArticleController.getAllComments(id : Long)
 GET     /like-article/:id			controllers.ArticleController.onLike(id : Long)
 GET     /unlike-article/:id			controllers.ArticleController.onUnlike(id : Long)
 
