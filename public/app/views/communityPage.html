@@ -80,15 +80,15 @@
 								<b>{{community.n}}</b>
 							</div>
 							<div class="divider-cus"></div>
-							<div ng-class="{activeTab: selectedTab == 1}">
+							<div ng-class="{activeTabBold: selectedTab == 1}">
 								<a ng-click="selectedTab = 1;">Activity</a>
 							</div>
 							<div class="divider-cus"></div>
-							<div ng-class="{activeTab: selectedTab == 2}">
+							<div ng-class="{activeTabBold: selectedTab == 2}">
 								<a ng-click="selectedTab = 2;">Members</a>
 							</div>
 							<!-- <div class="divider-cus"></div>
-							<div ng-class="{active: selectedTab == 3}">
+							<div ng-class="{activeBold: selectedTab == 3}">
 								<a ng-click="selectedTab = 3;">Photo Contest</a>
 							</div> -->
 							<div class="dropdown pull-right ">
@@ -114,15 +114,15 @@
 					<div class="general-box" style="margin:-1px">
 						<div class="wall-title">
 							<span class="wall-icon icon-title-friendwall">
-							</span><a ng-click="selectedTab1 = 1; searchQuery = '';">
-							<font style="color: white;" ng-class="{activeTab: selectedTab1 == 1}">Moments</font> </a>
+							</span><a ng-click="selectedTab1 = 1; searchQuery = '';" ng-class="{activeTabUnderlined: selectedTab1 == 1}">
+							<font style="color: white;">Moments</font> </a>
 							<span class="wall-icon icon-title-community">
-							</span><a	ng-click="selectedTab1 = 2; searchQuery = '';">
-							<font style="color: white;"	ng-class="{activeTab: selectedTab1 == 2}">Questions</font> </a>
+							</span><a ng-click="selectedTab1 = 2; searchQuery = '';" ng-class="{activeTabUnderlined: selectedTab1 == 2}">
+							<font style="color: white;">Questions</font> </a>
 							<span class="wall-icon" data-ng-init="isSearch = true"><i class="fa fa-search" style="color: white;"></i>
 							</span>
-							<a ng-click="selectedTab1 = 3;" id="contentSearchwrapper" class="pull-right ng-pristine ng-valid" style="top: -26px;">
-							<input name="main-search-field" id="main-search-field" class="general-textfield" ng-model="searchQuery" type="text" ng-class="{activeTab: selectedTab1 == 3}">
+							<a ng-click="selectedTab1 = 3;" id="contentSearchwrapper" class="pull-right ng-pristine ng-valid" ng-class="{activeTabUnderlined: selectedTab1 == 3}">
+							<input name="main-search-field" id="main-search-field" class="general-textfield" ng-model="searchQuery" type="text">
 							<input id="submit-content-search" name="submit-content-search" class="icon-box icon-title-search" style="cursor: pointer;" ng-click="search_trigger = searchQuery">
 							</a>
 							<!-- <form ng-controller="SearchPageController" id="contentSearchwrapper" name="contentSearch" class="pull-right ng-pristine ng-valid" method="post" action="">
@@ -391,10 +391,6 @@
 </div>
 
 <style>
-.activeTab{
-    font-weight: bold;
-    text-decoration:underline;
-}
 .container-fluid {
 	background: inherit !important;
 	padding-right: 0px !important;
@@ -406,7 +402,6 @@
 	background: inherit !important;	
 }
 </style>  
-  
     
     <script type="text/ng-template" id="change-profile-photo-modal.html">
       <div class="modal-header">

@@ -1142,13 +1142,13 @@ text-decoration: none;
     width: 64%;
     height: 100%;
     float: left;
-    margin-right: 4px;
+    margin-right: 5px;
 }
 #sta-con-slider div:nth-child(2) {
     width: 35%;
     height: 49%;
     float: left;
-    margin-bottom: 4px;
+    margin-bottom: 5px;
 }
 #sta-con-slider div:nth-child(3) {
     width: 35%;
@@ -1366,6 +1366,7 @@ text-decoration: none;
 }
 .post-detail-wrapper li img {
     display: block;
+    max-width: 580px;
 }
 .post-detail-wrapper p {
     padding-top: 10px;

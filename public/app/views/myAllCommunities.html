@@ -5,15 +5,15 @@
 				<div class="row">
 					<div class="wall-title">
 				        <span class="wall-icon icon-title-community"></span>
-				        	<a ng-click="selectedTab = 1;" style="color: white !important;">
-				        	<font ng-class="{activeTab: selectedTab == 1}">My Groups</font>
+				        	<a ng-click="selectedTab = 1;" ng-class="{activeTabUnderlined: selectedTab == 1}">
+				        	<font>My Groups</font>
 				        	</a>
 				        <span class="wall-icon icon-title-friendwall"></span>
-				        	<a ng-click="selectedTab = 2;" style="color: white !important;">
-				        	<font ng-class="{activeTab: selectedTab == 2}">Groups</font></a>
-				        <span class="pull-right menu-text">
-				        	<a style="color: white !important;">
-				        	<i class="fa fa-fw  fa-group"></i> <font data-toggle="modal" data-target="#myModal">Create New</font></a></span>
+				        	<a ng-click="selectedTab = 2;" ng-class="{activeTabUnderlined: selectedTab == 2}">
+				        	<font>Groups</font></a>
+				        <span class="pull-right menu-btn">
+				        	<a><i class="fa fa-fw  fa-group"></i> <font data-toggle="modal" data-target="#myModal">Create New</font></a>
+				        </span>
 				    </div>
             
 		            <div ng-show="selectedTab == 1" id="wall" style="height: auto !important;" >

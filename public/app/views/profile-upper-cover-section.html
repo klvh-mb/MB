@@ -55,11 +55,11 @@
                         <p id="profile-user-name">{{profile.dn}}</p>
                         <div id="menu-title">
                         	<a ng-click="selectedTab = 1;">
-							<font ng-class="{activeTab: selectedTab == 1}">Recent Activities</font> </a>
+							<font ng-class="{activeTabBold: selectedTab == 1}">Recent Activities</font> </a>
 							<a	ng-click="selectedTab = 2;">
-							<font ng-class="{activeTab: selectedTab == 2}">Communities</font> </a>
+							<font ng-class="{activeTabBold: selectedTab == 2}">Communities</font> </a>
 							<a ng-click="selectedTab = 3;">
-							<font ng-class="{activeTab: selectedTab == 3}">Friends</font></a>
+							<font ng-class="{activeTabBold: selectedTab == 3}">Friends</font></a>
                         
                         
                             <!-- <a data-ng-click="selectedTab = 1;"> <div ng-class="{activeTab: selectedTab == 1}">Recent Activities</div></a>
@@ -79,12 +79,3 @@
                     </li>
                 </ul>
             </div><!--Profile Header End -->
-            
-            
-<style>
-
-	.activeTab{
-	    font-weight: bold;
-	    text-decoration:underline;
-	}
-</style>
