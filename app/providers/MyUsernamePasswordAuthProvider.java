@@ -101,7 +101,10 @@ public class MyUsernamePasswordAuthProvider
 		public String repeatPassword;
 
 		@Required
-		public String name;
+		public String lname;
+		
+		@Required
+		public String fname;
 
 		public String validate() {
 			if (password == null || !password.equals(repeatPassword)) {

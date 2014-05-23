@@ -175,7 +175,7 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	public Resource setCoverPhoto(File source) throws IOException {
 		ensureAlbumPhotoProfileExist();
 		Resource cover_photo = this.albumPhotoProfile.addFile(source,
-				SocialObjectType.PHOTO);
+				SocialObjectType.COVER_PHOTO);
 		this.albumPhotoProfile.setHighPriorityFile(cover_photo);
 		cover_photo.save();
 		return cover_photo;

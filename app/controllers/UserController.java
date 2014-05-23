@@ -73,6 +73,12 @@ public class UserController extends Controller {
 		
 		FilePart picture = request().body().asMultipartFormData().getFile("profile-photo");
 		String fileName = picture.getFilename();
+		String extension = "jpg";
+		int i = fileName.lastIndexOf('.');
+		if (i > 0) {
+		   extension = fileName.substring(i+1);
+		}
+
 	    String contentType = picture.getContentType(); 
 	    File file = picture.getFile();
 	    File fileTo = new File(fileName);
@@ -92,7 +98,7 @@ public class UserController extends Controller {
 			try {
 				originalImage = ImageIO.read(file);
 				BufferedImage croppedImage = originalImage.getSubimage(jn.get("x").asInt(), jn.get("y").asInt(), jn.get("w").asInt(), jn.get("h").asInt());
-				ImageIO.write(croppedImage, "jpg", fileTo);
+				ImageIO.write(croppedImage, extension, fileTo);
 				localUser.setPhotoProfile(fileTo);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -338,6 +344,22 @@ public class UserController extends Controller {
 		final User user = User.findById(id);
 		if(user.getPhotoProfile() != null) {
 			return ok(new File(user.getPhotoProfile().getMini()));
+		} 
+		
+		try {
+			// TODO:
+			return ok(user.getDefaultUserPhoto());
+		} catch (FileNotFoundException e) {
+			return ok("no image set");
+		}
+		
+	}
+	
+	@Transactional
+	public static Result getMiniCommentVersionImageByID(Long id) {
+		final User user = User.findById(id);
+		if(user.getPhotoProfile() != null) {
+			return ok(new File(user.getPhotoProfile().getMiniComment()));
 		} 
 		
 		try {

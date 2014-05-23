@@ -63,7 +63,7 @@
 <div id="wall-forum">
 		<div class="general-box">
 			<ul>
-	            <li><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{post.oid}}"/><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span></p>
+	            <li><a data-ng-href="/#/profile/{{post.oid}}" ><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}"/></a><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span></p>
 	            <span class="wall-user-actState-date" am-time-ago="post.t"></span></li>
 	            <li><span style="white-space: pre-wrap;" ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></span></li>
 	            <li><div data-ng-show="post.hasImage" class="innerAll">
@@ -84,7 +84,7 @@
 	             
 	             <li ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><a href="">View all</a></li>
 	             <ul>
-	                 <li data-ng-repeat="comment in post.cs"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><div><p class="user-comment"><a href="#" style="color: #428bca !important; width: 100%; float: left;">{{comment.on}}</a>
+	                 <li data-ng-repeat="comment in post.cs"><a data-ng-href="/#/profile/{{comment.oid}}" ><img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{comment.oid}}"/></a><div><p class="user-comment"><a data-ng-href="/#/profile/{{comment.oid}}" style="color: #428bca !important; width: 100%; float: left;">{{comment.on}}</a>
 	                 <span style="white-space: pre-wrap; "ng-bind-html="comment.d | highlight: highlightText"></span>
 	                 <span class="wall-user-actState-date" am-time-ago="comment.cd"></span><span class="wall-user-actState-time"></span>
 	                 <span class="wall-user-actState-time"></span>
@@ -93,7 +93,7 @@
 	                 <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a>
 	                 </li>
 	             
-	             <li ng-show="community.isM == true || community.isO == true"><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}"/></a>
+	             <li ng-show="community.isM == true || community.isO == true"><img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{userInfo.id}}"/>
 	                    <form id="userCommentwrapper" name="userComment">
                                <label for="User Comment"></label>
                                <textarea type="text" name="userCommentfield" id="userCommentfield" class="general-textfield commentBox"  placeholder="Write a comment..." cols="80" data-ng-model="commentText" rows="1"></textarea>

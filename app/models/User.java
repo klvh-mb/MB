@@ -395,7 +395,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	public Resource setPhotoProfile(java.io.File file) throws IOException {
 		ensureAlbumPhotoProfileExist();
 		Resource newPhoto = this.albumPhotoProfile.addFile(file,
-				SocialObjectType.PHOTO);
+				SocialObjectType.PROFILE_PHOTO);
 		this.albumPhotoProfile.setHighPriorityFile(newPhoto);
 		newPhoto.save();
 		return newPhoto;
@@ -404,7 +404,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	public Resource setCoverPhoto(File source) throws IOException {
 		ensureCoverPhotoProfileExist();
 		Resource cover_photo = this.albumCoverProfile.addFile(source,
-				SocialObjectType.PHOTO);
+				SocialObjectType.COVER_PHOTO);
 		this.albumCoverProfile.setHighPriorityFile(cover_photo);
 		cover_photo.save();
 		return cover_photo;
