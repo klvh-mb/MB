@@ -26,22 +26,44 @@ public class ArticleController extends Controller {
 		Long category_id;
 		
 		Article article = articleForm.get();
-		if(!Article.checkTitleExists(article.name))
-		{
-			return status(505, "PLEASE CHOOSE OTHER TITLE");
-		}
 		try{
-			 category_id = Long.parseLong(form.get("category_id"));
+		article.TargetAgeMinMonth = Integer.parseInt(form.get("TargetAgeMinMonth"));
+		article.TargetAgeMaxMonth = Integer.parseInt(form.get("TargetAgeMaxMonth"));
 		}
-		catch(NumberFormatException e){
-			return status(506, "PLEASE CHOOSE CATEGORY");
+		catch(NumberFormatException ne)
+		{
+			return status(507,"PLEASE SELECT TARGET AGE");
 		}
-		ArticleCategory ac = ArticleCategory.getCategoryById(category_id);
-		article.category = ac;
-		article.publishedDate = new Date();
-		
-			article.saveArticle();
-			return ok();
+			if(article.TargetAgeMinMonth>=article.TargetAgeMaxMonth)
+			{
+				return status(508,"TargetAgeMinMonth should be less than TargetAgeMaxMonth");
+			}
+				if(!Article.checkTitleExists(article.name))
+				{
+					return status(505, "PLEASE CHOOSE OTHER TITLE");
+				}
+					try{
+						 category_id = Long.parseLong(form.get("category_id"));
+					}
+					catch(NumberFormatException e){
+						return status(506, "PLEASE CHOOSE CATEGORY");
+					}
+						try{
+						article.TargetGender = Integer.parseInt(form.get("TargetGender"));
+						article.TargetParentGender = Integer.parseInt(form.get("TargetParentGender"));
+						}
+						catch(NumberFormatException nfe)
+						{
+							nfe.printStackTrace();
+						}
+						
+					article.TargetDistrict = form.get("TargetDistrict");
+					ArticleCategory ac = ArticleCategory.getCategoryById(category_id);
+					article.category = ac;
+					article.publishedDate = new Date();
+					
+						article.saveArticle();
+						return ok();
 	}
 	
 	@Transactional
@@ -52,15 +74,15 @@ public class ArticleController extends Controller {
 		Long id = Long.parseLong(dataToUpdate.get("id"));
 		Article article = Article.findById(id);
 		article.name = dataToUpdate.get("name");
-		if(dataToUpdate.get("isFeatured").equals("true"))
-				article.isFeatured = true;
-		if(dataToUpdate.get("isFeatured").equals("false"))
-				article.isFeatured = false;
-		try{
-			article.targetAge = Integer.parseInt(dataToUpdate.get("targetAge"));
-		}catch(NumberFormatException e){
-			e.printStackTrace();
-			}
+		article.TargetAgeMinMonth = Integer.parseInt(dataToUpdate.get("TargetAgeMinMonth"));
+		article.TargetAgeMaxMonth = Integer.parseInt(dataToUpdate.get("TargetAgeMaxMonth"));
+		if(article.TargetAgeMinMonth>=article.TargetAgeMaxMonth)
+		{
+			return status(509,"TargetAgeMinMonth should be less than TargetAgeMaxMonth");
+		}
+		article.TargetGender = Integer.parseInt(dataToUpdate.get("TargetGender"));
+		article.TargetParentGender = Integer.parseInt(dataToUpdate.get("TargetParentGender"));
+		article.TargetDistrict = dataToUpdate.get("TargetDistrict");
 		ArticleCategory ac = ArticleCategory.getCategoryById(Long.parseLong(dataToUpdate.get("category.id")));
 		article.category = ac;
 		article.description = dataToUpdate.get("description");
@@ -85,7 +107,7 @@ public class ArticleController extends Controller {
 		List<Article> allArticles = Article.getAllArticles();
 		List<ArticleVM> listOfArticles = new ArrayList<>();
 		for(Article article:allArticles) {
-			ArticleVM vm = new ArticleVM(article.category, article.name, article.id, article.isFeatured);
+			ArticleVM vm = new ArticleVM(article.category, article.name, article.id);
 			listOfArticles.add(vm);
 		}
 		return ok(Json.toJson(listOfArticles));

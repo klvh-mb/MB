@@ -11,11 +11,10 @@ public class ArticleVM {
 	@JsonProperty("frd") public Boolean isFeatured;	
 	@JsonProperty("ct") public ArticleCategory category;
 	@JsonProperty("ta") public int targetAge;
-	public ArticleVM(ArticleCategory articleCategory,String name,long id,Boolean isFeatured) {
+	public ArticleVM(ArticleCategory articleCategory,String name,long id) {
 		this.category = articleCategory;
 		this.name = name;
 		this.id = id;
-		this.isFeatured = isFeatured;
 	}
 
 }

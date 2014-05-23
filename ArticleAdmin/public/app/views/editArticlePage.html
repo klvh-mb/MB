@@ -13,20 +13,94 @@
 	</tr>
 	<tr>
 			<td>
-		 		<label> Featured	: </label>
-		 	</td>
-		 	<td>
-		 		<input type="checkbox" data-ng-model="article.isFeatured" data-ng-init="article.isFeatured=false">
-		 	</td>	
-	</tr>
-	<tr>
-			<td>
 		 		<label> Target Age	: </label>
 		 	</td>
 		 	<td>
-		 		<select class="form-control" data-ng-model="article.targetAge" data-ng-options="range for range in targetAge"></select>
+		 		<span style="float:left;">From</span>
+		 		<span style="float:left;margin-left: 4%;">
+		 			<select class="form-control" data-ng-model="article.TargetAgeMinMonth">
+		 				<option value=-999>Before Birth</option>
+		 				<option value=-10>Pregnacy 0m</option>
+		 				<option value=-7>Pregnacy 3m</option>
+		 				<option value=-4>Pregnacy 6m</option>
+		 				<option value=0>Birth</option>
+		 				<option value=1>1m</option>
+		 				<option value=2>2m</option>
+		 				<option value=3>3m</option>
+		 				<option value=6>6m</option>
+		 				<option value=9>9m</option>
+		 				<option value=12>12m</option>
+		 				<option value=18>1.5yr</option>
+		 				<option value=24>2.0yr</option>
+		 				<option value=36>3.0yr</option>
+		 				<option value=48>4.0yr</option>
+		 				<option value=60>5.0yr</option>
+		 				<option value=72>6.0yr</option>
+		 				<option value=999>Older</option>
+		 			</select>
+				</span>
+				<span style="float:left;margin-left: 4%;">To</span>
+				<span style="float:left;margin-left: 4%;">
+					<select class="form-control" data-ng-model="article.TargetAgeMaxMonth">
+						<option value=-999>Before Birth</option>
+						<option value=-10>Pregnancy 0m</option>
+		 				<option value=-7>Pregnancy 3m</option>
+		 				<option value=-4>Pregnancy 6m</option>
+		 				<option value=0>Birth</option>
+		 				<option value=1>1m</option>
+		 				<option value=2>2m</option>
+		 				<option value=3>3m</option>
+		 				<option value=6>6m</option>
+		 				<option value=9>9m</option>
+		 				<option value=12>12m</option>
+		 				<option value=18>1.5yr</option>
+		 				<option value=24>2.0yr</option>
+		 				<option value=36>3.0yr</option>
+		 				<option value=48>4.0yr</option>
+		 				<option value=60>5.0yr</option>
+		 				<option value=72>6.0yr</option>
+		 				<option value=999>Older</option>
+						
+					</select>
+				</span>
 			</td>
 	</tr>
+	<tr data-ng-show="TargetAgeCondition==true">
+		<td></td>
+		<td><label class="control-label error"  style="color: red;">MinTargetAge should be less than MaxTargetAge.</label></td>
+	</tr>
+	<tr>
+				<td>
+		 			<label> TargetGender	: </label>
+		 		</td>
+		 		<td>
+		 			<select class="form-control" data-ng-model="article.TargetGender" name="TargetGender" style="width: 30%;">
+		 			<option value=0>Choose</option>
+		 			<option value=1>Male</option>
+		 			<option value=2>Female</option>
+		 			</select>
+	    		</td>
+			</tr>
+			<tr>
+				<td>
+		 			<label> TargetParentGender	: </label>
+		 		</td>
+		 		<td>
+		 			<select class="form-control" data-ng-model="article.TargetParentGender" name="TargetParentGender" style="width: 30%;">
+		 			<option value=0>Choose</option>
+		 			<option value=1>Male</option>
+		 			<option value=2>Female</option>
+		 			</select>
+	    		</td>
+			</tr>
+			<tr>
+				<td>
+					<label> TargetDistrict	: </label>
+				</td>
+				<td>
+					<input type="text" class="form-control" data-ng-model="article.TargetDistrict" name="TargetDistrict">
+				</td>
+			</tr>
 	<tr>
 			<td>
 		 		<label> Category	: </label>

@@ -29,12 +29,15 @@ public class Article extends domain.Entity {
 	@Lob
 	public String description;
 	
-	public Boolean isFeatured;
 	
-	public Integer targetAge;
+	public int TargetAgeMinMonth;
+	public int TargetAgeMaxMonth;
 	
 	public int noOfLikes=0;
-	
+	public int TargetGender;                
+    public int TargetParentGender;      
+    public String TargetDistrict;             
+    
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
 	public Date publishedDate;
 	
