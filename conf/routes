@@ -21,7 +21,7 @@ GET     /profile                    controllers.Application.profile
 GET     /login                      controllers.Application.login
 POST    /login                      controllers.Application.doLogin
 POST	/createArticle				controllers.ArticleController.addArticle
-POST	/editArticle				controllers.ArticleController.updateArticle
+
 POST	/article/comment			controllers.ArticleController.commentOnArticle()
 
 GET		/getAllArticleCategory		controllers.ArticleController.getAllArticleCategory
