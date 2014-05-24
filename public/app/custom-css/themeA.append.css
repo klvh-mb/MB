@@ -42,6 +42,10 @@ a:focus {
   text-decoration: underline;
 }
 */
+.margin-none {
+    margin: 0;
+    padding: 0;
+}
 
 /*!
  * theme
