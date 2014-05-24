@@ -42,6 +42,10 @@ a:focus {
   text-decoration: underline;
 }
 */
+.margin-none {
+    margin: 0;
+    padding: 0;
+}
 
 /*!
  * theme
@@ -134,7 +138,11 @@ a:focus {
     font-size:14px;
     font-weight:700;
 }
+.wall-icon {
+    margin-left: 0px;
+}
 .wall-title {
+    padding: 5px;
     background-color:#826EEE;
 }
 .wall-title a:hover {
@@ -143,15 +151,15 @@ a:focus {
 }
 .wall-title a {
     color: white;
-    font-size: small;
+    font-size: 13px;
     font-weight: normal;
     margin-right: 25px;
     position: relative;
-    top: 2px;
-    line-height: 28px;
-    /* border-bottom: 3px solid transparent; */
+    top: 1px;
+    line-height: 30px;
+    /* border-bottom: 3px solid transparent; 
     border-bottom: 3px solid white; 
-    _border-bottom: 3px solid white;
+    _border-bottom: 3px solid white;*/
     display: inline-block;
 }
 .wall-title-selected {
@@ -427,4 +435,62 @@ a:focus {
     overflow-x: hidden;
     overflow-y: scroll;
     position: relative;
+}
+
+#contentSearchwrapper {
+    width: 40%;
+    height: 28px;
+    top: 1px;
+    right: -68px;
+    border: 0;
+}
+#contentSearchwrapper .general-textfield {
+    height: 28px;
+    border-radius: 3px;
+    color: black;
+    background-color: white;
+    text-decoration: none;
+    font-weight: normal;
+}
+#contentSearchwrapper .general-textfield:hover {
+    color: black;
+    background-color: white;
+    text-decoration: none;
+    font-weight: normal;
+}
+#contentSearchwrapper .general-textfield:active {
+    color: black;
+    background-color: white;
+    text-decoration: none;
+    font-weight: normal;
+}
+#submit-content-search {
+    top: -9px;
+}
+.menu-text, .menu-btn {
+    position: relative;
+    top: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+}
+.menu-text {
+    top: 5px;
+    right: 10px;
+}
+.menu-btn {
+    top: 0px;
+    right: 0px;
+}
+.menu-btn a {
+    font-weight: bold;
+}
+.activeTabBold {
+    font-weight: bold;
+    text-decoration: none;
+}
+.activeTabUnderlined {
+    font-weight: normal;
+    text-decoration: none;
+    border-bottom: 4px solid white;
 }
