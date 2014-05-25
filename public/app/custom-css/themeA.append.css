@@ -494,3 +494,27 @@ a:focus {
     text-decoration: none;
     border-bottom: 4px solid white;
 }
+span.notif-count {
+    position: relative;
+    top: 0px;
+    left: -12px;
+}
+.notif-count {
+    display: inline-block;
+    /*width:15px;
+    height: 15px;*/
+    min-width: 15px;
+    line-height: 15px;
+    padding: 0px 3px 1px 3px;
+    background-color: #fa3c45;
+    background-image: -webkit-linear-gradient(#fa3c45, #dc0d17);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, .4);
+    border: 1px solid #fff;
+    border-radius: 3px;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    margin: 0px;
+    position: absolute;
+    text-align: center;
+}

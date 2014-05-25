@@ -39,7 +39,7 @@
 				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
 					<div style="margin: 10px 0 0 0;">
 						<span data-ng-show="isFRreaded == true && friend_requests.length > 0" data-ng-mouseover="reset_fr_count()">
-							<span class="badge pull-right">{{friend_requests.length}}</span>
+							<span class="notif-count pull-right">{{friend_requests.length}}</span>
 						</span>
 						<i class="fa fa-group iconImage"></i>
 					</div>
@@ -65,7 +65,7 @@
 				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
 					<div style="margin: 10px 0 0 0;">
 						<span data-ng-show="isNOreaded == true && join_requests.length > 0" data-ng-mouseover="reset_notify_count()">
-							<span class="badge pull-right">{{join_requests.length}}</span>
+							<span class="notif-count pull-right">{{join_requests.length}}</span>
 						</span>
 						<i class="fa icon-earth iconImage"></i>
 					</div>
@@ -143,7 +143,7 @@
 			<li class="dropdown notif pull-left" >
 				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
 						<span data-ng-show="isFRreaded == true && friend_requests.length > 0" data-ng-mouseover="reset_fr_count()">
-							<span class="badge pull-right">{{friend_requests.length}}</span>
+							<span class="notif-count pull-right">{{friend_requests.length}}</span>
 						</span>
 						<img class="colorChange" src="../assets/app/images/general/icon_png/w_profile.png" />
 				</a>
@@ -166,7 +166,7 @@
 			<li class="dropdown notif pull-left">
 				<a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
 						<span data-ng-show="isNOreaded == true && join_requests.length > 0" data-ng-mouseover="reset_notify_count()">
-							<span class="badge pull-right">{{join_requests.length}}</span>
+							<span class="notif-count pull-right">{{join_requests.length}}</span>
 						</span>
 						<img class="colorChange" src="../assets/app/images/general/icon_png/w_notification.png" />
 				</a>
@@ -254,7 +254,7 @@
         
 <!-- Css Style -->
 <style type="text/css">
-	.notifications>li.open {
+	.notifications > li.open {
 		border-right: none  !important;
 		padding-left: 0px  !important;
 		padding-right: 0px  !important;
@@ -285,19 +285,4 @@
 	.dropdown open{
 		float: right;
 	}
-	span.badge {
-    position: relative;
-    top:  -10px;
-    left: -10px;
-	}
-	
-   .colorChange{color: gray;} 
-	a:hover .iconImage{color: gray;}
-	a:hover .iconImage{color: gray;}
-	.userName{color: white;}
-	.userName:hover{color: gray;}
 </style>
-
-
-
-
