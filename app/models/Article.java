@@ -10,17 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NoResultException;
-import javax.persistence.OneToMany;
-import javax.persistence.Query;
+import javax.persistence.*;
 
 import models.SocialRelation.Action;
 
@@ -43,6 +33,8 @@ import domain.Likeable;
 import domain.SocialObjectType;
 
 import play.data.format.Formats;
+import play.data.validation.Constraints;
+import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
@@ -50,16 +42,14 @@ import play.db.jpa.Transactional;
 public class Article extends SocialObject implements Commentable, Likeable {
 
 	public Article() {}
-	
-	
-	
+
 	@Lob
 	public String description;
 	
 	
 	public int TargetAgeMinMonth;
 	public int TargetAgeMaxMonth;
-	
+
 	public int noOfLikes=0;
 	public int TargetGender;                
     public int TargetParentGender;      
@@ -67,10 +57,10 @@ public class Article extends SocialObject implements Commentable, Likeable {
     
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
 	public Date publishedDate;
-	
 
+    @Column(nullable=false)
+	public boolean excludeFromTargeting = false;
 
-	
 	@ManyToOne
 	public ArticleCategory category;
 	
