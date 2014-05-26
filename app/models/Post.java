@@ -174,7 +174,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
 	public Resource addPostPhoto(File source) throws IOException {
 		ensureAlbumExist();
 		Resource cover_photo = this.folder.addFile(source,
-				SocialObjectType.PHOTO);
+				SocialObjectType.POST_PHOTO);
 		cover_photo.save();
 		return cover_photo;
 	}

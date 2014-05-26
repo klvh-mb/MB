@@ -9,6 +9,7 @@ public enum  SocialObjectType {
      FORUM_POST,
      PROFILE_PHOTO,
      COVER_PHOTO,
+     POST_PHOTO,
      ALBUMN,
      VEDIO,
      CONTEST,

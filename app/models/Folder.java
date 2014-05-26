@@ -130,6 +130,17 @@ Serializable, Creatable, Updatable{
 					.toFile(new java.io.File(resource.getPath()).getParentFile()
 									+"/mini."+new java.io.File(resource.getPath()).getName());
 		}
+		if (type == SocialObjectType.POST_PHOTO) {
+			Thumbnails
+			.of(source)
+			.height(70)
+			.width(70)
+			.keepAspectRatio(true)
+			.toFiles(
+					new java.io.File(resource.getPath())
+							.getParentFile(),
+					Rename.PREFIX_DOT_THUMBNAIL);
+		}
 		this.resources.add(resource);
 		merge();
 		//recordAddedPhoto(owner);

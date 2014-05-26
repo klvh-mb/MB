@@ -235,9 +235,9 @@
             <div id="slider" class="general-box" >
 			                	<div data-ng-include style="width: 100%;" data-src="'/assets/app/views/postWallMessageBar.html'" ng-show="seeAllCategory == true"></div>
 									<div id="sta-con-slider" ng-show="threeCategory == true">
-						                <div class="sta-con-mainslide"><p><a href="/#/article/id/{{article1.id}}">{{article1.nm|characters:18:false}}</a><a title="summary" href="/#/article/id/{{article1.id}}">{{article1.lds|characters:60:false}}</a></p><a href="/#/article/id/{{article1.id}}"><img data-ng-src="{{article1.img_url}}"></a><a href="/#/article/id/{{article1.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
-						                <div class="sta-con-mainslide"><a title="subslide" href="/#/article/id/{{article2.id}}">{{article2.nm|characters:18:false}}</a><a href="/#/article/id/{{article2.id}}"><img data-ng-src="{{article2.img_url}}"></a><a href="/#/article/id/{{article2.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
-						                <div class="sta-con-mainslide"><a title="subslide" href="/#/article/id/{{article3.id}}">{{article3.nm|characters:18:false}}</a><a href="/#/article/id/{{article3.id}}"><img data-ng-src="{{article3.img_url}}"></a><a href="/#/article/id/{{article3.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+						                <div class="sta-con-mainslide"><p><a href="/#/article/id/{{article1.id}}" target="_blank">{{article1.nm|characters:18:false}}</a><a title="summary" href="/#/article/id/{{article1.id}}" target="_blank">{{article1.lds|characters:60:false}}</a></p><a href="/#/article/id/{{article1.id}}" target="_blank"><img data-ng-src="{{article1.img_url}}"></a><a href="/#/article/id/{{article1.id}}" target="_blank"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+						                <div class="sta-con-mainslide"><a title="subslide" href="/#/article/id/{{article2.id}}" target="_blank">{{article2.nm|characters:18:false}}</a><a href="/#/article/id/{{article2.id}}" target="_blank"><img data-ng-src="{{article2.img_url}}"></a><a href="/#/article/id/{{article2.id}}" target="_blank"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+						                <div class="sta-con-mainslide"><a title="subslide" href="/#/article/id/{{article3.id}}" target="_blank">{{article3.nm|characters:18:false}}</a><a href="/#/article/id/{{article3.id}}" target="_blank"><img data-ng-src="{{article3.img_url}}"></a><a href="/#/article/id/{{article3.id}}" target="_blank"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
 						            </div>
 			            </div><!--Slider End -->
             <div id="wall">
@@ -250,7 +250,7 @@
 	                <div class="general-box" >
 	                    <ul class="allpost-wrapper">
 	                        <li data-ng-repeat="article in result">
-	                            <a href="/#/article/id/{{article.id}}">
+	                            <a href="/#/article/id/{{article.id}}" target="_blank">
 	                                <img data-ng-src="{{article.img_url}}" style="width:165px; height:130px;">
 	                                <div><h4 style="color: #324fe1;"><font><font>{{article.nm}}</font></font></h4><h6><a class="tag" data-ng-click="get_result(article.ct.id)"> <font><font>{{article.ct.name}}</font></font></a><font><font>{{article.pd | date:'yyyy'  }}</font></font>  <font><font>{{article.pd | date:'MMM'  }}</font></font>  <font><font>{{article.pd | date:'dd'  }}</font></font></h6><p><font><font>{{article.lds|characters:60:false}}</font></font></p></div>
 	                           </a>
@@ -267,7 +267,7 @@
                 </div>
                 <div class="static-content-wrapper" >
                     <ul>
-                        <li  data-ng-repeat="article in resultSlidder.ra"><a href="/#/article/id/{{article.id}}"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>
+                        <li  data-ng-repeat="article in resultSlidder.ra"><a href="/#/article/id/{{article.id}}" target="_blank"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" target="_blank" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>
                     </ul>
                 </div>
             </div><!--HotTopic End -->
@@ -277,7 +277,7 @@
                 </div>
                 <div class="static-content-wrapper">
                     <ul>
-						<li  data-ng-repeat="article in resultSlidder.la"><a href="/#/article/id/{{article.id}}"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>                    
+						<li  data-ng-repeat="article in resultSlidder.la"><a href="/#/article/id/{{article.id}}" target="_blank"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" target="_blank" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>                    
 					</ul>
                 </div>
             </div><!--Latest Post End -->
