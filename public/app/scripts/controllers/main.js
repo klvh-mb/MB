@@ -1921,7 +1921,7 @@ minibean.controller('ShowArticleController',function($scope, $modal,$routeParams
 		 angular.forEach($scope.result, function(element, key){
 				if(element.id == article_id) {
 					$scope.image_source= element.img_url;
-					$scope.description = element.ds
+					$scope.description = element.lines;
 					$scope.title = element.nm;
 					$scope.category_id = element.id;
 				}
@@ -1957,7 +1957,7 @@ minibean.controller('ShowArticleController',function($scope, $modal,$routeParams
 		 angular.forEach($scope.result, function(element, key){
 				if(element.id == article_id) {
 					$scope.image_source= element.img_url;
-					$scope.description = element.ds
+					$scope.description = element.lds;
 					$scope.title = element.nm;
 					$scope.category_id = element.id;
 				}
@@ -2055,7 +2055,7 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 		 angular.forEach($scope.result, function(element, key){
 				if(element.id == article_id) {
 					$scope.image_source= element.img_url;
-					$scope.description = element.ds
+					$scope.description = element.lds;
 					$scope.title = element.nm;
 					$scope.category_id = element.id;
 				}
