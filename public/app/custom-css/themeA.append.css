@@ -532,3 +532,7 @@ span.notif-count {
     resize: none;
     border: 0px;
 }
+#postCommentsSection, #postAnswersSection {
+    padding: 0px;
+    margin: 0px;
+}
