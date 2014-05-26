@@ -80,11 +80,10 @@
 				<img style="height:18px" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a></li>
        		</ul>
 	   
-		   	<ul class="wall-user-post-respond">
-	             
+		   	<ul id="postCommentsSection" class="wall-user-post-respond" style="padding:0px; margin:0px;">
 	             <li ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><a href="">View all</a></li>
 	             <ul>
-	                 <li data-ng-repeat="comment in post.cs"><a data-ng-href="/#/profile/{{comment.oid}}" ><img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{comment.oid}}"/></a><div><p class="user-comment"><a data-ng-href="/#/profile/{{comment.oid}}" style="color: #428bca !important; width: 100%; float: left;">{{comment.on}}</a>
+	                 <li data-ng-repeat="comment in post.cs"><a data-ng-href="/#/profile/{{comment.oid}}" ><img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{comment.oid}}"/></a><div><p class="user-comment"><a class="commentUsername" data-ng-href="/#/profile/{{comment.oid}}" style="color: #428bca !important; width: 100%; float: left;">{{comment.on}}</a>
 	                 <span style="white-space: pre-wrap; "ng-bind-html="comment.d | highlight: highlightText"></span>
 	                 <span class="wall-user-actState-date" am-time-ago="comment.cd"></span><span class="wall-user-actState-time"></span>
 	                 <span class="wall-user-actState-time"></span>

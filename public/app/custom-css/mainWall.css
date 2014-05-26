@@ -94,15 +94,16 @@
     content:" 對此讚好";
 }
 .wall-user-post-respond {
-    font-size: small;
+    font-size: 13px;
     color: black;
     border-top: thin solid #e9e9e9;
     background-color: #f5f5ff;
     height: 100%;
     width: 100%;
+    padding: 0px;
 }
 .wall-user-post-respond .wall-userpic {
-    margin-right: 3px; 
+    margin-right: 8px; 
     width: 32px;
     height: 32px;
     display: block;
@@ -113,9 +114,9 @@
 .wall-user-post-respond li div {
     display: inline-block;
     position: relative;
-    top: -35px;
-    left: 45px;
-    width: 95%; 
+    /*top: -35px;*/
+    /*left: 45px;*/
+    width: 90%; 
 }
 .wall-user-forum-respond {
     font-size: 15px;
@@ -202,18 +203,45 @@
     display: block;
     margin-bottom: 5px;
 }
+.commentUsername {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+.user-answer-count {
+    font-size: 16px;
+    font-weight: normal;
+    margin-bottom: 15px !important;
+}
+.user-answer {
+    font-size: 15px;
+    margin: 0;
+}
+.user-answer a:after {
+    content: " ";
+}
+.wall-user-forum-comment .user-answer {
+    width: 70%;  
+}
+.wall-user-forum-comment .user-answer a:first-child {
+    display: block;
+}
+.user-comment {
+    font-size: 13px;
+    margin: 0;
+}
 .user-comment a:after {
     content: " ";
 }
 .wall-user-forum-comment .user-comment {
-    width: 70%;  
+    width: 80%;  
 }
 .wall-user-forum-comment .user-comment a:first-child {
     display: block;
 }
 .wall-user-forum-comment a.btn-like{
     display: inline-block;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 .wall-user-forum-comment .pull-right span {
     display: block;

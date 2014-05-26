@@ -18,21 +18,20 @@
 				<li><a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)" style="color: #428bca !important;">Unlike</a></li>
 	      		</ul>
 	   
-		   	<ul class="wall-user-post-respond">
-	             
-	             <li data-ng-click="get_all_comments(post.id)"><a href="">View {{post.n_c}} more comments</a></li>
-	             <ul>
-	                 <li data-ng-repeat="comment in post.cs"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><div><p class="user-comment"><a href="#" style="color: #428bca !important;">{{comment.on}}</a><pre ng-bind-html="comment.d | highlight: highlightText"></pre></p><span class="wall-user-actState-date" am-time-ago="comment.cd"></span><a class="btn-like" href="#" style="color: #428bca !important;">Like</a></div></li>
-	             </ul>
-	             <li><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}"/></a>
-	             		<form id="userCommentwrapper" name="userComment">
-		                     <label for="User Comment"></label>
-		                     <textarea name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." rows="1" data-ng-model="commentText"></textarea>
-		                     <!-- <input id="submit-userComment" name="submit" type="button" data-ng-click="comment_on_post(post.id, commentText)"/> -->
-		                     <span class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText)"></i></span>
-	                    </form>
-	              </li>
-	         </ul>
+    		   	<ul id="postCommentsSection" class="wall-user-post-respond" style="padding:0px; margin:0px;">
+    	             <li data-ng-click="get_all_comments(post.id)"><a href="">View {{post.n_c}} more comments</a></li>
+    	             <ul>
+    	                 <li data-ng-repeat="comment in post.cs"><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{comment.oid}}"/><div><p class="user-comment"><a class="commentUsername" href="#" style="color: #428bca !important;">{{comment.on}}</a><pre ng-bind-html="comment.d | highlight: highlightText"></pre></p><span class="wall-user-actState-date" am-time-ago="comment.cd"></span><a class="btn-like" href="#" style="color: #428bca !important;">Like</a></div></li>
+        	             <li><a><img class="wall-userpic" data-ng-src="/get-thumbnail-image-by-id/{{userInfo.id}}"/></a>
+    	             		<form id="userCommentwrapper" name="userComment">
+    		                     <label for="User Comment"></label>
+    		                     <textarea name="userCommentfield" id="userCommentfield" placeholder="Write a comment..." rows="1" data-ng-model="commentText"></textarea>
+    		                     <!-- <input id="submit-userComment" name="submit" type="button" data-ng-click="comment_on_post(post.id, commentText)"/> -->
+    		                     <span class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText)"></i></span>
+    	                    </form>
+        	              </li>
+        	          </ul>
+    	         </ul>
 		</div>
 	</div>
 	
