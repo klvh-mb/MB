@@ -188,7 +188,7 @@
 .ques-tag, .sharing-tag {
     position: relative;
     display: inline-block;
-    font-size: 13px;
+    font-size: 22px;
     font-weight: bold;
     border-radius: 15px;
     text-align: center;
@@ -198,11 +198,12 @@
     color: #4440AC;
     border: 1px solid #4440AC;
     background-color: white;
-    width: 55px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     top: 0px;
 }
 .sharing-tag {
+    display: none;
     color: #E67801;
     border: 1px solid #E67801;
     background-color: white;

@@ -536,3 +536,9 @@ span.notif-count {
     padding: 0px;
     margin: 0px;
 }
+#postAnswersSection {
+    background-color: #f5f5ff;
+}
+#postCommentsSection {
+    background-color: #FFFEF4
+}
