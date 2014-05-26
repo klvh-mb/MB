@@ -101,6 +101,7 @@ GET		/get-cover-image-by-id/:id		controllers.UserController.getCoverImageByID(id
 GET		/get-mini-image-by-id/:id		controllers.UserController.getMiniVersionImageByID(id :Long)
 GET		/get-comment-mini-image-by-id/:id		controllers.UserController.getMiniCommentVersionImageByID(id :Long)
 GET		/get-thumbnail-image-by-id/:id		controllers.UserController.getThumbnailVersionImageByID(id :Long)
+GET		/get-thumbnail-cover-image-by-id/:id		controllers.UserController.getThumbnailCoverImageByID(id :Long)
 GET		/get-original-image-by-id/:id		controllers.UserController.getOriginalImageByID(id :Long)
 
 #Friends

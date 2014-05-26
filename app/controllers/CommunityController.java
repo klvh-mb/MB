@@ -444,19 +444,24 @@ public class CommunityController extends Controller{
 		final User localUser = Application.getLocalUser(session());
 		DynamicForm form = form().bindFromRequest();
 		
+		
 		Long postId = Long.parseLong(form.get("post_id"));
 		String commentText = form.get("commentText");
 		
 		Post p = Post.findById(postId);
-		Comment comment = null;
-		try {
-			//NOTE: Currently commentType is hardcoded to SIMPLE
-			comment = (Comment) p.onComment(localUser, commentText, CommentType.SIMPLE);
-		} catch (SocialObjectNotCommentableException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		Community c =p.community;
+		if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
+			Comment comment = null;
+			try {
+				//NOTE: Currently commentType is hardcoded to SIMPLE
+				comment = (Comment) p.onComment(localUser, commentText, CommentType.SIMPLE);
+			} catch (SocialObjectNotCommentableException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return ok(Json.toJson(comment.id));
 		}
-		return ok(Json.toJson(comment.id));
+		return ok("Be member of community");
 	}
 	
 	@Transactional
@@ -465,18 +470,21 @@ public class CommunityController extends Controller{
 		DynamicForm form = form().bindFromRequest();
 		
 		Long communityId = Long.parseLong(form.get("community_id"));
-		String postText = form.get("postText");
-		String withPhotos = form.get("withPhotos");
-		Community c = Community.findById(communityId);
-		
-		Post p = (Post) c.onPost(localUser, postText, PostType.SIMPLE);
-		if(Boolean.parseBoolean(withPhotos)) {
-			p.ensureAlbumExist();
+		Community c =Community.findById(communityId);
+		if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
+			String postText = form.get("postText");
+			String withPhotos = form.get("withPhotos");
+			Post p = (Post) c.onPost(localUser, postText, PostType.SIMPLE);
+			if(Boolean.parseBoolean(withPhotos)) {
+				p.ensureAlbumExist();
+			}
+			
+			p.indexPost(Boolean.parseBoolean(withPhotos));
+			
+			return ok(Json.toJson(p.id));
 		}
 		
-		p.indexPost(Boolean.parseBoolean(withPhotos));
-		
-		return ok(Json.toJson(p.id));
+		return ok("First join the Community");
 	}
 	
 	@Transactional
@@ -519,16 +527,19 @@ public class CommunityController extends Controller{
 		Long communityId = Long.parseLong(form.get("community_id"));
 		String questionText = form.get("questionText");
 		Community c = Community.findById(communityId);
-		String withPhotos = form.get("withPhotos");
-		
-		Post p = (Post) c.onPost(localUser, questionText, PostType.QUESTION);
-		
-		if(Boolean.parseBoolean(withPhotos)) {
-			p.ensureAlbumExist();
+		if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
+			String withPhotos = form.get("withPhotos");
+			
+			Post p = (Post) c.onPost(localUser, questionText, PostType.QUESTION);
+			
+			if(Boolean.parseBoolean(withPhotos)) {
+				p.ensureAlbumExist();
+			}
+			
+			p.indexPost(Boolean.parseBoolean(withPhotos));
+			return ok(Json.toJson(p.id));
 		}
-		
-		p.indexPost(Boolean.parseBoolean(withPhotos));
-		return ok(Json.toJson(p.id));
+		return ok("You are not member of this community");
 	}
 	
 	@Transactional
@@ -540,13 +551,16 @@ public class CommunityController extends Controller{
 		String answerText = form.get("answerText");
 		
 		Post p = Post.findById(postId);
-		
-		try {
-			p.onComment(localUser, answerText, CommentType.ANSWER);
-		} catch (SocialObjectNotCommentableException e) {
-			e.printStackTrace();
+		Community c =p.community;
+		if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
+			try {
+				p.onComment(localUser, answerText, CommentType.ANSWER);
+			} catch (SocialObjectNotCommentableException e) {
+				e.printStackTrace();
+			}
+			return ok(Json.toJson(p.id));
 		}
-		return ok(Json.toJson(p.id));
+		return ok("you are not member of community");
 	}
 	
 	@Transactional
