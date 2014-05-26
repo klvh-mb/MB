@@ -60,21 +60,22 @@
 		              	<span class="shortcut-box text-center">?</span>
 		              	<!-- <span class="wall-forum-post-checked">{{post.nov}}</span> -->
 		              	<span class="wall-forum-post-reply">{{post.n_c}}</span></div></li>
-		              <li><span style="white-space: pre-wrap;" class="wall-user-post-text"><font>{{post.pt}}</font></span>
-		              	   <div data-ng-show="post.hasImage" class="innerAll">
-								<p class="lead"></p>
-								<a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
-									<img width="90" data-ng-src="/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="" class="img-post">
-								</a>
-						   </div>
-		              </li>
+                        <li>
+                            <span style="white-space: pre-wrap;" class="wall-user-post-text"><font>{{post.pt}}</font></span>
+                            <div data-ng-show="post.hasImage" class="innerAll">
+                                <p class="lead"></p>
+                                <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
+                                    <img width="90" data-ng-src="/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="" class="img-post">
+                                </a>
+                            </div>
+                        </li>
 		              <li><div ng-show="post.nol > 0" style="float:left;">{{post.nol}}</div><img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/><a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)" style="color: #428bca !important;">Like</a> <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)" style="color: #428bca !important;">Unlike</a></li>
 		          </ul>
 		          <ul class="wall-user-forum-respond">
                         <!-- <li><p class="whose-like"><a href="#">Wynee Lam</a></p></li> -->
                         <ul>
 	 						<li data-ng-repeat="comment in post.cs">
-	 							<div class="wall-user-forum-comment" style="min-height:60px;"><div class="pull-right"><a data-ng-href="/#/profile/{{comment.oid}}" ><img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{comment.oid}}"/></a><span class="wall-user-actState-date" am-time-ago="comment.cd" style="margin-left: 48px;"></span></div><div><p class="user-comment"><a href="/#/profile/{{comment.oid}}">{{comment.on}}</a>
+	 							<div class="wall-user-forum-comment" style="min-height:60px;"><div class="pull-right"><a class="pull-right" data-ng-href="/#/profile/{{comment.oid}}" ><img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{comment.oid}}"/></a><span class="wall-user-actState-date" am-time-ago="comment.cd" style="margin-left: 48px;"></span></div><div><p class="user-comment"><a href="/#/profile/{{comment.oid}}">{{comment.on}}</a>
 									<span style="white-space: pre-wrap;">{{comment.d}}</span></p></div>
 									<div class="row">
 										<div ng-show="comment.nol > 0" style="float:left;">{{comment.nol}}</div>

@@ -82,7 +82,8 @@
 		              	<span class="shortcut-box text-center">?</span>
 		              	<!-- <span class="wall-forum-post-checked">{{post.nov}}</span> -->
 		              	<span class="wall-forum-post-reply">{{post.n_c}}</span></div></li>
-		              <li><span style="white-space: pre-wrap;"class="wall-user-post-text"><font>{{post.pt}}</font></span>
+		              <li>
+		                  <span style="white-space: pre-wrap;" class="wall-user-post-text"><font>{{post.pt}}</font></span>
 		              	   <div data-ng-show="post.hasImage" class="innerAll">
 								<p class="lead"></p>
 								<a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
@@ -102,7 +103,7 @@
 	 						<li data-ng-repeat="comment in post.cs">
 		 						<div class="wall-user-forum-comment" style="min-height:60px;">
 			 						<div class="pull-right" style="width: 20%">
-			 							<a data-ng-href="/#/profile/{{comment.oid}}" ><img style="float: right;" class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{comment.oid}}"/></a>
+			 							<a class="pull-right" data-ng-href="/#/profile/{{comment.oid}}" ><img style="float: right;" class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{comment.oid}}"/></a>
 			 							<span class="wall-user-actState-date" am-time-ago="comment.cd" style="float: right"></span>
 			 						</div>
 			 						<div><p class="user-comment" ><a href="/#/profile/{{comment.oid}}" style="color: #428bca !important;">{{comment.on}}</a>
