@@ -21,11 +21,11 @@ CREATE TABLE IF NOT EXISTS `Icons` (
 
 -- Dumping data for table parent-social.Icons: ~5 rows (approximately)
 /*!40000 ALTER TABLE `Icons` DISABLE KEYS */;
-insert into `Icons` (`name`, `url`) values
-('親子資訊','/assets/app/icons/info.png'),                                                                           
-('家長必讀','/assets/app/icons/info.png'),  
-('教養專題','/assets/app/icons/info.png'),  
-('分享專區','/assets/app/icons/info.png');
+insert into `Icons` (`id`,`name`, `url`) values
+(1,'親子資訊','/assets/app/icons/info.png'),                                                                           
+(2,'家長必讀','/assets/app/icons/info.png'),  
+(3,'教養專題','/assets/app/icons/info.png'),  
+(4,'分享專區','/assets/app/icons/info.png');
 /*!40000 ALTER TABLE `Icons` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

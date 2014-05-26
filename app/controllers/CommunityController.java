@@ -131,9 +131,6 @@ public class CommunityController extends Controller{
 	public static Result getMiniCoverCommunityImageById(Long id) {
 		Community community = Community.findById(id);
 		if(community.getPhotoProfile() != null) {
-            String path = community.getPhotoProfile().getMini();
-//            System.out.println("[getMiniCoverCommunityImageById] id="+id+", path="+path);
-
 			return ok(new File(community.getPhotoProfile().getMini()));
 		}
 		try {
@@ -160,9 +157,6 @@ public class CommunityController extends Controller{
 	public static Result getFullCoverCommunityImageById(Long id)  {
 		final Community community = Community.findById(id);
 		if(community.getPhotoProfile() != null) {
-            String path = community.getPhotoProfile().getPath();
-//            System.out.println("[getFullCoverCommunityImageById] id="+id+", path="+path);
-
 			return ok(community.getPhotoProfile().getRealFile());
 		}
 		try {

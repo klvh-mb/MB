@@ -14,13 +14,13 @@
                         <p id="profile-user-name">{{result.dn}}</p>
                         <div id="menu-title">
                         	<a ng-click="selectedTab = 1;">
-							<font ng-class="{activeTab: selectedTab == 1}">Recent Activities</font> </a>
+							<font ng-class="{activeTabBold: selectedTab == 1}">Recent Activities</font> </a>
 							<div class="divider-cus"></div>
 							<a	ng-click="selectedTab = 2;">
-							<font ng-class="{activeTab: selectedTab == 2}">Communities</font> </a>
+							<font ng-class="{activeTabBold: selectedTab == 2}">Communities</font> </a>
 							<div class="divider-cus"></div>
 							<a ng-click="selectedTab = 3;">
-							<font ng-class="{activeTab: selectedTab == 3}">Friends</font></a>
+							<font ng-class="{activeTabBold: selectedTab == 3}">Friends</font></a>
                         </div>
                     </li>
                 </ul>
@@ -223,8 +223,4 @@
 	overflow-x: scroll !important;
 	overflow-y: scroll !important;
 }
-	.activeTab{
-	    font-weight: bold;
-	    text-decoration:underline;
-	}
 </style>
