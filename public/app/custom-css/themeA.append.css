@@ -518,3 +518,17 @@ span.notif-count {
     position: absolute;
     text-align: center;
 }
+.post-input-title {
+    resize: none;
+    border: 0px;
+    border-bottom: 1px solid #c8c8c8;
+    border-radius: 0px;
+    padding: 2px;
+    margin-top: 5px;
+    font-weight: normal;
+    font-size: 15px;
+}
+.post-input-body {
+    resize: none;
+    border: 0px;
+}

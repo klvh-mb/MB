@@ -22,8 +22,8 @@
                             </li>
                             <li>
                                 <form id="content-upload-wrapper" name="content-upload-wrapper" class="no-margin no-padding" method="post" action="" >
-                                <textarea cols="45" rows="2" name="content-upload-input" id="content-upload-input" class="postBox general-input-box form-control" placeholder="Ask a question..." data-ng-model="questionText"></textarea>
-                                
+                                <textarea cols="45" rows="1" class="post-input-title general-input-box form-control" placeholder="Title" data-ng-model="questionTitle"></textarea>
+                                <textarea cols="45" rows="2" name="content-upload-input" id="content-upload-input" class="post-input-body general-input-box form-control" placeholder="Your question details..." data-ng-model="questionText"></textarea>
                                 
 									<div style="background-color: white;" ng-show="QnASelectedFiles != null">
 										<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
