@@ -184,14 +184,31 @@
 #wall-forum-info {
     position: relative;
     float: right;
-    margin-bottom: 20px;
 }
-#wall-forum-info .text-center {
+.ques-tag, .sharing-tag {
     position: relative;
-    left: 50px;
     display: inline-block;
-    font-size: large;
-    color: blue;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 15px;
+    text-align: center;
+    vertical-align: middle;
+}
+.ques-tag {
+    color: #4440AC;
+    border: 1px solid #4440AC;
+    background-color: white;
+    width: 55px;
+    height: 20px;
+    top: 0px;
+}
+.sharing-tag {
+    color: #E67801;
+    border: 1px solid #E67801;
+    background-color: white;
+    width: 45px;
+    height: 20px;
+    top: 0px;
 }
 #wall-forum .wall-user-post-text {
     font-size: 15px;
@@ -221,7 +238,7 @@
     content: " ";
 }
 .wall-user-forum-comment .user-answer {
-    width: 70%;  
+    width: 80%;  
 }
 .wall-user-forum-comment .user-answer a:first-child {
     display: block;
