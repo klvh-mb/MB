@@ -114,8 +114,8 @@ Serializable, Creatable, Updatable{
 		if (type == SocialObjectType.COVER_PHOTO) {
 			Thumbnails
 					.of(source)
-					.height(216)
-					.width(94)
+					.height(94)
+					.width(216)
 					.keepAspectRatio(true)
 					.toFiles(
 							new java.io.File(resource.getPath())
@@ -124,8 +124,8 @@ Serializable, Creatable, Updatable{
 			
 			Thumbnails
 					.of(source)
-					.height(102)
-					.width(45)
+					.height(45)
+					.width(102)
 					.keepAspectRatio(true)
 					.toFile(new java.io.File(resource.getPath()).getParentFile()
 									+"/mini."+new java.io.File(resource.getPath()).getName());

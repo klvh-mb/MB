@@ -187,7 +187,7 @@
 					<span class="icon-box icon-box-blueLight icon-title-profile-about"></span><a
 						href="#">About</a>
 					<div class="pull-right">
-						<a href="#">{{community.nom}} Members</a>
+						<a ng-click="selectedTab = 2;">{{community.nom}} Members</a>
 						<p data-ng-show="community.typ=='CLOSE'" class="small">Closed
 							Community</p>
 						<p data-ng-show="community.typ=='OPEN'" class="small">Open
@@ -422,7 +422,7 @@
 			<div  ng-repeat="f in selectedFiles">
 				<button class="button" ng-click="start($index)" ng-show="progress[$index] < 0">Start</button>
 				<img ng-show="isProfileOn" aspectRatio="1" minW="150" minH="150" maxH="150" maxW="150" ng-imgcropped   ng-src="{{dataUrls[$index]}}">
-				<img ng-show="!isProfileOn" minW="575" minH="250" maxH="250" maxW="575" ng-imgcropped   ng-src="{{dataUrls[$index]}}">
+				<img ng-show="!isProfileOn" aspectRatio="2.3" minW="575" minH="250" maxH="500" maxW="1150" ng-imgcropped   ng-src="{{dataUrls[$index]}}">
 			</div>
 		 </div>
 		 <div class="response" ng-show="uploadResult.length > 0">

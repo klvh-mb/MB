@@ -29,7 +29,7 @@ public class ArticleVM {
 		this.category = article.category;
 		this.name = article.name;
 		this.id = article.id;
-		
+		this.noOfLikes = article.noOfLikes;
 		
 		this.publishedDate = article.publishedDate;
 		

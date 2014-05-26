@@ -338,7 +338,12 @@ public class CommunityController extends Controller{
 		String coords[] = request().body().asMultipartFormData().asFormUrlEncoded().get("cords");
 		FilePart picture = request().body().asMultipartFormData().getFile("profile-photo");
 		String fileName = picture.getFilename();
-	    
+		String extension = "jpg";
+		int i = fileName.lastIndexOf('.');
+		if (i > 0) {
+		   extension = fileName.substring(i+1);
+		}
+
 	    File file = picture.getFile();
 	    File fileTo = new File(fileName);
 	    
@@ -357,7 +362,7 @@ public class CommunityController extends Controller{
 			try {
 				originalImage = ImageIO.read(file);
 				BufferedImage croppedImage = originalImage.getSubimage(jn.get("x").asInt(), jn.get("y").asInt(), jn.get("w").asInt(), jn.get("h").asInt());
-				ImageIO.write(croppedImage, "jpg", fileTo);
+				ImageIO.write(croppedImage, extension, fileTo);
 				community.setCoverPhoto(fileTo);
 			} catch (IOException e) {
 				e.printStackTrace();

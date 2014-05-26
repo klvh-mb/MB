@@ -86,7 +86,7 @@
 								</div>
 							</li>
 							<li ng-show="post.n_c > 3" data-ng-click="get_all_answers(post.id)"><a href="">View all</a></li>
-	                        <li>
+	                        <li ng-show="community.isM == true || community.isO == true">
 	                            <img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{userInfo.id}}" />
                                 <form id="userCommentwrapper" name="userComment" method="post" action="">
 	                                <label for="User Comment"></label>

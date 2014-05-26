@@ -184,9 +184,7 @@ public class ArticleController extends Controller {
 	public static Result onLike(Long article_id) throws SocialObjectNotLikableException {
 		User loggedUser = Application.getLocalUser(session());
 		Article article = Article.findById(article_id);
-		System.out.println("GOT IT :: "+article.noOfLikes);
 		article.noOfLikes++;
-		System.out.println("GOT IT :: "+article.noOfLikes);
 		article.onLikedBy(loggedUser);
 		return ok();
 	}
