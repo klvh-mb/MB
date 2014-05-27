@@ -1804,8 +1804,8 @@ minibean.service('allArticlesService',function($resource){
 				get: {method:'get' ,isArray:true}
 			}
 	);
-	this.EightArticles = $resource(
-			'/get-Eight-Articles',
+	this.SixArticles = $resource(
+			'/get-Six-Articles',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
 				get: {method:'get'}
@@ -1911,11 +1911,9 @@ minibean.controller('ShowArticleController',function($scope, $modal,$routeParams
 		$scope.get_result(catId);
 	}
 	
-	
-	
-	$scope.resultSlidder = allArticlesService.EightArticles.get({}, function() {
-		$scope.image_source= $scope.resultSlidder.la[0].img_url;
-	});
+    $scope.resultSlidder = allArticlesService.SixArticles.get({}, function() {
+        $scope.image_source= $scope.resultSlidder.la[0].img_url;
+    });
 	
 	 $scope.changeInsideImage = function(article_id) {
 		 angular.forEach($scope.result, function(element, key){
@@ -2047,7 +2045,7 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 		);
 	}
 		
-	$scope.resultSlidder = allArticlesService.EightArticles.get({}, function() {
+	$scope.resultSlidder = allArticlesService.SixArticles.get({}, function() {
 		$scope.image_source= $scope.resultSlidder.la[0].img_url;
 	});
 	
@@ -2061,9 +2059,6 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 				}
 		})
 	 };
-	 
-	 
-	  
 });
 
 

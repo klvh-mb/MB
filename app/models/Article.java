@@ -105,11 +105,11 @@ public class Article extends SocialObject implements Commentable, Likeable {
 	}
 	
 	@Transactional
-	public static List<Article> getEightArticles() {
+	public static List<Article> getArticles(int n) {
 		//  Select * from Article where featured = 1 limit <= 8
 		Query q = JPA.em().createQuery("Select a from Article a order by publishedDate desc");
 		q.setFirstResult(0);
-		q.setMaxResults(8);
+		q.setMaxResults(n);
 		return (List<Article>)q.getResultList();
 	}
 	

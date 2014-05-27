@@ -106,18 +106,28 @@ public class ArticleController extends Controller {
 		}
 		return ok(Json.toJson(listOfArticles));
 	}
+
+    @Transactional
+    public static Result getSixArticles() {
+        return getArticles(6);
+    }
+		  
+	@Transactional
+    public static Result getEightArticles() {
+	    return getArticles(8);
+	}
 	
 	@Transactional
-	public static Result getEightArticles() {
+	public static Result getArticles(int n) {
 		int i = 0;
-		List<Article> allArticles = Article.getEightArticles();
+		List<Article> allArticles = Article.getArticles(n);
 		List<ArticleVM> leftArticles = new ArrayList<>();
 		List<ArticleVM> rightArticles = new ArrayList<>();
-		for(Article article:allArticles) {
-			if(i<4){
+		for (Article article:allArticles) {
+			if (i < n/2){
 				ArticleVM vm = new ArticleVM(article);
 				leftArticles.add(vm);
-			}else {
+			} else {
 				ArticleVM vm = new ArticleVM(article);
 				rightArticles.add(vm);
 			}
