@@ -126,7 +126,7 @@ minibean.controller('ApplicationController',function($scope,$location, userInfoS
 	
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.set_background_image = function() {
-		return {background : 'url(/get-cover-image-by-id/'+$scope.userInfo.id+')'};
+		return {background : 'url(/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+')'};
 	} 
 	$scope.friend_requests = userNotification.getAllFriendRequests.get();
 	$scope.join_requests = userSimpleNotifications.getAllJoinRequests.get();
@@ -981,7 +981,6 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 		usSpinnerService.spin('loading...');
 		$http.post('/community/post/comment', data) 
 			.success(function(comment_id) {
-				alert("GOT It");
 				$('.commentBox').val('');
 				
 				$scope.commentText = "";

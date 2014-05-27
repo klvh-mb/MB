@@ -12,12 +12,25 @@
             <div id="wall">
                 <div class="general-box">
                     <ul class="post-detail-wrapper">
-                        <li><a href="/#/article/show/{{article.ct.id}}"><img class="scCatMiniThumbnail" data-ng-src="{{article.ct.pictureName}}" /></a><div><a class="scCatTitle" href="/#/article/show/{{article.ct.id}}">{{article.ct.name}}</a><h6><font>Posted on </font><font type="date">{{article.pd | date: 'MMMM dd, yyyy'}}</font></h6></div></li>
-                        <li><font class="scTitle">{{article.nm}}</font><a data-ng-show="article.isLike" class="btn-like" href="" data-ng-click="like_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
-	                 <a data-ng-show="!article.isLike" class="btn-like" href="" data-ng-click="unlike_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a><a class="btn-general" href="#">Share to Community</a></li>
+                        <li>
+                        <a href="/#/article/show/{{article.ct.id}}">
+                        	<img class="scCatMiniThumbnail" data-ng-src="{{article.ct.pictureName}}" />
+                        </a>
+                        	<div><a class="scCatTitle" href="/#/article/show/{{article.ct.id}}">{{article.ct.name}}</a><h6><font>Posted on </font><font type="date"><font><font>{{article.pd | date:'yyyy'  }}</font></font>  <font><font>{{article.pd | date:'MMM'  }}</font></font>  <font><font>{{article.pd | date:'dd hh:mm a'  }}</font></font></font></h6></div></li>
+                        <li>
+                        	<font class="scTitle">{{article.nm}}</font>
+                        	<span ng-show="article.nol > 0" style="float:left">{{article.nol}}</span>
+                        	<a style="float:left" data-ng-show="article.isLike" class="btn-like" href="" data-ng-click="like_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
+	                		<a style="float:left" data-ng-show="!article.isLike" class="btn-like" href="" data-ng-click="unlike_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a>
+	                 		<a class="btn-general" href="#">Share to Community</a>
+	                 	</li>
                         <li><div style="font-size:16px; width:100%;" class="ng-binding" ng-bind-html="article.ds"></div></li>
-                        <li><a data-ng-show="article.isLike" class="btn-like" href="" data-ng-click="like_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
-	                 <a data-ng-show="!article.isLike" class="btn-like" href="" data-ng-click="unlike_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a><a class="btn-general" href="#">Share to Community</a></li>
+                        <li>
+                        	<span ng-show="article.nol > 0" style="float:left">{{article.nol}}</span>
+                        	<a style="float:left" data-ng-show="article.isLike" class="btn-like" href="" data-ng-click="like_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
+	                		<a style="float:left" data-ng-show="!article.isLike" class="btn-like" href="" data-ng-click="unlike_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a>
+	                		<a class="btn-general" href="#">Share to Community</a>
+	                	</li>
                     </ul>
                 </div>
             </div><!--Post Detail End -->
@@ -49,7 +62,7 @@
                     <span class="icon-box icon-box-brown icon-title-relatePost"></span><p>Related Articles</p>
                 </div>
                     <ul>
-                        <li data-ng-repeat="relatedArticle in relatedResult"><p><a href="/#/article/id/{{relatedArticle.id}}" style="color: #324fe1;" target="_blank"><img data-ng-src="{{relatedArticle.img_url}}"/>{{relatedArticle.nm|characters:25:false}}</a></p></li>
+                        <li data-ng-repeat="relatedArticle in relatedResult"><p><a href="/#/article/id/{{relatedArticle.id}}" style="color: #324fe1;" target="_blank"><img ng-show="relatedArticle.img_url != 'No Image'"  data-ng-src="{{relatedArticle.img_url}}"/>{{relatedArticle.nm|characters:25:false}}</a></p></li>
                     </ul>
             </div><!--Relate Post End -->
         </div>
@@ -60,7 +73,7 @@
                 </div>
                 <div class="static-content-wrapper" >
                     <ul>
-                        <li  data-ng-repeat="article in resultSlidder.ra"><a href="/#/article/id/{{article.id}}" target="_blank"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;" target="_blank"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>
+                        <li  data-ng-repeat="article in resultSlidder.ra"><a href="/#/article/id/{{article.id}}" target="_blank"><img ng-show="article.img_url != 'No Image'"  data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;" target="_blank"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>
                     </ul>
                 </div>
             </div><!--HotTopic End -->
@@ -70,7 +83,7 @@
                 </div>
                 <div class="static-content-wrapper">
                     <ul>
-						<li  data-ng-repeat="article in resultSlidder.la"><a href="/#/article/id/{{article.id}}" target="_blank"><img data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;" target="_blank"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>                    
+						<li  data-ng-repeat="article in resultSlidder.la"><a href="/#/article/id/{{article.id}}" target="_blank"><img ng-show="article.img_url != 'No Image'"  data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;" target="_blank"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>                    
 					</ul>
                 </div>
             </div><!--Latest Post End -->

@@ -1,42 +1,30 @@
 package models;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 import models.SocialRelation.Action;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.elasticsearch.index.query.FilterBuilders;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.jsoup.nodes.Element;
 
-import com.github.cleverage.elasticsearch.IndexQuery;
-import com.github.cleverage.elasticsearch.IndexResults;
-import com.mnt.exception.SocialObjectNotCommentableException;
+import play.data.format.Formats;
+import play.db.jpa.JPA;
+import play.db.jpa.Transactional;
+
 import com.mnt.exception.SocialObjectNotLikableException;
 
-import domain.CommentType;
 import domain.Commentable;
 import domain.Likeable;
 import domain.SocialObjectType;
-
-import play.data.format.Formats;
-import play.data.validation.Constraints;
-import play.data.validation.Constraints.Required;
-import play.db.jpa.JPA;
-import play.db.jpa.Transactional;
 
 @Entity
 public class Article extends SocialObject implements Commentable, Likeable {
@@ -133,20 +121,14 @@ public class Article extends SocialObject implements Commentable, Likeable {
 	
 	public String getLinesFromDescription(String description) {
 		String noHTMLString = description.replaceAll("\\<.*?>","");
-		noHTMLString = noHTMLString.replaceAll("&nbsp;", "");
+		noHTMLString = noHTMLString.replaceAll("&nbsp;", " ");
 		noHTMLString = noHTMLString.replaceAll("[\\\r\\\n]+", " ");
-		System.out.println(noHTMLString);
-		StringBuffer sb = new StringBuffer();
-		BufferedReader br = new BufferedReader(new StringReader(noHTMLString));
+		noHTMLString = noHTMLString.replaceAll("&ldquo;", "\"");
+		if(noHTMLString.length() > 84) {
+			return noHTMLString.substring(0, 85);
+		}
+		return noHTMLString;
 		
-			try{
-					sb.append(br.readLine());
-			}
-			catch(IOException e)
-			{
-				e.printStackTrace();
-			}
-		return sb.toString();
 	}
 	public String getFirstImageFromDescription(String description) {
 		Document document = Jsoup.parse(description);
@@ -197,4 +179,13 @@ public class Article extends SocialObject implements Commentable, Likeable {
 		return false;
 	}
 	
+	@Override
+	public void setUpdatedBy(String updatedBy) {
+		
+	}
+	
+	@Override
+	public void setUpdatedDate(Date updatedDate) {
+		
+	}
 }
