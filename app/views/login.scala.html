@@ -58,11 +58,12 @@
                         <label for="Login password"></label>
                         <input type="password" name="password" id="login-password" class="general-textfield" placeholder="Password" />
                         <label for="Login state"></label>
-                        <input type="checkbox" name="login-state" id="login-state" /><p>Remember Me</p><a href="javascript:void(0);" onclick="window.location.href = jsRoutes.controllers.Signup.forgotPassword($('#email').val() || null).absoluteURL();" class="margin-none">Forgot Password?</a>
+                        <input type="checkbox" name="login-state" id="login-state" /><p>Remember Me</p>
+                        <a href="javascript:void(0);" onclick="window.location.href = jsRoutes.controllers.Signup.forgotPassword($('#email').val() || null).absoluteURL();" class="margin-none" style="position:relative;top:-2px;font-size:13px;">Forgot Password?</a>
                         <input type="submit" name="login-btn" id="login-btn" value="Login" />
                     }
                 </li>
-                <li id="login-newacc"><p>Or <a href="@routes.Application.signup" class="btn margin-none">Sign up now</a></p></li>
+                <li id="login-newacc"><p>Or <a href="@routes.Application.signup" class="margin-none" style="position:relative;top:0px;font-size:14px;">Sign up now</a></p></li>
             </ul>
         </div>
     </div>

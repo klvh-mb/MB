@@ -181,11 +181,12 @@ ul, li {
 }
 #login-state {
     float: left;
+    margin: 2px 0 0 10px;
 }
 #login-state + p {
     padding: 0 7px;
     color: gray;
-    font-size: small;
+    font-size: 13px;
     float: left;
 }
 /*#login-btn {
