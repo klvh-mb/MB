@@ -2084,19 +2084,16 @@ minibean.service('ArticleallCommentsService',function($resource){
 });
 
 
-minibean.controller('EditArticleController',function($scope,$routeParams, likeFrameworkService, ArticleallCommentsService, userInfoService, usSpinnerService, ArticleService,articleCategoryService,allRelatedArticlesService,$http){
+minibean.controller('EditArticleController',function($scope,$routeParams,$location, likeFrameworkService, ArticleallCommentsService, userInfoService, usSpinnerService, ArticleService,articleCategoryService,allRelatedArticlesService,$http){
 	$scope.submitBtn = "Save";
 	$scope.userInfo = userInfoService.UserInfo.get();
-	var range = [];
-	for(var i=0;i<100;i++) {
-		  range.push(i);
-	}
-	$scope.targetAge = range;
+	
 	$scope.article = ArticleService.ArticleInfo.get({id:$routeParams.id}, function(response) {
-		console.log(response.ct.id);
+		if(response[0] == '1'){
+			$location.path('/article/show/0');
+		}
 		$scope.relatedResult = allRelatedArticlesService.getRelatedArticles.get({id:$routeParams.id, category_id:response.ct.id});
 	});
-	console.log($scope.article);
 	$scope.articleCategorys = articleCategoryService.getAllArticleCategory.get();
 	
 	$scope.open = function (id) {

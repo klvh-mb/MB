@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.NoResultException;
+
 import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotLikableException;
 
@@ -181,7 +183,13 @@ public class ArticleController extends Controller {
 	@Transactional
 	public static Result infoArticle(Long art_id) {
 		final User localUser = Application.getLocalUser(session());
-		Article article = Article.findById(art_id);
+		Article article = null;
+		try {
+		 article = Article.findById(art_id);
+		} catch(NoResultException e) {
+			
+			return ok("1");
+		}
 		ArticleVM vm = new ArticleVM(article, localUser);
 		vm.description = article.description;
 		return ok(Json.toJson(vm));
