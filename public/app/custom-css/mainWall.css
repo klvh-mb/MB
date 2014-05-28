@@ -68,6 +68,15 @@
     font-size: small;
     margin-right: 5px;
 }
+.wall-user-post-image {
+    padding-top: 5px;
+}
+.wall-user-post-image img {
+    
+}
+.wall-user-post-body {
+    padding-top: 5px;
+}
 .wall-user-post-title {
     padding: 5px 0 0 0;
     margin: 0;
