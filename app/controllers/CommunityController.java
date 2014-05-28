@@ -474,7 +474,7 @@ public class CommunityController extends Controller{
 		if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
 			String postText = form.get("postText");
 			String withPhotos = form.get("withPhotos");
-			Post p = (Post) c.onPost(localUser, postText, PostType.SIMPLE);
+			Post p = (Post) c.onPost(localUser, null, postText, PostType.SIMPLE);
 			if(Boolean.parseBoolean(withPhotos)) {
 				p.ensureAlbumExist();
 			}
@@ -525,12 +525,13 @@ public class CommunityController extends Controller{
 		final User localUser = Application.getLocalUser(session());
 		DynamicForm form = DynamicForm.form().bindFromRequest();
 		Long communityId = Long.parseLong(form.get("community_id"));
+		String questionTitle = form.get("questionTitle");
 		String questionText = form.get("questionText");
 		Community c = Community.findById(communityId);
 		if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
 			String withPhotos = form.get("withPhotos");
 			
-			Post p = (Post) c.onPost(localUser, questionText, PostType.QUESTION);
+			Post p = (Post) c.onPost(localUser, questionTitle, questionText, PostType.QUESTION);
 			
 			if(Boolean.parseBoolean(withPhotos)) {
 				p.ensureAlbumExist();

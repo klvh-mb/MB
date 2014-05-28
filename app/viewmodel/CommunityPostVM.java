@@ -15,6 +15,7 @@ public class CommunityPostVM {
 	@JsonProperty("oid") public Long ownerId;
 	@JsonProperty("p") public String postedBy;
 	@JsonProperty("t") public long postedOn;
+	@JsonProperty("ptl") public String postedTitle;
 	@JsonProperty("pt") public String postedText;
 	@JsonProperty("hasImage") public boolean hasImage;
 	@JsonProperty("n_c") public int noOfComments;
@@ -35,6 +36,7 @@ public class CommunityPostVM {
 		postVM.ownerId = post.owner.id;
 		postVM.postedBy = post.owner.name;
 		postVM.postedOn = post.getCreatedDate().getTime();
+		postVM.postedTitle = post.title;
 		postVM.postedText = post.body;
 		postVM.noOfComments = post.comments.size();
 		postVM.timestamp = post.getCreatedDate().getTime()/1000;

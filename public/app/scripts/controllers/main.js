@@ -1580,10 +1580,11 @@ minibean.controller('CreateQnACommunityController',function($scope, likeFramewor
 		
 	}
 	
-	$scope.ask_question_community = function(id, questionText) {
+	$scope.ask_question_community = function(id, questionTitle, questionText) {
 		usSpinnerService.spin('loading...');
 		var data = {
 				"community_id" : id,
+				"questionTitle" : questionTitle,
 				"questionText" : questionText,
 				"withPhotos" : $scope.QnASelectedFiles.length != 0
 			};
@@ -1592,7 +1593,7 @@ minibean.controller('CreateQnACommunityController',function($scope, likeFramewor
 			.success(function(post_id) {
 				usSpinnerService.stop('loading...');
 				$('.postBox').val('');
-				var post = {"oid" : $scope.QnA.lu, "pt" : questionText,"cn" : $scope.community.n, 
+				var post = {"oid" : $scope.QnA.lu, "ptl" : questionTitle, "pt" : questionText, "cn" : $scope.community.n, 
 						"p" : $scope.QnA.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
 				$scope.QnA.posts.unshift(post);
 				

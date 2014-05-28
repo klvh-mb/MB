@@ -92,17 +92,19 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	
 	@Override
 	@Transactional
-	public SocialObject onPost(User user, String body, PostType type) {
-		Post post = new Post(user, body, this);
+	public SocialObject onPost(User user, String title, String body, PostType type) {
+		Post post = null;
 		
 		if (type == PostType.QUESTION) {
+		    post = new Post(user, title, body, this);
 			post.objectType = SocialObjectType.QUESTION;
 			post.postType = type;
-		}
-		
-		if (type == PostType.SIMPLE) {
+		} else if (type == PostType.SIMPLE) {
+		    post = new Post(user, body, this);
 			post.objectType = SocialObjectType.POST;
 			post.postType = type;
+		} else {
+		    throw new RuntimeException("Post type is not recognized");
 		}
 		post.save();
 		

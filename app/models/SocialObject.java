@@ -251,7 +251,7 @@ public abstract class SocialObject extends domain.Entity implements
 		throw new SocialObjectNotCommentableException("Please make sure Social Object you are commenting is Commentable");
 	}
 
-	public SocialObject onPost(User user, String body, PostType type)
+	public SocialObject onPost(User user, String title, String body, PostType type)
 			throws SocialObjectNotPostableException {
 		throw new SocialObjectNotPostableException(
 				"Please make sure Social Object you are posting  is Postable");

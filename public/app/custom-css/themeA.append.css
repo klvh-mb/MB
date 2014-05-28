@@ -532,10 +532,10 @@ span.notif-count {
     border: 0px;
     border-bottom: 1px solid #c8c8c8;
     border-radius: 0px;
-    padding: 2px;
+    padding: 2px 2px 2px 6px;
     margin-top: 5px;
-    font-weight: normal;
-    font-size: 15px;
+    font-weight: bold;
+    font-size: 14px;
 }
 .post-input-body {
     resize: none;
