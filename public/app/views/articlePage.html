@@ -62,7 +62,7 @@
                     <span class="icon-box icon-box-brown icon-title-relatePost"></span><p>Related Articles</p>
                 </div>
                     <ul>
-                        <li data-ng-repeat="relatedArticle in relatedResult"><p><a href="/#/article/id/{{relatedArticle.id}}" style="color: #324fe1;" target="_blank"><img ng-show="relatedArticle.img_url != 'No Image'"  data-ng-src="{{relatedArticle.img_url}}"/>{{relatedArticle.nm|characters:25:false}}</a></p></li>
+                        <li data-ng-repeat="relatedArticle in relatedResult"><p><a href="/#/article/id/{{relatedArticle.id}}" style="color: #324fe1;" target="_blank"><img ng-show="relatedArticle.img_url != 'No Image'"  data-ng-src="{{relatedArticle.img_url}}"/>{{relatedArticle.nm|limitTo:35}}...</a></p></li>
                     </ul>
             </div><!--Relate Post End -->
         </div>
@@ -73,7 +73,7 @@
                 </div>
                 <div class="static-content-wrapper" >
                     <ul>
-                        <li  data-ng-repeat="article in resultSlidder.ra"><a href="/#/article/id/{{article.id}}" target="_blank"><img ng-show="article.img_url != 'No Image'"  data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;" target="_blank"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>
+                        <li  data-ng-repeat="article in resultSlidder.ra"><a href="/#/article/id/{{article.id}}" target="_blank"><img ng-show="article.img_url != 'No Image'"  data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;" target="_blank"><font>{{article.nm}}</font></a><p><font>{{article.lds|limitTo:35}}...</font></p></div></li>
                     </ul>
                 </div>
             </div><!--HotTopic End -->
@@ -83,7 +83,7 @@
                 </div>
                 <div class="static-content-wrapper">
                     <ul>
-						<li  data-ng-repeat="article in resultSlidder.la"><a href="/#/article/id/{{article.id}}" target="_blank"><img ng-show="article.img_url != 'No Image'"  data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;" target="_blank"><font>{{article.nm}}</font></a><p><font>{{article.lds|characters:35:false}}</font></p></div></li>                    
+						<li  data-ng-repeat="article in resultSlidder.la"><a href="/#/article/id/{{article.id}}" target="_blank"><img ng-show="article.img_url != 'No Image'"  data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;" target="_blank"><font>{{article.nm}}</font></a><p><font>{{article.lds|limitTo:35}}...</font></p></div></li>                    
 					</ul>
                 </div>
             </div><!--Latest Post End -->
