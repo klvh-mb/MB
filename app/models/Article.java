@@ -120,12 +120,14 @@ public class Article extends SocialObject implements Commentable, Likeable {
 	}
 	
 	public String getLinesFromDescription(String description) {
+		
 		String noHTMLString = description.replaceAll("\\<.*?>","");
 		noHTMLString = noHTMLString.replaceAll("&nbsp;", " ");
 		noHTMLString = noHTMLString.replaceAll("[\\\r\\\n]+", " ");
 		noHTMLString = noHTMLString.replaceAll("&ldquo;", "\"");
-		if(noHTMLString.length() > 84) {
-			return noHTMLString.substring(0, 85);
+		noHTMLString = noHTMLString.replaceAll("&rdquo;", "\"");
+		if(noHTMLString.length() > 104) {
+			return noHTMLString.substring(0, 105);
 		}
 		return noHTMLString;
 		
