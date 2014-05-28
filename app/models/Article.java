@@ -123,6 +123,7 @@ public class Article extends SocialObject implements Commentable, Likeable {
 		
 		String noHTMLString = description.replaceAll("\\<.*?>","");
 		noHTMLString = noHTMLString.replaceAll("&nbsp;", " ");
+		noHTMLString = noHTMLString.replaceAll("&mdash;", "-");
 		noHTMLString = noHTMLString.replaceAll("[\\\r\\\n]+", " ");
 		noHTMLString = noHTMLString.replaceAll("&ldquo;", "\"");
 		noHTMLString = noHTMLString.replaceAll("&rdquo;", "\"");
