@@ -157,12 +157,12 @@ public class User extends SocialObject implements Subject, Socializable {
 
 	public SocialObject postedOn(SocialObject target, String post)
 			throws SocialObjectNotPostableException {
-		return target.onPost(this, post, PostType.SIMPLE);
+		return target.onPost(this, null, post, PostType.SIMPLE);
 	}
 
-	public SocialObject questionedOn(SocialObject target, String question)
+	public SocialObject questionedOn(SocialObject target, String title, String question)
 			throws SocialObjectNotPostableException {
-		return target.onPost(this, question, PostType.QUESTION);
+		return target.onPost(this, title, question, PostType.QUESTION);
 	}
 
 	public Conversation sendMessage(User user, String msg) {

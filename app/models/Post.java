@@ -43,36 +43,43 @@ import domain.SocialObjectType;
 @Entity
 public class Post extends SocialObject implements Likeable, Commentable {
 
-	public Post() {}
+    public Post() {}
+    
+    public String title;
+       
+    @Required @Lob
+    public String body;
+    
+    @ManyToOne(cascade=CascadeType.REMOVE)
+    public Community community;
+    
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    public Set<Comment> comments;
+    
+    @Required
+    public PostType postType;
+    
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    
+    public Folder folder;
+    
+    public int noOfLikes=0;
 	
-	@Required @Lob
-	public String body;
-	
-	@ManyToOne(cascade=CascadeType.REMOVE)
-	public Community community;
-
-	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-	public Set<Comment> comments;
-
-	@Required
-	public PostType postType;
-	
-	@ManyToOne(cascade = CascadeType.REMOVE)
-	
-	public Folder folder;
-
-	public int noOfLikes=0;
-	
-	@Override
-	public void onLikedBy(User user) {
-		recordLike(user);
-	}
-	
-	public Post(User actor, String post , Community community) {
-		this.owner = actor;
-		this.body = post;
-		this.community = community;
-	}
+    @Override
+    public void onLikedBy(User user) {
+    	recordLike(user);
+    }
+    
+    public Post(User actor, String title, String post, Community community) {
+        this.owner = actor;
+        this.title = title;
+        this.body = post;
+        this.community = community;
+    }
+       
+    public Post(User actor, String post, Community community) {
+        this(actor, null, post, community);
+    }
 	
 	@Override
 	public void save() {

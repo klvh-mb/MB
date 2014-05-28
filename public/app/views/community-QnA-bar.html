@@ -1,18 +1,4 @@
 
-<!-- 
-<textarea class="form-control" placeholder="Ask Question here!" data-ng-model="questionText"></textarea>
-<div style="background-color: white;" ng-show="QnASelectedFiles != null">
-		<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
-		ng-repeat="f in QnASelectedFiles" style="width: 100px;height: 100px;" ng-show="dataUrls[$index]" 
-		ng-src="{{dataUrls[$index]}}" tooltip-placement="bottom" tooltip="delete it!" data-ng-click="remove_image($index)">
-</div>
-
-<div>
-	<i data-ng-show="QnASelectedFiles.length < 1" data-ng-click="postPhoto()"  style="color: cadetblue;" class="fa fa-camera"></i>
-	<button data-ng-show="questionText.length > 3" type="button" class="btn btn-warning btn-xs" data-ng-click="ask_question_community(community.i, questionText)">ask it!</button>
-	<input style="visibility: hidden;" id="QnA-photo-id" type="file"  name="post-photo" ng-file-select="onQnAFileSelect($files)"/>
-</div> -->
-
                     <div id="content-uploader" class="general-box tab-content" >
                         <ul ng-show="community.isM || community.isO == true" style="padding:5px;">
                             <li style="margin:0px;">
@@ -22,8 +8,8 @@
                             </li>
                             <li>
                                 <form id="content-upload-wrapper" name="content-upload-wrapper" class="no-margin no-padding" method="post" action="" >
-                                <textarea cols="45" rows="1" class="post-input-title general-input-box form-control" placeholder="Title" data-ng-model="questionTitle"></textarea>
-                                <textarea cols="45" rows="2" name="content-upload-input" id="content-upload-input" class="post-input-body general-input-box form-control" placeholder="Your question details..." data-ng-model="questionText"></textarea>
+                                <textarea cols="45" rows="1" class="post-input-title general-input-box form-control" placeholder="問個問題吧⋯⋯" data-ng-model="questionTitle"></textarea>
+                                <textarea cols="45" rows="2" name="content-upload-input" id="content-upload-input" class="post-input-body general-input-box form-control" placeholder="加些詳情" data-ng-model="questionText"></textarea>
                                 
 									<div style="background-color: white;" ng-show="QnASelectedFiles != null">
 										<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
@@ -32,7 +18,7 @@
 									</div>
 									<div>
 									<i data-ng-show="QnASelectedFiles.length < 1" data-ng-click="postPhoto()"></i>
-										<button  data-ng-show="questionText.length > 3" type="button" class="btn btn-warning btn-xs" data-ng-click="ask_question_community(community.i, questionText)">Post</button>
+										<button  data-ng-show="questionText.length > 3" type="button" class="btn btn-warning btn-xs" data-ng-click="ask_question_community(community.i, questionTitle, questionText)">Post</button>
 										<input style="visibility:hidden;height:0px;" id="QnA-photo-id" type="file"  name="post-photo" ng-file-select="onQnAFileSelect($files)"/>
 									</div>
                                 
@@ -41,7 +27,6 @@
                             </li>
                         </ul>
                     </div>
-
 
 <div infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>	
 	<div class="widget" data-ng-repeat="post in QnA.posts">
@@ -52,15 +37,16 @@
 		              	<!-- <span class="wall-forum-post-checked">{{post.nov}}</span> -->
 		              	</div>
 		              	</li>
-		              <li>
-		                  <span style="white-space: pre-wrap;" class="wall-user-post-text"><font>{{post.pt}}</font></span>
-		              	   <div data-ng-show="post.hasImage" class="innerAll">
-								<p class="lead"></p>
-								<a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
-									<img width="90" data-ng-src="/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="" class="img-post">
-								</a>
-						   </div>
-		              </li>
+                        <li>
+                            <span style="white-space: pre-wrap;" class="wall-user-post-title"><a data-ng-href=""><font>{{post.ptl}}</font></a></span>
+                            <span style="white-space: pre-wrap;" class="wall-user-post-text"><font>{{post.pt}}</font></span>
+                            <div data-ng-show="post.hasImage" class="innerAll">
+                                <p class="lead"></p>
+                                <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
+                                    <img width="90" data-ng-src="/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="" class="img-post">
+                                </a>
+                            </div>
+                        </li>
 					<li><div ng-show="post.nol > 0" style="float:left;">{{post.nol}}</div>
 					<a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)" style="color: #428bca !important;">
 					<img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
