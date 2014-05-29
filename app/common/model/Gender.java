@@ -27,6 +27,8 @@ public enum Gender {
 
     public static Gender valueOfInt(int genderInt) {
         switch(genderInt) {
+            case 0:
+                return null;    // Both
             case 1:
                 return Gender.Male;
             default:
