@@ -1,5 +1,6 @@
 package models;
 
+import common.utils.NanoSecondStopWatch;
 import indexing.CommentIndex;
 import indexing.PostIndex;
 
@@ -115,29 +116,32 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		this.comments.add(comment);
 		JPA.em().merge(this);
 		try {
-		IndexQuery<PostIndex> indexQuery = PostIndex.find.query();
-		indexQuery.setBuilder(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), 
-				FilterBuilders.termFilter("post_id", comment.socialObject)));
-		IndexResults<PostIndex> postIndex = PostIndex.find.search(indexQuery);
-		
-		SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
-		
-		CommentIndex commentIndex = new CommentIndex();
-		commentIndex.post_id = comment.socialObject;
-		commentIndex.comment_id = comment.id;
-		commentIndex.commentText = comment.body;
-		commentIndex.creationDate = comment.date.getTime();
-		commentIndex.name = comment.name;
-		commentIndex.owner_id = comment.owner.id;
-		commentIndex.index();
-		
-		//hard-coding
-		if(postIndex.getResults().size() > 0) {
-			PostIndex pi = postIndex.getResults().get(0);
-			pi.noOfComments = Post.findById(comment.socialObject).comments.size();
-			pi.comments.add(commentIndex);
-			pi.index();
-		}
+            NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+            IndexQuery<PostIndex> indexQuery = PostIndex.find.query();
+            indexQuery.setBuilder(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(),
+                    FilterBuilders.termFilter("post_id", comment.socialObject)));
+            IndexResults<PostIndex> postIndex = PostIndex.find.search(indexQuery);
+
+            CommentIndex commentIndex = new CommentIndex();
+            commentIndex.post_id = comment.socialObject;
+            commentIndex.comment_id = comment.id;
+            commentIndex.commentText = comment.body;
+            commentIndex.creationDate = comment.date.getTime();
+            commentIndex.name = comment.name;
+            commentIndex.owner_id = comment.owner.id;
+            commentIndex.index();
+
+            //hard-coding
+            if(postIndex.getResults().size() > 0) {
+                PostIndex pi = postIndex.getResults().get(0);
+                pi.noOfComments = Post.findById(comment.socialObject).comments.size();
+                pi.comments.add(commentIndex);
+                pi.index();
+            }
+
+            sw.stop();
+            System.out.println("[ElasticSearch] onComment index took "+sw.getElapsedMS()+"ms");
 		} catch(Exception e) {
 			// Ideally code should not land here. this will happen in case of data inconsistency
 			System.out.println("Ideally code should not land here. this will happen in case of data inconsistency " + e.getMessage());
@@ -148,6 +152,8 @@ public class Post extends SocialObject implements Likeable, Commentable {
 	}
 	
 	public void indexPost(boolean withPhotos) {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
 		PostIndex postIndex = new PostIndex();
 		postIndex.post_id = this.id;
 		postIndex.community_id = this.community.id;
@@ -162,6 +168,9 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		}
 		
 		postIndex.index();
+
+        sw.stop();
+        System.out.println("[ElasticSearch] indexPost took "+sw.getElapsedMS()+"ms");
 	}
 	
 	@JsonIgnore

@@ -13,6 +13,7 @@ import javax.persistence.NoResultException;
 import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotLikableException;
 
+import common.utils.NanoSecondStopWatch;
 import domain.CommentType;
 
 import models.Article;
@@ -121,6 +122,10 @@ public class ArticleController extends Controller {
 	
 	@Transactional
 	public static Result getArticles(int n) {
+        final User localUser = Application.getLocalUser(session());
+        System.out.println("["+localUser.getName()+"] getArticles");
+
+
 		int i = 0;
 		List<Article> allArticles = Article.getArticles(n);
 		List<ArticleVM> leftArticles = new ArrayList<>();
