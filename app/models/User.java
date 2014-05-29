@@ -10,19 +10,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.NoResultException;
-import javax.persistence.OneToMany;
-import javax.persistence.Query;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.persistence.FetchType;
 
 import models.Community.CommunityType;
 import models.Notification.NotificationType;
@@ -67,21 +59,27 @@ public class User extends SocialObject implements Subject, Socializable {
 	public String firstName;
 	public String lastName;
 	public String displayName;
-	public String username;
 	public String email;
 	@Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
 	@JsonIgnore
 	public Date lastLogin;
 
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
-	public Date date_of_birth;
+	public Date date_of_birth;                  // TODO: replaced by birthYear
 
-	public String gender;
-	
 	@Lob
 	public String aboutMe;
-	
-	public String location;
+
+    ///// Targeting Attributes /////
+    @Column(nullable=true)
+    public Integer birthYear;
+
+    @Column(nullable=true)
+	public String gender;
+
+    @Column(nullable=true)
+    public String location;
+    ///// Targeting Attributes /////
 	
 	@JsonIgnore
 	public boolean active;
@@ -140,14 +138,12 @@ public class User extends SocialObject implements Subject, Socializable {
 		this.objectType = SocialObjectType.USER;
 	}
 
-	public User(String firstName, String lastName, String displayName,
-			String username) {
+	public User(String firstName, String lastName, String displayName) {
 		this();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.displayName = displayName;
 		this.name = firstName;
-		this.username = username;
 	}
 
 	public void likesOn(SocialObject target)
@@ -370,16 +366,6 @@ public class User extends SocialObject implements Subject, Socializable {
 				+ string + "%");
 		criteria.where(predicate);
 		return JPA.em().createQuery(criteria).getResultList();
-	}
-
-	public static User searchUsername(String username) {
-		CriteriaBuilder builder = JPA.em().getCriteriaBuilder();
-		CriteriaQuery<User> criteria = builder.createQuery(User.class);
-		Root<User> root = criteria.from(User.class);
-		criteria.select(root);
-		Predicate predicate = (builder.equal(root.get("username"), username));
-		criteria.where(predicate);
-		return JPA.em().createQuery(criteria).getSingleResult();
 	}
 
 	public static User searchEmail(String email) {
@@ -1003,14 +989,6 @@ public class User extends SocialObject implements Subject, Socializable {
 
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public String getEmail() {

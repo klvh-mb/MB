@@ -14,7 +14,6 @@ public class UserVM {
 	public String firstName;
 	public String lastName;
 	public String displayName;
-	public String username;
 	public String email;
 	public Date date_of_birth;
 	public String gender;
@@ -28,7 +27,6 @@ public class UserVM {
 		this.firstName = user.firstName;
 		this.lastName = user.lastName;
 		this.displayName = user.displayName;
-		this.username = user.username;
 		this.email = user.email;
 		this.date_of_birth = user.date_of_birth;
 		this.gender = user.gender;
@@ -37,9 +35,6 @@ public class UserVM {
 		this.id = user.id;
 		this.noOfFriends = user.getFriends().size();
 		this.noOfGroups = user.getListOfJoinedCommunities().size();
-		
-		
-		
 	}
 	
 	

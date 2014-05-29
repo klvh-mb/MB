@@ -1,5 +1,6 @@
 package targeting.sc;
 
+import common.model.Gender;
 import models.Article;
 import models.User;
 
@@ -19,8 +20,10 @@ public class ArticleTargetingEngine {
             throw new IllegalArgumentException("user is null");
         }
 
-        String parentGender = user.getGender();
+        Gender parentGender = Gender.valueOfStr(user.getGender());
         String district = user.getLocation();
+
+
 
         return Collections.EMPTY_LIST;       // TODO
     }
