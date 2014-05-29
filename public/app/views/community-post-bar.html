@@ -46,7 +46,7 @@
 									</div>
 									<div>
 									<i data-ng-show="selectedFiles.length < 3" data-ng-click="postPhoto()"></i>
-										<button  data-ng-show="postText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.i, postText)">Post</button>
+										<button  data-ng-show="postText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.i, postText); postText='';">Post</button>
 										<input style="visibility:hidden;height:0px;" id="post-photo-id" type="file"  name="post-photo" ng-file-select="onFileSelect($files)"/>
 									</div>
                                 
@@ -63,7 +63,7 @@
 <div id="wall-forum">
 		<div class="general-box">
 			<ul>
-	            <li><a data-ng-href="/#/profile/{{post.oid}}" ><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}"/></a><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span><span class="sharing-tag pull-right">分享</span></p>
+	            <li><a data-ng-href="/#/profile/{{post.oid}}" ><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}"/></a><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span><span class="sharing-tag pull-right">åˆ†äº«</span></p>
 	            <span class="wall-user-actState-date" am-time-ago="post.t"></span></li>
 	            <li><span style="white-space: pre-wrap;" ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></span></li>
 	            <li><div data-ng-show="post.hasImage" class="wall-user-post-image">

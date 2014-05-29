@@ -111,7 +111,13 @@ public class Post extends SocialObject implements Likeable, Commentable {
 			comment.commentType = type;
 			recordCommentOnCommunityPost(user);
 		}
-		comment.objectType = SocialObjectType.COMMENT;
+		if(this.objectType == SocialObjectType.POST) {
+			comment.objectType = SocialObjectType.COMMENT;
+		}
+		if(this.objectType == SocialObjectType.QUESTION) {
+			comment.objectType = SocialObjectType.ANSWER;
+		}
+		
 		comment.save();
 		this.comments.add(comment);
 		JPA.em().merge(this);
