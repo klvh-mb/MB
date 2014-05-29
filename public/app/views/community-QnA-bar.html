@@ -18,7 +18,7 @@
 									</div>
 									<div>
 									<i data-ng-show="QnASelectedFiles.length < 1" data-ng-click="postPhoto()"></i>
-										<button  data-ng-show="questionText.length > 3" type="button" class="btn btn-warning btn-xs" data-ng-click="ask_question_community(community.i, questionTitle, questionText)">Post</button>
+										<button  data-ng-show="questionText.length > 3" type="button" class="btn btn-warning btn-xs" data-ng-click="ask_question_community(community.i, questionTitle, questionText); questionTitle='';questionText='';">Post</button>
 										<input style="visibility:hidden;height:0px;" id="QnA-photo-id" type="file"  name="post-photo" ng-file-select="onQnAFileSelect($files)"/>
 									</div>
                                 

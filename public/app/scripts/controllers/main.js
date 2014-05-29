@@ -494,7 +494,7 @@ minibean.controller('CreateCommunityController',function($scope, $location, $htt
 			    }).success(function(data, status, headers, config) {
 			    	$scope.submitBtn = "Done";
 			    	usSpinnerService.stop('loading...');
-			    	$location.path('/community/'+data);
+			    	$location.path('/community/'+data+'/moment');
 			    	$("#myModal").modal('hide');
 			    }).error(function(data, status, headers, config) {
 			    	if( status == 505 ) {

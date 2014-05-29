@@ -18,7 +18,8 @@ public enum  SocialObjectType {
      PHOTO,
      QUESTION,
      ARTICLE,
-     COMMENT;
+     COMMENT,
+     ANSWER;
      
      
 }
