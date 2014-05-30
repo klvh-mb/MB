@@ -13,9 +13,21 @@
 	         	</a>
 	        </li>
 	     </ul>
-	     <div class="slider-photo"><a href="/#/article/id/{{category_id}}" target="_blank"><span class="mask-blue"><p class="slider-title"><strong>{{title|limitTo:15:false}}</strong></p><p class="slider-title" style="margin-top: -45px;">{{description|limitTo:28}}...</p></span><img ng-show="image_source != 'No Image'" style="width: 100% !important;" data-ng-src="{{image_source}}"></a></div>
+	     <div class="slider-photo">
+	       <a href="/#/article/id/{{category_id}}" target="_blank">
+    	       <span class="mask-blue">
+    	           <p class="slider-title">
+    	               {{title|limitTo:15:false}}
+    	           </p>
+    	           <p class="slider-subtitle">
+    	               {{description|limitTo:28}}...
+    	           </p>
+    	       </span>
+	           <img ng-show="image_source != 'No Image'" style="width: 100% !important;" data-ng-src="{{image_source}}">
+	       </a>
+	     </div>
 	     <ul class="slider-menu" >
-	         <li  data-ng-repeat="article in resultSlidder.ra" data-ng-mouseOver="changeInsideImage(article.id)">
+	         <li data-ng-repeat="article in resultSlidder.ra" data-ng-mouseOver="changeInsideImage(article.id)">
                 <a href="/#/article/id/{{article.id}}" target="_blank">
                     <p>
                         <font>

@@ -391,8 +391,8 @@ a:focus {
 }
 .slider-menu p {    
     margin: 0;
-    width: 130px;
-    height: 35px;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     word-break: break-all;
 }
@@ -471,10 +471,10 @@ a:focus {
 }
 
 #contentSearchwrapper {
-    width: 40%;
-    height: 28px;
-    top: 1px;
-    right: -68px;
+    width: 32%;
+    height: 30px;
+    top: -10px;
+    right: -25px;
     border: 0;
 }
 #contentSearchwrapper .general-textfield {
@@ -585,6 +585,8 @@ span.notif-count {
     color: #333;
     background-color: white;
     border-color: #938EAD;
+    padding: 4px 12px;
+    height: 30px;
 }
 .basic-search i {
     color: #3C31B4;
@@ -592,6 +594,7 @@ span.notif-count {
 .basic-search input {
     border-color: #C8C8DA;
     border-radius: 5px;
+    height: 30px;
 }
 .basic-search input:active {
     background-color: white;
@@ -606,5 +609,23 @@ span.notif-count {
 .basic-search input:hover {
     background-color: white;
 }
-
-
+.lightbox {
+    background: rgba(0, 0, 0, 0.9);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 1100;
+    -webkit-transition: opacity .0s linear;
+    transition: opacity .0s linear;
+}
+.modal-content {
+    border-radius: 3px;
+    top: 50px;
+}
+.modal-header {
+    height: 30px;
+    border-radius: 3px !important;
+    border-color: white !important;
+    background-color: white !important;
+    background-image: linear-gradient(to bottom, white, white) !important;
+}

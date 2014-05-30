@@ -153,7 +153,7 @@ pre {
     height: 30%;
     width: 100%;
     bottom: 0;
-    background-color: #e5e9ff;
+    background-color: #F0F3FF;
     z-index: 10;
     opacity: 0.8;
 }
@@ -914,19 +914,25 @@ text-decoration: none;
     display: none;
     z-index: 20;
 }
-.slider-title {
-    text-align: right;
-    color: #434343;
-    font-size: small;
+.slider-title, .slider-subtitle {
+    text-align: left;
     position: relative;
-    padding: 12px;
+    padding: 5px 10px;
     z-index: 20;
-    height: 80%;
+    height: 85%;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.slider-title strong{
-    color: black;
+.slider-title {
+    color: #202020;
+    font-size: 14px;
+    font-weight: bold;
+}
+.slider-subtitle {
+    margin-top: -45px;
+    color: #202020;
+    font-size: 13px;
+    font-weight: normal;
 }
 .slider-photo a:hover > span p {
     text-decoration: underline;

@@ -99,12 +99,7 @@
 									<li><a>off</a></li>
 								</ul>
 							</div>
-	
-	
 						</li>
-	
-	
-	
 					</ul>
 				</div>
 			</div>
@@ -120,14 +115,17 @@
 							</span><a ng-click="selectedTab1 = 2; searchQuery = '';" ng-class="{activeTabUnderlined: selectedTab1 == 2}">
 							<font style="color: white;">Questions</font> </a>
 							<a ng-click="selectedTab1 = 3;" id="contentSearchwrapper" class="pull-right ng-pristine ng-valid" ng-class="{activeTabUnderlined: selectedTab1 == 3}">
-							<input name="main-search-field" id="main-search-field" class="general-textfield" ng-model="searchQuery" type="text">
-							<input id="submit-content-search" name="submit-content-search" class="icon-box icon-title-search" style="cursor: pointer;" ng-click="search_trigger = searchQuery">
+                                <div class="basic-search-wrapper">
+                                    <div class="input-group innerB basic-search">
+                                        <input type="text" class="form-control" ng-model="searchQuery" placeholder="">
+                                        <div class="input-group-btn">
+                                           <button class="btn btn-default" type="button" ng-click="search_trigger = searchQuery">
+                                               <i class="fa fa-search"></i>
+                                           </button>
+                                        </div>
+                                    </div>
+                                </div>
 							</a>
-							<!-- <form ng-controller="SearchPageController" id="contentSearchwrapper" name="contentSearch" class="pull-right ng-pristine ng-valid" method="post" action="">
-			                        <label for="User Comment"></label>
-			                        <input type="text" name="main-search-field" id="main-search-field" class="general-textfield" data-ng-model="highlightQuery">
-			                        <input id="submit-content-search" name="submit-content-search" type="submit" data-ng-show="highlightQuery.length>0" data-ng-click="search_and_highlight(highlightQuery);" value=" " class="icon-box icon-title-search">
-			                    </form> -->
 						</div>
 					</div>
 					<div class="tab-content"
@@ -248,7 +246,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="myModal" data-backdrop="false">
+<div class="modal fade lightbox" id="myModal" data-backdrop="false">
   <div class="modal-dialog">
     <div class="modal-content">
       <form ng-controller = "CreateCommunityController"  name="formData" novalidate ng-submit="submit()"  method="post" enctype="multipart/form-data" >				              
@@ -388,7 +386,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="imageModal" data-backdrop="false">>
+<div class="modal fade lightbox" id="imageModal" data-backdrop="false">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
