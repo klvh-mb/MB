@@ -335,19 +335,12 @@ public class CommunityController extends Controller{
 	@Transactional
 	public static Result uploadCoverPhoto(Long id) {
 		Community community = Community.findById(id);
-		String coords[] = request().body().asMultipartFormData().asFormUrlEncoded().get("cords");
 		FilePart picture = request().body().asMultipartFormData().getFile("profile-photo");
 		String fileName = picture.getFilename();
-		String extension = "jpg";
-		int i = fileName.lastIndexOf('.');
-		if (i > 0) {
-		   extension = fileName.substring(i+1);
-		}
 
 	    File file = picture.getFile();
 	    File fileTo = new File(fileName);
 	    
-	    if(coords == null) {
 			// No cropping is performed
 	    	try {
 		    	FileUtils.copyFile(file, fileTo);
@@ -356,18 +349,7 @@ public class CommunityController extends Controller{
 				//e.printStackTrace();
 				return status(500);
 			}
-		} else {
-			JsonNode jn = Json.parse(coords[0]);
-			BufferedImage originalImage;
-			try {
-				originalImage = ImageIO.read(file);
-				BufferedImage croppedImage = originalImage.getSubimage(jn.get("x").asInt(), jn.get("y").asInt(), jn.get("w").asInt(), jn.get("h").asInt());
-				ImageIO.write(croppedImage, extension, fileTo);
-				community.setCoverPhoto(fileTo);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		
 		return ok();
 	}
 	

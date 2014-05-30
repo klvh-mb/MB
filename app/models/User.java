@@ -69,6 +69,9 @@ public class User extends SocialObject implements Subject, Socializable {
 
 	@Lob
 	public String aboutMe;
+	
+	@OneToMany
+	public List<UserChild> children;
 
     ///// Targeting Attributes /////
     @Column(nullable=true)
