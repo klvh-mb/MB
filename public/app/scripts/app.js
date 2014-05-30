@@ -73,33 +73,5 @@ angular.module('minibean', [
   })
   .run(function(editableOptions) {
   editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
-  })
-  .directive('ngImgcropped',['$parse', function($parse) {
-		return function(scope, elem, attr){
-  			
-			elem.bind('mouseenter', function(){
-				
-				var opt = {};
-				if(attr.aspectratio) {
-					opt.aspectRatio = attr.aspectratio;
-				}
-				
-				if(attr.minw && attr.minh) {
-					opt.minSize = [attr.minw,attr.minh];
-				}
-				
-				if(attr.maxw && attr.maxh) {
-					opt.maxSize = [attr.maxw,attr.maxh];
-				}
-				opt.onSelect = function(x) {
-					scope.$apply(function() {
-						scope.selectedCoords({cords: x});
-					})
-				}; 
-					
-				$(this).Jcrop(opt);
-			});
-	
-		}
-  }]);
+  });
 

@@ -239,8 +239,8 @@ minibean.service('userAboutService',function($resource){
 // TODO: I dont like way i am defining PhotoModalController
 var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePhotoModal) {
 	$scope.fileReaderSupported = window.FileReader != null;
-	$scope.uploadRightAway = false;
-	$scope.isProfileOn = PhotoModalController.isProfileOn;
+	$scope.uploadRightAway = true;
+
 	$scope.hasUploader = function(index) {
 		return $scope.upload[index] != null;
 	};
@@ -292,17 +292,16 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 	        });
 	    }
 	}
-	
-	$scope.selectedCoords = function(cords) {
-		$scope.cords = cords;	
-	}
 
 	$scope.start = function(index) {
 		$scope.progress[index] = 0;
 		$scope.upload[index] = $upload.upload({
 			url : PhotoModalController.url,
 			method: $scope.httpMethod,
-			data: $scope.cords,
+			//headers: {'myHeaderKey': 'myHeaderVal'},
+			//data : {
+			//	myModel : $scope.myModel
+			//},
 			file: $scope.selectedFiles[index],
 			fileFormDataName: 'profile-photo'
 		}).success(function(data, status, headers, config) {
