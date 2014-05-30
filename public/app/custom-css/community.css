@@ -1,0 +1,131 @@
+#membersDropdownBtn {
+    border: #bcbcbc solid thin;
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+    color: black;
+    font-size: 12px;
+    padding: 5px;
+    display: inline-block;
+    margin: 0;
+    background: rgb(255,255,255);
+    background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(47%,rgba(246,246,246,1)), color-stop(100%,rgba(237,237,237,1)));
+    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+    background: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+    background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+}
+#membersDropdown {
+    width: 120px;
+    min-width: 120px;
+    font-size: 12px;
+}
+#membersDropdown a {
+    padding: 0px;
+}
+#membersInviteBtn {
+    position: relative;
+    left: 30px;
+}
+#membersSearchwrapper {
+    width: 200px;
+    position: relative;
+    top: 0px;
+    right: -40px;
+}
+#membersSearchwrapper:hover {
+    text-decoration: none;
+}
+#membersSearchwrapper .general-textfield {
+    height: 30px;
+    box-shadow: none;
+    border: 1px solid #C8C8C8;
+    border-radius: 2px;
+    font-size:13px;
+}
+#membersSearchwrapper .general-textfield:hover {
+    border: 1px solid #764193;
+    outline: none;
+}
+#membersSearchwrapper .general-textfield:focus {
+    border: 1px solid #764193;
+    outline: none;
+}
+.memberCard {
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 1px 2px 0 rgba(0,0,0,.05);
+    box-shadow: 1px 2px 0 rgba(0,0,0,.05);
+    background-color: #fff;
+    display: inline-block;
+    height: 70px;
+    margin-bottom: 12px;
+    margin-left: 10px;
+    position: relative;
+    width: 31%;
+}
+.memberImageBox {
+    display: inline-block;
+    line-height: 0;
+    position: relative;
+}
+.memberImageBox img {
+    vertical-align: initial;
+    -webkit-border-radius: 3px 0 3px 0;
+    border-radius: 3px 0 3px 0;
+    display: inline-block;
+}
+.memberImageStar {
+    background: no-repeat url(../images/general/home-sprite.png) -17px 0;
+    height: 20px;
+    width: 20px;
+    bottom: 0;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+}
+.memberTagBox {
+    display: inline-block;
+    height: 70px;
+    width: 100px;
+}
+.memberTag {
+    display: table-cell;
+    height: 70px;
+    padding-left: 10px;
+    vertical-align: middle;
+}
+.memberTagRef {
+    line-height: 1.4em;
+    max-height: 2.8em;
+    clear: both;
+    color: #404040;
+    cursor: pointer;
+    display: block;
+    font-weight: bold;
+    max-width: 110px;
+    overflow: hidden;
+    text-decoration: none!important;
+    word-wrap: break-word;
+}
+.memberName {
+    font-size: 13px;
+    display: inline-block;
+    display: -webkit-box;
+    line-height: 1.4em;
+    max-height: 4.2em;
+    max-width: 100%;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+.memberType {
+    color: #737373;
+    display: block;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+
+

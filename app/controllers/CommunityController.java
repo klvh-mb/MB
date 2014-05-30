@@ -496,7 +496,10 @@ public class CommunityController extends Controller{
 		Community community = Community.findById(id);
 		List<MembersWidgetChildVM> members = new ArrayList<>();
 		for(User member : community.getMembers()) {
-			members.add(new MembersWidgetChildVM(member.id, member.displayName));
+			if(community.owner.equals(member)) {
+				members.add(new MembersWidgetChildVM(member.id, member.displayName,true));
+			}
+			members.add(new MembersWidgetChildVM(member.id, member.displayName,false));
 		}
 		MemberWidgetParentVM fwVM = new MemberWidgetParentVM(community.getMembers().size(), members);
 		return ok(Json.toJson(fwVM));

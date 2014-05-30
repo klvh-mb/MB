@@ -623,6 +623,16 @@ minibean.service('membersWidgetService',function($resource){
 
 minibean.controller('CommunityMembersWidgetController',function($scope, $routeParams, membersWidgetService, $http){
 	$scope.result = membersWidgetService.CommunityMembers.get({id:$routeParams.id});
+	$scope.showMembers = true;
+	$scope.showAdmin = false;
+	$scope.getAllMembers = function() {
+		$scope.showMembers = true;
+		$scope.showAdmin = false;
+	}
+	$scope.getAdmin = function() {
+		$scope.showMembers = false;
+		$scope.showAdmin = true;
+	}
 });
 
 ///////////////////////// Community Members Widget Service Ends //////////////////////////////////

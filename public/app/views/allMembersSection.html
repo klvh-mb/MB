@@ -1,14 +1,61 @@
-<div class="basic-search-wrapper">
-    <div class="input-group innerB basic-search">
-        <input type="text" class="form-control" ng-model="query" placeholder="Search Members">
-        <div class="input-group-btn">
-           <button class="btn btn-default" type="button">
-               <i class="fa fa-search"></i>
-           </button>
+
+<div class="btn-group" dropdown style="margin-top: 2%;">
+	<button type="button" id="membersDropdownBtn" class="btn btn-primary dropdown-toggle" ng-show="showMembers">
+    	Members ({{result.sn}}) <span class="caret"></span>
+    </button>
+    <button type="button" id="membersDropdownBtn" class="btn btn-primary dropdown-toggle" ng-show="showAdmin">
+    	Admin <span class="caret"></span>
+    </button>
+    <ul id="membersDropdown" class="dropdown-menu" role="menu">
+    	<li data-ng-click="getAllMembers()" style="cursor:pointer;">Members ({{result.sn}})</li>
+        <li data-ng-click="getAdmin()" style="cursor:pointer;">Admin </li>
+    </ul>
+</div>
+	<a id="membersSearchwrapper" class="pull-right" style="margin-right: 9%;">
+    	<div class="basic-search-wrapper">
+    		<div class="input-group innerB basic-search">
+        		<input type="text" class="form-control" ng-model="query" placeholder="Search Members">
+        	<div class="input-group-btn">
+           		<button class="btn btn-default" type="button">
+               		<i class="fa fa-search"></i>
+           		</button>
+        	</div>
+    	</div>
+	</div>
+   </a>
+    <a id="membersInviteBtn" class="btn-general pull-right" href="#" style="margin-right: 2%;margin-top: 2%;">+ Invite new members</a>
+    <div class="padding10"></div>
+
+
+<div class="memberCard" ng-repeat="fvm in result.fvm | filter:query " ng-show="showMembers">
+ 	<a href="#" class="d-s ob">
+    	<div class="memberImageBox">
+        	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{fvm.dn}}" data-ng-src="/get-thumbnail-image-by-id/{{fvm.id}}" alt="..." width="70px" height="70px">
+        	<div class="memberImageStar" title="Moderator"><img data-ng-src="/assets/app/images/bookmark_icon.png" style="width:100%;" ng-show="fvm.isAdmin"/></div>
+        </div>
+	</a>
+    <div class="memberTagBox">
+    	<div class="memberTag">
+        	<a href="#" class="memberTagRef">
+        	<span class="memberName">{{fvm.dn}}</span></a><span class="memberType" ng-show="fvm.isAdmin">Admin</span>
         </div>
     </div>
 </div>
-<div class="row row-merge">
+<div class="memberCard" ng-repeat="fvm in result.fvm | filter:query " ng-show="showAdmin && fvm.isAdmin">
+ 	<a href="#" class="d-s ob">
+    	<div class="memberImageBox">
+        	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{fvm.dn}}" data-ng-src="/get-thumbnail-image-by-id/{{fvm.id}}" alt="..." width="70px" height="70px">
+        	<div class="memberImageStar" title="Moderator"><img data-ng-src="/assets/app/images/bookmark_icon.png" style="width:100%;" ng-show="fvm.isAdmin"/></div>
+        </div>
+	</a>
+    <div class="memberTagBox">
+    	<div class="memberTag">
+        	<a href="#" class="memberTagRef">
+        	<span class="memberName">{{fvm.dn}}</span></a><span class="memberType" ng-show="fvm.isAdmin">Admin</span>
+        </div>
+    </div>
+</div>
+<!-- <div class="row row-merge">
 	<div class="col-md-4 col-lg-4 bg-white border-bottom" ng-repeat="fvm in result.fvm | filter:query ">
 		<div class="media">
 			<a class="pull-left margin-none" data-ng-href="#/profile/{{fvm.id}}">
@@ -17,12 +64,12 @@
 			<div class="media-body innerAll inner-2x padding-right-none padding-bottom-none">
 				 <h4 class="media-heading"><a data-ng-href="#/profile/{{fvm.id}}" class="text-inverse">{{fvm.dn}}</a></h4>
 				 <p>
-				 	<!-- <span class="text-success strong"><i class="fa fa-check"></i> Friend</span> &nbsp;  -->
-				 	<!-- Need To add Living in section -->
+				 	<span class="text-success strong"><i class="fa fa-check"></i> Friend</span> &nbsp; 
+				 	Need To add Living in section
 				 	<i class="fa fa-fw fa-map-marker text-muted"></i>{{fvm.ln}}</p> 
 			</div>
 		</div>
 	</div>
 </div>
-
+ -->
 	
