@@ -1,9 +1,9 @@
 package models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import play.data.format.Formats;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class UserChild {
@@ -12,5 +12,9 @@ public class UserChild {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
 
-	public String name;
+    @Column(nullable=false)
+	public String gender;
+
+    @Formats.DateTime(pattern = "yyyy-MM-dd")
+	public Date date_of_birth;
 }

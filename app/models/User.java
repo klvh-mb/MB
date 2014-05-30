@@ -69,9 +69,6 @@ public class User extends SocialObject implements Subject, Socializable {
 
 	@Lob
 	public String aboutMe;
-	
-	@OneToMany
-	public List<UserChild> children;
 
     ///// Targeting Attributes /////
     @Column(nullable=true)
@@ -82,6 +79,9 @@ public class User extends SocialObject implements Subject, Socializable {
 
     @Column(nullable=true)
     public String location;
+
+    @OneToMany
+	public List<UserChild> children;
     ///// Targeting Attributes /////
 	
 	@JsonIgnore
