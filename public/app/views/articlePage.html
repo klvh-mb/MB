@@ -19,15 +19,19 @@
                         	<div><a class="scCatTitle" href="/#/article/show/{{article.ct.id}}">{{article.ct.name}}</a><h6><font>Posted on </font><font type="date"><font><font>{{article.pd | date:'yyyy'  }}</font></font>  <font><font>{{article.pd | date:'MMM'  }}</font></font>  <font><font>{{article.pd | date:'dd hh:mm a'  }}</font></font></font></h6></div></li>
                         <li>
                         	<font class="scTitle">{{article.nm}}</font>
-                        	<span ng-show="article.nol > 0" style="float:left">{{article.nol}}</span>
-                        	<a style="float:left" data-ng-show="article.isLike" class="btn-like" href="" data-ng-click="like_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
-	                		<a style="float:left" data-ng-show="!article.isLike" class="btn-like" href="" data-ng-click="unlike_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a>
+                        	<span class="btn-like-wrapper">
+                                <a data-ng-show="article.isLike" class="btn-like" href="" data-ng-click="like_article(article.id)"><img data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
+                                <a data-ng-show="!article.isLike" class="btn-like" href="" data-ng-click="unlike_article(article.id)"><img data-ng-src="/assets/app/images/liked_1.jpg"/>Unlike</a>
+                                <span ng-show="article.nol > 0"> · {{article.nol}}</span>
+                            </span>
 	                 	</li>
                         <li><div style="font-size:16px; width:100%;" class="ng-binding" ng-bind-html="article.ds"></div></li>
                         <li>
-                        	<span ng-show="article.nol > 0" style="float:left">{{article.nol}}</span>
-                        	<a style="float:left" data-ng-show="article.isLike" class="btn-like" href="" data-ng-click="like_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
-	                		<a style="float:left" data-ng-show="!article.isLike" class="btn-like" href="" data-ng-click="unlike_article(article.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a>
+                            <span class="btn-like-wrapper">
+                                <a data-ng-show="article.isLike" class="btn-like" href="" data-ng-click="like_article(article.id)"><img data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
+                                <a data-ng-show="!article.isLike" class="btn-like" href="" data-ng-click="unlike_article(article.id)"><img data-ng-src="/assets/app/images/liked_1.jpg"/>Unlike</a>
+                                <span ng-show="article.nol > 0"> · {{article.nol}}</span>
+                            </span>
 	                	</li>
                     </ul>
                 </div>
@@ -45,9 +49,11 @@
 					<div class="media-body innerTB">
 						<div style="width:100%; float:left"><a href="" class="strong text-inverse">{{comment.on}}</a>  <small class="text-muted ">wrote on {{comment.cd | date: 'dd MMM, yyyy'}}</small></div>
 					<pre  ng-bind-html="comment.d | highlight: highlightText" style="width:100%; float:left"></pre>
-					<span ng-show="comment.nol > 0" >{{comment.nol}}</span>
-	                 <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="like_comment(comment.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
-	                 <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(comment.id)" style="color: #428bca !important;"><img style="height:18px" data-ng-src="/assets/app/images/unlike.jpg"/>Unlike</a>
+			        <span class="btn-like-wrapper">
+                        <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="like_comment(comment.id)"><img data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
+                        <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(comment.id)"><img data-ng-src="/assets/app/images/liked_1.jpg"/>Unlike</a>
+                        <span ng-show="comment.nol > 0"> · {{comment.nol}}</span>
+                    </span>
 					</div>
 				</div>
 				<textarea class="form-control" placeholder="Comment here..." data-ng-model="commentText"></textarea>

@@ -91,8 +91,23 @@ pre {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
 
 }
+.btn-like-wrapper {
+    position: relative;
+}
+.btn-like-wrapper span {
+    font-size: 13px;
+    font-weight: normal;
+}
 .btn-like {
-    margin: 0 10px 0 0;
+    margin: 0;
+    color: #428bca;
+    font-size: 13px;
+}
+.btn-like img:first-child {
+    height: 14px;
+    vertical-align: text-top;
+    padding: 0 5px 0 0;
+    display: inline-block;
 }
 .btn-comment {
     margin: 0 10px 0 0;

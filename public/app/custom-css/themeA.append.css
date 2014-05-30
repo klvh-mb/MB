@@ -388,6 +388,7 @@ a:focus {
 }
 #slider {
     height: 240px;
+    margin-bottom: 5px;
 }
 .slider-menu p {    
     margin: 0;
@@ -620,7 +621,7 @@ span.notif-count {
 }
 .modal-content {
     border-radius: 3px;
-    top: 50px;
+    top: 35px;
 }
 .modal-header {
     height: 30px;

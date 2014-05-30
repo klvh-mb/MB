@@ -62,6 +62,7 @@
     color: #7e7e7e;
     width: 100px;
     font-size: 13px;
+    vertical-align: middle;
 }
 .wall-user-actState-time {
     color: #7e7e7e;
@@ -231,9 +232,15 @@
     margin-bottom: 5px;
 }
 .commentUsername {
+    color: #428bca
     font-size: 13px;
     font-weight: bold;
     margin-bottom: 3px;
+    /*float: left;*/
+    padding-right: 5px;
+}
+.commentText {
+    white-space: pre-wrap;
 }
 .user-answer-count {
     font-size: 16px;
