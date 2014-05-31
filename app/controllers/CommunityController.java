@@ -361,7 +361,7 @@ public class CommunityController extends Controller{
         if(community.communityType == null) {
         	community.communityType = CommunityType.OPEN;
         }
-		if(!community.checkCommunityNameExists(localUser)) {
+		if(!community.checkCommunityNameExists()) {
 			return status(505, "PLEASE CHOOSE OTHER NAME");
 		}
 		

@@ -62,6 +62,8 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
 	public Date createDate;
 
+	public boolean excludeFromNewsfeed = true;
+	
 	public static enum CommunityType {
 		OPEN,
 		CLOSE,
@@ -266,11 +268,10 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 		 return new File(Play.application().configuration().getString("storage.community.cover.noimage"));
 	}
 	
-	public boolean checkCommunityNameExists(User owner) {
-		Query q = JPA.em().createQuery("Select so from Community so where owner = ?1  and name= ?2");
-		q.setParameter(1, owner);
+	public boolean checkCommunityNameExists() {
+		Query q = JPA.em().createQuery("Select so from Community so where name = ?1");
+		q.setParameter(1, this.name);
 		//q.setParameter(2, SocialObjectType.COMMUNITY);
-		q.setParameter(2, this.name);
 	
 		Community community = null;
 		try {

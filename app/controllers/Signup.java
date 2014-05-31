@@ -3,6 +3,8 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import models.TokenAction;
 import models.TokenAction.Type;
 import models.User;
@@ -17,6 +19,7 @@ import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyIdentity;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
 import providers.MyUsernamePasswordAuthUser;
+import views.html.verified;
 import views.html.account.signup.*;
 
 import com.feth.play.module.pa.PlayAuthenticate;
@@ -213,14 +216,21 @@ public class Signup extends Controller {
 	@Transactional
 	public static Result verify(final String token) {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-		final TokenAction ta = tokenIsValid(token, Type.EMAIL_VERIFICATION);
-		if (ta == null) {
-			return badRequest(no_token_or_invalid.render());
+		final TokenAction ta;
+		try {
+			 ta = tokenIsValid(token, Type.EMAIL_VERIFICATION);
+			 if (ta == null) {
+					return badRequest(no_token_or_invalid.render());
+				}
+			 final String email = ta.targetUser.email;
+			 User.verify(ta.targetUser);
+			 flash(Application.FLASH_MESSAGE_KEY,
+			 Messages.get("playauthenticate.verify_email.success", email));
 		}
-		final String email = ta.targetUser.email;
-		User.verify(ta.targetUser);
-		flash(Application.FLASH_MESSAGE_KEY,
-				Messages.get("playauthenticate.verify_email.success", email));
+		catch(NoResultException e) {
+			return ok(views.html.verified.render());
+		}
+		
 		if (Application.getLocalUser(session()) != null) {
 			return redirect(routes.Application.index());
 		} else {
