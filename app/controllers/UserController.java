@@ -74,16 +74,14 @@ public class UserController extends Controller {
 
 	    File file = picture.getFile();
 	    File fileTo = new File(fileName);
-		
-			// No cropping is performed
-	    	try {
-		    	FileUtils.copyFile(file, fileTo);
-				localUser.setPhotoProfile(file);
-			} catch (IOException e) {
-				//e.printStackTrace();
-				return status(500);
-			}
-		
+
+	    try {
+	    	FileUtils.copyFile(file, fileTo);
+			localUser.setPhotoProfile(fileTo);
+		} catch (IOException e) {
+			//e.printStackTrace();
+			return status(500);
+		}
 		return ok();
 	}
 	
@@ -97,16 +95,14 @@ public class UserController extends Controller {
 	    
 	    File file = picture.getFile();
 	    File fileTo = new File(fileName);
-	    
-			// No cropping is performed
-	    	try {
-		    	FileUtils.copyFile(file, fileTo);
-				localUser.setCoverPhoto(file);
-			} catch (IOException e) {
-				//e.printStackTrace();
-				return status(500);
-			}
-		
+
+	    try {
+	    	FileUtils.copyFile(file, fileTo);
+			localUser.setCoverPhoto(fileTo);
+		} catch (IOException e) {
+			//e.printStackTrace();
+			return status(500);
+		}
 		return ok();
 	}
 	

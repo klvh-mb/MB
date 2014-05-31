@@ -344,7 +344,7 @@ public class CommunityController extends Controller{
 			// No cropping is performed
 	    	try {
 		    	FileUtils.copyFile(file, fileTo);
-		    	community.setCoverPhoto(file);
+		    	community.setCoverPhoto(fileTo);
 			} catch (IOException e) {
 				//e.printStackTrace();
 				return status(500);
