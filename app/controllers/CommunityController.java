@@ -498,6 +498,7 @@ public class CommunityController extends Controller{
 		for(User member : community.getMembers()) {
 			if(community.owner.equals(member)) {
 				members.add(new MembersWidgetChildVM(member.id, member.displayName,true));
+				continue;
 			}
 			members.add(new MembersWidgetChildVM(member.id, member.displayName,false));
 		}
