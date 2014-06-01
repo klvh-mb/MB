@@ -6,7 +6,7 @@
 		         <a href="/#/article/id/{{article.id}}" target="_blank">
 			         <p>
 			         	<font>
-			         		<font style="text-align: center;">{{article.nm|limitTo:18:false}} </font><br>
+			         		<font style="text-align: center;">{{article.nm|limitTo:15:false}}<span data-ng-show="article.nm.length > 15">...</span></font><br>
 			         	</font>
 			         	<img class="slider-arrow-left" src="../assets/app/images/general/sliderArrow_right.png">
 		         	</p>
@@ -31,7 +31,7 @@
                 <a href="/#/article/id/{{article.id}}" target="_blank">
                     <p>
                         <font>
-                            <font style="text-align: center;">{{article.nm|limitTo:18:false}}</font><br>
+                            <font style="text-align: center;">{{article.nm|limitTo:15:false}}<span data-ng-show="article.nm.length > 15">...</span></font><br>
                         </font>
                         <img class="slider-arrow-right" src="../assets/app/images/general/sliderArrow_left.png">
                     </p>

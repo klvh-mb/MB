@@ -282,9 +282,9 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		}
 		catch(NoResultException nre) {
 			System.out.println("No Result For SR");
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	

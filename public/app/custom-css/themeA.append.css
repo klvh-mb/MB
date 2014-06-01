@@ -390,17 +390,22 @@ a:focus {
     height: 240px;
     margin-bottom: 5px;
 }
-.slider-menu p {    
+.slider-menu {
+    width: 27%;
+    height: 100%;
+}
+.slider-menu p {
     margin: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
     word-break: break-all;
 }
+.slider-menu a {
+    font-size: 15px;
+}
 .slider-photo {
-	position: relative;
-	float: left;
-	width: 40%;
+	width: 46%;
 	height: 100%;
 }
 .slider-category p {

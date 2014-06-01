@@ -95,7 +95,8 @@ pre {
     position: relative;
 }
 .btn-like-wrapper span {
-    font-size: 13px;
+    color: #77737E;
+    font-size: 11px;
     font-weight: normal;
 }
 .btn-like {

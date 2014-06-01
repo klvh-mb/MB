@@ -2,7 +2,7 @@
                     <div id="content-uploader" class="general-box tab-content" >
                         <ul ng-show="community.isM || community.isO == true" style="padding:5px;">
                             <li style="margin:0px;">
-                                <a id="upload-post"  style="float:left"><b><span class="icon-title-uploader-writePost"></span>Write Posts </b></a>
+                                <a id="upload-post" style="float:left"><b><span class="icon-title-uploader-writePost"></span>Write Posts </b></a>
                                 <span class="divider-cus"></span>
                                 <a id="upload-image"><span class="icon-title-uploader-upImage" ></span><b data-ng-show="QnASelectedFiles.length < 1" data-ng-click="postPhoto()">Add photos</b></a>
                             </li>
@@ -48,9 +48,10 @@
                         </li>
 					<li>
 					    <span class="btn-like-wrapper">
-                            <a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)"><img data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
-                            <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)"><img data-ng-src="/assets/app/images/liked_1.jpg"/>Unlike</a>
+                            <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)"><img data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
+                            <a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)"><img data-ng-src="/assets/app/images/liked_1.jpg"/>Unlike</a>
                             <span ng-show="post.nol > 0"> · {{post.nol}}</span>
+                            <span ng-show="post.isLike"> · 你對這讚好</span>
                         </span>
                     </li>
 		          </ul>
@@ -71,19 +72,21 @@
                                    </div>
                                    <div class="row">
                                        <span class="btn-like-wrapper">
-                                           <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
-                                           <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/liked_1.jpg"/>Unlike</a>
+                                           <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
+                                           <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/liked_1.jpg"/>Unlike</a>
                                            <span ng-show="comment.nol > 0"> · {{comment.nol}}</span>
+                                           <span ng-show="comment.isLike"> · 你對這讚好</span>
                                        </span>
                                    </div>
                                 </div>
                             </li>
-                            <li>
+                            <li ng-show="community.isM == true || community.isO == true">
                                <img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{userInfo.id}}" />
                                 <form id="userCommentwrapper" name="userComment" method="post" action="">
                                     <label for="User Comment"></label>
                                     <textarea type="text" name="userCommentfield" class="general-textfield" id="userCommentfield" placeholder="Write a comment..." cols="80" data-ng-model="commentText" rows="1"></textarea>
-                                    <span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText); commentText=''"></i></span>
+                                    <span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right">
+                                    <i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText); commentText=''"></i></span>
                                 </form>
                             </li>
 	                    </ul>
