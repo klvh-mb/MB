@@ -43,7 +43,7 @@
     border-radius: 3px;
 }
 .wall-user-actState {
-    color: #7e7e7e;
+    color: #77737E;
     margin: 0;
     white-space: pre;
     font-weight: bold;
@@ -59,13 +59,13 @@
     content:" 發問 ";
 }
 .wall-user-actState-date {
-    color: #7e7e7e;
+    color: #77737E;
     width: 100px;
     font-size: 13px;
     vertical-align: middle;
 }
 .wall-user-actState-time {
-    color: #7e7e7e;
+    color: #77737E;
     font-size: small;
     margin-right: 5px;
 }
@@ -153,12 +153,12 @@
 #wall-forum {
 }
 .wall-forum-post-time {
-    color: #7e7e7e;
+    color: #77737E;
     margin-right: 20px;
     font-size: small;
 }
 .wall-forum-post-last-time {
-    color: #7e7e7e;
+    color: #77737E;
     margin-right: 20px;
     font-size: small;
 }
@@ -175,13 +175,13 @@
     content:" 小時前";
 }
 .wall-forum-post-checked {
-    color: #7e7e7e;
+    color: #77737E;
     margin-right: 20px;
     font-size: small;
     display: block;
 }
 .wall-forum-post-reply {
-    color: #7e7e7e;
+    color: #77737E;
     margin-right: 20px;
     font-size: small;
 }

@@ -999,7 +999,7 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 						alert("GOT IT comment");
 						post.n_c++;
 						var comment = {"oid" : $scope.userInfo.id, "commentText" : commentText, "on" : $scope.userInfo.displayName,
-								"isLike" : true, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
 						post.cs.push(comment);
 				}
 				usSpinnerService.stop('loading...');	
@@ -1054,7 +1054,7 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.community.searchPosts, function(post, key){
 				if(post.id == post_id) {
-					post.isLike=false;
+					post.isLike=true;
 					post.nol++;
 				}
 			})
@@ -1066,7 +1066,7 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 			angular.forEach($scope.community.searchPosts, function(post, key){
 				if(post.id == post_id) {
 					post.nol--;
-					post.isLike=true;
+					post.isLike=false;
 				}
 			})
 		});
@@ -1079,7 +1079,7 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 					angular.forEach(post.cs, function(comment, key){
 						if(comment.id == comment_id) {
 							comment.nol++;
-							comment.isLike=false;
+							comment.isLike=true;
 						}
 					})
 				}
@@ -1094,7 +1094,7 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 					angular.forEach(post.cs, function(comment, key){
 						if(comment.id == comment_id) {
 							comment.nol--;
-							comment.isLike=true;
+							comment.isLike=false;
 						}
 					})
 				}
@@ -1361,7 +1361,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 					if(post.id == data.post_id) {
 						post.n_c++;
 						var comment = {"oid" : $scope.community.lu, "d" : commentText, "on" : $scope.community.lun,
-								"isLike" : true, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
 						post.cs.push(comment);
 				}
 				usSpinnerService.stop('loading...');	
@@ -1386,7 +1386,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 				$('.postBox').val('');
 				$scope.postText = "";
 				var post = {"oid" : $scope.community.lu, "pt" : postText, "cn" : $scope.community.n,
-						"isLike" : true, "p" : $scope.community.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
+						"isLike" : false, "nol" : 0, "p" : $scope.community.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
 				$scope.community.posts.unshift(post);
 				
 				if($scope.selectedFiles.length == 0) {
@@ -1463,7 +1463,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.community.posts, function(post, key){
 				if(post.id == post_id) {
-					post.isLike=false;
+					post.isLike=true;
 					post.nol++;
 				}
 			})
@@ -1475,7 +1475,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 			angular.forEach($scope.community.posts, function(post, key){
 				if(post.id == post_id) {
 					post.nol--;
-					post.isLike=true;
+					post.isLike=false;
 				}
 			})
 		});
@@ -1488,7 +1488,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 					angular.forEach(post.cs, function(comment, key){
 						if(comment.id == comment_id) {
 							comment.nol++;
-							comment.isLike=false;
+							comment.isLike=true;
 						}
 					})
 				}
@@ -1503,7 +1503,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 					angular.forEach(post.cs, function(comment, key){
 						if(comment.id == comment_id) {
 							comment.nol--;
-							comment.isLike=true;
+							comment.isLike=false;
 						}
 					})
 				}
@@ -1603,7 +1603,7 @@ minibean.controller('CreateQnACommunityController',function($scope, likeFramewor
 				usSpinnerService.stop('loading...');
 				$('.postBox').val('');
 				var post = {"oid" : $scope.QnA.lu, "ptl" : questionTitle, "pt" : questionText, "cn" : $scope.community.n, 
-						"p" : $scope.QnA.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
+						"isLike" : false, "nol" : 0, "p" : $scope.QnA.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
 				$scope.QnA.posts.unshift(post);
 				
 				if($scope.QnASelectedFiles.length == 0) {
@@ -1658,7 +1658,7 @@ minibean.controller('CreateQnACommunityController',function($scope, likeFramewor
 						if(post.id == data.post_id) {
 							post.n_c++;
 							var answer = {"oid" : $scope.QnA.lu, "d" : answerText, "on" : $scope.QnA.lun, 
-									"isLike" : true, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
+									"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
 						post.cs.push(answer);
 					}
 				});
@@ -1696,7 +1696,7 @@ minibean.controller('CreateQnACommunityController',function($scope, likeFramewor
 		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.QnA.posts, function(post, key){
 				if(post.id == post_id) {
-					post.isLike=false;
+					post.isLike=true;
 					post.nol++;
 				}
 			})
@@ -1707,7 +1707,7 @@ minibean.controller('CreateQnACommunityController',function($scope, likeFramewor
 		likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.QnA.posts, function(post, key){
 				if(post.id == post_id) {
-					post.isLike=true;
+					post.isLike=false;
 					post.nol--;
 				}
 			})
@@ -1722,7 +1722,7 @@ minibean.controller('CreateQnACommunityController',function($scope, likeFramewor
 					angular.forEach(post.cs, function(comment, key){
 						if(comment.id == comment_id) {
 							comment.nol++;
-							comment.isLike=false;
+							comment.isLike=true;
 						}
 					})
 				}
@@ -1737,7 +1737,7 @@ minibean.controller('CreateQnACommunityController',function($scope, likeFramewor
 					angular.forEach(post.cs, function(comment, key){
 						if(comment.id == comment_id) {
 							comment.nol--;
-							comment.isLike=true;
+							comment.isLike=false;
 						}
 					})
 				}
@@ -2155,7 +2155,7 @@ minibean.controller('EditArticleController',function($scope,$routeParams,$locati
 			.success(function(comment_id) {
 				$scope.article.n_c++;
 				var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName, 
-						"isLike" : true, "cd" : new Date(), "n_c" :$scope.article.n_c, "id" : comment_id};
+						"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" :$scope.article.n_c, "id" : comment_id};
 				$scope.article.cs.push(comment);
 				usSpinnerService.stop('loading...');	
 		});
@@ -2164,14 +2164,14 @@ minibean.controller('EditArticleController',function($scope,$routeParams,$locati
 		 $scope.like_article = function(article_id) {
 				likeFrameworkService.hitLikeOnArticle.get({"article_id":article_id}, function(data) {
 					$scope.article.nol++;
-					$scope.article.isLike=false;
+					$scope.article.isLike=true;
 				});
 			}
 			
 			$scope.unlike_article = function(article_id) {
 				likeFrameworkService.hitUnlikeOnArticle.get({"article_id":article_id}, function(data) {
 					$scope.article.nol--;
-					$scope.article.isLike=true;
+					$scope.article.isLike=false;
 				});
 			}
 	
@@ -2232,7 +2232,7 @@ minibean.controller('NewsFeedController', function($scope, likeFrameworkService,
 					if(post.id == data.post_id) {
 						post.n_c++;
 						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName,
-								"isLike" : true, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
 						post.cs.push(comment);
 				}
 				usSpinnerService.stop('loading...');	
@@ -2244,7 +2244,7 @@ minibean.controller('NewsFeedController', function($scope, likeFrameworkService,
 		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.newsFeeds.posts, function(post, key){
 				if(post.id == post_id) {
-					post.isLike=false;
+					post.isLike=true;
 					post.nol++;
 				}
 			})
@@ -2255,7 +2255,7 @@ minibean.controller('NewsFeedController', function($scope, likeFrameworkService,
 		likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.newsFeeds.posts, function(post, key){
 				if(post.id == post_id) {
-					post.isLike=true;
+					post.isLike=false;
 					post.nol--;
 				}
 			})
@@ -2270,7 +2270,7 @@ minibean.controller('NewsFeedController', function($scope, likeFrameworkService,
 					angular.forEach(post.cs, function(comment, key){
 						if(comment.id == comment_id) {
 							comment.nol++;
-							comment.isLike=false;
+							comment.isLike=true;
 						}
 					})
 				}
@@ -2285,7 +2285,7 @@ minibean.controller('NewsFeedController', function($scope, likeFrameworkService,
 					angular.forEach(post.cs, function(comment, key){
 						if(comment.id == comment_id) {
 							comment.nol--;
-							comment.isLike=true;
+							comment.isLike=false;
 						}
 					})
 				}
@@ -2369,7 +2369,7 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $int
 					if(post.id == data.post_id) {
 						post.n_c++;
 						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName,
-								"isLike" : true, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
 						post.cs.push(comment);
 				}
 				usSpinnerService.stop('loading...');	
@@ -2401,7 +2401,7 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $int
 		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.newsFeeds.posts, function(post, key){
 				if(post.id == post_id) {
-					post.isLike=false;
+					post.isLike=true;
 					post.nol++;
 				}
 			})
@@ -2412,7 +2412,7 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $int
 		likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.newsFeeds.posts, function(post, key){
 				if(post.id == post_id) {
-					post.isLike=true;
+					post.isLike=false;
 					post.nol--;
 				}
 			})
@@ -2427,7 +2427,7 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $int
 					angular.forEach(post.cs, function(comment, key){
 						if(comment.id == comment_id) {
 							comment.nol++;
-							comment.isLike=false;
+							comment.isLike=true;
 						}
 					})
 				}
@@ -2442,7 +2442,7 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $int
 					angular.forEach(post.cs, function(comment, key){
 						if(comment.id == comment_id) {
 							comment.nol--;
-							comment.isLike=true;
+							comment.isLike=false;
 						}
 					})
 				}

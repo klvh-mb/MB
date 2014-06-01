@@ -344,7 +344,7 @@ public class CommunityController extends Controller{
 			// No cropping is performed
 	    	try {
 		    	FileUtils.copyFile(file, fileTo);
-		    	community.setCoverPhoto(file);
+		    	community.setCoverPhoto(fileTo);
 			} catch (IOException e) {
 				//e.printStackTrace();
 				return status(500);
@@ -361,7 +361,7 @@ public class CommunityController extends Controller{
         if(community.communityType == null) {
         	community.communityType = CommunityType.OPEN;
         }
-		if(!community.checkCommunityNameExists(localUser)) {
+		if(!community.checkCommunityNameExists()) {
 			return status(505, "PLEASE CHOOSE OTHER NAME");
 		}
 		
@@ -498,6 +498,7 @@ public class CommunityController extends Controller{
 		for(User member : community.getMembers()) {
 			if(community.owner.equals(member)) {
 				members.add(new MembersWidgetChildVM(member.id, member.displayName,true));
+				continue;
 			}
 			members.add(new MembersWidgetChildVM(member.id, member.displayName,false));
 		}

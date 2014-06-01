@@ -28,7 +28,7 @@ public class CommunityPostVM {
 	@JsonProperty("nov") public int noOfViews;
 	@JsonProperty("nol") public int noOfLikes;
 	
-	@JsonProperty("isLike") public boolean isLike=true;
+	@JsonProperty("isLike") public boolean isLike=false;
 	
 	public static CommunityPostVM communityPostVM(Post post, User user) {
 		CommunityPostVM postVM = new CommunityPostVM();

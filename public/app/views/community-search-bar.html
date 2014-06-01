@@ -14,8 +14,14 @@
 						</a>
 				     </div>
 				</li>
-				<li><a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)" style="color: #428bca !important;">Like</a></li>
-				<li><a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)" style="color: #428bca !important;">Unlike</a></li>
+				<li>
+				    <span class="btn-like-wrapper">
+                        <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)"><img data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
+                        <a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)"><img data-ng-src="/assets/app/images/liked_1.jpg"/>Unlike</a>
+                        <span ng-show="post.nol > 0"> · {{post.nol}}</span>
+                        <span ng-show="post.isLike"> · 你對這讚好</span>
+                    </span>
+				</li>
 	      		</ul>
 	   
     		   	<ul id="postCommentsSection" class="wall-user-post-respond" style="padding:0px; margin:0px;">
