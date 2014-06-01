@@ -16,6 +16,8 @@ object ApplicationBuild extends Build {
     "org.hibernate" % "hibernate-entitymanager" % "4.2.7.Final",
     "org.hamcrest" % "hamcrest-all" % "1.3",
     "commons-io" % "commons-io" % "2.1",
+    "joda-time" % "joda-time" % "2.3",
+    "com.google.guava" % "guava" % "12.0",
      "be.objectify"  %%  "deadbolt-java"     % "2.1-RC2",
      "com.feth" %% "play-easymail" % "0.3-SNAPSHOT",
      "org.mindrot" % "jbcrypt" % "0.3m",
@@ -30,7 +32,6 @@ object ApplicationBuild extends Build {
      "org.sedis" % "sedis" % "1.0.1",
      "org.jsoup" % "jsoup" % "1.7.3"
      //"com.typesafe" %% "play-plugins-redis" % "2.1-1-RC2"
-    
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(

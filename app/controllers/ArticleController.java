@@ -34,6 +34,7 @@ import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import targeting.sc.ArticleTargetingEngine;
 import viewmodel.ArticleCategoryVM;
 import viewmodel.ArticleVM;
 import viewmodel.CommunityPostCommentVM;
@@ -112,19 +113,17 @@ public class ArticleController extends Controller {
 
     @Transactional
     public static Result getSixArticles() {
-        return getArticles(6);
+        return getTargetedArticles(6);
     }
 		  
 	@Transactional
     public static Result getEightArticles() {
-	    return getArticles(8);
+	    return getTargetedArticles(8);
 	}
 	
 	@Transactional
 	public static Result getArticles(int n) {
         final User localUser = Application.getLocalUser(session());
-        System.out.println("["+localUser.getName()+"] getArticles");
-
 
 		int i = 0;
 		List<Article> allArticles = Article.getArticles(n);
@@ -148,6 +147,40 @@ public class ArticleController extends Controller {
 			categoryVMs.add(vm);
 		}
 		
+		SlidderArticleVM articleVM = new SlidderArticleVM(leftArticles, rightArticles, categoryVMs);
+		return ok(Json.toJson(articleVM));
+	}
+
+    @Transactional
+	public static Result getTargetedArticles(int n) {
+        final User localUser = Application.getLocalUser(session());
+
+		int i = 0;
+		List<Article> allArticles = ArticleTargetingEngine.getTargetedArticles(localUser, n);
+		List<ArticleVM> leftArticles = new ArrayList<>();
+		List<ArticleVM> rightArticles = new ArrayList<>();
+		for (Article article:allArticles) {
+            if (i == n) {
+                break;
+            }
+
+			if (i < n/2){
+				ArticleVM vm = new ArticleVM(article);
+				leftArticles.add(vm);
+			} else {
+				ArticleVM vm = new ArticleVM(article);
+				rightArticles.add(vm);
+			}
+			i++;
+		}
+
+		List<ArticleCategoryVM> categoryVMs = new ArrayList<>();
+		List<ArticleCategory> categories = ArticleCategory.getFourCategories(4);
+		for(ArticleCategory ac : categories) {
+			ArticleCategoryVM vm = ArticleCategoryVM.articleCategoryVM(ac);
+			categoryVMs.add(vm);
+		}
+
 		SlidderArticleVM articleVM = new SlidderArticleVM(leftArticles, rightArticles, categoryVMs);
 		return ok(Json.toJson(articleVM));
 	}

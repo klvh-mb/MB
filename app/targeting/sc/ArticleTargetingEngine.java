@@ -1,10 +1,16 @@
 package targeting.sc;
 
-import common.model.Gender;
+import common.model.TargetGender;
+import common.model.TargetProfile;
 import models.Article;
 import models.User;
+import org.springframework.util.StringUtils;
+import play.db.jpa.JPA;
+import targeting.Scorable;
+import targeting.ScoreSortedList;
 
-import java.util.Collections;
+import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,18 +20,117 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class ArticleTargetingEngine {
+    /**
+     * Children Age targeting
+     * - Article.max >= child.min && Article.min <= child.max
+     * 1) 2x OK:    A.min  < 12m   < A.max     < 36m
+     * 2) 2x OK:    12m    < A.min < 36m       < A.max
+     * 3) 1x OK:    A.min  < 12m   < A.max
+     * 4) 2x OK:    A.min  < 12m   < 36m       < A.max
+     * 5) 2x OK:    12m    < A.min < A.max     < 36m   (not perfect, but good for majority)
+     * 6) Filter:   3m     < 6m    < A.min     < A.max
+     */
 
-    List<Article> getTargetedArticles(User user, int maxCount) {
+    public static List<Article> getTargetedArticles(User user, int k) {
         if (user == null) {
             throw new IllegalArgumentException("user is null");
         }
 
-        Gender parentGender = Gender.valueOfStr(user.getGender());
-        String district = user.getLocation();
+        TargetProfile profile = TargetProfile.fromUser(user);
+        System.out.println("["+user.getName()+"] getTargetedArticles. "+profile);
+
+        List<Article> unRankedRes = query(profile, false);
+        if (unRankedRes.size() < k) {
+            unRankedRes = query(profile, true);
+        }
+
+        return rankAndFunnel(profile, unRankedRes, k);
+    }
+
+    static List<Article> rankAndFunnel(TargetProfile profile, List<Article> unRankedRes, int k) {
+        List<Article> results = new ArrayList<>();
+
+        List<Scorable<Article>> scoredRes = ArticleScorer.markScores(profile, unRankedRes);
+        ScoreSortedList<Article> scoreSortedList = new ScoreSortedList<>(scoredRes);
+
+        for (Scorable<Article> scorable : scoreSortedList.greatestOf(k)) {
+            results.add(scorable.getObject());
+        }
+
+        System.out.println("[rankAndFunnel] results["+results.size()+"]="+results);
+        return results;
+    }
 
 
+    static List<Article> query(TargetProfile profile, boolean skipChildrenAge) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Select a from Article a ");
 
-        return Collections.EMPTY_LIST;       // TODO
+        String whereDelim = "where ", andDelim = "";
+        int paramCount = 1;
+        List<Object> paramValues = new ArrayList<Object>();
+
+        // parent
+        if (profile.getParentGender() != null && profile.getParentGender() != TargetGender.Both) {
+            TargetGender oppositeGender = profile.getParentGender().getOppositeGender();
+
+            sb.append(whereDelim).append(andDelim).append("targetParentGender <> ?").append(paramCount).append(" ");
+            paramValues.add(oppositeGender.getCode());
+            whereDelim = "";
+            andDelim = "and ";
+            paramCount++;
+        }
+
+        if (StringUtils.hasText(profile.getDistrict())) {
+            sb.append(whereDelim).append(andDelim).append("(targetDistrict = ?").append(paramCount);
+            sb.append(" or targetDistrict is null) ");
+            paramValues.add(profile.getDistrict());
+            whereDelim = "";
+            andDelim = "and ";
+            paramCount++;
+        }
+
+        // children
+        if (profile.getNumChildren() > 0) {
+            if (profile.getChildrenGender() != null && profile.getChildrenGender() != TargetGender.Both) {
+                TargetGender oppositeGender = profile.getChildrenGender().getOppositeGender();
+
+                sb.append(whereDelim).append(andDelim).append("targetGender <> ?").append(paramCount).append(" ");
+                paramValues.add(oppositeGender.getCode());
+                whereDelim = "";
+                andDelim = "and ";
+                paramCount++;
+            }
+
+            if (!skipChildrenAge) {
+                sb.append(whereDelim).append(andDelim).append("targetAgeMinMonth <= ?").append(paramCount).append(" ");
+                paramValues.add(profile.getChildrenMaxAgeMonths());
+                whereDelim = "";
+                andDelim = "and ";
+                paramCount++;
+
+                sb.append(whereDelim).append(andDelim).append("targetAgeMaxMonth >= ?").append(paramCount).append(" ");
+                paramValues.add(profile.getChildrenMinAgeMonths());
+                whereDelim = "";
+                andDelim = "and ";
+                paramCount++;
+            }
+        }
+
+        sb.append(whereDelim).append(andDelim).append("excludeFromTargeting = 0 ");
+
+//        System.out.println("[getTargetedArticles] sql="+sb.toString() +" params="+paramValues);
+
+        // exec query
+        Query q = JPA.em().createQuery(sb.toString());
+        for (int i = 1; i < paramCount; i++) {
+            q.setParameter(i, paramValues.get(i-1));
+        }
+
+        List<Article> results = (List<Article>)q.getResultList();
+        System.out.println("[getTargetedArticles] results["+results.size()+"]="+results);
+
+		return (List<Article>)q.getResultList();
     }
 
 }

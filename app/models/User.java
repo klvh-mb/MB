@@ -1034,7 +1034,15 @@ public class User extends SocialObject implements Subject, Socializable {
 		this.aboutMe = aboutMe;
 	}
 
-	public String getLocation() {
+    public Integer getBirthYear() {
+        return birthYear;
+    }
+
+    public void setBirthYear(Integer birthYear) {
+        this.birthYear = birthYear;
+    }
+
+    public String getLocation() {
 		return location;
 	}
 
@@ -1042,7 +1050,15 @@ public class User extends SocialObject implements Subject, Socializable {
 		this.location = location;
 	}
 
-	public boolean isActive() {
+    public List<UserChild> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<UserChild> children) {
+        this.children = children;
+    }
+
+    public boolean isActive() {
 		return active;
 	}
 

@@ -35,13 +35,13 @@ public class Article extends SocialObject implements Commentable, Likeable {
 	public String description;
 	
 	
-	public int TargetAgeMinMonth;
-	public int TargetAgeMaxMonth;
+	public int targetAgeMinMonth;
+	public int targetAgeMaxMonth;
 
 	public int noOfLikes=0;
-	public int TargetGender;                
-    public int TargetParentGender;      
-    public String TargetDistrict;             
+	public int targetGender;
+    public int targetParentGender;
+    public String targetDistrict;
     
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
 	public Date publishedDate;
@@ -191,4 +191,11 @@ public class Article extends SocialObject implements Commentable, Likeable {
 	public void setUpdatedDate(Date updatedDate) {
 		
 	}
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }
