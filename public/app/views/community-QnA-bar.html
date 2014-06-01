@@ -48,8 +48,8 @@
                         </li>
 					<li>
 					    <span class="btn-like-wrapper">
-                            <a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)">Like<img data-ng-src="/assets/app/images/like_1.jpg"/></a> 
-                            <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)">Unlike<img data-ng-src="/assets/app/images/liked_1.jpg"/></a>
+                            <a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)"><img data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
+                            <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)"><img data-ng-src="/assets/app/images/liked_1.jpg"/>Unlike</a>
                             <span ng-show="post.nol > 0"> · {{post.nol}}</span>
                         </span>
                     </li>
@@ -58,31 +58,34 @@
                         <!-- <li><p class="whose-like"><a href="#">Wynee Lam</a></p></li> -->
                         <ul>
                             <li class="user-answer-count">回覆: {{post.n_c}}</li>
-	 						<li data-ng-repeat="comment in post.cs">
-		 						<div class="wall-user-forum-comment" style="min-height:60px;">
-			 						<div class="pull-right" style="width: 20%">
-			 							<a class="pull-right" data-ng-href="/#/profile/{{comment.oid}}" ><img style="float: right;" class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{comment.oid}}"/></a>
-			 							<span class="wall-user-actState-date" am-time-ago="comment.cd" style="float: right"></span>
-			 						</div>
-			 						<div><p class="user-answer"><a class="commentUsername" class="commentUsername" href="/#/profile/{{comment.oid}}" style="color: #428bca !important;">{{comment.on}}</a>
-										<span style="white-space: pre-wrap;">{{comment.d}}</span>
-										<span class="btn-like-wrapper">
-    						                <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)">Like<img data-ng-src="/assets/app/images/like_1.jpg"/></a> 
-	   					                    <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)">Unlike<img data-ng-src="/assets/app/images/liked_1.jpg"/></a>
-						                    <span ng-show="comment.nol > 0"> · {{comment.nol}}</span>
-						                </span>
-									</div>
-								</div>
-							</li>
-							<li ng-show="post.n_c > 3" data-ng-click="get_all_answers(post.id)"><a href="">View all</a></li>
-	                        <li ng-show="community.isM == true || community.isO == true">
-	                            <img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{userInfo.id}}" />
+                            <li ng-show="post.n_c > 3" data-ng-click="get_all_answers(post.id)"><a href="">View all</a></li>
+                            <li data-ng-repeat="comment in post.cs">
+                                <div class="wall-user-forum-comment" style="min-height:60px;">
+                                   <div class="pull-right">
+                                       <a class="pull-right" data-ng-href="/#/profile/{{comment.oid}}" ><img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{comment.oid}}"/></a>
+                                       <span class="wall-user-actState-date" am-time-ago="comment.cd" style="margin-left: 48px;"></span>
+                                   </div>
+                                   <div>
+                                       <p class="user-answer"><a class="commentUsername" class="commentUsername" href="/#/profile/{{comment.oid}}">{{comment.on}}</a>
+                                       <span style="white-space: pre-wrap;">{{comment.d}}</span></p>
+                                   </div>
+                                   <div class="row">
+                                       <span class="btn-like-wrapper">
+                                           <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
+                                           <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/liked_1.jpg"/>Unlike</a>
+                                           <span ng-show="comment.nol > 0"> · {{comment.nol}}</span>
+                                       </span>
+                                   </div>
+                                </div>
+                            </li>
+                            <li>
+                               <img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{userInfo.id}}" />
                                 <form id="userCommentwrapper" name="userComment" method="post" action="">
-	                                <label for="User Comment"></label>
-	                                <textarea type="text" name="userCommentfield" class="general-textfield" id="userCommentfield" placeholder="Write a comment..." cols="80" data-ng-model="commentText" rows="1"></textarea>
-	                                <span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="answer_to_question(post.id, commentText); commentText=''"></i></span>
+                                    <label for="User Comment"></label>
+                                    <textarea type="text" name="userCommentfield" class="general-textfield" id="userCommentfield" placeholder="Write a comment..." cols="80" data-ng-model="commentText" rows="1"></textarea>
+                                    <span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText); commentText=''"></i></span>
                                 </form>
-	                        </li>
+                            </li>
 	                    </ul>
                     </ul>
 		      </div>

@@ -630,3 +630,7 @@ span.notif-count {
     background-color: white !important;
     background-image: linear-gradient(to bottom, white, white) !important;
 }
+btn-primary .caret {
+    border-top-color: black;
+    border-bottom-color: black;
+}
