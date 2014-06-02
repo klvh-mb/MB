@@ -1922,6 +1922,9 @@ minibean.controller('ShowArticleController',function($scope, $modal,$routeParams
 	
     $scope.resultSlidder = allArticlesService.SixArticles.get({}, function() {
         $scope.image_source= $scope.resultSlidder.la[0].img_url;
+        $scope.description = $scope.resultSlidder.la[0].lds;
+		$scope.title = $scope.resultSlidder.la[0].nm;
+		$scope.category_id = $scope.resultSlidder.la[0].id;
     });
 	
 	 $scope.changeInsideImage = function(article_id) {
