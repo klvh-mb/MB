@@ -1281,7 +1281,7 @@ text-decoration: none;
 }
 .allpost-wrapper h6+p {
     width: 100%;
-    height: 80px;
+    min-height: 70px;
     overflow: hidden;
     padding-top: 3px;
 }
@@ -1518,3 +1518,52 @@ text-decoration: none;
     height: 258px;
 }
 /* Profile page Header End */
+.post-favorite {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    right: -8px;
+    top: 0px;
+    text-align: right;
+    color: transparent;
+}
+.post-favorite:hover {
+    color: transparent;
+}
+.post-favorite:after {
+    content: ".";
+    color: transparent;
+    text-indent: 20px;
+    background-image: url(../images/general/icon_png/message_favorite.png);
+    background-repeat: no-repeat;
+    background-size: 15px 15px;
+    background-position: 0 2px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.post-favorited {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: -8px;
+    top: 0px;
+    color: black;
+    text-align: right;
+    color: transparent;
+}
+.post-favorited:hover {
+    color: transparent;
+}
+.post-favorited:after {
+    content: ".";
+    color: transparent;
+    text-indent: 20px;
+    background-image: url(../images/general/icon_png/message_favorited.png);
+    background-repeat: no-repeat;
+    background-size: 15px 15px;
+    background-position: 0 2px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}

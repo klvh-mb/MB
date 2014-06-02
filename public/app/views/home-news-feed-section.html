@@ -10,7 +10,7 @@
 	<div data-ng-repeat="post in newsFeeds.posts">
 		<div class="general-box" data-ng-show="post.type=='SIMPLE'">
 			<ul>
-	            <li><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}"/><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span><span class="sharing-tag pull-right">分享</span></p><span class="wall-user-actState-date" am-time-ago="post.t"></span><span class="wall-user-actState-time"></span></li>
+	            <li><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}"/><p class="wall-user-actState" style="position: relative;"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span><span class="sharing-tag pull-right">分享</span><a class="post-favorite" href="#"></a></p><span class="wall-user-actState-date" am-time-ago="post.t"></span><span class="wall-user-actState-time"></span></li>
 	            <li><span style="white-space: pre-wrap;" class="wall-user-post-text"><font>{{post.pt}}</font></span>
 	            	<div data-ng-show="post.hasImage" class="wall-user-post-image">
 						<a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
@@ -65,7 +65,7 @@
 		<div id="wall-forum" data-ng-show="post.type=='QUESTION'">
 		      <div class="general-box">
 		          <ul>
-		              <li><a data-ng-href="/#/profile/{{post.oid}}" ><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}" /></a><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/question" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-ask"></span><span class="ques-tag pull-right">?</span></p><span class="wall-user-actState-date" am-time-ago="post.t"></span><span class="wall-forum-post-last-time">5</span><div id="wall-forum-info">
+		              <li><a data-ng-href="/#/profile/{{post.oid}}" ><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}" /></a><p class="wall-user-actState" style="position: relative;"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/question" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-ask"></span><span class="ques-tag pull-right">?</span><a class="post-favorite" href="#"></a></p><span class="wall-user-actState-date" am-time-ago="post.t"></span><span class="wall-forum-post-last-time">5</span><div id="wall-forum-info">
 		              	<!-- <span class="wall-forum-post-checked">{{post.nov}}</span> -->
 		              	</div>
 		              	</li>
