@@ -1,0 +1,58 @@
+
+
+<div class="general-box">
+    <div class="wall-title">
+        <span class="wall-icon icon-title-community"></span><a ng-click="selectedTab1 = 1;">
+							<font ng-class="{activeTabBold: selectedTab1 == 1}">Activities</font></a>
+        <span class="wall-icon icon-title-friendwall"></span><a ng-click="selectedTab1 = 2;">
+							<font ng-class="{activeTabBold: selectedTab1 == 2}">Articles</font></a>
+        <span class="pull-right menu-text">Bookmark's</span>
+    </div>
+</div>
+
+<div ng-show="selectedTab1 == 1" infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='0' >
+	<div data-ng-repeat="post in posts.post">
+	<div data-ng-show="post.type=='SIMPLE'">
+		<div class="general-box">
+			<div data-ng-include data-src="'/assets/app/views/post-bar.html'"></div>
+		</div>
+	</div>	
+		<div id="wall-forum" data-ng-show="post.type=='QUESTION'">
+		      <div class="general-box">
+		          <div data-ng-include data-src="'/assets/app/views/QnA-bar.html'"></div>
+		      </div>
+     	</div>
+	</div>
+</div>
+
+<div ng-show="selectedTab1 == 2" infinite-scroll='nextArticles()' infinite-scroll-disabled='isBusyA' infinite-scroll-distance='0' >
+      <div class="general-box" >
+          <ul class="allpost-wrapper" style="padding: 3px 10px 3px 10px;">
+              <li data-ng-repeat="article in articles.article">
+                  <a href="/#/article/id/{{article.id}}" target="_blank">
+                      <img ng-show="article.img_url != 'No Image'"  data-ng-src="{{article.img_url}}"></a>
+                      <a data-ng-show="article.isBookmarked" class="btn-like" href="" data-ng-click="bookmarkArticle(article.id)"> <span class="pull-right glyphicon glyphicon-star-empty"></span></a>
+        							<a data-ng-show="!article.isBookmarked" class="btn-like" href="" data-ng-click="unBookmarkArticle(article.id)"> <span class="pull-right glyphicon glyphicon-star"></span></a>
+                      <div><a href="/#/article/id/{{article.id}}" target="_blank"><h4 style="color: #324fe1;"><font><font>{{article.nm}}</font></font></h4></a><h6><a class="tag" data-ng-href="/#/article/show/{{article.ct.id}}"><font><font>{{article.ct.name}}</font></font></a><font><font>{{article.pd | date:'yyyy'  }}</font></font>  <font><font>{{article.pd | date:'MMM'  }}</font></font>  <font><font>{{article.pd | date:'dd hh:mm a'  }}</font></font></h6><p><font><font>{{article.lds|limitTo:65}}...</font></font></p></div>
+              </li>
+          </ul>
+      </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade lightbox" id="imageModal" data-backdrop="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel"></h4>
+      </div>
+      <div class="modal-body">
+      		<div>
+        		<img data-ng-src="/get-original-post-image-by-id/{{img_id}}" alt="" style="max-height: 75%;width: 100%;">
+        	</div>
+      </div>
+    </div>
+  </div>
+</div>

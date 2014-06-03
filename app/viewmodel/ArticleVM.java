@@ -23,16 +23,17 @@ public class ArticleVM {
 	@JsonProperty("category_url") public String category_url;
 	@JsonProperty("lds") public String lines;
 	@JsonProperty("nol") public int noOfLikes;
-	@JsonProperty("isLike") public boolean isLike=false;	
-	
+	@JsonProperty("isLike") public boolean isLike=true;	
+	@JsonProperty("isBookmarked") public boolean isBookmarked=true;	
+
 	public ArticleVM(Article article) {
 		this.category = article.category;
 		this.name = article.name;
 		this.id = article.id;
 		this.noOfLikes = article.noOfLikes;
-		
+
 		this.publishedDate = article.publishedDate;
-		
+
 		if(article.description == null || article.description.isEmpty()) {
 			article.description = "";
 		} else {
@@ -42,17 +43,18 @@ public class ArticleVM {
 		}
 		this.img_url = article.getFirstImageFromDescription(article.description);
 	}
-	
+
 	public ArticleVM(Article article, User user) {
 		this(article);
 		try {
 			this.isLike = article.isLikedBy(user);
+			this.isBookmarked = article.isBookmarkedBy(user);
 		} catch (SocialObjectNotLikableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 	}
 
 }

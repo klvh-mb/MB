@@ -1183,6 +1183,40 @@ minibean.service('searchMembersService',function($resource){
 	);
 });
 
+minibean.service('bookmarkPostService', function($resource) {
+	this.bookmarkPost = $resource(
+			'/bookmark-post/:post_id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{post_id:'@post_id'}}
+			}
+	);
+	
+	this.unbookmarkPost = $resource(
+			'/unbookmark-post/:post_id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{post_id:'@post_id'}}
+			}
+	);
+	
+	this.bookmarkArticle = $resource(
+			'/bookmark-article/:article_id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{article_id:'@article_id'}}
+			}
+	);
+	
+	this.unbookmarkArticle = $resource(
+			'/unbookmark-article/:article_id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get', params:{article_id:'@article_id'}}
+			}
+	);
+});
+	
 minibean.service('likeFrameworkService', function($resource) {
 	this.hitLikeOnPost = $resource(
 			'/like-post/:post_id',
@@ -1234,7 +1268,7 @@ minibean.service('likeFrameworkService', function($resource) {
 });
 
 minibean.controller('CommunityPageController', function($scope, $routeParams, $http, profilePhotoModal, searchMembersService, iconsService,
-		allCommentsService, communityPageService,likeFrameworkService, communityJoinService, $upload, $timeout, usSpinnerService){
+		allCommentsService, communityPageService,likeFrameworkService, bookmarkPostService, communityJoinService, $upload, $timeout, usSpinnerService){
 	$scope.$on('$viewContentLoaded', function() {
 		usSpinnerService.spin('loading...');
 	});
@@ -1459,6 +1493,26 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		});
 	}
 	
+	$scope.bookmarkPost = function(post_id) {
+		bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
+			angular.forEach($scope.community.posts, function(post, key){
+				if(post.id == post_id) {
+					post.isBookmarked = false;
+				}
+			})
+		});
+	}
+	
+	$scope.unBookmarkPost = function(post_id) {
+		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
+			angular.forEach($scope.community.posts, function(post, key){
+				if(post.id == post_id) {
+					post.isBookmarked = true;
+				}
+			})
+		});
+	}
+		
 	$scope.like_post = function(post_id) {
 		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.community.posts, function(post, key){
@@ -1544,7 +1598,7 @@ minibean.service('allAnswersService',function($resource){
 });
 
 
-minibean.controller('CreateQnACommunityController',function($scope, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
+minibean.controller('CreateQnACommunityController',function($scope, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,bookmarkPostService ,$timeout, $routeParams, $http,  $upload, $validator){
 	$scope.QnA = communityQnAPageService.QnAPosts.get({id:$routeParams.id}, function(){
 		usSpinnerService.stop('loading...');
 	});
@@ -1740,6 +1794,26 @@ minibean.controller('CreateQnACommunityController',function($scope, likeFramewor
 							comment.isLike=false;
 						}
 					})
+				}
+			})
+		});
+	}
+	
+	$scope.bookmarkPost = function(post_id) {
+		bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
+			angular.forEach($scope.QnA.posts, function(post, key){
+				if(post.id == post_id) {
+					post.isBookmarked = false;
+				}
+			})
+		});
+	}
+	
+	$scope.unBookmarkPost = function(post_id) {
+		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
+			angular.forEach($scope.QnA.posts, function(post, key){
+				if(post.id == post_id) {
+					post.isBookmarked = true;
 				}
 			})
 		});
@@ -1977,7 +2051,7 @@ minibean.controller('ShowArticleController',function($scope, $modal,$routeParams
 });
 
 
-minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routeParams, articleCategoryService, showImageService, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService,allRelatedArticlesService){
+minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routeParams, bookmarkPostService, articleCategoryService, showImageService, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService,allRelatedArticlesService){
 	$scope.result = [];
 	var offset = 0;
 	var noMore = false;
@@ -2023,6 +2097,27 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 	    
 	 };
 
+	 $scope.bookmarkArticle = function(article_id) {
+			bookmarkPostService.bookmarkArticle.get({"article_id":article_id}, function(data) {
+				angular.forEach($scope.result, function(article, key){
+					if(article.id == article_id) {
+						article.isBookmarked = false;
+					}
+				})
+			});
+		}
+		
+		$scope.unBookmarkArticle = function(article_id) {
+			bookmarkPostService.unbookmarkArticle.get({"article_id":article_id}, function(data) {
+				angular.forEach($scope.result, function(article, key){
+					if(article.id == article_id) {
+						article.isBookmarked = true;
+					}
+				})
+			});
+		}
+	 
+	 
 	var catId = $routeParams.catid;
 	
 	if(catId == 0 || catId == undefined) {
@@ -2096,7 +2191,7 @@ minibean.service('ArticleallCommentsService',function($resource){
 });
 
 
-minibean.controller('EditArticleController',function($scope,$routeParams,$location, likeFrameworkService, ArticleallCommentsService, userInfoService, usSpinnerService, ArticleService,articleCategoryService,allRelatedArticlesService,$http){
+minibean.controller('EditArticleController',function($scope,$routeParams,$location, bookmarkPostService, likeFrameworkService, ArticleallCommentsService, userInfoService, usSpinnerService, ArticleService,articleCategoryService,allRelatedArticlesService,$http){
 	$scope.submitBtn = "Save";
 	$scope.userInfo = userInfoService.UserInfo.get();
 	
@@ -2175,6 +2270,18 @@ minibean.controller('EditArticleController',function($scope,$routeParams,$locati
 				likeFrameworkService.hitUnlikeOnArticle.get({"article_id":article_id}, function(data) {
 					$scope.article.nol--;
 					$scope.article.isLike=false;
+		});
+	}
+	
+	$scope.bookmarkArticle = function(article_id) {
+		bookmarkPostService.bookmarkArticle.get({"article_id":article_id}, function(data) {
+			$scope.article.isBookmarked = false;
+		});
+	}
+	
+	$scope.unBookmarkArticle = function(article_id) {
+		bookmarkPostService.unbookmarkArticle.get({"article_id":article_id}, function(data) {
+			$scope.article.isBookmarked = true;
 				});
 			}
 	
@@ -2217,7 +2324,7 @@ minibean.service('newsFeedService',function($resource){
 	
 });
 
-minibean.controller('NewsFeedController', function($scope, likeFrameworkService, $interval, $http, allCommentsService, usSpinnerService, newsFeedService) {
+minibean.controller('NewsFeedController', function($scope, bookmarkPostService, likeFrameworkService, $interval, $http, allCommentsService, usSpinnerService, newsFeedService) {
 	$scope.newsFeeds = { posts: [] };
 	
 	$scope.comment_on_post = function(id, commentText) {
@@ -2242,6 +2349,26 @@ minibean.controller('NewsFeedController', function($scope, likeFrameworkService,
 			});
 		});
 	};
+	
+	$scope.bookmarkPost = function(post_id) {
+		bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
+			angular.forEach($scope.newsFeeds.posts, function(post, key){
+				if(post.id == post_id) {
+					post.isBookmarked = false;
+				}
+			})
+		});
+	}
+	
+	$scope.unBookmarkPost = function(post_id) {
+		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
+			angular.forEach($scope.newsFeeds.posts, function(post, key){
+				if(post.id == post_id) {
+					post.isBookmarked = true;
+				}
+			})
+		});
+	}
 	
 	$scope.like_post = function(post_id) {
 		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
@@ -2354,7 +2481,7 @@ minibean.service('userNewsFeedService',function($resource){
 	
 });
 
-minibean.controller('UserNewsFeedController', function($scope,$routeParams, $interval, likeFrameworkService, userInfoService, $http, allCommentsService, usSpinnerService, userNewsFeedService) {
+minibean.controller('UserNewsFeedController', function($scope,$routeParams, $interval, bookmarkPostService, likeFrameworkService, userInfoService, $http, allCommentsService, usSpinnerService, userNewsFeedService) {
 	$scope.newsFeeds = { posts: [] };
 	
 	$scope.comment_on_post = function(id, commentText) {
@@ -2399,6 +2526,26 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $int
 	//$scope.newsFeeds = newsFeedService.NewsFeeds.get({offset:0}, function(vm) {
 	//	offset++;
 	//});
+	
+	$scope.bookmarkPost = function(post_id) {
+		bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
+			angular.forEach($scope.newsFeeds.posts, function(post, key){
+				if(post.id == post_id) {
+					post.isBookmarked = false;
+				}
+			})
+		});
+	}
+	
+	$scope.unBookmarkPost = function(post_id) {
+		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
+			angular.forEach($scope.newsFeeds.posts, function(post, key){
+				if(post.id == post_id) {
+					post.isBookmarked = true;
+				}
+			})
+		});
+	}
 	
 	$scope.like_post = function(post_id) {
 		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
@@ -2483,6 +2630,199 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $int
 		$scope.img_id = imageId;
 	}
 });
+
+
+minibean.service('bookmarkService',function($resource){
+	this.bookmarkPost = $resource(
+			'/get-bookmark-post/:offset',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'GET', params:{offset:'@offset'}, isArray:true}
+			}
+	);
+	
+	this.bookmarkArticle = $resource(
+			'/get-bookmark-article/:offsetA',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'GET', params:{offsetA:'@offsetA'}, isArray:true}
+			}
+	);
+});
+
+
+minibean.controller('MyBookmarkController', function($scope, bookmarkPostService, likeFrameworkService, $interval, $http, allCommentsService, usSpinnerService, bookmarkService) {
+	$scope.posts = { post: [] };
+	
+	$scope.articles = { article: [] };
+	
+	$scope.selectedTab1 = 1;
+	
+	$scope.comment_on_post = function(id, commentText) {
+		var data = {
+			"post_id" : id,
+			"commentText" : commentText
+		};
+		usSpinnerService.spin('loading...');
+		$http.post('/community/post/comment', data) 
+			.success(function(comment_id) {
+				$('.commentBox').val('');
+				
+				$scope.commentText = "";
+				angular.forEach($scope.posts.post, function(post, key){
+					if(post.id == data.post_id) {
+						post.n_c++;
+						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName,
+								"isLike" : true, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+						post.cs.push(comment);
+				}
+				usSpinnerService.stop('loading...');	
+			});
+		});
+	};
+	
+	$scope.unBookmarkPost = function(post_id) {
+		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
+			angular.forEach($scope.posts.post, function(post, key){
+				if(post.id == post_id) {
+					post.isBookmarked = true;
+					$scope.posts.post.splice($scope.posts.post.indexOf(post),1);
+				}
+			})
+		});
+	}
+	
+	$scope.unBookmarkArticle = function(article_id) {
+		bookmarkPostService.unbookmarkArticle.get({"article_id":article_id}, function(data) {
+			angular.forEach($scope.articles.article, function(article, key){
+				if(article.id == article_id) {
+					article.isBookmarked = true;
+					$scope.articles.article.splice($scope.articles.article.indexOf(article),1);
+				}
+			})
+		});
+	}
+	
+	$scope.like_post = function(post_id) {
+		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
+			angular.forEach($scope.posts.post, function(post, key){
+				if(post.id == post_id) {
+					post.isLike=false;
+					post.nol++;
+				}
+			})
+		});
+	}
+	
+	$scope.unlike_post = function(post_id) {
+		likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
+			angular.forEach($scope.posts.post, function(post, key){
+				if(post.id == post_id) {
+					post.isLike=true;
+					post.nol--;
+				}
+			})
+		});
+	}
+	
+
+	$scope.like_comment = function(post_id,comment_id) {
+		likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
+			angular.forEach($scope.posts.post, function(post, key){
+				if(post.id == post_id) {
+					angular.forEach(post.cs, function(comment, key){
+						if(comment.id == comment_id) {
+							comment.nol++;
+							comment.isLike=false;
+						}
+					})
+				}
+			})
+		});
+	}
+	
+	$scope.unlike_comment = function(post_id,comment_id) {
+		likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
+			angular.forEach($scope.posts.post, function(post, key){
+				if(post.id == post_id) {
+					angular.forEach(post.cs, function(comment, key){
+						if(comment.id == comment_id) {
+							comment.nol--;
+							comment.isLike=true;
+						}
+					})
+				}
+			})
+		});
+	}
+	
+	$scope.get_all_comments = function(id) {
+		
+		angular.forEach($scope.posts.post, function(post, key){
+			if(post.id == id) {
+				post.cs = allCommentsService.comments.get({id:id});
+			}
+		});
+	}
+	
+	
+
+	var offset = 0;
+	var noMore = false;
+	$scope.nextPost = function() {
+		if ($scope.isBusy) return;
+		if (noMore) return;
+		
+		$scope.isBusy = true;
+		bookmarkService.bookmarkPost.get({offset:offset},
+				function(data){
+			var posts = data;
+			if(data.length < 5 ) {
+				noMore = true;
+				$scope.isBusy = false;
+			}
+			
+			for (var i = 0; i < posts.length; i++) {
+				$scope.posts.post.push(posts[i]);
+		    }
+			$scope.isBusy = false;
+			offset++;
+		});
+		
+	}
+	
+	
+	var offsetA = 0;
+	var noMoreA = false;
+	$scope.nextArticles = function() {
+		if ($scope.isBusyA) return;
+		if (noMoreA) return;
+		
+		$scope.isBusyA = true;
+		bookmarkService.bookmarkArticle.get({offsetA:offsetA},
+				function(data){
+			var articleData = data;
+			if(data.length < 5 ) {
+				noMoreA = true;
+				$scope.isBusyA = false;
+			}
+			
+			for (var i = 0; i < articleData.length; i++) {
+				$scope.articles.article.push(articleData[i]);
+		    }
+			$scope.isBusyA = false;
+			offsetA++;
+		});
+		
+	}
+	
+	$scope.showImage = function(imageId) {
+		$scope.img_id = imageId;
+	}
+});
+
+
+
 
 
 

@@ -68,6 +68,12 @@ public abstract class SocialObject extends domain.Entity implements
 		action.validateUniquenessAndCreate();
 	}
 	
+	protected final void recordBookmark(User user) {
+		SocialRelation action = new SocialRelation(user, this);
+		action.action = SocialRelation.Action.BOOKMARKED;
+		action.validateUniquenessAndCreate();
+	}
+	
 	protected final void recordJoinRequest(User user) {
 		SocialRelation action = new SocialRelation(user, this);
 		action.actionType = SocialRelation.ActionType.JOIN_REQUESTED;

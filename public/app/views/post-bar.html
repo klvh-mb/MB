@@ -1,0 +1,57 @@
+<ul>
+    <li>
+    	<a data-ng-href="/#/profile/{{post.oid}}" ><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}"/></a><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span><span class="sharing-tag pull-right">分享</span></p>
+        <span class="wall-user-actState-date" am-time-ago="post.t"></span>
+        <a data-ng-show="post.isBookmarked" class="btn-like" href="" data-ng-click="bookmarkPost(post.id)"> <span class="pull-right glyphicon glyphicon-star-empty"></span></a>
+        <a data-ng-show="!post.isBookmarked" class="btn-like" href="" data-ng-click="unBookmarkPost(post.id)"> <span class="pull-right glyphicon glyphicon-star" style="color: #FF6600;"></span></a>
+    </li>
+    <li>
+    	<span style="white-space: pre-wrap;" ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></span>
+    </li>
+    <li>
+    	<div data-ng-show="post.hasImage" class="wall-user-post-image">
+			<a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
+				<img width="90" data-ng-src="/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+			</a>
+   		</div>
+	</li>
+	<li>
+    	<span class="btn-like-wrapper">
+        	<a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)"><img data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
+            <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)"><img data-ng-src="/assets/app/images/liked_1.jpg"/>Unlike</a>
+            <span ng-show="post.nol > 0"> � {{post.nol}}</span>
+        </span>
+    </li>
+</ul>
+
+<ul id="postCommentsSection" class="wall-user-post-respond" style="padding:0px; margin:0px;">
+	<li ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><a href="">View all</a></li>
+    <ul>
+       	<li data-ng-repeat="comment in post.cs">
+           	<a href="/#/profile/{{comment.oid}}">
+               	<img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{comment.oid}}"/>
+           	</a>
+           	<div>
+               	<p class="user-comment">
+                   	<a class="commentUsername" href="/#/profile/{{comment.oid}}">{{comment.on}}</a>
+                   	<span class="wall-user-actState-date" am-time-ago="comment.cd"></span>
+               	</p>
+               	<span class="commentText">{{comment.d}}</span>
+               	<span class="btn-like-wrapper">
+                   	<a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/like_1.jpg"/>Like</a> 
+                   	<a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/liked_1.jpg"/>Unlike</a>
+                    	<span ng-show="comment.nol > 0"> · {{comment.nol}}</span>
+               	</span>
+           	</div>
+       	</li>
+       	<li>
+		    <img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{userInfo.id}}"/>
+	        <form id="userCommentwrapper" name="userComment">
+	           	<label for="User Comment"></label>
+               	<textarea name="userCommentfield" id="userCommentfield" class="general-textfield" placeholder="Write a comment..." cols="80" rows="1" data-ng-model="commentText"></textarea>
+                 <!-- <input id="submit-userComment" name="submit" type="button" data-ng-click="comment_on_post(post.id, commentText)"/> -->
+               	<span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText); commentText=''"></i></span>
+            </form>
+         </li>
+	</ul>
+</ul>

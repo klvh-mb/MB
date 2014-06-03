@@ -130,6 +130,7 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 		WIFE,
 		MESSAGE_SEND,
 		MEMBER,
+		BOOKMARKED,
 		POSTED_QUESTION,
 		POSTED_ANSWER,
 		ANSWERED;

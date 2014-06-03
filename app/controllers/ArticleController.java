@@ -254,5 +254,35 @@ public class ArticleController extends Controller {
 		return ok();
 	}
 	
+	@Transactional
+	public static Result onBookamrk(Long article_id) {
+		User loggedUser = Application.getLocalUser(session());
+		Article article = Article.findById(article_id);
+		article.onBookmarkedBy(loggedUser);
+		return ok();
+	}
+	
+	@Transactional
+	public static Result onUnBookmark(Long article_id) {
+		User loggedUser = Application.getLocalUser(session());
+		Article article = Article.findById(article_id);
+		loggedUser.unBookmarkOn(article_id, article.objectType);
+		return ok();
+	}
+	
+	@Transactional
+	public static Result getBookmarkArticles(int offset) {
+		final User localUser = Application.getLocalUser(session());
+		List<ArticleVM> articles = new ArrayList<>();
+		List<Article> bookmarkArticles = localUser.getBookamrkArticle(offset, 5);
+		if(bookmarkArticles != null ){
+			for(Article a : bookmarkArticles) {
+				ArticleVM vm = new ArticleVM(a,localUser);
+				articles.add(vm);
+			}
+		}
+		return ok(Json.toJson(articles));
+	}
+	
 	
 }

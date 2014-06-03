@@ -16,7 +16,12 @@
                         <a href="/#/article/show/{{article.ct.id}}">
                         	<img class="scCatMiniThumbnail" data-ng-src="{{article.ct.pictureName}}" />
                         </a>
-                        	<div><a class="scCatTitle" href="/#/article/show/{{article.ct.id}}">{{article.ct.name}}</a><h6><font>Posted on </font><font type="date"><font><font>{{article.pd | date:'yyyy'  }}</font></font>  <font><font>{{article.pd | date:'MMM'  }}</font></font>  <font><font>{{article.pd | date:'dd hh:mm a'  }}</font></font></font></h6></div></li>
+                        	<div><a class="scCatTitle" href="/#/article/show/{{article.ct.id}}">{{article.ct.name}}</a><h6><font>Posted on </font><font type="date"><font><font>{{article.pd | date:'yyyy'  }}</font></font>  <font><font>{{article.pd | date:'MMM'  }}</font></font>  <font><font>{{article.pd | date:'dd hh:mm a'  }}</font></font></font></h6>
+                        	</div>
+                        	<a data-ng-show="article.isBookmarked" class="btn-like" href="" data-ng-click="bookmarkArticle(article.id)"> <span class="pull-right glyphicon glyphicon-star-empty"></span></a>
+        					<a data-ng-show="!article.isBookmarked" class="btn-like" href="" data-ng-click="unBookmarkArticle(article.id)"> <span class="pull-right glyphicon glyphicon-star" style="color: #FF6600;"></span></a>
+                        </li>
+                        	
                         <li>
                         	<font class="scTitle">{{article.nm}}</font>
                         	<span class="btn-like-wrapper">

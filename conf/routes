@@ -36,6 +36,9 @@ GET		/Article/:id				controllers.ArticleController.infoArticle(id :Long)
 GET     /like-article/:id			controllers.ArticleController.onLike(id : Long)
 GET     /unlike-article/:id			controllers.ArticleController.onUnlike(id : Long)
 
+GET     /bookmark-article/:article_id				controllers.ArticleController.onBookamrk(article_id : Long)
+GET     /unbookmark-article/:article_id				controllers.ArticleController.onUnBookmark(article_id : Long)
+GET     /get-bookmark-article/:offset				controllers.ArticleController.getBookmarkArticles(offset:Integer)
 
 GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
 GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
@@ -149,6 +152,11 @@ GET		/getAllUnjoinedMembers/:id/:query		controllers.CommunityController.getAllUn
 GET		/inviteToCommunity/:group_id/:user_id   controllers.CommunityController.sendInviteToJoinCommunity(group_id : Long, user_id: Long)
 GET		/get-next-unknown-communities/:offset	controllers.CommunityController.getUnknownCommunities(offset:Integer)
 GET		/get-my-next-communities/:offset		controllers.CommunityController.getMyNextCommunities(offset:Integer)
+
+GET		/get-bookmark-post/:offset				controllers.CommunityController.getBookmarkPosts(offset:Integer)
+GET		/unbookmark-post/:post_id				controllers.CommunityController.doUnBookmark(post_id : Long)
+GET		/bookmark-post/:post_id					controllers.CommunityController.doBookmark(post_id : Long)
+
 
 GET		/get-my-updates/:timestamp				controllers.CommunityController.getMyUpdates(timestamp:Long)
 GET		/get-my-live-updates/:timestamp			controllers.CommunityController.getMyLiveUpdates(timestamp:Long)

@@ -11,7 +11,7 @@ public class CommunityPostCommentVM {
 	@JsonProperty("cd") public Long creationDate;
 	@JsonProperty("d") public String commentText;
 	@JsonProperty("nol") public int noOfLikes;
-	@JsonProperty("isLike") public boolean isLike=false;	
+	@JsonProperty("isLike") public boolean isLike=true;	
 	
 	public static CommunityPostCommentVM communityPostCommentVM(Comment comment) {
 		CommunityPostCommentVM postCommentVM = new CommunityPostCommentVM();

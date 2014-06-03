@@ -59,8 +59,11 @@
 <div id="wall-forum">
 		<div class="general-box">
 			<ul>
-	            <li><a data-ng-href="/#/profile/{{post.oid}}" ><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}"/></a><p class="wall-user-actState" style="position: relative;"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span><span class="sharing-tag pull-right">åˆ†äº«</span><a class="post-favorite" href="#"></a></p>
-	            <span class="wall-user-actState-date" am-time-ago="post.t"></span></li>
+	            <li><a data-ng-href="/#/profile/{{post.oid}}" ><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}"/></a><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span><span class="sharing-tag pull-right">åˆ†äº«</span></p>
+	            	<span class="wall-user-actState-date" am-time-ago="post.t"></span>
+	              <a data-ng-show="post.isBookmarked" class="btn-like" href="" data-ng-click="bookmarkPost(post.id)"> <span class="pull-right glyphicon glyphicon-star-empty"></span></a>
+	              <a data-ng-show="!post.isBookmarked" class="btn-like" href="" data-ng-click="unBookmarkPost(post.id)"> <span class="pull-right glyphicon glyphicon-star" style="color: #FF6600;"></span></a>
+	            </li>
 	            <li><span style="white-space: pre-wrap;" ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></span></li>
 	            <li><div data-ng-show="post.hasImage" class="wall-user-post-image">
 						<a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">

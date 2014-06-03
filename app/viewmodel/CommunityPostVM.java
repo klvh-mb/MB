@@ -28,7 +28,8 @@ public class CommunityPostVM {
 	@JsonProperty("nov") public int noOfViews;
 	@JsonProperty("nol") public int noOfLikes;
 	
-	@JsonProperty("isLike") public boolean isLike=false;
+	@JsonProperty("isLike") public boolean isLike=true;
+	@JsonProperty("isBookmarked") public boolean isBookmarked = true;
 	
 	public static CommunityPostVM communityPostVM(Post post, User user) {
 		CommunityPostVM postVM = new CommunityPostVM();
@@ -47,7 +48,7 @@ public class CommunityPostVM {
 		postVM.noOfViews = 0;
 		
 		postVM.noOfLikes = post.noOfLikes;
-		
+		postVM.isBookmarked = post.isBookmarkedBy(user);
 		//need to write logic
 		postVM.isLike = post.isLikedBy(user);
 		

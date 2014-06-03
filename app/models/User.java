@@ -900,6 +900,24 @@ public class User extends SocialObject implements Subject, Socializable {
         return 1;
 	}
 	
+	public int unBookmarkOn(Long id, SocialObjectType type) {
+        
+        Query query = JPA.em().createQuery("SELECT sr FROM SocialRelation sr " +
+                        " where  sr.targetType = ?4 and sr.action = ?3 And " +
+                        " ((sr.target = ?1 and sr.actor = ?2))", SocialRelation.class
+                        );
+        query.setParameter(1, id);
+        query.setParameter(2, this.id);
+        query.setParameter(3, SocialRelation.Action.BOOKMARKED);
+        query.setParameter(4, type);
+        
+        SocialRelation sr= (SocialRelation) query.getSingleResult();
+        
+        sr.remove();
+        
+        return 1;
+	}
+	
 	public int leaveCommunity(Community community) {
 		Query query = JPA.em().createQuery("SELECT sr FROM SocialRelation sr " +
 				" where sr.actionType=?1 And  sr.action = ?4 And " +
@@ -928,6 +946,28 @@ public class User extends SocialObject implements Subject, Socializable {
 		query.setFirstResult(0);
 		query.setMaxResults(5);
 		return (List<Post>)query.getResultList();
+	}
+	
+	public List<Post> getBookamrkPost(int offset, int limit) {
+		Query query = JPA.em().createQuery("Select p from Post p where p.id in (select sr.target from  SocialRelation sr where sr.action = ?1 and sr.actor = ?2)");	
+		query.setParameter(1, SocialRelation.Action.BOOKMARKED);
+		query.setParameter(2, this.id);
+		System.out.println(limit+ " :: "+offset +":: (List<Post>)query.getResultList(); :: "+query.getResultList().size());
+		query.setFirstResult(offset*5);
+		query.setMaxResults(limit);
+		
+		return (List<Post>)query.getResultList();
+	}
+	
+	public List<Article> getBookamrkArticle(int offset, int limit) {
+		Query query = JPA.em().createQuery("Select a from Article a where a.id in (select sr.target from  SocialRelation sr where sr.action = ?1 and sr.actor = ?2)");	
+		query.setParameter(1, SocialRelation.Action.BOOKMARKED);
+		query.setParameter(2, this.id);
+		System.out.println(limit+ " :: "+offset +":: (List<Post>)query.getResultList(); :: "+query.getResultList().size());
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
+		
+		return (List<Article>)query.getResultList();
 	}
 	
 	public List<Post> getNewsfeeds(int offset, int page) {

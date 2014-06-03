@@ -728,6 +728,38 @@ public class CommunityController extends Controller{
 		loggedUser.doUnLike(comment_id, comment.objectType);
 		return ok();
 	}
+	
+	@Transactional
+	public static Result doBookmark(Long post_id){
+		User loggedUser = Application.getLocalUser(session());
+		Post post = Post.findById(post_id);
+		post.onBookmarkedBy(loggedUser);
+		return ok();
+	}
+	
+	@Transactional
+	public static Result doUnBookmark(Long post_id){
+		User loggedUser = Application.getLocalUser(session());
+		Post post = Post.findById(post_id);
+		loggedUser.unBookmarkOn(post_id, post.objectType);
+		return ok();
+	}
+	
+	@Transactional
+	public static Result getBookmarkPosts(int offset) {
+		final User localUser = Application.getLocalUser(session());
+		List<CommunityPostVM> posts = new ArrayList<>();
+		List<Post> bookmarkPost = localUser.getBookamrkPost(offset, 5);
+		if(bookmarkPost != null ){
+			for(Post p : bookmarkPost) {
+				CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
+				posts.add(post);
+			}
+		}
+		return ok(Json.toJson(posts));
+	}
+	
+	
 }
 
 	
