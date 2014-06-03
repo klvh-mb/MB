@@ -23,7 +23,7 @@ public class ArticleVM {
 	@JsonProperty("category_url") public String category_url;
 	@JsonProperty("lds") public String lines;
 	@JsonProperty("nol") public int noOfLikes;
-	@JsonProperty("isLike") public boolean isLike=true;	
+	@JsonProperty("isLike") public boolean isLike=false;	
 	@JsonProperty("isBookmarked") public boolean isBookmarked=true;	
 
 	public ArticleVM(Article article) {
