@@ -181,9 +181,9 @@ public class Article extends SocialObject implements Commentable, Likeable {
 		}
 		catch(NoResultException nre) {
 			System.out.println("No Result For SR");
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	public boolean isBookmarkedBy(User user) {

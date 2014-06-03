@@ -419,10 +419,6 @@ a:focus {
     width: 100%;
     height: auto;
 }
-.newCommunity-info {
-    list-style: none;
-    padding: 5px;
-}
 #relatePost li a {
     white-space: normal;
 }

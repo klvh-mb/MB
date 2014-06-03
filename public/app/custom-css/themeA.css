@@ -27,7 +27,7 @@ pre {
     border-radius: 0px !important;
 }
 .btn-general {
-    font-size: x-small !important;
+    font-size: 11px !important;
     color: black !important;
     display: inline-block;
     padding: 5px;
@@ -576,7 +576,8 @@ text-decoration: none;
 /* New Community Start */
 .newCommunity-info {
     list-style: none;
-    padding: 10px;
+    padding: 5px;
+    min-height: 120px;
 }
 .newCommunity-info p{
     display: inline-block;
@@ -602,11 +603,11 @@ text-decoration: none;
 
 /* Community Start */
 .community-attribute {
-    font-size: x-small !important;
+    font-size: 11px !important;
     color: #565656 !important;
 }
 .community-member-counter {
-    font-size: x-small !important;
+    font-size: 11px !important;
     color: #a0a0a0 !important;
 }
 /* Community End */
@@ -649,7 +650,7 @@ text-decoration: none;
     font-weight: bold;
 }
 .competition-wrapper p{
-    font-size: x-small;
+    font-size: 11px;
     color: #8b8b8b;
 }
 /* Competition End */
@@ -1354,6 +1355,8 @@ text-decoration: none;
 .post-detail-wrapper div {
     float: left;
     padding-left: 10px;
+    position: relative;
+    width: 85%;
 }
 .post-detail-wrapper h3 {
     margin: 0;
