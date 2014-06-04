@@ -81,8 +81,8 @@ public abstract class SocialObject extends domain.Entity implements
 	}
 	
 	protected final void recordBookmark(User user) {
-		SocialRelation action = new SocialRelation(user, this);
-		action.action = SocialRelation.Action.BOOKMARKED;
+		SecondarySocialRelation action = new SecondarySocialRelation(user, this);
+		action.action = SecondarySocialRelation.Action.BOOKMARKED;
 		action.validateUniquenessAndCreate();
 	}
 	

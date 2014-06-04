@@ -905,17 +905,15 @@ public class User extends SocialObject implements Subject, Socializable {
 	
 	public int unBookmarkOn(Long id, SocialObjectType type) {
         
-        Query query = JPA.em().createQuery("SELECT sr FROM SocialRelation sr " +
+        Query query = JPA.em().createQuery("SELECT sr FROM SecondarySocialRelation sr " +
                         " where  sr.targetType = ?4 and sr.action = ?3 And " +
-                        " ((sr.target = ?1 and sr.actor = ?2))", SocialRelation.class
+                        " ((sr.target = ?1 and sr.actor = ?2))", SecondarySocialRelation.class
                         );
         query.setParameter(1, id);
         query.setParameter(2, this.id);
-        query.setParameter(3, SocialRelation.Action.BOOKMARKED);
+        query.setParameter(3, SecondarySocialRelation.Action.BOOKMARKED);
         query.setParameter(4, type);
-        
-        SocialRelation sr= (SocialRelation) query.getSingleResult();
-        
+        SecondarySocialRelation sr= (SecondarySocialRelation) query.getSingleResult();
         sr.remove();
         
         return 1;
@@ -952,9 +950,11 @@ public class User extends SocialObject implements Subject, Socializable {
 	}
 	
 	public List<Post> getBookamrkPost(int offset, int limit) {
-		Query query = JPA.em().createQuery("Select p from Post p where p.id in (select sr.target from  SocialRelation sr where sr.action = ?1 and sr.actor = ?2)");	
-		query.setParameter(1, SocialRelation.Action.BOOKMARKED);
+		Query query = JPA.em().createQuery("Select p from Post p where p.id in (select sr.target from  SecondarySocialRelation sr where sr.action = ?1 and sr.actor = ?2 and  sr.targetType in ( ?3, ?4 ))");
+		query.setParameter(1, SecondarySocialRelation.Action.BOOKMARKED);
 		query.setParameter(2, this.id);
+		query.setParameter(3, SocialObjectType.POST);
+		query.setParameter(4, SocialObjectType.QUESTION);
 		System.out.println(limit+ " :: "+offset +":: (List<Post>)query.getResultList(); :: "+query.getResultList().size());
 		query.setFirstResult(offset*5);
 		query.setMaxResults(limit);
@@ -963,9 +963,10 @@ public class User extends SocialObject implements Subject, Socializable {
 	}
 	
 	public List<Article> getBookamrkArticle(int offset, int limit) {
-		Query query = JPA.em().createQuery("Select a from Article a where a.id in (select sr.target from  SocialRelation sr where sr.action = ?1 and sr.actor = ?2)");	
-		query.setParameter(1, SocialRelation.Action.BOOKMARKED);
+		Query query = JPA.em().createQuery("Select a from Article a where a.id in (select sr.target from  SecondarySocialRelation sr where sr.action = ?1 and sr.actor = ?2 and sr.targetType = ?3)");	
+		query.setParameter(1, SecondarySocialRelation.Action.BOOKMARKED);
 		query.setParameter(2, this.id);
+		query.setParameter(3, SocialObjectType.ARTICLE);
 		System.out.println(limit+ " :: "+offset +":: (List<Post>)query.getResultList(); :: "+query.getResultList().size());
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);

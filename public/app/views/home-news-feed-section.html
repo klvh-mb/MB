@@ -9,119 +9,12 @@
 <div infinite-scroll='nextNewsFeeds()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='0' >
 	<div data-ng-repeat="post in newsFeeds.posts">
 		<div class="general-box" data-ng-show="post.type=='SIMPLE'">
-			<ul>
-	            <li><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}"/><p class="wall-user-actState" style="position: relative;"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span><span class="sharing-tag pull-right">分享</span><a class="post-favorite" href="#"></a></p><span class="wall-user-actState-date" am-time-ago="post.t"></span><span class="wall-user-actState-time"></span></li>
-	            <li><span style="white-space: pre-wrap;" class="wall-user-post-text"><font>{{post.pt}}</font></span>
-	            	<div data-ng-show="post.hasImage" class="wall-user-post-image">
-						<a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
-							<img width="90" data-ng-src="/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
-						</a>
-				   </div>
-	            </li>
-	            <li>
-	                <span class="btn-like-wrapper">
-        	            <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)"><img data-ng-src="/assets/app/images/general/icon_png/like_1.jpg"/>Like</a> 
-        	            <a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)"><img data-ng-src="/assets/app/images/general/icon_png/liked_1.jpg"/>Unlike</a>
-	                    <span ng-show="post.nol > 0"> · {{post.nol}}</span>
-	                    <span ng-show="post.isLike"> · 你對這讚好</span>
-	                </span>
-	            </li>
-       		</ul>
-	   
-            <ul id="postCommentsSection" class="wall-user-post-respond" style="padding:0px; margin:0px;">
-                <li ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><a href="">View all</a></li>
-                <ul>
-                    <li data-ng-repeat="comment in post.cs">
-                        <a href="/#/profile/{{comment.oid}}">
-                            <img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{comment.oid}}"/>
-                        </a>
-                        <div>
-                            <p class="user-comment">
-                                <a class="commentUsername" href="/#/profile/{{comment.oid}}">{{comment.on}}</a>
-                                <span class="wall-user-actState-date" am-time-ago="comment.cd"></span>
-                            </p>
-                            <span class="commentText">{{comment.d}}</span>
-                            <span class="btn-like-wrapper">
-                                <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/general/icon_png/like_1.jpg"/>Like</a> 
-                                <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/general/icon_png/liked_1.jpg"/>Unlike</a>
-                                <span ng-show="comment.nol > 0"> · {{comment.nol}}</span>
-                                <span ng-show="comment.isLike"> · 你對這讚好</span>
-                            </span>
-                        </div>
-                    </li>
-                    <li>
-                        <img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{userInfo.id}}"/>
-                        <form id="userCommentwrapper" name="userComment">
-                            <label for="User Comment"></label>
-                            <textarea name="userCommentfield" id="userCommentfield" class="general-textfield" placeholder="Write a comment..." cols="80" rows="1" data-ng-model="commentText"></textarea>
-                            <!-- <input id="submit-userComment" name="submit" type="button" data-ng-click="comment_on_post(post.id, commentText)"/> -->
-                            <span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText); commentText=''"></i></span>
-                        </form>
-                    </li>
-                </ul>
-            </ul>
+			<div data-ng-include data-src="'/assets/app/views/POST-bar.html'"></div>
 		</div>
 		
 		<div id="wall-forum" data-ng-show="post.type=='QUESTION'">
 		      <div class="general-box">
-		          <ul>
-		              <li><a data-ng-href="/#/profile/{{post.oid}}" ><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}" /></a><p class="wall-user-actState" style="position: relative;"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/question" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-ask"></span><span class="ques-tag pull-right">?</span><a class="post-favorite" href="#"></a></p><span class="wall-user-actState-date" am-time-ago="post.t"></span><span class="wall-forum-post-last-time">5</span><div id="wall-forum-info">
-		              	<!-- <span class="wall-forum-post-checked">{{post.nov}}</span> -->
-		              	</div>
-		              	</li>
-		              	<li class="wall-user-post-body">
-		              	    <span style="white-space: pre-wrap;" class="wall-user-post-title"><a data-ng-href=""><font>{{post.ptl}}</font></a></span><br>
-                            <span style="white-space: pre-wrap;" class="wall-user-post-text"><font>{{post.pt}}</font></span>
-                            <div data-ng-show="post.hasImage" class="wall-user-post-image">
-                                <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
-                                    <img width="90" data-ng-src="/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
-                                </a>
-                            </div>
-                        </li>
-		              <li>
-		                  <span class="btn-like-wrapper">
-                              <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)"><img data-ng-src="/assets/app/images/general/icon_png/like_1.jpg"/>Like</a> 
-                              <a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)"><img data-ng-src="/assets/app/images/general/icon_png/liked_1.jpg"/>Unlike</a>
-                              <span ng-show="post.nol > 0"> · {{post.nol}}</span>
-                              <span ng-show="post.isLike"> · 你對這讚好</span>
-                          </span>
-                      </li>
-		          </ul>
-		          <ul id="postAnswersSection" class="wall-user-forum-respond" style="padding:3px 0 0 0; margin:0px;">
-                        <!-- <li><p class="whose-like"><a href="#">Wynee Lam</a></p></li> -->
-                        <ul>
-                            <li class="user-answer-count">回覆: {{post.n_c}}</li>
-                            <li ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><a href="">View all</a></li>
-	 						<li data-ng-repeat="comment in post.cs">
-	 							<div class="wall-user-forum-comment" style="min-height:60px;">
-	 							   <div class="pull-right">
-	 							       <a class="pull-right" data-ng-href="/#/profile/{{comment.oid}}" ><img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{comment.oid}}"/></a>
-	 							       <span class="wall-user-actState-date" am-time-ago="comment.cd" style="margin-left: 48px;"></span>
-	 							   </div>
-	 							   <div>
-	 							       <p class="user-answer"><a class="commentUsername" class="commentUsername" href="/#/profile/{{comment.oid}}">{{comment.on}}</a>
-									   <span style="white-space: pre-wrap;">{{comment.d}}</span></p>
-								   </div>
-								   <div class="row">
-									   <span class="btn-like-wrapper">
-    						               <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/general/icon_png/like_1.jpg"/>Like</a> 
-		  				                   <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/general/icon_png/liked_1.jpg"/>Unlike</a>
-					                       <span ng-show="comment.nol > 0"> · {{comment.nol}}</span>
-					                       <span ng-show="comment.isLike"> · 你對這讚好</span>
-					                   </span>
-					               </div>
-								</div>
-							</li>
-	                        <li>
-	                           <img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{userInfo.id}}" />
-                                <form id="userCommentwrapper" name="userComment" method="post" action="">
-	                                <label for="User Comment"></label>
-	                                <textarea type="text" name="userCommentfield" class="general-textfield" id="userCommentfield" placeholder="Write a comment..." cols="80" data-ng-model="commentText" rows="1"></textarea>
-	                                <span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText); commentText=''"></i></span>
-                                </form>
-	                        </li>
-	                    </ul>
-                    </ul>
+		          <div data-ng-include data-src="'/assets/app/views/QnA-bar.html'"></div>
 		      </div>
      	</div>
 	</div>

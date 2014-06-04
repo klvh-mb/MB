@@ -187,21 +187,21 @@ public class Article extends SocialObject implements Commentable, Likeable {
 	}
 	
 	public boolean isBookmarkedBy(User user) {
-		Query q = JPA.em().createQuery("Select sr from SocialRelation sr where sr.action=?1 and sr.actor=?2 " +
+		Query q = JPA.em().createQuery("Select sr from SecondarySocialRelation sr where sr.action=?1 and sr.actor=?2 " +
 				"and sr.target=?3 and sr.targetType=?4");
-		q.setParameter(1, Action.BOOKMARKED);
+		q.setParameter(1, SecondarySocialRelation.Action.BOOKMARKED);
 		q.setParameter(2, user.id);
 		q.setParameter(3, this.id);
 		q.setParameter(4, this.objectType);
-		SocialRelation sr = null;
+		SecondarySocialRelation sr = null;
 		try {
-			sr = (SocialRelation)q.getSingleResult();
+			sr = (SecondarySocialRelation)q.getSingleResult();
 		}
 		catch(NoResultException nre) {
 			System.out.println("No Result For SR");
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	@Override

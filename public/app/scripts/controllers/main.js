@@ -1598,7 +1598,7 @@ minibean.service('allAnswersService',function($resource){
 });
 
 
-minibean.controller('CreateQnACommunityController',function($scope, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,bookmarkPostService ,$timeout, $routeParams, $http,  $upload, $validator){
+minibean.controller('CreateQnACommunityController',function($scope, bookmarkPostService, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
 	$scope.QnA = communityQnAPageService.QnAPosts.get({id:$routeParams.id}, function(){
 		usSpinnerService.stop('loading...');
 	});
@@ -1803,7 +1803,7 @@ minibean.controller('CreateQnACommunityController',function($scope, likeFramewor
 		bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.QnA.posts, function(post, key){
 				if(post.id == post_id) {
-					post.isBookmarked = false;
+					post.isBookmarked = true;
 				}
 			})
 		});
@@ -1813,7 +1813,7 @@ minibean.controller('CreateQnACommunityController',function($scope, likeFramewor
 		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.QnA.posts, function(post, key){
 				if(post.id == post_id) {
-					post.isBookmarked = true;
+					post.isBookmarked = false;
 				}
 			})
 		});
@@ -2101,7 +2101,7 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 			bookmarkPostService.bookmarkArticle.get({"article_id":article_id}, function(data) {
 				angular.forEach($scope.result, function(article, key){
 					if(article.id == article_id) {
-						article.isBookmarked = false;
+						article.isBookmarked = true;
 					}
 				})
 			});
@@ -2111,7 +2111,7 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 			bookmarkPostService.unbookmarkArticle.get({"article_id":article_id}, function(data) {
 				angular.forEach($scope.result, function(article, key){
 					if(article.id == article_id) {
-						article.isBookmarked = true;
+						article.isBookmarked = false;
 					}
 				})
 			});
@@ -2275,15 +2275,15 @@ minibean.controller('EditArticleController',function($scope,$routeParams,$locati
 	
 	$scope.bookmarkArticle = function(article_id) {
 		bookmarkPostService.bookmarkArticle.get({"article_id":article_id}, function(data) {
-			$scope.article.isBookmarked = false;
+			$scope.article.isBookmarked = true;
 		});
 	}
 	
 	$scope.unBookmarkArticle = function(article_id) {
 		bookmarkPostService.unbookmarkArticle.get({"article_id":article_id}, function(data) {
-			$scope.article.isBookmarked = true;
-				});
-			}
+			$scope.article.isBookmarked = false;
+		});
+	}
 	
 });
 
@@ -2354,7 +2354,7 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 		bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.newsFeeds.posts, function(post, key){
 				if(post.id == post_id) {
-					post.isBookmarked = false;
+					post.isBookmarked = true;
 				}
 			})
 		});
@@ -2364,7 +2364,7 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.newsFeeds.posts, function(post, key){
 				if(post.id == post_id) {
-					post.isBookmarked = true;
+					post.isBookmarked = false;
 				}
 			})
 		});
@@ -2531,7 +2531,7 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $int
 		bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.newsFeeds.posts, function(post, key){
 				if(post.id == post_id) {
-					post.isBookmarked = false;
+					post.isBookmarked = true;
 				}
 			})
 		});
@@ -2541,7 +2541,7 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $int
 		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.newsFeeds.posts, function(post, key){
 				if(post.id == post_id) {
-					post.isBookmarked = true;
+					post.isBookmarked = false;
 				}
 			})
 		});
@@ -2673,7 +2673,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 					if(post.id == data.post_id) {
 						post.n_c++;
 						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName,
-								"isLike" : true, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
 						post.cs.push(comment);
 				}
 				usSpinnerService.stop('loading...');	
@@ -2685,7 +2685,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.posts.post, function(post, key){
 				if(post.id == post_id) {
-					post.isBookmarked = true;
+					post.isBookmarked = false;
 					$scope.posts.post.splice($scope.posts.post.indexOf(post),1);
 				}
 			})
@@ -2696,7 +2696,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 		bookmarkPostService.unbookmarkArticle.get({"article_id":article_id}, function(data) {
 			angular.forEach($scope.articles.article, function(article, key){
 				if(article.id == article_id) {
-					article.isBookmarked = true;
+					article.isBookmarked = false;
 					$scope.articles.article.splice($scope.articles.article.indexOf(article),1);
 				}
 			})
@@ -2707,7 +2707,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.posts.post, function(post, key){
 				if(post.id == post_id) {
-					post.isLike=false;
+					post.isLike=true;
 					post.nol++;
 				}
 			})
@@ -2718,7 +2718,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 		likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.posts.post, function(post, key){
 				if(post.id == post_id) {
-					post.isLike=true;
+					post.isLike=false;
 					post.nol--;
 				}
 			})
@@ -2733,7 +2733,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 					angular.forEach(post.cs, function(comment, key){
 						if(comment.id == comment_id) {
 							comment.nol++;
-							comment.isLike=false;
+							comment.isLike=true;
 						}
 					})
 				}
@@ -2748,7 +2748,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 					angular.forEach(post.cs, function(comment, key){
 						if(comment.id == comment_id) {
 							comment.nol--;
-							comment.isLike=true;
+							comment.isLike=false;
 						}
 					})
 				}

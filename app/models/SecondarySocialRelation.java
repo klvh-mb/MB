@@ -57,7 +57,7 @@ import domain.Updatable;
 
 @Entity
 @EntityListeners(AuditListener.class)
-public class SocialRelation extends domain.Entity implements Serializable, Creatable, Updatable  {
+public class SecondarySocialRelation extends domain.Entity implements Serializable, Creatable, Updatable  {
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long id;
@@ -78,13 +78,6 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
     
     static public enum ActionType {
     		MESSAGE_SEND,
-            FRIEND_REQUESTED,
-            JOIN_REQUESTED,
-            RELATIONSHIP_REQUESTED,
-            GRANT,
-            UNFRIEND,
-            LEAVE_COMMUNITY,
-            INVITE_REQUESTED
     }
 
 	
@@ -108,39 +101,15 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	static public enum Action {
 		
 		LIKED,
-		UNLIKED,
-		RATTED,
-		POSTED_ON,
-		POSTED,
-		COMMENTED,
-		BLOCKED,
-		ADDED,
-		REQUEST,
-		FRIEND,
-		CHANGED,
-		DELETED,
-		SHARED,
-		FOLLOWS,
-		RECOMMENDED,
-		FATHER,
-		MOTHER, 
-		BROTHER,
-		SISTER,
-		HUSBAND,
-		WIFE,
-		MESSAGE_SEND,
-		MEMBER,
-		POSTED_QUESTION,
-		POSTED_ANSWER,
-		ANSWERED;
+		BOOKMARKED,
 	}
 	
 	
 	
 
-	public SocialRelation(){}
+	public SecondarySocialRelation(){}
 	
-	public SocialRelation(Long id, SocialObject actor, Action action,
+	public SecondarySocialRelation(Long id, SocialObject actor, Action action,
 			Integer weight, SocialObject target) {
 		super();
 		this.id = id;
@@ -153,7 +122,7 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 		this.targetOwner = target.owner == null ? null :target.owner.id;
 	}
 	
-	public SocialRelation(SocialObject actor, SocialObject target) {
+	public SecondarySocialRelation(SocialObject actor, SocialObject target) {
 		this.actor = actor.id;
 		this.actorname = actor.name;
 		this.target = target.id;
@@ -165,7 +134,7 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	
 	@Transactional
 	public void validateUniquenessAndCreate() {
-		Query q = JPA.em().createQuery("Select sa from SocialRelation sa where actor = ?1 and action = ?2 and target = ?3 and actorType = ?4 and targetType = ?5");
+		Query q = JPA.em().createQuery("Select sa from SecondarySocialRelation sa where actor = ?1 and action = ?2 and target = ?3 and actorType = ?4 and targetType = ?5");
 		q.setParameter(1, this.actor);
 		q.setParameter(2, this.action);
 		q.setParameter(3, this.target);
@@ -182,15 +151,15 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	// NOTE: Caution, call this method when target and actor pair is one to one.
 	@Transactional
 	public void createOrUpdateForTargetAndActorPair() {
-		Query q = JPA.em().createQuery("Select sa from SocialRelation sa where actor = ?1 and target = ?2 and actorType = ?3 and targetType = ?4");
+		Query q = JPA.em().createQuery("Select sa from SecondarySocialRelation sa where actor = ?1 and target = ?2 and actorType = ?3 and targetType = ?4");
 		q.setParameter(1, this.actor);
 		q.setParameter(2, this.target);
 		q.setParameter(3, this.actorType);
 		q.setParameter(4, this.targetType);
-		SocialRelation sa = null;
+		SecondarySocialRelation sa = null;
 		
 		try{
-			sa = (SocialRelation) q.getSingleResult();
+			sa = (SecondarySocialRelation) q.getSingleResult();
 		}
 		catch (NoResultException nre){
 		}
@@ -205,8 +174,7 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	
 	@Override
 	public void postSave() {
-		if(isPostSave)
-			SocialActivity.handle(this);
+		
 	}
 	
 	public <T> T getTargetObject(Class<T> claszz){

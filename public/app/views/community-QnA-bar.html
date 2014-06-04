@@ -34,8 +34,8 @@
 			      <div class="general-box" style="margin-bottom:0px">
 		          <ul>
 		              <li><a data-ng-href="/#/profile/{{post.oid}}" ><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}" /></a><p class="wall-user-actState" style="position: relative;"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/question" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-ask"></span><span class="ques-tag pull-right">?</span>
-		              <a data-ng-show="post.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkPost(post.id)"></a>
-	              	  <a data-ng-show="!post.isBookmarked" class="btn-like post-favorited" href="" data-ng-click="unBookmarkPost(post.id)"></a>
+		              <a data-ng-show="!post.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkPost(post.id)"></a>
+	              	  <a data-ng-show="post.isBookmarked" class="btn-like post-favorited" href="" data-ng-click="unBookmarkPost(post.id)"></a>
 		              
 		              
 		              </p><span class="wall-user-actState-date" am-time-ago="post.t"></span><span class="wall-forum-post-last-time">5</span><div id="wall-forum-info">
