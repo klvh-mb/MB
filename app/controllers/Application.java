@@ -1,6 +1,5 @@
 package controllers;
 
-
 import indexing.PostIndex;
 
 import java.text.SimpleDateFormat;
@@ -8,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import models.Post;
 import models.User;
 
 import org.elasticsearch.index.query.AndFilterBuilder;
@@ -27,7 +25,6 @@ import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
-import viewmodel.CommunityPostVM;
 import viewmodel.PostIndexVM;
 import views.html.signup;
 import be.objectify.deadbolt.java.actions.Group;
@@ -39,9 +36,8 @@ import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 import com.github.cleverage.elasticsearch.IndexQuery;
 import com.github.cleverage.elasticsearch.IndexResults;
+
 public class Application extends Controller {
-  
-   
     
     public static Result getPost(int offset, int limit) {
     	return ok();// TODO: null check need to be added
@@ -49,7 +45,8 @@ public class Application extends Controller {
     
     public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";
-	public static final String USER_ROLE = "user";
+	public static final String USER_ROLE = "USER";
+	public static final String SUPER_ADMIN_ROLE = "SUPER_ADMIN";
 	
 	@Transactional
 	public static Result index() {

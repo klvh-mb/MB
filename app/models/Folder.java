@@ -5,32 +5,20 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.name.Rename;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 import com.google.common.base.Objects;
 
-import play.data.validation.Constraints.Required;
-import domain.AuditListener;
 import domain.Creatable;
 import domain.SocialObjectType;
 import domain.Updatable;
@@ -46,28 +34,15 @@ Serializable, Creatable, Updatable{
 
 	public Folder() {}
 	
-	
-	
 	public Folder(String name) {
 		this.name = name;
 	}
-
-
-	
-	
-	
 
 	@Lob
 	public String description;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "folder")
 	public List<Resource> resources = new ArrayList<Resource>();
-
-	@Required
-	public Boolean system = false; // system albums not generate socialAction
-									// onCreate and should be always public (the
-									// privacy is setted on the single ineer
-									// elements)
 
 	@Override
 	public String toString() {

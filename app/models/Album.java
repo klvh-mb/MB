@@ -26,7 +26,7 @@ import com.google.common.base.Objects;
 import domain.SocialObjectType;
 
 /**
- * Represent a folder containins a set of Resources
+ * Represent a folder contains a set of Resources
  * 
  */
 @Entity
@@ -42,8 +42,6 @@ public class Album extends SocialObject {
 	@OneToOne(cascade=CascadeType.REMOVE)
 	public Resource cover_photo;
 
-	
-
 	@Lob
 	public String description;
 	
@@ -53,12 +51,6 @@ public class Album extends SocialObject {
 
 	@OneToMany(cascade = CascadeType.REMOVE)
 	public List<Resource> resources = new ArrayList<Resource>();
-
-	@Required
-	public Boolean system = false; // system albums not generate socialAction
-									// onCreate and should be always public (the
-									// privacy is setted on the single ineer
-									// elements)
 
 	@Override
 	public String toString() {

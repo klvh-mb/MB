@@ -1,11 +1,8 @@
 package models;
 
-import indexing.PostIndex;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,7 +39,7 @@ import domain.Postable;
 import domain.SocialObjectType;
 
 @Entity
-public class Community extends SocialObject  implements Likeable, Postable, Joinable {
+public class Community extends SocialObject implements Likeable, Postable, Joinable {
 	
 	@OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY)
 	public List<Post> posts = new ArrayList<Post>();
@@ -75,11 +72,11 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 	
 	public String iconName;
 
-	public Community(){
+	public Community() {
 		this.objectType = SocialObjectType.COMMUNITY;
 	}
 	
-	public Community(String name, String description, User owner,CommunityType type) {
+	public Community(String name, String description, User owner, CommunityType type) {
 		this();
 		this.name = name;
 		this.owner = owner;
@@ -378,5 +375,18 @@ public class Community extends SocialObject  implements Likeable, Postable, Join
 
 	public void setIconName(String iconName) {
 		this.iconName = iconName;
+	}
+	
+	public static void init() {
+	    Query q = JPA.em().createQuery("Select count(c) from Community c where system = true");
+        Long count = (Long)q.getSingleResult();
+        if (count > 0) {
+            return;
+        }
+        
+        Community c = new Community("蛇年媽媽會", "蛇年媽媽會", User.SUPER_ADMIN, CommunityType.OPEN);
+        //c.albumPhotoProfile = new Folder();
+        c.system = true;
+        c.save();
 	}
 }

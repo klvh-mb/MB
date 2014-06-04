@@ -2,8 +2,11 @@ package common.model;
 
 import models.User;
 import models.UserChild;
+
 import org.joda.time.DateTime;
 import org.joda.time.Months;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,13 +25,15 @@ public class TargetProfile {
     private TargetGender childrenGender;
     private int childrenMinAgeMonths;
     private int childrenMaxAgeMonths;
-
+    
+    private List<TargetYear> childYears;
+    
     // TODO: Add Twins Target Support
-
 
     public static TargetProfile fromUser(User user) {
         TargetProfile profile = new TargetProfile();
-
+        List<TargetYear> childYears = new ArrayList<TargetYear>();
+        
         // parent
         profile.parentGender = TargetGender.valueOfStr(user.getGender());
         profile.district = user.getLocation();
@@ -61,6 +66,7 @@ public class TargetProfile {
                     if (childrenMaxAge == null || months.getMonths() > childrenMaxAge) {
                         childrenMaxAge = months.getMonths();
                     }
+                    childYears.add(TargetYear.valueOf(birthDate.getYear()));
                 }
             }
             if (hasBoy && hasGirl) {
@@ -71,11 +77,17 @@ public class TargetProfile {
                 childrenGender = TargetGender.Female;
             }
         }
-
+        
+        // TODO
+        if (childYears.isEmpty()) {
+            childYears.add(TargetYear.valueOf(2013));    
+        }
+        
         profile.childrenGender = childrenGender;
         profile.childrenMinAgeMonths = (childrenMinAge == null) ? Integer.MIN_VALUE : childrenMinAge;
         profile.childrenMaxAgeMonths = (childrenMaxAge == null) ? Integer.MAX_VALUE : childrenMaxAge;
-
+        profile.childYears = childYears;
+        
         return profile;
     }
 
@@ -103,6 +115,10 @@ public class TargetProfile {
         return childrenMaxAgeMonths;
     }
 
+    public List<TargetYear> getChildYears() {
+        return childYears;
+    }
+    
     @Override
     public String toString() {
         return "TargetProfile{" +

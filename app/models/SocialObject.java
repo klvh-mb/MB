@@ -17,6 +17,7 @@ import models.SocialRelation.Action;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 
 import com.google.common.base.Objects;
@@ -62,6 +63,17 @@ public abstract class SocialObject extends domain.Entity implements
 	@ManyToOne
 	public User owner;
 
+	/*
+	 * Folder
+	 *     System albums will not generate socialAction onCreate and should be always public 
+	 *     (the privacy is set on the single inner elements)
+	 *     
+	 * Community
+	 *     System communities will have special treatment e.g. targeting, privacy
+     */
+    //@Required
+    public Boolean system = false;  
+	
 	protected final void recordLike(User user) {
 		SocialRelation action = new SocialRelation(user, this);
 		action.action = SocialRelation.Action.LIKED;
