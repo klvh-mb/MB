@@ -2,30 +2,39 @@
 
 <div class="general-box">
     <div class="wall-title">
-        <span class="wall-icon icon-title-community"></span><a ng-click="selectedTab1 = 1;">
-							<font ng-class="{activeTabBold: selectedTab1 == 1}">Activities</font></a>
-        <span class="wall-icon icon-title-friendwall"></span><a ng-click="selectedTab1 = 2;">
-							<font ng-class="{activeTabBold: selectedTab1 == 2}">Articles</font></a>
-        <span class="pull-right menu-text">Bookmark's</span>
+        <span class="wall-icon"></span><a ng-click="selectedTab1 = 1;">
+							<font ng-class="{activeTabBold: selectedTab1 == 1}">Questions</font></a>
+		<span class="wall-icon"></span><a ng-click="selectedTab1 = 2;">
+							<font ng-class="{activeTabBold: selectedTab1 == 2}">Moments</font></a>					
+        <span class="wall-icon"></span><a ng-click="selectedTab1 = 3;">
+							<font ng-class="{activeTabBold: selectedTab1 == 3}">Articles</font></a>
+        
     </div>
 </div>
 
 <div ng-show="selectedTab1 == 1" infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='0' >
 	<div data-ng-repeat="post in posts.post">
-	<div data-ng-show="post.type=='SIMPLE'">
+	<div data-ng-show="post.type=='QUESTION'">
 		<div class="general-box">
-			<div data-ng-include data-src="'/assets/app/views/post-bar.html'"></div>
+			<div data-ng-include data-src="'/assets/app/views/QnA-bar.html'"></div>
 		</div>
 	</div>	
-		<div id="wall-forum" data-ng-show="post.type=='QUESTION'">
+		
+	</div>
+</div>
+<div ng-show="selectedTab1 == 2" infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='0' >
+	<div data-ng-repeat="post in posts.post">
+		<div id="wall-forum" data-ng-show="post.type=='SIMPLE'">
 		      <div class="general-box">
-		          <div data-ng-include data-src="'/assets/app/views/QnA-bar.html'"></div>
+		          <div data-ng-include data-src="'/assets/app/views/post-bar.html'"></div>
 		      </div>
      	</div>
+		
 	</div>
 </div>
 
-<div ng-show="selectedTab1 == 2" infinite-scroll='nextArticles()' infinite-scroll-disabled='isBusyA' infinite-scroll-distance='0' >
+
+<div ng-show="selectedTab1 == 3" infinite-scroll='nextArticles()' infinite-scroll-disabled='isBusyA' infinite-scroll-distance='0' >
       <div class="general-box" >
           <ul class="allpost-wrapper" style="padding: 3px 10px 3px 10px;">
               <li data-ng-repeat="article in articles.article">
