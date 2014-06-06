@@ -466,7 +466,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	    try {
             community = User.getSuperAdmin().createCommunity(
                     name, desc, CommunityType.OPEN, 
-                    "/assets/app/images/general/icon_png/" + zodiac.toLowerCase() + ".png");
+                    "/assets/app/images/general/icon_png/zodiac/" + zodiac.toLowerCase() + ".png");
             community.system = true;
             community.targeting = true;
             community.targetingType = TargetingSocialObject.TargetingType.ZODIAC_YEAR;      

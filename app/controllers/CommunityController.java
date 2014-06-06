@@ -59,7 +59,9 @@ public class CommunityController extends Controller{
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		for(Community community : localUser.getListOfNotJoinedCommunities(0,5)) {
-			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name,community.communityType);
+			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(
+			        community.id, (long) community.getMembers().size(), community.name, "", 
+			        community.iconName, community.communityType);
 			vm.isP = localUser.isJoinRequestPendingFor(community);
 			communityList.add(vm);
 		}
@@ -186,7 +188,9 @@ public class CommunityController extends Controller{
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		for(Community community : localUser.getListOfNotJoinedCommunities()) {
-			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name,"",community.iconName,community.communityType);
+			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(
+			        community.id, (long)community.getMembers().size(), community.name, "",  
+			        community.iconName, community.communityType);
 			vm.isP = localUser.isJoinRequestPendingFor(community);
 			communityList.add(vm);
 		}
@@ -201,7 +205,9 @@ public class CommunityController extends Controller{
 		int count=0;
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		for(Community community : localUser.getListOfJoinedCommunities()) {
-			communityList.add(new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name,community.communityType));
+			communityList.add(new CommunitiesWidgetChildVM(
+			        community.id, (long)community.getMembers().size(), community.name, "", 
+			        community.iconName, community.communityType));
 			++count;
 			
 			if(count == 5) {
@@ -224,7 +230,9 @@ public class CommunityController extends Controller{
 		int count=0;
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		for(Community community : user.getListOfJoinedCommunities()) {
-			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name,community.communityType);
+			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(
+			        community.id, (long)community.getMembers().size(), community.name, "", 
+			        community.iconName, community.communityType);
 			communityList.add(vm);
 			++count;
 			vm.isP = localUser.isJoinRequestPendingFor(community);
@@ -243,7 +251,9 @@ public class CommunityController extends Controller{
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		for(Community community : localUser.getListOfJoinedCommunities()) {
-			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name,"",community.iconName,community.communityType);
+			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(
+			        community.id, (long)community.getMembers().size(), community.name, "", 
+			        community.iconName, community.communityType);
 			vm.isO = (localUser == community.owner) ? true : false;
 			communityList.add(vm);
 		}
@@ -257,7 +267,9 @@ public class CommunityController extends Controller{
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		for(Community community : user.getListOfJoinedCommunities()) {
-			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community.id,  (long) community.getMembers().size(), community.name,"",community.iconName,community.communityType);
+			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(
+			        community.id, (long)community.getMembers().size(), community.name, "", 
+			        community.iconName, community.communityType);
 			vm.isP = localUser.isJoinRequestPendingFor(community);
 			communityList.add(vm);
 		}
@@ -605,9 +617,11 @@ public class CommunityController extends Controller{
 		final User localUser = Application.getLocalUser(session());
 		List<Community> communities = localUser.getListOfNotJoinedCommunities(start, 5);
 		
-		for(Community c: communities) {
-			CommunitiesWidgetChildVM comVM = new CommunitiesWidgetChildVM(c.id, (long)c.getMembers().size(), c.name,c.communityType);
-			comVM.isO = (localUser == c.owner) ? true : false;
+		for (Community community : communities) {
+			CommunitiesWidgetChildVM comVM = new CommunitiesWidgetChildVM(
+			        community.id, (long)community.getMembers().size(), community.name, "", 
+			        community.iconName, community.communityType);
+			comVM.isO = (localUser == community.owner) ? true : false;
 			communityVM.add(comVM);
 		}
 		return ok(Json.toJson(communityVM));
@@ -621,9 +635,11 @@ public class CommunityController extends Controller{
 		final User localUser = Application.getLocalUser(session());
 		List<Community> communities = localUser.getListOfJoinedCommunities(start, 3);
 		
-		for(Community c: communities) {
-			CommunitiesWidgetChildVM comVM = new CommunitiesWidgetChildVM(c.id, (long)c.getMembers().size(), c.name,c.communityType);
-			comVM.isO = (localUser == c.owner) ? true : false;
+		for (Community community : communities) {
+			CommunitiesWidgetChildVM comVM = new CommunitiesWidgetChildVM(
+			        community.id, (long)community.getMembers().size(), community.name, "", 
+			        community.iconName, community.communityType);
+			comVM.isO = (localUser == community.owner) ? true : false;
 			communityVM.add(comVM);
 		}
 		return ok(Json.toJson(communityVM));
