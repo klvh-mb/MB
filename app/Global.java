@@ -1,6 +1,9 @@
 import java.util.Arrays;
 
+import models.Community;
+import models.Location;
 import models.SecurityRole;
+import models.User;
 import play.Application;
 import play.GlobalSettings;
 import play.db.jpa.JPA;
@@ -73,22 +76,27 @@ public class Global extends GlobalSettings {
 		JPA.withTransaction(new play.libs.F.Callback0() {
 			@Override
 			public void invoke() throws Throwable {
-				initialData();;
+				initialData();
 			}
 		});
 		
 		FeedProcessor.updatesUserLevelFeed();
-		
 	}
 
 	private void initialData() {
+	    System.out.println("[Global.initialData()]");
 		if (SecurityRole.findRowCount() == 0L) {
-			for (final String roleName : Arrays
-					.asList(controllers.Application.USER_ROLE)) {
+			for (final String roleName : Arrays.asList(
+			        controllers.Application.USER_ROLE, 
+			        controllers.Application.SUPER_ADMIN_ROLE)) {
 				final SecurityRole role = new SecurityRole();
 				role.roleName = roleName;
 				role.save();
 			}
 		}
+		
+		User.init();
+		Location.init();
+		Community.init();
 	}
 }

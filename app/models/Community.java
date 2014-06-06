@@ -32,6 +32,7 @@ import play.i18n.Messages;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
 
+import common.model.TargetYear;
 import domain.Joinable;
 import domain.Likeable;
 import domain.PostType;
@@ -39,7 +40,7 @@ import domain.Postable;
 import domain.SocialObjectType;
 
 @Entity
-public class Community extends SocialObject implements Likeable, Postable, Joinable {
+public class Community extends TargetingSocialObject implements Likeable, Postable, Joinable {
 	
 	@OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY)
 	public List<Post> posts = new ArrayList<Post>();
@@ -60,6 +61,8 @@ public class Community extends SocialObject implements Likeable, Postable, Joina
 	public Date createDate;
 
 	public boolean excludeFromNewsfeed = true;
+	
+	public boolean targeting = false;
 	
 	public static enum CommunityType {
 		OPEN,
@@ -124,8 +127,7 @@ public class Community extends SocialObject implements Likeable, Postable, Joina
 			throws SocialObjectNotJoinableException {
 		if (communityType != CommunityType.OPEN) {
 			recordJoinRequest(user);
-		} 
-		else{
+		} else{
 			beMemberOfOpenCommunity(user);
 		}
 	}
@@ -238,7 +240,6 @@ public class Community extends SocialObject implements Likeable, Postable, Joina
 	}
 
 	private boolean ensureFolderExistWithGivenName(String name) {
-
 		if (folders != null && folders.contains(new Folder(name))) {
 			return false;
 		}
@@ -250,9 +251,20 @@ public class Community extends SocialObject implements Likeable, Postable, Joina
 	public static Community findById(Long id) {
 		Query q = JPA.em().createQuery("SELECT c FROM Community c where id = ?1");
 		q.setParameter(1, id);
-		return (Community) q.getSingleResult();
+		Object o = q.getSingleResult();
+		return o == null? null : (Community)o;
 	}
 
+	public static Community findByTargetingTypeTargetingInfo(
+	        TargetingSocialObject.TargetingType targetingType, String targetingInfo) {
+	    Query q = JPA.em().createQuery("SELECT c FROM Community c where system = ?1 and targetingType = ?2 and targetingInfo = ?3");
+	    q.setParameter(1, true);
+        q.setParameter(2, targetingType);
+        q.setParameter(3, targetingInfo);
+        Object o = q.getSingleResult();     // TODO - keith - handle no result returned
+        return o == null? null : (Community)o;
+	}
+	
 	public File getDefaultThumbnailCoverPhoto()  throws FileNotFoundException {
 		return new File(Play.application().configuration().getString("storage.community.cover.thumbnail.noimage"));
 	}
@@ -307,7 +319,6 @@ public class Community extends SocialObject implements Likeable, Postable, Joina
 		return (List<User>)q.getResultList();
 	}
 	
-
 	public void sendInviteToJoin(User invitee)
 			throws SocialObjectNotJoinableException {
 		recordInviteRequestByCommunity(invitee);
@@ -384,9 +395,86 @@ public class Community extends SocialObject implements Likeable, Postable, Joina
             return;
         }
         
-        Community c = new Community("蛇年媽媽會", "蛇年媽媽會", User.SUPER_ADMIN, CommunityType.OPEN);
-        //c.albumPhotoProfile = new Folder();
-        c.system = true;
-        c.save();
+        // Zodiac communities
+        
+        // rat
+        String name = "鼠年媽媽會♥2008";
+        String desc = "鼠年媽媽會♥2008";
+        createZodiacCommunity(name, desc, 2008);
+        
+        // ox
+        name = "牛年媽媽會♥2009";
+        desc = "牛年媽媽會♥2009";
+        createZodiacCommunity(name, desc, 2009);
+
+        // tiger
+        name = "虎年媽媽會♥2010";
+        desc = "虎年媽媽會♥2010";
+        createZodiacCommunity(name, desc, 2010);
+        
+        // rabbit
+        name = "兔年媽媽會♥2011";
+        desc = "兔年媽媽會♥2011";
+        createZodiacCommunity(name, desc, 2011);
+        
+        // dragon
+        name = "龍年媽媽會♥2012";
+        desc = "龍年媽媽會♥2012";
+        createZodiacCommunity(name, desc, 2012);
+        
+        // snake
+        name = "蛇年媽媽會♥2013";
+        desc = "蛇年媽媽會♥2013";
+        createZodiacCommunity(name, desc, 2013);
+
+        // horse
+        name = "馬年媽媽會♥2014";
+        desc = "馬年媽媽會♥2014";
+        createZodiacCommunity(name, desc, 2014);
+        
+        // goat
+        name = "羊年媽媽會♥2015";
+        desc = "羊年媽媽會♥2015";
+        createZodiacCommunity(name, desc, 2015);
+        
+        // monkey
+        name = "猴年媽媽會♥2016";
+        desc = "猴年媽媽會♥2016";
+        createZodiacCommunity(name, desc, 2016);
+        
+        // rooster
+        name = "鷄年媽媽會♥2017";
+        desc = "鷄年媽媽會♥2017";
+        createZodiacCommunity(name, desc, 2017);
+
+        // dog
+        name = "狗年媽媽會♥2018";
+        desc = "狗年媽媽會♥2018";
+        createZodiacCommunity(name, desc, 2018);
+        
+        // pig
+        name = "猪年媽媽會♥2019";
+        desc = "猪年媽媽會♥2019";
+        createZodiacCommunity(name, desc, 2019);
+	}
+	
+	private static Community createZodiacCommunity(String name, String desc, int year) {
+	    Community community = null;
+	    TargetYear targetYear = TargetYear.valueOf(year);
+	    String zodiac = targetYear.getZodiac().toString();
+	    String targetingInfo = targetYear.toString();
+	    try {
+            community = User.getSuperAdmin().createCommunity(
+                    name, desc, CommunityType.OPEN, 
+                    "/assets/app/images/general/icon_png/" + zodiac.toLowerCase() + ".png");
+            community.system = true;
+            community.targeting = true;
+            community.targetingType = TargetingSocialObject.TargetingType.ZODIAC_YEAR;      
+            community.targetingInfo = targetingInfo;
+            //community.setCoverPhoto(file);
+        } catch (SocialObjectNotJoinableException e) {
+            e.printStackTrace();
+        }
+	    return community;
 	}
 }

@@ -1,5 +1,6 @@
 package common.model;
 
+import models.Location;
 import models.User;
 import models.UserChild;
 
@@ -8,6 +9,7 @@ import org.joda.time.Months;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,7 +20,7 @@ import java.util.List;
 public class TargetProfile {
     // parent
     private TargetGender parentGender;
-    private String district;
+    private Location location;
 
     // children
     private int numChildren;
@@ -36,7 +38,7 @@ public class TargetProfile {
         
         // parent
         profile.parentGender = TargetGender.valueOfStr(user.getGender());
-        profile.district = user.getLocation();
+        profile.location = user.getLocation();
 
         // children
         TargetGender childrenGender = TargetGender.Both;
@@ -78,9 +80,13 @@ public class TargetProfile {
             }
         }
         
-        // TODO
+        // TODO - keith
+        // return random year for testing
         if (childYears.isEmpty()) {
-            childYears.add(TargetYear.valueOf(2013));    
+            int minYear = 2008;
+            int maxYear = 2015;
+            int year = new Random().nextInt((maxYear - minYear) + 1) + minYear;
+            childYears.add(TargetYear.valueOf(year));
         }
         
         profile.childrenGender = childrenGender;
@@ -95,8 +101,8 @@ public class TargetProfile {
         return parentGender;
     }
 
-    public String getDistrict() {
-        return district;
+    public Location getLocation() {
+        return location;
     }
 
     public int getNumChildren() {
@@ -123,7 +129,7 @@ public class TargetProfile {
     public String toString() {
         return "TargetProfile{" +
                 "parentGender=" + parentGender +
-                ", district='" + district + '\'' +
+                ", location='" + location + '\'' +
                 ", numChildren=" + numChildren +
                 ", childrenGender=" + childrenGender +
                 ", childrenMinAgeMonths=" + childrenMinAgeMonths +

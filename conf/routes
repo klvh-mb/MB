@@ -2,11 +2,6 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET		/get-post                   controllers.Application.getPost(offset:Int, limit:Int)
-
-
-
 # Routes
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
@@ -95,8 +90,8 @@ GET		/user-search				controllers.UserController.searchSocialObjects(query: Strin
 GET		/get-friend-requests		controllers.UserController.getAllFriendRequests
 GET		/accept-friend-request		controllers.UserController.acceptFriendRequest(friend_id :Long, notify_id: Long)
 GET		/get-join-requests			controllers.UserController.getAllJoinRequests
-GET		/accept-join-request/:member_id/:group_id/:notify_id		controllers.UserController.acceptJoinRequest(member_id :Long, group_id :Long, notify_id: Long)
-GET		/accept-invite-request/:member_id/:group_id/:notify_id		controllers.UserController.acceptInviteRequest(member_id :Long, group_id :Long, notify_id: Long)
+GET		/accept-join-request/:member_id/:community_id/:notify_id		controllers.UserController.acceptJoinRequest(member_id :Long, community_id :Long, notify_id: Long)
+GET		/accept-invite-request/:member_id/:community_id/:notify_id		controllers.UserController.acceptInviteRequest(member_id :Long, community_id :Long, notify_id: Long)
 GET		/mark-as-read/:id						controllers.UserController.markNotificationAsRead(id:Long)
 
 GET     /profile/:id                controllers.UserController.getProfile(id :Long)
@@ -140,16 +135,16 @@ GET		/posts									controllers.CommunityController.getNextPosts(id: String,offs
 GET		/questions								controllers.CommunityController.getNextQuests(id: String,offset: String)
 POST	/community/post/comment					controllers.CommunityController.commentOnCommunityPost()
 POST	/community/post							controllers.CommunityController.postOnCommunity()
-POST	/createCommunity						controllers.CommunityController.createGroup()
+POST	/createCommunity						controllers.CommunityController.createCommunity()
 POST	/upload-cover-photo-group/:id		   	controllers.CommunityController.uploadCoverPhoto(id : Long)
-POST	/updateGroupProfileData					controllers.CommunityController.updateGroupProfileData
+POST	/updateCommunityProfileData				controllers.CommunityController.updateCommunityProfileData
 GET		/communityQnA/questions/:id				controllers.CommunityController.getAllQuestionsOfCommunity(id : Long)
 POST	/communityQnA/question/post				controllers.CommunityController.postQuestionOnCommunity()
 POST	/communityQnA/question/answer			controllers.CommunityController.answerToQuestionOnQnACommunity()
 POST	/uploadPostPhoto						controllers.CommunityController.uploadPhotoOfPost()
 GET		/getAllIcons							controllers.CommunityController.getAllIcons()
 GET		/getAllUnjoinedMembers/:id/:query		controllers.CommunityController.getAllUnjoinedUsers(id : Long, query: String)
-GET		/inviteToCommunity/:group_id/:user_id   controllers.CommunityController.sendInviteToJoinCommunity(group_id : Long, user_id: Long)
+GET		/inviteToCommunity/:community_id/:user_id   controllers.CommunityController.sendInviteToJoinCommunity(community_id : Long, user_id: Long)
 GET		/get-next-unknown-communities/:offset	controllers.CommunityController.getUnknownCommunities(offset:Integer)
 GET		/get-my-next-communities/:offset		controllers.CommunityController.getMyNextCommunities(offset:Integer)
 

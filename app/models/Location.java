@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Query;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
@@ -47,8 +49,13 @@ public class Location  {
     /* e.g. Pacific Place */
     public String location;
     
+    public String displayName;
+    
     @Enumerated(EnumType.STRING)
     public LocationType locationType;
+    
+    @Enumerated(EnumType.STRING)
+    public LocationCode locationCode;
     
     public static enum LocationType {
         COUNTRY,
@@ -60,18 +67,28 @@ public class Location  {
         LOCATION
     }
     
+    public static enum LocationCode {
+        HK,
+        US
+    }
+    
     public Location() {}
 
-    public Location(String country) {
-        this(null, country);
+    public Location(LocationCode locationCode, String country) {
+        this.locationType = LocationType.COUNTRY;
+        this.locationCode = locationCode;
+        this.country = country;
     }
     
     public Location(Location parent, String value) {
+        this(parent, value, value);
+    }
+    
+    public Location(Location parent, String value, String displayName) {
         this.parent = parent;
-        if (parent == null) {
-            this.locationType = LocationType.COUNTRY;
-            this.country = value;
-        } else if (LocationType.COUNTRY.equals(parent.locationType)) {
+        this.locationCode = parent.locationCode;
+        this.displayName = displayName;
+        if (LocationType.COUNTRY.equals(parent.locationType)) {
             this.locationType = LocationType.STATE;
             this.country = parent.country;
             this.state = value;
@@ -134,6 +151,26 @@ public class Location  {
         JPA.em().refresh(this);
     }
 	
+    public static List<Location> getHongKongDistricts() {
+        Query q = JPA.em().createQuery("select l from Location l where locationType = ?1 and locationCode = ?2");
+        q.setParameter(1, LocationType.DISTRICT);
+        q.setParameter(2, LocationCode.HK);
+        return (List<Location>)q.getResultList();
+    }
+    
+    public static List<Location> getHongKongAreas() {
+        Query q = JPA.em().createQuery("select l from Location l where locationType = ?1 and locationCode = ?2");
+        q.setParameter(1, LocationType.AREA);
+        q.setParameter(2, LocationCode.HK);
+        return (List<Location>)q.getResultList();
+    }
+
+    public static Location getLocationById(long id) {
+        Query q = JPA.em().createQuery("Select l from Location l where id = ?1");
+        q.setParameter(1, id);
+        return (Location)q.getSingleResult();
+    }
+    
     public static List<Location> getAllCountries() {
         Query q = JPA.em().createQuery("Select l from Location l where locationType = ?1");
         q.setParameter(1, LocationType.COUNTRY);
@@ -182,6 +219,22 @@ public class Location  {
         return (List<Location>)q.getSingleResult();
     }
     
+    @Override
+    public boolean equals(Object o) {
+        if (o != null && o instanceof Location) {
+            final Location other = (Location) o;
+            return new EqualsBuilder().append(id, other.id).isEquals();
+        } 
+        return false;
+    }
+    
+    @Override
+    public  String toString() {
+        return "[" + locationCode + "|" + locationType + "|" + country + "|" + 
+                state + "|" + city + "|" + region + "|" + district + "|" + 
+                area + "|" + location + "|" + displayName + "]";
+    }
+    
     public static void init() {
         Query q = JPA.em().createQuery("Select count(l) from Location l");
         Long count = (Long)q.getSingleResult();
@@ -189,16 +242,16 @@ public class Location  {
             return;
         }
         
-        Location countryHK = new Location("香港");
+        Location countryHK = new Location(LocationCode.HK, "香港");            // country
         JPA.em().persist(countryHK);
-        Location stateHK = new Location(countryHK, "香港");
+        Location stateHK = new Location(countryHK, "香港");   // state
         JPA.em().persist(stateHK);
-        Location cityHK = new Location(stateHK, "香港");
+        Location cityHK = new Location(stateHK, "香港");      // city
         JPA.em().persist(cityHK);
         
-        Location hkIsland = new Location(cityHK, "香港島");
+        Location hkIsland = new Location(cityHK, "香港島");    // region
         JPA.em().persist(hkIsland);
-        Location d1 = new Location(hkIsland, "中西區");
+        Location d1 = new Location(hkIsland, "中西區");        // district
         JPA.em().persist(d1);
         Location d2 = new Location(hkIsland, "港島東區");
         JPA.em().persist(d2);
@@ -207,9 +260,9 @@ public class Location  {
         Location d4 = new Location(hkIsland, "灣仔區");
         JPA.em().persist(d4);
         
-        Location kowloon = new Location(cityHK, "九龍");
+        Location kowloon = new Location(cityHK, "九龍");      // region
         JPA.em().persist(kowloon);
-        Location d5 = new Location(kowloon, "九龍城區");
+        Location d5 = new Location(kowloon, "九龍城區");       // district
         JPA.em().persist(d5);
         Location d6 = new Location(kowloon, "觀塘區");
         JPA.em().persist(d6);
@@ -220,9 +273,9 @@ public class Location  {
         Location d10 = new Location(kowloon, "油尖旺區");
         JPA.em().persist(d10);
         
-        Location newTerritories = new Location(cityHK, "新界");
+        Location newTerritories = new Location(cityHK, "新界");   // region
         JPA.em().persist(newTerritories);
-        Location d7 = new Location(newTerritories, "西貢區");
+        Location d7 = new Location(newTerritories, "西貢區");  // district
         JPA.em().persist(d7);
         Location d11 = new Location(newTerritories, "北區");
         JPA.em().persist(d11);
@@ -239,9 +292,9 @@ public class Location  {
         Location d17 = new Location(newTerritories, "元朗區");
         JPA.em().persist(d17);
         
-        Location islands = new Location(cityHK, "離島");
+        Location islands = new Location(cityHK, "離島");      // region
         JPA.em().persist(islands);
-        Location d18 = new Location(islands, "離島區");
+        Location d18 = new Location(islands, "離島區");        // district
         JPA.em().persist(d18);
     }
 }

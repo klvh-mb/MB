@@ -9,9 +9,18 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.ArrayList;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NoResultException;
+import javax.persistence.OneToMany;
+import javax.persistence.Query;
+//import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -30,7 +39,6 @@ import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.i18n.Messages;
-import play.mvc.Content;
 import processor.FeedProcessor;
 import be.objectify.deadbolt.core.models.Permission;
 import be.objectify.deadbolt.core.models.Role;
@@ -80,8 +88,8 @@ public class User extends SocialObject implements Subject, Socializable {
     @Column(nullable=true)
 	public String gender;
 
-    @Column(nullable=true)
-    public String location;
+    @ManyToOne
+    public Location location;
 
     @OneToMany
 	public List<UserChild> children;
@@ -92,6 +100,9 @@ public class User extends SocialObject implements Subject, Socializable {
 
 	@JsonIgnore
 	public boolean emailValidated;
+
+	@JsonIgnore
+	public boolean newUser;
 
 	@ManyToMany
 	public List<SecurityRole> roles;
@@ -196,8 +207,8 @@ public class User extends SocialObject implements Subject, Socializable {
 
 	public void requestedToJoin(SocialObject target)
 			throws SocialObjectNotJoinableException {
-		if(!this.isJoinRequestPendingFor((Community) target))
-		target.onJoinRequest(this);
+		if (!this.isJoinRequestPendingFor((Community) target))
+		    target.onJoinRequest(this);
 	}
 
 	public void joinRequestAccepted(SocialObject target, User toBeMemeber)
@@ -485,17 +496,17 @@ public class User extends SocialObject implements Subject, Socializable {
 	}
 	
 	@Transactional
-	public Community createCommunity(String name, String description, CommunityType type, String iconName){
-
-		if(Strings.isNullOrEmpty(name) || Strings.isNullOrEmpty(description) || Strings.isNullOrEmpty(iconName) || type == null) {
+	public Community createCommunity(String name, String description, CommunityType type, String iconName) 
+	        throws SocialObjectNotJoinableException {
+		if (Strings.isNullOrEmpty(name) || Strings.isNullOrEmpty(description) || 
+		        Strings.isNullOrEmpty(iconName) || type == null) {
 			return null;
 		}
-		Community community = new Community(
-				name, description, this, type);
+		Community community = new Community(name, description, this, type);
 		community.iconName = iconName;
 		community.save();
+		community.ownerAsMember(this);
 		return community;
-		
 	}
 
 	/**
@@ -667,6 +678,7 @@ public class User extends SocialObject implements Subject, Socializable {
 		user.roles = Collections.singletonList(SecurityRole
 				.findByRoleName(controllers.Application.USER_ROLE));
 		user.active = true;
+		user.newUser = true;
 		user.lastLogin = new Date();
 
 		if (authUser instanceof EmailIdentity) {
@@ -742,6 +754,18 @@ public class User extends SocialObject implements Subject, Socializable {
 		q.setParameter(2, email);
 		return (User) q.getSingleResult();
 	}
+	
+	@Transactional
+	public static User getSuperAdmin() {
+	    if (SUPER_ADMIN != null)
+	        return SUPER_ADMIN;
+	    
+        Query q = JPA.em().createQuery("SELECT u FROM User u where active = ?1 and system = ?2");
+        q.setParameter(1, true);
+        q.setParameter(2, true);
+        SUPER_ADMIN = (User) q.getSingleResult();
+        return SUPER_ADMIN;
+    }
 
 	@JsonIgnore
 	public LinkedAccount getAccountByProvider(final String providerKey) {
@@ -1086,11 +1110,11 @@ public class User extends SocialObject implements Subject, Socializable {
         this.birthYear = birthYear;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
 		return location;
 	}
 
-	public void setLocation(String location) {
+	public void setLocation(Location location) {
 		this.location = location;
 	}
 
@@ -1118,6 +1142,14 @@ public class User extends SocialObject implements Subject, Socializable {
 		this.emailValidated = emailValidated;
 	}
 
+   public boolean isNewUser() {
+        return newUser;
+    }
+
+    public void setNewUser(boolean newUser) {
+        this.newUser = newUser;
+    }
+	    
 	public List<LinkedAccount> getLinkedAccounts() {
 		return linkedAccounts;
 	}
@@ -1188,6 +1220,7 @@ public class User extends SocialObject implements Subject, Socializable {
         superAdmin.lastLogin = new Date();
         superAdmin.email = "minibean.hk@gmail.com";
         superAdmin.emailValidated = true;
+        superAdmin.newUser = false;
         superAdmin.name = "miniBean";
         superAdmin.displayName = "miniBean";
         superAdmin.lastName = "HK";
@@ -1195,7 +1228,5 @@ public class User extends SocialObject implements Subject, Socializable {
         superAdmin.system = true;
         superAdmin.linkedAccounts = null;
         superAdmin.save();
-        
-        SUPER_ADMIN = superAdmin;
     }
 }

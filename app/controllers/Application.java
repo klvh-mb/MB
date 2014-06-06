@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import models.Community;
+import models.TargetingSocialObject;
 import models.User;
 
 import org.elasticsearch.index.query.AndFilterBuilder;
@@ -36,12 +38,12 @@ import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 import com.github.cleverage.elasticsearch.IndexQuery;
 import com.github.cleverage.elasticsearch.IndexResults;
+import com.mnt.exception.SocialObjectNotJoinableException;
+
+import common.model.TargetProfile;
+import common.model.TargetYear;
 
 public class Application extends Controller {
-    
-    public static Result getPost(int offset, int limit) {
-    	return ok();// TODO: null check need to be added
-    }
     
     public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";
@@ -54,9 +56,40 @@ public class Application extends Controller {
 		if(localUser == null) {
 			return login();
 		}
-		return ok(views.html.home.render());
+		return home(localUser);
 	}
 
+	/**
+	 * 1. if user login first time
+	 *     i. bootstrap communities
+	 *     ii. welcome page
+	 */
+	public static Result home(User user) {
+	    if (user.isNewUser()) {
+	        TargetProfile targetProfile = TargetProfile.fromUser(user);
+	        
+	        // Zodiac community
+	        for (TargetYear targetYear : targetProfile.getChildYears()) {
+	            Community community = Community.findByTargetingTypeTargetingInfo(
+	                    TargetingSocialObject.TargetingType.ZODIAC_YEAR, targetYear.toString());
+	            if (community != null) {
+    	            try {
+    	                community.onJoinRequest(user);
+    	            } catch (SocialObjectNotJoinableException e) {
+    	                e.printStackTrace();
+    	            }
+	            }
+	        }
+	        
+	        // TODO - keith
+	        // return welcome page
+	        
+	        user.setNewUser(false);
+	        return ok(views.html.home.render());
+	    }
+	    return ok(views.html.home.render());
+	}
+	
 	public static User getLocalUser(final Session session) {
 		final AuthUser currentAuthUser = PlayAuthenticate.getUser(session);
 		final User localUser = User.findByAuthUserIdentity(currentAuthUser);
@@ -97,6 +130,7 @@ public class Application extends Controller {
 			return UsernamePasswordAuthProvider.handleLogin(ctx());
 		}
 	}
+
 	@Transactional
 	public static Result signup() {
 		final User localUser = getLocalUser(session());

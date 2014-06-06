@@ -4,7 +4,6 @@ import common.model.TargetGender;
 import common.model.TargetProfile;
 import models.Article;
 import models.User;
-import org.springframework.util.StringUtils;
 import play.db.jpa.JPA;
 import targeting.Scorable;
 import targeting.ScoreSortedList;
@@ -81,10 +80,10 @@ public class ArticleTargetingEngine {
             paramCount++;
         }
 
-        if (StringUtils.hasText(profile.getDistrict())) {
-            sb.append(whereDelim).append(andDelim).append("(targetDistrict = ?").append(paramCount);
-            sb.append(" or targetDistrict is null) ");
-            paramValues.add(profile.getDistrict());
+        if (profile.getLocation() != null) {
+            sb.append(whereDelim).append(andDelim).append("(targetLocation = ?").append(paramCount);
+            sb.append(" or targetLocation is null) ");
+            paramValues.add(profile.getLocation());
             whereDelim = "";
             andDelim = "and ";
             paramCount++;

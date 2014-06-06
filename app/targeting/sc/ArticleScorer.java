@@ -3,7 +3,6 @@ package targeting.sc;
 import common.model.TargetGender;
 import common.model.TargetProfile;
 import models.Article;
-import org.springframework.util.StringUtils;
 import targeting.Scorable;
 
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ public class ArticleScorer {
         for (Article article : articles) {
             int score = 0;
 
-            if (StringUtils.hasText(profile.getDistrict()) && StringUtils.hasText(article.targetDistrict)) {
+            if (profile.getLocation() != null && profile.getLocation().equals(article.targetLocation)) {
                 score += DISTRICT_POINTS;
             }
             if (TargetGender.valueOfInt(article.targetParentGender) != TargetGender.Both) {

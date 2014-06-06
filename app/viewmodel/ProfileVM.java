@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import models.Location;
 import models.User;
 
 public class ProfileVM {
@@ -15,7 +16,7 @@ public class ProfileVM {
 	@JsonProperty("a")   public String aboutMe;
 	@JsonProperty("dob") public Date date_of_birth;
 	@JsonProperty("gd")  public String gender;
-	@JsonProperty("loc") public String location;
+	@JsonProperty("loc") public Location location;
 	@JsonProperty("n_f") public long nofriends;
 	@JsonProperty("n_p") public long photos;
 	@JsonProperty("i")   public long id;
@@ -25,7 +26,7 @@ public class ProfileVM {
 	@JsonProperty("isf") boolean isFriend;
 	@JsonProperty("isP") boolean isFriendRequestPending;
 	
-	public static ProfileVM profile(User user,User localUser) {
+	public static ProfileVM profile(User user, User localUser) {
 		ProfileVM vm = new ProfileVM();
 		vm.displayName = user.displayName;
 		vm.lastName = user.lastName;

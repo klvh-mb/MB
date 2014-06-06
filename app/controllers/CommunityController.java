@@ -17,7 +17,7 @@ import javax.imageio.ImageIO;
 import models.Comment;
 import models.Community;
 import models.Community.CommunityType;
-import models.Icons;
+import models.Icon;
 import models.Post;
 import models.Resource;
 import models.User;
@@ -354,14 +354,16 @@ public class CommunityController extends Controller{
 	}
 	
 	@Transactional
-	public static Result createGroup(){
+	public static Result createCommunity() {
 		final User localUser = Application.getLocalUser(session());
-		Form<Community> form = DynamicForm.form(Community.class).bindFromRequest("name","description","iconName","communityType");
+		Form<Community> form = 
+		        DynamicForm.form(Community.class).bindFromRequest(
+		                "name","description","iconName","communityType");
 		Community community = form.get();
-        if(community.communityType == null) {
+        if (community.communityType == null) {
         	community.communityType = CommunityType.OPEN;
         }
-		if(!community.checkCommunityNameExists()) {
+		if (!community.checkCommunityNameExists()) {
 			return status(505, "PLEASE CHOOSE OTHER NAME");
 		}
 		
@@ -370,30 +372,30 @@ public class CommunityController extends Controller{
 		File file = picture.getFile();
 		File fileTo = new File(fileName);
 		
-		Community newCommunity = localUser.createCommunity(community.name, community.description,community.communityType, community.iconName);
-		if(newCommunity == null) {
-			return status(505, "Valid param missing");
-		}
 		try {
-			newCommunity.ownerAsMember(localUser);
-			newCommunity.communityType = community.communityType;
-			FileUtils.copyFile(file, fileTo);
-			newCommunity.setCoverPhoto(fileTo);
+    		Community newCommunity = localUser.createCommunity(
+    		        community.name, community.description,community.communityType, community.iconName);
+    		if (newCommunity == null) {
+    			return status(505, "Valid param missing");
+    		}
+    		FileUtils.copyFile(file, fileTo);
+            newCommunity.setCoverPhoto(fileTo);
+            
+            return ok(Json.toJson(newCommunity.id));
 		} catch (SocialObjectNotJoinableException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return status(500);
-		}
-		return ok(Json.toJson(newCommunity.id));
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		return status(500);
 	}
 	
 	@Transactional
-	public static Result updateGroupProfileData(){
+	public static Result updateCommunityProfileData(){
 		Form<String> form = DynamicForm.form(String.class).bindFromRequest();
 		Map<String, String> dataToUpdate = form.data();
-		String groupID = dataToUpdate.get("i");
-		Community community = Community.findById(Long.parseLong(groupID));
+		String communityId = dataToUpdate.get("i");
+		Community community = Community.findById(Long.parseLong(communityId));
 		community.name = dataToUpdate.get("n");
 		community.description = dataToUpdate.get("d");
 		community.tagetDistrict = dataToUpdate.get("td");
@@ -559,10 +561,10 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getAllIcons() {
-		List<Icons> icons = Icons.getAllIcons();
+		List<Icon> icons = Icon.getAllIcons();
 		
 		List<IconVM> iconVMs = new ArrayList<>();
-		for(Icons icon : icons) {
+		for(Icon icon : icons) {
 			IconVM vm = IconVM.iconVM(icon);
 			iconVMs.add(vm);
 		}
@@ -583,8 +585,8 @@ public class CommunityController extends Controller{
 		return ok(Json.toJson(objectVMs));
 	}
 	@Transactional
-	public static Result sendInviteToJoinCommunity(Long group_id, Long user_id) {
-		Community community = Community.findById(group_id);
+	public static Result sendInviteToJoinCommunity(Long community_id, Long user_id) {
+		Community community = Community.findById(community_id);
 		User invitee = User.findById(user_id);
 		
 		try {

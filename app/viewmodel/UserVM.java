@@ -1,13 +1,8 @@
 package viewmodel;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import javax.persistence.Lob;
-
-import play.data.format.Formats;
-
+import models.Location;
 import models.User;
 
 public class UserVM {
@@ -18,7 +13,7 @@ public class UserVM {
 	public Date date_of_birth;
 	public String gender;
 	public String aboutMe;
-	public String location;
+	public Location location;
 	public Long id;
 	public int noOfFriends;
 	public int noOfGroups;

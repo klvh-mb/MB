@@ -27,27 +27,17 @@ import domain.Likeable;
 import domain.SocialObjectType;
 
 @Entity
-public class Article extends SocialObject implements Commentable, Likeable {
+public class Article extends TargetingSocialObject implements Commentable, Likeable {
 
 	public Article() {}
 
 	@Lob
 	public String description;
 	
-	
-	public int targetAgeMinMonth;
-	public int targetAgeMaxMonth;
-
 	public int noOfLikes=0;
-	public int targetGender;
-    public int targetParentGender;
-    public String targetDistrict;
     
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
 	public Date publishedDate;
-
-    @Column(nullable=false)
-	public boolean excludeFromTargeting = false;
 
 	@ManyToOne
 	public ArticleCategory category;
@@ -59,8 +49,6 @@ public class Article extends SocialObject implements Commentable, Likeable {
 		this.publishedDate = new Date();
 		this.objectType = SocialObjectType.ARTICLE;
 	}
-
-
 	
 	@Transactional
 	public static List<Article> getAllArticles() {

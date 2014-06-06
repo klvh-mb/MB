@@ -3,15 +3,16 @@ package viewmodel;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.Location;
 import models.User;
 
 public class FriendsVM {
 	public Long id;
 	public String nm;
 	public String dn;
-	public String ln;
+	public Location ln;
 	
-	public FriendsVM(Long id, String nm, String dn, String ln) {
+	public FriendsVM(Long id, String nm, String dn, Location ln) {
 		this.id = id;
 		this.nm = nm;
 		this.dn = dn;
@@ -24,6 +25,5 @@ public class FriendsVM {
 			friends.add(new FriendsVM(friend.id, friend.firstName + " " + friend.lastName,friend.displayName, friend.location));
 		}
 		return friends;
-		
 	}
 }

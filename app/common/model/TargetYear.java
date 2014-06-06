@@ -50,4 +50,9 @@ public class TargetYear {
     public static TargetYear valueOf(int year) {
         return new TargetYear(year);
     }
+    
+    @Override
+    public String toString() {
+        return this.zodiac.name() + "_" + this.birthYear;
+    }
 }

@@ -209,7 +209,6 @@ public class Signup extends Controller {
 		arg1.add(new ValidationError("userExist", "User Exist"));
 		filledForm.errors().put("userExist", arg1 );
 		
-		
 		return ok(views.html.signup.render(filledForm));
 	}
 
@@ -224,10 +223,9 @@ public class Signup extends Controller {
 				}
 			 final String email = ta.targetUser.email;
 			 User.verify(ta.targetUser);
-			 flash(Application.FLASH_MESSAGE_KEY,
-			 Messages.get("playauthenticate.verify_email.success", email));
-		}
-		catch(NoResultException e) {
+			 flash(Application.FLASH_MESSAGE_KEY, 
+			         Messages.get("playauthenticate.verify_email.success", email));
+		} catch(NoResultException e) {
 			return ok(views.html.verified.render());
 		}
 		
@@ -237,7 +235,4 @@ public class Signup extends Controller {
 			return redirect(routes.Application.login());
 		}
 	}
-	
-	
-	
 }
