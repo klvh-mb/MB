@@ -54,8 +54,10 @@ import domain.SocialObjectType;
 
 public class CommunityController extends Controller{
 
+	private static play.api.Logger logger = play.api.Logger.apply("application");
 	@Transactional
 	public static Result getUserUnJoinCommunity() {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		for(Community community : localUser.getListOfNotJoinedCommunities(0,5)) {
@@ -75,6 +77,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result uploadPhotoOfPost() {
+		logger.underlyingLogger().debug("Start");
 		DynamicForm form = DynamicForm.form().bindFromRequest();
 		String postId = form.get("postId");
 		
@@ -100,6 +103,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getCommunityInfoById(Long id) {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		final Community community = Community.findById(id);
 		if(community.objectType == SocialObjectType.COMMUNITY) {
@@ -112,6 +116,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getEditCommunityInfo(Long id) {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		final Community community = Community.findById(id);
 		if(community.owner.id == localUser.id) {
@@ -124,11 +129,13 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getPostImageById(Long id) {
+		logger.underlyingLogger().debug("Start");
 		return ok(Resource.findById(id).getThumbnailFile());
 	}
 	
 	@Transactional
 	public static Result getMiniCoverCommunityImageById(Long id) {
+		logger.underlyingLogger().debug("Start");
 		Community community = Community.findById(id);
 		if(community.getPhotoProfile() != null) {
 			return ok(new File(community.getPhotoProfile().getMini()));
@@ -142,6 +149,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getThumbnailCoverCommunityImageById(Long id) {
+		logger.underlyingLogger().debug("Start");
 		final Community community = Community.findById(id);
 		if(community.getPhotoProfile() != null) {
 			return ok(new File(community.getPhotoProfile().getThumbnail()));
@@ -155,6 +163,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getFullCoverCommunityImageById(Long id)  {
+		logger.underlyingLogger().debug("Start");
 		final Community community = Community.findById(id);
 		if(community.getPhotoProfile() != null) {
 			return ok(community.getPhotoProfile().getRealFile());
@@ -169,6 +178,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getCommunityImageById(Long id) {
+		logger.underlyingLogger().debug("Start");
 		final Community community = Community.findById(id);
 		if(community.getPhotoProfile() != null) {
 			return ok(new File(community.getPhotoProfile().getThumbnail()));
@@ -183,6 +193,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getAllCommunitiesOfUser() {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		for(Community community : localUser.getListOfNotJoinedCommunities()) {
@@ -197,6 +208,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getMyAnyThreeCommunities() {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		int count=0;
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
@@ -219,6 +231,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getThreeCommunitiesOfUser(Long id) {
+		logger.underlyingLogger().debug("Start");
 		final User user = User.findById(id);
 		final User localUser = Application.getLocalUser(session());
 		int count=0;
@@ -240,6 +253,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getMyAllCommunities() {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		for(Community community : localUser.getListOfJoinedCommunities()) {
@@ -253,6 +267,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getAllCommunitiesOfUserID(Long id) {
+		logger.underlyingLogger().debug("Start");
 		final User user = User.findById(id);
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
@@ -267,6 +282,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getAllComments(Long id) {
+		logger.underlyingLogger().debug("Start");
 		Post post = Post.findById(id);
 		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
 		List<Comment> comments = post.getCommentsOfPost();
@@ -279,6 +295,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getAllAnswers(Long id) {
+		logger.underlyingLogger().debug("Start");
 		Post post = Post.findById(id);
 		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
 		List<Comment> comments = post.getCommentsOfPost();
@@ -291,6 +308,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result sendJoinRequest(String id) {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		Community community = Community.findById(Long.parseLong(id));
 		
@@ -305,6 +323,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getNextPosts(String id,String offset) {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		Community community = Community.findById(Long.parseLong(id));
 		int start = Integer.parseInt(offset) * 5 + 5;
@@ -319,6 +338,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getNextQuests(String id,String offset) {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		Community community = Community.findById(Long.parseLong(id));
 		int start = Integer.parseInt(offset) * 5 + 5;
@@ -334,6 +354,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result uploadCoverPhoto(Long id) {
+		logger.underlyingLogger().debug("Start");
 		Community community = Community.findById(id);
 		FilePart picture = request().body().asMultipartFormData().getFile("profile-photo");
 		String fileName = picture.getFilename();
@@ -355,6 +376,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result createCommunity() {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		Form<Community> form = 
 		        DynamicForm.form(Community.class).bindFromRequest(
@@ -392,6 +414,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result updateCommunityProfileData(){
+		logger.underlyingLogger().debug("Start");
 		Form<String> form = DynamicForm.form(String.class).bindFromRequest();
 		Map<String, String> dataToUpdate = form.data();
 		String communityId = dataToUpdate.get("i");
@@ -425,6 +448,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result commentOnCommunityPost() {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		DynamicForm form = form().bindFromRequest();
 		
@@ -450,6 +474,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result postOnCommunity() {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		DynamicForm form = form().bindFromRequest();
 		
@@ -473,6 +498,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result joinToCommunity(Long id) {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		Community community = Community.findById(id);
 		try {
@@ -485,6 +511,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result leaveThisCommunity(Long community_id) {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		Community community = Community.findById(community_id);
 		
@@ -495,6 +522,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getCommunityMembers(Long id) {
+		logger.underlyingLogger().debug("Start");
 		Community community = Community.findById(id);
 		List<MembersWidgetChildVM> members = new ArrayList<>();
 		for(User member : community.getMembers()) {
@@ -510,6 +538,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result postQuestionOnCommunity() {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		DynamicForm form = DynamicForm.form().bindFromRequest();
 		Long communityId = Long.parseLong(form.get("community_id"));
@@ -533,6 +562,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result answerToQuestionOnQnACommunity() {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		DynamicForm form = form().bindFromRequest();
 		
@@ -554,6 +584,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getAllQuestionsOfCommunity(Long id) {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		final Community community = Community.findById(id);
 		return ok(Json.toJson(QnAPostsVM.qnaPosts(community, localUser)));
@@ -561,6 +592,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getAllIcons() {
+		logger.underlyingLogger().debug("Start");
 		List<Icon> icons = Icon.getAllIcons();
 		
 		List<IconVM> iconVMs = new ArrayList<>();
@@ -573,6 +605,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getAllUnjoinedUsers(Long comm_id, String query) {
+		logger.underlyingLogger().debug("Start");
 		Community community = Community.findById(comm_id);
 		List<User> nonMembers = community.getNonMembersOfCommunity(query);
 		List<SocialObjectVM> objectVMs = new ArrayList<>();
@@ -586,6 +619,7 @@ public class CommunityController extends Controller{
 	}
 	@Transactional
 	public static Result sendInviteToJoinCommunity(Long community_id, Long user_id) {
+		logger.underlyingLogger().debug("Start");
 		Community community = Community.findById(community_id);
 		User invitee = User.findById(user_id);
 		
@@ -599,6 +633,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getUnknownCommunities(Integer offset) {
+		logger.underlyingLogger().debug("Start");
 		int start = offset * 3 + 3;
 		List<CommunitiesWidgetChildVM> communityVM = new ArrayList<>();
 		
@@ -615,6 +650,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getMyNextCommunities(Integer offset) {
+		logger.underlyingLogger().debug("Start");
 		int start = offset * 3 + 3;
 		List<CommunitiesWidgetChildVM> communityVM = new ArrayList<>();
 		
@@ -631,6 +667,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getMyUpdates(Long timestamps){
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		
 		List<CommunityPostVM> posts = new ArrayList<>();
@@ -644,6 +681,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getNewsfeeds(int offset) {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostVM> posts = new ArrayList<>();
 		
@@ -662,6 +700,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getMyLiveUpdates(Long timestamps){
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		
 		List<CommunityPostVM> posts = new ArrayList<>();
@@ -677,6 +716,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getNextNewsFeeds(Long timestamp) {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostVM> posts = new ArrayList<>();
 		for(Post p :localUser.getMyNextNewsFeeds(timestamp)) {
@@ -689,12 +729,14 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getOriginalPostImageByID(Long id) {
+		logger.underlyingLogger().debug("Start");
 		Resource resource = Resource.findById(id);
 		return ok(resource.getRealFile());
 	}
 	
 	@Transactional
 	public static Result likeThePost(Long post_id) {
+		logger.underlyingLogger().debug("Start");
 		User loggedUser = Application.getLocalUser(session());
 		Post post = Post.findById(post_id);
 		post.noOfLikes++;
@@ -704,6 +746,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result unlikeThePost(Long post_id) throws SocialObjectNotLikableException {
+		logger.underlyingLogger().debug("Start");
 		User loggedUser = Application.getLocalUser(session());
 		Post post = Post.findById(post_id);
 		post.noOfLikes--;
@@ -713,6 +756,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result likeTheComment(Long comment_id) {
+		logger.underlyingLogger().debug("Start");
 		User loggedUser = Application.getLocalUser(session());
 		Comment comment = Comment.findById(comment_id);
 		System.out.println("GOT IT :: "+comment.noOfLikes);
@@ -724,6 +768,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result unlikeTheComment(Long comment_id) throws SocialObjectNotLikableException {
+		logger.underlyingLogger().debug("Start");
 		User loggedUser = Application.getLocalUser(session());
 		Comment comment = Comment.findById(comment_id);
 		comment.noOfLikes--;
@@ -733,6 +778,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result doBookmark(Long post_id){
+		logger.underlyingLogger().debug("Start");
 		User loggedUser = Application.getLocalUser(session());
 		Post post = Post.findById(post_id);
 		post.onBookmarkedBy(loggedUser);
@@ -741,6 +787,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result doUnBookmark(Long post_id){
+		logger.underlyingLogger().debug("Start");
 		User loggedUser = Application.getLocalUser(session());
 		Post post = Post.findById(post_id);
 		loggedUser.unBookmarkOn(post_id, post.objectType);
@@ -749,6 +796,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getBookmarkPosts(int offset) {
+		logger.underlyingLogger().debug("Start");
 		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostVM> posts = new ArrayList<>();
 		List<Post> bookmarkPost = localUser.getBookamrkPost(offset, 5);
