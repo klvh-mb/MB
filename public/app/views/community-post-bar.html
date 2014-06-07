@@ -73,8 +73,8 @@
 				</li>
 				<li>
 				    <span class="btn-like-wrapper">
-                        <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)"><img data-ng-src="/assets/app/images/general/icon_png/like_1.jpg"/>Like</a> 
-                        <a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)"><img data-ng-src="/assets/app/images/general/icon_png/liked_1.jpg"/>Unlike</a>
+                        <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)"><img data-ng-src="/assets/app/images/general/icon_png/like_1.gif"/>Like</a> 
+                        <a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)"><img data-ng-src="/assets/app/images/general/icon_png/liked_1.gif"/>Unlike</a>
                         <span ng-show="post.nol > 0"> · {{post.nol}}</span>
                         <span ng-show="post.isLike"> · 你對這讚好</span>
                     </span>
@@ -94,8 +94,8 @@
                             </p>
                             <span class="commentText">{{comment.d}}</span>
                             <span class="btn-like-wrapper">
-                                <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/general/icon_png/like_1.jpg"/>Like</a> 
-                                <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/general/icon_png/liked_1.jpg"/>Unlike</a>
+                                <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/general/icon_png/like_1.gif"/>Like</a> 
+                                <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/general/icon_png/liked_1.gif"/>Unlike</a>
                                 <span ng-show="comment.nol > 0"> · {{comment.nol}}</span>
                                 <span ng-show="comment.isLike"> · 你對這讚好</span>
                             </span>
