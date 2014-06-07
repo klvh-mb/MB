@@ -16,6 +16,8 @@ import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.OrFilterBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 
+import play.Logger;
+import play.Logger.ALogger;
 import play.Play;
 import play.Routes;
 import play.data.Form;
@@ -49,10 +51,13 @@ public class Application extends Controller {
 	public static final String FLASH_ERROR_KEY = "error";
 	public static final String USER_ROLE = "USER";
 	public static final String SUPER_ADMIN_ROLE = "SUPER_ADMIN";
-	
+	private static play.api.Logger logger = play.api.Logger.apply("application");
 	@Transactional
 	public static Result index() {
-		final User localUser = getLocalUser(session());
+			
+		logger.underlyingLogger().debug("Start");
+        
+        final User localUser = getLocalUser(session());
 		if(localUser == null) {
 			return login();
 		}
