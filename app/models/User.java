@@ -65,7 +65,7 @@ import domain.Socializable;
 @Entity
 public class User extends SocialObject implements Subject, Socializable {
 
-    public static User SUPER_ADMIN;
+    private static User SUPER_ADMIN;
     
 	public String firstName;
 	public String lastName;
@@ -1205,28 +1205,4 @@ public class User extends SocialObject implements Subject, Socializable {
 	public void setPermissions(List<UserPermission> permissions) {
 		this.permissions = permissions;
 	}
-	
-	public static void init() {
-	    Query q = JPA.em().createQuery("Select count(u) from User u where system = true");
-        Long count = (Long)q.getSingleResult();
-        if (count > 0) {
-            return;
-        }
-        
-        final User superAdmin = new User();
-        superAdmin.roles = Collections.singletonList(SecurityRole
-                .findByRoleName(controllers.Application.SUPER_ADMIN_ROLE));
-        superAdmin.active = true;
-        superAdmin.lastLogin = new Date();
-        superAdmin.email = "minibean.hk@gmail.com";
-        superAdmin.emailValidated = true;
-        superAdmin.newUser = false;
-        superAdmin.name = "miniBean";
-        superAdmin.displayName = "miniBean";
-        superAdmin.lastName = "HK";
-        superAdmin.firstName = "miniBean";
-        superAdmin.system = true;
-        superAdmin.linkedAccounts = null;
-        superAdmin.save();
-    }
 }

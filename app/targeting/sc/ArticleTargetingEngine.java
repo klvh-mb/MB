@@ -81,9 +81,9 @@ public class ArticleTargetingEngine {
         }
 
         if (profile.getLocation() != null) {
-            sb.append(whereDelim).append(andDelim).append("(targetLocation = ?").append(paramCount);
-            sb.append(" or targetLocation is null) ");
-            paramValues.add(profile.getLocation());
+            sb.append(whereDelim).append(andDelim).append("(targetLocation_id = ?").append(paramCount);
+            sb.append(" or targetLocation_id is null) ");
+            paramValues.add(profile.getLocation().id);
             whereDelim = "";
             andDelim = "and ";
             paramCount++;

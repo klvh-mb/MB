@@ -95,8 +95,6 @@ public class Global extends GlobalSettings {
 			}
 		}
 		
-		User.init();
-		Location.init();
-		Community.init();
+		DataBootstrap.bootstrap();
 	}
 }

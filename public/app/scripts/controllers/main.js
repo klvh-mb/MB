@@ -2,6 +2,15 @@
 
 var minibean = angular.module('minibean');
 
+minibean.controller('UIController', function($scope, $location, $anchorScroll) {
+    $scope.gotoTop = function() {
+        // set the location.hash to the id of
+        // the element you wish to scroll to
+        $location.hash('content');
+        $anchorScroll();
+    };
+});
+
 ///////////////////////// Search Service Start //////////////////////////////////
 minibean.service('searchService',function($resource){
 	this.userSearch = $resource(
@@ -39,8 +48,6 @@ minibean.controller('SearchController',function($scope, searchService){
 			this.result = searchService.userSearch.get({q:query});
 		}
 	}
-	
-	
 });
 ///////////////////////// Search Service End //////////////////////////////////
 
@@ -326,9 +333,6 @@ minibean.service('profilePhotoModal',function( $modal){
 	
 });
 
-
-
-
 minibean.controller('UserAboutController',function($routeParams, $scope, userAboutService, $http, profilePhotoModal){
 	
 	var tab = $routeParams.tab;
@@ -410,7 +414,6 @@ minibean.service('editCommunityPageService',function($resource){
 	);
 });
 
-
 minibean.controller('GroupController',function($scope,$q, $location,$routeParams, $http, usSpinnerService, iconsService, editCommunityPageService, $upload, profilePhotoModal){
    
 	$scope.submitBtn = "Save";
@@ -469,8 +472,6 @@ minibean.controller('GroupController',function($scope,$q, $location,$routeParams
 	}
 	
 });
-
-
 
 minibean.controller('CreateCommunityController',function($scope, $location, $http, $upload, $validator, iconsService, usSpinnerService){
 	
@@ -928,12 +929,11 @@ minibean.service('profileService',function($resource){
 
 minibean.controller('ProfileController',function($scope, $routeParams, $location, profileService, friendsService,sendInvitation, unFriendService){
 	
-	$scope.$watch( $routeParams.id , function (navigateTo) {
+	$scope.$watch($routeParams.id , function (navigateTo) {
 		if( $routeParams.id  == $scope.userInfo.id){
 			 $location.path("about/activities");
 		}
 	});
-	
 	
 	$scope.isLoadingEnabled = false;
 	$scope.selectedTab = 1;
@@ -1586,7 +1586,6 @@ minibean.service('communityQnAPageService',function($resource){
 	);
 });
 
-
 minibean.service('allAnswersService',function($resource){
 	this.answers = $resource(
 			'/answers/:id',
@@ -1596,7 +1595,6 @@ minibean.service('allAnswersService',function($resource){
 			}
 	);
 });
-
 
 minibean.controller('CreateQnACommunityController',function($scope, bookmarkPostService, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
 	$scope.QnA = communityQnAPageService.QnAPosts.get({id:$routeParams.id}, function(){
@@ -2050,7 +2048,6 @@ minibean.controller('ShowArticleController',function($scope, $modal,$routeParams
 	  
 });
 
-
 minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routeParams, bookmarkPostService, articleCategoryService, showImageService, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService,allRelatedArticlesService){
 	$scope.result = [];
 	var offset = 0;
@@ -2190,7 +2187,6 @@ minibean.service('ArticleallCommentsService',function($resource){
 	);
 });
 
-
 minibean.controller('EditArticleController',function($scope,$routeParams,$location, bookmarkPostService, likeFrameworkService, ArticleallCommentsService, userInfoService, usSpinnerService, ArticleService,articleCategoryService,allRelatedArticlesService,$http){
 	$scope.submitBtn = "Save";
 	$scope.userInfo = userInfoService.UserInfo.get();
@@ -2320,8 +2316,6 @@ minibean.service('newsFeedService',function($resource){
 				get: {method:'GET', params:{offset:'@offset'}}
 			}
 	);
-	
-	
 });
 
 minibean.controller('NewsFeedController', function($scope, bookmarkPostService, likeFrameworkService, $interval, $http, allCommentsService, usSpinnerService, newsFeedService) {
@@ -2477,8 +2471,6 @@ minibean.service('userNewsFeedService',function($resource){
 				get: {method:'GET', params:{offset:'@offset'}}
 			}
 	);
-	
-	
 });
 
 minibean.controller('UserNewsFeedController', function($scope,$routeParams, $interval, bookmarkPostService, likeFrameworkService, userInfoService, $http, allCommentsService, usSpinnerService, userNewsFeedService) {
