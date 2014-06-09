@@ -1497,7 +1497,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.community.posts, function(post, key){
 				if(post.id == post_id) {
-					post.isBookmarked = false;
+					post.isBookmarked = true;
 				}
 			})
 		});
@@ -1507,7 +1507,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.community.posts, function(post, key){
 				if(post.id == post_id) {
-					post.isBookmarked = true;
+					post.isBookmarked = false;
 				}
 			})
 		});

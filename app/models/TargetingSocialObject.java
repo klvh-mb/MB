@@ -19,16 +19,16 @@ public abstract class TargetingSocialObject extends SocialObject {
     public String targetingInfo;
     
     @Column(nullable=true)
-    public int targetAgeMinMonth;
+    public Integer targetAgeMinMonth;
     
     @Column(nullable=true)
-    public int targetAgeMaxMonth;
+    public Integer targetAgeMaxMonth;
     
     @Column(nullable=true)
-    public int targetGender;
-    
+    public Integer targetGender;
+   
     @Column(nullable=true)
-    public int targetParentGender;
+    public Integer targetParentGender;
     
     @ManyToOne
     public Location targetLocation;
