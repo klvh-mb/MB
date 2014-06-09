@@ -1,5 +1,6 @@
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Query;
 
@@ -75,7 +76,7 @@ public class DataBootstrap {
         JPA.em().persist(hkIsland);
         Location d1 = new Location(hkIsland, "中西區");        // district
         JPA.em().persist(d1);
-        Location d2 = new Location(hkIsland, "港島東區");
+        Location d2 = new Location(hkIsland, "東區");
         JPA.em().persist(d2);
         Location d3 = new Location(hkIsland, "南區");
         JPA.em().persist(d3);
@@ -191,14 +192,18 @@ public class DataBootstrap {
         
         // District communities
         
-        
-        
+        List<Location> districts = Location.getHongKongDistricts();
+        for (Location district : districts) {
+            name = district.displayName + "媽媽會♥";
+            desc = district.displayName + "媽媽會♥";
+            createLocationCommunity(name, desc, district);
+        }
     }
     
     private static Community createZodiacCommunity(String name, String desc, int year) {
         Community community = null;
         TargetYear targetYear = TargetYear.valueOf(year);
-        String zodiac = targetYear.getZodiac().toString();
+        String zodiac = targetYear.getZodiac().name();
         String targetingInfo = targetYear.toString();
         try {
             community = User.getSuperAdmin().createCommunity(
@@ -215,18 +220,16 @@ public class DataBootstrap {
         return community;
     }
     
-    private static Community createDistrictCommunity(String name, String desc, int year) {
+    private static Community createLocationCommunity(String name, String desc, Location location) {
         Community community = null;
-        TargetYear targetYear = TargetYear.valueOf(year);
-        String zodiac = targetYear.getZodiac().toString();
-        String targetingInfo = targetYear.toString();
+        String targetingInfo = location.id.toString();
         try {
             community = User.getSuperAdmin().createCommunity(
                     name, desc, CommunityType.OPEN, 
-                    "/assets/app/images/general/icon_png/zodiac/" + zodiac.toLowerCase() + ".png");
+                    "/assets/app/images/general/icon_png/loc_" + location.locationType.name().toLowerCase() + ".png");
             community.system = true;
             community.targeting = true;
-            community.targetingType = TargetingSocialObject.TargetingType.ZODIAC_YEAR;      
+            community.targetingType = TargetingSocialObject.TargetingType.LOCATION_DISTRICT;      
             community.targetingInfo = targetingInfo;
             //community.setCoverPhoto(file);
         } catch (SocialObjectNotJoinableException e) {

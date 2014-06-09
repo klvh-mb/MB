@@ -94,6 +94,10 @@ public class TargetProfile {
         profile.childrenMaxAgeMonths = (childrenMaxAge == null) ? Integer.MAX_VALUE : childrenMaxAge;
         profile.childYears = childYears;
         
+        // TODO - keith
+        // return random district
+        profile.location = Location.getHongKongDistricts().get(new Random().nextInt(18));
+        
         return profile;
     }
 

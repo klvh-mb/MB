@@ -162,22 +162,6 @@ public class Location  {
         return displayName;
     }
     
-    public static Location getHongKongCity() {
-        return getLocation(LocationCode.HK, LocationType.CITY);
-    }
-    
-    public static Location getLocation(LocationCode code, LocationType type) {
-        Query q = JPA.em().createQuery("select l from Location l where locationCode = ?1 and locationType = ?2");
-        q.setParameter(1, code);
-        q.setParameter(2, type);
-        return (Location)q.getSingleResult();
-    }
-    
-    public static List<Location> getHongKongCityRegionsDistricts() {
-        return getLocationsByCountry(getLocation(LocationCode.HK, LocationType.COUNTRY), 
-                new LocationType[] { LocationType.CITY, LocationType.REGION, LocationType.DISTRICT });
-    }
-    
     /**
      * Traverse all children and add to the list if flagged.
      * 
@@ -231,20 +215,34 @@ public class Location  {
         return locations;
     }
     
-    public static List<Location> getHongKongDistricts() {
-        Query q = JPA.em().createQuery("select l from Location l where locationType = ?1 and locationCode = ?2");
-        q.setParameter(1, LocationType.DISTRICT);
-        q.setParameter(2, LocationCode.HK);
-        return (List<Location>)q.getResultList();
+    public static Location getLocation(LocationCode code, LocationType type) {
+        Query q = JPA.em().createQuery("select l from Location l where locationCode = ?1 and locationType = ?2");
+        q.setParameter(1, code);
+        q.setParameter(2, type);
+        return (Location)q.getSingleResult();
     }
     
-    public static List<Location> getHongKongAreas() {
-        Query q = JPA.em().createQuery("select l from Location l where locationType = ?1 and locationCode = ?2");
-        q.setParameter(1, LocationType.AREA);
-        q.setParameter(2, LocationCode.HK);
-        return (List<Location>)q.getResultList();
+    public static Location getParentDistrict(Location location) {
+        if (location.locationType == LocationType.COUNTRY || 
+                location.locationType == LocationType.STATE ||
+                location.locationType == LocationType.CITY || 
+                location.locationType == LocationType.REGION) {
+            throw new RuntimeException("Location does not belong to a district - " + location);
+        }
+        
+        if (location.locationType == LocationType.DISTRICT) {
+            return location;
+        }
+        
+        while (location.parent != null) {
+            Location parent = location.parent;
+            if (parent.locationType == LocationType.DISTRICT) {
+                return parent;
+            }
+        }
+        throw new RuntimeException("Location does not belong to a district - " + location);
     }
-
+    
     public static Location getLocationById(long id) {
         Query q = JPA.em().createQuery("Select l from Location l where id = ?1");
         q.setParameter(1, id);
@@ -313,5 +311,30 @@ public class Location  {
         return "[" + locationCode + "|" + locationType + "|" + country + "|" + 
                 state + "|" + city + "|" + region + "|" + district + "|" + 
                 area + "|" + location + "|" + displayName + "]";
+    }
+    
+    // HONG KONG specific
+    
+    public static List<Location> getHongKongDistricts() {
+        Query q = JPA.em().createQuery("select l from Location l where locationType = ?1 and locationCode = ?2");
+        q.setParameter(1, LocationType.DISTRICT);
+        q.setParameter(2, LocationCode.HK);
+        return (List<Location>)q.getResultList();
+    }
+    
+    public static List<Location> getHongKongAreas() {
+        Query q = JPA.em().createQuery("select l from Location l where locationType = ?1 and locationCode = ?2");
+        q.setParameter(1, LocationType.AREA);
+        q.setParameter(2, LocationCode.HK);
+        return (List<Location>)q.getResultList();
+    }
+    
+    public static Location getHongKongCity() {
+        return getLocation(LocationCode.HK, LocationType.CITY);
+    }
+    
+    public static List<Location> getHongKongCityRegionsDistricts() {
+        return getLocationsByCountry(getLocation(LocationCode.HK, LocationType.COUNTRY), 
+                new LocationType[] { LocationType.CITY, LocationType.REGION, LocationType.DISTRICT });
     }
 }

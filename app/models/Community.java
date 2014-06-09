@@ -32,7 +32,6 @@ import play.i18n.Messages;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
 
-import common.model.TargetYear;
 import domain.Joinable;
 import domain.Likeable;
 import domain.PostType;

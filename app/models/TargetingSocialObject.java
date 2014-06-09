@@ -36,7 +36,9 @@ public abstract class TargetingSocialObject extends SocialObject {
     public static enum TargetingType {
         SCORE,
         ZODIAC_YEAR,
-        ZODIAC_YEAR_MONTH
+        ZODIAC_YEAR_MONTH,
+        LOCATION_DISTRICT,
+        LOCATION_AREA
     }
     
     public TargetingSocialObject() {

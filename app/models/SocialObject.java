@@ -17,7 +17,6 @@ import models.SocialRelation.Action;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 
 import com.google.common.base.Objects;
@@ -104,10 +103,11 @@ public abstract class SocialObject extends domain.Entity implements
 		SocialRelation action = new SocialRelation(user, this);
 		action.action = SocialRelation.Action.MEMBER;
 		action.actionType = SocialRelation.ActionType.GRANT;
-		String message = "Congratulation "+user.name+","+"\n"+" You are now member of "+this.name+" Community.";
-		MailJob.sendMail("Some subject",new Body(message), user.email);
 		action.memberJoinedOpenCommunity = true;
-		action.validateUniquenessAndCreate();
+		if (action.validateUniquenessAndCreate()) {
+		    String message = "Congratulation " + user.name + "," + "\n" + " You are now member of " + this.name + " Community.";
+	        MailJob.sendMail("Some subject", new Body(message), user.email);
+		}
 	}
 
 	protected final void recordJoinRequestAccepted(User user) {

@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import models.Community;
+import models.Location;
 import models.TargetingSocialObject;
 import models.User;
 
@@ -84,6 +85,20 @@ public class Application extends Controller {
     	                e.printStackTrace();
     	            }
 	            }
+	        }
+	        
+	        // District commuinities
+	        if (targetProfile.getLocation() != null) {
+    	        Location district = Location.getParentDistrict(targetProfile.getLocation());
+    	        Community community = Community.findByTargetingTypeTargetingInfo(
+                        TargetingSocialObject.TargetingType.LOCATION_DISTRICT, district.id.toString());
+                if (community != null) {
+                    try {
+                        community.onJoinRequest(user);
+                    } catch (SocialObjectNotJoinableException e) {
+                        e.printStackTrace();
+                    }
+                }
 	        }
 	        
 	        // TODO - keith
