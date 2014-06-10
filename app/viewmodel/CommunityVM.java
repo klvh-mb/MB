@@ -11,8 +11,6 @@ import models.User;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import domain.CommentType;
-
 public class CommunityVM {
 	@JsonProperty("lu") public Long loggedUserId;
 	@JsonProperty("lun") public String loggedUserName;
@@ -21,7 +19,7 @@ public class CommunityVM {
 	@JsonProperty("d") public String description;
 	@JsonProperty("nom") public int noOfMembers;
 	@JsonProperty("typ") public CommunityType communityType;
-	@JsonProperty("iconName") public String iconName;
+	@JsonProperty("icon") public String iconName;
 	@JsonProperty("dte") public Date createDate;
 	@JsonProperty("td") public String tagetDistrict;
 	@JsonProperty("i") public long id;

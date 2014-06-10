@@ -1,32 +1,34 @@
 package viewmodel;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import models.Community;
 
 public class CommunitiesWidgetChildVM {
-	public Long id;
-	public String gi;
-	public Long mm;
-	public String dn;
-	public String msg;
-	public Boolean isO;
-	public Boolean isP;
-	public Boolean isM;
-	public String tp;
+    @JsonProperty("id") public Long id;
+    @JsonProperty("gi") public String icon;
+    @JsonProperty("mm") public Long membersCount;
+    @JsonProperty("dn") public String name;
+    @JsonProperty("msg") public String desc;
+    @JsonProperty("isO")public Boolean isO;
+    @JsonProperty("isP")public Boolean isP;
+    @JsonProperty("isM") public Boolean isM;
+    @JsonProperty("tp") public String type;
 	
-	public CommunitiesWidgetChildVM(Long id, Long mm, String dn, String msg,String gi,Community.CommunityType type) {
+	public CommunitiesWidgetChildVM(Long id, Long membersCount, String name, String desc, String icon, Community.CommunityType type) {
 		this.id = id;
-		this.dn = dn;
-		this.mm = mm;
-		this.msg = msg;
-		this.gi = gi;
-		this.tp = type.name();
+		this.name = name;
+		this.membersCount = membersCount;
+		this.desc = desc;
+		this.icon = icon;
+		this.type = type.name();
 	}
 	
-	public CommunitiesWidgetChildVM(Long id, Long mm, String dn,Community.CommunityType type, String msg) {
-		this(id,mm,dn,msg,"",type);
+	public CommunitiesWidgetChildVM(Long id, Long membersCount, String name, Community.CommunityType type, String desc) {
+		this(id, membersCount, name, desc, "", type);
 	}
 	
-	public CommunitiesWidgetChildVM(Long id, Long mm, String dn,Community.CommunityType type) {
-		this(id,mm,dn,type,"");
+	public CommunitiesWidgetChildVM(Long id, Long membersCount, String name, Community.CommunityType type) {
+		this(id, membersCount, name, type, "");
 	}
 }

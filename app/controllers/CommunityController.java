@@ -2,7 +2,6 @@ package controllers;
 
 import static play.data.Form.form;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,8 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import javax.imageio.ImageIO;
 
 import models.Comment;
 import models.Community;
@@ -23,7 +20,6 @@ import models.Resource;
 import models.User;
 
 import org.apache.commons.io.FileUtils;
-import org.codehaus.jackson.JsonNode;
 
 import play.data.DynamicForm;
 import play.data.Form;

@@ -80,7 +80,7 @@ a:focus {
 }
 .divider-cus {
     padding-right: 5px !important;
-    margin-right: 5px !important;
+    margin-right: 7px !important;
 }
 .partial_fade {
     opacity: 0.6 !important;
@@ -203,11 +203,6 @@ a:focus {
 }
 .wall-title-selected {
     border-color: white;
-}
-.right-side {
-	position: absolute;
-	top: 11px;
-	right: 5%;
 }
 #back-to-top {
 	background-color: black;

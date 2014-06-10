@@ -178,8 +178,8 @@ pre {
     width: 2px;
     height: 50%;
     border-right: #bcbcbc solid thin;
-    padding-right: 10px;
-    margin-right: 15px;
+    padding-right: 5px;
+    margin-right: 7px;
 }
 .user-action-post:before {
     content: '裡發言：「 ';
@@ -689,6 +689,9 @@ text-decoration: none;
     top: 11px;
     right: 5%;
 }
+.right-side img {
+    vertical-align: bottom;
+}
 /* Header End */
 
 /* User Profile Picture Start */
@@ -995,6 +998,12 @@ text-decoration: none;
 }
 #commun-header-menu div {
     display: inline;
+}
+#commun-header-menu img {
+    width: 20px;
+    height: 20px;
+    margin-right: 2px;
+    vertical-align: bottom;
 }
 #commun-header-menu .pull-right {
     position: relative;

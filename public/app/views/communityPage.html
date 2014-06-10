@@ -67,7 +67,7 @@
 								src="/assets/app/images/edit.png" /></a></div></li>
 						<li id="commun-header-menu">
 							<div class="h5">
-								<b>{{community.n}}</b>
+								<img src="{{community.icon}}"><b>{{community.n}}</b>
 							</div>
 							<div class="divider-cus"></div>
 							<div ng-class="{activeTabBold: selectedTab == 1}">
@@ -261,7 +261,7 @@
                </div>
              </div>
              
-              <hr style="margin-top: 1%;">
+              <hr style="margin-top: 10px; margin-bottom: 10px;">
              
              <div class="row tm">
              	  <div class="col-md-12">
@@ -287,7 +287,7 @@
              </div>
           </div>
 
-			 <hr style="margin-top: 1%;">
+			 <hr style="margin-top: 10px; margin-bottom: 10px;">
              
              <div class="row tm">
              	  <div class="col-md-12">
@@ -308,7 +308,7 @@
 	    							</div>
 	  							</div>
 		                  		<ul class="dropdown-menu chat media-list" style="left:2%; width: 96%;">
-									<li class="media" data-ng-repeat="icon in IconsToSelects" style="margin-top: 1%;">
+									<li class="media" data-ng-repeat="icon in IconsToSelects" style="margin-top: 10px; margin-bottom: 10px;">
 								        <a href="" data-ng-click="select_icon(icon.url, icon.name)">
 								        	<img class="pull-left media-object" data-ng-src="{{icon.url}}" alt="50x50" width="25" >
 								        	<input type="hidden" data-ng-model="formData.iconName" required>
@@ -324,7 +324,7 @@
                </div>
              </div>
           
-           <hr style="margin-top: 1%;">
+           <hr style="margin-top: 10px; margin-bottom: 10px;">
              
              <div class="row tm">
              	<div class="col-md-12">
@@ -344,7 +344,7 @@
                </div>
              </div>
              
-              <hr style="margin-top: 1%;">
+              <hr style="margin-top: 10px; margin-bottom: 10px;">
              
              <div class="row tm">
              	<div class="col-md-12">
