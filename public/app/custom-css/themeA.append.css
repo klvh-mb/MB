@@ -72,6 +72,21 @@ a:focus {
 }
 
 /*!
+ * TEMP
+ */
+.modal-content {
+    overflow-x: scroll !important;
+    overflow-y: scroll !important;
+}
+.divider-cus {
+    padding-right: 5px !important;
+    margin-right: 5px !important;
+}
+.partial_fade {
+    opacity: 0.6 !important;
+}
+
+/*!
  * theme
  */
 #weather {
