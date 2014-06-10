@@ -89,7 +89,7 @@ public class Application extends Controller {
 	        
 	        // District commuinities
 	        if (targetProfile.getLocation() != null) {
-    	        Location district = Location.getParentDistrict(targetProfile.getLocation());
+    	        Location district = Location.getParentLocation(targetProfile.getLocation(), Location.LocationType.DISTRICT);
     	        Community community = Community.findByTargetingTypeTargetingInfo(
                         TargetingSocialObject.TargetingType.LOCATION_DISTRICT, district.id.toString());
                 if (community != null) {

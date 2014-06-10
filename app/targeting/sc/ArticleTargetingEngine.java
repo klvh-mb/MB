@@ -3,12 +3,14 @@ package targeting.sc;
 import common.model.TargetGender;
 import common.model.TargetProfile;
 import models.Article;
+import models.Location;
 import models.User;
 import play.db.jpa.JPA;
 import targeting.Scorable;
 import targeting.ScoreSortedList;
 
 import javax.persistence.Query;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +62,6 @@ public class ArticleTargetingEngine {
         return results;
     }
 
-
     static List<Article> query(TargetProfile profile, boolean skipChildrenAge) {
         StringBuilder sb = new StringBuilder();
         sb.append("Select a from Article a ");
@@ -80,13 +81,24 @@ public class ArticleTargetingEngine {
             paramCount++;
         }
 
+        // location - should get all articles targeted to parent location as well
+        // e.g. user in [DISTRICT|南區], include articles targeted for [REGION|香港島], [CITY|香港]...
         if (profile.getLocation() != null) {
-            sb.append(whereDelim).append(andDelim).append("(targetLocation_id = ?").append(paramCount);
-            sb.append(" or targetLocation_id is null) ");
+            // user location
+            sb.append(whereDelim).append(andDelim).append("(targetLocation_id = ?").append(paramCount).append(" ");
             paramValues.add(profile.getLocation().id);
+            paramCount++;
+            for (Location parentLocation = profile.getLocation().parent; 
+                    parentLocation != null; 
+                    parentLocation = parentLocation.parent) {
+                // parent location of user location
+                sb.append("or targetLocation_id = ?").append(paramCount).append(" ");
+                paramValues.add(parentLocation.id);
+                paramCount++;
+            }
+            sb.append("or targetLocation_id is null) ");
             whereDelim = "";
             andDelim = "and ";
-            paramCount++;
         }
 
         // children

@@ -301,37 +301,6 @@ a:focus {
     height: 150px;
     border-radius: 5px;
 }
-#uPicture
-{
-    position:relative;
-    height:100%;
-    padding-left:30%;
-    padding-right:30%;
-    padding-top:10%;
-    padding-bottom:30%;
-    overflow:hidden;
-}
-#uPicture img
-{
-    border-radius:5px;
-    width:95px;
-}
-#uPhoto-wrapper-gradient
-{
-    width:100%;
-    height:100%;
-    background:none;
-}
-#uPhoto-wrapper
-{
-    background:url(../images/home/uPic_BG.jpg) center center no-repeat;
-    background-size:cover;
-    width:100%;
-    height:187px;
-    display:block;
-    margin-bottom:10px;
-    border-radius:8px;
-}
 .userName {
     text-align: center;
     white-space: nowrap;

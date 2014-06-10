@@ -32,26 +32,7 @@ public class Location  {
     @ManyToOne
     public Location parent;
     
-    /* e.g. US, China */
-    public String country;
-    
-    /* e.g. California, Hong Kong - state or province or the like */
-    public String state;
-    
-    /* e.g. Palo Alto, Hong Kong */
-    public String city;
-    
-    /* e.g. Hong Kong, Kowloon, New Territories */
-    public String region;
-    
-    /* e.g. Central and Western */
-    public String district;
-
-    /* e.g. Admiralty */
-    public String area;
-    
-    /* e.g. Pacific Place */
-    public String location;
+    public String name;
     
     public String displayName;
     
@@ -78,84 +59,45 @@ public class Location  {
     
     public Location() {}
 
-    public Location(LocationCode locationCode, String country) {
-        this(locationCode, country, country);
+    public Location(LocationCode locationCode, String name) {
+        this(locationCode, name, name);
     }
     
-    public Location(LocationCode locationCode, String country, String displayName) {
+    public Location(LocationCode locationCode, String name, String displayName) {
+        this.parent = null;
         this.locationType = LocationType.COUNTRY;
         this.locationCode = locationCode;
-        this.country = country;
+        this.name = name;
         this.displayName = displayName;
     }
     
-    public Location(Location parent, String value) {
-        this(parent, value, value);
+    public Location(Location parent, String name) {
+        this(parent, name, name);
     }
     
-    public Location(Location parent, String value, String displayName) {
+    public Location(Location parent, String name, String displayName) {
         this.parent = parent;
         this.locationCode = parent.locationCode;
+        this.name = name;
         this.displayName = displayName;
+        
         if (LocationType.COUNTRY.equals(parent.locationType)) {
             this.locationType = LocationType.STATE;
-            this.country = parent.country;
-            this.state = value;
         } else if (LocationType.STATE.equals(parent.locationType)) {
             this.locationType = LocationType.CITY;
-            this.country = parent.country;
-            this.state = parent.state;
-            this.city = value;
         } else if (LocationType.CITY.equals(parent.locationType)) {
             this.locationType = LocationType.REGION;
-            this.country = parent.country;
-            this.state = parent.state;
-            this.city = parent.city;
-            this.region = value;
         } else if (LocationType.REGION.equals(parent.locationType)) {
             this.locationType = LocationType.DISTRICT;
-            this.country = parent.country;
-            this.state = parent.state;
-            this.city = parent.city;
-            this.region = parent.region;
-            this.district = value;
         } else if (LocationType.DISTRICT.equals(parent.locationType)) {
             this.locationType = LocationType.AREA;
-            this.country = parent.country;
-            this.state = parent.state;
-            this.city = parent.city;
-            this.region = parent.region;
-            this.district = parent.district;
-            this.area = value;
         } else if (LocationType.AREA.equals(parent.locationType)) {
             this.locationType = LocationType.LOCATION;
-            this.country = parent.country;
-            this.state = parent.state;
-            this.city = parent.city;
-            this.region = parent.region;
-            this.district = parent.district;
-            this.area = parent.area;
-            this.location = value;
         }
     }
 
     public String getName() {
-        if (locationType == LocationType.COUNTRY) {
-            return country;
-        } else if (locationType == LocationType.STATE) {
-            return country;
-        } else if (locationType == LocationType.CITY) {
-            return country;
-        } else if (locationType == LocationType.REGION) {
-            return country;
-        } else if (locationType == LocationType.DISTRICT) {
-            return country;
-        } else if (locationType == LocationType.AREA) {
-            return country;
-        } else if (locationType == LocationType.LOCATION) {
-            return country;
-        }
-        throw new RuntimeException("Unknown locationType: " + locationType);
+        return name;
     }
     
     public String getDisplayName() {
@@ -222,25 +164,18 @@ public class Location  {
         return (Location)q.getSingleResult();
     }
     
-    public static Location getParentDistrict(Location location) {
-        if (location.locationType == LocationType.COUNTRY || 
-                location.locationType == LocationType.STATE ||
-                location.locationType == LocationType.CITY || 
-                location.locationType == LocationType.REGION) {
-            throw new RuntimeException("Location does not belong to a district - " + location);
-        }
-        
-        if (location.locationType == LocationType.DISTRICT) {
+    public static Location getParentLocation(Location location, LocationType locationType) {
+        if (location.locationType == locationType) {
             return location;
         }
         
         while (location.parent != null) {
             Location parent = location.parent;
-            if (parent.locationType == LocationType.DISTRICT) {
+            if (parent.locationType == locationType) {
                 return parent;
             }
         }
-        throw new RuntimeException("Location does not belong to a district - " + location);
+        throw new RuntimeException("Location " + location + " is not under a " + locationType.name());
     }
     
     public static Location getLocationById(long id) {
@@ -308,9 +243,7 @@ public class Location  {
     
     @Override
     public  String toString() {
-        return "[" + locationCode + "|" + locationType + "|" + country + "|" + 
-                state + "|" + city + "|" + region + "|" + district + "|" + 
-                area + "|" + location + "|" + displayName + "]";
+        return "[" + locationCode + "|" + locationType + "|" + name + "|" + displayName + "]";
     }
     
     // HONG KONG specific
