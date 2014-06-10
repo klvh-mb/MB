@@ -15,8 +15,6 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class ArticleScorer {
-    // TODO: fetch dynamically
-    private static final int MAX_LIKES = 100;
 
     private static final int DISTRICT_POINTS = 100;
     private static final int PARENT_GENDER_POINTS = 85;
@@ -28,6 +26,15 @@ public class ArticleScorer {
     public static List<Scorable<Article>> markScores(TargetProfile profile, List<Article> articles) {
         List<Scorable<Article>> results = new ArrayList<>();
 
+        // get max likes count
+        int maxLikes = 0;
+        for (Article article : articles) {
+            if (article.noOfLikes > maxLikes) {
+                maxLikes = article.noOfLikes;
+            }
+        }
+
+        // mark score on each article
         for (Article article : articles) {
             int score = 0;
 
@@ -41,7 +48,7 @@ public class ArticleScorer {
                 score += CHILDREN_GENDER_POINTS;
             }
 
-            score += ((double)article.noOfLikes/(double) MAX_LIKES) * LIKES_POINTS;
+            score += ((double)article.noOfLikes/(double) maxLikes) * LIKES_POINTS;
 
             long nowMs = System.currentTimeMillis();
             long diffMs = nowMs - article.publishedDate.getTime();

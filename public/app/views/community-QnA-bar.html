@@ -91,7 +91,7 @@
                                     <label for="User Comment"></label>
                                     <textarea type="text" name="userCommentfield" class="general-textfield" id="userCommentfield" placeholder="Write a comment..." cols="80" data-ng-model="commentText" rows="1"></textarea>
                                     <span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right">
-                                    <i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText); commentText=''"></i></span>
+                                    <i class="icon-reply-all-fill fa fa-2x " data-ng-click="answer_to_question(post.id, commentText); commentText=''"></i></span>
                                 </form>
                             </li>
 	                    </ul>

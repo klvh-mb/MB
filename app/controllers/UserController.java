@@ -152,12 +152,13 @@ public class UserController extends Controller {
 	@Transactional
 	public static Result getUserNewsfeeds(String offset, Long id) {
 		final User user = User.findById(id);
+		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostVM> posts = new ArrayList<>();
 		List<Post> newsFeeds =  user.getUserNewsfeeds(Integer.parseInt(offset), 5);
 		
 		if(newsFeeds != null ){
 			for(Post p : newsFeeds) {
-				CommunityPostVM post = CommunityPostVM.communityPostVM(p,user);
+				CommunityPostVM post = CommunityPostVM.communityPostVisitProfile(p,user,localUser);
 				posts.add(post);
 			}
 		}
