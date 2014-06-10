@@ -74,4 +74,48 @@ public class CommunityPostVM {
 		
 		return postVM;
 	}
+	
+	public static CommunityPostVM communityPostVisitProfile(Post post, User user,User localUser) {
+		CommunityPostVM postVM = new CommunityPostVM();
+		postVM.postId = post.id;
+		postVM.ownerId = post.owner.id;
+		postVM.postedBy = post.owner.name;
+		postVM.postedOn = post.getCreatedDate().getTime();
+		postVM.postedTitle = post.title;
+		postVM.postedText = post.body;
+		postVM.noOfComments = post.comments.size();
+		postVM.timestamp = post.getCreatedDate().getTime()/1000;
+		postVM.postType = post.postType.name();
+		postVM.communityName = post.community.name;
+		postVM.communityId = post.community.id;
+		//need to write logic for showing no of views
+		postVM.noOfViews = 0;
+		
+		postVM.noOfLikes = post.noOfLikes;
+		postVM.isBookmarked = post.isBookmarkedBy(localUser);
+		//need to write logic
+		postVM.isLike = post.isLikedBy(user);
+		
+		if(post.folder != null && post.folder.resources != null && !post.folder.resources.isEmpty()) {
+			postVM.hasImage = true;
+			postVM.images = new Long[post.folder.resources.size()];
+			int i = 0;
+			for (Resource rs : post.folder.resources) {
+				postVM.images[i++] = rs.id;
+			}
+		}
+		
+		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
+		List<Comment> comments = post.getCommentsOfPost(3);
+		for(int i = comments.size() - 1; i >= 0 ; i--) {
+			Comment comment = comments.get(i);
+			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
+			commentVM.isLike = comment.isLikedBy(user);
+			commentsToShow.add(commentVM);
+		}
+		
+		postVM.comments = commentsToShow;
+		
+		return postVM;
+	}
 }
