@@ -80,7 +80,8 @@ public class Global extends GlobalSettings {
 			}
 		});
 		
-		FeedProcessor.updatesUserLevelFeed();
+		//FeedProcessor.updatesUserLevelFeed();
+		FeedProcessor.updateCommunityLevelFeed();
 	}
 
 	private void initialData() {

@@ -27,9 +27,12 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.Session;
 import play.mvc.Result;
+import processor.FeedProcessor;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 import viewmodel.PostIndexVM;
 import views.html.signup;
 import be.objectify.deadbolt.java.actions.Group;
@@ -42,6 +45,7 @@ import com.feth.play.module.pa.user.AuthUser;
 import com.github.cleverage.elasticsearch.IndexQuery;
 import com.github.cleverage.elasticsearch.IndexResults;
 import com.mnt.exception.SocialObjectNotJoinableException;
+import com.typesafe.plugin.RedisPlugin;
 
 import common.model.TargetProfile;
 import common.model.TargetYear;
@@ -53,15 +57,35 @@ public class Application extends Controller {
 	public static final String USER_ROLE = "USER";
 	public static final String SUPER_ADMIN_ROLE = "SUPER_ADMIN";
 	private static play.api.Logger logger = play.api.Logger.apply("application");
+	
+	private static String prefix = Play.application().configuration().getString("keyprefix", "prod_");
+	private static final String USER = prefix + "user_";
+	private static final String MOMENT = prefix + "moment_";
+	private static final String QNA = prefix + "qna_";
+	
 	@Transactional
 	public static Result index() {
 			
-		logger.underlyingLogger().debug("Start");
+		logger.underlyingLogger().debug("Start index");
         
         final User localUser = getLocalUser(session());
 		if(localUser == null) {
 			return login();
 		}
+		
+		List<Community> communities = localUser.getListOfJoinedCommunities();
+		
+		List<String> post_ids = new ArrayList<>();
+		
+		for(Community c : communities) {
+					//logger.underlyingLogger().debug();
+			post_ids.addAll(FeedProcessor.getMomentsFromRedis(c.getId(), 20));
+			post_ids.addAll(FeedProcessor.getQnAsFromRedis(c.getId(), 20));
+		}
+		
+		logger.underlyingLogger().debug("getting in applyRelevances");
+		FeedProcessor.applyRelevances(post_ids, localUser.id);
+		logger.underlyingLogger().debug("Done with in applyRelevances");
 		return home(localUser);
 	}
 
@@ -71,6 +95,7 @@ public class Application extends Controller {
 	 *     ii. welcome page
 	 */
 	public static Result home(User user) {
+		logger.underlyingLogger().debug("Home ");
 	    if (user.isNewUser()) {
 	        TargetProfile targetProfile = TargetProfile.fromUser(user);
 	        
