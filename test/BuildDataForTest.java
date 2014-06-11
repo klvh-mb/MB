@@ -120,11 +120,11 @@ public class BuildDataForTest {
 			public void run() {
 				JPA.withTransaction(new play.libs.F.Callback0() {
 					public void invoke() {
-						category1 = new ArticleCategory("Soccer", "Football", "/assets/app/icons/common.png");
-						category2 = new ArticleCategory("Teacher", "School Staff", "/assets/app/icons/contact.png");
-						category3 = new ArticleCategory("Office", "Employee", "/assets/app/icons/info.png");
-						category4 = new ArticleCategory("Friends", "Guys", "/assets/app/icons/legan.png");
-						category5 = new ArticleCategory("Sport", "Play games", "/assets/app/icons/partners.png");
+						category1 = new ArticleCategory("Soccer", "Football", "/assets/app/images/general/icons/tag_1.png");
+						category2 = new ArticleCategory("Teacher", "School Staff", "/assets/app/images/general/icons/tag_2.png");
+						category3 = new ArticleCategory("Office", "Employee", "/assets/app/images/general/icons/tag_3.png");
+						category4 = new ArticleCategory("Friends", "Guys", "/assets/app/images/general/icons/tag_4.png");
+						category5 = new ArticleCategory("Sport", "Play games", "/assets/app/images/general/icons/tag_5.png");
 						category1.save();
 						category2.save();
 						category3.save();

@@ -29,7 +29,7 @@ public class Icon {
     
     public static enum IconType {
         COMMUNITY_ZODIAC,
-        ARTICLE_CATEGORY,
+        COMMUNITY_TAG
     }
     
     public Icon(){}

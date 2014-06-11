@@ -23,22 +23,24 @@ CREATE TABLE IF NOT EXISTS `Icon` (
 -- Dumping data for table parent-social.Icon: ~5 rows (approximately)
 /*!40000 ALTER TABLE `Icon` DISABLE KEYS */;
 insert into `Icon` (`id`,`name`,`iconType`,`url`) values
-(1,'zodiac_rat','COMMUNITY_ZODIAC','/assets/app/images/general/icon_png/zodiac/rat.png'),                                                                           
-(2,'zodiac_ox','COMMUNITY_ZODIAC','/assets/app/images/general/icon_png/zodiac/ox.png'),  
-(3,'zodiac_tiger','COMMUNITY_ZODIAC','/assets/app/images/general/icon_png/zodiac/tiger.png'),  
-(4,'zodiac_rabbit','COMMUNITY_ZODIAC','/assets/app/images/general/icon_png/zodiac/rabbit.png'),  
-(5,'zodiac_dragon','COMMUNITY_ZODIAC','/assets/app/images/general/icon_png/zodiac/dragon.png'),  
-(6,'zodiac_snake','COMMUNITY_ZODIAC','/assets/app/images/general/icon_png/zodiac/snake.png'),  
-(7,'zodiac_horse','COMMUNITY_ZODIAC','/assets/app/images/general/icon_png/zodiac/horse.png'),  
-(8,'zodiac_goat','COMMUNITY_ZODIAC','/assets/app/images/general/icon_png/zodiac/goat.png'),  
-(9,'zodiac_monkey','COMMUNITY_ZODIAC','/assets/app/images/general/icon_png/zodiac/monkey.png'),  
-(10,'zodiac_rooster','COMMUNITY_ZODIAC','/assets/app/images/general/icon_png/zodiac/rooster.png'),  
-(11,'zodiac_dog','COMMUNITY_ZODIAC','/assets/app/images/general/icon_png/zodiac/dog.png'),  
-(12,'zodiac_pig','COMMUNITY_ZODIAC','/assets/app/images/general/icon_png/zodiac/pig.png'),  
-(13,'親子資訊','ARTICLE_CATEGORY','/assets/app/icons/info.png'),                                                                           
-(14,'家長必讀','ARTICLE_CATEGORY','/assets/app/icons/info.png'),  
-(15,'教養專題','ARTICLE_CATEGORY','/assets/app/icons/info.png'),  
-(16,'分享專區','ARTICLE_CATEGORY','/assets/app/icons/info.png');
+(1,'tag_1','COMMUNITY_TAG','/assets/app/images/general/icons/tag_1.png'),                                                                           
+(2,'tag_2','COMMUNITY_TAG','/assets/app/images/general/icons/tag_2.png'),  
+(3,'tag_3','COMMUNITY_TAG','/assets/app/images/general/icons/tag_3.png'),  
+(4,'tag_4','COMMUNITY_TAG','/assets/app/images/general/icons/tag_4.png'),
+(5,'tag_5','COMMUNITY_TAG','/assets/app/images/general/icons/tag_5.png'),  
+(6,'tag_6','COMMUNITY_TAG','/assets/app/images/general/icons/tag_6.png'),
+(7,'zodiac_rat','COMMUNITY_ZODIAC','/assets/app/images/general/icons/zodiac/rat.png'),                                                                           
+(8,'zodiac_ox','COMMUNITY_ZODIAC','/assets/app/images/general/icons/zodiac/ox.png'),  
+(9,'zodiac_tiger','COMMUNITY_ZODIAC','/assets/app/images/general/icons/zodiac/tiger.png'),  
+(10,'zodiac_rabbit','COMMUNITY_ZODIAC','/assets/app/images/general/icons/zodiac/rabbit.png'),  
+(11,'zodiac_dragon','COMMUNITY_ZODIAC','/assets/app/images/general/icons/zodiac/dragon.png'),  
+(12,'zodiac_snake','COMMUNITY_ZODIAC','/assets/app/images/general/icons/zodiac/snake.png'),  
+(13,'zodiac_horse','COMMUNITY_ZODIAC','/assets/app/images/general/icons/zodiac/horse.png'),  
+(14,'zodiac_goat','COMMUNITY_ZODIAC','/assets/app/images/general/icons/zodiac/goat.png'),  
+(15,'zodiac_monkey','COMMUNITY_ZODIAC','/assets/app/images/general/icons/zodiac/monkey.png'),  
+(16,'zodiac_rooster','COMMUNITY_ZODIAC','/assets/app/images/general/icons/zodiac/rooster.png'),  
+(17,'zodiac_dog','COMMUNITY_ZODIAC','/assets/app/images/general/icons/zodiac/dog.png'),  
+(18,'zodiac_pig','COMMUNITY_ZODIAC','/assets/app/images/general/icons/zodiac/pig.png');
 /*!40000 ALTER TABLE `Icon` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

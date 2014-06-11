@@ -8,7 +8,10 @@ import com.mnt.exception.SocialObjectNotJoinableException;
 
 import common.model.TargetYear;
 import play.db.jpa.JPA;
+import models.ArticleCategory;
 import models.Community;
+import models.Icon;
+import models.Icon.IconType;
 import models.Location;
 import models.SecurityRole;
 import models.TargetingSocialObject;
@@ -27,11 +30,53 @@ public class DataBootstrap {
 	}
     
     private static void bootstrapIcon() {
-        
+        Icon icon = new Icon("tag_1", IconType.COMMUNITY_TAG, "/assets/app/images/general/icons/tag_1.png");
+        icon.save();
+        icon = new Icon("tag_2", IconType.COMMUNITY_TAG, "/assets/app/images/general/icons/tag_2.png");
+        icon.save();
+        icon = new Icon("tag_3", IconType.COMMUNITY_TAG, "/assets/app/images/general/icons/tag_3.png");
+        icon.save();
+        icon = new Icon("tag_4", IconType.COMMUNITY_TAG, "/assets/app/images/general/icons/tag_4.png");
+        icon.save();
+        icon = new Icon("tag_5", IconType.COMMUNITY_TAG, "/assets/app/images/general/icons/tag_5.png");
+        icon.save();
+        icon = new Icon("tag_6", IconType.COMMUNITY_TAG, "/assets/app/images/general/icons/tag_6.png");
+        icon.save();
+        icon = new Icon("zodiac_rat", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/rat.png");
+        icon.save();
+        icon = new Icon("zodiac_ox", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/ox.png");
+        icon.save();
+        icon = new Icon("zodiac_tiger", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/tiger.png");
+        icon.save();
+        icon = new Icon("zodiac_rabbit", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/rabbit.png");
+        icon.save();
+        icon = new Icon("zodiac_dragon", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/dragon.png");
+        icon.save();
+        icon = new Icon("zodiac_snake", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/snake.png");
+        icon.save();
+        icon = new Icon("zodiac_horse", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/horse.png");
+        icon.save();
+        icon = new Icon("zodiac_goat", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/goat.png");
+        icon.save();
+        icon = new Icon("zodiac_monkey", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/monkey.png");
+        icon.save();
+        icon = new Icon("zodiac_rooster", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/rooster.png");
+        icon.save();
+        icon = new Icon("zodiac_dog", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/dog.png");
+        icon.save();
+        icon = new Icon("zodiac_pig", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/pig.png");
+        icon.save();
     }
     
     private static void bootstrapArticleCategory() {
-        
+        ArticleCategory category = new ArticleCategory("親子資訊", "親子資訊", "/assets/app/images/article/tag_1.png");
+        category.save();
+        category = new ArticleCategory("家長必讀", "家長必讀", "/assets/app/images/article/tag_2.png");
+        category.save();
+        category = new ArticleCategory("教養專題", "教養專題", "/assets/app/images/article/tag_3.png");
+        category.save();
+        category = new ArticleCategory("分享專區", "分享專區", "/assets/app/images/article/tag_4.png");
+        category.save();
     }
     
     private static void bootstrapUser() {
@@ -208,7 +253,7 @@ public class DataBootstrap {
         try {
             community = User.getSuperAdmin().createCommunity(
                     name, desc, CommunityType.OPEN, 
-                    "/assets/app/images/general/icon_png/zodiac/" + zodiac.toLowerCase() + ".png");
+                    "/assets/app/images/general/icons/zodiac/" + zodiac.toLowerCase() + ".png");
             community.system = true;
             community.targeting = true;
             community.targetingType = TargetingSocialObject.TargetingType.ZODIAC_YEAR;      
@@ -226,7 +271,7 @@ public class DataBootstrap {
         try {
             community = User.getSuperAdmin().createCommunity(
                     name, desc, CommunityType.OPEN, 
-                    "/assets/app/images/general/icon_png/loc_" + location.locationType.name().toLowerCase() + ".png");
+                    "/assets/app/images/general/icons/loc_" + location.locationType.name().toLowerCase() + ".png");
             community.system = true;
             community.targeting = true;
             community.targetingType = TargetingSocialObject.TargetingType.LOCATION_DISTRICT;      

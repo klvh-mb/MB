@@ -23,10 +23,10 @@ CREATE TABLE IF NOT EXISTS `ArticleCategory` (
 -- Dumping data for table parent-social.ArticleCategory: ~5 rows (approximately)
 /*!40000 ALTER TABLE `ArticleCategory` DISABLE KEYS */;
 insert into `ArticleCategory` (`id`,`name`,`description`,`pictureName`) values
-(1,'親子資訊','親子資訊','/assets/app/images/sc_category/cat1.jpg'), 
-(2,'家長必讀','家長必讀','/assets/app/images/sc_category/cat2.jpg'),  
-(3,'教養專題','教養專題','/assets/app/images/sc_category/cat3.jpg'),  
-(4,'分享專區','分享專區','/assets/app/images/sc_category/cat4.jpg');
+(1,'親子資訊','親子資訊','/assets/app/images/article/cat_1.jpg'), 
+(2,'家長必讀','家長必讀','/assets/app/images/article/cat_2.jpg'),  
+(3,'教養專題','教養專題','/assets/app/images/article/cat_3.jpg'),  
+(4,'分享專區','分享專區','/assets/app/images/article/cat_4.jpg');
 /*!40000 ALTER TABLE `ArticleCategory` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

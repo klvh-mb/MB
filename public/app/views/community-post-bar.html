@@ -61,8 +61,8 @@
 			<ul>
 	            <li><a data-ng-href="/#/profile/{{post.oid}}" ><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}"/></a><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span><span class="sharing-tag pull-right">åˆ†äº«</span></p>
 	            	<span class="wall-user-actState-date" am-time-ago="post.t"></span>
-	              <a data-ng-show="!post.isBookmarked" class="btn-like" href="" data-ng-click="bookmarkPost(post.id)"> <img class="pull-right" src="assets/app/images/general/icon_png/message_favorite.png"/></a>
-	              <a data-ng-show="post.isBookmarked" class="btn-like" href="" data-ng-click="unBookmarkPost(post.id)"> <img class="pull-right" src="assets/app/images/general/icon_png/message_favorited.png"/></a>
+	              <a data-ng-show="!post.isBookmarked" class="btn-like" href="" data-ng-click="bookmarkPost(post.id)"> <img class="pull-right" src="assets/app/images/general/icons/message_favorite.png"/></a>
+	              <a data-ng-show="post.isBookmarked" class="btn-like" href="" data-ng-click="unBookmarkPost(post.id)"> <img class="pull-right" src="assets/app/images/general/icons/message_favorited.png"/></a>
 	            </li>
 	            <li><span style="white-space: pre-wrap;" ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></span></li>
 	            <li><div data-ng-show="post.hasImage" class="wall-user-post-image">
@@ -73,8 +73,8 @@
 				</li>
 				<li>
 				    <span class="btn-like-wrapper">
-                        <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)"><img data-ng-src="/assets/app/images/general/icon_png/like_1.gif"/>Like</a> 
-                        <a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)"><img data-ng-src="/assets/app/images/general/icon_png/liked_1.gif"/>Unlike</a>
+                        <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)"><img data-ng-src="/assets/app/images/general/icons/like_1.gif"/>Like</a> 
+                        <a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>Unlike</a>
                         <span ng-show="post.nol > 0"> · {{post.nol}}</span>
                         <span ng-show="post.isLike"> · 你對這讚好</span>
                     </span>
@@ -94,8 +94,8 @@
                             </p>
                             <span class="commentText">{{comment.d}}</span>
                             <span class="btn-like-wrapper">
-                                <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/general/icon_png/like_1.gif"/>Like</a> 
-                                <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/general/icon_png/liked_1.gif"/>Unlike</a>
+                                <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/general/icons/like_1.gif"/>Like</a> 
+                                <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>Unlike</a>
                                 <span ng-show="comment.nol > 0"> · {{comment.nol}}</span>
                                 <span ng-show="comment.isLike"> · 你對這讚好</span>
                             </span>

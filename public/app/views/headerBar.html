@@ -6,7 +6,7 @@
     				<span data-ng-show="isFRreaded == true && friend_requests.length > 0">
     					<span class="notif-count pull-right">{{friend_requests.length}}</span>
     				</span>
-    				<img class="colorChange" src="../assets/app/images/general/icon_png/w_profile.png" data-ng-click="reset_fr_count()"/>
+    				<img class="colorChange" src="../assets/app/images/general/icons/w_profile.png" data-ng-click="reset_fr_count()"/>
     		</a>
     		<ul class="dropdown-menu chat media-list" data-ng-show="friend_requests.length > 0" style="top: 28px !important;" >
     			<li class="media" data-ng-repeat="friend in friend_requests">
@@ -29,7 +29,7 @@
     				<span data-ng-show="isNOreaded == true && join_requests.length > 0">
     					<span class="notif-count pull-right">{{join_requests.length}}</span>
     				</span>
-    				<img class="colorChange" src="../assets/app/images/general/icon_png/w_notification.png" data-ng-click="reset_notify_count()"/>
+    				<img class="colorChange" src="../assets/app/images/general/icons/w_notification.png" data-ng-click="reset_notify_count()"/>
     		</a>
     		<ul class="dropdown-menu chat media-list" data-ng-show="join_requests.length > 0" style="top: 28px !important;">
     			<li class="media" data-ng-repeat="request in join_requests" ng-switch="request.tp">
@@ -103,8 +103,8 @@
             <li><a ng-href="#/about/activities">Profile</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
-        <a href="#"><img src="../assets/app/images/general/icon_png/w_home.png" /></a>
-        <a href="#"><img src="../assets/app/images/general/icon_png/w_setup.png" /></a>
+        <a href="#"><img src="../assets/app/images/general/icons/w_home.png" /></a>
+        <a href="#"><img src="../assets/app/images/general/icons/w_setup.png" /></a>
     </div>
 </div>
         
