@@ -17,14 +17,16 @@ import com.typesafe.plugin.MailerPlugin;
 
 public class MailJob implements Runnable {
 
-	private Mail mail;
+    private static final String MAIL_FROM = "miniBean";
+
+	private final Mail mail;
 
 	public MailJob(final Mail m) {
 		mail = m;
 	}
 	
 	public static Cancellable sendMail(final Mail email) {
-		email.setFrom("minibean.app@gmail.com");
+		email.setFrom(MAIL_FROM);
 		return Akka
 				.system()
 				.scheduler()
@@ -32,7 +34,7 @@ public class MailJob implements Runnable {
 						Akka.system().dispatcher());
 	}
 
-	public  static Cancellable sendMail(final String subject, final Body body,
+	public static Cancellable sendMail(final String subject, final Body body,
 			final String recipient) {
 		final Mail mail = new Mail(subject, body, new String[] { recipient });
 		return sendMail(mail);
