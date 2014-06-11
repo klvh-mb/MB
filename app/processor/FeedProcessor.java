@@ -1,13 +1,17 @@
 package processor;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
+import org.joda.time.DateTime;
 
 import models.Post;
 import models.SocialRelation;
@@ -23,11 +27,14 @@ import akka.actor.ActorSystem;
 
 import com.typesafe.plugin.RedisPlugin;
 
+import domain.PostType;
+
 public class FeedProcessor {
 	
 	private static String prefix = Play.application().configuration().getString("keyprefix", "prod_");
 	private static final String USER = prefix + "user_";
-
+	private static final String MOMENT = prefix + "moment_";
+	private static final String QNA = prefix + "qna_";
 
 	public static void pushToMemebes(Post post) {
 		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
@@ -65,6 +72,54 @@ public class FeedProcessor {
 	}
 	
 	
+	public static void updateCommunityLevelFeed() {
+		ActorSystem  actorSystem = Akka.system();
+		 actorSystem.scheduler().scheduleOnce(
+			Duration.create(0, TimeUnit.MILLISECONDS),
+			new Runnable() {
+				public void run() {
+					JPA.withTransaction(new play.libs.F.Callback0() {
+						@Override
+						public void invoke() throws Throwable {
+							List<BigInteger> ids = JPA.em().createNativeQuery("SELECT id from Community").getResultList();
+							JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
+							Jedis j = jedisPool.getResource();
+							
+							for (BigInteger communityId : ids) {
+								Query simpleQuery = JPA.em().createQuery("SELECT p from Post p where p.community.id = ?1 and p.postType = ?2 order by p.auditFields.createdDate desc");
+								simpleQuery.setParameter(1, communityId.longValue());
+								simpleQuery.setParameter(2, PostType.SIMPLE);
+								simpleQuery.setFirstResult(0);
+								simpleQuery.setMaxResults(200);
+								List<Post> posts = (List<Post>)simpleQuery.getResultList();
+								
+								//j.del(USER + communityId.longValue());
+//								/j.del(MOMENT + communityId.longValue(), QNA + communityId.longValue());
+								for(Post p: posts){
+									j.zadd(MOMENT + communityId.longValue(), p.getCreatedDate().getTime() , p.id.toString());
+								}
+								
+								Query qnAQuery = JPA.em().createQuery("SELECT p from Post p where p.community.id = ?1 and p.postType = ?2 order by p.auditFields.createdDate desc");
+								qnAQuery.setParameter(1, communityId.longValue());
+								qnAQuery.setParameter(2, PostType.QUESTION);
+								qnAQuery.setFirstResult(0);
+								qnAQuery.setMaxResults(200);
+								List<Post> qnAposts = (List<Post>)qnAQuery.getResultList();
+								
+								//j.del(USER + communityId.longValue());
+								
+								for(Post p: qnAposts){
+									j.zadd(QNA + communityId.longValue(),  p.getCreatedDate().getTime() , p.id.toString());
+								}
+							}
+							jedisPool.returnResource(j);
+						}
+					});
+						 
+					}
+				}, actorSystem.dispatcher()
+			);
+	}
 	
 	public static void updatesUserLevelFeed() {
 		ActorSystem  actorSystem = Akka.system();
@@ -101,12 +156,31 @@ public class FeedProcessor {
 						}
 					}, actorSystem.dispatcher()
 				);
-		
-		
-		
 	}
 	
+	public static Set<String> getMomentsFromRedis(Long community_id, int offset) {
+		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
+		Jedis j = jedisPool.getResource();
+		return j.zrange(MOMENT + community_id.toString(), 0, offset);
+	}
 	
-	
+	public static Set<String> getQnAsFromRedis(Long community_id, int offset) {
+		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
+		Jedis j = jedisPool.getResource();
+		return j.zrange(QNA + community_id.toString(), 0, offset);
+	}
+
+	public static void applyRelevances(List<String> post_ids, Long userId) {
+		// TODO Auto-generated method stub
+		// APPLY relevance Logic.
+		
+		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
+		Jedis j = jedisPool.getResource();
+		j.del(USER + userId);
+		for(String pid :post_ids){
+			j.rpush(USER + userId, pid);
+		}
+		
+	}
 	
 }
