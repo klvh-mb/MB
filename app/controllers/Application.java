@@ -1,5 +1,6 @@
 package controllers;
 
+import static play.data.Form.form;
 import indexing.PostIndex;
 
 import java.text.SimpleDateFormat;
@@ -11,6 +12,7 @@ import models.Community;
 import models.Location;
 import models.TargetingSocialObject;
 import models.User;
+import models.UserInfo;
 
 import org.elasticsearch.index.query.AndFilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
@@ -22,6 +24,7 @@ import play.Logger.ALogger;
 import play.Play;
 import play.Routes;
 import play.data.Form;
+import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -37,7 +40,7 @@ import viewmodel.PostIndexVM;
 import views.html.signup;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
-
+import views.*;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
@@ -132,7 +135,22 @@ public class Application extends Controller {
 	        user.setNewUser(false);
 	        return ok(views.html.home.render());
 	    }
-	    return ok(views.html.home.render());
+	    	if(UserInfo.findByUserId(user.id)) {
+	    		return ok(views.html.home.render());
+	    	}
+	    	else {
+	    		return ok(views.html.signup_info.render());
+	    	}
+	    
+	}
+	
+	@Transactional
+	public static Result saveSignupInfo() {
+		final User localUser = getLocalUser(session());
+		final Form<UserInfo> filledForm =form(UserInfo.class)
+				.bindFromRequest();
+		filledForm.get().save(localUser);
+		return ok(views.html.home.render());
 	}
 	
 	public static User getLocalUser(final Session session) {
