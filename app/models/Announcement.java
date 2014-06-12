@@ -46,7 +46,7 @@ public class Announcement  {
     
     public static enum AnnouncementType {
         GENERAL,
-        COMMUNITY,
+        ALERT,
         PROMOTIONS
     }
     

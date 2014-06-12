@@ -55,6 +55,17 @@
 .col-lg-offset-2 {
     margin-left: 10%;
 }
+a:hover,
+a:focus {
+  color: #428bca;
+  text-decoration: underline;
+}
+.btn-link:hover,
+.btn-link:focus {
+  color: #428bca;
+  text-decoration: underline;
+  background-color: transparent;
+}
 /*
 a {
   color: #324fe1;
@@ -228,12 +239,15 @@ a:focus {
     background:linear-gradient(to bottom,rgba(106, 91, 221, 1) 0,rgba(132, 129, 245, 1) 100%);
 }
 #about {
+    height: 242px;
+    overflow: visible;
     border: #764193 thin solid;
     color: #383838;
     font-size: 13px; 
 }
 #about .con-title {
     border-bottom: #764193 solid thin;
+    font-size: 14px;
 }
 #about a {
     color: #383838;
@@ -241,8 +255,7 @@ a:focus {
 #about ul {
     color: #383838;
 }
-#shortcut-wrapper ul
-{
+#shortcut-wrapper ul {
 	display:none;
 }
 #main-uphoto {
@@ -381,7 +394,7 @@ a:focus {
     word-break: break-all;
 }
 .slider-menu a {
-    font-size: 15px;
+    font-size: 14px;
 }
 .slider-photo {
 	width: 46%;

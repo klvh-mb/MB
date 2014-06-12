@@ -3,7 +3,8 @@
 </header>
 
 <div class="themeA-container">
-	<div >
+	<div>
+	    <div class="col-lg-1 col-md-1 col-xs-1" style="width: 3%"></div>
 		<div class="col-md-2 col-sm-2 col-xs-2" style="width: 20%;">
             <div id="main-uphoto" data-ng-style="set_background_image()">
                 <img src="/assets/app/images/general/gradient_black_30.png" alt="gradient-black">
@@ -20,7 +21,7 @@
             </div>
             <!--MyCommunity End -->
 		</div>
-		<div class="col-md-6 col-sm-6 col-xs-6" style="width: 50%;">
+		<div class="col-md-6 col-sm-6 col-xs-6" style="width: 45%;">
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div id="community-header">
 					<ul>
@@ -43,7 +44,7 @@
 							</div>
 							<div class="divider-cus"></div>
 							<div ng-class="{activeTabBold: selectedTab == 2}">
-								<a ng-click="selectedTab = 2;">Members</a>
+								<a ng-click="selectedTab = 2;">成員</a>
 							</div>
 							<!-- <div class="divider-cus"></div>
 							<div ng-class="{activeBold: selectedTab == 3}">
@@ -113,7 +114,7 @@
 			</div>
 			<!--Wall End -->
 		</div>
-		<div class="col-md-4 col-sm-4 col-xs-4 " style="width: 30%;">
+		<div class="col-md-4 col-sm-4 col-xs-4 " style="width: 25%;">
 			<div class="row">
 				<button class="btn-general-b pull-right" data-toggle="modal"
 					data-target="#myModal">
@@ -136,12 +137,11 @@
 					<i class="fa fa-user"></i> Pending
 				</button>
 			</div>
-			<div id="about" class="general-box" style="height:277px; overflow: visible;">
+			<div id="about" class="general-box">
 				<div class="con-title">
-					<span class="icon-box icon-box-blueLight icon-title-profile-about"></span>
-					About
+					<span class="icon-box icon-box-blueLight icon-title-profile-about"></span>關於
 					<div class="pull-right">
-						<a ng-click="selectedTab = 2;">{{community.nom}} Members</a>
+						<a ng-click="selectedTab = 2;">{{community.nom}}位成員</a>
 						<p data-ng-show="community.typ=='CLOSE'" class="small">Closed
 							Community</p>
 						<p data-ng-show="community.typ=='OPEN'" class="small">Open
@@ -149,7 +149,7 @@
 					</div>
 				</div>
 
-				<div class="content-wrapper" style="height: 200px;">
+				<div class="content-wrapper">
 					<ul>
 						<pre>{{community.d}}</pre>
 					</ul>
@@ -163,7 +163,7 @@
 									name="add-member-field" id="add-member-field"
 									class="general-textfield general-input-box" data-ng-model="searchQuery1"
 									data-ng-keyup="search_unjoined_users(community.i, searchQuery1)"
-									placeholder="+ Invite New Members" style="width: 90%;" />
+									placeholder="+ 邀請新成員" />
 								<div>
 									<div class="row">
 										<ul

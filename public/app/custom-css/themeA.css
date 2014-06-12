@@ -491,21 +491,25 @@ text-decoration: none;
 .content-wrapper ul {
     color: #77737E;
     font-size: small;
-    line-height: 200%;
     width: 100%;
     height: 100%;
-    white-space: nowrap;
+    white-space: normal;
     overflow: hidden;
     list-style: none;
     padding: 0;
     text-overflow:ellipsis;
+}
+.content-wrapper li {
+    margin-top: 5px;
 }
 .content-wrapper a {
     color: #77737E;
     font-size: small;
 }
 .content-wrapper a:hover{
-    background-color: #E5E5E5;
+    color: #4440AC;
+    /*background-color: #E5E5E5;*/
+    /*text-decoration: none;*/
 }
 .con-title {
     border-bottom: solid 1px #C8C8C8;
@@ -826,21 +830,23 @@ text-decoration: none;
     width: 100%;
     height: auto;
 }
-.weather-wrapper img{
+.weather-wrapper img {
     position: relative;
     top: -20px;
     left: 10px;
     float: left;
 }
-.weather-wrapper a{
+.weather-wrapper p {
     color: black;
-    font-size: x-large;
+    font-size: 20px;
     position: relative;
-    left: 15px;
+    left: -15px;
+    margin: 0px;
+    text-align: center;
 }
-.weather-wrapper p{
+.weather-wrapper a {
     color: black;
-    font-size: medium;
+    font-size: 17px;
     position: relative;
     display: block;
     left: 15px;
@@ -1056,7 +1062,6 @@ text-decoration: none;
     background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* IE10+ */
     background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
-
 }
 #about a {
     font-weight: bold;
@@ -1068,22 +1073,21 @@ text-decoration: none;
 #about .con-title {
     border-bottom: gray solid thin;
 }
-#about .content-wrapper{
+#about .content-wrapper {
+    height: 157px;
     text-align: center;
 }
 #about ul {
     position: relative;
-    left: 20px;
     color: #77737E;
 }
 #about .con-title div.pull-right {
     position: relative;
     top: -7px;
 }
-#about .content-wrapper ol{
+#about .content-wrapper ol {
     padding: 0 20px;
     overflow: hidden;
-    height: 150px;
     margin-bottom: 7px;
 }
 #about .content-wrapper li p {

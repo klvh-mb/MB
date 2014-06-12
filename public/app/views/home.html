@@ -1,10 +1,11 @@
 	<header>
-			<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/headerBar.html'"></div>
+		<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/headerBar.html'"></div>
 	</header>
 	
 	<div class="themeA-container" >
 		<div id="content">
 				<div class="row">
+				    <div class="col-lg-1 col-md-1 col-xs-1" style="width: 3%"></div>
 					<div class="col-lg-2 col-md-2 col-xs-2" style="width: 20%">
                         <div id="main-uphoto" data-ng-style="set_background_image()">
                             <img src="/assets/app/images/general/gradient_black_30.png" alt="gradient-black">
@@ -21,7 +22,7 @@
                         </div>
                         <!--MyCommunity End -->
                      </div>
-       	    		 <div class="col-md-6 col-sm-6 col-xs-6 " style="width: 50%">
+       	    		 <div class="col-md-6 col-sm-6 col-xs-6 " style="width: 45%">
 			            <div id="shortcut-wrapper">
 			                <ul>
 			                <li>
@@ -47,19 +48,17 @@
 			            <div id="wall" style="margin-top: 248px;">
 			                <div ng-controller="NewsFeedController" data-ng-include style="width: 100%;" data-src="'/assets/app/views/home-news-feed-section.html'"></div>
 			            </div><!--Wall End -->
-			        </div>
+                    </div>
 			        
-			        
-			        
-       	    		 <div class="col-md-4 col-sm-4 col-xs-4 " style="width: 30%">
-       	    		 	<div class="">
-								<div id="weather" class="general-box">
-					                <div class="weather-wrapper">
-					                    <img src="../assets/app/images/general/weather/rainnySun.png">
-					                    <a href="#">Wah Fu Esate - 20&deg;C</a>
-					                    <p>Partly Cloudy</p>
-					                </div>
-					            </div>
+       	    		<div class="col-md-4 col-sm-4 col-xs-4 " style="width: 25%">
+                        <div class="">
+							<div id="weather" class="general-box">
+				                <div class="weather-wrapper">
+				                    <img src="../assets/app/images/general/weather/rainnySun.png">
+				                    <p>Partly Cloudy</p>
+				                    <p>20&deg;C</p>
+				                </div>
+				            </div>
               			</div>	
               			<div class="row tm">
               				<div class="col-lg-12 col-md-12" ng-controller="SuggestedFriendsWidgetController">
@@ -78,11 +77,9 @@
 							</div>
               			</div>
        	    		 </div>
-       	    		 
-       	    		 
         	    </div>
           </div>
-      </div>
+    </div>
     <div id="back-to-top" ng-controller="UIController">
         <a ng-click="gotoTop()"><span class="icon-title-arrow-up"></span>Top</a>
     </div>
