@@ -15,7 +15,7 @@ GET     /profile                    controllers.Application.profile
 
 GET     /login                      controllers.Application.login
 POST    /login                      controllers.Application.doLogin
-
+POST	/saveSignupInfo				controllers.Application.saveSignupInfo
 POST	/article/comment			controllers.ArticleController.commentOnArticle()
 
 GET		/getAllArticleCategory		controllers.ArticleController.getAllArticleCategory
