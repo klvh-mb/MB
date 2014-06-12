@@ -34,4 +34,7 @@ public class AuditFields {
 	public Date getCreatedDate() {
 		return createdDate;
 	}
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
 }

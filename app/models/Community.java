@@ -100,10 +100,12 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		    post = new Post(user, title, body, this);
 			post.objectType = SocialObjectType.QUESTION;
 			post.postType = type;
+			post.setUpdatedDate(new Date());
 		} else if (type == PostType.SIMPLE) {
 		    post = new Post(user, body, this);
 			post.objectType = SocialObjectType.POST;
 			post.postType = type;
+			post.setUpdatedDate(new Date());
 		} else {
 		    throw new RuntimeException("Post type is not recognized");
 		}

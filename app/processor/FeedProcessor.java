@@ -3,6 +3,8 @@ package processor;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 
 import javax.persistence.Query;
@@ -20,6 +22,7 @@ import play.db.jpa.JPA;
 import play.libs.Akka;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Tuple;
 import scala.concurrent.duration.Duration;
 import akka.actor.ActorSystem;
 
@@ -99,7 +102,7 @@ public class FeedProcessor {
 								//j.del(USER + communityId.longValue());
 								//j.del(MOMENT + communityId.longValue(), QNA + communityId.longValue());
 								for(Post p: posts){
-									j.zadd(MOMENT + communityId.longValue(), p.getCreatedDate().getTime() , p.id.toString());
+									j.zadd(MOMENT + communityId.longValue(), p.getUpdatedDate().getTime() , p.id.toString());
 								}
 								
 								Query qnAQuery = JPA.em().createQuery("SELECT p from Post p where p.community.id = ?1 and p.postType = ?2 order by p.auditFields.createdDate desc");
@@ -112,7 +115,7 @@ public class FeedProcessor {
 								//j.del(USER + communityId.longValue());
 								
 								for(Post p: qnAposts){
-									j.zadd(QNA + communityId.longValue(),  p.getCreatedDate().getTime() , p.id.toString());
+									j.zadd(QNA + communityId.longValue(),  p.getUpdatedDate().getTime() , p.id.toString());
 								}
 							}
 							jedisPool.returnResource(j);
@@ -162,20 +165,19 @@ public class FeedProcessor {
 				);
 	}
 	
-	public static List<String> buildPostQueueFromCommunities(List<Community> communities, int offset) {
-	    logger.underlyingLogger().debug("buildPostQueueFromCommunities");
-		List<String> post_ids = new ArrayList<String>();
+	public static Set<Tuple> buildPostQueueFromCommunities(List<Community> communities, int offset) {
+		Set<Tuple> post_ids = new TreeSet<Tuple>();
 		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 		Jedis j = jedisPool.getResource();
 		for(Community c : communities) {
-			post_ids.addAll(j.zrange(MOMENT + c.id.toString(), 0, offset));
-			post_ids.addAll(j.zrange(QNA + c.id.toString(), 0, offset));
+			post_ids.addAll(j.zrangeWithScores(MOMENT + c.id.toString(), 0, offset));
+			post_ids.addAll(j.zrangeWithScores(QNA + c.id.toString(), 0, offset));
 		}
 		jedisPool.returnResource(j);
 		return post_ids;
 	}
 
-	public static void applyRelevances(List<String> post_ids, Long userId) {
+	public static void applyRelevances(Set<Tuple> post_ids, Long userId) {
 	    logger.underlyingLogger().debug("applyRelevances");
 	    
 		// TODO Auto-generated method stub
@@ -184,8 +186,8 @@ public class FeedProcessor {
 		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 		Jedis j = jedisPool.getResource();
 		j.del(USER + userId);
-		for(String pid :post_ids){
-			j.rpush(USER + userId, pid);
+		for(Tuple tuple :post_ids){
+			j.lpush(USER + userId, tuple.getElement());
 		}
 		jedisPool.returnResource(j);
 	}
