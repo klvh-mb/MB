@@ -30,6 +30,12 @@ public class DataBootstrap {
 	}
     
     private static void bootstrapIcon() {
+        Query q = JPA.em().createQuery("Select count(i) from Icon i");
+        Long count = (Long)q.getSingleResult();
+        if (count > 0) {
+            return;
+        }
+        
         Icon icon = new Icon("tag_1", IconType.COMMUNITY_TAG, "/assets/app/images/general/icons/tag_1.png");
         icon.save();
         icon = new Icon("tag_2", IconType.COMMUNITY_TAG, "/assets/app/images/general/icons/tag_2.png");
@@ -69,13 +75,19 @@ public class DataBootstrap {
     }
     
     private static void bootstrapArticleCategory() {
-        ArticleCategory category = new ArticleCategory("親子資訊", "親子資訊", "/assets/app/images/article/tag_1.png");
+        Query q = JPA.em().createQuery("Select count(ac) from ArticleCategory ac");
+        Long count = (Long)q.getSingleResult();
+        if (count > 0) {
+            return;
+        }
+        
+        ArticleCategory category = new ArticleCategory("親子資訊", "親子資訊", "/assets/app/images/article/cat_1.jpg");
         category.save();
-        category = new ArticleCategory("家長必讀", "家長必讀", "/assets/app/images/article/tag_2.png");
+        category = new ArticleCategory("家長必讀", "家長必讀", "/assets/app/images/article/cat_2.jpg");
         category.save();
-        category = new ArticleCategory("教養專題", "教養專題", "/assets/app/images/article/tag_3.png");
+        category = new ArticleCategory("教養專題", "教養專題", "/assets/app/images/article/cat_3.jpg");
         category.save();
-        category = new ArticleCategory("分享專區", "分享專區", "/assets/app/images/article/tag_4.png");
+        category = new ArticleCategory("分享專區", "分享專區", "/assets/app/images/article/cat_4.jpg");
         category.save();
     }
     
