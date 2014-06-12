@@ -1,9 +1,10 @@
+<div class="widget">
 <ul>
     <li>
     	<a data-ng-href="/#/profile/{{post.oid}}" ><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}"/></a><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span><span class="sharing-tag pull-right">åˆ†äº«</span></p>
         <span class="wall-user-actState-date" am-time-ago="post.t"></span>
-        <a data-ng-show="!post.isBookmarked" class="btn-like" href="" data-ng-click="bookmarkPost(post.id)"> <img class="pull-right" src="assets/app/images/general/icons/message_favorite.png"/></a>
-	     <a data-ng-show="post.isBookmarked" class="btn-like" href="" data-ng-click="unBookmarkPost(post.id)"> <img class="pull-right" src="assets/app/images/general/icons/message_favorited.png"/></a>
+        <a data-ng-show="!post.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkPost(post.id)" style="right:1%;top:8%;"></a>
+	     <a data-ng-show="post.isBookmarked" class="btn-like post-favorited" href="" data-ng-click="unBookmarkPost(post.id)" style="right:1%;top:8%;"></a>
     </li>
     <li>
     	<span style="white-space: pre-wrap;" ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></span>
@@ -46,7 +47,7 @@
 	            </span>
 	        </div>
     	</li>
-    	<li>
+    	<li ng-show="community.isM == true || community.isO == true">
 	        <img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{userInfo.id}}"/>
 	        <form id="userCommentwrapper" name="userComment">
 	            <label for="User Comment"></label>
@@ -57,3 +58,4 @@
     	</li>
 	</ul>
 </ul>
+</div>

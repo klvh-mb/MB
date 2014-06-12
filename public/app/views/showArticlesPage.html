@@ -55,11 +55,11 @@
                 <div infinite-scroll='next_result()'  infinite-scroll-distance='0' >
 	                <div class="general-box">
 	                    <ul class="allpost-wrapper" style="padding: 3px 10px 3px 10px;">
-	                        <li data-ng-repeat="article in result">
+	                        <li data-ng-repeat="article in result" class="widget" style="border:none;border-bottom: #bcbcbc thin solid;">
 	                            <a href="/#/article/id/{{article.id}}" target="_blank">
 	                                <img ng-show="article.img_url != 'No Image'"  data-ng-src="{{article.img_url}}"></a>
-	                                <a data-ng-show="!article.isBookmarked" class="btn-like" href="" data-ng-click="bookmarkArticle(article.id)"><img class="pull-right" style="width: inherit;" src="assets/app/images/general/icons/message_favorite.png"/></a>
-        					        <a data-ng-show="article.isBookmarked" class="btn-like" href="" data-ng-click="unBookmarkArticle(article.id)"><img class="pull-right" style="width: inherit;" src="assets/app/images/general/icons/message_favorited.png"/></a>
+	                                <a data-ng-show="!article.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkArticle(article.id)"></a>
+        					        <a data-ng-show="article.isBookmarked" class="btn-like post-favorited" href="" data-ng-click="unBookmarkArticle(article.id)"></a>
 	                                <div><a href="/#/article/id/{{article.id}}" target="_blank"><h4 style="color: #324fe1;"><font><font>{{article.nm}}</font></font></h4></a><h6><a class="tag" data-ng-href="/#/article/show/{{article.ct.id}}"><font><font>{{article.ct.name}}</font></font></a><font><font>{{article.pd | date:'yyyy'  }}</font></font>  <font><font>{{article.pd | date:'MMM'  }}</font></font>  <font><font>{{article.pd | date:'dd hh:mm a'  }}</font></font></h6><p><font><font>{{article.lds|limitTo:65}}...</font></font></p></div>
 	                        </li>
 	                    </ul>
