@@ -17,11 +17,11 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import play.db.jpa.JPA;
 
-/*
+/**
  * No UI Crud operation for this model. Static Lookup for country.
  * 
  * TODO - keith
- * Put all locations into local cache.
+ * Put all locations into local cache. (May need to clear cache when locations update)
  */
 @Entity
 public class Location  {

@@ -26,7 +26,7 @@ GET     /get-Eight-Articles			controllers.ArticleController.getEightArticles
 GET		/get-Related-Articles/:id/:category_id   controllers.ArticleController.getRelatedArticles(id :Long,category_id :Long)
 GET		/getDescriptionOdArticle/:id  	controllers.ArticleController.getDescriptionOdArticle(id :Long)
 GET		/deleteArticle/:id			controllers.ArticleController.deleteArticle(id :Long)
-GET		/Article/:id				controllers.ArticleController.infoArticle(id :Long)
+GET		/article/:id				controllers.ArticleController.infoArticle(id :Long)
 GET     /like-article/:id			controllers.ArticleController.onLike(id : Long)
 GET     /unlike-article/:id			controllers.ArticleController.onUnlike(id : Long)
 
@@ -49,8 +49,8 @@ GET     /accounts/exists            controllers.Signup.exists
 GET     /accounts/password/reset/:token     controllers.Signup.resetPassword(token: String)
 POST    /accounts/password/reset            controllers.Signup.doResetPassword
 
-GET    /accounts/password/change    controllers.Account.changePassword
-POST   /accounts/password/change    controllers.Account.doChangePassword
+GET     /accounts/password/change    controllers.Account.changePassword
+POST    /accounts/password/change    controllers.Account.doChangePassword
 
 GET     /accounts/verify            controllers.Account.verifyEmail
 
@@ -62,8 +62,10 @@ POST    /accounts/link              controllers.Account.doLink
 GET     /accounts/merge             controllers.Account.askMerge
 POST    /accounts/merge             controllers.Account.doMerge
 
-GET     /login/password/forgot     controllers.Signup.forgotPassword(email: String ?= "")
-POST    /login/password/forgot     controllers.Signup.doForgotPassword
+GET     /login/password/forgot      controllers.Signup.forgotPassword(email: String ?= "")
+POST    /login/password/forgot      controllers.Signup.doForgotPassword
+
+GET     /get-announcements          controllers.AnnouncementController.getAnnouncements
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
@@ -71,8 +73,6 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 #For Testing ONLY
 POST    /signupTest                 controllers.Application.doSignupForTest
 POST    /loginTest                  controllers.Application.doLoginForTest
-
-
 
 #User Info Service
 GET		/get-user-info				controllers.UserController.getUserInfo
