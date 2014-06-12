@@ -11,6 +11,21 @@ minibean.controller('UIController', function($scope, $location, $anchorScroll) {
     };
 });
 
+minibean.controller('AnnouncementsWidgetController',function($scope, $http, announcementsWidgetService) {
+    $scope.announcements = announcementsWidgetService.Announcements.get();
+    //alert(JSON.stringify($scope.announcements));
+});
+
+minibean.service('announcementsWidgetService',function($resource) {
+    this.Announcements = $resource(
+            '/get-announcements',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+});
+
 ///////////////////////// Search Service Start //////////////////////////////////
 minibean.service('searchService',function($resource){
 	this.userSearch = $resource(
@@ -121,11 +136,8 @@ minibean.service('notificationMarkReadService',function($resource){
 	);
 });
 
-
-
 minibean.controller('UserInfoServiceController',function($scope,userInfoService){
 		$scope.userInfo = userInfoService.UserInfo.get();
-	  
 });
 
 minibean.controller('ApplicationController',function($scope,$location, userInfoService, userNotification, userSimpleNotifications,
@@ -548,7 +560,6 @@ minibean.controller('FriendsWidgetController',function($scope, friendWidgetServi
 ///////////////////////// My Friends Widget End //////////////////////////////////
 
 
-
 ///////////////////////// User Friends Widget Service Start //////////////////////////////////
 minibean.service('userFriendWidgetService',function($resource){
 	this.UserFriends = $resource(
@@ -712,8 +723,6 @@ minibean.controller('UnknownCommunityWidgetController',function($scope, usSpinne
 });
 
 ///////////////////////// User UnJoined Communities Widget End //////////////////////////////////
-
-
 
 minibean.service('friendService',function($resource){
 	this.UserFriends = $resource(
@@ -2020,7 +2029,6 @@ minibean.controller('ShowArticleController',function($scope, $modal,$routeParams
 	    });
 	    
 	  };
-	 
 	  
 	  $scope.deleteArticle = function (id){
 		  deleteArticleService.DeleteArticle.get({id :id}, function(data){
@@ -2033,7 +2041,6 @@ minibean.controller('ShowArticleController',function($scope, $modal,$routeParams
 			  
 		  });
 	  }
-	
 	
 	 $scope.changeInsideImage = function(article_id) {
 		 angular.forEach($scope.result, function(element, key){
@@ -2169,7 +2176,7 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 
 minibean.service('ArticleService',function($resource){
 	this.ArticleInfo = $resource(
-			'/Article/:id',
+			'/article/:id',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
 				get: {method:'get'}

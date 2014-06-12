@@ -1,8 +1,7 @@
 <div id="myCommunity" class="general-box">
     <div class="con-title">
         <a href="/#/about/myCommunities/" class="text-muted">
-            <span class="icon-box icon-box-blueDark icon-title-community"></span>
-            My Community
+            <span class="icon-box icon-box-blueDark icon-title-community"></span>我的社群
         </a>
     </div>
     <!-- <div id="div1" class="innerAll" style="overflow-y: scroll;height: 150px;">
@@ -15,7 +14,7 @@
 					<p  style="color: #0083C5; margin-top: 0%; margin-bottom: 0%;">{{fvm.dn|characters:15:false}}</p>
 					<div style="width: 100%; float: left;">
 						<p style="margin-top: 0%; margin-bottom: 1%; margin-right: 5%; float: left; color: black;"></p>
-						<p style="margin-top: 0%; margin-bottom: 1%; color: #77737E;">Members ({{fvm.mm}})</p>
+						<p style="margin-top: 0%; margin-bottom: 1%; color: #77737E;">({{fvm.mm}})位成員</p>
 					</div>
 				</div>
 			</div>
@@ -29,7 +28,7 @@
             <!--img src="/community-mini-image-by-id/{{fvm.id}}"-->
             <img src="{{fvm.gi}}">
             <p><a href="#/community/{{fvm.id}}/moment"><b><font>{{fvm.dn|characters:15:false}}</font></b></a><br>
-            <span class="community-member-counter"><font>{{fvm.mm}} members</font></span></p>
+            <span class="community-member-counter"><font>{{fvm.mm}}位成員</font></span></p>
         </li>
         <!-- <li style="text-align: center;width: 100%; float: left; background-color: rgb(245, 245, 245);"data-ng-show="!result.isMore"><a data-ng-show="!noMoreResult" data-ng-click="nextMyGroups()"  ><span style="color: cornflowerblue;font-size: smaller;">See More</span></a></li> -->
     </ul>
@@ -40,20 +39,15 @@
 	<div class="widget" style="width: 100%;float: left">
 		<div class="widget-head border-bottom bg-gray">
 			<h5 class="pull-left margin-none innerAll">
-				My Groups 
+				我的社群 
 			</h5>
 			<div class="pull-right">
 				<a href="/#/myGroups/myGroups" class="text-muted"> <label>See All>></label>
 				</a>
 			</div>
 		</div>
-
-
 		<div class="widget-body margin-none">
 			<div class="innerAll">
-				
-				
-				
 				<a data-ng-href="#/community/{{fvm.id}}" ng-repeat="fvm in result.fvm">
 					<div style="float: left;width: 100%" >
 						<img style="float: left;"
@@ -63,12 +57,11 @@
 							<p  style="color: #0083C5; margin-top: 0%; margin-bottom: 0%;">{{fvm.dn|characters:15:false}}</p>
 							<div style="width: 100%; float: left;">
 								<p style="margin-top: 0%; margin-bottom: 1%; margin-right: 5%; float: left; color: black;"></p>
-								<p style="margin-top: 0%; margin-bottom: 1%; color: #77737E;">Members ({{fvm.mm}})</p>
+								<p style="margin-top: 0%; margin-bottom: 1%; color: #77737E;">({{fvm.mm}})位成員</p>
 							</div>
 						</div>
 					</div>
 				</a>
-				
 				<button data-ng-show="!noMoreResult" data-ng-click="nextMyGroups()" >see more</button>
 			</div>
 		</div>

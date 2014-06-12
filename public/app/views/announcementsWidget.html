@@ -1,0 +1,12 @@
+<div id="announce" class="general-box" ng-show="announcements.length > 0">
+    <div class="con-title">
+        <span class="icon-box icon-box-red icon-title-announce"></span>通知大家
+    </div>
+    <div class="content-wrapper">
+        <ul>
+            <li data-ng-repeat="announcement in announcements">
+                <a href="#/announcement/{{announcement.id}}">{{announcement.t|characters:15:false}}</a>
+            </li>
+        </ul>
+    </div>
+</div>
