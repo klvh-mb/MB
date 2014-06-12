@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import models.Community;
 import models.Location;
@@ -19,12 +20,9 @@ import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.OrFilterBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 
-import play.Logger;
-import play.Logger.ALogger;
 import play.Play;
 import play.Routes;
 import play.data.Form;
-import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -34,13 +32,12 @@ import processor.FeedProcessor;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Tuple;
 import viewmodel.PostIndexVM;
 import views.html.signup;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
-import views.*;
+
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
@@ -48,8 +45,6 @@ import com.feth.play.module.pa.user.AuthUser;
 import com.github.cleverage.elasticsearch.IndexQuery;
 import com.github.cleverage.elasticsearch.IndexResults;
 import com.mnt.exception.SocialObjectNotJoinableException;
-import com.typesafe.plugin.RedisPlugin;
-
 import common.model.TargetProfile;
 import common.model.TargetYear;
 
@@ -78,7 +73,7 @@ public class Application extends Controller {
 		
 		List<Community> communities = localUser.getListOfJoinedCommunities();
 		
-		List<String> post_ids = FeedProcessor.buildPostQueueFromCommunities(communities, 20);
+		Set<Tuple> post_ids = FeedProcessor.buildPostQueueFromCommunities(communities, 20);
 		
 		logger.underlyingLogger().debug("getting in applyRelevances");
 		FeedProcessor.applyRelevances(post_ids, localUser.id);
