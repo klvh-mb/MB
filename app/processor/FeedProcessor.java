@@ -1,6 +1,7 @@
 package processor;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +14,7 @@ import javax.persistence.criteria.Root;
 
 import org.joda.time.DateTime;
 
+import models.Community;
 import models.Post;
 import models.SocialRelation;
 import models.SocialRelation.Action;
@@ -158,16 +160,16 @@ public class FeedProcessor {
 				);
 	}
 	
-	public static Set<String> getMomentsFromRedis(Long community_id, int offset) {
+	public static List<String> buildPostQueueFromCommunities(List<Community> communities, int offset) {
+		List<String> post_ids = new ArrayList<String>();
 		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 		Jedis j = jedisPool.getResource();
-		return j.zrange(MOMENT + community_id.toString(), 0, offset);
-	}
-	
-	public static Set<String> getQnAsFromRedis(Long community_id, int offset) {
-		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
-		Jedis j = jedisPool.getResource();
-		return j.zrange(QNA + community_id.toString(), 0, offset);
+		for(Community c : communities) {
+			post_ids.addAll(j.zrange(MOMENT + c.id.toString(), 0, offset));
+			post_ids.addAll(j.zrange(QNA + c.id.toString(), 0, offset));
+		}
+		jedisPool.returnResource(j);
+		return post_ids;
 	}
 
 	public static void applyRelevances(List<String> post_ids, Long userId) {
@@ -180,7 +182,10 @@ public class FeedProcessor {
 		for(String pid :post_ids){
 			j.rpush(USER + userId, pid);
 		}
-		
+		jedisPool.returnResource(j);
 	}
+	
+	
+	
 	
 }

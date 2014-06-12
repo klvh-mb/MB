@@ -78,13 +78,7 @@ public class Application extends Controller {
 		
 		List<Community> communities = localUser.getListOfJoinedCommunities();
 		
-		List<String> post_ids = new ArrayList<>();
-		
-		for(Community c : communities) {
-					//logger.underlyingLogger().debug();
-			post_ids.addAll(FeedProcessor.getMomentsFromRedis(c.getId(), 20));
-			post_ids.addAll(FeedProcessor.getQnAsFromRedis(c.getId(), 20));
-		}
+		List<String> post_ids = FeedProcessor.buildPostQueueFromCommunities(communities, 20);
 		
 		logger.underlyingLogger().debug("getting in applyRelevances");
 		FeedProcessor.applyRelevances(post_ids, localUser.id);
