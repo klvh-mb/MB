@@ -17,7 +17,7 @@ import com.typesafe.plugin.MailerPlugin;
 
 public class MailJob implements Runnable {
 
-    private static final String MAIL_FROM = "miniBean";
+    private static final String MAIL_FROM = "minibean.app@gmail.com";
 
 	private final Mail mail;
 
@@ -44,7 +44,7 @@ public class MailJob implements Runnable {
 	public void run() {
 		
 		final MailerAPI api = play.Play.application().plugin(MailerPlugin.class).email();
-
+        api.setCharset("UTF-8");
 		api.setSubject(mail.getSubject());
 		api.addRecipient(mail.getRecipients());
 		api.addFrom(mail.getFrom());
