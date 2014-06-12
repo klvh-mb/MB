@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +21,6 @@ import models.User;
 
 import org.apache.commons.io.FileUtils;
 
-import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -30,8 +28,6 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 import viewmodel.CommunitiesParentVM;
 import viewmodel.CommunitiesWidgetChildVM;
 import viewmodel.CommunityPostCommentVM;
@@ -47,7 +43,6 @@ import viewmodel.SocialObjectVM;
 import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotJoinableException;
 import com.mnt.exception.SocialObjectNotLikableException;
-import com.typesafe.plugin.RedisPlugin;
 
 import domain.CommentType;
 import domain.PostType;
@@ -56,11 +51,6 @@ import domain.SocialObjectType;
 public class CommunityController extends Controller{
 
 	private static play.api.Logger logger = play.api.Logger.apply("application");
-	private static String prefix = Play.application().configuration().getString("keyprefix", "prod_");
-	private static final String USER = prefix + "user_";
-	private static final String MOMENT = prefix + "moment_";
-	private static final String QNA = prefix + "qna_";
-	
 	@Transactional
 	public static Result getUserUnJoinCommunity() {
 		logger.underlyingLogger().debug("Start");
@@ -481,18 +471,10 @@ public class CommunityController extends Controller{
 			try {
 				//NOTE: Currently commentType is hardcoded to SIMPLE
 				comment = (Comment) p.onComment(localUser, commentText, CommentType.SIMPLE);
-				p.setUpdatedDate(new Date());
-				p.merge();
 			} catch (SocialObjectNotCommentableException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
-			Jedis j = jedisPool.getResource();
-			
-			j.zadd(MOMENT + c.id, new Date().getTime(), p.id.toString());
-			jedisPool.returnResource(j);
-			
 			return ok(Json.toJson(comment.id));
 		}
 		return ok("Be member of community");
@@ -513,12 +495,6 @@ public class CommunityController extends Controller{
 			if(Boolean.parseBoolean(withPhotos)) {
 				p.ensureAlbumExist();
 			}
-			
-			JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
-			Jedis j = jedisPool.getResource();
-			
-			j.zadd(MOMENT + c.id,  new Date().getTime(), p.id.toString());
-			jedisPool.returnResource(j);
 			
 			p.indexPost(Boolean.parseBoolean(withPhotos));
 			
@@ -586,12 +562,6 @@ public class CommunityController extends Controller{
 				p.ensureAlbumExist();
 			}
 			
-			JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
-			Jedis j = jedisPool.getResource();
-			
-			j.zadd(QNA + c.id, new Date().getTime(), p.id.toString());
-			jedisPool.returnResource(j);
-			
 			p.indexPost(Boolean.parseBoolean(withPhotos));
 			return ok(Json.toJson(p.id));
 		}
@@ -612,19 +582,9 @@ public class CommunityController extends Controller{
 		if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
 			try {
 				p.onComment(localUser, answerText, CommentType.ANSWER);
-				
-				p.setUpdatedDate(new Date());
-				p.merge();
 			} catch (SocialObjectNotCommentableException e) {
 				e.printStackTrace();
 			}
-			
-			JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
-			Jedis j = jedisPool.getResource();
-			
-			j.zadd(MOMENT + c.id, new Date().getTime(), p.id.toString());
-			jedisPool.returnResource(j);
-			
 			return ok(Json.toJson(p.id));
 		}
 		return ok("you are not member of community");

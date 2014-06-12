@@ -1001,7 +1001,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	public List<Post> getNewsfeeds(int offset, int page) {
 		List<String> ids = FeedProcessor.getUserFeedIds(this, offset, page);
 		String idsForIn = ids.toString().replace("[", "").replace("]", "");
-		Query query = JPA.em().createQuery("SELECT p from Post p where p.id in (" + idsForIn + ") order by p.auditFields.updatedDate desc");
+		Query query = JPA.em().createQuery("SELECT p from Post p where p.id in (" + idsForIn + ") order by p.auditFields.createdDate desc");
 		if(ids.size()== 0){
 			return null;
 		}
