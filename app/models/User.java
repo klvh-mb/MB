@@ -1,5 +1,6 @@
 package models;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -24,6 +26,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import common.image.FaceFinder;
 import models.Community.CommunityType;
 import models.Notification.NotificationType;
 import models.SocialRelation.Action;
@@ -389,8 +392,13 @@ public class User extends SocialObject implements Subject, Socializable {
 
 	public Resource setPhotoProfile(java.io.File file) throws IOException {
 		ensureAlbumPhotoProfileExist();
+
+        // Pre-process file to have face centered.
+        BufferedImage croppedImage = FaceFinder.getPictureWithFace(file);
+        ImageIO.write(croppedImage, "jpg", file);
+
 		Resource newPhoto = this.albumPhotoProfile.addFile(file,
-				SocialObjectType.PROFILE_PHOTO);
+                SocialObjectType.PROFILE_PHOTO);
 		this.albumPhotoProfile.setHighPriorityFile(newPhoto);
 		newPhoto.save();
 		return newPhoto;
@@ -399,7 +407,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	public Resource setCoverPhoto(File source) throws IOException {
 		ensureCoverPhotoProfileExist();
 		Resource cover_photo = this.albumCoverProfile.addFile(source,
-				SocialObjectType.COVER_PHOTO);
+                SocialObjectType.COVER_PHOTO);
 		this.albumCoverProfile.setHighPriorityFile(cover_photo);
 		cover_photo.save();
 		return cover_photo;
@@ -713,7 +721,7 @@ public class User extends SocialObject implements Subject, Socializable {
 
 	public static void merge(final AuthUser oldUser, final AuthUser newUser) {
 		User.findByAuthUserIdentity(oldUser).merge(
-				User.findByAuthUserIdentity(newUser));
+                User.findByAuthUserIdentity(newUser));
 	}
 
 	@JsonIgnore
@@ -741,7 +749,7 @@ public class User extends SocialObject implements Subject, Socializable {
 
 	public static User findByEmail(final String email) {
 		Query q = JPA.em().createQuery(
-				"SELECT u FROM User u where active = ?1 and email = ?2");
+                "SELECT u FROM User u where active = ?1 and email = ?2");
 		q.setParameter(1, true);
 		q.setParameter(2, email);
 		return (User) q.getSingleResult();
@@ -937,9 +945,9 @@ public class User extends SocialObject implements Subject, Socializable {
 	
 	public int leaveCommunity(Community community) {
 		Query query = JPA.em().createQuery("SELECT sr FROM SocialRelation sr " +
-				" where sr.actionType=?1 And  sr.action = ?4 And " +
-				" sr.actor = ?2 and sr.target = ?3", SocialRelation.class
-				);
+                " where sr.actionType=?1 And  sr.action = ?4 And " +
+                " sr.actor = ?2 and sr.target = ?3", SocialRelation.class
+        );
 		query.setParameter(1, SocialRelation.ActionType.GRANT);
 		query.setParameter(2, this.id);
 		query.setParameter(3, community.id);
@@ -983,7 +991,7 @@ public class User extends SocialObject implements Subject, Socializable {
 		query.setParameter(1, SecondarySocialRelation.Action.BOOKMARKED);
 		query.setParameter(2, this.id);
 		query.setParameter(3, SocialObjectType.ARTICLE);
-		System.out.println(limit+ " :: "+offset +":: (List<Post>)query.getResultList(); :: "+query.getResultList().size());
+		System.out.println(limit + " :: " + offset + ":: (List<Post>)query.getResultList(); :: " + query.getResultList().size());
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
 		
@@ -1014,7 +1022,7 @@ public class User extends SocialObject implements Subject, Socializable {
 	
 	public List<Post> getMyLiveUpdates(Long timestamp) {
 		Query query = JPA.em().createQuery("SELECT p from Post p where p.community in (select sr.target " +
-				"from SocialRelation sr where sr.actor=?1 and sr.action = ?2) and "+(timestamp-60)+" < UNIX_TIMESTAMP(p.auditFields.createdDate) and  "+ timestamp+" > UNIX_TIMESTAMP(p.auditFields.createdDate) order by p.auditFields.createdDate desc");
+                "from SocialRelation sr where sr.actor=?1 and sr.action = ?2) and " + (timestamp - 60) + " < UNIX_TIMESTAMP(p.auditFields.createdDate) and  " + timestamp + " > UNIX_TIMESTAMP(p.auditFields.createdDate) order by p.auditFields.createdDate desc");
 		query.setParameter(1, this.id);
 		query.setParameter(2, SocialRelation.Action.MEMBER);
 		query.setMaxResults(5);
