@@ -17,6 +17,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
+import play.db.jpa.Transactional;
 
 /**
  * Announcement are not frequently updated. Put in the cache and set ttl to e.g. 10mins.
@@ -121,5 +122,26 @@ public class Announcement  {
         return "[" + location.locationCode + "|" + announcementType + 
                 "|" + title + "|" + description + "|" + icon + "|" + fromDate + 
                 "|" + toDate + "]";
+    }
+    
+    @Transactional
+    public void save() {
+        JPA.em().persist(this);
+        JPA.em().flush();     
+    }
+      
+    @Transactional
+    public void delete() {
+        JPA.em().remove(this);
+    }
+    
+    @Transactional
+    public void merge() {
+        JPA.em().merge(this);
+    }
+    
+    @Transactional
+    public void refresh() {
+        JPA.em().refresh(this);
     }
 }

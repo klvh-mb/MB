@@ -4,10 +4,13 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import org.joda.time.DateTime;
+
 import com.mnt.exception.SocialObjectNotJoinableException;
 
 import common.model.TargetYear;
 import play.db.jpa.JPA;
+import models.Announcement;
 import models.ArticleCategory;
 import models.Community;
 import models.Icon;
@@ -22,12 +25,27 @@ import models.Location.LocationCode;
 public class DataBootstrap {
     
     public static void bootstrap() {
+        bootstrapAnnouncement();
         bootstrapIcon();
         bootstrapArticleCategory();
         bootstrapUser();
         bootstrapLocation();
         bootstrapCommunity();
 	}
+    
+    private static void bootstrapAnnouncement() {
+        Query q = JPA.em().createQuery("Select count(a) from Announcement a");
+        Long count = (Long)q.getSingleResult();
+        if (count > 0) {
+            return;
+        }
+        
+        Announcement announcement = 
+                new Announcement(
+                        "歡迎來到 miniBean 小萌豆! 係呢度您地會搵到最啱傾嘅媽媽爸爸社群! 請開心分享!", 
+                        new DateTime(2015,12,31,0,0).toDate());
+        announcement.save();
+    }
     
     private static void bootstrapIcon() {
         Query q = JPA.em().createQuery("Select count(i) from Icon i");

@@ -484,6 +484,12 @@ text-decoration: none;
 /*Setup Box End*/
 
 /* Box Content Start */
+#announce a {
+    color: #D8596D;
+}
+#announce a:hover {
+    color: #D8596D;
+}
 .content-wrapper {
     padding: 2px 10px;
     margin-bottom: 0;
