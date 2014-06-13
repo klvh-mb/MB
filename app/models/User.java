@@ -998,19 +998,22 @@ public class User extends SocialObject implements Subject, Socializable {
 		return (List<Article>)query.getResultList();
 	}
 	
-	public List<Post> getNewsfeeds(int offset, int page) {
-		List<String> ids = FeedProcessor.getUserFeedIds(this, offset, page);
-		String idsForIn = ids.toString().replace("[", "").replace("]", "");
-		Query query = JPA.em().createQuery("SELECT p from Post p where p.id in (" + idsForIn + ") order by p.auditFields.updatedDate desc");
-		if(ids.size()== 0){
-			return null;
-		}
+	public List<Post> getNewsfeeds(int offset, int limit) {
+		Query query = JPA.em().createQuery("SELECT p from Post p where p.id in ( select sr.target from  SocialRelation sr where sr.action in (?1 , ?3) and sr.actor = ?2  and sr.targetType = ?5 ) or p.id in ( select c.socialObject from Comment c where c.id in (select sr.target from  SocialRelation sr where sr.action = ?4 and sr.actor = ?2)) order by p.auditFields.updatedDate desc");
+		query.setParameter(1, SocialRelation.Action.POSTED);
+		query.setParameter(3, SocialRelation.Action.LIKED);
+		query.setParameter(4, SocialRelation.Action.COMMENTED);
+		query.setParameter(5, SocialObjectType.POST);
+		query.setParameter(2, this.id);
+		System.out.println("getNewsfeeds :: "+limit+ " :: "+offset +":: (List<Post>)query.getResultList(); :: "+query.getResultList().size());
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
 		return (List<Post>)query.getResultList();
 	}
 	
 	@JsonIgnore
 	public List<Post> getUserNewsfeeds(int offset, int limit) {
-		Query query = JPA.em().createQuery("Select p from Post p where p.id in (select sr.target from  SocialRelation sr where sr.action = ?1 and sr.actor = ?2)");	
+		Query query = JPA.em().createQuery("Select p from Post p where p.id in (select sr.target from  SocialRelation sr where sr.action = ?1 and sr.actor = ?2) order by p.auditFields.createdDate desc");	
 		query.setParameter(1, SocialRelation.Action.POSTED);
 		query.setParameter(2, this.id);
 		System.out.println(limit+ " :: "+offset +":: (List<Post>)query.getResultList(); :: "+query.getResultList().size());
