@@ -61,7 +61,9 @@ public class FriendsController extends Controller {
 		List<FriendWidgetChildVM> friends = new ArrayList<>();
 		for(Object friend1 : localUser.getSuggestedFriends()) {
 			User friend = (User) friend1;
-			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName));
+			if(friend.emailValidated == true) {
+				friends.add(new FriendWidgetChildVM(friend.id, friend.displayName));
+			}
 			System.out.println(" NAME :: "+friend.displayName);
 			++count;
 			if(count == 8) {
