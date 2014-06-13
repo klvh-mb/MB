@@ -1,9 +1,8 @@
 package models;
 
-import play.data.format.Formats;
-
 import javax.persistence.*;
-import java.util.Date;
+
+import common.model.TargetGender;
 
 @Entity
 public class UserChild {
@@ -12,9 +11,14 @@ public class UserChild {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
 
-    @Column(nullable=false)
-	public String gender;
-
-    @Formats.DateTime(pattern = "yyyy-MM-dd")
-	public Date date_of_birth;
+    @Enumerated(EnumType.STRING)
+    public TargetGender gender;
+    
+    public String birthYear;
+    
+    public String birthMonth;
+    
+    public String birthDay;
+    
+    public User user;
 }

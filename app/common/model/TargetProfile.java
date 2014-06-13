@@ -37,7 +37,7 @@ public class TargetProfile {
         List<TargetYear> childYears = new ArrayList<TargetYear>();
         
         // parent
-        profile.parentGender = TargetGender.valueOfStr(user.getGender());
+        profile.parentGender = user.userInfo.parent_gender;
         profile.location = user.getLocation();
 
         // children
@@ -51,15 +51,17 @@ public class TargetProfile {
 
             boolean hasBoy = false, hasGirl = false;
             for (UserChild child : children) {
-                if (TargetGender.valueOf(child.gender) == TargetGender.Male) {
+                if (TargetGender.Male.equals(child.gender)) {
                     hasBoy = true;
                 }
-                else if (TargetGender.valueOf(child.gender) == TargetGender.Female) {
+                else if (TargetGender.Female.equals(child.gender)) {
                     hasGirl = true;
                 }
 
-                if (child.date_of_birth != null) {
-                    DateTime birthDate = new DateTime(child.date_of_birth.getTime());
+                if (child.birthYear != null && child.birthMonth != null) {
+                    DateTime birthDate = new DateTime(
+                            Integer.valueOf(child.birthYear), Integer.valueOf(child.birthMonth), 
+                            Integer.valueOf(child.birthDay), 0, 0);
                     Months months = Months.monthsBetween(birthDate, DateTime.now());
 
                     if (childrenMinAge == null || months.getMonths() < childrenMinAge) {

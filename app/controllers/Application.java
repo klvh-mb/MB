@@ -56,11 +56,6 @@ public class Application extends Controller {
 	public static final String SUPER_ADMIN_ROLE = "SUPER_ADMIN";
 	private static play.api.Logger logger = play.api.Logger.apply("application");
 	
-	private static String prefix = Play.application().configuration().getString("keyprefix", "prod_");
-	private static final String USER = prefix + "user_";
-	private static final String MOMENT = prefix + "moment_";
-	private static final String QNA = prefix + "qna_";
-	
 	@Transactional
 	public static Result index() {
 			
@@ -87,7 +82,15 @@ public class Application extends Controller {
 	 *     ii. welcome page
 	 */
 	public static Result home(User user) {
-		logger.underlyingLogger().debug("Home ");
+		logger.underlyingLogger().debug("home");
+		
+		if (user.userInfo == null) {
+	        user.userInfo = new UserInfo();
+	        user.userInfo.save();
+	        
+	        return ok(views.html.signup_info.render());
+		}
+		
 	    if (user.isNewUser()) {
 	        TargetProfile targetProfile = TargetProfile.fromUser(user);
 	        
@@ -122,24 +125,20 @@ public class Application extends Controller {
 	        // return welcome page
 	        
 	        user.setNewUser(false);
-	        return ok(views.html.home.render());
 	    }
-	    	if(UserInfo.findByUserId(user.id)) {
-	    		return ok(views.html.home.render());
-	    	}
-	    	else {
-	    		return ok(views.html.signup_info.render());
-	    	}
 	    
+	    return ok(views.html.home.render());
 	}
 	
 	@Transactional
 	public static Result saveSignupInfo() {
 		final User localUser = getLocalUser(session());
-		final Form<UserInfo> filledForm =form(UserInfo.class)
-				.bindFromRequest();
-		filledForm.get().save(localUser);
-		return ok(views.html.home.render());
+		final Form<UserInfo> filledForm = form(UserInfo.class).bindFromRequest();
+		
+		UserInfo userInfo = localUser.userInfo;
+		userInfo.merge(filledForm.get());
+		userInfo.save();
+		return home(localUser);
 	}
 	
 	public static User getLocalUser(final Session session) {

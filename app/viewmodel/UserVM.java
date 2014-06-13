@@ -1,7 +1,5 @@
 package viewmodel;
 
-import java.util.Date;
-
 import models.Location;
 import models.User;
 
@@ -10,7 +8,7 @@ public class UserVM {
 	public String lastName;
 	public String displayName;
 	public String email;
-	public Date date_of_birth;
+	public String birthYear;
 	public String gender;
 	public String aboutMe;
 	public Location location;
@@ -23,8 +21,8 @@ public class UserVM {
 		this.lastName = user.lastName;
 		this.displayName = user.displayName;
 		this.email = user.email;
-		this.date_of_birth = user.date_of_birth;
-		this.gender = user.gender;
+		this.birthYear = user.userInfo.parent_birth_year;
+		this.gender = user.userInfo.parent_gender.name();
 		this.aboutMe = user.aboutMe;
 		this.location = user.location;
 		this.id = user.id;

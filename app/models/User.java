@@ -11,16 +11,14 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Query;
-//import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -75,19 +73,13 @@ public class User extends SocialObject implements Subject, Socializable {
 	@JsonIgnore
 	public Date lastLogin;
 
-	@Formats.DateTime(pattern = "yyyy-MM-dd")
-	public Date date_of_birth;                  // TODO: replaced by birthYear
-
 	@Lob
 	public String aboutMe;
 
     ///// Targeting Attributes /////
-    @Column(nullable=true)
-    public Integer birthYear;
-
-    @Column(nullable=true)
-	public String gender;
-
+	@OneToOne
+	public UserInfo userInfo;
+	
     @ManyToOne
     public Location location;
 
@@ -1078,22 +1070,6 @@ public class User extends SocialObject implements Subject, Socializable {
 		this.lastLogin = lastLogin;
 	}
 
-	public Date getDate_of_birth() {
-		return date_of_birth;
-	}
-
-	public void setDate_of_birth(Date date_of_birth) {
-		this.date_of_birth = date_of_birth;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
 	public String getAboutMe() {
 		return aboutMe;
 	}
@@ -1101,14 +1077,6 @@ public class User extends SocialObject implements Subject, Socializable {
 	public void setAboutMe(String aboutMe) {
 		this.aboutMe = aboutMe;
 	}
-
-    public Integer getBirthYear() {
-        return birthYear;
-    }
-
-    public void setBirthYear(Integer birthYear) {
-        this.birthYear = birthYear;
-    }
 
     public Location getLocation() {
 		return location;

@@ -97,21 +97,22 @@
 			                    	</div>
 			                    	
 			                    	<div class="col-md-6">
-			                    		<span editable-select="result.gender" e-name="gender" e-ng-options="g.value as g.text for g in genders">
-			                    			{{ (genders | filter:{value: result.gender})[0].text || 'Not set' }}
-			                    		</span>	
+			                    		<span editable-select="result.userInfo.parent_gender" e-name="gender" e-ng-options="g.value as g.text for g in genders">
+			                    			{{ (genders | filter:{value: result.userInfo.parent_gender})[0].text || 'Not set' }}
+			                    		</span>
 			                    	</div>
 			                  </div>
 			                  
 			                  <div class="row">
 			                  	<div class="col-md-6">
-			                   		<label>Date of Birth:</label>
+			                   		<label>Year of Birth:</label>
 			                   	</div>
 			                   	
 			                   	<div class="col-md-6">
-								    <span editable-bsdate="result.date_of_birth"  e-datepicker-popup="dd-MMMM-yyyy">{{ result.date_of_birth | date:'dd/MM/yyyy' || 'Not set' }}
-								    </span>
-								    
+								    <!--span editable-bsdate="result.date_of_birth" e-datepicker-popup="dd-MMMM-yyyy">{{result.date_of_birth | date:'dd/MM/yyyy' || 'Not set' }}</span-->
+							  	    <span editable-select="result.userInfo.parent_birth_year" e-name="birth_year" e-ng-options="y.value as y.text for y in years">
+                                        {{ (years | filter:{value: result.userInfo.parent_birth_year})[0].text || 'Not set' }}
+                                    </span>
 							  	</div>
 			                  </div>
 			                  
@@ -121,7 +122,7 @@
 			                   		</div>
 			                   		
 			                   		<div class="col-md-6">
-			                   			<span editable-text="result.location">{{ result.location || 'Not set' }}</span>
+			                   			<span editable-text="result.location">{{ result.location.displayName || 'Not set' }}</span>
 			                   		</div>
 			                  </div>
 			                  

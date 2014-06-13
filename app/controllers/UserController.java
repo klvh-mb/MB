@@ -1,13 +1,10 @@
 package controllers;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 
 import models.Community;
 import models.Notification;
@@ -15,7 +12,6 @@ import models.Post;
 import models.User;
 
 import org.apache.commons.io.FileUtils;
-import org.codehaus.jackson.JsonNode;
 
 import play.data.DynamicForm;
 import play.data.Form;
@@ -44,9 +40,6 @@ public class UserController extends Controller {
 		System.out.println(FeedProcessor.getUserFeedIds(localUser));
 		return ok(Json.toJson(userInfo));
 	}
-	
-	
-	
 	
 	@Transactional(readOnly=true)
 	public static Result aboutUser() {
@@ -136,15 +129,16 @@ public class UserController extends Controller {
 
 	@Transactional
 	public static Result updateUserProfileData() {
-		Form<User> form = DynamicForm.form(User.class).bindFromRequest("firstName","lastName","gender", "aboutMe", "date_of_birth","location");
+		Form<User> form = DynamicForm.form(User.class).bindFromRequest(
+		        "firstName","lastName","gender","aboutMe","birth_year","location");
 		User userForUpdation = form.get();
 		final User localUser = Application.getLocalUser(session());
 		localUser.firstName = userForUpdation.firstName;
 		localUser.lastName = userForUpdation.lastName;
-		localUser.gender = userForUpdation.gender;
 		localUser.aboutMe = userForUpdation.aboutMe;
 		localUser.location = userForUpdation.location;
-		localUser.date_of_birth = userForUpdation.date_of_birth;
+		localUser.userInfo.parent_birth_year = userForUpdation.userInfo.parent_birth_year;
+		localUser.userInfo.parent_gender = userForUpdation.userInfo.parent_gender;
 		localUser.merge();
 		return ok("true");
 	}
