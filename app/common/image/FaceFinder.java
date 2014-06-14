@@ -34,9 +34,9 @@ public class FaceFinder {
         LOGGER.underlyingLogger().info("getPictureWithFace - w="+origImage.getWidth()+" h="+origImage.getHeight());
 
         List<Rect> rects = findFaces(origImage, "/haar/HCSB.txt");
-        if (rects.size() == 0) {
-            rects = findFaces(origImage, "/haar/frontaldefault.txt");
-        }
+//        if (rects.size() == 0) {
+//            rects = findFaces(origImage, "/haar/frontaldefault.txt");
+//        }
 
         return fitForImage(rects, origImage);
     }
@@ -139,11 +139,21 @@ public class FaceFinder {
             cropSpec.left = Math.max(refX - (origHeight / 2), 0);
             cropSpec.width = origHeight;
             cropSpec.height = origHeight;
+
+            int maxLeft = cropSpec.left + cropSpec.width;
+            if (maxLeft > origWidth) {
+                cropSpec.left -= (maxLeft - origWidth);
+            }
         } else {
             cropSpec.left = 0;
             cropSpec.top = Math.max(refY - (origWidth / 2), 0);
             cropSpec.width = origWidth;
             cropSpec.height = origWidth;
+
+            int maxTop = cropSpec.top + cropSpec.height;
+            if (maxTop > origHeight) {
+                cropSpec.top -= (maxTop - origHeight);
+            }
         }
         return cropSpec;
     }
