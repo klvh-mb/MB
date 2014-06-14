@@ -136,7 +136,7 @@ public class Application extends Controller {
 		final Form<UserInfo> filledForm = form(UserInfo.class).bindFromRequest();
 		
 		UserInfo userInfo = localUser.userInfo;
-		userInfo.merge(filledForm.get());
+		userInfo.merge(filledForm.get(),localUser);
 		userInfo.save();
 		return home(localUser);
 	}

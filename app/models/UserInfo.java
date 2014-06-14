@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.Transient;
 
 import common.model.TargetGender;
 
@@ -30,12 +31,14 @@ public class UserInfo {
 	public ParentType parent_type;
 	
 	@Enumerated(EnumType.STRING)
+	@Transient
 	public TargetGender bb_gender;
 	
+	@Transient
 	public String bb_birth_year;
-	
+	@Transient
 	public String bb_birth_month;
-	
+	@Transient
 	public String bb_birth_day;
 	
 	public static enum ParentType {
@@ -49,14 +52,22 @@ public class UserInfo {
 	public UserInfo() {
 	}
 	
-	public void merge(UserInfo userInfo) {
+	public void merge(UserInfo userInfo,User localUser) {
 	    this.parent_birth_year = userInfo.parent_birth_year;
 	    this.district = userInfo.district;
 	    this.parent_type = userInfo.parent_type;
-	    this.bb_gender = userInfo.bb_gender;
-	    this.bb_birth_year = userInfo.bb_birth_year;
-	    this.bb_birth_month = userInfo.bb_birth_month;
-	    this.bb_birth_day = userInfo.bb_birth_day;
+	    
+	    UserChild userChild = new UserChild();
+	    
+	    if (userInfo.bb_gender.equals("Male")) {
+	    	userChild.gender = TargetGender.Male;
+        } else {
+        	userChild.gender = TargetGender.Female;   // default
+        }
+	    userChild.birthDay = userInfo.bb_birth_day;
+	    userChild.birthMonth = userInfo.bb_birth_month;
+	    userChild.birthYear = userInfo.bb_birth_year;
+	    userChild.user = localUser;
 	    
 	    if (ParentType.MOM.equals(parent_type) || ParentType.SOON_MOM.equals(parent_type)) {
             this.parent_gender = TargetGender.Female;
@@ -65,6 +76,7 @@ public class UserInfo {
         } else {
             this.parent_gender = TargetGender.Female;   // default
         }
+	    userChild.save();
 	}
 	
 	public static boolean findByUserId(Long id) {
