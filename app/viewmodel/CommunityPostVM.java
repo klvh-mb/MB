@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.Comment;
+import models.Community;
 import models.Post;
 import models.Resource;
 import models.User;
@@ -28,6 +29,7 @@ public class CommunityPostVM {
 	@JsonProperty("nov") public int noOfViews;
 	@JsonProperty("nol") public int noOfLikes;
 	
+	@JsonProperty("isC") public boolean isCommentable=false;
 	@JsonProperty("isLike") public boolean isLike=false;
 	@JsonProperty("isBookmarked") public boolean isBookmarked = false;
 	
@@ -46,9 +48,10 @@ public class CommunityPostVM {
 		postVM.communityId = post.community.id;
 		//need to write logic for showing no of views
 		postVM.noOfViews = 0;
-		
+		Community c = Community.findById(post.community.id);
 		postVM.noOfLikes = post.noOfLikes;
 		postVM.isBookmarked = post.isBookmarkedBy(user);
+		postVM.isCommentable = user.isMemberOf(c);
 		//need to write logic
 		postVM.isLike = post.isLikedBy(user);
 		
@@ -91,8 +94,10 @@ public class CommunityPostVM {
 		//need to write logic for showing no of views
 		postVM.noOfViews = 0;
 		
+		Community c = Community.findById(post.community.id);
 		postVM.noOfLikes = post.noOfLikes;
 		postVM.isBookmarked = post.isBookmarkedBy(localUser);
+		postVM.isCommentable = localUser.isMemberOf(c);
 		//need to write logic
 		postVM.isLike = post.isLikedBy(user);
 		
