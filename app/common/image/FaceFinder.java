@@ -3,7 +3,6 @@ package common.image;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -29,16 +28,32 @@ public class FaceFinder {
      * @return
      * @throws Exception
      */
-    public static BufferedImage getPictureWithFace(File origFile) throws IOException {
+    public static BufferedImage getSquarePictureWithFace(File origFile) throws IOException {
         BufferedImage origImage = ImageIO.read(origFile);
-        LOGGER.underlyingLogger().info("getPictureWithFace - w="+origImage.getWidth()+" h="+origImage.getHeight());
+        LOGGER.underlyingLogger().info("getSquarePictureWithFace - w="+origImage.getWidth()+" h="+origImage.getHeight());
 
         List<Rect> rects = findFaces(origImage, "/haar/HCSB.txt");
 //        if (rects.size() == 0) {
 //            rects = findFaces(origImage, "/haar/frontaldefault.txt");
 //        }
+        return fitForImage(rects, origImage, 1d);
+    }
 
-        return fitForImage(rects, origImage);
+    /**
+     * @param origFile
+     * @param widthToHeightRatio
+     * @return
+     * @throws IOException
+     */
+    public static BufferedImage getRectPictureWithFace(File origFile, double widthToHeightRatio) throws IOException {
+        BufferedImage origImage = ImageIO.read(origFile);
+        LOGGER.underlyingLogger().info("getRectPictureWithFace - w="+origImage.getWidth()+" h="+origImage.getHeight());
+
+        List<Rect> rects = findFaces(origImage, "/haar/HCSB.txt");
+//        if (rects.size() == 0) {
+//            rects = findFaces(origImage, "/haar/frontaldefault.txt");
+//        }
+        return fitForImage(rects, origImage, widthToHeightRatio);
     }
 
 
@@ -65,7 +80,7 @@ public class FaceFinder {
         }
     }
 
-    private static BufferedImage fitForImage(List<Rect> results, BufferedImage origImage) {
+    private static BufferedImage fitForImage(List<Rect> results, BufferedImage origImage, double widthToHeightRatio) {
         try {
             int minLeft = Integer.MAX_VALUE, minTop = Integer.MAX_VALUE;
             int maxLeft = 0, maxTop = 0;
@@ -97,21 +112,21 @@ public class FaceFinder {
 
             CropSpec cropSpec;
             if (results.size() == 0) {
-                cropSpec = getCenterPointCropSpec(origWidth, origHeight);
+                cropSpec = getCenterPointCropSpec(origWidth, origHeight, widthToHeightRatio);
             }
             else if (results.size() == 1) {
                 Rect rect = results.get(0);
-                cropSpec = getReferencePointCropSpec(rect, origWidth, origHeight);
+                cropSpec = getReferencePointCropSpec(rect, origWidth, origHeight, widthToHeightRatio);
             }
             else {
                 int width = maxLeft - minLeft + maxWidth;
                 int height = maxTop - minTop + maxHeight;
-                cropSpec = getReferencePointCropSpec(minLeft, minTop, width, height, origWidth, origHeight);
+                cropSpec = getReferencePointCropSpec(minLeft, minTop, width, height, origWidth, origHeight, widthToHeightRatio);
             }
 
             double percent = (double) cropSpec.width / (double) Math.min(origWidth, origHeight);
             if (percent < 0.3d) {
-                cropSpec = getCenterPointCropSpec(origWidth, origHeight);
+                cropSpec = getCenterPointCropSpec(origWidth, origHeight, widthToHeightRatio);
                 LOGGER.underlyingLogger().info("Falling back to CenterPoint Crop");
             }
 
@@ -123,53 +138,84 @@ public class FaceFinder {
         }
     }
 
-    private static CropSpec getReferencePointCropSpec(Rect refRect, int origWidth, int origHeight) {
+    private static CropSpec getReferencePointCropSpec(Rect refRect, int origWidth, int origHeight, double widthToHeightRatio) {
         return getReferencePointCropSpec(refRect.getLeft(), refRect.getTop(), refRect.getWidth(), refRect.getHeight(),
-                origWidth, origHeight);
+                origWidth, origHeight, widthToHeightRatio);
     }
 
     private static CropSpec getReferencePointCropSpec(int refRectLeft, int refRectTop, int refRectWidth, int refRectHeight,
-                                                      int origWidth, int origHeight) {
+                                                      int origWidth, int origHeight, double widthToHeightRatio) {
         int refX = refRectLeft + (refRectWidth / 2);
         int refY = refRectTop + (refRectHeight / 2);
 
         CropSpec cropSpec = new CropSpec();
-        if (origWidth > origHeight) {
-            cropSpec.top = 0;
-            cropSpec.left = Math.max(refX - (origHeight / 2), 0);
-            cropSpec.width = origHeight;
-            cropSpec.height = origHeight;
+        if (widthToHeightRatio == 1) {
+            if (origWidth > origHeight) {
+                cropSpec.top = 0;
+                cropSpec.left = Math.max(refX - (origHeight / 2), 0);
+                cropSpec.width = origHeight;
+                cropSpec.height = origHeight;
 
-            int maxLeft = cropSpec.left + cropSpec.width;
-            if (maxLeft > origWidth) {
-                cropSpec.left -= (maxLeft - origWidth);
+                int maxLeft = cropSpec.left + cropSpec.width;
+                if (maxLeft > origWidth) {
+                    cropSpec.left -= (maxLeft - origWidth);
+                }
+            } else {
+                cropSpec.left = 0;
+                cropSpec.top = Math.max(refY - (origWidth / 2), 0);
+                cropSpec.width = origWidth;
+                cropSpec.height = origWidth;
+
+                int maxTop = cropSpec.top + cropSpec.height;
+                if (maxTop > origHeight) {
+                    cropSpec.top -= (maxTop - origHeight);
+                }
             }
-        } else {
-            cropSpec.left = 0;
-            cropSpec.top = Math.max(refY - (origWidth / 2), 0);
-            cropSpec.width = origWidth;
-            cropSpec.height = origWidth;
+        }
+        else {
+            if (origWidth > origHeight) {
+                int newHeight = (int) (origWidth / widthToHeightRatio);
+                cropSpec.left = 0;
+                cropSpec.top = Math.max(refY - (newHeight / 2), 0);
+                cropSpec.width = origWidth;
+                cropSpec.height = newHeight;
 
-            int maxTop = cropSpec.top + cropSpec.height;
-            if (maxTop > origHeight) {
-                cropSpec.top -= (maxTop - origHeight);
+                int maxTop = cropSpec.top + cropSpec.height;
+                if (maxTop > origHeight) {
+                    cropSpec.top -= (maxTop - origHeight);
+                }
+            } else {
+                throw new IllegalStateException("Rectangular Crop must have width > height");
             }
         }
         return cropSpec;
     }
 
-    private static CropSpec getCenterPointCropSpec(int origWidth, int origHeight) {
+    private static CropSpec getCenterPointCropSpec(int origWidth, int origHeight, double widthToHeightRatio) {
         CropSpec cropSpec = new CropSpec();
-        if (origWidth > origHeight) {
-            cropSpec.top = 0;
-            cropSpec.left = (origWidth / 2) - (origHeight / 2);
-            cropSpec.width = origHeight;
-            cropSpec.height = origHeight;
-        } else {
-            cropSpec.left = 0;
-            cropSpec.top = (origHeight / 2) - (origWidth / 2);
-            cropSpec.width = origWidth;
-            cropSpec.height = origWidth;
+        if (widthToHeightRatio == 1) {
+            if (origWidth > origHeight) {
+                cropSpec.top = 0;
+                cropSpec.left = (origWidth / 2) - (origHeight / 2);
+                cropSpec.width = origHeight;
+                cropSpec.height = origHeight;
+            } else {
+                cropSpec.left = 0;
+                cropSpec.top = (origHeight / 2) - (origWidth / 2);
+                cropSpec.width = origWidth;
+                cropSpec.height = origWidth;
+            }
+        }
+        else {
+            if (origWidth > origHeight) {
+                int newHeight = (int) (origWidth / widthToHeightRatio);
+                cropSpec.left = 0;
+                cropSpec.top = (origHeight / 2) - (newHeight / 2);
+                cropSpec.width = origWidth;
+                cropSpec.height = newHeight;
+            } else {
+                throw new IllegalStateException("Rectangular Crop must have width > height");
+            }
         }
         return cropSpec;
     }

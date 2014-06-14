@@ -40,7 +40,6 @@ import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.i18n.Messages;
-import processor.FeedProcessor;
 import be.objectify.deadbolt.core.models.Permission;
 import be.objectify.deadbolt.core.models.Role;
 import be.objectify.deadbolt.core.models.Subject;
@@ -394,7 +393,7 @@ public class User extends SocialObject implements Subject, Socializable {
 		ensureAlbumPhotoProfileExist();
 
         // Pre-process file to have face centered.
-        BufferedImage croppedImage = FaceFinder.getPictureWithFace(file);
+        BufferedImage croppedImage = FaceFinder.getSquarePictureWithFace(file);
         ImageIO.write(croppedImage, "jpg", file);
 
 		Resource newPhoto = this.albumPhotoProfile.addFile(file,
@@ -406,6 +405,11 @@ public class User extends SocialObject implements Subject, Socializable {
 	
 	public Resource setCoverPhoto(File source) throws IOException {
 		ensureCoverPhotoProfileExist();
+
+        // Pre-process file to have face centered.
+        BufferedImage croppedImage = FaceFinder.getRectPictureWithFace(source, 2.29d);
+        ImageIO.write(croppedImage, "jpg", source);
+
 		Resource cover_photo = this.albumCoverProfile.addFile(source,
                 SocialObjectType.COVER_PHOTO);
 		this.albumCoverProfile.setHighPriorityFile(cover_photo);
