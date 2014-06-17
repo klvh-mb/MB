@@ -2524,7 +2524,7 @@ minibean.service('userNewsFeedService',function($resource){
 			'/get-user-newsfeeds/:offset/:id',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
-				get: {method:'GET', params:{offset:'@offset'}}
+				get: {method:'GET', params:{offset:'@offset',id:'@id'}}
 			}
 	);
 });
