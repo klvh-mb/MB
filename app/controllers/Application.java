@@ -70,7 +70,7 @@ public class Application extends Controller {
 			return login();
 		}
 		
-		List<Community> communities = localUser.getListOfJoinedCommunities();
+		List<Long> communities = localUser.getListOfJoinedCommunityIds();
 		
 		Set<Tuple> post_ids = FeedProcessor.buildPostQueueFromCommunities(communities, 20);
 		

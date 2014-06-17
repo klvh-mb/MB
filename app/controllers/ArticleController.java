@@ -85,11 +85,12 @@ public class ArticleController extends Controller {
 	@Transactional
 	public static Result getArticlesCategorywise(Long cat_id, String offset) {
 		int start = Integer.parseInt(offset) * 5;
+		final User localUser = Application.getLocalUser(session());
 		System.out.println(start+":: OFFSET :: "+offset);
 		List<Article> allArticles = Article.getArticlesByCategory(cat_id, start);
 		List<ArticleVM> listOfArticles = new ArrayList<>();
 		for(Article article:allArticles) {
-			ArticleVM vm = new ArticleVM(article);
+			ArticleVM vm = new ArticleVM(article,localUser);
 			if(cat_id != 0){
 				ArticleCategory ac = ArticleCategory.getCategoryById(cat_id);
 				vm.category_url = ac.pictureName;

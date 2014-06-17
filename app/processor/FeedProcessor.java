@@ -100,7 +100,7 @@ public class FeedProcessor {
 								List<Post> posts = (List<Post>)simpleQuery.getResultList();
 								
 								//j.del(USER + communityId.longValue());
-								//j.del(MOMENT + communityId.longValue(), QNA + communityId.longValue());
+								j.del(MOMENT + communityId.longValue(), QNA + communityId.longValue());
 								for(Post p: posts){
 									j.zadd(MOMENT + communityId.longValue(), p.getUpdatedDate().getTime() , p.id.toString());
 								}
@@ -165,13 +165,13 @@ public class FeedProcessor {
 				);
 	}
 	
-	public static Set<Tuple> buildPostQueueFromCommunities(List<Community> communities, int offset) {
+	public static Set<Tuple> buildPostQueueFromCommunities(List<Long> communities, int offset) {
 		Set<Tuple> post_ids = new TreeSet<Tuple>();
 		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 		Jedis j = jedisPool.getResource();
-		for(Community c : communities) {
-			post_ids.addAll(j.zrangeWithScores(MOMENT + c.id.toString(), 0, offset));
-			post_ids.addAll(j.zrangeWithScores(QNA + c.id.toString(), 0, offset));
+		for(Long c : communities) {
+			post_ids.addAll(j.zrangeWithScores(MOMENT + c.toString(), 0, offset));
+			post_ids.addAll(j.zrangeWithScores(QNA + c.toString(), 0, offset));
 		}
 		jedisPool.returnResource(j);
 		return post_ids;

@@ -93,7 +93,7 @@ public class CommunityController extends Controller{
 		String fileName = picture.getFilename();
 	    
 		File file = picture.getFile();
-	    File fileTo = new File(fileName);
+	    File fileTo = new File(Play.application().configuration().getString("image.temp")+""+fileName);
 	    // TOBE TESTED
 	    try {
 	    	FileUtils.copyFile(file, fileTo);
@@ -378,7 +378,7 @@ public class CommunityController extends Controller{
 		String fileName = picture.getFilename();
 
 	    File file = picture.getFile();
-	    File fileTo = new File(fileName);
+	    File fileTo = new File(Play.application().configuration().getString("image.temp")+""+fileName);
 	    
 			// No cropping is performed
 	    	try {
@@ -410,7 +410,7 @@ public class CommunityController extends Controller{
         FilePart picture = request().body().asMultipartFormData().getFile("cover-photo");
 		String fileName = picture.getFilename();
 		File file = picture.getFile();
-		File fileTo = new File(fileName);
+		File fileTo = new File(Play.application().configuration().getString("image.temp")+""+fileName);
 		
 		try {
     		Community newCommunity = localUser.createCommunity(
@@ -735,8 +735,8 @@ public class CommunityController extends Controller{
 		logger.underlyingLogger().debug("getNewsfeeds");
 		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostVM> posts = new ArrayList<>();
-		System.out.println("OFFSET :: "+offset);
-		List<Post> newsFeeds = localUser.getNewsfeeds(offset*5, 5);
+		
+		List<Post> newsFeeds = localUser.getNewsfeedsAtHomePage(offset, 5);
 		
 		if(newsFeeds != null ){
 			for(Post p : newsFeeds) {

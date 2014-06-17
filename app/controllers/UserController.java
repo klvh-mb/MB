@@ -14,6 +14,7 @@ import models.User;
 
 import org.apache.commons.io.FileUtils;
 
+import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -68,7 +69,7 @@ public class UserController extends Controller {
 		String fileName = picture.getFilename();
 
 	    File file = picture.getFile();
-	    File fileTo = new File(fileName);
+	    File fileTo = new File(Play.application().configuration().getString("image.temp")+""+fileName);
 
 	    try {
 	    	FileUtils.copyFile(file, fileTo);
@@ -89,7 +90,7 @@ public class UserController extends Controller {
 		String fileName = picture.getFilename();
 	    
 	    File file = picture.getFile();
-	    File fileTo = new File(fileName);
+	    File fileTo = new File(Play.application().configuration().getString("image.temp")+""+fileName);
 
 	    try {
 	    	FileUtils.copyFile(file, fileTo);
