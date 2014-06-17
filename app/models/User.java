@@ -14,7 +14,6 @@ import java.util.Set;
 import javax.imageio.ImageIO;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
@@ -75,18 +74,12 @@ public class User extends SocialObject implements Subject, Socializable {
 	@JsonIgnore
 	public Date lastLogin;
 
-	@Lob
-	public String aboutMe;
-
     ///// Targeting Attributes /////
-	@OneToOne
-	public UserInfo userInfo;
-	
-    @ManyToOne
-    public Location location;
-
+    @OneToOne
+    public UserInfo userInfo;
+    
     @OneToMany
-	public List<UserChild> children;
+    public List<UserChild> children;
     ///// Targeting Attributes /////
 	
 	@JsonIgnore
@@ -1083,22 +1076,6 @@ public class User extends SocialObject implements Subject, Socializable {
 
 	public void setLastLogin(Date lastLogin) {
 		this.lastLogin = lastLogin;
-	}
-
-	public String getAboutMe() {
-		return aboutMe;
-	}
-
-	public void setAboutMe(String aboutMe) {
-		this.aboutMe = aboutMe;
-	}
-
-    public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		this.location = location;
 	}
 
     public List<UserChild> getChildren() {

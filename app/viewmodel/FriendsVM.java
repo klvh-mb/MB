@@ -22,7 +22,7 @@ public class FriendsVM {
 	public static List<FriendsVM> friends(User user) {
 		List<FriendsVM> friends = new ArrayList<>();
 		for(User friend : user.getFriends()) {
-			friends.add(new FriendsVM(friend.id, friend.firstName + " " + friend.lastName,friend.displayName, friend.location));
+			friends.add(new FriendsVM(friend.id, friend.firstName + " " + friend.lastName,friend.displayName, friend.userInfo.location));
 		}
 		return friends;
 	}

@@ -9,7 +9,6 @@ import org.joda.time.Months;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,8 +36,8 @@ public class TargetProfile {
         List<TargetYear> childYears = new ArrayList<TargetYear>();
         
         // parent
-        profile.parentGender = user.userInfo.parent_gender;
-        profile.location = user.getLocation();
+        profile.parentGender = user.userInfo.gender;
+        profile.location = user.userInfo.location;
 
         // children
         TargetGender childrenGender = TargetGender.Both;
@@ -59,6 +58,12 @@ public class TargetProfile {
                 }
 
                 if (child.birthYear != null && child.birthMonth != null) {
+                    /*
+                    int birthDay = Integer.valueOf(child.birthDay);
+                    if (!(birthDay >= 1 && birthDay <= 31)) {
+                        birthDay = 1;
+                    }
+                    */
                     DateTime birthDate = new DateTime(
                             Integer.valueOf(child.birthYear), Integer.valueOf(child.birthMonth), 
                             Integer.valueOf(child.birthDay), 0, 0);
@@ -84,12 +89,14 @@ public class TargetProfile {
         
         // TODO - keith
         // return random year for testing
+        /*
         if (childYears.isEmpty()) {
             int minYear = 2008;
             int maxYear = 2015;
             int year = new Random().nextInt((maxYear - minYear) + 1) + minYear;
             childYears.add(TargetYear.valueOf(year));
         }
+        */
         
         profile.childrenGender = childrenGender;
         profile.childrenMinAgeMonths = (childrenMinAge == null) ? Integer.MIN_VALUE : childrenMinAge;
@@ -98,7 +105,7 @@ public class TargetProfile {
         
         // TODO - keith
         // return random district
-        profile.location = Location.getHongKongDistricts().get(new Random().nextInt(18));
+        //profile.location = Location.getHongKongDistricts().get(new Random().nextInt(18));
         
         return profile;
     }

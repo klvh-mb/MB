@@ -81,6 +81,7 @@ POST	/updateUserProfileData		controllers.UserController.updateUserProfileData
 POST	/updateUserDisplayName		controllers.UserController.updateUserDisplayName
 POST	/upload-profile-photo		controllers.UserController.uploadProfilePhoto
 POST	/upload-cover-photo		    controllers.UserController.uploadCoverPhoto
+GET     /getAllDistricts            controllers.Application.getAllDistricts
 
 GET		/get-profile-image			controllers.UserController.getProfileImage
 GET 	/get-user-newsfeeds/:offset/:id 		controllers.UserController.getUserNewsfeeds(offset : String, id : Long)
@@ -151,7 +152,6 @@ GET		/get-bookmark-post/:offset				controllers.CommunityController.getBookmarkPo
 GET		/unbookmark-post/:post_id				controllers.CommunityController.doUnBookmark(post_id : Long)
 GET		/bookmark-post/:post_id					controllers.CommunityController.doBookmark(post_id : Long)
 
-
 GET		/get-my-updates/:timestamp				controllers.CommunityController.getMyUpdates(timestamp:Long)
 GET		/get-my-live-updates/:timestamp			controllers.CommunityController.getMyLiveUpdates(timestamp:Long)
 GET		/get-next-news-feeds/:timestamp			controllers.CommunityController.getNextNewsFeeds(timestamp:Long)	
@@ -161,5 +161,6 @@ GET		/like-post/:post_id						controllers.CommunityController.likeThePost(post_i
 GET		/unlike-post/:post_id					controllers.CommunityController.unlikeThePost(post_id:Long)
 GET		/like-comment/:comment_id				controllers.CommunityController.likeTheComment(comment_id:Long)
 GET		/unlike-comment/:comment_id				controllers.CommunityController.unlikeTheComment(comment_id:Long)
+
 # indexing with elasic search
 GET		/searchForPosts/index/:query/:community_id/:offset	controllers.Application.searchForPosts(query: String, community_id: Long,offset:Long)

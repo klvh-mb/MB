@@ -30,10 +30,10 @@ public class ProfileVM {
         vm.displayName = user.displayName;
         vm.lastName = user.lastName;
         vm.firstName = user.firstName;
-        vm.birthYear = user.userInfo.parent_birth_year;
-        vm.gender = user.userInfo.parent_gender.name();
-        vm.aboutMe = user.aboutMe;
-        vm.location = user.location;
+        vm.birthYear = user.userInfo.birthYear;
+        vm.gender = user.userInfo.gender.name();
+        vm.aboutMe = user.userInfo.aboutMe;
+        vm.location = user.userInfo.location;
         //vm.friends = user.getFriends();
         vm.nofriends = user._getFriendsCount();
         vm.isFriend = user.isFriendOf(localUser);

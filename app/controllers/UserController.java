@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.Community;
+import models.Location;
 import models.Notification;
 import models.Post;
 import models.User;
@@ -30,6 +31,7 @@ import viewmodel.SocialObjectVM;
 import viewmodel.UserVM;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
+import common.model.TargetGender;
 
 public class UserController extends Controller {
 	
@@ -129,17 +131,24 @@ public class UserController extends Controller {
 
 	@Transactional
 	public static Result updateUserProfileData() {
-		Form<User> form = DynamicForm.form(User.class).bindFromRequest(
-		        "firstName","lastName","gender","aboutMe","birth_year","location");
-		User userForUpdation = form.get();
-		final User localUser = Application.getLocalUser(session());
-		localUser.firstName = userForUpdation.firstName;
-		localUser.lastName = userForUpdation.lastName;
-		localUser.aboutMe = userForUpdation.aboutMe;
-		localUser.location = userForUpdation.location;
-		localUser.userInfo.parent_birth_year = userForUpdation.userInfo.parent_birth_year;
-		localUser.userInfo.parent_gender = userForUpdation.userInfo.parent_gender;
-		localUser.merge();
+		// UserInfo
+        DynamicForm form = DynamicForm.form().bindFromRequest();
+        String firstName = form.get("firstName");
+        String lastName = form.get("lastName");
+        String birthYear = form.get("birth_year");
+        Location location = Location.getLocationById(Integer.valueOf(form.get("location")));
+        TargetGender gender = TargetGender.valueOf(form.get("gender"));
+        String aboutMe = form.get("aboutMe");
+        
+        final User localUser = Application.getLocalUser(session());
+        localUser.firstName = firstName;
+        localUser.lastName = lastName;
+        localUser.userInfo.birthYear = birthYear;
+        localUser.userInfo.location = location;
+        localUser.userInfo.gender = gender;
+        localUser.userInfo.aboutMe = aboutMe;
+        localUser.merge();
+        
 		return ok("true");
 	}
 	

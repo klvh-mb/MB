@@ -6,12 +6,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import javax.persistence.Transient;
 
 import common.model.TargetGender;
-
 import play.db.jpa.JPA;
 
 @Entity
@@ -20,26 +20,21 @@ public class UserInfo {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
 	
-	public String parent_birth_year;
+	public String birthYear;
+	
+    @ManyToOne
+    public Location location;
 	
 	@Enumerated(EnumType.STRING)
-	public TargetGender parent_gender;
-	
-	public String district;
+	public TargetGender gender;
 	
 	@Enumerated(EnumType.STRING)
-	public ParentType parent_type;
+	public ParentType parentType;
 	
-	@Enumerated(EnumType.STRING)
-	@Transient
-	public TargetGender bb_gender;
+	@Lob
+	public String aboutMe;
 	
-	@Transient
-	public String bb_birth_year;
-	@Transient
-	public String bb_birth_month;
-	@Transient
-	public String bb_birth_day;
+	public int numChildren;
 	
 	public static enum ParentType {
 	    MOM,
@@ -52,31 +47,8 @@ public class UserInfo {
 	public UserInfo() {
 	}
 	
-	public void merge(UserInfo userInfo,User localUser) {
-	    this.parent_birth_year = userInfo.parent_birth_year;
-	    this.district = userInfo.district;
-	    this.parent_type = userInfo.parent_type;
-	    
-	    UserChild userChild = new UserChild();
-	    
-	    if (userInfo.bb_gender.equals("Male")) {
-	    	userChild.gender = TargetGender.Male;
-        } else {
-        	userChild.gender = TargetGender.Female;   // default
-        }
-	    userChild.birthDay = userInfo.bb_birth_day;
-	    userChild.birthMonth = userInfo.bb_birth_month;
-	    userChild.birthYear = userInfo.bb_birth_year;
-	    userChild.user = localUser;
-	    
-	    if (ParentType.MOM.equals(parent_type) || ParentType.SOON_MOM.equals(parent_type)) {
-            this.parent_gender = TargetGender.Female;
-        } else if (ParentType.DAD.equals(parent_type) || ParentType.SOON_DAD.equals(parent_type)) {
-            this.parent_gender = TargetGender.Male;
-        } else {
-            this.parent_gender = TargetGender.Female;   // default
-        }
-	    userChild.save();
+	public void merge(UserInfo userInfo) {
+	    // TODO - keith
 	}
 	
 	public static boolean findByUserId(Long id) {

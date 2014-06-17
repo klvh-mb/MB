@@ -26,6 +26,16 @@ minibean.service('announcementsWidgetService',function($resource) {
     );
 });
 
+minibean.service('locationService',function($resource){
+    this.getAllDistricts = $resource(
+            '/getAllDistricts',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get' ,isArray:true}
+            }
+    );
+});
+
 ///////////////////////// Search Service Start //////////////////////////////////
 minibean.service('searchService',function($resource){
 	this.userSearch = $resource(
@@ -345,7 +355,7 @@ minibean.service('profilePhotoModal',function( $modal){
 	
 });
 
-minibean.controller('UserAboutController',function($routeParams, $scope, userAboutService, $http, profilePhotoModal){
+minibean.controller('UserAboutController',function($routeParams, $scope, $http, userAboutService, locationService, profilePhotoModal){
 	
 	var tab = $routeParams.tab;
 	
@@ -373,13 +383,11 @@ minibean.controller('UserAboutController',function($routeParams, $scope, userAbo
 	$scope.coverImage = coverImage;
 	
 	$scope.genders = [
-	                   {value: 'Male', text: 'Male'},
-	                   {value: 'Female', text: 'Female'}
+	                   {value: 'Male', text: '男'},
+                       {value: 'Female', text: '女'}
 	                 ];
 	
 	$scope.years = [
-                       {value: '2000', text: '2000'},
-                       {value: '1999', text: '1999'},
                        {value: '1998', text: '1998'},
                        {value: '1997', text: '1997'},
                        {value: '1996', text: '1996'},
@@ -409,8 +417,16 @@ minibean.controller('UserAboutController',function($routeParams, $scope, userAbo
                        {value: '1972', text: '1972'},
                        {value: '1971', text: '1971'},
                        {value: '1970', text: '1970'},
-                       {value: '0000', text: '1970之前'}
+                       {value: '1969', text: '1969'},
+                       {value: '1968', text: '1968'},
+                       {value: '1967', text: '1967'},
+                       {value: '1966', text: '1966'},
+                       {value: '1965', text: '1965'},
+                       {value: '1964', text: '1964'},
+                       {value: '<1964', text: '1964之前'}
                    ];
+    
+    $scope.locations = locationService.getAllDistricts.get();
     
 	$scope.updateUserDisplayName = function(data) {
 		return $http.post('/updateUserDisplayName', {"displayName" : data});

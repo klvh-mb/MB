@@ -2,6 +2,21 @@ ul, li {
     list-style: none;
     padding: 0;
 }
+.signup-info-sub-table {
+}
+.signup-info-sub-table td {
+    font-size: 15px;
+    font-weight: normal;
+    padding: 5px;
+    vertical-align: top;
+    color: #0A0A0A;
+}
+.signup-info-sub-table td label {
+    font-size: 15px;
+    font-weight: normal;
+    padding-right: 15px;
+    vertical-align: top;
+}
 .signup-info-table {
     width: 550px;
 }
@@ -49,9 +64,10 @@ ul, li {
     padding: 0;
     position: relative;
     width: 650px;
-    height: 477px;
+    height: 100%;
     left: 50%;
     margin-left: -320px;
+    display: inline-block;
 }
 .signup-info-container div.signup-info-box {
     float: left;

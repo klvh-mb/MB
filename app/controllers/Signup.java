@@ -19,8 +19,11 @@ import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyIdentity;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
 import providers.MyUsernamePasswordAuthUser;
-import views.html.verified;
-import views.html.account.signup.*;
+import views.html.account.signup.password_forgot;
+import views.html.account.signup.unverified;
+import views.html.account.signup.no_token_or_invalid;
+import views.html.account.signup.password_reset;
+import views.html.account.signup.oAuthDenied;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 

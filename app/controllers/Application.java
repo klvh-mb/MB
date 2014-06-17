@@ -1,6 +1,5 @@
 package controllers;
 
-import static play.data.Form.form;
 import indexing.PostIndex;
 
 import java.text.SimpleDateFormat;
@@ -13,7 +12,9 @@ import models.Community;
 import models.Location;
 import models.TargetingSocialObject;
 import models.User;
+import models.UserChild;
 import models.UserInfo;
+import models.UserInfo.ParentType;
 
 import org.elasticsearch.index.query.AndFilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
@@ -22,6 +23,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 
 import play.Play;
 import play.Routes;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -33,6 +35,7 @@ import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
 import redis.clients.jedis.Tuple;
+import viewmodel.LocationVM;
 import viewmodel.PostIndexVM;
 import views.html.signup;
 import be.objectify.deadbolt.java.actions.Group;
@@ -45,6 +48,8 @@ import com.feth.play.module.pa.user.AuthUser;
 import com.github.cleverage.elasticsearch.IndexQuery;
 import com.github.cleverage.elasticsearch.IndexResults;
 import com.mnt.exception.SocialObjectNotJoinableException;
+
+import common.model.TargetGender;
 import common.model.TargetProfile;
 import common.model.TargetYear;
 
@@ -58,7 +63,6 @@ public class Application extends Controller {
 	
 	@Transactional
 	public static Result index() {
-			
 		logger.underlyingLogger().debug("Start index");
         
         final User localUser = getLocalUser(session());
@@ -85,10 +89,7 @@ public class Application extends Controller {
 		logger.underlyingLogger().debug("home");
 		
 		if (user.userInfo == null) {
-	        user.userInfo = new UserInfo();
-	        user.userInfo.save();
-	        
-	        return ok(views.html.signup_info.render());
+	        return ok(views.html.signup_info.render(user));
 		}
 		
 	    if (user.isNewUser()) {
@@ -133,12 +134,52 @@ public class Application extends Controller {
 	@Transactional
 	public static Result saveSignupInfo() {
 		final User localUser = getLocalUser(session());
-		final Form<UserInfo> filledForm = form(UserInfo.class).bindFromRequest();
 		
-		UserInfo userInfo = localUser.userInfo;
-		userInfo.merge(filledForm.get(),localUser);
-		userInfo.save();
-		return home(localUser);
+		// UserInfo
+        DynamicForm form = DynamicForm.form().bindFromRequest();
+        String parentBirthYear = form.get("parent_birth_year");
+        Location parentLocation = Location.getLocationById(Integer.valueOf(form.get("parent_location")));
+        ParentType parentType = ParentType.valueOf(form.get("parent_type"));
+        int numChildren = Integer.valueOf(form.get("num_children"));
+        
+        if (parentBirthYear == null)
+            throw new RuntimeException("Parent UserInfo must be filled out");
+        
+        UserInfo userInfo = new UserInfo();
+        userInfo.birthYear = parentBirthYear;
+        userInfo.location = parentLocation;
+        userInfo.parentType = parentType;
+        if (ParentType.MOM.equals(parentType) || ParentType.SOON_MOM.equals(parentType)) {
+            userInfo.gender = TargetGender.Female;
+        } else if (ParentType.DAD.equals(parentType) || ParentType.SOON_DAD.equals(parentType)) {
+            userInfo.gender = TargetGender.Male;
+        } else {
+            userInfo.gender = TargetGender.Female;   // default
+        }
+        userInfo.numChildren = numChildren;
+        
+        localUser.userInfo = userInfo;
+        localUser.userInfo.save();
+        
+        // UseChild
+        int maxChildren = (numChildren > 5)? 5 : numChildren;
+        for (int i = 1; i <= maxChildren; i++) {
+            TargetGender bbGender = TargetGender.valueOf(form.get("bb_gender" + i));
+            String bbBirthYear = form.get("bb_birth_year" + i);
+            String bbBirthMonth = form.get("bb_birth_month" + i);
+            String bbBirthDay = form.get("bb_birth_day" + i);
+            
+            UserChild userChild = new UserChild();
+            userChild.gender = bbGender;
+            userChild.birthYear = bbBirthYear;
+            userChild.birthMonth = bbBirthMonth;
+            userChild.birthDay = bbBirthDay;
+            
+            userChild.save();
+            localUser.children.add(userChild);
+        }
+        
+		return redirect("/");
 	}
 	
 	public static User getLocalUser(final Session session) {
@@ -191,12 +232,10 @@ public class Application extends Controller {
 		return ok(signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));
 	}
 
-	public static Result jsRoutes() {
-		return ok(
-				Routes.javascriptRouter("jsRoutes",
-						controllers.routes.javascript.Signup.forgotPassword()))
-				.as("text/javascript");
-	}
+    public static Result jsRoutes() {
+        return ok(Routes.javascriptRouter("jsRoutes", 
+    	        controllers.routes.javascript.Signup.forgotPassword())).as("text/javascript");
+    }
 
 	@Transactional
 	public static Result doSignup() {
@@ -255,6 +294,17 @@ public class Application extends Controller {
 		return new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(new Date(t));
 	}
     
+   @Transactional
+    public static Result getAllDistricts() {
+        List<Location> locations = Location.getHongKongDistricts();
+        List<LocationVM> locationVMs = new ArrayList<>();
+        for(Location location : locations) {
+            LocationVM vm = LocationVM.locationVM(location);
+            locationVMs.add(vm);
+        }
+        return ok(Json.toJson(locationVMs));
+    }
+   
 	@Transactional
     public static Result searchForPosts(String query, Long community_id, Long offset){
 		

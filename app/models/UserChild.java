@@ -3,7 +3,6 @@ package models;
 import javax.persistence.*;
 
 import play.db.jpa.JPA;
-
 import common.model.TargetGender;
 
 @Entity
@@ -22,8 +21,9 @@ public class UserChild {
     
     public String birthDay;
     
-    @OneToOne
-    public User user;
+    public void merge(UserInfo userInfo) {
+        // TODO - keith
+    }
     
     public void save() {
 		JPA.em().persist(this);

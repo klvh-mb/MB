@@ -21,10 +21,10 @@ public class UserVM {
 		this.lastName = user.lastName;
 		this.displayName = user.displayName;
 		this.email = user.email;
-		this.birthYear = user.userInfo.parent_birth_year;
-		this.gender = user.userInfo.parent_gender.name();
-		this.aboutMe = user.aboutMe;
-		this.location = user.location;
+		this.birthYear = user.userInfo.birthYear;
+		this.gender = user.userInfo.gender.name();
+		this.aboutMe = user.userInfo.aboutMe;
+		this.location = user.userInfo.location;
 		this.id = user.id;
 		this.noOfFriends = user.getFriends().size();
 		this.noOfGroups = user.getListOfJoinedCommunities().size();
