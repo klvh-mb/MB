@@ -1,81 +1,35 @@
-<!-- 				<div class="row">
-					<div class="col-lg-9 col-md-8">
-						<div class="timeline-cover">	
-							<div class="widget cover image">
-								<div class="widget-body padding-none margin-none">
-									<div class="top">
-											<div class="top">
-												<img data-ng-src="/get-cover-image-by-id/{{profile.i}}" class="img-responsive" />
-											</div>	
-									</div>
-									<ul class="list-unstyled">
-										<li ng-class="{'active': 'about' == active}">   <a ng-click="navigateTo('about')" ng-href="/#/profile/{{profile.i}}"><i class="fa fa-fw fa-user"></i> About</a></li>
-										<li ng-class="{'active': 'photo' == active}">   <a href="media_2.html?lang=en">  <i class="icon-photo-camera"></i> Photos <span>({{profile.n_p}})</span></a></li>
-										<li ng-class="{'active': 'friends' == active}" ng-click="navigateTo('friends')"> <a href=""><i class="icon-group"></i> Friends <span>({{profile.n_f}})</span></a></li>
-									</ul>
-									<div class="photo">
-										<img data-ng-src="/get-profile-image-by-id/{{profile.i}}" height="90px" class="img-square"/>
-									</div>
-
-									<div class="innerAll pull-left border-right">
-										<h3 class="margin-none">{{profile.dn}}
-                    					</h3>
-                  					</div>
-                  					<div ng-show="profile.isf==true && isLoadingEnabled==false" class="innerAll pull-right border-right">
-                  						<button class="btn btn-primary" data-ng-click="un_friend(profile.i)"><i class="fa fa-thumbs-down"></i> UnFriend</button>
-                  					</div>
-                  					<div ng-show="profile.isf==false && profile.isP == false && isLoadingEnabled==false" class="innerAll pull-right border-right">
-                  						<button class="btn btn-primary" data-ng-click="send_invite(profile.i)"><i class="fa fa-user"></i> Invite</button>
-                  					</div>	
-                  					
-                  					<div ng-show="profile.isP == true && isLoadingEnabled==false" class="innerAll pull-right border-right">
-   										<button class="btn btn-primary" style="background: #0099FF;" disabled="disabled" ><i class="fa fa-user"></i> Pending Approval</button>
-   									</div>
-   									
-                  					<div ng-show="isLoadingEnabled==true" class="innerAll pull-right border-right">
-	                  					<span class="label label-warning" style="font-size: 110% !important;padding: 9px 12px;">
-	                  						Loading .. 
-	                  					</span>
-	                  				</div>
-                				</div>
-              				</div>
-            		   </div>
-	        	     </div>
-                 </div> -->
-                 
-                 
-             <div id="profile-header">
-                <ul>
-                    <li>
-                    	<div><img id="profile-banner" src="/get-cover-image-by-id/{{profile.i}}" /></div>
-                    </li>
-                    <li id="profile-header-menu">
-                        <div><img src="/get-profile-image-by-id/{{profile.i}}" alt="profile-pic" />
-                        </div>
-                        <p id="profile-user-name">{{profile.dn}}</p>
-                        <div id="menu-title">
-                        	<a ng-click="selectedTab = 1;">
-							<font ng-class="{activeTabBold: selectedTab == 1}">Recent Activities</font> </a>
-							<a	ng-click="selectedTab = 2;">
-							<font ng-class="{activeTabBold: selectedTab == 2}">Communities</font> </a>
-							<a ng-click="selectedTab = 3;">
-							<font ng-class="{activeTabBold: selectedTab == 3}">Friends</font></a>
-                        
-                        
-                            <!-- <a data-ng-click="selectedTab = 1;"> <div ng-class="{activeTab: selectedTab == 1}">Recent Activities</div></a>
-                            <div class="divider-cus"></div>
-                            <div ng-class="{activeTab: selectedTab == 2}"><a data-ng-click="selectedTab = 2;">Communities</a></div>
-                            <div class="divider-cus"></div> -->
-                            <!-- <div ng-class="{activeTab: selectedTab == 3}"><a ng-click="selectedTab = 3;">Friends</a></div> -->
-                        </div>
-                        <div class="dropdown pull-right ">
-							<a class="toolsbox toolsbox-start" data-toggle="dropdown">Notify</a> 
-							<a class="toolsbox toolsbox-end  dropdown-toggle" data-toggle="dropdown"><span class="icon-title-contentSetup"></span></a>
-							<ul class="subtoolsbox dropdown-menu">
-								<li><a>All Posts</a></li>
-								<li><a>off</a></li>
-							</ul>
-						</div>
-                    </li>
-                </ul>
-            </div><!--Profile Header End -->
+<div id="profile-header">
+    <ul>
+        <li>
+        	<div><img id="profile-banner" src="/get-cover-image-by-id/{{profile.i}}" /></div>
+        </li>
+        <li id="profile-header-menu">
+            <div><img src="/get-profile-image-by-id/{{profile.i}}" alt="profile-pic" />
+            </div>
+            <p id="profile-user-name">{{profile.dn}}</p>
+            <div id="menu-title">
+            	<a ng-click="selectedTab = 1;">
+				<font ng-class="{activeTabBold: selectedTab == 1}">Recent Activities</font> </a>
+				<a	ng-click="selectedTab = 2;">
+				<font ng-class="{activeTabBold: selectedTab == 2}">Communities</font> </a>
+				<a ng-click="selectedTab = 3;">
+				<font ng-class="{activeTabBold: selectedTab == 3}">Friends</font></a>
+            
+            
+                <!-- <a data-ng-click="selectedTab = 1;"> <div ng-class="{activeTab: selectedTab == 1}">Recent Activities</div></a>
+                <div class="divider-cus"></div>
+                <div ng-class="{activeTab: selectedTab == 2}"><a data-ng-click="selectedTab = 2;">Communities</a></div>
+                <div class="divider-cus"></div> -->
+                <!-- <div ng-class="{activeTab: selectedTab == 3}"><a ng-click="selectedTab = 3;">Friends</a></div> -->
+            </div>
+            <div class="dropdown pull-right ">
+				<a class="toolsbox toolsbox-start" data-toggle="dropdown">Notify</a> 
+				<a class="toolsbox toolsbox-end  dropdown-toggle" data-toggle="dropdown"><span class="icon-title-contentSetup"></span></a>
+				<ul class="subtoolsbox dropdown-menu">
+					<li><a>All Posts</a></li>
+					<li><a>off</a></li>
+				</ul>
+			</div>
+        </li>
+    </ul>
+</div><!--Profile Header End -->

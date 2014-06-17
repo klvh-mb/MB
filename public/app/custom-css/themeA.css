@@ -590,6 +590,7 @@ text-decoration: none;
     min-height: 120px;
 }
 .newCommunity-info p {
+    width: 68%;
     display: inline-block;
 }
 .newCommunity-info img {
@@ -606,8 +607,7 @@ text-decoration: none;
 }
 .newCommunity-info .btn-general {
     position: relative;
-    top: -10px;
-    left: 30px;
+    top: -8px;
 }
 /* New Community End */
 
@@ -1377,7 +1377,7 @@ text-decoration: none;
     float: left;
     padding-left: 10px;
     position: relative;
-    width: 85%;
+    width: 82%;
 }
 .post-detail-wrapper h3 {
     margin: 0;

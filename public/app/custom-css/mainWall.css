@@ -6,7 +6,6 @@
 }
 .wall-title a{
     color: white;
-    font-size: small;
     font-weight: normal;
     margin-right: 25px;
     position: relative;
@@ -34,6 +33,7 @@
 }
 #wall li {
     margin-bottom: 5px;
+    position: relative;
 }
 .wall-userpic {
     margin-right: 7px;

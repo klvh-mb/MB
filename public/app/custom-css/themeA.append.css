@@ -66,6 +66,17 @@ a:focus {
   text-decoration: underline;
   background-color: transparent;
 }
+.dropdown-menu {
+    min-width: 120px;
+}
+.dropdown-menu li {
+    border: 0px;
+}
+.dropdown-divider {
+    border-bottom: 1px solid #efefef !important;
+    margin-left: 7px;
+    margin-right: 7px;
+}
 /*
 a {
   color: #324fe1;
@@ -192,6 +203,7 @@ a:focus {
     margin-left: 0px;
 }
 .wall-title {
+    font-size: 14px;
     padding: 5px;
     background-color:#826EEE;
 }
@@ -201,8 +213,7 @@ a:focus {
 }
 .wall-title a {
     color: white;
-    font-size: 13px;
-    font-weight: normal;
+    font-weight: bold;
     margin-right: 25px;
     position: relative;
     top: 1px;

@@ -55,7 +55,7 @@
                 <div infinite-scroll='next_result()'  infinite-scroll-distance='0' >
 	                <div class="general-box">
 	                    <ul class="allpost-wrapper" style="padding: 3px 10px 3px 10px;">
-	                        <li data-ng-repeat="article in result" class="widget" style="border:none;border-bottom: #bcbcbc thin solid;">
+	                        <li data-ng-repeat="article in result" style="border:none;border-bottom: #bcbcbc thin solid;">
 	                            <a href="/#/article/id/{{article.id}}" target="_blank">
 	                                <img ng-show="article.img_url != 'No Image'"  data-ng-src="{{article.img_url}}"></a>
 	                                <a data-ng-show="!article.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkArticle(article.id)"></a>
