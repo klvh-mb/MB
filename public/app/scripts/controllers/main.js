@@ -2507,7 +2507,7 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 					$scope.newsFeeds.posts.push(posts[i]);
 			    }
 			    $scope.isBusy = false;
-				offset++;
+				offset=offset + 1;
 			}
 		);
 	}

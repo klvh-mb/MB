@@ -735,8 +735,8 @@ public class CommunityController extends Controller{
 		logger.underlyingLogger().debug("getNewsfeeds");
 		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostVM> posts = new ArrayList<>();
-		
-		List<Post> newsFeeds = localUser.getNewsfeeds(offset, 5);
+		System.out.println("OFFSET :: "+offset);
+		List<Post> newsFeeds = localUser.getNewsfeeds(offset*5, 5);
 		
 		if(newsFeeds != null ){
 			for(Post p : newsFeeds) {
