@@ -74,8 +74,8 @@ public abstract class SocialObject extends domain.Entity implements
     public Boolean system = false;  
 	
 	protected final void recordLike(User user) {
-		SocialRelation action = new SocialRelation(user, this);
-		action.action = SocialRelation.Action.LIKED;
+		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
+		action.action = PrimarySocialRelation.Action.LIKED;
 		action.validateUniquenessAndCreate();
 	}
 	

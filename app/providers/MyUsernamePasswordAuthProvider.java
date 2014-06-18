@@ -132,9 +132,10 @@ public class MyUsernamePasswordAuthProvider
 
 	@Override
 	protected com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.SignupResult signupUser(final MyUsernamePasswordAuthUser user) {
-		final User u = User.findByUsernamePasswordIdentity(user);
-		if (u != null) {
-			if (u.emailValidated) {
+		//final User u = User.findByUsernamePasswordIdentity(user);
+	    final User existingUser = User.findByEmail(user.getEmail());
+		if (existingUser != null) {
+			if (existingUser.emailValidated) {
 				// This user exists, has its email validated and is active
 				return SignupResult.USER_EXISTS;
 			} else {
