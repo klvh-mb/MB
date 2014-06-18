@@ -14,6 +14,7 @@ import models.Post;
 import models.SocialRelation;
 import models.SocialRelation.Action;
 import models.User;
+import org.elasticsearch.common.collect.Lists;
 import play.Play;
 import play.db.jpa.JPA;
 import play.libs.Akka;
@@ -182,9 +183,13 @@ public class FeedProcessor {
 	public static void applyRelevances(Set<Tuple> post_ids, Long userId) {
 	    logger.underlyingLogger().info("[u="+userId+"] applyRelevances. numPostIds="+post_ids.size());
 
-        String idsForIn = convertSetToString(post_ids, ",");
-        Query query = JPA.em().createQuery("SELECT p from Post p where p.id in (" + idsForIn + ") order by p.auditFields.updatedDate desc");
-        List<Post> postInRelevance = (List<Post>)query.getResultList();
+        List<Post> postInRelevance = Collections.EMPTY_LIST;
+
+        if (post_ids.size() > 0) {
+            String idsForIn = convertSetToString(post_ids, ",");
+            Query query = JPA.em().createQuery("SELECT p from Post p where p.id in (" + idsForIn + ") order by p.auditFields.updatedDate desc");
+            postInRelevance = (List<Post>)query.getResultList();
+        }
 
 		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 		Jedis j = jedisPool.getResource();
