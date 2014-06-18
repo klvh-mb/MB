@@ -20,7 +20,7 @@ ul, li {
 #login-header h2 {
     position: absolute;
     top: -5px;
-    left: 50px;
+    left: 10%;
     color: #4f39a2;
 }
 .login-container {
@@ -251,6 +251,7 @@ ul, li {
 #login-newacc p {
     color: gray;
     font-size: small;
+    margin-left: 10px;
 }
 #login-footer {
     width: 950px;

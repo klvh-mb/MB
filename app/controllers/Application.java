@@ -89,6 +89,9 @@ public class Application extends Controller {
 		logger.underlyingLogger().debug("home");
 		
 		if (user.userInfo == null) {
+		    if (user.fbLogin) {
+		        return ok(views.html.signup_info_fb.render(user));
+		    }
 	        return ok(views.html.signup_info.render(user));
 		}
 		
@@ -141,6 +144,9 @@ public class Application extends Controller {
         Location parentLocation = Location.getLocationById(Integer.valueOf(form.get("parent_location")));
         ParentType parentType = ParentType.valueOf(form.get("parent_type"));
         int numChildren = Integer.valueOf(form.get("num_children"));
+        if (ParentType.NA.equals(parentType)) {
+            numChildren = 0;
+        }
         
         if (parentBirthYear == null)
             throw new RuntimeException("Parent UserInfo must be filled out");

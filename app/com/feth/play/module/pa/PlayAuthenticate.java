@@ -2,6 +2,7 @@ package com.feth.play.module.pa;
 
 import java.util.Date;
 
+import models.User;
 import play.Configuration;
 import play.Logger;
 import play.Play;
@@ -17,6 +18,7 @@ import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
 import com.feth.play.module.pa.service.UserService;
 import com.feth.play.module.pa.user.AuthUser;
+import com.feth.play.module.pa.user.EmailIdentity;
 
 public abstract class PlayAuthenticate {
 
@@ -418,7 +420,18 @@ public abstract class PlayAuthenticate {
 	}
 
 	private static AuthUser signupUser(final AuthUser u) throws AuthException {
+	    // Email should always be unique 
+	    if (u instanceof EmailIdentity) {
+	        final EmailIdentity identity = (EmailIdentity) u;
+	        final User existingUser = User.findByEmail(identity.getEmail());
+	        if (existingUser != null) {
+	            throw new AuthException(
+	                    Messages.get("playauthenticate.core.exception.signupuser_exists"));
+	        }
+	    }
+	    
 		final AuthUser loginUser;
+		
 		final Object id = getUserService().save(u);
 		if (id == null) {
 			throw new AuthException(
