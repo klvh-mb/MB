@@ -68,15 +68,15 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
 	}
   
   public boolean isLikedBy(User user) {
-		Query q = JPA.em().createQuery("Select sr from SocialRelation sr where sr.action=?1 and sr.actor=?2 " +
+		Query q = JPA.em().createQuery("Select sr from PrimarySocialRelation sr where sr.action=?1 and sr.actor=?2 " +
 				"and sr.target=?3 and sr.targetType=?4");
-		q.setParameter(1, Action.LIKED);
+		q.setParameter(1, PrimarySocialRelation.Action.LIKED);
 		q.setParameter(2, user.id);
 		q.setParameter(3, this.id);
 		q.setParameter(4, this.objectType);
-		SocialRelation sr = null;
+		PrimarySocialRelation sr = null;
 		try {
-			sr = (SocialRelation)q.getSingleResult();
+			sr = (PrimarySocialRelation)q.getSingleResult();
 			System.out.println("SR ::"+sr.id);
 		}
 		catch(NoResultException nre) {

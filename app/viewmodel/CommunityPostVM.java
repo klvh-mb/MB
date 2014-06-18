@@ -99,7 +99,7 @@ public class CommunityPostVM {
 		postVM.isBookmarked = post.isBookmarkedBy(localUser);
 		postVM.isCommentable = localUser.isMemberOf(c);
 		//need to write logic
-		postVM.isLike = post.isLikedBy(user);
+		postVM.isLike = post.isLikedBy(localUser);
 		
 		if(post.folder != null && post.folder.resources != null && !post.folder.resources.isEmpty()) {
 			postVM.hasImage = true;
@@ -115,7 +115,7 @@ public class CommunityPostVM {
 		for(int i = comments.size() - 1; i >= 0 ; i--) {
 			Comment comment = comments.get(i);
 			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
-			commentVM.isLike = comment.isLikedBy(user);
+			commentVM.isLike = comment.isLikedBy(localUser);
 			commentsToShow.add(commentVM);
 		}
 		

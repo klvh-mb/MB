@@ -929,16 +929,16 @@ public class User extends SocialObject implements Subject, Socializable {
 	
 	public int doUnLike(Long id, SocialObjectType type) {
         
-        Query query = JPA.em().createQuery("SELECT sr FROM SocialRelation sr " +
+        Query query = JPA.em().createQuery("SELECT sr FROM PrimarySocialRelation sr " +
                         " where  sr.targetType = ?4 and sr.action = ?3 And " +
-                        " ((sr.target = ?1 and sr.actor = ?2))", SocialRelation.class
+                        " ((sr.target = ?1 and sr.actor = ?2))", PrimarySocialRelation.class
                         );
         query.setParameter(1, id);
         query.setParameter(2, this.id);
-        query.setParameter(3, SocialRelation.Action.LIKED);
+        query.setParameter(3, PrimarySocialRelation.Action.LIKED);
         query.setParameter(4, type);
         
-        SocialRelation sr= (SocialRelation) query.getSingleResult();
+        PrimarySocialRelation sr= (PrimarySocialRelation) query.getSingleResult();
         
         sr.remove();
         
