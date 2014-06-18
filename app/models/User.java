@@ -26,6 +26,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import common.image.FaceFinder;
+import common.utils.NanoSecondStopWatch;
 import models.Community.CommunityType;
 import models.Notification.NotificationType;
 import models.SocialRelation.Action;
@@ -64,6 +65,8 @@ import domain.Socializable;
 
 @Entity
 public class User extends SocialObject implements Subject, Socializable {
+
+    private static final play.api.Logger logger = play.api.Logger.apply("application");
 
     private static User SUPER_ADMIN;
     
@@ -387,8 +390,8 @@ public class User extends SocialObject implements Subject, Socializable {
 				.createQuery(Community.class);
 		Root<Community> root = criteria.from(Community.class);
 		criteria.select(root);
-		Predicate predicate = builder.like(root.<String> get("name"), "%"
-				+ string + "%");
+		Predicate predicate = builder.like(root.<String>get("name"), "%"
+                + string + "%");
 		criteria.where(predicate);
 		return JPA.em().createQuery(criteria).getResultList();
 	}
@@ -553,7 +556,7 @@ public class User extends SocialObject implements Subject, Socializable {
 
 		if (ensureAlbumExistWithGivenName(name)) {
 			Album _album = createAlbum(name, description,
-					SocialObjectType.ALBUMN, system);
+                    SocialObjectType.ALBUMN, system);
 			album.add(_album);
 			this.merge();
 			return _album;
@@ -1017,14 +1020,21 @@ public class User extends SocialObject implements Subject, Socializable {
 	}
 	
 	public List<Post> getNewsfeedsAtHomePage(int offset, int limit) {
-		System.out.println("In redis");
+        final NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
 		List<String> ids = FeedProcessor.getUserFeedIds(this, offset, limit);
-		String idsForIn = ids.toString().replace("[", "").replace("]", "");
-		Query query = JPA.em().createQuery("SELECT p from Post p where p.id in (" + idsForIn + ") order by p.auditFields.updatedDate desc");
-		if(ids.size()== 0){
-			return null;
-		}
-		
+        if (ids.size() == 0) {
+            return null;
+        }
+
+        String idsStr = ids.toString();
+        String idsForIn = idsStr.substring(1, idsStr.length()-1);
+        Query query = JPA.em().createQuery("SELECT p from Post p where p.id in ("+idsForIn+") order by FIELD(p.id,"+idsForIn+")");
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+getId()+"]["+getName()+"] getNewsfeedsAtHomePage(offset="+offset+",limit="+limit+") took "+sw.getElapsedMS()+"ms");
+        }
 		return (List<Post>)query.getResultList();
 	}
 	

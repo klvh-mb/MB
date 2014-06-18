@@ -143,7 +143,6 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getMiniCoverCommunityImageById(Long id) {
-		logger.underlyingLogger().debug("getMiniCoverCommunityImageById");
 		Community community = Community.findById(id);
 		if(community.getPhotoProfile() != null) {
 			return ok(new File(community.getPhotoProfile().getMini()));
@@ -732,7 +731,6 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getNewsfeeds(int offset) {
-		logger.underlyingLogger().debug("getNewsfeeds");
 		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostVM> posts = new ArrayList<>();
 		

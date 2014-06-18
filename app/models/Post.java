@@ -286,7 +286,6 @@ public class Post extends SocialObject implements Likeable, Commentable {
 			sr = (SocialRelation)q.getSingleResult();
 		}
 		catch(NoResultException nre) {
-			System.out.println("No Result For SR");
 			return false;
 		}
 		return true;
@@ -304,7 +303,6 @@ public class Post extends SocialObject implements Likeable, Commentable {
 			sr = (SecondarySocialRelation)q.getSingleResult();
 		}
 		catch(NoResultException nre) {
-			System.out.println("No Result For SR");
 			return false;
 		}
 		return true;

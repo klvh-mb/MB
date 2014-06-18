@@ -168,7 +168,6 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 			System.out.println("SR ::"+sr.id);
 		}
 		catch(NoResultException nre) {
-			System.out.println("No Result For SR");
 			return false;
 		}
 		return true;
@@ -186,7 +185,6 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 			sr = (SecondarySocialRelation)q.getSingleResult();
 		}
 		catch(NoResultException nre) {
-			System.out.println("No Result For SR");
 			return false;
 		}
 		return true;

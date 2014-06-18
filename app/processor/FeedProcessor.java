@@ -1,10 +1,7 @@
 package processor;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import javax.persistence.Query;
@@ -58,7 +55,6 @@ public class FeedProcessor {
 	}
 	
 	public static List<String> getUserFeedIds(User u) {
-	    logger.underlyingLogger().debug("getUserFeedIds");
 		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 		Jedis j = jedisPool.getResource();
 		List<String> ids = j.lrange(USER + u.id, 0, -1);
@@ -67,7 +63,6 @@ public class FeedProcessor {
 	}
 	
 	public static List<String> getUserFeedIds(User u,int offset, int pagerows) {
-	    logger.underlyingLogger().debug("getUserFeedIds");
 		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 		Jedis j = jedisPool.getResource();
 		List<String> ids = j.lrange(USER + u.id, offset * pagerows, ((offset + 1)*pagerows-1));
@@ -166,7 +161,8 @@ public class FeedProcessor {
 	}
 	
 	public static Set<Tuple> buildPostQueueFromCommunities(List<Long> communities, int offset) {
-		Set<Tuple> post_ids = new TreeSet<Tuple>();
+		final Set<Tuple> post_ids = new HashSet<Tuple>();       // order of the ids does not matter
+
 		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 		Jedis j = jedisPool.getResource();
 		for(Long c : communities) {
@@ -177,22 +173,37 @@ public class FeedProcessor {
 		return post_ids;
 	}
 
+
+    /**
+     * TODO: Relevance targeting for Community Posts.
+     * @param post_ids
+     * @param userId
+     */
 	public static void applyRelevances(Set<Tuple> post_ids, Long userId) {
-	    logger.underlyingLogger().debug("applyRelevances");
-	    
-		// TODO Auto-generated method stub
-		// APPLY relevance Logic.
-		
+	    logger.underlyingLogger().info("[u="+userId+"] applyRelevances. numPostIds="+post_ids.size());
+
+        String idsForIn = convertSetToString(post_ids, ",");
+        Query query = JPA.em().createQuery("SELECT p from Post p where p.id in (" + idsForIn + ") order by p.auditFields.updatedDate desc");
+        List<Post> postInRelevance = (List<Post>)query.getResultList();
+
 		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 		Jedis j = jedisPool.getResource();
 		j.del(USER + userId);
-		for(Tuple tuple :post_ids){
-			j.lpush(USER + userId, tuple.getElement());
+		for(Post p : postInRelevance){
+			j.rpush(USER + userId, p.getId().toString());   // push to tail.
 		}
 		jedisPool.returnResource(j);
 	}
-	
-	
-	
-	
+
+    private static String convertSetToString(Set<Tuple> tupleSet, String delim) {
+        StringBuilder sb = new StringBuilder();
+
+        String localDelim = "";
+        for (Tuple tuple : tupleSet) {
+            sb.append(localDelim).append(tuple.getElement());
+            localDelim = delim;
+        }
+
+        return sb.toString();
+    }
 }

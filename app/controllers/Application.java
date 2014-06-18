@@ -54,29 +54,30 @@ import common.model.TargetProfile;
 import common.model.TargetYear;
 
 public class Application extends Controller {
-    
+    private static final play.api.Logger logger = play.api.Logger.apply("application");
+
     public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";
 	public static final String USER_ROLE = "USER";
 	public static final String SUPER_ADMIN_ROLE = "SUPER_ADMIN";
-	private static play.api.Logger logger = play.api.Logger.apply("application");
-	
+
 	@Transactional
 	public static Result index() {
-		logger.underlyingLogger().debug("Start index");
-        
         final User localUser = getLocalUser(session());
 		if(localUser == null) {
 			return login();
 		}
-		
+
 		List<Long> communities = localUser.getListOfJoinedCommunityIds();
-		
+
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.getId()+"] index. numJoinedComm="+communities.size());
+        }
+
+        // TODO: Need to refactor to decide how many to pull from each community
 		Set<Tuple> post_ids = FeedProcessor.buildPostQueueFromCommunities(communities, 20);
 		
-		logger.underlyingLogger().debug("getting in applyRelevances");
 		FeedProcessor.applyRelevances(post_ids, localUser.id);
-		logger.underlyingLogger().debug("Done with in applyRelevances");
 		return home(localUser);
 	}
 

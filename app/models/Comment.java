@@ -80,7 +80,6 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
 			System.out.println("SR ::"+sr.id);
 		}
 		catch(NoResultException nre) {
-			System.out.println("No Result For SR");
 			return false;
 		}
 		return true;
