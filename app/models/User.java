@@ -1054,7 +1054,7 @@ public class User extends SocialObject implements Subject, Socializable {
         final NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         List<String> ids = FeedProcessor.getUserFeedIds(this, offset, limit);
-        if (ids.size() == 0) {
+        if (ids == null || ids.size() == 0) {
             return null;
         }
 
