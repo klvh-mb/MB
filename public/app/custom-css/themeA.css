@@ -522,6 +522,7 @@ text-decoration: none;
     width: 100%;
     height: 40px;
     padding: 7px;
+    font-weight: bold;
 }
 .con-title a{
     color: #77737E;
@@ -689,10 +690,20 @@ text-decoration: none;
     margin-right: auto;
     position: relative;
 }
-.header-wrapper a{
-    margin-right: 7px;
+.header-wrapper a {
     color: white;
-    font-size: small;
+    font-size: 14px;
+    font-weight: normal;
+}
+.header-wrapper a:hover {
+    text-decoration: none;
+    color: #E5EDFD;
+}
+.header-main-text {
+    margin-right: 15px;
+    color: white;
+    font-size: 15px !important;
+    font-weight: bold !important;
 }
 .right-side {
     position: absolute;

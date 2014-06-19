@@ -36,7 +36,7 @@
     		        
     		        <a ng-switch-when="COMMUNITY_JOIN_REQUEST" class="pull-left" ng-href="#/profile/{{request.id}}"><img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{request.id}}" alt="50x50" width="50"></a>
     		        
-    		        <a ng-switch-when="COMMUNITY_INVITE_REQUEST" class="pull-left" ng-href="#/community/{{request.id}}/moment"><img class="media-object thumb" data-ng-src="/community-mini-image-by-id/{{request.mm}}" alt="50x50" width="50"></a>
+    		        <a ng-switch-when="COMMUNITY_INVITE_REQUEST" class="pull-left" ng-href="#/community/{{request.id}}/question"><img class="media-object thumb" data-ng-src="/community-mini-image-by-id/{{request.mm}}" alt="50x50" width="50"></a>
     		        
     				<div class="media-body" data-ng-init="request.isLoadingEnable = false">
     		        	
@@ -57,7 +57,7 @@
     		            
     		            <a ng-switch-when="COMMUNITY_JOIN_REQUEST" style="margin-right: 0px !important;" ng-href="#/profile/{{request.id}}"><h5 class="media-heading">{{request.dn}}</h5></a>
     		            
-    		            <a ng-switch-when="COMMUNITY_INVITE_REQUEST" style="margin-right: 0px !important;" ng-href="#/community/{{request.id}}/moment"><h5 class="media-heading">{{request.cn}}</h5></a>
+    		            <a ng-switch-when="COMMUNITY_INVITE_REQUEST" style="margin-right: 0px !important;" ng-href="#/community/{{request.id}}/question"><h5 class="media-heading">{{request.cn}}</h5></a>
     		            
     		            <p class="margin-none">{{request.msg}}</p>
     		        </div>
@@ -79,7 +79,7 @@
     			        	<img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
     			        </a>
     			        
-    			        <a ng-switch-when="COMMUNITY" class="pull-left" href="#/community/{{sr.id}}/moment">
+    			        <a ng-switch-when="COMMUNITY" class="pull-left" href="#/community/{{sr.id}}/question">
     			        	<img class="media-object thumb" data-ng-src="/community-mini-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
     			        </a>
     			        
@@ -94,19 +94,22 @@
     	</div>
     </form>
     <div class="right-side">
-        <a style="color: #ffffff !important;font-weight: bold;" class="dropdown-toggle dropdown-hover colorChange" data-toggle="dropdown" href="#">
-            {{userInfo.displayName}}
+        <a class="header-main-text" ng-href="#/">
+            主頁
+        </a>
+        <a class="header-main-text" ng-href="#/about/activities">
+            {{userInfo.firstName}}
+        </a>
+        <!--a href="#"><img src="../assets/app/images/general/icons/w_home.png" /></a-->
+        <a class="dropdown-toggle dropdown-hover colorChange" data-toggle="dropdown" href="#">
+            <img src="../assets/app/images/general/icons/w_setup.png" />
         </a>
         <ul class="dropdown-menu">
-            <li><a ng-href="#/">主頁</a></li>
-            <li class="dropdown-divider" role="presentation"></li>
-            <!-- <li><a >Messages</a></li> -->
-            <li><a ng-href="#/about/activities">我的資料</a></li>
-            <li class="dropdown-divider" role="presentation"></li>
+            <li><a ng-href="#/">設定</a></li>
             <li><a href="/logout">登出</a></li>
+            <li class="dropdown-divider" role="presentation"></li>
+            <li><a ng-href="#/">回報問題</a></li>
         </ul>
-        <a href="#"><img src="../assets/app/images/general/icons/w_home.png" /></a>
-        <a href="#"><img src="../assets/app/images/general/icons/w_setup.png" /></a>
     </div>
 </div>
         

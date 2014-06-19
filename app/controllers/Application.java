@@ -52,6 +52,7 @@ import com.mnt.exception.SocialObjectNotJoinableException;
 import common.model.TargetGender;
 import common.model.TargetProfile;
 import common.model.TargetYear;
+import common.utils.DateTimeUtil;
 
 public class Application extends Controller {
     private static final play.api.Logger logger = play.api.Logger.apply("application");
@@ -136,6 +137,11 @@ public class Application extends Controller {
 	}
 	
 	@Transactional
+    public static Result saveSignupInfoFb() {
+	    return saveSignupInfo();
+	}
+	
+	@Transactional
 	public static Result saveSignupInfo() {
 		final User localUser = getLocalUser(session());
 		
@@ -175,6 +181,9 @@ public class Application extends Controller {
             String bbBirthYear = form.get("bb_birth_year" + i);
             String bbBirthMonth = form.get("bb_birth_month" + i);
             String bbBirthDay = form.get("bb_birth_day" + i);
+            
+            if (!DateTimeUtil.isDayOfMonthValid(bbBirthYear, bbBirthMonth, bbBirthDay)) 
+                throw new RuntimeException("Child birth day is not in range");
             
             UserChild userChild = new UserChild();
             userChild.gender = bbGender;

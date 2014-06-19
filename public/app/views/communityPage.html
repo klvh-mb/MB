@@ -16,6 +16,16 @@
                 <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/announcementsWidget.html'"></div>
             </div>
 			<!--Announce End -->
+			<div>
+                <div id="myShortcuts" class="general-box">
+                    <div class="con-title">
+                        <a href="/#/" class="text-muted">
+                            <img src="/assets/app/images/general/icons/newsfeed.png">我的社群動向
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!--Newsfeed shortcut End -->
 			<div ng-controller="UserCommunityWidgetController">
                 <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/myCommunityWidget.html'"></div>
             </div>
@@ -67,12 +77,18 @@
 				<div class="tab-content col-md-12 col-sm-12 col-xs-12" ng-show="selectedTab == 1 ">
 					<div class="general-box" style="margin:-1px">
 						<div class="wall-title">
-							<span class="wall-icon icon-title-community">
-							</span><a ng-click="selectedTab1 = 1; searchQuery = '';" ng-class="{activeTabUnderlined: selectedTab1 == 1}">
-							<font style="color: white;">Questions</font> </a>
-							<span class="wall-icon icon-title-friendwall">
-                            </span><a ng-click="selectedTab1 = 2; searchQuery = '';" ng-class="{activeTabUnderlined: selectedTab1 == 2}">
-                            <font style="color: white;">Moments</font> </a>
+							<!--span class="wall-icon icon-title-community"></span-->
+							<span style="margin-left:15px;">
+    							<a ng-click="selectedTab1 = 1; searchQuery = '';" ng-class="{activeTabUnderlined: selectedTab1 == 1}">
+                                    <font style="color: white;">問題</font>
+    							</a>
+							</span>
+							<!--span class="wall-icon icon-title-friendwall"></span-->
+							<span style="margin-left:15px;">
+    							<a ng-click="selectedTab1 = 2; searchQuery = '';" ng-class="{activeTabUnderlined: selectedTab1 == 2}">
+                                    <font style="color: white;">分享</font>
+                                </a>
+                            </span>
 							<a ng-click="selectedTab1 = 3;" id="contentSearchwrapper" class="pull-right ng-pristine ng-valid" ng-class="{activeTabUnderlined: selectedTab1 == 3}">
                                 <div class="basic-search-wrapper">
                                     <div class="input-group innerB basic-search">

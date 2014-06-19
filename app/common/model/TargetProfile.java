@@ -7,6 +7,8 @@ import models.UserChild;
 import org.joda.time.DateTime;
 import org.joda.time.Months;
 
+import common.utils.DateTimeUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,15 +60,7 @@ public class TargetProfile {
                 }
 
                 if (child.birthYear != null && child.birthMonth != null) {
-                    /*
-                    int birthDay = Integer.valueOf(child.birthDay);
-                    if (!(birthDay >= 1 && birthDay <= 31)) {
-                        birthDay = 1;
-                    }
-                    */
-                    DateTime birthDate = new DateTime(
-                            Integer.valueOf(child.birthYear), Integer.valueOf(child.birthMonth), 
-                            Integer.valueOf(child.birthDay), 0, 0);
+                    DateTime birthDate = DateTimeUtil.parseDate(child.birthYear, child.birthMonth, child.birthDay);
                     Months months = Months.monthsBetween(birthDate, DateTime.now());
 
                     if (childrenMinAge == null || months.getMonths() < childrenMinAge) {

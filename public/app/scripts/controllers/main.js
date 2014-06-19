@@ -555,7 +555,7 @@ minibean.controller('CreateCommunityController',function($scope, $location, $htt
 			    }).success(function(data, status, headers, config) {
 			    	$scope.submitBtn = "Done";
 			    	usSpinnerService.stop('loading...');
-			    	$location.path('/community/'+data+'/moment');
+			    	$location.path('/community/'+data+'/question');
 			    	$("#myModal").modal('hide');
 			    }).error(function(data, status, headers, config) {
 			    	if( status == 505 ) {
@@ -1342,14 +1342,13 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		usSpinnerService.stop('loading...');
 	});
 	var tab = $routeParams.tab;
-	if(tab == 'moment'){
-		$scope.selectedTab1 =1;
-	}
 	if(tab == 'question'){
-		$scope.selectedTab1 =2;
+		$scope.selectedTab1 = 1;
 	}
-	$scope.selectedTab =1;
-	
+	if(tab == 'moment'){
+		$scope.selectedTab1 = 2;
+	}
+	$scope.selectedTab = 1;
 	
 	$scope.nonMembers = [];
 	$scope.search_unjoined_users = function(comm_id, query) {
