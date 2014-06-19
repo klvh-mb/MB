@@ -24,7 +24,7 @@ public class FriendsController extends Controller {
 		int count=0;
 		List<FriendWidgetChildVM> friends = new ArrayList<>();
 		for(User friend : localUser.getFriends()) {
-			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName));
+			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName, friend.userInfo.location));
 			++count;
 			if(count == 8) {
 				break;
@@ -41,7 +41,7 @@ public class FriendsController extends Controller {
 		int count=0;
 		List<FriendWidgetChildVM> friends = new ArrayList<>();
 		for(User friend : user.getFriends()) {
-			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName));
+			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName, friend.userInfo.location));
 			++count;
 			if(count == 8) {
 				break;
@@ -61,7 +61,7 @@ public class FriendsController extends Controller {
 		List<FriendWidgetChildVM> friends = new ArrayList<>();
 		for(Object friend1 : localUser.getSuggestedFriends()) {
 			User friend = (User) friend1;
-			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName));
+			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName, friend.userInfo.location));
 			System.out.println(" NAME :: "+friend.displayName);
 			++count;
 			if(count == 8) {

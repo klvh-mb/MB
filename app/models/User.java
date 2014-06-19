@@ -281,7 +281,7 @@ public class User extends SocialObject implements Subject, Socializable {
     
     @JsonIgnore
     public List<User> getSuggestedFriends() {
-        Query q = JPA.em().createNativeQuery("Select * from User u where u.id not in (select sr.target from  SocialRelation sr where sr.action = ?2 or sr.actionType = ?3 and sr.actor = ?1 union select sr1.actor from  SocialRelation sr1 where sr1.action = ?2 or sr1.actionType = ?3 and sr1.target = ?1 union select User.id from User where User.id = ?1) and u.emailValidated = true",User.class);
+        Query q = JPA.em().createNativeQuery("Select * from User u where u.id not in (select sr.target from SocialRelation sr where sr.action = ?2 or sr.actionType = ?3 and sr.actor = ?1 union select sr1.actor from SocialRelation sr1 where sr1.action = ?2 or sr1.actionType = ?3 and sr1.target = ?1 union select User.id from User where User.id = ?1) and u.emailValidated = true and system = 0",User.class);
         q.setParameter(1, this.id);
         q.setParameter(2, SocialRelation.Action.FRIEND.name());
         q.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED.name());
@@ -365,7 +365,7 @@ public class User extends SocialObject implements Subject, Socializable {
     @JsonIgnore
     public List<Community> getListOfNotJoinedCommunities() {
         
-        Query q = JPA.em().createQuery("Select c from Community c where c.id not in (select sr.target from  SocialRelation sr where sr.action = ?2 and sr.actor = ?1)");
+        Query q = JPA.em().createQuery("Select c from Community c where c.id not in (select sr.target from SocialRelation sr where sr.action = ?2 and sr.actor = ?1)");
         q.setParameter(1, this.id);
         q.setParameter(2, Action.MEMBER);
         List<Community> communityList = q.getResultList();
@@ -375,7 +375,7 @@ public class User extends SocialObject implements Subject, Socializable {
     @JsonIgnore
     public List<Community> getListOfNotJoinedCommunities(int offset, int limit) {
         
-        Query q = JPA.em().createQuery("Select c from Community c where c.id not in (select sr.target from  SocialRelation sr where sr.action = ?2 and sr.actor = ?1)");
+        Query q = JPA.em().createQuery("Select c from Community c where c.id not in (select sr.target from SocialRelation sr where sr.action = ?2 and sr.actor = ?1)");
         q.setParameter(1, this.id);
         q.setParameter(2, Action.MEMBER);
         q.setFirstResult(offset);
@@ -931,8 +931,7 @@ public class User extends SocialObject implements Subject, Socializable {
     
     @JsonIgnore
     public boolean isFriendRequestPendingFor(User user) {
-        Query query = JPA.em().createQuery("SELECT count(*) from SocialRelation where ((target = ?1 and actor = ?2) or (actor = ?1 and target = ?2)) " +
-                "and actionType = ?3");
+        Query query = JPA.em().createQuery("SELECT count(*) from SocialRelation where ((target = ?1 and actor = ?2) or (actor = ?1 and target = ?2)) and actionType = ?3");
         query.setParameter(1, this.id);
         query.setParameter(2, user.id);
         query.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED);
@@ -943,7 +942,7 @@ public class User extends SocialObject implements Subject, Socializable {
     public int doUnFriend(User toBeUnfriend) {
                 
         Query query = JPA.em().createQuery("SELECT sr FROM SocialRelation sr " +
-                " where sr.actionType=?1 And  sr.action = ?4 And " +
+                " where sr.actionType=?1 And sr.action = ?4 And " +
                 " ((sr.target = ?2 and sr.actor = ?3) or (sr.actor = ?2 and sr.target = ?3))", SocialRelation.class
                 );
         query.setParameter(1, SocialRelation.ActionType.GRANT);
@@ -1006,7 +1005,7 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(4, SocialRelation.Action.MEMBER);
         
         SocialRelation sr= (SocialRelation) query.getSingleResult();
-        query = JPA.em().createQuery("DELETE  Notification n where socialAction =?1");
+        query = JPA.em().createQuery("DELETE Notification n where socialAction =?1");
         query.setParameter(1, sr);
         query.executeUpdate();
         

@@ -70,7 +70,7 @@ a:focus {
     min-width: 120px;
     position: absolute;
     top: 100%;
-    left: 10px;
+    left: 35px;
 }
 .dropdown-menu li {
     border: 0px;
@@ -142,7 +142,7 @@ a:focus {
 #myShortcuts .con-title img {
     width: 28px;
     height: auto;
-    margin-right: 8px;
+    margin-right: 6px;
 }
 #hotTopic {
     width:100%; 
