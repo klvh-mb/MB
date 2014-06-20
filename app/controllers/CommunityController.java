@@ -66,12 +66,17 @@ public class CommunityController extends Controller{
 		logger.underlyingLogger().debug("getUserUnJoinCommunity");
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
-		for(Community community : localUser.getListOfNotJoinedCommunities(0,5)) {
+		int i = 0; 
+		for(Community community : localUser.getListOfNotJoinedCommunities()) {
+			if(i >= 5)
+				break;
 			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(
 			        community.id, (long) community.getMembers().size(), community.name, "", 
 			        community.iconName, community.communityType);
 			vm.isP = localUser.isJoinRequestPendingFor(community);
 			communityList.add(vm);
+			i++;
+			
 		}
 		
 		CommunitiesParentVM fwVM = new CommunitiesParentVM(localUser.getListOfNotJoinedCommunities().size(), communityList);

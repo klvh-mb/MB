@@ -2339,30 +2339,7 @@ minibean.controller('EditArticleController',function($scope,$routeParams,$locati
 });
 
 minibean.service('newsFeedService',function($resource){
-	
-//	this.getMyUpdates = $resource(
-//			'/get-my-updates/:timestamp',
-//			{alt:'json',callback:'JSON_CALLBACK'},
-//			{
-//				get: {method:'GET', params:{timestamp:'@timestamp'}}
-//			}
-//	);
-//	
-//	this.getMyLiveUpdates = $resource(
-//			'/get-my-live-updates/:timestamp',
-//			{alt:'json',callback:'JSON_CALLBACK'},
-//			{
-//				get: {method:'GET', params:{timestamp:'@timestamp'}}
-//			}
-//	);
-//	
-//	this.GetNextNewsFeeds = $resource(
-//			'/get-next-news-feeds/:timestamp',
-//			{alt:'json',callback:'JSON_CALLBACK'},
-//			{
-//				get: {method:'GET', params:{timestamp:'@timestamp'}, isArray:true}
-//			}
-//	);
+
 	
 	this.NewsFeeds = $resource(
 			'/get-newsfeeds/:offset',
@@ -2486,9 +2463,6 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 	var noMore = false;
 	var offset = 0;
 
-	//$scope.newsFeeds = newsFeedService.NewsFeeds.get({offset:0}, function(vm) {
-	//	offset++;
-	//});
 	
 	$scope.nextNewsFeeds = function() {
 		if ($scope.isBusy) return;
@@ -2567,12 +2541,8 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $int
 
 	var noMore = false;
 	var offset = 0;
-	$scope.userInfo = userInfoService.UserInfo.get();
 	
 
-	//$scope.newsFeeds = newsFeedService.NewsFeeds.get({offset:0}, function(vm) {
-	//	offset++;
-	//});
 	
 	$scope.bookmarkPost = function(post_id) {
 		bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {

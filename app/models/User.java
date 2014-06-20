@@ -365,11 +365,38 @@ public class User extends SocialObject implements Subject, Socializable {
     @JsonIgnore
     public List<Community> getListOfNotJoinedCommunities() {
         
-        Query q = JPA.em().createQuery("Select c from Community c where c.id not in (select sr.target from SocialRelation sr where sr.action = ?2 and sr.actor = ?1)");
-        q.setParameter(1, this.id);
-        q.setParameter(2, Action.MEMBER);
-        List<Community> communityList = q.getResultList();
-        return communityList;
+    	 Query q = JPA.em().createNativeQuery("Select * from Community c where c.id in(Select sr2.target from SocialRelation sr2 where sr2.actor in  (select sr.target from SocialRelation sr where sr.action = ?2 or sr.actionType = ?3 and sr.actor = ?1 union select sr1.actor from SocialRelation sr1 where sr1.action = ?2 or sr1.actionType = ?3 and sr1.target = ?1 ) and sr2.action = ?4 and sr2.targetType = ?5 )",Community.class);
+         q.setParameter(1, this.id);
+         q.setParameter(2, SocialRelation.Action.FRIEND.name());
+         q.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED.name());
+		q.setParameter(4, SocialRelation.Action.MEMBER.name());
+		q.setParameter(5, SocialObjectType.COMMUNITY.name());
+		List<Community> communityList = (List<Community>)q.getResultList();
+		communityList.removeAll(this.getListOfJoinedCommunities());
+		List<User> friends = this.getFriends();
+		
+		int friendsCount = 0;
+		List<Integer> friendsCountList = new ArrayList<>();
+		for(Community community : communityList) {
+			for(User fr : friends) {
+				if(fr.isMemberOf(community)){
+					friendsCount++;
+					break;
+				}
+			}
+			friendsCountList.add(friendsCount);
+			friendsCount = 0;
+		}
+		
+		List<Community> c = communityList;
+		for(int i=0;i<friendsCountList.size()-1;i++) {
+			for(int j=i+1;j<friendsCountList.size();j++) {
+				if(friendsCountList.get(i)<friendsCountList.get(j)) {
+					Collections.swap(c, i, j);
+				}
+			}
+		}
+        return c;
     }
 
     @JsonIgnore
@@ -1043,7 +1070,7 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(2, this.id);
         query.setParameter(3, SocialObjectType.ARTICLE);
         System.out.println(limit + " :: " + offset + ":: (List<Post>)query.getResultList(); :: " + query.getResultList().size());
-        query.setFirstResult(offset);
+        query.setFirstResult(offset * 5);
         query.setMaxResults(limit);
         
         return (List<Article>)query.getResultList();
