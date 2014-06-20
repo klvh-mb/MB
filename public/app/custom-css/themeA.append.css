@@ -310,6 +310,23 @@ a:focus {
     width: 70px;
     height: 70px;
 }
+.widget-thumbnail {
+    width: 100%;
+    position: relative;
+    margin: 8px;
+}
+.widget-thumbnail a[tag="user-picture-a"] {
+    position: relative;
+    margin: 0px;
+}
+.widget-thumbnail img[tag="user-picture-img"] {
+    z-index: -5;
+    border: 1px solid #4440AC;
+    border-radius: 3px;
+    width: 82px;
+    height: 82px;
+    vertical-align: initial;
+}
 #community-banner {
     /*width: 575px;
     height: 250px;*/
