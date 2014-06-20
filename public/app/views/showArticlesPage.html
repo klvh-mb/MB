@@ -52,16 +52,32 @@
                     <span class="wall-icon icon-title-friendwall"></span><a href="/#/article/show/0" style="cursor: pointer;"><font><font>All Articles</font></font></a>
                 </div>
                 </div>
-                <div infinite-scroll='next_result()'  infinite-scroll-distance='0' >
+                <div infinite-scroll='next_result()' infinite-scroll-distance='0' >
 	                <div class="general-box">
-	                    <ul class="allpost-wrapper" style="padding: 3px 10px 3px 10px;">
+	                    <ul class="allpost-wrapper" style="padding: 5px 10px 0px 10px;">
 	                        <li data-ng-repeat="article in result" style="border:none;border-bottom: #bcbcbc thin solid;">
 	                            <a href="/#/article/id/{{article.id}}" target="_blank">
-	                                <img ng-show="article.img_url != 'No Image'"  data-ng-src="{{article.img_url}}"></a>
-	                                <a data-ng-show="!article.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkArticle(article.id)"></a>
-        					        <a data-ng-show="article.isBookmarked" class="btn-like post-favorited" href="" data-ng-click="unBookmarkArticle(article.id)"></a>
-	                                <div><a href="/#/article/id/{{article.id}}" target="_blank"><h4 style="color: #324fe1;"><font><font>{{article.nm}}</font></font></h4></a><h6><a class="tag" data-ng-href="/#/article/show/{{article.ct.id}}"><font><font>{{article.ct.name}}</font></font></a><font><font>{{article.pd | date:'yyyy'  }}</font></font>  <font><font>{{article.pd | date:'MMM'  }}</font></font>  <font><font>{{article.pd | date:'dd hh:mm a'  }}</font></font></h6><p><font><font>{{article.lds|limitTo:65}}...</font></font></p></div>
-	                        </li>
+	                                <img ng-show="article.img_url != 'No Image'"  data-ng-src="{{article.img_url}}">
+	                            </a>
+	                            <a data-ng-show="!article.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkArticle(article.id)"></a>
+                                <a data-ng-show="article.isBookmarked" class="btn-like post-favorited" href="" data-ng-click="unBookmarkArticle(article.id)"></a>
+                                <div>
+                                    <a href="/#/article/id/{{article.id}}" target="_blank">
+                                        <h4 style="color: #324fe1;"><font><font>{{article.nm}}</font></font></h4>
+                                    </a>
+                                    <h6>
+                                        <a class="tag" data-ng-href="/#/article/show/{{article.ct.id}}">
+                                            <font><font>{{article.ct.name}}</font></font>
+                                        </a>
+                                        <font><font>{{article.pd | date:'yyyy'}}</font></font>
+                                        <font><font>{{article.pd | date:'MMM'}}</font></font>
+                                        <font><font>{{article.pd | date:'dd hh:mm a'}}</font></font>
+                                        <span ng-show="article.nov > 0" class="view-count" style="margin-left:10px;"><img data-ng-src="/assets/app/images/general/icons/view.gif"/>{{article.nov}}</span>
+                                        <span ng-show="article.nol > 0" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>{{article.nol}}</span>
+                                    </h6>
+                                    <p><font><font>{{article.lds|limitTo:90}}...</font></font></p>
+                                </div>
+                            </li>
 	                    </ul>
 	                </div>
                 </div>

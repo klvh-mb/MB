@@ -25,7 +25,7 @@ GET     /get-Articles-Categorywise/:id/:offset		controllers.ArticleController.ge
 GET     /get-Six-Articles           controllers.ArticleController.getSixArticles
 GET     /get-Eight-Articles			controllers.ArticleController.getEightArticles
 GET		/get-Related-Articles/:id/:category_id   controllers.ArticleController.getRelatedArticles(id :Long,category_id :Long)
-GET		/getDescriptionOdArticle/:id  	controllers.ArticleController.getDescriptionOdArticle(id :Long)
+GET		/getDescriptionOfArticle/:id  	controllers.ArticleController.getDescriptionOfArticle(id :Long)
 GET		/deleteArticle/:id			controllers.ArticleController.deleteArticle(id :Long)
 GET		/article/:id				controllers.ArticleController.infoArticle(id :Long)
 GET     /like-article/:id			controllers.ArticleController.onLike(id : Long)

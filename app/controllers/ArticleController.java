@@ -13,20 +13,11 @@ import javax.persistence.NoResultException;
 import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotLikableException;
 
-import common.utils.NanoSecondStopWatch;
 import domain.CommentType;
 
 import models.Article;
 import models.ArticleCategory;
-import models.Comment;
-import models.Community;
-import models.Post;
 import models.User;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import play.data.DynamicForm;
 import play.data.Form;
@@ -37,7 +28,6 @@ import play.mvc.Result;
 import targeting.sc.ArticleTargetingEngine;
 import viewmodel.ArticleCategoryVM;
 import viewmodel.ArticleVM;
-import viewmodel.CommunityPostCommentVM;
 import viewmodel.SlidderArticleVM;
 
 public class ArticleController extends Controller {
@@ -206,7 +196,7 @@ public class ArticleController extends Controller {
 	}
 	
 	@Transactional
-	public static Result getDescriptionOdArticle(Long art_id) {
+	public static Result getDescriptionOfArticle(Long art_id) {
 		Article article = Article.findById(art_id);
 		Map<String, String> description = new HashMap<>();
 		description.put("description", article.description);
@@ -219,24 +209,21 @@ public class ArticleController extends Controller {
 		return ok();
 	}
 	
-	@Transactional
-	public static Result infoArticle(Long art_id) {
-		final User localUser = Application.getLocalUser(session());
-		Article article = null;
-		try {
-		 article = Article.findById(art_id);
-		} catch(NoResultException e) {
-			
-			return ok("1");
-		}
-		ArticleVM vm = new ArticleVM(article, localUser);
-		vm.description = article.description;
-		return ok(Json.toJson(vm));
-	}
+    @Transactional
+    public static Result infoArticle(Long art_id) {
+        final User localUser = Application.getLocalUser(session());
+        Article article = null;
+        try {
+            article = Article.findById(art_id);
+            article.noOfViews++;
+        } catch(NoResultException e) {
+            return ok("1");
+        }
+        ArticleVM vm = new ArticleVM(article, localUser);
+        vm.description = article.description;
+        return ok(Json.toJson(vm));
+    }
 	
-
-	
-
 	@Transactional
 	public static Result onLike(Long article_id) throws SocialObjectNotLikableException {
 		User loggedUser = Application.getLocalUser(session());

@@ -106,7 +106,7 @@ pre {
 }
 .btn-like img:first-child {
     height: 16px;
-    vertical-align: text-top;
+    vertical-align: text-bottom;
     padding: 0 5px 0 0;
     display: inline-block;
 }
@@ -1268,7 +1268,7 @@ text-decoration: none;
 }
 .allpost-wrapper li {
     display: block;
-    padding: 10px 0 0 0; 
+    padding: 5px 0 3px 0;
     border-top: #bcbcbc thin solid;
 }
 /*.allpost-wrapper li:hover > div h4, 
@@ -1312,11 +1312,17 @@ text-decoration: none;
 .allpost-wrapper h6 span[title=day]:after {
     content: " 日 ";
 }
-.allpost-wrapper h6+p {
+.allpost-wrapper h6 {
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+.allpost-wrapper p {
     width: 100%;
     min-height: 70px;
     overflow: hidden;
-    padding-top: 3px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    line-height: 1.35;
 }
 /*All Post End*/
 

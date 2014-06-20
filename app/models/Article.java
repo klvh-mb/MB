@@ -3,14 +3,11 @@ package models;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-
-import models.SocialRelation.Action;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -34,8 +31,10 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	@Lob
 	public String description;
 	
-	public int noOfLikes=0;
+	public int noOfLikes = 0;
     
+	public int noOfViews = 0;
+	
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
 	public Date publishedDate;
 

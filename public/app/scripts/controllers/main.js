@@ -1953,7 +1953,7 @@ minibean.service('allArticlesService',function($resource){
 
 minibean.service('getDescriptionService',function($resource){
 	this.GetDescription = $resource(
-			'/getDescriptionOdArticle/:id',
+			'/getDescriptionOfArticle/:id',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
 				get: {method:'get'}

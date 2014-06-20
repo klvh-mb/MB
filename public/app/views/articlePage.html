@@ -24,6 +24,7 @@
                         <li>
                         	<font class="scTitle">{{article.nm}}</font>
                         	<span class="btn-like-wrapper">
+                                <span ng-show="article.nov > 0" class="btn-like" style="margin-right:10px;"><img style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.gif"/>{{article.nov}}</span>
                                 <a data-ng-show="!article.isLike" class="btn-like" href="" data-ng-click="like_article(article.id)"><img data-ng-src="/assets/app/images/general/icons/like_1.gif"/>Like</a> 
                                 <a data-ng-show="article.isLike" class="btn-like" href="" data-ng-click="unlike_article(article.id)"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>Unlike</a>
                                 <span ng-show="article.nol > 0"> · {{article.nol}}</span>

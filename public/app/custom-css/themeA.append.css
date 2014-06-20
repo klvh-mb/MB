@@ -669,7 +669,19 @@ span.notif-count {
     background-color: white !important;
     background-image: linear-gradient(to bottom, white, white) !important;
 }
-btn-primary .caret {
+.btn-primary .caret {
     border-top-color: black;
     border-bottom-color: black;
+}
+.view-count, .like-count {
+    color: #77737E;
+    font-size: 12px;
+    margin-right: 5px;
+}
+.view-count img, .like-count img {
+    width: 14px; 
+    height: 14px; 
+    float: none; 
+    margin-right: 5px;
+    vertical-align: text-bottom; 
 }

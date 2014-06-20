@@ -1,12 +1,9 @@
 package viewmodel;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import models.Article;
 import models.ArticleCategory;
-import models.Comment;
 import models.User;
 
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -23,6 +20,7 @@ public class ArticleVM {
 	@JsonProperty("category_url") public String category_url;
 	@JsonProperty("lds") public String lines;
 	@JsonProperty("nol") public int noOfLikes;
+	@JsonProperty("nov") public int noOfViews;
 	@JsonProperty("isLike") public boolean isLike = false;	
 	@JsonProperty("isBookmarked") public boolean isBookmarked = false;	
 
@@ -31,7 +29,8 @@ public class ArticleVM {
 		this.name = article.name;
 		this.id = article.id;
 		this.noOfLikes = article.noOfLikes;
-
+		this.noOfViews = article.noOfViews;
+		
 		this.publishedDate = article.publishedDate;
 
 		if(article.description == null || article.description.isEmpty()) {
@@ -53,8 +52,5 @@ public class ArticleVM {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
 	}
-
 }
