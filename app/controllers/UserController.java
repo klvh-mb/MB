@@ -32,6 +32,8 @@ import viewmodel.SocialObjectVM;
 import viewmodel.UserVM;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
+import com.mnt.utils.UtilRails;
+
 import common.model.TargetGender;
 
 public class UserController extends Controller {
@@ -158,7 +160,7 @@ public class UserController extends Controller {
 		final User user = User.findById(id);
 		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostVM> posts = new ArrayList<>();
-		List<Post> newsFeeds =  user.getUserNewsfeeds(Integer.parseInt(offset), 5);
+		List<Post> newsFeeds =  user.getUserNewsfeeds(Integer.parseInt(offset), UtilRails.noOfPost);
 		
 		if(newsFeeds != null ){
 			for(Post p : newsFeeds) {

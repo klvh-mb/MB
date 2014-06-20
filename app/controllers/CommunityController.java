@@ -47,6 +47,7 @@ import viewmodel.SocialObjectVM;
 import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotJoinableException;
 import com.mnt.exception.SocialObjectNotLikableException;
+import com.mnt.utils.UtilRails;
 import com.typesafe.plugin.RedisPlugin;
 
 import domain.CommentType;
@@ -68,7 +69,7 @@ public class CommunityController extends Controller{
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		int i = 0; 
 		for(Community community : localUser.getListOfNotJoinedCommunities()) {
-			if(i >= 5)
+			if(i >= UtilRails.noOfCommunity)
 				break;
 			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(
 			        community.id, (long) community.getMembers().size(), community.name, "", 
@@ -224,24 +225,13 @@ public class CommunityController extends Controller{
 	public static Result getMyAnyThreeCommunities() {
 		logger.underlyingLogger().debug("getMyAnyThreeCommunities");
 		final User localUser = Application.getLocalUser(session());
-		int count=0;
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
-		for(Community community : localUser.getListOfJoinedCommunities()) {
+		for(Community community : localUser.getListOfJoinedCommunities(0, UtilRails.noOfCommunity)) {
 			communityList.add(new CommunitiesWidgetChildVM(
 			        community.id, (long)community.getMembers().size(), community.name, "", 
 			        community.iconName, community.communityType));
-			++count;
-			
-			if(count == 5) {
-				break;
-			}
 		}
 		CommunitiesParentVM fwVM = new CommunitiesParentVM(localUser.getListOfNotJoinedCommunities().size(), communityList);
-		if(count < 5){
-			fwVM.isMore = true;
-		}else {
-			fwVM.isMore = false;
-		}
 		return ok(Json.toJson(fwVM));
 	}
 	
@@ -348,9 +338,9 @@ public class CommunityController extends Controller{
 		logger.underlyingLogger().debug("getNextPosts");
 		final User localUser = Application.getLocalUser(session());
 		Community community = Community.findById(Long.parseLong(id));
-		int start = Integer.parseInt(offset) * 5 + 5;
+		int start = Integer.parseInt(offset) * UtilRails.noOfPost + UtilRails.noOfPost;
 		List<CommunityPostVM> postsVM = new ArrayList<>();
-		List<Post> posts =  community.getPostsOfCommunity(start, 5);
+		List<Post> posts =  community.getPostsOfCommunity(start, UtilRails.noOfPost);
 		for(Post p: posts) {
 			CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser);
 			postsVM.add(post);
@@ -363,9 +353,9 @@ public class CommunityController extends Controller{
 		logger.underlyingLogger().debug("getNextQuests");
 		final User localUser = Application.getLocalUser(session());
 		Community community = Community.findById(Long.parseLong(id));
-		int start = Integer.parseInt(offset) * 5 + 5;
+		int start = Integer.parseInt(offset) * UtilRails.noOfPost + UtilRails.noOfPost;
 		List<CommunityPostVM> postsVM = new ArrayList<>();
-		List<Post> posts =  community.getQuestionsOfCommunity(start, 5);
+		List<Post> posts =  community.getQuestionsOfCommunity(start, UtilRails.noOfPost);
 		for(Post p: posts) {
 			CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
 			postsVM.add(post);
@@ -682,43 +672,6 @@ public class CommunityController extends Controller{
 		return ok();
 	}
 	
-	@Transactional
-	public static Result getUnknownCommunities(Integer offset) {
-		logger.underlyingLogger().debug("getUnknownCommunities");
-		int start = offset * 3 + 3;
-		List<CommunitiesWidgetChildVM> communityVM = new ArrayList<>();
-		
-		final User localUser = Application.getLocalUser(session());
-		List<Community> communities = localUser.getListOfNotJoinedCommunities(start, 5);
-		
-		for (Community community : communities) {
-			CommunitiesWidgetChildVM comVM = new CommunitiesWidgetChildVM(
-			        community.id, (long)community.getMembers().size(), community.name, "", 
-			        community.iconName, community.communityType);
-			comVM.isO = (localUser == community.owner) ? true : false;
-			communityVM.add(comVM);
-		}
-		return ok(Json.toJson(communityVM));
-	}
-	
-	@Transactional
-	public static Result getMyNextCommunities(Integer offset) {
-		logger.underlyingLogger().debug("getMyNextCommunities");
-		int start = offset * 3 + 3;
-		List<CommunitiesWidgetChildVM> communityVM = new ArrayList<>();
-		
-		final User localUser = Application.getLocalUser(session());
-		List<Community> communities = localUser.getListOfJoinedCommunities(start, 3);
-		
-		for (Community community : communities) {
-			CommunitiesWidgetChildVM comVM = new CommunitiesWidgetChildVM(
-			        community.id, (long)community.getMembers().size(), community.name, "", 
-			        community.iconName, community.communityType);
-			comVM.isO = (localUser == community.owner) ? true : false;
-			communityVM.add(comVM);
-		}
-		return ok(Json.toJson(communityVM));
-	}
 	
 	@Transactional
 	public static Result getMyUpdates(Long timestamps){
@@ -739,7 +692,7 @@ public class CommunityController extends Controller{
 		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostVM> posts = new ArrayList<>();
 		
-		List<Post> newsFeeds = localUser.getNewsfeedsAtHomePage(offset, 5);
+		List<Post> newsFeeds = localUser.getNewsfeedsAtHomePage(offset, UtilRails.noOfPost);
 		
 		if(newsFeeds != null ){
 			for(Post p : newsFeeds) {
@@ -853,7 +806,7 @@ public class CommunityController extends Controller{
 		logger.underlyingLogger().debug("getBookmarkPosts");
 		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostVM> posts = new ArrayList<>();
-		List<Post> bookmarkPost = localUser.getBookamrkPost(offset, 5);
+		List<Post> bookmarkPost = localUser.getBookamrkPost(offset, UtilRails.noOfPost);
 		if(bookmarkPost != null ){
 			for(Post p : bookmarkPost) {
 				CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);

@@ -165,13 +165,13 @@
         </div>
         <div id="newCommunity">
 				<div class="col-lg-12 col-md-12"
-					ng-controller="UnknownCommunityWidgetController">
+					ng-controller="UnknownCommunityWidgetController" data-ng-show="result.fvm.length > 0">
 					<div data-ng-include style="width: 100%;"
 						data-src="'/assets/app/views/communityWidget.html'"></div>
 				</div>
 			</div><!--NewCommunity End -->
          <div>
-           	<div class="col-lg-12 col-md-12" ng-controller="FriendsWidgetController">
+           	<div class="col-lg-12 col-md-12" ng-controller="FriendsWidgetController" data-ng-show="result.fvm.length > 0">
 				<div data-ng-include style="width: 100%;" data-src="'/assets/app/views/friendsBar.html'"></div>
 			</div>
           </div><!--Friends End -->

@@ -58,6 +58,7 @@ import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotJoinableException;
 import com.mnt.exception.SocialObjectNotLikableException;
 import com.mnt.exception.SocialObjectNotPostableException;
+import com.mnt.utils.UtilRails;
 
 import domain.CommentType;
 import domain.PostType;
@@ -396,6 +397,16 @@ public class User extends SocialObject implements Subject, Socializable {
 				}
 			}
 		}
+		
+		for(int i=0;i<friendsCountList.size()-1;i++) {
+			if(friendsCountList.get(i) == friendsCountList.get(i+1)) {
+				if(c.get(i).getMembers().size() < c.get(i+1).getMembers().size()){
+					Collections.swap(c, i, i+1);
+				}
+			}
+		}
+		
+		
         return c;
     }
 
@@ -1058,7 +1069,7 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(3, SocialObjectType.POST);
         query.setParameter(4, SocialObjectType.QUESTION);
         System.out.println(limit+ " :: "+offset +":: (List<Post>)query.getResultList(); :: "+query.getResultList().size());
-        query.setFirstResult(offset*5);
+        query.setFirstResult(offset * UtilRails.noOfPost);
         query.setMaxResults(limit);
         
         return (List<Post>)query.getResultList();
@@ -1070,7 +1081,7 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(2, this.id);
         query.setParameter(3, SocialObjectType.ARTICLE);
         System.out.println(limit + " :: " + offset + ":: (List<Post>)query.getResultList(); :: " + query.getResultList().size());
-        query.setFirstResult(offset * 5);
+        query.setFirstResult(offset * UtilRails.noOfArticleforUtility);
         query.setMaxResults(limit);
         
         return (List<Article>)query.getResultList();
@@ -1110,7 +1121,7 @@ public class User extends SocialObject implements Subject, Socializable {
                 query.setParameter(7, SocialObjectType.ANSWER);
                 query.setParameter(8, SocialObjectType.COMMENT);
                 query.setParameter(2, this.id);
-                query.setFirstResult(offset*5);
+                query.setFirstResult(offset * UtilRails.noOfPost);
                 query.setMaxResults(limit);
                 return (List<Post>)query.getResultList();
     }
