@@ -10,15 +10,9 @@ import java.util.Map;
 
 import javax.persistence.NoResultException;
 
-import com.mnt.exception.SocialObjectNotCommentableException;
-import com.mnt.exception.SocialObjectNotLikableException;
-
-import domain.CommentType;
-
 import models.Article;
 import models.ArticleCategory;
 import models.User;
-
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -29,6 +23,12 @@ import targeting.sc.ArticleTargetingEngine;
 import viewmodel.ArticleCategoryVM;
 import viewmodel.ArticleVM;
 import viewmodel.SlidderArticleVM;
+
+import com.mnt.exception.SocialObjectNotCommentableException;
+import com.mnt.exception.SocialObjectNotLikableException;
+import com.mnt.utils.UtilRails;
+
+import domain.CommentType;
 
 public class ArticleController extends Controller {
 
@@ -74,7 +74,7 @@ public class ArticleController extends Controller {
 	
 	@Transactional
 	public static Result getArticlesCategorywise(Long cat_id, String offset) {
-		int start = Integer.parseInt(offset) * 5;
+		int start = Integer.parseInt(offset) * UtilRails.noOfArticle;
 		final User localUser = Application.getLocalUser(session());
 		System.out.println(start+":: OFFSET :: "+offset);
 		List<Article> allArticles = Article.getArticlesByCategory(cat_id, start);
@@ -262,7 +262,7 @@ public class ArticleController extends Controller {
 	public static Result getBookmarkArticles(int offset) {
 		final User localUser = Application.getLocalUser(session());
 		List<ArticleVM> articles = new ArrayList<>();
-		List<Article> bookmarkArticles = localUser.getBookamrkArticle(offset, 5);
+		List<Article> bookmarkArticles = localUser.getBookamrkArticle(offset, UtilRails.noOfArticle);
 		if(bookmarkArticles != null ){
 			for(Article a : bookmarkArticles) {
 				ArticleVM vm = new ArticleVM(a,localUser);

@@ -874,43 +874,12 @@ minibean.service('allCommunityWidgetService',function($resource){
 	);
 });
 
-minibean.service('myNextCommunitiesService',function($resource){
-	this.get_my_next_communities = $resource(
-			'/get-my-next-communities/:offset',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', isArray:true, params:{offset:'@offset'}}
-			}
-	);
-});
-
-minibean.controller('UserCommunityWidgetController',function($scope, myNextCommunitiesService, allCommunityWidgetService, communityWidgetService , $http, userInfoService){
-	$scope.userInfo = userInfoService.UserInfo.get();
+minibean.controller('UserCommunityWidgetController',function($scope, allCommunityWidgetService, communityWidgetService){
+	
 	$scope.result = communityWidgetService.UserCommunities.get();
 	$scope.allResult = allCommunityWidgetService.UserAllCommunities.get();
 	$scope.selectedTab = 1;
-	var offsetC = 0;
-	var noMore = false;
 	
-	$scope.nextMyGroups = function() {
-		myNextCommunitiesService.get_my_next_communities.get({offset:offsetC}, function( response ){
-			$scope.noMoreResult = false;
-			if ($scope.isBusy) return;
-			if (noMore){ $scope.noMoreResult = true; return;}
-			
-			var groups = response;
-			if(groups.length < 3 ) {
-				noMore = true;
-				$scope.isBusy = false;
-			}
-			
-			for (var i = 0; i < groups.length; i++) {
-				$scope.result.fvm.push(groups[i]);
-		    }
-			$scope.isBusy = false;
-			offsetC++;
-		});
-	}
 });
 
 ///////////////////////// User All Communities End //////////////////////////////////

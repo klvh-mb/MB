@@ -9,6 +9,8 @@ import models.User;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import com.mnt.utils.UtilRails;
+
 public class QnAPostsVM {
 	
 	@JsonProperty("lu") public Long loggedUserId;
@@ -24,7 +26,7 @@ public class QnAPostsVM {
 		
 		List<CommunityPostVM> posts = new ArrayList<>();
 		
-		List<Post> postsFromDB = c.getQuestionsOfCommunity(0, 5);
+		List<Post> postsFromDB = c.getQuestionsOfCommunity(0, UtilRails.noOfPost);
 		
 		for(Post p: postsFromDB) {
 			CommunityPostVM post = CommunityPostVM.communityPostVM(p,user);

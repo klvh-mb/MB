@@ -26,7 +26,7 @@
                 </div>
             </div>
             <!--Newsfeed shortcut End -->
-			<div ng-controller="UserCommunityWidgetController">
+			<div ng-controller="UserCommunityWidgetController" data-ng-show="result.fvm.length > 0">
                 <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/myCommunityWidget.html'"></div>
             </div>
             <!--MyCommunity End -->
@@ -210,7 +210,7 @@
 				</div>
 			</div>
 
-			<div id="newCommunity" ng-controller="UnknownCommunityWidgetController">
+			<div id="newCommunity" ng-controller="UnknownCommunityWidgetController" data-ng-show="result.fvm.length > 0">
 				<div data-ng-include style="width: 100%;" data-src="'/assets/app/views/communityWidget.html'"></div>
 			</div>
 			<!--NewCommunity End -->

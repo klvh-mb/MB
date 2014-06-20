@@ -18,6 +18,7 @@ import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
 import com.mnt.exception.SocialObjectNotLikableException;
+import com.mnt.utils.UtilRails;
 
 import domain.Commentable;
 import domain.Likeable;
@@ -66,7 +67,7 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 			q.setParameter(1, id);
 		}
 		q.setFirstResult(offset);
-		q.setMaxResults(5);
+		q.setMaxResults(UtilRails.noOfArticle);
 		System.out.println("OFFSET :: "+offset);
 		return (List<Article>)q.getResultList();
 	}
