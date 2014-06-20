@@ -32,11 +32,15 @@ public class FaceFinder {
         BufferedImage origImage = ImageIO.read(origFile);
         LOGGER.underlyingLogger().info("getSquarePictureWithFace - w="+origImage.getWidth()+" h="+origImage.getHeight());
 
-        List<Rect> rects = findFaces(origImage, "/haar/HCSB.txt");
-//        if (rects.size() == 0) {
-//            rects = findFaces(origImage, "/haar/frontaldefault.txt");
-//        }
-        return fitForImage(rects, origImage, 1d);
+        if (origImage.getWidth() != origImage.getHeight()) {
+            List<Rect> rects = findFaces(origImage, "/haar/HCSB.txt");
+    //        if (rects.size() == 0) {
+    //            rects = findFaces(origImage, "/haar/frontaldefault.txt");
+    //        }
+            return fitForImage(rects, origImage, 1d);
+        } else {
+            return origImage;
+        }
     }
 
     /**
@@ -49,11 +53,16 @@ public class FaceFinder {
         BufferedImage origImage = ImageIO.read(origFile);
         LOGGER.underlyingLogger().info("getRectPictureWithFace - w="+origImage.getWidth()+" h="+origImage.getHeight());
 
-        List<Rect> rects = findFaces(origImage, "/haar/HCSB.txt");
-//        if (rects.size() == 0) {
-//            rects = findFaces(origImage, "/haar/frontaldefault.txt");
-//        }
-        return fitForImage(rects, origImage, widthToHeightRatio);
+        int newHeight = (int) (origImage.getWidth() / widthToHeightRatio);
+        if (newHeight < origImage.getHeight()) {
+            List<Rect> rects = findFaces(origImage, "/haar/HCSB.txt");
+    //        if (rects.size() == 0) {
+    //            rects = findFaces(origImage, "/haar/frontaldefault.txt");
+    //        }
+            return fitForImage(rects, origImage, widthToHeightRatio);
+        } else {
+            return origImage;
+        }
     }
 
 
