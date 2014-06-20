@@ -62,8 +62,8 @@ Serializable, Creatable, Updatable{
 		if (type == SocialObjectType.PROFILE_PHOTO) {
 			Thumbnails
 					.of(source)
-					.height(70)
-					.width(70)
+					.height(85)
+					.width(85)
 					.keepAspectRatio(true)
 					.toFiles(
 							new java.io.File(resource.getPath())
@@ -106,8 +106,8 @@ Serializable, Creatable, Updatable{
 		if (type == SocialObjectType.POST_PHOTO) {
 			Thumbnails
 			.of(source)
-			.height(70)
-			.width(70)
+			.height(85)
+			.width(85)
 			.keepAspectRatio(true)
 			.toFiles(
 					new java.io.File(resource.getPath())

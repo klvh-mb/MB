@@ -1578,7 +1578,7 @@ text-decoration: none;
     background-image: url(../images/general/icons/message_favorite.png);
     background-repeat: no-repeat;
     background-size: 15px 15px;
-    background-position: 0 2px;
+    /*background-position: 0 2px;*/
     position: absolute;
     right: 0;
     top: 0;
@@ -1603,7 +1603,7 @@ text-decoration: none;
     background-image: url(../images/general/icons/message_favorited.png);
     background-repeat: no-repeat;
     background-size: 15px 15px;
-    background-position: 0 2px;
+    /*background-position: 0 2px;*/
     position: absolute;
     right: 0;
     top: 0;
