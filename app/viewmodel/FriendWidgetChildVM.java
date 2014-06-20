@@ -17,7 +17,7 @@ public class FriendWidgetChildVM {
 	}
 	
 	public FriendWidgetChildVM(Long id, String dn, Long nid) {
-        this(id, dn, 0L, null);
+        this(id, dn, nid, null);
     }
 	
 	public FriendWidgetChildVM(Long id, String dn, Long nid, Location ln) {
