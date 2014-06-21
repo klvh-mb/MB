@@ -856,7 +856,7 @@ minibean.controller('CommunityWidgetController',function($scope,$routeParams, us
 ///////////////////////// User All Communities  //////////////////////////////////
 minibean.service('communityWidgetService',function($resource){
 	this.UserCommunities = $resource(
-			'/get-users-three-communities',
+			'/get-my-communities',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
 				get: {method:'get'}
@@ -888,7 +888,7 @@ minibean.controller('UserCommunityWidgetController',function($scope, allCommunit
 ///////////////////////// User All Communities  //////////////////////////////////
 minibean.service('communityWidgetByUserService',function($resource){
 	this.UserCommunities = $resource(
-			'/get-three-communities-userID/:id',
+			'/get-communities-userID/:id',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
 				get: {method:'get'}

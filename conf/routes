@@ -116,8 +116,8 @@ GET		/un-friend					controllers.FriendsController.doUnFriend(id: Long)
 #Community
 GET		/get-not-join-community					controllers.CommunityController.getUserUnJoinCommunity
 GET		/get-all-communities					controllers.CommunityController.getAllCommunitiesOfUser
-GET		/get-users-three-communities			controllers.CommunityController.getMyAnyThreeCommunities
-GET		/get-three-communities-userID/:id		controllers.CommunityController.getThreeCommunitiesOfUser(id :Long)
+GET		/get-my-communities			            controllers.CommunityController.getMyCommunities
+GET		/get-communities-userID/:id		        controllers.CommunityController.getCommunitiesOfUser(id :Long)
 GET		/get-all-communities-userID/:id			controllers.CommunityController.getAllCommunitiesOfUserID(id: Long)
 GET		/get-users-all-communities				controllers.CommunityController.getMyAllCommunities
 GET		/send-request							controllers.CommunityController.sendJoinRequest(id: String)
@@ -146,8 +146,6 @@ POST	/uploadPostPhoto						controllers.CommunityController.uploadPhotoOfPost()
 GET		/getAllIcons							controllers.CommunityController.getAllIcons()
 GET		/getAllUnjoinedMembers/:id/:query		controllers.CommunityController.getAllUnjoinedUsers(id : Long, query: String)
 GET		/inviteToCommunity/:community_id/:user_id   controllers.CommunityController.sendInviteToJoinCommunity(community_id : Long, user_id: Long)
-GET     /get-next-unknown-communities/:offset   controllers.CommunityController.getUnknownCommunities(offset:Integer)
-GET     /get-my-next-communities/:offset        controllers.CommunityController.getMyNextCommunities(offset:Integer)
 
 GET		/get-bookmark-post/:offset				controllers.CommunityController.getBookmarkPosts(offset:Integer)
 GET		/unbookmark-post/:post_id				controllers.CommunityController.doUnBookmark(post_id : Long)

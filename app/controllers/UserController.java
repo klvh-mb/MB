@@ -288,7 +288,7 @@ public class UserController extends Controller {
 	public static Result getProfileImageByID(Long id) {
     	User user = User.findById(id);
 		if(user.getPhotoProfile() != null) {
-			return ok(new File(user.getPhotoProfile().getThumbnail()));
+			return ok(user.getPhotoProfile().getRealFile());
 		}
 		try {
 			return ok(user.getDefaultUserPhoto());

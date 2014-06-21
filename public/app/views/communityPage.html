@@ -44,11 +44,11 @@
 							title="Change"
 							style="margin: -235px 0px 0px 7px; position: absolute;right: 515px; top: -34px;" href=""><img
 								src="/assets/app/images/edit.png" /></a></div></li>
-						<li id="commun-header-menu">
-							<div class="h5">
+						<li id="community-header-menu">
+							<!--div class="h5">
 								<img src="{{community.icon}}"><b>{{community.n}}</b>
-							</div>
-							<div class="divider-cus"></div>
+							</div-->
+							<div class="divider-cus" ng-show="false"></div>
 							<div ng-class="{activeTabBold: selectedTab == 1}">
 								<a ng-click="selectedTab = 1;">最新訊息</a>
 							</div>
@@ -68,6 +68,7 @@
 									<li><a>off</a></li>
 								</ul>
 							</div>
+							<p id="community-header-name" class="ng-binding">{{community.n}}</p>
 						</li>
 					</ul>
 				</div>
