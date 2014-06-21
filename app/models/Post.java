@@ -43,6 +43,7 @@ import domain.SocialObjectType;
 
 @Entity
 public class Post extends SocialObject implements Likeable, Commentable {
+    private static final play.api.Logger logger = play.api.Logger.apply("application");
 
     public Post() {}
     
@@ -69,10 +70,14 @@ public class Post extends SocialObject implements Likeable, Commentable {
     @Override
     public void onLikedBy(User user) {
     	recordLike(user);
+        // update affinity
+        UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
     }
     
     public void onBookmarkedBy(User user) {
     	recordBookmark(user);
+        // update affinity
+        UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
     }
     
     
@@ -111,10 +116,14 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		if (type == CommentType.ANSWER) {
 			comment.commentType = type;
 			recordAnswerOnCommunityPost(user);
+            // update affinity
+            UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
 		}
 		if (type == CommentType.SIMPLE) {
 			comment.commentType = type;
 			recordCommentOnCommunityPost(user);
+            // update affinity
+            UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
 		}
 		if(this.objectType == SocialObjectType.POST) {
 			comment.objectType = SocialObjectType.COMMENT;
@@ -152,10 +161,12 @@ public class Post extends SocialObject implements Likeable, Commentable {
             }
 
             sw.stop();
-            System.out.println("[ElasticSearch] onComment index took "+sw.getElapsedMS()+"ms");
+
+            if (logger.underlyingLogger().isDebugEnabled()) {
+                logger.underlyingLogger().debug("[ElasticSearch] onComment index took "+sw.getElapsedMS()+"ms");
+            }
 		} catch(Exception e) {
-			// Ideally code should not land here. this will happen in case of data inconsistency
-			System.out.println("Ideally code should not land here. this will happen in case of data inconsistency " + e.getMessage());
+			logger.underlyingLogger().error("Error in onComment() - Elastic search index", e);
 		}
 		
 		//PostIndex.find.search(indexQuery);
@@ -181,7 +192,10 @@ public class Post extends SocialObject implements Likeable, Commentable {
 		postIndex.index();
 
         sw.stop();
-        System.out.println("[ElasticSearch] indexPost took "+sw.getElapsedMS()+"ms");
+
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[ElasticSearch] indexPost took "+sw.getElapsedMS()+"ms");
+        }
 	}
 	
 	@JsonIgnore

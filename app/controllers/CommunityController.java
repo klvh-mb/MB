@@ -12,13 +12,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import models.Comment;
-import models.Community;
+import models.*;
 import models.Community.CommunityType;
-import models.Icon;
-import models.Post;
-import models.Resource;
-import models.User;
 
 import org.apache.commons.io.FileUtils;
 
@@ -120,12 +115,16 @@ public class CommunityController extends Controller{
 		logger.underlyingLogger().debug("getCommunityInfoById");
 		final User localUser = Application.getLocalUser(session());
 		final Community community = Community.findById(id);
+
 		if(community.objectType == SocialObjectType.COMMUNITY) {
+            UserCommunityAffinity.onCommunityView(localUser.getId(), community.getId());
+
 		//if(localUser.isMemberOf(community) || community.owner.id == localUser.id || community.communityType.toString().equals("OPEN") && localUser.isMemberOf(community) == false || community.communityType.toString().equals("CLOSE") && localUser.isMemberOf(community) == true){
 			return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
 		}
-		else
-		return ok();
+		else {
+		    return ok();
+        }
 	}
 	
 	@Transactional
@@ -291,7 +290,19 @@ public class CommunityController extends Controller{
 		CommunitiesParentVM fwVM = new CommunitiesParentVM(user.getListOfNotJoinedCommunities().size(), communityList);
 		return ok(Json.toJson(fwVM));
 	}
-	
+
+
+    @Transactional
+    public static Result getUnknownCommunities(int offset) {
+        return ok();
+    }
+
+    @Transactional
+    public static Result getMyNextCommunities(int offset) {
+        return ok();
+    }
+
+
 	@Transactional
 	public static Result getAllComments(Long id) {
 		logger.underlyingLogger().debug("getAllComments");
@@ -536,10 +547,13 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result leaveThisCommunity(Long community_id) {
-		logger.underlyingLogger().debug("leaveThisCommunity");
 		final User localUser = Application.getLocalUser(session());
 		Community community = Community.findById(community_id);
-		
+
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"] leaveThisCommunity. community_id="+community_id);
+        }
+
 		localUser.leaveCommunity(community);
 		
 		return ok();
@@ -658,6 +672,7 @@ public class CommunityController extends Controller{
 		}
 		return ok(Json.toJson(objectVMs));
 	}
+
 	@Transactional
 	public static Result sendInviteToJoinCommunity(Long community_id, Long user_id) {
 		logger.underlyingLogger().debug("sendInviteToJoinCommunity");
@@ -743,8 +758,11 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result likeThePost(Long post_id) {
-		logger.underlyingLogger().debug("likeThePost");
 		User loggedUser = Application.getLocalUser(session());
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("likeThePost - u="+loggedUser.id+" p="+post_id);
+        }
+
 		Post post = Post.findById(post_id);
 		post.noOfLikes++;
 		post.onLikedBy(loggedUser);
@@ -753,8 +771,11 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result unlikeThePost(Long post_id) throws SocialObjectNotLikableException {
-		logger.underlyingLogger().debug("unlikeThePost");
 		User loggedUser = Application.getLocalUser(session());
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("unlikeThePost - u="+loggedUser.id+" p="+post_id);
+        }
+
 		Post post = Post.findById(post_id);
 		post.noOfLikes--;
 		loggedUser.doUnLike(post_id, post.objectType);
@@ -763,20 +784,24 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result likeTheComment(Long comment_id) {
-		logger.underlyingLogger().debug("likeTheComment");
 		User loggedUser = Application.getLocalUser(session());
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("likeTheComment - u="+loggedUser.id+" c="+comment_id);
+        }
+
 		Comment comment = Comment.findById(comment_id);
-		System.out.println("GOT IT :: "+comment.noOfLikes);
 		comment.noOfLikes++;
-		System.out.println("GOT IT :: "+comment.noOfLikes);
 		comment.onLikedBy(loggedUser);
 		return ok();
 	}
 	
 	@Transactional
 	public static Result unlikeTheComment(Long comment_id) throws SocialObjectNotLikableException {
-		logger.underlyingLogger().debug("unlikeTheComment");
 		User loggedUser = Application.getLocalUser(session());
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("unlikeTheComment - u="+loggedUser.id+" c="+comment_id);
+        }
+
 		Comment comment = Comment.findById(comment_id);
 		comment.noOfLikes--;
 		loggedUser.doUnLike(comment_id, comment.objectType);

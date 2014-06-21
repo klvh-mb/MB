@@ -89,7 +89,9 @@ public class Application extends Controller {
 	 *     ii. welcome page
 	 */
 	public static Result home(User user) {
-		logger.underlyingLogger().debug("home");
+        if (logger.underlyingLogger().isDebugEnabled()) {
+		    logger.underlyingLogger().debug("[u="+user.getId()+"] Application - home()");
+        }
 		
 		if (user.userInfo == null) {
 		    if (user.fbLogin) {
@@ -114,7 +116,7 @@ public class Application extends Controller {
 	            }
 	        }
 	        
-	        // District commuinities
+	        // District communities
 	        if (targetProfile.getLocation() != null) {
     	        Location district = Location.getParentLocation(targetProfile.getLocation(), Location.LocationType.DISTRICT);
     	        Community community = Community.findByTargetingTypeTargetingInfo(

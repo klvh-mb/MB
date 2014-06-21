@@ -112,7 +112,10 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		post.save();
 		
 		JPA.em().merge(this);
-		
+
+        // record affinity
+        UserCommunityAffinity.onCommunityActivity(user.id, this.id);
+
 		//recordPostOn(user);
 		return post;
 	}

@@ -104,14 +104,20 @@ public abstract class SocialObject extends domain.Entity implements
 		action.action = SocialRelation.Action.MEMBER;
 		action.actionType = SocialRelation.ActionType.GRANT;
 		action.memberJoinedOpenCommunity = true;
+
 		if (action.validateUniquenessAndCreate()) {
-		    String message = "Congratulation " + user.name + "," + "\n" + " You are now member of " + this.name + " Community.";
-	        MailJob.sendMail("Some subject", new Body(message), user.email);
+            // save community affinity
+            UserCommunityAffinity.onJoinedCommunity(user.id, this.id);
+
+            // skip email
+//            String message = "Congratulation " + user.name + "," + "\n" + " You are now member of " + this.name + " Community.";
+//	        MailJob.sendMail("Some subject", new Body(message), user.email);
 		}
 	}
 
 	protected final void recordJoinRequestAccepted(User user) {
-		Query q = JPA
+		// save SR
+        Query q = JPA
 				.em()
 				.createQuery(
 						"SELECT sa from SocialRelation sa where actor = ?1 and target = ?2 and actionType =?3");
@@ -122,10 +128,14 @@ public abstract class SocialObject extends domain.Entity implements
 		SocialRelation action = (SocialRelation) q.getSingleResult();
 		action.actionType = SocialRelation.ActionType.GRANT;
 		action.action = SocialRelation.Action.MEMBER;
-		String message = "Congratulation "+user.name+","+"\n"+" You are now mwmber of "+this.name+" Community.";
-		MailJob.sendMail("Some subject",new Body(message), user.email);
 		action.save();
 
+        // save community affinity
+        UserCommunityAffinity.onJoinedCommunity(user.id, this.id);
+
+        // skip email
+//        String message = "Congratulation "+user.name+","+"\n"+" You are now mwmber of "+this.name+" Community.";
+//		MailJob.sendMail("Some subject",new Body(message), user.email);
 	}
 	
 	protected final void recordInviteRequestAccepted(User user) {

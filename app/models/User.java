@@ -1053,7 +1053,10 @@ public class User extends SocialObject implements Subject, Socializable {
         query.executeUpdate();
         
         sr.remove();
-        
+
+        // remove community affinity
+        UserCommunityAffinity.onLeftCommunity(this.id, community.id);
+
         return 1;
     }
     
