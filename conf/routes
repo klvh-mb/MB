@@ -146,8 +146,6 @@ POST	/uploadPostPhoto						controllers.CommunityController.uploadPhotoOfPost()
 GET		/getAllIcons							controllers.CommunityController.getAllIcons()
 GET		/getAllUnjoinedMembers/:id/:query		controllers.CommunityController.getAllUnjoinedUsers(id : Long, query: String)
 GET		/inviteToCommunity/:community_id/:user_id   controllers.CommunityController.sendInviteToJoinCommunity(community_id : Long, user_id: Long)
-GET		/get-next-unknown-communities/:offset	controllers.CommunityController.getUnknownCommunities(offset:Integer)
-GET		/get-my-next-communities/:offset		controllers.CommunityController.getMyNextCommunities(offset:Integer)
 
 GET		/get-bookmark-post/:offset				controllers.CommunityController.getBookmarkPosts(offset:Integer)
 GET		/unbookmark-post/:post_id				controllers.CommunityController.doUnBookmark(post_id : Long)

@@ -685,3 +685,9 @@ span.notif-count {
     margin-right: 5px;
     vertical-align: text-bottom; 
 }
+.check-mark {
+    color: #30AD25 !important;
+    position: relative;
+    top: 0px;
+    left: 0px;
+}

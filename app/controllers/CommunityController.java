@@ -291,18 +291,6 @@ public class CommunityController extends Controller{
 		return ok(Json.toJson(fwVM));
 	}
 
-
-    @Transactional
-    public static Result getUnknownCommunities(int offset) {
-        return ok();
-    }
-
-    @Transactional
-    public static Result getMyNextCommunities(int offset) {
-        return ok();
-    }
-
-
 	@Transactional
 	public static Result getAllComments(Long id) {
 		logger.underlyingLogger().debug("getAllComments");
