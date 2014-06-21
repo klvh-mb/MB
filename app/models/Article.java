@@ -89,6 +89,13 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 		return (List<Article>)q.getResultList();
 	}
 	
+	@Transactional
+	public static List<Article> getSixArticlesNew() {
+		//  Select * from Article where featured = 1 limit <= 8
+		Query q = JPA.em().createQuery("Select a from Article a order by noOfLikes desc ");
+		return (List<Article>)q.getResultList();
+	}
+	
 	public static Article findById(Long id) {
 		Query q = JPA.em().createQuery("SELECT a FROM Article a where id = ?1");
 		q.setParameter(1, id);

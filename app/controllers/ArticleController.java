@@ -104,13 +104,52 @@ public class ArticleController extends Controller {
 
     @Transactional
     public static Result getSixArticles() {
-        return getTargetedArticles(6);
+        //return getTargetedArticles(6); // NOTE TO KEITH this part is your implementation.
+        return getSixArticlesNew(); // MINDNERVES implementation for Bug 204
     }
 		  
 	@Transactional
     public static Result getEightArticles() {
 	    return getTargetedArticles(8);
 	}
+	
+	@Transactional
+	public static Result getSixArticlesNew() {
+        final User localUser = Application.getLocalUser(session());
+
+		int i = 0;
+		List<Article> allArticles = Article.getSixArticlesNew();
+		allArticles.removeAll(localUser.getBookamrkArticle(0, allArticles.size()));
+		int n = UtilRails.noOfArticle;
+		List<ArticleVM> leftArticles = new ArrayList<>();
+		List<ArticleVM> rightArticles = new ArrayList<>();
+		for (Article article:allArticles) {
+            if (i == n) {
+                break;
+            }
+
+			if (i < n/2){
+				ArticleVM vm = new ArticleVM(article);
+				leftArticles.add(vm);
+			} else {
+				ArticleVM vm = new ArticleVM(article);
+				rightArticles.add(vm);
+			}
+			i++;
+		}
+
+		List<ArticleCategoryVM> categoryVMs = new ArrayList<>();
+		List<ArticleCategory> categories = ArticleCategory.getFourCategories(4);
+		for(ArticleCategory ac : categories) {
+			ArticleCategoryVM vm = ArticleCategoryVM.articleCategoryVM(ac);
+			categoryVMs.add(vm);
+		}
+
+		SlidderArticleVM articleVM = new SlidderArticleVM(leftArticles, rightArticles, categoryVMs);
+		return ok(Json.toJson(articleVM));
+	}
+	
+	
 	
 	@Transactional
 	public static Result getArticles(int n) {
