@@ -6,7 +6,12 @@ import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,21 +24,21 @@ public class UserCommunityAffinity extends domain.Entity {
     private static final play.api.Logger logger = play.api.Logger.apply("application");
 
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
-    public Long id;
+    private Long id;
 
-    public Long userId;
+    private Long userId;
 
-    public Long communityId;
+    private Long communityId;
 
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonIgnore
-    public Date lastJoined;
+    private Date lastJoined;
 
-    public int viewCount;
+    private int viewCount;
 
-    public int activityCount;
+    private int activityCount;
 
-    public boolean newsfeedEnabled = true;      // default to true
+    private boolean newsfeedEnabled = true;      // default to true
 
     /**
      * Ctor
@@ -78,5 +83,39 @@ public class UserCommunityAffinity extends domain.Entity {
 		setParameter(1, userId).
 		setParameter(2, communityId).
         executeUpdate();
+    }
+
+    public static List<UserCommunityAffinity> findByUser(Long userId) {
+        CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+		CriteriaQuery<UserCommunityAffinity> q = cb.createQuery(UserCommunityAffinity.class);
+		Root<UserCommunityAffinity> c = q.from(UserCommunityAffinity.class);
+		q.select(c);
+		q.where(cb.equal(c.get("userId"), userId));
+		return JPA.em().createQuery(q).getResultList();
+	}
+
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public Long getCommunityId() {
+        return communityId;
+    }
+
+    public Date getLastJoined() {
+        return lastJoined;
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public int getActivityCount() {
+        return activityCount;
+    }
+
+    public boolean isNewsfeedEnabled() {
+        return newsfeedEnabled;
     }
 }
