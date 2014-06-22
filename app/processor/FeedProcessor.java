@@ -33,8 +33,7 @@ public class FeedProcessor {
     
 	private static String prefix = Play.application().configuration().getString("keyprefix", "prod_");
 	private static final String USER = prefix + "user_";
-	private static final String MOMENT = prefix + "moment_";
-	private static final String QNA = prefix + "qna_";
+    private static final String COMMUNITY = prefix + "comm_";   // single queue for community posts
 
 	public static void pushToMemebes(Post post) {
 	    logger.underlyingLogger().debug("pushToMemebes");
@@ -97,31 +96,17 @@ public class FeedProcessor {
 							Jedis j = jedisPool.getResource();
 							
 							for (BigInteger communityId : ids) {
-								Query simpleQuery = JPA.em().createQuery("SELECT p from Post p where p.community.id = ?1 and p.postType = ?2 order by p.auditFields.createdDate desc");
+                                Query simpleQuery = JPA.em().createQuery("SELECT p from Post p where p.community.id = ?1 order by p.auditFields.updatedDate desc");
 								simpleQuery.setParameter(1, communityId.longValue());
-								simpleQuery.setParameter(2, PostType.SIMPLE);
 								simpleQuery.setFirstResult(0);
 								simpleQuery.setMaxResults(200);
 								List<Post> posts = (List<Post>)simpleQuery.getResultList();
-								
-								//j.del(USER + communityId.longValue());
-								j.del(MOMENT + communityId.longValue(), QNA + communityId.longValue());
+
+								j.del(COMMUNITY + communityId.longValue());
 								for(Post p: posts){
-									j.zadd(MOMENT + communityId.longValue(), p.getUpdatedDate().getTime() , p.id.toString());
+									j.zadd(COMMUNITY + communityId.longValue(), p.getUpdatedDate().getTime(), p.id.toString());
 								}
-								
-								Query qnAQuery = JPA.em().createQuery("SELECT p from Post p where p.community.id = ?1 and p.postType = ?2 order by p.auditFields.createdDate desc");
-								qnAQuery.setParameter(1, communityId.longValue());
-								qnAQuery.setParameter(2, PostType.QUESTION);
-								qnAQuery.setFirstResult(0);
-								qnAQuery.setMaxResults(200);
-								List<Post> qnAposts = (List<Post>)qnAQuery.getResultList();
-								
-								//j.del(USER + communityId.longValue());
-								
-								for(Post p: qnAposts){
-									j.zadd(QNA + communityId.longValue(),  p.getUpdatedDate().getTime() , p.id.toString());
-								}
+
 							}
 							jedisPool.returnResource(j);
 						}
@@ -176,8 +161,7 @@ public class FeedProcessor {
 		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 		Jedis j = jedisPool.getResource();
 		for(Long c : communities) {
-			post_ids.addAll(j.zrangeWithScores(MOMENT + c.toString(), 0, offset));
-			post_ids.addAll(j.zrangeWithScores(QNA + c.toString(), 0, offset));
+            post_ids.addAll(j.zrangeWithScores(COMMUNITY + c.toString(), 0, offset));
 		}
 		jedisPool.returnResource(j);
 		return post_ids;
