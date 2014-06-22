@@ -1015,22 +1015,32 @@ text-decoration: none;
 #community-header li {
     border-bottom: #bcbcbc solid thin;
 }
-#commun-header-menu {
+#community-header #community-header-name {
+    width: 50%;
+    position: absolute;
+    top: -40px;
+    left: 15px;
+    color: white;
+    font-size: 26px;
+    font-weight: bold;
+    text-align: left;
+}
+#community-header-menu {
     padding: 12px 13px;
     position: relative;
 }
-#commun-header-menu a.toolsbox-end {
+#community-header-menu a.toolsbox-end {
 }
-#commun-header-menu div {
+#community-header-menu div {
     display: inline;
 }
-#commun-header-menu img {
+#community-header-menu img {
     width: 20px;
     height: 20px;
     margin-right: 2px;
     vertical-align: bottom;
 }
-#commun-header-menu .pull-right {
+#community-header-menu .pull-right {
     position: relative;
     top: -5px;
 }
@@ -1048,15 +1058,15 @@ text-decoration: none;
     display: block;
 }
 /* Community Page header submenu*/
-#commun-header-menu ul {
+#community-header-menu ul {
     position: absolute;
     right: 20px;
     top: 40px;
 }
-#commun-header-menu .subtoolsbox a:active {
+#community-header-menu .subtoolsbox a:active {
     font-weight: bold;
 }
-#commun-header-menu .subtoolsbox li {
+#community-header-menu .subtoolsbox li {
     font-size: small;
     margin: 15px 0 15px 15px;
     border: none;

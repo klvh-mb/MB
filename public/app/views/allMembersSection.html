@@ -1,20 +1,20 @@
 
-<div class="btn-group" dropdown style="margin-top: 2%;">
+<div class="btn-group" dropdown style="margin-top: 2%;margin-left: 10px;">
 	<button type="button" id="membersDropdownBtn" class="btn btn-primary dropdown-toggle" ng-show="showMembers">
-    	Members ({{result.sn}}) <span class="caret"></span>
+    	成員 ({{result.sn}}) <span class="caret"></span>
     </button>
     <button type="button" id="membersDropdownBtn" class="btn btn-primary dropdown-toggle" ng-show="showAdmin">
-    	Admin <span class="caret"></span>
+    	管理員 <span class="caret"></span>
     </button>
     <ul id="membersDropdown" class="dropdown-menu" role="menu">
-    	<li data-ng-click="getAllMembers()" style="cursor:pointer;">Members ({{result.sn}})</li>
-        <li data-ng-click="getAdmin()" style="cursor:pointer;">Admin </li>
+    	<li data-ng-click="getAllMembers()" style="cursor:pointer;">成員 ({{result.sn}})</li>
+        <li data-ng-click="getAdmin()" style="cursor:pointer;">管理員 </li>
     </ul>
 </div>
-	<a id="membersSearchwrapper" class="pull-right" style="margin-right: 9%;">
-    	<div class="basic-search-wrapper">
-    		<div class="input-group innerB basic-search">
-        		<input type="text" class="form-control" ng-model="query" placeholder="Search Members">
+<a id="membersSearchwrapper" class="pull-right" style="margin-right: 9%;">
+	<div class="basic-search-wrapper">
+		<div class="input-group innerB basic-search">
+    		<input type="text" class="form-control" ng-model="query" placeholder="搜尋成員">
         	<div class="input-group-btn">
            		<button class="btn btn-default" type="button">
                		<i class="fa fa-search"></i>
@@ -22,13 +22,12 @@
         	</div>
     	</div>
 	</div>
-   </a>
-    <a id="membersInviteBtn" class="btn-general pull-right" href="#" style="margin-right: 2%;margin-top: 2%;">+ Invite new members</a>
-    <div class="padding10"></div>
-
+</a>
+<!--a id="membersInviteBtn" class="btn-general pull-right" href="#" style="margin-right: 2%;margin-top: 2%;">+ 邀請新成員</a-->
+<div class="padding10"></div>
 
 <div class="memberCard" ng-repeat="fvm in result.fvm | filter:query " ng-show="showMembers">
- 	<a href="#" class="d-s ob">
+ 	<a href="/#/profile/{{fvm.id}}" class="d-s ob">
     	<div class="memberImageBox">
         	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{fvm.dn}}" data-ng-src="/get-thumbnail-image-by-id/{{fvm.id}}" alt="..." width="70px" height="70px">
         	<div class="memberImageStar" title="Moderator"><img data-ng-src="/assets/app/images/star.png" style="width:100%;" ng-show="fvm.isAdmin"/></div>
@@ -36,13 +35,13 @@
 	</a>
     <div class="memberTagBox">
     	<div class="memberTag">
-        	<a href="#" class="memberTagRef">
-        	<span class="memberName">{{fvm.dn}}</span></a><span class="memberType" ng-show="fvm.isAdmin">Admin</span>
+        	<a href="/#/profile/{{fvm.id}}" class="memberTagRef">
+        	<span class="memberName">{{fvm.dn}}</span></a><span class="memberType" ng-show="fvm.isAdmin">管理員</span>
         </div>
     </div>
 </div>
 <div class="memberCard" ng-repeat="fvm in result.fvm | filter:query " ng-show="showAdmin && fvm.isAdmin">
- 	<a href="#" class="d-s ob">
+ 	<a href="/#/profile/{{fvm.id}}" class="d-s ob">
     	<div class="memberImageBox">
         	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{fvm.dn}}" data-ng-src="/get-thumbnail-image-by-id/{{fvm.id}}" alt="..." width="70px" height="70px">
         	<div class="memberImageStar" title="Moderator"><img data-ng-src="/assets/app/images/star.png" style="width:100%;" ng-show="fvm.isAdmin"/></div>
@@ -50,8 +49,8 @@
 	</a>
     <div class="memberTagBox">
     	<div class="memberTag">
-        	<a href="#" class="memberTagRef">
-        	<span class="memberName">{{fvm.dn}}</span></a><span class="memberType" ng-show="fvm.isAdmin">Admin</span>
+        	<a href="/#/profile/{{fvm.id}}" class="memberTagRef">
+        	<span class="memberName">{{fvm.dn}}</span></a><span class="memberType" ng-show="fvm.isAdmin">管理員</span>
         </div>
     </div>
 </div>

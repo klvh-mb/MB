@@ -63,7 +63,8 @@ public class CommunityController extends Controller{
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
 		int i = 0; 
-		for(Community community : localUser.getListOfNotJoinedCommunities()) {
+		List<Community>	unjoinedCommunities = localUser.getListOfNotJoinedCommunities();
+		for(Community community : unjoinedCommunities) {
 			if(i >= UtilRails.noOfCommunity)
 				break;
 			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(
@@ -72,15 +73,10 @@ public class CommunityController extends Controller{
 			vm.isP = localUser.isJoinRequestPendingFor(community);
 			communityList.add(vm);
 			i++;
-			
 		}
 		
-		CommunitiesParentVM fwVM = new CommunitiesParentVM(localUser.getListOfNotJoinedCommunities().size(), communityList);
-		if(localUser.getListOfNotJoinedCommunities().size() < 5){
-			fwVM.isMore = true;
-		}else{
-			fwVM.isMore = false;
-		}
+		CommunitiesParentVM fwVM = new CommunitiesParentVM(unjoinedCommunities.size(), communityList);
+		fwVM.isMore = false;
 		return ok(Json.toJson(fwVM));
 	}
 	
@@ -104,9 +100,6 @@ public class CommunityController extends Controller{
 			//e.printStackTrace();
 			return status(500);
 		}
-		
-	    
-	
 	}
 	
 	
@@ -221,27 +214,29 @@ public class CommunityController extends Controller{
 	}
 	
 	@Transactional
-	public static Result getMyAnyThreeCommunities() {
-		logger.underlyingLogger().debug("getMyAnyThreeCommunities");
+	public static Result getMyCommunities() {
+		logger.underlyingLogger().debug("getMyCommunities");
 		final User localUser = Application.getLocalUser(session());
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
-		for(Community community : localUser.getListOfJoinedCommunities(0, UtilRails.noOfCommunity)) {
+		List<Community> joinedCommunities = localUser.getListOfJoinedCommunities();
+		for(Community community : joinedCommunities) {
 			communityList.add(new CommunitiesWidgetChildVM(
 			        community.id, (long)community.getMembers().size(), community.name, "", 
 			        community.iconName, community.communityType));
 		}
-		CommunitiesParentVM fwVM = new CommunitiesParentVM(localUser.getListOfNotJoinedCommunities().size(), communityList);
+		CommunitiesParentVM fwVM = new CommunitiesParentVM(joinedCommunities.size(), communityList);
 		return ok(Json.toJson(fwVM));
 	}
 	
 	@Transactional
-	public static Result getThreeCommunitiesOfUser(Long id) {
-		logger.underlyingLogger().debug("getThreeCommunitiesOfUser");
+	public static Result getCommunitiesOfUser(Long id) {
+		logger.underlyingLogger().debug("getCommunitiesOfUser");
 		final User user = User.findById(id);
 		final User localUser = Application.getLocalUser(session());
 		int count=0;
 		List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
-		for(Community community : user.getListOfJoinedCommunities()) {
+		List<Community> joinedCommunities = user.getListOfJoinedCommunities();
+		for(Community community : joinedCommunities) {
 			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(
 			        community.id, (long)community.getMembers().size(), community.name, "", 
 			        community.iconName, community.communityType);
@@ -252,11 +247,9 @@ public class CommunityController extends Controller{
 				break;
 			}
 		}
-		CommunitiesParentVM fwVM = new CommunitiesParentVM(user.getListOfNotJoinedCommunities().size(), communityList);
+		CommunitiesParentVM fwVM = new CommunitiesParentVM(joinedCommunities.size(), communityList);
 		return ok(Json.toJson(fwVM));
 	}
-	
-	
 	
 	@Transactional
 	public static Result getMyAllCommunities() {
@@ -290,18 +283,6 @@ public class CommunityController extends Controller{
 		CommunitiesParentVM fwVM = new CommunitiesParentVM(user.getListOfNotJoinedCommunities().size(), communityList);
 		return ok(Json.toJson(fwVM));
 	}
-
-
-    @Transactional
-    public static Result getUnknownCommunities(int offset) {
-        return ok();
-    }
-
-    @Transactional
-    public static Result getMyNextCommunities(int offset) {
-        return ok();
-    }
-
 
 	@Transactional
 	public static Result getAllComments(Long id) {

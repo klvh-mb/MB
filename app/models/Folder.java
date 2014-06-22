@@ -60,6 +60,16 @@ Serializable, Creatable, Updatable{
 		resource.save();
 		FileUtils.copyFile(source, new java.io.File(resource.getPath()));
 		if (type == SocialObjectType.PROFILE_PHOTO) {
+		    Thumbnails
+            .of(source)
+            .height(150)
+            .width(150)
+            .keepAspectRatio(true)
+            .toFiles(
+                    new java.io.File(resource.getPath())
+                            .getParentFile(),
+                    Rename.NO_CHANGE);
+		    
 			Thumbnails
 					.of(source)
 					.height(85)
@@ -87,18 +97,27 @@ Serializable, Creatable, Updatable{
 							+"/miniComment."+new java.io.File(resource.getPath()).getName());
 		}
 		if (type == SocialObjectType.COVER_PHOTO) {
-			Thumbnails
+		    Thumbnails
 					.of(source)
-					.width(216)
+					.width(565)
 					.keepAspectRatio(true)
 					.toFiles(
 							new java.io.File(resource.getPath())
 									.getParentFile(),
-							Rename.PREFIX_DOT_THUMBNAIL);
+							Rename.NO_CHANGE);
+
+		    Thumbnails
+                .of(source)
+                .width(220)
+                .keepAspectRatio(true)
+                .toFiles(
+                        new java.io.File(resource.getPath())
+                                .getParentFile(),
+                        Rename.PREFIX_DOT_THUMBNAIL);
 			
 			Thumbnails
 					.of(source)
-					.width(102)
+					.width(120)
 					.keepAspectRatio(true)
 					.toFile(new java.io.File(resource.getPath()).getParentFile()
 									+"/mini."+new java.io.File(resource.getPath()).getName());
