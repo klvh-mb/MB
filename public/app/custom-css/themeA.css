@@ -1060,15 +1060,20 @@ text-decoration: none;
 /* Community Page header submenu*/
 #community-header-menu ul {
     position: absolute;
-    right: 20px;
-    top: 40px;
+    min-width: 100px;
+    right: -5px;
+    /*top: 40px;*/
+}
+#community-header-menu .subtoolsbox a {
+    padding: 0px;
 }
 #community-header-menu .subtoolsbox a:active {
     font-weight: bold;
 }
 #community-header-menu .subtoolsbox li {
     font-size: small;
-    margin: 15px 0 15px 15px;
+    margin: 10px 15px;
+    padding: 0px;
     border: none;
 }
 #community-banner {

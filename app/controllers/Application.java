@@ -180,13 +180,17 @@ public class Application extends Controller {
         // UseChild
         int maxChildren = (numChildren > 5)? 5 : numChildren;
         for (int i = 1; i <= maxChildren; i++) {
+            String genderStr = form.get("bb_gender" + i);
+            if (genderStr == null)
+                throw new RuntimeException("Please select a gender for child " + i);
+            
             TargetGender bbGender = TargetGender.valueOf(form.get("bb_gender" + i));
             String bbBirthYear = form.get("bb_birth_year" + i);
             String bbBirthMonth = form.get("bb_birth_month" + i);
             String bbBirthDay = form.get("bb_birth_day" + i);
             
-            if (!DateTimeUtil.isDayOfMonthValid(bbBirthYear, bbBirthMonth, bbBirthDay)) 
-                throw new RuntimeException("Child birth day is not in range");
+            if (!DateTimeUtil.isDateOfBirthValid(bbBirthYear, bbBirthMonth, bbBirthDay)) 
+                throw new RuntimeException("Please check child birthday for child " + i);
             
             UserChild userChild = new UserChild();
             userChild.gender = bbGender;

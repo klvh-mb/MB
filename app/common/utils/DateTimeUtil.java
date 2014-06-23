@@ -5,6 +5,15 @@ import org.joda.time.IllegalFieldValueException;
 
 public class DateTimeUtil {
     
+    public static boolean isDateOfBirthValid(String year, String month, String day) {
+        try {
+            parseDate(year, month, day);
+        } catch (IllegalFieldValueException ie) {
+            return false;
+        }
+        return true;
+    }
+    
     public static boolean isDayOfMonthValid(String year, String month, String day) {
         try {
             parseDate(year, month, day);
