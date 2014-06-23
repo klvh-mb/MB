@@ -2,7 +2,7 @@
 <div id="slider" class="general-box">
 	<div style="height:88%">
 	     <ul class="slider-menu" >
-	         <li data-ng-repeat="article in resultSlidder.la" data-ng-mouseOver="changeInsideImage(article.id)">
+	         <li data-ng-repeat="article in resultSlider.la" data-ng-mouseOver="changeInsideImage(article.id)">
 		         <a href="/#/article/id/{{article.id}}" target="_blank">
 			         <p>
 			         	<font>
@@ -27,7 +27,7 @@
 	       </a>
 	     </div>
 	     <ul class="slider-menu" >
-	         <li data-ng-repeat="article in resultSlidder.ra" data-ng-mouseOver="changeInsideImage(article.id)">
+	         <li data-ng-repeat="article in resultSlider.ra" data-ng-mouseOver="changeInsideImage(article.id)">
                 <a href="/#/article/id/{{article.id}}" target="_blank">
                     <p>
                         <font>
@@ -39,6 +39,6 @@
              </li>
 	     </ul>
      </div>
-     <div style="height:12%" class="slider-category"><p><a data-ng-repeat="category in resultSlidder.ct" data-ng-href="/#/article/show/{{category.id}}" target="_blank"><font>{{category.name}} </font></a><a href="/#/article/show/0" class="pull-right" target="_blank"><font>See all</font></a></p></div>
+     <div style="height:12%" class="slider-category"><p><a data-ng-repeat="category in resultSlider.ct" data-ng-href="/#/article/show/{{category.id}}" target="_blank"><font>{{category.name}} </font></a><a href="/#/article/show/0" class="pull-right" target="_blank"><font>See all</font></a></p></div>
 </div>
 </div>

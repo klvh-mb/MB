@@ -49,6 +49,16 @@ Serializable, Creatable, Updatable{
 		return super.toString() + " " + name;
 	}
 
+	/**
+	 * Note: for profile pics, scale it up by 100% as browser will only display crispy profile pic 
+	 * with higher resolution natural size photo. (seems like cover photo does not have this issue)
+	 * 
+	 * @param source
+	 * @param description
+	 * @param type
+	 * @return
+	 * @throws IOException
+	 */
 	public Resource addFile(java.io.File source, String description,
 			SocialObjectType type) throws IOException {
 
@@ -62,8 +72,8 @@ Serializable, Creatable, Updatable{
 		if (type == SocialObjectType.PROFILE_PHOTO) {
 		    Thumbnails
             .of(source)
-            .height(150)
-            .width(150)
+            .height(150 * 2)
+            .width(150 * 2)
             .keepAspectRatio(true)
             .toFiles(
                     new java.io.File(resource.getPath())
@@ -72,8 +82,8 @@ Serializable, Creatable, Updatable{
 		    
 			Thumbnails
 					.of(source)
-					.height(85)
-					.width(85)
+					.height(85 * 2)
+					.width(85 * 2)
 					.keepAspectRatio(true)
 					.toFiles(
 							new java.io.File(resource.getPath())
@@ -82,16 +92,16 @@ Serializable, Creatable, Updatable{
 			
 			Thumbnails
 					.of(source)
-					.height(40)
-					.width(40)
+					.height(40 * 2)
+					.width(40 * 2)
 					.keepAspectRatio(true)
 					.toFile(new java.io.File(resource.getPath()).getParentFile()
 									+"/mini."+new java.io.File(resource.getPath()).getName());
 			
 			Thumbnails
 					.of(source)
-					.height(32)
-					.width(32)
+					.height(32 * 2)
+					.width(32 * 2)
 					.keepAspectRatio(true)
 					.toFile(new java.io.File(resource.getPath()).getParentFile()
 							+"/miniComment."+new java.io.File(resource.getPath()).getName());

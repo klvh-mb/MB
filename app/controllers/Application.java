@@ -48,12 +48,12 @@ import com.feth.play.module.pa.user.AuthUser;
 import com.github.cleverage.elasticsearch.IndexQuery;
 import com.github.cleverage.elasticsearch.IndexResults;
 import com.mnt.exception.SocialObjectNotJoinableException;
-import com.mnt.utils.UtilRails;
 
 import common.model.TargetGender;
 import common.model.TargetProfile;
 import common.model.TargetYear;
 import common.utils.DateTimeUtil;
+import domain.DefaultValues;
 
 public class Application extends Controller {
     private static final play.api.Logger logger = play.api.Logger.apply("application");
@@ -344,8 +344,8 @@ public class Application extends Controller {
 		indexQuery.setBuilder(QueryBuilders.filteredQuery(QueryBuilders.matchAllQuery(), 
 				 andFilterBuilder));
 		
-		indexQuery.from((int) (offset * UtilRails.noOfPost));
-        indexQuery.size(UtilRails.noOfPost);
+		indexQuery.from((int) (offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT));
+        indexQuery.size(DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 		IndexResults<PostIndex> allPosts = PostIndex.find.search(indexQuery);
 		
 		System.out.println(allPosts.getTotalCount());

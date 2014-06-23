@@ -14,7 +14,7 @@
                     <li><div><font class="scCatName">{{categoryName}}</font></div></li>
                 </ul>
             </div>
-			<div id="all-post-thumbnail" class="general-box" ng-controller="EditArticleController" ng-show="allCategory">
+			<div id="all-post-thumbnail" class="general-box" ng-show="allCategory">
 				<ul>
                     <li data-ng-repeat="category in articleCategorys" style="width: 50%;">
                         <img data-ng-src="{{category.pn}}" style="width: 100%; height: 82px">
@@ -85,27 +85,7 @@
             <!--Wall End -->
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4 " style="width: 25%;">
-            <div id="hotPost" class="general-box">
-                <div class="con-title">
-                    <span class="icon-box icon-box-orange icon-title-hotforum"></span><font><b>Hot Articles</b></font>
-                </div>
-                <div class="static-content-wrapper" >
-                    <ul>
-                        <li  data-ng-repeat="article in hotArticles"><a href="/#/article/id/{{article.id}}" target="_blank"><img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" target="_blank" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|limitTo:35}}...</font></p></div></li>
-                    </ul>
-                </div>
-            </div><!--HotTopic End -->
-            <div id="latestPost" class="general-box">
-                <div class="con-title">
-                    <span class="icon-box icon-box-green icon-title-latestPost"></span><font><b>New Articles</b></font>
-                </div>
-                <div class="static-content-wrapper">
-                    <ul>
-						<li  data-ng-repeat="article in newArticles"><a href="/#/article/id/{{article.id}}" target="_blank"><img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" target="_blank" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|limitTo:35}}...</font></p></div></li>                    
-					</ul>
-                </div>
-            </div>
-            <!--Latest Post End -->
+            <div data-ng-include style="width: 100%;" data-src="'/assets/app/views/utilities/algo/articlesUtility.html'"></div>
         </div>
     </div>
 </div>

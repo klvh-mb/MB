@@ -50,7 +50,7 @@ angular.module('minibean', [
       })
       .when('/article/id/:id',{
     	templateUrl: '/assets/app/views/articlePage.html',
-    	controller : 'EditArticleController'  
+    	controller : 'ShowArticleController'  
       })
       .when('/article/show/:catid',{
     	templateUrl: '/assets/app/views/showArticlesPage.html',

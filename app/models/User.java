@@ -58,9 +58,9 @@ import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotJoinableException;
 import com.mnt.exception.SocialObjectNotLikableException;
 import com.mnt.exception.SocialObjectNotPostableException;
-import com.mnt.utils.UtilRails;
 
 import domain.CommentType;
+import domain.DefaultValues;
 import domain.PostType;
 import domain.SocialObjectType;
 import domain.Socializable;
@@ -1070,26 +1070,26 @@ public class User extends SocialObject implements Subject, Socializable {
         return (List<Post>)query.getResultList();
     }
     
-    public List<Post> getBookamrkPost(int offset, int limit) {
+    public List<Post> getBookmarkedPosts(int offset, int limit) {
         Query query = JPA.em().createQuery("Select p from Post p where p.id in (select sr.target from  SecondarySocialRelation sr where sr.action = ?1 and sr.actor = ?2 and  sr.targetType in ( ?3, ?4 ))");
         query.setParameter(1, SecondarySocialRelation.Action.BOOKMARKED);
         query.setParameter(2, this.id);
         query.setParameter(3, SocialObjectType.POST);
         query.setParameter(4, SocialObjectType.QUESTION);
         System.out.println(limit+ " :: "+offset +":: (List<Post>)query.getResultList(); :: "+query.getResultList().size());
-        query.setFirstResult(offset * UtilRails.noOfPost);
+        query.setFirstResult(offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
         query.setMaxResults(limit);
         
         return (List<Post>)query.getResultList();
     }
     
-    public List<Article> getBookamrkArticle(int offset, int limit) {
+    public List<Article> getBookmarkedArticles(int offset, int limit) {
         Query query = JPA.em().createQuery("Select a from Article a where a.id in (select sr.target from  SecondarySocialRelation sr where sr.action = ?1 and sr.actor = ?2 and sr.targetType = ?3)");  
         query.setParameter(1, SecondarySocialRelation.Action.BOOKMARKED);
         query.setParameter(2, this.id);
         query.setParameter(3, SocialObjectType.ARTICLE);
         System.out.println(limit + " :: " + offset + ":: (List<Post>)query.getResultList(); :: " + query.getResultList().size());
-        query.setFirstResult(offset * UtilRails.noOfArticleforUtility);
+        query.setFirstResult(offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
         query.setMaxResults(limit);
         
         return (List<Article>)query.getResultList();
@@ -1129,7 +1129,7 @@ public class User extends SocialObject implements Subject, Socializable {
                 query.setParameter(7, SocialObjectType.ANSWER);
                 query.setParameter(8, SocialObjectType.COMMENT);
                 query.setParameter(2, this.id);
-                query.setFirstResult(offset * UtilRails.noOfPost);
+                query.setFirstResult(offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
                 query.setMaxResults(limit);
                 return (List<Post>)query.getResultList();
     }

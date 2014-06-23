@@ -23,7 +23,6 @@ GET		/getAllArticleCategory		controllers.ArticleController.getAllArticleCategory
 GET     /get-all-Articles			controllers.ArticleController.getAllArticles
 GET     /get-Articles-Categorywise/:id/:offset		controllers.ArticleController.getArticlesCategorywise(id: Long, offset:String)
 GET     /get-Six-Articles           controllers.ArticleController.getSixArticles
-GET     /get-Eight-Articles			controllers.ArticleController.getEightArticles
 GET		/get-Related-Articles/:id/:category_id   controllers.ArticleController.getRelatedArticles(id :Long,category_id :Long)
 GET		/getDescriptionOfArticle/:id  	controllers.ArticleController.getDescriptionOfArticle(id :Long)
 GET		/deleteArticle/:id			controllers.ArticleController.deleteArticle(id :Long)
@@ -32,10 +31,11 @@ GET     /like-article/:id			controllers.ArticleController.onLike(id : Long)
 GET     /unlike-article/:id			controllers.ArticleController.onUnlike(id : Long)
 GET     /get-new-Articles			controllers.ArticleController.getNewArticles
 GET     /get-hot-Articles			controllers.ArticleController.getHotArticles
+GET     /get-recommended-Articles   controllers.ArticleController.getRecommendedArticles
 
 GET     /bookmark-article/:article_id				controllers.ArticleController.onBookamrk(article_id : Long)
 GET     /unbookmark-article/:article_id				controllers.ArticleController.onUnBookmark(article_id : Long)
-GET     /get-bookmark-article/:offset				controllers.ArticleController.getBookmarkArticles(offset:Integer)
+GET     /get-bookmark-article/:offset				controllers.ArticleController.getBookmarkedArticles(offset:Integer)
 
 GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
 GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
@@ -149,7 +149,7 @@ GET		/getAllIcons							controllers.CommunityController.getAllIcons()
 GET		/getAllUnjoinedMembers/:id/:query		controllers.CommunityController.getAllUnjoinedUsers(id : Long, query: String)
 GET		/inviteToCommunity/:community_id/:user_id   controllers.CommunityController.sendInviteToJoinCommunity(community_id : Long, user_id: Long)
 
-GET		/get-bookmark-post/:offset				controllers.CommunityController.getBookmarkPosts(offset:Integer)
+GET		/get-bookmark-post/:offset				controllers.CommunityController.getBookmarkedPosts(offset:Integer)
 GET		/unbookmark-post/:post_id				controllers.CommunityController.doUnBookmark(post_id : Long)
 GET		/bookmark-post/:post_id					controllers.CommunityController.doBookmark(post_id : Long)
 

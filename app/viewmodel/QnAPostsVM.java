@@ -9,7 +9,7 @@ import models.User;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import com.mnt.utils.UtilRails;
+import domain.DefaultValues;
 
 public class QnAPostsVM {
 	
@@ -26,7 +26,7 @@ public class QnAPostsVM {
 		
 		List<CommunityPostVM> posts = new ArrayList<>();
 		
-		List<Post> postsFromDB = c.getQuestionsOfCommunity(0, UtilRails.noOfPost);
+		List<Post> postsFromDB = c.getQuestionsOfCommunity(0, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 		
 		for(Post p: postsFromDB) {
 			CommunityPostVM post = CommunityPostVM.communityPostVM(p,user);

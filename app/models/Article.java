@@ -18,9 +18,9 @@ import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
 import com.mnt.exception.SocialObjectNotLikableException;
-import com.mnt.utils.UtilRails;
 
 import domain.Commentable;
+import domain.DefaultValues;
 import domain.Likeable;
 import domain.SocialObjectType;
 
@@ -67,7 +67,7 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 			q.setParameter(1, id);
 		}
 		q.setFirstResult(offset);
-		q.setMaxResults(UtilRails.noOfArticle);
+		q.setMaxResults(DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 		System.out.println("OFFSET :: "+offset);
 		return (List<Article>)q.getResultList();
 	}
@@ -82,21 +82,27 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	
 	@Transactional
 	public static List<Article> getArticles(int n) {
-		//  Select * from Article where featured = 1 limit <= 8
 		Query q = JPA.em().createQuery("Select a from Article a order by publishedDate desc");
 		q.setFirstResult(0);
 		q.setMaxResults(n);
 		return (List<Article>)q.getResultList();
 	}
-	
-	@Transactional
-	public static List<Article> getSixArticlesNew(int n) {
-		//  Select * from Article where featured = 1 limit <= 8
-		Query q = JPA.em().createQuery("Select a from Article a order by noOfLikes desc ");
-		q.setFirstResult(0);
-		q.setMaxResults(n);
-		return (List<Article>)q.getResultList();
-	}
+
+    @Transactional
+    public static List<Article> getMostViewsArticles(int n) {
+        Query q = JPA.em().createQuery("Select a from Article a order by noOfViews desc");
+        q.setFirstResult(0);
+        q.setMaxResults(n);
+        return (List<Article>)q.getResultList();
+    }
+       
+    @Transactional
+    public static List<Article> getMostLikesArticles(int n) {
+    	Query q = JPA.em().createQuery("Select a from Article a order by noOfLikes desc");
+    	q.setFirstResult(0);
+    	q.setMaxResults(n);
+    	return (List<Article>)q.getResultList();
+    }
 	
 	public static Article findById(Long id) {
 		Query q = JPA.em().createQuery("SELECT a FROM Article a where id = ?1");

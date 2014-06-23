@@ -26,9 +26,9 @@ import viewmodel.SlidderArticleVM;
 
 import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotLikableException;
-import com.mnt.utils.UtilRails;
 
 import domain.CommentType;
+import domain.DefaultValues;
 
 public class ArticleController extends Controller {
 
@@ -46,8 +46,6 @@ public class ArticleController extends Controller {
 		article.saveArticle();
 		return ok();
 	}
-	
-	
 	
 	@Transactional
 	public static Result getAllArticleCategory() {
@@ -74,7 +72,7 @@ public class ArticleController extends Controller {
 	
 	@Transactional
 	public static Result getArticlesCategorywise(Long cat_id, String offset) {
-		int start = Integer.parseInt(offset) * UtilRails.noOfArticle;
+		int start = Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
 		final User localUser = Application.getLocalUser(session());
 		System.out.println(start+":: OFFSET :: "+offset);
 		List<Article> allArticles = Article.getArticlesByCategory(cat_id, start);
@@ -104,57 +102,51 @@ public class ArticleController extends Controller {
 
     @Transactional
     public static Result getSixArticles() {
-        return getTargetedArticles(UtilRails.noOfArticle);
-       
+        return getTargetedArticles(DefaultValues.FEATURED_ARTICLES_COUNT);
     }
-		  
-	@Transactional
-    public static Result getEightArticles() {
-	    return getTargetedArticles(8);
-	}
-	
-	@Transactional
-	public static Result getHotArticles() {
-        final User localUser = Application.getLocalUser(session());
 
-		List<Article> allArticles = Article.getSixArticlesNew(UtilRails.noOfArticle);
-		List<ArticleVM> articleVM = new ArrayList<>();
-		allArticles.removeAll(localUser.getBookamrkArticle(0, allArticles.size()));
-		int n = UtilRails.noOfHotNewArticle;
-		int i = 0;
-		for (Article article:allArticles) {
-			if(i == n){
-				break;
-			}
-				ArticleVM vm = new ArticleVM(article);
-				articleVM.add(vm);
-				i++;
-		}
-		return ok(Json.toJson(articleVM ));
-	}
-	
-	
-	@Transactional
+    public static List<ArticleVM> getUtilityArticles(List<Article> articles) {
+        final User localUser = Application.getLocalUser(session());
+        List<ArticleVM> articleVMs = new ArrayList<>();
+        articles.removeAll(localUser.getBookmarkedArticles(0, articles.size()));
+        int i = 0;
+        for (Article article : articles) {
+            if (i == DefaultValues.ARTICLES_UTILITY_COUNT){
+                break;
+            }
+            ArticleVM vm = new ArticleVM(article);
+            articleVMs.add(vm);
+            i++;
+        }
+        return articleVMs;
+    }
+    
+    @Transactional
+    public static Result getHotArticles() {
+        // TODO - Fix * 5 to give buffer to remove bookmarked articles
+        List<ArticleVM> articleVMs = getUtilityArticles(
+                Article.getMostViewsArticles(DefaultValues.ARTICLES_UTILITY_COUNT * 5));
+        return ok(Json.toJson(articleVMs));
+    }
+    
+    @Transactional
+    public static Result getRecommendedArticles() {
+        // TODO - Fix * 5 to give buffer to remove bookmarked articles
+        List<ArticleVM> articleVMs = getUtilityArticles(
+                Article.getMostLikesArticles(DefaultValues.ARTICLES_UTILITY_COUNT * 5));
+        return ok(Json.toJson(articleVMs));
+    }
+
+    @Transactional
 	public static Result getNewArticles() {
-        final User localUser = Application.getLocalUser(session());
-
-        List<Article> allArticles = ArticleTargetingEngine.getTargetedArticles(localUser, UtilRails.noOfHotNewArticle);
-		List<ArticleVM> articleVM = new ArrayList<>();
-		for (Article article:allArticles) {
-				ArticleVM vm = new ArticleVM(article);
-				articleVM.add(vm);
-		}
-		return ok(Json.toJson(articleVM ));
-	}
-	
-	
-	
-	
+	    // TODO - Fix * 5 to give buffer to remove bookmarked articles
+        List<ArticleVM> articleVMs = getUtilityArticles(
+                Article.getArticles(DefaultValues.ARTICLES_UTILITY_COUNT * 5));
+        return ok(Json.toJson(articleVMs));
+    }
 	
 	@Transactional
 	public static Result getArticles(int n) {
-        final User localUser = Application.getLocalUser(session());
-
 		int i = 0;
 		List<Article> allArticles = Article.getArticles(n);
 		List<ArticleVM> leftArticles = new ArrayList<>();
@@ -298,10 +290,10 @@ public class ArticleController extends Controller {
 	}
 	
 	@Transactional
-	public static Result getBookmarkArticles(int offset) {
+	public static Result getBookmarkedArticles(int offset) {
 		final User localUser = Application.getLocalUser(session());
 		List<ArticleVM> articles = new ArrayList<>();
-		List<Article> bookmarkArticles = localUser.getBookamrkArticle(offset, UtilRails.noOfArticle);
+		List<Article> bookmarkArticles = localUser.getBookmarkedArticles(offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 		if(bookmarkArticles != null ){
 			for(Article a : bookmarkArticles) {
 				ArticleVM vm = new ArticleVM(a,localUser);

@@ -42,10 +42,10 @@ import viewmodel.SocialObjectVM;
 import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotJoinableException;
 import com.mnt.exception.SocialObjectNotLikableException;
-import com.mnt.utils.UtilRails;
 import com.typesafe.plugin.RedisPlugin;
 
 import domain.CommentType;
+import domain.DefaultValues;
 import domain.PostType;
 import domain.SocialObjectType;
 
@@ -65,7 +65,7 @@ public class CommunityController extends Controller{
 		int i = 0; 
 		List<Community>	unjoinedCommunities = localUser.getListOfNotJoinedCommunities();
 		for(Community community : unjoinedCommunities) {
-			if(i >= UtilRails.noOfCommunity)
+			if(i >= DefaultValues.DEFAULT_UTILITY_COUNT)
 				break;
 			CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(
 			        community.id, (long) community.getMembers().size(), community.name, "", 
@@ -330,9 +330,9 @@ public class CommunityController extends Controller{
 		logger.underlyingLogger().debug("getNextPosts");
 		final User localUser = Application.getLocalUser(session());
 		Community community = Community.findById(Long.parseLong(id));
-		int start = Integer.parseInt(offset) * UtilRails.noOfPost + UtilRails.noOfPost;
+		int start = (Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) + DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
 		List<CommunityPostVM> postsVM = new ArrayList<>();
-		List<Post> posts =  community.getPostsOfCommunity(start, UtilRails.noOfPost);
+		List<Post> posts = community.getPostsOfCommunity(start, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 		for(Post p: posts) {
 			CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser);
 			postsVM.add(post);
@@ -345,9 +345,9 @@ public class CommunityController extends Controller{
 		logger.underlyingLogger().debug("getNextQuests");
 		final User localUser = Application.getLocalUser(session());
 		Community community = Community.findById(Long.parseLong(id));
-		int start = Integer.parseInt(offset) * UtilRails.noOfPost + UtilRails.noOfPost;
+		int start = (Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) + DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
 		List<CommunityPostVM> postsVM = new ArrayList<>();
-		List<Post> posts =  community.getQuestionsOfCommunity(start, UtilRails.noOfPost);
+		List<Post> posts =  community.getQuestionsOfCommunity(start, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 		for(Post p: posts) {
 			CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
 			postsVM.add(post);
@@ -688,7 +688,7 @@ public class CommunityController extends Controller{
 		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostVM> posts = new ArrayList<>();
 		
-		List<Post> newsFeeds = localUser.getNewsfeedsAtHomePage(offset, UtilRails.noOfPost);
+		List<Post> newsFeeds = localUser.getNewsfeedsAtHomePage(offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 		
 		if(newsFeeds != null ){
 			for(Post p : newsFeeds) {
@@ -808,13 +808,13 @@ public class CommunityController extends Controller{
 	}
 	
 	@Transactional
-	public static Result getBookmarkPosts(int offset) {
-		logger.underlyingLogger().debug("getBookmarkPosts");
+	public static Result getBookmarkedPosts(int offset) {
+		logger.underlyingLogger().debug("getBookmarkedPosts");
 		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostVM> posts = new ArrayList<>();
-		List<Post> bookmarkPost = localUser.getBookamrkPost(offset, UtilRails.noOfPost);
-		if(bookmarkPost != null ){
-			for(Post p : bookmarkPost) {
+		List<Post> bookmarkedPosts = localUser.getBookmarkedPosts(offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+		if(bookmarkedPosts != null ){
+			for(Post p : bookmarkedPosts) {
 				CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
 				posts.add(post);
 			}
