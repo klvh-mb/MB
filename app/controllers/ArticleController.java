@@ -104,8 +104,8 @@ public class ArticleController extends Controller {
 
     @Transactional
     public static Result getSixArticles() {
-        //return getTargetedArticles(6); // NOTE TO KEITH this part is your implementation.
-        return getSixArticlesNew(); // MINDNERVES implementation for Bug 204
+        return getTargetedArticles(UtilRails.noOfArticle);
+       
     }
 		  
 	@Transactional
@@ -114,40 +114,40 @@ public class ArticleController extends Controller {
 	}
 	
 	@Transactional
-	public static Result getSixArticlesNew() {
+	public static Result getHotArticles() {
         final User localUser = Application.getLocalUser(session());
 
-		int i = 0;
-		List<Article> allArticles = Article.getSixArticlesNew();
+		List<Article> allArticles = Article.getSixArticlesNew(UtilRails.noOfArticle);
+		List<ArticleVM> articleVM = new ArrayList<>();
 		allArticles.removeAll(localUser.getBookamrkArticle(0, allArticles.size()));
-		int n = UtilRails.noOfArticle;
-		List<ArticleVM> leftArticles = new ArrayList<>();
-		List<ArticleVM> rightArticles = new ArrayList<>();
+		int n = UtilRails.noOfHotNewArticle;
+		int i = 0;
 		for (Article article:allArticles) {
-            if (i == n) {
-                break;
-            }
-
-			if (i < n/2){
-				ArticleVM vm = new ArticleVM(article);
-				leftArticles.add(vm);
-			} else {
-				ArticleVM vm = new ArticleVM(article);
-				rightArticles.add(vm);
+			if(i == n){
+				break;
 			}
-			i++;
+				ArticleVM vm = new ArticleVM(article);
+				articleVM.add(vm);
+				i++;
 		}
-
-		List<ArticleCategoryVM> categoryVMs = new ArrayList<>();
-		List<ArticleCategory> categories = ArticleCategory.getFourCategories(4);
-		for(ArticleCategory ac : categories) {
-			ArticleCategoryVM vm = ArticleCategoryVM.articleCategoryVM(ac);
-			categoryVMs.add(vm);
-		}
-
-		SlidderArticleVM articleVM = new SlidderArticleVM(leftArticles, rightArticles, categoryVMs);
-		return ok(Json.toJson(articleVM));
+		return ok(Json.toJson(articleVM ));
 	}
+	
+	
+	@Transactional
+	public static Result getNewArticles() {
+        final User localUser = Application.getLocalUser(session());
+
+        List<Article> allArticles = ArticleTargetingEngine.getTargetedArticles(localUser, UtilRails.noOfHotNewArticle);
+		List<ArticleVM> articleVM = new ArrayList<>();
+		for (Article article:allArticles) {
+				ArticleVM vm = new ArticleVM(article);
+				articleVM.add(vm);
+		}
+		return ok(Json.toJson(articleVM ));
+	}
+	
+	
 	
 	
 	

@@ -1871,6 +1871,21 @@ minibean.service('allArticlesService',function($resource){
 				get: {method:'get' ,isArray:true}
 			}
 	);
+	this.NewArticles = $resource(
+			'/get-new-Articles',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get' ,isArray:true}
+			}
+	);
+	this.HotArticles = $resource(
+			'/get-hot-Articles',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'get' ,isArray:true}
+			}
+	);
+	
 	this.ArticleCategorywise = $resource(
 			'/get-Articles-Categorywise/:id/:offset',
 			{alt:'json',callback:'JSON_CALLBACK'},
@@ -2041,6 +2056,11 @@ minibean.controller('ShowArticleController',function($scope, $modal,$routeParams
 
 minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routeParams, bookmarkPostService, articleCategoryService, showImageService, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService,allRelatedArticlesService){
 	$scope.result = [];
+	
+	$scope.hotArticles = allArticlesService.HotArticles.get();
+	$scope.newArticles = allArticlesService.NewArticles.get();
+	
+	
 	var offset = 0;
 	var noMore = false;
 	$scope.articleCategorys = articleCategoryService.getAllArticleCategory.get();

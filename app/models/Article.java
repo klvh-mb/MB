@@ -90,9 +90,11 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	}
 	
 	@Transactional
-	public static List<Article> getSixArticlesNew() {
+	public static List<Article> getSixArticlesNew(int n) {
 		//  Select * from Article where featured = 1 limit <= 8
 		Query q = JPA.em().createQuery("Select a from Article a order by noOfLikes desc ");
+		q.setFirstResult(0);
+		q.setMaxResults(n);
 		return (List<Article>)q.getResultList();
 	}
 	

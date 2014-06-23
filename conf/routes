@@ -30,6 +30,8 @@ GET		/deleteArticle/:id			controllers.ArticleController.deleteArticle(id :Long)
 GET		/article/:id				controllers.ArticleController.infoArticle(id :Long)
 GET     /like-article/:id			controllers.ArticleController.onLike(id : Long)
 GET     /unlike-article/:id			controllers.ArticleController.onUnlike(id : Long)
+GET     /get-new-Articles			controllers.ArticleController.getNewArticles
+GET     /get-hot-Articles			controllers.ArticleController.getHotArticles
 
 GET     /bookmark-article/:article_id				controllers.ArticleController.onBookamrk(article_id : Long)
 GET     /unbookmark-article/:article_id				controllers.ArticleController.onUnBookmark(article_id : Long)
