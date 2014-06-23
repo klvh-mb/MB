@@ -56,7 +56,7 @@ import common.utils.DateTimeUtil;
 import domain.DefaultValues;
 
 public class Application extends Controller {
-    private static final play.api.Logger logger = play.api.Logger.apply("application");
+    private static final play.api.Logger logger = play.api.Logger.apply(Application.class);
 
     public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";

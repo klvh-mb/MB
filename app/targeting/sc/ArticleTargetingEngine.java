@@ -5,6 +5,7 @@ import common.model.TargetProfile;
 import models.Article;
 import models.Location;
 import models.User;
+
 import play.db.jpa.JPA;
 import targeting.Scorable;
 import targeting.ScoreSortedList;
@@ -21,6 +22,8 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class ArticleTargetingEngine {
+    private static final play.api.Logger logger = play.api.Logger.apply(ArticleTargetingEngine.class);
+
     /**
      * Children Age targeting
      * - Article.max >= child.min && Article.min <= child.max
@@ -38,7 +41,7 @@ public class ArticleTargetingEngine {
         }
 
         TargetProfile profile = TargetProfile.fromUser(user);
-        System.out.println("["+user.getName()+"] getTargetedArticles. "+profile);
+        logger.underlyingLogger().info("["+user.getName()+"] getTargetedArticles. "+profile);
 
         List<Article> unRankedRes = query(profile, false);
         if (unRankedRes.size() < k) {
@@ -58,7 +61,7 @@ public class ArticleTargetingEngine {
             results.add(scorable.getObject());
         }
 
-        System.out.println("[rankAndFunnel] results["+results.size()+"]="+results);
+        logger.underlyingLogger().info("[rankAndFunnel] results[" + results.size() + "]=" + results);
         return results;
     }
 
@@ -139,7 +142,7 @@ public class ArticleTargetingEngine {
         }
 
         List<Article> results = (List<Article>)q.getResultList();
-        System.out.println("[getTargetedArticles] results["+results.size()+"]="+results);
+        logger.underlyingLogger().info("[getTargetedArticles] results[" + results.size() + "]=" + results);
 
 		return (List<Article>)q.getResultList();
     }

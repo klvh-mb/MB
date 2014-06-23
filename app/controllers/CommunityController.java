@@ -50,8 +50,8 @@ import domain.PostType;
 import domain.SocialObjectType;
 
 public class CommunityController extends Controller{
+	private static play.api.Logger logger = play.api.Logger.apply(CommunityController.class);
 
-	private static play.api.Logger logger = play.api.Logger.apply("application");
 	private static String prefix = Play.application().configuration().getString("keyprefix", "prod_");
 	private static final String USER = prefix + "user_";
 	private static final String MOMENT = prefix + "moment_";

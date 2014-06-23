@@ -7,7 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class SimpleSerializer {
-    private static play.api.Logger logger = play.api.Logger.apply("application");
+    private static play.api.Logger logger = play.api.Logger.apply(SimpleSerializer.class);
     
     public static byte[] serialize(Object object) {
         ObjectOutputStream oos = null;

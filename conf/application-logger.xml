@@ -17,8 +17,17 @@
   </appender>
   
   <logger name="play" level="INFO" />
-  <logger name="application" level="INFO" />
-  <logger name="common.image" level="INFO" />
+
+  <logger name="common" level="DEBUG" />
+  <logger name="controllers" level="DEBUG" />
+  <logger name="domain" level="DEBUG" />
+  <logger name="indexing" level="DEBUG" />
+  <logger name="models" level="DEBUG" />
+  <logger name="processor" level="DEBUG" />
+  <logger name="providers" level="DEBUG" />
+  <logger name="security" level="DEBUG" />
+  <logger name="service" level="DEBUG" />
+  <logger name="targeting" level="DEBUG" />
 
   <root level="INFO">
     <appender-ref ref="STDOUT" />

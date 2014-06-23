@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Entity
 public class UserCommunityAffinity extends domain.Entity {
-    private static final play.api.Logger logger = play.api.Logger.apply("application");
+    private static final play.api.Logger logger = play.api.Logger.apply(UserCommunityAffinity.class);
 
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;

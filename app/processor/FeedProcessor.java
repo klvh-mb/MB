@@ -29,7 +29,7 @@ import com.typesafe.plugin.RedisPlugin;
 import domain.PostType;
 
 public class FeedProcessor {
-    private static play.api.Logger logger = play.api.Logger.apply("application");
+    private static play.api.Logger logger = play.api.Logger.apply(FeedProcessor.class);
     
 	private static String prefix = Play.application().configuration().getString("keyprefix", "prod_");
 	private static final String USER = prefix + "user_";

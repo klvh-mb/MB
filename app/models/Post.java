@@ -43,7 +43,7 @@ import domain.SocialObjectType;
 
 @Entity
 public class Post extends SocialObject implements Likeable, Commentable {
-    private static final play.api.Logger logger = play.api.Logger.apply("application");
+    private static final play.api.Logger logger = play.api.Logger.apply(Post.class);
 
     public Post() {}
     

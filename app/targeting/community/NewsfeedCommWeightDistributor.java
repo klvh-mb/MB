@@ -16,7 +16,7 @@ import java.util.Set;
  * To change this template use File | Settings | File Templates.
  */
 public class NewsfeedCommWeightDistributor {
-    private static final play.api.Logger logger = play.api.Logger.apply("application");
+    private static final play.api.Logger logger = play.api.Logger.apply(NewsfeedCommWeightDistributor.class);
 
     private static final String NEWSFEED_FULLLENGTH_PROP = "newsfeed.fulllength";
     private static final int NEWSFEED_FULLLENGTH = Play.application().configuration().getInt(NEWSFEED_FULLLENGTH_PROP, 160);

@@ -67,7 +67,7 @@ import domain.Socializable;
 
 @Entity
 public class User extends SocialObject implements Subject, Socializable {
-    private static final play.api.Logger logger = play.api.Logger.apply("application");
+    private static final play.api.Logger logger = play.api.Logger.apply(User.class);
 
     private static User SUPER_ADMIN;
     
