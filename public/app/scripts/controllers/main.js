@@ -719,17 +719,7 @@ minibean.service('sendJoinRequest',function($resource){
 	);
 });
 
-minibean.service('getMoreUnknownCommunity',function($resource){
-	this.get_next_communities = $resource(
-			'/get-next-unknown-communities/:offset',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{offset:'@offset'}, isArray : true}
-			}
-	);
-});
-
-minibean.controller('UnknownCommunityWidgetController',function($scope, usSpinnerService, getMoreUnknownCommunity, sendJoinRequest, unJoinedCommunityWidgetService, userInfoService, $http){
+minibean.controller('RecommendedCommunityWidgetController',function($scope, usSpinnerService, sendJoinRequest, unJoinedCommunityWidgetService, userInfoService, $http){
 	$scope.result = unJoinedCommunityWidgetService.UserCommunitiesNot.get();
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.send_request = function(id) {
@@ -746,29 +736,6 @@ minibean.controller('UnknownCommunityWidgetController',function($scope, usSpinne
 				}
 		);
 	}
-
-	var offsetC = 0;
-	var noMore = false;
-	$scope.nextGroups = function() {
-		$scope.noMoreResult = false;
-		if ($scope.isBusy) return;
-		if (noMore){ $scope.noMoreResult = true; return;}
-		
-		$scope.isBusy = true;
-		getMoreUnknownCommunity.get_next_communities.get({offset:offsetC}, function( response ){
-			var groups = response;
-			if(groups.length < 3 ) {
-				noMore = true;
-				$scope.isBusy = false;
-			}
-			
-			for (var i = 0; i < groups.length; i++) {
-				$scope.result.fvm.push(groups[i]);
-		    }
-			$scope.isBusy = false;
-			offsetC++;
-		});
-	};
 });
 
 ///////////////////////// User UnJoined Communities Widget End //////////////////////////////////

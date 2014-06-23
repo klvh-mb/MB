@@ -49,132 +49,112 @@
             <!--Wall End -->
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4" style="width: 25%">
-        	<div class="col-md-12 col-sm-12 col-xs-12 ">
             <div id="profile-about" class="general-box">
                 <form role="form" editable-form name="profile_data" onaftersave="updateUserProfileData($data)">
-                <div class="con-title">
-                    <span class="icon-box icon-box-blueLight icon-title-profile-about"></span>
-                    About
-                    <div style="float:right">
-                        <button type="button" class="btn btn-default" ng-click="profile_data.$show()" ng-show="!profile_data.$visible">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </button>
+                    <div class="con-title">
+                        <span class="icon-box icon-box-blueLight icon-title-profile-about"></span>
+                        About
+                        <div style="float:right">
+                            <button type="button" class="btn btn-default" ng-click="profile_data.$show()" ng-show="!profile_data.$visible">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-			          <div style="padding: 13px;">
-			            
-			              <div class="col-md-12" ng-show="profile_data.$visible">
-			              	<div class="row">
-			              	</div>
-			              </div>
-			              <div class="row">
-			                <div class="col-md-12">
-			                  <div class="row form-group">
-				                	<div class="col-md-6">
-				                    	<label>First Name: </label>
-				                    </div>
-				                    
-				                    <div class="col-md-6">
-				                    	<span editable-text="result.firstName" >{{ result.firstName || '' }}</span>
-				                    </div>
-			                  </div>
-			                  
-			                  <div class="row">
-				                	<div class="col-md-6">
-			                   			<label>Last Name: </label>
-			                   		</div>
-			                   		
-			                   		<div class="col-md-6">
-			                   			<span editable-text="result.lastName">{{ result.lastName || '' }}</span>
-			                   		</div>
-			                  </div>
-			                  
-			                  
-			                  <div class="row">
-				                	<div class="col-md-6">
-			                    		<label>Gender: </label>
-			                    	</div>
-			                    	
-			                    	<div class="col-md-6">
-			                    		<span editable-select="result.userInfo.gender" e-name="gender" e-ng-options="g.value as g.text for g in genders">
-			                    			{{ (genders | filter:{value: result.userInfo.gender})[0].text || '' }}
-			                    		</span>
-			                    	</div>
-			                  </div>
-			                  
-			                  <div class="row">
-			                  	<div class="col-md-6">
-			                   		<label>Year of Birth:</label>
-			                   	</div>
-			                   	
-			                   	<div class="col-md-6">
-								    <!--span editable-bsdate="result.date_of_birth" e-datepicker-popup="dd-MMMM-yyyy">{{result.date_of_birth | date:'dd/MM/yyyy' || '' }}</span-->
-							  	    <span editable-select="result.userInfo.birthYear" e-name="birth_year" e-ng-options="y.value as y.text for y in years">
-                                        {{ (years | filter:{value: result.userInfo.birthYear})[0].text || '' }}
-                                    </span>
-							  	</div>
-			                  </div>
-			                  
-			                  <div class="row">
-				                	<div class="col-md-6">
-			                   			<label>Location: </label>
-			                   		</div>
-			                   		
-			                   		<div class="col-md-6">
-			                   			<span editable-select="result.userInfo.location" e-name="location" e-ng-options="l.id as l.displayName for l in locations">
-                                            {{ (locations | filter:{value: result.userInfo.location})[0].displayName || '' }}
-                                        </span>
-			                   		</div>
-			                  </div>
-			                  
-			               </div>
-			                  
-			               <div class="col-md-12">
-				             <div class="row">
-				               	<div class="col-md-12">
-				                   	<label>About Me: </label>
-				           	 	</div>
-				             </div>
-				               	
-				             <div class="row">
-				               	<div class="col-md-12">
-					                <span editable-textarea="result.userInfo.aboutMe" e-rows="7" e-cols="40">
-					                   <pre>{{ result.userInfo.aboutMe || 'no description' }}</pre>
-					                 </span>
-				                 </div>
-				              </div>
-			               </div>
-			             </div>
-			             <div class="buttons">
-			                <span ng-show="profile_data.$visible">
-			                <button type="submit" class="btn btn-primary" ng-disabled="profile_data.$waiting">
-			                <span class="glyphicon glyphicon-ok"></span>
-			                </button>
-			                <button type="button" class="btn btn-default" ng-disabled="profile_data.$waiting" ng-click="profile_data.$cancel()">
-			                <span class="glyphicon glyphicon-remove"></span>
-			                </button>
-			                </span>
-			            </div>
-			       
-			    </div>
-            </div><!--About End -->
-            
-			</form>
-        </div>
-        </div>
-        <div id="newCommunity">
-				<div class="col-lg-12 col-md-12"
-					ng-controller="UnknownCommunityWidgetController" data-ng-show="result.fvm.length > 0">
-					<div data-ng-include style="width: 100%;"
-						data-src="'/assets/app/views/communityWidget.html'"></div>
-				</div>
-			</div><!--NewCommunity End -->
-         <div>
-           	<div class="col-lg-12 col-md-12" ng-controller="FriendsWidgetController" data-ng-show="result.fvm.length > 0">
-				<div data-ng-include style="width: 100%;" data-src="'/assets/app/views/friendsBar.html'"></div>
-			</div>
-          </div><!--Friends End -->
+                    <div class="row">
+                        <div style="padding: 13px;">
+                            <div class="col-md-12" ng-show="profile_data.$visible">
+                                <div class="row">
+    			              	</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row form-group">
+                                    	<div class="col-md-6">
+                                        	<label>First Name: </label>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                        	<span editable-text="result.firstName" >{{ result.firstName || '' }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                   		   <label>Last Name: </label>
+                                   	    </div>
+                                   	    <div class="col-md-6">
+                                            <span editable-text="result.lastName">{{ result.lastName || '' }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Gender: </label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <span editable-select="result.userInfo.gender" e-name="gender" e-ng-options="g.value as g.text for g in genders">
+                                                {{ (genders | filter:{value: result.userInfo.gender})[0].text || '' }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                      	<div class="col-md-6">
+                                       	    <label>Year of Birth:</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                    	    <!--span editable-bsdate="result.date_of_birth" e-datepicker-popup="dd-MMMM-yyyy">{{result.date_of_birth | date:'dd/MM/yyyy' || '' }}</span-->
+                                      	    <span editable-select="result.userInfo.birthYear" e-name="birth_year" e-ng-options="y.value as y.text for y in years">
+                                                {{ (years | filter:{value: result.userInfo.birthYear})[0].text || '' }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Location: </label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <span editable-select="result.userInfo.location" e-name="location" e-ng-options="l.id as l.displayName for l in locations">
+                                                {{ (locations | filter:{value: result.userInfo.location})[0].displayName || '' }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="row">
+    				                    <div class="col-md-12">
+    				                   	    <label>About Me: </label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <span editable-textarea="result.userInfo.aboutMe" e-rows="7" e-cols="40">
+                                                <pre>{{ result.userInfo.aboutMe || 'no description' }}</pre>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="buttons">
+                                <span ng-show="profile_data.$visible">
+                                    <button type="submit" class="btn btn-primary" ng-disabled="profile_data.$waiting">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-default" ng-disabled="profile_data.$waiting" ng-click="profile_data.$cancel()">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--About End -->
+                </form>
+            </div>
+            <div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.fvm.length > 0">
+                <div data-ng-include style="width: 100%;" data-src="'/assets/app/views/utilities/algo/yourFriendsCommunitiesUtility.html'"></div>
+            </div>
+            <!--NewCommunity End -->
+            <div ng-controller="FriendsWidgetController" data-ng-show="result.fvm.length > 0">
+                <div data-ng-include style="width: 100%;" data-src="'/assets/app/views/utilities/friendsUtility.html'"></div>
+            </div>
+            <!--Friends End -->
         </div>
     </div>
 </div>

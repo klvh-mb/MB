@@ -57,15 +57,11 @@
             <div id="profile-about" class="general-box">
                 <div data-ng-include style="width: 100%;" data-src="'/assets/app/views/profile-about-section.html'"></div>
             </div>
-            <div id="newCommunity">
-                <div ng-controller="CommunityWidgetByUserIDController">
-                    <div data-ng-include style="width: 100%;" data-src="'/assets/app/views/communityWidget.html'"></div>
-                </div>
+            <div ng-controller="CommunityWidgetByUserIDController">
+                <div data-ng-include style="width: 100%;" data-src="'/assets/app/views/utilities/algo/yourFriendsCommunitiesUtility.html'"></div>
             </div><!--NewCommunity End -->
-            <div>
-                <div ng-controller="UserFriendsWidgetController">
-                    <div data-ng-include style="width: 100%;" data-src="'/assets/app/views/friendsBar.html'"></div>
-                </div>
+            <div ng-controller="UserFriendsWidgetController">
+                <div data-ng-include style="width: 100%;" data-src="'/assets/app/views/utilities/friendsUtility.html'"></div>
             </div><!--Friends End -->
         </div>
     </div>

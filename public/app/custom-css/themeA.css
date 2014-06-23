@@ -588,10 +588,10 @@ text-decoration: none;
 .newCommunity-info {
     list-style: none;
     padding: 5px;
-    min-height: 120px;
+    /*min-height: 120px;*/
 }
 .newCommunity-info p {
-    width: 68%;
+    width: 67%;
     display: inline-block;
 }
 .newCommunity-info img {

@@ -11,8 +11,8 @@
                 <div>
                     <ul class="post-detail-wrapper">
                         <li>
-                        	<a data-ng-show="!article.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkArticle(article.id)" style="right:1%;top:1%;"></a>
-        					<a data-ng-show="article.isBookmarked" class="btn-like post-favorited" href="" data-ng-click="unBookmarkArticle(article.id)" style="right:1%;top:1%;"></a>
+                        	<a data-ng-show="!article.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkArticle(article.id)"></a>
+        					<a data-ng-show="article.isBookmarked" class="btn-like post-favorited" href="" data-ng-click="unBookmarkArticle(article.id)"></a>
                         	<a href="/#/article/show/{{article.ct.id}}">
                         		<img class="scCatMiniThumbnail" data-ng-src="{{article.ct.pictureName}}" />
                         	</a>
@@ -61,7 +61,7 @@
                 </div>
                 <div class="static-content-wrapper" >
                     <ul>
-                        <li  data-ng-repeat="article in resultSlidder.ra"><a href="/#/article/id/{{article.id}}" target="_blank"><img ng-show="article.img_url != 'No Image'"  data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;" target="_blank"><font>{{article.nm}}</font></a><p><font>{{article.lds|limitTo:35}}...</font></p></div></li>
+                        <li data-ng-repeat="article in resultSlidder.ra"><a href="/#/article/id/{{article.id}}" target="_blank"><img ng-show="article.img_url != 'No Image'"  data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;" target="_blank"><font>{{article.nm}}</font></a><p><font>{{article.lds|limitTo:35}}...</font></p></div></li>
                     </ul>
                 </div>
             </div><!--HotTopic End -->
@@ -71,7 +71,7 @@
                 </div>
                 <div class="static-content-wrapper">
                     <ul>
-						<li  data-ng-repeat="article in resultSlidder.la"><a href="/#/article/id/{{article.id}}" target="_blank"><img ng-show="article.img_url != 'No Image'"  data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;" target="_blank"><font>{{article.nm}}</font></a><p><font>{{article.lds|limitTo:35}}...</font></p></div></li>                    
+						<li data-ng-repeat="article in resultSlidder.la"><a href="/#/article/id/{{article.id}}" target="_blank"><img ng-show="article.img_url != 'No Image'"  data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;" target="_blank"><font>{{article.nm}}</font></a><p><font>{{article.lds|limitTo:35}}...</font></p></div></li>                    
 					</ul>
                 </div>
             </div><!--Latest Post End -->
