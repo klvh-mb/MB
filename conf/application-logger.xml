@@ -6,13 +6,13 @@
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
      <file>${application.home}/logs/application.log</file>
      <encoder>
-       <pattern>%d{HH:mm:ss:SSS}  %-5p %class{15}.%method:%L - %m%n</pattern>
+       <pattern>%d{HH:mm:ss:SSS} %-5level %logger{15} - %message%n%xException{10}</pattern>
      </encoder>
    </appender>
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>%d{HH:mm:ss:SSS} %coloredLevel  - %message%n%xException{5}</pattern>
+      <pattern>%d{HH:mm:ss:SSS} %highlight(%-5level) %logger{15} - %message%n%xException{10}</pattern>
     </encoder>
   </appender>
   
@@ -20,7 +20,7 @@
   <logger name="application" level="INFO" />
   <logger name="common.image" level="INFO" />
 
-  <root level="ERROR">
+  <root level="INFO">
     <appender-ref ref="STDOUT" />
     <appender-ref ref="FILE" />
   </root>
