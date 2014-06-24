@@ -24,8 +24,6 @@ import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotJoinableException;
 import com.mnt.exception.SocialObjectNotLikableException;
 import com.mnt.exception.SocialObjectNotPostableException;
-import com.mnt.utils.MailJob;
-import com.mnt.utils.MailJob.Mail.Body;
 
 import domain.AuditListener;
 import domain.CommentType;
@@ -70,8 +68,10 @@ public abstract class SocialObject extends domain.Entity implements
 	 * Community
 	 *     System communities will have special treatment e.g. targeting, privacy
      */
-    //@Required
-    public Boolean system = false;  
+    public Boolean system = false;
+    
+    // social objects should always be soft delete
+    public Boolean deleted = false;
 	
 	protected final void recordLike(User user) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);

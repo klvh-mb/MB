@@ -157,17 +157,18 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	@Override
 	public void onLikedBy(User user) {
 		recordLike(user);
-	}
-	
-	public void onBookmarkedBy(User user) {
-		recordBookmark(user);
+		this.noOfLikes++;
+		user.likesCount++;
 	}
 
-	@Override
-	public void onUnlikedBy(User so)
-			throws SocialObjectNotLikableException {
-		// TODO Auto-generated method stub
-		
+    @Override
+    public void onUnlikedBy(User user) throws SocialObjectNotLikableException {
+        this.noOfLikes--;
+        user.likesCount--;
+    }
+    
+	public void onBookmarkedBy(User user) {
+		recordBookmark(user);
 	}
 	
 	public boolean isLikedBy(User user) throws SocialObjectNotLikableException {

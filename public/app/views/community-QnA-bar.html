@@ -21,9 +21,7 @@
 					<button  data-ng-show="questionText.length > 3" type="button" class="btn btn-warning btn-xs" data-ng-click="ask_question_community(community.i, questionTitle, questionText); questionTitle='';questionText='';">Post</button>
 					<input style="visibility:hidden;height:0px;" id="QnA-photo-id" type="file"  name="post-photo" ng-file-select="onQnAFileSelect($files)"/>
 				</div>
-            
             </form>
-            
         </li>
     </ul>
 </div>
@@ -31,7 +29,7 @@
 <div infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>	
 	<div data-ng-repeat="post in QnA.posts">
 		<div id="wall-forum">
-			      <div class="general-box" style="margin-bottom:0px">
+			      <div class="general-box">
 		          <ul>
 		              <li><a data-ng-href="/#/profile/{{post.oid}}" ><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}" /></a><p class="wall-user-actState" style="white-space: inherit;position: relative;"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/question" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-ask"></span><span class="ques-tag pull-right">?</span>
 		              <a data-ng-show="!post.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkPost(post.id)"></a>

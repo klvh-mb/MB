@@ -4,7 +4,7 @@
     </div>
     <div class="static-content-wrapper" >
         <ul>
-            <li data-ng-repeat="article in hotArticles"><a href="/#/article/id/{{article.id}}" target="_blank"><img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" target="_blank" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|limitTo:35}}...</font></p></div></li>
+            <li data-ng-repeat="article in hotArticles"><a href="/#/article/id/{{article.id}}"><img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|limitTo:35}}...</font></p></div></li>
         </ul>
     </div>
 </div>
@@ -15,7 +15,7 @@
     </div>
     <div class="static-content-wrapper" >
         <ul>
-            <li data-ng-repeat="article in recommendedArticles"><a href="/#/article/id/{{article.id}}" target="_blank"><img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" target="_blank" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|limitTo:35}}...</font></p></div></li>
+            <li data-ng-repeat="article in recommendedArticles"><a href="/#/article/id/{{article.id}}"><img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|limitTo:35}}...</font></p></div></li>
         </ul>
     </div>
 </div>
@@ -26,7 +26,7 @@
     </div>
     <div class="static-content-wrapper">
         <ul>
-            <li  data-ng-repeat="article in newArticles"><a href="/#/article/id/{{article.id}}" target="_blank"><img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" target="_blank" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|limitTo:35}}...</font></p></div></li>                    
+            <li  data-ng-repeat="article in newArticles"><a href="/#/article/id/{{article.id}}"><img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;"></a><div class="pull-right"><a href="/#/article/id/{{article.id}}" style="color: #324fe1;"><font>{{article.nm}}</font></a><p><font>{{article.lds|limitTo:35}}...</font></p></div></li>                    
         </ul>
     </div>
 </div>

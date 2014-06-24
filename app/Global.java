@@ -1,9 +1,6 @@
 import java.util.Arrays;
 
-import models.Community;
-import models.Location;
 import models.SecurityRole;
-import models.User;
 import play.Application;
 import play.GlobalSettings;
 import play.db.jpa.JPA;
@@ -19,7 +16,8 @@ import com.feth.play.module.pa.exceptions.AuthException;
 import controllers.routes;
 
 public class Global extends GlobalSettings {
-
+    private static final play.api.Logger logger = play.api.Logger.apply("application");
+    
 	@Transactional
 	public void onStart(Application app) {
 		PlayAuthenticate.setResolver(new Resolver() {
@@ -85,7 +83,10 @@ public class Global extends GlobalSettings {
 	}
 
 	private void initialData() {
-	    System.out.println("[Global.initialData()]");
+	    if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[Global.initialData()]");
+        }
+	    
 		if (SecurityRole.findRowCount() == 0L) {
 			for (final String roleName : Arrays.asList(
 			        controllers.Application.USER_ROLE, 

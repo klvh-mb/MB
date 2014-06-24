@@ -34,8 +34,6 @@ public class Resource extends SocialObject {
 
 	public Resource() {
 	}
-
-	
 	
 	@JsonIgnore
 	@Required
@@ -62,7 +60,7 @@ public class Resource extends SocialObject {
 		return com.mnt.utils.FileUtils.isImage(resourceName);
 	}
 
-	public Boolean isExtrenal() {
+	public Boolean isExternal() {
 		return com.mnt.utils.FileUtils.isExternal(resourceName);
 	}
 
@@ -71,13 +69,8 @@ public class Resource extends SocialObject {
 		return super.toString() + " " + resourceName;
 	}
 
-	@Override
-	public void onLikedBy(User user) {
-		recordLike(user);
-	}
-
 	public String getPath() {
-		if (isExtrenal()) {
+		if (isExternal()) {
 			return resourceName;
 		} else {
 			return Play.application().configuration().getString("storage.path")
@@ -88,7 +81,7 @@ public class Resource extends SocialObject {
 	
 	@Transactional
 	public String getThumbnail() {
-		if (isExtrenal()) {
+		if (isExternal()) {
 			return resourceName;
 		} else {
 			return Play.application().configuration().getString("storage.path")
@@ -106,7 +99,7 @@ public class Resource extends SocialObject {
 	
 	@Transactional
 	public String getMini() {
-		if (isExtrenal()) {
+		if (isExternal()) {
 			return resourceName;
 		} else {
 			return Play.application().configuration().getString("storage.path")
@@ -116,7 +109,7 @@ public class Resource extends SocialObject {
 	
 	@Transactional
 	public String getMiniComment() {
-		if (isExtrenal()) {
+		if (isExternal()) {
 			return resourceName;
 		} else {
 			return Play.application().configuration().getString("storage.path")
@@ -133,7 +126,7 @@ public class Resource extends SocialObject {
 	}
 
 	public Long getSize() {
-		if (isExtrenal()) {
+		if (isExternal()) {
 			return null;
 		} else {
 			return FileUtils.sizeOf(getRealFile());
@@ -214,5 +207,4 @@ public class Resource extends SocialObject {
 	public void setComments(Set<Comment> comments) {
 		this.comments = comments;
 	}
-
 }

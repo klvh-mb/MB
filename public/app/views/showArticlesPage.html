@@ -19,18 +19,18 @@
                     <li data-ng-repeat="category in articleCategorys" style="width: 50%;">
                         <img data-ng-src="{{category.pn}}" style="width: 100%; height: 82px">
                     </li>
-                    <li><div><font class="scCatName">All Articles</font></div></li>
+                    <li><div><font class="scCatName">所有文章</font></div></li>
                 </ul>
 			</div>	
             <!--All Post Thumbnail End -->
-            <div id="postCategory" class="general-box" style="height: 201px;">
+            <div id="postCategory" class="general-box">
                 <div class="con-title">
                     <span class="icon-box icon-box-blueDark icon-title-postCat"></span><font><font>Category</font></font>
                 </div>
                 <div class="content-wrapper">
                     <ul>
-                        <li><a href="/#/article/show/0" style="cursor : pointer;"><font><font>All Articles</font></font></a></li>
-                        <li data-ng-repeat="category in articleCategorys"><a data-ng-href="/#/article/show/{{category.id}}" style="cursor: pointer;" id="categoryselect"><font><font>{{category.name}}</font></font></a></li>
+                        <li><a href="/#/article/show/0" style="cursor: pointer;"><font><font style="font-size:15px;vertical-align:middle;">所有文章</font></font></a></li>
+                        <li data-ng-repeat="category in articleCategorys"><a data-ng-href="/#/article/show/{{category.id}}" style="cursor: pointer;" id="categoryselect"><font><font style="font-size:15px;vertical-align:middle;">{{category.name}}</font></font></a></li>
                     </ul>
                 </div>
             </div>
@@ -40,29 +40,34 @@
             <div id="slider" class="general-box" style="height:100%;">
             	<div data-ng-include style="width: 100%;" data-src="'/assets/app/views/postWallMessageBar.html'" ng-show="seeAllCategory == true"></div>
 				<div id="sta-con-slider" ng-show="threeCategory == true">
-	                <div class="sta-con-mainslide"><p><a href="/#/article/id/{{article1.id}}" target="_blank">{{article1.nm|limitTo:18}}</a><a title="summary" href="/#/article/id/{{article1.id}}" target="_blank">{{article1.lds|limitTo:60}}...</a></p><a href="/#/article/id/{{article1.id}}" target="_blank"><img ng-show="article1.img_url != 'No Image'" data-ng-src="{{article1.img_url}}"></a><a href="/#/article/id/{{article1.id}}" target="_blank"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
-	                <div class="sta-con-mainslide"><a title="subslide" href="/#/article/id/{{article2.id}}" target="_blank">{{article2.nm|limitTo:18}}</a><a href="/#/article/id/{{article2.id}}" target="_blank"><img ng-show="article2.img_url != 'No Image'" data-ng-src="{{article2.img_url}}"></a><a href="/#/article/id/{{article2.id}}" target="_blank"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
-	                <div class="sta-con-mainslide"><a title="subslide" href="/#/article/id/{{article3.id}}" target="_blank">{{article3.nm|limitTo:18}}</a><a href="/#/article/id/{{article3.id}}" target="_blank"><img ng-show="article1.img_url != 'No Image'" data-ng-src="{{article3.img_url}}"></a><a href="/#/article/id/{{article3.id}}" target="_blank"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+	                <div class="sta-con-mainslide"><p><a href="/#/article/id/{{article1.id}}">{{article1.nm|limitTo:18}}</a><a title="summary" href="/#/article/id/{{article1.id}}">{{article1.lds|limitTo:60}}...</a></p><a href="/#/article/id/{{article1.id}}"><img ng-show="article1.img_url != 'No Image'" data-ng-src="{{article1.img_url}}"></a><a href="/#/article/id/{{article1.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+	                <div class="sta-con-mainslide"><a title="subslide" href="/#/article/id/{{article2.id}}">{{article2.nm|limitTo:18}}</a><a href="/#/article/id/{{article2.id}}"><img ng-show="article2.img_url != 'No Image'" data-ng-src="{{article2.img_url}}"></a><a href="/#/article/id/{{article2.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+	                <div class="sta-con-mainslide"><a title="subslide" href="/#/article/id/{{article3.id}}">{{article3.nm|limitTo:18}}</a><a href="/#/article/id/{{article3.id}}"><img ng-show="article1.img_url != 'No Image'" data-ng-src="{{article3.img_url}}"></a><a href="/#/article/id/{{article3.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
 	            </div>
             </div>
             <!--Slider End -->
             <div id="wall">
-                <div class="general-box">
-                <div class="wall-title">
-                    <span class="wall-icon icon-title-friendwall"></span><a href="/#/article/show/0" style="cursor: pointer;"><font><font>All Articles</font></font></a>
+                <div class="general-box" ng-show="oneCategory">
+                    <div class="wall-title">
+                        <span class="wall-icon icon-title-friendwall"></span><a href="/#/article/show/0" style="cursor: pointer;"><font><font style="font-size:15px;vertical-align:middle;">{{categoryName}}</font></font></a>
+                    </div>
                 </div>
+                <div class="general-box" ng-show="allCategory">
+                    <div class="wall-title">
+                        <span class="wall-icon icon-title-friendwall"></span><a href="/#/article/show/0" style="cursor: pointer;"><font><font style="font-size:15px;vertical-align:middle;">所有文章</font></font></a>
+                    </div>
                 </div>
                 <div infinite-scroll='next_result()' infinite-scroll-distance='0' >
 	                <div class="general-box">
 	                    <ul class="allpost-wrapper" style="padding: 5px 10px 0px 10px;">
 	                        <li data-ng-repeat="article in result" style="border:none;border-bottom: #bcbcbc thin solid;">
-	                            <a href="/#/article/id/{{article.id}}" target="_blank">
+	                            <a href="/#/article/id/{{article.id}}">
 	                                <img ng-show="article.img_url != 'No Image'"  data-ng-src="{{article.img_url}}">
 	                            </a>
 	                            <a data-ng-show="!article.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkArticle(article.id)"></a>
                                 <a data-ng-show="article.isBookmarked" class="btn-like post-favorited" href="" data-ng-click="unBookmarkArticle(article.id)"></a>
                                 <div>
-                                    <a href="/#/article/id/{{article.id}}" target="_blank">
+                                    <a href="/#/article/id/{{article.id}}">
                                         <h4 style="color: #324fe1;"><font><font>{{article.nm}}</font></font></h4>
                                     </a>
                                     <h6>

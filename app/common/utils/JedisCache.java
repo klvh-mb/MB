@@ -6,17 +6,28 @@ import redis.clients.jedis.JedisPool;
 import com.typesafe.plugin.RedisPlugin;
 
 public class JedisCache {
-
+    private static final play.api.Logger logger = play.api.Logger.apply(JedisCache.class);
+    
     private static JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
+    
+    public enum Status {
+        OK,
+        ERROR
+    }
     
     JedisCache() {
     }
     
-    public void put(String key, String value) {
+    public Status put(String key, String value) {
         Jedis j = null;
         try {
             j = getResource();
-            j.set(key, value);
+            String ret = j.set(key, value);
+            if (!"OK".equalsIgnoreCase(ret)) {
+                logger.underlyingLogger().error(ret);
+                return Status.ERROR;
+            }
+            return Status.OK;
         } finally {
             if (j != null)
                 returnResource(j);
@@ -42,11 +53,33 @@ public class JedisCache {
         }
     }
     
-    public void expire(String key, int secs) {
+    public boolean exists(String key) {
         Jedis j = null;
         try {
             j = getResource();
-            j.expire(key, secs);
+            return j.exists(key);
+        } finally {
+            if (j != null)
+                returnResource(j);
+        }
+    }
+    
+    public long remove(String key) {
+        Jedis j = null;
+        try {
+            j = getResource();
+            return j.del(key);
+        } finally {
+            if (j != null)
+                returnResource(j);
+        }
+    }
+    
+    public long expire(String key, int secs) {
+        Jedis j = null;
+        try {
+            j = getResource();
+            return j.expire(key, secs);
         } finally {
             if (j != null)
                 returnResource(j);

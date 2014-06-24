@@ -257,35 +257,34 @@ public class ArticleController extends Controller {
 	
 	@Transactional
 	public static Result onLike(Long article_id) throws SocialObjectNotLikableException {
-		User loggedUser = Application.getLocalUser(session());
+		User localUser = Application.getLocalUser(session());
 		Article article = Article.findById(article_id);
-		article.noOfLikes++;
-		article.onLikedBy(loggedUser);
+		article.onLikedBy(localUser);
 		return ok();
 	}
 	
 	@Transactional
 	public static Result onUnlike(Long article_id) throws SocialObjectNotLikableException {
-		User loggedUser = Application.getLocalUser(session());
+		User localUser = Application.getLocalUser(session());
 		Article article = Article.findById(article_id);
-		article.noOfLikes--;
-		loggedUser.doUnLike(article_id, article.objectType);
+		article.onUnlikedBy(localUser);
+		localUser.doUnLike(article_id, article.objectType);
 		return ok();
 	}
 	
 	@Transactional
 	public static Result onBookamrk(Long article_id) {
-		User loggedUser = Application.getLocalUser(session());
+		User localUser = Application.getLocalUser(session());
 		Article article = Article.findById(article_id);
-		article.onBookmarkedBy(loggedUser);
+		article.onBookmarkedBy(localUser);
 		return ok();
 	}
 	
 	@Transactional
 	public static Result onUnBookmark(Long article_id) {
-		User loggedUser = Application.getLocalUser(session());
+		User localUser = Application.getLocalUser(session());
 		Article article = Article.findById(article_id);
-		loggedUser.unBookmarkOn(article_id, article.objectType);
+		localUser.unBookmarkOn(article_id, article.objectType);
 		return ok();
 	}
 	
@@ -302,6 +301,4 @@ public class ArticleController extends Controller {
 		}
 		return ok(Json.toJson(articles));
 	}
-	
-	
 }

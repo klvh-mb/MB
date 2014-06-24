@@ -50,7 +50,7 @@
                     <span class="icon-box icon-box-brown icon-title-relatePost"></span><p>Related Articles</p>
                 </div>
                     <ul>
-                        <li data-ng-repeat="relatedArticle in relatedResult"><p><a href="/#/article/id/{{relatedArticle.id}}" style="color: #324fe1;" target="_blank"><img ng-show="relatedArticle.img_url != 'No Image'"  data-ng-src="{{relatedArticle.img_url}}"/>{{relatedArticle.nm|limitTo:18}}</a></p></li>
+                        <li data-ng-repeat="relatedArticle in relatedResult"><p><a href="/#/article/id/{{relatedArticle.id}}" style="color: #324fe1;"><img ng-show="relatedArticle.img_url != 'No Image'"  data-ng-src="{{relatedArticle.img_url}}"/>{{relatedArticle.nm|limitTo:18}}</a></p></li>
                     </ul>
             </div><!--Relate Post End -->
         </div>
