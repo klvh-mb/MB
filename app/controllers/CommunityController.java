@@ -327,7 +327,10 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getNextPosts(String id,String offset) {
-        logger.underlyingLogger().debug("getNextPosts");
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("getNextPosts(c="+id+" offset="+offset+")");
+        }
+
         final User localUser = Application.getLocalUser(session());
         Community community = Community.findById(Long.parseLong(id));
         int start = (Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) + DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
@@ -342,7 +345,10 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getNextQuests(String id,String offset) {
-        logger.underlyingLogger().debug("getNextQuests");
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("getNextQuests(c="+id+" offset="+offset+")");
+        }
+
         final User localUser = Application.getLocalUser(session());
         Community community = Community.findById(Long.parseLong(id));
         int start = (Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) + DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
