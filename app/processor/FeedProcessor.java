@@ -9,12 +9,12 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import models.Community;
+import common.utils.NanoSecondStopWatch;
 import models.Post;
 import models.SocialRelation;
 import models.SocialRelation.Action;
 import models.User;
-import org.elasticsearch.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
 import play.Play;
 import play.db.jpa.JPA;
 import play.libs.Akka;
@@ -30,30 +30,13 @@ import domain.PostType;
 
 public class FeedProcessor {
     private static play.api.Logger logger = play.api.Logger.apply(FeedProcessor.class);
-    
+
+    private static final int MAX_COMM_LENGTH = 200;
+
 	private static String prefix = Play.application().configuration().getString("keyprefix", "prod_");
 	private static final String USER = prefix + "user_";
     private static final String COMMUNITY = prefix + "comm_";   // single queue for community posts
 
-	public static void pushToMemebes(Post post) {
-	    logger.underlyingLogger().debug("pushToMemebes");
-		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
-		Jedis j = jedisPool.getResource();
-		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-		CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
-		Root<SocialRelation> c = q.from(SocialRelation.class);
-		q.select(c);
-		q.where(cb.and(cb.equal(c.get("target"), post.community.id),
-				cb.equal(c.get("action"), Action.MEMBER)));
-
-		List<SocialRelation> result = JPA.em().createQuery(q).getResultList();
-		for(SocialRelation sr : result) {
-			j.lpush(USER + sr.actor,post.id.toString());
-			j.ltrim(USER + sr.actor, 0, 200);
-		}
-		jedisPool.returnResource(j);
-	}
-	
 	public static List<String> getUserFeedIds(User u) {
 		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 		Jedis j = jedisPool.getResource();
@@ -79,10 +62,53 @@ public class FeedProcessor {
 
 		return ids;
 	}
-	
-	
+
+    /**
+     * Push post to community queue.
+     * @param post
+     */
+	public static void pushToCommunity(Post post) {
+        if (logger.underlyingLogger().isDebugEnabled()) {
+	        logger.underlyingLogger().debug("pushToCommunity - start");
+        }
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        Long commId = post.getCommunity().getId();
+
+        JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
+		Jedis j = null;
+        try {
+            j = jedisPool.getResource();
+            j.zadd(COMMUNITY+commId, post.getUpdatedDate().getTime(), post.id.toString());
+
+            long len = j.zcard(COMMUNITY+commId);
+            if (len > MAX_COMM_LENGTH) {
+                int remCount = (int) (len - MAX_COMM_LENGTH);
+                Set<String> lastRecentN = j.zrange(COMMUNITY+commId, 0, -1*remCount);
+                for (String key : lastRecentN) {
+                    j.zrem(COMMUNITY+commId, key);
+                }
+            }
+        } finally {
+            if (j != null) {
+		        jedisPool.returnResource(j);
+            }
+        }
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+	        logger.underlyingLogger().debug("pushToCommunity - end. Took "+sw.getElapsedMS()+"ms");
+        }
+	}
+
+    /**
+     * On system startup.
+     */
 	public static void updateCommunityLevelFeed() {
-	    logger.underlyingLogger().debug("updateCommunityLevelFeed");
+        if (logger.underlyingLogger().isDebugEnabled()) {
+	        logger.underlyingLogger().debug("updateCommunityLevelFeed");
+        }
+
 		ActorSystem  actorSystem = Akka.system();
 		 actorSystem.scheduler().scheduleOnce(
 			Duration.create(0, TimeUnit.MILLISECONDS),
@@ -91,77 +117,85 @@ public class FeedProcessor {
 					JPA.withTransaction(new play.libs.F.Callback0() {
 						@Override
 						public void invoke() throws Throwable {
-							List<BigInteger> ids = JPA.em().createNativeQuery("SELECT id from Community").getResultList();
+							final List<BigInteger> ids = JPA.em().createNativeQuery("SELECT id from Community").getResultList();
+
 							JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
-							Jedis j = jedisPool.getResource();
-							
-							for (BigInteger communityId : ids) {
-                                Query simpleQuery = JPA.em().createQuery("SELECT p from Post p where p.community.id = ?1 order by p.auditFields.updatedDate desc");
-								simpleQuery.setParameter(1, communityId.longValue());
-								simpleQuery.setFirstResult(0);
-								simpleQuery.setMaxResults(200);
-								List<Post> posts = (List<Post>)simpleQuery.getResultList();
+							Jedis j = null;
+                            try {
+                                j = jedisPool.getResource();
+                                for (BigInteger communityId : ids) {
+                                    try {
+                                        Query simpleQuery = JPA.em().createQuery("SELECT p from Post p where p.community.id = ?1 order by p.auditFields.updatedDate desc");
+                                        simpleQuery.setParameter(1, communityId.longValue());
+                                        simpleQuery.setFirstResult(0);
+                                        simpleQuery.setMaxResults(MAX_COMM_LENGTH);
+                                        List<Post> posts = (List<Post>)simpleQuery.getResultList();
 
-								j.del(COMMUNITY + communityId.longValue());
-								for(Post p: posts){
-									j.zadd(COMMUNITY + communityId.longValue(), p.getUpdatedDate().getTime(), p.id.toString());
-								}
-
-							}
-							jedisPool.returnResource(j);
+                                        j.del(COMMUNITY + communityId.longValue());
+                                        for(Post p: posts){
+                                            j.zadd(COMMUNITY + communityId.longValue(), p.getUpdatedDate().getTime(), p.id.toString());
+                                        }
+                                    } catch (Exception e) {
+                                        logger.underlyingLogger().error("Error in updateCommunityLevelFeed", e);
+                                    }
+                                }
+                            } finally {
+                                if (j != null) {
+                                    jedisPool.returnResource(j);
+                                }
+                            }
 						}
 					});
-						 
-					}
-				}, actorSystem.dispatcher()
-			);
+			    }
+            }, actorSystem.dispatcher()
+        );
 	}
 	
-	public static void updatesUserLevelFeed() {
-	    logger.underlyingLogger().debug("updatesUserLevelFeed");
-		ActorSystem  actorSystem = Akka.system();
-		actorSystem.scheduler().scheduleOnce(
-		        Duration.create(0, TimeUnit.MILLISECONDS),
-				new Runnable() {
-					public void run() {
-						JPA.withTransaction(new play.libs.F.Callback0() {
-							@Override
-							public void invoke() throws Throwable {
-								List<BigInteger> ids = JPA.em().createNativeQuery("SELECT id from User").getResultList();
-								JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
-								Jedis j = jedisPool.getResource();
-								
-								for (BigInteger userID : ids) {
-									Query query = JPA.em().createQuery("SELECT p from Post p where p.community in (select sr.target " +
-											"from SocialRelation sr where sr.actor = ?1 and sr.action = ?2) order by p.auditFields.createdDate desc");
-									query.setParameter(1, userID.longValue());
-									query.setParameter(2, SocialRelation.Action.MEMBER);
-									query.setFirstResult(0);
-									query.setMaxResults(200);
-									List<Post> posts = (List<Post>)query.getResultList();
-									
-									j.del(USER + userID.longValue());
-									
-									for(Post p: posts){
-										j.rpush(USER + userID.longValue(), p.id.toString());
-									}
-								}
-								jedisPool.returnResource(j);
-							}
-						});
-							 
-						}
-					}, actorSystem.dispatcher()
-				);
-	}
+//	public static void updatesUserLevelFeed() {
+//	    logger.underlyingLogger().debug("updatesUserLevelFeed");
+//		ActorSystem  actorSystem = Akka.system();
+//		actorSystem.scheduler().scheduleOnce(
+//		        Duration.create(0, TimeUnit.MILLISECONDS),
+//				new Runnable() {
+//					public void run() {
+//						JPA.withTransaction(new play.libs.F.Callback0() {
+//							@Override
+//							public void invoke() throws Throwable {
+//								List<BigInteger> ids = JPA.em().createNativeQuery("SELECT id from User").getResultList();
+//								JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
+//								Jedis j = jedisPool.getResource();
+//
+//								for (BigInteger userID : ids) {
+//									Query query = JPA.em().createQuery("SELECT p from Post p where p.community in (select sr.target " +
+//											"from SocialRelation sr where sr.actor = ?1 and sr.action = ?2) order by p.auditFields.createdDate desc");
+//									query.setParameter(1, userID.longValue());
+//									query.setParameter(2, SocialRelation.Action.MEMBER);
+//									query.setFirstResult(0);
+//									query.setMaxResults(200);
+//									List<Post> posts = (List<Post>)query.getResultList();
+//
+//									j.del(USER + userID.longValue());
+//
+//									for(Post p: posts){
+//										j.rpush(USER + userID.longValue(), p.id.toString());
+//									}
+//								}
+//								jedisPool.returnResource(j);
+//							}
+//						});
+//
+//						}
+//					}, actorSystem.dispatcher()
+//				);
+//	}
 	
-	public static Set<Tuple> buildPostQueueFromCommunities(List<Long> communities, int offset) {
-		final Set<Tuple> post_ids = new HashSet<Tuple>();       // order of the ids does not matter
+	public static Set<String> buildPostQueueFromCommunities(List<Long> communities, int offset) {
+		final Set<String> post_ids = new HashSet<String>();       // order of the ids does not matter
 
 		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 		Jedis j = jedisPool.getResource();
 		for(Long c : communities) {
-            post_ids.addAll(j.zrangeWithScores(COMMUNITY + c.toString(), 0, offset));
+            post_ids.addAll(j.zrevrange(COMMUNITY + c.toString(), 0, offset));
 		}
 		jedisPool.returnResource(j);
 		return post_ids;
@@ -173,7 +207,7 @@ public class FeedProcessor {
      * @param post_ids
      * @param userId
      */
-	public static void applyRelevances(Set<Tuple> post_ids, Long userId) {
+	public static void applyRelevances(Set<String> post_ids, Long userId) {
 	    logger.underlyingLogger().info("[u="+userId+"] applyRelevances. numPostIds="+post_ids.size());
 
         List<Post> postInRelevance = Collections.EMPTY_LIST;
@@ -187,18 +221,18 @@ public class FeedProcessor {
 		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 		Jedis j = jedisPool.getResource();
 		j.del(USER + userId);
-		for(Post p : postInRelevance){
+		for (Post p : postInRelevance) {
 			j.rpush(USER + userId, p.getId().toString());   // push to tail.
 		}
 		jedisPool.returnResource(j);
 	}
 
-    private static String convertSetToString(Set<Tuple> tupleSet, String delim) {
+    private static String convertSetToString(Set<String> set, String delim) {
         StringBuilder sb = new StringBuilder();
 
         String localDelim = "";
-        for (Tuple tuple : tupleSet) {
-            sb.append(localDelim).append(tuple.getElement());
+        for (String item : set) {
+            sb.append(localDelim).append(item);
             localDelim = delim;
         }
 

@@ -77,7 +77,7 @@ public class Application extends Controller {
         }
 
         // TODO: Need to refactor to decide how many to pull from each community
-		Set<Tuple> post_ids = FeedProcessor.buildPostQueueFromCommunities(communities, 20);
+		Set<String> post_ids = FeedProcessor.buildPostQueueFromCommunities(communities, 20);
 		
 		FeedProcessor.applyRelevances(post_ids, localUser.id);
 		return home(localUser);

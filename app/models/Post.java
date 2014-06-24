@@ -102,7 +102,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
     public void save() {
         super.save();
         recordPost(owner);
-        FeedProcessor.pushToMemebes(this);
+        FeedProcessor.pushToCommunity(this);
         
         if (this.postType == PostType.SIMPLE) {
             owner.postsCount++;
