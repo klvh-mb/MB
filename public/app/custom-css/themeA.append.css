@@ -1,6 +1,10 @@
 /*!
  * bootstrap
  */
+.navbar img {
+    width: 20px;
+    height: auto;
+}
 .col-xs-2 {
   width: 20%;
 }
@@ -569,16 +573,20 @@ a:focus {
 }
 span.notif-count {
     position: relative;
-    top: 0px;
-    left: -12px;
+    top: -2px;
+    left: -10px;
+}
+.header-wrapper a {
+    line-height: 25px !important;
 }
 .notif-count {
     display: inline-block;
     /*width:15px;
     height: 15px;*/
-    min-width: 18px;
-    line-height: 15px;
-    padding: 0px 3px 1px 3px;
+    min-width: 15px;
+    line-height: 13px;
+    /*padding: 1px 3px 1px 3px;*/
+    padding: 0px;
     background-color: #fa3c45;
     background-image: -webkit-linear-gradient(#fa3c45, #dc0d17);
     text-shadow: 0 -1px 0 rgba(0, 0, 0, .4);
