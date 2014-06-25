@@ -50,7 +50,7 @@
     border-left: none;
     border-right: none;
     position: relative;
-    left: -4px;
+    /*left: -4px;*/
 }
 .toolsbox-end {
     border: #bcbcbc solid thin;
@@ -58,7 +58,7 @@
     border-bottom-right-radius: 3px; 
     border-top-right-radius: 3px; 
     position: relative;
-    left: -4px;
+    /*left: -4px;*/
 }
 .subtoolsbox {
     background-color: white;

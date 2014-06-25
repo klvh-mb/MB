@@ -35,15 +35,14 @@
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div id="community-header">
 					<ul>
-						<li><img 
-							id="community-banner" data-ng-src="{{coverImage}}" />
-							<div class="memberImageStar">
-							 <a
-							data-ng-show="community.isO"
-							data-ng-click="openGroupCoverPhotoModal(community.id)" alt="Change"
-							title="Change"
-							style="margin: -235px 0px 0px 7px; position: absolute;right: 515px; top: -34px;" href=""><img
-								src="/assets/app/images/edit.png" /></a></div></li>
+						<li><img id="community-banner" data-ng-src="{{coverImage}}" />
+						    <div class="memberImageStar">
+    							<a data-ng-show="community.isO" data-ng-click="openGroupCoverPhotoModal(community.id)" alt="Change" title="Change"
+    							     style="margin: -235px 0px 0px 7px; position: absolute;right: 515px; top: -34px;" href="">
+    							    <img src="/assets/app/images/edit.png" />
+    							</a>
+							</div>
+					    </li>
 						<li id="community-header-menu">
 							<!--div class="h5">
 								<img src="{{community.icon}}"><b>{{community.n}}</b>
@@ -60,14 +59,26 @@
 							<div ng-class="{activeBold: selectedTab == 3}">
 								<a ng-click="selectedTab = 3;">Photo Contest</a>
 							</div> -->
-							<div class="dropdown pull-right ">
-								<a class="toolsbox toolsbox-start" data-toggle="dropdown">訊息通知</a> 
-								<a class="toolsbox toolsbox-end  dropdown-toggle" data-toggle="dropdown"><span class="icon-title-contentSetup"></span></a>
-								<ul class="subtoolsbox dropdown-menu">
-									<li><a>所有訊息</a></li>
-									<li><a>關閉</a></li>
-								</ul>
-							</div>
+							<div class="dropdown pull-right">
+                                <a id="community-settings-dropdown" class="toolsbox toolsbox-end dropdown-toggle" data-toggle="dropdown"><span class="icon-title-contentSetup"></span></a>
+                                <ul style="right:-60px;" class="subtoolsbox dropdown-menu" aria-labelledby="community-settings-dropdown">
+                                    <li><a data-ng-click="">分享社群</a></li>
+                                    <li ng-show="community.isO"><a data-ng-click="">編輯社群</a></li>
+                                    <li class="dropdown-divider" role="presentation"></li>
+                                    <li ng-show="!community.isO && community.isM == true" ><a data-ng-click="leave_community(community.id)">退出社群</a></li>
+                                    <li><a data-ng-click="">檢舉社群</a></li>
+                                </ul> 
+                            </div>
+                            <div class="pull-right">
+                                <a class="toolsbox toolsbox-start" data-toggle="modal" data-target="#myModal"><i class="fa fa-fw  fa-group"></i> 建立社群</a>
+                            </div>
+							<!--div class="dropdown pull-right">
+								<a id="notif-dropdown" class="toolsbox toolsbox-start dropdown-toggle" data-toggle="dropdown">訊息通知</a>
+								<ul style="right:-35px;" class="subtoolsbox dropdown-menu" aria-labelledby="notif-dropdown">
+                                    <li><a>所有訊息</a></li>
+                                    <li><a>關閉</a></li>
+                                </ul>
+                            </div-->
 							<p id="community-header-name" class="ng-binding">{{community.n}}</p>
 						</li>
 					</ul>
@@ -154,8 +165,8 @@
 					<i class="fa fa-user"></i> Pending
 				</button-->
 				
-				<a style="margin:0 8px 8px 0" class="btn-general pull-right" data-toggle="modal" data-target="#myModal">建立社群</a>
-				<a style="margin:0 8px 8px 0" ng-show="!community.isO && community.isM == true" class="btn-general pull-right" data-ng-click="leave_community(community.id)">退出社群</a>
+				<!--a style="margin:0 8px 8px 0" class="btn-general pull-right" data-toggle="modal" data-target="#myModal"><i class="fa fa-fw  fa-group"></i> 建立社群</a-->
+				<!--a style="margin:0 8px 8px 0" ng-show="!community.isO && community.isM == true" class="btn-general pull-right" data-ng-click="leave_community(community.id)">退出社群</a-->
 				<a style="margin:0 8px 8px 0" ng-show="!community.isO && community.isM == false && community.isP == false" class="btn-general pull-right" data-ng-click="send_join(community.id)">+ <i class="fa fa-user"></i> 加入社群</a>
                 <a style="margin:0 8px 8px 0" ng-show="!community.isO && community.isP == true" class="btn-general pull-right" disabled="disabled"">已送出加入邀請</a>
 			</div>
