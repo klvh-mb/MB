@@ -11,7 +11,7 @@
 					data-ng-src="/community-mini-image-by-id/{{fvm.id}}" alt="{{fvm.dn}}"
 					class="innerR innerB half" width="50" height="50">
 				<div style="width: 60%; float: left; margin-left: 2%;">
-					<p  style="color: #0083C5; margin-top: 0%; margin-bottom: 0%;">{{fvm.dn|characters:15:false}}</p>
+					<p  style="color: #0083C5; margin-top: 0%; margin-bottom: 0%;">{{fvm.dn|characters:15:true}}</p>
 					<div style="width: 100%; float: left;">
 						<p style="margin-top: 0%; margin-bottom: 1%; margin-right: 5%; float: left; color: black;"></p>
 						<p style="margin-top: 0%; margin-bottom: 1%; color: #77737E;">({{fvm.mm}})位成員</p>
@@ -23,11 +23,11 @@
 		<div style="text-align: center;width: 100%; float: left; background-color: rgb(245, 245, 245);" data-ng-show="!result.isMore"><a data-ng-show="!noMoreResult" data-ng-click="nextMyGroups()"><span style="color: cornflowerblue;font-size: smaller;">See More</span></a></div>
     </div> -->
     
-    <ul class="newCommunity-info">
+    <ul class="myCommunity-info">
         <li ng-repeat="fvm in result.fvm">
             <!--img src="/community-mini-image-by-id/{{fvm.id}}"-->
             <img src="{{fvm.gi}}">
-            <p><a href="#/community/{{fvm.id}}/question"><b><font>{{fvm.dn|characters:15:false}}</font></b></a><br>
+            <p><a href="#/community/{{fvm.id}}/question"><b><font>{{fvm.dn|characters:15:true}}</font></b></a><br>
             <span class="community-member-counter"><font>{{fvm.mm}}位成員</font></span></p>
         </li>
         <!-- <li style="text-align: center;width: 100%; float: left; background-color: rgb(245, 245, 245);" data-ng-show="!result.isMore"><a data-ng-show="!noMoreResult" data-ng-click="nextMyGroups()"><span style="color: cornflowerblue;font-size: smaller;">See More</span></a></li> -->
@@ -54,7 +54,7 @@
 							data-ng-src="/community-mini-image-by-id/{{fvm.id}}" alt="{{fvm.dn}}"
 							class="innerR innerB half" width="55" height="55">
 						<div style="width: 50%; float: left; margin-left: 2%;">
-							<p  style="color: #0083C5; margin-top: 0%; margin-bottom: 0%;">{{fvm.dn|characters:15:false}}</p>
+							<p  style="color: #0083C5; margin-top: 0%; margin-bottom: 0%;">{{fvm.dn|characters:15:true}}</p>
 							<div style="width: 100%; float: left;">
 								<p style="margin-top: 0%; margin-bottom: 1%; margin-right: 5%; float: left; color: black;"></p>
 								<p style="margin-top: 0%; margin-bottom: 1%; color: #77737E;">({{fvm.mm}})位成員</p>

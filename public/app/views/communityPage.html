@@ -40,7 +40,7 @@
 							<div class="memberImageStar">
 							 <a
 							data-ng-show="community.isO"
-							data-ng-click="openGroupCoverPhotoModal(community.i)" alt="Change"
+							data-ng-click="openGroupCoverPhotoModal(community.id)" alt="Change"
 							title="Change"
 							style="margin: -235px 0px 0px 7px; position: absolute;right: 515px; top: -34px;" href=""><img
 								src="/assets/app/images/edit.png" /></a></div></li>
@@ -133,26 +133,31 @@
 		</div>
 		<div class="col-md-4 col-sm-4 col-xs-4 " style="width: 25%;">
 			<div class="row">
-				<button class="btn-general-b pull-right" data-toggle="modal"
+				<!--button class="btn-general-b pull-right" data-toggle="modal"
 					data-target="#myModal">
 					<h4 style="display: inline;">+</h4>
 					Create a group
 				</button>
 				<button ng-show="!community.isO && community.isM == true"
 					class="btn-general-b pull-right"
-					data-ng-click="leave_community(community.i)">
+					data-ng-click="leave_community(community.id)">
 					<i class="fa fa-thumbs-down"></i> Leave
 				</button>
 				<button
 					ng-show="!community.isO && community.isM == false && community.isP == false"
 					class="btn-general-b pull-right"
-					data-ng-click="send_join(community.i)">
+					data-ng-click="send_join(community.id)">
 					<i class="fa fa-user"></i> Join
 				</button>
 				<button ng-show="!community.isO && community.isP == true"
 					class="btn-general-b pull-right" disabled="disabled">
 					<i class="fa fa-user"></i> Pending
-				</button>
+				</button-->
+				
+				<a style="margin:0 8px 8px 0" class="btn-general pull-right" data-toggle="modal" data-target="#myModal">建立社群</a>
+				<a style="margin:0 8px 8px 0" ng-show="!community.isO && community.isM == true" class="btn-general pull-right" data-ng-click="leave_community(community.id)">退出社群</a>
+				<a style="margin:0 8px 8px 0" ng-show="!community.isO && community.isM == false && community.isP == false" class="btn-general pull-right" data-ng-click="send_join(community.id)">+ <i class="fa fa-user"></i> 加入社群</a>
+                <a style="margin:0 8px 8px 0" ng-show="!community.isO && community.isP == true" class="btn-general pull-right" disabled="disabled"">已送出加入邀請</a>
 			</div>
 			<div id="about" class="general-box">
 				<div class="con-title">
@@ -177,7 +182,7 @@
 								<label for="Add Member"></label> <input type="text"
 									name="add-member-field" id="add-member-field"
 									class="general-textfield general-input-box" data-ng-model="searchQuery1"
-									data-ng-keyup="search_unjoined_users(community.i, searchQuery1)"
+									data-ng-keyup="search_unjoined_users(community.id, searchQuery1)"
 									placeholder="+ 邀請新成員" />
 								<div>
 									<div class="row">
@@ -197,7 +202,7 @@
 												<div class="media-body">
 													<h5 class="media-heading">
 														{{sr.nm}} <i
-															data-ng-click="send_invite_to_join(community.i, sr.id)"
+															data-ng-click="send_invite_to_join(community.id, sr.id)"
 															class="fa fa-plus-square pull-right"></i>
 													</h5>
 												</div>

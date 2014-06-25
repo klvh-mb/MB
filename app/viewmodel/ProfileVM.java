@@ -18,7 +18,7 @@ public class ProfileVM {
     @JsonProperty("loc") public Location location;
     @JsonProperty("n_f") public long nofriends;
     @JsonProperty("n_p") public long photos;
-    @JsonProperty("i")   public long id;
+    @JsonProperty("id")   public long id;
     
     @JsonProperty("n_c") public long nocommunities;
     @JsonProperty("l_f") public List<User> friends;

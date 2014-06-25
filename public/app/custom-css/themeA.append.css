@@ -346,7 +346,7 @@ a:focus {
     border-radius: 5px 5px 0 0;
 }
 #profile-header #profile-user-name {
-    width: 50%;
+    width: 65%;
     position: absolute;
     top: -40px;
     left: 175px;

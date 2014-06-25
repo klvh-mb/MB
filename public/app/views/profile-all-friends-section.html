@@ -1,3 +1,32 @@
+<a id="membersSearchwrapper" class="pull-right" style="margin-right: 9%;">
+    <div class="basic-search-wrapper">
+        <div class="input-group innerB basic-search">
+            <input type="text" class="form-control" ng-model="query" placeholder="搜尋成員">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="button">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</a>
+<div style="position:relative;padding:30px;"></div>
+<div class="friendCard" ng-repeat="fvm in result.fvm | filter:query">
+    <a href="/#/profile/{{fvm.id}}" class="d-s ob">
+        <div class="friendImageBox">
+            <img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{fvm.dn}}" data-ng-src="/get-thumbnail-image-by-id/{{fvm.id}}" alt="..." width="70px" height="70px">
+        </div>
+    </a>
+    <div class="friendTagBox">
+        <div class="friendTag">
+            <a href="/#/profile/{{fvm.id}}" class="friendTagRef"><span class="friendName">{{fvm.dn}}</span></a>
+            <!-- don't show location of other users' friends -->
+            <!--span class="friendType"><i class="fa fa-fw fa-map-marker text-muted"></i>{{fvm.ln.displayName}}</span-->
+        </div>
+    </div>
+</div>
+
+<!--
 <div class="basic-search-wrapper">
     <div class="input-group innerB basic-search">
         <input type="text" class="form-control" ng-model="query" placeholder="Search Friends">
@@ -17,12 +46,10 @@
 			<div class="media-body innerAll inner-2x padding-right-none padding-bottom-none">
 				 <h4 class="media-heading"><a data-ng-href="#/profile/{{fvm.id}}" class="text-inverse">{{fvm.dn}}</a></h4>
 				 <p>
-				 	<!-- <span class="text-success strong"><i class="fa fa-check"></i> Friend</span> &nbsp;  -->
-				 	<!-- Need To add Living in section -->
 				 	<i class="fa fa-fw fa-map-marker text-muted"></i>{{fvm.ln.displayName}}</p> 
 			</div>
 		</div>
 	</div>
 </div>
-
+-->
 	

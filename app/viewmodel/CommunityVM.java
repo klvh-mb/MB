@@ -24,7 +24,7 @@ public class CommunityVM {
 	@JsonProperty("icon") public String iconName;
 	@JsonProperty("dte") public Date createDate;
 	@JsonProperty("td") public String tagetDistrict;
-	@JsonProperty("i") public long id;
+	@JsonProperty("id") public long id;
 	@JsonProperty("isM") public boolean isMember;
 	@JsonProperty("isP") public boolean isRequested;
 	@JsonProperty("isO") public boolean isOwner;

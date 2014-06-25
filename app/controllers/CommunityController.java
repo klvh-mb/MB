@@ -427,7 +427,7 @@ public class CommunityController extends Controller{
         logger.underlyingLogger().debug("updateCommunityProfileData");
         Form<String> form = DynamicForm.form(String.class).bindFromRequest();
         Map<String, String> dataToUpdate = form.data();
-        String communityId = dataToUpdate.get("i");
+        String communityId = dataToUpdate.get("id");
         Community community = Community.findById(Long.parseLong(communityId));
         community.name = dataToUpdate.get("n");
         community.description = dataToUpdate.get("d");

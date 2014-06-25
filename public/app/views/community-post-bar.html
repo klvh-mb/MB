@@ -4,7 +4,7 @@
 		
 		<span class="input-group-btn">
         	<button class="btn btn-default" type="button" data-ng-show="highlightQuery.length==0" data-ng-click="community.isSearch=false">search it!</button>
-        	<button class="btn btn-default" type="button" data-ng-show="highlightQuery.length>0" data-ng-click="search_and_highlight(community.i, highlightQuery)">search it!</button>
+        	<button class="btn btn-default" type="button" data-ng-show="highlightQuery.length>0" data-ng-click="search_and_highlight(community.id, highlightQuery)">search it!</button>
       	</span>								
 	</div>
 </div>
@@ -22,7 +22,7 @@
 </div>
 <div>
 	<i data-ng-show="selectedFiles.length < 3" data-ng-click="postPhoto()"  style="color: cadetblue;margin-left: 2%;" class="fa fa-camera"></i>
-	<button  data-ng-show="postText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.i, postText)">Post</button>
+	<button  data-ng-show="postText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.id, postText)">Post</button>
 	
 	<input style="visibility: hidden;" id="post-photo-id" type="file"  name="post-photo" ng-file-select="onFileSelect($files)"/>
 </div> -->
@@ -46,7 +46,7 @@
 									</div>
 									<div>
 									<i data-ng-show="selectedFiles.length < 3" data-ng-click="postPhoto()"></i>
-										<button  data-ng-show="postText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.i, postText); postText='';">Post</button>
+										<button  data-ng-show="postText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.id, postText); postText='';">Post</button>
 										<input style="visibility:hidden;height:0px;" id="post-photo-id" type="file"  name="post-photo" ng-file-select="onFileSelect($files)"/>
 									</div>
                                 </form>
