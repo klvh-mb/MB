@@ -198,41 +198,35 @@ public abstract class SocialObject extends domain.Entity implements
 
 	}
 
-	protected final void recordPostOn(User user) {
-		SocialRelation action = new SocialRelation(user, this);
-		action.action = SocialRelation.Action.POSTED_ON;
-		action.save();
-	}
-
 	protected final void recordPost(SocialObject user) {
-		SocialRelation action = new SocialRelation(user, this);
-		action.action = SocialRelation.Action.POSTED;
+		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
+		action.action = PrimarySocialRelation.Action.POSTED;
 		action.save();
 	}
 
 	protected void recordQnA(SocialObject user) {
-		SocialRelation action = new SocialRelation(user, this);
-		action.action = SocialRelation.Action.POSTED_QUESTION;
+		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
+		action.action = PrimarySocialRelation.Action.POSTED_QUESTION;
 		action.save();
 	}
 
 	protected void recordCommentOnCommunityPost(SocialObject user) {
-		SocialRelation action = new SocialRelation(user, this);
-		action.action = SocialRelation.Action.COMMENTED;
+		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
+		action.action = PrimarySocialRelation.Action.COMMENTED;
 		action.save();
 	}
 	
 	protected void recordCommentOnArticle(SocialObject user) {
-		SocialRelation action = new SocialRelation(user, this);
-		action.action = SocialRelation.Action.COMMENTED;
+		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
+		action.action = PrimarySocialRelation.Action.COMMENTED;
 		 JPA.em().persist(this);
 		  JPA.em().flush();
 		  postSave();
 	}
 	
 	protected void recordAnswerOnCommunityPost(SocialObject user) {
-		SocialRelation action = new SocialRelation(user, this);
-		action.action = SocialRelation.Action.ANSWERED;
+		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
+		action.action = PrimarySocialRelation.Action.ANSWERED;
 		action.save();
 	}
 

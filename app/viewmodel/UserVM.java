@@ -13,7 +13,7 @@ public class UserVM {
 	public String aboutMe;
 	public Location location;
 	public Long id;
-	public int noOfFriends;
+	public Long noOfFriends;
 	public int noOfGroups;
 	
 	public UserVM(User user) {
@@ -26,7 +26,7 @@ public class UserVM {
 		this.aboutMe = user.userInfo.aboutMe;
 		this.location = user.userInfo.location;
 		this.id = user.id;
-		this.noOfFriends = user.getFriends().size();
+		this.noOfFriends = user.getFriendsSize();
 		this.noOfGroups = user.getListOfJoinedCommunities().size();
 	}
 	

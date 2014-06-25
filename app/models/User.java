@@ -269,7 +269,7 @@ public class User extends SocialObject implements Subject, Socializable {
     }
 
     @JsonIgnore
-    public List<User> getFriends() {
+    public List<User> getFriends(int limit) {
         CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
         CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
         Root<SocialRelation> c = q.from(SocialRelation.class);
@@ -279,7 +279,12 @@ public class User extends SocialObject implements Subject, Socializable {
                         cb.equal(c.get("actor"), this.id)),
                 cb.equal(c.get("action"), SocialRelation.Action.FRIEND)));
 
-        List<SocialRelation> result = JPA.em().createQuery(q).getResultList();
+        List<SocialRelation> result;
+        if(limit == -1) {
+        	result = JPA.em().createQuery(q).getResultList();
+        } else {
+        	result = JPA.em().createQuery(q).setMaxResults(limit).getResultList();
+        }
         List<User> frndList = new ArrayList<>();
         for (SocialRelation rslt : result) {
             if (rslt.actor.equals(this.id)) {
@@ -293,23 +298,40 @@ public class User extends SocialObject implements Subject, Socializable {
     }
     
     @JsonIgnore
-    public List<User> getSuggestedFriends() {
+    public Long getFriendsSize() {
+        CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+        CriteriaQuery<Long> q = cb.createQuery(Long.class);
+        Root<SocialRelation> c = q.from(SocialRelation.class);
+        q.select(cb.count(c));
+        q.where(cb.and(
+                cb.or(cb.equal(c.get("target"), this.id),
+                        cb.equal(c.get("actor"), this.id)),
+                cb.equal(c.get("action"), SocialRelation.Action.FRIEND)));
+
+        Long size = JPA.em().createQuery(q).getSingleResult();
+        return size;
+    }
+    
+    @JsonIgnore
+    public List<User> getSuggestedFriends(int limit) {
         Query q = JPA.em().createNativeQuery("Select * from User u where u.id not in (select sr.target from SocialRelation sr where sr.action = ?2 or sr.actionType = ?3 and sr.actor = ?1 union select sr1.actor from SocialRelation sr1 where sr1.action = ?2 or sr1.actionType = ?3 and sr1.target = ?1 union select User.id from User where User.id = ?1) and u.emailValidated = true and u.system = 0 and u.userInfo_id is not NULL", User.class);
         q.setParameter(1, this.id);
         q.setParameter(2, SocialRelation.Action.FRIEND.name());
         q.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED.name());
-        List<User> frndList = ( List<User> )q.getResultList();
+        List<User> frndList = ( List<User> )q.setMaxResults(limit).getResultList();
         
         return frndList;
     }
     
     @JsonIgnore
-    public Long _getFriendsCount() {
-        Query query = JPA.em().createQuery("SELECT count(*) from SocialRelation where (target = ?1 or actor = ?1) and action = ?2");
-        query.setParameter(1, this.id);
-        query.setParameter(2, SocialRelation.Action.FRIEND);
-        Long result = (Long) query.getSingleResult();
-        return result;
+    public Long getSuggestedFriendsSize() {
+        Query q = JPA.em().createNativeQuery("Select count(*) from User u where u.id not in (select sr.target from SocialRelation sr where sr.action = ?2 or sr.actionType = ?3 and sr.actor = ?1 union select sr1.actor from SocialRelation sr1 where sr1.action = ?2 or sr1.actionType = ?3 and sr1.target = ?1 union select User.id from User where User.id = ?1) and u.emailValidated = true and u.system = 0 and u.userInfo_id is not NULL", User.class);
+        q.setParameter(1, this.id);
+        q.setParameter(2, SocialRelation.Action.FRIEND.name());
+        q.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED.name());
+        Long size = (Long) q.getSingleResult();
+        
+        return size;
     }
     
     @JsonIgnore
@@ -386,7 +408,7 @@ public class User extends SocialObject implements Subject, Socializable {
         q.setParameter(5, SocialObjectType.COMMUNITY.name());
         List<Community> communityList = (List<Community>)q.getResultList();
         communityList.removeAll(this.getListOfJoinedCommunities());
-        List<User> friends = this.getFriends();
+        List<User> friends = this.getFriends(-1);
         
         int friendsCount = 0;
         List<Integer> friendsCountList = new ArrayList<>();
@@ -1130,12 +1152,12 @@ public class User extends SocialObject implements Subject, Socializable {
     @JsonIgnore
     public List<Post> getUserNewsfeeds(int offset, int limit) {
         Query query = JPA.em().createQuery("SELECT p from Post p " +
-        "where p.id in ( select sr.target from  SocialRelation sr where sr.action in (?1) and sr.actor = ?2  and (sr.targetType = ?5 or  sr.targetType = ?6)) " +
-        "or p.id in ( select c.socialObject from Comment c where c.id in (select sr.target from  SocialRelation sr where sr.action = ?4 and sr.actor = ?2 and (sr.targetType = ?8 or  sr.targetType = ?7))) " +
+        "where p.id in ( select sr.target from  PrimarySocialRelation sr where sr.action in (?1) and sr.actor = ?2  and (sr.targetType = ?5 or  sr.targetType = ?6)) " +
+        "or p.id in ( select c.socialObject from Comment c where c.id in (select sr.target from  PrimarySocialRelation sr where sr.action = ?4 and sr.actor = ?2 and (sr.targetType = ?8 or  sr.targetType = ?7))) " +
         "order by p.auditFields.updatedDate desc");
-                query.setParameter(1, SocialRelation.Action.POSTED);
-                //query.setParameter(3, SocialRelation.Action.LIKED);
-                query.setParameter(4, SocialRelation.Action.COMMENTED);
+                query.setParameter(1, PrimarySocialRelation.Action.POSTED);
+                //query.setParameter(3, PrimarySocialRelation.Action.LIKED);
+                query.setParameter(4, PrimarySocialRelation.Action.COMMENTED);
                 query.setParameter(5, SocialObjectType.POST);
                 query.setParameter(6, SocialObjectType.QUESTION);
                 query.setParameter(7, SocialObjectType.ANSWER);
