@@ -275,40 +275,85 @@ pre {
     padding: 10px;
 }
 #back-to-top a:hover {
-text-decoration: none;
+    text-decoration: none;
 }
 
 /*Search Box Start*/
-#mainSearch{
+#main-search-box {
     position:relative;
     display:inline-block;
-    width:28%;
-    min-width:300px;
-    background-color:white;
-    padding:2px;
-    border-radius:5px
-}
-#searchfield{
-    border-radius:5px;
-    border:0;
-    width:90%;
+    width:25%;
     min-width:250px;
-    position:absolute;
-    left:2%
+    background-color:transparent;
+    top:-2px;
 }
-#submit-search{
-    float:right;
-    background-color:white;
-    background-image:url(../images/general/icons/search.png);
-    background-size:contain;
-    background-repeat:no-repeat;
-    position:relative;
-    right:2%;
-    top:1px;
-    border:0;
-    width:20px;
-    height:20px;
-    text-indent:-999px
+#main-search-box a {
+    line-height: 1.2 !important;
+}
+.main-search {
+    padding: 0px;
+    border-radius: 15px;
+    line-height: 1.2 !important;
+    height: 25px !important;
+}
+.main-search button, .main-search submit {
+    color: #333;
+    background-color: white;
+    border-color: #DAD4F5;
+    padding: 4px 12px;
+    border-radius: 15px;
+    line-height: 1.2 !important;
+}
+.main-search i {
+    color: #3C31B4;
+}
+.main-search input {
+    border-color: #C8C8DA;
+    border-radius: 15px;
+    padding-left: 3% !important;
+    height: 25px !important;
+}
+.main-search input:active {
+    background-color: white !important;
+    border-color: #938EAD !important;
+    box-shadow: 0 0 5px #5C1DFF !important
+}
+.main-search input:focus {
+    background-color: white !important;
+    border-color: #938EAD !important;
+    box-shadow: 0 0 5px #5C1DFF !important
+}
+.main-search input:hover {
+    background-color: white !important;
+    border-color: #938EAD !important;
+    box-shadow: 0px 0px 5px #5C1DFF !important
+}
+#main-search-wrapper {
+    width: 32%;
+    height: 25px;
+    top: -10px;
+    right: 0px;
+    border: 0;
+}
+#main-search-wrapper .general-textfield {
+    height: 25px;
+    border-radius: 3px;
+    color: black;
+    background-color: white;
+    text-decoration: none;
+    font-weight: normal;
+}
+#main-search-wrapper .general-textfield:hover {
+    color: black;
+    background-color: white;
+    text-decoration: none;
+    font-weight: normal;
+}
+#main-search-wrapper .general-textfield:active {
+    color: black;
+    background-color: white;
+    text-decoration: none;
+    font-weight: normal;
 }
 /*Search Box End*/
 
