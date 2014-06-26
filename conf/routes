@@ -7,6 +7,7 @@
 # ~~~~
 
 # Home page
+GET     /favicon.ico                controllers.Assets.at(path="/public", file="app/images/favicon-2.ico")
 GET     /                           controllers.Application.index
 GET     /restricted                 controllers.Application.restricted
 GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
