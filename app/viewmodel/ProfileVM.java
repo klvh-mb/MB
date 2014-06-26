@@ -35,7 +35,7 @@ public class ProfileVM {
         vm.aboutMe = user.userInfo.aboutMe;
         vm.location = user.userInfo.location;
         //vm.friends = user.getFriends();
-        vm.nofriends = user._getFriendsCount();
+        vm.nofriends = user.getFriendsSize();
         vm.isFriend = user.isFriendOf(localUser);
         vm.isFriendRequestPending = user.isFriendRequestPendingFor(localUser);
         vm.id = user.id;

@@ -3,6 +3,8 @@ package viewmodel;
 import java.util.ArrayList;
 import java.util.List;
 
+import domain.DefaultValues;
+
 import models.Location;
 import models.User;
 
@@ -21,7 +23,7 @@ public class FriendsVM {
 	
 	public static List<FriendsVM> friends(User user) {
 		List<FriendsVM> friends = new ArrayList<>();
-		for(User friend : user.getFriends()) {
+		for(User friend : user.getFriends(DefaultValues.FRINDS_UTILITY_COUNT)) {
 			friends.add(new FriendsVM(friend.id, friend.firstName + " " + friend.lastName,friend.displayName, friend.userInfo.location));
 		}
 		return friends;

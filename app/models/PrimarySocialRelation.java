@@ -100,7 +100,10 @@ public class PrimarySocialRelation extends domain.Entity implements Serializable
 	
 	static public enum Action {
 		LIKED,
-		BOOKMARKED,
+		POSTED, 
+		POSTED_QUESTION, 
+		COMMENTED, 
+		ANSWERED
 	}
 	
 	

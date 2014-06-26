@@ -107,27 +107,12 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	
 	static public enum Action {
 		
-		LIKED,
-		UNLIKED,
-		RATTED,
-		POSTED_ON,
-		POSTED,
-		COMMENTED,
-		BLOCKED,
+		
+		
 		ADDED,
 		REQUEST,
 		FRIEND,
-		CHANGED,
-		DELETED,
-		SHARED,
-		FOLLOWS,
-		RECOMMENDED,
-		FATHER,
-		MOTHER, 
-		BROTHER,
-		SISTER,
-		HUSBAND,
-		WIFE,
+		
 		MESSAGE_SEND,
 		MEMBER,
 		POSTED_QUESTION,

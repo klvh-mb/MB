@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
 
+import domain.DefaultValues;
+
 import models.User;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -23,7 +25,7 @@ public class FriendsController extends Controller {
 		final User localUser = Application.getLocalUser(session());
 		int count=0;
 		List<FriendWidgetChildVM> friends = new ArrayList<>();
-		for(User friend : localUser.getFriends()) {
+		for(User friend : localUser.getFriends(DefaultValues.FRINDS_UTILITY_COUNT)) {
 			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName, friend.userInfo.location));
 			++count;
 			if(count == 8) {
@@ -31,24 +33,19 @@ public class FriendsController extends Controller {
 			}
 		}
 		
-		FriendWidgetParentVM fwVM = new FriendWidgetParentVM(localUser.getFriends().size(), friends);
+		FriendWidgetParentVM fwVM = new FriendWidgetParentVM(localUser.getFriendsSize(), friends);
 		return ok(Json.toJson(fwVM));
 	}
 	
 	@Transactional
 	public static Result getFriendsOfUser(Long id) {
 		final User user = User.findById(id);
-		int count=0;
 		List<FriendWidgetChildVM> friends = new ArrayList<>();
-		for(User friend : user.getFriends()) {
+		for(User friend : user.getFriends(DefaultValues.FRINDS_UTILITY_COUNT)) {
 			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName, friend.userInfo.location));
-			++count;
-			if(count == 8) {
-				break;
-			}
 		}
 		
-		FriendWidgetParentVM fwVM = new FriendWidgetParentVM(user.getFriends().size(), friends);
+		FriendWidgetParentVM fwVM = new FriendWidgetParentVM(user.getFriendsSize(), friends);
 		return ok(Json.toJson(fwVM));
 	}
 	
@@ -57,19 +54,14 @@ public class FriendsController extends Controller {
 	@Transactional
 	public static Result getSuggestedFriends() {
 		final User localUser = Application.getLocalUser(session());
-		int count=0;
 		List<FriendWidgetChildVM> friends = new ArrayList<>();
-		for(Object friend1 : localUser.getSuggestedFriends()) {
+		for(Object friend1 : localUser.getSuggestedFriends(DefaultValues.FRINDS_UTILITY_COUNT)) {
 			User friend = (User) friend1;
 			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName, friend.userInfo.location));
 			System.out.println(" NAME :: "+friend.displayName);
-			++count;
-			if(count == 8) {
-				break;
-			}
 		}
 		
-		FriendWidgetParentVM fwVM = new FriendWidgetParentVM(localUser.getSuggestedFriends().size(), friends);
+		FriendWidgetParentVM fwVM = new FriendWidgetParentVM(localUser.getSuggestedFriendsSize(), friends);
 		return ok(Json.toJson(fwVM));
 	}
 	

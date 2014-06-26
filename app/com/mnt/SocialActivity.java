@@ -39,37 +39,12 @@ public class SocialActivity {
 			}
 				break;
 
-			case LIKED: {
-				/*Notification notification = new Notification();
-				notification.socialAction = socialAction;
-				notification.recipetent = socialAction.targetOwner;
-				notification.message = socialAction.actorname
-						+ " Liked on your " + socialAction.targetType;
-				notification.save();*/
-			}
-				break;
+			
 
-			case COMMENTED: {
-				Notification notification = new Notification();
-				notification.socialAction = socialAction;
-				notification.recipetent = socialAction.targetOwner;
-				notification.notificationType = NotificationType.COMMENT;
-				notification.message = socialAction.actorname
-						+ " Commented on your Post";
-				notification.save();
-			}
-				break;
+			
 
-			case ANSWERED: {
-				Notification notification = new Notification();
-				notification.socialAction = socialAction;
-				notification.recipetent = socialAction.target;
-				notification.notificationType = NotificationType.ANSWERED;
-				notification.message = socialAction.actorname
-						+ " Answered to your Question";
-				notification.save();
-			}
-				break;
+			
+				
 
 			}
 			
