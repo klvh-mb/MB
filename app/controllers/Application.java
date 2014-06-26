@@ -35,6 +35,7 @@ import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
 import redis.clients.jedis.Tuple;
+import targeting.community.NewsfeedCommTargetingEngine;
 import viewmodel.LocationVM;
 import viewmodel.PostIndexVM;
 import views.html.signup;
@@ -76,10 +77,9 @@ public class Application extends Controller {
             logger.underlyingLogger().debug("[u="+localUser.getId()+"] index. numJoinedComm="+communities.size());
         }
 
-        // TODO: Need to refactor to decide how many to pull from each community
-		Set<String> post_ids = FeedProcessor.buildPostQueueFromCommunities(communities, 20);
-		
-		FeedProcessor.applyRelevances(post_ids, localUser.id);
+        // Re-index user's community feed
+        NewsfeedCommTargetingEngine.indexCommNewsfeedForUser(localUser.getId());
+
 		return home(localUser);
 	}
 

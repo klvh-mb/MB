@@ -1,4 +1,4 @@
-package common.utils;
+package common.cache;
 
 import common.model.WeatherInfo;
 import common.serialize.JsonSerializer;

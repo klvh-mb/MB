@@ -18,14 +18,12 @@ import java.util.Set;
 public class NewsfeedCommWeightDistributor {
     private static final play.api.Logger logger = play.api.Logger.apply(NewsfeedCommWeightDistributor.class);
 
-    private static final String NEWSFEED_FULLLENGTH_PROP = "newsfeed.fulllength";
-    private static final int NEWSFEED_FULLLENGTH = Play.application().configuration().getInt(NEWSFEED_FULLLENGTH_PROP, 160);
-
     /**
      * @param userId
+     * @param newsfeedFullLen
      * @return
      */
-    public static DistributionResult process(Long userId) {
+    public static DistributionResult process(Long userId, int newsfeedFullLen) {
         final DistributionResult result = new DistributionResult();
 
         List<UserCommunityAffinity> affinities = UserCommunityAffinity.findByUser(userId);
@@ -36,7 +34,7 @@ public class NewsfeedCommWeightDistributor {
             totalScore += scorable.getScore();
         }
 
-        final int totalToFetch = (int) (NEWSFEED_FULLLENGTH * 1.2d);
+        final int totalToFetch = (int) (newsfeedFullLen * 1.2d);    // fetch 20% more
         for (Scorable<UserCommunityAffinity> scorable : scores) {
             UserCommunityAffinity affinity = scorable.getObject();
 

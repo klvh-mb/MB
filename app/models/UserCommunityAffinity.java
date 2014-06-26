@@ -40,6 +40,8 @@ public class UserCommunityAffinity extends domain.Entity {
 
     private boolean newsfeedEnabled = true;      // default to true
 
+    public UserCommunityAffinity() { }
+
     /**
      * Ctor
      * @param userId
