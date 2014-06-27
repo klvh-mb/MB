@@ -1,16 +1,13 @@
 package models;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 import play.data.validation.Constraints.Required;
 
 @Entity
-public class Message  extends SocialObject implements Comparable<Message> {
+public class Message extends SocialObject implements Comparable<Message> {
 	/*
 	@Id
 	public Long id;*/
@@ -26,9 +23,6 @@ public class Message  extends SocialObject implements Comparable<Message> {
 	@Required
 	public Boolean readed = false;
 	  
-	@Required
-	public Date date = new Date();
-
 	@Required @Lob
 	public String body;
 	
@@ -47,8 +41,6 @@ public class Message  extends SocialObject implements Comparable<Message> {
 
 	@Override
 	public int compareTo(Message o) {
-		 return date.compareTo(o.date);
+		 return this.getCreatedDate().compareTo(o.getCreatedDate());
 	}
-
-	
 }

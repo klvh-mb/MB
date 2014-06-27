@@ -1,7 +1,6 @@
 package models;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -13,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Query;
 
 import play.data.validation.Constraints.Required;
@@ -41,9 +41,9 @@ public class Conversation extends domain.Entity implements Serializable,
 	@ManyToOne
 	public User user2;
 
-	@Required
-	public Date date = new Date();
-
+	@OneToOne
+	public Message lastMessage;
+	
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "conversation")
 	public Set<Message> messages = new TreeSet<Message>();
 
