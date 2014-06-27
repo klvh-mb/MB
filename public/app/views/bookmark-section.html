@@ -1,16 +1,25 @@
-
-
-<div class="general-box">
+<div class="general-box" style="margin:-1px">
     <div class="wall-title">
-        <span class="wall-icon"></span><a ng-click="selectedTab1 = 1;">
-							<font ng-class="{activeTabBold: selectedTab1 == 1}">Questions</font></a>
-		<span class="wall-icon"></span><a ng-click="selectedTab1 = 2;">
-							<font ng-class="{activeTabBold: selectedTab1 == 2}">Moments</font></a>					
-        <span class="wall-icon"></span><a ng-click="selectedTab1 = 3;">
-							<font ng-class="{activeTabBold: selectedTab1 == 3}">Articles</font></a>
-        
+        <!--span class="wall-icon icon-title-community"></span-->
+        <span style="margin-left:15px;">
+            <a ng-click="selectedTab1 = 1;" ng-class="{activeTabUnderlined: selectedTab1 == 1}">
+                <font style="color: white;">問題</font>
+            </a>
+        </span>
+        <!--span class="wall-icon icon-title-friendwall"></span-->
+        <span style="margin-left:15px;">
+            <a ng-click="selectedTab1 = 2;" ng-class="{activeTabUnderlined: selectedTab1 == 2}">
+                <font style="color: white;">分享</font>
+            </a>
+        </span>
+        <span style="margin-left:15px;">
+            <a ng-click="selectedTab1 = 3;" ng-class="{activeTabUnderlined: selectedTab1 == 3}">
+                <font style="color: white;">文章</font>
+            </a>
+        </span>
     </div>
 </div>
+<div class="padding5"></div>
 
 <div ng-show="selectedTab1 == 1" infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='0' >
 	<div data-ng-repeat="post in posts.post">

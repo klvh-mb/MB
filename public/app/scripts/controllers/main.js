@@ -363,10 +363,6 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 		$scope.selectedTab = 1;
 	}
 	
-	if (tab == 'friends' ) {
-		$scope.selectedTab = 3;
-	}
-	
 	if (tab == 'communities' ) {
 		$scope.selectedTab = 2;
 	}
@@ -375,6 +371,14 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 		$scope.selectedTab = 2;
 	}
 	
+	if (tab == 'friends' ) {
+        $scope.selectedTab = 3;
+    }
+    
+    if (tab == 'bookmarks' ) {
+        $scope.selectedTab = 4;
+    }
+    
 	var profileImage = "/get-profile-image";
 	var coverImage = "/get-cover-image";
 	$scope.isEdit = true;
