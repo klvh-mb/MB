@@ -481,7 +481,7 @@ minibean.service('editCommunityPageService',function($resource){
 
 minibean.controller('GroupController',function($scope,$q, $location,$routeParams, $http, usSpinnerService, iconsService, editCommunityPageService, $upload, profilePhotoModal){
    
-	$scope.submitBtn = "Save";
+	$scope.submitBtn = "儲存";
 	$scope.community = editCommunityPageService.EditCommunityPage.get({id:$routeParams.id}, 
 			function(response) {
 				
@@ -521,7 +521,7 @@ minibean.controller('GroupController',function($scope,$q, $location,$routeParams
 	$scope.updateGroupProfileData = function(data) {
 		usSpinnerService.spin('loading...');
 		return $http.post('/updateGroupProfileData', $scope.community).success(function(data){
-			$scope.submitBtn = "Done";
+			$scope.submitBtn = "完成";
 			usSpinnerService.stop('loading...');
 		});
 	}
@@ -542,11 +542,11 @@ minibean.controller('CreateCommunityController',function($scope, $location, $htt
 	
 	$scope.formData = {};
 	$scope.selectedFiles =[];
-	$scope.submitBtn = "Save";
+	$scope.submitBtn = "建立社群";
 	$scope.submit = function() {
 		 $validator.validate($scope, 'formData')
 		    .success(function () {
-		    	usSpinnerService.spin('loading...');
+		    	usSpinnerService.spin('載入中...');
 		    	$upload.upload({
 					url: '/createCommunity',
 					method: 'POST',
@@ -554,26 +554,24 @@ minibean.controller('CreateCommunityController',function($scope, $location, $htt
 					data: $scope.formData,
 					fileFormDataName: 'cover-photo'
 				}).progress(function(evt) {
-					$scope.submitBtn = "Please Wait";
-					usSpinnerService.stop('loading...');
+					$scope.submitBtn = "請稍候...";
+					usSpinnerService.stop('載入中...');
 			    }).success(function(data, status, headers, config) {
-			    	$scope.submitBtn = "Done";
+			    	$scope.submitBtn = "完成";
 			    	usSpinnerService.stop('loading...');
 			    	$location.path('/community/'+data+'/question');
 			    	$("#myModal").modal('hide');
 			    }).error(function(data, status, headers, config) {
 			    	if( status == 505 ) {
 			    		$scope.uniqueName = true;
-			    		usSpinnerService.stop('loading...');
-			    		$scope.submitBtn = "Try Again";
+			    		usSpinnerService.stop('載入中...');
+			    		$scope.submitBtn = "再試一次";
 			    	}  
 			    });
 		    })
 		    .error(function () {
 		        console.log('error');
 		    });
-		
-	
 	}
 	
 	$scope.IconsToSelects = iconsService.getAllIcons.get();
@@ -1850,7 +1848,7 @@ minibean.controller('CreateArticleController',function($scope,$http,usSpinnerSer
 	$scope.submit = function() {
 		usSpinnerService.spin('loading...');
 				$http.post('/createArticle', $scope.formData).success(function(data){
-					$scope.submitBtn = "Done";
+					$scope.submitBtn = "Complete";
 					usSpinnerService.stop('loading...');
 				});
 	}
@@ -2189,7 +2187,7 @@ minibean.controller('EditArticleController',function($scope,$routeParams,$locati
 	$scope.updateArticleData = function(data) {
 		usSpinnerService.spin('loading...');
 		return $http.post('/editArticle', $scope.article).success(function(data){
-			$scope.submitBtn = "Done";
+			$scope.submitBtn = "Complete";
 			usSpinnerService.stop('loading...');
 		});
 	}

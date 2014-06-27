@@ -242,49 +242,47 @@
 <div class="modal fade lightbox" id="myModal" data-backdrop="false">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form ng-controller = "CreateCommunityController"  name="formData" novalidate ng-submit="submit()"  method="post" enctype="multipart/form-data" >				              
+      <form ng-controller = "CreateCommunityController" name="formData" novalidate ng-submit="submit()"  method="post" enctype="multipart/form-data" >				              
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Create Community</h4>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-fw fa-group"></i> 建立社群</h4>
       </div>
       <div class="modal-body">
-            <div class="row tm">
+            <div class="row">
+                <hr style="margin-top: 0px; margin-bottom: 10px;">
               <div class="col-md-12">
                 <div class="row form-group">
-               	
-               	<div class="col-md-4">
-                   	<label> Community Name: </label>
-                   </div>
-                   
-                   <div class="col-md-8">
-                   		<input type="text" class="form-control" placeholder="Community Name" validator="[required]" data-ng-model="formData.name" required >
-                   		<label data-ng-show="uniqueName" class="label label-warning">Such name exists! Please Choose Another Name.</label>
-                   </div>
+                    <div class="col-md-4">
+                   	    <label> 社群名稱: </label>
+                    </div>
+                    <div class="col-md-8">
+                        <input style="height:30px;" type="text" class="form-control" placeholder="" validator="[required]" data-ng-model="formData.name" required >
+                   	    <label data-ng-show="uniqueName" class="label label-warning">名稱已被選用。請重新輸入名稱。</label>
+                    </div>
                 </div>
                </div>
              </div>
              
               <hr style="margin-top: 10px; margin-bottom: 10px;">
              
-             <div class="row tm">
+             <div class="row">
              	  <div class="col-md-12">
                 	<div class="row form-group">
                	<div class="col-md-4">
-                  		<label> Community Type: </label>
+                  		<label> 你要建立哪一種社群？: </label>
                   	</div>
                   	
                   	<div class="col-md-8">
-                  		
                   			<label style="width: 100%">
    								<input type="radio" data-ng-model="formData.communityType" id="optionsRadios1" value="OPEN" ng-checked="true">
-   								Open
+   								公開
   							</label>
-  							<div class="fsm fwn fcg" style="margin-left: 10%;">Request for Join directly granted, without approval.</div>
+  							<div class="fsm fwn fcg" style="margin-left: 10%;">任何人都可以加入這個社群並查看分享內容</div>
   							<label>
    								<input type="radio" data-ng-model="formData.communityType" id="optionsRadios2" value="CLOSE" >
-   								Closed
+   								不公開
   							</label>
-  							<div class="fsm fwn fcg"  style="margin-left: 10%;">Admin must approve the request.</div>
+  							<div class="fsm fwn fcg"  style="margin-left: 10%;">只有獲邀或被認可的成員才能加入這個社群並查看分享內容</div>
                   	</div>
                </div>
              </div>
@@ -292,11 +290,11 @@
 
 			 <hr style="margin-top: 10px; margin-bottom: 10px;">
              
-             <div class="row tm">
+             <div class="row">
              	  <div class="col-md-12">
                 	<div class="row form-group">
                			<div class="col-md-4">
-                  			<label> Community Icon: </label>
+                  			<label> 選擇一個圖示: </label>
                   		</div>
                   	
                   		<div class="col-md-8">
@@ -307,7 +305,7 @@
 								       	<p class="margin-none pull-right">{{icon_text}}</p>
 								    </div>
 	    							<div data-ng-if="!isChosen" data-ng-init="isChosen=false">
-	    								Please select icon
+	    								圖示
 	    							</div>
 	  							</div>
 		                  		<ul class="dropdown-menu chat media-list" style="left:2%; width: 96%;">
@@ -329,19 +327,19 @@
           
            <hr style="margin-top: 10px; margin-bottom: 10px;">
              
-             <div class="row tm">
+             <div class="row">
              	<div class="col-md-12">
                 <div class="row form-group">
                	
                	<div class="col-md-4">
-                   	<label> Description: </label>
+                   	<label> 關於這個社群: </label>
                    </div>
                    
                    <div class="col-md-8">
-                   	<textarea  class="form-control" placeholder="Community Description" data-ng-model="formData.description" >
+                   	<textarea  class="form-control" placeholder="簡介" data-ng-model="formData.description" >
                		 </textarea>
-               		 	<label ng-show="formData.description.length < 6" class="control-label error" style="color: #a94442;" >Minimun 6 character.</label>
-               		 	<label ng-show="formData.description.length > 1400" class="control-label error" style="color: #a94442;" > Maximum 1400 character.</label>
+               		 	<!--label ng-show="formData.description.length < 5" class="control-label error" style="color: #a94442;" >最少5個字</label-->
+               		 	<label ng-show="formData.description.length > 1000" class="control-label error" style="color: #a94442;" >最多1000個字</label>
                    </div>
                 </div>
                </div>
@@ -349,30 +347,27 @@
              
               <hr style="margin-top: 10px; margin-bottom: 10px;">
              
-             <div class="row tm">
+             <div class="row">
              	<div class="col-md-12">
                 <div class="row form-group">
                	
                	<div class="col-md-4">
-                   	<label> Cover Photo: </label>
+                   	<label> 選擇封面相片: </label>
                    </div>
                    
                    <div class="col-md-8">
-                   	<input type="file" name="cover-photo"  ng-file-select="onFileSelect($files)"/>
+                   	<input type="file" name="cover-photo" ng-file-select="onFileSelect($files)"/>
                    	<input type="hidden" data-ng-model="formData.photo" validator="[required]" />
                    </div>
                 </div>
                </div>
              </div>
-                
-             
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
         <button ng-disabled="formData.$pristine || formData.$dirty && formData.$invalid" type="submit" class="btn btn-primary"  >
-				<span class="glyphicon glyphicon-ok"></span>
-				{{submitBtn}}
-			</button>
+			{{submitBtn}}
+		</button>
       </div>
       </form>
     </div>
@@ -398,39 +393,27 @@
 <div id="back-to-top" ng-controller="UIController">
     <a ng-click="gotoTop()"><span class="icon-title-arrow-up"></span>Top</a>
 </div>
+
     
-<style>
-.container-fluid {
-	background: inherit !important;
-	padding-right: 0px !important;
-	padding-left: 0px !important;
-	margin-right: auto;
-	margin-left: auto;
-}
-#content{
-	background: inherit !important;	
-}
-</style>  
-    
-    <script type="text/ng-template" id="change-profile-photo-modal.html">
+<script type="text/ng-template" id="change-profile-photo-modal.html">
       <div class="modal-header">
         <button type="button" ng-click="close()" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Change Photo</h4>
+        <h4 class="modal-title">更換封面相片</h4>
       </div>
       <div class="modal-body">
 
         <input type="file" ng-file-select="onFileSelect($files)" >
          
-         <div ng-file-drop="onFileSelect($files)" class="drop-box" ng-show="dropSupported">drop files here</div>
+         <div ng-file-drop="onFileSelect($files)" class="drop-box" ng-show="dropSupported">相片放到這裡</div>
         
-         <div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
+         <div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 相片拖放工能不支援!</div>
 		
 		 <br/>
 		 <br/>
 		 <div ng-show="selectedFiles != null">
 			<div class="sel-file" ng-repeat="f in selectedFiles">
-				<button class="button" ng-click="start($index)" ng-show="progress[$index] < 0">Start</button>
-				<button class="button" ng-click="abort($index)" ng-show="hasUploader($index) && progress[$index] < 100">Abort</button>
+				<button class="button" ng-click="start($index)" ng-show="progress[$index] < 0">開始</button>
+				<button class="button" ng-click="abort($index)" ng-show="hasUploader($index) && progress[$index] < 100">終止</button>
 				{{f.name}} - size: {{f.size}}B - type: {{f.type}}
 			</div>
 		 </div>
@@ -439,9 +422,9 @@
 				<li ng-repeat="result in uploadResult">
 					<ul>
 						<li ng-repeat="item in result.result">
-							<div data-ng-show="item.name">file name: {{item.name}}</div>
-							<div data-ng-show="item.fieldName">name: {{item.fieldName}}</div>
-							<div data-ng-show="item.size">size on the serve: {{item.size}}</div>
+							<div data-ng-show="item.name">檔案名稱: {{item.name}}</div>
+							<div data-ng-show="item.fieldName">名稱: {{item.fieldName}}</div>
+							<div data-ng-show="item.size">size: {{item.size}}</div>
 							<div data-ng-show="item.value">value: {{item.value}}</div>
 						</li>
 					</ul>
@@ -449,10 +432,7 @@
 				</li>
 			</ul>
 		 </div>
-
       </div>
       <div class="modal-footer">
-        
       </div>
-	  
 </script>

@@ -1,6 +1,12 @@
 /*!
  * bootstrap
  */
+.btn {
+    padding: 3px 8px;
+}
+.modal-title {
+    font-size: 15px !important;
+}
 .navbar img {
     width: 20px;
     height: auto;
@@ -567,6 +573,7 @@ a:focus {
 .activeTabBold {
     font-weight: bold;
     text-decoration: none;
+    color: #096EC5;
 }
 .activeTabUnderlined {
     font-weight: normal;
