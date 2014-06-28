@@ -293,23 +293,23 @@
              <div class="row">
              	  <div class="col-md-12">
                 	<div class="row form-group">
-               			<div class="col-md-4">
+               			<div class="col-md-2" style="width:100px;">
                   			<label> 選擇一個圖示: </label>
                   		</div>
                   	
-                  		<div class="col-md-8">
+                  		<div class="col-md-2" style="width:50px;padding:0px;margin:0px;">
                   			<li class="col-md-12 dropdown">
-	                  			<div class="form-control dropdown-toggle">
+	                  			<div class="form-control dropdown-toggle" style="padding:3px 6px;">
 	                  				<img class="pull-left media-object" data-ng-src={{icon_chosen}} width="25">
-	                  				<div class="media-body">
+	                  				<!--div class="media-body">
 								       	<p class="margin-none pull-right">{{icon_text}}</p>
-								    </div>
+								    </div-->
 	    							<div data-ng-if="!isChosen" data-ng-init="isChosen=false">
-	    								圖示
+	    								<!-- 圖示 -->
 	    							</div>
 	  							</div>
-		                  		<ul class="dropdown-menu chat media-list" style="left:2%; width: 96%;">
-									<li class="media" data-ng-repeat="icon in IconsToSelects" style="margin-top: 10px; margin-bottom: 10px;">
+		                  		<ul class="dropdown-menu icon-dropdown">
+									<!--li class="media" data-ng-repeat="icon in IconsToSelects" style="margin-top: 10px; margin-bottom: 10px;">
 								        <a href="" data-ng-click="select_icon(icon.url, icon.name)">
 								        	<img class="pull-left media-object" data-ng-src="{{icon.url}}" alt="50x50" width="25" >
 								        	<input type="hidden" data-ng-model="formData.iconName" required>
@@ -317,9 +317,15 @@
 								            	<p class="margin-none pull-right">{{icon.name}}</p>
 								        	</div>							        	
 								        </a>
-									</li>
-						      	</ul>
-						      </li>
+									</li-->
+                                    <li data-ng-repeat="icon in IconsToSelects">
+                                        <a style="padding:0px;" href="" data-ng-click="select_icon(icon.url, icon.name)">
+                                            <img style="width:25px;" data-ng-src="{{icon.url}}"/>
+                                            <input type="hidden" data-ng-model="formData.iconName" required>
+                                        </a>
+                                    </li>
+						        </ul>
+						    </li>
                   		</div>
                   	</div>
                </div>
