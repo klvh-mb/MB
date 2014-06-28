@@ -50,13 +50,8 @@ import domain.PostType;
 import domain.SocialObjectType;
 
 public class CommunityController extends Controller{
-
     private static play.api.Logger logger = play.api.Logger.apply(CommunityController.class);
-    private static String prefix = Play.application().configuration().getString("keyprefix", "prod_");
-    private static final String USER = prefix + "user_";
-    private static final String MOMENT = prefix + "moment_";
-    private static final String QNA = prefix + "qna_";
-    
+
     @Transactional
     public static Result getUserUnJoinCommunity() {
         logger.underlyingLogger().debug("getUserUnJoinCommunity");
@@ -477,12 +472,6 @@ public class CommunityController extends Controller{
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
-            Jedis j = jedisPool.getResource();
-            
-            j.zadd(MOMENT + c.id, new Date().getTime(), p.id.toString());
-            jedisPool.returnResource(j);
-            
             return ok(Json.toJson(comment.id));
         }
         return ok("Be member of community");
@@ -503,13 +492,7 @@ public class CommunityController extends Controller{
             if(Boolean.parseBoolean(withPhotos)) {
                 p.ensureAlbumExist();
             }
-            
-            JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
-            Jedis j = jedisPool.getResource();
-            
-            j.zadd(MOMENT + c.id,  new Date().getTime(), p.id.toString());
-            jedisPool.returnResource(j);
-            
+
             p.indexPost(Boolean.parseBoolean(withPhotos));
             
             return ok(Json.toJson(p.id));
@@ -578,13 +561,7 @@ public class CommunityController extends Controller{
             if(Boolean.parseBoolean(withPhotos)) {
                 p.ensureAlbumExist();
             }
-            
-            JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
-            Jedis j = jedisPool.getResource();
-            
-            j.zadd(QNA + c.id, new Date().getTime(), p.id.toString());
-            jedisPool.returnResource(j);
-            
+
             p.indexPost(Boolean.parseBoolean(withPhotos));
             return ok(Json.toJson(p.id));
         }
@@ -609,13 +586,6 @@ public class CommunityController extends Controller{
             } catch (SocialObjectNotCommentableException e) {
                 e.printStackTrace();
             }
-            
-            JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
-            Jedis j = jedisPool.getResource();
-            
-            j.zadd(MOMENT + c.id, new Date().getTime(), p.id.toString());
-            jedisPool.returnResource(j);
-            
             return ok(Json.toJson(p.id));
         }
         return ok("you are not member of community");

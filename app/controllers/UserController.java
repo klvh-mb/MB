@@ -42,7 +42,6 @@ public class UserController extends Controller {
 	public static Result getUserInfo() {
 		final User localUser = Application.getLocalUser(session());
 		UserVM userInfo = new UserVM(localUser);
-		System.out.println(FeedProcessor.getUserFeedIds(localUser));
 		return ok(Json.toJson(userInfo));
 	}
 	
