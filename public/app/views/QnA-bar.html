@@ -37,9 +37,15 @@
 			    <div>
 			        <p class="user-answer"><a class="commentUsername" class="commentUsername" href="/#/profile/{{comment.oid}}">{{comment.on}}</a>
 			   		<span style="white-space: pre-wrap;">{{comment.d}}</span></p>
+			   		
+			   		<div class="wall-user-post-image">
+						<a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in comment.imgs" href="" style="float: left;">
+							<img width="90" style="margin-right: 4px;" data-ng-src="/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+						</a>
+			   		</div>
 			    </div>
 			    <div class="row">
-					<span class="btn-like-wrapper">
+					<span style="width: 100%;float: left;" class="btn-like-wrapper">
 						<a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/general/icons/like_1.gif"/>Like</a> 
 				    	<a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>Unlike</a>
 		            	<span ng-show="comment.nol > 0"> · {{comment.nol}}</span>
@@ -52,9 +58,19 @@
 	    	<img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{userInfo.id}}" />
             <form id="userCommentwrapper" name="userComment" method="post" action="">
 	             <label for="User Comment"></label>
-	             <textarea type="text" name="userCommentfield" class="general-textfield" id="userCommentfield" placeholder="Write a comment..." cols="80" data-ng-model="commentText" rows="1"></textarea>
-	             <span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText); commentText=''"></i></span>
+	             <textarea type="text" name="userCommentfield" style="width: 82%;" class="general-textfield" id="userCommentfield" placeholder="Write a comment..." cols="80" data-ng-model="commentText" rows="1"></textarea>
+	             <a data-ng-hide="qnaCommentSelectedFiles.length > 2 && commentedOnPost == post.id" style="float: right;" id="upload" class="col-sm-1" style="padding-left: 20px;"><i class="fa fa-2x icon-photo-camera-fill" data-ng-click="qnaCommentPhoto(post.id)"></i></a>
+	             <span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="answer_to_question(post.id, commentText); commentText=''"></i></span>
+                 <input style="visibility:hidden;height:0px;" id="qna-comment-photo-id" type="file"  name="comment-photo" ng-file-select="onQnACommentFileSelect($files)"/>
             </form>
+            
+            <span ng-if="commentedOnPost == post.id">
+                <div style="background-color: white;" ng-show="qnaCommentSelectedFiles != null">
+					<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
+						ng-repeat="f in qnaCommentSelectedFiles" tooltip-placement="bottom" tooltip="Remove this photo" style="width: 100px;height: 100px;float:left !important;" data-ng-click="remove_image_from_qna_comment($index)"
+						ng-show="qnaCommentDataUrls[$index]" ng-src="{{qnaCommentDataUrls[$index]}}">
+				</div>
+            </span>
 		</li>
 	</ul>
 </ul>

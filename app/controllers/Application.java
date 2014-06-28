@@ -71,15 +71,7 @@ public class Application extends Controller {
 			return login();
 		}
 
-		List<Long> communities = localUser.getListOfJoinedCommunityIds();
-
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.getId()+"] index. numJoinedComm="+communities.size());
-        }
-
-        // Re-index user's community feed
-        NewsfeedCommTargetingEngine.indexCommNewsfeedForUser(localUser.getId());
-
+		
 		return home(localUser);
 	}
 

@@ -93,12 +93,16 @@ public class FeedProcessor {
      * @param post
      */
 	public static void pushToCommunity(Post post) {
-        if (logger.underlyingLogger().isDebugEnabled()) {
-	        logger.underlyingLogger().debug("pushToCommunity - start");
+        if (post.getCommunity().isExcludeFromNewsfeed()) {
+            return;     // NF disable
         }
-        NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         Long commId = post.getCommunity().getId();
+
+        if (logger.underlyingLogger().isDebugEnabled()) {
+	        logger.underlyingLogger().debug("pushToCommunity(p="+post.getId()+" c="+commId+") - start");
+        }
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 		Jedis j = null;
@@ -138,7 +142,9 @@ public class FeedProcessor {
 		Jedis j = null;
         try {
             j = jedisPool.getResource();
-            posts.addAll(j.zrevrangeWithScores(COMMUNITY+communityId, 0, maxCount));
+            if (j.exists(COMMUNITY+communityId)) {
+                posts.addAll(j.zrevrangeWithScores(COMMUNITY+communityId, 0, maxCount));
+            }
         } finally {
             if (j != null) {
 		        jedisPool.returnResource(j);
@@ -163,7 +169,9 @@ public class FeedProcessor {
 					JPA.withTransaction(new play.libs.F.Callback0() {
 						@Override
 						public void invoke() throws Throwable {
-							final List<BigInteger> ids = JPA.em().createNativeQuery("SELECT id from Community").getResultList();
+							final List<BigInteger> ids = JPA.em().createNativeQuery("SELECT id from Community where excludeFromNewsfeed = 0").getResultList();
+
+                            logger.underlyingLogger().debug("NF commIds="+ids);
 
 							JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 							Jedis j = null;

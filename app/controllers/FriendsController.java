@@ -26,7 +26,8 @@ public class FriendsController extends Controller {
 		int count=0;
 		List<FriendWidgetChildVM> friends = new ArrayList<>();
 		for(User friend : localUser.getFriends(DefaultValues.FRINDS_UTILITY_COUNT)) {
-			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName, friend.userInfo.location));
+			
+			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName, friend.userInfo == null ? null : friend.userInfo.location));
 			++count;
 			if(count == 8) {
 				break;

@@ -14,6 +14,7 @@ import models.User;
 
 import org.apache.commons.io.FileUtils;
 
+import org.elasticsearch.common.primitives.Ints;
 import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
@@ -138,8 +139,14 @@ public class UserController extends Controller {
         String firstName = form.get("firstName");
         String lastName = form.get("lastName");
         String birthYear = form.get("birth_year");
-        Location location = Location.getLocationById(Integer.valueOf(form.get("location")));
-        TargetGender gender = TargetGender.valueOf(form.get("gender"));
+        Location location = null;
+        try {
+            location = Location.getLocationById(Integer.valueOf(form.get("location")));
+        } catch (Exception e) { }
+        TargetGender gender = null;
+        try {
+            gender = TargetGender.valueOfInt(Integer.valueOf(form.get("gender")));
+        } catch (Exception e) { }
         String aboutMe = form.get("aboutMe");
         
         final User localUser = Application.getLocalUser(session());

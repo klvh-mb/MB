@@ -30,10 +30,14 @@ public class ProfileVM {
         vm.displayName = user.displayName;
         vm.lastName = user.lastName;
         vm.firstName = user.firstName;
-        vm.birthYear = user.userInfo.birthYear;
-        vm.gender = user.userInfo.gender.name();
-        vm.aboutMe = user.userInfo.aboutMe;
-        vm.location = user.userInfo.location;
+        if(user.userInfo != null) {
+        	vm.birthYear = user.userInfo.birthYear;
+			if(user.userInfo.gender != null) {
+				vm.gender = user.userInfo.gender.name();
+			}
+			vm.aboutMe = user.userInfo.aboutMe;
+			vm.location = user.userInfo.location;
+		}
         //vm.friends = user.getFriends();
         vm.nofriends = user.getFriendsSize();
         vm.isFriend = user.isFriendOf(localUser);

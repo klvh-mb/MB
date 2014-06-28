@@ -143,6 +143,18 @@ Serializable, Creatable, Updatable{
 							.getParentFile(),
 					Rename.PREFIX_DOT_THUMBNAIL);
 		}
+		
+		if (type == SocialObjectType.COMMENT_PHOTO) {
+			Thumbnails
+			.of(source)
+			.height(70)
+			.width(70)
+			.keepAspectRatio(true)
+			.toFiles(
+					new java.io.File(resource.getPath())
+							.getParentFile(),
+					Rename.PREFIX_DOT_THUMBNAIL);
+		}
 		this.resources.add(resource);
 		merge();
 		//recordAddedPhoto(owner);

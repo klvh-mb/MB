@@ -78,7 +78,6 @@ public class Global extends GlobalSettings {
 			}
 		});
 		
-		//FeedProcessor.updatesUserLevelFeed();
 		FeedProcessor.updateCommunityLevelFeed();
 	}
 
