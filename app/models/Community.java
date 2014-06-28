@@ -40,7 +40,13 @@ import domain.SocialObjectType;
 
 @Entity
 public class Community extends TargetingSocialObject implements Likeable, Postable, Joinable {
-	
+
+    public static enum CommunityType {
+		OPEN,
+		CLOSE,
+		PRIVATE
+	}
+
 	@OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY)
 	public List<Post> posts = new ArrayList<Post>();
 	
@@ -59,21 +65,17 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
 	public Date createDate;
 
-	public boolean excludeFromNewsfeed = true;
-	
-	public boolean targeting = false;
-	
-	public static enum CommunityType {
-		OPEN,
-		CLOSE,
-		PRIVATE
-	}
+	public boolean excludeFromNewsfeed = false;
 
 	@OneToMany(cascade = CascadeType.REMOVE)
 	public List<Folder> folders;
 	
 	public String iconName;
 
+
+    /**
+     * Ctor
+     */
 	public Community() {
 		this.objectType = SocialObjectType.COMMUNITY;
 	}
@@ -386,4 +388,12 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	public void setIconName(String iconName) {
 		this.iconName = iconName;
 	}
+
+    public boolean isExcludeFromNewsfeed() {
+        return excludeFromNewsfeed;
+    }
+
+    public void setExcludeFromNewsfeed(boolean excludeFromNewsfeed) {
+        this.excludeFromNewsfeed = excludeFromNewsfeed;
+    }
 }

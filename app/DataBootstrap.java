@@ -285,8 +285,7 @@ public class DataBootstrap {
                     name, desc, CommunityType.OPEN, 
                     "/assets/app/images/general/icons/zodiac/" + zodiac.toLowerCase() + ".png");
             community.system = true;
-            community.targeting = true;
-            community.targetingType = TargetingSocialObject.TargetingType.ZODIAC_YEAR;      
+            community.targetingType = TargetingSocialObject.TargetingType.ZODIAC_YEAR;
             community.targetingInfo = targetingInfo;
             //community.setCoverPhoto(file);
         } catch (SocialObjectNotJoinableException e) {
@@ -303,8 +302,7 @@ public class DataBootstrap {
                     name, desc, CommunityType.OPEN, 
                     "/assets/app/images/general/icons/loc_" + location.locationType.name().toLowerCase() + ".png");
             community.system = true;
-            community.targeting = true;
-            community.targetingType = TargetingSocialObject.TargetingType.LOCATION_DISTRICT;      
+            community.targetingType = TargetingSocialObject.TargetingType.LOCATION_DISTRICT;
             community.targetingInfo = targetingInfo;
             //community.setCoverPhoto(file);
         } catch (SocialObjectNotJoinableException e) {
