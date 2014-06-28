@@ -359,7 +359,8 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result uploadCoverPhoto(Long id) {
-        logger.underlyingLogger().debug("uploadCoverPhoto");
+        logger.underlyingLogger().info("uploadCoverPhoto(c="+id+")");
+
         Community community = Community.findById(id);
         FilePart picture = request().body().asMultipartFormData().getFile("profile-photo");
         String fileName = picture.getFilename();
@@ -367,29 +368,29 @@ public class CommunityController extends Controller{
         File file = picture.getFile();
         File fileTo = new File(Play.application().configuration().getString("image.temp")+""+fileName);
         
-            // No cropping is performed
-            try {
-                FileUtils.copyFile(file, fileTo);
-                community.setCoverPhoto(fileTo);
-            } catch (IOException e) {
-                //e.printStackTrace();
-                return status(500);
-            }
-        
+        try {
+            FileUtils.copyFile(file, fileTo);
+            community.setCoverPhoto(fileTo);
+        } catch (IOException e) {
+            logger.underlyingLogger().error("Error in uploadCoverPhoto", e);
+            return status(500);
+        }
         return ok();
     }
     
     @Transactional
     public static Result createCommunity() {
-        logger.underlyingLogger().debug("createCommunity");
         final User localUser = Application.getLocalUser(session());
-        Form<Community> form = 
+        Form<Community> form =
                 DynamicForm.form(Community.class).bindFromRequest(
                         "name","description","iconName","communityType");
         Community community = form.get();
         if (community.communityType == null) {
             community.communityType = CommunityType.OPEN;
         }
+
+        logger.underlyingLogger().info("[u="+localUser.id+"] createCommunity. name="+community.getName()+", type="+community.communityType);
+
         if (!community.checkCommunityNameExists()) {
             return status(505, "PLEASE CHOOSE OTHER NAME");
         }
@@ -410,9 +411,9 @@ public class CommunityController extends Controller{
             
             return ok(Json.toJson(newCommunity.id));
         } catch (SocialObjectNotJoinableException e) {
-            e.printStackTrace();
+            logger.underlyingLogger().error("Error in createCommunity", e);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.underlyingLogger().error("Error in createCommunity", e);
         }
         return status(500);
     }

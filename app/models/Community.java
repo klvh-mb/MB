@@ -1,5 +1,6 @@
 package models;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,6 +23,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import common.image.FaceFinder;
+import common.utils.ImageFileUtil;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.Play;
@@ -178,6 +181,11 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 
 	public Resource setCoverPhoto(File source) throws IOException {
 		ensureAlbumPhotoProfileExist();
+
+        // Pre-process file to have face centered.
+        BufferedImage croppedImage = FaceFinder.getRectPictureWithFace(source, 2.29d);
+        ImageFileUtil.writeFileWithImage(source, croppedImage);
+
 		Resource cover_photo = this.albumPhotoProfile.addFile(source,
 				SocialObjectType.COVER_PHOTO);
 		this.albumPhotoProfile.setHighPriorityFile(cover_photo);

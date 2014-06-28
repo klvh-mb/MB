@@ -171,8 +171,6 @@ public class FeedProcessor {
 						public void invoke() throws Throwable {
 							final List<BigInteger> ids = JPA.em().createNativeQuery("SELECT id from Community where excludeFromNewsfeed = 0").getResultList();
 
-                            logger.underlyingLogger().debug("NF commIds="+ids);
-
 							JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 							Jedis j = null;
                             try {

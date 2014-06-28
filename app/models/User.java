@@ -26,6 +26,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import common.image.FaceFinder;
+import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
 import models.Community.CommunityType;
 import models.Notification.NotificationType;
@@ -496,7 +497,7 @@ public class User extends SocialObject implements Subject, Socializable {
 
         // Pre-process file to have face centered.
         BufferedImage croppedImage = FaceFinder.getSquarePictureWithFace(file);
-        writeFileWithImage(file, croppedImage);
+        ImageFileUtil.writeFileWithImage(file, croppedImage);
 
         Resource newPhoto = this.albumPhotoProfile.addFile(file,
                 SocialObjectType.PROFILE_PHOTO);
@@ -510,18 +511,13 @@ public class User extends SocialObject implements Subject, Socializable {
 
         // Pre-process file to have face centered.
         BufferedImage croppedImage = FaceFinder.getRectPictureWithFace(source, 2.29d);
-        writeFileWithImage(source, croppedImage);
+        ImageFileUtil.writeFileWithImage(source, croppedImage);
 
         Resource cover_photo = this.albumCoverProfile.addFile(source,
                 SocialObjectType.COVER_PHOTO);
         this.albumCoverProfile.setHighPriorityFile(cover_photo);
         cover_photo.save();
         return cover_photo;
-    }
-
-    private static void writeFileWithImage(File file, BufferedImage image) throws IOException {
-        String ext = (file.getName().endsWith("png")) ? "png" : "jpg";
-        ImageIO.write(image, ext, file);
     }
 
     public void removePhotoProfile(Resource resource) throws IOException {
