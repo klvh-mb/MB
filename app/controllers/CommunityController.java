@@ -472,7 +472,6 @@ public class CommunityController extends Controller{
             try {
                 //NOTE: Currently commentType is hardcoded to SIMPLE
                 comment = (Comment) p.onComment(localUser, commentText, CommentType.SIMPLE);
-                p.setUpdatedDate(new Date());
                 p.merge();
             } catch (SocialObjectNotCommentableException e) {
                 // TODO Auto-generated catch block
@@ -606,8 +605,6 @@ public class CommunityController extends Controller{
         if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
             try {
                 p.onComment(localUser, answerText, CommentType.ANSWER);
-                
-                p.setUpdatedDate(new Date());
                 p.merge();
             } catch (SocialObjectNotCommentableException e) {
                 e.printStackTrace();

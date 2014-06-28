@@ -92,7 +92,7 @@ public class FeedProcessor {
 		Jedis j = null;
         try {
             j = jedisPool.getResource();
-            j.zadd(COMMUNITY+commId, post.getUpdatedDate().getTime(), post.id.toString());
+            j.zadd(COMMUNITY+commId, post.getSocialUpdatedDate().getTime(), post.id.toString());
 
             long len = j.zcard(COMMUNITY+commId);
             if (len > MAX_COMM_QUEUE_LENGTH) {
@@ -167,7 +167,7 @@ public class FeedProcessor {
 
                                         j.del(COMMUNITY+communityId.longValue());
                                         for(Post p: posts){
-                                            j.zadd(COMMUNITY+communityId.longValue(), p.getUpdatedDate().getTime(), p.id.toString());
+                                            j.zadd(COMMUNITY+communityId.longValue(), p.getSocialUpdatedDate().getTime(), p.id.toString());
                                         }
                                     } catch (Exception e) {
                                         logger.underlyingLogger().error("Error in updateCommunityLevelFeed", e);

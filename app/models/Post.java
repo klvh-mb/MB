@@ -6,18 +6,12 @@ import indexing.PostIndex;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NoResultException;
-import javax.persistence.OneToMany;
-import javax.persistence.Query;
+import javax.persistence.*;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.elasticsearch.index.query.FilterBuilders;
@@ -63,6 +57,8 @@ public class Post extends SocialObject implements Likeable, Commentable {
     public Folder folder;
     
     public int noOfLikes = 0;
+
+	public Date socialUpdatedDate = new Date();
     
     @Override
     public void onLikedBy(User user) {
@@ -102,6 +98,9 @@ public class Post extends SocialObject implements Likeable, Commentable {
     public void save() {
         super.save();
         recordPost(owner);
+        this.socialUpdatedDate = new Date();
+
+        // push to community
         FeedProcessor.pushToCommunity(this);
         
         if (this.postType == PostType.SIMPLE) {
@@ -120,6 +119,9 @@ public class Post extends SocialObject implements Likeable, Commentable {
     @Override
     public SocialObject onComment(User user, String body, CommentType type)
             throws SocialObjectNotCommentableException {
+        // update last socialUpdatedDate in Post
+        this.socialUpdatedDate = new Date();
+
         Comment comment = new Comment(this, user, body);
         
         if (comments == null) {
@@ -130,12 +132,16 @@ public class Post extends SocialObject implements Likeable, Commentable {
             recordAnswerOnCommunityPost(user);
             // update affinity
             UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
+            // push to community
+            FeedProcessor.pushToCommunity(this);
         }
         if (type == CommentType.SIMPLE) {
             comment.commentType = type;
             recordCommentOnCommunityPost(user);
             // update affinity
             UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
+            // push to community
+            FeedProcessor.pushToCommunity(this);
         }
         if(this.objectType == SocialObjectType.POST) {
             comment.objectType = SocialObjectType.COMMENT;
@@ -298,6 +304,14 @@ public class Post extends SocialObject implements Likeable, Commentable {
 
     public void setFolder(Folder folder) {
         this.folder = folder;
+    }
+
+    public Date getSocialUpdatedDate() {
+        return socialUpdatedDate;
+    }
+
+    public void setSocialUpdatedDate(Date socialUpdatedDate) {
+        this.socialUpdatedDate = socialUpdatedDate;
     }
 
     public boolean isLikedBy(User user) {
