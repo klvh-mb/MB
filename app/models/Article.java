@@ -72,11 +72,12 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 		return (List<Article>)q.getResultList();
 	}
 	
-		@Transactional
-	public static List<Article> relatedArticles(long id,long categoy_id) {
-		Query q = JPA.em().createQuery("Select a from Article a where id != ?1 AND a.category.id = ?2");
+	@Transactional
+	public static List<Article> relatedArticles(long id, long categoryId, int n) {
+		Query q = JPA.em().createQuery("Select a from Article a where id != ?1 AND a.category.id = ?2 order by publishedDate desc");
 		q.setParameter(1, id);
-		q.setParameter(2, categoy_id);
+		q.setParameter(2, categoryId);
+		q.setMaxResults(n);
 		return (List<Article>)q.getResultList();
 	}
 	

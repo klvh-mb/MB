@@ -1255,6 +1255,7 @@ pre {
 }
 .static-content-wrapper img {
     border-radius: 5px;
+    margin-top: 3px;
 }
 .static-content-wrapper ul {
     padding: 0;
@@ -1267,7 +1268,7 @@ pre {
     font-size: small;
     clear: right;
     width: 74%;
-    height: 65px;
+    height: 68px;
     overflow: hidden;
 }
 /*Static Content Page General Box End*/

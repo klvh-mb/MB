@@ -31,7 +31,8 @@ import domain.CommentType;
 import domain.DefaultValues;
 
 public class ArticleController extends Controller {
-
+    private static play.api.Logger logger = play.api.Logger.apply(ArticleController.class);
+    
 	@Transactional
 	public static Result addArticle() {
 		Form<Article> articleForm = DynamicForm.form(Article.class).bindFromRequest();
@@ -74,7 +75,9 @@ public class ArticleController extends Controller {
 	public static Result getArticlesCategorywise(Long cat_id, String offset) {
 		int start = Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
 		final User localUser = Application.getLocalUser(session());
-		System.out.println(start+":: OFFSET :: "+offset);
+		
+		logger.underlyingLogger().debug(start+":: OFFSET :: "+offset);
+		
 		List<Article> allArticles = Article.getArticlesByCategory(cat_id, start);
 		List<ArticleVM> listOfArticles = new ArrayList<>();
 		for(Article article:allArticles) {
@@ -88,10 +91,10 @@ public class ArticleController extends Controller {
 		return ok(Json.toJson(listOfArticles));
 	}
 	
-		@Transactional
-	public static Result getRelatedArticles(long id, Long categoy_id) {
-		System.out.println(categoy_id);
-		List<Article> allArticles = Article.relatedArticles(id,categoy_id);
+	@Transactional
+	public static Result getRelatedArticles(long id, Long categoryId) {
+		logger.underlyingLogger().debug("getRelatedArticles - categoryId:" + categoryId);
+		List<Article> allArticles = Article.relatedArticles(id, categoryId, DefaultValues.ARTICLES_RELATED_COUNT);
 		List<ArticleVM> listOfArticles = new ArrayList<>();
 		for(Article article:allArticles) {
 			ArticleVM vm = new ArticleVM(article);

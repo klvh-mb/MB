@@ -16,7 +16,8 @@
                         	<a href="/#/article/show/{{article.ct.id}}">
                         		<img class="scCatMiniThumbnail" data-ng-src="{{article.ct.pictureName}}" />
                         	</a>
-                        	<div><a class="scCatTitle" href="/#/article/show/{{article.ct.id}}">{{article.ct.name}}</a><h6><font>Posted on </font><font type="date"><font><font>{{article.pd | date:'yyyy'  }}</font></font>  <font><font>{{article.pd | date:'MMM'  }}</font></font>  <font><font>{{article.pd | date:'dd hh:mm a'  }}</font></font></font></h6>
+                        	<div>
+                        	   <a class="scCatTitle" href="/#/article/show/0">所有文章</a> <span style="font-size:12px;">&gt;</span> <a class="scCatTitle" href="/#/article/show/{{article.ct.id}}">{{article.ct.name}}</a><h6><font>Posted on </font><font type="date"><font>{{article.pd | date:'yyyy'}}</font><font>{{article.pd | date:'MMM'  }}</font><font>{{article.pd | date:'dd hh:mm a'}}</font></font></h6>
                         	</div>
                         	
                         </li>
@@ -47,7 +48,7 @@
             
             <div id="relatePost" class="general-box">
                 <div class="con-title">
-                    <span class="icon-box icon-box-brown icon-title-relatePost"></span><p>Related Articles</p>
+                    <span class="icon-box icon-box-brown icon-title-relatePost"></span><p>相關文章</p>
                 </div>
                     <ul>
                         <li data-ng-repeat="relatedArticle in relatedResult"><p><a href="/#/article/id/{{relatedArticle.id}}" style="color: #324fe1;"><img ng-show="relatedArticle.img_url != 'No Image'"  data-ng-src="{{relatedArticle.img_url}}"/>{{relatedArticle.nm|limitTo:18}}</a></p></li>
