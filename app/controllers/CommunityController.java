@@ -624,7 +624,7 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result getAllIcons() {
         logger.underlyingLogger().debug("getAllIcons");
-        List<Icon> icons = Icon.getAllIcons();
+        List<Icon> icons = Icon.getCommunityIcons();
         
         List<IconVM> iconVMs = new ArrayList<>();
         for(Icon icon : icons) {

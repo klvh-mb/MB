@@ -7,7 +7,13 @@ ul, li {
     border-radius: 5px;
     padding: 15px;
     border: #4135a9 thin solid;
-    height:100%
+    height: 100%;
+}
+#login-promote {
+    background-image: url(../images/login/login-main-bg.jpg);
+    background-size: 100%;
+    background-position: bottom center;
+    background-repeat: no-repeat;
 }
 .login-logo {
     margin-left: 8%;
@@ -131,7 +137,7 @@ ul, li {
     left: -30px;
     top: 10px;
     text-indent: -9999px;
-    background-image: url(/images/login/sawtooth.jpg);
+    background-image: url(../images/login/sawtooth.jpg);
     background-repeat: repeat-y;
     background-position: top right;
 }*/

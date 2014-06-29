@@ -54,41 +54,41 @@ public class DataBootstrap {
             return;
         }
         
-        Icon icon = new Icon("tag_1", IconType.COMMUNITY_TAG, "/assets/app/images/general/icons/tag_1.png");
+        Icon icon = new Icon("tag_1", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/tag_1.png");
         icon.save();
-        icon = new Icon("tag_2", IconType.COMMUNITY_TAG, "/assets/app/images/general/icons/tag_2.png");
+        icon = new Icon("tag_2", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/tag_2.png");
         icon.save();
-        icon = new Icon("tag_3", IconType.COMMUNITY_TAG, "/assets/app/images/general/icons/tag_3.png");
+        icon = new Icon("tag_3", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/tag_3.png");
         icon.save();
-        icon = new Icon("tag_4", IconType.COMMUNITY_TAG, "/assets/app/images/general/icons/tag_4.png");
+        icon = new Icon("tag_4", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/tag_4.png");
         icon.save();
-        icon = new Icon("tag_5", IconType.COMMUNITY_TAG, "/assets/app/images/general/icons/tag_5.png");
+        icon = new Icon("loc_district", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/loc_district.png");
         icon.save();
-        icon = new Icon("tag_6", IconType.COMMUNITY_TAG, "/assets/app/images/general/icons/tag_6.png");
+        icon = new Icon("loc_area", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/loc_area.png");
         icon.save();
-        icon = new Icon("zodiac_rat", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/rat.png");
+        icon = new Icon("zodiac_rat", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/zodiac/rat.png");
         icon.save();
-        icon = new Icon("zodiac_ox", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/ox.png");
+        icon = new Icon("zodiac_ox", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/zodiac/ox.png");
         icon.save();
-        icon = new Icon("zodiac_tiger", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/tiger.png");
+        icon = new Icon("zodiac_tiger", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/zodiac/tiger.png");
         icon.save();
-        icon = new Icon("zodiac_rabbit", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/rabbit.png");
+        icon = new Icon("zodiac_rabbit", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/zodiac/rabbit.png");
         icon.save();
-        icon = new Icon("zodiac_dragon", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/dragon.png");
+        icon = new Icon("zodiac_dragon", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/zodiac/dragon.png");
         icon.save();
-        icon = new Icon("zodiac_snake", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/snake.png");
+        icon = new Icon("zodiac_snake", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/zodiac/snake.png");
         icon.save();
-        icon = new Icon("zodiac_horse", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/horse.png");
+        icon = new Icon("zodiac_horse", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/zodiac/horse.png");
         icon.save();
-        icon = new Icon("zodiac_goat", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/goat.png");
+        icon = new Icon("zodiac_goat", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/zodiac/goat.png");
         icon.save();
-        icon = new Icon("zodiac_monkey", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/monkey.png");
+        icon = new Icon("zodiac_monkey", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/zodiac/monkey.png");
         icon.save();
-        icon = new Icon("zodiac_rooster", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/rooster.png");
+        icon = new Icon("zodiac_rooster", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/zodiac/rooster.png");
         icon.save();
-        icon = new Icon("zodiac_dog", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/dog.png");
+        icon = new Icon("zodiac_dog", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/zodiac/dog.png");
         icon.save();
-        icon = new Icon("zodiac_pig", IconType.COMMUNITY_ZODIAC, "/assets/app/images/general/icons/zodiac/pig.png");
+        icon = new Icon("zodiac_pig", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/zodiac/pig.png");
         icon.save();
     }
     
@@ -300,7 +300,7 @@ public class DataBootstrap {
         try {
             community = User.getSuperAdmin().createCommunity(
                     name, desc, CommunityType.OPEN, 
-                    "/assets/app/images/general/icons/loc_" + location.locationType.name().toLowerCase() + ".png");
+                    "/assets/app/images/general/icons/community/loc_" + location.locationType.name().toLowerCase() + ".png");
             community.system = true;
             community.targetingType = TargetingSocialObject.TargetingType.LOCATION_DISTRICT;
             community.targetingInfo = targetingInfo;

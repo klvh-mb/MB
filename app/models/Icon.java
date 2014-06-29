@@ -28,8 +28,6 @@ public class Icon {
     public String url;
     
     public static enum IconType {
-        COMMUNITY_ZODIAC,
-        COMMUNITY_TAG,
         COMMUNITY_GENERAL
     }
     
@@ -41,8 +39,13 @@ public class Icon {
         this.url = url;
     }
     
-    public static List<Icon> getAllIcons() {
-    	Query q = JPA.em().createQuery("Select i from Icon i");
+    public static List<Icon> getCommunityIcons() {
+        return getIcons(IconType.COMMUNITY_GENERAL);
+    }
+    
+    public static List<Icon> getIcons(IconType iconType) {
+    	Query q = JPA.em().createQuery("Select i from Icon i where iconType = ?1");
+    	q.setParameter(1, iconType);
     	return (List<Icon>)q.getResultList();
     }
     
