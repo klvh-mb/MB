@@ -71,7 +71,6 @@ public class Application extends Controller {
 			return login();
 		}
 
-		
 		return home(localUser);
 	}
 

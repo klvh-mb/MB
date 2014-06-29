@@ -680,17 +680,18 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getNewsfeeds(int offset) {
-    	 final User localUser = Application.getLocalUser(session());
-    	if(offset == 0) {
+        final User localUser = Application.getLocalUser(session());
+
+        // reloading newsfeed
+        if(offset == 0) {
     		List<Long> communities = localUser.getListOfJoinedCommunityIds();
 
-       		 if (logger.underlyingLogger().isDebugEnabled()) {
-         	   logger.underlyingLogger().debug("[u="+localUser.getId()+"] index. numJoinedComm="+communities.size());
+            if (logger.underlyingLogger().isDebugEnabled()) {
+         	   logger.underlyingLogger().debug("[u="+localUser.getId()+"] indexCommNewsfeed. numJoinedComm="+communities.size());
         	}
 
-        // Re-index user's community feed
-        NewsfeedCommTargetingEngine.indexCommNewsfeedForUser(localUser.getId());
-
+            // Re-index user's community feed
+            NewsfeedCommTargetingEngine.indexCommNewsfeedForUser(localUser.getId());
     	}
        
         List<CommunityPostVM> posts = new ArrayList<>();
