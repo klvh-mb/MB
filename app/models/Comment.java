@@ -1,18 +1,26 @@
 package models;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import models.SocialRelation.Action;
+
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
+import play.i18n.Messages;
 import domain.CommentType;
 import domain.Creatable;
 import domain.Likeable;
+import domain.SocialObjectType;
 
 /**
  * A Comment by an User on a SocialObject 
@@ -57,6 +65,9 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
     
     public int noOfLikes=0;
       
+    @ManyToOne(cascade = CascadeType.REMOVE)
+  	public Folder folder;
+  
     @Override
     public int compareTo(Comment o) {
         return date.compareTo(o.date);
@@ -96,4 +107,39 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
         }
         return true;
     }
+  public Resource addCommentPhoto(File source) throws IOException {
+		ensureAlbumExist();
+		Resource cover_photo = this.folder.addFile(source,
+				SocialObjectType.COMMENT_PHOTO);
+		
+		return cover_photo;
+  }
+  
+  public void ensureAlbumExist() {
+
+		if (this.folder == null) {
+			this.folder = createAlbum("comment-photos",
+					Messages.get("comment-photos.photo-profile.description"), true);
+			this.merge();
+		}
+	}
+  
+	private Folder createAlbum(String name, String description, Boolean system) {
+		Folder folder = createFolder(name, description,
+				SocialObjectType.FOLDER, system);
+		return folder;
+	}
+	
+	private Folder createFolder(String name, String description,
+			SocialObjectType type, Boolean system) {
+
+		Folder folder = new Folder(name);
+		folder.owner = this.owner;
+		folder.name = name;
+		folder.description = description;
+		folder.objectType = type;
+		folder.system = system;
+		folder.save();
+		return folder;
+	}
 }

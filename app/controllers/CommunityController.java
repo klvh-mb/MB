@@ -12,8 +12,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import models.*;
+import models.Comment;
+import models.Community;
 import models.Community.CommunityType;
+import models.Icon;
+import models.Post;
+import models.Resource;
+import models.User;
+import models.UserCommunityAffinity;
 
 import org.apache.commons.io.FileUtils;
 
@@ -25,8 +31,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+import targeting.community.NewsfeedCommTargetingEngine;
 import viewmodel.CommunitiesParentVM;
 import viewmodel.CommunitiesWidgetChildVM;
 import viewmodel.CommunityPostCommentVM;
@@ -42,7 +47,6 @@ import viewmodel.SocialObjectVM;
 import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotJoinableException;
 import com.mnt.exception.SocialObjectNotLikableException;
-import com.typesafe.plugin.RedisPlugin;
 
 import domain.CommentType;
 import domain.DefaultValues;
@@ -468,6 +472,11 @@ public class CommunityController extends Controller{
             try {
                 //NOTE: Currently commentType is hardcoded to SIMPLE
                 comment = (Comment) p.onComment(localUser, commentText, CommentType.SIMPLE);
+                String withPhotos = form.get("withPhotos");
+                if(Boolean.parseBoolean(withPhotos)) {
+                	comment.ensureAlbumExist();
+                }
+                p.setUpdatedDate(new Date());
                 p.merge();
             } catch (SocialObjectNotCommentableException e) {
                 // TODO Auto-generated catch block
@@ -580,14 +589,26 @@ public class CommunityController extends Controller{
         
         Post p = Post.findById(postId);
         Community c =p.community;
+        Comment comment =null;
+        
         if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
             try {
-                p.onComment(localUser, answerText, CommentType.ANSWER);
+                comment = (Comment) p.onComment(localUser, answerText, CommentType.ANSWER);
+
+                String withPhotos = form.get("withPhotos");
+                if(Boolean.parseBoolean(withPhotos)) {
+                	comment.ensureAlbumExist();
+                }
+                
+                p.setUpdatedDate(new Date());
                 p.merge();
             } catch (SocialObjectNotCommentableException e) {
                 e.printStackTrace();
             }
-            return ok(Json.toJson(p.id));
+            
+          
+            
+            return ok(Json.toJson(comment.id));
         }
         return ok("you are not member of community");
     }
@@ -659,7 +680,19 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getNewsfeeds(int offset) {
-        final User localUser = Application.getLocalUser(session());
+    	 final User localUser = Application.getLocalUser(session());
+    	if(offset == 0) {
+    		List<Long> communities = localUser.getListOfJoinedCommunityIds();
+
+       		 if (logger.underlyingLogger().isDebugEnabled()) {
+         	   logger.underlyingLogger().debug("[u="+localUser.getId()+"] index. numJoinedComm="+communities.size());
+        	}
+
+        // Re-index user's community feed
+        NewsfeedCommTargetingEngine.indexCommNewsfeedForUser(localUser.getId());
+
+    	}
+       
         List<CommunityPostVM> posts = new ArrayList<>();
         
         List<Post> newsFeeds = localUser.getNewsfeedsAtHomePage(offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
@@ -793,4 +826,55 @@ public class CommunityController extends Controller{
         }
         return ok(Json.toJson(posts));
     }
+	
+    @Transactional
+	public static Result uploadCommentPhoto() {
+		DynamicForm form = DynamicForm.form().bindFromRequest();
+		String commentId = form.get("commentId");
+		System.out.println(commentId);
+		
+		FilePart picture = request().body().asMultipartFormData().getFile("comment-photo0");
+		String fileName = picture.getFilename();
+		File file = picture.getFile();
+	    File fileTo = new File(fileName);
+	    // TOBE TESTED
+	    try {
+	    	FileUtils.copyFile(file, fileTo);
+	    	Long id = Comment.findById(Long.valueOf(commentId)).addCommentPhoto(fileTo).id;
+	    	return ok(id.toString());
+		} catch (IOException e) {
+			//e.printStackTrace();
+			return status(500);
+		}
+	}
+	
+	@Transactional
+	public static Result getCommentImageById(Long id) {
+		return ok(Resource.findById(id).getThumbnailFile());
+	}
+	
+	@Transactional
+	public static Result uploadQnACommentPhoto() {
+		DynamicForm form = DynamicForm.form().bindFromRequest();
+		String commentId = form.get("commentId");
+		System.out.println(commentId);
+		
+		FilePart picture = request().body().asMultipartFormData().getFile("comment-photo0");
+		String fileName = picture.getFilename();
+		File file = picture.getFile();
+	    File fileTo = new File(fileName);
+	    // TOBE TESTED
+	    try {
+	    	FileUtils.copyFile(file, fileTo);
+	    	Long id = Comment.findById(Long.valueOf(commentId)).addCommentPhoto(fileTo).id;
+	    	return ok(id.toString());
+		} catch (IOException e) {
+			//e.printStackTrace();
+			return status(500);
+		}
+	}
 }
+
+	
+	
+	

@@ -708,3 +708,14 @@ span.notif-count {
     top: 0px;
     left: 0px;
 }
+.icon-dropdown { 
+    list-style: none outside none; 
+    width: 250px; 
+}
+.icon-dropdown li { 
+    float: left;
+    display: block;
+    width: 30px; 
+    height: 30px; 
+    padding: 2px 5px;
+}​
