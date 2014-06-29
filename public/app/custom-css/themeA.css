@@ -12,6 +12,9 @@ a {
 a:hover {
   text-decoration: underline;  
 }
+a img:hover {
+    opacity: .8;
+}
 pre {
     font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif !important;
     display: text !important;
@@ -25,6 +28,20 @@ pre {
     background-color: transparent !important; 
     border: 0px solid #ccc !important;
     border-radius: 0px !important;
+}
+.header-logo {
+    margin-left: 7%;
+    margin-bottom: 0%;
+    float: left;
+    top: -10px;
+    position: relative;
+}
+.header-logo img {
+    width: 148px !important;
+    height: 45px !important;
+}
+.header-notif-bar {
+    margin-left: -2%;
 }
 .btn-general {
     font-size: 11px !important;
@@ -755,7 +772,7 @@ pre {
 }
 .right-side {
     position: absolute;
-    top: 11px;
+    top: 10px;
     right: 5%;
 }
 .right-side img {

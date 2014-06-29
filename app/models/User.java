@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.imageio.ImageIO;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -319,20 +318,8 @@ public class User extends SocialObject implements Subject, Socializable {
         q.setParameter(1, this.id);
         q.setParameter(2, SocialRelation.Action.FRIEND.name());
         q.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED.name());
-        List<User> frndList = ( List<User> )q.setMaxResults(limit).getResultList();
-        
+        List<User> frndList = (List<User>)q.setMaxResults(limit).getResultList();
         return frndList;
-    }
-    
-    @JsonIgnore
-    public Long getSuggestedFriendsSize() {
-        Query q = JPA.em().createNativeQuery("Select * from User u where u.id not in (select sr.target from SocialRelation sr where sr.action = ?2 or sr.actionType = ?3 and sr.actor = ?1 union select sr1.actor from SocialRelation sr1 where sr1.action = ?2 or sr1.actionType = ?3 and sr1.target = ?1 union select id from User where id = ?1) and u.emailValidated = true and u.system = 0 and u.userInfo_id is not NULL", User.class);
-        q.setParameter(1, this.id);
-        q.setParameter(2, SocialRelation.Action.FRIEND.name());
-        q.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED.name());
-        Long size = (long) q.getMaxResults();
-        
-        return size;
     }
     
     @JsonIgnore

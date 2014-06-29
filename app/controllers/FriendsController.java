@@ -65,9 +65,7 @@ public class FriendsController extends Controller {
 			System.out.println(" NAME :: "+friend.displayName);
 		}
 
-        Long numSuggestedFrds = localUser.getSuggestedFriendsSize();
-
-		FriendWidgetParentVM fwVM = new FriendWidgetParentVM(numSuggestedFrds, friends);
+		FriendWidgetParentVM fwVM = new FriendWidgetParentVM((long)friends.size(), friends);
 		return ok(Json.toJson(fwVM));
 	}
 	
