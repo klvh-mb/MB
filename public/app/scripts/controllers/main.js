@@ -1284,7 +1284,7 @@ minibean.service('likeFrameworkService', function($resource) {
 });
 
 minibean.controller('PostLandingController', function($scope, $routeParams, $http, $timeout, $upload, $validator, 
-    postLandingService, communityPageService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
+    postLandingService, communityPageService, allCommentsService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
 
     $scope.$on('$viewContentLoaded', function() {
         usSpinnerService.spin('loading...');
@@ -1313,7 +1313,6 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     $scope.dataUrls = [];
     
     $scope.get_all_comments = function(id) {
-    
         angular.forEach($scope.community.posts, function(post, key){
             if(post.id == id) {
                 post.cs = allCommentsService.comments.get({id:id});
@@ -1613,7 +1612,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
 });
     
 minibean.controller('QnALandingController', function($scope, $routeParams, $http, $timeout, $upload, $validator, 
-    qnaLandingService, communityPageService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
+    qnaLandingService, communityPageService, allAnswersService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
 
     $scope.$on('$viewContentLoaded', function() {
         usSpinnerService.spin('loading...');

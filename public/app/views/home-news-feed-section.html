@@ -8,18 +8,17 @@
 </div-->
 
 <div infinite-scroll='nextNewsFeeds()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='0' >
-	<div data-ng-repeat="post in newsFeeds.posts">
-		<div class="general-box" data-ng-show="post.type=='SIMPLE'">
-			<div data-ng-include data-src="'/assets/app/views/POST-bar.html'"></div>
-		</div>
-		
-		<div id="wall-forum" data-ng-show="post.type=='QUESTION'">
-		      <div class="general-box">
-		          <div data-ng-include data-src="'/assets/app/views/QnA-bar.html'"></div>
-		      </div>
+    <div id="wall-forum">
+    	<div data-ng-repeat="post in newsFeeds.posts">
+            <div class="general-box" data-ng-show="post.type=='SIMPLE'">
+                <div data-ng-include data-src="'/assets/app/views/post-bar.html'"></div>
+            </div>
+            <div class="general-box" data-ng-show="post.type=='QUESTION'">
+		        <div data-ng-include data-src="'/assets/app/views/QnA-bar.html'"></div>
+		    </div>
      	</div>
 	</div>
-	<span ng-show="isBusy" spinner-start-active="1" us-spinner="{top: 'inherit'}" ></span>
+	<span ng-show="isBusy" spinner-start-active="1" us-spinner="{top:'inherit'}"></span>
 </div>
 
 <!-- Modal -->
