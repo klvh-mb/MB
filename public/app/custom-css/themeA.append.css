@@ -257,21 +257,21 @@ a:focus {
     border-color: white;
 }
 #back-to-top {
-	background-color: black;
-	opacity: 0.3;
-	border-radius: 5px;
-	width: 45px;
-	position: fixed;
-	bottom: 20px;
-	right: 5%;
+    background-color: black;
+    opacity: 0.3;
+    border-radius: 5px;
+    width: 45px;
+    position: fixed;
+    bottom: 20px;
+    right: 5%;
 }
 #back-to-top a {
-	color: white;
-	opacity: 1.0;
-	display: block;
-	width: 100%;
-	height: 100%;
-	padding: 5px 10px;
+    color: white;
+    opacity: 1.0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 5px 10px;
 }
 #header
 {
@@ -297,7 +297,7 @@ a:focus {
     color: #383838;
 }
 #shortcut-wrapper ul {
-	display:none;
+    display:none;
 }
 #main-uphoto {
     /*width: 224px;
@@ -455,8 +455,8 @@ a:focus {
     font-size: 14px;
 }
 .slider-photo {
-	width: 46%;
-	height: 100%;
+    width: 46%;
+    height: 100%;
 }
 .slider-category p {
     position: absolute;
@@ -580,13 +580,13 @@ a:focus {
     text-decoration: none;
     border-bottom: 4px solid white;
 }
-span.notif-count {
-    position: relative;
-    top: -2px;
-    left: -10px;
-}
 .header-wrapper a {
     line-height: 25px !important;
+}
+span.notif-count {
+    position: relative;
+    top: -27px;
+    left: 3px;
 }
 .notif-count {
     display: inline-block;

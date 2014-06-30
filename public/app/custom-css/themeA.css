@@ -43,6 +43,10 @@ pre {
 .header-notif-bar {
     margin-left: -2%;
 }
+.header-notif-bar .notif {
+    width: 32px;
+    height: 25px;
+}
 .btn-general {
     font-size: 11px !important;
     color: black !important;
