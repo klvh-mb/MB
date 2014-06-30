@@ -338,9 +338,7 @@ public class Application extends Controller {
 		indexQuery.from((int) (offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT));
         indexQuery.size(DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 		IndexResults<PostIndex> allPosts = PostIndex.find.search(indexQuery);
-		
-		System.out.println(allPosts.getTotalCount());
-		
+
 		List<PostIndexVM> vm = new ArrayList<>();
 		for(PostIndex post : allPosts.results) {
 			PostIndexVM p = new PostIndexVM(post);

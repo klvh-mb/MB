@@ -62,7 +62,6 @@ public class FriendsController extends Controller {
 		for(Object friend1 : frds) {
 			User friend = (User) friend1;
 			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName, friend.userInfo.location));
-			System.out.println(" NAME :: "+friend.displayName);
 		}
 
 		FriendWidgetParentVM fwVM = new FriendWidgetParentVM((long)friends.size(), friends);

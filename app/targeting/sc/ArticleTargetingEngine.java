@@ -41,7 +41,7 @@ public class ArticleTargetingEngine {
         }
 
         TargetProfile profile = TargetProfile.fromUser(user);
-        logger.underlyingLogger().info("["+user.getName()+"] getTargetedArticles. "+profile);
+        logger.underlyingLogger().info("[u="+user.getId()+"] getTargetedArticles. "+profile);
 
         List<Article> unRankedRes = query(profile, false);
         if (unRankedRes.size() < k) {
@@ -61,7 +61,7 @@ public class ArticleTargetingEngine {
             results.add(scorable.getObject());
         }
 
-        logger.underlyingLogger().info("[rankAndFunnel] results[" + results.size() + "]=" + results);
+        logger.underlyingLogger().info("[rankAndFunnel] results["+results.size()+"]");
         return results;
     }
 
@@ -133,8 +133,6 @@ public class ArticleTargetingEngine {
 
         sb.append(whereDelim).append(andDelim).append("excludeFromTargeting = 0 ");
 
-//        System.out.println("[getTargetedArticles] sql="+sb.toString() +" params="+paramValues);
-
         // exec query
         Query q = JPA.em().createQuery(sb.toString());
         for (int i = 1; i < paramCount; i++) {
@@ -142,8 +140,6 @@ public class ArticleTargetingEngine {
         }
 
         List<Article> results = (List<Article>)q.getResultList();
-        logger.underlyingLogger().info("[getTargetedArticles] results[" + results.size() + "]=" + results);
-
 		return (List<Article>)q.getResultList();
     }
 

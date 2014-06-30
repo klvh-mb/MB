@@ -125,10 +125,8 @@ public class CommunityController extends Controller{
         final User localUser = Application.getLocalUser(session());
         final Community community = Community.findById(id);
         if(community.owner.id == localUser.id) {
-            System.out.println("Owner");
             return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
         }
-        System.out.println("Not Owner");
         return status(500);
     }
     

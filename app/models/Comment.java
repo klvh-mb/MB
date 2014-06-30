@@ -101,7 +101,6 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
         PrimarySocialRelation sr = null;
         try {
             sr = (PrimarySocialRelation)q.getSingleResult();
-            System.out.println("SR ::"+sr.id);
         } catch (NoResultException nre) {
             return false;
         }

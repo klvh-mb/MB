@@ -26,6 +26,7 @@ import domain.SocialObjectType;
 
 @Entity
 public class Article extends TargetingSocialObject implements Commentable, Likeable {
+    private static final play.api.Logger logger = play.api.Logger.apply(Article.class);
 
 	public Article() {}
 
@@ -58,17 +59,19 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	
 	@Transactional
 	public static List<Article> getArticlesByCategory(Long id, int offset) {
-		Query q  = null;
-		if(id == 0){
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("getArticlesByCategory(cat="+id+", offset="+offset+")");
+        }
+
+		Query q;
+		if (id == 0){
 			q = JPA.em().createQuery("Select a from Article a order by publishedDate DESC");
-			
-		}else{
+		} else {
 			q = JPA.em().createQuery("Select a from Article a where category_id = ?1 order by publishedDate DESC");
 			q.setParameter(1, id);
 		}
 		q.setFirstResult(offset);
 		q.setMaxResults(DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
-		System.out.println("OFFSET :: "+offset);
 		return (List<Article>)q.getResultList();
 	}
 	
@@ -182,7 +185,6 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 		PrimarySocialRelation sr = null;
 		try {
 			sr = (PrimarySocialRelation)q.getSingleResult();
-			System.out.println("SR ::"+sr.id);
 		}
 		catch(NoResultException nre) {
 			return false;

@@ -1093,10 +1093,12 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(2, this.id);
         query.setParameter(3, SocialObjectType.POST);
         query.setParameter(4, SocialObjectType.QUESTION);
-        System.out.println(limit+ " :: "+offset +":: (List<Post>)query.getResultList(); :: "+query.getResultList().size());
         query.setFirstResult(offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
         query.setMaxResults(limit);
-        
+
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+id+"] getBookmarkedPosts(offset="+offset+", limit="+limit+") - ret="+query.getResultList().size());
+        }
         return (List<Post>)query.getResultList();
     }
     
@@ -1105,10 +1107,12 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(1, SecondarySocialRelation.Action.BOOKMARKED);
         query.setParameter(2, this.id);
         query.setParameter(3, SocialObjectType.ARTICLE);
-        System.out.println(limit + " :: " + offset + ":: (List<Post>)query.getResultList(); :: " + query.getResultList().size());
         query.setFirstResult(offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
         query.setMaxResults(limit);
-        
+
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+id+"] getBookmarkedArticles(offset="+offset+", limit="+limit+") - ret="+query.getResultList().size());
+        }
         return (List<Article>)query.getResultList();
     }
     
