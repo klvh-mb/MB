@@ -226,6 +226,7 @@ public class Application extends Controller {
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			// User did not fill everything properly
+			flash("error", "Invalid username or password");
 			return badRequest(views.html.login.render(filledForm));
 		} else {
 			// Everything was filled
@@ -254,6 +255,7 @@ public class Application extends Controller {
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			// User did not fill everything properly
+			flash("error", "Invalid username or password");
 			return badRequest(views.html.signup.render(filledForm));
 		} else {
 			// Everything was filled
