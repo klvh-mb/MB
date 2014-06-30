@@ -1,5 +1,6 @@
 package models;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -7,10 +8,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.name.Rename;
 
@@ -133,15 +136,31 @@ Serializable, Creatable, Updatable{
 									+"/mini."+new java.io.File(resource.getPath()).getName());
 		}
 		if (type == SocialObjectType.POST_PHOTO) {
-			Thumbnails
-			.of(source)
-			.height(85)
-			.width(85)
-			.keepAspectRatio(true)
-			.toFiles(
-					new java.io.File(resource.getPath())
-							.getParentFile(),
-					Rename.PREFIX_DOT_THUMBNAIL);
+			BufferedImage bimg = ImageIO.read(source);
+			int width  = bimg.getWidth();
+			int height = bimg.getHeight();
+			
+			if(width >= height) {
+				Thumbnails
+				.of(source)
+				.width(85)
+				.keepAspectRatio(true)
+				.toFiles(
+						new java.io.File(resource.getPath())
+								.getParentFile(),
+						Rename.PREFIX_DOT_THUMBNAIL);
+			}
+			else {
+				Thumbnails
+				.of(source)
+				.height(115)
+				.keepAspectRatio(true)
+				.toFiles(
+						new java.io.File(resource.getPath())
+								.getParentFile(),
+						Rename.PREFIX_DOT_THUMBNAIL);
+			
+			}
 		}
 		
 		if (type == SocialObjectType.COMMENT_PHOTO) {

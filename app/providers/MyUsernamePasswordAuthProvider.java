@@ -113,6 +113,18 @@ public class MyUsernamePasswordAuthProvider
 			}
 			return null;
 		}
+
+		public String getRepeatPassword() {
+			return repeatPassword;
+		}
+
+		public String getLname() {
+			return lname;
+		}
+
+		public String getFname() {
+			return fname;
+		}
 	}
 
 	public static final Form<MySignup> SIGNUP_FORM = form(MySignup.class);
