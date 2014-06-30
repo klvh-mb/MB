@@ -30,7 +30,7 @@ public class CommunityVM {
 	@JsonProperty("isO") public boolean isOwner;
 	@JsonProperty("posts") public List<CommunityPostVM> posts;
 	
-	public static CommunityVM communityVM (Community c, User user) {
+	public static CommunityVM communityVM(Community c, User user) {
 		CommunityVM vm = new CommunityVM();
 		vm.loggedUserId = user.id;
 		vm.loggedUserName = user.displayName;
@@ -63,4 +63,34 @@ public class CommunityVM {
 		vm.posts = posts;
 		return vm;
 	}
+	
+	public static CommunityVM communityVM(Community c, User user, Post post) {
+        CommunityVM vm = new CommunityVM();
+        vm.loggedUserId = user.id;
+        vm.loggedUserName = user.displayName;
+        
+        vm.name = c.name;
+        vm.description = c.description;
+        vm.communityType = c.communityType;
+        vm.iconName = c.iconName;
+        vm.tagetDistrict = c.tagetDistrict;
+        vm.createDate = c.createDate;
+        vm.id = c.id;
+        vm.noOfMembers = c.getMembers().size();
+        //TODO Logic required
+        vm.isMember = user.isMemberOf(c);
+        
+        vm.isRequested = user.isJoinRequestPendingFor(c);
+        
+        vm.isOwner = (user == c.owner) ? true : false;
+        
+        List<CommunityPostVM> posts = new ArrayList<>();
+        
+        if(vm.isMember == true || vm.isOwner == true || vm.communityType == CommunityType.OPEN){
+            posts.add(CommunityPostVM.communityPostVM(post,user));
+        }
+        
+        vm.posts = posts;
+        return vm;
+    }
 }

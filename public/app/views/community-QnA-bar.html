@@ -1,4 +1,3 @@
-
 <div id="content-uploader" class="general-box tab-content" >
     <ul ng-show="community.isM || community.isO == true" style="padding:5px;">
         <li style="margin:0px;">
@@ -26,22 +25,21 @@
     </ul>
 </div>
 
-<div infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>	
+<div infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='0'>	
 	<div data-ng-repeat="post in QnA.posts">
 		<div id="wall-forum">
-			      <div class="general-box">
-		          <ul>
+            <div class="general-box">
+		        <ul>
 		              <li><a data-ng-href="/#/profile/{{post.oid}}" ><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}" /></a><p class="wall-user-actState" style="white-space: inherit;position: relative;"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/question" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-ask"></span><span class="ques-tag pull-right">?</span>
 		              <a data-ng-show="!post.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkPost(post.id)"></a>
 	              	  <a data-ng-show="post.isBookmarked" class="btn-like post-favorited" href="" data-ng-click="unBookmarkPost(post.id)"></a>
-		              
 		              
 		              </p><span class="wall-user-actState-date" am-time-ago="post.t"></span><span class="wall-forum-post-last-time">5</span><div id="wall-forum-info">
 		              	<!-- <span class="wall-forum-post-checked">{{post.nov}}</span> -->
 		              	</div>
 		              	</li>
                         <li class="wall-user-post-body">
-                            <span style="white-space: pre-wrap;" class="wall-user-post-title"><a data-ng-href=""><font>{{post.ptl}}</font></a></span><br>
+                            <span style="white-space: pre-wrap;" class="wall-user-post-title"><a data-ng-href="/#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}" target="_blank"><font>{{post.ptl}}</font></a></span><br>
                             <span style="white-space: pre-wrap;" class="wall-user-post-text"><font>{{post.pt}}</font></span>
                             <div data-ng-show="post.hasImage" class="wall-user-post-image">
                                 <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
@@ -114,23 +112,5 @@
 		      </div>
 		</div>
 	</div>
-
-<span ng-show="isBusy" spinner-start-active="1" us-spinner="{top: 'inherit'}" ></span>
+    <span ng-show="isBusy" spinner-start-active="1" us-spinner="{top: 'inherit'}" ></span>
 </div>
-
-
-<!-- <div class="modal fade lightbox" id="imageModal" data-backdrop="false">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel"></h4>
-      </div>
-      <div class="modal-body">
-      		<div>
-        		<img data-ng-src="/get-original-post-image-by-id/{{img_id}}" alt="" style="max-height: 75%;width: 100%;">
-        	</div>
-      </div>
-    </div>
-  </div>
-</div> -->

@@ -251,7 +251,7 @@ public class ArticleController extends Controller {
             article = Article.findById(art_id);
             article.noOfViews++;
         } catch(NoResultException e) {
-            return ok("1");
+            return ok("NO_RESULT");
         }
         ArticleVM vm = new ArticleVM(article, localUser);
         vm.description = article.description;

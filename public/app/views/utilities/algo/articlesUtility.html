@@ -10,7 +10,7 @@
                 </a>
                 <div class="pull-right">
                     <a href="/#/article/id/{{article.id}}" style="font-size:14px;color:#324fe1;line-height:1.2;">
-                        <font>{{article.nm}}</font>
+                        <font>{{article.nm|limitTo:18}}</font>
                     </a>
                     <span ng-show="article.nov > 0" class="view-count" style="margin-left:10px;"><img data-ng-src="/assets/app/images/general/icons/view.gif"/>{{article.nov}}</span>
                     <p>
@@ -34,7 +34,7 @@
                 </a>
                 <div class="pull-right">
                     <a href="/#/article/id/{{article.id}}" style="font-size:14px;color:#324fe1;line-height:1.2;">
-                        <font>{{article.nm}}</font>
+                        <font>{{article.nm|limitTo:18}}</font>
                     </a>
                     <span style="margin-left:10px;" ng-show="article.nol > 0" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>{{article.nol}}</span>
                     <p>
@@ -58,7 +58,7 @@
                 </a>
                 <div class="pull-right">
                     <a href="/#/article/id/{{article.id}}" style="font-size:14px;color:#324fe1;line-height:1.2;">
-                        <font>{{article.nm}}</font>
+                        <font>{{article.nm|limitTo:18}}</font>
                     </a>
                     <p>
                         <font>{{article.lds|limitTo:28}}...</font>

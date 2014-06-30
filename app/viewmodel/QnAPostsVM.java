@@ -18,7 +18,7 @@ public class QnAPostsVM {
 	
 	@JsonProperty("posts") public List<CommunityPostVM> posts;
 	
-	public static QnAPostsVM qnaPosts (Community c, User user) {
+	public static QnAPostsVM qnaPosts(Community c, User user) {
 		QnAPostsVM vm = new QnAPostsVM();
 		
 		vm.loggedUserId = user.id;
@@ -35,4 +35,16 @@ public class QnAPostsVM {
 		vm.posts = posts;
 		return vm;
 	}
+	
+	public static QnAPostsVM qnaPosts(Community c, User user, Post post) {
+        QnAPostsVM vm = new QnAPostsVM();
+        
+        vm.loggedUserId = user.id;
+        vm.loggedUserName = user.displayName;
+        
+        List<CommunityPostVM> posts = new ArrayList<>();
+        posts.add(CommunityPostVM.communityPostVM(post,user));
+        vm.posts = posts;
+        return vm;
+    }
 }

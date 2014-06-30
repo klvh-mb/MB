@@ -110,9 +110,13 @@ public class Post extends SocialObject implements Likeable, Commentable {
     }
     
     public static Post findById(Long id) {
-        Query q = JPA.em().createQuery("SELECT p FROM Post p where id = ?1");
-        q.setParameter(1, id);
-        return (Post) q.getSingleResult();
+        try {
+            Query q = JPA.em().createQuery("SELECT p FROM Post p where id = ?1");
+            q.setParameter(1, id);
+            return (Post) q.getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
     
     @Override

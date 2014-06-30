@@ -152,6 +152,8 @@ GET		/inviteToCommunity/:community_id/:user_id   controllers.CommunityController
 POST	/uploadCommentPhoto						controllers.CommunityController.uploadCommentPhoto()
 POST	/uploadQnACommentPhoto					controllers.CommunityController.uploadQnACommentPhoto()	
 GET		/get-comment-image-by-id/:id			controllers.CommunityController.getCommentImageById(id : Long)
+GET     /post-landing/:id/:communityId          controllers.CommunityController.postLanding(id:Long, communityId:Long)
+GET     /qna-landing/:id/:communityId           controllers.CommunityController.qnaLanding(id:Long, communityId:Long)
 
 GET		/get-bookmark-post/:offset				controllers.CommunityController.getBookmarkedPosts(offset:Integer)
 GET		/unbookmark-post/:post_id				controllers.CommunityController.doUnBookmark(post_id : Long)

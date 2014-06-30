@@ -101,20 +101,17 @@ public class CommunityController extends Controller{
         }
     }
     
-    
     @Transactional
     public static Result getCommunityInfoById(Long id) {
         logger.underlyingLogger().debug("getCommunityInfoById");
         final User localUser = Application.getLocalUser(session());
         final Community community = Community.findById(id);
 
+        //if(localUser.isMemberOf(community) || community.owner.id == localUser.id || community.communityType.toString().equals("OPEN") && localUser.isMemberOf(community) == false || community.communityType.toString().equals("CLOSE") && localUser.isMemberOf(community) == true){
         if(community.objectType == SocialObjectType.COMMUNITY) {
             UserCommunityAffinity.onCommunityView(localUser.getId(), community.getId());
-
-        //if(localUser.isMemberOf(community) || community.owner.id == localUser.id || community.communityType.toString().equals("OPEN") && localUser.isMemberOf(community) == false || community.communityType.toString().equals("CLOSE") && localUser.isMemberOf(community) == true){
             return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
-        }
-        else {
+        } else {
             return ok();
         }
     }
@@ -872,8 +869,26 @@ public class CommunityController extends Controller{
 			return status(500);
 		}
 	}
-}
 
-	
-	
-	
+    @Transactional
+    public static Result postLanding(Long id, Long communityId) {
+        logger.underlyingLogger().debug("postLanding");
+        final User localUser = Application.getLocalUser(session());
+        final Post post = Post.findById(id);
+        if (post == null) {
+            return ok("NO_RESULT"); 
+        }
+        return ok(Json.toJson(CommunityVM.communityVM(post.community, localUser, post)));
+    }
+    
+    @Transactional
+    public static Result qnaLanding(Long id, Long communityId) {
+        logger.underlyingLogger().debug("qnaLanding");
+        final User localUser = Application.getLocalUser(session());
+        final Post post = Post.findById(id);
+        if (post == null) {
+            return ok("NO_RESULT"); 
+        }
+        return ok(Json.toJson(QnAPostsVM.qnaPosts(post.community, localUser, post)));
+    }
+}

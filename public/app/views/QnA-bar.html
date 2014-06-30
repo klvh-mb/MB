@@ -7,7 +7,7 @@
      	</div>
     </li>
    	<li class="wall-user-post-body">
-     	    <span style="white-space: pre-wrap;" class="wall-user-post-title"><a data-ng-href=""><font>{{post.ptl}}</font></a></span><br>
+     	    <span style="white-space: pre-wrap;" class="wall-user-post-title"><a data-ng-href="/#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}" target="_blank"><font>{{post.ptl}}</font></a></span><br>
             <span style="white-space: pre-wrap;" class="wall-user-post-text"><font>{{post.pt}}</font></span>
             <div data-ng-show="post.hasImage" class="wall-user-post-image">
                 <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
