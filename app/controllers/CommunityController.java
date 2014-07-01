@@ -129,7 +129,6 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getPostImageById(Long id) {
-        logger.underlyingLogger().debug("getPostImageById");
         return ok(Resource.findById(id).getThumbnailFile());
     }
     
