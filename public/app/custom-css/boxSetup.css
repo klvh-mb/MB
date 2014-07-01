@@ -60,6 +60,10 @@
     position: relative;
     /*left: -4px;*/
 }
+.toolsbox-single {
+    border: #bcbcbc solid thin;
+    border-radius: 3px; 
+}
 .subtoolsbox {
     background-color: white;
     list-style: none;

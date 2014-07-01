@@ -1,6 +1,10 @@
 /*!
  * bootstrap
  */
+.glyphicon-lock {
+    font-size: 10px;
+    margin-right: 2px;
+}
 .btn {
     padding: 3px 8px;
 }

@@ -34,7 +34,7 @@
                     
                     <a ng-switch-when="COMMUNITY_JOIN_REQUEST" class="pull-left" ng-href="#/profile/{{request.id}}"><img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{request.id}}" alt="50x50" width="50"></a>
                     
-                    <a ng-switch-when="COMMUNITY_INVITE_REQUEST" class="pull-left" ng-href="#/community/{{request.id}}/question"><img class="media-object thumb" data-ng-src="/community-mini-image-by-id/{{request.mm}}" alt="50x50" width="50"></a>
+                    <a ng-switch-when="COMMUNITY_INVITE_REQUEST" class="pull-left" ng-href="#/community/{{request.id}}/question"><img class="media-object thumb" data-ng-src="/get-mini-cover-community-image-by-id/{{request.mm}}" alt="50x50" width="50"></a>
                     
                     <div class="media-body" data-ng-init="request.isLoadingEnable = false">
                         
@@ -87,11 +87,11 @@
                 <ul style="top:23px;left:5px;overflow-y:scroll;max-height:345px;width:260px;" class="dropdown-menu chat media-list hide" ng-class="{show : result.length > 0 && query.length > 0}">
                     <li class="media" ng-repeat="sr in result" ng-switch="sr.tp">
                         <a ng-switch-when="USER" class="pull-left" href="#/profile/{{sr.id}}">
-                            <img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
+                            <img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{sr.id}}" alt="50x50" width="50"/>
                         </a>
                         
                         <a ng-switch-when="COMMUNITY" class="pull-left" href="#/community/{{sr.id}}/question">
-                            <img class="media-object thumb" data-ng-src="/community-mini-image-by-id/{{sr.id}}"  alt="50x50" width="50"/>
+                            <img class="media-object thumb" data-ng-src="/get-mini-cover-community-image-by-id/{{sr.id}}" alt="50x50" width="50"/>
                         </a>
                         
                         <div class="media-body">
@@ -119,7 +119,7 @@
                         </a>
                         
                         <a ng-switch-when="COMMUNITY" class="pull-left" href="#/community/{{sr.id}}/question">
-                            <img class="media-object thumb" data-ng-src="/community-mini-image-by-id/{{sr.id}}" alt="50x50" width="50"/>
+                            <img class="media-object thumb" data-ng-src="/get-mini-cover-community-image-by-id/{{sr.id}}" alt="50x50" width="50"/>
                         </a>
                         
                         <div class="media-body">
