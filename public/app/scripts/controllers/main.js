@@ -1645,6 +1645,14 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
         });
     }
     
+    // !!!NOTE: Since we reuse QnA-bar.html for landing page, and QnA-bar.html is 
+    // being used in home-news-feed-section.html, "view all" is using 
+    // CommunityPageController.get_all_comments() instead of 
+    // CreateQnACommunityController.get_all_answers(). Hence we need to define 
+    // below to make get_all_comments() available in QnALandingController
+    
+    $scope.get_all_comments = $scope.get_all_answers;
+    
     $scope.QnASelectedFiles = [];
     $scope.dataUrls = [];
     $scope.tempSelectedFiles = [];

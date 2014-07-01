@@ -54,17 +54,17 @@ public class DataBootstrap {
             return;
         }
         
-        Icon icon = new Icon("tag_1", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/tag_1.png");
+        Icon icon = new Icon("sun", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/sun.png");
         icon.save();
-        icon = new Icon("tag_2", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/tag_2.png");
+        icon = new Icon("rainbow", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/rainbow.png");
         icon.save();
-        icon = new Icon("tag_3", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/tag_3.png");
+        icon = new Icon("cloud", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/cloud.png");
         icon.save();
-        icon = new Icon("tag_4", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/tag_4.png");
-        icon.save();
-        icon = new Icon("loc_district", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/loc_district.png");
+        icon = new Icon("loc_area", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/loc_city.png");
         icon.save();
         icon = new Icon("loc_area", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/loc_area.png");
+        icon.save();
+        icon = new Icon("loc_district", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/loc_district.png");
         icon.save();
         icon = new Icon("zodiac_rat", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/zodiac/rat.png");
         icon.save();
