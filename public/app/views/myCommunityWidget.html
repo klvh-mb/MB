@@ -4,66 +4,19 @@
             <span class="icon-box icon-box-blueDark icon-title-community"></span>我的社群
         </a>
     </div>
-    <!-- <div id="div1" class="innerAll" style="overflow-y: scroll;height: 150px;">
-            <a data-ng-href="#/community/{{fvm.id}}" ng-repeat="fvm in result.fvm">
-			<div style="float: left;width: 110%" >
-				<img style="float: left;"
-					data-ng-src="/community-mini-image-by-id/{{fvm.id}}" alt="{{fvm.dn}}"
-					class="innerR innerB half" width="50" height="50">
-				<div style="width: 60%; float: left; margin-left: 2%;">
-					<p  style="color: #0083C5; margin-top: 0%; margin-bottom: 0%;">{{fvm.dn|characters:15:true}}</p>
-					<div style="width: 100%; float: left;">
-						<p style="margin-top: 0%; margin-bottom: 1%; margin-right: 5%; float: left; color: black;"></p>
-						<p style="margin-top: 0%; margin-bottom: 1%; color: #77737E;">({{fvm.mm}})位成員</p>
-					</div>
-				</div>
-			</div>
-		</a>
-		
-		<div style="text-align: center;width: 100%; float: left; background-color: rgb(245, 245, 245);" data-ng-show="!result.isMore"><a data-ng-show="!noMoreResult" data-ng-click="nextMyGroups()"><span style="color: cornflowerblue;font-size: smaller;">See More</span></a></div>
-    </div> -->
     
     <ul class="myCommunity-info">
         <li ng-repeat="fvm in result.fvm">
-            <!--img src="/community-mini-image-by-id/{{fvm.id}}"-->
+            <!--img src="/get-mini-cover-community-image-by-id/{{fvm.id}}"-->
             <img src="{{fvm.gi}}">
-            <p><a href="#/community/{{fvm.id}}/question"><b><font>{{fvm.dn|characters:15:true}}</font></b></a><br>
-            <span class="community-member-counter"><font>{{fvm.mm}}位成員</font></span></p>
+            <p>
+                <a href="#/community/{{fvm.id}}/question"><b><font>{{fvm.dn|characters:15:true}}</font></b></a><br>
+                <span class="community-member-counter"><font>{{fvm.mm}}位成員</font></span>
+                <span class="community-attribute">
+                    <!-- font data-ng-show="fvm.tp=='OPEN'">   ·   公開的社群</font --><font data-ng-show="fvm.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開的社群</font>
+                </span>
+            </p>
         </li>
         <!-- <li style="text-align: center;width: 100%; float: left; background-color: rgb(245, 245, 245);" data-ng-show="!result.isMore"><a data-ng-show="!noMoreResult" data-ng-click="nextMyGroups()"><span style="color: cornflowerblue;font-size: smaller;">See More</span></a></li> -->
     </ul>
 </div>
-
-<!-- 
-<div class="bar-shadow-border" style="width: 100%;">
-	<div class="widget" style="width: 100%;float: left">
-		<div class="widget-head border-bottom bg-gray">
-			<h5 class="pull-left margin-none innerAll">
-				我的社群 
-			</h5>
-			<div class="pull-right">
-				<a href="/#/myGroups/myGroups" class="text-muted"> <label>查看全部</label>
-				</a>
-			</div>
-		</div>
-		<div class="widget-body margin-none">
-			<div class="innerAll">
-				<a data-ng-href="#/community/{{fvm.id}}" ng-repeat="fvm in result.fvm">
-					<div style="float: left;width: 100%" >
-						<img style="float: left;"
-							data-ng-src="/community-mini-image-by-id/{{fvm.id}}" alt="{{fvm.dn}}"
-							class="innerR innerB half" width="55" height="55">
-						<div style="width: 50%; float: left; margin-left: 2%;">
-							<p  style="color: #0083C5; margin-top: 0%; margin-bottom: 0%;">{{fvm.dn|characters:15:true}}</p>
-							<div style="width: 100%; float: left;">
-								<p style="margin-top: 0%; margin-bottom: 1%; margin-right: 5%; float: left; color: black;"></p>
-								<p style="margin-top: 0%; margin-bottom: 1%; color: #77737E;">({{fvm.mm}})位成員</p>
-							</div>
-						</div>
-					</div>
-				</a>
-				<button data-ng-show="!noMoreResult" data-ng-click="nextMyGroups()" >see more</button>
-			</div>
-		</div>
-	</div>
-</div> -->

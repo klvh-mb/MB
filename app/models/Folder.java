@@ -112,7 +112,7 @@ Serializable, Creatable, Updatable{
 		if (type == SocialObjectType.COVER_PHOTO) {
 		    Thumbnails
 					.of(source)
-					.width(565)
+					.width(580)
 					.keepAspectRatio(true)
 					.toFiles(
 							new java.io.File(resource.getPath())
@@ -121,7 +121,7 @@ Serializable, Creatable, Updatable{
 
 		    Thumbnails
                 .of(source)
-                .width(220)
+                .width(250)
                 .keepAspectRatio(true)
                 .toFiles(
                         new java.io.File(resource.getPath())
@@ -135,7 +135,8 @@ Serializable, Creatable, Updatable{
 					.toFile(new java.io.File(resource.getPath()).getParentFile()
 									+"/mini."+new java.io.File(resource.getPath()).getName());
 		}
-		if (type == SocialObjectType.POST_PHOTO) {
+		if (type == SocialObjectType.POST_PHOTO || 
+		        type == SocialObjectType.COMMENT_PHOTO) {
 			BufferedImage bimg = ImageIO.read(source);
 			int width  = bimg.getWidth();
 			int height = bimg.getHeight();
@@ -149,8 +150,7 @@ Serializable, Creatable, Updatable{
 						new java.io.File(resource.getPath())
 								.getParentFile(),
 						Rename.PREFIX_DOT_THUMBNAIL);
-			}
-			else {
+			} else {
 				Thumbnails
 				.of(source)
 				.height(230)
@@ -163,17 +163,6 @@ Serializable, Creatable, Updatable{
 			}
 		}
 		
-		if (type == SocialObjectType.COMMENT_PHOTO) {
-			Thumbnails
-			.of(source)
-			.height(70)
-			.width(70)
-			.keepAspectRatio(true)
-			.toFiles(
-					new java.io.File(resource.getPath())
-							.getParentFile(),
-					Rename.PREFIX_DOT_THUMBNAIL);
-		}
 		this.resources.add(resource);
 		merge();
 		//recordAddedPhoto(owner);
