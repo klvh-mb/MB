@@ -388,10 +388,10 @@ public class User extends SocialObject implements Subject, Socializable {
     @JsonIgnore
     public List<Community> getListOfNotJoinedCommunities() {
         
-         Query q = JPA.em().createNativeQuery("Select * from Community c where c.id in(Select sr2.target from SocialRelation sr2 where sr2.actor in  (select sr.target from SocialRelation sr where sr.action = ?2 or sr.actionType = ?3 and sr.actor = ?1 union select sr1.actor from SocialRelation sr1 where sr1.action = ?2 or sr1.actionType = ?3 and sr1.target = ?1 ) and sr2.action = ?4 and sr2.targetType = ?5 )",Community.class);
-         q.setParameter(1, this.id);
-         q.setParameter(2, SocialRelation.Action.FRIEND.name());
-         q.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED.name());
+        Query q = JPA.em().createNativeQuery("Select * from Community c where c.id in (Select sr2.target from SocialRelation sr2 where sr2.actor in (select sr.target from SocialRelation sr where (sr.action = ?2 or sr.actionType = ?3) and sr.actor = ?1 union select sr1.actor from SocialRelation sr1 where (sr1.action = ?2 or sr1.actionType = ?3) and sr1.target = ?1 ) and sr2.action = ?4 and sr2.targetType = ?5 )",Community.class);
+        q.setParameter(1, this.id);
+        q.setParameter(2, SocialRelation.Action.FRIEND.name());
+        q.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED.name());
         q.setParameter(4, SocialRelation.Action.MEMBER.name());
         q.setParameter(5, SocialObjectType.COMMUNITY.name());
         List<Community> communityList = (List<Community>)q.getResultList();

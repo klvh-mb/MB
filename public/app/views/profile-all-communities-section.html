@@ -1,3 +1,18 @@
+<!-- Top section -->
+<a id="membersSearchwrapper" class="pull-right" style="margin-right: 9%;">
+    <div class="basic-search-wrapper">
+        <div class="input-group innerB basic-search">
+            <input type="text" class="form-control" ng-model="query" placeholder="搜尋社群">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="button">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</a>
+<div style="padding:30px;"></div>
+
 <div class="padding5"></div>
 <div class="communityCard" ng-repeat="fvm in allResult.fvm | filter:query">
     <a href="/#/community/{{fvm.id}}/question" class="d-s ob">
@@ -11,7 +26,7 @@
             <a href="#/community/{{fvm.id}}/question"><b><font>{{fvm.dn}}</font></b></a><br>
             <span class="community-member-counter"><font>{{fvm.mm}}位成員</font></span>
             <span class="community-attribute">
-                <!-- font data-ng-show="fvm.tp=='OPEN'">   ·   公開的社群</font --><font data-ng-show="fvm.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開的社群</font>
+                <!-- font data-ng-show="fvm.tp=='OPEN'">   ·   公開</font --><font data-ng-show="fvm.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
             </span>
         </p>
         <a ng-show="!fvm.isM && !fvm.isP" data-ng-click="send_request(fvm.id)" style="position:relative;right:15px;margin-bottom:10px;" class="btn-general pull-right">

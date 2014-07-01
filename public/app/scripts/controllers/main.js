@@ -801,18 +801,21 @@ minibean.service('allCommunityWidgetService',function($resource){
 
 minibean.controller('CommunityWidgetController',function($scope,$routeParams, usSpinnerService, allCommunityWidgetService, sendJoinRequest , $http, userInfoService){
 	
-	$scope.mygroups = $routeParams.type == "myGroups" ? null : "active" ;
-	var tab = $routeParams.tab;
 	$scope.userInfo = userInfoService.UserInfo.get();
-	$scope.allResult = allCommunityWidgetService.UserAllCommunities.get();
-	if(tab == 'communities'){
-		$scope.selectedTab = 2;
-	}
 	
-	if(tab == 'myCommunities'){
-		$scope.selectedTab = 1;
-	}
-	
+	$scope.myAdminCommunities = [];
+    $scope.myJoinedCommunities = [];
+	$scope.myCommunities = allCommunityWidgetService.UserAllCommunities.get(
+        function(data) {
+            angular.forEach(data.fvm, function(community, key) {
+            if (community.isO)
+                $scope.myAdminCommunities.push(community);
+            else
+                $scope.myJoinedCommunities.push(community);
+            })
+        }
+	);
+
 	$scope.send_request = function(id) {
 		usSpinnerService.spin('loading...');
 		this.invite = sendJoinRequest.sendRequest.get({id:id},
