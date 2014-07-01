@@ -1284,7 +1284,7 @@ minibean.service('likeFrameworkService', function($resource) {
 });
 
 minibean.controller('PostLandingController', function($scope, $routeParams, $http, $timeout, $upload, $validator, 
-    postLandingService, communityPageService, allCommentsService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
+    postLandingService, communityPageService, allCommentsService, showImageService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
 
     $scope.$on('$viewContentLoaded', function() {
         usSpinnerService.spin('loading...');
@@ -1302,6 +1302,10 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     // Below is copied completely from CommunityPageController
     // for js functions to handle comment, comment photo, like, bookmark etc
     //
+    
+    $scope.showImage = function(imageId) {
+        $scope.img_id = imageId;
+    }
     
     $scope.isLoadingEnabled = false;
     $scope.show = false;
@@ -1612,7 +1616,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
 });
     
 minibean.controller('QnALandingController', function($scope, $routeParams, $http, $timeout, $upload, $validator, 
-    qnaLandingService, communityPageService, allAnswersService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
+    qnaLandingService, communityPageService, allAnswersService, showImageService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
 
     $scope.$on('$viewContentLoaded', function() {
         usSpinnerService.spin('loading...');
@@ -1632,6 +1636,10 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     // Below is copied completely from CreateQnACommunityController
     // for js functions to handle comment, comment photo, like, bookmark etc
     //
+    
+    $scope.showImage = function(imageId) {
+        $scope.img_id = imageId;
+    }
     
     $scope.postPhoto = function() {
         $("#QnA-photo-id").click();
