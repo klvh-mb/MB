@@ -14,7 +14,12 @@ import java.io.IOException;
 public class ImageFileUtil {
 
     public static void writeFileWithImage(File file, BufferedImage image) throws IOException {
-        String ext = (file.getName().endsWith("png")) ? "png" : "jpg";
+        String ext = "jpg";
+        if (file.getName().toLowerCase().endsWith("png")) {
+            ext = "png";
+        } else if (file.getName().toLowerCase().endsWith("gif")) {
+            ext = "gif";
+        }
         ImageIO.write(image, ext, file);
     }
 

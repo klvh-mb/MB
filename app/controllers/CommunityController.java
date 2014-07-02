@@ -116,8 +116,11 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getEditCommunityInfo(Long id) {
-        logger.underlyingLogger().debug("getEditCommunityInfo");
         final User localUser = Application.getLocalUser(session());
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.getId()+"] getEditCommunityInfo(c="+id+")");
+        }
+
         final Community community = Community.findById(id);
         if(community.owner.id == localUser.id) {
             return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
@@ -145,7 +148,10 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getThumbnailCoverCommunityImageById(Long id) {
-        logger.underlyingLogger().debug("getThumbnailCoverCommunityImageById");
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("getThumbnailCoverCommunityImageById(c="+id+")");
+        }
+
         final Community community = Community.findById(id);
         if(community.getPhotoProfile() != null) {
             return ok(new File(community.getPhotoProfile().getThumbnail()));
@@ -159,7 +165,10 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getFullCoverCommunityImageById(Long id)  {
-        logger.underlyingLogger().debug("getFullCoverCommunityImageById");
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("getFullCoverCommunityImageById(c="+id+")");
+        }
+
         final Community community = Community.findById(id);
         if(community.getPhotoProfile() != null) {
             return ok(community.getPhotoProfile().getRealFile());
@@ -187,10 +196,13 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getMyCommunities() {
-        logger.underlyingLogger().debug("getMyCommunities");
         final User localUser = Application.getLocalUser(session());
         List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
         List<Community> communities = localUser.getListOfJoinedCommunities();
+
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.getId()+"] getMyCommunities. count="+communities.size());
+        }
         for(Community community : communities) {
             communityList.add(new CommunitiesWidgetChildVM(community, localUser));
         }
@@ -374,7 +386,10 @@ public class CommunityController extends Controller{
             }
             FileUtils.copyFile(file, fileTo);
             newCommunity.setCoverPhoto(fileTo);
-            
+
+            // save community affinity for admin
+            UserCommunityAffinity.onJoinedCommunity(localUser.id, newCommunity.id);
+
             return ok(Json.toJson(newCommunity.id));
         } catch (SocialObjectNotJoinableException e) {
             logger.underlyingLogger().error("Error in createCommunity", e);

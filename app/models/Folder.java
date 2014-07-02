@@ -144,7 +144,7 @@ Serializable, Creatable, Updatable{
 			if(width >= height) {
 				Thumbnails
 				.of(source)
-				.width(230)
+				.width(255)
 				.keepAspectRatio(true)
 				.toFiles(
 						new java.io.File(resource.getPath())
@@ -153,7 +153,7 @@ Serializable, Creatable, Updatable{
 			} else {
 				Thumbnails
 				.of(source)
-				.height(230)
+				.height(255)
 				.keepAspectRatio(true)
 				.toFiles(
 						new java.io.File(resource.getPath())
