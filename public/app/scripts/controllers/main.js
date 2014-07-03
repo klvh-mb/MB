@@ -1758,66 +1758,66 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     };
     
     $scope.answer_to_question = function(question_post_id, answerText) {
-            var data = {
-                "post_id" : question_post_id,
-                "answerText" : answerText,
-                "withPhotos" : $scope.qnaCommentSelectedFiles.length != 0
-            };
-            
-            var post_data = data;
-            $http.post('/communityQnA/question/answer', data) 
-                .success(function(answer_id) {
-                    $('.commentBox').val('');
-                    angular.forEach($scope.QnA.posts, function(post, key){
-                        if(post.id == data.post_id) {
-                            post.n_c++;
-                            post.ut = new Date();
-                            var answer = {"oid" : $scope.QnA.lu, "d" : answerText, "on" : $scope.QnA.lun, 
-                                    "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
-                            post.cs.push(answer);
-                        
-                            if($scope.qnaCommentSelectedFiles.length == 0) {
-                                return;
-                            }
-                            
-                            $scope.qnaCommentSelectedFiles = [];
-                            $scope.qnaCommentDataUrls = [];
-                            
-                        
-                            // when post is done in BE then do photo upload
-                            console.log($scope.qnaTempCommentSelectedFiles.length);
-                            for(var i=0 ; i<$scope.qnaTempCommentSelectedFiles.length ; i++) {
-                                usSpinnerService.spin('loading...');
-                                $upload.upload({
-                                    url : '/uploadQnACommentPhoto',
-                                    method: $scope.httpMethod,
-                                    data : {
-                                        commentId : answer_id
-                                    },
-                                    file: $scope.qnaTempCommentSelectedFiles[i],
-                                    fileFormDataName: 'comment-photo'
-                                }).success(function(data, status, headers, config) {
-                                    $scope.qnaTempCommentSelectedFiles.length = 0;
-                                    if(post.id == post_data.post_id) {
-                                        angular.forEach(post.cs, function(cmt, key){
-                                            if(cmt.id == answer_id) {
-                                                cmt.hasImage = true;
-                                                if(cmt.imgs) {
-                                                    
-                                                } else {
-                                                    cmt.imgs = [];
-                                                }
-                                                cmt.imgs.push(data);
-                                            }
-                                        });
-                                    }
-                                });
+        var data = {
+            "post_id" : question_post_id,
+            "answerText" : answerText,
+            "withPhotos" : $scope.qnaCommentSelectedFiles.length != 0
+        };
+        
+        var post_data = data;
+        $http.post('/communityQnA/question/answer', data) 
+            .success(function(answer_id) {
+                $('.commentBox').val('');
+                angular.forEach($scope.QnA.posts, function(post, key){
+                    if(post.id == data.post_id) {
+                        post.n_c++;
+                        post.ut = new Date();
+                        var answer = {"oid" : $scope.QnA.lu, "d" : answerText, "on" : $scope.QnA.lun, 
+                                "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
+                        post.cs.push(answer);
+                    
+                        if($scope.qnaCommentSelectedFiles.length == 0) {
+                            return;
                         }
+                        
+                        $scope.qnaCommentSelectedFiles = [];
+                        $scope.qnaCommentDataUrls = [];
+                        
+                    
+                        // when post is done in BE then do photo upload
+                        console.log($scope.qnaTempCommentSelectedFiles.length);
+                        for(var i=0 ; i<$scope.qnaTempCommentSelectedFiles.length ; i++) {
+                            usSpinnerService.spin('loading...');
+                            $upload.upload({
+                                url : '/uploadQnACommentPhoto',
+                                method: $scope.httpMethod,
+                                data : {
+                                    commentId : answer_id
+                                },
+                                file: $scope.qnaTempCommentSelectedFiles[i],
+                                fileFormDataName: 'comment-photo'
+                            }).success(function(data, status, headers, config) {
+                                $scope.qnaTempCommentSelectedFiles.length = 0;
+                                if(post.id == post_data.post_id) {
+                                    angular.forEach(post.cs, function(cmt, key){
+                                        if(cmt.id == answer_id) {
+                                            cmt.hasImage = true;
+                                            if(cmt.imgs) {
+                                                
+                                            } else {
+                                                cmt.imgs = [];
+                                            }
+                                            cmt.imgs.push(data);
+                                        }
+                                    });
+                                }
+                            });
                     }
-                
-                    usSpinnerService.stop('loading...');
-                });
+                }
+            
+                usSpinnerService.stop('loading...');
             });
+        });
     }
     
     $scope.onQnAFileSelect = function($files) {
@@ -2376,7 +2376,7 @@ minibean.controller('CreateQnACommunityController',function($scope, bookmarkPost
 		
 	}
 	
-	$scope.commentPhoto = function(post_id) {
+	$scope.qnaCommentPhoto = function(post_id) {
 		$("#qna-comment-photo-id").click();
 		$scope.commentedOnPost = post_id ;
 	};
@@ -2473,65 +2473,65 @@ minibean.controller('CreateQnACommunityController',function($scope, bookmarkPost
 	};
 	
 	$scope.answer_to_question = function(question_post_id, answerText) {
-			var data = {
-				"post_id" : question_post_id,
-				"answerText" : answerText,
-				"withPhotos" : $scope.qnaCommentSelectedFiles.length != 0
-			};
-			
-			var post_data = data;
-			$http.post('/communityQnA/question/answer', data) 
-				.success(function(answer_id) {
-					$('.commentBox').val('');
-					angular.forEach($scope.QnA.posts, function(post, key){
-						if(post.id == data.post_id) {
-							post.n_c++;
-							post.ut = new Date();
-							var answer = {"oid" : $scope.QnA.lu, "d" : answerText, "on" : $scope.QnA.lun, 
-									"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
-                            post.cs.push(answer);
-						  
-							if($scope.qnaCommentSelectedFiles.length == 0) {
-								return;
-							}
-							
-							$scope.qnaCommentSelectedFiles = [];
-							$scope.qnaCommentDataUrls = [];
-						
-							// when post is done in BE then do photo upload
-							console.log($scope.qnaTempCommentSelectedFiles.length);
-							for(var i=0 ; i<$scope.qnaTempCommentSelectedFiles.length ; i++) {
-								usSpinnerService.spin('loading...');
-								$upload.upload({
-									url : '/uploadQnACommentPhoto',
-									method: $scope.httpMethod,
-									data : {
-										commentId : answer_id
-									},
-									file: $scope.qnaTempCommentSelectedFiles[i],
-									fileFormDataName: 'comment-photo'
-								}).success(function(data, status, headers, config) {
-									$scope.qnaTempCommentSelectedFiles.length = 0;
-									if(post.id == post_data.post_id) {
-										angular.forEach(post.cs, function(cmt, key){
-											if(cmt.id == answer_id) {
-												cmt.hasImage = true;
-												if(cmt.imgs) {
-													
-												} else {
-													cmt.imgs = [];
-												}
-												cmt.imgs.push(data);
-											}
-										});
-									}
-								});
+		var data = {
+			"post_id" : question_post_id,
+			"answerText" : answerText,
+			"withPhotos" : $scope.qnaCommentSelectedFiles.length != 0
+		};
+		
+		var post_data = data;
+		$http.post('/communityQnA/question/answer', data) 
+			.success(function(answer_id) {
+				$('.commentBox').val('');
+				angular.forEach($scope.QnA.posts, function(post, key){
+					if(post.id == data.post_id) {
+						post.n_c++;
+						post.ut = new Date();
+						var answer = {"oid" : $scope.QnA.lu, "d" : answerText, "on" : $scope.QnA.lun, 
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
+                        post.cs.push(answer);
+					  
+						if($scope.qnaCommentSelectedFiles.length == 0) {
+							return;
 						}
+						
+						$scope.qnaCommentSelectedFiles = [];
+						$scope.qnaCommentDataUrls = [];
+					
+						// when post is done in BE then do photo upload
+						console.log($scope.qnaTempCommentSelectedFiles.length);
+						for(var i=0 ; i<$scope.qnaTempCommentSelectedFiles.length ; i++) {
+							usSpinnerService.spin('loading...');
+							$upload.upload({
+								url : '/uploadQnACommentPhoto',
+								method: $scope.httpMethod,
+								data : {
+									commentId : answer_id
+								},
+								file: $scope.qnaTempCommentSelectedFiles[i],
+								fileFormDataName: 'comment-photo'
+							}).success(function(data, status, headers, config) {
+								$scope.qnaTempCommentSelectedFiles.length = 0;
+								if(post.id == post_data.post_id) {
+									angular.forEach(post.cs, function(cmt, key){
+										if(cmt.id == answer_id) {
+											cmt.hasImage = true;
+											if(cmt.imgs) {
+												
+											} else {
+												cmt.imgs = [];
+											}
+											cmt.imgs.push(data);
+										}
+									});
+								}
+							});
 					}
-				
-					usSpinnerService.stop('loading...');
-				});
+				}
+			
+				usSpinnerService.stop('loading...');
 			});
+		});
 	}
 	
 	$scope.onQnAFileSelect = function($files) {
@@ -3247,7 +3247,6 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 		$scope.img_id = imageId;
 	}
 	
-	
 	/***QnA Community ***/
 	
 	$scope.qnaCommentPhoto = function(post_id) {
@@ -3348,12 +3347,12 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 		});
 	};
 	
-	
 	$scope.remove_image_from_qna_comment = function(index) {
 		$scope.qnaCommentSelectedFiles.splice(index, 1);
 		$scope.qnaTempCommentSelectedFiles.splice(index, 1);
 		$scope.qnaCommentDataUrls.splice(index, 1);
 	};
+	
 	/**images **/
 	
 	$scope.commentPhoto = function(post_id) {
@@ -3475,7 +3474,6 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $tim
 		});
 	};
 	
-
 	$scope.qnaCommentPhoto = function(post_id) {
 		$("#qna-comment-photo-id").click();
 		$scope.commentedOnPost = post_id ;

@@ -7,9 +7,8 @@
         </li>
         <li>
             <form id="content-upload-wrapper" name="content-upload-wrapper" class="no-margin no-padding" method="post" action="" >
-            <textarea cols="45" rows="1" class="post-input-title general-input-box form-control" placeholder="問個問題吧⋯⋯" data-ng-model="questionTitle"></textarea>
-            <textarea cols="45" rows="2" name="content-upload-input" id="content-upload-input" class="post-input-body general-input-box form-control" placeholder="加些詳情" data-ng-model="questionText"></textarea>
-            
+                <textarea cols="45" rows="1" class="post-input-title general-input-box form-control" placeholder="問個問題吧⋯⋯" data-ng-model="questionTitle"></textarea>
+                <textarea cols="45" rows="2" name="content-upload-input" id="content-upload-input" class="post-input-body general-input-box form-control" placeholder="加些詳情" data-ng-model="questionText"></textarea>
 				<div style="background-color: white;" ng-show="QnASelectedFiles != null">
 					<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
 					ng-repeat="f in QnASelectedFiles" style="width: 100px;height: 100px;" ng-show="dataUrls[$index]" 

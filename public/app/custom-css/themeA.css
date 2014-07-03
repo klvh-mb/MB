@@ -5,6 +5,10 @@ body {
     background-image: url(../images/general/main_bg.jpg);
     background-attachment: fixed;
 }
+ul {
+    list-style: none;
+    padding: 0;
+}
 a {
   text-decoration: none;
   cursor: pointer;
@@ -41,7 +45,7 @@ pre {
     height: 45px !important;
 }
 .header-notif-bar {
-    margin-left: -2%;
+    /*margin-left: -2%;*/
 }
 .header-notif-bar .notif {
     width: 32px;
