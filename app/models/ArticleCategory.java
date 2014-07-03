@@ -86,7 +86,7 @@ public class ArticleCategory  {
 		return (ArticleCategory)q.getSingleResult();
 	}
 	
-	public static List<ArticleCategory> getFourCategories(int limit) {
+	public static List<ArticleCategory> getCategories(int limit) {
 		Query q = JPA.em().createQuery("Select a from ArticleCategory a");
 		q.setMaxResults(limit);
 		return (List<ArticleCategory>)q.getResultList();

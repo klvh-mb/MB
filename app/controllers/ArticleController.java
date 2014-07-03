@@ -32,7 +32,9 @@ import domain.DefaultValues;
 
 public class ArticleController extends Controller {
     private static play.api.Logger logger = play.api.Logger.apply(ArticleController.class);
-    
+
+    private static final int NUM_CATEGORIES_HP = 6;
+
 	@Transactional
 	public static Result addArticle() {
 		Form<Article> articleForm = DynamicForm.form(Article.class).bindFromRequest();
@@ -166,7 +168,7 @@ public class ArticleController extends Controller {
 		}
 		
 		List<ArticleCategoryVM> categoryVMs = new ArrayList<>();
-		List<ArticleCategory> categories = ArticleCategory.getFourCategories(4);
+		List<ArticleCategory> categories = ArticleCategory.getCategories(NUM_CATEGORIES_HP);
 		for(ArticleCategory ac : categories) {
 			ArticleCategoryVM vm = ArticleCategoryVM.articleCategoryVM(ac);
 			categoryVMs.add(vm);
@@ -200,7 +202,7 @@ public class ArticleController extends Controller {
 		}
 
 		List<ArticleCategoryVM> categoryVMs = new ArrayList<>();
-		List<ArticleCategory> categories = ArticleCategory.getFourCategories(4);
+		List<ArticleCategory> categories = ArticleCategory.getCategories(NUM_CATEGORIES_HP);
 		for(ArticleCategory ac : categories) {
 			ArticleCategoryVM vm = ArticleCategoryVM.articleCategoryVM(ac);
 			categoryVMs.add(vm);

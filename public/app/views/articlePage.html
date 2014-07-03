@@ -17,7 +17,12 @@
                         		<img class="scCatMiniThumbnail" data-ng-src="{{article.ct.pictureName}}" />
                         	</a>
                         	<div>
-                        	   <a class="scCatTitle" href="/#/article/show/0">所有文章</a> <span style="font-size:12px;">&gt;</span> <a class="scCatTitle" href="/#/article/show/{{article.ct.id}}">{{article.ct.name}}</a><h6><font>Posted on </font><font type="date"><font>{{article.pd | date:'yyyy'}}</font><font>{{article.pd | date:'MMM'  }}</font><font>{{article.pd | date:'dd hh:mm a'}}</font></font></h6>
+                                <a class="scCatTitle" href="/#/article/show/0">所有文章</a> <span style="font-size:12px;">&gt;</span> <a class="scCatTitle" href="/#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
+                                <h6>
+                                    <font><font>{{article.pd | date:'yyyy'}}</font></font>
+                                    <font><font>{{article.pd | date:'MMM'}}</font></font>
+                                    <font><font>{{article.pd | date:'dd hh:mm a'}}</font></font>
+                                </h6>
                         	</div>
                         	
                         </li>

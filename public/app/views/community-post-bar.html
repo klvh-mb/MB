@@ -10,13 +10,13 @@
             <textarea cols="45" rows="2" name="content-upload-input" id="content-upload-input" class="post-input-body inputBoxFocus form-control" placeholder="分享些東西吧⋯⋯" data-ng-model="postText"></textarea>
 				<div style="background-color: white;" ng-show="selectedFiles != null">
 					<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
-						ng-repeat="f in selectedFiles" tooltip-placement="bottom" tooltip="移除相片" style="width: 100px;height: 100px;" data-ng-click="remove_image($index)"
+						ng-repeat="f in selectedFiles" tooltip-placement="bottom" tooltip="移除相片" style="max-width: 160px; max-height: 120px; padding-right: 3px;" data-ng-click="remove_image($index)"
 						ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
 				</div>
 				<div>
 				<i data-ng-show="selectedFiles.length < 3" data-ng-click="postPhoto()"></i>
-					<button  data-ng-show="postText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.id, postText); postText='';">Post</button>
-					<input style="visibility:hidden;height:0px;" id="post-photo-id" type="file"  name="post-photo" ng-file-select="onFileSelect($files)"/>
+					<button  data-ng-show="postText.length > 2" type="button" class="btn btn-warning btn-xs" data-ng-click="post_on_community(community.id, postText); postText='';">分享</button>
+					<input style="visibility:hidden;height:0px;" id="post-photo-id" type="file" name="post-photo" ng-file-select="onFileSelect($files)"/>
 				</div>
             </form>
         </li>

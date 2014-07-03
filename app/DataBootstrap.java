@@ -100,14 +100,22 @@ public class DataBootstrap {
         if (count > 0) {
             return;
         }
-        
-        ArticleCategory category = new ArticleCategory("親子資訊", "親子資訊", "/assets/app/images/article/cat_1.jpg");
+
+        final String[] cats = new String[] {
+                "孕婦須知", "育兒通識", "親子活動", "教育與學校", "秀身扮靚", "有趣分享"
+        };
+
+        ArticleCategory category = new ArticleCategory(cats[0], cats[0], "/assets/app/images/article/cat_1.jpg");
         category.save();
-        category = new ArticleCategory("家長必讀", "家長必讀", "/assets/app/images/article/cat_2.jpg");
+        category = new ArticleCategory(cats[1], cats[1], "/assets/app/images/article/cat_2.jpg");
         category.save();
-        category = new ArticleCategory("教養專題", "教養專題", "/assets/app/images/article/cat_3.jpg");
+        category = new ArticleCategory(cats[2], cats[2], "/assets/app/images/article/cat_3.jpg");
         category.save();
-        category = new ArticleCategory("分享專區", "分享專區", "/assets/app/images/article/cat_4.jpg");
+        category = new ArticleCategory(cats[3], cats[3], "/assets/app/images/article/cat_4.jpg");
+        category.save();
+        category = new ArticleCategory(cats[4], cats[4], "/assets/app/images/article/cat_5.jpg");
+        category.save();
+        category = new ArticleCategory(cats[5], cats[5], "/assets/app/images/article/cat_6.jpg");
         category.save();
     }
     
