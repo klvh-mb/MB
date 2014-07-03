@@ -361,7 +361,7 @@ public class CommunityController extends Controller{
         final User localUser = Application.getLocalUser(session());
         Form<Community> form =
                 DynamicForm.form(Community.class).bindFromRequest(
-                        "name","description","iconName","communityType");
+                        "name","description","icon","communityType");
         Community community = form.get();
         if (community.communityType == null) {
             community.communityType = CommunityType.OPEN;
@@ -380,7 +380,7 @@ public class CommunityController extends Controller{
         
         try {
             Community newCommunity = localUser.createCommunity(
-                    community.name, community.description,community.communityType, community.iconName);
+                    community.name, community.description,community.communityType, community.icon);
             if (newCommunity == null) {
                 return status(505, "Valid param missing");
             }
@@ -427,7 +427,7 @@ public class CommunityController extends Controller{
             e.printStackTrace();
         }
         
-        community.iconName = dataToUpdate.get("iconName");
+        community.icon = dataToUpdate.get("icon");
         community.merge();
         return ok("true");
     }

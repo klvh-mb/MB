@@ -634,7 +634,7 @@ span.notif-count {
     background-color: #f5f5ff;
 }
 #postCommentsSection {
-    background-color: #FFFEF4
+    background-color: #FFFEF4;
 }
 .basic-search-wrapper {
     padding: 10px 0 10px 0;
@@ -716,7 +716,8 @@ span.notif-count {
 }
 .icon-dropdown { 
     list-style: none outside none; 
-    width: 250px; 
+    width: 250px;
+    left: 5px; 
 }
 .icon-dropdown li { 
     float: left;

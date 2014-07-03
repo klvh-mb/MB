@@ -33,7 +33,7 @@
 </div>
 <div ng-show="selectedTab1 == 2" infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='0' >
 	<div data-ng-repeat="post in posts.post">
-		<div id="wall-forum" data-ng-show="post.type=='SIMPLE'">
+		<div id="wall-main" data-ng-show="post.type=='SIMPLE'">
 		      <div class="general-box">
 		          <div data-ng-include data-src="'/assets/app/views/post-bar.html'"></div>
 		      </div>

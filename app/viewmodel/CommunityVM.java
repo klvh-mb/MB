@@ -21,7 +21,7 @@ public class CommunityVM {
 	@JsonProperty("d") public String description;
 	@JsonProperty("nom") public int noOfMembers;
 	@JsonProperty("typ") public CommunityType communityType;
-	@JsonProperty("icon") public String iconName;
+	@JsonProperty("icon") public String icon;
 	@JsonProperty("dte") public Date createDate;
 	@JsonProperty("td") public String tagetDistrict;
 	@JsonProperty("id") public long id;
@@ -38,7 +38,7 @@ public class CommunityVM {
 		vm.name = c.name;
 		vm.description = c.description;
 		vm.communityType = c.communityType;
-		vm.iconName = c.iconName;
+		vm.icon = c.icon;
 		vm.tagetDistrict = c.tagetDistrict;
 		vm.createDate = c.createDate;
 		vm.id = c.id;
@@ -72,7 +72,7 @@ public class CommunityVM {
         vm.name = c.name;
         vm.description = c.description;
         vm.communityType = c.communityType;
-        vm.iconName = c.iconName;
+        vm.icon = c.icon;
         vm.tagetDistrict = c.tagetDistrict;
         vm.createDate = c.createDate;
         vm.id = c.id;

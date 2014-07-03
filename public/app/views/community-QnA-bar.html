@@ -13,7 +13,7 @@
 				<div style="background-color: white;" ng-show="QnASelectedFiles != null">
 					<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
 					ng-repeat="f in QnASelectedFiles" style="width: 100px;height: 100px;" ng-show="dataUrls[$index]" 
-					ng-src="{{dataUrls[$index]}}" tooltip-placement="bottom" tooltip="Remove this photo" data-ng-click="remove_image($index)">
+					ng-src="{{dataUrls[$index]}}" tooltip-placement="bottom" tooltip="移除相片" data-ng-click="remove_image($index)">
 				</div>
 				<div>
 				<i data-ng-show="QnASelectedFiles.length < 1" data-ng-click="postPhoto()"></i>
@@ -27,7 +27,7 @@
 
 <div infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='0'>	
 	<div data-ng-repeat="post in QnA.posts">
-		<div id="wall-forum">
+		<div id="wall-main">
             <div class="general-box">
 		        <ul>
 		              <li><a data-ng-href="/#/profile/{{post.oid}}" ><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}" /></a><p class="wall-user-actState" style="white-space: inherit;position: relative;"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/question" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-ask"></span><span class="ques-tag pull-right">?</span>
@@ -102,7 +102,7 @@
                                 <span ng-if="commentedOnPost == post.id">
 	                            	<div style="background-color: white;" ng-show="qnaCommentSelectedFiles != null">
 										<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
-											ng-repeat="f in qnaCommentSelectedFiles" tooltip-placement="bottom" tooltip="Remove this photo" style="width: 100px;height: 100px;float:left !important;" data-ng-click="remove_image_from_qna_comment($index)"
+											ng-repeat="f in qnaCommentSelectedFiles" tooltip-placement="bottom" tooltip="移除相片" style="width: 100px;height: 100px;float:left !important;" data-ng-click="remove_image_from_qna_comment($index)"
 											ng-show="qnaCommentDataUrls[$index]" ng-src="{{qnaCommentDataUrls[$index]}}">
 									</div>
                             	</span>

@@ -16,18 +16,20 @@ public class CommunityPostVM {
 	@JsonProperty("oid") public Long ownerId;
 	@JsonProperty("p") public String postedBy;
 	@JsonProperty("t") public long postedOn;
+	@JsonProperty("ut") public long updatedOn;
 	@JsonProperty("ptl") public String postedTitle;
 	@JsonProperty("pt") public String postedText;
 	@JsonProperty("hasImage") public boolean hasImage;
 	@JsonProperty("n_c") public int noOfComments;
 	@JsonProperty("cs") public List<CommunityPostCommentVM> comments;
 	@JsonProperty("imgs") public Long[] images;
-	@JsonProperty("ts") public Long timestamp;
 	@JsonProperty("type") public String postType;
 	@JsonProperty("cn") public String communityName;
+	@JsonProperty("ci") public String communityIcon;
 	@JsonProperty("cid") public Long communityId;
 	@JsonProperty("nov") public int noOfViews;
 	@JsonProperty("nol") public int noOfLikes;
+	@JsonProperty("ep") public boolean expanded;
 	
 	@JsonProperty("isC") public boolean isCommentable=false;
 	@JsonProperty("isLike") public boolean isLike=false;
@@ -39,17 +41,19 @@ public class CommunityPostVM {
 		postVM.ownerId = post.owner.id;
 		postVM.postedBy = post.owner.name;
 		postVM.postedOn = post.getCreatedDate().getTime();
+		postVM.updatedOn = post.getSocialUpdatedDate().getTime();
 		postVM.postedTitle = post.title;
 		postVM.postedText = post.body;
 		postVM.noOfComments = post.comments.size();
-		postVM.timestamp = post.getCreatedDate().getTime()/1000;
 		postVM.postType = post.postType.name();
 		postVM.communityName = post.community.name;
+		postVM.communityIcon = post.community.icon;
 		postVM.communityId = post.community.id;
 		//need to write logic for showing no of views
 		postVM.noOfViews = 0;
 		Community c = Community.findById(post.community.id);
 		postVM.noOfLikes = post.noOfLikes;
+		postVM.expanded = false;
 		postVM.isBookmarked = post.isBookmarkedBy(user);
 		postVM.isCommentable = user.isMemberOf(c);
 		//need to write logic
@@ -84,18 +88,19 @@ public class CommunityPostVM {
 		postVM.ownerId = post.owner.id;
 		postVM.postedBy = post.owner.name;
 		postVM.postedOn = post.getCreatedDate().getTime();
+		postVM.updatedOn = post.getSocialUpdatedDate().getTime();
 		postVM.postedTitle = post.title;
 		postVM.postedText = post.body;
 		postVM.noOfComments = post.comments.size();
-		postVM.timestamp = post.getCreatedDate().getTime()/1000;
 		postVM.postType = post.postType.name();
 		postVM.communityName = post.community.name;
+		postVM.communityIcon = post.community.icon;
 		postVM.communityId = post.community.id;
 		//need to write logic for showing no of views
 		postVM.noOfViews = 0;
-		
 		Community c = Community.findById(post.community.id);
 		postVM.noOfLikes = post.noOfLikes;
+		postVM.expanded = false;
 		postVM.isBookmarked = post.isBookmarkedBy(localUser);
 		postVM.isCommentable = localUser.isMemberOf(c);
 		//need to write logic

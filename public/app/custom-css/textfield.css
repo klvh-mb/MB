@@ -29,32 +29,6 @@
     box-shadow: none;
     border: none;
 }
-#userCommentwrapper .general-textfield {
-    border: thin solid #bcbcbc;
-    font-size: 13px;
-    font-weight: normal;
-}
-#userCommentwrapper .general-textfield:focus {
-    border: thin solid #a37cde;
-}
-#userCommentfield {
-    width: 85%;
-    background-color: white;
-    border-radius: 3px;
-    padding: 7px;
-}
-#submit-userComment {
-    float: right;
-    border-radius: 5px;
-    background-color: white;
-    background-image: url(../images/general/icons/search.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    border: none;
-    width: 20px;
-    height: 20px;
-    text-indent: -999px;
-}
 #contentSearchwrapper {
     width: 50%;
     position: relative;

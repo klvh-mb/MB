@@ -590,14 +590,14 @@ public class User extends SocialObject implements Subject, Socializable {
     }
     
     @Transactional
-    public Community createCommunity(String name, String description, CommunityType type, String iconName) 
+    public Community createCommunity(String name, String description, CommunityType type, String icon) 
             throws SocialObjectNotJoinableException {
         if (Strings.isNullOrEmpty(name) || Strings.isNullOrEmpty(description) || 
-                Strings.isNullOrEmpty(iconName) || type == null) {
+                Strings.isNullOrEmpty(icon) || type == null) {
             return null;
         }
         Community community = new Community(name, description, this, type);
-        community.iconName = iconName;
+        community.icon = icon;
         community.save();
         community.ownerAsMember(this);
         return community;

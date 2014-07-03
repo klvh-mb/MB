@@ -1,7 +1,7 @@
 <div class="modal fade lightbox" id="createCommunityModal" data-backdrop="false">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form ng-controller = "CreateCommunityController" name="formData" novalidate ng-submit="submit()"  method="post" enctype="multipart/form-data" >				              
+      <form ng-controller="CreateCommunityController" name="formData" novalidate ng-submit="submit()"  method="post" enctype="multipart/form-data" >				              
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="myModalLabel"><i class="fa fa-fw fa-group"></i> 建立社群</h4>
@@ -71,7 +71,7 @@
 									<!--li class="media" data-ng-repeat="icon in IconsToSelects" style="margin-top: 10px; margin-bottom: 10px;">
 								        <a href="" data-ng-click="select_icon(icon.url, icon.name)">
 								        	<img class="pull-left media-object" data-ng-src="{{icon.url}}" alt="50x50" width="25" >
-								        	<input type="hidden" data-ng-model="formData.iconName" required>
+								        	<input type="hidden" data-ng-model="formData.icon" required>
 											<div class="media-body">
 								            	<p class="margin-none pull-right">{{icon.name}}</p>
 								        	</div>							        	
@@ -80,7 +80,7 @@
                                     <li data-ng-repeat="icon in IconsToSelects">
                                         <a style="padding:0px;" href="" data-ng-click="select_icon(icon.url, icon.name)">
                                             <img style="width:25px;" data-ng-src="{{icon.url}}"/>
-                                            <input type="hidden" data-ng-model="formData.iconName" required>
+                                            <input type="hidden" data-ng-model="formData.icon" required>
                                         </a>
                                     </li>
 						        </ul>

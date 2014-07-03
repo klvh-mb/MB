@@ -535,7 +535,7 @@ minibean.controller('GroupController',function($scope,$q, $location,$routeParams
 		$scope.icon_chosen = img;
 		$scope.icon_text = text;
 		$scope.isChosen = true;
-		$scope.community.iconName = img;
+		$scope.community.icon = img;
 	}
 	
 	$scope.updateGroupProfileData = function(data) {
@@ -600,7 +600,7 @@ minibean.controller('CreateCommunityController',function($scope, $location, $htt
 		$scope.icon_chosen = img;
 		$scope.icon_text = text;
 		$scope.isChosen = true;
-		$scope.formData.iconName = img;
+		$scope.formData.icon = img;
 	}
 	$scope.showImage = function(imageId) {
 		$scope.img_id = imageId;
@@ -992,10 +992,9 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 				
 				$scope.commentText = "";
 				angular.forEach($scope.community.searchPosts, function(post, key){
-					alert("GOT IT searchPosts");
 					if(post.id == data.post_id) {
-						alert("GOT IT comment");
 						post.n_c++;
+						post.ut = new Date();
 						var comment = {"oid" : $scope.userInfo.id, "commentText" : commentText, "on" : $scope.userInfo.displayName,
 								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
 						post.cs.push(comment);
@@ -1302,6 +1301,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
         angular.forEach($scope.community.posts, function(post, key){
             if(post.id == id) {
                 post.cs = allCommentsService.comments.get({id:id});
+                post.ep = true;
             }
         });
     }
@@ -1347,6 +1347,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                 angular.forEach($scope.community.posts, function(post, key){
                         if(post.id == data.post_id) {
                             post.n_c++;
+                            post.ut = new Date();
                             var comment = {"oid" : $scope.community.lu, "d" : commentText, "on" : $scope.community.lun,
                                     "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
                             post.cs.push(comment);
@@ -1357,7 +1358,6 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                             
                             $scope.commentSelectedFiles = [];
                             $scope.commentDataUrls = [];
-                            
                             
                             // when post is done in BE then do photo upload
                             console.log($scope.commentTempSelectedFiles.length);
@@ -1631,6 +1631,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
         angular.forEach($scope.QnA.posts, function(post, key){
             if(post.id == id) {
                 post.cs = allAnswersService.answers.get({id:id});
+                post.ep = true;
             }
         });
     }
@@ -1757,9 +1758,10 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                     angular.forEach($scope.QnA.posts, function(post, key){
                         if(post.id == data.post_id) {
                             post.n_c++;
+                            post.ut = new Date();
                             var answer = {"oid" : $scope.QnA.lu, "d" : answerText, "on" : $scope.QnA.lun, 
                                     "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
-                        post.cs.push(answer);
+                            post.cs.push(answer);
                         
                             if($scope.qnaCommentSelectedFiles.length == 0) {
                                 return;
@@ -1962,10 +1964,10 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	$scope.dataUrls = [];
 	
 	$scope.get_all_comments = function(id) {
-	
 		angular.forEach($scope.community.posts, function(post, key){
 			if(post.id == id) {
 				post.cs = allCommentsService.comments.get({id:id});
+				post.ep = true;
 			}
 		});
 	}
@@ -2035,6 +2037,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 				angular.forEach($scope.community.posts, function(post, key){
 						if(post.id == data.post_id) {
 							post.n_c++;
+							post.ut = new Date();
 							var comment = {"oid" : $scope.community.lu, "d" : commentText, "on" : $scope.community.lun,
 									"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
 							post.cs.push(comment);
@@ -2045,7 +2048,6 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 							
 							$scope.commentSelectedFiles = [];
 							$scope.commentDataUrls = [];
-							
 							
 							// when post is done in BE then do photo upload
 							console.log($scope.commentTempSelectedFiles.length);
@@ -2328,6 +2330,7 @@ minibean.controller('CreateQnACommunityController',function($scope, bookmarkPost
 		angular.forEach($scope.QnA.posts, function(post, key){
 			if(post.id == id) {
 				post.cs = allAnswersService.answers.get({id:id});
+				post.ep = true;
 			}
 		});
 	}
@@ -2470,17 +2473,17 @@ minibean.controller('CreateQnACommunityController',function($scope, bookmarkPost
 					angular.forEach($scope.QnA.posts, function(post, key){
 						if(post.id == data.post_id) {
 							post.n_c++;
+							post.ut = new Date();
 							var answer = {"oid" : $scope.QnA.lu, "d" : answerText, "on" : $scope.QnA.lun, 
 									"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
-						post.cs.push(answer);
-						
+                            post.cs.push(answer);
+						  
 							if($scope.qnaCommentSelectedFiles.length == 0) {
 								return;
 							}
 							
 							$scope.qnaCommentSelectedFiles = [];
 							$scope.qnaCommentDataUrls = [];
-							
 						
 							// when post is done in BE then do photo upload
 							console.log($scope.qnaTempCommentSelectedFiles.length);
@@ -2997,9 +3000,9 @@ minibean.controller('EditArticleController',function($scope,$routeParams,$locati
 		});
 	}
 	
-	$scope.get_all_comments = function(id) {
-			$scope.article.cs = articleCommentsService.comments.get({id:id});
-	}
+    $scope.get_all_comments = function(id) {
+        $scope.article.cs = articleCommentsService.comments.get({id:id});
+    }
 	
 	$scope.comment_on_article = function(id, commentText) {
 		var data = {
@@ -3074,6 +3077,7 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 				angular.forEach($scope.newsFeeds.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
+						post.ut = new Date();
 						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName,
 								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
 						post.cs.push(comment);
@@ -3084,7 +3088,6 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 						
 						$scope.commentSelectedFiles = [];
 						$scope.commentDataUrls = [];
-						
 						
 						// when post is done in BE then do photo upload
 						console.log($scope.commentTempSelectedFiles.length);
@@ -3195,19 +3198,16 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 	}
 	
 	$scope.get_all_comments = function(id) {
-		
 		angular.forEach($scope.newsFeeds.posts, function(post, key){
 			if(post.id == id) {
 				post.cs = allCommentsService.comments.get({id:id});
+				post.ep = true;
 			}
 		});
 	}
-	
-	
 
 	var noMore = false;
 	var offset = 0;
-
 	
 	$scope.nextNewsFeeds = function() {
 		if ($scope.isBusy) return;
@@ -3287,17 +3287,17 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 					
 					if(post.id == data.post_id) {
 						post.n_c++;
+						post.ut = new Date();
 						var answer = {"oid" : $scope.userInfo.id, "d" : answerText, "on" : $scope.userInfo.displayName, 
 								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
 						post.cs.push(answer);
-					
+                        
 						if($scope.qnaCommentSelectedFiles.length == 0) {
 							return;
 						}
 						
 						$scope.qnaCommentSelectedFiles = [];
 						$scope.qnaCommentDataUrls = [];
-						
 					
 						// when post is done in BE then do photo upload
 						console.log($scope.qnaTempCommentSelectedFiles.length);
@@ -3415,11 +3415,10 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $tim
 				angular.forEach($scope.newsFeeds.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
-						console.log($scope.userInfo.displayName);
+						post.ut = new Date();
 						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName,
 								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
 						post.cs.push(comment);
-						console.log(comment);
 						
 						if($scope.commentSelectedFiles.length == 0) {
 							return;
@@ -3427,7 +3426,6 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $tim
 						
 						$scope.commentSelectedFiles = [];
 						$scope.commentDataUrls = [];
-						
 						
 						// when post is done in BE then do photo upload
 						console.log($scope.commentTempSelectedFiles.length);
@@ -3513,17 +3511,17 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $tim
 				angular.forEach($scope.newsFeeds.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
+						post.ut = new Date();
 						var answer = {"oid" : $scope.userInfo.id, "d" : answerText, "on" : $scope.userInfo.displayName, 
 								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
-					post.cs.push(answer);
-					
+                        post.cs.push(answer);
+                        
 						if($scope.qnaCommentSelectedFiles.length == 0) {
 							return;
 						}
 						
 						$scope.qnaCommentSelectedFiles = [];
 						$scope.qnaCommentDataUrls = [];
-						
 					
 						// when post is done in BE then do photo upload
 						console.log($scope.qnaTempCommentSelectedFiles.length);
@@ -3608,10 +3606,10 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $tim
 	}
 	
 	$scope.get_all_comments = function(id) {
-		
 		angular.forEach($scope.newsFeeds.posts, function(post, key){
 			if(post.id == id) {
 				post.cs = allCommentsService.comments.get({id:id});
+				post.ep = true;
 			}
 		});
 	}
@@ -3764,6 +3762,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 				angular.forEach($scope.posts.post, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
+						post.ut = new Date();
 						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName,
 								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
 						post.cs.push(comment);
@@ -3849,15 +3848,13 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 	}
 	
 	$scope.get_all_comments = function(id) {
-		
 		angular.forEach($scope.posts.post, function(post, key){
 			if(post.id == id) {
 				post.cs = allCommentsService.comments.get({id:id});
+				post.ep = true;
 			}
 		});
 	}
-	
-	
 
 	var offset = 0;
 	var noMore = false;

@@ -8,7 +8,7 @@
 </div-->
 
 <div infinite-scroll='nextNewsFeeds()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='0' >
-    <div id="wall-forum">
+    <div id="wall-main">
     	<div data-ng-repeat="post in newsFeeds.posts">
             <div class="general-box" data-ng-show="post.type=='SIMPLE'">
                 <div data-ng-include data-src="'/assets/app/views/post-bar.html'"></div>

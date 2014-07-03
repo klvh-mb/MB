@@ -15,14 +15,11 @@
                         </div>
                         <p id="profile-user-name">{{profile.dn}}</p>
                         <div id="menu-title">
-                        	<a ng-click="selectedTab = 1;">
-							<font ng-class="{activeTabBold: selectedTab == 1}">最新發佈</font> </a>
+                        	<a ng-click="selectedTab = 1;" ng-class="{activeTabBold: selectedTab == 1}">最新發佈</a>
 							<div class="divider-cus"></div>
-							<a	ng-click="selectedTab = 2;">
-							<font ng-class="{activeTabBold: selectedTab == 2}">社群</font> </a>
+							<a ng-click="selectedTab = 2;" ng-class="{activeTabBold: selectedTab == 2}">社群</a>
 							<div class="divider-cus"></div>
-							<a ng-click="selectedTab = 3;">
-							<font ng-class="{activeTabBold: selectedTab == 3}">朋友</font></a>
+							<a ng-click="selectedTab = 3;" ng-class="{activeTabBold: selectedTab == 3}">朋友</a>
                         </div>
                     </li>
                 </ul>

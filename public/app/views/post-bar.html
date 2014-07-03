@@ -1,79 +1,94 @@
-<div>
-<ul>
-    <li>
-    	<a data-ng-href="/#/profile/{{post.oid}}" ><img class="wall-userpic" data-ng-src="/get-mini-image-by-id/{{post.oid}}"/></a><p class="wall-user-actState"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span><span class="sharing-tag pull-right">åˆ†äº«</span></p>
-        <span class="wall-user-actState-date" am-time-ago="post.t"></span>
-        <a data-ng-show="!post.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkPost(post.id)"></a>
-	     <a data-ng-show="post.isBookmarked" class="btn-like post-favorited" href="" data-ng-click="unBookmarkPost(post.id)"></a>
-    </li>
-    <li>
-    	<span style="white-space: pre-wrap;" ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></span>
-    </li>
-    <li>
-    	<div data-ng-show="post.hasImage" class="wall-user-post-image">
-			<a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
-				<img data-ng-src="/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
-			</a>
- 		</div>
-    </li>
-    <li>
-        <span class="btn-like-wrapper">
-            <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)"><img data-ng-src="/assets/app/images/general/icons/like_1.gif"/>Like</a> 
-            <a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>Unlike</a>
-            <span ng-show="post.nol > 0"> · {{post.nol}}</span>
-            <span ng-show="post.isLike"> · 你對這讚好</span>
-        </span>
-    </li>
-</ul>
-
-<ul id="postCommentsSection" class="wall-user-post-respond" style="padding:0px; margin:0px;">
-	<li ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><a href="">View all</a></li>
-	<ul>
-    	<li data-ng-repeat="comment in post.cs">
-	        <a href="/#/profile/{{comment.oid}}">
-	            <img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{comment.oid}}"/>
-	        </a>
-	        <div>
-	            <p class="user-comment">
-	                <a class="commentUsername" href="/#/profile/{{comment.oid}}">{{comment.on}}</a>
-	                <span class="wall-user-actState-date" am-time-ago="comment.cd"></span>
-	            </p>
-	            <span class="commentText">{{comment.d}}</span>
-	            
-	            <div class="wall-user-post-image">
-					<a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in comment.imgs" href="">
-						<img width="90" data-ng-src="/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
-					</a>
-			   </div>
-			   
-	            <span style="width: 100%;float: left;" class="btn-like-wrapper">
-	                <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/general/icons/like_1.gif"/>Like</a> 
-	                <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>Unlike</a>
-	                <span ng-show="comment.nol > 0"> · {{comment.nol}}</span>
-	                <span ng-show="comment.isLike"> · 你對這讚好</span>
-	            </span>
-	        </div>
-    	</li>
-    	<li ng-show="post.isC == true">
-	        <img class="wall-userpic" data-ng-src="/get-comment-mini-image-by-id/{{userInfo.id}}"/>
-	        <form id="userCommentwrapper" name="userComment">
-	            <label for="User Comment"></label>
-	            <textarea name="userCommentfield" id="userCommentfield" class="general-textfield" style="width: 82%;" placeholder="Write a comment..." cols="80" rows="1" data-ng-model="commentText"></textarea>
-	            <a data-ng-hide="commentSelectedFiles.length > 2 && commentedOnPost == post.id" id="upload" class="col-sm-1" style="float: right;"><i class="fa fa-2x icon-photo-camera-fill" data-ng-click="commentPhoto(post.id)" style="float: right;"></i></a>
-                <input style="visibility:hidden;height:0px;" id="comment-photo-id" type="file"  name="comment-photo" ng-file-select="onCommentFileSelect($files)"/>
-                
-                <span ng-if="commentedOnPost == post.id">
-                    <div style="background-color: white;" ng-show="commentSelectedFiles != null">
-						<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
-							ng-repeat="f in commentSelectedFiles" tooltip-placement="bottom" tooltip="Remove this photo" style="width: 25%;height: 100px;" data-ng-click="remove_image_from_comment($index)"
-							ng-show="commentDataUrls[$index]" ng-src="{{commentDataUrls[$index]}}">
-					</div>
+<div class="post-card">
+    <ul title="sharing">
+        <li class="post-intro post-sharing-line">
+            <span class="post-intro-share">分享於 </span>
+            <a data-ng-href="/#/community/{{post.cid}}/moment"><img src="{{post.ci}}">{{post.cn}}</a>
+            <span class="post-sharing-tag pull-left" style="margin-right:5px;">♥</span>
+        </li>
+    </ul>
+    <!-- Post Intro Ends -->
+    <ul>
+        <li class="post-sharing-body-top">
+            <a data-ng-href="/#/profile/{{post.oid}}">
+                <img class="post-title-user-image" data-ng-src="/get-mini-image-by-id/{{post.oid}}"/>
+            </a>
+            <div class="post-title-user-name">
+                <a data-ng-href="/#/profile/{{post.oid}}">{{post.p}}</a>
+                <a data-ng-show="!post.isBookmarked" class="post-favorite" href="" data-ng-click="bookmarkPost(post.id)"></a>
+                <a data-ng-show="post.isBookmarked" class="post-favorited" href="" data-ng-click="unBookmarkPost(post.id)"></a>
+            </div>
+            <span class="post-date" am-time-ago="post.t"></span>
+        </li>
+        <li class="post-sharing-body">
+            <div class="post-sharing-body-text" ng-bind-html="post.pt | highlight: highlightText"></div>
+            <div data-ng-show="post.hasImage" class="post-body-image">
+                <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
+                    <img data-ng-src="/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                </a>
+            </div>
+            <div class="btn-like-wrapper">
+                <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)">讚好</a> 
+                <a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)">取消讚好 <img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/></a>
+                <span ng-show="post.nol > 0">{{post.nol}}</span>
+                <span ng-show="post.isLike"> · 你對這讚好</span>
+            </div>
+        </li>
+    </ul>
+    <!-- Post Body Ends -->
+    <ul class="post-sharing-comments">
+        <li ng-show="post.n_c > 3 && !post.ep">
+            <span class="post-qna-answer-count">共{{post.n_c}}則留言</span>
+            <a class="pull-right" href="" data-ng-click="get_all_comments(post.id)">查看所有留言</a>
+        </li>
+        <li data-ng-repeat="comment in post.cs">
+            <a data-ng-href="/#/profile/{{comment.oid}}">
+                <img class="post-sharing-comment-user-image" data-ng-src="/get-comment-mini-image-by-id/{{comment.oid}}"/>
+            </a>
+            <span class="post-sharing-comment-body">
+                <span class="post-title-user-name post-sharing-comment-font">
+                    <a data-ng-href="/#/profile/{{comment.oid}}">{{comment.on}}</a>
                 </span>
-                
-	            <!-- <input id="submit-userComment" name="submit" type="button" data-ng-click="comment_on_post(post.id, commentText)"/> -->
-				<span data-ng-show="commentText.length>1" style="margin-top: 1.5%;" class="pull-right"><i class="icon-reply-all-fill fa fa-2x " data-ng-click="comment_on_post(post.id, commentText); commentText=''"></i></span>
-	        </form>
+                <span class="post-sharing-comment-body-text">{{comment.d}}</span>
+                <div>
+                    <span class="post-date" am-time-ago="comment.cd"></span>
+    	            <span class="btn-like-wrapper">
+    	                <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)">讚好</a> 
+    	                <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)">取消讚好 <img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/></a>
+    	                <span ng-show="comment.nol > 0">{{comment.nol}}</span>
+    	                <span ng-show="comment.isLike"> · 你對這讚好</span>
+    	            </span>
+    	        </div>
+    	        <div data-ng-show="comment.hasImage" class="post-body-image">
+                    <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in comment.imgs" href="">
+                        <img style="width:100px;" data-ng-src="/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                    </a>
+                </div>
+	        </span>
     	</li>
-	</ul>
-</ul>
+    	<!-- Post Answer box-->
+        <li ng-show="post.isC == true">
+            <a data-ng-href="/#/profile/{{userInfo.id}}">
+                <img style="margin-top:5px;" class="post-sharing-comment-user-image" data-ng-src="/get-comment-mini-image-by-id/{{userInfo.id}}"/>
+            </a>
+            <form class="post-comment-box" name="userComment" method="post" action="">
+                <label for="User Comment"></label>
+                <textarea type="text" name="userCommentfield" class="general-textfield post-sharing-comment-textfield" id="userCommentfield" placeholder="留言..." cols="70" data-ng-model="commentText" rows="1"></textarea>
+                <a class="post-photo-icon" data-ng-hide="commentSelectedFiles.length > 2 && commentedOnPost == post.id" id="upload">
+                    <i class="icon-photo-camera-fill" data-ng-click="commentPhoto(post.id)"></i>
+                </a>
+                <button class="btn btn-primary ng-binding" ng-disabled="userComment.$pristine || (userComment.$dirty && commentText.length < 2)" type="submit" disabled="disabled" data-ng-click="comment_on_post(post.id, commentText); commentText=''">
+                    留言
+                </button>
+                <input style="visibility:hidden;height:0px;" id="comment-photo-id" type="file" name="comment-photo" ng-file-select="onCommentFileSelect($files)"/>
+            </form>
+            <span ng-if="commentedOnPost == post.id">
+                <div ng-show="commentSelectedFiles != null">
+                    <img class="post-photo-preview" ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
+                        ng-repeat="f in commentSelectedFiles" tooltip-placement="bottom" tooltip="移除相片" data-ng-click="remove_image_from_comment($index)"
+                        ng-show="commentDataUrls[$index]" ng-src="{{commentDataUrls[$index]}}">
+                </div>
+            </span>
+        </li>
+    </ul>
+    <!-- Post Comments Ends -->
 </div>

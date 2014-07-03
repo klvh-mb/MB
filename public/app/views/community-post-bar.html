@@ -12,7 +12,7 @@
             
 				<div style="background-color: white;" ng-show="selectedFiles != null">
 					<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
-						ng-repeat="f in selectedFiles" tooltip-placement="bottom" tooltip="Remove this photo" style="width: 100px;height: 100px;" data-ng-click="remove_image($index)"
+						ng-repeat="f in selectedFiles" tooltip-placement="bottom" tooltip="移除相片" style="width: 100px;height: 100px;" data-ng-click="remove_image($index)"
 								ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
 				</div>
 				<div>
@@ -27,7 +27,7 @@
 
 <div infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='0' >	
     <div data-ng-repeat="post in community.posts">
-        <div id="wall-forum">
+        <div id="wall-main">
     		<div class="general-box">
         		<div>
         			<ul>
@@ -94,7 +94,7 @@
                                 <span ng-if="commentedOnPost == post.id">
                                 	<div style="background-color: white;" ng-show="commentSelectedFiles != null">
     									<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
-    										ng-repeat="f in commentSelectedFiles" tooltip-placement="bottom" tooltip="Remove this photo" style="width: 100px;height: 100px;" data-ng-click="remove_image_from_comment($index)"
+    										ng-repeat="f in commentSelectedFiles" tooltip-placement="bottom" tooltip="移除相片" style="width: 100px;height: 100px;" data-ng-click="remove_image_from_comment($index)"
     										ng-show="commentDataUrls[$index]" ng-src="{{commentDataUrls[$index]}}">
     								</div>
                                 </span>

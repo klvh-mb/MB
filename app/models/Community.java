@@ -73,8 +73,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	@OneToMany(cascade = CascadeType.REMOVE)
 	public List<Folder> folders;
 	
-	public String iconName;
-
+	public String icon;
 
     /**
      * Ctor
@@ -389,12 +388,12 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		this.folders = folders;
 	}
 
-	public String getIconName() {
-		return iconName;
+	public String getIcon() {
+		return icon;
 	}
 
-	public void setIconName(String iconName) {
-		this.iconName = iconName;
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
     public boolean isExcludeFromNewsfeed() {

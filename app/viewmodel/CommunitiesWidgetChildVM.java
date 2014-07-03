@@ -31,7 +31,7 @@ public class CommunitiesWidgetChildVM {
 
 	public CommunitiesWidgetChildVM(Community community, User user) {
         this(community.id, (long)community.getMembers().size(), community.name, 
-                community.description, community.iconName, community.communityType,
+                community.description, community.icon, community.communityType,
                 (user == community.owner), user.isJoinRequestPendingFor(community), user.isMemberOf(community));
     }
 }
