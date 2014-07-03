@@ -196,23 +196,22 @@
 
 .btn-like-wrapper {
     position: relative;
-    padding-left: 5px;
 }
 .btn-like-wrapper span {
     color: #77737E;
     font-size: 12px;
     font-weight: normal;
 }
+.btn-like-wrapper span img {
+    height: 16px;
+    vertical-align: text-bottom;
+    padding: 0 3px 0 3px;
+    display: inline-block;
+}
 .btn-like {
     margin: 0;
     color: #428bca;
     font-size: 13px;
-}
-.btn-like img:first-child {
-    height: 16px;
-    vertical-align: text-bottom;
-    padding-left: 5px;
-    display: inline-block;
 }
 .post-qna-tag, .post-sharing-tag {
     font-size: 14px;

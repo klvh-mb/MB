@@ -37,12 +37,7 @@
                     <img data-ng-src="/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
                 </a>
             </div>
-         	<div class="btn-like-wrapper">
-                <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)">讚好</a> 
-                <a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)">取消讚好 <img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/></a>
-                <span ng-show="post.nol > 0">{{post.nol}}</span>
-                <span ng-show="post.isLike"> · 你對這讚好</span>
-            </div>
+            <span data-ng-include data-src="'/assets/app/views/like-post.html'"></span>
          </li>
     </ul>
     <!-- Post Body Ends -->
@@ -67,12 +62,7 @@
                         <img data-ng-src="/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
                     </a>
                 </div>
-                <div class="btn-like-wrapper">
-                    <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)">讚好</a> 
-                    <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)">取消讚好 <img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/></a>
-                    <span ng-show="comment.nol > 0">{{comment.nol}}</span>
-                    <span ng-show="comment.isLike"> · 你對這讚好</span>
-                </div>
+                <span data-ng-include data-src="'/assets/app/views/like-comment.html'"></span>
             </div>
         </li>
         <!-- Post Answer box-->
