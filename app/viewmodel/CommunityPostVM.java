@@ -31,8 +31,8 @@ public class CommunityPostVM {
 	@JsonProperty("nol") public int noOfLikes;
 	@JsonProperty("ep") public boolean expanded;
 	
-	@JsonProperty("isC") public boolean isCommentable=false;
-	@JsonProperty("isLike") public boolean isLike=false;
+	@JsonProperty("isC") public boolean isCommentable = false;
+	@JsonProperty("isLike") public boolean isLike = false;
 	@JsonProperty("isBookmarked") public boolean isBookmarked = false;
 	
 	public static CommunityPostVM communityPostVM(Post post, User user) {

@@ -57,7 +57,7 @@
 	        </span>
     	</li>
     	<!-- Post Answer box-->
-        <li ng-show="post.isC == true">
+        <li ng-show="post.isC || (community.isM || community.isO)">
             <a data-ng-href="/#/profile/{{userInfo.id}}">
                 <img style="margin-top:5px;" class="post-sharing-comment-user-image" data-ng-src="/get-comment-mini-image-by-id/{{userInfo.id}}"/>
             </a>

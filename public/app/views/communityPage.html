@@ -37,71 +37,73 @@
             <!--MyCommunity End -->
 		</div>
 		<div class="col-md-6 col-sm-6 col-xs-6" style="width:50%;">
-			<div class="col-md-12 col-sm-12 col-xs-12">
-				<div id="community-header">
-					<ul>
-						<li><img id="community-banner" data-ng-src="{{coverImage}}" />
-						    <div class="memberImageStar">
-    							<a data-ng-show="community.isO" data-ng-click="openGroupCoverPhotoModal(community.id)" alt="Change" title="Change"
-    							     style="margin: -235px 0px 0px 7px; position: absolute;right: 515px; top: -34px;" href="">
-    							    <img src="/assets/app/images/edit.png" />
-    							</a>
-							</div>
-					    </li>
-						<li id="community-header-menu">
-							<!--div class="h5">
-								<img src="{{community.icon}}"><b>{{community.n}}</b>
-							</div-->
-							<div class="divider-cus" ng-show="false"></div>
-							<div ng-class="{activeTabBold: selectedTab == 1}">
-								<a ng-click="selectedTab = 1;">最新訊息</a>
-							</div>
-							<div class="divider-cus"></div>
-							<div ng-class="{activeTabBold: selectedTab == 2}">
-								<a ng-click="selectedTab = 2;">成員</a>
-							</div>
-							<!-- <div class="divider-cus"></div>
-							<div ng-class="{activeBold: selectedTab == 3}">
-								<a ng-click="selectedTab = 3;">Photo Contest</a>
-							</div> -->
-							<div class="dropdown pull-right">
-                                <a id="community-settings-dropdown" class="toolsbox toolsbox-end dropdown-toggle" data-toggle="dropdown"><span class="icon-title-contentSetup"></span></a>
-                                <ul style="right:-60px;" class="subtoolsbox dropdown-menu" aria-labelledby="community-settings-dropdown">
-                                    <li><a data-ng-click="">分享社群</a></li>
-                                    <li ng-show="community.isO"><a data-ng-click="">編輯社群</a></li>
-                                    <li class="dropdown-divider" role="presentation"></li>
-                                    <li ng-show="!community.isO && community.isM == true" ><a data-ng-click="leave_community(community.id)">退出社群</a></li>
-                                    <li><a data-ng-click="">檢舉社群</a></li>
-                                </ul> 
-                            </div>
-                            <div class="pull-right">
-                                <a class="toolsbox toolsbox-start" data-toggle="modal" data-target="#createCommunityModal"><i class="fa fa-fw  fa-group"></i> 建立社群</a>
-                            </div>
-							<!--div class="dropdown pull-right">
-								<a id="notif-dropdown" class="toolsbox toolsbox-start dropdown-toggle" data-toggle="dropdown">訊息通知</a>
-								<ul style="right:-35px;" class="subtoolsbox dropdown-menu" aria-labelledby="notif-dropdown">
-                                    <li><a>所有訊息</a></li>
-                                    <li><a>關閉</a></li>
-                                </ul>
-                            </div-->
-							<p id="community-header-name" class="ng-binding"><img src="{{community.icon}}">{{community.n}}</p>
-						</li>
-					</ul>
-				</div>
+			<div id="community-header">
+				<ul>
+					<li><img id="community-banner" data-ng-src="{{coverImage}}" />
+					    <div class="memberImageStar">
+							<a data-ng-show="community.isO" data-ng-click="openGroupCoverPhotoModal(community.id)" alt="Change" title="Change"
+							     style="margin: -235px 0px 0px 7px; position: absolute;right: 515px; top: -34px;" href="">
+							    <img src="/assets/app/images/edit.png" />
+							</a>
+						</div>
+				    </li>
+					<li id="community-header-menu">
+						<!--div class="h5">
+							<img src="{{community.icon}}"><b>{{community.n}}</b>
+						</div-->
+						<div class="divider-cus" ng-show="false"></div>
+						<div ng-class="{activeTabBold: selectedTab == 1}">
+							<a ng-click="selectedTab = 1;">最新訊息</a>
+						</div>
+						<div class="divider-cus"></div>
+						<div ng-class="{activeTabBold: selectedTab == 2}">
+							<a ng-click="selectedTab = 2;">成員</a>
+						</div>
+						<!-- <div class="divider-cus"></div>
+						<div ng-class="{activeBold: selectedTab == 3}">
+							<a ng-click="selectedTab = 3;">Photo Contest</a>
+						</div> -->
+						<div class="dropdown pull-right">
+                            <a id="community-settings-dropdown" class="toolsbox toolsbox-end dropdown-toggle" data-toggle="dropdown"><span class="icon-title-contentSetup"></span></a>
+                            <ul style="right:-60px;" class="subtoolsbox dropdown-menu" aria-labelledby="community-settings-dropdown">
+                                <li><a data-ng-click="">分享社群</a></li>
+                                <li ng-show="community.isO"><a data-ng-click="">編輯社群</a></li>
+                                <li class="dropdown-divider" role="presentation"></li>
+                                <li ng-show="!community.isO && community.isM == true" ><a data-ng-click="leave_community(community.id)">退出社群</a></li>
+                                <li><a data-ng-click="">檢舉社群</a></li>
+                            </ul> 
+                        </div>
+                        <div class="pull-right">
+                            <a class="toolsbox toolsbox-start" data-toggle="modal" data-target="#createCommunityModal"><i class="fa fa-fw  fa-group"></i> 建立社群</a>
+                        </div>
+						<!--div class="dropdown pull-right">
+							<a id="notif-dropdown" class="toolsbox toolsbox-start dropdown-toggle" data-toggle="dropdown">訊息通知</a>
+							<ul style="right:-35px;" class="subtoolsbox dropdown-menu" aria-labelledby="notif-dropdown">
+                                <li><a>所有訊息</a></li>
+                                <li><a>關閉</a></li>
+                            </ul>
+                        </div-->
+						<p id="community-header-name" class="ng-binding"><img src="{{community.icon}}">{{community.n}}</p>
+					</li>
+				</ul>
 			</div>
 			<!--Community Header End -->
 			<div id="wall">
-				<div class="tab-content col-md-12 col-sm-12 col-xs-12" ng-show="selectedTab == 1 ">
+				<div class="tab-content" ng-show="selectedTab == 1 ">
 					<div class="general-box" style="margin:-1px">
 						<div class="wall-title">
+                            <span style="margin-left:10px;"/>
 							<!--span class="wall-icon icon-title-community"></span-->
-							<span style="margin-left:15px;">
+							<span class="post-wall-icon">?</span>
+							<span>
     							<a ng-click="selectedTab1 = 1; searchQuery = '';" ng-class="{activeTabUnderlined: selectedTab1 == 1}">
                                     <font style="color: white;">問題</font>
     							</a>
 							</span>
+							<span style="margin-left:10px;"/>
 							<!--span class="wall-icon icon-title-friendwall"></span-->
-							<span style="margin-left:15px;">
+							<span class="post-wall-icon">♥</span>
+							<span>
     							<a ng-click="selectedTab1 = 2; searchQuery = '';" ng-class="{activeTabUnderlined: selectedTab1 == 2}">
                                     <font style="color: white;">分享</font>
                                 </a>
@@ -120,32 +122,22 @@
 							</a>
 						</div>
 					</div>
-					<div class="tab-content"
-                        ng-show="selectedTab1 == 1" id="qnapost"
-                        ng-controller="CreateQnACommunityController">
-                        <div data-ng-include style="height: 100px;"
-                            data-src="'/assets/app/views/community-QnA-bar.html'"></div>
+					<div class="tab-content" ng-show="selectedTab1 == 1" id="qnapost" ng-controller="CreateQnACommunityController">
+                        <div data-ng-include data-src="'/assets/app/views/community-QnA-bar.html'"></div>
                     </div>
-                    <div class="tab-content"
-						ng-show="selectedTab1 == 2" id="post">
-						<div data-ng-include style="height: 100px;"
-							data-src="'/assets/app/views/community-post-bar.html'"></div>
+                    <div class="tab-content" ng-show="selectedTab1 == 2" id="post">
+						<div data-ng-include data-src="'/assets/app/views/community-post-bar.html'"></div>
 					</div>
-					<div class="tab-content"
-						data-ng-show="selectedTab1 == 3" id="srchbar"
-						data-ng-controller="SearchPageController">
+					<div class="tab-content" data-ng-show="selectedTab1 == 3" id="srchbar" data-ng-controller="SearchPageController">
 						<input data-ng-model="search_trigger" type="hidden">
-						<div data-ng-include style="height: 100px;"
-							data-src="'/assets/app/views/community-search-bar.html'"></div>
+						<div data-ng-include data-src="'/assets/app/views/community-search-bar.html'"></div>
 					</div>
 				</div>
-				<div class="tab-content row" ng-show="selectedTab == 2 ">
-					<div data-ng-controller="CommunityMembersWidgetController"
-						data-ng-include style="width: 100%; height: 50px;"
-						data-src="'/assets/app/views/allMembersSection.html'"></div>
-				</div>
-			</div>
-			<!--Wall End -->
+                <div class="tab-content row" ng-show="selectedTab == 2 ">
+                    <div data-ng-controller="CommunityMembersWidgetController" data-ng-include data-src="'/assets/app/views/allMembersSection.html'"></div>
+                </div>
+            </div>
+            <!--Wall End -->
 		</div>
 		<div class="col-md-4 col-sm-4 col-xs-4" style="width: 25%;">
 			<div class="row">
@@ -195,31 +187,24 @@
 						<li>
 							<form id="commun-add-member-wrapper"
 								name="commun-add-member-wrapper" method="post" action="">
-								<label for="Add Member"></label> <input type="text"
-									name="add-member-field" id="add-member-field"
-									class="general-textfield general-input-box" data-ng-model="searchQuery1"
-									data-ng-keyup="search_unjoined_users(community.id, searchQuery1)"
-									placeholder="+ 邀請新成員" />
+								<label for="Add Member"></label> 
+								<input type="text" name="add-member-field" id="add-member-field" class="general-textfield general-input-box" data-ng-model="searchQuery1"
+									data-ng-keyup="search_unjoined_users(community.id, searchQuery1)" placeholder="+ 邀請新成員" />
 								<div>
 									<div class="row">
-										<ul
-											class="col-lg-12 col-md-11 col-sd-11 dropdown-menu chat media-list hide"
+										<ul class="col-lg-12 col-md-11 col-sd-11 dropdown-menu chat media-list hide"
 											ng-class="{show : nonMembers.length > 0 && searchQuery1.length > 0}"
 											style="overflow-y: scroll; max-height: 244px;">
 											<li class="media" ng-repeat="sr in nonMembers"
 												ng-switch="sr.tp" style="margin-top: 2% !important;">
-												<!-- shows user section --> <a class="pull-left"
-												href="#/profile/{{sr.id}}"> <img
-													class="media-object thumb"
-													data-ng-src="/get-mini-image-by-id/{{sr.id}}" alt="50x50"
-													width="50" />
-											</a>
-
+												<!-- shows user section --> 
+                                                <a class="pull-left" href="#/profile/{{sr.id}}"> 
+                                                    <img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{sr.id}}" alt="50x50" width="50"/>
+                                                </a>
 												<div class="media-body">
 													<h5 class="media-heading">
-														{{sr.nm}} <i
-															data-ng-click="send_invite_to_join(community.id, sr.id)"
-															class="fa fa-plus-square pull-right"></i>
+												        {{sr.nm}} 
+												        <i data-ng-click="send_invite_to_join(community.id, sr.id)" class="fa fa-plus-square pull-right"></i>
 													</h5>
 												</div>
 											</li>
@@ -238,6 +223,7 @@
 		</div>
 	</div>
 </div>
+<div class="padding20"></div>
 
 <div data-ng-include data-src="'/assets/app/views/createCommunityModal.html'"></div>
 

@@ -1,6 +1,9 @@
 /*!
  * bootstrap
  */
+div[class*="col-xs-"], div[class*="col-sm-"], div[class*="col-md-"], div[class*="col-lg-"] {
+    padding: 0 5px !important;
+}
 .glyphicon-lock {
     font-size: 10px;
     margin-right: 2px;

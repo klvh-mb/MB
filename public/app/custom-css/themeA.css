@@ -1220,6 +1220,7 @@ pre {
 /* Content Uploader Start */
 #content-uploader {
     border-radius: 0px 0px 4px 4px;
+    margin-bottom: 10px;
 }
 #content-uploader ul {
     list-style: none;
