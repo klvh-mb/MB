@@ -64,6 +64,10 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/showArticlesPage.html',
     	controller : 'ShowArticleControllerNew'  
       })
+      .when('/message',{
+    	templateUrl: '/assets/app/views/message.html',
+    	controller : 'UserConversationController'  
+      })
       .when('/error', {
     	  templateUrl: '/assets/app/views/errorPage.html',
       })

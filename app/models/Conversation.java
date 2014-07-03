@@ -1,6 +1,8 @@
 package models;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -12,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Query;
 
 import play.data.validation.Constraints.Required;
@@ -24,6 +25,8 @@ import domain.Updatable;
 public class Conversation extends domain.Entity implements Serializable,
 		Creatable, Updatable {
 
+	public Conversation(){}
+	
 	public Conversation(User user1, User user2) {
 		this.user1 = user1;
 		this.user2 = user2;
@@ -41,9 +44,12 @@ public class Conversation extends domain.Entity implements Serializable,
 	@ManyToOne
 	public User user2;
 
-	@OneToOne
-	public Message lastMessage;
+	public Date conv_time;
 	
+	public Date user1_time;
+	
+	public Date user2_time;
+
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "conversation")
 	public Set<Message> messages = new TreeSet<Message>();
 
@@ -53,13 +59,7 @@ public class Conversation extends domain.Entity implements Serializable,
 	 * 
 	 * @param user
 	 */
-	public void markReaded(User user) {
-		for (Message message : this.messages) {
-			if (!message.readed && !message.userFrom.equals(user)) {
-				message.markReaded();
-			}
-		}
-	}
+	
 
 	public Message addMessage(User sender, String body) {
 		Message message = new Message();
@@ -67,7 +67,17 @@ public class Conversation extends domain.Entity implements Serializable,
 		message.userFrom = sender;
 		message.conversation = this;
 		this.messages.add(message);
+		message.save();
+		message.setCreatedDate(new Date());
+		this.setUpdatedDate(new Date());
 		this.save();
+		if(this.user1 == sender){
+			this.user1_time = new Date();
+			this.conv_time = new Date();
+		} else {
+			this.user2_time = new Date();
+			this.conv_time = new Date();
+		}
 		return message;
 
 	}
@@ -88,4 +98,68 @@ public class Conversation extends domain.Entity implements Serializable,
 		}
 	}
 
+	public static List<Conversation> findAllConversations(User user, int latest) {
+		Query q = JPA
+				.em()
+				.createQuery(
+						"SELECT c from Conversation c  where ((user1 = ?1 or user2 = ?1)) order by updated_date desc");
+		q.setParameter(1, user);
+	
+		
+		try {
+			
+			return  q.setMaxResults(latest).getResultList();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	public static Conversation startConversation(User sender, User receiver) {
+		Conversation conversation = new Conversation(sender, receiver);
+		Date date =  new Date();
+		conversation.user1_time = date;
+		conversation.conv_time = date;
+		conversation.save();
+		return conversation;
+	}
+
+	public String getLastMessage() {
+		Message message;
+		
+		Query q = JPA
+					.em()
+					.createQuery(
+							"SELECT m FROM Message m WHERE m.date=(SELECT MAX(date) FROM Message WHERE conversation_id = ?1)");
+			q.setParameter(1, this.id);
+		try{
+			message = (Message) q.getSingleResult();
+			return message.body;
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	public static Conversation findById(Long id) {
+		Query q = JPA.em().createQuery("SELECT c FROM Conversation c where id = ?1");
+        q.setParameter(1, id);
+        return (Conversation) q.getSingleResult();
+	}
+
+	public static Message sendMessage(User sender, User receiver, String msgText) {
+		Conversation conversation = Conversation.findBetween(sender, receiver);
+		if(conversation == null){
+			conversation = Conversation.startConversation(sender, receiver);
+		}
+		return conversation.addMessage(sender, msgText);
+	}
+
+	public Boolean isReadedBy(User user) {
+		if(this.user1 == user){
+			return (this.user1_time.getTime() >= this.conv_time.getTime());
+		} else { 
+			return this.user2_time.getTime() >= this.conv_time.getTime();
+		}
+		
+	}
+	
 }

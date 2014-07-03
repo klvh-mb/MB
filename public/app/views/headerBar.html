@@ -63,9 +63,9 @@
             </ul>
         </li>
         <li class="dropdown notif pull-left">
-            <a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
+            <a href="/#/message" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
                 <img class="colorChange" src="../assets/app/images/general/icons/w_message.png"/>
-                <span class="notif-count pull-right" data-ng-show="isNOreaded == true && join_requests.length > 0">{{join_requests.length}}</span>
+                <span class="notif-count pull-right" data-ng-show=" unread_msg_count.count > 0">{{unread_msg_count.count}}</span>
             </a>
         </li>
     </ul>
@@ -148,7 +148,7 @@
             <li><a ng-href="#/">設定</a></li>
             <li><a href="/logout">登出</a></li>
             <li class="dropdown-divider" role="presentation"></li>
-            <li><a ng-href="#/">回報問題</a></li>
+            <li><a ng-href="/#/message">回報問題</a></li>
         </ul>
     </div>
 </div>

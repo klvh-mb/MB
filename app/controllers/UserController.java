@@ -1,15 +1,23 @@
 package controllers;
 
+import static play.data.Form.form;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import models.Community;
+import models.Conversation;
 import models.Location;
+import models.Message;
 import models.Notification;
 import models.Post;
+import models.Resource;
 import models.User;
 
 import org.apache.commons.io.FileUtils;
@@ -20,12 +28,15 @@ import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
+import play.mvc.Content;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import processor.FeedProcessor;
 import viewmodel.CommunityPostVM;
+import viewmodel.ConversationVM;
 import viewmodel.FriendWidgetChildVM;
+import viewmodel.MessageVM;
 import viewmodel.NewsFeedVM;
 import viewmodel.NotificationVM;
 import viewmodel.ProfileVM;
@@ -159,6 +170,16 @@ public class UserController extends Controller {
         localUser.merge();
         
 		return ok("true");
+	}
+	
+	@Transactional
+	public static Result startConeversation(Long id1, Long id2) {
+		final User user1 = User.findById(id1);
+		final User user2 = User.findById(id2);
+		Conversation conversation = user1.findMyConversationsWith(user2);
+		conversation.addMessage(user1, "Hiii");
+		conversation.addMessage(user2, "Hello");
+		return ok();
 	}
 	
 	@Transactional
@@ -391,4 +412,121 @@ public class UserController extends Controller {
 		}
 	}
 	
+	
+	@Transactional
+	public static Result getAllConversation() {
+		final User localUser = Application.getLocalUser(session());
+		List<ConversationVM> vms = new ArrayList<>();
+		List<Conversation> conversations =  localUser.findMyAllConversations();
+		if(conversations != null ){
+			for(Conversation conversation: conversations) {
+				User user;
+				if(conversation.user1 == localUser){
+					user = conversation.user2;
+				} else { 
+					user = conversation.user1;
+				}
+				ConversationVM vm = new ConversationVM(conversation, user);
+				vms.add(vm);
+			}
+		}
+		
+		return ok(Json.toJson(vms));
+		
+	}
+	
+	@Transactional
+	public static Result getMessages(String id, String offset) {
+		final User localUser = Application.getLocalUser(session());
+		List<MessageVM> vms = new ArrayList<>();
+		Conversation conversation = Conversation.findById(Long.parseLong(id)); 
+		List<Message> messages =  (List<Message>) localUser.getMessageForConversation(conversation, Long.parseLong(offset));
+		if(messages != null ){
+			for(Message message : messages) {
+				MessageVM vm = new MessageVM(message);
+				vms.add(vm);
+			}
+		}
+		Map<String, Object> map = new HashMap<>();
+		map.put("message", vms);
+		map.put("counter", localUser.getUnreadMsgCount());
+		return ok(Json.toJson(map));
+	}
+	
+	@Transactional
+    public static Result sendMessage() {
+        final User localUser = Application.getLocalUser(session());
+        DynamicForm form = form().bindFromRequest();
+        
+        Long receiverUserID = Long.parseLong(form.get("receiver_id"));
+        System.out.println("ID :: "+receiverUserID);
+        User receiverUser = User.findById(receiverUserID);
+        String msgText = form.get("msgText");
+        Message message = Conversation.sendMessage(localUser, receiverUser, msgText);
+        Conversation conversation = Conversation.findBetween(localUser, receiverUser);
+        return getMessages(conversation.id+"", 0+"");
+    }
+	
+	
+	@Transactional
+    public static Result startConversation(Long id) {
+        final User localUser = Application.getLocalUser(session());
+        User user = User.findById(id);
+        Conversation conversation = Conversation.startConversation(localUser, user);
+        conversation.setUpdatedDate(new Date());
+        return getAllConversation();
+    }
+	
+	@Transactional
+	public static Result searchUserFriends(String query) {
+		final User localUser = Application.getLocalUser(session());
+		List<User> users = localUser.searchUserFriends(query);
+		List<SocialObjectVM> socialVMs = new ArrayList<>();
+		for(User user : users) {
+			System.out.println("User Name :: "+user.displayName);
+			socialVMs.add(new SocialObjectVM(user.id.toString(), user.displayName, user.objectType.name()));
+		}
+		return ok(Json.toJson(socialVMs));
+	}
+	
+	
+	@Transactional
+	public static Result sendPhotoinMessage() {
+		final User localUser = Application.getLocalUser(session());
+        DynamicForm form = DynamicForm.form().bindFromRequest();
+        String messageId = form.get("messageId");
+        
+        FilePart picture = request().body().asMultipartFormData().getFile("send-photo0");
+        String fileName = picture.getFilename();
+        
+        File file = picture.getFile();
+        System.out.println("file :: "+file);
+        File fileTo = new File(Play.application().configuration().getString("image.temp")+""+fileName);
+        System.out.println("fileTo :: "+fileTo);
+        // TOBE TESTED
+        try {
+            FileUtils.copyFile(file, fileTo);
+            Long id = Message.findById(Long.valueOf(messageId)).addPrivatePhoto(fileTo,localUser).id;
+            System.out.println("id :: "+id);
+            return ok(id.toString());
+        } catch (IOException e) {
+            //e.printStackTrace();
+            return status(500);
+        }
+    }
+	
+	
+	@Transactional
+	public static Result getUnreadMsgCount() {
+		final User localUser = Application.getLocalUser(session());
+		Map<String, Long> vm = new HashMap<>();
+		vm.put("count", localUser.getUnreadMsgCount());
+		return ok(Json.toJson(vm));
+	}
+	
+	@Transactional
+	public static Result getMessaheImageByID(Long id) {
+		return ok(Resource.findById(id).getThumbnailFile());
+	}
+
 }

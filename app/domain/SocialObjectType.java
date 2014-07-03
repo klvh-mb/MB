@@ -11,6 +11,7 @@ public enum  SocialObjectType {
      COVER_PHOTO,
      POST_PHOTO,
      COMMENT_PHOTO,
+     PRIVATE_PHOTO,
      ALBUMN,
      VEDIO,
      CONTEST,

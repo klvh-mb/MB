@@ -107,6 +107,17 @@ GET		/get-thumbnail-image-by-id/:id		controllers.UserController.getThumbnailVers
 GET		/get-thumbnail-cover-image-by-id/:id		controllers.UserController.getThumbnailCoverImageByID(id :Long)
 GET		/get-original-image-by-id/:id		controllers.UserController.getOriginalImageByID(id :Long)
 
+#Conversation
+GET		/get-all-Conversation		controllers.UserController.getAllConversation()
+GET		/get-messages/:id/:offset	controllers.UserController.getMessages(id: String, offset: String)
+GET		/start-Conversation/:id		controllers.UserController.startConversation(id: Long)
+POST	/Message/sendMsg			controllers.UserController.sendMessage()
+POST	/sendMessagePhoto			controllers.UserController.sendPhotoinMessage()
+GET		/user-friend-search			controllers.UserController.searchUserFriends(query: String)
+GET		/get-message-image-by-id/:id		controllers.UserController.getMessaheImageByID(id :Long)
+GET		/get-unread-msg-count		controllers.UserController.getUnreadMsgCount()
+
+
 #Friends
 GET		/get-user-friends			controllers.FriendsController.getUserFriends
 GET 	/get-user-friends-by-ID/:id controllers.FriendsController.getFriendsOfUser(id: Long)

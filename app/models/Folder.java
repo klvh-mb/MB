@@ -163,6 +163,17 @@ Serializable, Creatable, Updatable{
 			}
 		}
 		
+		if (type == SocialObjectType.PRIVATE_PHOTO) {
+			Thumbnails
+			.of(source)
+			.height(150)
+			.width(150)
+			.keepAspectRatio(true)
+			.toFiles(
+					new java.io.File(resource.getPath())
+							.getParentFile(),
+					Rename.PREFIX_DOT_THUMBNAIL);
+		}
 		this.resources.add(resource);
 		merge();
 		//recordAddedPhoto(owner);

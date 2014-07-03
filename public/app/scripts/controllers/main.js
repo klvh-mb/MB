@@ -138,6 +138,17 @@ minibean.service('userSimpleNotifications',function($resource){
 	);
 });
 
+minibean.service('userMessageNotifications',function($resource){
+	this.getUnreadMsgCount = $resource(
+			'/get-unread-msg-count',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'GET'}
+			}
+	);
+});
+
+
 minibean.service('acceptJoinRequestService',function($resource){
 	this.acceptJoinRequest = $resource(
 			'/accept-join-request/:member_id/:group_id/:notify_id',
@@ -171,7 +182,7 @@ minibean.controller('UserInfoServiceController',function($scope,userInfoService)
 });
 
 minibean.controller('ApplicationController',function($scope,$location, userInfoService, userNotification, userSimpleNotifications,
-	acceptJoinRequestService, acceptFriendRequestService, notificationMarkReadService, usSpinnerService){
+	acceptJoinRequestService, acceptFriendRequestService, userMessageNotifications, notificationMarkReadService, usSpinnerService){
 	
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.set_background_image = function() {
@@ -179,6 +190,8 @@ minibean.controller('ApplicationController',function($scope,$location, userInfoS
 	} 
 	$scope.friend_requests = userNotification.getAllFriendRequests.get();
 	$scope.join_requests = userSimpleNotifications.getAllJoinRequests.get();
+	$scope.unread_msg_count = userMessageNotifications.getUnreadMsgCount.get();
+	
 	$scope.isFRreaded = true;
 	$scope.isNOreaded = true;
 	
@@ -3911,6 +3924,217 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 });
 
 
+
+
+
+
+///////////////////////// User  Converstion //////////////////////////////////
+
+
+minibean.service('allConversationService',function($resource){
+	this.UserAllConversation = $resource(
+		'/get-all-Conversation',
+		{alt:'json',callback:'JSON_CALLBACK'},
+		{
+			get: {method:'get',isArray:true}
+		}
+	);
+	
+	this.startConeversation = $resource(
+		'/start-Conversation/:id',
+		{alt:'json',callback:'JSON_CALLBACK'},
+		{
+			get: {method:'get'}
+		}
+	);
+	
+});
+
+minibean.service('getMessageService',function($resource){
+	this.getMessages = $resource(
+		'/get-messages/:id/:offset',
+		{alt:'json',callback:'JSON_CALLBACK'},
+		{
+			get: {method:'get'}
+		}
+	);
+});
+
+
+minibean.service('searchFriendService',function($resource){
+	this.userSearch = $resource(
+			'/user-friend-search?query=:q',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'GET', params:{q:'@q'}, isArray:true}
+			}
+	);
+});
+
+minibean.controller('UserConversationController',function($scope, $timeout, $upload, searchFriendService, usSpinnerService, getMessageService, $http, allConversationService){
+	$scope.conversations = allConversationService.UserAllConversation.get();
+	$scope.messages = [];
+	$scope.receiverId;
+	$scope.currentConversation;
+	var offset = 0;
+	
+	$scope.search_friend = function(query) {
+		if(query != undefined) {
+			$scope.searchResult = searchFriendService.userSearch.get({q:query});
+		}
+	}
+	
+	$scope.sendPhoto = function() {
+        $("#send-photo-id").click();
+    }
+    $scope.selectedFiles = [];
+    $scope.dataUrls = [];
+    $scope.tempSelectedFiles = [];
+    $scope.onFileSelect = function($files) {
+        alert($files);
+        if($scope.selectedFiles.length == 0) {
+            $scope.tempSelectedFiles = [];
+        }
+        
+        $scope.selectedFiles.push($files);
+        $scope.tempSelectedFiles.push($files);
+        for ( var i = 0; i < $files.length; i++) {
+            var $file = $files[i];
+            if (window.FileReader && $file.type.indexOf('image') > -1) {
+                var fileReader = new FileReader();
+                fileReader.readAsDataURL($files[i]);
+                var loadFile = function(fileReader, index) {
+                    fileReader.onload = function(e) {
+                        $timeout(function() {
+                            $scope.dataUrls.push(e.target.result);
+                        });
+                    }
+                }(fileReader, i);
+            }
+        }
+        
+    }
+    
+    
+    $scope.remove_image = function(index) {
+    	$scope.selectedFiles = [];
+        $scope.dataUrls = [];
+        $scope.tempSelectedFiles = [];
+    }
+	
+	$scope.startConversation = function(uid) {
+		$scope.receiverId = uid;
+		usSpinnerService.spin('loading...');
+		allConversationService.startConeversation.get({id: uid},
+				function(data){
+			$scope.conversations = data;
+			usSpinnerService.stop('loading...');
+		});
+		
+	}
+	
+	$scope.noMore = true;
+	$scope.getMessages = function(cid, uid) {
+		offset = 0;
+		$scope.receiverId = uid;
+		$scope.currentConversation = cid;
+		usSpinnerService.spin('loading...');
+		getMessageService.getMessages.get({id: cid,offset: offset},
+				function(data){
+			$scope.noMore = true;
+			var objDiv = document.getElementById("div");
+			objDiv.scrollTop = objDiv.scrollHeight;
+			console.log(data);
+			$scope.messages = data.message;
+			$scope.unread_msg_count.count = data.counter;
+			usSpinnerService.stop('loading...');
+			if($scope.messages.length < 20){
+				$scope.noMore = false;
+			}
+			offset++;
+		});
+		
+	}
+	$scope.selectedindex = 0; 
+	$scope.setSelectedIndex = function($index) {
+		$scope.selectedIndex = $index ;
+	}
+	
+
+	$scope.nextMessages = function() {
+		usSpinnerService.spin('loading...');
+		getMessageService.getMessages.get({id: $scope.currentConversation,offset: offset},
+				function(data){
+			$scope.noMore = true;
+			console.log(data);
+			var objDiv = document.getElementById("div");
+			objDiv.scrollTop = objDiv.scrollHeight;
+			var messages = data.message;
+			$scope.unread_msg_count.count = data.counter;
+			for (var i = 0; i < messages.length; i++) {
+				$scope.messages.push(messages[i]);
+		    }
+			if($scope.messages.length < 20){
+				$scope.noMore = false;
+			}
+			usSpinnerService.stop('loading...');
+			offset++;
+		});
+		
+	}
+	
+	
+	
+	$scope.sendMessage = function(msgText) {
+		var data = {
+			"receiver_id" : $scope.receiverId,
+			"msgText" : msgText,
+			"withPhotos" : $scope.selectedFiles.length != 0
+		};
+		usSpinnerService.spin('loading...');
+		$http.post('/Message/sendMsg', data) 
+			.success(function(messagedata) {
+				console.log(messagedata);
+				$scope.messages = messagedata.message;
+				usSpinnerService.stop('loading...');	
+				
+				if($scope.selectedFiles.length == 0) {
+                    return;
+                }
+                
+                
+                // when post is done in BE then do photo upload
+                for(var i=0 ; i<$scope.tempSelectedFiles.length ; i++) {
+                    usSpinnerService.spin('loading...');
+                    $upload.upload({
+                        url : '/sendMessagePhoto',
+                        method: $scope.httpMethod,
+                        data : {
+                        	messageId : message_id
+                        },
+                        file: $scope.tempSelectedFiles[i],
+                        fileFormDataName: 'send-photo'
+                    }).success(function(data, status, headers, config) {
+                        usSpinnerService.stop('loading...');
+                        alert("ASDFE :: "+data);
+                        angular.forEach($scope.messages, function(message, key){
+                            if(message.id == message_id) {
+                            	message.hasImage = true;
+                                message.imgs = data;
+                            }
+                        });
+                    });
+                    
+                }
+				
+				
+				
+				
+				
+		});
+	};
+
+});
 
 
 
