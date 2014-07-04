@@ -8,7 +8,7 @@
 
 <div ng-app='htdocsApp' ng-controller='MainCtrl'>
  <div class="row">
-   <div infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='0'>
+   <div infinite-scroll='reddit.nextPage()' infinite-scroll-disabled='reddit.busy' infinite-scroll-distance='1'>
      <div ng-repeat='item in reddit.items'>
        <span class='score'>{{item.score}}</span>
        <span class='title'>

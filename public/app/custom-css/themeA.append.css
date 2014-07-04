@@ -91,6 +91,10 @@ a:focus {
 }
 .dropdown-menu li {
     border: 0px;
+    margin: 5px 15px;
+}
+.dropdown-menu > li > a {
+    padding: 0;
 }
 .dropdown-divider {
     border-bottom: 1px solid #efefef !important;
@@ -410,7 +414,6 @@ a:focus {
     font-size: 32px;
     font-weight: bold;
     display: block;
-    margin-bottom: 10px;
 }
 #all-post-thumbnail {
     width: 100%;
@@ -615,20 +618,6 @@ span.notif-count {
     position: absolute;
     text-align: center;
 }
-.post-input-title {
-    resize: none;
-    border: 0px;
-    border-bottom: 1px solid #c8c8c8;
-    border-radius: 0px;
-    padding: 2px 2px 2px 6px;
-    margin-top: 5px;
-    font-weight: bold;
-    font-size: 14px;
-}
-.post-input-body {
-    resize: none;
-    border: 0px;
-}
 #postCommentsSection, #postAnswersSection {
     padding: 0px;
     margin: 0px;
@@ -728,4 +717,5 @@ span.notif-count {
     width: 30px; 
     height: 30px; 
     padding: 2px 5px;
+    margin: 0px;
 }​

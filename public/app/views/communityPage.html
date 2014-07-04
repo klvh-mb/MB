@@ -39,13 +39,14 @@
 		<div class="col-md-6 col-sm-6 col-xs-6" style="width:50%;">
 			<div id="community-header">
 				<ul>
-					<li><img id="community-banner" data-ng-src="{{coverImage}}" />
-					    <div class="memberImageStar">
-							<a data-ng-show="community.isO" data-ng-click="openGroupCoverPhotoModal(community.id)" alt="Change" title="Change"
-							     style="margin: -235px 0px 0px 7px; position: absolute;right: 515px; top: -34px;" href="">
-							    <img src="/assets/app/images/edit.png" />
-							</a>
-						</div>
+					<li>
+                        <div>
+                            <img id="community-banner" data-ng-src="{{coverImage}}" />
+                            <a data-ng-show="community.isO" ng-click="openGroupCoverPhotoModal(community.id)">
+                                <span class="icon-box-2 icon-title-edit-photo"></span>
+                                <span class="icon-box-2 icon-box-black-op05"></span>
+                            </a>
+                        </div>
 				    </li>
 					<li id="community-header-menu">
 						<!--div class="h5">
@@ -122,7 +123,7 @@
 							</a>
 						</div>
 					</div>
-					<div class="tab-content" ng-show="selectedTab1 == 1" id="qnapost" ng-controller="CreateQnACommunityController">
+					<div class="tab-content" ng-show="selectedTab1 == 1" id="qnapost" ng-controller="QnACommunityController">
                         <div data-ng-include data-src="'/assets/app/views/community-QnA-bar.html'"></div>
                     </div>
                     <div class="tab-content" ng-show="selectedTab1 == 2" id="post">

@@ -1040,11 +1040,11 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 		communitySearchPageService.GetPostsFromIndex.get({community_id : id , query : query, offset:offset}, function( data ) {
 			var posts = data;
 			
-			if(posts.length == 0){
+			if(posts.length == 0) {
 				$scope.community.searchPosts.length=0;
 				$scope.noresult = "No Results Found";
 			}
-			if(data.length < 5 ) {
+			if(data.length < 10) {
 				offset = -1;
 				$scope.community.searchPosts.length=0;
 				$scope.isBusy = false;
@@ -1628,7 +1628,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     });
     
     //
-    // Below is copied completely from CreateQnACommunityController
+    // Below is copied completely from QnACommunityController
     // for js functions to handle comment, comment photo, like, bookmark etc
     //
     
@@ -1652,7 +1652,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     // !!!NOTE: Since we reuse QnA-bar.html for landing page, and QnA-bar.html is 
     // being used in home-news-feed-section.html, "view all" is using 
     // CommunityPageController.get_all_comments() instead of 
-    // CreateQnACommunityController.get_all_answers(). Hence we need to define 
+    // QnACommunityController.get_all_answers(). Hence we need to define 
     // below to make get_all_comments() available in QnALandingController
     
     $scope.get_all_comments = $scope.get_all_answers;
@@ -2007,7 +2007,6 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 				}(fileReader, i);
 			}
 		}
-		
 	}
 	
 	var offset = 0;
@@ -2020,7 +2019,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		communityPageService.GetPosts.get({id:$routeParams.id,offset:offset},
 				function(data){
 			var posts = data;
-			if(data.length < 5 ) {
+			if(data.length < 10) {
 				noMore = true;
 				$scope.isBusy = false;
 			}
@@ -2330,7 +2329,7 @@ minibean.service('allAnswersService',function($resource){
 	);
 });
 
-minibean.controller('CreateQnACommunityController',function($scope, bookmarkPostService, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
+minibean.controller('QnACommunityController',function($scope, bookmarkPostService, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
 	$scope.QnA = communityQnAPageService.QnAPosts.get({id:$routeParams.id}, function(){
 		usSpinnerService.stop('loading...');
 	});
@@ -2362,7 +2361,7 @@ minibean.controller('CreateQnACommunityController',function($scope, bookmarkPost
 		communityQnAPageService.GetQuests.get({id:$routeParams.id,offset:offsetq},
 				function(data){
 			var posts = data;
-			if(data.length < 5 ) {
+			if(data.length < 10) {
 				noMore = true;
 				$scope.isBusy = false;
 			}
@@ -2853,7 +2852,7 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 	$scope.get_result = function(catId) {
 		usSpinnerService.spin('loading...');
 		$scope.isBusy = true;
-		$scope.result = allArticlesService.ArticleCategorywise.get({id:catId, offset: offset}	, function(data) {
+		$scope.result = allArticlesService.ArticleCategorywise.get({id:catId, offset: offset}, function(data) {
 			var count = 1;
 			offset++;
 			angular.forEach($scope.result, function(element, key){
@@ -2869,7 +2868,7 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 					}
 					count++;
 				})
-				if ($scope.result.length > 5){
+				if ($scope.result.length > 10){
 					noMore = true;
 				}
 			$scope.categoryImage = $scope.result[0].category_url;
@@ -2929,7 +2928,7 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 			function(data){
 			console.log(data);
 				var posts = data;
-				if(posts.length < 5 ) {
+				if(posts.length < 10) {
 					noMore = true;
 					$scope.isBusy = false;
 				}
@@ -3221,7 +3220,6 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 
 	var noMore = false;
 	var offset = 0;
-	
 	$scope.nextNewsFeeds = function() {
 		if ($scope.isBusy) return;
 		if (noMore) return;
@@ -3229,7 +3227,7 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 		newsFeedService.NewsFeeds.get({offset:offset},
 			function(data){
 				var posts = data.posts;
-				if(posts.length < 5 ) {
+				if(posts.length < 10) {
 					noMore = true;
 					$scope.isBusy = false;
 				}
@@ -3627,7 +3625,6 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $tim
 	
 	var noMore = false;
 	var offset = 0;
-	
 	$scope.bookmarkPost = function(post_id) {
 		bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.newsFeeds.posts, function(post, key){
@@ -3713,7 +3710,7 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $tim
 		userNewsFeedService.NewsFeeds.get({offset:offset,id:id},
 			function(data){
 				var posts = data.posts;
-				if(posts.length < 5 ) {
+				if(posts.length < 10) {
 					noMore = true;
 					$scope.isBusy = false;
 				}
@@ -3877,7 +3874,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 		bookmarkService.bookmarkPost.get({offset:offset},
 				function(data){
 			var posts = data;
-			if(data.length < 5 ) {
+			if(data.length < 10) {
 				noMore = true;
 				$scope.isBusy = false;
 			}
@@ -3902,7 +3899,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 		bookmarkService.bookmarkArticle.get({offsetA:offsetA},
 				function(data){
 			var articleData = data;
-			if(data.length < 5 ) {
+			if(data.length < 10) {
 				noMoreA = true;
 				$scope.isBusyA = false;
 			}

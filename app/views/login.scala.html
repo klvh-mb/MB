@@ -55,16 +55,15 @@
 				        }
 				        
 				        @if(flash.get("error")) {
-				          <div style="width: 100%;text-align: left;margin-bottom: 5px;">
-				          	<i class="glyphicon glyphicon-warning-sign" style="color: red;"></i>
-				            <span class="text-danger" style="font-weight:bolder;">Invalid ID or password</span>
-				            <p><span class="text-danger" style="font-size: 14px;">Please Try Again!</span></p>
-				          </div>
+                        <div style="width: 100%;text-align: left;margin-bottom: 5px;">
+                            <i class="glyphicon glyphicon-exclamation-sign" style="color: red;"></i>
+                            <span class="text-danger">登入電郵或密碼錯誤</span>
+                        </div>
 				        }
                         <label for="Login email"></label>
-                        <input type="text" name="email" id="login-email" class="general-textfield" placeholder="電郵" />
+                        <input type="text" name="email" id="login-email" required="required" class="general-textfield" placeholder="電郵" />
                         <label for="Login password"></label>
-                        <input type="password" name="password" id="login-password" class="general-textfield" placeholder="密碼" />
+                        <input type="password" name="password" id="login-password" required="required" class="general-textfield" placeholder="密碼" />
                         <label for="Login state"></label>
                         <input type="checkbox" name="login-state" id="login-state" /><p>維持我的登入狀態</p>
                         <a href="javascript:void(0);" onclick="window.location.href = jsRoutes.controllers.Signup.forgotPassword($('#email').val() || null).absoluteURL();" class="margin-none" style="position:relative;top:-2px;font-size:13px;float: left;">忘記密碼?</a>

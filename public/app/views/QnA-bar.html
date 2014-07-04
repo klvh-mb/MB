@@ -1,8 +1,10 @@
 <div class="post-card">
     <ul title="qna">
         <li class="post-intro post-qna-line">
-            <span class="post-intro-share">發問於 </span>
-            <a data-ng-href="/#/community/{{post.cid}}/question"><img src="{{post.ci}}">{{post.cn}}</a>
+            <span class="post-qna-tag pull-left" style="margin-right:5px;">?</span>
+            <span class="post-intro-share">發問</span>
+            <span class="post-intro-share" ng-show="!isCommunityPage">於 </span>
+            <a data-ng-href="/#/community/{{post.cid}}/question" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
             <span class="post-intro-divider"></span>
             <span class="post-qna-answer-count">回覆: {{post.n_c}}</span>
             <!--span class="post-intro-divider"></span>
@@ -12,7 +14,6 @@
                 <span class="post-date" am-time-ago="post.ut"></span>
                 <!--span class="wall-forum-post-last-time">5</span-->
             </span>
-            <span class="post-qna-tag pull-left" style="margin-right:5px;">?</span>
         </li>
     </ul>
     <!-- Post Intro Ends -->
@@ -73,13 +74,13 @@
             <form class="post-comment-box" name="userComment" method="post" action="">
                 <label for="User Comment"></label>
                 <textarea type="text" name="userCommentfield" class="general-textfield post-qna-reply-textfield" id="userCommentfield" placeholder="回覆..." cols="70" data-ng-model="commentText" rows="1"></textarea>
-                <a class="post-photo-icon" data-ng-hide="qnaCommentSelectedFiles.length > 2 && commentedOnPost == post.id" id="upload">
+                <a class="post-photo-icon" data-ng-hide="qnaCommentSelectedFiles.length >= 3 && commentedOnPost == post.id" id="upload">
                     <i class="icon-photo-camera-fill" data-ng-click="qnaCommentPhoto(post.id)"></i>
                 </a>
                 <button class="btn btn-primary ng-binding" ng-disabled="userComment.$pristine || (userComment.$dirty && commentText.length < 2)" type="submit" disabled="disabled" data-ng-click="answer_to_question(post.id, commentText); commentText=''">
                     回覆
                 </button>
-                <input style="visibility:hidden;height:0px;" id="qna-comment-photo-id" type="file" name="comment-photo" ng-file-select="onQnACommentFileSelect($files)"/>
+                <input style="visibility:hidden;width:0px;height:0px;" id="qna-comment-photo-id" type="file" name="comment-photo" ng-file-select="onQnACommentFileSelect($files)"/>
             </form>
             <span ng-if="commentedOnPost == post.id">
                 <div ng-show="qnaCommentSelectedFiles != null">
