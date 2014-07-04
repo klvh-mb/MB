@@ -91,6 +91,10 @@ a:focus {
 }
 .dropdown-menu li {
     border: 0px;
+    margin: 5px 15px;
+}
+.dropdown-menu > li > a {
+    padding: 0;
 }
 .dropdown-divider {
     border-bottom: 1px solid #efefef !important;
@@ -410,7 +414,6 @@ a:focus {
     font-size: 32px;
     font-weight: bold;
     display: block;
-    margin-bottom: 10px;
 }
 #all-post-thumbnail {
     width: 100%;

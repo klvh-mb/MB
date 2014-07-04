@@ -1106,8 +1106,8 @@ pre {
 #community-header div:first-child a {
     position: absolute;
     display: none;
-    right: 40px;
-    top: 30px;
+    right: 25px;
+    top: 20px;
 }
 #community-header div:first-child a span:first-child {
     position: absolute;
@@ -1138,6 +1138,15 @@ pre {
 #community-banner {
     width: 100%;
     height: auto;
+}
+#community-banner-edit {
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    position: absolute;
+    
+    right: 515px; 
+    top: -34px;
 }
 /* Community Page Header End */
 
@@ -1458,6 +1467,7 @@ pre {
 
 /*Post Detail Start*/
 .post-detail-wrapper {
+    padding: 5px 10px;
 }
 .post-detail-wrapper li {
     clear: both;
@@ -1504,7 +1514,7 @@ pre {
     padding: 0 15px;
 }
 .post-detail-wrapper li img {
-    display: block;
+    /*display: block;*/
     max-width: 580px;
 }
 .post-detail-wrapper p {
@@ -1697,7 +1707,7 @@ pre {
     display: inline-block;
 }
 .memberImageStar, .friendImageStar {
-    background: no-repeat url(../images/general/home-sprite.png) -17px 0;
+    /*background: no-repeat url(../images/general/home-sprite.png) -17px 0;*/
     height: 20px;
     width: 20px;
     bottom: 0;

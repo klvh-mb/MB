@@ -16,8 +16,8 @@
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
 }
 #membersDropdown {
-    width: 120px;
-    min-width: 120px;
+    width: 100px;
+    min-width: 100px;
     font-size: 12px;
     left: 0px;
 }
