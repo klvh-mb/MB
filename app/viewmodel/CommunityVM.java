@@ -43,11 +43,10 @@ public class CommunityVM {
 		vm.createDate = c.createDate;
 		vm.id = c.id;
 		vm.noOfMembers = c.getMembers().size();
+		
 		//TODO Logic required
 		vm.isMember = user.isMemberOf(c);
-		
 		vm.isRequested = user.isJoinRequestPendingFor(c);
-		
 		vm.isOwner = (user == c.owner) ? true : false;
 		
 		List<CommunityPostVM> posts = new ArrayList<>();
@@ -59,7 +58,6 @@ public class CommunityVM {
 				posts.add(post);
 			}
 		}
-		
 		vm.posts = posts;
 		return vm;
 	}
@@ -77,11 +75,10 @@ public class CommunityVM {
         vm.createDate = c.createDate;
         vm.id = c.id;
         vm.noOfMembers = c.getMembers().size();
+        
         //TODO Logic required
         vm.isMember = user.isMemberOf(c);
-        
         vm.isRequested = user.isJoinRequestPendingFor(c);
-        
         vm.isOwner = (user == c.owner) ? true : false;
         
         List<CommunityPostVM> posts = new ArrayList<>();
@@ -89,7 +86,6 @@ public class CommunityVM {
         if(vm.isMember == true || vm.isOwner == true || vm.communityType == CommunityType.OPEN){
             posts.add(CommunityPostVM.communityPostVM(post,user));
         }
-        
         vm.posts = posts;
         return vm;
     }

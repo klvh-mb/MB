@@ -123,6 +123,8 @@
 							</a>
 						</div>
 					</div>
+					<!-- Community Tabs End -->
+					
 					<div class="tab-content" ng-show="selectedTab1 == 1" id="qnapost" ng-controller="QnACommunityController">
                         <div data-ng-include data-src="'/assets/app/views/community-QnA-bar.html'"></div>
                     </div>
@@ -134,9 +136,23 @@
 						<div data-ng-include data-src="'/assets/app/views/community-search-bar.html'"></div>
 					</div>
 				</div>
+				<div class="general-box" ng-show="!community.isO && !community.isM && !community.isP && community.typ=='CLOSE'">
+                    <div class="section-title">
+                        <div>
+                            這個是<!--span class="community-attribute glyphicon glyphicon-lock"></span-->不公開的社群
+                            <a style="margin:0 8px 8px 0" ng-show="!community.isO && community.isM == false && community.isP == false" class="btn-general pull-right" data-ng-click="send_join(community.id)">+ <i class="fa fa-user"></i> 加入社群</a>
+                        </div>
+                        <div>
+                            發問與分享只供會員查看
+                        </div>
+                    </div>
+                </div>
+                <!-- Closed Community Tips End -->
+                
                 <div class="tab-content row" ng-show="selectedTab == 2 ">
                     <div data-ng-controller="CommunityMembersWidgetController" data-ng-include data-src="'/assets/app/views/allMembersSection.html'"></div>
                 </div>
+                <div class="padding20"></div>
             </div>
             <!--Wall End -->
 		</div>
@@ -224,7 +240,6 @@
 		</div>
 	</div>
 </div>
-<div class="padding20"></div>
 
 <div data-ng-include data-src="'/assets/app/views/createCommunityModal.html'"></div>
 
