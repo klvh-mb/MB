@@ -594,10 +594,14 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getAllQuestionsOfCommunity(Long id) {
-        logger.underlyingLogger().debug("getAllQuestionsOfCommunity");
         final User localUser = Application.getLocalUser(session());
         final Community community = Community.findById(id);
-        return ok(Json.toJson(QnAPostsVM.qnaPosts(community, localUser)));
+        QnAPostsVM qnAPostsVM = QnAPostsVM.qnaPosts(community, localUser);
+
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getAllQuestionsOfCommunity(c="+id+")="+qnAPostsVM.posts.size());
+        }
+        return ok(Json.toJson(qnAPostsVM));
     }
     
     @Transactional

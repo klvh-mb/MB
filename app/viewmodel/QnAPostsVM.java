@@ -1,6 +1,7 @@
 package viewmodel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import models.Community;
@@ -17,7 +18,7 @@ public class QnAPostsVM {
 	@JsonProperty("lu") public Long loggedUserId;
 	@JsonProperty("lun") public String loggedUserName;
 	
-	@JsonProperty("posts") public List<CommunityPostVM> posts;
+	@JsonProperty("posts") public List<CommunityPostVM> posts = Collections.EMPTY_LIST;
 	
 	public static QnAPostsVM qnaPosts(Community c, User user) {
 		QnAPostsVM vm = new QnAPostsVM();
