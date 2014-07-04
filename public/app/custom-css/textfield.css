@@ -40,15 +40,6 @@
     box-shadow: none;
     border: none;
 }
-#content-upload-wrapper {
-    border-top: #c8c8c8 thin solid;
-}
-#content-upload-input { 
-    margin: 0 0 0 0;
-    border: none;
-    padding: 5px;
-    width: 100%;
-}
 #group-addnew-member {
     vertical-align: middle;
 }

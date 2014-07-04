@@ -1083,7 +1083,7 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(1, this.id);
         query.setParameter(2, SocialRelation.Action.MEMBER);
         query.setFirstResult(0);
-        query.setMaxResults(5);
+        query.setMaxResults(DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
         return (List<Post>)query.getResultList();
     }
     
@@ -1160,7 +1160,7 @@ public class User extends SocialObject implements Subject, Socializable {
                 "from SocialRelation sr where sr.actor=?1 and sr.action = ?2) and " + (timestamp - 60) + " < UNIX_TIMESTAMP(p.auditFields.createdDate) and  " + timestamp + " > UNIX_TIMESTAMP(p.auditFields.createdDate) order by p.auditFields.createdDate desc");
         query.setParameter(1, this.id);
         query.setParameter(2, SocialRelation.Action.MEMBER);
-        query.setMaxResults(5);
+        query.setMaxResults(DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
         return (List<Post>)query.getResultList();
     }
 
@@ -1169,7 +1169,7 @@ public class User extends SocialObject implements Subject, Socializable {
                 "from SocialRelation sr where sr.actor=?1 and sr.action = ?2) and  "+ timestamp+" > UNIX_TIMESTAMP(p.auditFields.createdDate) order by p.auditFields.createdDate desc");
         query.setParameter(1, this.id);
         query.setParameter(2, SocialRelation.Action.MEMBER);
-        query.setMaxResults(5);
+        query.setMaxResults(DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
         return (List<Post>)query.getResultList();
     }
 

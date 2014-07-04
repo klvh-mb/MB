@@ -132,7 +132,7 @@
                             </div>
                             <div>
 	                           <a ng-show="selectedFiles.length == 0"id="message-uploadphoto" data-ng-click="sendPhoto()"></a><a id="message-send" data-ng-click="sendMessage(messageText)"></a>
-	                           <input style="visibility:hidden;height:0px;" id="send-photo-id" type="file"  name="send-photo" ng-file-select="onFileSelect($files)"/>
+	                           <input style="visibility:hidden;display:inline-block;width:0px;height:0px;" id="send-photo-id" type="file"  name="send-photo" ng-file-select="onFileSelect($files)"/>
                             </div>
                         </form>
                     </div>

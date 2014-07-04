@@ -1230,27 +1230,6 @@ pre {
 }
 /* Profile About End */
 
-/* Content Uploader Start */
-#content-uploader {
-    border-radius: 0px 0px 4px 4px;
-    margin-bottom: 10px;
-}
-#content-uploader ul {
-    list-style: none;
-}
-#content-uploader li a {
-    font-size: small;
-    display: inline-block;
-    margin-bottom: 5px; 
-}
-#content-uploader li .divider-cus {
-    height: 15px;
-    position: relative;
-    top: 4px;
-    border-color: #c8c8c8;
-}
-/* Content Uploader End */
-
 /* Static Content Page General Box Start */
 .static-content-wrapper {
     padding: 10px;
@@ -1353,7 +1332,7 @@ pre {
 }
 .allpost-wrapper li {
     display: block;
-    padding: 5px 0 3px 0;
+    padding: 12px 0 8px 0;
     border-top: #bcbcbc thin solid;
 }
 /*.allpost-wrapper li:hover > div h4, 
