@@ -11,9 +11,10 @@
 				<div style="width:100px;margin-bottom:3px;" class="post-comment-box pull-right">
 				    <input style="visibility:hidden;display:inline-block;width:0px;height:0px;" id="post-photo-id" type="file" name="post-photo" ng-file-select="onFileSelect($files)"/>
     				<a class="post-photo-icon" data-ng-hide="selectedFiles.length >= 3">
-                        <i class="icon-photo-camera-fill" data-ng-click="postPhoto()"></i>
+                        <i class="icon-photo-camera-fill" data-ng-mousedown="postPhoto()"></i>
                     </a>
-                    <button class="btn btn-primary ng-binding" ng-disabled="postUpload.$pristine || (postUpload.$dirty && postText.length < 2)" type="submit" disabled="disabled" data-ng-click="post_on_community(community.id, postText); postText='';">
+                    <button class="btn btn-primary ng-binding" ng-disabled="postUpload.$pristine || (postUpload.$dirty && postText.length < 2)" type="submit" disabled="disabled" 
+                            data-ng-mousedown="post_on_community(community.id, postText); postText='';">
                         分享
                     </button>
                 </div>

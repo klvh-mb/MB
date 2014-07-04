@@ -6,6 +6,7 @@ import java.util.List;
 import models.Community;
 import models.Post;
 import models.User;
+import models.Community.CommunityType;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -24,13 +25,17 @@ public class QnAPostsVM {
 		vm.loggedUserId = user.id;
 		vm.loggedUserName = user.displayName;
 		
+		boolean isMember = user.isMemberOf(c);
+        boolean isOwner = (user == c.owner) ? true : false;
+        
 		List<CommunityPostVM> posts = new ArrayList<>();
 		
 		List<Post> postsFromDB = c.getQuestionsOfCommunity(0, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
-		
-		for(Post p: postsFromDB) {
-			CommunityPostVM post = CommunityPostVM.communityPostVM(p,user);
-			posts.add(post);
+		if(isMember == true || isOwner == true || c.communityType == CommunityType.OPEN){
+    		for(Post p: postsFromDB) {
+    			CommunityPostVM post = CommunityPostVM.communityPostVM(p,user);
+    			posts.add(post);
+    		}
 		}
 		vm.posts = posts;
 		return vm;
@@ -42,8 +47,14 @@ public class QnAPostsVM {
         vm.loggedUserId = user.id;
         vm.loggedUserName = user.displayName;
         
+        boolean isMember = user.isMemberOf(c);
+        boolean isOwner = (user == c.owner) ? true : false;
+        
         List<CommunityPostVM> posts = new ArrayList<>();
-        posts.add(CommunityPostVM.communityPostVM(post,user));
+        
+        if(isMember == true || isOwner == true || c.communityType == CommunityType.OPEN){
+            posts.add(CommunityPostVM.communityPostVM(post,user));
+        }
         vm.posts = posts;
         return vm;
     }

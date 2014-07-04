@@ -79,3 +79,41 @@ angular.module('minibean', [
   editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
   });
 
+var minibean = angular.module('minibean');
+
+//minibean.config(['$httpProvider', function($httpProvider) {
+    //initialize get if not there
+//    if (!$httpProvider.defaults.headers.get) {
+//        $httpProvider.defaults.headers.get = {};    
+//    }
+    //disable IE ajax request caching
+//    $httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
+//    $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache'; 
+//    $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
+//}]);
+
+minibean.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.interceptors.push('noCacheInterceptor');
+    }]).factory('noCacheInterceptor', function () {
+            return {
+                request: function (config) {
+                    //console.log(config.method);
+                    //console.log(config.url);
+                    if(config.method=='GET'){
+                        if (config.url.indexOf('template') === -1) {
+                            var separator = config.url.indexOf('?') === -1 ? '?' : '&';
+                            config.url = config.url+separator+'noCache=' + new Date().getTime();
+                        }
+                    }
+                    //console.log(config.method);
+                    //console.log(config.url);
+                    return config;
+               }
+           };
+    });
+    
+DefaultValues = function() {
+
+
+
+};

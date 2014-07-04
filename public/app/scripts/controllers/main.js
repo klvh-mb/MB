@@ -2330,9 +2330,9 @@ minibean.service('allAnswersService',function($resource){
 });
 
 minibean.controller('QnACommunityController',function($scope, bookmarkPostService, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
-	$scope.QnA = communityQnAPageService.QnAPosts.get({id:$routeParams.id}, function(){
-		usSpinnerService.stop('loading...');
-	});
+    $scope.QnA = communityQnAPageService.QnAPosts.get({id:$routeParams.id}, function(){
+        usSpinnerService.stop('loading...');
+    });
 	
 	$scope.postPhoto = function() {
 		$("#QnA-photo-id").click();
@@ -2358,8 +2358,7 @@ minibean.controller('QnACommunityController',function($scope, bookmarkPostServic
 		if (noMore) return;
 		
 		$scope.isBusy = true;
-		communityQnAPageService.GetQuests.get({id:$routeParams.id,offset:offsetq},
-				function(data){
+		communityQnAPageService.GetQuests.get({id:$routeParams.id,offset:offsetq}, function(data){
 			var posts = data;
 			if(data.length < 10) {
 				noMore = true;
