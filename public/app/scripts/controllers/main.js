@@ -1628,7 +1628,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     });
     
     //
-    // Below is copied completely from CreateQnACommunityController
+    // Below is copied completely from QnACommunityController
     // for js functions to handle comment, comment photo, like, bookmark etc
     //
     
@@ -1652,7 +1652,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     // !!!NOTE: Since we reuse QnA-bar.html for landing page, and QnA-bar.html is 
     // being used in home-news-feed-section.html, "view all" is using 
     // CommunityPageController.get_all_comments() instead of 
-    // CreateQnACommunityController.get_all_answers(). Hence we need to define 
+    // QnACommunityController.get_all_answers(). Hence we need to define 
     // below to make get_all_comments() available in QnALandingController
     
     $scope.get_all_comments = $scope.get_all_answers;
@@ -2329,7 +2329,7 @@ minibean.service('allAnswersService',function($resource){
 	);
 });
 
-minibean.controller('CreateQnACommunityController',function($scope, bookmarkPostService, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
+minibean.controller('QnACommunityController',function($scope, bookmarkPostService, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
 	$scope.QnA = communityQnAPageService.QnAPosts.get({id:$routeParams.id}, function(){
 		usSpinnerService.stop('loading...');
 	});

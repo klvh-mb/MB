@@ -1,25 +1,41 @@
+<div class="general-box">
+    <div class="section-title" ng-show="true">
+        <div>
+            您尚未有喜愛的問題,分享或文章。
+        </div>
+        <div>
+            請立即點一下問題,分享或文章右方的
+            <img style="width:15px;vertical-align:text-top;" data-ng-src="/assets/app/images/general/icons/message_favorited.png"/>
+            來喜愛吧!
+        </div>
+    </div>
+</div>
+<div class="padding5"></div>
+<!-- Bookmark Summary Ends -->
+
 <div class="general-box" style="margin:-1px">
     <div class="wall-title">
         <!--span class="wall-icon icon-title-community"></span-->
         <span style="margin-left:15px;">
             <a ng-click="selectedTab1 = 1;" ng-class="{activeTabUnderlined: selectedTab1 == 1}">
-                <font style="color: white;">問題</font>
+                <font style="color: white;">問題(16)</font>
             </a>
         </span>
         <!--span class="wall-icon icon-title-friendwall"></span-->
         <span style="margin-left:15px;">
             <a ng-click="selectedTab1 = 2;" ng-class="{activeTabUnderlined: selectedTab1 == 2}">
-                <font style="color: white;">分享</font>
+                <font style="color: white;">分享(21)</font>
             </a>
         </span>
         <span style="margin-left:15px;">
             <a ng-click="selectedTab1 = 3;" ng-class="{activeTabUnderlined: selectedTab1 == 3}">
-                <font style="color: white;">文章</font>
+                <font style="color: white;">文章(32)</font>
             </a>
         </span>
     </div>
 </div>
 <div class="padding5"></div>
+<!-- Bookmark Tabs End -->
 
 <div ng-show="selectedTab1 == 1" infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1' >
 	<div data-ng-repeat="post in posts.post">
@@ -41,8 +57,6 @@
 		
 	</div>
 </div>
-
-
 <div ng-show="selectedTab1 == 3" infinite-scroll='nextArticles()' infinite-scroll-disabled='isBusyA' infinite-scroll-distance='1' >
     <div data-ng-repeat="article in articles.article">
         <div class="general-box">
