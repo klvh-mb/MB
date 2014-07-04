@@ -4,36 +4,61 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-import org.joda.time.DateTime;
-
-import com.mnt.exception.SocialObjectNotJoinableException;
-
-import common.model.TargetYear;
-import play.db.jpa.JPA;
 import models.Announcement;
 import models.ArticleCategory;
 import models.Community;
+import models.Community.CommunityType;
+import models.EmotIcons;
 import models.Icon;
 import models.Icon.IconType;
 import models.Location;
+import models.Location.LocationCode;
 import models.SecurityRole;
 import models.TargetingSocialObject;
 import models.User;
-import models.Community.CommunityType;
-import models.Location.LocationCode;
+
+import org.joda.time.DateTime;
+
+import play.db.jpa.JPA;
+
+import com.mnt.exception.SocialObjectNotJoinableException;
+import common.model.TargetYear;
 
 public class DataBootstrap {
     
     public static void bootstrap() {
         bootstrapAnnouncement();
         bootstrapIcon();
+        bootstrapEmotIcon();
         bootstrapArticleCategory();
         bootstrapUser();
         bootstrapLocation();
         bootstrapCommunity();
 	}
     
-    private static void bootstrapAnnouncement() {
+    private static void bootstrapEmotIcon() {
+    	 Query q = JPA.em().createQuery("Select count(i) from EmotIcons i");
+         Long count = (Long)q.getSingleResult();
+         if (count > 0) {
+             return;
+         }
+         
+         EmotIcons emotIcons = new EmotIcons(":)", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/smile.png\">");
+         emotIcons.save();
+         emotIcons = new EmotIcons(":(", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/frown.png\">");
+         emotIcons.save();
+         emotIcons = new EmotIcons(":P", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/tongue.png\">");
+         emotIcons.save();
+         emotIcons = new EmotIcons(":O", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/gasp.png\">");
+         emotIcons.save();
+         emotIcons = new EmotIcons(":D", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/grin.png\">");
+         emotIcons.save();
+         emotIcons = new EmotIcons(";)", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/wink.png\">");
+         emotIcons.save();
+		
+	}
+
+	private static void bootstrapAnnouncement() {
         Query q = JPA.em().createQuery("Select count(a) from Announcement a");
         Long count = (Long)q.getSingleResult();
         if (count > 0) {

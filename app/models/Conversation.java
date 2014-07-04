@@ -150,6 +150,9 @@ public class Conversation extends domain.Entity implements Serializable,
 		if(conversation == null){
 			conversation = Conversation.startConversation(sender, receiver);
 		}
+		for(EmotIcons ei : EmotIcons.getIcons()){
+			msgText = msgText.replace(ei.name, ei.url);
+		}
 		return conversation.addMessage(sender, msgText);
 	}
 
