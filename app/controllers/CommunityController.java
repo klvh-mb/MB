@@ -285,10 +285,12 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result sendJoinRequest(String id) {
-        logger.underlyingLogger().debug("sendJoinRequest");
         final User localUser = Application.getLocalUser(session());
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"] sendJoinRequest(c="+id+")");
+        }
+
         Community community = Community.findById(Long.parseLong(id));
-        
         try {
             localUser.requestedToJoin(community);
         } catch (SocialObjectNotJoinableException e) {
@@ -300,11 +302,11 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getNextPosts(String id,String offset) {
+        final User localUser = Application.getLocalUser(session());
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("getNextPosts(c="+id+" offset="+offset+")");
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getNextPosts(c="+id+", offset="+offset+")");
         }
 
-        final User localUser = Application.getLocalUser(session());
         Community community = Community.findById(Long.parseLong(id));
         int start = (Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) + DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
         List<CommunityPostVM> postsVM = new ArrayList<>();
@@ -318,11 +320,11 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getNextQuests(String id,String offset) {
+        final User localUser = Application.getLocalUser(session());
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("getNextQuests(c="+id+" offset="+offset+")");
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getNextQuests(c="+id+", offset="+offset+")");
         }
 
-        final User localUser = Application.getLocalUser(session());
         Community community = Community.findById(Long.parseLong(id));
         int start = (Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) + DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
         List<CommunityPostVM> postsVM = new ArrayList<>();

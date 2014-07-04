@@ -1,5 +1,5 @@
 <div id="content-uploader" class="general-box tab-content" >
-    <ul ng-show="community.isM || community.isO == true" style="padding:5px;">
+    <ul ng-show="community.isM == true || community.isO == true" style="padding:5px;">
         <li>
             <form id="content-upload-wrapper" name="qnaUpload" class="no-margin no-padding" method="post" action="" >
                 <textarea cols="45" rows="1" class="post-input-title general-input-box form-control" placeholder="問個問題⋯⋯" data-ng-model="questionTitle"></textarea>
@@ -9,7 +9,6 @@
 					ng-repeat="f in QnASelectedFiles" ng-show="dataUrls[$index]" 
 					ng-src="{{dataUrls[$index]}}" tooltip-placement="bottom" tooltip="移除相片" data-ng-click="remove_image($index)">
 				</div>
-				<div>
 				<div style="width:100px;margin-bottom:3px;" class="post-comment-box pull-right">
                     <input style="visibility:hidden;display:inline-block;width:0px;height:0px;" id="QnA-photo-id" type="file" name="post-photo" ng-file-select="onQnAFileSelect($files)"/>
                     <a class="post-photo-icon" data-ng-hide="QnASelectedFiles.length >= 3">
