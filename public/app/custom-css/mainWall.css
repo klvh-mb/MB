@@ -235,8 +235,8 @@
     text-decoration: none;
 }
 .post-photo-preview {
-    width: 85px;
-    height: 85px;
+    max-width: 160px;
+    max-height: 120px;
     float: left !important;
     margin: 15px 5px;
     border-radius: 5px;

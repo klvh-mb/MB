@@ -93,8 +93,8 @@
                     <div class="message-entry" style="height: 180px">
                         <form method="post" action="">
                         <div style="background-color: white; height:99px; width:100px" ng-show="selectedFiles != null">
-							<img ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
-								ng-repeat="f in selectedFiles" tooltip-placement="bottom" tooltip="Remove this photo" style="width: 80px;height: 77px;" data-ng-click="remove_image($index)"
+							<img class="post-photo-preview" ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
+								ng-repeat="f in selectedFiles" tooltip-placement="bottom" tooltip="移除相片" data-ng-click="remove_image($index)"
 								ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}"></div>
                             <label for="Input Message"></label>
                             <textarea rows="4" cols="70" name="message-inputfield" data-ng-model="messageText"></textarea>

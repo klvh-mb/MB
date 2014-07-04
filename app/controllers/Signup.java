@@ -206,8 +206,7 @@ public class Signup extends Controller {
 
 	public static Result exists() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-		final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM
-				.bindFromRequest();
+		final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM.bindFromRequest();
 		List<ValidationError> arg1 = new ArrayList<>();
 		arg1.add(new ValidationError("userExist", "User Exist"));
 		filledForm.errors().put("userExist", arg1 );
