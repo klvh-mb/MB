@@ -284,3 +284,54 @@ ul, li {
     color: white;
     margin-right: 10px;
 }
+
+
+/* Password related */
+.pwd-container {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    width: 950px;
+    height: 350px;
+    left: 50%;
+    margin-left: -325px;
+}
+.pwd-container div.login-box:first-child {
+    float: left;
+    width: 70%;
+    margin-right: 2%;
+    height: 100%;
+    /*padding: 10% 3% 20% 5%;*/
+    padding: 20px 50px 20px 50px;
+}
+.pwd-container div.login-box:first-child div {
+    float: left;
+    width: 50%;
+}
+.pwd-container div.login-box:first-child p {
+    color: gray;
+}
+.pwd-container div {
+    float: right;
+    width: 28%;
+}
+
+#pwd-btn {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    width: 120px;
+    padding: 5px;
+    background-repeat: no-repeat;
+    border: 1px solid #e1e8ed;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    background-color: #ffac33;
+    background-image: linear-gradient(#ffcc4d,#ffac33);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffcc4d, endColorstr=#ffac33, GradientType=0)";
+    border-color: #f1a02a;
+    color: #292f33;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+    align: left;
+}
