@@ -53,7 +53,7 @@ playauthenticate.password.login.unknown_user_or_pw=Unknown user or password.
 
 playauthenticate.password.verify_signup.subject=[miniBean 小萌豆] 離成功註冊只差一步!
 playauthenticate.password.verify_email.subject=[miniBean 小萌豆] Email 地址驗證
-playauthenticate.password.reset_email.subject=PlayAuthenticate: How to reset your password
+playauthenticate.password.reset_email.subject=[miniBean 小萌豆] 重設您的戶口密碼
 
 # play-authenticate: Additional translations
 
@@ -97,7 +97,7 @@ playauthenticate.verify.email.requirement=Before you can use PlayAuthenticate, y
 playauthenticate.verify.email.cta=An e-mail has been sent to the registered address. Please follow the embedded link to activate your account.
 
 playauthenticate.password.reset.title=密碼重設
-playauthenticate.password.reset.cta=密碼重設
+playauthenticate.password.reset.cta=重設密碼
 
 playauthenticate.password.forgot.title=Forgot password
 playauthenticate.password.forgot.cta=Send reset instructions
