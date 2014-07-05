@@ -11,7 +11,7 @@
     <ul>
         <li class="post-sharing-body-top">
             <a data-ng-href="/#/profile/{{post.oid}}">
-                <img class="post-title-user-image" data-ng-src="/get-mini-image-by-id/{{post.oid}}"/>
+                <img class="post-title-user-image" data-ng-src="/image/get-mini-image-by-id/{{post.oid}}"/>
             </a>
             <div class="post-title-user-name">
                 <a data-ng-href="/#/profile/{{post.oid}}">{{post.p}}</a>
@@ -24,7 +24,7 @@
             <div class="post-sharing-body-text" ng-bind-html="post.pt | highlight: highlightText"></div>
             <div data-ng-show="post.hasImage" class="post-body-image">
                 <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
-                    <img data-ng-src="/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                    <img data-ng-src="/image/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
                 </a>
             </div>
             <span data-ng-include data-src="'/assets/app/views/like-post.html'"></span>
@@ -38,7 +38,7 @@
         </li>
         <li data-ng-repeat="comment in post.cs">
             <a data-ng-href="/#/profile/{{comment.oid}}">
-                <img class="post-sharing-comment-user-image" data-ng-src="/get-comment-mini-image-by-id/{{comment.oid}}"/>
+                <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
             </a>
             <span class="post-sharing-comment-body">
                 <span class="post-title-user-name post-sharing-comment-font">
@@ -52,7 +52,7 @@
     	        </div>
     	        <div data-ng-show="comment.hasImage" class="post-body-image">
                     <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in comment.imgs" href="">
-                        <img style="width:100px;" data-ng-src="/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                        <img style="width:100px;" data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
                     </a>
                 </div>
 	        </span>
@@ -60,7 +60,7 @@
     	<!-- Post Comment box-->
         <li ng-show="post.isC || (community.isM || community.isO)">
             <a data-ng-href="/#/profile/{{userInfo.id}}">
-                <img style="margin-top:5px;" class="post-sharing-comment-user-image" data-ng-src="/get-comment-mini-image-by-id/{{userInfo.id}}"/>
+                <img style="margin-top:5px;" class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
             </a>
             <form class="post-comment-box" name="userComment" method="post" action="">
                 <label for="User Comment"></label>

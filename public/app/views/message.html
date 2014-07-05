@@ -17,7 +17,7 @@
                     </div> -->
                     <ul stule="overflow-y:scroll;">
                         <li id="conversation" data-ng-class="selectedIndex == $index   ? 'message-list-active' : conv.isReaded == true ? 'message-list-unread' :'message-list-read' "  data-ng-repeat="conv in conversations" data-ng-click="getMessages(conv.id, conv.uid); setSelectedIndex($index)">
-                            <img data-ng-src="/get-mini-image-by-id/{{conv.uid}}" style="height:50px;">
+                            <img data-ng-src="/image/get-mini-image-by-id/{{conv.uid}}" style="height:50px;">
                             <div><h5>{{conv.nm}}</h5><p>{{conv.lm}}</p></div>
                             <div><p> <span class="wall-user-actState-date" >{{ conv.cd| date:'hh:mm'}}</span></p><a href="#" class="message-notice">49</a></div>
                         </li>
@@ -43,7 +43,7 @@
 					                <ul style="top:23px;left:5px;overflow-y:scroll;max-height:345px;width:260px;position:initial;z-index:1000" class="dropdown-menu chat media-list hide" ng-class="{show : searchResult.length > 0 && name.length > 0}">
 					                    <li class="media" ng-repeat="search in searchResult" ng-switch="search.tp">
 					                        <a ng-switch-when="USER" class="pull-left" data-ng-click="startConversation(search.id)">
-					                            <img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{search.id}}"  alt="50x50" width="50"/>
+					                            <img class="media-object thumb" data-ng-src="/image/get-mini-image-by-id/{{search.id}}"  alt="50x50" width="50"/>
 					                        </a>
 					                        
 					                        <div class="media-body">
@@ -66,9 +66,9 @@
                     	<div data-ng-repeat="msg in messages.slice().reverse()">
 	                        <li class="message-user" ng-show="msg.suid == userInfo.id">
 	                            <div>
-	                                <img data-ng-src="/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
+	                                <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
 	                                <div ng-show="msg.hasImage" class="message-image">
-	                                    <img src="/get-message-image-by-id/{{msg.imgs}}" />
+	                                    <img src="/image/get-message-image-by-id/{{msg.imgs}}" />
 	                                    <p ng-bind-html="msg.txt"><p>
 	                                    <span class="message-timestamp">{{ msg.cd| date:'hh:mm a'}}</span>
 	                                </div>
@@ -80,9 +80,9 @@
 	                        </li>
 	                        <li class="message-replier" ng-show="msg.suid != userInfo.id" >
 	                            <div>
-	                                <img data-ng-src="/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
+	                                <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
 	                                <div class="message-text">
-	                                	<div ng-show="msg.hasImage"><img src="/get-message-image-by-id/{{msg.imgs}}" style="position: initial"/></div>
+	                                	<div ng-show="msg.hasImage"><img src="/image/get-message-image-by-id/{{msg.imgs}}" style="position: initial"/></div>
 	                                     <p ng-bind-html="msg.txt"><p>
 	                                    <span class="message-timestamp">{{ msg.cd| date:'hh:mm a'}}</span>
 	                                </div>
