@@ -32,6 +32,11 @@ import domain.SocialObjectType;
 @Entity
 public class Resource extends SocialObject {
 
+    public static final String STORAGE_PATH = 
+            Play.application().configuration().getString("storage.path");
+    public static final int STORAGE_PARTITION_DIR_MAX = 
+            Integer.valueOf(Play.application().configuration().getString("storage.partition.dir.max"));
+    
 	public Resource() {
 	}
 	
@@ -73,9 +78,8 @@ public class Resource extends SocialObject {
 		if (isExternal()) {
 			return resourceName;
 		} else {
-			return Play.application().configuration().getString("storage.path")+ getOwner().id / 30000 + "/"
-					+ getOwner().id + "/" + folder.id + "/" + id + "/"
-					+ resourceName;
+			return STORAGE_PATH + (owner.id % STORAGE_PARTITION_DIR_MAX) + "/"
+					+ owner.id + "/" + folder.id + "/" + id + "/" + resourceName;
 		}
 	}
 	
@@ -84,8 +88,8 @@ public class Resource extends SocialObject {
 		if (isExternal()) {
 			return resourceName;
 		} else {
-			return Play.application().configuration().getString("storage.path") + owner.id/30000 + "/"
-					+ owner.id + "/" + folder.id + "/" + id + "/thumbnail."+resourceName;
+			return STORAGE_PATH + (owner.id % STORAGE_PARTITION_DIR_MAX) + "/"
+					+ owner.id + "/" + folder.id + "/" + id + "/thumbnail." + resourceName;
 		}
 	}
 	
@@ -102,8 +106,8 @@ public class Resource extends SocialObject {
 		if (isExternal()) {
 			return resourceName;
 		} else {
-			return Play.application().configuration().getString("storage.path") + owner.id/30000 + "/"
-					+ owner.id + "/" + folder.id + "/" + id + "/mini."+resourceName;
+			return STORAGE_PATH + (owner.id % STORAGE_PARTITION_DIR_MAX) + "/"
+					+ owner.id + "/" + folder.id + "/" + id + "/mini." + resourceName;
 		}
 	}
 	
@@ -112,8 +116,8 @@ public class Resource extends SocialObject {
 		if (isExternal()) {
 			return resourceName;
 		} else {
-			return Play.application().configuration().getString("storage.path") + owner.id/30000 + "/"
-					+ owner.id + "/" + folder.id + "/" + id + "/miniComment."+resourceName;
+			return STORAGE_PATH + (owner.id % STORAGE_PARTITION_DIR_MAX) + "/"
+					+ owner.id + "/" + folder.id + "/" + id + "/miniComment." + resourceName;
 		}
 	}
 

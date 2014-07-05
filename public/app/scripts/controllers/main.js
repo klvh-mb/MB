@@ -186,7 +186,7 @@ minibean.controller('ApplicationController',function($scope,$location, userInfoS
 	
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.set_background_image = function() {
-		return {background : 'url(/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+')'};
+		return {background : 'url(/image/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+')'};
 	} 
 	$scope.friend_requests = userNotification.getAllFriendRequests.get();
 	$scope.join_requests = userSimpleNotifications.getAllJoinRequests.get();
@@ -412,8 +412,8 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
         $scope.selectedTab = 4;
     }
     
-	var profileImage = "/get-profile-image";
-	var coverImage = "/get-cover-image";
+	var profileImage = "/image/get-profile-image";
+	var coverImage = "/image/get-cover-image";
 	$scope.isEdit = true;
 	$scope.result = userAboutService.UserAbout.get();
 	$scope.profileImage = profileImage;
@@ -477,7 +477,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 	$scope.isProfileOn = true; 
 	$scope.isCoverOn = !$scope.isProfileOn;
 	$scope.openProfilePhotoModal = function() {
-		PhotoModalController.url = "upload-profile-photo";
+		PhotoModalController.url = "image/upload-profile-photo";
 		profilePhotoModal.OpenModal({
 			 templateUrl: 'change-profile-photo-modal.html',
 			 controller: PhotoModalController
@@ -488,7 +488,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 	}
 	
 	$scope.openCoverPhotoModal = function() {
-		PhotoModalController.url = "upload-cover-photo";
+		PhotoModalController.url = "image/upload-cover-photo";
 		profilePhotoModal.OpenModal({
 			 templateUrl: 'change-profile-photo-modal.html',
 			 controller: PhotoModalController
@@ -560,7 +560,7 @@ minibean.controller('GroupController',function($scope,$q, $location,$routeParams
 	}
 
 	$scope.openGroupCoverPhotoModal = function(id) {
-		PhotoModalController.url = "upload-cover-photo-group/"+id;
+		PhotoModalController.url = "image/upload-cover-photo-group/"+id;
 		profilePhotoModal.OpenModal({
 			 templateUrl: 'change-profile-photo-modal.html',
 			 controller: PhotoModalController
@@ -1167,7 +1167,7 @@ minibean.service('communityJoinService',function($resource){
 
 minibean.service('iconsService',function($resource){
 	this.getAllIcons = $resource(
-			'/getAllIcons',
+			'/image/getAllIcons',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
 				get: {method:'get' ,isArray:true}
@@ -1377,7 +1377,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                             for(var i=0 ; i<$scope.commentTempSelectedFiles.length ; i++) {
                                 usSpinnerService.spin('loading...');
                                 $upload.upload({
-                                    url : '/uploadCommentPhoto',
+                                    url : '/image/uploadCommentPhoto',
                                     method: $scope.httpMethod,
                                     data : {
                                         commentId : comment_id
@@ -1444,7 +1444,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                 for(var i=0 ; i<$scope.tempSelectedFiles.length ; i++) {
                     usSpinnerService.spin('loading...');
                     $upload.upload({
-                        url : '/uploadPostPhoto',
+                        url : '/image/uploadPostPhoto',
                         method: $scope.httpMethod,
                         data : {
                             postId : post_id
@@ -1494,7 +1494,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     }
     
     $scope.openGroupCoverPhotoModal = function(id) {
-        PhotoModalController.url = "upload-cover-photo-group/"+id;
+        PhotoModalController.url = "image/upload-cover-photo-group/"+id;
         profilePhotoModal.OpenModal({
              templateUrl: 'change-profile-photo-modal.html',
              controller: PhotoModalController
@@ -1724,7 +1724,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                 for(var i=0 ; i<$scope.tempSelectedFiles.length ; i++) {
                     usSpinnerService.spin('loading...');
                     $upload.upload({
-                        url : '/uploadPostPhoto',
+                        url : '/image/uploadPostPhoto',
                         method: $scope.httpMethod,
                         data : {
                             postId : post_id
@@ -1789,7 +1789,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                         for(var i=0 ; i<$scope.qnaTempCommentSelectedFiles.length ; i++) {
                             usSpinnerService.spin('loading...');
                             $upload.upload({
-                                url : '/uploadQnACommentPhoto',
+                                url : '/image/uploadQnACommentPhoto',
                                 method: $scope.httpMethod,
                                 data : {
                                     commentId : answer_id
@@ -1931,7 +1931,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		$scope.img_id = imageId;
 	}
 	
-	var coverImage = "/get-cover-community-image-by-id/"+$routeParams.id;
+	var coverImage = "/image/get-cover-community-image-by-id/"+$routeParams.id;
 	$scope.coverImage = coverImage;
 	
 	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id}, function(){
@@ -2066,7 +2066,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 							for(var i=0 ; i<$scope.commentTempSelectedFiles.length ; i++) {
 								usSpinnerService.spin('loading...');
 								$upload.upload({
-									url : '/uploadCommentPhoto',
+									url : '/image/uploadCommentPhoto',
 									method: $scope.httpMethod,
 									data : {
 										commentId : comment_id
@@ -2133,7 +2133,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 				for(var i=0 ; i<$scope.tempSelectedFiles.length ; i++) {
 					usSpinnerService.spin('loading...');
 					$upload.upload({
-						url : '/uploadPostPhoto',
+						url : '/image/uploadPostPhoto',
 						method: $scope.httpMethod,
 						data : {
 							postId : post_id
@@ -2183,7 +2183,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	}
 	
 	$scope.openGroupCoverPhotoModal = function(id) {
-		PhotoModalController.url = "upload-cover-photo-group/"+id;
+		PhotoModalController.url = "image/upload-cover-photo-group/"+id;
 		profilePhotoModal.OpenModal({
 			 templateUrl: 'change-profile-photo-modal.html',
 			 controller: PhotoModalController
@@ -2437,7 +2437,7 @@ minibean.controller('QnACommunityController',function($scope, bookmarkPostServic
 				for(var i=0 ; i<$scope.tempSelectedFiles.length ; i++) {
 					usSpinnerService.spin('loading...');
 					$upload.upload({
-						url : '/uploadPostPhoto',
+						url : '/image/uploadPostPhoto',
 						method: $scope.httpMethod,
 						data : {
 							postId : post_id
@@ -2501,7 +2501,7 @@ minibean.controller('QnACommunityController',function($scope, bookmarkPostServic
 						for(var i=0 ; i<$scope.qnaTempCommentSelectedFiles.length ; i++) {
 							usSpinnerService.spin('loading...');
 							$upload.upload({
-								url : '/uploadQnACommentPhoto',
+								url : '/image/uploadQnACommentPhoto',
 								method: $scope.httpMethod,
 								data : {
 									commentId : answer_id
@@ -3105,7 +3105,7 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 						for(var i=0 ; i<$scope.commentTempSelectedFiles.length ; i++) {
 							usSpinnerService.spin('loading...');
 							$upload.upload({
-								url : '/uploadCommentPhoto',
+								url : '/image/uploadCommentPhoto',
 								method: $scope.httpMethod,
 								data : {
 									commentId : comment_id
@@ -3313,7 +3313,7 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 						for(var i=0 ; i<$scope.qnaTempCommentSelectedFiles.length ; i++) {
 							usSpinnerService.spin('loading...');
 							$upload.upload({
-								url : '/uploadQnACommentPhoto',
+								url : '/image/uploadQnACommentPhoto',
 								method: $scope.httpMethod,
 								data : {
 									commentId : answer_id
@@ -3441,7 +3441,7 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $tim
 						for(var i=0 ; i<$scope.commentTempSelectedFiles.length ; i++) {
 							usSpinnerService.spin('loading...');
 							$upload.upload({
-								url : '/uploadCommentPhoto',
+								url : '/image/uploadCommentPhoto',
 								method: $scope.httpMethod,
 								data : {
 									commentId : comment_id
@@ -3536,7 +3536,7 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $tim
 						for(var i=0 ; i<$scope.qnaTempCommentSelectedFiles.length ; i++) {
 							usSpinnerService.spin('loading...');
 							$upload.upload({
-								url : '/uploadQnACommentPhoto',
+								url : '/image/uploadQnACommentPhoto',
 								method: $scope.httpMethod,
 								data : {
 									commentId : answer_id

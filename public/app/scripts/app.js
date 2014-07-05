@@ -97,16 +97,19 @@ minibean.config(['$httpProvider', function($httpProvider) {
     }]).factory('noCacheInterceptor', function () {
             return {
                 request: function (config) {
-                    //console.log(config.method);
-                    //console.log(config.url);
+                    //console.log(config.method + " " + config.url);
                     if(config.method=='GET'){
-                        if (config.url.indexOf('template') === -1) {
+                        var url = config.url.toLowerCase();
+                        if (url.indexOf('template') === -1 && 
+                            url.indexOf('assets') === -1 &&
+                            url.indexOf('image') === -1 && 
+                            url.indexOf('photo') === -1 &&
+                            url.indexOf('modal') === -1) {
                             var separator = config.url.indexOf('?') === -1 ? '?' : '&';
                             config.url = config.url+separator+'noCache=' + new Date().getTime();
+                            console.log(config.method + " " + config.url);
                         }
                     }
-                    //console.log(config.method);
-                    //console.log(config.url);
                     return config;
                }
            };
