@@ -29,7 +29,7 @@
 <div class="memberCard" ng-repeat="fvm in result.fvm | filter:query " ng-show="showMembers">
  	<a href="/#/profile/{{fvm.id}}" class="d-s ob">
     	<div class="memberImageBox">
-        	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{fvm.dn}}" data-ng-src="/get-thumbnail-image-by-id/{{fvm.id}}" alt="..." width="70px" height="70px">
+        	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{fvm.dn}}" data-ng-src="/image/get-thumbnail-image-by-id/{{fvm.id}}" alt="..." width="70px" height="70px">
         	<img class="memberImageStar" ng-show="fvm.isAdmin" data-ng-src="/assets/app/images/general/icons/star.png"/>
         </div>
 	</a>
@@ -43,7 +43,7 @@
 <div class="memberCard" ng-repeat="fvm in result.fvm | filter:query " ng-show="showAdmin && fvm.isAdmin">
  	<a href="/#/profile/{{fvm.id}}" class="d-s ob">
     	<div class="memberImageBox">
-        	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{fvm.dn}}" data-ng-src="/get-thumbnail-image-by-id/{{fvm.id}}" alt="..." width="70px" height="70px">
+        	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{fvm.dn}}" data-ng-src="/image/get-thumbnail-image-by-id/{{fvm.id}}" alt="..." width="70px" height="70px">
         	<img class="memberImageStar" ng-show="fvm.isAdmin" data-ng-src="/assets/app/images/general/icons/star.png"/>
         </div>
 	</a>

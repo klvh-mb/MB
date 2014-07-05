@@ -83,13 +83,13 @@ GET		/get-user-info				controllers.UserController.getUserInfo
 GET		/about-user					controllers.UserController.aboutUser
 POST	/updateUserProfileData		controllers.UserController.updateUserProfileData
 POST	/updateUserDisplayName		controllers.UserController.updateUserDisplayName
-POST	/upload-profile-photo		controllers.UserController.uploadProfilePhoto
-POST	/upload-cover-photo		    controllers.UserController.uploadCoverPhoto
+POST	/image/upload-profile-photo		controllers.UserController.uploadProfilePhoto
+POST	/image/upload-cover-photo		    controllers.UserController.uploadCoverPhoto
 GET     /getAllDistricts            controllers.Application.getAllDistricts
 
-GET		/get-profile-image			controllers.UserController.getProfileImage
+GET		/image/get-profile-image			controllers.UserController.getProfileImage
 GET 	/get-user-newsfeeds/:offset/:id 		controllers.UserController.getUserNewsfeeds(offset : String, id : Long)
-GET		/get-cover-image			controllers.UserController.getCoverImage
+GET		/image/get-cover-image			controllers.UserController.getCoverImage
 GET		/user-search				controllers.UserController.searchSocialObjects(query: String)
 GET		/get-friend-requests		controllers.UserController.getAllFriendRequests
 GET		/accept-friend-request		controllers.UserController.acceptFriendRequest(friend_id :Long, notify_id: Long)
@@ -99,13 +99,13 @@ GET		/accept-invite-request/:member_id/:community_id/:notify_id		controllers.Use
 GET		/mark-as-read/:id						controllers.UserController.markNotificationAsRead(id:Long)
 
 GET     /profile/:id                controllers.UserController.getProfile(id :Long)
-GET		/get-profile-image-by-id/:id		controllers.UserController.getProfileImageByID(id :Long)
-GET		/get-cover-image-by-id/:id		controllers.UserController.getCoverImageByID(id :Long)
-GET		/get-mini-image-by-id/:id		controllers.UserController.getMiniVersionImageByID(id :Long)
-GET		/get-comment-mini-image-by-id/:id		controllers.UserController.getMiniCommentVersionImageByID(id :Long)
-GET		/get-thumbnail-image-by-id/:id		controllers.UserController.getThumbnailVersionImageByID(id :Long)
-GET		/get-thumbnail-cover-image-by-id/:id		controllers.UserController.getThumbnailCoverImageByID(id :Long)
-GET		/get-original-image-by-id/:id		controllers.UserController.getOriginalImageByID(id :Long)
+GET		/image/get-profile-image-by-id/:id		controllers.UserController.getProfileImageByID(id :Long)
+GET		/image/get-cover-image-by-id/:id		controllers.UserController.getCoverImageByID(id :Long)
+GET		/image/get-mini-image-by-id/:id		controllers.UserController.getMiniVersionImageByID(id :Long)
+GET		/image/get-comment-mini-image-by-id/:id		controllers.UserController.getMiniCommentVersionImageByID(id :Long)
+GET		/image/get-thumbnail-image-by-id/:id		controllers.UserController.getThumbnailVersionImageByID(id :Long)
+GET		/image/get-thumbnail-cover-image-by-id/:id		controllers.UserController.getThumbnailCoverImageByID(id :Long)
+GET		/image/get-original-image-by-id/:id		controllers.UserController.getOriginalImageByID(id :Long)
 
 #Conversation
 GET		/get-all-Conversation		controllers.UserController.getAllConversation()
@@ -114,7 +114,7 @@ GET		/start-Conversation/:id		controllers.UserController.startConversation(id: L
 POST	/Message/sendMsg			controllers.UserController.sendMessage()
 POST	/sendMessagePhoto			controllers.UserController.sendPhotoinMessage()
 GET		/user-friend-search			controllers.UserController.searchUserFriends(query: String)
-GET		/get-message-image-by-id/:id		controllers.UserController.getMessaheImageByID(id :Long)
+GET		/image/get-message-image-by-id/:id		controllers.UserController.getMessaheImageByID(id :Long)
 GET		/get-unread-msg-count		controllers.UserController.getUnreadMsgCount()
 
 
@@ -134,16 +134,16 @@ GET     /get-my-all-communities                 controllers.CommunityController.
 GET		/get-user-communities/:id		        controllers.CommunityController.getCommunitiesOfUser(id :Long)
 GET		/get-user-all-communities/:id			controllers.CommunityController.getAllCommunitiesOfUser(id: Long)
 GET		/send-request							controllers.CommunityController.sendJoinRequest(id: String)
-GET		/get-cover-community-image-by-id/:id	controllers.CommunityController.getFullCoverCommunityImageById(id :Long)
-GET     /get-thumbnail-cover-community-image-by-id/:id      controllers.CommunityController.getThumbnailCoverCommunityImageById(id :Long)
+GET		/image/get-cover-community-image-by-id/:id	controllers.CommunityController.getFullCoverCommunityImageById(id :Long)
+GET     /image/get-thumbnail-cover-community-image-by-id/:id      controllers.CommunityController.getThumbnailCoverCommunityImageById(id :Long)
 GET     /get-mini-cover-community-image-by-id/:id           controllers.CommunityController.getMiniCoverCommunityImageById(id :Long)
 GET		/community/:id							controllers.CommunityController.getCommunityInfoById(id :Long)
 GET		/editCommunity/:id						controllers.CommunityController.getEditCommunityInfo(id :Long)
 GET		/community/join/:id						controllers.CommunityController.joinToCommunity(id : Long)
 GET		/community/leave/:id					controllers.CommunityController.leaveThisCommunity(id : Long)
 GET		/get-community-members/:id				controllers.CommunityController.getCommunityMembers(id : Long)
-GET 	/get-post-image-by-id/:id				controllers.CommunityController.getPostImageById(id : Long)
-GET		/get-original-post-image-by-id/:id			controllers.CommunityController.getOriginalPostImageByID(id : Long)
+GET 	/image/get-post-image-by-id/:id				controllers.CommunityController.getPostImageById(id : Long)
+GET		/image/get-original-post-image-by-id/:id			controllers.CommunityController.getOriginalPostImageByID(id : Long)
 GET		/comments/:id							controllers.CommunityController.getAllComments(id : Long)
 GET		/answers/:id							controllers.CommunityController.getAllAnswers(id : Long)
 GET		/posts									controllers.CommunityController.getNextPosts(id: String,offset: String)
@@ -151,18 +151,18 @@ GET		/questions								controllers.CommunityController.getNextQuests(id: String,
 POST	/community/post/comment					controllers.CommunityController.commentOnCommunityPost()
 POST	/community/post							controllers.CommunityController.postOnCommunity()
 POST	/createCommunity						controllers.CommunityController.createCommunity()
-POST	/upload-cover-photo-group/:id		   	controllers.CommunityController.uploadCoverPhoto(id : Long)
+POST	/image/upload-cover-photo-group/:id		   	controllers.CommunityController.uploadCoverPhoto(id : Long)
 POST	/updateCommunityProfileData				controllers.CommunityController.updateCommunityProfileData
 GET		/communityQnA/questions/:id				controllers.CommunityController.getAllQuestionsOfCommunity(id : Long)
 POST	/communityQnA/question/post				controllers.CommunityController.postQuestionOnCommunity()
 POST	/communityQnA/question/answer			controllers.CommunityController.answerToQuestionOnQnACommunity()
-POST	/uploadPostPhoto						controllers.CommunityController.uploadPhotoOfPost()
-GET		/getAllIcons							controllers.CommunityController.getAllIcons()
+POST	/image/uploadPostPhoto						controllers.CommunityController.uploadPhotoOfPost()
+GET		/image/getAllIcons							controllers.CommunityController.getAllIcons()
 GET		/getAllUnjoinedMembers/:id/:query		controllers.CommunityController.getAllUnjoinedUsers(id : Long, query: String)
 GET		/inviteToCommunity/:community_id/:user_id   controllers.CommunityController.sendInviteToJoinCommunity(community_id : Long, user_id: Long)
-POST	/uploadCommentPhoto						controllers.CommunityController.uploadCommentPhoto()
-POST	/uploadQnACommentPhoto					controllers.CommunityController.uploadQnACommentPhoto()	
-GET		/get-comment-image-by-id/:id			controllers.CommunityController.getCommentImageById(id : Long)
+POST	/image/uploadCommentPhoto						controllers.CommunityController.uploadCommentPhoto()
+POST	/image/uploadQnACommentPhoto					controllers.CommunityController.uploadQnACommentPhoto()	
+GET		/image/get-comment-image-by-id/:id			controllers.CommunityController.getCommentImageById(id : Long)
 GET     /post-landing/:id/:communityId          controllers.CommunityController.postLanding(id:Long, communityId:Long)
 GET     /qna-landing/:id/:communityId           controllers.CommunityController.qnaLanding(id:Long, communityId:Long)
 

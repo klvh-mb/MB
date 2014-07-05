@@ -73,7 +73,7 @@ public class Resource extends SocialObject {
 		if (isExternal()) {
 			return resourceName;
 		} else {
-			return Play.application().configuration().getString("storage.path")
+			return Play.application().configuration().getString("storage.path")+ getOwner().id / 30000 + "/"
 					+ getOwner().id + "/" + folder.id + "/" + id + "/"
 					+ resourceName;
 		}
@@ -84,7 +84,7 @@ public class Resource extends SocialObject {
 		if (isExternal()) {
 			return resourceName;
 		} else {
-			return Play.application().configuration().getString("storage.path")
+			return Play.application().configuration().getString("storage.path") + owner.id/30000 + "/"
 					+ owner.id + "/" + folder.id + "/" + id + "/thumbnail."+resourceName;
 		}
 	}
@@ -102,7 +102,7 @@ public class Resource extends SocialObject {
 		if (isExternal()) {
 			return resourceName;
 		} else {
-			return Play.application().configuration().getString("storage.path")
+			return Play.application().configuration().getString("storage.path") + owner.id/30000 + "/"
 					+ owner.id + "/" + folder.id + "/" + id + "/mini."+resourceName;
 		}
 	}
@@ -112,7 +112,7 @@ public class Resource extends SocialObject {
 		if (isExternal()) {
 			return resourceName;
 		} else {
-			return Play.application().configuration().getString("storage.path")
+			return Play.application().configuration().getString("storage.path") + owner.id/30000 + "/"
 					+ owner.id + "/" + folder.id + "/" + id + "/miniComment."+resourceName;
 		}
 	}
