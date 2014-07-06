@@ -1123,17 +1123,21 @@ public class User extends SocialObject implements Subject, Socializable {
         if (ids == null || ids.size() == 0) {
             return null;
         }
+        sw.stop();
+
+        final NanoSecondStopWatch sw2 = new NanoSecondStopWatch();
 
         String idsStr = ids.toString();
         String idsForIn = idsStr.substring(1, idsStr.length()-1);
         Query query = JPA.em().createQuery("SELECT p from Post p where p.id in ("+idsForIn+") order by FIELD(p.id,"+idsForIn+")");
+        List<Post> results = (List<Post>)query.getResultList();
+        sw2.stop();
 
-        sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+getId()+"]["+getName()+"] getNewsfeedsAtHomePage(offset="+offset+",limit="+limit+") took "+sw.getElapsedMS()+"ms");
+            logger.underlyingLogger().debug("[u="+getId()+"]["+getName()+"] getNewsfeedsAtHomePage(offset="+offset+",limit="+limit+") "+
+                    "Redis took "+sw.getElapsedMS()+"ms, DB took "+sw2.getElapsedMS()+"ms");
         }
-
-        return (List<Post>)query.getResultList();
+        return results;
     }
     
     @JsonIgnore

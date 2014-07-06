@@ -2,9 +2,9 @@ package targeting.sc;
 
 import common.model.TargetGender;
 import common.model.TargetProfile;
-import models.Article;
-import models.Location;
-import models.User;
+import common.utils.NanoSecondStopWatch;
+import domain.SocialObjectType;
+import models.*;
 
 import play.db.jpa.JPA;
 import targeting.Scorable;
@@ -39,16 +39,21 @@ public class ArticleTargetingEngine {
         if (user == null) {
             throw new IllegalArgumentException("user is null");
         }
+        final NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         TargetProfile profile = TargetProfile.fromUser(user);
         logger.underlyingLogger().info("[u="+user.getId()+"] getTargetedArticles. "+profile);
 
-        List<Article> unRankedRes = query(profile, false);
+        List<Article> unRankedRes = query(user, profile, false);
         if (unRankedRes.size() < k) {
-            unRankedRes = query(profile, true);
+            unRankedRes = query(user, profile, true);
         }
 
-        return rankAndFunnel(profile, unRankedRes, k);
+        List<Article> results = rankAndFunnel(profile, unRankedRes, k);
+
+        sw.stop();
+        logger.underlyingLogger().info("[u="+user.getId()+"] getTargetedArticles count="+results.size()+". Took "+sw.getElapsedMS()+"ms");
+        return results;
     }
 
     static List<Article> rankAndFunnel(TargetProfile profile, List<Article> unRankedRes, int k) {
@@ -61,11 +66,10 @@ public class ArticleTargetingEngine {
             results.add(scorable.getObject());
         }
 
-        logger.underlyingLogger().info("[rankAndFunnel] results["+results.size()+"]");
         return results;
     }
 
-    static List<Article> query(TargetProfile profile, boolean skipChildrenAge) {
+    static List<Article> query(User user, TargetProfile profile, boolean skipChildrenAge) {
         StringBuilder sb = new StringBuilder();
         sb.append("Select a from Article a ");
 
@@ -131,7 +135,17 @@ public class ArticleTargetingEngine {
             }
         }
 
+        // exclude non-targeted
         sb.append(whereDelim).append(andDelim).append("excludeFromTargeting = 0 ");
+
+        // exclude bookmarked
+        sb.append(whereDelim).append(andDelim).append("not exists(select sr from SecondarySocialRelation sr where sr.target=a.id ");
+        sb.append("and sr.action=?").append(paramCount++).append(" ");
+        sb.append("and sr.actor=?").append(paramCount++).append(" ");
+        sb.append("and sr.targetType=?").append(paramCount++).append(")");
+		paramValues.add(SecondarySocialRelation.Action.BOOKMARKED);
+		paramValues.add(user.id);
+		paramValues.add(SocialObjectType.ARTICLE);
 
         // exec query
         Query q = JPA.em().createQuery(sb.toString());
@@ -139,7 +153,6 @@ public class ArticleTargetingEngine {
             q.setParameter(i, paramValues.get(i-1));
         }
 
-        List<Article> results = (List<Article>)q.getResultList();
 		return (List<Article>)q.getResultList();
     }
 
