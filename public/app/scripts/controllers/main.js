@@ -3742,6 +3742,10 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 				if(post.id == post_id) {
 					post.isBookmarked = false;
 					$scope.posts.post.splice($scope.posts.post.indexOf(post),1);
+					if (post.type == 'QUESTION')
+    					$scope.bookmarkSummary.qc--;
+    			     else if (post.type == 'SIMPLE')
+                        $scope.bookmarkSummary.pc--;
 				}
 			})
 		});
@@ -3753,6 +3757,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 				if(article.id == article_id) {
 					article.isBookmarked = false;
 					$scope.articles.article.splice($scope.articles.article.indexOf(article),1);
+                    $scope.bookmarkSummary.ac--;
 				}
 			})
 		});
