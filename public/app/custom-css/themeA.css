@@ -45,7 +45,7 @@ pre {
     height: 45px !important;
 }
 .header-notif-bar {
-    /*margin-left: -2%;*/
+    margin-left: 25px;
 }
 .header-notif-bar .notif {
     width: 32px;

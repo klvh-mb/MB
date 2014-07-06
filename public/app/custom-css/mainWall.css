@@ -107,8 +107,8 @@
 .post-title-user-image {
     margin-right: 10px;
     float: left;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     border-radius: 3px;
 }
 .post-title-user-name {
@@ -132,19 +132,18 @@
     padding-left: 50px;
 }
 .post-qna-body-title {
-    padding-top: 5px;
+    padding-bottom: 15px;
     margin: 0;
 }
 .post-qna-body-title a {
     /*color: #4440AC;*/
     line-height: 1.2;
-    font-size: 17px;
+    font-size: 20px;
     font-weight: bold;
     white-space: pre-wrap;
 }
 .post-qna-body-title:hover {
     color: #4440AC;
-    text-decoration: underline;
 }
 .post-qna-body-text, .post-qna-answer-body-text, .post-sharing-body-text {
     padding: 5px 0px 10px 0px;

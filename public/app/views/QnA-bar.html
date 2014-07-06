@@ -19,6 +19,7 @@
     <!-- Post Intro Ends -->
     <ul>
         <li class="post-qna-body-top">
+            <div class="post-qna-body-title"><a data-ng-href="/#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}" target="_blank">{{post.ptl}}</a></div>
             <a data-ng-href="/#/profile/{{post.oid}}">
                 <img class="post-title-user-image" data-ng-src="/image/get-mini-image-by-id/{{post.oid}}"/>
             </a>
@@ -31,7 +32,6 @@
             <span class="post-date" am-time-ago="post.t"></span>
         </li>
        	<li class="post-qna-body">
-     	    <div class="post-qna-body-title"><a data-ng-href="/#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}" target="_blank">{{post.ptl}}</a></div>
             <div class="post-qna-body-text" ng-bind-html="post.pt | highlight: highlightText"></div>
             <div data-ng-show="post.hasImage" class="post-body-image">
                 <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">

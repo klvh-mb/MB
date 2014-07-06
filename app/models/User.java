@@ -1087,8 +1087,28 @@ public class User extends SocialObject implements Subject, Socializable {
         return (List<Post>)query.getResultList();
     }
     
+    public long getQnABookmarkCount() {
+        return getBookmarkCount(SocialObjectType.QUESTION);
+    }
+    
+    public long getPostBookmarkCount() {
+        return getBookmarkCount(SocialObjectType.POST);
+    }
+
+    public long getArticleBookmarkCount() {
+        return getBookmarkCount(SocialObjectType.ARTICLE);
+    }
+    
+    private long getBookmarkCount(SocialObjectType socialObjectType) {
+        Query query = JPA.em().createQuery("select count(sr.target) from SecondarySocialRelation sr where sr.action = ?1 and sr.actor = ?2 and sr.targetType = ?3)");
+        query.setParameter(1, SecondarySocialRelation.Action.BOOKMARKED);
+        query.setParameter(2, this.id);
+        query.setParameter(3, socialObjectType);
+        return (Long) query.getSingleResult();
+    }
+    
     public List<Post> getBookmarkedPosts(int offset, int limit) {
-        Query query = JPA.em().createQuery("Select p from Post p where p.id in (select sr.target from  SecondarySocialRelation sr where sr.action = ?1 and sr.actor = ?2 and  sr.targetType in ( ?3, ?4 ))");
+        Query query = JPA.em().createQuery("Select p from Post p where p.id in (select sr.target from SecondarySocialRelation sr where sr.action = ?1 and sr.actor = ?2 and sr.targetType in ( ?3, ?4 ))");
         query.setParameter(1, SecondarySocialRelation.Action.BOOKMARKED);
         query.setParameter(2, this.id);
         query.setParameter(3, SocialObjectType.POST);

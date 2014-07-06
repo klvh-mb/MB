@@ -20,20 +20,14 @@ import models.Notification;
 import models.Post;
 import models.Resource;
 import models.User;
-
-import org.apache.commons.io.FileUtils;
-
-import org.elasticsearch.common.primitives.Ints;
-import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
-import play.mvc.Content;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import processor.FeedProcessor;
+import viewmodel.BookmarkSummaryVM;
 import viewmodel.CommunityPostVM;
 import viewmodel.ConversationVM;
 import viewmodel.FriendWidgetChildVM;
@@ -51,6 +45,14 @@ import domain.DefaultValues;
 
 public class UserController extends Controller {
 	
+    @Transactional(readOnly=true)
+    public static Result getBookmarkSummary() {
+        final User localUser = Application.getLocalUser(session());
+        BookmarkSummaryVM summary = new BookmarkSummaryVM(
+                localUser.getQnABookmarkCount(), localUser.getPostBookmarkCount(), localUser.getArticleBookmarkCount());
+        return ok(Json.toJson(summary));
+    }
+    
 	@Transactional(readOnly=true)
 	public static Result getUserInfo() {
 		final User localUser = Application.getLocalUser(session());
@@ -97,7 +99,6 @@ public class UserController extends Controller {
 	public static Result uploadCoverPhoto() {
 		final User localUser = Application.getLocalUser(session());
 		
-		
 		FilePart picture = request().body().asMultipartFormData().getFile("profile-photo");
 		String fileName = picture.getFilename();
 	    
@@ -123,7 +124,6 @@ public class UserController extends Controller {
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}
-		
 	}
 	
 	@Transactional
@@ -137,7 +137,6 @@ public class UserController extends Controller {
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}
-		
 	}
 
 	@Transactional
@@ -409,7 +408,6 @@ public class UserController extends Controller {
 		}
 	}
 	
-	
 	@Transactional
 	public static Result getAllConversation() {
 		final User localUser = Application.getLocalUser(session());
@@ -429,7 +427,6 @@ public class UserController extends Controller {
 		}
 		
 		return ok(Json.toJson(vms));
-		
 	}
 	
 	@Transactional
@@ -464,7 +461,6 @@ public class UserController extends Controller {
         return getMessages(conversation.id+"", 0+"");
     }
 	
-	
 	@Transactional
     public static Result startConversation(Long id) {
         final User localUser = Application.getLocalUser(session());
@@ -486,9 +482,8 @@ public class UserController extends Controller {
 		return ok(Json.toJson(socialVMs));
 	}
 	
-	
 	@Transactional
-	public static Result sendPhotoinMessage() {
+	public static Result sendPhotoInMessage() {
 		final User localUser = Application.getLocalUser(session());
         DynamicForm form = DynamicForm.form().bindFromRequest();
         String messageId = form.get("messageId");
@@ -518,7 +513,7 @@ public class UserController extends Controller {
 	}
 	
 	@Transactional
-	public static Result getMessaheImageByID(Long id) {
+	public static Result getMessageImageByID(Long id) {
 		return ok(Resource.findById(id).getThumbnailFile());
 	}
 
