@@ -23,7 +23,7 @@ public class FriendsVM {
 	
 	public static List<FriendsVM> friends(User user) {
 		List<FriendsVM> friends = new ArrayList<>();
-		for(User friend : user.getFriends(DefaultValues.FRINDS_UTILITY_COUNT)) {
+		for(User friend : user.getFriends(DefaultValues.FRIENDS_UTILITY_COUNT)) {
 			friends.add(new FriendsVM(friend.id, friend.firstName + " " + friend.lastName ,friend.displayName, friend.userInfo == null ? null : friend.userInfo.location ));
 		}
 		return friends;

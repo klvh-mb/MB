@@ -84,6 +84,10 @@ public class CommunityController extends Controller{
         String postId = form.get("postId");
         
         FilePart picture = request().body().asMultipartFormData().getFile("post-photo0");
+        if (picture == null) {
+            return status(500);
+        }
+        
         String fileName = picture.getFilename();
         
         File file = picture.getFile();

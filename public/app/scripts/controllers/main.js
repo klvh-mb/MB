@@ -419,49 +419,9 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 	$scope.profileImage = profileImage;
 	$scope.coverImage = coverImage;
 	
-	$scope.genders = [
-	                   {value: 'Male', text: '男'},
-                       {value: 'Female', text: '女'}
-	                 ];
+	$scope.genders = DefaultValues.genders;
 	
-	$scope.years = [
-                       {value: '1998', text: '1998'},
-                       {value: '1997', text: '1997'},
-                       {value: '1996', text: '1996'},
-                       {value: '1995', text: '1995'},
-                       {value: '1994', text: '1994'},
-                       {value: '1993', text: '1993'},
-                       {value: '1992', text: '1992'},
-                       {value: '1991', text: '1991'},
-                       {value: '1990', text: '1990'},
-                       {value: '1989', text: '1989'},
-                       {value: '1988', text: '1988'},
-                       {value: '1987', text: '1987'},
-                       {value: '1986', text: '1986'},
-                       {value: '1985', text: '1985'},
-                       {value: '1984', text: '1984'},
-                       {value: '1983', text: '1983'},
-                       {value: '1982', text: '1982'},
-                       {value: '1981', text: '1981'},
-                       {value: '1980', text: '1980'},
-                       {value: '1979', text: '1979'},
-                       {value: '1978', text: '1978'},
-                       {value: '1977', text: '1977'},
-                       {value: '1976', text: '1976'},
-                       {value: '1975', text: '1975'},
-                       {value: '1974', text: '1974'},
-                       {value: '1973', text: '1973'},
-                       {value: '1972', text: '1972'},
-                       {value: '1971', text: '1971'},
-                       {value: '1970', text: '1970'},
-                       {value: '1969', text: '1969'},
-                       {value: '1968', text: '1968'},
-                       {value: '1967', text: '1967'},
-                       {value: '1966', text: '1966'},
-                       {value: '1965', text: '1965'},
-                       {value: '1964', text: '1964'},
-                       {value: '<1964', text: '1964之前'}
-                   ];
+	$scope.years = DefaultValues.years;
     
     $scope.locations = locationService.getAllDistricts.get();
     
@@ -527,20 +487,9 @@ minibean.controller('GroupController',function($scope,$q, $location,$routeParams
 			}
 	);
 
-	$scope.community.typ = [
-	 	                   {value: 'OPEN', text: 'Open'},
-	 	                   {value: 'CLOSE', text: 'Close'}
-	 	                   ];
+	$scope.community.typ = DefaultValues.communityType;
 	
-	$scope.tagetDistrict = [
- 		                   {value: 'Pune', text: 'Pune'},
- 		                   {value: 'Mumbai', text: 'Mumbai'},
- 		                   {value: 'Kolakata', text: 'Kolakata'},
- 		                   {value: 'Nagpur', text: 'Nagpur'},
- 		                   {value: 'Delhi', text: 'Delhi'},
- 		                   {value: 'Surat', text: 'Surat'}
- 		                   ];
-	 
+	$scope.tagetDistrict = DefaultValues.districts;
 	
 	$scope.IconsToSelects = iconsService.getAllIcons.get();
 
@@ -1044,7 +993,7 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 				$scope.community.searchPosts.length=0;
 				$scope.noresult = "No Results Found";
 			}
-			if(data.length < 10) {
+			if(data.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
 				offset = -1;
 				$scope.community.searchPosts.length=0;
 				$scope.isBusy = false;
@@ -1586,7 +1535,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     
     $scope.onCommentFileSelect = function($files) {
         console.log($scope.commentSelectedFiles.length);
-        if($scope.commentSelectedFiles.length == 3) {
+        if($scope.commentSelectedFiles.length == DefaultValues.POST_PHOTO_UPLOAD) {
             $scope.commentTempSelectedFiles = [];
         }
         
@@ -1672,7 +1621,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     
     $scope.onQnACommentFileSelect = function($files) {
         console.log($scope.qnaCommentSelectedFiles.length);
-        if($scope.qnaCommentSelectedFiles.length == 3) {
+        if($scope.qnaCommentSelectedFiles.length == DefaultValues.POST_PHOTO_UPLOAD) {
             $scope.qnaTempCommentSelectedFiles = [];
         }
         
@@ -2019,7 +1968,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		communityPageService.GetPosts.get({id:$routeParams.id,offset:offset},
 				function(data){
 			var posts = data;
-			if(data.length < 10) {
+			if(data.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
 				noMore = true;
 				$scope.isBusy = false;
 			}
@@ -2275,7 +2224,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	
 	$scope.onCommentFileSelect = function($files) {
 		console.log($scope.commentSelectedFiles.length);
-		if($scope.commentSelectedFiles.length == 3) {
+		if($scope.commentSelectedFiles.length == DefaultValues.POST_PHOTO_UPLOAD) {
 			$scope.commentTempSelectedFiles = [];
 		}
 		
@@ -2360,7 +2309,7 @@ minibean.controller('QnACommunityController',function($scope, bookmarkPostServic
 		$scope.isBusy = true;
 		communityQnAPageService.GetQuests.get({id:$routeParams.id,offset:offsetq}, function(data){
 			var posts = data;
-			if(data.length < 10) {
+			if(data.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
 				noMore = true;
 				$scope.isBusy = false;
 			}
@@ -2385,7 +2334,7 @@ minibean.controller('QnACommunityController',function($scope, bookmarkPostServic
 	
 	$scope.onQnACommentFileSelect = function($files) {
 		console.log($scope.qnaCommentSelectedFiles.length);
-		if($scope.qnaCommentSelectedFiles.length == 3) {
+		if($scope.qnaCommentSelectedFiles.length == DefaultValues.POST_PHOTO_UPLOAD) {
 			$scope.qnaTempCommentSelectedFiles = [];
 		}
 		
@@ -2867,7 +2816,7 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 					}
 					count++;
 				})
-				if ($scope.result.length > 10){
+				if ($scope.result.length > DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT){
 					noMore = true;
 				}
 			$scope.categoryImage = $scope.result[0].category_url;
@@ -2927,7 +2876,7 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 			function(data){
 			console.log(data);
 				var posts = data;
-				if(posts.length < 10) {
+				if(posts.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
 					noMore = true;
 					$scope.isBusy = false;
 				}
@@ -3226,7 +3175,7 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 		newsFeedService.NewsFeeds.get({offset:offset},
 			function(data){
 				var posts = data.posts;
-				if(posts.length < 10) {
+				if(posts.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
 					noMore = true;
 					$scope.isBusy = false;
 				}
@@ -3257,7 +3206,7 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 	
 	$scope.onQnACommentFileSelect = function($files) {
 		console.log($scope.qnaCommentSelectedFiles.length);
-		if($scope.qnaCommentSelectedFiles.length == 3) {
+		if($scope.qnaCommentSelectedFiles.length == DefaultValues.POST_PHOTO_UPLOAD) {
 			$scope.qnaTempCommentSelectedFiles = [];
 		}
 		
@@ -3362,7 +3311,7 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 	
 	$scope.onCommentFileSelect = function($files) {
 		console.log($scope.commentSelectedFiles.length);
-		if($scope.commentSelectedFiles.length == 3) {
+		if($scope.commentSelectedFiles.length == DefaultValues.POST_PHOTO_UPLOAD) {
 			$scope.commentTempSelectedFiles = [];
 		}
 		
@@ -3482,7 +3431,7 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $tim
 	
 	$scope.onQnACommentFileSelect = function($files) {
 		console.log($scope.qnaCommentSelectedFiles.length);
-		if($scope.qnaCommentSelectedFiles.length == 3) {
+		if($scope.qnaCommentSelectedFiles.length == DefaultValues.POST_PHOTO_UPLOAD) {
 			$scope.qnaTempCommentSelectedFiles = [];
 		}
 		
@@ -3584,7 +3533,7 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $tim
 	
 	$scope.onCommentFileSelect = function($files) {
 		console.log($scope.commentSelectedFiles.length);
-		if($scope.commentSelectedFiles.length == 3) {
+		if($scope.commentSelectedFiles.length == DefaultValues.POST_PHOTO_UPLOAD) {
 			$scope.commentTempSelectedFiles = [];
 		}
 		
@@ -3709,7 +3658,7 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $tim
 		userNewsFeedService.NewsFeeds.get({offset:offset,id:id},
 			function(data){
 				var posts = data.posts;
-				if(posts.length < 10) {
+				if(posts.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
 					noMore = true;
 					$scope.isBusy = false;
 				}
@@ -3873,7 +3822,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 		bookmarkService.bookmarkPost.get({offset:offset},
 				function(data){
 			var posts = data;
-			if(data.length < 10) {
+			if(data.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
 				noMore = true;
 				$scope.isBusy = false;
 			}
@@ -3898,7 +3847,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 		bookmarkService.bookmarkArticle.get({offsetA:offsetA},
 				function(data){
 			var articleData = data;
-			if(data.length < 10) {
+			if(data.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
 				noMoreA = true;
 				$scope.isBusyA = false;
 			}
@@ -4042,7 +3991,7 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
 			$scope.messages = data.message;
 			$scope.unread_msg_count.count = data.counter;
 			usSpinnerService.stop('loading...');
-			if($scope.messages.length < 20){
+			if($scope.messages.length < DefaultValues.CONVERSATION_MESSAGE_COUNT){
 				$scope.noMore = false;
 			}
 			offset++;
@@ -4068,7 +4017,7 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
 			for (var i = 0; i < messages.length; i++) {
 				$scope.messages.push(messages[i]);
 		    }
-			if($scope.messages.length < 20){
+			if($scope.messages.length < DefaultValues.CONVERSATION_MESSAGE_COUNT){
 				$scope.noMore = false;
 			}
 			usSpinnerService.stop('loading...');

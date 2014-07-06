@@ -24,7 +24,7 @@ public class FriendsController extends Controller {
 	public static Result getUserFriends() {
 		final User localUser = Application.getLocalUser(session());
 		List<FriendWidgetChildVM> friends = new ArrayList<>();
-		for(User friend : localUser.getFriends(DefaultValues.FRINDS_UTILITY_COUNT)) {
+		for(User friend : localUser.getFriends(DefaultValues.FRIENDS_UTILITY_COUNT)) {
 			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName, friend.userInfo == null ? null : friend.userInfo.location));
 		}
 		
@@ -36,7 +36,7 @@ public class FriendsController extends Controller {
 	public static Result getFriendsOfUser(Long id) {
 		final User user = User.findById(id);
 		List<FriendWidgetChildVM> friends = new ArrayList<>();
-		for(User friend : user.getFriends(DefaultValues.FRINDS_UTILITY_COUNT)) {
+		for(User friend : user.getFriends(DefaultValues.FRIENDS_UTILITY_COUNT)) {
 			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName, friend.userInfo.location));
 		}
 		
@@ -49,7 +49,7 @@ public class FriendsController extends Controller {
 		final User localUser = Application.getLocalUser(session());
 		List<FriendWidgetChildVM> friends = new ArrayList<>();
 
-        List<User> frds = localUser.getSuggestedFriends(DefaultValues.FRINDS_UTILITY_COUNT);
+        List<User> frds = localUser.getSuggestedFriends(DefaultValues.FRIENDS_UTILITY_COUNT);
 
 		for(Object friend1 : frds) {
 			User friend = (User) friend1;
