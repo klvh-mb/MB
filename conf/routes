@@ -85,7 +85,7 @@ POST	/updateUserProfileData		controllers.UserController.updateUserProfileData
 POST	/updateUserDisplayName		controllers.UserController.updateUserDisplayName
 POST	/image/upload-profile-photo		controllers.UserController.uploadProfilePhoto
 POST	/image/upload-cover-photo		    controllers.UserController.uploadCoverPhoto
-GET     /getAllDistricts            controllers.Application.getAllDistricts
+GET     /get-all-districts            controllers.Application.getAllDistricts
 
 GET		/image/get-profile-image			controllers.UserController.getProfileImage
 GET 	/get-user-newsfeeds/:offset/:id 		controllers.UserController.getUserNewsfeeds(offset : String, id : Long)
@@ -97,6 +97,7 @@ GET		/get-join-requests			controllers.UserController.getAllJoinRequests
 GET		/accept-join-request/:member_id/:community_id/:notify_id		controllers.UserController.acceptJoinRequest(member_id :Long, community_id :Long, notify_id: Long)
 GET		/accept-invite-request/:member_id/:community_id/:notify_id		controllers.UserController.acceptInviteRequest(member_id :Long, community_id :Long, notify_id: Long)
 GET		/mark-as-read/:id						controllers.UserController.markNotificationAsRead(id:Long)
+GET     /get-bookmark-summary                       controllers.UserController.getBookmarkSummary()
 
 GET     /profile/:id                controllers.UserController.getProfile(id :Long)
 GET		/image/get-profile-image-by-id/:id		controllers.UserController.getProfileImageByID(id :Long)
@@ -112,11 +113,10 @@ GET		/get-all-Conversation		controllers.UserController.getAllConversation()
 GET		/get-messages/:id/:offset	controllers.UserController.getMessages(id: String, offset: String)
 GET		/start-Conversation/:id		controllers.UserController.startConversation(id: Long)
 POST	/Message/sendMsg			controllers.UserController.sendMessage()
-POST	/sendMessagePhoto			controllers.UserController.sendPhotoinMessage()
+POST	/sendMessagePhoto			controllers.UserController.sendPhotoInMessage()
 GET		/user-friend-search			controllers.UserController.searchUserFriends(query: String)
-GET		/image/get-message-image-by-id/:id		controllers.UserController.getMessaheImageByID(id :Long)
+GET		/image/get-message-image-by-id/:id		controllers.UserController.getMessageImageByID(id :Long)
 GET		/get-unread-msg-count		controllers.UserController.getUnreadMsgCount()
-
 
 #Friends
 GET		/get-user-friends			controllers.FriendsController.getUserFriends

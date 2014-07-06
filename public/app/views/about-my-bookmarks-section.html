@@ -3,18 +3,18 @@
         <!--span class="wall-icon icon-title-community"></span-->
         <span style="margin-left:15px;">
             <a ng-click="selectedTab1 = 1;" ng-class="{activeTabUnderlined: selectedTab1 == 1}">
-                <font style="color: white;">問題(16)</font>
+                <font style="color: white;">問題 ({{bookmarkSummary.qc}})</font>
             </a>
         </span>
         <!--span class="wall-icon icon-title-friendwall"></span-->
         <span style="margin-left:15px;">
             <a ng-click="selectedTab1 = 2;" ng-class="{activeTabUnderlined: selectedTab1 == 2}">
-                <font style="color: white;">分享(21)</font>
+                <font style="color: white;">分享 ({{bookmarkSummary.pc}})</font>
             </a>
         </span>
         <span style="margin-left:15px;">
             <a ng-click="selectedTab1 = 3;" ng-class="{activeTabUnderlined: selectedTab1 == 3}">
-                <font style="color: white;">文章(32)</font>
+                <font style="color: white;">文章 ({{bookmarkSummary.ac}})</font>
             </a>
         </span>
     </div>
@@ -74,7 +74,7 @@
     </div>
 </div>
 
-<div class="general-box" ng-show="true">
+<div class="general-box" ng-show="!bookmarkSummary.b">
     <div class="section-title">
         <div>
             您尚未有喜愛的問題,分享或文章

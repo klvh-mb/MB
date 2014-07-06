@@ -16,13 +16,10 @@ import javax.persistence.Transient;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
-import com.mnt.SocialActivity;
-
 import domain.AuditListener;
 import domain.Creatable;
 import domain.SocialObjectType;
 import domain.Updatable;
-
 
 /**
  *  This class is analogous of Weighted Graph Data Structure. 
@@ -62,11 +59,9 @@ public class SecondarySocialRelation extends domain.Entity implements Serializab
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long id;
 	
-	
 	public Long actor;
 	@Enumerated(EnumType.STRING)
 	public SocialObjectType actorType;
-	
 	
 	@Enumerated(EnumType.STRING)
 	public Action action;
@@ -79,7 +74,6 @@ public class SecondarySocialRelation extends domain.Entity implements Serializab
     static public enum ActionType {
     		MESSAGE_SEND,
     }
-
 	
 	public Long target;
 	@Enumerated(EnumType.STRING)
@@ -99,13 +93,8 @@ public class SecondarySocialRelation extends domain.Entity implements Serializab
 	public boolean memberJoinedOpenCommunity;
 	
 	static public enum Action {
-		
-		LIKED,
 		BOOKMARKED,
 	}
-	
-	
-	
 
 	public SecondarySocialRelation(){}
 	

@@ -181,6 +181,3 @@ var DefaultValues = new function() {
                      ];
 
 };
-
-//var DEFAULT_VALUES = new DefaultValues();
-
