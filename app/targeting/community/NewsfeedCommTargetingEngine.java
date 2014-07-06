@@ -32,9 +32,7 @@ public class NewsfeedCommTargetingEngine {
      * @param userId
      */
     public static void indexCommNewsfeedForUser(Long userId) {
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+userId+"] indexCommNewsfeedForUser - start");
-        }
+        logger.underlyingLogger().info("[u="+userId+"] indexCommNewsfeedForUser - start");
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         // Get distribution
@@ -141,9 +139,7 @@ public class NewsfeedCommTargetingEngine {
         FeedProcessor.refreshUserCommunityFeed(userId, nfPostIds);
 
         sw.stop();
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+userId+"] indexCommNewsfeedForUser - end. Took "+sw.getElapsedMS()+"ms");
-        }
+        logger.underlyingLogger().info("[u="+userId+"] indexCommNewsfeedForUser - end. Took "+sw.getElapsedMS()+"ms");
 	}
 
     private static class RatioTracker {

@@ -35,7 +35,7 @@ public class Resource extends SocialObject {
     public static final String STORAGE_PATH = 
             Play.application().configuration().getString("storage.path");
     public static final int STORAGE_PARTITION_DIR_MAX = 
-            Integer.valueOf(Play.application().configuration().getString("storage.partition.dir.max"));
+            Play.application().configuration().getInt("storage.partition.dir.max", 20000);
     
 	public Resource() {
 	}
@@ -78,7 +78,7 @@ public class Resource extends SocialObject {
 		if (isExternal()) {
 			return resourceName;
 		} else {
-			return STORAGE_PATH + (owner.id % STORAGE_PARTITION_DIR_MAX) + "/"
+			return STORAGE_PATH + getStoragePartition() + "/"
 					+ owner.id + "/" + folder.id + "/" + id + "/" + resourceName;
 		}
 	}
@@ -88,7 +88,7 @@ public class Resource extends SocialObject {
 		if (isExternal()) {
 			return resourceName;
 		} else {
-			return STORAGE_PATH + (owner.id % STORAGE_PARTITION_DIR_MAX) + "/"
+			return STORAGE_PATH + getStoragePartition() + "/"
 					+ owner.id + "/" + folder.id + "/" + id + "/thumbnail." + resourceName;
 		}
 	}
@@ -106,7 +106,7 @@ public class Resource extends SocialObject {
 		if (isExternal()) {
 			return resourceName;
 		} else {
-			return STORAGE_PATH + (owner.id % STORAGE_PARTITION_DIR_MAX) + "/"
+			return STORAGE_PATH + getStoragePartition() + "/"
 					+ owner.id + "/" + folder.id + "/" + id + "/mini." + resourceName;
 		}
 	}
@@ -116,7 +116,7 @@ public class Resource extends SocialObject {
 		if (isExternal()) {
 			return resourceName;
 		} else {
-			return STORAGE_PATH + (owner.id % STORAGE_PARTITION_DIR_MAX) + "/"
+			return STORAGE_PATH + getStoragePartition() + "/"
 					+ owner.id + "/" + folder.id + "/" + id + "/miniComment." + resourceName;
 		}
 	}
@@ -159,6 +159,10 @@ public class Resource extends SocialObject {
 		recordCommentOnCommunityPost(user);
 		return comment;
 	}
+
+    private String getStoragePartition() {
+        return "part"+(owner.id / STORAGE_PARTITION_DIR_MAX);
+    }
 	
 	public static Resource findById(Long id) {
 		Query q = JPA.em().createQuery("SELECT r FROM Resource r where id = ?1");
