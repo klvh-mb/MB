@@ -106,16 +106,16 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
         }
         return true;
     }
-  public Resource addCommentPhoto(File source) throws IOException {
+
+    public Resource addCommentPhoto(File source) throws IOException {
 		ensureAlbumExist();
 		Resource cover_photo = this.folder.addFile(source,
 				SocialObjectType.COMMENT_PHOTO);
 		
 		return cover_photo;
-  }
+    }
   
-  public void ensureAlbumExist() {
-
+    public void ensureAlbumExist() {
 		if (this.folder == null) {
 			this.folder = createAlbum("comment-photos",
 					Messages.get("comment-photos.photo-profile.description"), true);

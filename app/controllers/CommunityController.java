@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import common.utils.ImageFileUtil;
 import models.Comment;
 import models.Community;
 import models.Community.CommunityType;
@@ -79,26 +80,25 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result uploadPhotoOfPost() {
-        logger.underlyingLogger().debug("uploadPhotoOfPost");
         DynamicForm form = DynamicForm.form().bindFromRequest();
         String postId = form.get("postId");
-        
+        if (logger.isDebugEnabled()) {
+            logger.underlyingLogger().debug("uploadPhotoOfPost(p="+postId+")");
+        }
+
         FilePart picture = request().body().asMultipartFormData().getFile("post-photo0");
         if (picture == null) {
             return status(500);
         }
         
         String fileName = picture.getFilename();
-        
         File file = picture.getFile();
-        File fileTo = new File(Play.application().configuration().getString("image.temp")+""+fileName);
-        // TOBE TESTED
         try {
-            FileUtils.copyFile(file, fileTo);
+            File fileTo = ImageFileUtil.copyImageFileToTemp(file, fileName);
             Long id = Post.findById(Long.valueOf(postId)).addPostPhoto(fileTo).id;
             return ok(id.toString());
         } catch (IOException e) {
-            //e.printStackTrace();
+            logger.underlyingLogger().error("Error in uploadPhotoOfPost", e);
             return status(500);
         }
     }
@@ -350,10 +350,8 @@ public class CommunityController extends Controller{
         String fileName = picture.getFilename();
 
         File file = picture.getFile();
-        File fileTo = new File(Play.application().configuration().getString("image.temp")+""+fileName);
-        
         try {
-            FileUtils.copyFile(file, fileTo);
+            File fileTo = ImageFileUtil.copyImageFileToTemp(file, fileName);
             community.setCoverPhoto(fileTo);
         } catch (IOException e) {
             logger.underlyingLogger().error("Error in uploadCoverPhoto", e);
@@ -382,15 +380,13 @@ public class CommunityController extends Controller{
         FilePart picture = request().body().asMultipartFormData().getFile("cover-photo");
         String fileName = picture.getFilename();
         File file = picture.getFile();
-        File fileTo = new File(Play.application().configuration().getString("image.temp")+""+fileName);
-        
         try {
             Community newCommunity = localUser.createCommunity(
                     community.name, community.description,community.communityType, community.icon);
             if (newCommunity == null) {
                 return status(505, "Valid param missing");
             }
-            FileUtils.copyFile(file, fileTo);
+            File fileTo = ImageFileUtil.copyImageFileToTemp(file, fileName);
             newCommunity.setCoverPhoto(fileTo);
 
             // save community affinity for admin
@@ -819,19 +815,19 @@ public class CommunityController extends Controller{
 	public static Result uploadCommentPhoto() {
 		DynamicForm form = DynamicForm.form().bindFromRequest();
 		String commentId = form.get("commentId");
-		System.out.println(commentId);
-		
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("uploadCommentPhoto(cmt="+commentId+")");
+        }
+
 		FilePart picture = request().body().asMultipartFormData().getFile("comment-photo0");
 		String fileName = picture.getFilename();
 		File file = picture.getFile();
-	    File fileTo = new File(fileName);
-	    // TOBE TESTED
 	    try {
-	    	FileUtils.copyFile(file, fileTo);
+            File fileTo = ImageFileUtil.copyImageFileToTemp(file, fileName);
 	    	Long id = Comment.findById(Long.valueOf(commentId)).addCommentPhoto(fileTo).id;
 	    	return ok(id.toString());
 		} catch (IOException e) {
-			//e.printStackTrace();
+            logger.underlyingLogger().error("Error in uploadCommentPhoto", e);
 			return status(500);
 		}
 	}
@@ -845,19 +841,19 @@ public class CommunityController extends Controller{
 	public static Result uploadQnACommentPhoto() {
 		DynamicForm form = DynamicForm.form().bindFromRequest();
 		String commentId = form.get("commentId");
-		System.out.println(commentId);
-		
+		if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("uploadQnACommentPhoto(cmt="+commentId+")");
+        }
+
 		FilePart picture = request().body().asMultipartFormData().getFile("comment-photo0");
 		String fileName = picture.getFilename();
 		File file = picture.getFile();
-	    File fileTo = new File(fileName);
-	    // TOBE TESTED
 	    try {
-	    	FileUtils.copyFile(file, fileTo);
+            File fileTo = ImageFileUtil.copyImageFileToTemp(file, fileName);
 	    	Long id = Comment.findById(Long.valueOf(commentId)).addCommentPhoto(fileTo).id;
 	    	return ok(id.toString());
 		} catch (IOException e) {
-			//e.printStackTrace();
+			logger.underlyingLogger().error("Error in uploadQnACommentPhoto", e);
 			return status(500);
 		}
 	}

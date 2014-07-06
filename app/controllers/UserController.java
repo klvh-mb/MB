@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import common.utils.ImageFileUtil;
 import models.Community;
 import models.Conversation;
 import models.Location;
@@ -82,10 +83,8 @@ public class UserController extends Controller {
 		String fileName = picture.getFilename();
 
 	    File file = picture.getFile();
-	    File fileTo = new File(Play.application().configuration().getString("image.temp")+""+fileName);
-
 	    try {
-	    	FileUtils.copyFile(file, fileTo);
+            File fileTo = ImageFileUtil.copyImageFileToTemp(file, fileName);
 			localUser.setPhotoProfile(fileTo);
 		} catch (IOException e) {
 			//e.printStackTrace();
@@ -103,10 +102,8 @@ public class UserController extends Controller {
 		String fileName = picture.getFilename();
 	    
 	    File file = picture.getFile();
-	    File fileTo = new File(Play.application().configuration().getString("image.temp")+""+fileName);
-
 	    try {
-	    	FileUtils.copyFile(file, fileTo);
+	    	File fileTo = ImageFileUtil.copyImageFileToTemp(file, fileName);
 			localUser.setCoverPhoto(fileTo);
 		} catch (IOException e) {
 			//e.printStackTrace();
@@ -500,12 +497,8 @@ public class UserController extends Controller {
         String fileName = picture.getFilename();
         
         File file = picture.getFile();
-        System.out.println("file :: "+file);
-        File fileTo = new File(Play.application().configuration().getString("image.temp")+""+fileName);
-        System.out.println("fileTo :: "+fileTo);
-        // TOBE TESTED
         try {
-            FileUtils.copyFile(file, fileTo);
+            File fileTo = ImageFileUtil.copyImageFileToTemp(file, fileName);
             Long id = Message.findById(Long.valueOf(messageId)).addPrivatePhoto(fileTo,localUser).id;
             System.out.println("id :: "+id);
             return ok(id.toString());

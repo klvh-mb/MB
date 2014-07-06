@@ -1,5 +1,8 @@
 package common.utils;
 
+import org.apache.commons.io.FileUtils;
+import play.Play;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -13,6 +16,20 @@ import java.io.IOException;
  */
 public class ImageFileUtil {
 
+    private static String IMAGE_TEMP_PATH = Play.application().configuration().getString("image.temp");
+
+    static {
+        if (!IMAGE_TEMP_PATH.endsWith("/")) {
+            IMAGE_TEMP_PATH += "/";
+        }
+    }
+
+    public static File copyImageFileToTemp(File file, String fileName) throws IOException {
+        final File fileTo = new File(IMAGE_TEMP_PATH+fileName);
+        FileUtils.copyFile(file, fileTo);
+        return fileTo;
+    }
+
     public static void writeFileWithImage(File file, BufferedImage image) throws IOException {
         String ext = "jpg";
         if (file.getName().toLowerCase().endsWith("png")) {
@@ -22,5 +39,4 @@ public class ImageFileUtil {
         }
         ImageIO.write(image, ext, file);
     }
-
 }
