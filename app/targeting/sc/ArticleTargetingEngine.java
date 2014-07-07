@@ -44,9 +44,9 @@ public class ArticleTargetingEngine {
         TargetProfile profile = TargetProfile.fromUser(user);
         logger.underlyingLogger().info("[u="+user.getId()+"] getTargetedArticles. "+profile);
 
-        List<Article> unRankedRes = query(user, profile, false);
+        List<Article> unRankedRes = query(user, profile, false, false);
         if (unRankedRes.size() < k) {
-            unRankedRes = query(user, profile, true);
+            unRankedRes = query(user, profile, true, true);
         }
 
         List<Article> results = rankAndFunnel(profile, unRankedRes, k);
@@ -69,7 +69,7 @@ public class ArticleTargetingEngine {
         return results;
     }
 
-    static List<Article> query(User user, TargetProfile profile, boolean skipChildrenAge) {
+    static List<Article> query(User user, TargetProfile profile, boolean skipChildrenAge, boolean includeBookmarked) {
         StringBuilder sb = new StringBuilder();
         sb.append("Select a from Article a ");
 
@@ -139,13 +139,15 @@ public class ArticleTargetingEngine {
         sb.append(whereDelim).append(andDelim).append("excludeFromTargeting = 0 ");
 
         // exclude bookmarked
-        sb.append(whereDelim).append(andDelim).append("not exists(select sr from SecondarySocialRelation sr where sr.target=a.id ");
-        sb.append("and sr.action=?").append(paramCount++).append(" ");
-        sb.append("and sr.actor=?").append(paramCount++).append(" ");
-        sb.append("and sr.targetType=?").append(paramCount++).append(")");
-		paramValues.add(SecondarySocialRelation.Action.BOOKMARKED);
-		paramValues.add(user.id);
-		paramValues.add(SocialObjectType.ARTICLE);
+        if (!includeBookmarked) {
+            sb.append(whereDelim).append(andDelim).append("not exists(select sr from SecondarySocialRelation sr where sr.target=a.id ");
+            sb.append("and sr.action=?").append(paramCount++).append(" ");
+            sb.append("and sr.actor=?").append(paramCount++).append(" ");
+            sb.append("and sr.targetType=?").append(paramCount++).append(")");
+            paramValues.add(SecondarySocialRelation.Action.BOOKMARKED);
+            paramValues.add(user.id);
+            paramValues.add(SocialObjectType.ARTICLE);
+        }
 
         // exec query
         Query q = JPA.em().createQuery(sb.toString());
