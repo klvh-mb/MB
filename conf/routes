@@ -147,9 +147,10 @@ GET		/image/get-original-post-image-by-id/:id			controllers.CommunityController.
 GET		/comments/:id							controllers.CommunityController.getAllComments(id : Long)
 GET		/answers/:id							controllers.CommunityController.getAllAnswers(id : Long)
 GET		/posts									controllers.CommunityController.getNextPosts(id: String,offset: String)
-GET		/questions								controllers.CommunityController.getNextQuests(id: String,offset: String)
+GET		/questions								controllers.CommunityController.getNextQnAs(id: String,offset: String)
 POST	/community/post/comment					controllers.CommunityController.commentOnCommunityPost()
 POST	/community/post							controllers.CommunityController.postOnCommunity()
+POST    /community/post/delete                  controllers.CommunityController.deletePost()
 POST	/createCommunity						controllers.CommunityController.createCommunity()
 POST	/image/upload-cover-photo-group/:id		   	controllers.CommunityController.uploadCoverPhoto(id : Long)
 POST	/updateCommunityProfileData				controllers.CommunityController.updateCommunityProfileData

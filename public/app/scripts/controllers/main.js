@@ -2259,7 +2259,7 @@ minibean.service('communityQnAPageService',function($resource){
 				get: {method:'get', params:{id:'@id'}}
 			}
 	);
-	this.GetQuests = $resource(
+	this.GetQnAs = $resource(
 			'/questions?id=:id&offset=:offset',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
@@ -2315,7 +2315,7 @@ minibean.controller('QnACommunityController',function($scope, bookmarkPostServic
 		if (noMore) return;
 		
 		$scope.isBusy = true;
-		communityQnAPageService.GetQuests.get({id:$routeParams.id,offset:offsetq}, function(data){
+		communityQnAPageService.GetQnAs.get({id:$routeParams.id,offset:offsetq}, function(data){
 			var posts = data;
 			if(data.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
 				noMore = true;

@@ -22,9 +22,6 @@ import models.Resource;
 import models.User;
 import models.UserCommunityAffinity;
 
-import org.apache.commons.io.FileUtils;
-
-import play.Play;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -323,10 +320,10 @@ public class CommunityController extends Controller{
     }
     
     @Transactional
-    public static Result getNextQuests(String id,String offset) {
+    public static Result getNextQnAs(String id,String offset) {
         final User localUser = Application.getLocalUser(session());
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"] getNextQuests(c="+id+", offset="+offset+")");
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getNextQnAs(c="+id+", offset="+offset+")");
         }
 
         Community community = Community.findById(Long.parseLong(id));
@@ -339,7 +336,6 @@ public class CommunityController extends Controller{
         }
         return ok(Json.toJson(postsVM));
     }
-    
     
     @Transactional
     public static Result uploadCoverPhoto(Long id) {
@@ -468,12 +464,14 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result postOnCommunity() {
-        logger.underlyingLogger().debug("postOnCommunity");
         final User localUser = Application.getLocalUser(session());
-        DynamicForm form = form().bindFromRequest();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"] postOnCommunity");
+        }
         
+        DynamicForm form = form().bindFromRequest();
         Long communityId = Long.parseLong(form.get("community_id"));
-        Community c =Community.findById(communityId);
+        Community c = Community.findById(communityId);
         if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
             String postText = form.get("postText");
             String withPhotos = form.get("withPhotos");
@@ -488,6 +486,23 @@ public class CommunityController extends Controller{
         }
         
         return ok("First join the Community");
+    }
+    
+    @Transactional
+    public static Result deletePost() {
+        final User localUser = Application.getLocalUser(session());
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"] deletePostFromCommunity");
+        }
+
+        DynamicForm form = form().bindFromRequest();
+        Long postId = Long.parseLong(form.get("post_id"));
+        Post post = Post.findById(postId);
+        if (localUser.equals(post.owner)) {
+            Post.deleteById(postId);
+            return ok();
+        }
+        return status(505, "Cannot delete. [u=" + localUser.id + "] not owner of post [id=" + postId + "].");
     }
     
     @Transactional

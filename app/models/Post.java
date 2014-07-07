@@ -119,6 +119,12 @@ public class Post extends SocialObject implements Likeable, Commentable {
         }
     }
     
+    public static int deleteById(Long id) {
+        Query q = JPA.em().createQuery("DELETE FROM Post p where id = ?1");
+        q.setParameter(1, id);
+        return q.executeUpdate();
+    }
+    
     @Override
     public SocialObject onComment(User user, String body, CommentType type)
             throws SocialObjectNotCommentableException {
