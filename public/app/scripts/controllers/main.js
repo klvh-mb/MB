@@ -2296,6 +2296,14 @@ minibean.controller('QnACommunityController',function($scope, bookmarkPostServic
 		});
 	}
 	
+	// Right now community-QnA-bar.html > QnA-bar.html is using QnACommunityController
+	// and home-news-feed.html > QnA-bar.html is using CommunityPageController
+	// and QnA-bar.html is calling get_all_comments() instead of get_all_answers() 
+	// such that it works in all places
+	// Assign the dummy get_all_comments here... needs refactoring... 
+	 
+	$scope.get_all_comments = $scope.get_all_answers;
+	
 	$scope.QnASelectedFiles = [];
 	$scope.dataUrls = [];
 	$scope.tempSelectedFiles = [];

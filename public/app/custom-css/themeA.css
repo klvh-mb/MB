@@ -1655,6 +1655,8 @@ pre {
 }
 .post-unfavorite-modal {
     top: 150px;
+    transition: none !important;
+    transform: none !important;
 }
 .post-unfavorite-modal .modal-dialog {
     width: 280px;
