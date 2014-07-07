@@ -69,11 +69,11 @@
 	                                <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
 	                                <div ng-show="msg.hasImage" class="message-image">
 	                                    <img src="/image/get-message-image-by-id/{{msg.imgs}}" />
-	                                    <p ng-bind-html="msg.txt"><p>
+	                                    <span ng-bind-html="msg.txt"></span>
 	                                    <span class="message-timestamp">{{ msg.cd| date:'hh:mm a'}}</span>
 	                                </div>
 	                                <div ng-show="!msg.hasImage" class="message-text">
-	                                	<p ng-bind-html="msg.txt"><p>
+	                                	<span ng-bind-html="msg.txt"></span>
 	                                    <span class="message-timestamp">{{ msg.cd| date:'hh:mm a'}}</span>
 	                                </div>
 	                            </div>
@@ -83,7 +83,7 @@
 	                                <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
 	                                <div class="message-text">
 	                                	<div ng-show="msg.hasImage"><img src="/image/get-message-image-by-id/{{msg.imgs}}" style="position: initial"/></div>
-	                                     <p ng-bind-html="msg.txt"><p>
+	                                    <span ng-bind-html="msg.txt"></span>
 	                                    <span class="message-timestamp">{{ msg.cd| date:'hh:mm a'}}</span>
 	                                </div>
 	                            </div>
