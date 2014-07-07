@@ -73,7 +73,7 @@
                         <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
                     </a>
                     <a data-ng-show="!article.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkArticle(article.id)"></a>
-                    <a data-ng-show="article.isBookmarked" class="btn-like post-favorited" href="" data-ng-click="unBookmarkArticle(article.id)"></a>
+                    <a data-ng-show="article.isBookmarked" class="btn-like post-favorited" href="" data-ng-confirm-click="unBookmarkArticle(article.id)" data-ng-confirm-message="確認移除喜愛嗎?"></a>
                     <div>
                         <a href="/#/article/id/{{article.id}}" target="_blank">
                             <h4 style="color: #324fe1;"><font><font>{{article.nm}}</font></font></h4>
