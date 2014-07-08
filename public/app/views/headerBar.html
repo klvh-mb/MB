@@ -1,4 +1,4 @@
-<div id="header" class="header-wrapper navbar hidden-print navbar-default box main navbar-fixed-top" id="nav_bar" role="navigation" style="top:0px; height: 42px;">
+<div id="header" class="header-wrapper no-glow navbar hidden-print navbar-default box main navbar-fixed-top" id="nav_bar" role="navigation" style="top:0px; height: 42px;">
     <a class="header-logo pull-left" href="#">
         <img src="../assets/app/images/logo-1.png" />
     </a>
@@ -115,11 +115,11 @@
                 <ul class="col-lg-11 col-md-11 col-sd-11 dropdown-menu chat media-list hide" ng-class="{show : result.length > 0 && query.length > 0}" style="left: 12px;overflow-y: scroll; max-height: 345px;">
                     <li class="media" ng-repeat="sr in result" ng-switch="sr.tp">
                         <a ng-switch-when="USER" class="pull-left" href="#/profile/{{sr.id}}">
-                            <img class="media-object thumb" data-ng-src="/get-mini-image-by-id/{{sr.id}}" alt="50x50" width="50"/>
+                            <img class="media-object thumb" data-ng-src="/image/get-mini-image-by-id/{{sr.id}}" alt="50x50" width="50"/>
                         </a>
                         
                         <a ng-switch-when="COMMUNITY" class="pull-left" href="#/community/{{sr.id}}/question">
-                            <img class="media-object thumb" data-ng-src="/get-mini-cover-community-image-by-id/{{sr.id}}" alt="50x50" width="50"/>
+                            <img class="media-object thumb" data-ng-src="/image/get-mini-cover-community-image-by-id/{{sr.id}}" alt="50x50" width="50"/>
                         </a>
                         
                         <div class="media-body">
@@ -152,3 +152,4 @@
         </ul>
     </div>
 </div>
+<div id="main-top"/>

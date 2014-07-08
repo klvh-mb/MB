@@ -13,7 +13,7 @@
     				<a class="post-photo-icon" data-ng-hide="selectedFiles.length >= 3">
                         <i class="icon-photo-camera-fill" data-ng-mousedown="postPhoto()"></i>
                     </a>
-                    <button class="btn btn-primary ng-binding" ng-disabled="postUpload.$pristine || (postUpload.$dirty && postText.length < 2)" type="submit" disabled="disabled" 
+                    <button class="btn btn-primary ng-binding" ng-disabled="postUpload.$pristine || (postUpload.$dirty && postText.length < 3)" type="submit" disabled="disabled" 
                             data-ng-mousedown="post_on_community(community.id, postText); postText='';">
                         分享
                     </button>

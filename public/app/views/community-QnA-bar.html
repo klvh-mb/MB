@@ -14,7 +14,7 @@
                     <a class="post-photo-icon" data-ng-hide="QnASelectedFiles.length >= 3">
                         <i class="icon-photo-camera-fill" data-ng-mousedown="postPhoto()"></i>
                     </a>
-                    <button class="btn btn-primary ng-binding" ng-disabled="qnaUpload.$pristine || (qnaUpload.$dirty && questionText.length < 2)" type="submit" disabled="disabled" 
+                    <button class="btn btn-primary ng-binding" ng-disabled="qnaUpload.$pristine || (qnaUpload.$dirty && (questionText.length < 3 || questionTitle.length < 3))" type="submit" disabled="disabled" 
                             data-ng-mousedown="ask_question_community(community.id, questionTitle, questionText); questionTitle=''; questionText='';">
                         發問
                     </button>

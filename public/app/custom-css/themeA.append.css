@@ -284,12 +284,6 @@ a:focus {
     height: 100%;
     padding: 5px 10px;
 }
-#header
-{
-    box-shadow: 0 0 9px 0 #500095;
-    border-bottom: 1px solid #6253AF;
-    background:linear-gradient(to bottom,rgba(106, 91, 221, 1) 0,rgba(132, 129, 245, 1) 100%);
-}
 #about {
     /*height: 242px;*/
     /*min-height: 180px;*/

@@ -34,10 +34,10 @@
   	</style>
 	
   </head>
-  <body class="menu-right-hidden" ng-app="minibean" ng-controller="ApplicationController">
+  <body id="main-app" class="menu-right-hidden" ng-app="minibean" ng-controller="ApplicationController">
   <span us-spinner spinner-key="loading..." ></span>
   	<div class="container-fluid menu-hidden">
-  		<div id="content" ng-view="">
+  		<div id="main-view" ng-view="">
     	
   		</div>
   	</div>
@@ -71,6 +71,8 @@
     
 	<script src="@routes.Assets.at("app/bower_components/angular-moment/angular-moment.js")"></script>
 	<script src="@routes.Assets.at("components/common/gallery/image-crop/assets/lib/js/jquery.Jcrop.js")"></script>
+	<script src="@routes.Assets.at("app/scripts/lib/jquery.visible.min.js")"></script>
+	<script src="@routes.Assets.at("app/scripts/lib/bootbox-4.2.0.min.js")"></script>
 	
 	<!-- <script>var App = {};</script>
 	<script data-id="App.Scripts">
@@ -133,10 +135,10 @@
 		//});
 	</script> -->
 	
-	<script src="@routes.Assets.at("app/scripts/lib/bootbox-4.2.0.min.js")"></script>
     <script src="@routes.Assets.at("app/scripts/app.js")"></script>
     <script src="@routes.Assets.at("app/scripts/directives.js")"></script>
     <script src="@routes.Assets.at("app/scripts/default-values.js")"></script>
+    <script src="@routes.Assets.at("app/scripts/ui.js")"></script>
     <script src="@routes.Assets.at("app/scripts/controllers/main.js")"></script>
     <link rel="stylesheet" href="../assets/app/custom-css/icon.css">
     <link rel="stylesheet" href="../assets/app/custom-css/boxSetup.css">
@@ -150,25 +152,4 @@
     <link rel="stylesheet" href="../assets/app/custom-css/themeA.append.css">
     <link rel="stylesheet" href="../assets/app/custom-css/community.css">
 </body>
-
-<!-- 	<script data-id="App.Config">
-		var basePath = '',
-		commonPath = '@routes.Assets.at("")',
-		rootPath = '../',
-		DEV = false,
-		componentsPath = '@routes.Assets.at("components/")';
-	
-	var primaryColor = '#25ad9f',
-		dangerColor = '#b55151',
-		successColor = '#609450',
-		infoColor = '#4a8bc2',
-		warningColor = '#ab7a4b',
-		inverseColor = '#45484d';
-	
-	var themerPrimaryColor = primaryColor;
-
-		App.Config = {
-		ajaxify_menu_selectors: ['#menu'],
-		ajaxify_layout_app: false	};
-	</script> -->
 </html>
