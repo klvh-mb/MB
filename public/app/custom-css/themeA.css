@@ -1174,8 +1174,8 @@ pre {
     border-bottom: gray solid thin;
 }
 #about .content-wrapper {
-    height: 157px;
-    text-align: center;
+    /*text-align: center;*/
+    min-height: 100px;
 }
 #about ul {
     position: relative;

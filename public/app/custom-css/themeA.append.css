@@ -291,7 +291,8 @@ a:focus {
     background:linear-gradient(to bottom,rgba(106, 91, 221, 1) 0,rgba(132, 129, 245, 1) 100%);
 }
 #about {
-    height: 242px;
+    /*height: 242px;*/
+    /*min-height: 180px;*/
     overflow: visible;
     border: #764193 thin solid;
     color: #383838;
