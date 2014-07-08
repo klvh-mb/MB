@@ -1,11 +1,9 @@
 #!/bin/bash
 
 APP_HOME=/apps/MB
-VERSION=parent-social-1.0-SNAPSHOT
+INSTALL_PATH=$APP_HOME/parent-social-1.0-SNAPSHOT
 
-INSTALL_PATH=$APP_HOME/$VERSION
 cd $INSTALL_PATH
-
 read playpid < RUNNING_PID
 
 echo "Killing previous play PID " $playpid
@@ -14,4 +12,4 @@ kill -9 $playpid
 rm nohup.out RUNNING_PID
 
 echo "Starting play"
-nohup ./start -Dhttp.port=80 -Dconfig.file=/opt/conf/mb_prod.conf &
+nohup ./start -Xmx768m -XX:MaxPermSize=128m -Dhttp.port=80 -Dconfig.file=/opt/conf/mb_prod.conf &
