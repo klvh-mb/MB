@@ -6,6 +6,7 @@ import models.User;
 import play.Configuration;
 import play.Logger;
 import play.Play;
+import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.Call;
 import play.mvc.Controller;
@@ -13,6 +14,8 @@ import play.mvc.Http;
 import play.mvc.Http.Context;
 import play.mvc.Http.Session;
 import play.mvc.Result;
+import providers.MyUsernamePasswordAuthProvider;
+import providers.MyUsernamePasswordAuthProvider.MyLogin;
 
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.AuthProvider;
@@ -386,7 +389,15 @@ public abstract class PlayAuthenticate {
 			try {
 				loginUser = signupUser(linkUser);
 			} catch (final AuthException e) {
-				return Controller.internalServerError(e.getMessage());
+				//return Controller.internalServerError(e.getMessage());
+			    final Form<MyLogin> filledForm = 
+	                    MyUsernamePasswordAuthProvider.LOGIN_FORM.bindFromRequest();
+			    String message = e.getMessage();
+                if (message == null) {
+                    message = "Facebook登入電郵或密碼錯誤";
+                }
+		        play.mvc.Controller.flash("error", message);
+		        return play.mvc.Results.badRequest(views.html.signup.render(filledForm));
 			}
 		}
 		removeLinkUser(context.session());
@@ -425,8 +436,8 @@ public abstract class PlayAuthenticate {
 	        final EmailIdentity identity = (EmailIdentity) u;
 	        final User existingUser = User.findByEmail(identity.getEmail());
 	        if (existingUser != null) {
-	            throw new AuthException(
-	                    Messages.get("playauthenticate.core.exception.signupuser_exists"));
+	            throw new AuthException("您輸入的Facebook電郵已經登記。請重試");
+	                    //Messages.get("playauthenticate.core.exception.signupuser_exists"));
 	        }
 	    }
 	    
@@ -434,8 +445,8 @@ public abstract class PlayAuthenticate {
 		
 		final Object id = getUserService().save(u);
 		if (id == null) {
-			throw new AuthException(
-					Messages.get("playauthenticate.core.exception.signupuser_failed"));
+			throw new AuthException("抱歉,登記失敗。請重試");
+					//Messages.get("playauthenticate.core.exception.signupuser_failed"));
 		}
 		loginUser = u;
 		return loginUser;
@@ -447,9 +458,13 @@ public abstract class PlayAuthenticate {
 		if (ap == null) {
 			// Provider wasn't found and/or user was fooling with our stuff -
 			// tell him off:
-			return Controller.notFound(Messages.get(
-					"playauthenticate.core.exception.provider_not_found",
-					provider));
+			//return Controller.notFound(Messages.get(
+			//		"playauthenticate.core.exception.provider_not_found",
+			//		provider));
+			final Form<MyLogin> filledForm = 
+                    MyUsernamePasswordAuthProvider.LOGIN_FORM.bindFromRequest();
+            play.mvc.Controller.flash("error", "Facebook登入電郵或密碼錯誤");
+            return play.mvc.Results.badRequest(views.html.login.render(filledForm));
 		}
 		try {
 			return handleAnthenticationByProvider(context, payload, ap);
@@ -458,12 +473,14 @@ public abstract class PlayAuthenticate {
 			if (c != null) {
 				return Controller.redirect(c);
 			} else {
-				final String message = e.getMessage();
-				if (message != null) {
-					return Controller.internalServerError(message);
-				} else {
-					return Controller.internalServerError();
+			    String message = e.getMessage();
+				if (message == null) {
+				    message = "Facebook登入電郵或密碼錯誤";
 				}
+				final Form<MyLogin> filledForm = 
+                        MyUsernamePasswordAuthProvider.LOGIN_FORM.bindFromRequest();
+                play.mvc.Controller.flash("error", message);
+                return play.mvc.Results.badRequest(views.html.login.render(filledForm));
 			}
 		}
 	}

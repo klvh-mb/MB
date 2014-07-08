@@ -231,11 +231,19 @@ public class MyUsernamePasswordAuthProvider
 		return Messages.get("playauthenticate.password.verify_signup.subject");
 	}
 
+   @Override
+    protected String onWrongPassword(final Context context) {
+        context.flash().put(controllers.Application.FLASH_ERROR_KEY,
+                "登入電郵或密碼錯誤");
+                //Messages.get("playauthenticate.password.login.unknown_user_or_pw"));
+        return super.onLoginUserNotFound(context);
+    }
+	   
 	@Override
 	protected String onLoginUserNotFound(final Context context) {
-		context.flash()
-				.put(controllers.Application.FLASH_ERROR_KEY,
-						Messages.get("playauthenticate.password.login.unknown_user_or_pw"));
+		context.flash().put(controllers.Application.FLASH_ERROR_KEY,
+		        "你輸入的電郵地址並不屬於任何帳戶。請先登記帳戶或確認輸入無誤。");
+		        //Messages.get("playauthenticate.password.login.unknown_user_or_pw"));
 		return super.onLoginUserNotFound(context);
 	}
 

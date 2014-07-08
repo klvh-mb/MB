@@ -47,7 +47,7 @@
                         @if(signupForm.hasErrors && signupForm.errors.get("userExist") != null) { 
                         <div style="width: 100%;text-align: left;margin-bottom: 5px;">
                             <i class="glyphicon glyphicon-exclamation-sign" style="color: red;"></i>
-                            <span class="text-danger">電郵已經登記。請重試</span>
+                            <span class="text-danger">您輸入的電郵已經登記。請重試</span>
                             <!--span class="text-danger">@signupForm.errors.get("userExist").get(0).message</span-->
                         </div>
                         }
@@ -55,7 +55,7 @@
                         @if(flash.get("error")) {
                         <div style="width: 100%;text-align: left;margin-bottom: 5px;">
 				          	<i class="glyphicon glyphicon-exclamation-sign" style="color: red;"></i>
-				            <span class="text-danger">輸入資料不正確。請重試</span>
+				            <span class="text-danger">密碼不相符。請重試</span>
                         </div>
                         }
 				        

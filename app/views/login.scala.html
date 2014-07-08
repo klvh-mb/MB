@@ -57,7 +57,7 @@
 				        @if(flash.get("error")) {
                         <div style="width: 100%;text-align: left;margin-bottom: 5px;">
                             <i class="glyphicon glyphicon-exclamation-sign" style="color: red;"></i>
-                            <span class="text-danger">登入電郵或密碼錯誤</span>
+                            <span class="text-danger">@flash.get("error")</span>
                         </div>
 				        }
                         <label for="Login email"></label>
