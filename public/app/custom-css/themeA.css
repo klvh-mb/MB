@@ -726,7 +726,8 @@ pre {
 
 /* Header Start */
 .header-glow {
-    box-shadow: 0 0 9px 0 #500095; 
+    box-shadow: 0 0 10px 0 #500095;
+    border-bottom: 1px solid #5343A7 !important;
 }
 #header {
     z-index: 99;
