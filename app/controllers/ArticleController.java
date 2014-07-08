@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.File;
 
 import javax.persistence.NoResultException;
 
@@ -15,6 +16,7 @@ import models.ArticleCategory;
 import models.User;
 import play.data.DynamicForm;
 import play.data.Form;
+import play.Play;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -305,5 +307,17 @@ public class ArticleController extends Controller {
 			}
 		}
 		return ok(Json.toJson(articles));
+	}
+	
+	
+
+	
+	
+	@Transactional
+	public static Result getImageUrl(Long year, Long month,Long date,String name) {
+		System.out.println(Play.application().configuration().getString("storage.path")+ "/"+ year + "/"
+	 				+ month + "/" + date + "/" + name);
+		return ok(new File(Play.application().configuration().getString("storage.path")+ "/Article/"+ year + "/"
+	 				+ month + "/" + date + "/" + name));
 	}
 }
