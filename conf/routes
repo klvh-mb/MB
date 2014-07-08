@@ -183,3 +183,6 @@ GET		/unlike-comment/:comment_id				controllers.CommunityController.unlikeTheCom
 
 # indexing with elasic search
 GET		/searchForPosts/index/:query/:community_id/:offset	controllers.Application.searchForPosts(query: String, community_id: Long,offset:Long)
+
+
+GET		/image/scImageURL/:year/:month/:date/:name			controllers.ArticleController.getImageUrl(year :Long, month :Long, date :Long, name : String)
