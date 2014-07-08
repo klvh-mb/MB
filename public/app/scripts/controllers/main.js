@@ -281,6 +281,10 @@ minibean.controller('ApplicationController',function($scope,$location, userInfoS
 			$scope.selectedTab = 3;
 		}
 	});
+   
+    $scope.showImage = function(imageId) {
+        $scope.img_id = imageId;
+    }
 });
 
 ///////////////////////// User Info Service End //////////////////////////////////
@@ -384,8 +388,6 @@ minibean.service('profilePhotoModal',function( $modal){
 		this.instance.dismiss('close');
 		this.onSuccess();
 	}
-	
-	
 });
 
 minibean.controller('UserAboutController',function($routeParams, $scope, $http, userAboutService, locationService, profilePhotoModal){
@@ -433,7 +435,6 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 		return $http.post('/updateUserProfileData', $scope.result);
 	}
 	
-	
 	$scope.isProfileOn = true; 
 	$scope.isCoverOn = !$scope.isProfileOn;
 	$scope.openProfilePhotoModal = function() {
@@ -457,7 +458,10 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 		});
 		PhotoModalController.isProfileOn = false;
 	}
-	
+
+    $scope.showImage = function(imageId) {
+        $scope.img_id = imageId;
+    }
 });
 
 
@@ -564,14 +568,10 @@ minibean.controller('CreateCommunityController',function($scope, $location, $htt
 		$scope.isChosen = true;
 		$scope.formData.icon = img;
 	}
-	$scope.showImage = function(imageId) {
-		$scope.img_id = imageId;
-	}
 	$scope.onFileSelect = function($files) {
 		$scope.selectedFiles = $files;
 		$scope.formData.photo = 'cover-photo';
 	}
-	
 });
 
 ///////////////////////// User Friends Widget Service Start //////////////////////////////////
@@ -922,7 +922,12 @@ minibean.controller('ProfileController',function($scope, $routeParams, $location
 	
 	$scope.active = "about";
 	$scope.profile = profileService.Profile.get({id:$routeParams.id});
+
+    $scope.showImage = function(imageId) {
+        $scope.img_id = imageId;
+    }
 });
+
 ///////////////////////// User Profile End //////////////////////////////////
 
 minibean.service('communitySearchPageService',function($resource){
@@ -971,9 +976,10 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 	    	   $scope.search_and_highlight(query);
 	       }
 	   });
-	$scope.showImage = function(imageId) {
-		$scope.img_id = imageId;
-	}
+
+    $scope.showImage = function(imageId) {
+        $scope.img_id = imageId;
+    }
 	
 	var offset = 0;
 	var searchPost = true;
@@ -3133,7 +3139,6 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 			})
 		});
 	}
-	
 
 	$scope.like_comment = function(post_id,comment_id) {
 		likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
@@ -3196,11 +3201,7 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 			}
 		);
 	}
-	
-	$scope.showImage = function(imageId) {
-		$scope.img_id = imageId;
-	}
-	
+
 	/***QnA Community ***/
 	
 	$scope.qnaCommentPhoto = function(post_id) {
@@ -3678,10 +3679,6 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $tim
 			}
 		);
 	}
-	
-	$scope.showImage = function(imageId) {
-		$scope.img_id = imageId;
-	}
 });
 
 
@@ -3854,9 +3851,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 			$scope.isBusy = false;
 			offset++;
 		});
-		
 	}
-	
 	
 	var offsetA = 0;
 	var noMoreA = false;
@@ -3880,10 +3875,6 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 			offsetA++;
 		});
 		
-	}
-	
-	$scope.showImage = function(imageId) {
-		$scope.img_id = imageId;
 	}
 });
 

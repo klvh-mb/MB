@@ -101,7 +101,7 @@
                                     <font style="color: white;">問題</font>
     							</a>
 							</span>
-							<span style="margin-left:10px;"/>
+							<span style="margin-left:15px;"/>
 							<!--span class="wall-icon icon-title-friendwall"></span-->
 							<span class="post-wall-icon">♥</span>
 							<span>
@@ -243,19 +243,7 @@
 
 <div data-ng-include data-src="'/assets/app/views/createCommunityModal.html'"></div>
 
-<div class="modal fade lightbox" id="imageModal" data-backdrop="false" style="float: left;">
-  <div class="modal-dialog" >
-    <div class="modal-content pull-left" >
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel"></h4>
-      </div>
-      <div class="modal-body">
-       		<img data-ng-src="/image/get-original-post-image-by-id/{{img_id}}" alt="" style="max-width: 100%;">
-      </div>
-    </div>
-  </div>
-</div>
+<div data-ng-include data-src="'/assets/app/views/showImageModal.html'"></div>
 
 <div id="back-to-top" ng-controller="UIController">
     <a ng-click="gotoTop()"><span class="icon-title-arrow-up"></span>Top</a>

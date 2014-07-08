@@ -21,16 +21,4 @@
     </div>
 </div>
 
-<div class="modal fade lightbox" id="imageModal" data-backdrop="false" style="float: left;">
-  <div class="modal-dialog" >
-    <div class="modal-content pull-left" >
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel"></h4>
-      </div>
-      <div class="modal-body">
-            <img data-ng-src="/image/get-original-post-image-by-id/{{img_id}}" alt="" style="max-width: 100%;">
-      </div>
-    </div>
-  </div>
-</div>
+<div data-ng-include data-src="'/assets/app/views/showImageModal.html'"></div>
