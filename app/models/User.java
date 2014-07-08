@@ -594,6 +594,7 @@ public class User extends SocialObject implements Subject, Socializable {
             throws SocialObjectNotJoinableException {
         if (Strings.isNullOrEmpty(name) || Strings.isNullOrEmpty(description) || 
                 Strings.isNullOrEmpty(icon) || type == null) {
+            logger.underlyingLogger().warn("Missing parameters to createCommunity");
             return null;
         }
         Community community = new Community(name, description, this, type);
@@ -1356,10 +1357,12 @@ public class User extends SocialObject implements Subject, Socializable {
         return frndList;
     }
 
-	public Long getUnreadMsgCount() {
-		 Query q = JPA.em().createQuery("Select count(c) from Conversation c where ( c.user1.id = ?1 and c.user1_time < c.conv_time) or (c.user2.id = ?1 and user2_time < c.conv_time )");
-	     q.setParameter(1, this.id);
-	     System.out.println("q.getMaxResults() :: "+q.getSingleResult());
-	     return (Long) q.getSingleResult();
+    public Long getUnreadMsgCount() {
+        Query q = JPA.em().createQuery("Select count(c) from Conversation c where ( c.user1.id = ?1 and c.user1_time < c.conv_time) or (c.user2.id = ?1 and user2_time < c.conv_time )");
+        q.setParameter(1, this.id);
+        Long ret = (Long) q.getSingleResult();
+
+        logger.underlyingLogger().info("[u="+id+"] getUnreadMsgCount="+ret);
+        return ret;
 	}
 }
