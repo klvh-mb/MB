@@ -1,7 +1,6 @@
 package models;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
@@ -19,6 +18,7 @@ import models.SocialRelation.Action;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 
 import com.google.common.base.Objects;
@@ -56,6 +56,7 @@ public abstract class SocialObject extends domain.Entity implements
 	@Enumerated(EnumType.STRING)
 	public SocialObjectType objectType;
 
+	@Required
 	public String name;
 
 	@JsonIgnore
@@ -70,10 +71,11 @@ public abstract class SocialObject extends domain.Entity implements
 	 * Community
 	 *     System communities will have special treatment e.g. targeting, privacy
      */
+	@Required
     public Boolean system = false;
     
-    // social objects should always be soft delete
-    public Boolean deleted = false;
+	@Required
+    public Boolean deleted = false;     // social objects should always be soft delete
 	
 	protected final void recordLike(User user) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);

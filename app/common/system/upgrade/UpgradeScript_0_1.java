@@ -3,6 +3,9 @@ package common.system.upgrade;
 import java.io.File;
 import java.io.IOException;
 
+import javax.persistence.Query;
+
+import play.db.jpa.JPA;
 import controllers.Application;
 import models.Resource;
 import models.SystemVersion;
@@ -29,7 +32,7 @@ public class UpgradeScript_0_1 extends UpgradeScript {
     public void insertToSystemVersion() {
         SystemVersion version = new SystemVersion(
                 getVersion(), 
-                UpgradeScript_0_1.class.getName(), 
+                this.getClass().getName(), 
                 "Insert SuperAdmin profile pic");
         version.save();
     }
@@ -43,6 +46,12 @@ public class UpgradeScript_0_1 extends UpgradeScript {
             logger.underlyingLogger().error(e.getLocalizedMessage());
             return false;
         }
+        
+        // set delete=false for articles
+        Query q = JPA.em().createQuery("Update Article a set deleted = ?1");
+        q.setParameter(1, false);
+        q.executeUpdate();
+        
         return true;
     }
 }

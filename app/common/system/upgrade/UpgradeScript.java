@@ -8,10 +8,12 @@ public abstract class UpgradeScript {
     
     public static final String UPGRADE_METHOD_NAME = "upgrade";
     
-    // TODO declare new upgrade scripts here!
+    // TODO New upgrade scripts go here!
     private static List<UpgradeScript> newUpgradeScripts = 
             new ArrayList<UpgradeScript>(Arrays.asList(
+
                 new UpgradeScript_0_1()
+                
             ));
     
     abstract public String getVersion();
