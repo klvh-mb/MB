@@ -20,7 +20,7 @@ public abstract class UpgradeScript {
     
     abstract public void insertToSystemVersion();
     
-    abstract public boolean upgrade();
+    abstract public boolean upgrade() throws Exception;
     
     /**
      * Insert upgrade script to SystemVersion table to execute.

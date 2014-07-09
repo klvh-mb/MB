@@ -1,7 +1,6 @@
 package common.system.upgrade;
 
 import java.io.File;
-import java.io.IOException;
 
 import javax.persistence.Query;
 
@@ -38,14 +37,9 @@ public class UpgradeScript_0_1 extends UpgradeScript {
     }
     
     @Override
-    public boolean upgrade() {
+    public boolean upgrade() throws Exception {
         User superAdmin = Application.getSuperAdmin();
-        try {
-            superAdmin.setPhotoProfile(new File(Resource.STORAGE_PATH + "/default/logo/logo-mB-1.png"));
-        } catch (IOException e) {
-            logger.underlyingLogger().error(e.getLocalizedMessage());
-            return false;
-        }
+        superAdmin.setPhotoProfile(new File(Resource.STORAGE_PATH + "/default/logo/logo-mB-1.png"));
         
         // set delete=false for articles
         Query q = JPA.em().createQuery("Update Article a set deleted = ?1");

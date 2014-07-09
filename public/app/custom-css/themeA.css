@@ -643,7 +643,7 @@ pre {
     /*min-height: 120px;*/
 }
 .newCommunity-info p, .myCommunity-info p {
-    width: 62%;
+    width: 60%;
     display: inline-block;
 }
 .newCommunity-info img, .myCommunity-info img {
@@ -1811,7 +1811,7 @@ pre {
     vertical-align: text-bottom;
 }
 .communityTagBox p {
-    width: 78%;
+    width: 77%;
     display: inline-block;
 }
 .section-title {
