@@ -25,6 +25,7 @@ import javax.persistence.criteria.Root;
 
 import common.image.FaceFinder;
 import common.utils.ImageFileUtil;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.Play;
@@ -43,7 +44,17 @@ import domain.SocialObjectType;
 
 @Entity
 public class Community extends TargetingSocialObject implements Likeable, Postable, Joinable {
+    private static play.api.Logger logger = play.api.Logger.apply(Community.class);
+    
+    private static final String STORAGE_COMMUNITY_COVER_THUMBNAIL_NOIMAGE = 
+            Play.application().configuration().getString("storage.community.cover.thumbnail.noimage");
 
+    private static final String STORAGE_COMMUNITY_COVER_MINI_NOIMAGE = 
+            Play.application().configuration().getString("storage.community.cover.mini.noimage");
+
+    private static final String STORAGE_COMMUNITY_COVER_NOIMAGE = 
+            Play.application().configuration().getString("storage.community.cover.noimage");
+    
     public static enum CommunityType {
 		OPEN,
 		CLOSE,
@@ -271,15 +282,15 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	}
 	
 	public File getDefaultThumbnailCoverPhoto()  throws FileNotFoundException {
-		return new File(Play.application().configuration().getString("storage.community.cover.thumbnail.noimage"));
+		return new File(STORAGE_COMMUNITY_COVER_THUMBNAIL_NOIMAGE);
 	}
 	
 	public File getDefaultMiniCoverPhoto()  throws FileNotFoundException {
-		return new File(Play.application().configuration().getString("storage.community.cover.mini.noimage"));
+		return new File(STORAGE_COMMUNITY_COVER_MINI_NOIMAGE);
 	}
 	
 	public File getDefaultCoverPhoto()  throws FileNotFoundException {
-		 return new File(Play.application().configuration().getString("storage.community.cover.noimage"));
+		 return new File(STORAGE_COMMUNITY_COVER_NOIMAGE);
 	}
 	
 	public boolean checkCommunityNameExists() {
