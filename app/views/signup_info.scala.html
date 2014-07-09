@@ -18,6 +18,11 @@
     <link rel="stylesheet" href="../assets/app/custom-css/signupInfo.css">
     <link rel="stylesheet" href="../assets/app/custom-css/themeA.css">
     <link rel="stylesheet" href="../assets/app/custom-css/themeA.append.css">
+    
+    
+    <script src="@routes.Assets.at("components/library/jquery/jquery.min.js")"></script>
+    <script src="@routes.Assets.at("components/library/jquery/jquery.validate.min.js")" type="text/javascript"></script>
+    
     <style>
         body {
             background-image: url(../assets/app/images/login/login-bg.jpg);
@@ -28,7 +33,6 @@
         }
     </style>
     
-    <script src="@routes.Assets.at("components/library/jquery/jquery.min.js")"></script>
     <script>
         $(document).ready(function() {
             minibean = this;
@@ -63,6 +67,39 @@
             // init state
             this.onChangeNumChildren();
             this.onChangeParentType();
+            
+          
+            
+            $("#signup-info-wrapper").validate({
+    			rules : {
+    				parent_birth_year : {
+    					required : true,
+    				},
+    				parent_location : {
+    					required : true,
+    				},
+    				parent_type: {
+    				    required: true
+    				}
+    			},
+
+    			messages : {
+    				parent_birth_year : {
+    					required : "Select Year",
+    					
+    				},
+    				parent_location : {
+    					required : "Select Location",
+    				},
+    				parent_type : {
+    					required : "This field is required",
+    				}
+    			}
+    			
+    		});
+            
+            
+            
         });
     </script>
 </head>
@@ -89,8 +126,8 @@
                                     <td>
                                         <div>
                                             <span>
-                                                <select name="parent_birth_year" id="parent_birth_year">
-                                                    <option value="0" selected="1">年</option>
+                                                <select name="parent_birth_year" id="parent_birth_year" required rel="popover">
+                                                    <option value="" selected="1">年</option>
                                                     @for((key, value) <- DefaultValues.PARENT_BIRTH_YEARS.asScala) {
                                                         <option value="@value">@key</option>
                                                     }
@@ -104,8 +141,8 @@
                                     <td>
                                         <div>
                                             <span>
-                                                <select name="parent_location" id="parent_location">
-                                                    <option value="0" selected="1">地區</option>
+                                                <select name="parent_location" id="parent_location" required rel="popover">
+                                                    <option value="" selected="1">地區</option>
                                                     @for(location <- Location.getHongKongDistricts().asScala) {
                                                         <option value="@location.id">@location.displayName</option>
                                                     }
@@ -123,7 +160,9 @@
                                                 <label for="parent_type">媽媽</label>
                                             </span>
                                             <span>
-                                                <input type="radio" name="parent_type" value="@UserInfo.ParentType.DAD.name()" id="dad">
+                                                <input type="radio" name="
+
+" value="@UserInfo.ParentType.DAD.name()" id="dad">
                                                 <label for="parent_type">爸爸</label>
                                             </span>
                                         </div>

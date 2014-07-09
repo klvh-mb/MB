@@ -2,12 +2,11 @@
 
 var minibean = angular.module('minibean');
 
-minibean.controller('UIController', function($scope, $location, $anchorScroll) {
+minibean.controller('UIController', function($scope, $location, $anchorScroll, $window) {
     $scope.gotoTop = function() {
         // set the location.hash to the id of
         // the element you wish to scroll to
-        $location.hash('content');
-        $anchorScroll();
+    	$window.scrollTo(0, 0);
     };
 });
 

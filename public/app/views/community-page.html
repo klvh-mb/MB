@@ -68,7 +68,7 @@
                             <a id="community-settings-dropdown" class="toolsbox toolsbox-end dropdown-toggle" data-toggle="dropdown"><span class="icon-title-contentSetup"></span></a>
                             <ul style="right:-60px;" class="subtoolsbox dropdown-menu" aria-labelledby="community-settings-dropdown">
                                 <li><a data-ng-click="">分享社群</a></li>
-                                <li ng-show="community.isO"><a data-ng-click="">編輯社群</a></li>
+                                <li ng-show="community.isO"><a data-ng-href="/#/editCommunity/{{community.id}}">編輯社群</a></li>
                                 <li class="dropdown-divider" role="presentation"></li>
                                 <li ng-show="!community.isO && community.isM == true" ><a data-ng-click="leave_community(community.id)">退出社群</a></li>
                                 <li><a data-ng-click="">檢舉社群</a></li>
@@ -245,8 +245,8 @@
 
 <div data-ng-include data-src="'/assets/app/views/showImageModal.html'"></div>
 
-<div id="back-to-top" ng-controller="UIController">
-    <a ng-click="gotoTop()"><span class="icon-title-arrow-up"></span>Top</a>
+<div id="back-to-top" style="z-index:1000" data-ng-controller="UIController">
+    <a data-ng-click="gotoTop()"><span class="icon-title-arrow-up"></span>Top</a>
 </div>
 
 <script type="text/ng-template" id="change-profile-photo-modal.html">

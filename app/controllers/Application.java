@@ -156,6 +156,11 @@ public class Application extends Controller {
         userInfo.birthYear = parentBirthYear;
         userInfo.location = parentLocation;
         userInfo.parentType = parentType;
+        
+        if (parentBirthYear == null || parentLocation == null || parentType == null){
+        	return ok(views.html.signup_info.render(localUser));
+        }
+        
         if (ParentType.MOM.equals(parentType) || ParentType.SOON_MOM.equals(parentType)) {
             userInfo.gender = TargetGender.Female;
         } else if (ParentType.DAD.equals(parentType) || ParentType.SOON_DAD.equals(parentType)) {
