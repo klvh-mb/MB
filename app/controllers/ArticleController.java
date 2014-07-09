@@ -35,6 +35,8 @@ import domain.DefaultValues;
 public class ArticleController extends Controller {
     private static play.api.Logger logger = play.api.Logger.apply(ArticleController.class);
 
+    private static final String STORAGE_PATH = Play.application().configuration().getString("storage.path"); 
+    
     private static final int NUM_CATEGORIES_HP = 6;
 
 	@Transactional
@@ -309,15 +311,14 @@ public class ArticleController extends Controller {
 		return ok(Json.toJson(articles));
 	}
 	
-	
-
-	
-	
 	@Transactional
-	public static Result getImageUrl(Long year, Long month,Long date,String name) {
-		System.out.println(Play.application().configuration().getString("storage.path")+ "/"+ year + "/"
-	 				+ month + "/" + date + "/" + name);
-		return ok(new File(Play.application().configuration().getString("storage.path")+ "/Article/"+ year + "/"
-	 				+ month + "/" + date + "/" + name));
-	}
+    public static Result getImage(Long year, Long month, Long date, String name) {
+        String path = getImageUrl(year, month, date, name);
+        logger.underlyingLogger().debug(path);
+        return ok(new File(path));
+    }
+    
+    public static String getImageUrl(Long year, Long month, Long date, String name) {
+        return STORAGE_PATH + "/article/" + year + "/" + month + "/" + date + "/" + name;
+    }
 }
