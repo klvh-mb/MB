@@ -60,7 +60,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	@JsonIgnore
 	public Folder albumPhotoProfile;
 	
-	@Column(length=8192)
+	@Column(length=2000)
 	public String description;
 	
 	public String tagetDistrict;
@@ -75,9 +75,6 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	
 	public String icon;
 
-    /**
-     * Ctor
-     */
 	public Community() {
 		this.objectType = SocialObjectType.COMMUNITY;
 	}
@@ -141,12 +138,12 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 			throws SocialObjectNotJoinableException {
 		recordJoinRequestAccepted(user);
 	}
-	
+
 	@Override
 	@Transactional
 	public void onInviteRequestAccepted(User user)
-			throws SocialObjectNotJoinableException {
-		recordInviteRequestAccepted(user);
+	        throws SocialObjectNotJoinableException {
+	    recordInviteRequestAccepted(user);
 	}
 	
 	@JsonIgnore
@@ -257,7 +254,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	}
 	
 	public static Community findById(Long id) {
-		Query q = JPA.em().createQuery("SELECT c FROM Community c where id = ?1");
+		Query q = JPA.em().createQuery("SELECT c FROM Community c where id = ?1 and deleted = false");
 		q.setParameter(1, id);
 		Object o = q.getSingleResult();
 		return o == null? null : (Community)o;
@@ -265,7 +262,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 
 	public static Community findByTargetingTypeTargetingInfo(
 	        TargetingSocialObject.TargetingType targetingType, String targetingInfo) {
-	    Query q = JPA.em().createQuery("SELECT c FROM Community c where system = ?1 and targetingType = ?2 and targetingInfo = ?3");
+	    Query q = JPA.em().createQuery("SELECT c FROM Community c where system = ?1 and targetingType = ?2 and targetingInfo = ?3 and deleted = false");
 	    q.setParameter(1, true);
         q.setParameter(2, targetingType);
         q.setParameter(3, targetingInfo);
@@ -286,7 +283,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	}
 	
 	public boolean checkCommunityNameExists() {
-		Query q = JPA.em().createQuery("Select so from Community so where name = ?1");
+		Query q = JPA.em().createQuery("Select c from Community c where name = ?1 and deleted = false");
 		q.setParameter(1, this.name);
 		//q.setParameter(2, SocialObjectType.COMMUNITY);
 	
@@ -302,7 +299,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	
 	@JsonIgnore
 	public List<Post> getPostsOfCommunity(int offset, int limit) {
-		Query q = JPA.em().createQuery("Select p from Post p where community=?1 and postType=1 order by p.auditFields.updatedDate desc");
+		Query q = JPA.em().createQuery("Select p from Post p where community=?1 and postType=1 and deleted = false order by p.auditFields.updatedDate desc");
 		q.setParameter(1, this);
 		q.setFirstResult(offset);
 		q.setMaxResults(limit);
@@ -311,7 +308,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	
 	@JsonIgnore
 	public List<Post> getQuestionsOfCommunity(int offset, int limit) {
-		Query q = JPA.em().createQuery("Select p from Post p where community=?1 and postType=0 order by p.auditFields.updatedDate desc");
+		Query q = JPA.em().createQuery("Select p from Post p where community=?1 and postType=0 and deleted = false order by p.auditFields.updatedDate desc");
 		q.setParameter(1, this);
 		q.setFirstResult(offset);
 		q.setMaxResults(limit);
@@ -322,7 +319,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	public List<User> getNonMembersOfCommunity(String query) {
 		Query q = JPA.em().createQuery("Select u from User u where lower(u.displayName) LIKE '%"+ query.toLowerCase() +"%' AND " +
 				"u.id not in (select sr.actor from " +
-				"SocialRelation sr where sr.target = ?1 and (sr.action = 'MEMBER' OR sr.actionType = 'INVITE_REQUESTED'))");
+				"SocialRelation sr where sr.target = ?1 and (sr.action = 'MEMBER' OR sr.actionType = 'INVITE_REQUESTED')) and u.deleted = false");
 		q.setParameter(1, this.id);
 		return (List<User>)q.getResultList();
 	}

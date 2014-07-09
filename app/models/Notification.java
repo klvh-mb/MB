@@ -2,7 +2,6 @@ package models;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
@@ -11,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import play.data.validation.Constraints.Required;
@@ -42,7 +42,6 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 	@Enumerated(EnumType.STRING)
 	public NotificationType notificationType;
 	
-	
 	public static enum NotificationType {
 		FRIEND_REQUEST,
 		FRIEND_ACCEPTED,
@@ -54,14 +53,10 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 		ANSWERED
 	}
 
-
-	
 	public void markNotificationRead() {
 		this.readed = true;
 	    save();
 	}
-
-
 
 	public SocialRelation getSocialAction() {
 		return socialAction;
@@ -73,60 +68,57 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 		this.socialAction = socialAction;
 	}
 
-
-
 	public Long getRecipetent() {
 		return recipetent;
 	}
-
-
 
 	public void setRecipetent(Long recipetent) {
 		this.recipetent = recipetent;
 	}
 
-
-
 	public String getMessage() {
 		return message;
 	}
-
-
 
 	public void setMessage(String message) {
 		this.message = message;
 	}
 
-
-
 	public Boolean getReaded() {
 		return readed;
 	}
-
-
 
 	public void setReaded(Boolean readed) {
 		this.readed = readed;
 	}
 
-
-
 	public NotificationType getNotificationType() {
 		return notificationType;
 	}
-
-
 
 	public void setNotificationType(NotificationType notificationType) {
 		this.notificationType = notificationType;
 	}
 	
-	public static Notification findById(Long id) {
-		String sql = "SELECT n FROM Notification n WHERE id=?1";
-		Query query = JPA.em().createQuery(sql);
-		query.setParameter(1, id);
-		return (Notification) query.getSingleResult();
-	}
-	
-
+    public static Notification findById(Long id) {
+        String sql = "SELECT n FROM Notification n WHERE id=?1";
+        Query query = JPA.em().createQuery(sql);
+        query.setParameter(1, id);
+        try {
+            return (Notification) query.getSingleResult();
+        } catch (NoResultException nre) {
+        }
+        return null;
+    }
+    
+    public static Notification findBySocialAction(SocialRelation sr) {
+        String sql = "SELECT n FROM Notification n WHERE SocialAction_id=?1";
+        Query query = JPA.em().createQuery(sql);
+        query.setParameter(1, sr);
+        try {
+            return (Notification) query.getSingleResult();
+        } catch (NoResultException nre) {
+        }
+        return null;
+    }
 }

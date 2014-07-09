@@ -60,6 +60,10 @@ public class Application extends Controller {
 	public static final String USER_ROLE = "USER";
 	public static final String SUPER_ADMIN_ROLE = "SUPER_ADMIN";
 
+	public static User getSuperAdmin() {
+	    return User.getSuperAdmin();
+	}
+	
 	@Transactional
 	public static Result index() {
         final User localUser = getLocalUser(session());

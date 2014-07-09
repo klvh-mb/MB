@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +15,7 @@ import models.Icon;
 import models.Icon.IconType;
 import models.Location;
 import models.Location.LocationCode;
+import models.Resource;
 import models.SecurityRole;
 import models.TargetingSocialObject;
 import models.User;
@@ -22,9 +25,12 @@ import org.joda.time.DateTime;
 import play.db.jpa.JPA;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
+
 import common.model.TargetYear;
+import controllers.Application;
 
 public class DataBootstrap {
+    private static final play.api.Logger logger = play.api.Logger.apply(DataBootstrap.class);
     
     public static void bootstrap() {
         bootstrapAnnouncement();
@@ -196,6 +202,12 @@ public class DataBootstrap {
         superAdmin.system = true;
         superAdmin.linkedAccounts = null;
         superAdmin.save();
+        
+        try {
+            superAdmin.setPhotoProfile(new File(Resource.STORAGE_PATH + "/default/logo/logo-mB-1.png"));
+        } catch (IOException e) {
+            logger.underlyingLogger().error(e.getLocalizedMessage());
+        }
     }
     
     private static void bootstrapLocation() {
@@ -346,7 +358,7 @@ public class DataBootstrap {
         String zodiac = targetYear.getZodiac().name();
         String targetingInfo = targetYear.toString();
         try {
-            community = User.getSuperAdmin().createCommunity(
+            community = Application.getSuperAdmin().createCommunity(
                     name, desc, CommunityType.OPEN, 
                     "/assets/app/images/general/icons/zodiac/" + zodiac.toLowerCase() + ".png");
             community.system = true;
@@ -354,7 +366,7 @@ public class DataBootstrap {
             community.targetingInfo = targetingInfo;
             //community.setCoverPhoto(file);
         } catch (SocialObjectNotJoinableException e) {
-            e.printStackTrace();
+            logger.underlyingLogger().error(e.getLocalizedMessage());
         }
         return community;
     }
@@ -363,7 +375,7 @@ public class DataBootstrap {
         Community community = null;
         String targetingInfo = location.id.toString();
         try {
-            community = User.getSuperAdmin().createCommunity(
+            community = Application.getSuperAdmin().createCommunity(
                     name, desc, CommunityType.OPEN, 
                     "/assets/app/images/general/icons/community/loc_" + location.locationType.name().toLowerCase() + ".png");
             community.system = true;
@@ -371,7 +383,7 @@ public class DataBootstrap {
             community.targetingInfo = targetingInfo;
             //community.setCoverPhoto(file);
         } catch (SocialObjectNotJoinableException e) {
-            e.printStackTrace();
+            logger.underlyingLogger().error(e.getLocalizedMessage());
         }
         return community;
     }

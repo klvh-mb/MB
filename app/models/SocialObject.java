@@ -1,6 +1,7 @@
 package models;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import models.SocialRelation.Action;
@@ -96,75 +98,99 @@ public abstract class SocialObject extends domain.Entity implements
 		action.action = SocialRelation.Action.MEMBER;
 		action.actionType = SocialRelation.ActionType.GRANT;
 		action.isPostSave = false;
-		action.validateUniquenessAndCreate();
+		action.ensureUniqueAndCreate();
 	}
 	
 	protected final void beMemberOfOpenCommunity(User user) {
-		SocialRelation action = new SocialRelation(user, this);
-		action.action = SocialRelation.Action.MEMBER;
-		action.actionType = SocialRelation.ActionType.GRANT;
-		action.memberJoinedOpenCommunity = true;
+	    // Join community
+	    SocialRelation action = new SocialRelation(user, this);
+        action.action = SocialRelation.Action.MEMBER;
+        action.actionType = SocialRelation.ActionType.GRANT;
+        action.memberJoinedOpenCommunity = true;
 
-		if (action.validateUniquenessAndCreate()) {
+        if (action.ensureUniqueAndCreate()) {
             // save community affinity
             UserCommunityAffinity.onJoinedCommunity(user.id, this.id);
 
             // skip email
-//            String message = "Congratulation " + user.name + "," + "\n" + " You are now member of " + this.name + " Community.";
-//	        MailJob.sendMail("Some subject", new Body(message), user.email);
-		}
+            //String message = "Congratulation " + user.name + "," + "\n" + " You are now member of " + this.name + " Community.";
+            //MailJob.sendMail("Some subject", new Body(message), user.email);
+        }
+        
+        // Clear up invite request if any
+        SocialRelation request = getInviteRequest(user);
+        if (request != null) {
+            request.delete();
+        }
 	}
 
 	protected final void recordJoinRequestAccepted(User user) {
-		// save SR
-        Query q = JPA
-				.em()
-				.createQuery(
-						"SELECT sa from SocialRelation sa where actor = ?1 and target = ?2 and actionType =?3");
-		q.setParameter(1, user.id);
-		q.setParameter(2, this.id);
-		q.setParameter(3, SocialRelation.ActionType.JOIN_REQUESTED);
-
-		SocialRelation action = (SocialRelation) q.getSingleResult();
-		action.actionType = SocialRelation.ActionType.GRANT;
-		action.action = SocialRelation.Action.MEMBER;
-		action.save();
-
+		// must have a join request to proceed
+        SocialRelation request = getJoinRequest(user);
+        if (request == null) {
+            return;
+        }
+        
+        // use existing join request to capture MEMBER relationship
+        request.action = SocialRelation.Action.MEMBER;
+        request.actionType = SocialRelation.ActionType.GRANT;
+        request.ensureUniqueAndCreate();
+        
         // save community affinity
         UserCommunityAffinity.onJoinedCommunity(user.id, this.id);
 
         // skip email
-//        String message = "Congratulation "+user.name+","+"\n"+" You are now mwmber of "+this.name+" Community.";
-//		MailJob.sendMail("Some subject",new Body(message), user.email);
+        //String message = "Congratulation " + user.name + "," + "\n" + " You are now member of " + this.name + " Community.";
+        //MailJob.sendMail("Some subject", new Body(message), user.email);
 	}
 	
 	protected final void recordInviteRequestAccepted(User user) {
-		Query q = JPA
-				.em()
-				.createQuery(
-						"SELECT sa from SocialRelation sa where actor = ?1 and target = ?2 and actionType =?3");
-		q.setParameter(1, user.id);
-		q.setParameter(2, this.id);
-		q.setParameter(3, SocialRelation.ActionType.INVITE_REQUESTED);
+	    // must have a join request to proceed
+        SocialRelation request = getInviteRequest(user);
+        if (request == null) {
+            return;
+        }
+        
+        // use existing join request to capture MEMBER relationship
+        request.action = SocialRelation.Action.MEMBER;
+        request.actionType = SocialRelation.ActionType.GRANT;
 
-		SocialRelation action = (SocialRelation) q.getSingleResult();
-		action.actionType = SocialRelation.ActionType.GRANT;
-		action.action = SocialRelation.Action.MEMBER;
-		action.save();
-
+        // save community affinity
+        UserCommunityAffinity.onJoinedCommunity(user.id, this.id);
 	}
 
+	protected final SocialRelation getJoinRequest(User user) {
+        return getRequest(user, SocialRelation.ActionType.JOIN_REQUESTED);
+    }
+    
+    protected final SocialRelation getInviteRequest(User user) {
+        return getRequest(user, SocialRelation.ActionType.INVITE_REQUESTED);
+    }
+    
+    protected final SocialRelation getRequest(User user, SocialRelation.ActionType actionType) {
+        Query q = JPA.em().createQuery(
+                "SELECT sa from SocialRelation sa where actor = ?1 and target = ?2 and actionType =?3");
+        q.setParameter(1, user.id);
+        q.setParameter(2, this.id);
+        q.setParameter(3, actionType);
+
+        try {
+            SocialRelation request = (SocialRelation) q.getSingleResult();
+            return request;
+        } catch (NoResultException nre){
+        }
+        return null;
+    }
+    
 	protected final void recordFriendRequest(User invitee) {
 		SocialRelation action = new SocialRelation(this, invitee);
 		action.actionType = SocialRelation.ActionType.FRIEND_REQUESTED;
-		action.validateUniquenessAndCreate();
+		action.ensureUniqueAndCreate();
 	}
 
 	protected final void recordFriendRequestAccepted(User user) {
-		Query q = JPA
-				.em()
-				.createQuery(
-						"SELECT sa from SocialRelation sa where actor = ?1 and target = ?2 and actionType =?3");
+		Query q = JPA.em().createQuery(
+		        "SELECT sa from SocialRelation sa where actor = ?1 and target = ?2 and actionType =?3");
 		q.setParameter(1, user.id);
 		q.setParameter(2, this.id);
 		q.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED);
@@ -179,7 +205,7 @@ public abstract class SocialObject extends domain.Entity implements
 		SocialRelation action = new SocialRelation(this,user);
 		action.actionType = SocialRelation.ActionType.RELATIONSHIP_REQUESTED;
 		action.action = relation;
-		action.validateUniquenessAndCreate();
+		action.ensureUniqueAndCreate();
 	}
 
 	protected final void recordRelationshipRequestAccepted(User user,
@@ -239,7 +265,7 @@ public abstract class SocialObject extends domain.Entity implements
 	protected final void recordInviteRequestByCommunity(User invitee) {
 		SocialRelation action = new SocialRelation(invitee, this);
 		action.actionType = SocialRelation.ActionType.INVITE_REQUESTED;
-		action.validateUniquenessAndCreate();
+		action.ensureUniqueAndCreate();
 	}
 	
 	@Override
@@ -285,13 +311,13 @@ public abstract class SocialObject extends domain.Entity implements
 				"Please make sure Social Object you are joining  is Joinable");
 	}
 
-	public void onJoinRequestAccepted(User toBeMemeber)
+	public void onJoinRequestAccepted(User toBeMember)
 			throws SocialObjectNotJoinableException {
 		throw new SocialObjectNotJoinableException(
 				"Please make sure Social Object you are joining  is Joinable");
 	}
 	
-	public void onInviteRequestAccepted(User toBeMemeber)
+	public void onInviteRequestAccepted(User toBeMember)
 			throws SocialObjectNotJoinableException {
 		throw new SocialObjectNotJoinableException(
 				"Please make sure Social Object you are joining  is Joinable");

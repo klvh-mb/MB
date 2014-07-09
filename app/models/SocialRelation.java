@@ -1,6 +1,7 @@
 package models;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -62,11 +63,9 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long id;
 	
-	
 	public Long actor;
 	@Enumerated(EnumType.STRING)
 	public SocialObjectType actorType;
-	
 	
 	@Enumerated(EnumType.STRING)
 	public Action action;
@@ -86,7 +85,6 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
             LEAVE_COMMUNITY,
             INVITE_REQUESTED
     }
-
 	
 	public Long target;
 	@Enumerated(EnumType.STRING)
@@ -106,9 +104,6 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	public boolean memberJoinedOpenCommunity;
 	
 	static public enum Action {
-		
-		
-		
 		ADDED,
 		REQUEST,
 		FRIEND,
@@ -119,9 +114,6 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 		POSTED_ANSWER,
 		ANSWERED;
 	}
-	
-	
-	
 
 	public SocialRelation(){}
 	
@@ -149,20 +141,39 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	}
 	
 	@Transactional
-	public boolean validateUniquenessAndCreate() {
-		Query q = JPA.em().createQuery("Select sa from SocialRelation sa where actor = ?1 and action = ?2 and target = ?3 and actorType = ?4 and targetType = ?5");
-		q.setParameter(1, this.actor);
-		q.setParameter(2, this.action);
-		q.setParameter(3, this.target);
-		q.setParameter(4, this.actorType);
-		q.setParameter(5, this.targetType);
-		if(q.getResultList().size() > 0 ) {
-			// Already linked ; Any logic !
-			return false;
-		} else {
-			save();
-			return true;
-		}
+    public List<SocialRelation> getSocialRelations() {
+        Query q = JPA.em().createQuery("Select sa from SocialRelation sa where actor = ?1 and action = ?2 and target = ?3 and actorType = ?4 and targetType = ?5");
+        q.setParameter(1, this.actor);
+        q.setParameter(2, this.action);
+        q.setParameter(3, this.target);
+        q.setParameter(4, this.actorType);
+        q.setParameter(5, this.targetType);
+        try {
+            List<SocialRelation> socialRelations = q.getResultList();
+            return socialRelations;
+        } catch (NoResultException nre){
+        }
+        return null;
+    }
+	
+	@Transactional
+	public boolean ensureUniqueAndCreate() {
+	    List<SocialRelation> socialRelations = getSocialRelations();
+	    if (socialRelations == null || socialRelations.isEmpty()) {
+	        save();
+	        return true;
+	    }
+	    
+	    boolean keepSocialRelation = true;
+	    for (SocialRelation socialRelation : socialRelations) {
+	        if (keepSocialRelation) {
+	            keepSocialRelation = false;
+	            continue;
+	        }
+
+	        socialRelation.delete();
+	    }
+	    return false;
 	}
 	
 	// NOTE: Caution, call this method when target and actor pair is one to one.
@@ -177,8 +188,7 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 		
 		try{
 			sa = (SocialRelation) q.getSingleResult();
-		}
-		catch (NoResultException nre){
+		} catch (NoResultException nre){
 		}
 		
 		if(sa == null ) {
@@ -187,6 +197,14 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 			sa.actionType = this.actionType;
 			sa.merge();
 		}
+	}
+	
+	@Override
+	public void delete() {
+	    Notification notification = Notification.findBySocialAction(this);
+        if (notification != null)
+            notification.delete();
+        super.delete();
 	}
 	
 	@Override
@@ -220,6 +238,4 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 		q.setParameter(1, this.actor);
 		return (T)q.getSingleResult();
 	}
-	
-
 }

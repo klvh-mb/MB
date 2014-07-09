@@ -111,7 +111,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
     
     public static Post findById(Long id) {
         try {
-            Query q = JPA.em().createQuery("SELECT p FROM Post p where id = ?1");
+            Query q = JPA.em().createQuery("SELECT p FROM Post p where id = ?1 and deleted = false");
             q.setParameter(1, id);
             return (Post) q.getSingleResult();
         } catch (NoResultException nre) {
@@ -120,9 +120,8 @@ public class Post extends SocialObject implements Likeable, Commentable {
     }
     
     public static int deleteById(Long id) {
-        Query q = JPA.em().createQuery("Update Post p set deleted = ?1 where id = ?2");
-        q.setParameter(1, true);
-        q.setParameter(2, id);
+        Query q = JPA.em().createQuery("Update Post p set deleted = true where id = ?1");
+        q.setParameter(1, id);
         return q.executeUpdate();
     }
     
@@ -228,14 +227,14 @@ public class Post extends SocialObject implements Likeable, Commentable {
     
     @JsonIgnore
     public List<Comment> getCommentsOfPost() {
-        Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 ");
+        Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 and deleted = false");
         q.setParameter(1, this.id);
         return (List<Comment>)q.getResultList();
     }
     
     @JsonIgnore
     public List<Comment> getCommentsOfPost(int limit) {
-        Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 order by date desc" );
+        Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 and deleted = false order by date desc" );
         q.setParameter(1, this.id);
         return (List<Comment>)q.setMaxResults(limit).getResultList();
     }

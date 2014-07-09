@@ -25,35 +25,27 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/home.html'
       })
       .when('/about/:tab',{
-    	templateUrl: '/assets/app/views/about.html',
+    	templateUrl: '/assets/app/views/about-me.html',
     	controller: 'UserAboutController'
-      })
-      .when('/friends',{
-    	templateUrl: '/assets/app/views/allFriends.html',
-    	controller : 'FriendsController'
-      })
-      .when('/myGroups/:type',{
-    	templateUrl: '/assets/app/views/myAllCommunities.html',
-    	controller : 'CommunityWidgetController'
-      })
-      .when('/editCommunity/:id',{
-    	templateUrl: '/assets/app/views/edit-community.html',
-    	controller : 'GroupController'
       })
       .when('/profile/:id',{
     	templateUrl: '/assets/app/views/visit-profile.html',
     	controller : 'ProfileController'  
       })
       .when('/community/:id/:tab',{
-    	templateUrl: '/assets/app/views/communityPage.html',
+    	templateUrl: '/assets/app/views/community-page.html',
     	controller : 'CommunityPageController'  
       })
+      .when('/editCommunity/:id',{
+        templateUrl: '/assets/app/views/edit-community.html',
+        controller : 'GroupController'
+      })
       .when('/post-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/postLandingPage.html',
+        templateUrl: '/assets/app/views/post-landing.html',
         controller : 'PostLandingController'  
       })
       .when('/qna-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/qnaLandingPage.html',
+        templateUrl: '/assets/app/views/qna-landing.html',
         controller : 'QnALandingController'  
       })
       .when('/article/id/:id',{

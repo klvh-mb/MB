@@ -12,8 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import models.SocialRelation.Action;
-
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 import play.i18n.Messages;
@@ -86,7 +84,7 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
     }
     
     public static Comment findById(Long id) {
-        Query q = JPA.em().createQuery("SELECT c FROM Comment c where id = ?1");
+        Query q = JPA.em().createQuery("SELECT c FROM Comment c where id = ?1 and deleted = false");
         q.setParameter(1, id);
         return (Comment) q.getSingleResult();
     }

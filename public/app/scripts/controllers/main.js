@@ -1604,7 +1604,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
         });
     }
     
-    // !!!NOTE: Since we reuse QnA-bar.html for landing page, and QnA-bar.html is 
+    // !!!NOTE: Since we reuse qna-bar.html for landing page, and qna-bar.html is 
     // being used in home-news-feed-section.html, "view all" is using 
     // CommunityPageController.get_all_comments() instead of 
     // QnACommunityController.get_all_answers(). Hence we need to define 
@@ -2302,9 +2302,9 @@ minibean.controller('QnACommunityController',function($scope, bookmarkPostServic
 		});
 	}
 	
-	// Right now community-QnA-bar.html > QnA-bar.html is using QnACommunityController
-	// and home-news-feed.html > QnA-bar.html is using CommunityPageController
-	// and QnA-bar.html is calling get_all_comments() instead of get_all_answers() 
+	// Right now community-qna-bar.html > qna-bar.html is using QnACommunityController
+	// and home-news-feed.html > qna-bar.html is using CommunityPageController
+	// and qna-bar.html is calling get_all_comments() instead of get_all_answers() 
 	// such that it works in all places
 	// Assign the dummy get_all_comments here... needs refactoring... 
 	 

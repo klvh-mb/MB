@@ -1,6 +1,7 @@
 import java.util.Arrays;
 
 import models.SecurityRole;
+import models.SystemVersion;
 import play.Application;
 import play.GlobalSettings;
 import play.db.jpa.JPA;
@@ -74,16 +75,16 @@ public class Global extends GlobalSettings {
 		JPA.withTransaction(new play.libs.F.Callback0() {
 			@Override
 			public void invoke() throws Throwable {
-				initialData();
+				init();
 			}
 		});
 		
 		FeedProcessor.updateCommunityLevelFeed();
 	}
 
-	private void initialData() {
+	private void init() {
 	    if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[Global.initialData()]");
+            logger.underlyingLogger().debug("[Global.init()]");
         }
 	    
 		if (SecurityRole.findRowCount() == 0L) {
@@ -96,6 +97,10 @@ public class Global extends GlobalSettings {
 			}
 		}
 		
+		// data first time bootstrap
 		DataBootstrap.bootstrap();
+		
+		// version upgrade if any
+		SystemVersion.versionUpgradeIfAny();
 	}
 }

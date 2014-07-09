@@ -16,13 +16,15 @@ public class SocialActivity {
 				notification.socialAction = socialAction;
 				notification.recipetent = socialAction.actor;
 				notification.notificationType = NotificationType.COMMUNITY_JOIN_APPROVED;
-				notification.message = "You are now member of "
-						+ socialAction.targetname;
-				//if(socialAction.memberJoinedOpenCommunity) {
+				notification.message = "You are now member of " + socialAction.targetname;
+				/*
+				if(socialAction.memberJoinedOpenCommunity) {
 					notification.readed = false;
-				//} else {
-				//	notification.readed = true;
-				//}
+				} else {
+					notification.readed = true;
+				}
+				*/
+				notification.readed = false;
 				notification.save();
 			}
 				break;
@@ -39,15 +41,7 @@ public class SocialActivity {
 			}
 				break;
 
-			
-
-			
-
-			
-				
-
 			}
-			
 		} 
 		
 		if (socialAction.actionType != null) {
