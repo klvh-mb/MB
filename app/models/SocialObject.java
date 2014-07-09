@@ -56,7 +56,6 @@ public abstract class SocialObject extends domain.Entity implements
 	@Enumerated(EnumType.STRING)
 	public SocialObjectType objectType;
 
-	@Required
 	public String name;
 
 	@JsonIgnore

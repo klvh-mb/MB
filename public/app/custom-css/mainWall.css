@@ -208,15 +208,22 @@
     border: thin solid #bcbcbc;
     font-size: 13px;
     font-weight: normal;
-    width: 400px;
     vertical-align: middle;
+}
+.post-comment-box .post-qna-reply-textfield {
+    width: 365px;
+}
+.post-comment-box .post-sharing-comment-textfield {
+    width: 370px;
 }
 .post-comment-box .post-qna-reply-textfield:focus {
     border: thin solid #a37cde !important;
     height: 50px;
 }
 .post-comment-box .post-sharing-comment-textfield:focus {
+    width: 370px;
     border: thin solid #F7FF3A !important;
+    height: 50px;
 }
 .post-comment-box .btn {
     padding: 3px 7px;

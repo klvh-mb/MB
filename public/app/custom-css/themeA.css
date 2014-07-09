@@ -124,7 +124,7 @@ pre {
     margin-right: auto;
     padding-left: 15px;
     padding-right: 15px;
-    width: 1170px;
+    width: 1100px;
     position: relative;
     /* top: 55px; */
 }
@@ -1254,7 +1254,7 @@ pre {
 .static-content-wrapper div {
     font-size: small;
     clear: right;
-    width: 74%;
+    width: 72%;
     height: 68px;
     overflow: hidden;
 }
@@ -1301,7 +1301,7 @@ pre {
     width: 90%;
 }
 .sta-con-mainslide a {
-    width: 90%;
+    width: 95%;
     font-weight: bold;
     font-size: large;
     display: block;
@@ -1353,8 +1353,8 @@ pre {
 }
 .allpost-wrapper div {
     overflow: hidden;
-    width: 375px;
-    padding: 0 10px;
+    width: 335px;
+    padding: 0 7px;
 }
 .allpost-wrapper h4 {
     font-weight: bold;
@@ -1507,29 +1507,32 @@ pre {
 /*Post Detail End*/
 
 /*Related Post Start*/
-#relatePost .con-title span{
+#relatePost {
+    padding-bottom: 10px;
+}
+#relatePost .con-title span {
     float: left;
 }
 #relatePost ul {
     list-style: none;
     padding: 5px;
 }
-#relatePost li{
+#relatePost li {
     display: inline-block;
-    width: 19%;
-    min-height: 150px;
+    width: 20%;
+    min-height: 135px;
     position: relative;
-    margin-bottom: 10px;
     float: left;
 }
-#relatePost li:hover{
+#relatePost li:hover {
     background-color: #DCDCE9;
     height: 100%;
 }
-#relatePost li p{
+#relatePost li p {
     position: relative;
     left: 6px;
     top: 6px;
+    margin: 0px;
 }
 #relatePost li img {
     width: 90%;
