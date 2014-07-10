@@ -1,5 +1,3 @@
-import java.io.File;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +13,6 @@ import models.Icon;
 import models.Icon.IconType;
 import models.Location;
 import models.Location.LocationCode;
-import models.Resource;
 import models.SecurityRole;
 import models.TargetingSocialObject;
 import models.User;
@@ -391,7 +388,7 @@ public class DataBootstrap {
             community.system = true;
             community.excludeFromNewsfeed = true;
             community.targetingType = TargetingSocialObject.TargetingType.ALL_USERS;
-            community.setCoverPhoto(new File(Resource.STORAGE_PATH + "/default/beans_cover.jpg"));
+            //community.setCoverPhoto(new File(Resource.STORAGE_PATH + "/default/beans_cover.jpg"));
         } catch (Exception e) {
             logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         }

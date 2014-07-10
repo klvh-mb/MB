@@ -1,6 +1,5 @@
 package common.system.upgrade;
 
-import java.io.File;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -12,7 +11,6 @@ import play.db.jpa.JPA;
 import controllers.Application;
 import models.Community;
 import models.Icon;
-import models.Resource;
 import models.SystemVersion;
 import models.TargetingSocialObject;
 import models.User;
@@ -87,7 +85,7 @@ public class UpgradeScript_0_2 extends UpgradeScript {
             community.system = true;
             community.excludeFromNewsfeed = true;
             community.targetingType = TargetingSocialObject.TargetingType.ALL_USERS;
-            community.setCoverPhoto(new File(Resource.STORAGE_PATH + "/default/beans.jpg"));
+            //community.setCoverPhoto(new File(Resource.STORAGE_PATH + "/default/beans.jpg"));
         } catch (Exception e) {
             logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         }
