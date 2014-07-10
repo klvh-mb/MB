@@ -1,5 +1,4 @@
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -21,9 +20,11 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.joda.time.DateTime;
 
 import play.db.jpa.JPA;
-
+import providers.MyUsernamePasswordAuthUser;
 import common.model.TargetYear;
 import controllers.Application;
+
+import providers.MyUsernamePasswordAuthProvider.MySignup;
 
 public class DataBootstrap {
     private static final play.api.Logger logger = play.api.Logger.apply(DataBootstrap.class);
@@ -203,20 +204,22 @@ public class DataBootstrap {
         
         logger.underlyingLogger().info("bootstrapUser()");
         
-        final User superAdmin = new User();
+        // signup info for super admin
+        MySignup signup = new MySignup();
+        signup.email = "minibean.hk@gmail.com";
+        signup.fname = "miniBean";
+        signup.lname = "HK";
+        signup.password = "m1n1Bean";
+        signup.repeatPassword = "m1n1Bean";
+        
+        MyUsernamePasswordAuthUser authUser = new MyUsernamePasswordAuthUser(signup);
+        User superAdmin = User.create(authUser);
+        
         superAdmin.roles = Collections.singletonList(SecurityRole
                 .findByRoleName(controllers.Application.SUPER_ADMIN_ROLE));
-        superAdmin.active = true;
-        superAdmin.lastLogin = new Date();
-        superAdmin.email = "minibean.hk@gmail.com";
         superAdmin.emailValidated = true;
         superAdmin.newUser = false;
-        superAdmin.name = "miniBean";
-        superAdmin.displayName = "miniBean";
-        superAdmin.lastName = "HK";
-        superAdmin.firstName = "miniBean";
         superAdmin.system = true;
-        superAdmin.linkedAccounts = null;
         superAdmin.save();
         
         /*

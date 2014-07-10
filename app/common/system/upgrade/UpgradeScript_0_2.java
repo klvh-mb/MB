@@ -1,5 +1,6 @@
 package common.system.upgrade;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -7,10 +8,12 @@ import javax.persistence.Query;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
 import play.db.jpa.JPA;
-
+import providers.MyUsernamePasswordAuthUser;
+import providers.MyUsernamePasswordAuthProvider.MySignup;
 import controllers.Application;
 import models.Community;
 import models.Icon;
+import models.LinkedAccount;
 import models.SystemVersion;
 import models.TargetingSocialObject;
 import models.User;
@@ -18,7 +21,9 @@ import models.Community.CommunityType;
 import models.Icon.IconType;
 
 /**
- * 1) Insert bean icons for community. 2) Create feedback community.
+ * 1) Insert bean icons for community. 
+ * 2) Create feedback community.
+ * 3) Set LinkedAccount for super admin.
  * 
  * @author keithlei
  *
@@ -39,7 +44,7 @@ public class UpgradeScript_0_2 extends UpgradeScript {
         SystemVersion version = new SystemVersion(
                 getVersion(), 
                 this.getClass().getName(), 
-                "1) Insert bean icons for community. 2) Create feedback community.");
+                "1) Insert bean icons for community. 2) Create feedback community. 3) Set LinkedAccount for super admin.");
         version.save();
     }
     
@@ -72,6 +77,20 @@ public class UpgradeScript_0_2 extends UpgradeScript {
                 feedbackCommunity.onJoinRequest(user);
             }
         }
+        
+        logger.underlyingLogger().info("Set LinkedAccount for super admin...");
+        MySignup signup = new MySignup();
+        signup.email = "minibean.hk@gmail.com";
+        signup.fname = "miniBean";
+        signup.lname = "HK";
+        signup.password = "m1n1Bean";
+        signup.repeatPassword = "m1n1Bean";
+        
+        MyUsernamePasswordAuthUser authUser = new MyUsernamePasswordAuthUser(signup);
+        User superAdmin = Application.getSuperAdmin();
+        superAdmin.linkedAccounts = Collections.singletonList(
+                LinkedAccount.create(authUser).addUser(superAdmin));
+        superAdmin.save();
         
         return true;
     }
