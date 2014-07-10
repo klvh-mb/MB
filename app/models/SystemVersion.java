@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
@@ -45,8 +46,10 @@ public class SystemVersion extends domain.Entity {
     public Boolean current = false;
     
     @Required
+    @Column(length = 2000)
     public String description;
     
+    @Lob
     public String error;
     
     public SystemVersion() {}
@@ -134,8 +137,8 @@ public class SystemVersion extends domain.Entity {
                 
                 logger.underlyingLogger().info(versionToApply.execClassName + " completed successfully");
             } catch (Exception e) {
-                logger.underlyingLogger().error(e.getLocalizedMessage());
-                versionToApply.error = e.getLocalizedMessage();
+                logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+                versionToApply.error = ExceptionUtils.getStackTrace(e);
                 success = false;
             }
             versionToApply.executed = true;    // set to true even for failed script, dont apply again 

@@ -11,9 +11,10 @@ public abstract class UpgradeScript {
     private String error = "";
     
     // TODO New upgrade scripts go here!
-    private static List<UpgradeScript> newUpgradeScripts = 
+    private static List<UpgradeScript> newUpgradeScripts =  
             new ArrayList<UpgradeScript>(Arrays.asList(
 
+                //new UpgradeScript_0_1()
                 new UpgradeScript_0_2()
                 
             ));

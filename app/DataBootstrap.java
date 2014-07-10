@@ -42,25 +42,26 @@ public class DataBootstrap {
 	}
     
     private static void bootstrapEmotIcon() {
-    	 Query q = JPA.em().createQuery("Select count(i) from EmotIcons i");
-         Long count = (Long)q.getSingleResult();
-         if (count > 0) {
-             return;
-         }
-         
-         EmotIcons emotIcons = new EmotIcons(":)", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/smile.png\">");
-         emotIcons.save();
-         emotIcons = new EmotIcons(":(", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/frown.png\">");
-         emotIcons.save();
-         emotIcons = new EmotIcons(":P", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/tongue.png\">");
-         emotIcons.save();
-         emotIcons = new EmotIcons(":O", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/gasp.png\">");
-         emotIcons.save();
-         emotIcons = new EmotIcons(":D", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/grin.png\">");
-         emotIcons.save();
-         emotIcons = new EmotIcons(";)", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/wink.png\">");
-         emotIcons.save();
-		
+        Query q = JPA.em().createQuery("Select count(i) from EmotIcons i");
+        Long count = (Long)q.getSingleResult();
+        if (count > 0) {
+            return;
+        }
+
+        logger.underlyingLogger().info("bootstrapEmotIcon()");
+        
+        EmotIcons emotIcons = new EmotIcons(":)", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/smile.png\">");
+        emotIcons.save();
+        emotIcons = new EmotIcons(":(", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/frown.png\">");
+        emotIcons.save();
+        emotIcons = new EmotIcons(":P", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/tongue.png\">");
+        emotIcons.save();
+        emotIcons = new EmotIcons(":O", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/gasp.png\">");
+        emotIcons.save();
+        emotIcons = new EmotIcons(":D", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/grin.png\">");
+        emotIcons.save();
+        emotIcons = new EmotIcons(";)", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/wink.png\">");
+        emotIcons.save();
 	}
 
 	private static void bootstrapAnnouncement() {
@@ -69,6 +70,8 @@ public class DataBootstrap {
         if (count > 0) {
             return;
         }
+        
+        logger.underlyingLogger().info("bootstrapAnnouncement()");
         
         Announcement announcement = 
                 new Announcement(
@@ -83,6 +86,8 @@ public class DataBootstrap {
         if (count > 0) {
             return;
         }
+        
+        logger.underlyingLogger().info("bootstrapIcon()");
         
         Icon icon = null;
         icon = new Icon("bean_orange", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/bean_orange.png");
@@ -172,6 +177,8 @@ public class DataBootstrap {
             return;
         }
 
+        logger.underlyingLogger().info("bootstrapArticleCategory()");
+        
         final String[] cats = new String[] {
                 "孕婦須知", "育兒通識", "親子活動", "教育與學校", "秀身扮靚", "有趣分享"
         };
@@ -197,6 +204,8 @@ public class DataBootstrap {
             return;
         }
         
+        logger.underlyingLogger().info("bootstrapUser()");
+        
         final User superAdmin = new User();
         superAdmin.roles = Collections.singletonList(SecurityRole
                 .findByRoleName(controllers.Application.SUPER_ADMIN_ROLE));
@@ -213,11 +222,13 @@ public class DataBootstrap {
         superAdmin.linkedAccounts = null;
         superAdmin.save();
         
+        /*
         try {
             superAdmin.setPhotoProfile(new File(Resource.STORAGE_PATH + "/default/logo/logo-mB-1.png"));
         } catch (IOException e) {
             logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         }
+        */
     }
     
     private static void bootstrapLocation() {
@@ -226,6 +237,8 @@ public class DataBootstrap {
         if (count > 0) {
             return;
         }
+        
+        logger.underlyingLogger().info("bootstrapLocation()");
         
         Location countryHK = new Location(LocationCode.HK, "香港", "全香港");    // country
         JPA.em().persist(countryHK);
@@ -289,6 +302,8 @@ public class DataBootstrap {
         if (count > 0) {
             return;
         }
+        
+        logger.underlyingLogger().info("bootstrapCommunity()");
         
         // Feedback community
         String name = "miniBean小萌豆意見區";
@@ -376,7 +391,7 @@ public class DataBootstrap {
             community.system = true;
             community.excludeFromNewsfeed = true;
             community.targetingType = TargetingSocialObject.TargetingType.ALL_USERS;
-            community.setCoverPhoto(new File(Resource.STORAGE_PATH + "/default/beans.jpg"));
+            community.setCoverPhoto(new File(Resource.STORAGE_PATH + "/default/beans_cover.jpg"));
         } catch (Exception e) {
             logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         }
