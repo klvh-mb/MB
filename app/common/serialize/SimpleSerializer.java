@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
+
 public class SimpleSerializer {
     private static play.api.Logger logger = play.api.Logger.apply(SimpleSerializer.class);
     
@@ -19,7 +21,7 @@ public class SimpleSerializer {
             byte[] bytes = baos.toByteArray();
             return bytes;
         } catch (Exception e) {
-            logger.underlyingLogger().error(e.getLocalizedMessage());
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         } finally {
             try {
                 if (oos != null)
@@ -39,7 +41,7 @@ public class SimpleSerializer {
             ObjectInputStream ois = new ObjectInputStream(bais);
             return ois.readObject();
         } catch (Exception e) {
-            logger.underlyingLogger().error(e.getLocalizedMessage());
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         } finally {
             try {
                 if (bais != null)

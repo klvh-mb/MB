@@ -9,6 +9,7 @@ import models.Post;
 import models.Resource;
 import models.User;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class CommunityPostVM {
@@ -59,7 +60,7 @@ public class CommunityPostVM {
 		//need to write logic
 		postVM.isLike = post.isLikedBy(user);
 		
-		if(post.folder != null && post.folder.resources != null && !post.folder.resources.isEmpty()) {
+		if(post.folder != null && !CollectionUtils.isEmpty(post.folder.resources)) {
 			postVM.hasImage = true;
 			postVM.images = new Long[post.folder.resources.size()];
 			int i = 0;
@@ -106,7 +107,7 @@ public class CommunityPostVM {
 		//need to write logic
 		postVM.isLike = post.isLikedBy(localUser);
 		
-		if(post.folder != null && post.folder.resources != null && !post.folder.resources.isEmpty()) {
+		if(post.folder != null && !CollectionUtils.isEmpty(post.folder.resources)) {
 			postVM.hasImage = true;
 			postVM.images = new Long[post.folder.resources.size()];
 			int i = 0;

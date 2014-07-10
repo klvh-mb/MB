@@ -7,6 +7,7 @@ import models.Message;
 import models.Resource;
 import models.User;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class MessageVM {
@@ -27,10 +28,9 @@ public class MessageVM {
 		this.text = message.body;
 		
 		List<Resource> resources = null;
-		if(message.folder != null && message.folder.resources != null && !message.folder.resources.isEmpty()) {
+		if(message.folder != null && !CollectionUtils.isEmpty(message.folder.resources)) {
 			this.hasImage = true;
 			resources = Resource.findAllResourceOfFolder(message.folder.id);
-			int i = 0;
 			for (Resource rs : resources) {
 				this.images = rs.id;
 			}

@@ -43,7 +43,7 @@ import domain.Postable;
 import domain.SocialObjectType;
 
 @Entity
-public class Community extends TargetingSocialObject implements Likeable, Postable, Joinable {
+public class Community extends TargetingSocialObject implements Likeable, Postable, Joinable, Comparable<Community> {
     private static play.api.Logger logger = play.api.Logger.apply(Community.class);
     
     private static final String STORAGE_COMMUNITY_COVER_THUMBNAIL_NOIMAGE = 
@@ -271,14 +271,28 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		return o == null? null : (Community)o;
 	}
 
+	public static List<Community> findByTargetingType(TargetingSocialObject.TargetingType targetingType) {
+        Query q = JPA.em().createQuery("SELECT c FROM Community c where system = ?1 and targetingType = ?2 and deleted = false");
+        q.setParameter(1, true);
+        q.setParameter(2, targetingType);
+        try {
+            return (List<Community>)q.getResultList();
+        } catch (NoResultException e) {
+        }
+        return null;
+    }
+	
 	public static Community findByTargetingTypeTargetingInfo(
 	        TargetingSocialObject.TargetingType targetingType, String targetingInfo) {
 	    Query q = JPA.em().createQuery("SELECT c FROM Community c where system = ?1 and targetingType = ?2 and targetingInfo = ?3 and deleted = false");
 	    q.setParameter(1, true);
         q.setParameter(2, targetingType);
         q.setParameter(3, targetingInfo);
-        Object o = q.getSingleResult();     // TODO - keith - handle no result returned
-        return o == null? null : (Community)o;
+        try {
+            return (Community)q.getSingleResult();
+        } catch (NoResultException e) {
+        }
+        return null;
 	}
 	
 	public File getDefaultThumbnailCoverPhoto()  throws FileNotFoundException {
@@ -410,5 +424,13 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 
     public void setExcludeFromNewsfeed(boolean excludeFromNewsfeed) {
         this.excludeFromNewsfeed = excludeFromNewsfeed;
+    }
+    
+    @Override
+    public int compareTo(Community o) {
+        if (this.system != o.system) {
+            return o.system.compareTo(this.system);
+        }
+        return this.name.compareTo(o.name);
     }
 }

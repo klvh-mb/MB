@@ -14,6 +14,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.Transient;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
+
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
@@ -23,7 +26,6 @@ import domain.AuditListener;
 import domain.Creatable;
 import domain.SocialObjectType;
 import domain.Updatable;
-
 
 /**
  *  This class is analogous of Weighted Graph Data Structure. 
@@ -59,7 +61,8 @@ import domain.Updatable;
 @Entity
 @EntityListeners(AuditListener.class)
 public class SocialRelation extends domain.Entity implements Serializable, Creatable, Updatable  {
-	
+    private static final play.api.Logger logger = play.api.Logger.apply(SocialRelation.class);
+    
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long id;
 	
@@ -142,7 +145,8 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	
 	@Transactional
     public List<SocialRelation> getSocialRelations() {
-        Query q = JPA.em().createQuery("Select sa from SocialRelation sa where actor = ?1 and action = ?2 and target = ?3 and actorType = ?4 and targetType = ?5");
+        Query q = JPA.em().createQuery(
+                "Select sa from SocialRelation sa where actor = ?1 and action = ?2 and target = ?3 and actorType = ?4 and targetType = ?5");
         q.setParameter(1, this.actor);
         q.setParameter(2, this.action);
         q.setParameter(3, this.target);
@@ -159,7 +163,7 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	@Transactional
 	public boolean ensureUniqueAndCreate() {
 	    List<SocialRelation> socialRelations = getSocialRelations();
-	    if (socialRelations == null || socialRelations.isEmpty()) {
+	    if (CollectionUtils.isEmpty(socialRelations)) {
 	        save();
 	        return true;
 	    }
@@ -179,7 +183,8 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	// NOTE: Caution, call this method when target and actor pair is one to one.
 	@Transactional
 	public void createOrUpdateForTargetAndActorPair() {
-		Query q = JPA.em().createQuery("Select sa from SocialRelation sa where actor = ?1 and target = ?2 and actorType = ?3 and targetType = ?4");
+		Query q = JPA.em().createQuery(
+		        "Select sa from SocialRelation sa where actor = ?1 and target = ?2 and actorType = ?3 and targetType = ?4");
 		q.setParameter(1, this.actor);
 		q.setParameter(2, this.target);
 		q.setParameter(3, this.actorType);
@@ -214,28 +219,48 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	}
 	
 	public <T> T getTargetObject(Class<T> claszz){
-		String query = "Select c from " + claszz.getName() + " c where id = ?1";
+		String query = "Select c from " + claszz.getName() + " c where id = ?1 and deleted = false";
 		Query q = JPA.em().createQuery(query);
 		q.setParameter(1, this.target);
-		return (T)q.getSingleResult();
+		try {
+		    return (T)q.getSingleResult();
+		} catch (NoResultException e) {
+		    logger.underlyingLogger().error("getTargetObject() - TargetObject not found Id:" + this.target);
+		    logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+		}
+		return null;
 	}
 	
 	public SocialObject getTargetObject(){
-		if(this.targetType == SocialObjectType.USER) return getTargetObject(User.class); 
-		if(this.targetType == SocialObjectType.COMMUNITY) return getTargetObject(Community.class);
+		if(this.targetType == SocialObjectType.USER) { 
+		    return getTargetObject(User.class); 
+		}
+		if(this.targetType == SocialObjectType.COMMUNITY) { 
+		    return getTargetObject(Community.class);
+		}
 		return getTargetObject(User.class); 
 	}
 	
 	public SocialObject getActorObject(){
-		if(this.actorType == SocialObjectType.USER) return getActorObject(User.class); 
-		if(this.actorType == SocialObjectType.COMMUNITY) return getActorObject(Community.class);
+		if(this.actorType == SocialObjectType.USER) {
+		    return getActorObject(User.class); 
+		}
+		if(this.actorType == SocialObjectType.COMMUNITY) {
+		    return getActorObject(Community.class);
+		}
 		return getActorObject(User.class); 
 	}
 	
 	public <T> T getActorObject(Class<T> claszz){
-		String query = "Select c from " + claszz.getName() + " c where id = ?1";
+		String query = "Select c from " + claszz.getName() + " c where id = ?1 and deleted = false";
 		Query q = JPA.em().createQuery(query);
 		q.setParameter(1, this.actor);
-		return (T)q.getSingleResult();
+		try {
+            return (T)q.getSingleResult();
+        } catch (NoResultException e) {
+            logger.underlyingLogger().error("getActorObject() - ActorObject not found Id:" + this.target);
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+        }
+        return null;
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import models.Comment;
 import models.Resource;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class CommunityPostCommentVM {
@@ -28,7 +29,7 @@ public class CommunityPostCommentVM {
 		postCommentVM.noOfLikes =comment.noOfLikes;
 		
 		List<Resource> resources = null;
-		if(comment.folder != null && comment.folder.resources != null && !comment.folder.resources.isEmpty()) {
+		if(comment.folder != null && !CollectionUtils.isEmpty(comment.folder.resources)) {
 			postCommentVM.hasImage = true;
 			resources = Resource.findAllResourceOfFolder(comment.folder.id);
 			postCommentVM.images = new Long[resources.size()];

@@ -18,20 +18,21 @@ object ApplicationBuild extends Build {
     "commons-io" % "commons-io" % "2.1",
     "joda-time" % "joda-time" % "2.3",
     "com.google.guava" % "guava" % "12.0",
-     "be.objectify"  %%  "deadbolt-java"     % "2.1-RC2",
-     "com.feth" %% "play-easymail" % "0.3-SNAPSHOT",
-     "org.mindrot" % "jbcrypt" % "0.3m",
-     "org.apache.httpcomponents" % "httpclient" % "4.2.5",
-     "net.coobird" % "thumbnailator" % "0.4.7",
-     "com.clever-age" % "play2-elasticsearch" % "0.6-SNAPSHOT",
-     "commons-pool" % "commons-pool" % "1.5.5",
-     //"commons-lang" % "commons-lang" % "2.6",
-     "biz.source_code" % "base64coder" % "2010-12-19",
-     //"com.typesafe" % "play-plugins-util_2.10" % "2.1.1",
-     "redis.clients" % "jedis" % "2.0.0",
-     "org.sedis" % "sedis" % "1.0.1",
-     "org.jsoup" % "jsoup" % "1.7.3"
-     //"com.typesafe" %% "play-plugins-redis" % "2.1-1-RC2"
+    "be.objectify"  %%  "deadbolt-java"     % "2.1-RC2",
+    "com.feth" %% "play-easymail" % "0.3-SNAPSHOT",
+    "org.mindrot" % "jbcrypt" % "0.3m",
+    "org.apache.httpcomponents" % "httpclient" % "4.2.5",
+    "net.coobird" % "thumbnailator" % "0.4.7",
+    "com.clever-age" % "play2-elasticsearch" % "0.6-SNAPSHOT",
+    "commons-pool" % "commons-pool" % "1.5.5",
+    "commons-lang" % "commons-lang" % "2.6",
+    "commons-collections" % "commons-collections" % "3.2.1",
+    "biz.source_code" % "base64coder" % "2010-12-19",
+    //"com.typesafe" % "play-plugins-util_2.10" % "2.1.1",
+    "redis.clients" % "jedis" % "2.0.0",
+    "org.sedis" % "sedis" % "1.0.1",
+    "org.jsoup" % "jsoup" % "1.7.3"
+    //"com.typesafe" %% "play-plugins-redis" % "2.1-1-RC2"
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(

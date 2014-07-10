@@ -84,7 +84,7 @@ public class TargetProfile {
         // TODO - keith
         // return random year for testing
         /*
-        if (childYears.isEmpty()) {
+        if (CollectionUtils.isEmpty(childYears)) {
             int minYear = 2008;
             int maxYear = 2015;
             int year = new Random().nextInt((maxYear - minYear) + 1) + minYear;

@@ -8,11 +8,13 @@ public abstract class UpgradeScript {
     
     public static final String UPGRADE_METHOD_NAME = "upgrade";
     
+    private String error = "";
+    
     // TODO New upgrade scripts go here!
     private static List<UpgradeScript> newUpgradeScripts = 
             new ArrayList<UpgradeScript>(Arrays.asList(
 
-                new UpgradeScript_0_1()
+                new UpgradeScript_0_2()
                 
             ));
     
@@ -21,6 +23,14 @@ public abstract class UpgradeScript {
     abstract public void insertToSystemVersion();
     
     abstract public boolean upgrade() throws Exception;
+    
+    public void setError(String error) {
+        this.error = error;
+    }
+    
+    public String getError() {
+        return this.error;
+    }
     
     /**
      * Insert upgrade script to SystemVersion table to execute.

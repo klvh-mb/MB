@@ -288,10 +288,16 @@ public class User extends SocialObject implements Subject, Socializable {
         List<User> frndList = new ArrayList<>();
         for (SocialRelation rslt : result) {
             if (rslt.actor.equals(this.id)) {
-                frndList.add((User) rslt.getTargetObject(User.class));
+                User user = (User) rslt.getTargetObject(User.class);
+                if (user != null) {
+                    frndList.add(user);
+                }
             }
             else if (rslt.target.equals(this.id)) {
-                frndList.add((User) rslt.getActorObject(User.class));
+                User user = (User) rslt.getActorObject(User.class);
+                if (user != null) {
+                    frndList.add(user);
+                }
             }
         }
         return frndList;
@@ -338,9 +344,13 @@ public class User extends SocialObject implements Subject, Socializable {
         for (SocialRelation rslt : result) {
             if (rslt.actor.equals(this.id)
                     && rslt.targetType == SocialObjectType.COMMUNITY) {
-                communityList.add((Community) rslt.getTargetObject(Community.class));
+                Community community = (Community) rslt.getTargetObject(Community.class);
+                if (community != null) {
+                    communityList.add(community);
+                }
             }
         }
+        Collections.sort(communityList);
         return communityList;
     }
     
@@ -380,7 +390,10 @@ public class User extends SocialObject implements Subject, Socializable {
         for (SocialRelation rslt : result) {
             if (rslt.actor.equals(this.id)
                     && rslt.targetType == SocialObjectType.COMMUNITY) {
-                communityList.add((Community) rslt.getTargetObject(Community.class));
+                Community community = (Community) rslt.getTargetObject(Community.class);
+                if (community != null) {
+                    communityList.add(community);
+                }
             }
         }
         return communityList;

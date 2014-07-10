@@ -1,0 +1,96 @@
+package common.system.upgrade;
+
+import java.io.File;
+import java.util.List;
+
+import javax.persistence.Query;
+
+import org.apache.commons.lang.exception.ExceptionUtils;
+
+import play.db.jpa.JPA;
+
+import controllers.Application;
+import models.Community;
+import models.Icon;
+import models.Resource;
+import models.SystemVersion;
+import models.TargetingSocialObject;
+import models.User;
+import models.Community.CommunityType;
+import models.Icon.IconType;
+
+/**
+ * 1) Insert bean icons for community. 2) Create feedback community.
+ * 
+ * @author keithlei
+ *
+ */
+public class UpgradeScript_0_2 extends UpgradeScript {
+    private static final play.api.Logger logger = play.api.Logger.apply(UpgradeScript_0_2.class);
+    
+    public UpgradeScript_0_2() {
+    }
+    
+    @Override
+    public String getVersion() {
+        return "0.2";
+    }
+    
+    @Override
+    public void insertToSystemVersion() {
+        SystemVersion version = new SystemVersion(
+                getVersion(), 
+                this.getClass().getName(), 
+                "1) Insert bean icons for community. 2) Create feedback community.");
+        version.save();
+    }
+    
+    @Override
+    public boolean upgrade() throws Exception {
+        logger.underlyingLogger().info("Insert bean icons for community...");
+        Icon icon = null;
+        icon = new Icon("bean_orange", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/bean_orange.png");
+        icon.save();
+        icon = new Icon("bean_blue", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/bean_blue.png");
+        icon.save();
+        icon = new Icon("bean_green", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/bean_green.png");
+        icon.save();
+        icon = new Icon("bean_red", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/bean_red.png");
+        icon.save();
+        icon = new Icon("bean_yellow", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/bean_yellow.png");
+        icon.save();
+        
+        logger.underlyingLogger().info("Create feedback community...");
+        String name = "miniBean小萌豆意見區";
+        String desc = "miniBean小萌豆意見區";
+        Community feedbackCommunity = createFeedbackCommunity(name, desc);
+        
+        logger.underlyingLogger().info("Assign feedback community to all users...");
+        Query q = JPA.em().createQuery("SELECT u FROM User u where system = ?1 and deleted = false");
+        q.setParameter(1, false);
+        List<User> users = (List<User>)q.getResultList();
+        if (users != null) {
+            for (User user : users) {
+                feedbackCommunity.onJoinRequest(user);
+            }
+        }
+        
+        return true;
+    }
+    
+    private static Community createFeedbackCommunity(String name, String desc) {
+        Community community = null;
+        try {
+            community = Application.getSuperAdmin().createCommunity(
+                    name, desc, CommunityType.OPEN, 
+                    "/assets/app/images/general/icons/community/beans.png");
+            community.system = true;
+            community.excludeFromNewsfeed = true;
+            community.targetingType = TargetingSocialObject.TargetingType.ALL_USERS;
+            community.setCoverPhoto(new File(Resource.STORAGE_PATH + "/default/beans.jpg"));
+        } catch (Exception e) {
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+        }
+        return community;
+    }
+}

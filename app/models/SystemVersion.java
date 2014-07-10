@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import common.system.upgrade.UpgradeScript;
@@ -25,7 +26,7 @@ import play.db.jpa.Transactional;
  */
 @Entity
 public class SystemVersion extends domain.Entity {
-    private static final play.api.Logger logger = play.api.Logger.apply(System.class);
+    private static final play.api.Logger logger = play.api.Logger.apply(SystemVersion.class);
     
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
@@ -63,7 +64,6 @@ public class SystemVersion extends domain.Entity {
         try {
             return (SystemVersion)q.getSingleResult();
         } catch (NoResultException e) {
-            logger.underlyingLogger().error(e.getLocalizedMessage());
         }
         return null;
     }
@@ -74,7 +74,7 @@ public class SystemVersion extends domain.Entity {
         try {
             return (SystemVersion)q.getSingleResult();
         } catch (NoResultException e) {
-            logger.underlyingLogger().error(e.getLocalizedMessage());
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         }
         return null;
     }
@@ -85,7 +85,7 @@ public class SystemVersion extends domain.Entity {
         try {
             return (List<SystemVersion>)q.getResultList();
         } catch (NoResultException e) {
-            logger.underlyingLogger().error(e.getLocalizedMessage());
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         }
         return null;
     }
@@ -101,32 +101,45 @@ public class SystemVersion extends domain.Entity {
     
     @Transactional
     public static boolean versionUpgradeIfAny() {
+        logger.underlyingLogger().info("versionUpgradeIfAny()");
+        
         // new scripts
         insertNewUpgradeScriptsIfAny();
         
         // apply
         List<SystemVersion> versionsToApply = getVersionsToApply();
-        if (versionsToApply == null)
+        if (versionsToApply == null) {
+            logger.underlyingLogger().info("No script to apply");
             return true;    // no error, success case
-        
+        }
+            
         boolean success = true;
         for (SystemVersion versionToApply : versionsToApply) {
+            logger.underlyingLogger().info("execClassName: " + versionToApply.execClassName);
+            logger.underlyingLogger().info("description: " + versionToApply.description);
+            
             // execute the upgrade class
             try {
-                Class<?> upgradeScript = 
+                Class<?> upgradeScriptClass = 
                         Class.forName(versionToApply.execClassName);
-                Method upgradeMethod = upgradeScript.getMethod(UpgradeScript.UPGRADE_METHOD_NAME);
-                upgradeMethod.invoke(upgradeScript.newInstance());
+                UpgradeScript upgradeScript = (UpgradeScript)upgradeScriptClass.newInstance();
+                Method upgradeMethod = upgradeScriptClass.getMethod(UpgradeScript.UPGRADE_METHOD_NAME);
+                Boolean ret = (Boolean)upgradeMethod.invoke(upgradeScript);
+                if (ret) {
+                    markVersionCurrent(versionToApply);
+                    versionToApply.error = "";
+                } else {
+                    versionToApply.error = upgradeScript.getError();
+                }
                 
-                markVersionCurrent(versionToApply);
-                versionToApply.error = "";
+                logger.underlyingLogger().info(versionToApply.execClassName + " completed successfully");
             } catch (Exception e) {
                 logger.underlyingLogger().error(e.getLocalizedMessage());
                 versionToApply.error = e.getLocalizedMessage();
                 success = false;
             }
             versionToApply.executed = true;    // set to true even for failed script, dont apply again 
-            versionToApply.setUpdatedDate(new Date());   
+            versionToApply.setUpdatedDate(new Date());
         }
         return success;
     }

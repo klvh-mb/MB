@@ -15,6 +15,7 @@ import models.UserChild;
 import models.UserInfo;
 import models.UserInfo.ParentType;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.elasticsearch.index.query.AndFilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.OrFilterBuilder;
@@ -94,6 +95,18 @@ public class Application extends Controller {
 	    if (user.isNewUser()) {
 	        TargetProfile targetProfile = TargetProfile.fromUser(user);
 	        
+	        // Default communities
+	        List<Community> communities = Community.findByTargetingType(TargetingSocialObject.TargetingType.ALL_USERS);
+	        if (communities != null) {
+    	        for (Community community : communities) {
+                    try {
+                        community.onJoinRequest(user);
+                    } catch (SocialObjectNotJoinableException e) {
+                        logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+                    }
+                }
+	        }
+            
 	        // Zodiac community
 	        for (TargetYear targetYear : targetProfile.getChildYears()) {
 	            Community community = Community.findByTargetingTypeTargetingInfo(
@@ -102,7 +115,7 @@ public class Application extends Controller {
     	            try {
     	                community.onJoinRequest(user);
     	            } catch (SocialObjectNotJoinableException e) {
-    	                e.printStackTrace();
+    	                logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
     	            }
 	            }
 	        }
@@ -116,7 +129,7 @@ public class Application extends Controller {
                     try {
                         community.onJoinRequest(user);
                     } catch (SocialObjectNotJoinableException e) {
-                        e.printStackTrace();
+                        logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
                     }
                 }
 	        }

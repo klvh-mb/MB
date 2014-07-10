@@ -44,7 +44,8 @@ import common.model.TargetGender;
 import domain.DefaultValues;
 
 public class UserController extends Controller {
-	
+    private static final play.api.Logger logger = play.api.Logger.apply(UserController.class);
+    
     @Transactional(readOnly=true)
     public static Result getBookmarkSummary() {
         final User localUser = Application.getLocalUser(session());

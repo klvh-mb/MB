@@ -20,11 +20,10 @@ import models.SecurityRole;
 import models.TargetingSocialObject;
 import models.User;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.joda.time.DateTime;
 
 import play.db.jpa.JPA;
-
-import com.mnt.exception.SocialObjectNotJoinableException;
 
 import common.model.TargetYear;
 import controllers.Application;
@@ -85,7 +84,18 @@ public class DataBootstrap {
             return;
         }
         
-        Icon icon = new Icon("book", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/book.png");
+        Icon icon = null;
+        icon = new Icon("bean_orange", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/bean_orange.png");
+        icon.save();
+        icon = new Icon("bean_blue", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/bean_blue.png");
+        icon.save();
+        icon = new Icon("bean_green", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/bean_green.png");
+        icon.save();
+        icon = new Icon("bean_red", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/bean_red.png");
+        icon.save();
+        icon = new Icon("bean_yellow", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/bean_yellow.png");
+        icon.save();
+        icon = new Icon("book", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/book.png");
         icon.save();
         icon = new Icon("gift_box", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/gift_box.png");
         icon.save();
@@ -206,7 +216,7 @@ public class DataBootstrap {
         try {
             superAdmin.setPhotoProfile(new File(Resource.STORAGE_PATH + "/default/logo/logo-mB-1.png"));
         } catch (IOException e) {
-            logger.underlyingLogger().error(e.getLocalizedMessage());
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         }
     }
     
@@ -280,11 +290,16 @@ public class DataBootstrap {
             return;
         }
         
+        // Feedback community
+        String name = "miniBean小萌豆意見區";
+        String desc = "miniBean小萌豆意見區";
+        createFeedbackCommunity(name, desc);
+        
         // Zodiac communities
         
         // rat
-        String name = "鼠年媽媽會♥2008";
-        String desc = "鼠年媽媽會♥2008";
+        name = "鼠年媽媽會♥2008";
+        desc = "鼠年媽媽會♥2008";
         createZodiacCommunity(name, desc, 2008);
         
         // ox
@@ -352,6 +367,22 @@ public class DataBootstrap {
         }
     }
     
+    private static Community createFeedbackCommunity(String name, String desc) {
+        Community community = null;
+        try {
+            community = Application.getSuperAdmin().createCommunity(
+                    name, desc, CommunityType.OPEN, 
+                    "/assets/app/images/general/icons/community/beans.png");
+            community.system = true;
+            community.excludeFromNewsfeed = true;
+            community.targetingType = TargetingSocialObject.TargetingType.ALL_USERS;
+            community.setCoverPhoto(new File(Resource.STORAGE_PATH + "/default/beans.jpg"));
+        } catch (Exception e) {
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+        }
+        return community;
+    }
+    
     private static Community createZodiacCommunity(String name, String desc, int year) {
         Community community = null;
         TargetYear targetYear = TargetYear.valueOf(year);
@@ -365,8 +396,8 @@ public class DataBootstrap {
             community.targetingType = TargetingSocialObject.TargetingType.ZODIAC_YEAR;
             community.targetingInfo = targetingInfo;
             //community.setCoverPhoto(file);
-        } catch (SocialObjectNotJoinableException e) {
-            logger.underlyingLogger().error(e.getLocalizedMessage());
+        } catch (Exception e) {
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         }
         return community;
     }
@@ -382,8 +413,8 @@ public class DataBootstrap {
             community.targetingType = TargetingSocialObject.TargetingType.LOCATION_DISTRICT;
             community.targetingInfo = targetingInfo;
             //community.setCoverPhoto(file);
-        } catch (SocialObjectNotJoinableException e) {
-            logger.underlyingLogger().error(e.getLocalizedMessage());
+        } catch (Exception e) {
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         }
         return community;
     }
