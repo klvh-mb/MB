@@ -547,7 +547,8 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getCommunityMembers(Long id) {
-        logger.underlyingLogger().debug("getCommunityMembers");
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
         Community community = Community.findById(id);
         List<MembersWidgetChildVM> members = new ArrayList<>();
         for(User member : community.getMembers()) {
@@ -558,6 +559,11 @@ public class CommunityController extends Controller{
             members.add(new MembersWidgetChildVM(member.id, member.displayName,false));
         }
         MemberWidgetParentVM fwVM = new MemberWidgetParentVM(community.getMembers().size(), members);
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("getCommunityMembers. Took "+sw.getElapsedMS()+"ms");
+        }
         return ok(Json.toJson(fwVM));
     }
     
