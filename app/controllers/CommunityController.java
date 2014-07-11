@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import common.utils.ImageFileUtil;
+import common.utils.NanoSecondStopWatch;
 import models.Comment;
 import models.Community;
 import models.Community.CommunityType;
@@ -56,7 +57,8 @@ public class CommunityController extends Controller{
 
     @Transactional
     public static Result getUserUnJoinCommunity() {
-        logger.underlyingLogger().debug("getUserUnJoinCommunity");
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
         final User localUser = Application.getLocalUser(session());
         List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
         int i = 0; 
@@ -72,6 +74,11 @@ public class CommunityController extends Controller{
         
         CommunitiesParentVM fwVM = new CommunitiesParentVM(unjoinedCommunities.size(), communityList);
         fwVM.isMore = false;
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getUserUnJoinCommunity. Took "+sw.getElapsedMS()+"ms");
+        }
         return ok(Json.toJson(fwVM));
     }
     
@@ -149,10 +156,6 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getThumbnailCoverCommunityImageById(Long id) {
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("getThumbnailCoverCommunityImageById(c="+id+")");
-        }
-
         final Community community = Community.findById(id);
         if(community.getPhotoProfile() != null) {
             return ok(new File(community.getPhotoProfile().getThumbnail()));
@@ -197,17 +200,21 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getMyCommunities() {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
         final User localUser = Application.getLocalUser(session());
         List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
-        List<Community> communities = localUser.getListOfJoinedCommunities();
 
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.getId()+"] getMyCommunities. count="+communities.size());
-        }
+        List<Community> communities = localUser.getListOfJoinedCommunities();
         for(Community community : communities) {
             communityList.add(new CommunitiesWidgetChildVM(community, localUser));
         }
         CommunitiesParentVM fwVM = new CommunitiesParentVM(communityList.size(), communityList);
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getMyCommunities. Took "+sw.getElapsedMS()+"ms");
+        }
         return ok(Json.toJson(fwVM));
     }
     
@@ -233,7 +240,8 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getMyAllCommunities() {
-        logger.underlyingLogger().debug("getMyAllCommunities");
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
         final User localUser = Application.getLocalUser(session());
         List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
         for(Community community : localUser.getListOfJoinedCommunities()) {
@@ -241,6 +249,11 @@ public class CommunityController extends Controller{
             communityList.add(vm);
         }
         CommunitiesParentVM fwVM = new CommunitiesParentVM(localUser.getListOfNotJoinedCommunities().size(), communityList);
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getMyAllCommunities. Took "+sw.getElapsedMS()+"ms");
+        }
         return ok(Json.toJson(fwVM));
     }
     
@@ -621,13 +634,18 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getAllIcons() {
-        logger.underlyingLogger().debug("getAllIcons");
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
         List<Icon> icons = Icon.getCommunityIcons();
         
         List<IconVM> iconVMs = new ArrayList<>();
         for(Icon icon : icons) {
             IconVM vm = new IconVM(icon);
             iconVMs.add(vm);
+        }
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("getAllIcons. Took "+sw.getElapsedMS()+"ms");
         }
         return ok(Json.toJson(iconVMs));
     }
@@ -813,7 +831,8 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getBookmarkedPosts(int offset) {
-        logger.underlyingLogger().debug("getBookmarkedPosts");
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
         final User localUser = Application.getLocalUser(session());
         List<CommunityPostVM> posts = new ArrayList<>();
         List<Post> bookmarkedPosts = localUser.getBookmarkedPosts(offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
@@ -822,6 +841,11 @@ public class CommunityController extends Controller{
                 CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
                 posts.add(post);
             }
+        }
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getBookmarkedPosts. Took "+sw.getElapsedMS()+"ms");
         }
         return ok(Json.toJson(posts));
     }

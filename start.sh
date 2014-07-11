@@ -16,11 +16,11 @@ fi
 if [ -d "$LOG_DIR" ]; then
 	echo "Archiving old logs"
 
-    if [ ! -d "$LOG_DIR/archive" ]; then
-        mkdir $LOG_DIR/archive
+    cd $LOG_DIR
+    if [ ! -d "archive" ]; then
+        mkdir archive
     fi
 
-    cd $LOG_DIR
     if [ -e  $SERVICE_NAME.log ]; then
         nowdate=`date +%y_%m_%d_%H_%M`
         tar cfz archive/${SERVICE_NAME}_$nowdate.tar.gz  $SERVICE_NAME.log* jvm.log
