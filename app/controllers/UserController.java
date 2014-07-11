@@ -146,16 +146,16 @@ public class UserController extends Controller {
         DynamicForm form = DynamicForm.form().bindFromRequest();
         String firstName = form.get("firstName");
         String lastName = form.get("lastName");
-        String birthYear = form.get("birth_year");
+        String birthYear = form.get("userInfo.birthYear");
         Location location = null;
         try {
-            location = Location.getLocationById(Integer.valueOf(form.get("location")));
+            location = Location.getLocationById(Integer.valueOf(form.get("userInfo.location")));
         } catch (Exception e) { }
         TargetGender gender = null;
         try {
-            gender = TargetGender.valueOfInt(Integer.valueOf(form.get("gender")));
+            gender = TargetGender.valueOfInt(Integer.valueOf(form.get("userInfo.gender")));
         } catch (Exception e) { }
-        String aboutMe = form.get("aboutMe");
+        String aboutMe = form.get("userInfo.aboutMe");
         
         final User localUser = Application.getLocalUser(session());
         localUser.firstName = firstName;
