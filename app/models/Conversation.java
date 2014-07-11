@@ -115,7 +115,10 @@ public class Conversation extends domain.Entity implements Serializable,
 	}
 
 	public static Conversation startConversation(User sender, User receiver) {
-		Conversation conversation = new Conversation(sender, receiver);
+		Conversation conversation;
+		conversation = findBetween(sender, receiver);
+		if(conversation == null)
+		conversation = new Conversation(sender, receiver);
 		Date date =  new Date();
 		conversation.user1_time = date;
 		conversation.conv_time = date;
@@ -150,8 +153,10 @@ public class Conversation extends domain.Entity implements Serializable,
 		if(conversation == null){
 			conversation = Conversation.startConversation(sender, receiver);
 		}
-		for(EmotIcons ei : EmotIcons.getIcons()){
-			msgText = msgText.replace(ei.name, ei.url);
+		if(msgText != null){
+			for(EmotIcons ei : EmotIcons.getIcons()){
+				msgText = msgText.replace(ei.name, ei.url);
+			}
 		}
 		return conversation.addMessage(sender, msgText);
 	}

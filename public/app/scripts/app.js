@@ -56,7 +56,7 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/showArticlesPage.html',
     	controller : 'ShowArticleControllerNew'  
       })
-      .when('/message',{
+      .when('/message/:id',{
     	templateUrl: '/assets/app/views/message.html',
     	controller : 'UserConversationController'  
       })

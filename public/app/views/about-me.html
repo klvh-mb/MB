@@ -106,7 +106,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <span editable-select="result.userInfo.location" e-name="location" e-ng-options="l.id as l.displayName for l in locations">
-                                                {{ (locations | filter:{value: result.userInfo.location})[0].displayName || '' }}
+                                                {{ (locations | filter:{id: result.userInfo.location.id})[0].displayName || '' }}
                                             </span>
                                         </div>
                                     </div>
