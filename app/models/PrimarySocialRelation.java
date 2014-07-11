@@ -223,4 +223,12 @@ public class PrimarySocialRelation extends domain.Entity implements Serializable
         }
         return null;
 	}
+
+    public Action getAction() {
+        return action;
+    }
+
+    public void setAction(Action action) {
+        this.action = action;
+    }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
 
+import common.utils.NanoSecondStopWatch;
 import domain.DefaultValues;
 
 import models.User;
@@ -19,7 +20,8 @@ import viewmodel.FriendsVM;
 import viewmodel.FriendsParentVM;
 
 public class FriendsController extends Controller {
-	
+	private static play.api.Logger logger = play.api.Logger.apply(FriendsController.class);
+
 	@Transactional
 	public static Result getUserFriends() {
 		final User localUser = Application.getLocalUser(session());
@@ -46,6 +48,8 @@ public class FriendsController extends Controller {
 	
 	@Transactional
 	public static Result getSuggestedFriends() {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
 		final User localUser = Application.getLocalUser(session());
 		List<FriendWidgetChildVM> friends = new ArrayList<>();
 
@@ -57,6 +61,11 @@ public class FriendsController extends Controller {
 		}
 
 		FriendWidgetParentVM fwVM = new FriendWidgetParentVM((long)friends.size(), friends);
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getSuggestedFriends. Took "+sw.getElapsedMS()+"ms");
+        }
 		return ok(Json.toJson(fwVM));
 	}
 	

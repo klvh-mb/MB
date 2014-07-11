@@ -11,6 +11,7 @@ import java.io.File;
 
 import javax.persistence.NoResultException;
 
+import common.utils.NanoSecondStopWatch;
 import models.Article;
 import models.ArticleCategory;
 import models.User;
@@ -299,6 +300,8 @@ public class ArticleController extends Controller {
 	
 	@Transactional
 	public static Result getBookmarkedArticles(int offset) {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
 		final User localUser = Application.getLocalUser(session());
 		List<ArticleVM> articles = new ArrayList<>();
 		List<Article> bookmarkArticles = localUser.getBookmarkedArticles(offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
@@ -308,6 +311,11 @@ public class ArticleController extends Controller {
 				articles.add(vm);
 			}
 		}
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getBookmarkedArticles. Took "+sw.getElapsedMS()+"ms");
+        }
 		return ok(Json.toJson(articles));
 	}
 	
