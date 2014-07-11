@@ -3898,7 +3898,7 @@ minibean.service('allConversationService',function($resource){
 		'/start-Conversation/:id',
 		{alt:'json',callback:'JSON_CALLBACK'},
 		{
-			get: {method:'get'}
+			get: {method:'get', isArray:true}
 		}
 	);
 	
@@ -3925,8 +3925,15 @@ minibean.service('searchFriendService',function($resource){
 	);
 });
 
-minibean.controller('UserConversationController',function($scope, $timeout, $upload, searchFriendService, usSpinnerService, getMessageService, $http, allConversationService){
-	$scope.conversations = allConversationService.UserAllConversation.get();
+minibean.controller('UserConversationController',function($scope, $timeout, $upload, $routeParams, searchFriendService, usSpinnerService, getMessageService, $http, allConversationService){
+
+	if($routeParams.id == 0){
+		$scope.conversations = allConversationService.UserAllConversation.get();
+	} else {
+		$scope.conversations = allConversationService.startConeversation.get({id: $routeParams.id });
+	}
+	
+	
 	$scope.messages = [];
 	$scope.receiverId;
 	$scope.currentConversation;
@@ -3996,9 +4003,6 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
 		getMessageService.getMessages.get({id: cid,offset: offset},
 				function(data){
 			$scope.noMore = true;
-			var objDiv = document.getElementById("div");
-			objDiv.scrollTop = objDiv.scrollHeight;
-			console.log(data);
 			$scope.messages = data.message;
 			$scope.unread_msg_count.count = data.counter;
 			usSpinnerService.stop('loading...');
@@ -4051,35 +4055,35 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
 				console.log(messagedata);
 				$scope.messages = messagedata.message;
 				usSpinnerService.stop('loading...');	
-				
+				angular.forEach($scope.conversations, function(conv, key){
+                    if(conv.id == $scope.currentConversation) {
+                    	conv.lm = $scope.messages[0].txt;
+                    }
+                });
 				if($scope.selectedFiles.length == 0) {
                     return;
                 }
                 
                 
-                // when post is done in BE then do photo upload
-                for(var i=0 ; i<$scope.tempSelectedFiles.length ; i++) {
-                    usSpinnerService.spin('loading...');
-                    $upload.upload({
-                        url : '/sendMessagePhoto',
-                        method: $scope.httpMethod,
-                        data : {
-                        	messageId : message_id
-                        },
-                        file: $scope.tempSelectedFiles[i],
-                        fileFormDataName: 'send-photo'
-                    }).success(function(data, status, headers, config) {
-                        usSpinnerService.stop('loading...');
-                        alert("ASDFE :: "+data);
-                        angular.forEach($scope.messages, function(message, key){
-                            if(message.id == message_id) {
-                            	message.hasImage = true;
-                                message.imgs = data;
-                            }
-                        });
+                $upload.upload({
+                    url : '/sendMessagePhoto',
+                    method: $scope.httpMethod,
+                    data : {
+                    	messageId : $scope.messages[0].id
+                    },
+                    file: $scope.tempSelectedFiles[0],
+                    fileFormDataName: 'send-photo'
+                }).success(function(data, status, headers, config) {
+                    usSpinnerService.stop('loading...');
+                    alert("ASDFE :: "+data);
+                    angular.forEach($scope.messages, function(message, key){
+                        if(message.id == $scope.messages[0].id) {
+                        	message.hasImage = true;
+                            message.imgs = data;
+                        }
                     });
+                });
                     
-                }
 				
 				
 				
