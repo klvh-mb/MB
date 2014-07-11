@@ -146,16 +146,11 @@
     font-weight: bold;
 }
 .message-notice:after {
-    content: "å‰‡æ–°è¨Šæ�¯";
+    content: "則新訊息";
     font-size: small;
 }
 #message-content .con-title {
     background-color: white;
-}
-#message-content .pull-right{
-    position: absolute;
-    top: 7px;
-    right: 7px;
 }
 #message-content .pull-right .icon-box{
     width: 19px;
@@ -340,7 +335,7 @@
     position: relative;
     top: 15px;
     height: 99px;
-    width: 450px;
+    width: 425px;
     overflow-y: hidden;
 }
 .message-entry form div:first-child {
@@ -431,7 +426,7 @@
     padding: 5px;
     margin: 0 10px 10px 15px;
     display: inline-block;
-    background-image: url(../images/general/icon_png/message_uploadphoto.png);
+    background-image: url(../images/general/icon/message_uploadphoto.png);
     background-repeat: no-repeat;
     background-position: 15% center;
     position: relative;
@@ -440,7 +435,7 @@
     position: absolute;
     top: 7px;
     right: 10px;
-    content: "ç…§ç‰‡";
+    content: "照片";
     font-size: small;
     border: transparent;
     background-color: transparent;
@@ -467,7 +462,7 @@
     position: absolute;
     top: 8px;
     right: 10px;
-    content: "ç­”è¦†";
+    content: "答覆";
     color: white;
     font-size: small;
     border: transparent;

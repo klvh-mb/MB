@@ -130,11 +130,17 @@
                                   </tr>
                                 </table>
                             </div>
-                            <div>
-	                           <a ng-show="selectedFiles.length == 0"id="message-uploadphoto" data-ng-click="sendPhoto()"></a><a id="message-send" data-ng-click="sendMessage(messageText)"></a>
-	                           <input style="visibility:hidden;display:inline-block;width:0px;height:0px;" id="send-photo-id" type="file"  name="send-photo" ng-file-select="onFileSelect($files)"/>
-                            </div>
                         </form>
+                        <div style="width:120px;margin-right:15px;" class="post-comment-box pull-right">
+                                <input style="visibility:hidden;display:inline-block;width:0px;height:0px;" id="send-photo-id" type="file" name="send-photo" ng-file-select="onFileSelect($files)"/>
+                                <a class="post-photo-icon" data-ng-show="selectedFiles.length == 0">
+                                    <i class="icon-photo-camera-fill" data-ng-click="sendPhoto()"></i>
+                                </a>
+                                <button class="btn btn-primary ng-binding" ng-disabled="postUpload.$pristine || (postUpload.$dirty && postText.length < 3)" type="submit" disabled="disabled" 
+                                        data-ng-click="sendMessage(messageText)">
+                                    發出訊息
+                                </button>
+                            </div>
                     </div>
                 </div>
             </div>
