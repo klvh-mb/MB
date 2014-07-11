@@ -224,7 +224,8 @@ public class User extends SocialObject implements Subject, Socializable {
 
     public void requestedToJoin(SocialObject target)
             throws SocialObjectNotJoinableException {
-        if (!this.isJoinRequestPendingFor((Community) target))
+        if (!this.isJoinRequestPendingFor((Community) target) && 
+                !this.isMemberOf((Community) target))
             target.onJoinRequest(this);
     }
 
