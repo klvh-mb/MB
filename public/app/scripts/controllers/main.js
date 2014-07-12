@@ -809,7 +809,10 @@ minibean.service('communityWidgetService',function($resource){
 minibean.controller('UserCommunityWidgetController',function($scope, allCommunityWidgetService, communityWidgetService){
 	
 	$scope.result = communityWidgetService.UserCommunities.get();
-	$scope.allResult = allCommunityWidgetService.UserAllCommunities.get();
+
+    // PERF: Believe this is not necessary
+    $scope.allResult = allCommunityWidgetService.UserAllCommunities.get();
+
 	$scope.selectedTab = 1;
 	
 });

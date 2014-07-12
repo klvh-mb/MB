@@ -4,12 +4,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.math.BigInteger;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -27,6 +24,7 @@ import javax.persistence.criteria.Root;
 import common.image.FaceFinder;
 import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
+import common.utils.StringUtil;
 import models.Community.CommunityType;
 import models.Notification.NotificationType;
 import models.SocialRelation.Action;
@@ -329,28 +327,30 @@ public class User extends SocialObject implements Subject, Socializable {
         List<User> frndList = (List<User>)q.setMaxResults(limit).getResultList();
         return frndList;
     }
-    
+
+    /**
+     * Return list of communities this use has joined.
+     * @return
+     */
     @JsonIgnore
     public List<Community> getListOfJoinedCommunities() {
-        CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-        CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
-        Root<SocialRelation> c = q.from(SocialRelation.class);
-        q.select(c);
-        q.where(cb.and(cb.equal(c.get("actor"), this.id),
-                cb.equal(c.get("action"), Action.MEMBER)));
+        Query commIdListQuery = JPA.em().createNativeQuery(
+            "select sr.target from SocialRelation sr where sr.actor = ?1 and sr.action = ?2 and sr.targetType = ?3"
+        );
+        commIdListQuery.setParameter(1, this.id);
+        commIdListQuery.setParameter(2, Action.MEMBER.name());
+        commIdListQuery.setParameter(3, SocialObjectType.COMMUNITY.name());
 
-        List<SocialRelation> result = JPA.em().createQuery(q).getResultList();
+        List<BigInteger> commIds = commIdListQuery.getResultList();
 
-        List<Community> communityList = new ArrayList<>();
-        for (SocialRelation rslt : result) {
-            if (rslt.actor.equals(this.id)
-                    && rslt.targetType == SocialObjectType.COMMUNITY) {
-                Community community = (Community) rslt.getTargetObject(Community.class);
-                if (community != null) {
-                    communityList.add(community);
-                }
-            }
-        }
+        Query q = JPA.em().createNativeQuery(
+                "select * from Community c where"+
+                " c.id in ("+ StringUtil.collectionToString(commIds, ",")+")",
+                Community.class);
+
+        List<Community> communityList = (List<Community>)q.getResultList();
+
+        // sort by name
         Collections.sort(communityList);
         return communityList;
     }
@@ -400,51 +400,66 @@ public class User extends SocialObject implements Subject, Socializable {
         return communityList;
     }
 
+    /**
+     * Get list of communities which friends have joined, but that this user has not.
+     * @return
+     */
     @JsonIgnore
     public List<Community> getListOfNotJoinedCommunities() {
+        // return the list of comm ids which friends have joined, number of rows based on number of friends.
+        Query commIdListQuery = JPA.em().createNativeQuery(
+            "select sr2.target from SocialRelation sr2 where sr2.actor in (select sr.target from SocialRelation sr where (sr.action = ?2 or sr.actionType = ?3) and sr.actor = ?1 union select sr1.actor from SocialRelation sr1 where (sr1.action = ?2 or sr1.actionType = ?3) and sr1.target = ?1 ) and sr2.action = ?4 and sr2.targetType = ?5"
+        );
+        commIdListQuery.setParameter(1, this.id);
+        commIdListQuery.setParameter(2, SocialRelation.Action.FRIEND.name());
+        commIdListQuery.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED.name());
+        commIdListQuery.setParameter(4, SocialRelation.Action.MEMBER.name());
+        commIdListQuery.setParameter(5, SocialObjectType.COMMUNITY.name());
+
+        List<BigInteger> commIds = commIdListQuery.getResultList();
+
+        final Map<Long, AtomicInteger> commFrdsCount = new HashMap<>();
+        for (BigInteger cid : commIds) {
+            Long commId = cid.longValue();
+            AtomicInteger count = commFrdsCount.get(commId);
+            if (count == null) {
+                count = new AtomicInteger();
+                commFrdsCount.put(commId, count);
+            }
+            count.incrementAndGet();
+        }
+
+        // return the list of communities which friends belong, but that user doesn't belong to.
         Query q = JPA.em().createNativeQuery(
-                "Select * from Community c where c.id in (Select sr2.target from SocialRelation sr2 where sr2.actor in (select sr.target from SocialRelation sr where (sr.action = ?2 or sr.actionType = ?3) and sr.actor = ?1 union select sr1.actor from SocialRelation sr1 where (sr1.action = ?2 or sr1.actionType = ?3) and sr1.target = ?1 ) and sr2.action = ?4 and sr2.targetType = ?5 ) and c.deleted = false",Community.class);
+                "select * from Community c where"+
+                " not exists(select * from SocialRelation sr where sr.actor = ?1 and target = c.id and sr.action = ?2 and sr.targetType = ?3)"+
+                " and c.id in ("+ StringUtil.collectionToString(commFrdsCount.keySet(), ",")+")",
+                Community.class);
         q.setParameter(1, this.id);
-        q.setParameter(2, SocialRelation.Action.FRIEND.name());
-        q.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED.name());
-        q.setParameter(4, SocialRelation.Action.MEMBER.name());
-        q.setParameter(5, SocialObjectType.COMMUNITY.name());
+        q.setParameter(2, SocialRelation.Action.MEMBER.name());
+        q.setParameter(3, SocialObjectType.COMMUNITY.name());
+
         List<Community> communityList = (List<Community>)q.getResultList();
-        communityList.removeAll(this.getListOfJoinedCommunities());
-        List<User> friends = this.getFriends(-1);
-        
-        int friendsCount = 0;
-        List<Integer> friendsCountList = new ArrayList<>();
-        for(Community community : communityList) {
-            for(User fr : friends) {
-                if(fr.isMemberOf(community)){
-                    friendsCount++;
-                    break;
+
+        // sort by friends count, members count
+        Collections.sort(communityList, new Comparator<Community>() {
+            @Override
+            public int compare(Community o1, Community o2) {
+                int ret = 0;
+
+                AtomicInteger frdCount1 = commFrdsCount.get(o1.id);
+                AtomicInteger frdCount2 = commFrdsCount.get(o2.id);
+
+                if (frdCount1 != null && frdCount2 != null) {
+                    ret = -1 * (frdCount1.intValue() - frdCount2.intValue());
                 }
-            }
-            friendsCountList.add(friendsCount);
-            friendsCount = 0;
-        }
-        
-        List<Community> c = communityList;
-        for(int i=0;i<friendsCountList.size()-1;i++) {
-            for(int j=i+1;j<friendsCountList.size();j++) {
-                if(friendsCountList.get(i)<friendsCountList.get(j)) {
-                    Collections.swap(c, i, j);
+                if (ret == 0) {
+                    ret = -1 * (o1.getMembers().size() - o2.getMembers().size());
                 }
+                return ret;
             }
-        }
-        
-        for(int i=0;i<friendsCountList.size()-1;i++) {
-            if(friendsCountList.get(i) == friendsCountList.get(i+1)) {
-                if(c.get(i).getMembers().size() < c.get(i+1).getMembers().size()){
-                    Collections.swap(c, i, i+1);
-                }
-            }
-        }
-        
-        
-        return c;
+        });
+        return communityList;
     }
 
     @JsonIgnore
@@ -1167,7 +1182,7 @@ public class User extends SocialObject implements Subject, Socializable {
         final NanoSecondStopWatch sw2 = new NanoSecondStopWatch();
 
         String idsStr = ids.toString();
-        String idsForIn = idsStr.substring(1, idsStr.length()-1);
+        String idsForIn = idsStr.substring(1, idsStr.length() - 1);
         Query query = JPA.em().createQuery(
                 "SELECT p from Post p where p.id in (" + idsForIn + ") and p.deleted = false order by FIELD(p.id," + idsForIn + ")");
         List<Post> results = (List<Post>)query.getResultList();
@@ -1392,7 +1407,7 @@ public class User extends SocialObject implements Subject, Socializable {
         q.setParameter(1, this.id);
         Long ret = (Long) q.getSingleResult();
 
-        logger.underlyingLogger().info("[u="+id+"] getUnreadMsgCount="+ret);
+        logger.underlyingLogger().info("[u=" + id + "] getUnreadMsgCount=" + ret);
         return ret;
     }
 }
