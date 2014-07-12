@@ -643,7 +643,7 @@ pre {
     /*min-height: 120px;*/
 }
 .newCommunity-info p, .myCommunity-info p {
-    width: 60%;
+    width: 58%;
     display: inline-block;
 }
 .newCommunity-info img, .myCommunity-info img {
@@ -726,8 +726,8 @@ pre {
 
 /* Header Start */
 .header-glow {
-    box-shadow: 0 0 10px 0 #500095;
-    border-bottom: 1px solid #5343A7 !important;
+    box-shadow: 0 0 12px 0 #500095;
+    border-bottom: 1px solid #8781A3 !important;
 }
 #header {
     z-index: 99;
@@ -1714,6 +1714,13 @@ pre {
 .memberTagBox, .friendTagBox {
     display: inline-block;
     height: 70px;
+    overflow: hidden;
+}
+.memberTagBox {
+    max-width: 85px;
+}
+.friendTagBox {
+    max-width: 170px;
 }
 .memberTag, .friendTag {
     display: table-cell;
@@ -1732,21 +1739,12 @@ pre {
     text-decoration: none!important;
     word-wrap: break-word;
 }
-.memberTagRef {
-    max-width: 110px;
-    overflow: hidden;
-}
-.friendTagRef {
-    max-width: 110px;
-    overflow: hidden;
-}
 .memberName, .friendName {
     font-size: 13px;
     display: inline-block;
     display: -webkit-box;
     line-height: 1.4em;
     max-height: 4.2em;
-    max-width: 100%;
     overflow: hidden;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;

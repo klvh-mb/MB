@@ -13,13 +13,13 @@ import play.Application;
 import play.Logger;
 import play.data.Form;
 import play.data.validation.Constraints.Email;
+import play.data.validation.Constraints.MaxLength;
 import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
 import play.i18n.Lang;
 import play.i18n.Messages;
 import play.mvc.Call;
 import play.mvc.Http.Context;
-
 import models.LinkedAccount;
 import models.TokenAction;
 import models.TokenAction.Type;
@@ -80,7 +80,8 @@ public class MyUsernamePasswordAuthProvider
 			com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.UsernamePassword {
 
 		@Required
-		@MinLength(5)
+		@MinLength(4)
+		@MaxLength(10)
 		public String password;
 
 		@Override
@@ -97,7 +98,8 @@ public class MyUsernamePasswordAuthProvider
 	public static class MySignup extends MyLogin {
 
 		@Required
-		@MinLength(5)
+		@MinLength(4)
+		@MaxLength(10)
 		public String repeatPassword;
 
 		@Required

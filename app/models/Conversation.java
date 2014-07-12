@@ -169,5 +169,15 @@ public class Conversation extends domain.Entity implements Serializable,
 		}
 		
 	}
+
+	public static void deleteConversation(Long id) {
+		// TODO Auto-generated method stub
+		Query q = JPA.em().createQuery("DELETE FROM Message where conversation_id = ?1");
+		q.setParameter(1, id);
+		q.executeUpdate();
+		q = JPA.em().createQuery("DELETE FROM Conversation where id = ?1");
+        q.setParameter(1, id);
+        q.executeUpdate();
+	}
 	
 }

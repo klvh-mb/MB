@@ -3905,6 +3905,14 @@ minibean.service('allConversationService',function($resource){
 		}
 	);
 	
+	this.deleteConeversation = $resource(
+		'/delete-Conversation/:id',
+		{alt:'json',callback:'JSON_CALLBACK'},
+		{
+			get: {method:'get', isArray:true}
+		}
+	);
+	
 });
 
 minibean.service('getMessageService',function($resource){
@@ -3955,7 +3963,6 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
     $scope.dataUrls = [];
     $scope.tempSelectedFiles = [];
     $scope.onFileSelect = function($files) {
-        alert($files);
         if($scope.selectedFiles.length == 0) {
             $scope.tempSelectedFiles = [];
         }
@@ -3990,6 +3997,17 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
 		$scope.receiverId = uid;
 		usSpinnerService.spin('loading...');
 		allConversationService.startConeversation.get({id: uid},
+				function(data){
+			$scope.conversations = data;
+			usSpinnerService.stop('loading...');
+		});
+		
+	}
+	
+	
+	$scope.deleteConversation = function(cid) {
+		usSpinnerService.spin('loading...');
+		allConversationService.deleteConeversation.get({id: cid},
 				function(data){
 			$scope.conversations = data;
 			usSpinnerService.stop('loading...');
@@ -4078,7 +4096,6 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
                     fileFormDataName: 'send-photo'
                 }).success(function(data, status, headers, config) {
                     usSpinnerService.stop('loading...');
-                    alert("ASDFE :: "+data);
                     angular.forEach($scope.messages, function(message, key){
                         if(message.id == $scope.messages[0].id) {
                         	message.hasImage = true;
@@ -4087,11 +4104,6 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
                     });
                 });
                     
-				
-				
-				
-				
-				
 		});
 	};
 

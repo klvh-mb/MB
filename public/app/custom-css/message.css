@@ -13,11 +13,10 @@
     float: left;
 }
 #message-box div.con-title {
-    padding: 12px;
+    padding: 8px;
     border-bottom: none;
     color: black;
     font-weight: bold;
-    height: auto;
     border-bottom: thin #bcbcbc solid;
 }
 #message-search {
@@ -98,7 +97,7 @@
 }
 .message-del-icon {
     text-indent: -9999px;
-    background-image: url(../images/general/icon_png/message_del.png);
+    background-image: url(../images/general/icons/message_del.png);
     background-size: cover;
     width: 9px;
     height: 9px;
@@ -146,16 +145,11 @@
     font-weight: bold;
 }
 .message-notice:after {
-    content: "å‰‡æ–°è¨Šæ�¯";
+    content: "則新訊息";
     font-size: small;
 }
 #message-content .con-title {
     background-color: white;
-}
-#message-content .pull-right{
-    position: absolute;
-    top: 7px;
-    right: 7px;
 }
 #message-content .pull-right .icon-box{
     width: 19px;
@@ -176,6 +170,15 @@
     position: absolute;
     left: 5px;
     top: 7px;
+}
+#message-content .dropdown-menu {
+    width:200px;
+    height:auto;
+    position:absolute;
+    left:10px;
+}
+#message-content #main-search-box input {
+    height: 26px !important;
 }
 #message-content p {
     color: #111111;
@@ -211,7 +214,7 @@
     position: relative;
 }
 .message-text {
-    width: 80%;
+    max-width: 350px;
     position: relative;
     display: inline-block;
     padding: 10px;
@@ -257,7 +260,6 @@
     left: 91%;
 }
 .message-replier .message-text {
-    width: 80%;
     position: relative;
     display: inline-block;
     padding: 5px 10px;
@@ -265,7 +267,8 @@
     border-radius: 5px;
     border: #efefef thin solid;
     box-shadow: inset 0 3px 3px rgba(255,255,255,.4),0 1px 1px rgba(0,0,0,.05);
-    right: 2%;
+    right: 65px;
+    float: right;
 }
 .message-replier .message-text:after, .message-text:before {
 	left: 100%;
@@ -291,7 +294,7 @@
 	margin-top: -9px;
 }
 .message-image {
-    width: 80%;
+    max-width: 350px;
     border-radius: 5px;
     padding: 10px;
     background-color: #e0eef9;
@@ -326,6 +329,7 @@
     background-color: #dfeff5;
     width: 100%;
     position: relative;
+    height: 150px;
 }
 .message-entry form {
     position: relative;
@@ -339,22 +343,25 @@
     resize: none;
     position: relative;
     top: 15px;
-    height: 99px;
-    width: 450px;
+    height: 80px;
+    width: 445px;
     overflow-y: hidden;
 }
 .message-entry form div:first-child {
     background-color: #ededed;
-    padding: 10px;
     border: #bcbcbc thin solid;
-    margin: 15px -4px 15px 15px;
+    margin: 15px -4px 5px 15px;
     display:inline-block;
     vertical-align: top;
+    height: 80px;
+    width: 80px;
+    background-color: white;
 }
 .message-entry form div img {
-    width: 100px;
+    width: 80px;
     height: auto;
-    vertical-align: top;
+    margin: 0px;
+    border-radius: 0px;
 }
 .message-entry form div:hover > a  {
     display: inline-block;
@@ -431,7 +438,7 @@
     padding: 5px;
     margin: 0 10px 10px 15px;
     display: inline-block;
-    background-image: url(../images/general/icon_png/message_uploadphoto.png);
+    background-image: url(../images/general/icons/message_uploadphoto.png);
     background-repeat: no-repeat;
     background-position: 15% center;
     position: relative;
@@ -440,7 +447,7 @@
     position: absolute;
     top: 7px;
     right: 10px;
-    content: "ç…§ç‰‡";
+    content: "照片";
     font-size: small;
     border: transparent;
     background-color: transparent;
@@ -457,7 +464,7 @@
     padding: 5px;
     margin: 0 17px 10px 10px;
     display: inline-block;
-    background-image: url(../images/general/icon_png/w_message_send.png);
+    background-image: url(../images/general/icons/w_message_send.png);
     background-repeat: no-repeat;
     background-position: 20% center;
     position: absolute;
@@ -467,7 +474,7 @@
     position: absolute;
     top: 8px;
     right: 10px;
-    content: "ç­”è¦†";
+    content: "答覆";
     color: white;
     font-size: small;
     border: transparent;
@@ -478,7 +485,7 @@
     text-decoration: none;
 }
 .icon-title-emo {
-    background-image: url(../images/general/icon_png/message_emo_icon.jpg);
+    background-image: url(../images/general/icons/message_emo_icon.jpg);
     background-repeat: no-repeat;
     background-size: 15px 15px;
     background-position: center center;

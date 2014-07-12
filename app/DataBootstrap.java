@@ -391,6 +391,7 @@ public class DataBootstrap {
             community.system = true;
             community.excludeFromNewsfeed = true;
             community.targetingType = TargetingSocialObject.TargetingType.ALL_USERS;
+            community.targetingInfo = "FEEDBACK";
             //community.setCoverPhoto(new File(Resource.STORAGE_PATH + "/default/beans_cover.jpg"));
         } catch (Exception e) {
             logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
