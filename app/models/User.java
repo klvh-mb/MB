@@ -455,7 +455,7 @@ public class User extends SocialObject implements Subject, Socializable {
                     ret = -1 * (frdCount1.intValue() - frdCount2.intValue());
                 }
                 if (ret == 0) {
-                    ret = -1 * (o1.getMembers().size() - o2.getMembers().size());
+                    ret = -1 * (o1.getMemberIds().size() - o2.getMemberIds().size());
                 }
                 return ret;
             }

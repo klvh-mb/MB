@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -159,20 +160,29 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	
 	@JsonIgnore
 	public List<User> getMembers() {
-		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-		CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
-		Root<SocialRelation> c = q.from(SocialRelation.class);
-		q.select(c);
-		q.where(cb.and(cb.equal(c.get("target"), this.id)),
-				cb.equal(c.get("action"), SocialRelation.Action.MEMBER));
-
-		List<SocialRelation> result = JPA.em().createQuery(q).getResultList();
-		List<User> Members = new ArrayList<>();
-		for (SocialRelation rslt : result) {
-			Members.add(User.findById(rslt.actor));
+		List<User> members = new ArrayList<>();
+		for (Long memId : getMemberIds()) {
+			members.add(User.findById(memId));
 		}
-		return Members;
+		return members;
 	}
+
+    @JsonIgnore
+    public List<Long> getMemberIds() {
+        Query query = JPA.em().createNativeQuery(
+            "select sr.actor from SocialRelation sr where sr.target = ?1 and sr.action = ?2"
+        );
+        query.setParameter(1, this.id);
+        query.setParameter(2, SocialRelation.Action.MEMBER.name());
+
+        List<BigInteger> memIds = query.getResultList();
+
+        List<Long> result = new ArrayList<>();
+		for (BigInteger memId : memIds) {
+			result.add(memId.longValue());
+		}
+		return result;
+    }
 	
 	public static List<Community> search(String q) {
 		CriteriaBuilder builder = JPA.em().getCriteriaBuilder();

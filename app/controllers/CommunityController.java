@@ -109,13 +109,19 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getCommunityInfoById(Long id) {
-        logger.underlyingLogger().debug("getCommunityInfoById");
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
         final User localUser = Application.getLocalUser(session());
         final Community community = Community.findById(id);
 
         //if(localUser.isMemberOf(community) || community.owner.id == localUser.id || community.communityType.toString().equals("OPEN") && localUser.isMemberOf(community) == false || community.communityType.toString().equals("CLOSE") && localUser.isMemberOf(community) == true){
         if(community.objectType == SocialObjectType.COMMUNITY) {
             UserCommunityAffinity.onCommunityView(localUser.getId(), community.getId());
+
+            sw.stop();
+            if (logger.underlyingLogger().isDebugEnabled()) {
+                logger.underlyingLogger().debug("[u="+localUser.id+"] getCommunityInfoById(c="+id+"). Took "+sw.getElapsedMS()+"ms");
+            }
             return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
         } else {
             return ok();
@@ -316,10 +322,9 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getNextPosts(String id,String offset) {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
         final User localUser = Application.getLocalUser(session());
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"] getNextPosts(c="+id+", offset="+offset+")");
-        }
 
         Community community = Community.findById(Long.parseLong(id));
         int start = (Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) + DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
@@ -329,15 +334,19 @@ public class CommunityController extends Controller{
             CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser);
             postsVM.add(post);
         }
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getNextPosts(c="+id+", offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
+        }
         return ok(Json.toJson(postsVM));
     }
     
     @Transactional
     public static Result getNextQnAs(String id,String offset) {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
         final User localUser = Application.getLocalUser(session());
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"] getNextQnAs(c="+id+", offset="+offset+")");
-        }
 
         Community community = Community.findById(Long.parseLong(id));
         int start = (Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) + DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
@@ -346,6 +355,11 @@ public class CommunityController extends Controller{
         for(Post p: posts) {
             CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
             postsVM.add(post);
+        }
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getNextQnAs(c="+id+", offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
         }
         return ok(Json.toJson(postsVM));
     }
@@ -554,11 +568,11 @@ public class CommunityController extends Controller{
         for(User member : community.getMembers()) {
             if(community.owner.equals(member)) {
                 members.add(new MembersWidgetChildVM(member.id, member.displayName,true));
-                continue;
+            } else {
+                members.add(new MembersWidgetChildVM(member.id, member.displayName,false));
             }
-            members.add(new MembersWidgetChildVM(member.id, member.displayName,false));
         }
-        MemberWidgetParentVM fwVM = new MemberWidgetParentVM(community.getMembers().size(), members);
+        MemberWidgetParentVM fwVM = new MemberWidgetParentVM(members.size(), members);
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {

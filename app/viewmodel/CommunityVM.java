@@ -31,6 +31,8 @@ public class CommunityVM {
 	@JsonProperty("posts") public List<CommunityPostVM> posts;
 	
 	public static CommunityVM communityVM(Community c, User user) {
+        List<Long> memIds = c.getMemberIds();
+
 		CommunityVM vm = new CommunityVM();
 		vm.loggedUserId = user.id;
 		vm.loggedUserName = user.displayName;
@@ -42,10 +44,10 @@ public class CommunityVM {
 		vm.tagetDistrict = c.tagetDistrict;
 		vm.createDate = c.createDate;
 		vm.id = c.id;
-		vm.noOfMembers = c.getMembers().size();
+		vm.noOfMembers = memIds.size();
 		
 		//TODO Logic required
-		vm.isMember = user.isMemberOf(c);
+		vm.isMember = memIds.contains(user.getId());
 		vm.isRequested = user.isJoinRequestPendingFor(c);
 		vm.isOwner = (user == c.owner) ? true : false;
 		
@@ -63,6 +65,8 @@ public class CommunityVM {
 	}
 	
 	public static CommunityVM communityVM(Community c, User user, Post post) {
+        List<Long> memIds = c.getMemberIds();
+
         CommunityVM vm = new CommunityVM();
         vm.loggedUserId = user.id;
         vm.loggedUserName = user.displayName;
@@ -74,10 +78,10 @@ public class CommunityVM {
         vm.tagetDistrict = c.tagetDistrict;
         vm.createDate = c.createDate;
         vm.id = c.id;
-        vm.noOfMembers = c.getMembers().size();
+        vm.noOfMembers = memIds.size();
         
         //TODO Logic required
-        vm.isMember = user.isMemberOf(c);
+        vm.isMember = memIds.contains(user.getId());
         vm.isRequested = user.isJoinRequestPendingFor(c);
         vm.isOwner = (user == c.owner) ? true : false;
         
