@@ -98,7 +98,7 @@
 }
 .message-del-icon {
     text-indent: -9999px;
-    background-image: url(../images/general/icon_png/message_del.png);
+    background-image: url(../images/general/icons/message_del.png);
     background-size: cover;
     width: 9px;
     height: 9px;
@@ -426,7 +426,7 @@
     padding: 5px;
     margin: 0 10px 10px 15px;
     display: inline-block;
-    background-image: url(../images/general/icon/message_uploadphoto.png);
+    background-image: url(../images/general/icons/message_uploadphoto.png);
     background-repeat: no-repeat;
     background-position: 15% center;
     position: relative;
@@ -452,7 +452,7 @@
     padding: 5px;
     margin: 0 17px 10px 10px;
     display: inline-block;
-    background-image: url(../images/general/icon_png/w_message_send.png);
+    background-image: url(../images/general/icons/w_message_send.png);
     background-repeat: no-repeat;
     background-position: 20% center;
     position: absolute;
@@ -473,7 +473,7 @@
     text-decoration: none;
 }
 .icon-title-emo {
-    background-image: url(../images/general/icon_png/message_emo_icon.jpg);
+    background-image: url(../images/general/icons/message_emo_icon.jpg);
     background-repeat: no-repeat;
     background-size: 15px 15px;
     background-position: center center;

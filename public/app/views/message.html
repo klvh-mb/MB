@@ -15,11 +15,15 @@
                             <input id="message-search-icon" name="message-search-icon" type="submit" value=" " class="icon-box icon-title-search" />
                         </form>
                     </div> -->
-                    <ul style="overflow-y:scroll;">
+                    <ul style="overflow-y:scroll; height: 580px;">
                         <li id="conversation" data-ng-class="selectedIndex == $index   ? 'message-list-active' : conv.isReaded == true ? 'message-list-unread' :'message-list-read' "  data-ng-repeat="conv in conversations" data-ng-click="getMessages(conv.id, conv.uid); setSelectedIndex($index)">
                             <img data-ng-src="/image/get-mini-image-by-id/{{conv.uid}}" style="height:50px;">
-                            <div><h5>{{conv.nm}}</h5><p ng-bind-html="conv.lm"></p></div>
-                            <div><p> <span class="wall-user-actState-date" >{{ conv.cd| date:'hh:mm'}}</span></p><a href="#" class="message-notice">49</a></div>
+                            <div style="width:100px"><h5>{{conv.nm}}</h5><p data-ng-bind-html="conv.lm"></p></div>
+                            <div><p> <span class="wall-user-actState-date" >{{ conv.cd| date:'hh:mm'}}
+                            </span></p>
+                            <a class="message-del-icon" data-ng-click="deleteConversation(conv.id)"></a>
+                            <p class="message-toolstip">Delete</p>
+                            </div>
                         </li>
                     </ul>
                 </div>

@@ -463,6 +463,12 @@ public class UserController extends Controller {
     }
 	
 	@Transactional
+    public static Result deleteConversation(Long id) {
+        Conversation.deleteConversation(id);
+        return getAllConversation();
+    }
+	
+	@Transactional
     public static Result startConversation(Long id) {
         final User localUser = Application.getLocalUser(session());
         User user = User.findById(id);
