@@ -26,7 +26,7 @@ public class QnAPostsVM {
 		vm.loggedUserId = user.id;
 		vm.loggedUserName = user.displayName;
 		
-		boolean isMember = user.isMemberOf(c);
+		boolean isMember = user.isMemberOf(c.getId());
         boolean isOwner = (user == c.owner) ? true : false;
         
 		List<CommunityPostVM> posts = new ArrayList<>();
@@ -48,7 +48,7 @@ public class QnAPostsVM {
         vm.loggedUserId = user.id;
         vm.loggedUserName = user.displayName;
         
-        boolean isMember = user.isMemberOf(c);
+        boolean isMember = user.isMemberOf(c.getId());
         boolean isOwner = (user == c.owner) ? true : false;
         
         List<CommunityPostVM> posts = new ArrayList<>();

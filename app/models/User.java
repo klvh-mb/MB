@@ -335,45 +335,41 @@ public class User extends SocialObject implements Subject, Socializable {
      */
     @JsonIgnore
     public List<Community> getListOfJoinedCommunities() {
-        Query commIdListQuery = JPA.em().createNativeQuery(
-            "select sr.target from SocialRelation sr where sr.actor = ?1 and sr.action = ?2 and sr.targetType = ?3"
-        );
-        commIdListQuery.setParameter(1, this.id);
-        commIdListQuery.setParameter(2, Action.MEMBER.name());
-        commIdListQuery.setParameter(3, SocialObjectType.COMMUNITY.name());
-
-        List<BigInteger> commIds = commIdListQuery.getResultList();
-
-        Query q = JPA.em().createNativeQuery(
+        Query query = JPA.em().createNativeQuery(
                 "select * from Community c where"+
-                " c.id in ("+ StringUtil.collectionToString(commIds, ",")+")",
+                " c.id in (select sr.target from SocialRelation sr where sr.actor = ?1 and sr.action = ?2 and sr.targetType = ?3)",
                 Community.class);
+        query.setParameter(1, this.id);
+        query.setParameter(2, Action.MEMBER.name());
+        query.setParameter(3, SocialObjectType.COMMUNITY.name());
 
-        List<Community> communityList = (List<Community>)q.getResultList();
+        List<Community> communityList = (List<Community>)query.getResultList();
 
         // sort by name
         Collections.sort(communityList);
         return communityList;
     }
-    
+
+    /**
+     * Return list of community ids this use has joined - used by Newsfeed.
+     * @return
+     */
     @JsonIgnore
     public List<Long> getListOfJoinedCommunityIds() {
-        CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-        CriteriaQuery<SocialRelation> q = cb.createQuery(SocialRelation.class);
-        Root<SocialRelation> c = q.from(SocialRelation.class);
-        q.select(c);
-        q.where(cb.and(cb.equal(c.get("actor"), this.id),
-                cb.equal(c.get("action"), Action.MEMBER)));
+        Query query = JPA.em().createNativeQuery(
+                "select c.id from Community c where"+
+                " c.id in (select sr.target from SocialRelation sr where sr.actor = ?1 and sr.action = ?2 and sr.targetType = ?3)");
+        query.setParameter(1, this.id);
+        query.setParameter(2, Action.MEMBER.name());
+        query.setParameter(3, SocialObjectType.COMMUNITY.name());
 
-        List<SocialRelation> result = JPA.em().createQuery(q).getResultList();
+        List<BigInteger> commIds = query.getResultList();
 
-        List<Long> communityList = new ArrayList<>();
-        for (SocialRelation rslt : result) {
-            if ( rslt.targetType == SocialObjectType.COMMUNITY) {
-                communityList.add(rslt.target);
-            }
-        }
-        return communityList;
+        List<Long> result = new ArrayList<>();
+		for (BigInteger commId : commIds) {
+			result.add(commId.longValue());
+		}
+		return result;
     }
     
     @JsonIgnore
@@ -999,10 +995,16 @@ public class User extends SocialObject implements Subject, Socializable {
 
     @JsonIgnore
     public boolean isMemberOf(Community community) {
+        return isMemberOf(community.id);
+    }
+
+    @JsonIgnore
+    public boolean isMemberOf(Long communityId) {
         Query query = JPA.em().createQuery(
-                "SELECT count(*) from SocialRelation where actor = ?1 and target = ?2 and action = ?3");
+                "SELECT count(*) from SocialRelation where actor = ?1 and target = ?2 and action = ?3"
+        );
         query.setParameter(1, this.id);
-        query.setParameter(2, community.id);
+        query.setParameter(2, communityId);
         query.setParameter(3, SocialRelation.Action.MEMBER);
         Long result = (Long) query.getSingleResult();
         return result == 1;
