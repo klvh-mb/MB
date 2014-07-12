@@ -254,6 +254,8 @@ public class CommunityController extends Controller{
             CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community, localUser);
             communityList.add(vm);
         }
+
+        // PERF: Why using the size of NOT JOINED?
         CommunitiesParentVM fwVM = new CommunitiesParentVM(localUser.getListOfNotJoinedCommunities().size(), communityList);
 
         sw.stop();
@@ -273,6 +275,8 @@ public class CommunityController extends Controller{
             CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community, localUser); 
             communityList.add(vm);
         }
+
+        // PERF: Why using the size of NOT JOINED?
         CommunitiesParentVM fwVM = new CommunitiesParentVM(user.getListOfNotJoinedCommunities().size(), communityList);
         return ok(Json.toJson(fwVM));
     }

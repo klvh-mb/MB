@@ -414,49 +414,53 @@ public class User extends SocialObject implements Subject, Socializable {
         commIdListQuery.setParameter(5, SocialObjectType.COMMUNITY.name());
 
         List<BigInteger> commIds = commIdListQuery.getResultList();
+        List<Community> result = Collections.EMPTY_LIST;
 
-        final Map<Long, AtomicInteger> commFrdsCount = new HashMap<>();
-        for (BigInteger cid : commIds) {
-            Long commId = cid.longValue();
-            AtomicInteger count = commFrdsCount.get(commId);
-            if (count == null) {
-                count = new AtomicInteger();
-                commFrdsCount.put(commId, count);
+        if (commIds.size() > 0) {
+            final Map<Long, AtomicInteger> commFrdsCount = new HashMap<>();
+            for (BigInteger cid : commIds) {
+                Long commId = cid.longValue();
+                AtomicInteger count = commFrdsCount.get(commId);
+                if (count == null) {
+                    count = new AtomicInteger();
+                    commFrdsCount.put(commId, count);
+                }
+                count.incrementAndGet();
             }
-            count.incrementAndGet();
+
+            // return the list of communities which friends belong, but that user doesn't belong to.
+            Query q = JPA.em().createNativeQuery(
+                    "select * from Community c where"+
+                    " not exists(select * from SocialRelation sr where sr.actor = ?1 and target = c.id and sr.action = ?2 and sr.targetType = ?3)"+
+                    " and c.id in ("+ StringUtil.collectionToString(commFrdsCount.keySet(), ",")+")",
+                    Community.class);
+            q.setParameter(1, this.id);
+            q.setParameter(2, SocialRelation.Action.MEMBER.name());
+            q.setParameter(3, SocialObjectType.COMMUNITY.name());
+
+            result = (List<Community>)q.getResultList();
+
+            // sort by friends count, members count
+            Collections.sort(result, new Comparator<Community>() {
+                @Override
+                public int compare(Community o1, Community o2) {
+                    int ret = 0;
+
+                    AtomicInteger frdCount1 = commFrdsCount.get(o1.id);
+                    AtomicInteger frdCount2 = commFrdsCount.get(o2.id);
+
+                    if (frdCount1 != null && frdCount2 != null) {
+                        ret = -1 * (frdCount1.intValue() - frdCount2.intValue());
+                    }
+                    if (ret == 0) {
+                        ret = -1 * (o1.getMemberIds().size() - o2.getMemberIds().size());
+                    }
+                    return ret;
+                }
+            });
         }
 
-        // return the list of communities which friends belong, but that user doesn't belong to.
-        Query q = JPA.em().createNativeQuery(
-                "select * from Community c where"+
-                " not exists(select * from SocialRelation sr where sr.actor = ?1 and target = c.id and sr.action = ?2 and sr.targetType = ?3)"+
-                " and c.id in ("+ StringUtil.collectionToString(commFrdsCount.keySet(), ",")+")",
-                Community.class);
-        q.setParameter(1, this.id);
-        q.setParameter(2, SocialRelation.Action.MEMBER.name());
-        q.setParameter(3, SocialObjectType.COMMUNITY.name());
-
-        List<Community> communityList = (List<Community>)q.getResultList();
-
-        // sort by friends count, members count
-        Collections.sort(communityList, new Comparator<Community>() {
-            @Override
-            public int compare(Community o1, Community o2) {
-                int ret = 0;
-
-                AtomicInteger frdCount1 = commFrdsCount.get(o1.id);
-                AtomicInteger frdCount2 = commFrdsCount.get(o2.id);
-
-                if (frdCount1 != null && frdCount2 != null) {
-                    ret = -1 * (frdCount1.intValue() - frdCount2.intValue());
-                }
-                if (ret == 0) {
-                    ret = -1 * (o1.getMemberIds().size() - o2.getMemberIds().size());
-                }
-                return ret;
-            }
-        });
-        return communityList;
+        return result;
     }
 
     @JsonIgnore
