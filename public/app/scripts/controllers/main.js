@@ -3960,7 +3960,6 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
     $scope.dataUrls = [];
     $scope.tempSelectedFiles = [];
     $scope.onFileSelect = function($files) {
-        alert($files);
         if($scope.selectedFiles.length == 0) {
             $scope.tempSelectedFiles = [];
         }
@@ -4094,7 +4093,6 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
                     fileFormDataName: 'send-photo'
                 }).success(function(data, status, headers, config) {
                     usSpinnerService.stop('loading...');
-                    alert("ASDFE :: "+data);
                     angular.forEach($scope.messages, function(message, key){
                         if(message.id == $scope.messages[0].id) {
                         	message.hasImage = true;
