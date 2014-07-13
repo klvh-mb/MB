@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import common.utils.NanoSecondStopWatch;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -59,9 +60,7 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	
 	@Transactional
 	public static List<Article> getArticlesByCategory(Long id, int offset) {
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("getArticlesByCategory(cat="+id+", offset="+offset+")");
-        }
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
 		Query q;
 		if (id == 0){
@@ -72,7 +71,13 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 		}
 		q.setFirstResult(offset);
 		q.setMaxResults(DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
-		return (List<Article>)q.getResultList();
+        List<Article> ret = (List<Article>)q.getResultList();
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("getArticlesByCategory(cat="+id+", offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
+        }
+		return ret;
 	}
 	
 	@Transactional

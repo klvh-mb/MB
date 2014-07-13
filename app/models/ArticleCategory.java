@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Query;
 
+import common.cache.ArticleCategoryCache;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.Play;
@@ -74,21 +75,29 @@ public class ArticleCategory  {
 		}
 		return null;
 	}
-	
-	public static List<ArticleCategory> getAllCategory() {
+
+    /**
+     * Load from database. The rest should be from cache.
+     * @return
+     */
+    public static List<ArticleCategory> loadAllCategory() {
 		Query q = JPA.em().createQuery("Select a from ArticleCategory a");
 		return (List<ArticleCategory>)q.getResultList();
+    }
+
+	public static List<ArticleCategory> getAllCategory() {
+		return ArticleCategoryCache.getAllCategory();
 	}
-	
+
 	public static ArticleCategory getCategoryById(long id) {
-		Query q = JPA.em().createQuery("Select a from ArticleCategory a where id = ?1");
-		q.setParameter(1, id);
-		return (ArticleCategory)q.getSingleResult();
+        ArticleCategory cat = ArticleCategoryCache.getCategoryById(id);
+        if (cat == null) {
+            throw new IllegalArgumentException("Invalid Article Category id: "+id);
+        }
+		return cat;
 	}
 	
 	public static List<ArticleCategory> getCategories(int limit) {
-		Query q = JPA.em().createQuery("Select a from ArticleCategory a");
-		q.setMaxResults(limit);
-		return (List<ArticleCategory>)q.getResultList();
+		return ArticleCategoryCache.getCategories(limit);
 	}
 }

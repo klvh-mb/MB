@@ -57,10 +57,10 @@ public class ArticleController extends Controller {
 	
 	@Transactional
 	public static Result getAllArticleCategory() {
-		List<ArticleCategory> articleCategorys = ArticleCategory.getAllCategory();
+		List<ArticleCategory> categories = ArticleCategory.getAllCategory();
 		
 		List<ArticleCategoryVM> articleCategoryVMs = new ArrayList<>();
-		for(ArticleCategory articleCategory : articleCategorys) {
+		for(ArticleCategory articleCategory : categories) {
 			ArticleCategoryVM vm = ArticleCategoryVM.articleCategoryVM(articleCategory);
 			articleCategoryVMs.add(vm);
 		}
@@ -80,11 +80,11 @@ public class ArticleController extends Controller {
 	
 	@Transactional
 	public static Result getArticlesCategorywise(Long cat_id, String offset) {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
 		int start = Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
 		final User localUser = Application.getLocalUser(session());
-		
-		logger.underlyingLogger().debug(start+":: OFFSET :: "+offset);
-		
+
 		List<Article> allArticles = Article.getArticlesByCategory(cat_id, start);
 		List<ArticleVM> listOfArticles = new ArrayList<>();
 		for(Article article:allArticles) {
@@ -95,18 +95,30 @@ public class ArticleController extends Controller {
 			}
 			listOfArticles.add(vm);
 		}
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getArticlesCategorywise(cat="+cat_id+", off="+offset+"). Took "+sw.getElapsedMS()+"ms");
+        }
 		return ok(Json.toJson(listOfArticles));
 	}
 	
 	@Transactional
 	public static Result getRelatedArticles(long id, Long categoryId) {
-		logger.underlyingLogger().debug("getRelatedArticles - categoryId:" + categoryId);
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
 		List<Article> allArticles = Article.relatedArticles(id, categoryId, DefaultValues.ARTICLES_RELATED_COUNT);
 		List<ArticleVM> listOfArticles = new ArrayList<>();
 		for(Article article:allArticles) {
 			ArticleVM vm = new ArticleVM(article);
 			listOfArticles.add(vm);
 		}
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("getRelatedArticles(cat="+categoryId+"). Took "+sw.getElapsedMS()+"ms");
+        }
+
 		return ok(Json.toJson(listOfArticles));
 	}
 
