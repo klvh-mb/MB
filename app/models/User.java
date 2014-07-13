@@ -440,7 +440,7 @@ public class User extends SocialObject implements Subject, Socializable {
 
             result = (List<Community>)q.getResultList();
 
-            // sort by friends count, members count
+            // sort by friends count
             Collections.sort(result, new Comparator<Community>() {
                 @Override
                 public int compare(Community o1, Community o2) {
@@ -452,9 +452,11 @@ public class User extends SocialObject implements Subject, Socializable {
                     if (frdCount1 != null && frdCount2 != null) {
                         ret = -1 * (frdCount1.intValue() - frdCount2.intValue());
                     }
+                    /*
                     if (ret == 0) {
                         ret = -1 * (o1.getMemberIds().size() - o2.getMemberIds().size());
                     }
+                    */
                     return ret;
                 }
             });
