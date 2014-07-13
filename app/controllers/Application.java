@@ -56,6 +56,7 @@ import domain.DefaultValues;
 public class Application extends Controller {
     private static final play.api.Logger logger = play.api.Logger.apply(Application.class);
 
+    public static final String SIGNUP_EMAIL = "signup_email";
     public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";
 	public static final String USER_ROLE = "USER";
@@ -281,8 +282,8 @@ public class Application extends Controller {
 			return badRequest(views.html.signup.render(filledForm));
 		} else {
 			// Everything was filled
-			// do something with your part of the form before handling the user
-			// signup
+		    String email = filledForm.get().email;
+		    session().put(SIGNUP_EMAIL, email);
 			return UsernamePasswordAuthProvider.handleSignup(ctx());
 		}
 	}

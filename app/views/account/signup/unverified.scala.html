@@ -1,3 +1,4 @@
+@(email: String)
 
 @import helper._
 
@@ -36,7 +37,7 @@
     <div class="signup-info-container">
         <div class="signup-info-box" id="signup-info-section">
             <ul>
-                <li><h5>@Messages("playauthenticate.verify.email.cta")</h5></li>
+                <li><h5>@Messages("playauthenticate.verify.email.cta.1") @Messages("playauthenticate.verify.email.cta.2") <b>@email</b>。 @Messages("playauthenticate.verify.email.cta.3")</h5></li>
             </ul>
         </div>
     </div>

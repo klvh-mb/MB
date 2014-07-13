@@ -56,7 +56,8 @@ public class Signup extends Controller {
 	@Transactional
 	public static Result unverified() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-		return ok(unverified.render());
+		String email = session().get(Application.SIGNUP_EMAIL);
+		return ok(unverified.render(email));
 	}
 
 	private static final Form<MyIdentity> FORGOT_PASSWORD_FORM = form(MyIdentity.class);
