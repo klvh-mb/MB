@@ -94,7 +94,7 @@ playauthenticate.link.account.ok=OK
 
 playauthenticate.verify.email.title=Verify your e-mail
 playauthenticate.verify.email.requirement=Before you can use PlayAuthenticate, you first need to verify your e-mail address.
-playauthenticate.verify.email.cta=An e-mail has been sent to the registered address. Please follow the embedded link to activate your account.
+playauthenticate.verify.email.cta=恭喜您已成功註冊成為 miniBean 小萌豆的一份子! 請查閱您的電郵 (xxx)，以便立即啟動您的 miniBean 小萌豆賬戶.
 
 playauthenticate.password.reset.title=密碼重設
 playauthenticate.password.reset.cta=重設密碼
