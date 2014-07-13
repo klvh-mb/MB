@@ -750,23 +750,13 @@ minibean.service('sendJoinRequest',function($resource){
 	);
 });
 
-minibean.service('allCommunityWidgetService',function($resource){
-	this.UserAllCommunities = $resource(
-			'/get-my-all-communities',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get'}
-			}
-	);
-});
-
-minibean.controller('CommunityWidgetController',function($scope,$routeParams, usSpinnerService, allCommunityWidgetService, sendJoinRequest , $http, userInfoService){
+minibean.controller('CommunityWidgetController',function($scope,$routeParams, usSpinnerService, communityWidgetService, sendJoinRequest , $http, userInfoService){
 	
 	$scope.userInfo = userInfoService.UserInfo.get();
 	
 	$scope.myAdminCommunities = [];
     $scope.myJoinedCommunities = [];
-	$scope.myCommunities = allCommunityWidgetService.UserAllCommunities.get(
+	$scope.myCommunities = communityWidgetService.UserCommunities.get(
         function(data) {
             angular.forEach(data.fvm, function(community, key) {
             if (community.isO)
@@ -806,12 +796,9 @@ minibean.service('communityWidgetService',function($resource){
 	);
 });
 
-minibean.controller('UserCommunityWidgetController',function($scope, allCommunityWidgetService, communityWidgetService){
+minibean.controller('UserCommunityWidgetController',function($scope, communityWidgetService){
 	
 	$scope.result = communityWidgetService.UserCommunities.get();
-
-    // PERF: Believe this is not necessary
-    $scope.allResult = allCommunityWidgetService.UserAllCommunities.get();
 
 	$scope.selectedTab = 1;
 	
@@ -842,7 +829,7 @@ minibean.service('allCommunityWidgetByUserService',function($resource){
 });
 
 
-minibean.controller('CommunityWidgetByUserIDController',function($scope, $routeParams, usSpinnerService, sendJoinRequest, communityJoinService, allCommunityWidgetService, allCommunityWidgetByUserService, communityWidgetByUserService , $http, userInfoService){
+minibean.controller('CommunityWidgetByUserIDController',function($scope, $routeParams, usSpinnerService, sendJoinRequest, communityJoinService, allCommunityWidgetByUserService, communityWidgetByUserService , $http, userInfoService){
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.result = communityWidgetByUserService.UserCommunities.get({id:$routeParams.id});
 	$scope.allResult = allCommunityWidgetByUserService.UserAllCommunities.get({id:$routeParams.id});

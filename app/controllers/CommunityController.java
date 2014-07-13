@@ -245,27 +245,6 @@ public class CommunityController extends Controller{
     }
     
     @Transactional
-    public static Result getMyAllCommunities() {
-        NanoSecondStopWatch sw = new NanoSecondStopWatch();
-
-        final User localUser = Application.getLocalUser(session());
-        List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
-        for(Community community : localUser.getListOfJoinedCommunities()) {
-            CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community, localUser);
-            communityList.add(vm);
-        }
-
-        // PERF: Why using the size of NOT JOINED?
-        CommunitiesParentVM fwVM = new CommunitiesParentVM(localUser.getListOfNotJoinedCommunities().size(), communityList);
-
-        sw.stop();
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"] getMyAllCommunities. Took "+sw.getElapsedMS()+"ms");
-        }
-        return ok(Json.toJson(fwVM));
-    }
-    
-    @Transactional
     public static Result getAllCommunitiesOfUser(Long id) {
         logger.underlyingLogger().debug("getAllCommunitiesOfUser");
         final User user = User.findById(id);
@@ -276,8 +255,7 @@ public class CommunityController extends Controller{
             communityList.add(vm);
         }
 
-        // PERF: Why using the size of NOT JOINED?
-        CommunitiesParentVM fwVM = new CommunitiesParentVM(user.getListOfNotJoinedCommunities().size(), communityList);
+        CommunitiesParentVM fwVM = new CommunitiesParentVM(communityList.size(), communityList);
         return ok(Json.toJson(fwVM));
     }
 
