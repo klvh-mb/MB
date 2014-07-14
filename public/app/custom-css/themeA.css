@@ -1697,6 +1697,7 @@ pre {
     position: relative;
 }
 .memberImageBox img, .friendImageBox img {
+    vertical-align: top;
     vertical-align: initial;
     -webkit-border-radius: 3px 0 3px 0;
     border-radius: 3px 0 3px 0;
@@ -1780,6 +1781,7 @@ pre {
     height: 76px;
 }
 .communityImageBox img {
+    vertical-align: top;
     vertical-align: initial;
     -webkit-border-radius: 3px 0 3px 0;
     border-radius: 3px 0 3px 0;

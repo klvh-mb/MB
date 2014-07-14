@@ -149,7 +149,7 @@
     font-size: small;
 }
 .message-preview {
-    width: 62%;
+    width: 60%;
     padding: 0 5px;
 }
 #message-content .con-title {
@@ -247,13 +247,17 @@
 .message-replier img {
     left: 0;
 }
+#message-content .message-body .emoticon {
+    margin: 2px 2px;
+    position: static;   /* do not change this */
+}
 .message-user .message-body, .message-replier .message-body {
     max-width: 350px;
     border-radius: 5px;
     padding: 5px 10px;
     background-color: white;
     display: inline-block;
-    vertical-align: top;
+    vertical-align: text-top;
     box-shadow: 1px 1px 1px #E3E2EC;
     position: relative;
 }
