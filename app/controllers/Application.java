@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map.Entry;
 
 import models.Community;
 import models.Location;
@@ -15,6 +16,7 @@ import models.UserChild;
 import models.UserInfo;
 import models.UserInfo.ParentType;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.elasticsearch.index.query.AndFilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
@@ -25,7 +27,9 @@ import play.Play;
 import play.Routes;
 import play.data.DynamicForm;
 import play.data.Form;
+import play.data.validation.ValidationError;
 import play.db.jpa.Transactional;
+import play.i18n.Messages;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.Session;
@@ -277,8 +281,53 @@ public class Application extends Controller {
 		final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {
-			// User did not fill everything properly
-			flash("error", "輸入資料不正確。請重試");
+		    String errorRequired = Messages.get("error.required") + " - ";
+		    String errorRequiredFields = "";
+		    String errorOther = "";
+		    for (Entry<String, List<ValidationError>> errorEntry : filledForm.errors().entrySet()) {
+		        List<ValidationError> errors = errorEntry.getValue();
+		        for (ValidationError error : errors) {
+		            if ("error.required".equalsIgnoreCase(error.message())) {
+		                if ("lname".equalsIgnoreCase(error.key())) {
+		                    errorRequiredFields += "'姓' ";
+		                } else if ("fname".equalsIgnoreCase(error.key())) {
+		                    errorRequiredFields += "'名' ";
+                        } else if ("email".equalsIgnoreCase(error.key())) {
+                            errorRequiredFields += "'電郵' ";
+                        } else if ("password".equalsIgnoreCase(error.key())) {
+                            errorRequiredFields += "'密碼' ";
+                        } else if ("repeatPassword".equalsIgnoreCase(error.key())) {
+                            errorRequiredFields += "'重複密碼' ";
+                        } else {
+                            errorRequiredFields += error.key() + " ";
+                        }
+		            } if ("error.minLength".equalsIgnoreCase(error.message()) ||
+		                    "error.maxLength".equalsIgnoreCase(error.message())) {
+		                if (!errorOther.isEmpty()) {
+                            break;
+                        }
+		                if ("password".equalsIgnoreCase(error.key()) ||
+		                        "repeatPassword".equalsIgnoreCase(error.key())) {
+		                    errorOther += "密碼" + String.format(Messages.get(error.message()), error.arguments().get(0));
+                        } else {
+                            errorOther += error.key() + String.format(Messages.get(error.message()), error.arguments().get(0));
+                        }
+		            } else {
+		                if (!errorOther.isEmpty()) {
+		                    break;
+		                }
+		                errorOther += Messages.get(error.message());      // + " - " + error.key();
+		            }
+		        }
+		    }
+		    
+		    if (!errorRequiredFields.isEmpty()) {
+		        flash().put(controllers.Application.FLASH_ERROR_KEY, errorRequired + errorRequiredFields);
+		    } else if (!errorOther.isEmpty()) {
+		        flash().put(controllers.Application.FLASH_ERROR_KEY, errorOther);
+		    } else {
+                flash().put(controllers.Application.FLASH_ERROR_KEY, Messages.get("error.invalid"));
+		    }
 			return badRequest(views.html.signup.render(filledForm));
 		} else {
 			// Everything was filled

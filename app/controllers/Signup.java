@@ -31,6 +31,9 @@ import static play.data.Form.form;
 
 public class Signup extends Controller {
 
+    public static final String EMAIL_EXISTS_ERROR_KEY = "emailExists";
+    public static final String EMAIL_EXISTS_ERROR_MESSAGE = "error.emailExists";
+    
 	public static class PasswordReset extends Account.PasswordChange {
 
 		public PasswordReset() {
@@ -209,7 +212,7 @@ public class Signup extends Controller {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM.bindFromRequest();
 		List<ValidationError> errors = new ArrayList<>();
-		errors.add(new ValidationError("userExist", "User Exist"));
+		errors.add(new ValidationError(EMAIL_EXISTS_ERROR_KEY, EMAIL_EXISTS_ERROR_MESSAGE));
 		filledForm.errors().put("userExist", errors);
 		return badRequest(views.html.signup.render(filledForm));
 	}

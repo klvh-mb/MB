@@ -44,6 +44,7 @@
                 <li id="login-info-wrapper" name="login-info">
                     <!--  <form id="login-info-wrapper" name="login-info" method="post" action=""> -->
                     @helper.form(routes.Application.doSignup) {
+                        <!--
                         @if(signupForm.hasErrors && signupForm.errors.get("userExist") != null) { 
                         <div style="width: 100%;text-align: left;margin-bottom: 5px;">
                             <i class="glyphicon glyphicon-exclamation-sign" style="color: red;"></i>
@@ -51,11 +52,12 @@
                             <!--span class="text-danger">@signupForm.errors.get("userExist").get(0).message</span-->
                         </div>
                         }
+                        -->
                         
                         @if(flash.get("error")) {
                         <div style="width: 100%;text-align: left;margin-bottom: 5px;">
-				          	<i class="glyphicon glyphicon-exclamation-sign" style="color: red;"></i>
-				            <span class="text-danger">密碼不相符。請重試</span>
+                            <i class="glyphicon glyphicon-exclamation-sign" style="color: red;"></i>
+                            <span class="text-danger">@flash.get("error")</span>
                         </div>
                         }
 				        
