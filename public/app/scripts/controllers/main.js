@@ -1688,10 +1688,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                             }
                         });
                     });
-                    
                 }
-                
-                
         });
     };
     
@@ -3729,6 +3726,8 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 			});
 		});
 	};
+	
+	$scope.answer_to_question = $scope.comment_on_post;
 	
 	$scope.unBookmarkPost = function(post_id) {
 		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
