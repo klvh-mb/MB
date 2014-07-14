@@ -60,21 +60,17 @@
 				    </form>
                     <!-- <a class="toolsbox toolsbox-end" href="#"><span class="icon-box icon-title-search"></span></a> -->
                 </div>
-                <ul id="div" style="height:400px; overflow-y:scroll;">
-                <li ng-show="noMore == true">
-                <div data-ng-click="nextMessages()">Load Message</div>
-                </li>
+                <ul id="message-area">
+                    <li ng-show="noMore == true">
+                        <a class="message-load-more" data-ng-click="nextMessages()">Load Message</a>
+                    </li>
                 	<div data-ng-repeat="msg in messages.slice().reverse()">
                         <li class="message-user" ng-show="msg.suid == userInfo.id">
                             <div>
                                 <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
-                                <div ng-show="msg.hasImage" class="message-image">
+                                <div class="message-body">
                                     <span ng-bind-html="msg.txt"></span>
-                                    <img src="/image/get-message-image-by-id/{{msg.imgs}}" style="position: initial"/>
-                                    <span class="message-timestamp">{{ msg.cd| date:'hh:mm a'}}</span>
-                                </div>
-                                <div ng-show="!msg.hasImage" class="message-text">
-                                	<span ng-bind-html="msg.txt"></span>
+                                    <div><img ng-show="msg.hasImage" src="/image/get-message-image-by-id/{{msg.imgs}}" style="position: initial"/></div>
                                     <span class="message-timestamp">{{ msg.cd| date:'hh:mm a'}}</span>
                                 </div>
                             </div>
@@ -82,13 +78,9 @@
                         <li class="message-replier" ng-show="msg.suid != userInfo.id" >
                             <div>
                                 <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
-                                <div ng-show="msg.hasImage" class="message-image">
+                                <div class="message-body">
                                     <span ng-bind-html="msg.txt"></span>
-                                    <img src="/image/get-message-image-by-id/{{msg.imgs}}" style="position: initial"/>
-                                    <span class="message-timestamp">{{ msg.cd| date:'hh:mm a'}}</span>
-                                </div>
-                                <div ng-show="!msg.hasImage" class="message-text">
-                                    <span ng-bind-html="msg.txt"></span>
+                                    <div><img ng-show="msg.hasImage" src="/image/get-message-image-by-id/{{msg.imgs}}" style="position: initial"/></div>
                                     <span class="message-timestamp">{{ msg.cd| date:'hh:mm a'}}</span>
                                 </div>
                             </div>

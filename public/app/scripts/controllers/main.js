@@ -4033,7 +4033,7 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
 				function(data){
 			$scope.noMore = true;
 			console.log(data);
-			var objDiv = document.getElementById("div");
+			var objDiv = document.getElementById("message-area");
 			objDiv.scrollTop = objDiv.scrollHeight;
 			var messages = data.message;
 			$scope.unread_msg_count.count = data.counter;
