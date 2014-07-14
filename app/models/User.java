@@ -43,6 +43,7 @@ import be.objectify.deadbolt.core.models.Permission;
 import be.objectify.deadbolt.core.models.Role;
 import be.objectify.deadbolt.core.models.Subject;
 
+import com.feth.play.module.pa.providers.oauth2.facebook.FacebookAuthProvider;
 import com.feth.play.module.pa.providers.oauth2.facebook.FacebookAuthUser;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
 import com.feth.play.module.pa.user.AuthUser;
@@ -890,6 +891,22 @@ public class User extends SocialObject implements Subject, Socializable {
                     "SELECT u FROM User u where active = ?1 and email = ?2 and deleted = false");
             q.setParameter(1, true);
             q.setParameter(2, email);
+            return (User) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public static User findByFbEmail(final String email) {
+        try {
+            Query q = JPA.em().createQuery(
+                    "SELECT u FROM User u where active = ?1 and email = ?2 and providerKey = ?3 and deleted = false");
+            q.setParameter(1, true);
+            q.setParameter(2, email);
+            q.setParameter(3, FacebookAuthProvider.PROVIDER_KEY);
             return (User) q.getSingleResult();
         } catch (NoResultException e) {
             return null;

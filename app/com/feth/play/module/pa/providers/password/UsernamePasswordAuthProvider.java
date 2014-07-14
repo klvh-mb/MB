@@ -51,7 +51,7 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 	}
 
 	protected enum LoginResult {
-		USER_UNVERIFIED, USER_LOGGED_IN, NOT_FOUND, WRONG_PASSWORD
+		USER_UNVERIFIED, USER_LOGGED_IN, NOT_FOUND, WRONG_PASSWORD, FB_USER_EXISTS
 	}
 
 	public static interface UsernamePassword {
@@ -121,6 +121,8 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 			case NOT_FOUND:
 				// forward to login page
 				return onLoginUserNotFound(context);
+			case FB_USER_EXISTS:
+			    return onFbUserExists(context);
 			default:
 				throw new AuthException("登入電郵或密碼錯誤");
 			}
@@ -137,6 +139,10 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 		return PlayAuthenticate.getResolver().login().url();
 	}
 
+	protected String onFbUserExists(Context context) {
+        return PlayAuthenticate.getResolver().login().url();
+    }
+	   
 	public static Result handleLogin(final Context ctx) {
 		return PlayAuthenticate.handleAuthentication(PROVIDER_KEY, ctx,
 				Case.LOGIN);

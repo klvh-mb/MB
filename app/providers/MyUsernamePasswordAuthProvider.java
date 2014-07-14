@@ -173,6 +173,11 @@ public class MyUsernamePasswordAuthProvider
 			final MyLoginUsernamePasswordAuthUser authUser) {
 		final User u = User.findByUsernamePasswordIdentity(authUser);
 		if (u == null) {
+		    // see if this email belongs to any FB login
+	        final User fbUser = User.findByEmail(authUser.getEmail());
+            if (fbUser != null) {
+                return LoginResult.FB_USER_EXISTS;
+            }
 			return LoginResult.NOT_FOUND;
 		} else {
 			if (!u.emailValidated) {
@@ -244,11 +249,18 @@ public class MyUsernamePasswordAuthProvider
 	@Override
 	protected String onLoginUserNotFound(final Context context) {
 		context.flash().put(controllers.Application.FLASH_ERROR_KEY,
-		        "你輸入的電郵地址並不屬於任何帳戶。請先登記帳戶或確認輸入無誤。");
+		        "您輸入的電郵地址並沒有登記。請先登記帳戶或確認輸入無誤。");
 		        //Messages.get("playauthenticate.password.login.unknown_user_or_pw"));
 		return super.onLoginUserNotFound(context);
 	}
 
+	@Override
+    protected String onFbUserExists(final Context context) {
+        context.flash().put(controllers.Application.FLASH_ERROR_KEY,
+                "您輸入的電郵地址不正確。如果您是用 Facebook 帳戶登記, 請按上方的 '使用Facebook登入' 重試。");
+        return super.onLoginUserNotFound(context);
+    }
+	   
 	@Override
 	protected Body getVerifyEmailMailingBody(final String token,
 			final MyUsernamePasswordAuthUser user, final Context ctx) {
