@@ -148,6 +148,10 @@
     content: "則新訊息";
     font-size: small;
 }
+.message-preview {
+    width: 62%;
+    padding: 0 5px;
+}
 #message-content .con-title {
     background-color: white;
 }

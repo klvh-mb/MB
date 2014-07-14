@@ -3,132 +3,142 @@
 </header>
 <div class="themeA-container">
     <div class="row">
-    <div class="col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
-        <div id="message-box" class="general-box">
-            <div id="message-list">
-                <div class="con-title">私人訊息</div>
-                <!-- <div id="message-search">
-                    <form id="message-searchwrapper" name="message-search" method="post" action="">
-                        <label for="Search Message"></label>
-                        <input type="text" name="message-searchfield" id="message-searchfield" placeholder="尋找朋友" />
-                        <input id="message-search-icon" name="message-search-icon" type="submit" value=" " class="icon-box icon-title-search" />
-                    </form>
-                </div> -->
-                <ul style="overflow-y:scroll;">
-                    <li id="conversation" data-ng-class="selectedIndex == $index?'message-list-active':conv.isReaded == true?'message-list-unread':'message-list-read'" data-ng-repeat="conv in conversations" data-ng-click="getMessages(conv.id, conv.uid); setSelectedIndex($index)">
-                        <img data-ng-src="/image/get-mini-image-by-id/{{conv.uid}}" style="height:50px;">
-                        <div style="width:100px"><h5>{{conv.nm}}</h5><p data-ng-bind-html="conv.lm"></p></div>
-                        <div><p> <span class="wall-user-actState-date" >{{ conv.cd| date:'hh:mm'}}
-                        </span></p>
-                        <a class="message-del-icon" data-ng-confirm-click="deleteConversation(conv.id)" data-ng-confirm-message=確認移除此訊息"></a>
-                        <p class="message-toolstip">移除</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div id="message-content">
-                <div class="con-title">
-                    <form method="post" action="">
-				        <div id="main-search-box" name="main-search-box" class="pull-right" >
-				            <a id="main-search-wrapper" class="ng-pristine ng-valid">
-				                <div class="input-group innerB main-search">
-				                    <input type="text" name="searchfield" id="searchfield" class="form-control" ng-model="name" data-ng-keyup="search_friend(name)" placeholder="尋找朋友">
-				                    <div class="input-group-btn">
-				                       <button id="submit-search" name="submit" class="btn btn-default" type="submit">
-				                           <i class="fa fa-search"></i>
-				                       </button>
-				                    </div>
-				                </div>
-				            </a>
-				            <div class="row">
-				                <ul class="dropdown-menu chat media-list hide" ng-class="{show : searchResult.length > 0 && name.length > 0}">
-				                    <li class="media" ng-repeat="search in searchResult" ng-switch="search.tp">
-				                        <a ng-switch-when="USER" class="pull-left" data-ng-click="startConversation(search.id)">
-				                            <img class="media-object thumb" data-ng-src="/image/get-mini-image-by-id/{{search.id}}" alt="50x50" width="50"/>
-				                        </a>
-				                        
-				                        <div class="media-body">
-				                            
-				                            <h5 class="media-heading">{{search.nm}}</h5>
-				                            <p class="margin-none">{{search.tp}}</p>
-				                        </div>
-				                    </li>
-				                </ul>
-				            </div>
-				        </div>
-				        <span class="pull-right">新訊息:</span>
-				    </form>
-                    <!-- <a class="toolsbox toolsbox-end" href="#"><span class="icon-box icon-title-search"></span></a> -->
+        <div class="col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-sm-offset-2 col-xs-offset-2">
+            <div id="message-box" class="general-box">
+                <div id="message-list">
+                    <div class="con-title">私人訊息</div>
+                    <!-- <div id="message-search">
+                        <form id="message-searchwrapper" name="message-search" method="post" action="">
+                            <label for="Search Message"></label>
+                            <input type="text" name="message-searchfield" id="message-searchfield" placeholder="尋找朋友" />
+                            <input id="message-search-icon" name="message-search-icon" type="submit" value=" " class="icon-box icon-title-search" />
+                        </form>
+                    </div> -->
+                    <ul style="overflow-y:scroll;">
+                        <li id="conversation" data-ng-class="selectedIndex == $index?'message-list-active':conv.isReaded == true?'message-list-unread':'message-list-read'" data-ng-repeat="conv in conversations" data-ng-click="getMessages(conv.id, conv.uid); setSelectedIndex($index)">
+                            <img data-ng-src="/image/get-mini-image-by-id/{{conv.uid}}" style="height:50px;">
+                            <div class="message-preview"><h5>{{conv.nm}}</h5><p data-ng-bind-html="conv.lm"></p></div>
+                            <div><p> <span class="wall-user-actState-date" >{{ conv.cd| date:'hh:mm'}}
+                            </span></p>
+                            <a class="message-del-icon" data-ng-confirm-click="deleteConversation(conv.id)" data-ng-confirm-message=確認移除此訊息"></a>
+                            <p class="message-toolstip">移除</p>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                <ul id="message-area">
-                    <li ng-show="noMore == true">
-                        <a class="message-load-more" data-ng-click="nextMessages()">Load Message</a>
-                    </li>
-                	<div data-ng-repeat="msg in messages.slice().reverse()">
-                        <li class="message-user" ng-show="msg.suid == userInfo.id">
-                            <div>
-                                <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
-                                <div class="message-body">
-                                    <span ng-bind-html="msg.txt"></span>
-                                    <div><img ng-show="msg.hasImage" src="/image/get-message-image-by-id/{{msg.imgs}}" style="position: initial"/></div>
-                                    <span class="message-timestamp">{{ msg.cd| date:'hh:mm a'}}</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="message-replier" ng-show="msg.suid != userInfo.id" >
-                            <div>
-                                <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
-                                <div class="message-body">
-                                    <span ng-bind-html="msg.txt"></span>
-                                    <div><img ng-show="msg.hasImage" src="/image/get-message-image-by-id/{{msg.imgs}}" style="position: initial"/></div>
-                                    <span class="message-timestamp">{{ msg.cd| date:'hh:mm a'}}</span>
-                                </div>
-                            </div>
-                        </li>
+                <div id="message-content">
+                    <div class="con-title">
+                        <form method="post" action="">
+    				        <div id="main-search-box" name="main-search-box" class="pull-right" >
+    				            <a id="main-search-wrapper" class="ng-pristine ng-valid">
+    				                <div class="input-group innerB main-search">
+    				                    <input type="text" name="searchfield" id="searchfield" class="form-control" ng-model="name" data-ng-keyup="search_friend(name)" placeholder="尋找朋友">
+    				                    <div class="input-group-btn">
+    				                       <button id="submit-search" name="submit" class="btn btn-default" type="submit">
+    				                           <i class="fa fa-search"></i>
+    				                       </button>
+    				                    </div>
+    				                </div>
+    				            </a>
+    				            <div class="row">
+    				                <ul class="dropdown-menu chat media-list hide" ng-class="{show : searchResult.length > 0 && name.length > 0}">
+    				                    <li class="media" ng-repeat="search in searchResult" ng-switch="search.tp">
+    				                        <a ng-switch-when="USER" class="pull-left" data-ng-click="startConversation(search.id)">
+    				                            <img class="media-object thumb" data-ng-src="/image/get-mini-image-by-id/{{search.id}}" alt="50x50" width="50"/>
+    				                        </a>
+    				                        
+    				                        <div class="media-body">
+    				                            
+    				                            <h5 class="media-heading">{{search.nm}}</h5>
+    				                            <p class="margin-none">{{search.tp}}</p>
+    				                        </div>
+    				                    </li>
+    				                </ul>
+    				            </div>
+    				        </div>
+    				        <span class="pull-right">新訊息:</span>
+    				    </form>
+                        <!-- <a class="toolsbox toolsbox-end" href="#"><span class="icon-box icon-title-search"></span></a> -->
                     </div>
-                </ul>
-                <div class="message-entry">
-                    <form method="post" action="">
-                    <div ng-show="selectedFiles != null">
-						<img class="post-photo-preview" ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
-							ng-repeat="f in selectedFiles" tooltip-placement="bottom" tooltip="移除相片" data-ng-click="remove_image($index)"
-							ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}"></div>
-                        <label for="Input Message"></label>
-                        <textarea rows="4" cols="70" name="message-inputfield" data-ng-model="messageText"></textarea>
-                        <a href="#emo" id="message-emo-icon" class="icon-box icon-title-emo"></a>
-                        <div id="message-emo-box">
-                            <table border="0" cellspacing="0" cellpadding="0">
-                              <tr>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                              </tr>
-                              <tr>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                              </tr>
-                              <tr>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
-                              </tr>
-                            </table>
+                    <ul id="message-area">
+                        <li ng-show="noMore == true">
+                            <a class="message-load-more" data-ng-click="nextMessages()">Load Message</a>
+                        </li>
+                    	<div data-ng-repeat="msg in messages.slice().reverse()">
+                            <li class="message-user" ng-show="msg.suid == userInfo.id">
+                                <div>
+                                    <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
+                                    <div class="message-body">
+                                        <span ng-bind-html="msg.txt"></span>
+                                        <div ng-show="msg.hasImage">
+                                            <a data-toggle="modal" data-target="#imageModal" href="">
+                                                <img data-ng-src="/image/get-message-image-by-id/{{msg.imgs}}" data-ng-click="showImage(msg.imgs)" alt="" style="position: initial">
+                                            </a>
+                                            <!--img src="/image/get-message-image-by-id/{{msg.imgs}}" style="position: initial"/-->
+                                        </div>
+                                        <span class="message-timestamp">{{ msg.cd| date:'hh:mm a'}}</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="message-replier" ng-show="msg.suid != userInfo.id" >
+                                <div>
+                                    <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
+                                    <div class="message-body">
+                                        <span ng-bind-html="msg.txt"></span>
+                                        <div ng-show="msg.hasImage">
+                                            <a data-toggle="modal" data-target="#imageModal" href="">
+                                                <img data-ng-src="/image/get-message-image-by-id/{{msg.imgs}}" data-ng-click="showImage(msg.imgs)" alt="" style="position: initial">
+                                            </a>
+                                            <!--img src="/image/get-message-image-by-id/{{msg.imgs}}" style="position: initial"/-->
+                                        </div>
+                                        <span class="message-timestamp">{{ msg.cd| date:'hh:mm a'}}</span>
+                                    </div>
+                                </div>
+                            </li>
                         </div>
-                    </form>
-                    <div style="width:120px;margin-right:15px;" class="post-comment-box pull-right">
+                    </ul>
+                    <div class="message-entry">
+                        <form method="post" action="">
+                        <div ng-show="selectedFiles != null">
+    						<img class="post-photo-preview" ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
+    							ng-repeat="f in selectedFiles" tooltip-placement="bottom" tooltip="移除相片" data-ng-click="remove_image($index)"
+    							ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}"></div>
+                            <label for="Input Message"></label>
+                            <textarea rows="4" cols="70" name="message-inputfield" data-ng-model="messageText"></textarea>
+                            <a href="#emo" id="message-emo-icon" class="icon-box icon-title-emo"></a>
+                            <div id="message-emo-box">
+                                <table border="0" cellspacing="0" cellpadding="0">
+                                  <tr>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                  </tr>
+                                  <tr>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                  </tr>
+                                  <tr>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                    <td><a href="#"><img src="../assets/app/images/general/message_emo_icon/temp.png" /></a></td>
+                                  </tr>
+                                </table>
+                            </div>
+                        </form>
+                        <div style="width:120px;margin-right:15px;" class="post-comment-box pull-right">
                             <input style="visibility:hidden;display:inline-block;width:0px;height:0px;" id="send-photo-id" type="file" name="send-photo" ng-file-select="onFileSelect($files)"/>
                             <a class="post-photo-icon" data-ng-show="selectedFiles.length == 0">
                                 <i class="icon-photo-camera-fill" data-ng-click="sendPhoto()"></i>
@@ -138,16 +148,26 @@
                                 發出訊息
                             </button>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
 </div>
 
-<style>
-.emoticon {
-	position: initial !important;    
-}
-</style>
+<div class="modal fade lightbox" id="imageModal" data-backdrop="false">
+  <div class="modal-dialog">
+    <div class="modal-content pull-left">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel"></h4>
+      </div>
+      <div class="modal-body">
+            <div>
+                <img data-ng-src="/image/get-message-image-by-id/{{img_id}}" alt="" style="max-width: 100%;">
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
                 

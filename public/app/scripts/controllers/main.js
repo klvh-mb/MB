@@ -3931,7 +3931,6 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
 		$scope.conversations = allConversationService.startConeversation.get({id: $routeParams.id });
 	}
 	
-	
 	$scope.messages = [];
 	$scope.receiverId;
 	$scope.currentConversation;
@@ -3970,9 +3969,7 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
                 }(fileReader, i);
             }
         }
-        
     }
-    
     
     $scope.remove_image = function(index) {
     	$scope.selectedFiles = [];
@@ -3988,7 +3985,6 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
 			$scope.conversations = data;
 			usSpinnerService.stop('loading...');
 		});
-		
 	}
 	
 	
@@ -3999,7 +3995,6 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
 			$scope.conversations = data;
 			usSpinnerService.stop('loading...');
 		});
-		
 	}
 	
 	$scope.noMore = true;
@@ -4019,14 +4014,17 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
 			}
 			offset++;
 		});
-		
 	}
+	
+	$scope.showImage = function(imageId) {
+        $scope.img_id = imageId;
+    }
+    
 	$scope.selectedindex = 0; 
 	$scope.setSelectedIndex = function($index) {
 		$scope.selectedIndex = $index ;
 	}
 	
-
 	$scope.nextMessages = function() {
 		usSpinnerService.spin('loading...');
 		getMessageService.getMessages.get({id: $scope.currentConversation,offset: offset},
@@ -4046,10 +4044,7 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
 			usSpinnerService.stop('loading...');
 			offset++;
 		});
-		
 	}
-	
-	
 	
 	$scope.sendMessage = function(msgText) {
 		var data = {
