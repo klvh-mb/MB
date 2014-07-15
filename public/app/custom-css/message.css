@@ -233,6 +233,10 @@
     vertical-align: top;
     margin: 5px 0px;
 }
+.message-body .message-body-image {
+    position: initial;
+    position: static;
+}
 .message-user, .message-replier {
     position: relative;
     overflow: auto;

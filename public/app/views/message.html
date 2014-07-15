@@ -72,9 +72,8 @@
                                         <span class="message-body-text" ng-bind-html="msg.txt"></span>
                                         <div ng-show="msg.hasImage">
                                             <a data-toggle="modal" data-target="#imageModal" href="">
-                                                <img data-ng-src="/image/get-message-image-by-id/{{msg.imgs}}" data-ng-click="showImage(msg.imgs)" alt="" style="position: initial">
+                                                <img class="message-body-image" data-ng-src="/image/get-message-image-by-id/{{msg.imgs}}" data-ng-click="showImage(msg.imgs)" alt="">
                                             </a>
-                                            <!--img src="/image/get-message-image-by-id/{{msg.imgs}}" style="position: initial"/-->
                                         </div>
                                         <span class="message-timestamp">{{ msg.cd| date:'hh:mm a'}}</span>
                                     </div>
@@ -87,9 +86,8 @@
                                         <span class="message-body-text" ng-bind-html="msg.txt"></span>
                                         <div ng-show="msg.hasImage">
                                             <a data-toggle="modal" data-target="#imageModal" href="">
-                                                <img data-ng-src="/image/get-message-image-by-id/{{msg.imgs}}" data-ng-click="showImage(msg.imgs)" alt="" style="position: initial">
+                                                <img class="message-body-image" data-ng-src="/image/get-message-image-by-id/{{msg.imgs}}" data-ng-click="showImage(msg.imgs)" alt="">
                                             </a>
-                                            <!--img src="/image/get-message-image-by-id/{{msg.imgs}}" style="position: initial"/-->
                                         </div>
                                         <span class="message-timestamp">{{ msg.cd| date:'hh:mm a'}}</span>
                                     </div>
