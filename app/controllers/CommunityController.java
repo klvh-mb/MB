@@ -144,11 +144,13 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getPostImageById(Long id) {
+    	response().setHeader("Cache-Control", "max-age=3600");
         return ok(Resource.findById(id).getThumbnailFile());
     }
     
     @Transactional
     public static Result getMiniCoverCommunityImageById(Long id) {
+    	response().setHeader("Cache-Control", "max-age=3600");
         Community community = Community.findById(id);
         if(community.getPhotoProfile() != null) {
             return ok(new File(community.getPhotoProfile().getMini()));
@@ -162,6 +164,7 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getThumbnailCoverCommunityImageById(Long id) {
+    	response().setHeader("Cache-Control", "max-age=3600");
         final Community community = Community.findById(id);
         if(community.getPhotoProfile() != null) {
             return ok(new File(community.getPhotoProfile().getThumbnail()));

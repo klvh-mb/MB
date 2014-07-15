@@ -79,6 +79,7 @@ public class FriendsController extends Controller {
 	
 	@Transactional
 	public static Result getUserImageById(Long id) {
+		response().setHeader("Cache-Control", "max-age=3600");
 		final User user = User.findById(id);
 		if(user.getPhotoProfile() != null) {
 			return ok(new File(user.getPhotoProfile().getThumbnail()));

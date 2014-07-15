@@ -352,6 +352,7 @@ public class UserController extends Controller {
 	@Transactional
 	public static Result getMiniVersionImageByID(Long id) {
 		final User user = User.findById(id);
+		response().setHeader("Cache-Control", "max-age=3600");
 		if(user.getPhotoProfile() != null) {
 			return ok(new File(user.getPhotoProfile().getMini()));
 		} 
@@ -368,6 +369,7 @@ public class UserController extends Controller {
 	@Transactional
 	public static Result getMiniCommentVersionImageByID(Long id) {
 		final User user = User.findById(id);
+		response().setHeader("Cache-Control", "max-age=3600");
 		if(user.getPhotoProfile() != null) {
 			return ok(new File(user.getPhotoProfile().getMiniComment()));
 		} 
@@ -384,6 +386,7 @@ public class UserController extends Controller {
 	@Transactional
 	public static Result getThumbnailVersionImageByID(Long id) {
 		final User user = User.findById(id);
+		response().setHeader("Cache-Control", "max-age=3600");
 		if(user.getPhotoProfile() != null) {
 			return ok(new File(user.getPhotoProfile().getThumbnail()));
 		}
@@ -397,6 +400,7 @@ public class UserController extends Controller {
 	
 	@Transactional
 	public static Result getThumbnailCoverImageByID(Long id) {
+		response().setHeader("Cache-Control", "max-age=3600");
 		final User user = User.findById(id);
 		if(user.getCoverProfile() != null) {
 			return ok(new File(user.getCoverProfile().getThumbnail()));

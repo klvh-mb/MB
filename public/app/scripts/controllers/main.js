@@ -187,10 +187,12 @@ minibean.controller('ApplicationController',function($scope,$location, userInfoS
 	$scope.set_background_image = function() {
 		return {background : 'url(/image/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+')'};
 	} 
+	$scope.unread_msg_count = 0;
 	$scope.friend_requests = userNotification.getAllFriendRequests.get();
 	$scope.join_requests = userSimpleNotifications.getAllJoinRequests.get();
-	$scope.unread_msg_count = userMessageNotifications.getUnreadMsgCount.get();
-	
+	$scope.get_unread_msg_count = function() {
+		$scope.unread_msg_count = userMessageNotifications.getUnreadMsgCount.get();
+	}
 	$scope.isFRreaded = true;
 	$scope.isNOreaded = true;
 	
@@ -392,6 +394,8 @@ minibean.service('profilePhotoModal',function( $modal){
 minibean.controller('UserAboutController',function($routeParams, $scope, $http, userAboutService, locationService, profilePhotoModal){
 	
 	var tab = $routeParams.tab;
+	
+	$scope.get_unread_msg_count();
 	
 	if (tab == 'activities' || tab == undefined) {
 		$scope.selectedTab = 1;
@@ -883,6 +887,8 @@ minibean.controller('ProfileController',function($scope, $routeParams, $location
 			 $location.path("about/activities");
 		}
 	});
+	
+	$scope.get_unread_msg_count();
 	
 	$scope.isLoadingEnabled = false;
 	$scope.selectedTab = 1;
