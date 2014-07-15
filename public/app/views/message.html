@@ -84,7 +84,7 @@
                                 <div>
                                     <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
                                     <div class="message-body">
-                                        <span ng-bind-html="msg.txt"></span>
+                                        <span class="message-body-text" ng-bind-html="msg.txt"></span>
                                         <div ng-show="msg.hasImage">
                                             <a data-toggle="modal" data-target="#imageModal" href="">
                                                 <img data-ng-src="/image/get-message-image-by-id/{{msg.imgs}}" data-ng-click="showImage(msg.imgs)" alt="" style="position: initial">
