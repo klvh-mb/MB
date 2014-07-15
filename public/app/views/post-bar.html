@@ -69,7 +69,7 @@
                 <a class="post-photo-icon" data-ng-hide="commentSelectedFiles.length >= 3 && commentedOnPost == post.id" id="upload">
                     <i class="icon-photo-camera-fill" data-ng-click="commentPhoto(post.id)"></i>
                 </a>
-                <button class="btn btn-primary ng-binding" ng-disabled="userComment.$pristine || (userComment.$dirty && commentText.length < 2)" type="submit" disabled="disabled" data-ng-click="comment_on_post(post.id, commentText); commentText=''">
+                <button class="btn btn-primary ng-binding" ng-disabled="userComment.$pristine || (userComment.$dirty && commentText.length < 1)" type="submit" disabled="disabled" data-ng-click="comment_on_post(post.id, commentText); commentText=''">
                     留言
                 </button>
                 <input style="visibility:hidden;width:0px;height:0px;" id="comment-photo-id" type="file" name="comment-photo" ng-file-select="onCommentFileSelect($files)"/>

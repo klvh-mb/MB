@@ -98,11 +98,12 @@
                         </div>
                     </ul>
                     <div class="message-entry">
-                        <form method="post" action="">
-                        <div ng-show="selectedFiles != null">
-    						<img class="post-photo-preview" ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
-    							ng-repeat="f in selectedFiles" tooltip-placement="bottom" tooltip="移除相片" data-ng-click="remove_image($index)"
-    							ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}"></div>
+                        <form name="messageEntry" id="messageEntry" method="post" action="">
+                            <div ng-show="selectedFiles != null">
+        						<img class="post-photo-preview" ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
+        							ng-repeat="f in selectedFiles" tooltip-placement="bottom" tooltip="移除相片" data-ng-click="remove_image($index)"
+        							ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
+                            </div>
                             <label for="Input Message"></label>
                             <textarea rows="4" cols="70" name="message-inputfield" data-ng-model="messageText"></textarea>
                             <a href="#emo" id="message-emo-icon" class="icon-box icon-title-emo"></a>
@@ -126,7 +127,7 @@
                             <a class="post-photo-icon" data-ng-show="selectedFiles.length == 0">
                                 <i class="icon-photo-camera-fill" data-ng-click="sendPhoto()"></i>
                             </a>
-                            <button class="btn btn-primary ng-binding" ng-disabled="postUpload.$pristine || (postUpload.$dirty && postText.length < 3)" type="submit" disabled="disabled" 
+                            <button class="btn btn-primary ng-binding" ng-disabled="messageEntry.$pristine || (messageEntry.$dirty && messageText.length < 1)" type="submit" disabled="disabled" 
                                     data-ng-click="sendMessage(messageText);messageText='';">
                                 發出訊息
                             </button>

@@ -1,3 +1,7 @@
+ul, li {
+    list-style: none;
+    padding: 0;
+}
 .signup-info-table label.error {
     background-image: url(../images/error.png);
     background-repeat: no-repeat;
@@ -8,10 +12,6 @@
     margin: 0 0 0 15px;
     padding: 0 0 0 18px;
     vertical-align: middle; 
-}
-ul, li {
-    list-style: none;
-    padding: 0;
 }
 .signup-info-sub-table {
 }

@@ -1,6 +1,4 @@
-
 // header bottom glow
-
 var toggleToNotVisible = true;
 
 $(window).scroll(function() {

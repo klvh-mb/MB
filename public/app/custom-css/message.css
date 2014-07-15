@@ -256,7 +256,7 @@
 }
 .message-user .message-body, .message-replier .message-body {
     max-width: 350px;
-    padding: 5px 10px;
+    padding: 7px 15px;
     background-color: white;
     display: inline-block;
     vertical-align: text-top;

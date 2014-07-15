@@ -154,7 +154,7 @@ $(document).ready(function() {
                         return $('#bb_birth_year5').val() != 0
                     }
                 }
-            },
+            }
         },
         messages : {
             parent_birth_year : {
@@ -253,6 +253,6 @@ $(document).ready(function() {
                     error.insertAfter(element);
                 }
             }
-        },
+        }
     });
 });
