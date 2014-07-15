@@ -3,7 +3,7 @@
     padding: 0;
 }
 #message-content {
-    background-color: #f2f6f9;
+    background-color: #f5f8fa;
     display: inline-block;
     width: 65%;
     border-left: #bcbcbc thin solid;
@@ -256,17 +256,20 @@
 }
 .message-user .message-body, .message-replier .message-body {
     max-width: 350px;
-    border-radius: 5px;
     padding: 5px 10px;
     background-color: white;
     display: inline-block;
     vertical-align: text-top;
-    box-shadow: 1px 1px 1px #E3E2EC;
     position: relative;
+    
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    box-shadow: inset 0 3px 3px rgba(255,255,255,.4),0 1px 1px rgba(0,0,0,.05);
 }
 .message-user .message-body {
     right: 65px;
     float: right;
+    background-color: #e6f2fa;
 }
 .message-replier .message-body {
     margin-left: 13px;
@@ -281,7 +284,6 @@
 	position: absolute;
 	border-color: rgba(136, 183, 213, 0);
 	border-right-color: #e0eef9;
-	border-width: 10px;
 	margin-top: -10px;
 }
 .message-user .message-body:before {
@@ -297,27 +299,23 @@
 .message-user .message-body:after {
     left: 100%;
     border-color: rgba(255, 255, 255, 0);
-    border-left-color: #ffffff;
-    border-width: 8px;
-    margin-top: -8px;
+    border-left-color: #e6f2fa;
+    border-width: 7px;
     top: 25px;
 }
 .message-replier .message-body:before {
     border-color: rgba(219, 219, 219, 0);
     border-right-color: #dbdbdb;
-    border-width: 9px;
-    margin-top: -9px;
 }
 .message-replier .message-body:after {
     border-color: rgba(255, 255, 255, 0);
     border-right-color: #ffffff;
-    border-width: 8px;
-    margin-top: -8px;
+    border-width: 6px;
     top: 25px;
 }
 .message-entry {
     border-top: white thin solid;
-    background-color: #dfeff5;
+    background-color: #e6f2fa;
     width: 100%;
     position: relative;
     height: 150px;
