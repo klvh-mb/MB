@@ -69,7 +69,7 @@
                                 <div>
                                     <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
                                     <div class="message-body">
-                                        <span ng-bind-html="msg.txt"></span>
+                                        <span class="message-body-text" ng-bind-html="msg.txt"></span>
                                         <div ng-show="msg.hasImage">
                                             <a data-toggle="modal" data-target="#imageModal" href="">
                                                 <img data-ng-src="/image/get-message-image-by-id/{{msg.imgs}}" data-ng-click="showImage(msg.imgs)" alt="" style="position: initial">
@@ -144,7 +144,7 @@
                                 <i class="icon-photo-camera-fill" data-ng-click="sendPhoto()"></i>
                             </a>
                             <button class="btn btn-primary ng-binding" ng-disabled="postUpload.$pristine || (postUpload.$dirty && postText.length < 3)" type="submit" disabled="disabled" 
-                                    data-ng-click="sendMessage(messageText)">
+                                    data-ng-click="sendMessage(messageText);messageText='';">
                                 發出訊息
                             </button>
                         </div>

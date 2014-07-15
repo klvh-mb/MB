@@ -247,6 +247,9 @@
 .message-replier img {
     left: 0;
 }
+#message-content .message-body .message-body-text {
+    white-space: pre-wrap;
+}
 #message-content .message-body .emoticon {
     margin: 2px 2px;
     position: static;   /* do not change this */
