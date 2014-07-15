@@ -1,33 +1,48 @@
+.signup-info-table label.error {
+    background-image: url(../images/error.png);
+    background-repeat: no-repeat;
+    background-position: center left;
+    color: #c33;
+    font-size: 13px;
+    line-height: 16px;
+    margin: 0 0 0 15px;
+    padding: 0 0 0 18px;
+    vertical-align: middle; 
+}
 ul, li {
     list-style: none;
     padding: 0;
 }
 .signup-info-sub-table {
 }
-.signup-info-sub-table td {
+.signup-info-sub-table tr td {
     font-size: 15px;
     font-weight: normal;
     padding: 5px;
     vertical-align: top;
     color: #0A0A0A;
 }
-.signup-info-sub-table td label {
+.signup-info-sub-table tr td label {
     font-size: 15px;
     font-weight: normal;
     padding-right: 15px;
     vertical-align: top;
 }
+.signup-info-sub-table tr td:first-child {
+    text-align: right;
+    width: 120px;
+}
 .signup-info-table {
     width: 550px;
 }
-.signup-info-table td {
+.signup-info-table tr td {
     font-size: 15px;
     font-weight: normal;
     padding: 5px;
     vertical-align: top;
     color: #0A0A0A;
 }
-.signup-info-table td label {
+.signup-info-table tr td label {
     font-size: 15px;
     font-weight: normal;
     padding-right: 15px;
@@ -37,6 +52,7 @@ ul, li {
     font-size: 16px;
     font-weight: normal;
     color: #3a3838;
+    line-height: 1.5;
 }
 .signup-info-box {
     background-color: white;
@@ -45,19 +61,11 @@ ul, li {
     border: #4135a9 thin solid;
     height:100%
 }
-#signup-info-header {
-    width: 100%;
-    height: 60px;
-    padding: 6px;
-    background-color: white;
-    display: block;
-    margin-bottom: 5%;
-}
-#signup-info-header h2 {
-    position: absolute;
-    top: -5px;
-    left: 50px;
-    color: #4f39a2;
+.signup-info-box h2 {
+    color: #44318B;
+    border-bottom: 1px solid #B5B3F0;
+    margin-bottom: 5px;
+    padding-bottom: 10px;
 }
 .signup-info-container {
     margin: 0;
@@ -157,7 +165,7 @@ ul, li {
     left: -30px;
     top: 10px;
     text-indent: -9999px;
-    background-image: url(/images/login/sawtooth.jpg);
+    background-image: url(../images/login/sawtooth.jpg);
     background-repeat: repeat-y;
     background-position: top right;
 }*/

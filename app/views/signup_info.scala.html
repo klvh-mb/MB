@@ -37,7 +37,7 @@
         $(document).ready(function() {
             minibean = this;
             
-            // hooks
+            // selection hooks
             this.onChangeParentType = function() {
                 var parentType = $("input:radio[name='parent_type']:checked").val();
                 if (parentType == 'NA' || typeof parentType  == 'undefined' || parentType == null) {
@@ -67,39 +67,230 @@
             // init state
             this.onChangeNumChildren();
             this.onChangeParentType();
-            
           
-            
+            // validations
             $("#signup-info-wrapper").validate({
+                //debug : true,
     			rules : {
     				parent_birth_year : {
-    					required : true,
+    					required : true
     				},
     				parent_location : {
-    					required : true,
+    					required : true
     				},
     				parent_type: {
     				    required: true
-    				}
+    				},
+    				bb_gender1 : {
+                        required: {
+                            depends: function(element) {
+                                //console.log("bb_gender1: " + ($('#num_children').val() >= 1));
+                                return $('#num_children').val() >= 1
+                            }
+                        }
+                    },
+                    bb_gender2 : {
+                        required: {
+                            depends: function(element) {
+                                //console.log("bb_gender2: " + ($('#num_children').val() >= 2));
+                                return $('#num_children').val() >= 2
+                            }
+                        }
+                    },
+                    bb_gender3 : {
+                        required: {
+                            depends: function(element) {
+                                //console.log("bb_gender3: " + ($('#num_children').val() >= 3));
+                                return $('#num_children').val() >= 3
+                            }
+                        }
+                    },
+                    bb_gender4 : {
+                        required: {
+                            depends: function(element) {
+                                //console.log("bb_gender4: " + ($('#num_children').val() >= 4));
+                                return $('#num_children').val() >= 4
+                            }
+                        }
+                    },
+                    bb_gender5 : {
+                        required: {
+                            depends: function(element) {
+                                //console.log("bb_gender5: " + ($('#num_children').val() >= 5));
+                                return $('#num_children').val() >= 5 
+                            }
+                        }
+                    },
+                    bb_birth_year1 : {
+                        required: {
+                            depends: function(element) {
+                                return $('#num_children').val() >= 1
+                            }
+                        }
+                    },
+                    bb_birth_year2 : {
+                        required: {
+                            depends: function(element) {
+                                return $('#num_children').val() >= 2
+                            }
+                        }
+                    },
+                    bb_birth_year3 : {
+                        required: {
+                            depends: function(element) {
+                                return $('#num_children').val() >= 3
+                            }
+                        }
+                    },
+                    bb_birth_year4 : {
+                        required: {
+                            depends: function(element) {
+                                return $('#num_children').val() >= 4
+                            }
+                        }
+                    },
+                    bb_birth_year5 : {
+                        required: {
+                            depends: function(element) {
+                                return $('#num_children').val() >= 5 
+                            }
+                        }
+                    },
+                    bb_birth_month1 : {
+                        required: {
+                            depends: function(element) {
+                                return $('#bb_birth_year1').val() != 0
+                            }
+                        }
+                    },
+                    bb_birth_month2 : {
+                        required: {
+                            depends: function(element) {
+                                return $('#bb_birth_year2').val() != 0
+                            }
+                        }
+                    },
+                    bb_birth_month3 : {
+                        required: {
+                            depends: function(element) {
+                                return $('#bb_birth_year3').val() != 0
+                            }
+                        }
+                    },
+                    bb_birth_month4 : {
+                        required: {
+                            depends: function(element) {
+                                return $('#bb_birth_year4').val() != 0
+                            }
+                        }
+                    },
+                    bb_birth_month5 : {
+                        required: {
+                            depends: function(element) {
+                                return $('#bb_birth_year5').val() != 0
+                            }
+                        }
+                    },
     			},
-
     			messages : {
     				parent_birth_year : {
-    					required : "Select Year",
-    					
+    					required : "請選擇您的出生年份"
     				},
     				parent_location : {
-    					required : "Select Location",
+    					required : "請選擇您居住的地區"
     				},
     				parent_type : {
-    					required : "This field is required",
-    				}
-    			}
-    			
+    					required : "請選擇您現在的身份"
+    				},
+    				bb_gender1 : {
+                        required : "請選擇小寶寶的性別"
+                    },
+                    bb_gender2 : {
+                        required : "請選擇小寶寶的性別"
+                    },
+                    bb_gender3 : {
+                        required : "請選擇小寶寶的性別"
+                    },
+                    bb_gender4 : {
+                        required : "請選擇小寶寶的性別"
+                    },
+                    bb_gender5 : {
+                        required : "請選擇小寶寶的性別"
+                    },
+                    bb_birth_year1 : {
+                        required : "請選擇小寶寶的預產期或生日年份"
+                    },
+                    bb_birth_year2 : {
+                        required : "請選擇小寶寶的預產期或生日年份"
+                    },
+                    bb_birth_year3 : {
+                        required : "請選擇小寶寶的預產期或生日年份"
+                    },
+                    bb_birth_year4 : {
+                        required : "請選擇小寶寶的預產期或生日年份"
+                    },
+                    bb_birth_year5 : {
+                        required : "請選擇小寶寶的預產期或生日年份"
+                    },
+                    bb_birth_month1 : {
+                        required : "請選擇小寶寶的預產期或生日月份"
+                    },
+                    bb_birth_month2 : {
+                        required : "請選擇小寶寶的預產期或生日月份"
+                    },
+                    bb_birth_month3 : {
+                        required : "請選擇小寶寶的預產期或生日月份"
+                    },
+                    bb_birth_month4 : {
+                        required : "請選擇小寶寶的預產期或生日月份"
+                    },
+                    bb_birth_month5 : {
+                        required : "請選擇小寶寶的預產期或生日月份"
+                    }
+    			},
+                errorPlacement: function (error, element) {
+                    if (element.attr("name") == "parent_type") {
+                        error.appendTo("#parent_type-error-holder");
+                    } else if (element.attr("name") == "bb_gender1") {
+                        error.appendTo("#bb_gender1-error-holder");
+                    } else if (element.attr("name") == "bb_gender2") {
+                        error.appendTo("#bb_gender2-error-holder");
+                    } else if (element.attr("name") == "bb_gender3") {
+                        error.appendTo("#bb_gender3-error-holder");
+                    } else if (element.attr("name") == "bb_gender4") {
+                        error.appendTo("#bb_gender4-error-holder");
+                    } else if (element.attr("name") == "bb_gender5") {
+                        error.appendTo("#bb_gender5-error-holder");
+                    } else if (element.attr("name") == "bb_birth_year1") {
+                        error.appendTo("#bb_birth_year1-error-holder");
+                    } else if (element.attr("name") == "bb_birth_year2") {
+                        error.appendTo("#bb_birth_year2-error-holder");
+                    } else if (element.attr("name") == "bb_birth_year3") {
+                        error.appendTo("#bb_birth_year3-error-holder");
+                    } else if (element.attr("name") == "bb_birth_year4") {
+                        error.appendTo("#bb_birth_year4-error-holder");
+                    } else if (element.attr("name") == "bb_birth_year5") {
+                        error.appendTo("#bb_birth_year5-error-holder");
+                    } else if (element.attr("name") == "bb_birth_month1") {
+                        error.appendTo("#bb_birth_month1-error-holder");
+                    } else if (element.attr("name") == "bb_birth_month2") {
+                        error.appendTo("#bb_birth_month2-error-holder");
+                    } else if (element.attr("name") == "bb_birth_month3") {
+                        error.appendTo("#bb_birth_month3-error-holder");
+                    } else if (element.attr("name") == "bb_birth_month4") {
+                        error.appendTo("#bb_birth_month4-error-holder");
+                    } else if (element.attr("name") == "bb_birth_month5") {
+                        error.appendTo("#bb_birth_month5-error-holder");
+                    } 
+                    else {
+                        if (element.attr("type") == "radio") {
+                            error.insertBefore(element);
+                        } else {
+                            error.insertAfter(element);
+                        }
+                    }
+                },
     		});
-            
-            
-            
         });
     </script>
 </head>
@@ -119,10 +310,19 @@
                     <form id="signup-info-wrapper" name="signup-info" method="post" action="/saveSignupInfo">
                         <table class="signup-info-table">
                             <tbody>
-                                <tr><td colspan="2"><div class="signup-info-header">Please provide us a little more information so that we can provide most relevant and up-to-date information to you</div></td></tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="signup-info-header">
+                                            miniBean小萌豆 是一個為您度身訂造的媽媽爸爸社交平台
+                                        </div>
+                                        <div class="signup-info-header">
+                                            請給我們多一點關於您的資訊，以便我們提供最相關和最新的內容給您!
+                                        </div>
+                                    </td>
+                                </tr>
                                 <tr class="padding10"><td></td></tr>
                                 <tr>
-                                    <td>你的出生年份:</td>
+                                    <td>您的出生年份:</td>
                                     <td>
                                         <div>
                                             <span>
@@ -137,7 +337,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>你居住的地區:</td>
+                                    <td>您居住的地區:</td>
                                     <td>
                                         <div>
                                             <span>
@@ -152,19 +352,19 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="120px">你現在是:</td>
+                                    <td width="120px">您現在是:</td>
                                     <td>
+                                        <div></div>
                                         <div>
                                             <span>
                                                 <input type="radio" name="parent_type" value="@UserInfo.ParentType.MOM.name()" id="mom">
                                                 <label for="parent_type">媽媽</label>
                                             </span>
                                             <span>
-                                                <input type="radio" name="
-
-" value="@UserInfo.ParentType.DAD.name()" id="dad">
+                                                <input type="radio" name="parent_type" value="@UserInfo.ParentType.DAD.name()" id="dad">
                                                 <label for="parent_type">爸爸</label>
                                             </span>
+                                            <span id="parent_type-error-holder"></span>
                                         </div>
                                         <div>
                                             <span>
@@ -210,6 +410,7 @@
                                                             <input type="radio" name="bb_gender1" value="@TargetGender.Female.name()" id="bb_gal1">
                                                             <label for="bb_gender1">BB女</label>
                                                         </span>
+                                                        <span id="bb_gender1-error-holder"></span>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -218,14 +419,16 @@
                                                 <td>
                                                     <div>
                                                         <select name="bb_birth_year1" id="bb_birth_year1">
-                                                            <option value="0" selected="1">年</option>
+                                                            <option value="" selected="1">年</option>
                                                             @for((key, value) <- DefaultValues.CHILD_BIRTH_YEARS.asScala) {
                                                                 <option value="@value">@key</option>
                                                             }
                                                         </select>
-                                                        <select name="bb_birth_month1" id="bb_birth_month1"><option value="0" selected="1">月</option><option value="1">一月</option><option value="2">二月</option><option value="3">三月</option><option value="4">四月</option><option value="5">五月</option><option value="6">六月</option><option value="7">七月</option><option value="8">八月</option><option value="9">九月</option><option value="10">十月</option><option value="11">十一月</option><option value="12">十二月</option></select>
-                                                        <select name="bb_birth_day1" id="bb_birth_day1"><option value="0" selected="1">日</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select>
+                                                        <select name="bb_birth_month1" id="bb_birth_month1"><option value="" selected="1">月</option><option value="1">一月</option><option value="2">二月</option><option value="3">三月</option><option value="4">四月</option><option value="5">五月</option><option value="6">六月</option><option value="7">七月</option><option value="8">八月</option><option value="9">九月</option><option value="10">十月</option><option value="11">十一月</option><option value="12">十二月</option></select>
+                                                        <select name="bb_birth_day1" id="bb_birth_day1"><option value="" selected="1">日</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select>
                                                     </div>
+                                                    <span id="bb_birth_year1-error-holder"></span>
+                                                    <span id="bb_birth_month1-error-holder"></span>
                                                 </td>
                                             </tr>
                                         </table>
@@ -247,6 +450,7 @@
                                                             <input type="radio" name="bb_gender2" value="@TargetGender.Female.name()" id="bb_gal2">
                                                             <label for="bb_gender2">BB女</label>
                                                         </span>
+                                                        <span id="bb_gender2-error-holder"></span>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -255,14 +459,16 @@
                                                 <td>
                                                     <div>
                                                         <select name="bb_birth_year2" id="bb_birth_year2">
-                                                            <option value="0" selected="1">年</option>
+                                                            <option value="" selected="1">年</option>
                                                             @for((key, value) <- DefaultValues.CHILD_BIRTH_YEARS.asScala) {
                                                                 <option value="@value">@key</option>
                                                             }
                                                         </select>
-                                                        <select name="bb_birth_month2" id="bb_birth_month2"><option value="0" selected="1">月</option><option value="1">一月</option><option value="2">二月</option><option value="3">三月</option><option value="4">四月</option><option value="5">五月</option><option value="6">六月</option><option value="7">七月</option><option value="8">八月</option><option value="9">九月</option><option value="10">十月</option><option value="11">十一月</option><option value="12">十二月</option></select>
-                                                        <select name="bb_birth_day2" id="bb_birth_day2"><option value="0" selected="1">日</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select>
+                                                        <select name="bb_birth_month2" id="bb_birth_month2"><option value="" selected="1">月</option><option value="1">一月</option><option value="2">二月</option><option value="3">三月</option><option value="4">四月</option><option value="5">五月</option><option value="6">六月</option><option value="7">七月</option><option value="8">八月</option><option value="9">九月</option><option value="10">十月</option><option value="11">十一月</option><option value="12">十二月</option></select>
+                                                        <select name="bb_birth_day2" id="bb_birth_day2"><option value="" selected="1">日</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select>
                                                     </div>
+                                                    <span id="bb_birth_year2-error-holder"></span>
+                                                    <span id="bb_birth_month2-error-holder"></span>
                                                 </td>
                                             </tr>
                                         </table>
@@ -284,6 +490,7 @@
                                                             <input type="radio" name="bb_gender3" value="@TargetGender.Female.name()" id="bb_gal3">
                                                             <label for="bb_gender3">BB女</label>
                                                         </span>
+                                                        <span id="bb_gender3-error-holder"></span>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -292,14 +499,16 @@
                                                 <td>
                                                     <div>
                                                         <select name="bb_birth_year3" id="bb_birth_year3">
-                                                            <option value="0" selected="1">年</option>
+                                                            <option value="" selected="1">年</option>
                                                             @for((key, value) <- DefaultValues.CHILD_BIRTH_YEARS.asScala) {
                                                                 <option value="@value">@key</option>
                                                             }
                                                         </select>
-                                                        <select name="bb_birth_month3" id="bb_birth_month3"><option value="0" selected="1">月</option><option value="1">一月</option><option value="2">二月</option><option value="3">三月</option><option value="4">四月</option><option value="5">五月</option><option value="6">六月</option><option value="7">七月</option><option value="8">八月</option><option value="9">九月</option><option value="10">十月</option><option value="11">十一月</option><option value="12">十二月</option></select>
-                                                        <select name="bb_birth_day3" id="bb_birth_day3"><option value="0" selected="1">日</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select>
+                                                        <select name="bb_birth_month3" id="bb_birth_month3"><option value="" selected="1">月</option><option value="1">一月</option><option value="2">二月</option><option value="3">三月</option><option value="4">四月</option><option value="5">五月</option><option value="6">六月</option><option value="7">七月</option><option value="8">八月</option><option value="9">九月</option><option value="10">十月</option><option value="11">十一月</option><option value="12">十二月</option></select>
+                                                        <select name="bb_birth_day3" id="bb_birth_day3"><option value="" selected="1">日</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select>
                                                     </div>
+                                                    <span id="bb_birth_year3-error-holder"></span>
+                                                    <span id="bb_birth_month3-error-holder"></span>
                                                 </td>
                                             </tr>
                                         </table>
@@ -321,6 +530,7 @@
                                                             <input type="radio" name="bb_gender4" value="@TargetGender.Female.name()" id="bb_gal4">
                                                             <label for="bb_gender4">BB女</label>
                                                         </span>
+                                                        <span id="bb_gender4-error-holder"></span>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -329,14 +539,16 @@
                                                 <td>
                                                     <div>
                                                         <select name="bb_birth_year4" id="bb_birth_year4">
-                                                            <option value="0" selected="1">年</option>
+                                                            <option value="" selected="1">年</option>
                                                             @for((key, value) <- DefaultValues.CHILD_BIRTH_YEARS.asScala) {
                                                                 <option value="@value">@key</option>
                                                             }
                                                         </select>
-                                                        <select name="bb_birth_month4" id="bb_birth_month4"><option value="0" selected="1">月</option><option value="1">一月</option><option value="2">二月</option><option value="3">三月</option><option value="4">四月</option><option value="5">五月</option><option value="6">六月</option><option value="7">七月</option><option value="8">八月</option><option value="9">九月</option><option value="10">十月</option><option value="11">十一月</option><option value="12">十二月</option></select>
-                                                        <select name="bb_birth_day4" id="bb_birth_day4"><option value="0" selected="1">日</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select>
+                                                        <select name="bb_birth_month4" id="bb_birth_month4"><option value="" selected="1">月</option><option value="1">一月</option><option value="2">二月</option><option value="3">三月</option><option value="4">四月</option><option value="5">五月</option><option value="6">六月</option><option value="7">七月</option><option value="8">八月</option><option value="9">九月</option><option value="10">十月</option><option value="11">十一月</option><option value="12">十二月</option></select>
+                                                        <select name="bb_birth_day4" id="bb_birth_day4"><option value="" selected="1">日</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select>
                                                     </div>
+                                                    <span id="bb_birth_year4-error-holder"></span>
+                                                    <span id="bb_birth_month4-error-holder"></span>
                                                 </td>
                                             </tr>
                                         </table>
@@ -358,6 +570,7 @@
                                                             <input type="radio" name="bb_gender2" value="@TargetGender.Female.name()" id="bb_gal5">
                                                             <label for="bb_gender5">BB女</label>
                                                         </span>
+                                                        <span id="bb_gender5-error-holder"></span>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -366,14 +579,16 @@
                                                 <td>
                                                     <div>
                                                         <select name="bb_birth_year5" id="bb_birth_year5">
-                                                            <option value="0" selected="1">年</option>
+                                                            <option value="" selected="1">年</option>
                                                             @for((key, value) <- DefaultValues.CHILD_BIRTH_YEARS.asScala) {
                                                                 <option value="@value">@key</option>
                                                             }
                                                         </select>
-                                                        <select name="bb_birth_month5" id="bb_birth_month5"><option value="0" selected="1">月</option><option value="1">一月</option><option value="2">二月</option><option value="3">三月</option><option value="4">四月</option><option value="5">五月</option><option value="6">六月</option><option value="7">七月</option><option value="8">八月</option><option value="9">九月</option><option value="10">十月</option><option value="11">十一月</option><option value="12">十二月</option></select>
-                                                        <select name="bb_birth_day5" id="bb_birth_day5"><option value="0" selected="1">日</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select>
+                                                        <select name="bb_birth_month5" id="bb_birth_month5"><option value="" selected="1">月</option><option value="1">一月</option><option value="2">二月</option><option value="3">三月</option><option value="4">四月</option><option value="5">五月</option><option value="6">六月</option><option value="7">七月</option><option value="8">八月</option><option value="9">九月</option><option value="10">十月</option><option value="11">十一月</option><option value="12">十二月</option></select>
+                                                        <select name="bb_birth_day5" id="bb_birth_day5"><option value="" selected="1">日</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select>
                                                     </div>
+                                                    <span id="bb_birth_year5-error-holder"></span>
+                                                    <span id="bb_birth_month5-error-holder"></span>
                                                 </td>
                                             </tr>
                                         </table>

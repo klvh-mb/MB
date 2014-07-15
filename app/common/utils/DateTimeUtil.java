@@ -1,5 +1,6 @@
 package common.utils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.IllegalFieldValueException;
 
@@ -29,11 +30,15 @@ public class DateTimeUtil {
             year = year.replaceAll("<", "").trim();
         }
         
+        if (StringUtils.isEmpty(day)) {
+            day = "1";
+        }
+        
         int y = Integer.valueOf(year);
         int m = Integer.valueOf(month);
         int d = Integer.valueOf(day);
         
-        if (d == 0) {       // day is optional most of the times
+        if (d <= 0) {       // day is optional most of the times
             d = 1;
         }
         
