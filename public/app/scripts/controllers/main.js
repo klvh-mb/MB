@@ -3931,14 +3931,20 @@ minibean.service('searchFriendService',function($resource){
 minibean.controller('UserConversationController',function($scope, $timeout, $upload, $routeParams, searchFriendService, usSpinnerService, getMessageService, $http, allConversationService){
 
 	if($routeParams.id == 0){
-		$scope.conversations = allConversationService.UserAllConversation.get();
+		$scope.conversations = allConversationService.UserAllConversation.get(function(){
+			$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
+		});
 	} else {
-		$scope.conversations = allConversationService.startConeversation.get({id: $routeParams.id });
+		$scope.conversations = allConversationService.startConeversation.get({id: $routeParams.id} ,function(){
+			$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
+		});
 	}
+	
 	
 	$scope.messages = [];
 	$scope.receiverId;
 	$scope.currentConversation;
+	
 	var offset = 0;
 	
 	$scope.search_friend = function(query) {
@@ -4002,7 +4008,7 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
 		});
 	}
 	
-	$scope.noMore = true;
+	$scope.noMore = false;
 	$scope.getMessages = function(cid, uid) {
 		offset = 0;
 		$scope.receiverId = uid;

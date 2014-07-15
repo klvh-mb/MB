@@ -21,9 +21,8 @@ public class ConversationVM {
 		this.id = conversation.id;
 		this.creationDate = conversation.getUpdatedDate();
 		try{
+			this.lastMsg = conversation.getLastMessage();
 			this.isReaded = conversation.isReadedBy(user);
-			String s = conversation.getLastMessage();
-		this.lastMsg = s.substring(0, Math.min(s.length(), 10));
 		} catch(NullPointerException e){
 			
 		}

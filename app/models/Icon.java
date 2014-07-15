@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Query;
 
+import org.hibernate.annotations.Index;
+
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
@@ -20,6 +22,7 @@ public class Icon {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
     
+    @Index(name = "Name") 
     public String name;
     
     @Enumerated(EnumType.STRING)

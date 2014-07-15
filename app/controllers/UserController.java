@@ -528,4 +528,12 @@ public class UserController extends Controller {
 		return ok(Resource.findById(id).getThumbnailFile());
 	}
 
+    @Transactional
+    public static Result getOriginalPrivateImageByID(Long id) {
+        logger.underlyingLogger().debug("getOriginalPrivateImageByID");
+        Resource resource = Resource.findById(id);
+        return ok(resource.getRealFile());
+    }
+
+	
 }
