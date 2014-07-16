@@ -67,7 +67,7 @@
     border-bottom: #bcbcbc thin solid;
 }
 #message-list li:hover {
-    background-color: #f1f4f8;
+    /*background-color: #f1f4f8;*/
     cursor: pointer;
 }
 #message-list li:hover > div > h5 {
@@ -104,23 +104,24 @@
     padding: 5px;
     position: absolute;
     right: 6px;
-    top: 22px;
+    top: 20px;
     display: none;
 }
-.message-del-icon:hover + .message-toolstip {
+.message-del-icon:hover + .message-tooltips {
     display: block;
 }
-.message-toolstip {
+.message-tooltips {
     display: none;
     color: white !important;
     background: rgba(0, 0, 0, 0.8);
     padding: 5px;
     position: absolute;
-    width: 40px;
+    width: 35px;
     top: -10px;
-    left: 2px;
+    right: -5px;
+    font-size: 12px;
 }
-.message-toolstip:after {
+.message-tooltips:after {
     top: 100%;
 	left: 50%;
 	border: solid transparent;
@@ -137,20 +138,20 @@
 .message-notice {
     font-size: small;
     position: absolute;
-    right: -3px;
-    top: 17px;
+    right: 0px;
+    top: 35px;
     text-align: right;
     width: 80px;
     color: #7287b9;
     font-weight: bold;
 }
 .message-notice:after {
-    content: "則新訊息";
+    content: "新訊息";
     font-size: small;
 }
-.message-preview {
-    width: 60%;
-    padding: 0 5px;
+#message-list .message-preview {
+    width: 55%;
+    padding: 0 0 0 5px;
 }
 #message-content .con-title {
     background-color: white;
@@ -211,18 +212,18 @@
 #message-area .message-load-more:hover {
     text-decoration: none;
 }
-.message-timer {
-    color: gray;
-    font-size: x-small;
-    position: relative;
-    left: 43%;
-    opacity: 0.7;
-}
 .message-timestamp {
     color: gray;
-    font-size: x-small;
+    font-size: 11px;
     opacity: 0.8;
     display: block;
+}
+#conversation .message-timestamp {
+    font-size: 12px;
+    opacity: 1;
+}
+.message-list-active .message-timestamp {
+    color: white;
 }
 #message-content li {
     padding: 10px;

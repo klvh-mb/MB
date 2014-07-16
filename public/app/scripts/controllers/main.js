@@ -3948,9 +3948,13 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
 	var offset = 0;
 	
 	$scope.search_friend = function(query) {
-		if(query != undefined) {
+		if(query != undefined && query.trim() != '') {
 			$scope.searchResult = searchFriendService.userSearch.get({q:query});
 		}
+	}
+	
+	$scope.searchReset = function() {
+	   $scope.searchResult = [];
 	}
 	
 	$scope.sendPhoto = function() {

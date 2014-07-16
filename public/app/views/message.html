@@ -18,10 +18,11 @@
                         <li id="conversation" data-ng-class="selectedIndex == $index?'message-list-active':conv.isReaded == true?'message-list-unread':'message-list-read'" data-ng-repeat="conv in conversations" data-ng-click="getMessages(conv.id, conv.uid); setSelectedIndex($index)">
                             <img data-ng-src="/image/get-mini-image-by-id/{{conv.uid}}" style="height:50px;">
                             <div class="message-preview"><h5>{{conv.nm}}</h5><p data-ng-bind-html="conv.lm"></p></div>
-                            <div><p> <span class="wall-user-actState-date" >{{ conv.cd| date:'hh:mm'}}
-                            </span></p>
-                            <a class="message-del-icon" data-ng-confirm-click="deleteConversation(conv.id)" data-ng-confirm-message=確認移除此訊息"></a>
-                            <p class="message-toolstip">移除</p>
+                            <div>
+                                <p><span class="message-timestamp" >{{ conv.cd| date:'hh:mm a'}}</span></p>
+                                <a class="message-del-icon" data-ng-confirm-click="deleteConversation(conv.id)" data-ng-confirm-message=確認移除此訊息"></a>
+                                <p class="message-tooltips">移除</p>
+                                <a ng-show="true" class="message-notice"></a>
                             </div>
                         </li>
                     </ul>
@@ -32,7 +33,7 @@
     				        <div id="main-search-box" name="main-search-box" class="pull-right" >
     				            <a id="main-search-wrapper" class="ng-pristine ng-valid">
     				                <div class="input-group innerB main-search">
-    				                    <input type="text" name="searchfield" id="searchfield" class="form-control" ng-model="name" data-ng-keyup="search_friend(name)" placeholder="尋找朋友">
+    				                    <input type="text" name="searchfield" id="searchfield" class="form-control" ng-model="search_name" data-ng-keyup="search_friend(search_name)" placeholder="尋找朋友">
     				                    <div class="input-group-btn">
     				                       <button id="submit-search" name="submit" class="btn btn-default" type="submit">
     				                           <i class="fa fa-search"></i>
@@ -41,16 +42,14 @@
     				                </div>
     				            </a>
     				            <div class="row">
-    				                <ul class="dropdown-menu chat media-list hide" ng-class="{show : searchResult.length > 0 && name.length > 0}">
+    				                <ul class="dropdown-menu chat media-list hide" ng-class="{show : searchResult.length > 0 && search_name.length > 0}">
     				                    <li class="media" ng-repeat="search in searchResult" ng-switch="search.tp">
-    				                        <a ng-switch-when="USER" class="pull-left" data-ng-click="startConversation(search.id)">
+    				                        <a ng-switch-when="USER" class="pull-left" data-ng-click="startConversation(search.id);searchReset();">
     				                            <img class="media-object thumb" data-ng-src="/image/get-mini-image-by-id/{{search.id}}" alt="50x50" width="50"/>
     				                        </a>
-    				                        
     				                        <div class="media-body">
-    				                            
     				                            <h5 class="media-heading">{{search.nm}}</h5>
-    				                            <p class="margin-none">{{search.tp}}</p>
+    				                            <!--p class="margin-none">{{search.tp}}</p-->
     				                        </div>
     				                    </li>
     				                </ul>
