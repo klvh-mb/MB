@@ -21,7 +21,6 @@ import models.Post;
 import models.Resource;
 import models.User;
 import play.data.DynamicForm;
-import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -65,17 +64,6 @@ public class UserController extends Controller {
 	public static Result aboutUser() {
 		final User localUser = Application.getLocalUser(session());
 		return ok(Json.toJson(localUser));
-	}
-	
-	@Transactional
-	public static Result updateUserDisplayName() {
-		Form<String> form = DynamicForm.form(String.class).bindFromRequest();
-		String displayName = form.data().get("displayName");
-		final User localUser = Application.getLocalUser(session());
-		localUser.displayName = displayName;
-		localUser.name = displayName;
-		localUser.merge();
-		return ok("true");
 	}
 	
 	@Transactional
@@ -162,6 +150,8 @@ public class UserController extends Controller {
         final User localUser = Application.getLocalUser(session());
         localUser.firstName = firstName;
         localUser.lastName = lastName;
+        localUser.displayName = firstName + " " + lastName;
+        localUser.name = localUser.displayName;
         localUser.userInfo.birthYear = birthYear;
         localUser.userInfo.location = location;
         localUser.userInfo.gender = gender;

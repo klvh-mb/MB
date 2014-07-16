@@ -82,7 +82,6 @@ POST    /loginTest                  controllers.Application.doLoginForTest
 GET		/get-user-info				controllers.UserController.getUserInfo
 GET		/about-user					controllers.UserController.aboutUser
 POST	/updateUserProfileData		controllers.UserController.updateUserProfileData
-POST	/updateUserDisplayName		controllers.UserController.updateUserDisplayName
 POST	/image/upload-profile-photo		controllers.UserController.uploadProfilePhoto
 POST	/image/upload-cover-photo		    controllers.UserController.uploadCoverPhoto
 GET     /get-all-districts            controllers.Application.getAllDistricts
