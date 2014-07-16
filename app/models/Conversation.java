@@ -126,21 +126,18 @@ public class Conversation extends domain.Entity implements Serializable,
 		return conversation;
 	}
 
-	public String getLastMessage() {
-		Message message;
-		
-		Query q = JPA
-					.em()
-					.createQuery(
-							"SELECT m FROM Message m WHERE m.date=(SELECT MAX(date) FROM Message WHERE conversation_id = ?1)");
-			q.setParameter(1, this.id);
-		try{
-			message = (Message) q.getSingleResult();
-			return message.body;
-		}catch(Exception e){
-			return null;
-		}
-	}
+    public String getLastMessage() {
+        Message message;
+        Query q = JPA.em().createQuery(
+                "SELECT m FROM Message m WHERE m.date=(SELECT MAX(date) FROM Message WHERE conversation_id = ?1)");
+        q.setParameter(1, this.id);
+        try{
+            message = (Message) q.getSingleResult();
+            return message.body;
+        } catch(Exception e){
+            return null;
+        }
+    }
 
 	public static Conversation findById(Long id) {
 		Query q = JPA.em().createQuery("SELECT c FROM Conversation c where id = ?1");

@@ -149,6 +149,9 @@
     content: "新訊息";
     font-size: small;
 }
+.message-notice:hover {
+    text-decoration: none;
+}
 #message-list .message-preview {
     width: 55%;
     padding: 0 0 0 5px;

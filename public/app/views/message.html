@@ -19,7 +19,8 @@
                             <img data-ng-src="/image/get-mini-image-by-id/{{conv.uid}}" style="height:50px;">
                             <div class="message-preview"><h5>{{conv.nm}}</h5><p data-ng-bind-html="conv.lm"></p></div>
                             <div>
-                                <p><span class="message-timestamp" >{{ conv.cd| date:'hh:mm a'}}</span></p>
+                                <p ng-show="conv.isToday"><span class="message-timestamp">{{conv.lmd|date:'hh:mm a'}}</span></p>
+                                <p ng-show="!conv.isToday"><span class="message-timestamp">{{conv.lmd|date:'yyyy-M-d'}}</span></p>
                                 <a class="message-del-icon" data-ng-confirm-click="deleteConversation(conv.id)" data-ng-confirm-message=確認移除此訊息"></a>
                                 <p class="message-tooltips">移除</p>
                                 <a ng-show="true" class="message-notice"></a>
@@ -74,7 +75,7 @@
                                                 <img class="message-body-image" data-ng-src="/image/get-message-image-by-id/{{msg.imgs}}" data-ng-click="showImage(msg.imgs)" alt="">
                                             </a>
                                         </div>
-                                        <span class="message-timestamp">{{ msg.cd| date:'hh:mm a'}}</span>
+                                        <span class="message-timestamp">{{msg.cd|date:'hh:mm a'}}</span>
                                     </div>
                                 </div>
                             </li>
@@ -88,7 +89,7 @@
                                                 <img class="message-body-image" data-ng-src="/image/get-message-image-by-id/{{msg.imgs}}" data-ng-click="showImage(msg.imgs)" alt="">
                                             </a>
                                         </div>
-                                        <span class="message-timestamp">{{ msg.cd| date:'hh:mm a'}}</span>
+                                        <span class="message-timestamp">{{msg.cd|date:'hh:mm a'}}</span>
                                     </div>
                                 </div>
                             </li>
