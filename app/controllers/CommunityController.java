@@ -144,13 +144,13 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getPostImageById(Long id) {
-    	response().setHeader("Cache-Control", "max-age=3600");
+    	response().setHeader("Cache-Control", "max-age=604800");
         return ok(Resource.findById(id).getThumbnailFile());
     }
     
     @Transactional
     public static Result getMiniCoverCommunityImageById(Long id) {
-    	response().setHeader("Cache-Control", "max-age=3600");
+        response().setHeader("Cache-Control", "max-age=10");
         Community community = Community.findById(id);
         if(community.getPhotoProfile() != null) {
             return ok(new File(community.getPhotoProfile().getMini()));
@@ -164,7 +164,7 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getThumbnailCoverCommunityImageById(Long id) {
-    	response().setHeader("Cache-Control", "max-age=3600");
+        response().setHeader("Cache-Control", "max-age=10");
         final Community community = Community.findById(id);
         if(community.getPhotoProfile() != null) {
             return ok(new File(community.getPhotoProfile().getThumbnail()));
@@ -195,7 +195,7 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getCommunityImageById(Long id) {
-        logger.underlyingLogger().debug("getCommunityImageById");
+        response().setHeader("Cache-Control", "max-age=10");
         final Community community = Community.findById(id);
         if(community.getPhotoProfile() != null) {
             return ok(new File(community.getPhotoProfile().getThumbnail()));
@@ -761,7 +761,7 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getOriginalPostImageByID(Long id) {
-        logger.underlyingLogger().debug("getOriginalPostImageByID");
+        response().setHeader("Cache-Control", "max-age=604800");
         Resource resource = Resource.findById(id);
         return ok(resource.getRealFile());
     }
@@ -878,6 +878,7 @@ public class CommunityController extends Controller{
 	
 	@Transactional
 	public static Result getCommentImageById(Long id) {
+	    response().setHeader("Cache-Control", "max-age=604800");
 		return ok(Resource.findById(id).getThumbnailFile());
 	}
 	

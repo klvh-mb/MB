@@ -333,6 +333,7 @@ public class ArticleController extends Controller {
 	
 	@Transactional
     public static Result getImage(Long year, Long month, Long date, String name) {
+	    response().setHeader("Cache-Control", "max-age=604800");
         String path = getImageUrl(year, month, date, name);
         logger.underlyingLogger().debug(path);
         return ok(new File(path));

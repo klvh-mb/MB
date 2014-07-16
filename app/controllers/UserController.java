@@ -116,6 +116,7 @@ public class UserController extends Controller {
 	
 	@Transactional
 	public static Result getProfileImage() {
+	    response().setHeader("Cache-Control", "max-age=10");
 		final User localUser = Application.getLocalUser(session());
 		if(localUser.getPhotoProfile() != null) {
 			return ok(localUser.getPhotoProfile().getRealFile());
@@ -129,6 +130,7 @@ public class UserController extends Controller {
 	
 	@Transactional
 	public static Result getCoverImage() {
+	    response().setHeader("Cache-Control", "max-age=10");
 		final User localUser = Application.getLocalUser(session());
 		if(localUser.getCoverProfile() != null) {
 			return ok(localUser.getCoverProfile().getRealFile());
@@ -310,6 +312,7 @@ public class UserController extends Controller {
     
     @Transactional
 	public static Result getProfileImageByID(Long id) {
+        response().setHeader("Cache-Control", "max-age=10");
     	User user = User.findById(id);
 		if(user.getPhotoProfile() != null) {
 			return ok(user.getPhotoProfile().getRealFile());
@@ -323,6 +326,7 @@ public class UserController extends Controller {
 	
     @Transactional
 	public static Result getOriginalImageByID(Long id) {
+        response().setHeader("Cache-Control", "max-age=10");
     	User user = User.findById(id);
 		if(user.getPhotoProfile() != null) {
 			return ok(user.getPhotoProfile().getRealFile());
@@ -332,11 +336,11 @@ public class UserController extends Controller {
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}
-		
 	}
     
 	@Transactional
 	public static Result getCoverImageByID(Long id) {
+	    response().setHeader("Cache-Control", "max-age=10");
 		User user = User.findById(id);
 		if(user.getCoverProfile() != null) {
 			return ok(user.getCoverProfile().getRealFile());
@@ -346,13 +350,12 @@ public class UserController extends Controller {
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}
-		
 	}
 	
 	@Transactional
 	public static Result getMiniVersionImageByID(Long id) {
 		final User user = User.findById(id);
-		response().setHeader("Cache-Control", "max-age=3600");
+		response().setHeader("Cache-Control", "max-age=10");
 		if(user.getPhotoProfile() != null) {
 			return ok(new File(user.getPhotoProfile().getMini()));
 		} 
@@ -363,13 +366,12 @@ public class UserController extends Controller {
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}
-		
 	}
 	
 	@Transactional
 	public static Result getMiniCommentVersionImageByID(Long id) {
 		final User user = User.findById(id);
-		response().setHeader("Cache-Control", "max-age=3600");
+		response().setHeader("Cache-Control", "max-age=10");
 		if(user.getPhotoProfile() != null) {
 			return ok(new File(user.getPhotoProfile().getMiniComment()));
 		} 
@@ -380,13 +382,12 @@ public class UserController extends Controller {
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}
-		
 	}
 	
 	@Transactional
 	public static Result getThumbnailVersionImageByID(Long id) {
 		final User user = User.findById(id);
-		response().setHeader("Cache-Control", "max-age=3600");
+		response().setHeader("Cache-Control", "max-age=10");
 		if(user.getPhotoProfile() != null) {
 			return ok(new File(user.getPhotoProfile().getThumbnail()));
 		}
@@ -400,7 +401,7 @@ public class UserController extends Controller {
 	
 	@Transactional
 	public static Result getThumbnailCoverImageByID(Long id) {
-		response().setHeader("Cache-Control", "max-age=3600");
+		response().setHeader("Cache-Control", "max-age=10");
 		final User user = User.findById(id);
 		if(user.getCoverProfile() != null) {
 			return ok(new File(user.getCoverProfile().getThumbnail()));
@@ -514,7 +515,6 @@ public class UserController extends Controller {
         }
     }
 	
-	
 	@Transactional
 	public static Result getUnreadMsgCount() {
 		final User localUser = Application.getLocalUser(session());
@@ -525,15 +525,13 @@ public class UserController extends Controller {
 	
 	@Transactional
 	public static Result getMessageImageByID(Long id) {
+	    response().setHeader("Cache-Control", "max-age=604800");
 		return ok(Resource.findById(id).getThumbnailFile());
 	}
 
     @Transactional
     public static Result getOriginalPrivateImageByID(Long id) {
-        logger.underlyingLogger().debug("getOriginalPrivateImageByID");
-        Resource resource = Resource.findById(id);
-        return ok(resource.getRealFile());
+        response().setHeader("Cache-Control", "max-age=604800");
+        return ok(Resource.findById(id).getRealFile());
     }
-
-	
 }
