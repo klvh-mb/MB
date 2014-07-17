@@ -49,6 +49,10 @@ public class Conversation extends domain.Entity implements Serializable,
 	public Date user1_time;
 	
 	public Date user2_time;
+	
+	public Date user1_archive_time;
+	
+	public Date user2_archive_time;
 
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "conversation")
 	public Set<Message> messages = new TreeSet<Message>();
@@ -126,18 +130,44 @@ public class Conversation extends domain.Entity implements Serializable,
 		return conversation;
 	}
 
-    public String getLastMessage() {
-        Message message;
-        Query q = JPA.em().createQuery(
-                "SELECT m FROM Message m WHERE m.date=(SELECT MAX(date) FROM Message WHERE conversation_id = ?1)");
-        q.setParameter(1, this.id);
-        try{
-            message = (Message) q.getSingleResult();
-            return message.body;
-        } catch(Exception e){
-            return null;
-        }
-    }
+	public String getLastMessage() {
+		Message message;
+		
+		Query q = JPA
+					.em()
+					.createQuery(
+							"SELECT m FROM Message m WHERE m.date=(SELECT MAX(date) FROM Message WHERE conversation_id = ?1)");
+			q.setParameter(1, this.id);
+		try{
+			message = (Message) q.getSingleResult();
+			String body = message.body;
+			String data = null;
+			int i = body.indexOf("<img");
+			int pointer = i;
+			if(i < 21 && i != -1){
+				data = body.substring(0, i);
+				while( i < 20 ){
+					if(body.length() == pointer){
+						break;
+					}
+					if(body.indexOf("<img",pointer-1) == pointer){
+						data = data.concat(body.substring(body.indexOf("<img",pointer-1), body.indexOf("\">",pointer-1)+2));
+						pointer = body.indexOf("\">",pointer-1)+2;
+					} else { 
+						data = data + body.charAt(Math.min(body.length(), pointer));
+						pointer++;
+					}
+					i++;
+				}
+				
+			} else {
+				data = body.substring(0, Math.min(body.length(), 20));
+			}
+			return data;
+		}catch(Exception e){
+			return null;
+		}
+	}
 
 	public static Conversation findById(Long id) {
 		Query q = JPA.em().createQuery("SELECT c FROM Conversation c where id = ?1");

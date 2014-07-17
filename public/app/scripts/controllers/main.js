@@ -3928,7 +3928,7 @@ minibean.service('searchFriendService',function($resource){
 	);
 });
 
-minibean.controller('UserConversationController',function($scope, $timeout, $upload, $routeParams, searchFriendService, usSpinnerService, getMessageService, $http, allConversationService){
+minibean.controller('UserConversationController',function($scope, $filter, $timeout, $upload, $routeParams, searchFriendService, usSpinnerService, getMessageService, $http, allConversationService){
 
 	if($routeParams.id == 0){
 		$scope.conversations = allConversationService.UserAllConversation.get(function(){
@@ -3998,6 +3998,7 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
 		allConversationService.startConeversation.get({id: uid},
 				function(data){
 			$scope.conversations = data;
+			$scope.messages = 0;
 			usSpinnerService.stop('loading...');
 		});
 	}
@@ -4008,6 +4009,7 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
 		allConversationService.deleteConeversation.get({id: cid},
 				function(data){
 			$scope.conversations = data;
+			$scope.messages = 0;
 			usSpinnerService.stop('loading...');
 		});
 	}
@@ -4103,7 +4105,15 @@ minibean.controller('UserConversationController',function($scope, $timeout, $upl
                     
 		});
 	};
-
+	$scope.currentRole = "some";
+	$scope.CreateHeader = function(role) {
+		var date = $filter('date')(new Date(role), 'dd/MM/yyyy');
+	      var showHeader = (date !=$scope.currentRole); 
+	       $scope.currentRole = date;
+	      return showHeader;
+	}
+	
+	
 });
 
 
