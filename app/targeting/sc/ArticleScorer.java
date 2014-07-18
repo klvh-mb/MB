@@ -7,6 +7,7 @@ import targeting.Scorable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,6 +22,7 @@ public class ArticleScorer {
     private static final int CHILDREN_GENDER_POINTS = 70;
     private static final int LIKES_POINTS = 50;
     private static final int PUB_DATE_POINTS = 50;
+    private static final int RANDOM_POINTS = 30;        // adding in randomness
 
 
     public static List<Scorable<Article>> markScores(TargetProfile profile, List<Article> articles) {
@@ -52,8 +54,11 @@ public class ArticleScorer {
 
             long nowMs = System.currentTimeMillis();
             long diffMs = nowMs - article.publishedDate.getTime();
-            double percent = (1d - ((double) diffMs / (double) nowMs));
-            score += percent * PUB_DATE_POINTS;
+            double timePercent = (1d - ((double) diffMs / (double) nowMs));
+            score += timePercent * PUB_DATE_POINTS;
+
+            double randomPercent = ThreadLocalRandom.current().nextDouble(0, 1d);
+            score += randomPercent * RANDOM_POINTS;
 
             Scorable<Article> scorable = new Scorable<>(score, article);
             results.add(scorable);

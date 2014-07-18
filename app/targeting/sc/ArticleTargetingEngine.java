@@ -1,18 +1,22 @@
 package targeting.sc;
 
+import common.cache.ArticleSliderCache;
 import common.model.TargetGender;
 import common.model.TargetProfile;
 import common.utils.NanoSecondStopWatch;
+import common.utils.StringUtil;
 import domain.SocialObjectType;
 import models.*;
 
 import play.db.jpa.JPA;
+import scala.collection.parallel.ParIterableLike;
 import targeting.Scorable;
 import targeting.ScoreSortedList;
 
 import javax.persistence.Query;
-
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,24 +39,41 @@ public class ArticleTargetingEngine {
      * 6) Filter:   3m     < 6m    < A.min     < A.max
      */
 
+    /**
+     * @param user
+     * @param k
+     * @return
+     */
     public static List<Article> getTargetedArticles(User user, int k) {
         if (user == null) {
             throw new IllegalArgumentException("user is null");
         }
+
+        List<Article> results;
+        boolean fromCache = false;
+
         final NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
-        TargetProfile profile = TargetProfile.fromUser(user);
-        logger.underlyingLogger().info("[u="+user.getId()+"] getTargetedArticles. "+profile);
+        List<Long> scIds = ArticleSliderCache.getTargetedArticles(user.getId(), k);
+        if (scIds != null) {
+            results = query(scIds);
+            fromCache = true;
+        }
+        else {
+            TargetProfile profile = TargetProfile.fromUser(user);
+            logger.underlyingLogger().info("[u="+user.getId()+"] getTargetedArticles query. "+profile);
 
-        List<Article> unRankedRes = query(user, profile, false, false);
-        if (unRankedRes.size() < k) {
-            unRankedRes = query(user, profile, true, true);
+            List<Article> unRankedRes = query(user, profile, false, false);
+            if (unRankedRes.size() < k) {
+                unRankedRes = query(user, profile, true, true);
+            }
+
+            results = rankAndFunnel(profile, unRankedRes, k);
+            ArticleSliderCache.cacheTargetedArticles(user.getId(), k, toIdList(results));
         }
 
-        List<Article> results = rankAndFunnel(profile, unRankedRes, k);
-
         sw.stop();
-        logger.underlyingLogger().info("[u="+user.getId()+"] getTargetedArticles count="+results.size()+". Took "+sw.getElapsedMS()+"ms");
+        logger.underlyingLogger().info("[u="+user.getId()+"] getTargetedArticles cached="+fromCache+" count="+results.size()+". Took "+sw.getElapsedMS()+"ms");
         return results;
     }
 
@@ -158,4 +179,21 @@ public class ArticleTargetingEngine {
 		return (List<Article>)q.getResultList();
     }
 
+    static List<Article> query(List<Long> scIds) {
+        if (scIds == null || scIds.size() == 0) {
+            return Collections.emptyList();
+        }
+
+        String idsForIn = StringUtil.collectionToString(scIds, ",");
+        Query query = JPA.em().createQuery("SELECT a from Article a where a.id in ("+idsForIn+") order by FIELD(a.id ,"+idsForIn+")");
+        return (List<Article>)query.getResultList();
+    }
+
+    static List<Long> toIdList(List<Article> articles) {
+        List<Long> ids = new ArrayList<>();
+        for (Article article : articles) {
+            ids.add(article.getId());
+        }
+        return ids;
+    }
 }
