@@ -3932,7 +3932,9 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
 
 	if($routeParams.id == 0){
 		$scope.conversations = allConversationService.UserAllConversation.get(function(){
-			$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
+			if($scope.conversations.length > 0){
+				$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
+			}
 		});
 	} else {
 		$scope.conversations = allConversationService.startConeversation.get({id: $routeParams.id} ,function(){
@@ -4010,6 +4012,7 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
 				function(data){
 			$scope.conversations = data;
 			$scope.messages = 0;
+			$scope.noMore = false;
 			usSpinnerService.stop('loading...');
 		});
 	}
@@ -4030,7 +4033,12 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
 				$scope.noMore = false;
 			}
 			offset++;
+			$timeout(function(){
+				var objDiv = document.getElementById('message-area');
+				objDiv.scrollTop = objDiv.scrollHeight;
+		    });
 		});
+		
 	}
 	
 	$scope.showImage = function(imageId) {
@@ -4048,18 +4056,24 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
 				function(data){
 			$scope.noMore = true;
 			console.log(data);
-			var objDiv = document.getElementById("message-area");
-			objDiv.scrollTop = objDiv.scrollHeight;
+			var objDiv = document.getElementById('message-area');
+			var height = objDiv.scrollHeight;
+			alert(height);
 			var messages = data.message;
 			$scope.unread_msg_count.count = data.counter;
 			for (var i = 0; i < messages.length; i++) {
 				$scope.messages.push(messages[i]);
 		    }
-			if($scope.messages.length < DefaultValues.CONVERSATION_MESSAGE_COUNT){
+			if(data.message.length < DefaultValues.CONVERSATION_MESSAGE_COUNT){
 				$scope.noMore = false;
 			}
 			usSpinnerService.stop('loading...');
 			offset++;
+			$timeout(function(){
+    			var objDiv = document.getElementById('message-area');
+    			objDiv.scrollTop = objDiv.scrollHeight - height;
+    			alert(objDiv.scrollTop);
+    	    });
 		});
 	}
 	
@@ -4080,6 +4094,12 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
                     	conv.lm = $scope.messages[0].txt;
                     }
                 });
+				
+				$timeout(function(){
+        			var objDiv = document.getElementById('message-area');
+        			objDiv.scrollTop = objDiv.scrollHeight;
+        	    });
+				
 				if($scope.selectedFiles.length == 0) {
                     return;
                 }
@@ -4101,8 +4121,11 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
                             message.imgs = data;
                         }
                     });
+                    $timeout(function(){
+            			var objDiv = document.getElementById('message-area');
+            			objDiv.scrollTop = objDiv.scrollHeight;
+            	    });
                 });
-                    
 		});
 	};
 	$scope.currentRole = "some";

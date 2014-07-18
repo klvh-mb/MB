@@ -459,7 +459,8 @@ public class UserController extends Controller {
 	
 	@Transactional
     public static Result deleteConversation(Long id) {
-        Conversation.deleteConversation(id);
+		final User localUser = Application.getLocalUser(session());
+        Conversation.archiveConversation(id, localUser);
         return getAllConversation();
     }
 	
