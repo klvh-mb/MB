@@ -16,8 +16,6 @@ public class ArticleSliderCache {
 
     private static final int ttlSecs = 15 * 60;     // 15 min
 
-    private static final JedisCache jedisCache = new JedisCache();
-
     /**
      * @param userId
      * @param k
@@ -25,7 +23,7 @@ public class ArticleSliderCache {
      */
     public static List<Long> getTargetedArticles(Long userId, int k) {
         String key = JedisCache.ARTICLE_SLIDER_PREFIX+userId+"_"+k;
-        String value = jedisCache.get(key);
+        String value = JedisCache.cache().get(key);
 
         List<Long> result = null;
         if (value != null) {
@@ -52,8 +50,7 @@ public class ArticleSliderCache {
         String key = JedisCache.ARTICLE_SLIDER_PREFIX+userId+"_"+k;
         String value = StringUtil.collectionToString(scIds, ",");
 
-        jedisCache.put(key, value);
-        jedisCache.expire(key, ttlSecs);
+        JedisCache.cache().put(key, value, ttlSecs);
     }
 
 }

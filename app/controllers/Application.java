@@ -16,7 +16,6 @@ import models.UserChild;
 import models.UserInfo;
 import models.UserInfo.ParentType;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.elasticsearch.index.query.AndFilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
@@ -39,6 +38,7 @@ import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
 import viewmodel.LocationVM;
 import viewmodel.PostIndexVM;
+import viewmodel.TodayWeatherInfoVM;
 import views.html.signup;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
@@ -54,6 +54,7 @@ import com.mnt.exception.SocialObjectNotJoinableException;
 import common.model.TargetGender;
 import common.model.TargetProfile;
 import common.model.TargetYear;
+import common.model.TodayWeatherInfo;
 import common.utils.DateTimeUtil;
 import domain.DefaultValues;
 
@@ -68,6 +69,12 @@ public class Application extends Controller {
 
 	public static User getSuperAdmin() {
 	    return User.getSuperAdmin();
+	}
+	
+	@Transactional
+	public static Result getTodayWeatherInfo() {
+	    TodayWeatherInfo info = TodayWeatherInfo.getInfo();
+	    return ok(Json.toJson(new TodayWeatherInfoVM(info)));
 	}
 	
 	@Transactional
@@ -378,7 +385,7 @@ public class Application extends Controller {
 		return new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(new Date(t));
 	}
     
-   @Transactional
+	@Transactional
     public static Result getAllDistricts() {
         List<Location> locations = Location.getHongKongDistricts();
         List<LocationVM> locationVMs = new ArrayList<>();

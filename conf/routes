@@ -119,7 +119,6 @@ GET		/image/get-message-image-by-id/:id		controllers.UserController.getMessageIm
 GET		/get-unread-msg-count		controllers.UserController.getUnreadMsgCount()
 GET		/image/get-original-private-image-by-id/:id		controllers.UserController.getOriginalPrivateImageByID(id :Long)
 
-
 #Friends
 GET		/get-user-friends			controllers.FriendsController.getUserFriends
 GET 	/get-user-friends-by-ID/:id controllers.FriendsController.getFriendsOfUser(id: Long)
@@ -184,5 +183,7 @@ GET		/unlike-comment/:comment_id				controllers.CommunityController.unlikeTheCom
 
 # indexing with elasic search
 GET		/searchForPosts/index/:query/:community_id/:offset	controllers.Application.searchForPosts(query: String, community_id: Long,offset:Long)
+
+GET     /get-today-weather-info                 controllers.Application.getTodayWeatherInfo()
 
 GET		/image/article/:year/:month/:date/:name			controllers.ArticleController.getImage(year :Long, month :Long, date :Long, name : String)

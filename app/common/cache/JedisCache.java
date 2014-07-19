@@ -6,27 +6,59 @@ import redis.clients.jedis.JedisPool;
 
 import com.typesafe.plugin.RedisPlugin;
 
+import common.serialize.JsonSerializer;
+
 public class JedisCache {
     private static final play.api.Logger logger = play.api.Logger.apply(JedisCache.class);
+    
     private static final String SYS_PREFIX = Play.application().configuration().getString("keyprefix", "prod_");
-
+    
     // All Redis Cache Key Prefix
     public static final String ARTICLE_SLIDER_PREFIX = SYS_PREFIX + "user_sc_";
     public static final String USER_POST_PREFIX = SYS_PREFIX + "user_";
     public static final String COMMUNITY_POST_PREFIX = SYS_PREFIX + "comm_";
-
-
+    
     private static JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
+    
+    private static JedisCache cache = new JedisCache();
     
     public enum Status {
         OK,
         ERROR
     }
     
-    JedisCache() {
+    public static JedisCache cache() {
+        return cache;
+    }
+    
+    private JedisCache() {
+    }
+    
+    public void putObj(String key, Object object) {
+        putObj(key, object, -1);
+    }
+    
+    public void putObj(String key, Object object, int expire) {
+        String json = JsonSerializer.serialize(object);
+        cache.put(key, json, expire);
+    }
+    
+    public Object getObj(String key, Class<?> clazz) {
+        Object object = null;
+        String json = cache.get(key);
+        if (json == null) {
+            return null;
+        } else {
+            object = JsonSerializer.deserialize(json, clazz);
+        }
+        return object;
     }
     
     public Status put(String key, String value) {
+        return put(key, value, -1);
+    }
+    
+    public Status put(String key, String value, int expire) {
         Jedis j = null;
         try {
             j = getResource();
@@ -34,6 +66,9 @@ public class JedisCache {
             if (!"OK".equalsIgnoreCase(ret)) {
                 logger.underlyingLogger().error(ret);
                 return Status.ERROR;
+            }
+            if (expire != -1) {
+                cache.expire(key, expire);
             }
             return Status.OK;
         } finally {

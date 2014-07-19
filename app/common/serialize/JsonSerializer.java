@@ -8,7 +8,7 @@ public class JsonSerializer {
         return Json.toJson(object).toString();
     }
     
-    public static Object deserialize(String json, Class clazz) {
+    public static Object deserialize(String json, Class<?> clazz) {
         return Json.fromJson(Json.parse(json), clazz);
     }
 }

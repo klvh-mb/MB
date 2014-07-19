@@ -11,16 +11,29 @@ minibean.controller('UIController', function($scope, $location, $anchorScroll, $
 });
 
 minibean.controller('AnnouncementsWidgetController',function($scope, $http, announcementsWidgetService) {
-    $scope.announcements = announcementsWidgetService.Announcements.get();
-    //alert(JSON.stringify($scope.announcements));
+    $scope.announcements = announcementsWidgetService.getAnnouncements.get();
 });
 
 minibean.service('announcementsWidgetService',function($resource) {
-    this.Announcements = $resource(
+    this.getAnnouncements = $resource(
             '/get-announcements',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get',isArray:true}
+            }
+    );
+});
+
+minibean.controller('TodayWeatherInfoController',function($scope, $http, todayWeatherInfoService) {
+    $scope.todayWeatherInfo = todayWeatherInfoService.getTodayWeatherInfo.get();
+});
+
+minibean.service('todayWeatherInfoService',function($resource) {
+    this.getTodayWeatherInfo = $resource(
+            '/get-today-weather-info',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
             }
     );
 });

@@ -8,6 +8,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.hibernate.annotations.Index;
@@ -28,17 +29,25 @@ public class Icon {
     @Enumerated(EnumType.STRING)
     public IconType iconType;
     
+    public String info;
+    
     public String url;
     
     public static enum IconType {
-        COMMUNITY_GENERAL
+        COMMUNITY_GENERAL, 
+        WEATHER                 // condition.code is stored in name
     }
     
     public Icon(){}
-    
+
     public Icon(String name, IconType iconType, String url) {
+        this(name, iconType, "", url);
+    }
+    
+    public Icon(String name, IconType iconType, String info, String url) {
         this.name = name;
         this.iconType = iconType;
+        this.info = info;
         this.url = url;
     }
     
@@ -50,6 +59,17 @@ public class Icon {
     	Query q = JPA.em().createQuery("Select i from Icon i where iconType = ?1");
     	q.setParameter(1, iconType);
     	return (List<Icon>)q.getResultList();
+    }
+    
+    public static Icon getWeatherIcon(int conditionCode) {
+        Query q = JPA.em().createQuery("Select i from Icon i where name = ?1 and iconType = ?2");
+        q.setParameter(1, String.valueOf(conditionCode));
+        q.setParameter(2, IconType.WEATHER);
+        try {
+            return (Icon)q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
     
     public String getName() {
