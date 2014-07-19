@@ -1,7 +1,6 @@
 package common.cache;
 
 import common.utils.StringUtil;
-import play.Play;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +14,6 @@ import java.util.List;
 public class ArticleSliderCache {
     private static final play.api.Logger logger = play.api.Logger.apply(ArticleSliderCache.class);
 
-    private static String prefix = Play.application().configuration().getString("keyprefix", "prod_") + "user_sc_";
-
     private static final int ttlSecs = 15 * 60;     // 15 min
 
     private static final JedisCache jedisCache = new JedisCache();
@@ -27,7 +24,7 @@ public class ArticleSliderCache {
      * @return
      */
     public static List<Long> getTargetedArticles(Long userId, int k) {
-        String key = prefix+userId+"_"+k;
+        String key = JedisCache.ARTICLE_SLIDER_PREFIX+userId+"_"+k;
         String value = jedisCache.get(key);
 
         List<Long> result = null;
@@ -52,7 +49,7 @@ public class ArticleSliderCache {
      * @param scIds
      */
     public static void cacheTargetedArticles(Long userId, int k, List<Long> scIds) {
-        String key = prefix+userId+"_"+k;
+        String key = JedisCache.ARTICLE_SLIDER_PREFIX+userId+"_"+k;
         String value = StringUtil.collectionToString(scIds, ",");
 
         jedisCache.put(key, value);

@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.persistence.Query;
 
+import common.cache.JedisCache;
 import common.utils.NanoSecondStopWatch;
 import models.Post;
 import models.User;
@@ -25,9 +26,8 @@ public class FeedProcessor {
 
     private static final int MAX_COMM_QUEUE_LENGTH = 200;
 
-	private static String prefix = Play.application().configuration().getString("keyprefix", "prod_");
-	private static final String USER = prefix + "user_";
-    private static final String COMMUNITY = prefix + "comm_";   // single queue for community posts
+	private static final String USER = JedisCache.USER_POST_PREFIX;
+    private static final String COMMUNITY = JedisCache.COMMUNITY_POST_PREFIX;   // single queue for community posts
 
     /**
      * @param userId
