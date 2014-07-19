@@ -106,9 +106,8 @@ public class Conversation extends domain.Entity implements Serializable,
 		Query q = JPA
 				.em()
 				.createQuery(
-						"SELECT c from Conversation c  where ((user1 = ?1 or user2 = ?1)) order by updated_date desc");
+						"SELECT c from Conversation c  where ((user1 = ?1 and (user1_archive_time < conv_time or user1_archive_time is NULL )) or (user2 = ?1 and (user2_archive_time < conv_time or user2_archive_time is NULL))) order by updated_date desc");
 		q.setParameter(1, user);
-	
 		
 		try {
 			
@@ -196,15 +195,47 @@ public class Conversation extends domain.Entity implements Serializable,
 		}
 		
 	}
+	
+	public static void archiveConversation(Long id, User user) {
+		// TODO Auto-generated method stub
+		Conversation conversation = Conversation.findById(id);
+		conversation.setArchiveTime(user);
+	}
+	
 
-	public static void deleteConversation(Long id) {
+	private void deleteConversation() {
 		// TODO Auto-generated method stub
 		Query q = JPA.em().createQuery("DELETE FROM Message where conversation_id = ?1");
-		q.setParameter(1, id);
+		q.setParameter(1, this.id);
 		q.executeUpdate();
 		q = JPA.em().createQuery("DELETE FROM Conversation where id = ?1");
         q.setParameter(1, id);
         q.executeUpdate();
+	}
+	
+	private void setArchiveTime(User user){
+		if(this.user1 == user){
+			if(this.user2_archive_time == null){
+				user1_archive_time = new Date();
+			} else {
+				if (this.user2_archive_time.compareTo(this.conv_time) < 0) {
+					this.user1_archive_time = new Date();
+		        } else {
+		        	this.deleteConversation();
+		        }
+			}
+		} else {
+			if(this.user1_archive_time == null){
+				user2_archive_time = new Date();
+			} else {
+				if (this.user1_archive_time.compareTo(this.conv_time) < 0) {
+					this.user2_archive_time = new Date();
+		        } else {
+		        	this.deleteConversation();
+		        }
+			}
+		}
+		
 	}
 	
 }

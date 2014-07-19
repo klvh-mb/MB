@@ -55,17 +55,27 @@ public class Message  extends SocialObject implements Comparable<Message> {
 		 return date.compareTo(o.date);
 	}
 
-	public static List<Message> findBetween(Conversation id, Long offset, User user) {
+	public static List<Message> findBetween(Conversation conversation, Long offset, User user) {
 		Query q = JPA
 				.em()
 				.createQuery(
-						"SELECT c from Message c  where conversation_id = ?2 order by c.date desc ");
-		q.setParameter(2, id);
-	
-		if(id.user1 == user){
-			id.user1_time = new Date();
+						"SELECT c from Message c  where conversation_id = ?2 and c.date > ?3 order by c.date desc ");
+		q.setParameter(2, conversation);
+		if(conversation.user1 == user){
+			conversation.user1_time = new Date();
+			if(conversation.user1_archive_time == null){
+				q.setParameter(3, new Date(0));
+			} else {
+				q.setParameter(3, conversation.user1_archive_time);
+			}
+			
 		} else { 
-			id.user2_time = new Date();
+			conversation.user2_time = new Date();
+			if(conversation.user2_archive_time == null){
+				q.setParameter(3, new Date(0));
+			} else {
+				q.setParameter(3, conversation.user2_archive_time);
+			}
 		}
 		
 		try {
