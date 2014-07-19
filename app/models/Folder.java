@@ -143,22 +143,32 @@ public class Folder extends SocialObject implements Serializable, Creatable, Upd
 			int height = bimg.getHeight();
 			
 			if(width >= height) {
-                Thumbnails
-                        .of(source)
-                        .width((int) (880 * 1.5d))
-                        .keepAspectRatio(true)
-                        .toFiles(parentFile, Rename.NO_CHANGE);
+                int targetFullWidth = (int) (880 * 1.5d);
+                if (width > targetFullWidth) {
+                    Thumbnails
+                            .of(source)
+                            .width(targetFullWidth)
+                            .keepAspectRatio(true)
+                            .toFiles(parentFile, Rename.NO_CHANGE);
+                } else {
+                    FileUtils.copyFile(source, new java.io.File(resource.getPath()));
+                }
 				Thumbnails
                         .of(source)
                         .width(255)
                         .keepAspectRatio(true)
                         .toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
 			} else {
-                Thumbnails
-                        .of(source)
-                        .height((int) (620 * 1.5d))
-                        .keepAspectRatio(true)
-                        .toFiles(parentFile, Rename.NO_CHANGE);
+                int targetFullHeight = (int) (620 * 1.5d);
+                if (height > targetFullHeight) {
+                    Thumbnails
+                            .of(source)
+                            .height(targetFullHeight)
+                            .keepAspectRatio(true)
+                            .toFiles(parentFile, Rename.NO_CHANGE);
+                } else {
+                    FileUtils.copyFile(source, new java.io.File(resource.getPath()));
+                }
 				Thumbnails
                         .of(source)
                         .height(255)
