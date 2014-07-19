@@ -99,7 +99,8 @@ public class CommunityController extends Controller{
         File file = picture.getFile();
         try {
             File fileTo = ImageFileUtil.copyImageFileToTemp(file, fileName);
-            Long id = Post.findById(Long.valueOf(postId)).addPostPhoto(fileTo).id;
+            Post post = Post.findById(Long.valueOf(postId));
+            Long id = post.addPostPhoto(fileTo).id;
             return ok(id.toString());
         } catch (IOException e) {
             logger.underlyingLogger().error("Error in uploadPhotoOfPost", e);

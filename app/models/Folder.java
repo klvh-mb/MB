@@ -27,13 +27,14 @@ import domain.SocialObjectType;
 import domain.Updatable;
 
 /**
- * Represent a folder containins a set of Resources
+ * Represent a folder contains a set of Resources
  * 
  */
 @Entity
 
-public class Folder extends  SocialObject implements
-Serializable, Creatable, Updatable{
+public class Folder extends SocialObject implements Serializable, Creatable, Updatable{
+    private static play.api.Logger logger = play.api.Logger.apply(Folder.class);
+
 
 	public Folder() {}
 	
@@ -71,109 +72,109 @@ Serializable, Creatable, Updatable{
 		resource.folder = this;
 		resource.owner = this.owner;
 		resource.save();
-		FileUtils.copyFile(source, new java.io.File(resource.getPath()));
+
+        File parentFile = new java.io.File(resource.getPath()).getParentFile();
+        if (!parentFile.exists()) {
+            boolean mkdirsSuccess = parentFile.mkdirs();
+            if (!mkdirsSuccess) {
+                logger.underlyingLogger().error("Failed to mkdirs: "+parentFile.getName());
+            }
+        }
+
+        // Perf: This copies the original sized file!
+        //FileUtils.copyFile(source, new java.io.File(resource.getPath()));
+
 		if (type == SocialObjectType.PROFILE_PHOTO) {
+            String fileName = new java.io.File(resource.getPath()).getName();
+
 		    Thumbnails
-            .of(source)
-            .height(150 * 2)
-            .width(150 * 2)
-            .keepAspectRatio(true)
-            .toFiles(
-                    new java.io.File(resource.getPath())
-                            .getParentFile(),
-                    Rename.NO_CHANGE);
+                    .of(source)
+                    .height(150 * 2)
+                    .width(150 * 2)
+                    .keepAspectRatio(true)
+                    .toFiles(parentFile, Rename.NO_CHANGE);
 		    
 			Thumbnails
 					.of(source)
 					.height(85 * 2)
 					.width(85 * 2)
 					.keepAspectRatio(true)
-					.toFiles(
-							new java.io.File(resource.getPath())
-									.getParentFile(),
-							Rename.PREFIX_DOT_THUMBNAIL);
+					.toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
 			
 			Thumbnails
 					.of(source)
 					.height(40 * 2)
 					.width(40 * 2)
 					.keepAspectRatio(true)
-					.toFile(new java.io.File(resource.getPath()).getParentFile()
-									+"/mini."+new java.io.File(resource.getPath()).getName());
+					.toFile(parentFile+"/mini."+fileName);
 			
 			Thumbnails
 					.of(source)
 					.height(32 * 2)
 					.width(32 * 2)
 					.keepAspectRatio(true)
-					.toFile(new java.io.File(resource.getPath()).getParentFile()
-							+"/miniComment."+new java.io.File(resource.getPath()).getName());
+					.toFile(parentFile+"/miniComment."+fileName);
 		}
-		if (type == SocialObjectType.COVER_PHOTO) {
+		else if (type == SocialObjectType.COVER_PHOTO) {
+            String fileName = new java.io.File(resource.getPath()).getName();
+
 		    Thumbnails
 					.of(source)
 					.width(580)
 					.keepAspectRatio(true)
-					.toFiles(
-							new java.io.File(resource.getPath())
-									.getParentFile(),
-							Rename.NO_CHANGE);
+					.toFiles(parentFile, Rename.NO_CHANGE);
 
 		    Thumbnails
-                .of(source)
-                .width(250)
-                .keepAspectRatio(true)
-                .toFiles(
-                        new java.io.File(resource.getPath())
-                                .getParentFile(),
-                        Rename.PREFIX_DOT_THUMBNAIL);
+                    .of(source)
+                    .width(250)
+                    .keepAspectRatio(true)
+                    .toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
 			
 			Thumbnails
 					.of(source)
 					.width(120)
 					.keepAspectRatio(true)
-					.toFile(new java.io.File(resource.getPath()).getParentFile()
-									+"/mini."+new java.io.File(resource.getPath()).getName());
+					.toFile(parentFile+"/mini."+fileName);
 		}
-		if (type == SocialObjectType.POST_PHOTO || 
-		        type == SocialObjectType.COMMENT_PHOTO) {
+		else if (type == SocialObjectType.POST_PHOTO ||
+                type == SocialObjectType.COMMENT_PHOTO) {
 			BufferedImage bimg = ImageIO.read(source);
 			int width  = bimg.getWidth();
 			int height = bimg.getHeight();
 			
 			if(width >= height) {
+                Thumbnails
+                        .of(source)
+                        .width((int) (880 * 1.5d))
+                        .keepAspectRatio(true)
+                        .toFiles(parentFile, Rename.NO_CHANGE);
 				Thumbnails
-				.of(source)
-				.width(255)
-				.keepAspectRatio(true)
-				.toFiles(
-						new java.io.File(resource.getPath())
-								.getParentFile(),
-						Rename.PREFIX_DOT_THUMBNAIL);
+                        .of(source)
+                        .width(255)
+                        .keepAspectRatio(true)
+                        .toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
 			} else {
+                Thumbnails
+                        .of(source)
+                        .height((int) (620 * 1.5d))
+                        .keepAspectRatio(true)
+                        .toFiles(parentFile, Rename.NO_CHANGE);
 				Thumbnails
-				.of(source)
-				.height(255)
-				.keepAspectRatio(true)
-				.toFiles(
-						new java.io.File(resource.getPath())
-								.getParentFile(),
-						Rename.PREFIX_DOT_THUMBNAIL);
-			
+                        .of(source)
+                        .height(255)
+                        .keepAspectRatio(true)
+                        .toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
 			}
 		}
-		
-		if (type == SocialObjectType.PRIVATE_PHOTO) {
+		else if (type == SocialObjectType.PRIVATE_PHOTO) {
 			Thumbnails
-			.of(source)
-			.height(150)
-			.width(150)
-			.keepAspectRatio(true)
-			.toFiles(
-					new java.io.File(resource.getPath())
-							.getParentFile(),
-					Rename.PREFIX_DOT_THUMBNAIL);
+                    .of(source)
+                    .height(150)
+                    .width(150)
+                    .keepAspectRatio(true)
+                    .toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
 		}
+
 		this.resources.add(resource);
 		merge();
 		//recordAddedPhoto(owner);
