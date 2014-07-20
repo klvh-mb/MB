@@ -162,9 +162,9 @@ public class DataBootstrap {
         icon.save();
         icon = new Icon("28", IconType.WEATHER, "mostly cloudy (day)", "/assets/app/images/weather/weather_icons-01.png");
         icon.save();
-        icon = new Icon("29", IconType.WEATHER, "partly cloudy (night)", "/assets/app/images/weather/weather_icons-02.png");
+        icon = new Icon("29", IconType.WEATHER, "partly cloudy (night)", "/assets/app/images/weather/weather_icons-10.png");
         icon.save();
-        icon = new Icon("30", IconType.WEATHER, "partly cloudy (day)", "/assets/app/images/weather/weather_icons-06.png");
+        icon = new Icon("30", IconType.WEATHER, "partly cloudy (day)", "/assets/app/images/weather/weather_icons-11.png");
         icon.save();
         icon = new Icon("31", IconType.WEATHER, "clear (night)", "/assets/app/images/weather/weather_icons-04.png");
         icon.save();

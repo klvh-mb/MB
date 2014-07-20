@@ -14,10 +14,8 @@ public abstract class UpgradeScript {
     private static List<UpgradeScript> newUpgradeScripts =  
             new ArrayList<UpgradeScript>(Arrays.asList(
 
-                    //new UpgradeScript_No_Opt(),
-                    //new UpgradeScript_0_1()
-                    //new UpgradeScript_0_2()
-                    new UpgradeScript_0_3()
+                    //new UpgradeScript_No_Opt()
+                    new UpgradeScript_0_4()
             ));
     
     abstract public String getVersion();

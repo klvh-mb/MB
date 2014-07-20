@@ -8,6 +8,17 @@ div[class*="col-xs-"], div[class*="col-sm-"], div[class*="col-md-"], div[class*=
     font-size: 10px;
     margin-right: 2px;
 }
+.glyphicon-exclamation-sign {
+    color: red;
+}
+.glyphicon-check {
+    color: #428bca;
+    font-size: 14px;
+}
+.glyphicon-unchecked {
+    color: #428bca;
+    font-size: 14px;
+}
 .btn {
     padding: 3px 8px;
 }
@@ -449,7 +460,6 @@ a:focus {
     margin: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
     word-break: break-all;
 }
 .slider-menu a {

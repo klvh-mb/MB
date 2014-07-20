@@ -7,7 +7,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=0.5">
+<meta name="viewport" content="width=device-width, initial-scale=0.3">
     <link rel="stylesheet" href="../assets/app/custom-css/textfield.css">
 	<link rel="stylesheet" href="../assets/app/custom-css/bootstrap.css">
 	<link rel="stylesheet" href="../assets/app/custom-css/icon.css">
@@ -47,7 +47,7 @@
                         <!--
                         @if(signupForm.hasErrors && signupForm.errors.get("userExist") != null) { 
                         <div style="width: 100%;text-align: left;margin-bottom: 5px;">
-                            <i class="glyphicon glyphicon-exclamation-sign" style="color: red;"></i>
+                            <i class="glyphicon glyphicon-exclamation-sign"></i>
                             <span class="text-danger">您輸入的電郵已經登記。請重試</span>
                             <!--span class="text-danger">@signupForm.errors.get("userExist").get(0).message</span-->
                         </div>
@@ -56,7 +56,7 @@
                         
                         @if(flash.get("error")) {
                         <div style="width: 100%;text-align: left;margin-bottom: 5px;">
-                            <i class="glyphicon glyphicon-exclamation-sign" style="color: red;"></i>
+                            <i class="glyphicon glyphicon-exclamation-sign"></i>
                             <span class="text-danger">@flash.get("error")</span>
                         </div>
                         }

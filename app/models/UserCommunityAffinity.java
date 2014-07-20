@@ -1,6 +1,8 @@
 package models;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
+
 import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
@@ -8,8 +10,8 @@ import play.db.jpa.Transactional;
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
 import java.util.Date;
 import java.util.List;
 
@@ -96,7 +98,23 @@ public class UserCommunityAffinity extends domain.Entity {
 		return JPA.em().createQuery(q).getResultList();
 	}
 
-
+    public static UserCommunityAffinity findByUserCommunity(Long userId, Long communityId) {
+        CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+        CriteriaQuery<UserCommunityAffinity> q = cb.createQuery(UserCommunityAffinity.class);
+        Root<UserCommunityAffinity> c = q.from(UserCommunityAffinity.class);
+        q.select(c);
+        q.where(cb.and(cb.equal(c.get("userId"), userId), cb.equal(c.get("communityId"), communityId)));
+        try {
+            return JPA.em().createQuery(q).getSingleResult();
+        } catch (NoResultException e) {
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+            return null;
+        } catch (NonUniqueResultException ne) {
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(ne));
+            return null;
+        }
+    }
+    
     public Long getUserId() {
         return userId;
     }
@@ -119,5 +137,9 @@ public class UserCommunityAffinity extends domain.Entity {
 
     public boolean isNewsfeedEnabled() {
         return newsfeedEnabled;
+    }
+    
+    public void setNewsfeedEnabled(boolean newsfeedEnabled) {
+        this.newsfeedEnabled = newsfeedEnabled;
     }
 }

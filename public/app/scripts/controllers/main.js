@@ -1097,7 +1097,21 @@ minibean.service('communityPageService',function($resource){
 			}
 	);
 	
-	
+	this.isNewsfeedEnabled = $resource(
+            '/is-newsfeed-enabled-for-community/:community_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{community_id:'@community_id'}}
+            }
+    );
+    
+	this.toggleNewsfeedEnabled = $resource(
+            '/toggle-newsfeed-enabled-for-community/:community_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{community_id:'@community_id'}}
+            }
+    );
 });
 
 minibean.service('allCommentsService',function($resource){
@@ -1881,12 +1895,22 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
 });
 
 minibean.controller('CommunityPageController', function($scope, $routeParams, $http, profilePhotoModal, searchMembersService, iconsService,
-		allCommentsService, communityPageService,likeFrameworkService, bookmarkPostService, communityJoinService, $upload, $timeout, usSpinnerService){
+		allCommentsService, communityPageService, likeFrameworkService, bookmarkPostService, communityJoinService, $upload, $timeout, usSpinnerService){
 	
 	$scope.$on('$viewContentLoaded', function() {
 		usSpinnerService.spin('loading...');
 	});
 	
+	communityPageService.isNewsfeedEnabled.get({community_id:$routeParams.id}, function(data) {
+        $scope.newsfeedEnabled = data.newsfeedEnabled; 
+	});
+    
+    $scope.toggleNewsfeedEnabled = function(community_id) {
+        communityPageService.toggleNewsfeedEnabled.get({"community_id":community_id}, function(data) {
+            $scope.newsfeedEnabled = data.newsfeedEnabled; 
+        });
+    }
+    
 	$scope.showImage = function(imageId) {
 		$scope.img_id = imageId;
 	}
@@ -1976,8 +2000,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		if (noMore) return;
 		
 		$scope.isBusy = true;
-		communityPageService.GetPosts.get({id:$routeParams.id,offset:offset},
-				function(data){
+		communityPageService.GetPosts.get({id:$routeParams.id,offset:offset}, function(data){
 			var posts = data;
 			if(data.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
 				noMore = true;

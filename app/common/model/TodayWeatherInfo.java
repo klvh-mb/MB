@@ -8,6 +8,7 @@ import common.cache.JedisCache;
 import common.utils.WeatherUtil;
 
 public class TodayWeatherInfo implements Serializable {
+    private static final play.api.Logger logger = play.api.Logger.apply(TodayWeatherInfo.class);
     
     private static final long serialVersionUID = -247911530124299908L;
 
@@ -28,6 +29,56 @@ public class TodayWeatherInfo implements Serializable {
     private DateTime updatedTime;
     
     private TodayWeatherInfo() {
+    }
+    
+    /**
+     * 
+     * 
+     * @return
+     */
+    public static TodayWeatherInfo getInfo() {
+        TodayWeatherInfo info = 
+                (TodayWeatherInfo)JedisCache.cache().getObj(TodayWeatherInfo.JEDIS_KEY, TodayWeatherInfo.class);
+        if (info == null) {
+            info = new TodayWeatherInfo();
+            fillInfo(info);
+            JedisCache.cache().putObj(TodayWeatherInfo.JEDIS_KEY, info, TodayWeatherInfo.REFRESH_SECS);
+            if (logger.underlyingLogger().isDebugEnabled())
+                logger.underlyingLogger().debug(info.toString());
+        }
+        return info;
+    }
+    
+    public static void clearInfo() {
+        JedisCache.cache().remove(TodayWeatherInfo.JEDIS_KEY);
+    }
+    
+    private static TodayWeatherInfo fillInfo(TodayWeatherInfo info) {
+        WeatherUtil.fillInfo(info);
+        
+        DateTime now = new DateTime();
+        int dayOfWeek = now.getDayOfWeek();
+        if (dayOfWeek == 1) {
+            info.dayOfWeek = "星期一";
+        } else if (dayOfWeek == 2) {
+            info.dayOfWeek = "星期二";
+        } else if (dayOfWeek == 3) {
+            info.dayOfWeek = "星期三";
+        } else if (dayOfWeek == 4) {
+            info.dayOfWeek = "星期四";
+        } else if (dayOfWeek == 5) {
+            info.dayOfWeek = "星期五";
+        } else if (dayOfWeek == 6) {
+            info.dayOfWeek = "星期六";
+        } else if (dayOfWeek == 7) {
+            info.dayOfWeek = "星期日";
+        }
+        
+        int month = now.getMonthOfYear();
+        int day = now.getDayOfMonth();
+        info.today = month + "月" + day + "日";
+        
+        return info;
     }
     
     public String getLocation() {
@@ -112,56 +163,8 @@ public class TodayWeatherInfo implements Serializable {
     
     @Override
     public String toString() {
-        return "WeatherInfo [location=" + location + ", temperature=" + temperature + 
-                ", dayOfWeek=" + dayOfWeek + ", today=" + today + 
-                ", updatedTime=" + updatedTime + "]";
-    }
-    
-    /**
-     * 
-     * 
-     * @return
-     */
-    public static TodayWeatherInfo getInfo() {
-        TodayWeatherInfo info = 
-                (TodayWeatherInfo)JedisCache.cache().getObj(TodayWeatherInfo.JEDIS_KEY, TodayWeatherInfo.class);
-        if (info == null) {
-            info = new TodayWeatherInfo();
-            fillInfo(info);
-            JedisCache.cache().putObj(TodayWeatherInfo.JEDIS_KEY, info, TodayWeatherInfo.REFRESH_SECS);
-        }
-        return info;
-    }
-    
-    public static void clearInfo() {
-        JedisCache.cache().remove(TodayWeatherInfo.JEDIS_KEY);
-    }
-    
-    private static TodayWeatherInfo fillInfo(TodayWeatherInfo info) {
-        WeatherUtil.fillInfo(info);
-        
-        DateTime now = new DateTime();
-        int dayOfWeek = now.getDayOfWeek();
-        if (dayOfWeek == 0) {
-            info.dayOfWeek = "星期日";
-        } else if (dayOfWeek == 1) {
-            info.dayOfWeek = "星期一";
-        } else if (dayOfWeek == 2) {
-            info.dayOfWeek = "星期二";
-        } else if (dayOfWeek == 3) {
-            info.dayOfWeek = "星期三";
-        } else if (dayOfWeek == 4) {
-            info.dayOfWeek = "星期四";
-        } else if (dayOfWeek == 5) {
-            info.dayOfWeek = "星期五";
-        } else if (dayOfWeek == 6) {
-            info.dayOfWeek = "星期六";
-        } 
-        
-        int month = now.getMonthOfYear();
-        int day = now.getDayOfMonth();
-        info.today = month + "月" + day + "日";
-        
-        return info;
+        return "[location=" + location + ", title=" + title + ", description=" + description + 
+                ", condition=" + condition + ", conditionCode=" + conditionCode + ", temperature=" + temperature + 
+                ", dayOfWeek=" + dayOfWeek + ", today=" + today + ", updatedTime=" + updatedTime + "]";
     }
 }

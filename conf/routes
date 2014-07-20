@@ -97,6 +97,8 @@ GET		/accept-join-request/:member_id/:community_id/:notify_id		controllers.UserC
 GET		/accept-invite-request/:member_id/:community_id/:notify_id		controllers.UserController.acceptInviteRequest(member_id :Long, community_id :Long, notify_id: Long)
 GET		/mark-as-read/:id						controllers.UserController.markNotificationAsRead(id:Long)
 GET     /get-bookmark-summary                       controllers.UserController.getBookmarkSummary()
+GET     /is-newsfeed-enabled-for-community/:community_id            controllers.UserController.isNewsfeedEnabledForCommunity(community_id : Long)
+GET     /toggle-newsfeed-enabled-for-community/:community_id        controllers.UserController.toggleNewsfeedEnabledForCommunity(community_id : Long)
 
 GET     /profile/:id                controllers.UserController.getProfile(id :Long)
 GET		/image/get-profile-image-by-id/:id		controllers.UserController.getProfileImageByID(id :Long)

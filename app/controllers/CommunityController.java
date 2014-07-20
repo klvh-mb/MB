@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
+
 import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
 import models.Comment;
@@ -22,7 +24,6 @@ import models.Post;
 import models.Resource;
 import models.User;
 import models.UserCommunityAffinity;
-
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -300,7 +301,7 @@ public class CommunityController extends Controller{
         try {
             localUser.requestedToJoin(community);
         } catch (SocialObjectNotJoinableException e) {
-            e.printStackTrace();
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         }
         
         return ok();
@@ -434,8 +435,7 @@ public class CommunityController extends Controller{
                 community.createDate =date;
             }
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         }
         
         community.icon = dataToUpdate.get("icon");
@@ -467,8 +467,7 @@ public class CommunityController extends Controller{
                 p.setUpdatedDate(new Date());
                 p.merge();
             } catch (SocialObjectNotCommentableException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
             }
             return ok(Json.toJson(comment.id));
         }
@@ -526,7 +525,7 @@ public class CommunityController extends Controller{
         try {
             localUser.requestedToJoin(community);
         } catch (SocialObjectNotJoinableException e) {
-            e.printStackTrace();
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         }
         return ok();
     }
@@ -616,7 +615,7 @@ public class CommunityController extends Controller{
                 p.setUpdatedDate(new Date());
                 p.merge();
             } catch (SocialObjectNotCommentableException e) {
-                e.printStackTrace();
+                logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
             }
             
           
@@ -680,7 +679,7 @@ public class CommunityController extends Controller{
         try {
             community.sendInviteToJoin(invitee);
         } catch (SocialObjectNotJoinableException e) {
-            e.printStackTrace();
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         }
         return ok();
     }

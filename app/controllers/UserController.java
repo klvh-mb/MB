@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
+
 import common.utils.ImageFileUtil;
 import models.Community;
 import models.Conversation;
@@ -20,6 +22,7 @@ import models.Notification;
 import models.Post;
 import models.Resource;
 import models.User;
+import models.UserCommunityAffinity;
 import play.data.DynamicForm;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -44,6 +47,39 @@ import domain.DefaultValues;
 
 public class UserController extends Controller {
     private static final play.api.Logger logger = play.api.Logger.apply(UserController.class);
+    
+    @Transactional(readOnly=true)
+    public static Result isNewsfeedEnabledForCommunity(Long communityId) {
+        final User localUser = Application.getLocalUser(session());
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[c="+communityId+",u="+localUser.id+"] isNewsfeedEnabledForCommunity");
+        }
+        
+        UserCommunityAffinity affinity = UserCommunityAffinity.findByUserCommunity(localUser.id, communityId);
+        if (affinity == null)
+            return status(500);
+        
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("newsfeedEnabled", affinity.isNewsfeedEnabled());
+        return ok(Json.toJson(map));
+    }
+    
+    @Transactional
+    public static Result toggleNewsfeedEnabledForCommunity(Long communityId) {
+        final User localUser = Application.getLocalUser(session());
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[c="+communityId+",u="+localUser.id+"] toggleNewsfeedEnabledForCommunity");
+        }
+        
+        UserCommunityAffinity affinity = UserCommunityAffinity.findByUserCommunity(localUser.id, communityId);
+        if (affinity == null)
+            return status(500);
+        
+        affinity.setNewsfeedEnabled(!affinity.isNewsfeedEnabled());
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("newsfeedEnabled", affinity.isNewsfeedEnabled());
+        return ok(Json.toJson(map));
+    }
     
     @Transactional(readOnly=true)
     public static Result getBookmarkSummary() {
@@ -78,7 +114,7 @@ public class UserController extends Controller {
             File fileTo = ImageFileUtil.copyImageFileToTemp(file, fileName);
 			localUser.setPhotoProfile(fileTo);
 		} catch (IOException e) {
-			//e.printStackTrace();
+		    logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
 			return status(500);
 		}
 		return ok();
@@ -96,7 +132,7 @@ public class UserController extends Controller {
 	    	File fileTo = ImageFileUtil.copyImageFileToTemp(file, fileName);
 			localUser.setCoverPhoto(fileTo);
 		} catch (IOException e) {
-			//e.printStackTrace();
+		    logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
 			return status(500);
 		}
 		return ok();
@@ -501,7 +537,7 @@ public class UserController extends Controller {
             System.out.println("id :: "+id);
             return ok(id.toString());
         } catch (IOException e) {
-            //e.printStackTrace();
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
             return status(500);
         }
     }
