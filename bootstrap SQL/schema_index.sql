@@ -26,6 +26,10 @@ CREATE INDEX primsocialrel_idx_actor_target_action ON primarysocialrelation (act
 CREATE INDEX post_idx_comm_ptyp_upddate ON post (community_id, postType, UPDATED_DATE);
 
 
+-- Comment
+CREATE INDEX comment_idx_sobj_date ON comment (socialObject, date);
+
+
 -- User Community Affinity
 CREATE INDEX usercommunityaffinity_idx_usr_comm ON usercommunityaffinity (userId, communityId);
 

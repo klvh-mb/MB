@@ -225,6 +225,13 @@ public class Post extends SocialObject implements Likeable, Commentable {
             logger.underlyingLogger().debug("[ElasticSearch] indexPost took "+sw.getElapsedMS()+"ms");
         }
     }
+
+    @JsonIgnore
+    public long getNumCommentsOfPost() {
+        Query q = JPA.em().createQuery("Select count(c.id) from Comment c where socialObject=?1 and deleted = false");
+        q.setParameter(1, this.id);
+        return (Long) q.getSingleResult();
+    }
     
     @JsonIgnore
     public List<Comment> getCommentsOfPost() {
