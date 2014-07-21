@@ -6,14 +6,13 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import domain.SocialObjectType;
-
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 import play.i18n.Messages;
@@ -35,7 +34,7 @@ public class Message  extends SocialObject implements Comparable<Message> {
 	@Required
 	public Date date = new Date();
 
-	@Lob
+	@Column(length=500)
 	public String body;
 	
 	@ManyToOne(cascade = CascadeType.REMOVE)

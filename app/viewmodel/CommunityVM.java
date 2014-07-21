@@ -28,6 +28,7 @@ public class CommunityVM {
 	@JsonProperty("isM") public boolean isMember;
 	@JsonProperty("isP") public boolean isRequested;
 	@JsonProperty("isO") public boolean isOwner;
+	@JsonProperty("adminP") public boolean adminPostOnly;
 	@JsonProperty("posts") public List<CommunityPostVM> posts;
 	
 	public static CommunityVM communityVM(Community c, User user) {
@@ -50,6 +51,7 @@ public class CommunityVM {
 		vm.isMember = memIds.contains(user.getId());
 		vm.isRequested = user.isJoinRequestPendingFor(c);
 		vm.isOwner = (user == c.owner) ? true : false;
+		vm.adminPostOnly = c.adminPostOnly;
 		
 		List<CommunityPostVM> posts = new ArrayList<>();
 		
@@ -84,6 +86,7 @@ public class CommunityVM {
         vm.isMember = memIds.contains(user.getId());
         vm.isRequested = user.isJoinRequestPendingFor(c);
         vm.isOwner = (user == c.owner) ? true : false;
+        vm.adminPostOnly = c.adminPostOnly;
         
         List<CommunityPostVM> posts = new ArrayList<>();
         

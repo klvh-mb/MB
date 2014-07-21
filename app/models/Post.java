@@ -40,7 +40,8 @@ public class Post extends SocialObject implements Likeable, Commentable {
     
     public String title;
        
-    @Required @Lob
+    @Required
+    @Column(length=2000)
     public String body;
     
     @ManyToOne(cascade=CascadeType.REMOVE)

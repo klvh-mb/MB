@@ -21,6 +21,7 @@ import common.model.TodayWeatherInfo;
  * https://developer.yahoo.com/weather/
  * 
  * http://isithackday.com/geoplanet-explorer/index.php?woeid=24865698
+ * http://weather.yahooapis.com/forecastrss?w=24865698&u=c
  * Hong Kong            24865698
  * Hong Kong Island     24703007
  * Kowloon              24703006
@@ -44,7 +45,7 @@ public class WeatherUtil {
             info.setDescription(channel.getDescription());
             info.setCondition(condition.getText());
             info.setConditionCode(condition.getCode());
-            info.setIcon(getIcon(condition.getCode()));
+            info.setIcon(getIcon(condition.getCode(), new DateTime(condition.getDate())));
             info.setLocation(channel.getLocation().getCity());
             info.setTemperature(condition.getTemp());
             info.setUpdatedTime(new DateTime(condition.getDate()));
@@ -55,15 +56,17 @@ public class WeatherUtil {
         }
     }
     
-    public static String getIcon(int conditionCode) {
+    public static String getIcon(int conditionCode, DateTime updatedTime) {
+        DateTime now = new DateTime();
         Icon icon = Icon.getWeatherIcon(conditionCode);
-        if (icon == null) {
-            DateTime now = new DateTime();
+        if (icon == null || now.minusMinutes(60).isAfter(updatedTime.getMillis())) {
             int hour = now.getHourOfDay();
             if (hour >= 6 && hour <= 18) {      // day time 6am - 6pm
-                return "/assets/app/images/weather/weather_icons-08.png";
+                logger.underlyingLogger().debug("Default weather icon to partly cloudy (day)");
+                return "/assets/app/images/weather/weather_icons-11.png";
             }
-            return "/assets/app/images/weather/weather_icons-04.png";
+            logger.underlyingLogger().debug("Default weather icon to partly cloudy (night)");
+            return "/assets/app/images/weather/weather_icons-10.png";
         }
         return icon.url;
     }

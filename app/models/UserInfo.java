@@ -1,12 +1,12 @@
 package models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -31,7 +31,7 @@ public class UserInfo {
 	@Enumerated(EnumType.STRING)
 	public ParentType parentType;
 	
-	@Lob
+	@Column(length=2000)
 	public String aboutMe;
 	
 	public int numChildren;

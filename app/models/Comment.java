@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -55,7 +55,8 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
         user.likesCount--;
     }
     
-    @Required @Lob
+    @Required
+    @Column(length=2000)
     public String body;
     
     @Required

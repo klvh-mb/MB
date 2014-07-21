@@ -1,6 +1,5 @@
 package models;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.data.format.Formats;
@@ -107,10 +106,10 @@ public class UserCommunityAffinity extends domain.Entity {
         try {
             return JPA.em().createQuery(q).getSingleResult();
         } catch (NoResultException e) {
-            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+            //logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
             return null;
         } catch (NonUniqueResultException ne) {
-            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(ne));
+            //logger.underlyingLogger().error(ExceptionUtils.getStackTrace(ne));
             return null;
         }
     }

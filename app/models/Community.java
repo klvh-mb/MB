@@ -80,6 +80,8 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
 	public Date createDate;
 
+	public boolean adminPostOnly = false;
+	
 	public boolean excludeFromNewsfeed = false;
 
 	@OneToMany(cascade = CascadeType.REMOVE)
