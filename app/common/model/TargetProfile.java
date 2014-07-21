@@ -37,6 +37,9 @@ public class TargetProfile {
         TargetProfile profile = new TargetProfile();
         List<TargetYear> childYears = new ArrayList<TargetYear>();
         
+        if (user.userInfo == null)
+            return null;
+        
         // parent
         profile.parentGender = user.userInfo.gender;
         profile.location = user.userInfo.location;
