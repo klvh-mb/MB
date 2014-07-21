@@ -1257,6 +1257,8 @@ minibean.service('likeFrameworkService', function($resource) {
 minibean.controller('PostLandingController', function($scope, $routeParams, $http, $timeout, $upload, $validator, 
     postLandingService, communityPageService, allCommentsService, showImageService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
 
+	$scope.get_unread_msg_count();
+	
     $scope.$on('$viewContentLoaded', function() {
         usSpinnerService.spin('loading...');
     });
@@ -3062,6 +3064,8 @@ minibean.service('newsFeedService',function($resource){
 minibean.controller('NewsFeedController', function($scope, bookmarkPostService, likeFrameworkService, $interval, $timeout, $upload, $http, allCommentsService, usSpinnerService, newsFeedService) {
 	$scope.newsFeeds = { posts: [] };
 	
+	$scope.get_unread_msg_count();
+	
 	$scope.comment_on_post = function(id, commentText) {
 		var data = {
 			"post_id" : id,
@@ -4036,7 +4040,7 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
 		allConversationService.startConeversation.get({id: uid},
 				function(data){
 			$scope.conversations = data;
-			$scope.messages = 0;
+			$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
 			usSpinnerService.stop('loading...');
 		});
 	}
@@ -4124,12 +4128,8 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
 			.success(function(messagedata) {
 				console.log(messagedata);
 				$scope.messages = messagedata.message;
+				$scope.conversations = allConversationService.UserAllConversation.get();
 				usSpinnerService.stop('loading...');	
-				angular.forEach($scope.conversations, function(conv, key){
-                    if(conv.id == $scope.currentConversation) {
-                    	conv.lm = $scope.messages[0].txt;
-                    }
-                });
 				
 				$timeout(function(){
         			var objDiv = document.getElementById('message-area');

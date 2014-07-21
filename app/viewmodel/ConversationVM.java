@@ -16,12 +16,14 @@ public class ConversationVM {
 	@JsonProperty("isToday") public Boolean isToday;
 	@JsonProperty("lm") public String lastMsg;
 	@JsonProperty("isReaded") public Boolean isReaded = false;
+	@JsonProperty("mc") public Long msgCount;
 	
 	public ConversationVM(Conversation conversation, User user) {
 		this.name = user.name;
 		this.userID = user.id;
 		this.id = conversation.id;
 		this.lastMessageDate = conversation.getUpdatedDate();
+		this.msgCount = conversation.getMessageCount(user);
 		try{
 			this.lastMsg = conversation.getLastMessage();
 			this.isToday = DateUtils.isSameDay(this.lastMessageDate, new Date());

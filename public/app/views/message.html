@@ -23,7 +23,7 @@
                                 <p ng-show="!conv.isToday"><span class="message-timestamp">{{conv.lmd|date:'yyyy-M-d'}}</span></p>
                                 <a class="message-del-icon" data-ng-confirm-click="deleteConversation(conv.id)" data-ng-confirm-message=確認移除此訊息"></a>
                                 <p class="message-tooltips">移除</p>
-                                <a ng-show="true" class="message-notice"></a>
+                                <a ng-show="conv.mc > 0" class="message-notice"><a class="message-notice">{{conv.mc}}</a>
                             </div>
                         </li>
                     </ul>
@@ -106,7 +106,8 @@
         							ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
                             </div>
                             <label for="Input Message"></label>
-                            <textarea rows="4" cols="70" name="message-inputfield" data-ng-model="messageText"></textarea>
+                            <textarea rows="4" cols="70" name="message-inputfield" data-ng-model="messageText" data-ng-maxlength="500" maxlength="500"></textarea>
+                            <p ng-show="messageText.length >= 480">Reached message Limit</p>
                             <a href="#emo" id="message-emo-icon" class="icon-box icon-title-emo"></a>
                             <div id="message-emo-box">
                                 <table border="0" cellspacing="0" cellpadding="0">

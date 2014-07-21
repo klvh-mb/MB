@@ -237,5 +237,14 @@ public class Conversation extends domain.Entity implements Serializable,
 		}
 		
 	}
+
+	public Long getMessageCount(User user) {
+		 Query q = JPA.em().createQuery("Select count(c) from Conversation c where c.id = ?2 and ( c.user1.id = ?1 and (c.user1_time < c.conv_time or c.user1_time is null)) or (c.user2.id = ?1 and (user2_time < c.conv_time or c.user2_time is null ))");
+	        q.setParameter(1, user.id);
+	        q.setParameter(2, this.id);
+	        Long ret = (Long) q.getSingleResult();
+
+	        return ret;
+	}
 	
 }
