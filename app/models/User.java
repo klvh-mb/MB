@@ -1416,20 +1416,18 @@ public class User extends SocialObject implements Subject, Socializable {
     }
     
     public List<User> searchUserFriends(String q) {
-        System.out.println("Got It :::: :::::: :::::: ::::: ");
-         Query query = JPA.em().createNativeQuery(
-                 "Select * from User u where u.id in " + 
-                 "(select sr.target from SocialRelation sr where sr.action = ?2 and sr.actor = ?1 union select sr1.actor from SocialRelation sr1 where sr1.action = ?2 and sr1.target = ?1 ) and u.emailValidated = true and u.system = 0 and u.userInfo_id is not NULL and ( upper(u.displayName) like '%"+q.toUpperCase()+"%' or upper(u.firstName) like '%"+q.toUpperCase()+"%' or upper(u.lastName) like '%"+q.toUpperCase()+"%') and u.deleted = false", User.class);
-         query.setParameter(1, this.id);
-         query.setParameter(2, SocialRelation.Action.FRIEND.name());
-         List<User> frndList = (List<User>)query.getResultList();
-         System.out.println("SIZe ::::: " +frndList.size());
-      
+        Query query = JPA.em().createNativeQuery(
+                "Select * from User u where u.id in " + 
+                "(select sr.target from SocialRelation sr where sr.action = ?2 and sr.actor = ?1 union select sr1.actor from SocialRelation sr1 where sr1.action = ?2 and sr1.target = ?1 ) and u.emailValidated = true and u.system = 0 and u.userInfo_id is not NULL and ( upper(u.displayName) like '%"+q.toUpperCase()+"%' or upper(u.firstName) like '%"+q.toUpperCase()+"%' or upper(u.lastName) like '%"+q.toUpperCase()+"%') and u.deleted = false", User.class);
+        query.setParameter(1, this.id);
+        query.setParameter(2, SocialRelation.Action.FRIEND.name());
+        List<User> frndList = (List<User>)query.getResultList();
         return frndList;
     }
 
     public Long getUnreadMsgCount() {
-        Query q = JPA.em().createQuery("Select count(c) from Conversation c where ( c.user1.id = ?1 and (c.user1_time < c.conv_time or c.user1_time is null)) or (c.user2.id = ?1 and (user2_time < c.conv_time or c.user2_time is null ))");
+        Query q = JPA.em().createQuery(
+                "Select count(c) from Conversation c where ( c.user1.id = ?1 and (c.user1_time < c.conv_time or c.user1_time is null)) or (c.user2.id = ?1 and (user2_time < c.conv_time or c.user2_time is null ))");
         q.setParameter(1, this.id);
         Long ret = (Long) q.getSingleResult();
 

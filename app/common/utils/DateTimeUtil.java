@@ -42,7 +42,7 @@ public class DateTimeUtil {
             d = 1;
         }
         
-        return new DateTime(y, m ,d, 0, 0);
+        return new DateTime(y, m ,d, 12, 0);
     }
     
 }

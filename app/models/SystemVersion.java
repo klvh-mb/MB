@@ -17,6 +17,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import common.system.upgrade.UpgradeScript;
+import play.Play;
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
@@ -28,6 +29,9 @@ import play.db.jpa.Transactional;
 @Entity
 public class SystemVersion extends domain.Entity {
     private static final play.api.Logger logger = play.api.Logger.apply(SystemVersion.class);
+    
+    public static final String APPLICATION_ENV = 
+            Play.application().configuration().getString("application.env", "dev");
     
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
@@ -105,6 +109,10 @@ public class SystemVersion extends domain.Entity {
     @Transactional
     public static boolean versionUpgradeIfAny() {
         logger.underlyingLogger().info("versionUpgradeIfAny()");
+        
+        if ("dev".equalsIgnoreCase(APPLICATION_ENV)) {
+            return true;
+        }
         
         // new scripts
         insertNewUpgradeScriptsIfAny();

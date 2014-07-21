@@ -515,7 +515,6 @@ public class UserController extends Controller {
 		List<User> users = localUser.searchUserFriends(query);
 		List<SocialObjectVM> socialVMs = new ArrayList<>();
 		for(User user : users) {
-			System.out.println("User Name :: "+user.displayName);
 			socialVMs.add(new SocialObjectVM(user.id.toString(), user.displayName, user.objectType.name()));
 		}
 		return ok(Json.toJson(socialVMs));
