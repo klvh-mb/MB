@@ -4140,7 +4140,6 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
                     return;
                 }
                 
-                
                 $upload.upload({
                     url : '/image/sendMessagePhoto',
                     method: $scope.httpMethod,
@@ -4164,18 +4163,12 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
                 });
 		});
 	};
-	$scope.currentRole = "some";
-	$scope.CreateHeader = function(role) {
-		var date = $filter('date')(new Date(role), 'dd/MM/yyyy');
-	      var showHeader = (date !=$scope.currentRole); 
-	       $scope.currentRole = date;
-	      return showHeader;
+	$scope.currentHeader = "";
+	$scope.createDateHeader = function(msgDate) {
+		var date = $filter('date')(new Date(msgDate), 'dd/MM/yyyy');
+	    var showHeader = (date != $scope.currentHeader); 
+	    $scope.currentHeader = date;
+	    alert(showHeader);
+	    return showHeader;
 	}
-	
-	
 });
-
-
-
-
-

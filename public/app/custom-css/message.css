@@ -215,6 +215,14 @@
 #message-area .message-load-more:hover {
     text-decoration: none;
 }
+.message-timer {
+    color: gray;
+    font-size: 12px;
+    position: relative;
+    left: 45%;
+    margin: 5px 0;
+    opacity: 0.8;
+}
 .message-timestamp {
     color: gray;
     font-size: 11px;
