@@ -64,9 +64,9 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 
 		Query q;
 		if (id == 0){
-			q = JPA.em().createQuery("Select a from Article a order by publishedDate DESC");
+			q = JPA.em().createQuery("Select a from Article a order by publishedDate, id DESC");
 		} else {
-			q = JPA.em().createQuery("Select a from Article a where category_id = ?1 order by publishedDate DESC");
+			q = JPA.em().createQuery("Select a from Article a where category_id = ?1 order by publishedDate, id DESC");
 			q.setParameter(1, id);
 		}
 		q.setFirstResult(offset);
