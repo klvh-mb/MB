@@ -7,10 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 
@@ -705,28 +702,36 @@ public class CommunityController extends Controller{
 
         // reloading newsfeed
         if(offset == 0) {
-    		List<Long> communities = localUser.getListOfJoinedCommunityIds();
-
-            if (logger.underlyingLogger().isDebugEnabled()) {
-         	   logger.underlyingLogger().debug("[u="+localUser.getId()+"] indexCommNewsfeed. numJoinedComm="+communities.size());
-        	}
-
             // Re-index user's community feed
             NewsfeedCommTargetingEngine.indexCommNewsfeedForUser(localUser.getId());
     	}
-       
-        List<CommunityPostVM> posts = new ArrayList<>();
-        
+
         List<Post> newsFeeds = localUser.getNewsfeedsAtHomePage(offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
-        
-        if(newsFeeds != null ){
-            for(Post p : newsFeeds) {
-                CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
+
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        List<CommunityPostVM> posts = new ArrayList<>();
+        if (newsFeeds != null) {
+            Map<Long, Boolean> userCommMemberMap = new HashMap<>();
+
+            for (Post p : newsFeeds) {
+                Long commId = p.getCommunity().getId();
+
+                Boolean isMember = userCommMemberMap.get(commId);
+                if (isMember == null) {
+                    isMember = localUser.isMemberOf(commId);
+                    userCommMemberMap.put(commId, isMember);
+                }
+
+                CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser, isMember);
                 posts.add(post);
             }
         }
         
         NewsFeedVM vm = new NewsFeedVM(localUser, posts);
+
+        sw.stop();
+        logger.underlyingLogger().info("[u="+localUser.id+"] getNewsfeeds(offset="+offset+"). vm create took "+sw.getElapsedMS()+"ms");
         return ok(Json.toJson(vm));
     }
     

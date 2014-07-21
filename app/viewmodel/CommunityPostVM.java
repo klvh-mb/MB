@@ -36,6 +36,10 @@ public class CommunityPostVM {
 	@JsonProperty("isBookmarked") public boolean isBookmarked = false;
 	
 	public static CommunityPostVM communityPostVM(Post post, User user) {
+        return communityPostVM(post, user, user.isMemberOf(post.community.id));
+    }
+
+    public static CommunityPostVM communityPostVM(Post post, User user, boolean isCommMember) {
 		CommunityPostVM postVM = new CommunityPostVM();
 		postVM.postId = post.id;
 		postVM.ownerId = post.owner.id;
@@ -44,7 +48,7 @@ public class CommunityPostVM {
 		postVM.updatedOn = post.getSocialUpdatedDate().getTime();
 		postVM.postedTitle = post.title;
 		postVM.postedText = post.body;
-		postVM.noOfComments = post.comments.size();
+		postVM.noOfComments = (int) post.getNumCommentsOfPost();
 		postVM.postType = post.postType.name();
 		postVM.communityName = post.community.name;
 		postVM.communityIcon = post.community.icon;
@@ -54,7 +58,7 @@ public class CommunityPostVM {
 		postVM.noOfLikes = post.noOfLikes;
 		postVM.expanded = false;
 		postVM.isBookmarked = post.isBookmarkedBy(user);
-		postVM.isCommentable = user.isMemberOf(post.community.id);
+		postVM.isCommentable = isCommMember;
 		//need to write logic
 		postVM.isLike = post.isLikedBy(user);
 		
