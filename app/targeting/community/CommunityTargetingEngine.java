@@ -25,6 +25,8 @@ public class CommunityTargetingEngine {
             logger.underlyingLogger().debug(String.format("[u=%d] assignSystemCommunitiesToUser", user.id));
         
         TargetProfile targetProfile = TargetProfile.fromUser(user);
+        if (targetProfile == null)
+            return;
         
         // Default communities
         List<Community> communities = Community.findByTargetingType(TargetingSocialObject.TargetingType.ALL_MOMS_DADS);
