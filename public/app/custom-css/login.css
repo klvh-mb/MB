@@ -59,7 +59,7 @@ ul, li {
 }
 .login-container div.login-box:first-child div {
     float: left;
-    width: 50%;
+    width: 100%;
 }
 .login-container div.login-box:first-child h1 {
     position: absolute;
