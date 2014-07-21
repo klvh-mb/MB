@@ -43,6 +43,12 @@ public class CommunityTargetingEngine {
                     assign(community, user);
                 }
             }
+            communities = Community.findByTargetingType(TargetingSocialObject.TargetingType.NEW_MOMS_DADS);
+            if (communities != null) {
+                for (Community community : communities) {
+                    assign(community, user);
+                }
+            }
         }
         
         // New moms
