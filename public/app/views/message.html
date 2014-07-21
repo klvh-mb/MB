@@ -65,15 +65,15 @@
                             <a class="message-load-more" data-ng-click="nextMessages()">Load Message</a>
                         </li>
                     	<div data-ng-repeat="msg in messages.slice().reverse()">
-                    		 <div ng-show="CreateHeader(msg.cd)">
-						       <p class="message-timer">{{ msg.cd| date:'MMM-dd'}}</p>
-						      </div>
+                            <div ng-show="createDateHeader(msg.cd)">
+                                <p class="message-timer">{{msg.cd|date:'M月dd日'}}</p>
+                            </div>
                             <li class="message-user" ng-show="msg.suid == userInfo.id">
                                 <div>
                                     <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
                                     <div class="message-body">
                                         <span class="message-body-text" ng-bind-html="msg.txt"></span>
-                                        <div ng-show="msg.hasImage">
+                                        <div ng-if="msg.hasImage">
                                             <a data-toggle="modal" data-target="#imageModal" href="">
                                                 <img class="message-body-image" data-ng-src="/image/get-message-image-by-id/{{msg.imgs}}" data-ng-click="showImage(msg.imgs)" alt="">
                                             </a>
@@ -87,7 +87,7 @@
                                     <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
                                     <div class="message-body">
                                         <span class="message-body-text" ng-bind-html="msg.txt"></span>
-                                        <div ng-show="msg.hasImage">
+                                        <div ng-if="msg.hasImage">
                                             <a data-toggle="modal" data-target="#imageModal" href="">
                                                 <img class="message-body-image" data-ng-src="/image/get-message-image-by-id/{{msg.imgs}}" data-ng-click="showImage(msg.imgs)" alt="">
                                             </a>

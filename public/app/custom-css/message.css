@@ -146,7 +146,8 @@
     font-weight: bold;
 }
 .message-notice:after {
-    content: "新訊息";
+    //content: "新訊息";
+    content: "New";
     font-size: small;
 }
 .message-notice:hover {

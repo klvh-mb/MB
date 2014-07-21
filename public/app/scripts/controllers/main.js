@@ -4094,7 +4094,7 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
 			console.log(data);
 			var objDiv = document.getElementById('message-area');
 			var height = objDiv.scrollHeight;
-			alert(height);
+			//console.log("nextMessages() - height:"+height);
 			var messages = data.message;
 			$scope.unread_msg_count.count = data.counter;
 			for (var i = 0; i < messages.length; i++) {
@@ -4108,7 +4108,7 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
 			$timeout(function(){
     			var objDiv = document.getElementById('message-area');
     			objDiv.scrollTop = objDiv.scrollHeight - height;
-    			alert(objDiv.scrollTop);
+    			//console.log("nextMessages() - message-area.scrollTop:"+objDiv.scrollTop);
     	    });
 		});
 	}
@@ -4168,7 +4168,7 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
 		var date = $filter('date')(new Date(msgDate), 'dd/MM/yyyy');
 	    var showHeader = (date != $scope.currentHeader); 
 	    $scope.currentHeader = date;
-	    alert(showHeader);
+	    console.log("createDateHeader()");
 	    return showHeader;
 	}
 });
