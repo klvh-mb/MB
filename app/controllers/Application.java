@@ -8,15 +8,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 
-import models.Community;
 import models.Location;
-import models.TargetingSocialObject;
 import models.User;
 import models.UserChild;
 import models.UserInfo;
 import models.UserInfo.ParentType;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.elasticsearch.index.query.AndFilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.OrFilterBuilder;
@@ -36,6 +33,7 @@ import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
+import targeting.community.CommunityTargetingEngine;
 import viewmodel.LocationVM;
 import viewmodel.PostIndexVM;
 import viewmodel.TodayWeatherInfoVM;
@@ -49,11 +47,8 @@ import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
 import com.github.cleverage.elasticsearch.IndexQuery;
 import com.github.cleverage.elasticsearch.IndexResults;
-import com.mnt.exception.SocialObjectNotJoinableException;
 
 import common.model.TargetGender;
-import common.model.TargetProfile;
-import common.model.TargetYear;
 import common.model.TodayWeatherInfo;
 import common.utils.DateTimeUtil;
 import domain.DefaultValues;
@@ -105,46 +100,7 @@ public class Application extends Controller {
 		}
 		
 	    if (user.isNewUser()) {
-	        TargetProfile targetProfile = TargetProfile.fromUser(user);
-	        
-	        // Default communities
-	        List<Community> communities = Community.findByTargetingType(TargetingSocialObject.TargetingType.ALL_USERS);
-	        if (communities != null) {
-    	        for (Community community : communities) {
-                    try {
-                        community.onJoinRequest(user);
-                    } catch (SocialObjectNotJoinableException e) {
-                        logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
-                    }
-                }
-	        }
-            
-	        // Zodiac community
-	        for (TargetYear targetYear : targetProfile.getChildYears()) {
-	            Community community = Community.findByTargetingTypeTargetingInfo(
-	                    TargetingSocialObject.TargetingType.ZODIAC_YEAR, targetYear.toString());
-	            if (community != null) {
-    	            try {
-    	                community.onJoinRequest(user);
-    	            } catch (SocialObjectNotJoinableException e) {
-    	                logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
-    	            }
-	            }
-	        }
-	        
-	        // District communities
-	        if (targetProfile.getLocation() != null) {
-    	        Location district = Location.getParentLocation(targetProfile.getLocation(), Location.LocationType.DISTRICT);
-    	        Community community = Community.findByTargetingTypeTargetingInfo(
-                        TargetingSocialObject.TargetingType.LOCATION_DISTRICT, district.id.toString());
-                if (community != null) {
-                    try {
-                        community.onJoinRequest(user);
-                    } catch (SocialObjectNotJoinableException e) {
-                        logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
-                    }
-                }
-	        }
+	        CommunityTargetingEngine.assignSystemCommunitiesToUser(user);
 	        
 	        // TODO - keith
 	        // return welcome page

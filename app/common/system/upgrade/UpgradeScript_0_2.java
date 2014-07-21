@@ -67,7 +67,7 @@ public class UpgradeScript_0_2 extends UpgradeScript {
         
         logger.underlyingLogger().info("Create feedback community...");
         Community feedbackCommunity = 
-                Community.findByTargetingTypeTargetingInfo(TargetingType.ALL_USERS, "FEEDBACK");
+                Community.findByTargetingTypeTargetingInfo(TargetingType.ALL_MOMS_DADS, "FEEDBACK");
         if (feedbackCommunity == null) {
             String name = "miniBean小萌豆意見區";
             String desc = "miniBean小萌豆意見區";
@@ -115,7 +115,7 @@ public class UpgradeScript_0_2 extends UpgradeScript {
                     "/assets/app/images/general/icons/community/beans.png");
             community.system = true;
             community.excludeFromNewsfeed = true;
-            community.targetingType = TargetingSocialObject.TargetingType.ALL_USERS;
+            community.targetingType = TargetingSocialObject.TargetingType.ALL_MOMS_DADS;
             community.targetingInfo = "FEEDBACK";
             //community.setCoverPhoto(new File(Resource.STORAGE_PATH + "/default/beans.jpg"));
         } catch (Exception e) {

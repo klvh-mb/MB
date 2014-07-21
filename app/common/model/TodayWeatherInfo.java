@@ -163,8 +163,8 @@ public class TodayWeatherInfo implements Serializable {
     
     @Override
     public String toString() {
-        return "[location=" + location + ", title=" + title + ", description=" + description + 
-                ", condition=" + condition + ", conditionCode=" + conditionCode + ", temperature=" + temperature + 
-                ", dayOfWeek=" + dayOfWeek + ", today=" + today + ", updatedTime=" + updatedTime + "]";
+        return "[location=" + location + "|title=" + title + "|description=" + description + 
+                "|condition=" + condition + "|conditionCode=" + conditionCode + "|temperature=" + temperature + 
+                "|dayOfWeek=" + dayOfWeek + "|today=" + today + "|updatedTime=" + updatedTime + "]";
     }
 }

@@ -69,7 +69,7 @@ public class TargetProfile {
                     if (childrenMaxAge == null || months.getMonths() > childrenMaxAge) {
                         childrenMaxAge = months.getMonths();
                     }
-                    childYears.add(TargetYear.valueOf(birthDate.getYear()));
+                    childYears.add(TargetYear.valueOf(birthDate));
                 }
             }
             if (hasBoy && hasGirl) {
@@ -130,6 +130,10 @@ public class TargetProfile {
 
     public List<TargetYear> getChildYears() {
         return childYears;
+    }
+    
+    public boolean isNewParent() {
+        return childrenMinAgeMonths > 0 && childrenMinAgeMonths < 12;
     }
     
     @Override

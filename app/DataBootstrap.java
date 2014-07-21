@@ -13,7 +13,7 @@ import models.Icon.IconType;
 import models.Location;
 import models.Location.LocationCode;
 import models.SecurityRole;
-import models.TargetingSocialObject;
+import models.TargetingSocialObject.TargetingType;
 import models.User;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -211,6 +211,10 @@ public class DataBootstrap {
         icon = new Icon("bean_red", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/bean_red.png");
         icon.save();
         icon = new Icon("bean_yellow", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/bean_yellow.png");
+        icon.save();
+        icon = new Icon("cat", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/cat.png");
+        icon.save();
+        icon = new Icon("helmet", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/helmet.png");
         icon.save();
         icon = new Icon("book", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/book.png");
         icon.save();
@@ -424,6 +428,54 @@ public class DataBootstrap {
         String desc = "miniBean小萌豆意見區";
         createFeedbackCommunity(name, desc);
         
+        // Targeting community
+        
+        // SOON_MOMS_DADS
+        name = "準媽媽準爸爸♥";
+        desc = "準媽媽準爸爸♥";
+        createTargetingCommunity(name, desc, 
+                "/assets/app/images/general/icons/community/boy.png",
+                TargetingType.SOON_MOMS_DADS,
+                "SOON_MOMS_DADS");
+        
+        // NEW_MOMS_DADS
+        name = "新手媽媽爸爸♥";
+        desc = "新手媽媽爸爸♥";
+        createTargetingCommunity(name, desc, 
+                "/assets/app/images/general/icons/community/boy.png",
+                TargetingType.NEW_MOMS_DADS,
+                "NEW_MOMS_DADS");
+        
+        // ALL_MOMS_DADS
+        name = "親子好去處♥";
+        desc = "親子好去處♥";
+        createTargetingCommunity(name, desc, 
+                "/assets/app/images/general/icons/community/stroller.png",
+                TargetingType.ALL_MOMS_DADS,
+                "BABY_FRIENDLY_PLACES");
+        
+        // PUBLIC
+        name = "小寶寶去旅行♥";
+        desc = "小寶寶去旅行♥";
+        createTargetingCommunity(name, desc, 
+                "/assets/app/images/general/icons/community/plane.png",
+                TargetingType.PUBLIC,
+                "TRAVEL");
+        
+        name = "寵物好朋友♥";
+        desc = "寵物好朋友♥";
+        createTargetingCommunity(name, desc, 
+                "/assets/app/images/general/icons/community/cat.png",
+                TargetingType.PUBLIC,
+                "PETS");
+        
+        name = "安全知多D♥";
+        desc = "安全知多D♥";
+        createTargetingCommunity(name, desc, 
+                "/assets/app/images/general/icons/community/helmet.png",
+                TargetingType.PUBLIC,
+                "BABY_SAFETY");
+        
         // Zodiac communities
         
         // rat
@@ -504,8 +556,25 @@ public class DataBootstrap {
                     "/assets/app/images/general/icons/community/beans.png");
             community.system = true;
             community.excludeFromNewsfeed = true;
-            community.targetingType = TargetingSocialObject.TargetingType.ALL_USERS;
+            community.targetingType = TargetingType.ALL_MOMS_DADS;
             community.targetingInfo = "FEEDBACK";
+            //community.setCoverPhoto(new File(Resource.STORAGE_PATH + "/default/beans_cover.jpg"));
+        } catch (Exception e) {
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+        }
+        return community;
+    }
+
+    private static Community createTargetingCommunity(String name, String desc, 
+            String icon, TargetingType targetingType, String targetingInfo) {
+        Community community = null;
+        try {
+            community = Application.getSuperAdmin().createCommunity(
+                    name, desc, CommunityType.OPEN, icon);
+            community.system = true;
+            community.excludeFromNewsfeed = true;
+            community.targetingType = targetingType;
+            community.targetingInfo = targetingInfo;
             //community.setCoverPhoto(new File(Resource.STORAGE_PATH + "/default/beans_cover.jpg"));
         } catch (Exception e) {
             logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
@@ -515,15 +584,15 @@ public class DataBootstrap {
     
     private static Community createZodiacCommunity(String name, String desc, int year) {
         Community community = null;
-        TargetYear targetYear = TargetYear.valueOf(year);
+        TargetYear targetYear = TargetYear.valueOf(new DateTime(year, 4, 1, 0, 0)); // april must be in the zodiac year already
         String zodiac = targetYear.getZodiac().name();
-        String targetingInfo = targetYear.toString();
+        String targetingInfo = targetYear.getZodiacInfo();
         try {
             community = Application.getSuperAdmin().createCommunity(
                     name, desc, CommunityType.OPEN, 
                     "/assets/app/images/general/icons/zodiac/" + zodiac.toLowerCase() + ".png");
             community.system = true;
-            community.targetingType = TargetingSocialObject.TargetingType.ZODIAC_YEAR;
+            community.targetingType = TargetingType.ZODIAC_YEAR;
             community.targetingInfo = targetingInfo;
             //community.setCoverPhoto(file);
         } catch (Exception e) {
@@ -540,7 +609,7 @@ public class DataBootstrap {
                     name, desc, CommunityType.OPEN, 
                     "/assets/app/images/general/icons/community/loc_" + location.locationType.name().toLowerCase() + ".png");
             community.system = true;
-            community.targetingType = TargetingSocialObject.TargetingType.LOCATION_DISTRICT;
+            community.targetingType = TargetingType.LOCATION_DISTRICT;
             community.targetingInfo = targetingInfo;
             //community.setCoverPhoto(file);
         } catch (Exception e) {
