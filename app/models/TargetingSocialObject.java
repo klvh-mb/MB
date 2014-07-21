@@ -34,10 +34,10 @@ public abstract class TargetingSocialObject extends SocialObject {
     public Location targetLocation;
     
     public static enum TargetingType {
-        PUBLIC,
         ALL_MOMS_DADS,
         NEW_MOMS_DADS,
         SOON_MOMS_DADS,
+        PUBLIC,
         SCORE,
         ZODIAC_YEAR,
         ZODIAC_YEAR_MONTH,
