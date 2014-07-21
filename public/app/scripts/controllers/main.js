@@ -6,7 +6,7 @@ minibean.controller('UIController', function($scope, $location, $anchorScroll, $
     $scope.gotoTop = function() {
         // set the location.hash to the id of
         // the element you wish to scroll to
-    	$window.scrollTo(0, 0);
+    	$window.scrollTo($window.pageXOffset, 0);
     };
 });
 
