@@ -4142,7 +4142,7 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
                 
                 
                 $upload.upload({
-                    url : '/sendMessagePhoto',
+                    url : '/image/sendMessagePhoto',
                     method: $scope.httpMethod,
                     data : {
                     	messageId : $scope.messages[0].id

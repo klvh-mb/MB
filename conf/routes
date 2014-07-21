@@ -115,7 +115,7 @@ GET		/get-messages/:id/:offset	controllers.UserController.getMessages(id: String
 GET		/start-Conversation/:id		controllers.UserController.startConversation(id: Long)
 GET		/delete-Conversation/:id	controllers.UserController.deleteConversation(id: Long)
 POST	/Message/sendMsg			controllers.UserController.sendMessage()
-POST	/sendMessagePhoto			controllers.UserController.sendPhotoInMessage()
+POST	/image/sendMessagePhoto			controllers.UserController.sendPhotoInMessage()
 GET		/user-friend-search			controllers.UserController.searchUserFriends(query: String)
 GET		/image/get-message-image-by-id/:id		controllers.UserController.getMessageImageByID(id :Long)
 GET		/get-unread-msg-count		controllers.UserController.getUnreadMsgCount()
