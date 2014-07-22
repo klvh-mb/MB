@@ -76,12 +76,6 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
     public void save() {
         super.save();
         recordCommentOnCommunityPost(owner);
-        
-        if (this.commentType == CommentType.SIMPLE) {
-            owner.commentsCount++;
-        } else if (this.commentType == CommentType.ANSWER) {
-            owner.answersCount++;
-        }
     }
     
     public static Comment findById(Long id) {

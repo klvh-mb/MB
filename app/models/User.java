@@ -205,17 +205,13 @@ public class User extends SocialObject implements Subject, Socializable {
         }
         conver.addMessage(this, msg);
         return conver;
-
     }
 
-    // TODO: Write Test
     public SocialObject commentedOn(SocialObject target, String comment)
             throws SocialObjectNotCommentableException {
-
         return target.onComment(this, comment, CommentType.SIMPLE);
     }
 
-    // TODO: Write Test
     public void answeredOn(SocialObject target, String comment)
             throws SocialObjectNotCommentableException {
         target.onComment(this, comment, CommentType.ANSWER);

@@ -572,7 +572,7 @@ public class DataBootstrap {
             community = Application.getSuperAdmin().createCommunity(
                     name, desc, CommunityType.OPEN, icon);
             community.system = true;
-            community.excludeFromNewsfeed = true;
+            community.excludeFromNewsfeed = false;
             community.targetingType = targetingType;
             community.targetingInfo = targetingInfo;
             //community.setCoverPhoto(new File(Resource.STORAGE_PATH + "/default/beans_cover.jpg"));

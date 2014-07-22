@@ -56,6 +56,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
     @ManyToOne(cascade = CascadeType.REMOVE)
     public Folder folder;
     
+    public int noOfComments = 0;
     public int noOfLikes = 0;
 
 	public Date socialUpdatedDate = new Date();
@@ -81,7 +82,6 @@ public class Post extends SocialObject implements Likeable, Commentable {
         // update affinity
         UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
     }
-    
     
     public Post(User actor, String title, String post, Community community) {
         this.owner = actor;
@@ -163,6 +163,14 @@ public class Post extends SocialObject implements Likeable, Commentable {
         comment.save();
         this.comments.add(comment);
         JPA.em().merge(this);
+        
+        this.noOfComments++;
+        if (type == CommentType.SIMPLE) {
+            user.commentsCount++;
+        } else if (type == CommentType.ANSWER) {
+            user.answersCount++;
+        }
+        
         try {
             NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
@@ -199,6 +207,18 @@ public class Post extends SocialObject implements Likeable, Commentable {
         
         //PostIndex.find.search(indexQuery);
         return comment;
+    }
+    
+    @Override
+    public void onDeleteComment(User user, String body, CommentType type) 
+            throws SocialObjectNotCommentableException {
+        // TODO delete comment logic
+        this.noOfComments--;
+        if (type == CommentType.SIMPLE) {
+            user.commentsCount--;
+        } else if (type == CommentType.ANSWER) {
+            user.answersCount--;
+        }
     }
     
     public void indexPost(boolean withPhotos) {

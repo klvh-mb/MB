@@ -211,10 +211,8 @@ public abstract class SocialObject extends domain.Entity implements
 
 	protected final void recordRelationshipRequestAccepted(User user,
 			Action relation) {
-		Query q = JPA
-				.em()
-				.createQuery(
-						"SELECT sa from SocialRelation sa where actor = ?1 and target = ?2 and actionType =?3");
+		Query q = JPA.em().createQuery(
+		        "SELECT sa from SocialRelation sa where actor = ?1 and target = ?2 and actionType =?3");
 		q.setParameter(1, user.id);
 		q.setParameter(2, this.id);
 		q.setParameter(3, SocialRelation.ActionType.RELATIONSHIP_REQUESTED);
@@ -222,7 +220,6 @@ public abstract class SocialObject extends domain.Entity implements
 		action.actionType = SocialRelation.ActionType.GRANT;
 		action.action = relation;
 		action.save();
-
 	}
 
 	protected final void recordPost(SocialObject user) {
@@ -300,6 +297,10 @@ public abstract class SocialObject extends domain.Entity implements
 		throw new SocialObjectNotCommentableException("Please make sure Social Object you are commenting is Commentable");
 	}
 
+	public void onDeleteComment(User user, String body, CommentType type) throws SocialObjectNotCommentableException {
+        throw new SocialObjectNotCommentableException("Please make sure Social Object you are deleteing comment is Commentable");
+    }
+	
 	public SocialObject onPost(User user, String title, String body, PostType type)
 			throws SocialObjectNotPostableException {
 		throw new SocialObjectNotPostableException(

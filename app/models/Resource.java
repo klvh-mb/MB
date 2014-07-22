@@ -137,6 +137,7 @@ public class Resource extends SocialObject {
 		}
 	}
 
+	/*
 	@Override
 	public SocialObject onComment(User user, String body, CommentType type)
 			throws SocialObjectNotCommentableException {
@@ -158,8 +159,9 @@ public class Resource extends SocialObject {
 		JPA.em().merge(this);
 		recordCommentOnCommunityPost(user);
 		return comment;
-	}
-
+    }
+	*/
+	
     private String getStoragePartition() {
         return "part"+(owner.id / STORAGE_PARTITION_DIR_MAX);
     }
