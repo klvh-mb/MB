@@ -1226,7 +1226,7 @@ public class User extends SocialObject implements Subject, Socializable {
                 "(sr.targetType = ?5 or  sr.targetType = ?6)) or p.id in " + 
                 "(select c.socialObject from Comment c where c.id in " + 
                 "(select sr.target from  PrimarySocialRelation sr where sr.action = ?4 and sr.actor = ?2 and " + 
-                "(sr.targetType = ?8 or  sr.targetType = ?7))) and p.deleted = false order by p.auditFields.updatedDate desc");
+                "(sr.targetType = ?8 or  sr.targetType = ?7))) and p.deleted = false order by p.socialUpdatedDate desc");
                 query.setParameter(1, PrimarySocialRelation.Action.POSTED);
                 //query.setParameter(3, PrimarySocialRelation.Action.LIKED);
                 query.setParameter(4, PrimarySocialRelation.Action.COMMENTED);
