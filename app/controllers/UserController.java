@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import common.utils.NanoSecondStopWatch;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
 import common.utils.ImageFileUtil;
@@ -209,6 +210,8 @@ public class UserController extends Controller {
 	
 	@Transactional
 	public static Result getUserNewsfeeds(String offset, Long id) {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
 		final User user = User.findById(id);
 		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostVM> posts = new ArrayList<>();
@@ -222,6 +225,11 @@ public class UserController extends Controller {
 		}
 		
 		NewsFeedVM vm = new NewsFeedVM(user, posts);
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+id+"] getUserNewsfeeds(offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
+        }
 		return ok(Json.toJson(vm));
 	}
 	

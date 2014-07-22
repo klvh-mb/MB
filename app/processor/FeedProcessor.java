@@ -10,7 +10,6 @@ import common.cache.JedisCache;
 import common.utils.NanoSecondStopWatch;
 import models.Post;
 import models.User;
-import play.Play;
 import play.db.jpa.JPA;
 import play.libs.Akka;
 import redis.clients.jedis.Jedis;
@@ -202,42 +201,4 @@ public class FeedProcessor {
             }, actorSystem.dispatcher()
         );
 	}
-	
-//	public static void updatesUserLevelFeed() {
-//	    logger.underlyingLogger().debug("updatesUserLevelFeed");
-//		ActorSystem  actorSystem = Akka.system();
-//		actorSystem.scheduler().scheduleOnce(
-//		        Duration.create(0, TimeUnit.MILLISECONDS),
-//				new Runnable() {
-//					public void run() {
-//						JPA.withTransaction(new play.libs.F.Callback0() {
-//							@Override
-//							public void invoke() throws Throwable {
-//								List<BigInteger> ids = JPA.em().createNativeQuery("SELECT id from User").getResultList();
-//								JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
-//								Jedis j = jedisPool.getResource();
-//
-//								for (BigInteger userID : ids) {
-//									Query query = JPA.em().createQuery("SELECT p from Post p where p.community in (select sr.target " +
-//											"from SocialRelation sr where sr.actor = ?1 and sr.action = ?2) order by p.auditFields.createdDate desc");
-//									query.setParameter(1, userID.longValue());
-//									query.setParameter(2, SocialRelation.Action.MEMBER);
-//									query.setFirstResult(0);
-//									query.setMaxResults(200);
-//									List<Post> posts = (List<Post>)query.getResultList();
-//
-//									j.del(USER + userID.longValue());
-//
-//									for(Post p: posts){
-//										j.rpush(USER + userID.longValue(), p.id.toString());
-//									}
-//								}
-//								jedisPool.returnResource(j);
-//							}
-//						});
-//
-//						}
-//					}, actorSystem.dispatcher()
-//				);
-//	}
 }
