@@ -428,12 +428,13 @@ public class User extends SocialObject implements Subject, Socializable {
             // return the list of communities which friends belong, but that user doesn't belong to.
             Query q = JPA.em().createNativeQuery(
                     "select * from Community c where"+
-                    " not exists(select * from SocialRelation sr where sr.actor = ?1 and target = c.id and sr.action = ?2 and sr.targetType = ?3)"+
-                    " and c.id in ("+ StringUtil.collectionToString(commFrdsCount.keySet(), ",")+")",
+                    " not exists (select * from SocialRelation sr where sr.actor = ?1 and target = c.id and sr.action = ?2 and sr.targetType = ?3)"+
+                    " and c.id in ("+ StringUtil.collectionToString(commFrdsCount.keySet(), ",")+") and c.communityType = ?4",
                     Community.class);
             q.setParameter(1, this.id);
             q.setParameter(2, SocialRelation.Action.MEMBER.name());
             q.setParameter(3, SocialObjectType.COMMUNITY.name());
+            q.setParameter(4, CommunityType.OPEN.ordinal());
 
             result = (List<Community>)q.getResultList();
 

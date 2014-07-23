@@ -446,6 +446,9 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
         if (this.targetingType != o.targetingType) {
             return this.targetingType.compareTo(o.targetingType);
         }
+        if (this.communityType != o.communityType) {
+            return this.communityType.compareTo(o.communityType);
+        }
         return this.name.compareTo(o.name);
     }
 }

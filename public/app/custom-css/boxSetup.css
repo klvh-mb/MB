@@ -22,8 +22,15 @@
     width:36px; 
     height:36px;
 }
+.toolsbox a:hover, .toolsbox a:focus {
+    color: #428bca !important;
+    text-decoration: underline !important;
+}
 .toolsbox {
-    font-size: small;
+    color: #428bca !important;
+    text-decoration: none !important;
+    font-size: 13px;
+    font-weight: normal;
     padding: 5px;
     display: inline-block;
     margin: 0;
