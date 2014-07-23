@@ -192,8 +192,10 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 				.createQuery(Community.class);
 		Root<Community> root = criteria.from(Community.class);
 		criteria.select(root);
-		Predicate predicate = builder.or(builder.like(
-				root.<String> get("name"), "%" + q + "%"));
+		Predicate predicate = 
+		        builder.and(builder.or(
+		                builder.like(root.<String> get("name"), "%" + q + "%")),
+		                builder.equal(root.get("deleted"), false));
 		criteria.where(predicate);
 		return JPA.em().createQuery(criteria).getResultList();
 	}
