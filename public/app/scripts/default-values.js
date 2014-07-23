@@ -1,6 +1,6 @@
 var DefaultValues = new function() {
 
-    this.DEFAULT_INFINITE_SCROLL_COUNT = 10;
+    this.DEFAULT_INFINITE_SCROLL_COUNT = 7;
     this.VIEW_ALL_SHOW = 2;
     this.POST_PHOTO_UPLOAD = 3;
     this.CONVERSATION_MESSAGE_COUNT = 20;
