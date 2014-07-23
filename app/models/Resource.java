@@ -1,6 +1,5 @@
 package models;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -19,9 +18,6 @@ import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
-import com.mnt.exception.SocialObjectNotCommentableException;
-
-import domain.CommentType;
 import domain.SocialObjectType;
 
 /**

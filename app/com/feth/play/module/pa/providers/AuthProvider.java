@@ -8,6 +8,7 @@ import java.util.Map;
 import play.Application;
 import play.Configuration;
 import play.Logger;
+import play.Play;
 import play.Plugin;
 import play.mvc.Http.Context;
 import play.mvc.Http.Request;
@@ -19,6 +20,9 @@ import com.feth.play.module.pa.user.SessionAuthUser;
 
 public abstract class AuthProvider extends Plugin {
 
+    public static final String APPLICATION_ROOT_URL = 
+            Play.application().configuration().getString("application.root.url");
+    
 	public abstract static class Registry {
 		private static Map<String, AuthProvider> providers = new HashMap<String, AuthProvider>();
 
@@ -89,8 +93,8 @@ public abstract class AuthProvider extends Plugin {
 	}
 
 	protected String getAbsoluteUrl(final Request request) {
-		return PlayAuthenticate.getResolver().auth(getKey())
-				.absoluteURL(request);
+	    //return PlayAuthenticate.getResolver().auth(getKey()).absoluteURL(request);
+	    return APPLICATION_ROOT_URL + PlayAuthenticate.getResolver().auth(getKey()).url();
 	}
 
 	public abstract String getKey();
