@@ -317,7 +317,7 @@ minibean.service('userAboutService',function($resource){
 });
 
 // TODO: I dont like way i am defining PhotoModalController
-var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePhotoModal) {
+var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePhotoModal, usSpinnerService) {
 	$scope.fileReaderSupported = window.FileReader != null;
 	$scope.uploadRightAway = true;
 
@@ -375,6 +375,7 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 
 	$scope.start = function(index) {
 		$scope.progress[index] = 0;
+		usSpinnerService.spin('loading...');
 		$scope.upload[index] = $upload.upload({
 			url : PhotoModalController.url,
 			method: $scope.httpMethod,
@@ -385,6 +386,7 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 			file: $scope.selectedFiles[index],
 			fileFormDataName: 'profile-photo'
 		}).success(function(data, status, headers, config) {
+			usSpinnerService.stop('loading...');
 			profilePhotoModal.CloseModal();
 		});
 	} // End of start
