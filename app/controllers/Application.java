@@ -45,6 +45,7 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
 import com.feth.play.module.pa.user.AuthUser;
+import com.feth.play.module.pa.user.EmailIdentity;
 import com.github.cleverage.elasticsearch.IndexQuery;
 import com.github.cleverage.elasticsearch.IndexResults;
 
@@ -241,8 +242,20 @@ public class Application extends Controller {
 	@Transactional
 	public static Result doSignup() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-		final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM
-				.bindFromRequest();
+		Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM.bindFromRequest();
+		
+		if (!filledForm.hasErrors() && filledForm.get() != null) {
+    		String email = filledForm.get().email;
+    		if (email != null) {
+    		    final User existingUser = User.findByEmail(email);
+                if (existingUser != null && existingUser.emailValidated) {
+        		    List<ValidationError> errors = new ArrayList<>();
+        	        errors.add(new ValidationError(Signup.EMAIL_EXISTS_ERROR_KEY, Signup.EMAIL_EXISTS_ERROR_MESSAGE));
+        	        filledForm.errors().put(Signup.EMAIL_EXISTS_ERROR_KEY, errors);
+                }
+    		}
+		}
+		
 		if (filledForm.hasErrors()) {
 		    String errorRequired = Messages.get("error.required") + " - ";
 		    String errorRequiredFields = "";

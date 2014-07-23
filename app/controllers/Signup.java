@@ -210,10 +210,10 @@ public class Signup extends Controller {
 
 	public static Result exists() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-		final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM.bindFromRequest();
+		Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM.bindFromRequest();
 		List<ValidationError> errors = new ArrayList<>();
 		errors.add(new ValidationError(EMAIL_EXISTS_ERROR_KEY, EMAIL_EXISTS_ERROR_MESSAGE));
-		filledForm.errors().put("userExist", errors);
+		filledForm.errors().put(EMAIL_EXISTS_ERROR_KEY, errors);
 		return badRequest(views.html.signup.render(filledForm));
 	}
 

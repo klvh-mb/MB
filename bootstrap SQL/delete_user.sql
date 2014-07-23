@@ -1,6 +1,11 @@
+SET FOREIGN_KEY_CHECKS = 0;
+delete from Resource where owner_id = ;
+delete from Folder where owner_id = ;
+delete from User_Folder where user_id = ;
 delete from TokenAction where targetUser_id = ;
 delete from User_SecurityRole where user_id = ;
 delete from User_LinkedAccount where user_id = ;
 delete from LinkedAccount where user_id = ;
 delete from User_UserChild where user_id = ;
 delete from User where id = ;
+SET FOREIGN_KEY_CHECKS = 1;
