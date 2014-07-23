@@ -12,8 +12,6 @@ public class TodayWeatherInfo implements Serializable {
     
     private static final long serialVersionUID = -247911530124299908L;
 
-    public final static String JEDIS_KEY = "TODAY_WEATHER";
-    
     private static int REFRESH_MINS = 10;
     private static int REFRESH_SECS = REFRESH_MINS * 60;
     
@@ -38,11 +36,11 @@ public class TodayWeatherInfo implements Serializable {
      */
     public static TodayWeatherInfo getInfo() {
         TodayWeatherInfo info = 
-                (TodayWeatherInfo)JedisCache.cache().getObj(TodayWeatherInfo.JEDIS_KEY, TodayWeatherInfo.class);
+                (TodayWeatherInfo)JedisCache.cache().getObj(JedisCache.TODAY_WEATHER_KEY, TodayWeatherInfo.class);
         if (info == null) {
             info = new TodayWeatherInfo();
             fillInfo(info);
-            JedisCache.cache().putObj(TodayWeatherInfo.JEDIS_KEY, info, TodayWeatherInfo.REFRESH_SECS);
+            JedisCache.cache().putObj(JedisCache.TODAY_WEATHER_KEY, info, TodayWeatherInfo.REFRESH_SECS);
             if (logger.underlyingLogger().isDebugEnabled())
                 logger.underlyingLogger().debug(info.toString());
         }
@@ -50,7 +48,7 @@ public class TodayWeatherInfo implements Serializable {
     }
     
     public static void clearInfo() {
-        JedisCache.cache().remove(TodayWeatherInfo.JEDIS_KEY);
+        JedisCache.cache().remove(JedisCache.TODAY_WEATHER_KEY);
     }
     
     private static TodayWeatherInfo fillInfo(TodayWeatherInfo info) {

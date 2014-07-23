@@ -17,6 +17,7 @@ public class JedisCache {
     public static final String ARTICLE_SLIDER_PREFIX = SYS_PREFIX + "user_sc_";
     public static final String USER_POST_PREFIX = SYS_PREFIX + "user_";
     public static final String COMMUNITY_POST_PREFIX = SYS_PREFIX + "comm_";
+    public final static String TODAY_WEATHER_KEY = "TODAY_WEATHER";
     
     private static JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
     

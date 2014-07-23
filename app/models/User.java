@@ -29,6 +29,7 @@ import models.Community.CommunityType;
 import models.Notification.NotificationType;
 import models.SocialRelation.Action;
 import models.SocialRelation.ActionType;
+import models.TargetingSocialObject.TargetingType;
 import models.TokenAction.Type;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -402,13 +403,19 @@ public class User extends SocialObject implements Subject, Socializable {
     public List<Community> getListOfNotJoinedCommunities() {
         // return the list of comm ids which friends have joined, number of rows based on number of friends.
         Query commIdListQuery = JPA.em().createNativeQuery(
-            "select sr2.target from SocialRelation sr2 where sr2.actor in (select sr.target from SocialRelation sr where (sr.action = ?2 or sr.actionType = ?3) and sr.actor = ?1 union select sr1.actor from SocialRelation sr1 where (sr1.action = ?2 or sr1.actionType = ?3) and sr1.target = ?1 ) and sr2.action = ?4 and sr2.targetType = ?5"
-        );
+                "select sr2.target from SocialRelation sr2 where sr2.actor in " + 
+                        "(select sr.target from SocialRelation sr where (sr.action = ?2 or sr.actionType = ?3) and sr.actor = ?1 union " + 
+                        "select sr1.actor from SocialRelation sr1 where (sr1.action = ?2 or sr1.actionType = ?3) and sr1.target = ?1 ) and " + 
+                        "sr2.action = ?4 and sr2.targetType = ?5 and sr2.target not in (select c.id from Community c where c.system=true and c.targetingType in (?6, ?7, ?8, ?9))");
         commIdListQuery.setParameter(1, this.id);
         commIdListQuery.setParameter(2, SocialRelation.Action.FRIEND.name());
         commIdListQuery.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED.name());
         commIdListQuery.setParameter(4, SocialRelation.Action.MEMBER.name());
         commIdListQuery.setParameter(5, SocialObjectType.COMMUNITY.name());
+        commIdListQuery.setParameter(6, TargetingType.ZODIAC_YEAR.name());
+        commIdListQuery.setParameter(7, TargetingType.ZODIAC_YEAR_MONTH.name());
+        commIdListQuery.setParameter(8, TargetingType.LOCATION_DISTRICT.name());
+        commIdListQuery.setParameter(9, TargetingType.LOCATION_AREA.name());
 
         List<BigInteger> commIds = commIdListQuery.getResultList();
         List<Community> result = Collections.EMPTY_LIST;
