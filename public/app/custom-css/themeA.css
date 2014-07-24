@@ -1115,21 +1115,19 @@ pre {
     position: relative;
     top: -5px;
 }
-/*
-#community-header div:first-child a {
+#community-header-cover a {
     position: absolute;
     display: none;
     right: 25px;
     top: 20px;
 }
-#community-header div:first-child a span:first-child {
+#community-header-cover a span:first-child {
     position: absolute;
     z-index: 10;
 }
-#community-header div:first-child:hover > a {
+#community-header-cover:hover > a {
     display: block;
 }
-*/
 /* Community Page header submenu*/
 #community-header-menu ul {
     position: absolute;
