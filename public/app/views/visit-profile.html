@@ -22,13 +22,13 @@
 							<a ng-click="selectedTab = 3;" ng-class="{activeTabBold: selectedTab == 3}">朋友</a>
                         </div>
                         <div class="pull-right">
-                            <a style="margin:5px 0" ng-show="profile.isf == true && isLoadingEnabled == false" class="btn-general pull-right" data-ng-href="/#/message/{{profile.id}}">Send a Message</a>
+                            <a style="margin:5px 0" ng-show="profile.isf == true && isLoadingEnabled == false" class="btn-general pull-right" data-ng-href="/#/message/{{profile.id}}">私人訊息</a>
                         </div>
                     </li>
                 </ul>
             </div>
             
-            <div ng-show="selectedTab == 1" id="wall" style="height: auto !important;"  ng-controller="UserNewsFeedController" >
+            <div ng-if="selectedTab == 1" id="wall" style="height: auto !important;" ng-controller="UserNewsFeedController" >
                 <div ng-show="profile.isf==true" data-ng-include style="width: 100%;" data-src="'/assets/app/views/home-news-feed-section.html'"></div>
                 <div ng-show="profile.isf==false" class="general-box" style="background-color:#F5F5F5;">
                     <div class="section-title">
@@ -40,11 +40,11 @@
                 </div>
 			 </div>
 			 
-			 <div ng-show="selectedTab == 2" ng-controller="CommunityWidgetByUserIDController">
+			 <div ng-if="selectedTab == 2" ng-controller="CommunityWidgetByUserIDController">
 			 	<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/profile-all-communities-section.html'"></div>
 			 </div>
 			 
-			 <div ng-show="selectedTab == 3" ng-controller="UserFriendsWidgetController">
+			 <div ng-if="selectedTab == 3" ng-controller="UserFriendsWidgetController">
 			 	<div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/profile-all-friends-section.html'"></div>
 			 </div>
 			 
@@ -69,12 +69,12 @@
             <div id="profile-about" class="general-box">
                 <div data-ng-include style="width: 100%;" data-src="'/assets/app/views/profile-about-section.html'"></div>
             </div>
-            <div ng-controller="RecommendedCommunityWidgetController">
+            <div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.fvm.length > 0">
                 <div data-ng-include style="width: 100%;" data-src="'/assets/app/views/utilities/yourFriendsCommunitiesUtility.html'"></div>
-            </div><!--NewCommunity End -->
-            <div ng-controller="UserFriendsWidgetController">
+            </div>
+            <div ng-controller="UserFriendsWidgetController" data-ng-show="result.fvm.length > 0">
                 <div data-ng-include style="width: 100%;" data-src="'/assets/app/views/utilities/friendsUtility.html'"></div>
-            </div><!--Friends End -->
+            </div>
         </div>
     </div>
 </div>

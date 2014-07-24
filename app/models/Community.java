@@ -59,7 +59,8 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
     public static enum CommunityType {
 		OPEN,
 		CLOSE,
-		PRIVATE
+		PRIVATE,
+		PRE_NURSERY
 	}
 
 	@OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY)

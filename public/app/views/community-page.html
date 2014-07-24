@@ -51,8 +51,12 @@
 					<li id="community-header-menu">
 						<!--div class="h5">
 							<img src="{{community.icon}}"><b>{{community.n}}</b>
-						</div-->
-						<div class="divider-cus" ng-show="false"></div>
+						</div>
+						<div class="divider-cus"></div-->
+                        <div ng-class="{activeTabBold: selectedTab == 3}" ng-show="community.typ=='PRE_NURSERY'">
+                            <a ng-click="selectedTab = 3;">幼兒班情報</a>
+                        </div>
+						<div class="divider-cus" ng-show="community.typ=='PRE_NURSERY'"></div>
 						<div ng-class="{activeTabBold: selectedTab == 1}">
 							<a ng-click="selectedTab = 1;">最新訊息</a>
 						</div>
@@ -60,10 +64,6 @@
 						<div ng-class="{activeTabBold: selectedTab == 2}">
 							<a ng-click="selectedTab = 2;">成員</a>
 						</div>
-						<!-- <div class="divider-cus"></div>
-						<div ng-class="{activeBold: selectedTab == 3}">
-							<a ng-click="selectedTab = 3;">Photo Contest</a>
-						</div> -->
 						<div class="dropdown pull-right">
                             <a id="community-settings-dropdown" class="toolsbox toolsbox-end dropdown-toggle" data-toggle="dropdown"><span class="icon-title-contentSetup"></span></a>
                             <ul class="subtoolsbox dropdown-menu" aria-labelledby="community-settings-dropdown">
@@ -87,7 +87,7 @@
 			</div>
 			<!--Community Header End -->
 			<div id="wall">
-				<div class="tab-content" ng-show="selectedTab == 1 ">
+				<div class="tab-content" ng-if="selectedTab == 1 ">
 					<div class="general-box" style="margin:-1px">
 						<div class="wall-title">
                             <span style="margin-left:10px;"/>
@@ -122,13 +122,13 @@
 					</div>
 					<!-- Community Tabs End -->
 					
-					<div class="tab-content" ng-show="selectedTab1 == 1" id="qnapost" ng-controller="QnACommunityController">
+					<div class="tab-content" ng-if="selectedTab1 == 1" id="qnapost" ng-controller="QnACommunityController">
                         <div data-ng-include data-src="'/assets/app/views/community-qna-bar.html'"></div>
                     </div>
-                    <div class="tab-content" ng-show="selectedTab1 == 2" id="post">
+                    <div class="tab-content" ng-if="selectedTab1 == 2" id="post" ng-controller="CommunityPageController">
 						<div data-ng-include data-src="'/assets/app/views/community-post-bar.html'"></div>
 					</div>
-					<div class="tab-content" data-ng-show="selectedTab1 == 3" id="srchbar" data-ng-controller="SearchPageController">
+					<div class="tab-content" ng-if="selectedTab1 == 3" id="srchbar" data-ng-controller="SearchPageController">
 						<input data-ng-model="search_trigger" type="hidden">
 						<div data-ng-include data-src="'/assets/app/views/community-search-bar.html'"></div>
 					</div>
@@ -146,9 +146,14 @@
                 </div>
                 <!-- Closed Community Tips End -->
                 
-                <div class="tab-content row" ng-show="selectedTab == 2 ">
+                <div class="tab-content row" ng-if="selectedTab == 2 ">
                     <div data-ng-controller="CommunityMembersWidgetController" data-ng-include data-src="'/assets/app/views/community-members-section.html'"></div>
                 </div>
+                
+                <div class="tab-content row" ng-if="selectedTab == 3 ">
+                    <div data-ng-controller="MyBookmarkController" data-ng-include data-src="'/assets/app/views/community-prenursery-section.html'"></div>
+                </div>
+                
                 <div class="padding20"></div>
             </div>
             <!--Wall End -->

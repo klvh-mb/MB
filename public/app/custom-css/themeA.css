@@ -1115,6 +1115,7 @@ pre {
     position: relative;
     top: -5px;
 }
+/*
 #community-header div:first-child a {
     position: absolute;
     display: none;
@@ -1128,6 +1129,7 @@ pre {
 #community-header div:first-child:hover > a {
     display: block;
 }
+*/
 /* Community Page header submenu*/
 #community-header-menu ul {
     position: absolute;

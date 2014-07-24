@@ -136,7 +136,7 @@ public class TargetProfile {
     }
     
     public boolean isNewParent() {
-        return childrenMinAgeMonths > 0 && childrenMinAgeMonths < 12;
+        return childrenMinAgeMonths >= 0 && childrenMinAgeMonths < 12;
     }
     
     @Override
