@@ -129,7 +129,7 @@
                             <a class="post-photo-icon" data-ng-show="selectedFiles.length == 0">
                                 <i class="icon-photo-camera-fill" data-ng-click="sendPhoto()"></i>
                             </a>
-                            <button class="btn btn-primary ng-binding" ng-disabled="messageEntry.$pristine || (messageEntry.$dirty && messageText.length < 1)" type="submit" disabled="disabled" 
+                            <button class="btn btn-primary ng-binding" ng-disabled="messageEntry.$pristine || (messageEntry.$dirty && !messageText.length)" type="submit" disabled="disabled" 
                                     data-ng-click="sendMessage(messageText);messageText='';">
                                 發出訊息
                             </button>

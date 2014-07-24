@@ -78,7 +78,7 @@
                 <a class="post-photo-icon" data-ng-hide="qnaCommentSelectedFiles.length >= 3 && commentedOnPost == post.id" id="upload">
                     <i class="icon-photo-camera-fill" data-ng-click="qnaCommentPhoto(post.id)"></i>
                 </a>
-                <button class="btn btn-primary ng-binding" ng-disabled="userComment.$pristine || (userComment.$dirty && commentText.length < 1)" type="submit" disabled="disabled" data-ng-click="answer_to_question(post.id, commentText); commentText=''">
+                <button class="btn btn-primary ng-binding" ng-disabled="userComment.$pristine || (userComment.$dirty && !commentText.length)" type="submit" disabled="disabled" data-ng-click="answer_to_question(post.id, commentText); commentText=''">
                     回覆
                 </button>
                 <input style="visibility:hidden;width:0px;height:0px;" id="qna-comment-photo-id" type="file" name="comment-photo" ng-file-select="onQnACommentFileSelect($files)"/>
