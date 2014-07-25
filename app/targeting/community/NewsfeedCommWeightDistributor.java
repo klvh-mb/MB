@@ -26,7 +26,9 @@ public class NewsfeedCommWeightDistributor {
     public static DistributionResult process(Long userId, int newsfeedFullLen) {
         final DistributionResult result = new DistributionResult();
 
+        // get list of communities with affinity info for user
         List<UserCommunityAffinity> affinities = UserCommunityAffinity.findByUser(userId);
+        // mark scores for each community
         List<Scorable<UserCommunityAffinity>> scores = NewsfeedCommAffinityScorer.markScores(affinities);
 
         int totalScore = 0;
@@ -39,6 +41,7 @@ public class NewsfeedCommWeightDistributor {
             UserCommunityAffinity affinity = scorable.getObject();
 
             if (affinity.isNewsfeedEnabled()) {
+                // each community fetch count based on ratio of scores
                 int entriesCount = totalToFetch * scorable.getScore() / totalScore;
                 result.setEntriesCount(affinity.getCommunityId(), entriesCount);
             }
@@ -52,6 +55,7 @@ public class NewsfeedCommWeightDistributor {
     }
 
     public static class DistributionResult {
+        // (community id, entries count)
         private Map<Long, Integer> nfCountMap = new HashMap<>();
 
         public int getEntriesCount(Long commId) {

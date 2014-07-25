@@ -26,7 +26,7 @@ public class NewsfeedCommTargetingEngine {
 
     // Configurations for news feed
     private static final int NEWSFEED_FULLLENGTH = Play.application().configuration().getInt(NEWSFEED_FULLLENGTH_PROP, 160);
-    private static final double NEWSFEED_TIME_TOL = Play.application().configuration().getDouble(NEWSFEED_TIMEDISORDER_TOL_PROP, 0.4d);
+    private static final double NEWSFEED_TIME_TOL = Play.application().configuration().getDouble(NEWSFEED_TIMEDISORDER_TOL_PROP, 0.3d);  // 30%
 
     /**
      * @param userId
@@ -94,7 +94,7 @@ public class NewsfeedCommTargetingEngine {
 
                 if (isInTimeTolerance) {
                     nfPostIds.add(curPost.getElement());
-                    distTracker.remoteLatest(postPair.first);
+                    distTracker.removeLatest(postPair.first);
                     ratioTracker.onPostPopulated(postPair.first);
 
                     lastPost = curPost;
@@ -109,7 +109,7 @@ public class NewsfeedCommTargetingEngine {
 
                 if (postPair != null) {
                     nfPostIds.add(postPair.second.getElement());
-                    distTracker.remoteLatest(postPair.first);
+                    distTracker.removeLatest(postPair.first);
                     ratioTracker.onPostPopulated(postPair.first);
 
                     lastPost = postPair.second;
@@ -123,7 +123,7 @@ public class NewsfeedCommTargetingEngine {
 
                 if (postPair != null) {
                     nfPostIds.add(postPair.second.getElement());
-                    distTracker.remoteLatest(postPair.first);
+                    distTracker.removeLatest(postPair.first);
                     ratioTracker.onPostPopulated(postPair.first);
 
                     lastPost = postPair.second;
@@ -224,11 +224,14 @@ public class NewsfeedCommTargetingEngine {
             }
         }
 
-        public void remoteLatest(Long commId) {
+        public void removeLatest(Long commId) {
             postDistMap.get(commId).pollFirst();
         }
     }
 
+    /**
+     * Normalize entries count to ratio.
+     */
     private static class RatioCalculator {
         private Map<Long, Integer> ratioMap = new HashMap<>();
         private int totalShares;
