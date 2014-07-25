@@ -25,6 +25,7 @@ public class CommunityVM {
 	@JsonProperty("dte") public Date createDate;
 	@JsonProperty("td") public String tagetDistrict;
 	@JsonProperty("id") public long id;
+	@JsonProperty("sys") public boolean system;
 	@JsonProperty("isM") public boolean isMember;
 	@JsonProperty("isP") public boolean isRequested;
 	@JsonProperty("isO") public boolean isOwner;
@@ -45,6 +46,7 @@ public class CommunityVM {
 		vm.tagetDistrict = c.tagetDistrict;
 		vm.createDate = c.createDate;
 		vm.id = c.id;
+		vm.system = c.system;
 		vm.noOfMembers = memIds.size();
 		
 		//TODO Logic required
@@ -80,6 +82,7 @@ public class CommunityVM {
         vm.tagetDistrict = c.tagetDistrict;
         vm.createDate = c.createDate;
         vm.id = c.id;
+        vm.system = c.system;
         vm.noOfMembers = memIds.size();
         
         //TODO Logic required
