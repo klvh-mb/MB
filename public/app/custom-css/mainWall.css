@@ -289,6 +289,8 @@
     display: inline-block;
     color: white;
     border: 1px solid white;
+    line-height: 1.4;
+    margin-right: 3px;
 }
 .post-qna-tag, .post-sharing-tag {
     font-size: 13px;

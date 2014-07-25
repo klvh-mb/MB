@@ -1171,7 +1171,7 @@ public class User extends SocialObject implements Subject, Socializable {
         Query query = JPA.em().createQuery(
                 "Select p from Post p where p.id in " + 
                 "(select sr.target from SecondarySocialRelation sr " + 
-                "where sr.action = ?1 and sr.actor = ?2 and sr.targetType in ( ?3, ?4 )) and p.deleted = false");
+                "where sr.action = ?1 and sr.actor = ?2 and sr.targetType in ( ?3, ?4 )) and p.deleted = false order by p.socialUpdatedDate desc");
         query.setParameter(1, SecondarySocialRelation.Action.BOOKMARKED);
         query.setParameter(2, this.id);
         query.setParameter(3, SocialObjectType.POST);
@@ -1189,7 +1189,7 @@ public class User extends SocialObject implements Subject, Socializable {
         Query query = JPA.em().createQuery(
                 "Select a from Article a where a.id in " + 
                 "(select sr.target from  SecondarySocialRelation sr " + 
-                "where sr.action = ?1 and sr.actor = ?2 and sr.targetType = ?3) and a.deleted = false");  
+                "where sr.action = ?1 and sr.actor = ?2 and sr.targetType = ?3) and a.deleted = false order by a.publishedDate,a.id desc");  
         query.setParameter(1, SecondarySocialRelation.Action.BOOKMARKED);
         query.setParameter(2, this.id);
         query.setParameter(3, SocialObjectType.ARTICLE);
@@ -1233,10 +1233,10 @@ public class User extends SocialObject implements Subject, Socializable {
                 "SELECT p from Post p where p.id in " + 
                 "(select sr.target from  PrimarySocialRelation sr " + 
                 "where sr.action in (?1) and sr.actor = ?2 and " + 
-                "(sr.targetType = ?5 or  sr.targetType = ?6)) or p.id in " + 
+                "(sr.targetType = ?5 or  sr.targetType = ?6)) and p.deleted = false or p.id in " + 
                 "(select c.socialObject from Comment c where c.id in " + 
                 "(select sr.target from  PrimarySocialRelation sr where sr.action = ?4 and sr.actor = ?2 and " + 
-                "(sr.targetType = ?8 or  sr.targetType = ?7))) and p.deleted = false order by p.socialUpdatedDate desc");
+                "(sr.targetType = ?8 or  sr.targetType = ?7)) and c.deleted = false) and p.deleted = false order by p.socialUpdatedDate desc");
                 query.setParameter(1, PrimarySocialRelation.Action.POSTED);
                 //query.setParameter(3, PrimarySocialRelation.Action.LIKED);
                 query.setParameter(4, PrimarySocialRelation.Action.COMMENTED);

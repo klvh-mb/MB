@@ -54,7 +54,7 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	
 	@Transactional
 	public static List<Article> getAllArticles() {
-		Query q = JPA.em().createQuery("Select a from Article a order by publishedDate desc");
+		Query q = JPA.em().createQuery("Select a from Article a order by publishedDate,id desc");
 		return (List<Article>)q.getResultList();
 	}
 	
@@ -64,9 +64,9 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 
 		Query q;
 		if (id == 0){
-			q = JPA.em().createQuery("Select a from Article a order by publishedDate, id DESC");
+			q = JPA.em().createQuery("Select a from Article a order by publishedDate,id desc");
 		} else {
-			q = JPA.em().createQuery("Select a from Article a where category_id = ?1 order by publishedDate, id DESC");
+			q = JPA.em().createQuery("Select a from Article a where category_id = ?1 order by publishedDate,id desc");
 			q.setParameter(1, id);
 		}
 		q.setFirstResult(offset);
@@ -82,7 +82,7 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	
 	@Transactional
 	public static List<Article> relatedArticles(long id, long categoryId, int n) {
-		Query q = JPA.em().createQuery("Select a from Article a where id != ?1 AND a.category.id = ?2 order by publishedDate desc");
+		Query q = JPA.em().createQuery("Select a from Article a where id != ?1 AND a.category.id = ?2 order by publishedDate,id desc");
 		q.setParameter(1, id);
 		q.setParameter(2, categoryId);
 		q.setMaxResults(n);
@@ -91,7 +91,7 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	
 	@Transactional
 	public static List<Article> getArticles(int n) {
-		Query q = JPA.em().createQuery("Select a from Article a order by publishedDate desc");
+		Query q = JPA.em().createQuery("Select a from Article a order by publishedDate,id desc");
 		q.setFirstResult(0);
 		q.setMaxResults(n);
 		return (List<Article>)q.getResultList();
