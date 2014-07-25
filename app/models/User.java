@@ -335,7 +335,7 @@ public class User extends SocialObject implements Subject, Socializable {
     public List<Community> getListOfJoinedCommunities() {
         Query query = JPA.em().createNativeQuery(
                 "select * from Community c where"+
-                " c.id in (select sr.target from SocialRelation sr where sr.actor = ?1 and sr.action = ?2 and sr.targetType = ?3)",
+                " c.id in (select sr.target from SocialRelation sr where sr.actor = ?1 and sr.action = ?2 and sr.targetType = ?3) and c.deleted = false",
                 Community.class);
         query.setParameter(1, this.id);
         query.setParameter(2, Action.MEMBER.name());
@@ -356,7 +356,7 @@ public class User extends SocialObject implements Subject, Socializable {
     public List<Long> getListOfJoinedCommunityIds() {
         Query query = JPA.em().createNativeQuery(
                 "select c.id from Community c where"+
-                " c.id in (select sr.target from SocialRelation sr where sr.actor = ?1 and sr.action = ?2 and sr.targetType = ?3)");
+                " c.id in (select sr.target from SocialRelation sr where sr.actor = ?1 and sr.action = ?2 and sr.targetType = ?3) and c.deleted = false");
         query.setParameter(1, this.id);
         query.setParameter(2, Action.MEMBER.name());
         query.setParameter(3, SocialObjectType.COMMUNITY.name());
@@ -436,7 +436,7 @@ public class User extends SocialObject implements Subject, Socializable {
             Query q = JPA.em().createNativeQuery(
                     "select * from Community c where"+
                     " not exists (select * from SocialRelation sr where sr.actor = ?1 and target = c.id and sr.action = ?2 and sr.targetType = ?3)"+
-                    " and c.id in ("+ StringUtil.collectionToString(commFrdsCount.keySet(), ",")+") and c.communityType = ?4",
+                    " and c.id in ("+ StringUtil.collectionToString(commFrdsCount.keySet(), ",")+") and c.communityType = ?4 and c.deleted = false",
                     Community.class);
             q.setParameter(1, this.id);
             q.setParameter(2, SocialRelation.Action.MEMBER.name());
