@@ -264,12 +264,12 @@ a:focus {
     font-weight: bold;
     margin-right: 0px;
     position: relative;
-    top: 1px;
     line-height: 30px;
+    display: inline-block;
     /* border-bottom: 3px solid transparent; 
     border-bottom: 3px solid white; 
     _border-bottom: 3px solid white;*/
-    display: inline-block;
+    top: 0px;
 }
 .wall-title-selected {
     border-color: white;
