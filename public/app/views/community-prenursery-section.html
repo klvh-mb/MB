@@ -1,29 +1,54 @@
-<div infinite-scroll='nextArticles()' infinite-scroll-disabled='isBusyA' infinite-scroll-distance='1'>
-    <div data-ng-repeat="article in articles.article">
-        <div class="general-box">
-            <ul class="allpost-wrapper" style="padding: 5px 10px 0px 10px;">
-                <li>
-                    <a href="/#/article/id/{{article.id}}" target="_blank">
-                        <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
-                    </a>
-                    <div>
-                        <a href="/#/article/id/{{article.id}}" target="_blank">
-                            <h4 style="color: #324fe1;"><font><font>{{article.nm}}</font></font></h4>
-                        </a>
-                        <h6>
-                            <a class="tag" data-ng-href="/#/article/show/{{article.ct.id}}">
-                                <font><font>{{article.ct.name}}</font></font>
-                            </a>
-                            <font><font>{{article.pd | date:'yyyy'}}</font></font>
-                            <font><font>{{article.pd | date:'MMM'}}</font></font>
-                            <font><font>{{article.pd | date:'dd hh:mm a'}}</font></font>
-                            <span ng-show="article.nov > 0" class="view-count" style="margin-left:10px;"><img data-ng-src="/assets/app/images/general/icons/view.gif"/>{{article.nov}}</span>
-                            <span ng-show="article.nol > 0" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>{{article.nol}}</span>
-                        </h6>
-                        <p><font><font>{{article.lds|limitTo:85}}...</font></font></p>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
+<div class="general-box">
+    <ul class="pn-wrapper" style="padding: 5px 10px 0px 10px;">
+        <li>
+            <div class="pn-info">
+                <a href="http://www.creative.edu.hk" target="_blank">
+                    啟思幼稚園（帝堡城）
+                </a>
+                <span class="tag">沙田區</span>
+                <h6>電話: 28822005 · 電郵: ckrq@netvigator.com</h6>
+                <div class="pn-info-attr">
+                    <span>開始派表日期: --</span>
+                    <span>開始報名日期: 8月1日</span>
+                    <span>學券: Yes</span>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="general-box">
+    <ul class="pn-wrapper" style="padding: 5px 10px 0px 10px;">
+        <li>
+            <div class="pn-info">
+                <a href="http://www.kwonglambaptist-kg.edu.hk" target="_blank">
+                    廣林浸信會呂郭碧鳳幼稚園
+                </a>
+                <span class="tag">沙田區</span>
+                <h6>電話: 26353036 · 電郵: --</h6>
+                <div class="pn-info-attr">
+                    <span>開始派表日期: 10月2日</span>
+                    <span>開始報名日期: --</span>
+                    <span>學券: Yes</span>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="general-box">
+    <ul class="pn-wrapper" style="padding: 5px 10px 0px 10px;">
+        <li>
+            <div class="pn-info">
+                <a href="http://www.think.edu.hk" target="_blank">
+                    朗思國際幼稚園（馬鞍山）
+                </a>
+                <span class="tag">沙田區</span>
+                <h6>電話: 26337800 · 電郵: thinkkg_kt@think.edu.hk</h6>
+                <div class="pn-info-attr">
+                    <span>開始派表日期: --</span>
+                    <span>開始報名日期: 10月5日</span>
+                    <span>學券: Yes</span>
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>

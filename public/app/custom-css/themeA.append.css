@@ -746,3 +746,50 @@ span.notif-count {
     padding: 2px 5px;
     margin: 0px;
 }​
+
+/*PN Start*/
+.pn-wrapper {
+    position: relative;
+}
+.pn-wrapper li {
+    display: block;
+    padding: 2px 0 0px 0;
+    border-top: #bcbcbc thin solid;
+}
+.pn-wrapper li:first-child {
+    border-top: none;
+}
+.pn-wrapper img {
+    float: left;
+    width: 165px;
+    height: 125px;
+}
+.pn-wrapper .tag {
+    background-color: #008ee3;
+    color: white;
+    border-radius: 5px;
+    padding: 2px 4px;
+    font-weight: bold;
+    font-size: 12px;
+    vertical-align: text-top;
+}
+.pn-wrapper h6 {
+    margin-top: 3px;
+    margin-bottom: 0px;
+}
+.pn-wrapper .pn-info {
+
+}
+.pn-wrapper .pn-info a:first-child {
+    color: #324fe1;
+    font-weight: bold;
+    font-size: 16px;
+    margin-right: 5px;
+}
+.pn-wrapper .pn-info .pn-info-attr {
+    margin: 3px 0 0 0;
+}
+.pn-wrapper .pn-info .pn-info-attr > span {
+    margin-right: 15px;
+}
+/*PN End*/
