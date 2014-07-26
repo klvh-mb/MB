@@ -653,7 +653,6 @@ minibean.controller('SuggestedFriendsWidgetController',function($scope, unFriend
 				if(request.id == id) {
 					request.isP = true;
 				}
-				
 			});
 		});
 	}
@@ -725,11 +724,8 @@ minibean.controller('RecommendedCommunityWidgetController',function($scope, usSp
 	$scope.result = unJoinedCommunityWidgetService.UserCommunitiesNot.get();
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.send_request = function(id) {
-		usSpinnerService.spin('loading...');
 		this.invite = sendJoinRequest.sendRequest.get({id:id},
 				function(data) {
-					usSpinnerService.stop('loading...');
-					
 					angular.forEach($scope.result.fvm, function(request, key){
 						if(request.id == id) {
 							request.isP = true;
@@ -817,7 +813,19 @@ minibean.service('communityWidgetService',function($resource){
 
 minibean.controller('UserCommunityWidgetController',function($scope, communityWidgetService){
 	
-	$scope.result = communityWidgetService.UserCommunities.get();
+	$scope.sysCommunities = [];
+	$scope.myCommunities = [];
+	$scope.result = communityWidgetService.UserCommunities.get({}, 
+        	function(data) {
+                angular.forEach($scope.result.fvm, function(request, key){
+                    if (request.sys) {
+                        $scope.sysCommunities.push(request);
+                    } else {
+                        $scope.myCommunities.push(request);
+                    }
+                });
+            }
+	);
 
 	$scope.selectedTab = 1;
 	

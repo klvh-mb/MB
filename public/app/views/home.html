@@ -6,7 +6,7 @@
 	<div id="content">
 		<div class="row">
 		    <!--div class="col-lg-1 col-md-1 col-xs-1" style="width:2%"></div-->
-			<div class="col-lg-2 col-md-2 col-xs-2" style="width:20%">
+			<div class="col-md-2 col-sm-2 col-xs-2" style="width:20%;">
                 <div id="main-uphoto" data-ng-style="set_background_image()">
                     <img src="/assets/app/images/general/gradient_black_30.png" alt="gradient-black">
                     <a title="user-picture" href="#/about/activities"><img src="/image/get-thumbnail-image-by-id/{{userInfo.id}}" alt="user-picture"></a>
@@ -17,7 +17,6 @@
                     <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/widgets/announcements-widget.html'"></div>
                 </div>
                 <!--Announce End -->
-                
                 <div>
                     <div id="myShortcuts" class="general-box">
                         <div class="con-title">
@@ -33,14 +32,13 @@
                     </div>
                 </div>
                 <!--Newsfeed shortcut End -->
-                
                 <div data-ng-controller="UserCommunityWidgetController" data-ng-show="result.fvm.length > 0">
-                    <div data-ng-include data-src="'/assets/app/views/widgets/my-communities-widget.html'"></div>
+                    <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/widgets/my-communities-widget.html'"></div>
                 </div>
                 <!--MyCommunity End -->
-             </div>
+            </div>
              
-    		 <div class="col-md-6 col-sm-6 col-xs-6" style="width:50%">
+    		<div class="col-md-6 col-sm-6 col-xs-6" style="width:50%">
 	            <div ng-controller="ArticleSliderController" data-ng-include style="width:100%;height:250px;" data-src="'/assets/app/views/articleSlider.html'"></div>
 	            <!--Article Slider End -->
 	            
