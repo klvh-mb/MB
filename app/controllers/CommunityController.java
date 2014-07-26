@@ -263,7 +263,8 @@ public class CommunityController extends Controller{
 
     @Transactional
     public static Result getAllComments(Long id) {
-        logger.underlyingLogger().debug("getAllComments");
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
         Post post = Post.findById(id);
         List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
         List<Comment> comments = post.getCommentsOfPost();
@@ -271,18 +272,29 @@ public class CommunityController extends Controller{
             CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
             commentsToShow.add(commentVM);
         }
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[p="+id+"] getAllComments. Count="+comments.size()+". Took "+sw.getElapsedMS()+"ms");
+        }
         return ok(Json.toJson(commentsToShow));
     }
     
     @Transactional
     public static Result getAllAnswers(Long id) {
-        logger.underlyingLogger().debug("getAllAnswers");
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
         Post post = Post.findById(id);
         List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
         List<Comment> comments = post.getCommentsOfPost();
         for(Comment comment : comments) {
             CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
             commentsToShow.add(commentVM);
+        }
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[p="+id+"] getAllAnswers. Count="+comments.size()+". Took "+sw.getElapsedMS()+"ms");
         }
         return ok(Json.toJson(commentsToShow));
     }
