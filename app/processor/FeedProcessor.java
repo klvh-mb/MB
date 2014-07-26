@@ -20,6 +20,9 @@ import akka.actor.ActorSystem;
 
 import com.typesafe.plugin.RedisPlugin;
 
+/**
+ * Processor for NewsFeed.
+ */
 public class FeedProcessor {
     private static play.api.Logger logger = play.api.Logger.apply(FeedProcessor.class);
 
@@ -153,13 +156,9 @@ public class FeedProcessor {
     }
 
     /**
-     * On system startup.
+     * On system startup. Bootstrap different community NF queues.
      */
-	public static void updateCommunityLevelFeed() {
-        if (logger.underlyingLogger().isDebugEnabled()) {
-	        logger.underlyingLogger().debug("updateCommunityLevelFeed");
-        }
-
+	public static void bootstrapCommunityLevelFeed() {
 		ActorSystem  actorSystem = Akka.system();
 		 actorSystem.scheduler().scheduleOnce(
 			Duration.create(0, TimeUnit.MILLISECONDS),
@@ -168,26 +167,42 @@ public class FeedProcessor {
 					JPA.withTransaction(new play.libs.F.Callback0() {
 						@Override
 						public void invoke() throws Throwable {
-							final List<BigInteger> ids = JPA.em().createNativeQuery("SELECT id from Community where excludeFromNewsfeed = 0").getResultList();
+                            final List<Object[]> commEntries = JPA.em().createNativeQuery("SELECT id, deleted, excludeFromNewsfeed from Community").getResultList();
 
-							JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
+                            logger.underlyingLogger().info("bootstrapCommunityLevelFeed - start. Total communities: "+commEntries.size());
+
+                            int numDelExclude=0, numActive=0;
+
+                            JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 							Jedis j = null;
                             try {
                                 j = jedisPool.getResource();
-                                for (BigInteger communityId : ids) {
+                                for (Object[] commEntry : commEntries) {
                                     try {
-                                        Query simpleQuery = JPA.em().createQuery("SELECT p from Post p where p.community.id = ?1 order by p.auditFields.updatedDate desc");
-                                        simpleQuery.setParameter(1, communityId.longValue());
-                                        simpleQuery.setFirstResult(0);
-                                        simpleQuery.setMaxResults(MAX_COMM_QUEUE_LENGTH);
-                                        List<Post> posts = (List<Post>)simpleQuery.getResultList();
+                                        BigInteger communityId = (BigInteger) commEntry[0];
+                                        Boolean deleted = (Boolean) commEntry[1];
+                                        Boolean excludeFromNewsfeed = (Boolean) commEntry[2];   // community level exclude NF
 
+                                        // purge old queue from Redis
                                         j.del(COMMUNITY+communityId.longValue());
-                                        for(Post p: posts){
-                                            j.zadd(COMMUNITY+communityId.longValue(), p.getSocialUpdatedDate().getTime(), p.id.toString());
+
+                                        // create queue and populate posts if active
+                                        if (!deleted && !excludeFromNewsfeed) {
+                                            Query simpleQuery = JPA.em().createQuery("SELECT p from Post p where p.community.id = ?1 order by p.socialUpdatedDate desc");
+                                            simpleQuery.setParameter(1, communityId.longValue());
+                                            simpleQuery.setFirstResult(0);
+                                            simpleQuery.setMaxResults(MAX_COMM_QUEUE_LENGTH);
+
+                                            List<Post> posts = (List<Post>)simpleQuery.getResultList();
+                                            for (Post p: posts){
+                                                j.zadd(COMMUNITY+communityId.longValue(), p.getSocialUpdatedDate().getTime(), p.id.toString());
+                                            }
+                                            numActive++;
+                                        } else {
+                                            numDelExclude++;
                                         }
                                     } catch (Exception e) {
-                                        logger.underlyingLogger().error("Error in updateCommunityLevelFeed", e);
+                                        logger.underlyingLogger().error("Error in bootstrapCommunityLevelFeed", e);
                                     }
                                 }
                             } finally {
@@ -195,6 +210,8 @@ public class FeedProcessor {
                                     jedisPool.returnResource(j);
                                 }
                             }
+
+                            logger.underlyingLogger().info("bootstrapCommunityLevelFeed - end. NumActive="+numActive+", NumDeletedExcluded="+numDelExclude);
 						}
 					});
 			    }

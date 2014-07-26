@@ -25,14 +25,14 @@ public class NewsfeedCommTargetingEngine {
     private static final String NEWSFEED_TIMEDISORDER_TOL_PROP = "newsfeed.timedisorder.tolerance";
 
     // Configurations for news feed
-    private static final int NEWSFEED_FULLLENGTH = Play.application().configuration().getInt(NEWSFEED_FULLLENGTH_PROP, 160);
-    private static final double NEWSFEED_TIME_TOL = Play.application().configuration().getDouble(NEWSFEED_TIMEDISORDER_TOL_PROP, 0.3d);  // 30%
+    public static final int NEWSFEED_FULLLENGTH = Play.application().configuration().getInt(NEWSFEED_FULLLENGTH_PROP, 120);
+    public static final double NEWSFEED_TIME_TOL = Play.application().configuration().getDouble(NEWSFEED_TIMEDISORDER_TOL_PROP, 0.2d);  // 20%
 
     /**
      * @param userId
      */
     public static void indexCommNewsfeedForUser(Long userId) {
-        logger.underlyingLogger().info("[u="+userId+"] indexCommNewsfeedForUser - start");
+        logger.underlyingLogger().info("[u="+userId+"] indexCommNewsfeedForUser - start. timeTolerance="+NEWSFEED_TIME_TOL);
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         // Get distribution
@@ -67,7 +67,7 @@ public class NewsfeedCommTargetingEngine {
             timeToleranceMs = (long) ((maxTime.getMillis() - minTime.getMillis()) * NEWSFEED_TIME_TOL);
         }
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+userId+"] Time - min="+minTime+" max="+maxTime+" tol="+timeToleranceMs);
+            logger.underlyingLogger().debug("[u="+userId+"] Time - min="+minTime+" max="+maxTime+" tol="+(timeToleranceMs/3_600_000)+"hr");
         }
 
         ratioCalculator.calculate();

@@ -15,6 +15,7 @@ import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AuthException;
 
 import controllers.routes;
+import targeting.community.NewsfeedCommTargetingEngine;
 
 public class Global extends GlobalSettings {
     private static final play.api.Logger logger = play.api.Logger.apply("application");
@@ -78,8 +79,12 @@ public class Global extends GlobalSettings {
 				init();
 			}
 		});
-		
-		FeedProcessor.updateCommunityLevelFeed();
+
+        // bootstrap community feed Redis queues
+		FeedProcessor.bootstrapCommunityLevelFeed();
+
+        logger.underlyingLogger().info("NewsFeed timeTolerance: "+ NewsfeedCommTargetingEngine.NEWSFEED_TIME_TOL);
+        logger.underlyingLogger().info("NewsFeed fullLength: "+ NewsfeedCommTargetingEngine.NEWSFEED_FULLLENGTH);
 	}
 
 	private void init() {

@@ -731,7 +731,7 @@ public class CommunityController extends Controller{
         NewsFeedVM vm = new NewsFeedVM(localUser, posts);
 
         sw.stop();
-        logger.underlyingLogger().info("[u="+localUser.id+"] getNewsfeeds(offset="+offset+"). vm create took "+sw.getElapsedMS()+"ms");
+        logger.underlyingLogger().info("[u="+localUser.id+"] getNewsfeeds(offset="+offset+") count="+posts.size()+". vm create Took "+sw.getElapsedMS()+"ms");
         return ok(Json.toJson(vm));
     }
     

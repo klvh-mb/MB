@@ -335,7 +335,8 @@ public class ArticleController extends Controller {
     public static Result getImage(Long year, Long month, Long date, String name) {
 	    response().setHeader("Cache-Control", "max-age=604800");
         String path = getImageUrl(year, month, date, name);
-        logger.underlyingLogger().debug(path);
+
+        logger.underlyingLogger().debug("getImage. path="+path);
         return ok(new File(path));
     }
     

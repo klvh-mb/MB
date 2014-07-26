@@ -1,7 +1,6 @@
 package targeting.community;
 
 import models.UserCommunityAffinity;
-import play.Play;
 import targeting.Scorable;
 
 import java.util.HashMap;

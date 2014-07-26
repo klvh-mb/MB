@@ -52,14 +52,15 @@ public class UserController extends Controller {
     @Transactional(readOnly=true)
     public static Result isNewsfeedEnabledForCommunity(Long communityId) {
         final User localUser = Application.getLocalUser(session());
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[c="+communityId+",u="+localUser.id+"] isNewsfeedEnabledForCommunity");
-        }
-        
+
         UserCommunityAffinity affinity = UserCommunityAffinity.findByUserCommunity(localUser.id, communityId);
         if (affinity == null)
             return status(500);
-        
+
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[c="+communityId+",u="+localUser.id+"] isNewsfeedEnabledForCommunity: "+affinity.isNewsfeedEnabled());
+        }
+
         Map<String, Boolean> map = new HashMap<>();
         map.put("newsfeedEnabled", affinity.isNewsfeedEnabled());
         return ok(Json.toJson(map));
@@ -68,17 +69,20 @@ public class UserController extends Controller {
     @Transactional
     public static Result toggleNewsfeedEnabledForCommunity(Long communityId) {
         final User localUser = Application.getLocalUser(session());
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[c="+communityId+",u="+localUser.id+"] toggleNewsfeedEnabledForCommunity");
-        }
-        
+
         UserCommunityAffinity affinity = UserCommunityAffinity.findByUserCommunity(localUser.id, communityId);
         if (affinity == null)
             return status(500);
-        
-        affinity.setNewsfeedEnabled(!affinity.isNewsfeedEnabled());
+
+        boolean target = !affinity.isNewsfeedEnabled();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[c="+communityId+",u="+localUser.id+"] toggleNewsfeedEnabledForCommunity to: "+target);
+        }
+
+        affinity.setNewsfeedEnabled(target);
+
         Map<String, Boolean> map = new HashMap<>();
-        map.put("newsfeedEnabled", affinity.isNewsfeedEnabled());
+        map.put("newsfeedEnabled", target);
         return ok(Json.toJson(map));
     }
     
