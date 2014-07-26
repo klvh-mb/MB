@@ -275,7 +275,7 @@ public class CommunityController extends Controller{
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[p="+id+"] getAllComments. Count="+comments.size()+". Took "+sw.getElapsedMS()+"ms");
+            logger.underlyingLogger().debug("[p="+id+"] getAllComments count="+comments.size()+". Took "+sw.getElapsedMS()+"ms");
         }
         return ok(Json.toJson(commentsToShow));
     }
@@ -294,7 +294,7 @@ public class CommunityController extends Controller{
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[p="+id+"] getAllAnswers. Count="+comments.size()+". Took "+sw.getElapsedMS()+"ms");
+            logger.underlyingLogger().debug("[p="+id+"] getAllAnswers count="+comments.size()+". Took "+sw.getElapsedMS()+"ms");
         }
         return ok(Json.toJson(commentsToShow));
     }

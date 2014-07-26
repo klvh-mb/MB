@@ -47,3 +47,8 @@ CREATE INDEX article_idx_pubdate ON article (publishedDate);
 CREATE INDEX article_idx_views ON article (noOfViews);
 
 CREATE INDEX article_idx_likes ON article (noOfLikes);
+
+
+
+-- PreNursery
+CREATE INDEX prenursery_idx_region_dist ON prenursery (regionId, districtId);
