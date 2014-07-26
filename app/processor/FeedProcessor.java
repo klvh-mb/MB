@@ -171,7 +171,7 @@ public class FeedProcessor {
 
                             logger.underlyingLogger().info("bootstrapCommunityLevelFeed - start. Total communities: "+commEntries.size());
 
-                            int numDelExclude=0, numActive=0;
+                            int numActive=0, numDeleted=0, numExcludeNF=0;
 
                             JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 							Jedis j = null;
@@ -186,9 +186,13 @@ public class FeedProcessor {
                                         // purge old queue from Redis
                                         j.del(COMMUNITY+communityId.longValue());
 
-                                        // create queue and populate posts if active
-                                        if (!deleted && !excludeFromNewsfeed) {
-                                            Query simpleQuery = JPA.em().createQuery("SELECT p from Post p where p.community.id = ?1 order by p.socialUpdatedDate desc");
+                                        if (deleted) {
+                                            numDeleted++;
+                                        } else if (excludeFromNewsfeed) {
+                                            numExcludeNF++;
+                                        } else {
+                                            // create queue and populate posts (un-deleted) if active
+                                            Query simpleQuery = JPA.em().createQuery("SELECT p from Post p where p.community.id = ?1 and p.deleted = 0 order by p.socialUpdatedDate desc");
                                             simpleQuery.setParameter(1, communityId.longValue());
                                             simpleQuery.setFirstResult(0);
                                             simpleQuery.setMaxResults(MAX_COMM_QUEUE_LENGTH);
@@ -198,8 +202,6 @@ public class FeedProcessor {
                                                 j.zadd(COMMUNITY+communityId.longValue(), p.getSocialUpdatedDate().getTime(), p.id.toString());
                                             }
                                             numActive++;
-                                        } else {
-                                            numDelExclude++;
                                         }
                                     } catch (Exception e) {
                                         logger.underlyingLogger().error("Error in bootstrapCommunityLevelFeed", e);
@@ -211,7 +213,7 @@ public class FeedProcessor {
                                 }
                             }
 
-                            logger.underlyingLogger().info("bootstrapCommunityLevelFeed - end. NumActive="+numActive+", NumDeletedExcluded="+numDelExclude);
+                            logger.underlyingLogger().info("bootstrapCommunityLevelFeed - end. NumActive="+numActive+", NumDeleted="+numDeleted+", NumExcludeNF="+numExcludeNF);
 						}
 					});
 			    }
