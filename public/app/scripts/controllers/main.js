@@ -702,13 +702,35 @@ minibean.controller('CommunityMembersWidgetController',function($scope, $routePa
 
 ///////////////////////// Community PN Service Start //////////////////////////////////
 minibean.service('pnService',function($resource){
-	this.PNs = $resource(
+	this.PNCommunities = $resource(
+            '/get-pn-communities',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET', isArray:true}
+            }
+    );
+    this.PNs = $resource(
 			'/getPNs/:id',
             {alt:'json',callback:'JSON_CALLBACK'},
 			{
 				get: {method:'GET', params:{id:'@id'},isArray:true}
 			}
 	);
+});
+
+minibean.controller('PNCommunitiesUtilityController', function($scope, $routeParams, pnService, sendJoinRequest, $http){
+    $scope.pnCommunities = pnService.PNCommunities.get();
+    $scope.send_request = function(id) {
+        this.invite = sendJoinRequest.sendRequest.get({id:id},
+                function(data) {
+                    angular.forEach($scope.pnCommunities, function(request, key){
+                        if(request.id == id) {
+                            request.isP = true;
+                        }
+                    });
+                }
+        );
+    }
 });
 
 minibean.controller('CommunityPNController',function($scope, $routeParams, pnService, $http){
