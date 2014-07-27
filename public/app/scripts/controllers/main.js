@@ -1969,7 +1969,9 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
 });
 
 minibean.controller('CommunityPageController', function($scope, $routeParams, $http, profilePhotoModal, searchMembersService, iconsService,
-		allCommentsService, communityPageService, likeFrameworkService, bookmarkPostService, communityJoinService, $upload, $timeout, usSpinnerService){
+		allCommentsService, communityPageService, likeFrameworkService, bookmarkPostService, communityJoinService, userInfoService, $upload, $timeout, usSpinnerService){
+	
+	$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
 	
 	$scope.$on('$viewContentLoaded', function() {
 		usSpinnerService.spin('loading...');
