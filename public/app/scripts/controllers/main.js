@@ -746,9 +746,16 @@ minibean.controller('PNCommunitiesUtilityController', function($scope, $routePar
 minibean.controller('CommunityPNController',function($scope, $routeParams, pnService, $http){
     $scope.myDistrictPNs = [];
     $scope.otherPNs = [];
+    var curDistrict = '';
+    var tagColorIndex = -1;
 	$scope.pns = pnService.PNs.get({id:$routeParams.id}, 
 	       function(data) {
                 angular.forEach($scope.pns, function(request, key){
+                    if (curDistrict == '' || curDistrict != request.dis) {
+                        curDistrict = request.dis;
+                        tagColorIndex++;
+                    }
+                    request.tagc = DefaultValues.tagColors[tagColorIndex];
                     if (request.myd) {
                         $scope.myDistrictPNs.push(request);
                     } else {

@@ -5,12 +5,25 @@ var DefaultValues = new function() {
     this.POST_PHOTO_UPLOAD = 3;
     this.CONVERSATION_MESSAGE_COUNT = 20;
     
+    this.tagColors = [
+                        '#6D63DB',
+                        '#DB63B5',
+                        '#4DA55F',
+                        '#CEA356',
+                        '#D8806F',
+                        '#6389DB',
+                        '#C863DB',
+                        '#53B1A6',
+                        '#A8B92A',
+                        '#CE8B56'
+                     ];
+                      
     this.genders = [
                        {value: 'Male', text: '男'},
                        {value: 'Female', text: '女'}
                    ];
      
-     this.years = [
+    this.years = [
                        {value: '1998', text: '1998'},
                        {value: '1997', text: '1997'},
                        {value: '1996', text: '1996'},
@@ -47,7 +60,7 @@ var DefaultValues = new function() {
                        {value: '1965', text: '1965'},
                        {value: '1964', text: '1964'},
                        {value: '<1964', text: '1964之前'}
-                   ];
+                  ];
                    
     this.communityType = [
                            {value: 'OPEN', text: 'Open'},
