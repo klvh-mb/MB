@@ -773,10 +773,6 @@ span.notif-count {
     font-size: 12px;
     vertical-align: text-top;
 }
-.pn-wrapper h6 {
-    margin-top: 3px;
-    margin-bottom: 0px;
-}
 .pn-wrapper .pn-info {
 
 }
@@ -786,10 +782,17 @@ span.notif-count {
     font-size: 16px;
     margin-right: 5px;
 }
+.pn-wrapper .pn-info .pn-info-note {
+    margin-top: 3px;
+    margin-bottom: 0px;
+    font-size: 12px;
+    color: #333;
+}
 .pn-wrapper .pn-info .pn-info-attr {
     margin: 3px 0 0 0;
 }
 .pn-wrapper .pn-info .pn-info-attr > span {
-    margin-right: 15px;
+    margin-left: 15px;
+    font-size: 14px;
 }
 /*PN End*/

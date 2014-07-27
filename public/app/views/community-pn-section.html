@@ -16,11 +16,12 @@
                     {{pn.n}}
                 </a>
                 <span class="tag">{{pn.dis}}</span>
-                <h6>電話: {{pn.pho}} · 電郵: {{pn.em}}</h6>
+                <div class="pn-info-note"><span ng-show="pn.pho">電話: {{pn.pho}}</span><span ng-show="pn.em"> · 電郵: {{pn.em}}<span></div>
                 <div class="pn-info-attr">
-                    <span>開始派表日期: {{pn.fds}}</span>
-                    <span>開始報名日期: {{pn.ads}}</span>
-                    <span ng-show="pn.fom">申請表格: <a href="{{pn.fom}}" target="_blank"><i class="glyphicon glyphicon-download-alt"></i></a></span>
+                    <span>開始派表日期: {{pn.fds}}<span ng-show="!pn.fds">--</span></span>
+                    <span>開始報名日期: {{pn.ads}}<span ng-show="!pn.ads">--</span></span>
+                    <span>截止日期: {{pn.eds}}<span ng-show="!pn.eds">--</span></span>
+                    <span class="pull-right" ng-show="pn.fom">申請表格: <a href="{{pn.fom}}" target="_blank"><i class="glyphicon glyphicon-download-alt"></i></a></span>
                 </div>
             </div>
         </li>
@@ -45,11 +46,12 @@
                     {{pn.n}}
                 </a>
                 <span class="tag">{{pn.dis}}</span>
-                <h6>電話: {{pn.pho}} · 電郵: {{pn.em}}</h6>
+                <div class="pn-info-note"><span ng-show="pn.pho">電話: {{pn.pho}}</span><span ng-show="pn.em"> · 電郵: {{pn.em}}<span></div>
                 <div class="pn-info-attr">
-                    <span>開始派表日期: {{pn.fds}}</span>
-                    <span>開始報名日期: {{pn.ads}}</span>
-                    <span ng-show="pn.fom">申請表格: <a href="{{pn.fom}}" target="_blank"><i class="glyphicon glyphicon-download-alt"></i></a></span>
+                    <span>開始派表日期: {{pn.fds}}<span ng-show="!pn.fds">--</span></span>
+                    <span>開始報名日期: {{pn.ads}}<span ng-show="!pn.ads">--</span></span>
+                    <span>截止日期: {{pn.eds}}<span ng-show="!pn.eds">--</span></span>
+                    <span class="pull-right" ng-show="pn.fom">申請表格: <a href="{{pn.fom}}" target="_blank"><i class="glyphicon glyphicon-download-alt"></i></a></span>
                 </div>
             </div>
         </li>
