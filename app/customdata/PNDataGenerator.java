@@ -39,16 +39,19 @@ public class PNDataGenerator {
         Map<String, School> overrides = genFromFile();
 
         // 3) Merge
+        int overrideCount = 0;
         for(String key : overrides.keySet()) {
             School override = overrides.get(key);
 
             School pn = masterMap.get(key);
             if (pn != null) {
                 pn.mergeOverride(override);
+                overrideCount++;
             } else {
                 masterMap.put(key, override);
             }
         }
+        System.out.println("Overridden. Count="+overrideCount);
 
         List<PreNursery> pNs = new ArrayList<>();
         for (School entry : masterMap.values()) {
