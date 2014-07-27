@@ -35,9 +35,9 @@ import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
 import targeting.community.CommunityTargetingEngine;
-import viewmodel.LocationVM;
 import viewmodel.PostIndexVM;
 import viewmodel.TodayWeatherInfoVM;
+import viewmodel.UserTargetProfileVM;
 import views.html.signup;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
@@ -50,6 +50,7 @@ import com.github.cleverage.elasticsearch.IndexQuery;
 import com.github.cleverage.elasticsearch.IndexResults;
 
 import common.model.TargetGender;
+import common.model.TargetProfile;
 import common.model.TodayWeatherInfo;
 import common.utils.DateTimeUtil;
 import domain.DefaultValues;
@@ -67,6 +68,17 @@ public class Application extends Controller {
 	    return User.getSuperAdmin();
 	}
 	
+	@Transactional
+    public static Result getUserTargetProfile() {
+	    final User localUser = getLocalUser(session());
+	    TargetProfile targetProfile = TargetProfile.fromUser(localUser);
+        if (targetProfile == null) {
+            logger.underlyingLogger().error(String.format("[u=%d] getUserTargetProfile returns null", localUser.getId()));
+            return status(500);
+        }
+        return ok(Json.toJson(new UserTargetProfileVM(targetProfile)));
+    }
+    
 	@Transactional
 	public static Result getTodayWeatherInfo() {
 	    TodayWeatherInfo info = TodayWeatherInfo.getInfo();
@@ -90,7 +102,7 @@ public class Application extends Controller {
 	 */
 	public static Result home(User user) {
         if (logger.underlyingLogger().isDebugEnabled()) {
-		    logger.underlyingLogger().debug("[u="+user.getId()+"] Application - home()");
+		    logger.underlyingLogger().debug("[u="+user.getId()+"] home()");
         }
 		
 		if (user.userInfo == null) {

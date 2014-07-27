@@ -58,7 +58,7 @@
   				<div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.fvm.length > 0">
                     <div data-ng-include style="width: 100%;" data-src="'/assets/app/views/utilities/yourFriendsCommunitiesUtility.html'"></div>
 				</div>
-				<div ng-controller="PNCommunitiesUtilityController" data-ng-show="pnCommunities.length > 0">
+				<div ng-controller="PNCommunitiesUtilityController" data-ng-show="pnCommunities.length > 0 && userTargetProfile.pn">
                     <div data-ng-include style="width: 100%;" data-src="'/assets/app/views/utilities/pnCommunitiesUtility.html'"></div>
                 </div>
                 <div ng-controller="FriendsWidgetController" data-ng-show="result.fvm.length > 0">

@@ -13,12 +13,11 @@ GET     /restricted                 controllers.Application.restricted
 GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
 
 GET     /profile                    controllers.Application.profile
-
+GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
 GET     /login                      controllers.Application.login
 POST    /login                      controllers.Application.doLogin
 POST	/saveSignupInfo				controllers.Application.saveSignupInfo
 POST    /saveSignupInfoFb           controllers.Application.saveSignupInfoFb
-POST	/article/comment			controllers.ArticleController.commentOnArticle()
 
 GET		/getAllArticleCategory		controllers.ArticleController.getAllArticleCategory
 GET     /get-all-Articles			controllers.ArticleController.getAllArticles

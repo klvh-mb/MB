@@ -30,12 +30,14 @@ public class TargetProfile {
     private int childrenMaxAgeMonths;
     
     private List<TargetYear> childYears;
+    private List<DateTime> childBirthDates;
     
     // TODO: Add Twins Target Support
 
     public static TargetProfile fromUser(User user) {
         TargetProfile profile = new TargetProfile();
         List<TargetYear> childYears = new ArrayList<TargetYear>();
+        List<DateTime> childBirthDates = new ArrayList<DateTime>();
         
         if (user.userInfo == null)
             return null;
@@ -73,6 +75,7 @@ public class TargetProfile {
                         childrenMaxAge = months.getMonths();
                     }
                     childYears.add(TargetYear.valueOf(birthDate));
+                    childBirthDates.add(birthDate);
                 }
             }
             if (hasBoy && hasGirl) {
@@ -84,25 +87,11 @@ public class TargetProfile {
             }
         }
         
-        // TODO - keith
-        // return random year for testing
-        /*
-        if (CollectionUtils.isEmpty(childYears)) {
-            int minYear = 2008;
-            int maxYear = 2015;
-            int year = new Random().nextInt((maxYear - minYear) + 1) + minYear;
-            childYears.add(TargetYear.valueOf(year));
-        }
-        */
-        
         profile.childrenGender = childrenGender;
         profile.childrenMinAgeMonths = (childrenMinAge == null) ? Integer.MIN_VALUE : childrenMinAge;
         profile.childrenMaxAgeMonths = (childrenMaxAge == null) ? Integer.MAX_VALUE : childrenMaxAge;
         profile.childYears = childYears;
-        
-        // TODO - keith
-        // return random district
-        //profile.location = Location.getHongKongDistricts().get(new Random().nextInt(18));
+        profile.childBirthDates = childBirthDates;
         
         return profile;
     }
@@ -133,6 +122,14 @@ public class TargetProfile {
 
     public List<TargetYear> getChildYears() {
         return childYears;
+    }
+    
+    public List<DateTime> getChildBirthDates() {
+        return childBirthDates;
+    }
+    
+    public boolean isSoonParent() {
+        return childrenMinAgeMonths < 0;
     }
     
     public boolean isNewParent() {

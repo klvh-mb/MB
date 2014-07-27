@@ -1,7 +1,5 @@
 package common.model;
 
-import scala.concurrent.stm.TArray;
-
 /**
  * Created by IntelliJ IDEA.
  * Date: 29/5/14

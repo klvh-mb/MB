@@ -118,6 +118,14 @@ minibean.service('userInfoService',function($resource){
 				get: {method:'GET'}
 			}
 	);
+	
+	this.UserTargetProfile = $resource(
+            '/get-user-target-profile',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET'}
+            }
+    );
 });
 
 minibean.service('userNotification',function($resource){
@@ -197,6 +205,8 @@ minibean.controller('ApplicationController',function($scope,$location, userInfoS
 	acceptJoinRequestService, acceptFriendRequestService, userMessageNotifications, notificationMarkReadService, usSpinnerService){
 	
 	$scope.userInfo = userInfoService.UserInfo.get();
+	$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
+	
 	$scope.set_background_image = function() {
 		return {background : 'url(/image/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+')'};
 	} 
