@@ -1,5 +1,6 @@
 package controllers;
 
+import common.cache.LocationCache;
 import indexing.PostIndex;
 
 import java.text.SimpleDateFormat;
@@ -355,13 +356,7 @@ public class Application extends Controller {
     
 	@Transactional
     public static Result getAllDistricts() {
-        List<Location> locations = Location.getHongKongDistricts();
-        List<LocationVM> locationVMs = new ArrayList<>();
-        for(Location location : locations) {
-            LocationVM vm = LocationVM.locationVM(location);
-            locationVMs.add(vm);
-        }
-        return ok(Json.toJson(locationVMs));
+        return ok(Json.toJson(LocationCache.getHongKongDistrictsVM()));
     }
    
 	@Transactional

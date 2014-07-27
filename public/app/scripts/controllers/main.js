@@ -699,6 +699,24 @@ minibean.controller('CommunityMembersWidgetController',function($scope, $routePa
 
 ///////////////////////// Community Members Widget Service Ends //////////////////////////////////
 
+
+///////////////////////// Community PN Service Start //////////////////////////////////
+minibean.service('pnService',function($resource){
+	this.PNs = $resource(
+			'/getPNs/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'GET', params:{id:'@id'},isArray:true}
+			}
+	);
+});
+
+minibean.controller('CommunityPNController',function($scope, $routeParams, pnService, $http){
+	$scope.pns = pnService.PNs.get({id:$routeParams.id});
+});
+///////////////////////// Community PN Ends //////////////////////////////////
+
+
 ///////////////////////// User UnJoined Communities Widget Service Start //////////////////////////////////
 minibean.service('unJoinedCommunityWidgetService',function($resource){
 	this.UserCommunitiesNot = $resource(

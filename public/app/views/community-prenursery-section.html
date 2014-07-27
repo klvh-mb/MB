@@ -7,7 +7,7 @@
 </div>
 <div class="padding5"></div>
     
-<div class="general-box" ng-repeat="pn in pns" ng-show="community.myd">
+<div class="general-box" ng-repeat="pn in pns" ng-show="pn.myd">
     <ul class="pn-wrapper" style="padding: 5px 10px 0px 10px;">
         <li>
             <div class="pn-info">
@@ -34,7 +34,7 @@
 </div>
 <div class="padding5"></div>
 
-<div class="general-box" ng-repeat="pn in pns" ng-show="!community.myd">
+<div class="general-box" ng-repeat="pn in pns" ng-show="!pn.myd">
     <ul class="pn-wrapper" style="padding: 5px 10px 0px 10px;">
         <li>
             <div class="pn-info">

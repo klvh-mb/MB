@@ -183,6 +183,8 @@ GET		/unlike-post/:post_id					controllers.CommunityController.unlikeThePost(pos
 GET		/like-comment/:comment_id				controllers.CommunityController.likeTheComment(comment_id:Long)
 GET		/unlike-comment/:comment_id				controllers.CommunityController.unlikeTheComment(comment_id:Long)
 
+GET		/getPNs/:id	                            controllers.PreNurseryController.getPNs(id:Long)
+
 # indexing with elasic search
 GET		/searchForPosts/index/:query/:community_id/:offset	controllers.Application.searchForPosts(query: String, community_id: Long,offset:Long)
 

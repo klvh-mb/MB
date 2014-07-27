@@ -37,6 +37,7 @@ public class DataBootstrap {
         bootstrapUser();
         bootstrapLocation();
         bootstrapCommunity();
+        bootstrapPNCommunity();
         
         // clear cache
         clearCache();
@@ -539,7 +540,6 @@ public class DataBootstrap {
         createZodiacCommunity(name, desc, 2019);
         
         // District communities
-        
         List<Location> districts = Location.getHongKongDistricts();
         for (Location district : districts) {
             name = district.displayName + "媽媽會♥";
@@ -547,6 +547,28 @@ public class DataBootstrap {
             createLocationCommunity(name, desc, district);
         }
     }
+
+    private static void bootstrapPNCommunity() {
+        Query q = JPA.em().createQuery("Select count(c) from Community c where c.communityType = ?1 and c.system = true");
+        q.setParameter(1, CommunityType.PRE_NURSERY);
+        Long count = (Long)q.getSingleResult();
+        if (count > 0) {
+            return;
+        }
+
+        logger.underlyingLogger().info("bootstrapPNCommunity()");
+
+        // PN Region communities (exclude islands)
+        List<Location> regions = Location.getHongKongRegions();
+        for (Location region : regions) {
+            if (!region.getName().contains("離島")) {
+                String name = region.displayName + "PN討論區 15-16";
+                String desc = region.displayName + "PreNursery討論區 2015-2016";
+                createPNCommunity(name, desc, region);
+            }
+        }
+    }
+
     
     private static Community createFeedbackCommunity(String name, String desc) {
         Community community = null;
@@ -614,6 +636,22 @@ public class DataBootstrap {
             //community.setCoverPhoto(file);
         } catch (Exception e) {
             logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+        }
+        return community;
+    }
+
+    private static Community createPNCommunity(String name, String desc, Location region) {
+                Community community = null;
+        String targetingInfo = region.id.toString();
+        try {
+            community = Application.getSuperAdmin().createCommunity(
+                    name, desc, CommunityType.PRE_NURSERY,
+                    "/assets/app/images/general/icons/community/grad_hat.png");
+            community.system = true;
+            community.targetingType = TargetingType.LOCATION_REGION;
+            community.targetingInfo = targetingInfo;
+        } catch (Exception e) {
+            logger.underlyingLogger().error("Error in createPNCommunity", e);
         }
         return community;
     }

@@ -15,7 +15,7 @@ import java.util.Map;
  * Time: 10:39 PM
  */
 public class PNDataGenerator {
-    private static final String SCHOOL_YEAR = "2014";
+    private static final String SCHOOL_YEAR = "2015";
     private static final String OUT_SQL_FILE = "C:\\Tmp\\PN\\pn_"+SCHOOL_YEAR+".sql";
 
     /**

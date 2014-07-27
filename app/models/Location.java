@@ -255,9 +255,9 @@ public class Location  {
         return (List<Location>)q.getResultList();
     }
     
-    public static List<Location> getHongKongAreas() {
+    public static List<Location> getHongKongRegions() {
         Query q = JPA.em().createQuery("select l from Location l where locationType = ?1 and locationCode = ?2");
-        q.setParameter(1, LocationType.AREA);
+        q.setParameter(1, LocationType.REGION);
         q.setParameter(2, LocationCode.HK);
         return (List<Location>)q.getResultList();
     }

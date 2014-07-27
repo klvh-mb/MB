@@ -415,7 +415,7 @@ public class User extends SocialObject implements Subject, Socializable {
         commIdListQuery.setParameter(6, TargetingType.ZODIAC_YEAR.name());
         commIdListQuery.setParameter(7, TargetingType.ZODIAC_YEAR_MONTH.name());
         commIdListQuery.setParameter(8, TargetingType.LOCATION_DISTRICT.name());
-        commIdListQuery.setParameter(9, TargetingType.LOCATION_AREA.name());
+        commIdListQuery.setParameter(9, TargetingType.LOCATION_REGION.name());
 
         List<BigInteger> commIds = commIdListQuery.getResultList();
         List<Community> result = Collections.EMPTY_LIST;
@@ -489,9 +489,9 @@ public class User extends SocialObject implements Subject, Socializable {
         criteria.select(root);
         Predicate predicate = 
                 builder.and(builder.or(
-                        builder.like(builder.upper(root.<String> get("displayName")), "%" + q.toUpperCase() + "%"),
-                        builder.like(builder.upper(root.<String> get("firstName")), "%" + q.toUpperCase() + "%"),
-                        builder.like(builder.upper(root.<String> get("lastName")), "%" + q.toUpperCase() + "%")), 
+                        builder.like(builder.upper(root.<String>get("displayName")), "%" + q.toUpperCase() + "%"),
+                        builder.like(builder.upper(root.<String>get("firstName")), "%" + q.toUpperCase() + "%"),
+                        builder.like(builder.upper(root.<String>get("lastName")), "%" + q.toUpperCase() + "%")),
                         builder.equal(root.get("deleted"), false));
         criteria.where(predicate);
         return JPA.em().createQuery(criteria).getResultList();
