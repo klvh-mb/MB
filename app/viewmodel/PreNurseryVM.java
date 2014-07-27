@@ -19,6 +19,8 @@ public class PreNurseryVM {
     @JsonProperty("coup") public boolean couponSupport;
     @JsonProperty("fds")  public String formStartDateStr;
     @JsonProperty("ads")  public String applicationStartDateStr;
+    @JsonProperty("eds")  public String applicationEndDateStr;
+    @JsonProperty("fom")  public String formUrl;
 
     public PreNurseryVM(PreNursery pn, boolean isMyDistrict, String districtName) {
         this.isMyDistrict = isMyDistrict;
@@ -30,5 +32,7 @@ public class PreNurseryVM {
         this.couponSupport = pn.couponSupport;
         this.formStartDateStr = pn.formStartDateString;
         this.applicationStartDateStr = pn.applicationStartDateString;
+        this.applicationEndDateStr = pn.applicationEndDateString;
+        this.formUrl = pn.formUrl;
     }
 }

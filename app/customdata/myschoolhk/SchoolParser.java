@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import common.utils.HTTPUtil;
+import customdata.model.School;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
 import org.jsoup.select.Elements;
@@ -100,7 +101,7 @@ public class SchoolParser {
                             school.applicationStartDate = text;
                             break;
                         case 6:
-//                            school.applicationEndDate = text;
+                            school.applicationEndDate = text;
                             break;
                         case 8:
                             if (url != null) {
@@ -117,9 +118,9 @@ public class SchoolParser {
                 }
 
                 if (school.name != null && school.district != null) {
-                    allSchools.put(school.name, school);
+                    allSchools.put(school.getKey(), school);
                     if (school.hasPN) {
-                        pNs.put(school.name, school);
+                        pNs.put(school.getKey(), school);
                     }
                 }
             }

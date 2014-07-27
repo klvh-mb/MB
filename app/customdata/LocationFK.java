@@ -10,13 +10,18 @@ import java.util.Map;
  */
 public class LocationFK {
     // PLEASE reference back to Location table
-    public static final long REGION_HK_ID = 4;
-    public static final long REGION_KL_ID = 9;
-    public static final long REGION_NT_ID = 15;
+    public static final String REGION_HK = "香港島";
+    public static final String REGION_KL = "九龍";
+    public static final String REGION_NT = "新界";
 
+    public static final Map<String, Long> REGION_MAP = new HashMap<>();
     public static final Map<String, Long> DISTRICT_MAP = new HashMap<>();
 
     static {
+        REGION_MAP.put(REGION_HK, 4l);
+        REGION_MAP.put(REGION_KL, 9l);
+        REGION_MAP.put(REGION_NT, 15l);
+
         DISTRICT_MAP.put("中西區", 5l);
         DISTRICT_MAP.put("東區", 6l);
         DISTRICT_MAP.put("南區", 7l);

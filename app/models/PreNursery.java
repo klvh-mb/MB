@@ -49,6 +49,14 @@ public class PreNursery {
     @Formats.DateTime(pattern = "yyyy-MM-dd")
     public Date applicationStartDate;
 
+    public String applicationEndDateString;
+
+    @Formats.DateTime(pattern = "yyyy-MM-dd")
+    public Date applicationEndDate;
+
+    public String formUrl;
+
+
     public String schoolYear;
 
 
@@ -67,7 +75,9 @@ public class PreNursery {
 
         StringBuilder sb = new StringBuilder();
         sb.append("insert into PreNursery (");
-        sb.append("regionId, districtId, name, url, phoneText, email, couponSupport, formStartDateString, formStartDate, applicationStartDateString, applicationStartDate, schoolYear");
+        sb.append("regionId, districtId, name, url, phoneText, email, couponSupport, formStartDateString, ");
+        sb.append("formStartDate, applicationStartDateString, applicationStartDate, applicationEndDateString, applicationEndDate, ");
+        sb.append("formUrl, schoolYear");
         sb.append(") values (");
         sb.append(regionId).append(", ");
         sb.append(districtId).append(", ");
@@ -80,10 +90,17 @@ public class PreNursery {
         if (formStartDate != null) sb.append("'").append(dateFormat.format(formStartDate)).append("', "); else sb.append("NULL, ");
         if (applicationStartDateString != null) sb.append("'").append(applicationStartDateString).append("', "); else sb.append("NULL, ");
         if (applicationStartDate != null) sb.append("'").append(dateFormat.format(applicationStartDate)).append("', "); else sb.append("NULL, ");
+        if (applicationEndDateString != null) sb.append("'").append(applicationEndDateString).append("', "); else sb.append("NULL, ");
+        if (applicationEndDate != null) sb.append("'").append(dateFormat.format(applicationEndDate)).append("', "); else sb.append("NULL, ");
+        if (formUrl != null) sb.append("'").append(formUrl).append("', "); else sb.append("NULL, ");
 
-        // last column (watch commas)
         if (schoolYear != null) sb.append("'").append(schoolYear).append("'"); else sb.append("NULL");
         sb.append(");");
         return sb.toString();
     }
+
+    public String getKey() {
+        return districtId+"_"+name;
+    }
+
 }

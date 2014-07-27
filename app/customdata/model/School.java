@@ -1,4 +1,4 @@
-package customdata.myschoolhk;
+package customdata.model;
 
 import customdata.LocationFK;
 import models.PreNursery;
@@ -12,22 +12,40 @@ import org.joda.time.LocalDate;
  */
 public class School {
     public boolean hasPN;
+    public String region;
     public String district;
     public String name;
     public String phoneText;
     public boolean couponSupport;
     public String formStartDate;
     public String applicationStartDate;
+    public String applicationEndDate;
     public String email;
     public String url;
+    public String formUrl;
 
-    public PreNursery toPreNursery(long regionId, String schoolYear) {
+    public String getKey() {
+        return district+"_"+name;
+    }
+
+    public void mergeOverride(School override) {
+        this.phoneText = (override.phoneText != null) ? override.phoneText : phoneText;
+        this.couponSupport = override.couponSupport;
+        this.formStartDate = (override.formStartDate != null) ? override.formStartDate : formStartDate;
+        this.applicationStartDate = (override.applicationStartDate != null) ? override.applicationStartDate : applicationStartDate;
+        this.applicationEndDate = (override.applicationEndDate != null) ? override.applicationEndDate : applicationEndDate;
+        this.email = (override.email != null) ? override.email : email;
+        this.url = (override.url != null) ? override.url : url;
+        this.formUrl = (override.formUrl != null) ? override.formUrl : formUrl;
+    }
+
+    public PreNursery toPreNursery(String schoolYear) {
         PreNursery pn = new PreNursery();
-        pn.regionId = regionId;
+        pn.regionId = LocationFK.REGION_MAP.get(region);
         pn.districtId = LocationFK.DISTRICT_MAP.get(district);
         pn.name = name;
         pn.url = url;
-        pn.phoneText = phoneText;
+        pn.phoneText = beautifyPhoneText(phoneText);
         pn.email = email;
         pn.couponSupport = couponSupport;
         pn.formStartDateString = formStartDate;
@@ -38,8 +56,24 @@ public class School {
         if (applicationStartDate != null) {
             pn.applicationStartDate = toLocalDate(applicationStartDate).toDate();
         }
+        pn.applicationEndDateString = applicationEndDate;
+        if (applicationEndDate != null) {
+            pn.applicationEndDate = toLocalDate(applicationEndDate).toDate();
+        }
+        pn.formUrl = formUrl;
+
         pn.schoolYear = schoolYear;
         return pn;
+    }
+
+    private static String beautifyPhoneText(String phoneText) {
+        if (phoneText != null && phoneText.length() == 8) {
+            try {
+                Integer.parseInt(phoneText);
+                phoneText = phoneText.substring(0,4)+"-"+phoneText.substring(4);
+            } catch (Exception e) { }
+        }
+        return phoneText;
     }
 
     private static LocalDate toLocalDate(String dateStr) {
@@ -82,20 +116,5 @@ public class School {
             day = dateStr.contains("月中") ? 15 : 1;
         }
         return new LocalDate(year, month, day);
-    }
-
-    @Override
-    public String toString() {
-        return "School{" +
-                "hasPN=" + hasPN +
-                ", district='" + district + '\'' +
-                ", name='" + name + '\'' +
-                ", phoneText='" + phoneText + '\'' +
-                ", couponSupport=" + couponSupport +
-                ", formStartDate='" + formStartDate + '\'' +
-                ", applicationStartDate='" + applicationStartDate + '\'' +
-                ", email='" + email + '\'' +
-                ", url='" + url + '\'' +
-                '}';
     }
 }

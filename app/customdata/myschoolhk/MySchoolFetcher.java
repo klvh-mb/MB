@@ -1,6 +1,8 @@
 package customdata.myschoolhk;
 
 import common.utils.HTTPUtil;
+import customdata.model.School;
+
 import java.util.Collections;
 import java.util.Map;
 

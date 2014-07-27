@@ -40,7 +40,7 @@ public class PreNurseryController extends Controller {
 
         logger.underlyingLogger().info("[u="+localUser.id+"] getPNs(c="+id+"). region="+commRegion.getDisplayName());
 
-        Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.regionId = ?1 and pn.schoolYear = ?2");
+        Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.regionId = ?1 and pn.schoolYear = ?2 order by pn.districtId, pn.name");
         q.setParameter(1, commRegion.id);
         q.setParameter(2, SCHOOL_YEAR);
         List<PreNursery> pns = (List<PreNursery>)q.getResultList();
