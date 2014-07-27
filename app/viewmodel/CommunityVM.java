@@ -7,6 +7,7 @@ import java.util.List;
 import models.Community;
 import models.Community.CommunityType;
 import models.Post;
+import models.TargetingSocialObject;
 import models.User;
 
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -21,6 +22,7 @@ public class CommunityVM {
 	@JsonProperty("d") public String description;
 	@JsonProperty("nom") public int noOfMembers;
 	@JsonProperty("typ") public CommunityType communityType;
+	@JsonProperty("ttyp") public TargetingSocialObject.TargetingType targetingType;
 	@JsonProperty("icon") public String icon;
 	@JsonProperty("dte") public Date createDate;
 	@JsonProperty("td") public String tagetDistrict;
@@ -42,6 +44,7 @@ public class CommunityVM {
 		vm.name = c.name;
 		vm.description = c.description;
 		vm.communityType = c.communityType;
+		vm.targetingType = c.targetingType;
 		vm.icon = c.icon;
 		vm.tagetDistrict = c.tagetDistrict;
 		vm.createDate = c.createDate;
@@ -78,6 +81,7 @@ public class CommunityVM {
         vm.name = c.name;
         vm.description = c.description;
         vm.communityType = c.communityType;
+        vm.targetingType = c.targetingType;
         vm.icon = c.icon;
         vm.tagetDistrict = c.tagetDistrict;
         vm.createDate = c.createDate;

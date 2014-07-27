@@ -712,7 +712,19 @@ minibean.service('pnService',function($resource){
 });
 
 minibean.controller('CommunityPNController',function($scope, $routeParams, pnService, $http){
-	$scope.pns = pnService.PNs.get({id:$routeParams.id});
+    $scope.myDistrictPNs = [];
+    $scope.otherPNs = [];
+	$scope.pns = pnService.PNs.get({id:$routeParams.id}, 
+	       function(data) {
+                angular.forEach($scope.pns, function(request, key){
+                    if (request.myd) {
+                        $scope.myDistrictPNs.push(request);
+                    } else {
+                        $scope.otherPNs.push(request);
+                    }
+                });
+            }
+	);
 });
 ///////////////////////// Community PN Ends //////////////////////////////////
 

@@ -406,7 +406,7 @@ public class User extends SocialObject implements Subject, Socializable {
                 "select sr2.target from SocialRelation sr2 where sr2.actor in " + 
                         "(select sr.target from SocialRelation sr where (sr.action = ?2 or sr.actionType = ?3) and sr.actor = ?1 union " + 
                         "select sr1.actor from SocialRelation sr1 where (sr1.action = ?2 or sr1.actionType = ?3) and sr1.target = ?1 ) and " + 
-                        "sr2.action = ?4 and sr2.targetType = ?5 and sr2.target not in (select c.id from Community c where c.system=true and c.targetingType in (?6, ?7, ?8, ?9))");
+                        "sr2.action = ?4 and sr2.targetType = ?5 and sr2.target not in (select c.id from Community c where c.system=true and c.targetingType in (?6, ?7, ?8, ?9, ?10))");
         commIdListQuery.setParameter(1, this.id);
         commIdListQuery.setParameter(2, SocialRelation.Action.FRIEND.name());
         commIdListQuery.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED.name());
@@ -416,6 +416,7 @@ public class User extends SocialObject implements Subject, Socializable {
         commIdListQuery.setParameter(7, TargetingType.ZODIAC_YEAR_MONTH.name());
         commIdListQuery.setParameter(8, TargetingType.LOCATION_DISTRICT.name());
         commIdListQuery.setParameter(9, TargetingType.LOCATION_REGION.name());
+        commIdListQuery.setParameter(10, TargetingType.PRE_NURSERY.name());
 
         List<BigInteger> commIds = commIdListQuery.getResultList();
         List<Community> result = Collections.EMPTY_LIST;

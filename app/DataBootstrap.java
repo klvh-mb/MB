@@ -549,8 +549,8 @@ public class DataBootstrap {
     }
 
     private static void bootstrapPNCommunity() {
-        Query q = JPA.em().createQuery("Select count(c) from Community c where c.communityType = ?1 and c.system = true");
-        q.setParameter(1, CommunityType.PRE_NURSERY);
+        Query q = JPA.em().createQuery("Select count(c) from Community c where c.targetingType = ?1 and c.system = true");
+        q.setParameter(1, TargetingType.PRE_NURSERY);
         Long count = (Long)q.getSingleResult();
         if (count > 0) {
             return;
@@ -645,10 +645,10 @@ public class DataBootstrap {
         String targetingInfo = region.id.toString();
         try {
             community = Application.getSuperAdmin().createCommunity(
-                    name, desc, CommunityType.PRE_NURSERY,
+                    name, desc, CommunityType.OPEN,
                     "/assets/app/images/general/icons/community/grad_hat.png");
             community.system = true;
-            community.targetingType = TargetingType.LOCATION_REGION;
+            community.targetingType = TargetingType.PRE_NURSERY;
             community.targetingInfo = targetingInfo;
         } catch (Exception e) {
             logger.underlyingLogger().error("Error in createPNCommunity", e);

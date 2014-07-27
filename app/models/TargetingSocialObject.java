@@ -42,7 +42,8 @@ public abstract class TargetingSocialObject extends SocialObject {
         ZODIAC_YEAR,
         ZODIAC_YEAR_MONTH,
         LOCATION_DISTRICT,
-        LOCATION_REGION
+        LOCATION_REGION,
+        PRE_NURSERY
     }
     
     public TargetingSocialObject() {

@@ -5,4 +5,4 @@ insert into Icon (iconType,info,name,url) values ('COMMUNITY_GENERAL','','bath',
 insert into Icon (iconType,info,name,url) values ('COMMUNITY_GENERAL','','mom','/assets/app/images/general/icons/community/mom.png');
 insert into Icon (iconType,info,name,url) values ('COMMUNITY_GENERAL','','dad','/assets/app/images/general/icons/community/dad.png');
 insert into Icon (iconType,info,name,url) values ('COMMUNITY_GENERAL','','home','/assets/app/images/general/icons/community/home.png');
-insert into Icon (iconType,info,name,url) values ('COMMUNITY_GENERAL','','palette','/assets/app/images/general/icons/community/paletter.png');
+insert into Icon (iconType,info,name,url) values ('COMMUNITY_GENERAL','','palette','/assets/app/images/general/icons/community/palette.png');
