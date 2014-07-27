@@ -1,52 +1,52 @@
+
 <div class="general-box">
+    <div class="section-title">
+        <!--span class="section-icon icon-title-community"></span-->
+        <span>My Location</span>
+    </div>
+</div>
+<div class="padding5"></div>
+    
+<div class="general-box" ng-repeat="pn in pns" ng-show="community.myd">
     <ul class="pn-wrapper" style="padding: 5px 10px 0px 10px;">
         <li>
             <div class="pn-info">
-                <a href="http://www.creative.edu.hk" target="_blank">
-                    啟思幼稚園（帝堡城）
+                <a ng-href="{{pn.url}}" target="_blank">
+                    {{pn.n}}
                 </a>
-                <span class="tag">沙田區</span>
-                <h6>電話: 28822005 · 電郵: ckrq@netvigator.com</h6>
+                <span class="tag">{{pn.dis}}</span>
+                <h6>電話: {{pn.pho}} · 電郵: {{pn.em}}</h6>
                 <div class="pn-info-attr">
-                    <span>開始派表日期: --</span>
-                    <span>開始報名日期: 8月1日</span>
-                    <span>學券: Yes</span>
+                    <span>開始派表日期: {{pn.fds}}</span>
+                    <span>開始報名日期: {{pn.ads}}</span>
+                    <span>學券: {{pn.coup}}</span>
                 </div>
             </div>
         </li>
     </ul>
 </div>
+
 <div class="general-box">
-    <ul class="pn-wrapper" style="padding: 5px 10px 0px 10px;">
-        <li>
-            <div class="pn-info">
-                <a href="http://www.kwonglambaptist-kg.edu.hk" target="_blank">
-                    廣林浸信會呂郭碧鳳幼稚園
-                </a>
-                <span class="tag">沙田區</span>
-                <h6>電話: 26353036 · 電郵: --</h6>
-                <div class="pn-info-attr">
-                    <span>開始派表日期: 10月2日</span>
-                    <span>開始報名日期: --</span>
-                    <span>學券: Yes</span>
-                </div>
-            </div>
-        </li>
-    </ul>
+    <div class="section-title">
+        <!--span class="section-icon icon-title-community"></span-->
+        <span>Other Locations</span>
+    </div>
 </div>
-<div class="general-box">
+<div class="padding5"></div>
+
+<div class="general-box" ng-repeat="pn in pns" ng-show="!community.myd">
     <ul class="pn-wrapper" style="padding: 5px 10px 0px 10px;">
         <li>
             <div class="pn-info">
-                <a href="http://www.think.edu.hk" target="_blank">
-                    朗思國際幼稚園（馬鞍山）
+                <a ng-href="{{pn.url}}" target="_blank">
+                    {{pn.n}}
                 </a>
-                <span class="tag">沙田區</span>
-                <h6>電話: 26337800 · 電郵: thinkkg_kt@think.edu.hk</h6>
+                <span class="tag">{{pn.dis}}</span>
+                <h6>電話: {{pn.pho}} · 電郵: {{pn.em}}</h6>
                 <div class="pn-info-attr">
-                    <span>開始派表日期: --</span>
-                    <span>開始報名日期: 10月5日</span>
-                    <span>學券: Yes</span>
+                    <span>開始派表日期: {{pn.fds}}</span>
+                    <span>開始報名日期: {{pn.ads}}</span>
+                    <span>學券: {{pn.coup}}</span>
                 </div>
             </div>
         </li>
