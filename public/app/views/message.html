@@ -61,7 +61,7 @@
                         <!-- <a class="toolsbox toolsbox-end" href="#"><span class="icon-box icon-title-search"></span></a> -->
                     </div>
                     <ul id="message-area">
-                        <li ng-show="!noMore">
+                        <li ng-show="loadMore == true">
                             <a class="message-load-more" data-ng-click="nextMessages()">Load Message</a>
                         </li>
                     	<div data-ng-repeat="msg in messages.slice().reverse()">

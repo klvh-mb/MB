@@ -4184,26 +4184,27 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
 		});
 	}
 	
-    $scope.noMore = true;
+    $scope.loadMore = false;
     $scope.getMessages = function(cid, uid) {
-    	offset = 0;
-    	$scope.receiverId = uid;
-    	$scope.currentConversation = cid;
-    	usSpinnerService.spin('loading...');
-    	getMessageService.getMessages.get({id: cid,offset: offset},
+        offset = 0;
+        $scope.receiverId = uid;
+        $scope.currentConversation = cid;
+        usSpinnerService.spin('loading...');
+        getMessageService.getMessages.get({id: cid,offset: offset},
             function(data){
-    			$scope.messages = data.message;
-    			$scope.unread_msg_count.count = data.counter;
-    			usSpinnerService.stop('loading...');
-    			if($scope.messages.length == 0){
-    				$scope.noMore = true;
-    			}
-    			offset++;
-    			$timeout(function(){
-    				var objDiv = document.getElementById('message-area');
-    				objDiv.scrollTop = objDiv.scrollHeight;
-    		    });
-    		});
+                $scope.loadMore = true;
+                $scope.messages = data.message;
+                $scope.unread_msg_count.count = data.counter;
+                usSpinnerService.stop('loading...');
+                if($scope.messages.length == 0){
+                    $scope.loadMore = false;
+                }
+                offset++;
+                $timeout(function(){
+                    var objDiv = document.getElementById('message-area');
+                    objDiv.scrollTop = objDiv.scrollHeight;
+                });
+            });
     }
 	
 	$scope.showImage = function(imageId) {
@@ -4216,30 +4217,31 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
 	}
 	
 	$scope.nextMessages = function() {
-        if ($scope.noMore) return;
-		usSpinnerService.spin('loading...');
-		getMessageService.getMessages.get({id: $scope.currentConversation,offset: offset},
+        usSpinnerService.spin('loading...');
+        getMessageService.getMessages.get({id: $scope.currentConversation,offset: offset},
             function(data){
-    			var objDiv = document.getElementById('message-area');
-    			var height = objDiv.scrollHeight;
-    			//console.log("nextMessages() - height:"+height);
-    			var messages = data.message;
-    			$scope.unread_msg_count.count = data.counter;
-    			for (var i = 0; i < messages.length; i++) {
-    				$scope.messages.push(messages[i]);
-    		    }
-    			if(data.message.length == 0){
-    				$scope.noMore = true;
-    			}
-    			usSpinnerService.stop('loading...');
-    			offset++;
-    			$timeout(function(){
-        			var objDiv = document.getElementById('message-area');
-        			objDiv.scrollTop = objDiv.scrollHeight - height;
-        			//console.log("nextMessages() - message-area.scrollTop:"+objDiv.scrollTop);
-        	    });
-    		});
-	}
+                $scope.loadMore = true;
+                //console.log(data);
+                var objDiv = document.getElementById('message-area');
+                var height = objDiv.scrollHeight;
+                //console.log("nextMessages() - height:"+height);
+                var messages = data.message;
+                $scope.unread_msg_count.count = data.counter;
+                for (var i = 0; i < messages.length; i++) {
+                    $scope.messages.push(messages[i]);
+                }
+                if(data.message.length == 0){
+                    $scope.loadMore = false;
+                }
+                usSpinnerService.stop('loading...');
+                offset++;
+                $timeout(function(){
+                    var objDiv = document.getElementById('message-area');
+                    objDiv.scrollTop = objDiv.scrollHeight - height;
+                    //console.log("nextMessages() - message-area.scrollTop:"+objDiv.scrollTop);
+                });
+            });
+    }
 	
 	$scope.sendMessage = function(msgText) {
 		var data = {
