@@ -84,6 +84,12 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
         return (Comment) q.getSingleResult();
     }
     
+    public static void deleteById(Long id) {
+        Comment comment = findById(id);
+        comment.deleted = true;
+        comment.save();
+    }
+    
     public boolean isLikedBy(User user) {
         Query q = JPA.em().createQuery("Select sr from PrimarySocialRelation sr where sr.action=?1 and sr.actor=?2 " + 
                 "and sr.target=?3 and sr.targetType=?4");

@@ -100,8 +100,12 @@ public class Post extends SocialObject implements Likeable, Commentable {
         recordPost(owner);
         this.socialUpdatedDate = new Date();
 
-        // push to community
-        FeedProcessor.pushToCommunity(this);
+        // push to / remove from community
+        if (!this.deleted) {
+            FeedProcessor.pushToCommunity(this);
+        } else {
+            FeedProcessor.removeFromCommunity(this);
+        }
         
         if (this.postType == PostType.SIMPLE) {
             owner.postsCount++;
@@ -120,10 +124,13 @@ public class Post extends SocialObject implements Likeable, Commentable {
         }
     }
     
-    public static int deleteById(Long id) {
-        Query q = JPA.em().createQuery("Update Post p set deleted = true where id = ?1");
-        q.setParameter(1, id);
-        return q.executeUpdate();
+    public static void deleteById(Long id) {
+        Post post = findById(id);
+        for (Comment comment : post.comments) {
+            comment.deleted = true;
+        }
+        post.deleted = true;
+        post.save();
     }
     
     @Override

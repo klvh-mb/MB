@@ -11,7 +11,7 @@
                 <div>
                     <ul class="post-detail-wrapper">
                         <li>
-                            <a data-ng-show="!article.isBookmarked" class="post-favorite" href="" data-ng-click="bookmarkArticle(article.id)"></a>
+                            <a data-ng-show="!article.isBookmarked" class="post-favorite" href="" data-ng-click="bookmarkArticle(article.id)" data-toggle="tooltip" data-tooltip="收藏到'我的喜愛'"></a>
                             <a data-ng-show="article.isBookmarked" class="post-favorited" href="" data-ng-click="unBookmarkArticle(article.id)"></a>
                             <a href="/#/article/show/{{article.ct.id}}">
                                 <img class="scCatMiniThumbnail" data-ng-src="{{article.ct.pictureName}}" />

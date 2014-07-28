@@ -59,6 +59,7 @@ import com.mnt.exception.SocialObjectNotJoinableException;
 import com.mnt.exception.SocialObjectNotLikableException;
 import com.mnt.exception.SocialObjectNotPostableException;
 
+import controllers.Application;
 import domain.CommentType;
 import domain.DefaultValues;
 import domain.PostType;
@@ -924,6 +925,16 @@ public class User extends SocialObject implements Subject, Socializable {
     }
     
     @Transactional
+    public boolean isSuperAdmin() {
+        for (SecurityRole role : roles) {
+            if (Application.SUPER_ADMIN_ROLE.equals(role.roleName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    @Transactional
     public static User getSuperAdmin() {
         if (SUPER_ADMIN != null)
             return SUPER_ADMIN;
@@ -931,7 +942,12 @@ public class User extends SocialObject implements Subject, Socializable {
         Query q = JPA.em().createQuery("SELECT u FROM User u where active = ?1 and system = ?2 and deleted = false");
         q.setParameter(1, true);
         q.setParameter(2, true);
-        SUPER_ADMIN = (User) q.getSingleResult();
+        List<User> sysUsers = (List<User>)q.getResultList();
+        for (User sysUser : sysUsers) {
+            if (sysUser.isSuperAdmin()) {
+                SUPER_ADMIN = sysUser;
+            }
+        }
         return SUPER_ADMIN;
     }
 

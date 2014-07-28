@@ -75,6 +75,16 @@
 .post-card ul[title="qna"] {
     /*background-color: #f5f5ff;*/
 }
+.post-card .tooltip {
+    z-index: 10000;
+    width: 80px;
+    left: initial !important;
+    right: -32px !important;
+    float: right !important;
+}
+.post-card .tooltip > .tooltip-inner {
+
+}
 .post-intro {
     border-bottom: thin solid #e1e2e3;
     padding-bottom: 5px;
@@ -97,6 +107,26 @@
     border-right: #bcbcbc solid thin;
     margin-left: 10px;
     margin-right: 12px;
+}
+.post-intro .post-dropdown-btn {
+    border-color: transparent;
+    padding: 0px 5px;
+}
+.post-intro .post-dropdown-menu {
+    min-width: 80px;
+    position: absolute;
+    top: 15px;
+    float: right;
+    right: -10px;
+    left: initial;
+    font-size: 13px;
+}
+.post-intro .post-dropdown-menu li {
+    padding: 0;
+    margin: 5px 0;
+}
+.post-intro .post-dropdown-menu li a {
+    padding: 0 12px;
 }
 .post-qna-body-top, .post-sharing-body-top {
     color: #77737E;

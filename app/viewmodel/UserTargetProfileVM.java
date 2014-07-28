@@ -7,6 +7,7 @@ import org.joda.time.Months;
 import common.model.TargetProfile;
 
 public class UserTargetProfileVM {
+    @JsonProperty("isSA") private boolean isSuperAdmin;
     @JsonProperty("gen") private String gender;
     @JsonProperty("loc") private String location;
     @JsonProperty("nc") private int numChildren;
@@ -15,9 +16,12 @@ public class UserTargetProfileVM {
     @JsonProperty("cmax") private int childrenMaxAgeMonths;
     @JsonProperty("soon") private boolean isSoonParent;
     @JsonProperty("new") private boolean isNewParent;
+    
+    // UI controlling flags
     @JsonProperty("pn") private boolean recommendPN;
     
     public UserTargetProfileVM(TargetProfile targetProfile) {
+        this.isSuperAdmin = targetProfile.isSuperAdmin();
         this.gender = targetProfile.getParentGender().name();
         this.location = targetProfile.getLocation().getDisplayName();
         this.numChildren = targetProfile.getNumChildren();

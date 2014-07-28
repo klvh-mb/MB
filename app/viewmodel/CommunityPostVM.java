@@ -35,6 +35,7 @@ public class CommunityPostVM {
 	@JsonProperty("nol") public int noOfLikes;
 	@JsonProperty("ep") public boolean expanded;
 	
+	@JsonProperty("isO") public boolean isOwner = false;
 	@JsonProperty("isC") public boolean isCommentable = false;
 	@JsonProperty("isLike") public boolean isLike = false;
 	@JsonProperty("isBookmarked") public boolean isBookmarked = false;
@@ -66,6 +67,7 @@ public class CommunityPostVM {
 		postVM.expanded = false;
 		postVM.isBookmarked = post.isBookmarkedBy(user);
 		postVM.isCommentable = isCommMember;
+		postVM.isOwner = post.owner.id == user.id;
 
 		if(post.folder != null && !CollectionUtils.isEmpty(post.folder.resources)) {
 			postVM.hasImage = true;
@@ -89,7 +91,7 @@ public class CommunityPostVM {
 
 		for(int i = comments.size() - 1; i >= 0 ; i--) {
 			Comment comment = comments.get(i);
-			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
+			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, user);
 			commentVM.isLike = likesByUser.contains(new Pair<>(comment.id, SocialObjectType.COMMENT));
 			commentsToShow.add(commentVM);
 		}
@@ -100,7 +102,7 @@ public class CommunityPostVM {
 		return postVM;
 	}
 	
-	public static CommunityPostVM communityPostVisitProfile(Post post, User user,User localUser) {
+	public static CommunityPostVM communityPostVisitProfile(Post post, User user, User localUser) {
 		CommunityPostVM postVM = new CommunityPostVM();
 		postVM.postId = post.id;
 		postVM.ownerId = post.owner.id;
@@ -120,7 +122,8 @@ public class CommunityPostVM {
 		postVM.expanded = false;
 		postVM.isBookmarked = post.isBookmarkedBy(localUser);
 		postVM.isCommentable = localUser.isMemberOf(post.community.id);
-
+		postVM.isOwner = post.owner.id == localUser.id;
+		
 		if(post.folder != null && !CollectionUtils.isEmpty(post.folder.resources)) {
 			postVM.hasImage = true;
 			postVM.images = new Long[post.folder.resources.size()];
@@ -143,7 +146,7 @@ public class CommunityPostVM {
 
 		for(int i = comments.size() - 1; i >= 0 ; i--) {
 			Comment comment = comments.get(i);
-			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
+			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, user);
 			commentVM.isLike = likesByUser.contains(new Pair<>(comment.id, SocialObjectType.COMMENT));
 			commentsToShow.add(commentVM);
 		}

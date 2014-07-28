@@ -71,12 +71,12 @@
                                 <ul class="subtoolsbox dropdown-menu" aria-labelledby="community-settings-dropdown">
                                     <!--li><a data-ng-click="">分享社群</a></li-->
                                     <li ng-show="community.isM == true">
-                                        <a ng-show="newsfeedEnabled" data-ng-confirm-click="toggleNewsfeedEnabled(community.id)" data-ng-confirm-message="確認不需要 '{{community.n}}' 的發佈顯示到我的社群動向嗎?"><i class="glyphicon glyphicon-check"></i> 顯示到我的社群動向</a>
+                                        <a ng-show="newsfeedEnabled" data-ng-confirm-click="toggleNewsfeedEnabled(community.id)" data-ng-confirm-message="您確定不需要 '{{community.n}}' 的發佈顯示到我的社群動向嗎?"><i class="glyphicon glyphicon-check"></i> 顯示到我的社群動向</a>
                                         <a ng-show="!newsfeedEnabled" data-ng-click="toggleNewsfeedEnabled(community.id)"><i class="glyphicon glyphicon-unchecked"></i> 顯示到我的社群動向</a>
                                     </li>
                                     <li ng-show="community.isO"><a data-ng-href="/#/editCommunity/{{community.id}}">編輯社群</a></li>
                                     <li class="dropdown-divider" role="presentation"></li>
-                                    <li ng-show="!community.isO && community.isM == true"><a data-ng-confirm-click="leave_community(community.id)" data-ng-confirm-message="確認退出 '{{community.n}}' 嗎?">退出社群</a></li>
+                                    <li ng-show="!community.isO && community.isM == true"><a data-ng-confirm-click="leave_community(community.id)" data-ng-confirm-message="您確定退出 '{{community.n}}' 嗎?">退出社群</a></li>
                                     <li><a data-ng-click="">檢舉社群</a></li>
                                 </ul> 
                             </div>

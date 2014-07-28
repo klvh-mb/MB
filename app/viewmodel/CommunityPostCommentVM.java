@@ -4,6 +4,7 @@ import java.util.List;
 
 import models.Comment;
 import models.Resource;
+import models.User;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -13,13 +14,15 @@ public class CommunityPostCommentVM {
 	@JsonProperty("oid") public Long ownerId;
 	@JsonProperty("on") public String name;
 	@JsonProperty("cd") public Long creationDate;
-	@JsonProperty("hasImage") public boolean hasImage=false;
+	@JsonProperty("hasImage") public boolean hasImage = false;
 	@JsonProperty("imgs") public Long[] images;
 	@JsonProperty("d") public String commentText;
 	@JsonProperty("nol") public int noOfLikes;
-	@JsonProperty("isLike") public boolean isLike=false;	
 	
-	public static CommunityPostCommentVM communityPostCommentVM(Comment comment) {
+	@JsonProperty("isO") public boolean isOwner = false;
+	@JsonProperty("isLike") public boolean isLike = false;     // filled outside
+	
+	public static CommunityPostCommentVM communityPostCommentVM(Comment comment, User user) {
 		CommunityPostCommentVM postCommentVM = new CommunityPostCommentVM();
 		postCommentVM.commentId = comment.id;
 		postCommentVM.ownerId = comment.owner.id;
@@ -27,6 +30,7 @@ public class CommunityPostCommentVM {
 		postCommentVM.creationDate = comment.getCreatedDate().getTime();
 		postCommentVM.commentText = comment.body;
 		postCommentVM.noOfLikes =comment.noOfLikes;
+		postCommentVM.isOwner = comment.owner.id == user.id;
 		
 		List<Resource> resources = null;
 		if(comment.folder != null && !CollectionUtils.isEmpty(comment.folder.resources)) {

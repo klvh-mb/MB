@@ -265,11 +265,13 @@ public class CommunityController extends Controller{
     public static Result getAllComments(Long id) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
+        final User localUser = Application.getLocalUser(session());
+        
         Post post = Post.findById(id);
         List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
         List<Comment> comments = post.getCommentsOfPost();
         for(Comment comment : comments) {
-            CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
+            CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, localUser);
             commentsToShow.add(commentVM);
         }
 
@@ -284,11 +286,13 @@ public class CommunityController extends Controller{
     public static Result getAllAnswers(Long id) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
+        final User localUser = Application.getLocalUser(session());
+        
         Post post = Post.findById(id);
         List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
         List<Comment> comments = post.getCommentsOfPost();
         for(Comment comment : comments) {
-            CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
+            CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, localUser);
             commentsToShow.add(commentVM);
         }
 
@@ -393,7 +397,7 @@ public class CommunityController extends Controller{
         logger.underlyingLogger().info("[u="+localUser.id+"] createCommunity. name="+community.getName()+", type="+community.communityType);
 
         if (!community.checkCommunityNameExists()) {
-            return status(505, "PLEASE CHOOSE OTHER NAME");
+            return status(505, String.format("Community name '%s' already exists", community.getName()));
         }
         
         FilePart picture = request().body().asMultipartFormData().getFile("cover-photo");
@@ -403,7 +407,7 @@ public class CommunityController extends Controller{
             Community newCommunity = localUser.createCommunity(
                     community.name, community.description,community.communityType, community.icon);
             if (newCommunity == null) {
-                return status(505, "Valid param missing");
+                return status(505, "Failed to create community. Invalid parameters.");
             }
             File fileTo = ImageFileUtil.copyImageFileToTemp(file, fileName);
             newCommunity.setCoverPhoto(fileTo);
@@ -510,20 +514,35 @@ public class CommunityController extends Controller{
     }
     
     @Transactional
-    public static Result deletePost() {
+    public static Result deletePost(Long postId) {
         final User localUser = Application.getLocalUser(session());
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"] deletePostFromCommunity");
+            logger.underlyingLogger().debug(String.format("[u=%d,pid=%d] deletePost", localUser.id, postId));
         }
 
-        DynamicForm form = form().bindFromRequest();
-        Long postId = Long.parseLong(form.get("post_id"));
         Post post = Post.findById(postId);
-        if (localUser.equals(post.owner)) {
+        if (localUser.equals(post.owner) || 
+                localUser.isSuperAdmin()) {
             Post.deleteById(postId);
             return ok();
         }
-        return status(505, "Cannot delete. [u=" + localUser.id + "] not owner of post [id=" + postId + "].");
+        return status(500, "Failed to delete post. [u=" + localUser.id + "] not owner of post [id=" + postId + "].");
+    }
+    
+    @Transactional
+    public static Result deleteComment(Long commentId) {
+        final User localUser = Application.getLocalUser(session());
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug(String.format("[u=%d,pid=%d] commentId", localUser.id, commentId));
+        }
+
+        Comment comment = Comment.findById(commentId);
+        if (localUser.equals(comment.owner) ||
+                localUser.isSuperAdmin()) {
+            Comment.deleteById(commentId);
+            return ok();
+        }
+        return status(500, "Failed to delete comment. [u=" + localUser.id + "] not owner of comment [id=" + commentId + "].");
     }
     
     @Transactional

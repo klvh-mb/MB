@@ -132,6 +132,25 @@ public class FeedProcessor {
         }
 	}
 
+	/**
+     * Remove post from community queue.
+     * @param post
+     */
+    public static void removeFromCommunity(Post post) {
+        if (post.getCommunity().isExcludeFromNewsfeed()) {
+            return;     // NF disable
+        }
+
+        Long commId = post.getCommunity().getId();
+        
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("removeFromCommunity(p="+post.getId()+" c="+commId+") - start");
+        }
+        
+        // TODO
+        
+    }
+    
     /**
      * @param communityId
      * @param maxCount

@@ -5,6 +5,12 @@
             <span class="post-intro-share">分享</span>
             <span class="post-intro-share" ng-show="!isCommunityPage">於 </span>
             <a data-ng-href="/#/community/{{post.cid}}/moment" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
+            <button ng-show="post.isO || userTargetProfile.isSA" class="post-dropdown-btn btn btn-default dropdown-toggle pull-right" type="button" id="post-dropdown" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+            <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
+                <li role="presentation"><a role="menuitem" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個分享嗎？">刪除分享</a></li>
+            </ul>
         </li>
     </ul>
     <!-- Post Intro Ends -->
@@ -17,7 +23,7 @@
                 <a data-ng-href="/#/profile/{{post.oid}}">{{post.p}}</a>
                 <a data-ng-show="!post.isBookmarked" class="post-favorite" href="" data-ng-click="bookmarkPost(post.id)"></a>
                 <a data-ng-show="post.isBookmarked && !isMyBookmarksPage" class="post-favorited" href="" data-ng-click="unBookmarkPost(post.id)"></a>
-                <a data-ng-show="post.isBookmarked && isMyBookmarksPage" class="post-favorited" href="" data-ng-confirm-click="unBookmarkPost(post.id)" data-ng-confirm-message="確認移除喜愛嗎?"></a>
+                <a data-ng-show="post.isBookmarked && isMyBookmarksPage" class="post-favorited" href="" data-ng-confirm-click="unBookmarkPost(post.id)" data-ng-confirm-message="您確定移除這個喜愛嗎?"></a>
             </div>
             <span class="post-date" am-time-ago="post.t"></span>
         </li>

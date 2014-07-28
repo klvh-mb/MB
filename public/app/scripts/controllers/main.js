@@ -754,6 +754,7 @@ minibean.controller('CommunityPNController',function($scope, $routeParams, pnSer
                     if (curDistrict == '' || curDistrict != request.dis) {
                         curDistrict = request.dis;
                         tagColorIndex++;
+                        console.log(curDistrict + ":" + DefaultValues.tagColors[tagColorIndex]);
                     }
                     request.tagc = DefaultValues.tagColors[tagColorIndex];
                     if (request.myd) {
@@ -1030,7 +1031,7 @@ minibean.service('communitySearchPageService',function($resource){
 minibean.controller('SearchPageController', function($scope, $routeParams, likeFrameworkService, communityPageService, $http, communitySearchPageService, usSpinnerService){
 	$scope.highlightText="";
 	$scope.highlightQuery = "";
-	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id}, function(){
+	$scope.community = communityPageService.Community.get({id:$routeParams.id}, function(){
 		usSpinnerService.stop('loading...');
 	});
 	
@@ -1160,7 +1161,7 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 ///////////////////////// Community Page Start //////////////////////////////////
 
 minibean.service('communityPageService',function($resource){
-	this.CommunityPage = $resource(
+	this.Community = $resource(
 			'/community/:id',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
@@ -1189,6 +1190,24 @@ minibean.service('communityPageService',function($resource){
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get', params:{community_id:'@community_id'}}
+            }
+    );
+});
+
+minibean.service('postManagementService',function($resource){
+    this.deletePost = $resource(
+            '/delete-post/:postId',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{postId:'@postId'}}
+            }
+    );
+    
+    this.deleteComment = $resource(
+            '/delete-comment/:commentId',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{commentId:'@commentId'}}
             }
     );
 });
@@ -1675,7 +1694,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
         usSpinnerService.spin('loading...');
     });
     
-    $scope.community = communityPageService.CommunityPage.get({id:$routeParams.communityId});
+    $scope.community = communityPageService.Community.get({id:$routeParams.communityId});
     
     $scope.QnA = qnaLandingService.qnaLanding.get({id:$routeParams.id,communityId:$routeParams.communityId}, function(response) {
         if (response[0] == 'NO_RESULT'){
@@ -1976,10 +1995,22 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
 });
 
 minibean.controller('CommunityPageController', function($scope, $routeParams, $http, profilePhotoModal, searchMembersService, iconsService,
-		allCommentsService, communityPageService, likeFrameworkService, bookmarkPostService, communityJoinService, userInfoService, $upload, $timeout, usSpinnerService){
+		allCommentsService, communityPageService, postManagementService, likeFrameworkService, bookmarkPostService, communityJoinService, userInfoService, $upload, $timeout, usSpinnerService){
 	
 	$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
 	
+	$scope.deletePost = function(postId) {
+        //console.log("deletePost:"+postId);
+        postManagementService.deletePost.get({"postId":postId}, function(data) {
+            angular.forEach($scope.community.posts, function(post, key){
+                if(post.id == postId) {
+                    //console.log("remove post:"+post.id);
+                    $scope.community.posts.splice($scope.community.posts.indexOf(post),1);
+                }
+            })
+        });
+    }
+    
 	$scope.$on('$viewContentLoaded', function() {
 		usSpinnerService.spin('loading...');
 	});
@@ -2001,7 +2032,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	var coverImage = "/image/get-cover-community-image-by-id/"+$routeParams.id;
 	$scope.coverImage = coverImage;
 	
-	$scope.community = communityPageService.CommunityPage.get({id:$routeParams.id}, function(){
+	$scope.community = communityPageService.Community.get({id:$routeParams.id}, function(){
 		usSpinnerService.stop('loading...');
 	});
 	
@@ -2023,7 +2054,6 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	
 	$scope.send_invite_to_join = function(group_id, user_id) {
 		searchMembersService.sendInvitationToNonMember.get({group_id : group_id, user_id: user_id}, function() {
-			
 			angular.forEach($scope.nonMembers, function(member, key){
 				if(member.id == user_id) {
 					$scope.nonMembers.splice($scope.nonMembers.indexOf(member),1);
@@ -2081,13 +2111,11 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	$scope.nextPost = function() {
 		if ($scope.isBusy) return;
 		if (noMore) return;
-		
 		$scope.isBusy = true;
 		communityPageService.GetPosts.get({id:$routeParams.id,offset:offset}, function(data){
 			var posts = data;
-			if(data.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
+			if(data.length == 0) {
 				noMore = true;
-				$scope.isBusy = false;
 			}
 			
 			for (var i = 0; i < posts.length; i++) {
@@ -2395,11 +2423,21 @@ minibean.service('allAnswersService',function($resource){
 	);
 });
 
-minibean.controller('QnACommunityController',function($scope, bookmarkPostService, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
+minibean.controller('QnACommunityController',function($scope, postManagementService, bookmarkPostService, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
     $scope.QnA = communityQnAPageService.QnAPosts.get({id:$routeParams.id}, function(){
         usSpinnerService.stop('loading...');
     });
 	
+	$scope.deletePost = function(postId) {
+        postManagementService.deletePost.get({"postId":postId}, function(data) {
+            angular.forEach($scope.QnA.posts, function(post, key){
+                if(post.id == postId) {
+                    $scope.QnA.posts.splice($scope.QnA.posts.indexOf(post),1);
+                }
+            })
+        });
+    }
+    
 	$scope.postPhoto = function() {
 		$("#QnA-photo-id").click();
 	}
@@ -2430,13 +2468,11 @@ minibean.controller('QnACommunityController',function($scope, bookmarkPostServic
 	$scope.nextPost = function() {
 		if ($scope.isBusy) return;
 		if (noMore) return;
-		
 		$scope.isBusy = true;
 		communityQnAPageService.GetQnAs.get({id:$routeParams.id,offset:offsetq}, function(data){
 			var posts = data;
-			if(data.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
+			if(data.length == 0) {
 				noMore = true;
-				$scope.isBusy = false;
 			}
 			
 			for (var i = 0; i < posts.length; i++) {
@@ -2941,13 +2977,12 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 					}
 					count++;
 				})
-				if ($scope.result.length > DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT){
+				if ($scope.result.length == 0){
 					noMore = true;
 				}
 			$scope.categoryImage = $scope.result[0].category_url;
 			$scope.categoryName = $scope.result[0].ct.name;
-				if(catId == 0)
-				{
+				if(catId == 0) {
 					$scope.allCategory = true;
 					$scope.oneCategory = false;
 				}
@@ -3001,9 +3036,8 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 			function(data){
 			console.log(data);
 				var posts = data;
-				if(posts.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
+				if(posts.length == 0) {
 					noMore = true;
-					$scope.isBusy = false;
 				}
 				
 				for (var i = 0; i < posts.length; i++) {
@@ -3142,9 +3176,19 @@ minibean.service('newsFeedService',function($resource){
 	);
 });
 
-minibean.controller('NewsFeedController', function($scope, bookmarkPostService, likeFrameworkService, $interval, $timeout, $upload, $http, allCommentsService, usSpinnerService, newsFeedService) {
+minibean.controller('NewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $interval, $timeout, $upload, $http, allCommentsService, usSpinnerService, newsFeedService) {
 	$scope.newsFeeds = { posts: [] };
 	
+	$scope.deletePost = function(postId) {
+        postManagementService.deletePost.get({"postId":postId}, function(data) {
+            angular.forEach($scope.newsFeeds.posts, function(post, key){
+                if(post.id == postId) {
+                    $scope.newsFeeds.posts.splice($scope.newsFeeds.posts.indexOf(post),1);
+                }
+            })
+        });
+    }
+    
 	$scope.get_unread_msg_count();
 	
 	$scope.comment_on_post = function(id, commentText) {
@@ -3301,9 +3345,8 @@ minibean.controller('NewsFeedController', function($scope, bookmarkPostService, 
 		newsFeedService.NewsFeeds.get({offset:offset},
 			function(data){
 				var posts = data.posts;
-				if(posts.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
+				if(posts.length == 0) {
 					noMore = true;
-					$scope.isBusy = false;
 				}
 				
 				for (var i = 0; i < posts.length; i++) {
@@ -3475,9 +3518,19 @@ minibean.service('userNewsFeedService',function($resource){
 	);
 });
 
-minibean.controller('UserNewsFeedController', function($scope,$routeParams, $timeout, $upload, $interval, bookmarkPostService, likeFrameworkService, userInfoService, $http, allCommentsService, usSpinnerService, userNewsFeedService) {
+minibean.controller('UserNewsFeedController', function($scope, $routeParams, $timeout, $upload, $interval, postManagementService, bookmarkPostService, likeFrameworkService, userInfoService, $http, allCommentsService, usSpinnerService, userNewsFeedService) {
 	$scope.newsFeeds = { posts: [] };
 	
+	$scope.deletePost = function(postId) {
+        postManagementService.deletePost.get({"postId":postId}, function(data) {
+            angular.forEach($scope.newsFeeds.posts, function(post, key){
+                if(post.id == postId) {
+                    $scope.newsFeeds.posts.splice($scope.newsFeeds.posts.indexOf(post),1);
+                }
+            })
+        });
+    }
+    
 	$scope.comment_on_post = function(id, commentText) {
 		var data = {
 			"post_id" : id,
@@ -3693,8 +3746,6 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $tim
 		});
 	}
 	
-	var noMore = false;
-	var offset = 0;
 	$scope.bookmarkPost = function(post_id) {
 		bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.newsFeeds.posts, function(post, key){
@@ -3768,6 +3819,8 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $tim
 		});
 	}
 	
+	var noMore = false;
+    var offset = 0;
 	$scope.nextNewsFeeds = function() {
 		var id = $scope.userInfo.id;
 		if($routeParams.id != undefined){
@@ -3779,9 +3832,8 @@ minibean.controller('UserNewsFeedController', function($scope,$routeParams, $tim
 		userNewsFeedService.NewsFeeds.get({offset:offset,id:id},
 			function(data){
 				var posts = data.posts;
-				if(posts.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
+				if(posts.length == 0) {
 					noMore = true;
-					$scope.isBusy = false;
 				}
 				
 				for (var i = 0; i < posts.length; i++) {
@@ -3950,22 +4002,20 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 	$scope.nextPost = function() {
 		if ($scope.isBusy) return;
 		if (noMore) return;
-		
 		$scope.isBusy = true;
 		bookmarkService.bookmarkPost.get({offset:offset},
-				function(data){
-			var posts = data;
-			if(data.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
-				noMore = true;
-				$scope.isBusy = false;
-			}
-			
-			for (var i = 0; i < posts.length; i++) {
-				$scope.posts.post.push(posts[i]);
-		    }
-			$scope.isBusy = false;
-			offset++;
-		});
+            function(data){
+    			var posts = data;
+    			if(data.length == 0) {
+    				noMore = true;
+    			}
+    			
+    			for (var i = 0; i < posts.length; i++) {
+    				$scope.posts.post.push(posts[i]);
+    		    }
+    			$scope.isBusy = false;
+    			offset++;
+    		});
 	}
 	
 	var offsetA = 0;
@@ -3973,23 +4023,20 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 	$scope.nextArticles = function() {
 		if ($scope.isBusyA) return;
 		if (noMoreA) return;
-		
 		$scope.isBusyA = true;
 		bookmarkService.bookmarkArticle.get({offsetA:offsetA},
-				function(data){
-			var articleData = data;
-			if(data.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
-				noMoreA = true;
-				$scope.isBusyA = false;
-			}
-			
-			for (var i = 0; i < articleData.length; i++) {
-				$scope.articles.article.push(articleData[i]);
-		    }
-			$scope.isBusyA = false;
-			offsetA++;
-		});
-		
+            function(data){
+    			var articleData = data;
+    			if(data.length = 0) {
+    				noMoreA = true;
+    			}
+    			
+    			for (var i = 0; i < articleData.length; i++) {
+    				$scope.articles.article.push(articleData[i]);
+    		    }
+    			$scope.isBusyA = false;
+    			offsetA++;
+    		});
 	}
 });
 
@@ -4140,26 +4187,25 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
 	
 	$scope.noMore = false;
 	$scope.getMessages = function(cid, uid) {
+        if (noMore) return;
 		offset = 0;
 		$scope.receiverId = uid;
 		$scope.currentConversation = cid;
 		usSpinnerService.spin('loading...');
 		getMessageService.getMessages.get({id: cid,offset: offset},
-				function(data){
-			$scope.noMore = true;
-			$scope.messages = data.message;
-			$scope.unread_msg_count.count = data.counter;
-			usSpinnerService.stop('loading...');
-			if($scope.messages.length < DefaultValues.CONVERSATION_MESSAGE_COUNT){
-				$scope.noMore = false;
-			}
-			offset++;
-			$timeout(function(){
-				var objDiv = document.getElementById('message-area');
-				objDiv.scrollTop = objDiv.scrollHeight;
-		    });
-		});
-		
+            function(data){
+    			$scope.messages = data.message;
+    			$scope.unread_msg_count.count = data.counter;
+    			usSpinnerService.stop('loading...');
+    			if($scope.messages.length == 0){
+    				$scope.noMore = true;
+    			}
+    			offset++;
+    			$timeout(function(){
+    				var objDiv = document.getElementById('message-area');
+    				objDiv.scrollTop = objDiv.scrollHeight;
+    		    });
+    		});
 	}
 	
 	$scope.showImage = function(imageId) {
@@ -4171,31 +4217,31 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
 		$scope.selectedIndex = $index ;
 	}
 	
+	$scope.noMoreM = false;
 	$scope.nextMessages = function() {
+        if (noMoreM) return;
 		usSpinnerService.spin('loading...');
 		getMessageService.getMessages.get({id: $scope.currentConversation,offset: offset},
-				function(data){
-			$scope.noMore = true;
-			console.log(data);
-			var objDiv = document.getElementById('message-area');
-			var height = objDiv.scrollHeight;
-			//console.log("nextMessages() - height:"+height);
-			var messages = data.message;
-			$scope.unread_msg_count.count = data.counter;
-			for (var i = 0; i < messages.length; i++) {
-				$scope.messages.push(messages[i]);
-		    }
-			if(data.message.length < DefaultValues.CONVERSATION_MESSAGE_COUNT){
-				$scope.noMore = false;
-			}
-			usSpinnerService.stop('loading...');
-			offset++;
-			$timeout(function(){
+            function(data){
     			var objDiv = document.getElementById('message-area');
-    			objDiv.scrollTop = objDiv.scrollHeight - height;
-    			//console.log("nextMessages() - message-area.scrollTop:"+objDiv.scrollTop);
-    	    });
-		});
+    			var height = objDiv.scrollHeight;
+    			//console.log("nextMessages() - height:"+height);
+    			var messages = data.message;
+    			$scope.unread_msg_count.count = data.counter;
+    			for (var i = 0; i < messages.length; i++) {
+    				$scope.messages.push(messages[i]);
+    		    }
+    			if(data.message.length == 0){
+    				$scope.noMoreM = true;
+    			}
+    			usSpinnerService.stop('loading...');
+    			offset++;
+    			$timeout(function(){
+        			var objDiv = document.getElementById('message-area');
+        			objDiv.scrollTop = objDiv.scrollHeight - height;
+        			//console.log("nextMessages() - message-area.scrollTop:"+objDiv.scrollTop);
+        	    });
+    		});
 	}
 	
 	$scope.sendMessage = function(msgText) {

@@ -21,7 +21,7 @@
                             <div>
                                 <p ng-show="conv.isToday"><span class="message-timestamp">{{conv.lmd|date:'hh:mm a'}}</span></p>
                                 <p ng-show="!conv.isToday"><span class="message-timestamp">{{conv.lmd|date:'yyyy-M-d'}}</span></p>
-                                <a class="message-del-icon" data-ng-confirm-click="deleteConversation(conv.id)" data-ng-confirm-message=確認移除此訊息"></a>
+                                <a class="message-del-icon" data-ng-confirm-click="deleteConversation(conv.id)" data-ng-confirm-message="您確定刪除這個訊息嗎?"></a>
                                 <p class="message-tooltips">移除</p>
                                 <a ng-show="conv.mc > 0" class="message-notice"><a class="message-notice">{{conv.mc}}</a>
                             </div>
