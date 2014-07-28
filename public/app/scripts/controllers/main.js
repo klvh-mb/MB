@@ -3505,7 +3505,6 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 		$scope.commentDataUrls.splice(index, 1);
 	}
 });
-
 	  
 minibean.service('userNewsFeedService',function($resource){
 
@@ -4057,7 +4056,7 @@ minibean.service('allConversationService',function($resource){
 		}
 	);
 	
-	this.startConeversation = $resource(
+	this.startConversation = $resource(
 		'/start-Conversation/:id',
 		{alt:'json',callback:'JSON_CALLBACK'},
 		{
@@ -4065,7 +4064,7 @@ minibean.service('allConversationService',function($resource){
 		}
 	);
 	
-	this.deleteConeversation = $resource(
+	this.deleteConversation = $resource(
 		'/delete-Conversation/:id',
 		{alt:'json',callback:'JSON_CALLBACK'},
 		{
@@ -4105,7 +4104,7 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
 			}
 		});
 	} else {
-		$scope.conversations = allConversationService.startConeversation.get({id: $routeParams.id} ,function(){
+		$scope.conversations = allConversationService.startConversation.get({id: $routeParams.id} ,function(){
 			$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
 		});
 	}
@@ -4165,7 +4164,7 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
 	$scope.startConversation = function(uid) {
 		$scope.receiverId = uid;
 		usSpinnerService.spin('loading...');
-		allConversationService.startConeversation.get({id: uid},
+		allConversationService.startConversation.get({id: uid},
 				function(data){
 			$scope.conversations = data;
 			$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
@@ -4176,7 +4175,7 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
 	
 	$scope.deleteConversation = function(cid) {
 		usSpinnerService.spin('loading...');
-		allConversationService.deleteConeversation.get({id: cid},
+		allConversationService.deleteConversation.get({id: cid},
 				function(data){
 			$scope.conversations = data;
 			$scope.messages = 0;
@@ -4185,14 +4184,13 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
 		});
 	}
 	
-	$scope.noMore = false;
-	$scope.getMessages = function(cid, uid) {
-        if (noMore) return;
-		offset = 0;
-		$scope.receiverId = uid;
-		$scope.currentConversation = cid;
-		usSpinnerService.spin('loading...');
-		getMessageService.getMessages.get({id: cid,offset: offset},
+    $scope.noMore = true;
+    $scope.getMessages = function(cid, uid) {
+    	offset = 0;
+    	$scope.receiverId = uid;
+    	$scope.currentConversation = cid;
+    	usSpinnerService.spin('loading...');
+    	getMessageService.getMessages.get({id: cid,offset: offset},
             function(data){
     			$scope.messages = data.message;
     			$scope.unread_msg_count.count = data.counter;
@@ -4206,7 +4204,7 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
     				objDiv.scrollTop = objDiv.scrollHeight;
     		    });
     		});
-	}
+    }
 	
 	$scope.showImage = function(imageId) {
         $scope.img_id = imageId;
@@ -4217,9 +4215,8 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
 		$scope.selectedIndex = $index ;
 	}
 	
-	$scope.noMoreM = false;
 	$scope.nextMessages = function() {
-        if (noMoreM) return;
+        if ($scope.noMore) return;
 		usSpinnerService.spin('loading...');
 		getMessageService.getMessages.get({id: $scope.currentConversation,offset: offset},
             function(data){
@@ -4232,7 +4229,7 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
     				$scope.messages.push(messages[i]);
     		    }
     			if(data.message.length == 0){
-    				$scope.noMoreM = true;
+    				$scope.noMore = true;
     			}
     			usSpinnerService.stop('loading...');
     			offset++;
