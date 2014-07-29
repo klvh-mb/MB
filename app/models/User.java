@@ -952,6 +952,8 @@ public class User extends SocialObject implements Subject, Socializable {
     
     @Transactional
     public static Long getTodaySignupCount() {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
         Query q = JPA.em().createQuery(
                 "SELECT count(u) FROM User u where " +  
                         "system = false and deleted = false and " + 
@@ -959,7 +961,10 @@ public class User extends SocialObject implements Subject, Socializable {
         q.setParameter(1, DateTimeUtil.getToday().toDate());
         q.setParameter(2, DateTimeUtil.getTomorrow().toDate());
         Long count = (Long)q.getSingleResult();
-        logger.underlyingLogger().info("getTodaySignupCount=" + count);        return count;
+
+        sw.stop();
+        logger.underlyingLogger().info("getTodaySignupCount="+count+". Took "+sw.getElapsedMS()+"ms");
+        return count;
     }
 
     @JsonIgnore

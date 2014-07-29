@@ -7,6 +7,7 @@ import play.Play;
 import processor.FeedProcessor;
 import redis.clients.jedis.Tuple;
 
+import javax.validation.constraints.Max;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -26,7 +27,9 @@ public class NewsfeedCommTargetingEngine {
 
     // Configurations for news feed
     public static final int NEWSFEED_FULLLENGTH = Play.application().configuration().getInt(NEWSFEED_FULLLENGTH_PROP, 120);
-    public static final double NEWSFEED_TIME_TOL = Play.application().configuration().getDouble(NEWSFEED_TIMEDISORDER_TOL_PROP, 0.2d);  // 20%
+    public static final double NEWSFEED_TIME_TOL = Play.application().configuration().getDouble(NEWSFEED_TIMEDISORDER_TOL_PROP, 0.15d);  // 15%
+
+    private static final long MAX_TIME_TOLERANCE = 3 * 24 * 60 * 60 * 1000;
 
     /**
      * @param userId
@@ -64,8 +67,11 @@ public class NewsfeedCommTargetingEngine {
 
         long timeToleranceMs = 0;
         if (minTime != null && maxTime != null) {
-            timeToleranceMs = (long) ((maxTime.getMillis() - minTime.getMillis()) * NEWSFEED_TIME_TOL);
+            timeToleranceMs = Math.min(
+                    MAX_TIME_TOLERANCE,
+                    (long) ((maxTime.getMillis() - minTime.getMillis()) * NEWSFEED_TIME_TOL));
         }
+
         if (logger.underlyingLogger().isDebugEnabled()) {
             logger.underlyingLogger().debug("[u="+userId+"] Time - min="+minTime+" max="+maxTime+" tol="+(timeToleranceMs/3_600_000)+"hr");
         }

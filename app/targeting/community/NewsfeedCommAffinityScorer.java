@@ -14,6 +14,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class NewsfeedCommAffinityScorer {
+    private static final play.api.Logger logger = play.api.Logger.apply(NewsfeedCommAffinityScorer.class);
 
     private static final int LAST_JOINED_3D_POINTS = 170;   // important, but exponentially less
     private static final int LAST_JOINED_1W_POINTS = LAST_JOINED_3D_POINTS - 40;
@@ -26,10 +27,14 @@ public class NewsfeedCommAffinityScorer {
     public static List<Scorable<UserCommunityAffinity>> markScores(List<UserCommunityAffinity> affinities) {
         List<Scorable<UserCommunityAffinity>> results = new ArrayList<>();
 
+        Long userId = null;
+
         // get max count
         int maxActivities = 0, maxViews = 0;
         for (UserCommunityAffinity affinity : affinities) {
             if (affinity.isNewsfeedEnabled()) {
+                userId = affinity.getUserId();
+
                 if (maxActivities > maxActivities) {
                     maxActivities = affinity.getActivityCount();
                 }
@@ -73,6 +78,7 @@ public class NewsfeedCommAffinityScorer {
             results.add(scorable);
         }
 
+        logger.underlyingLogger().info("[u="+userId+"] NewsfeedCommAffinityScore: "+results);
         return results;
     }
 }

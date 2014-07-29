@@ -25,8 +25,9 @@ public class NewsfeedCommWeightDistributor {
     public static DistributionResult process(Long userId, int newsfeedFullLen) {
         final DistributionResult result = new DistributionResult();
 
-        // get list of communities with affinity info for user
-        List<UserCommunityAffinity> affinities = UserCommunityAffinity.findByUser(userId);
+        // get list of communities with affinity info for user (only active and comm not deleted)
+        List<UserCommunityAffinity> affinities = UserCommunityAffinity.findNewsFeedActiveByUser(userId);
+
         // mark scores for each community
         List<Scorable<UserCommunityAffinity>> scores = NewsfeedCommAffinityScorer.markScores(affinities);
 

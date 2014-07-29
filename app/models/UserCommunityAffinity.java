@@ -1,5 +1,6 @@
 package models;
 
+import common.utils.DateTimeUtil;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.data.format.Formats;
@@ -88,14 +89,12 @@ public class UserCommunityAffinity extends domain.Entity {
         executeUpdate();
     }
 
-    public static List<UserCommunityAffinity> findByUser(Long userId) {
-        CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-		CriteriaQuery<UserCommunityAffinity> q = cb.createQuery(UserCommunityAffinity.class);
-		Root<UserCommunityAffinity> c = q.from(UserCommunityAffinity.class);
-		q.select(c);
-		q.where(cb.equal(c.get("userId"), userId));
-		return JPA.em().createQuery(q).getResultList();
-	}
+    public static List<UserCommunityAffinity> findNewsFeedActiveByUser(Long userId) {
+        Query q = JPA.em().createQuery("select u from UserCommunityAffinity u, Community c "+
+                "where u.userId = ?1 and u.newsfeedEnabled = 1 and u.communityId = c.id and c.deleted = 0");
+        q.setParameter(1, userId);
+        return (List<UserCommunityAffinity>) q.getResultList();
+    }
 
     public static UserCommunityAffinity findByUserCommunity(Long userId, Long communityId) {
         CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
@@ -140,5 +139,10 @@ public class UserCommunityAffinity extends domain.Entity {
     
     public void setNewsfeedEnabled(boolean newsfeedEnabled) {
         this.newsfeedEnabled = newsfeedEnabled;
+    }
+
+    @Override
+    public String toString() {
+        return communityId.toString();
     }
 }

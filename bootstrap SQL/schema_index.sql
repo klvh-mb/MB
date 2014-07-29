@@ -1,3 +1,7 @@
+-- User
+CREATE INDEX user_idx_created_system ON user (created_date, system);
+
+
 -- SocialRelation (Friends, Community Members)
 CREATE INDEX socialrel_idx_actor_action ON socialrelation (actor, action);
 
