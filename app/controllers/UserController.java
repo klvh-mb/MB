@@ -207,8 +207,8 @@ public class UserController extends Controller {
 		final User user1 = User.findById(id1);
 		final User user2 = User.findById(id2);
 		Conversation conversation = user1.findMyConversationsWith(user2);
-		conversation.addMessage(user1, "Hiii");
-		conversation.addMessage(user2, "Hello");
+		conversation.addMessage(user1, ".");
+		conversation.addMessage(user2, ".");
 		return ok();
 	}
 	
@@ -219,7 +219,8 @@ public class UserController extends Controller {
 		final User user = User.findById(id);
 		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostVM> posts = new ArrayList<>();
-		List<Post> newsFeeds =  user.getUserNewsfeeds(Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+		List<Post> newsFeeds = user.getUserNewsfeeds(
+		        Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 		
 		if(newsFeeds != null ){
 			for(Post p : newsFeeds) {

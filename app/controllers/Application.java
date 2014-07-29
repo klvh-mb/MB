@@ -58,6 +58,11 @@ import domain.DefaultValues;
 public class Application extends Controller {
     private static final play.api.Logger logger = play.api.Logger.apply(Application.class);
 
+    public static final int SIGNUP_DAILY_THRESHOLD = 
+            Play.application().configuration().getInt("signup.daily.threshold", 1000);
+    public static final int SIGNUP_DAILY_LIMIT = 
+            Play.application().configuration().getInt("signup.daily.limit", 1000);
+    
     public static final String SIGNUP_EMAIL = "signup_email";
     public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";
@@ -85,6 +90,14 @@ public class Application extends Controller {
 	    return ok(Json.toJson(new TodayWeatherInfoVM(info)));
 	}
 	
+	public static boolean isOverDailySignupThreshold() {
+        return User.getTodaySignupCount() >= SIGNUP_DAILY_THRESHOLD;
+    }
+    
+    public static boolean isOverDailySignupLimit() {
+        return User.getTodaySignupCount() >= SIGNUP_DAILY_LIMIT;
+    }
+	    
 	@Transactional
 	public static Result index() {
         final User localUser = getLocalUser(session());
@@ -219,7 +232,7 @@ public class Application extends Controller {
 		if(localUser != null) {
 			return redirect("/");
 		}
-		return ok(views.html.login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
+		return ok(views.html.login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, isOverDailySignupThreshold()));
 	}
 
 	@Transactional
@@ -230,7 +243,7 @@ public class Application extends Controller {
 		if (filledForm.hasErrors()) {
 			// User did not fill everything properly
 			flash("error", "登入電郵或密碼錯誤");
-			return badRequest(views.html.login.render(filledForm));
+			return badRequest(views.html.login.render(filledForm, isOverDailySignupThreshold()));
 		} else {
 			// Everything was filled
 			return UsernamePasswordAuthProvider.handleLogin(ctx());
@@ -352,7 +365,7 @@ public class Application extends Controller {
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			// User did not fill everything properly
-			return badRequest(views.html.login.render(filledForm));
+			return badRequest(views.html.login.render(filledForm, isOverDailySignupThreshold()));
 		} else {
 			// Everything was filled
 			Result r  = PlayAuthenticate.handleAnthenticationByProvider(ctx(),

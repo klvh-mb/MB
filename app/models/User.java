@@ -22,6 +22,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import common.image.FaceFinder;
+import common.utils.DateTimeUtil;
 import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
 import common.utils.StringUtil;
@@ -786,10 +787,8 @@ public class User extends SocialObject implements Subject, Socializable {
     private static Query getUsernamePasswordAuthUserFind(
             final UsernamePasswordAuthUser identity) {
 
-        Query q = JPA
-                .em()
-                .createQuery(
-                        "SELECT u FROM User u, IN (u.linkedAccounts) l where active = ?1 and email = ?2 and  l.providerKey = ?3 and u.deleted = false");
+        Query q = JPA.em().createQuery(
+                "SELECT u FROM User u, IN (u.linkedAccounts) l where active = ?1 and email = ?2 and  l.providerKey = ?3 and u.deleted = false");
         q.setParameter(1, true);
         q.setParameter(2, identity.getEmail());
         q.setParameter(3, identity.getProvider());
@@ -949,6 +948,18 @@ public class User extends SocialObject implements Subject, Socializable {
             }
         }
         return SUPER_ADMIN;
+    }
+    
+    @Transactional
+    public static Long getTodaySignupCount() {
+        Query q = JPA.em().createQuery(
+                "SELECT count(u) FROM User u where " +  
+                        "system = false and deleted = false and " + 
+                        "CREATED_DATE >= ?1 and CREATED_DATE < ?2");
+        q.setParameter(1, DateTimeUtil.getToday().toDate());
+        q.setParameter(2, DateTimeUtil.getTomorrow().toDate());
+        Long count = (Long)q.getSingleResult();
+        logger.underlyingLogger().info("getTodaySignupCount=" + count);        return count;
     }
 
     @JsonIgnore

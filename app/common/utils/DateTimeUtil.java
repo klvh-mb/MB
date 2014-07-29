@@ -6,6 +6,25 @@ import org.joda.time.IllegalFieldValueException;
 
 public class DateTimeUtil {
     
+    private static DateTime TODAY;
+    
+    public static DateTime getToday() {
+        DateTime now = DateTime.now();
+        if (TODAY != null && 
+                now.getYear() == TODAY.getYear() && 
+                now.getMonthOfYear() == TODAY.getMonthOfYear() && 
+                now.getDayOfMonth() == TODAY.getDayOfMonth()) {
+            return TODAY;
+        }
+        
+        TODAY = new DateTime(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth(), 0, 0, 0);
+        return TODAY;
+    }
+    
+    public static DateTime getTomorrow() {
+        return getToday().plusDays(1);
+    }
+    
     public static boolean isDateOfBirthValid(String year, String month, String day) {
         try {
             parseDate(year, month, day);
@@ -44,5 +63,4 @@ public class DateTimeUtil {
         
         return new DateTime(y, m ,d, 12, 0);
     }
-    
 }

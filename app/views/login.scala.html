@@ -1,4 +1,4 @@
-@(loginForm: Form[_])
+@(loginForm: Form[_], disableSignup: Boolean)
 
 @import helper._
 
@@ -52,9 +52,9 @@
                 <li id="login-info-wrapper">
                     @helper.form(routes.Application.doLogin) {
 						@if(loginForm.hasGlobalErrors) { 
-				          <p class="error">
+				        <p class="error">
 				            <span class="label label-important">@loginForm.globalError.message</span>
-				          </p>
+				        </p>
 				        }
 				        
 				        @if(flash.get("error")) {
@@ -73,7 +73,9 @@
                         <input type="submit" name="login-btn" id="login-btn" value="登入" />
                     }
                 </li>
+                @if(!disableSignup) {
                 <li id="login-newacc"><p>還未成為會員? <a href="@routes.Application.signup" class="margin-none" style="position:relative;top:0px;font-size:14px;">立即登記!</a></p></li>
+                }
             </ul>
         </div>
     </div>

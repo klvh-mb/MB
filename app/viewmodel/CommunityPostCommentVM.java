@@ -29,7 +29,7 @@ public class CommunityPostCommentVM {
 		postCommentVM.name = comment.owner.name;
 		postCommentVM.creationDate = comment.getCreatedDate().getTime();
 		postCommentVM.commentText = comment.body;
-		postCommentVM.noOfLikes =comment.noOfLikes;
+		postCommentVM.noOfLikes = comment.noOfLikes;
 		postCommentVM.isOwner = comment.owner.id == user.id;
 		
 		List<Resource> resources = null;

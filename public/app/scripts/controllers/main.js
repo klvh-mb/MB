@@ -4196,7 +4196,7 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
                 $scope.messages = data.message;
                 $scope.unread_msg_count.count = data.counter;
                 usSpinnerService.stop('loading...');
-                if($scope.messages.length == 0){
+                if($scope.messages.length < DefaultValues.CONVERSATION_MESSAGE_COUNT){
                     $scope.loadMore = false;
                 }
                 offset++;
@@ -4230,7 +4230,7 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
                 for (var i = 0; i < messages.length; i++) {
                     $scope.messages.push(messages[i]);
                 }
-                if(data.message.length == 0){
+                if(data.message.length < DefaultValues.CONVERSATION_MESSAGE_COUNT){
                     $scope.loadMore = false;
                 }
                 usSpinnerService.stop('loading...');

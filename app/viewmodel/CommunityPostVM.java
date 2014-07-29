@@ -102,7 +102,7 @@ public class CommunityPostVM {
 		return postVM;
 	}
 	
-	public static CommunityPostVM communityPostVisitProfile(Post post, User user, User localUser) {
+	public static CommunityPostVM communityPostVisitProfile(Post post, User visitedUser, User localUser) {
 		CommunityPostVM postVM = new CommunityPostVM();
 		postVM.postId = post.id;
 		postVM.ownerId = post.owner.id;
@@ -142,11 +142,11 @@ public class CommunityPostVM {
         for(int i = comments.size() - 1; i >= 0 ; i--) {
             likeCheckIds.add(comments.get(i).getId());
         }
-        Set<Pair<Long, SocialObjectType>> likesByUser = LikeManager.getLikedBy(user, likeCheckIds);
+        Set<Pair<Long, SocialObjectType>> likesByUser = LikeManager.getLikedBy(localUser, likeCheckIds);
 
 		for(int i = comments.size() - 1; i >= 0 ; i--) {
 			Comment comment = comments.get(i);
-			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, user);
+			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, localUser);
 			commentVM.isLike = likesByUser.contains(new Pair<>(comment.id, SocialObjectType.COMMENT));
 			commentsToShow.add(commentVM);
 		}

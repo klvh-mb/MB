@@ -23,6 +23,8 @@ import com.feth.play.module.pa.service.UserService;
 import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.EmailIdentity;
 
+import controllers.Application;
+
 public abstract class PlayAuthenticate {
 
 	private static final String SETTING_KEY_PLAY_AUTHENTICATE = "play-authenticate";
@@ -431,7 +433,11 @@ public abstract class PlayAuthenticate {
 	}
 
 	private static AuthUser signupUser(final AuthUser u) throws AuthException {
-	    // Email should always be unique 
+	    if (Application.isOverDailySignupLimit()) {
+	        throw new AuthException("十分抱歉! 由於小萌豆是新平台，為了提供最好的體驗給每個用戶，我們預設了每日新登記用戶上限。現在已超出登記上限，請遲些回來重試。");
+	    }
+	    
+	    // Email must be unique 
 	    if (u instanceof EmailIdentity) {
 	        final EmailIdentity identity = (EmailIdentity) u;
 	        final User existingUser = User.findByEmail(identity.getEmail());
@@ -464,7 +470,7 @@ public abstract class PlayAuthenticate {
 			final Form<MyLogin> filledForm = 
                     MyUsernamePasswordAuthProvider.LOGIN_FORM.bindFromRequest();
             play.mvc.Controller.flash("error", "Facebook登入電郵或密碼錯誤");
-            return play.mvc.Results.badRequest(views.html.login.render(filledForm));
+            return play.mvc.Results.badRequest(views.html.login.render(filledForm, Application.isOverDailySignupThreshold()));
 		}
 		try {
 			return handleAnthenticationByProvider(context, payload, ap);
@@ -480,7 +486,7 @@ public abstract class PlayAuthenticate {
 				final Form<MyLogin> filledForm = 
                         MyUsernamePasswordAuthProvider.LOGIN_FORM.bindFromRequest();
                 play.mvc.Controller.flash("error", message);
-                return play.mvc.Results.badRequest(views.html.login.render(filledForm));
+                return play.mvc.Results.badRequest(views.html.login.render(filledForm, Application.isOverDailySignupThreshold()));
 			}
 		}
 	}
