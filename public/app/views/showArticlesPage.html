@@ -16,7 +16,7 @@
             </div>
 			<div id="all-post-thumbnail" class="general-box" ng-show="allCategory">
 				<ul>
-                    <li data-ng-repeat="category in articleCategorys" style="width: 50%;">
+                    <li data-ng-repeat="category in articleCategorys" ng-show="$index < 4" style="width: 50%;">
                         <img data-ng-src="{{category.pn}}" style="width: 100%; height: 82px">
                     </li>
                     <li><div><font class="scCatName">所有文章</font></div></li>

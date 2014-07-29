@@ -443,7 +443,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
     @Override
     public int compareTo(Community o) {
         if (this.system != o.system) {
-            return o.system.compareTo(this.system);     // system communities on top
+            return this.system.compareTo(o.system);
         }
         if (this.targetingType != o.targetingType) {
             return this.targetingType.compareTo(o.targetingType);
