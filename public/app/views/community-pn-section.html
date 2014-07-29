@@ -45,7 +45,7 @@
                 <a ng-href="{{pn.url}}" target="_blank">
                     {{pn.n}}
                 </a>
-                <span class="tag" style="background-color:{{pn.tagc}}">{{pn.dis}}</span>
+                <span class="tag" ng-style="{backgroundColor: pn.tagc}">{{pn.dis}}</span>
                 <div class="pn-info-note"><span ng-show="pn.pho">電話: {{pn.pho}}</span><span ng-show="pn.em"> · 電郵: {{pn.em}}<span></div>
                 <div class="pn-info-attr">
                     <span>開始派表日期: {{pn.fds}}<span ng-show="!pn.fds">--</span></span>
