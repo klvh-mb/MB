@@ -97,7 +97,7 @@ public class DataBootstrap {
         emotIcon.save();
         emotIcon = new EmotIcon(":)", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/smile.png\">");
         emotIcon.save();
-        emotIcon = new EmotIcon(":|O", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/teat.png\">");
+        emotIcon = new EmotIcon(":+O", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/teat.png\">");
         emotIcon.save();
         emotIcon = new EmotIcon("^^]", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/teeth.png\">");
         emotIcon.save();
