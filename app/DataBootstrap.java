@@ -7,7 +7,7 @@ import models.Announcement;
 import models.ArticleCategory;
 import models.Community;
 import models.Community.CommunityType;
-import models.EmotIcons;
+import models.EmotIcon;
 import models.Icon;
 import models.Icon.IconType;
 import models.Location;
@@ -55,7 +55,7 @@ public class DataBootstrap {
     }
     
     private static void bootstrapEmotIcon() {
-        Query q = JPA.em().createQuery("Select count(i) from EmotIcons i");
+        Query q = JPA.em().createQuery("Select count(i) from EmotIcon i");
         Long count = (Long)q.getSingleResult();
         if (count > 0) {
             return;
@@ -63,18 +63,50 @@ public class DataBootstrap {
 
         logger.underlyingLogger().info("bootstrapEmotIcon()");
         
-        EmotIcons emotIcons = new EmotIcons(":)", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/smile.png\">");
-        emotIcons.save();
-        emotIcons = new EmotIcons(":(", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/frown.png\">");
-        emotIcons.save();
-        emotIcons = new EmotIcons(":P", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/tongue.png\">");
-        emotIcons.save();
-        emotIcons = new EmotIcons(":O", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/gasp.png\">");
-        emotIcons.save();
-        emotIcons = new EmotIcons(":D", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/grin.png\">");
-        emotIcons.save();
-        emotIcons = new EmotIcons(";)", "<img class=\"emoticon\"  src=\"/assets/app/images/emoticons/wink.png\">");
-        emotIcons.save();
+        EmotIcon emotIcon = new EmotIcon("O:)", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/angel.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon("><(", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/bad.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon("^_^", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/blush.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon("B)", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/cool.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon(":'(", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/cry.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon(":_", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/dry.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon(":(", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/frown.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon(":O", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/gasp.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon("^^D", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/grin.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon(":D", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/happy.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon("O_o", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/huh.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon("><D", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/laugh.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon("**)", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/love.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon(">:(", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/mad.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon(";O", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/ohmy.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon(":|", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/ok.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon(":)", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/smile.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon(":|O", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/teat.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon("^^]", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/teeth.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon(":P", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/tongue.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon(":S", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/wacko.png\">");
+        emotIcon.save();
+        emotIcon = new EmotIcon(";)", "<img class=\"emoticon\" src=\"/assets/app/images/emoticons/wink.png\">");
+        emotIcon.save();
 	}
 
 	private static void bootstrapAnnouncement() {

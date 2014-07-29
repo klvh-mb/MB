@@ -796,3 +796,9 @@ span.notif-count {
     font-size: 14px;
 }
 /*PN End*/
+.emoticon {
+    margin: 2px 2px;
+    position: static;   /* for IE... do not change this */
+    width: 16px;
+    height: 16px;
+}

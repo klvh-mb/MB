@@ -272,7 +272,7 @@
 }
 #message-content .message-body .emoticon {
     margin: 2px 2px;
-    position: static;   /* do not change this */
+    position: static;   /* for IE... do not change this */
 }
 .message-user .message-body, .message-replier .message-body {
     max-width: 350px;

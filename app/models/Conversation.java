@@ -180,7 +180,7 @@ public class Conversation extends domain.Entity implements Serializable,
 			conversation = Conversation.startConversation(sender, receiver);
 		}
 		if(msgText != null){
-			for(EmotIcons ei : EmotIcons.getIcons()){
+			for(EmotIcon ei : EmotIcon.getIcons()){
 				msgText = msgText.replace(ei.name, ei.url);
 			}
 		}

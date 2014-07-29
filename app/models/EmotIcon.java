@@ -8,14 +8,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Query;
 
-import models.Icon.IconType;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
-
 @Entity
-public class EmotIcons {
-	
+public class EmotIcon {
 	
 		@Id
 	    @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,16 +22,16 @@ public class EmotIcons {
 	    
 	    public String url;
 	    
-	    public EmotIcons(){}
+	    public EmotIcon(){}
 	    
-	    public EmotIcons(String name, String url) {
+	    public EmotIcon(String name, String url) {
 	        this.name = name;
 	        this.url = url;
 	    }
 	    
-	    public static List<EmotIcons> getIcons() {
-	    	Query q = JPA.em().createQuery("Select i from EmotIcons i ");
-	    	return (List<EmotIcons>)q.getResultList();
+	    public static List<EmotIcon> getIcons() {
+	    	Query q = JPA.em().createQuery("Select i from EmotIcon i ");
+	    	return (List<EmotIcon>)q.getResultList();
 	    }
 	    
 	    public String getName() {
