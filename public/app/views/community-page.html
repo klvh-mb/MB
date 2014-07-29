@@ -74,10 +74,10 @@
                                         <a ng-show="newsfeedEnabled" data-ng-confirm-click="toggleNewsfeedEnabled(community.id)" data-ng-confirm-message="您確定不需要 '{{community.n}}' 的發佈顯示到我的社群動向嗎?"><i class="glyphicon glyphicon-check"></i> 顯示到我的社群動向</a>
                                         <a ng-show="!newsfeedEnabled" data-ng-click="toggleNewsfeedEnabled(community.id)"><i class="glyphicon glyphicon-unchecked"></i> 顯示到我的社群動向</a>
                                     </li>
-                                    <li ng-show="community.isO"><a data-ng-href="/#/editCommunity/{{community.id}}">編輯社群</a></li>
+                                    <!--li ng-show="community.isO"><a data-ng-href="/#/editCommunity/{{community.id}}">編輯社群</a></li-->
                                     <li class="dropdown-divider" role="presentation"></li>
                                     <li ng-show="!community.isO && community.isM == true"><a data-ng-confirm-click="leave_community(community.id)" data-ng-confirm-message="您確定退出 '{{community.n}}' 嗎?">退出社群</a></li>
-                                    <li><a data-ng-click="">檢舉社群</a></li>
+                                    <!--li><a data-ng-click="">檢舉社群</a></li-->
                                 </ul> 
                             </div>
                             <div class="pull-right">
@@ -106,7 +106,7 @@
                                         <span class="post-wall-icon">♥</span><font style="color: white;">分享</font>
                                     </a>
                                 </span>
-    							<a ng-click="selectedTab1 = 3;" id="contentSearchwrapper" class="pull-right ng-pristine ng-valid">
+    							<!--a ng-click="selectedTab1 = 3;" id="contentSearchwrapper" class="pull-right ng-pristine ng-valid">
                                     <div class="basic-search-wrapper">
                                         <div class="input-group innerB basic-search">
                                             <input type="text" class="form-control" ng-model="searchQuery" placeholder="">
@@ -117,7 +117,7 @@
                                             </div>
                                         </div>
                                     </div>
-    							</a>
+    							</a-->
     						</div>
     					</div>
     					<!-- Community Tabs End -->
