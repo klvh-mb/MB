@@ -1263,21 +1263,26 @@ public class User extends SocialObject implements Subject, Socializable {
     @JsonIgnore
     public List<Post> getUserNewsfeeds(int offset, int limit) {
         Query query = JPA.em().createQuery(
-                "SELECT p from Post p where p.id in " + 
-                "(select sr.target from  PrimarySocialRelation sr " + 
-                "where sr.action in (?1) and sr.actor = ?2 and " + 
-                "(sr.targetType = ?5 or  sr.targetType = ?6)) and p.deleted = false or p.id in " + 
-                "(select c.socialObject from Comment c where c.id in " + 
-                "(select sr.target from  PrimarySocialRelation sr where sr.action = ?4 and sr.actor = ?2 and " + 
-                "(sr.targetType = ?8 or  sr.targetType = ?7)) and c.deleted = false) and p.deleted = false order by p.socialUpdatedDate desc");
-                query.setParameter(1, PrimarySocialRelation.Action.POSTED);
-                //query.setParameter(3, PrimarySocialRelation.Action.LIKED);
+                "SELECT p from Post p where p.owner = ?2 order by p.socialUpdatedDate desc");
+                query.setParameter(2, this);
+                query.setFirstResult(offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+                query.setMaxResults(limit);
+                return (List<Post>)query.getResultList();
+    }
+    
+    
+    @JsonIgnore
+    public List<Post> getUserNewsfeedsComments(int offset, int limit) {
+        Query query = JPA.em().createQuery(
+                "SELECT p from Post p where p.id in ("+
+                "select sr.target from  PrimarySocialRelation sr "+
+                "where sr.actor = ?1 and ((sr.action = ?4 and sr.targetType = ?5) or "+
+                "(sr.action = ?6 and sr.targetType = ?7))) and p.deleted = false order by p.socialUpdatedDate desc");
                 query.setParameter(4, PrimarySocialRelation.Action.COMMENTED);
                 query.setParameter(5, SocialObjectType.POST);
-                query.setParameter(6, SocialObjectType.QUESTION);
-                query.setParameter(7, SocialObjectType.ANSWER);
-                query.setParameter(8, SocialObjectType.COMMENT);
-                query.setParameter(2, this.id);
+                query.setParameter(6, PrimarySocialRelation.Action.ANSWERED);
+                query.setParameter(7, SocialObjectType.QUESTION);
+                query.setParameter(1, this.id);
                 query.setFirstResult(offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
                 query.setMaxResults(limit);
                 return (List<Post>)query.getResultList();

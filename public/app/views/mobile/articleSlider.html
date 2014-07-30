@@ -1,0 +1,44 @@
+<div class="col-lg-12 col-md-12 col-sd-12" style="padding: 0px !important;" >
+<div id="slider" class="general-box">
+	<div style="height:88%">
+	     <ul class="slider-menu" >
+	         <li data-ng-repeat="article in resultSlider.la" data-ng-mouseOver="changeInsideImage(article.id)">
+		         <a href="/mobile#/article/id/{{article.id}}">
+			         <p>
+			         	<font>
+			         		<font style="text-align: center;">{{article.nm|limitTo:15:false}}<span data-ng-show="article.nm.length > 20">...</span></font><br>
+			         	</font>
+			         	<img class="slider-arrow-left" src="../assets/app/images/general/sliderArrow_right.png">
+		         	</p>
+	         	</a>
+	        </li>
+	     </ul>
+	     <div class="slider-photo">
+	       <a href="/mobile#/article/id/{{category_id}}">
+    	       <span class="mask-blue">
+    	           <p class="slider-title">
+    	               {{title|limitTo:10:false}}
+    	           </p>
+    	           <p class="slider-subtitle">
+    	               {{description|limitTo:20:false}}...
+    	           </p>
+    	       </span>
+	           <img ng-show="image_source != 'No Image'" style="width: 100% !important;" data-ng-src="{{image_source}}">
+	       </a>
+	     </div>
+	     <ul class="slider-menu" >
+	         <li data-ng-repeat="article in resultSlider.ra" data-ng-mouseOver="changeInsideImage(article.id)">
+                <a href="/mobile#/article/id/{{article.id}}">
+                    <p>
+                        <font>
+                            <font style="text-align: center;">{{article.nm|limitTo:15:false}}<span data-ng-show="article.nm.length > 20">...</span></font><br>
+                        </font>
+                        <img class="slider-arrow-right" src="../assets/app/images/general/sliderArrow_left.png">
+                    </p>
+                </a>
+             </li>
+	     </ul>
+     </div>
+     <div style="height:12%" class="slider-category"><p><a href="/#/article/show/0"><font>所有文章</font></a></p></div>
+</div>
+</div>

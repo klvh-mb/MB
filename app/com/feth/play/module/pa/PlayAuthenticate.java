@@ -41,7 +41,7 @@ public abstract class PlayAuthenticate {
 		 * 
 		 * @return
 		 */
-		public abstract Call login();
+		public abstract Call login(final Session session);
 
 		/**
 		 * Route to redirect to after authentication has been finished.
@@ -53,7 +53,7 @@ public abstract class PlayAuthenticate {
 		 * 
 		 * @return
 		 */
-		public abstract Call afterAuth();
+		public abstract Call afterAuth(final Session session);
 
 		/**
 		 * This should usually point to the route where you registered
@@ -96,7 +96,7 @@ public abstract class PlayAuthenticate {
 		 * 
 		 * @return
 		 */
-		public abstract Call afterLogout();
+		public abstract Call afterLogout(final Session session);
 
 		public Call onException(final AuthException e) {
 			return null;
@@ -148,8 +148,8 @@ public abstract class PlayAuthenticate {
 
 	public static String storeOriginalUrl(final Http.Context context) {
 		String loginUrl = null;
-		if (PlayAuthenticate.getResolver().login() != null) {
-			loginUrl = PlayAuthenticate.getResolver().login().url();
+		if (PlayAuthenticate.getResolver().login(context.session()) != null) {
+			loginUrl = PlayAuthenticate.getResolver().login(context.session()).url();
 		} else {
 			Logger.warn("You should define a login call in the resolver");
 		}
@@ -209,7 +209,7 @@ public abstract class PlayAuthenticate {
 		// cookie
 		session.remove(ORIGINAL_URL);
 
-		return Controller.redirect(getUrl(getResolver().afterLogout(),
+		return Controller.redirect(getUrl(getResolver().afterLogout(session),
 				SETTING_KEY_AFTER_LOGOUT_FALLBACK));
 	}
 
@@ -349,7 +349,7 @@ public abstract class PlayAuthenticate {
 		if (originalUrl != null) {
 			return originalUrl;
 		} else {
-			return getUrl(getResolver().afterAuth(),
+			return getUrl(getResolver().afterAuth(ctx.session()),
 					SETTING_KEY_AFTER_AUTH_FALLBACK);
 		}
 	}

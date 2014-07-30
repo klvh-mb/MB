@@ -7,6 +7,7 @@ import play.GlobalSettings;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Call;
+import play.mvc.Http.Session;
 import processor.FeedProcessor;
 
 import com.feth.play.module.pa.PlayAuthenticate;
@@ -22,56 +23,65 @@ public class Global extends GlobalSettings {
     
 	@Transactional
 	public void onStart(Application app) {
-		PlayAuthenticate.setResolver(new Resolver() {
+	    PlayAuthenticate.setResolver(new Resolver() {
 
-			@Override
-			public Call login() {
-				// Your login page
-				return routes.Application.login();
-			}
+            @Override
+            public Call login(final Session session) {
+                // Your login page
+                if ("true".equalsIgnoreCase(session.get("mobile"))) {
+                    return routes.Application.mobileLogin();
+                }
+                return routes.Application.login();
+            }
 
-			@Override
-			public Call afterAuth() {
-				// The user will be redirected to this page after authentication
-				// if no original URL was saved
-				return routes.Application.index();
-			}
+            @Override
+            public Call afterAuth(final Session session) {
+                // The user will be redirected to this page after authentication
+                // if no original URL was saved
+                if ("true".equalsIgnoreCase(session.get("mobile"))) {
+                    return routes.Application.mobileIndex();
+                }
+                return routes.Application.index();
+            }
 
-			@Override
-			public Call afterLogout() {
-				return routes.Application.login();
-			}
+            @Override
+            public Call afterLogout(final Session session) {
+                if ("true".equalsIgnoreCase(session.get("mobile"))) {
+                    return routes.Application.mobileLogin();
+                }
+                return routes.Application.login();
+            }
 
-			@Override
-			public Call auth(final String provider) {
-				// You can provide your own authentication implementation,
-				// however the default should be sufficient for most cases
-				return com.feth.play.module.pa.controllers.routes.Authenticate
-						.authenticate(provider);
-			}
+            @Override
+            public Call auth(final String provider) {
+                // You can provide your own authentication implementation,
+                // however the default should be sufficient for most cases
+                return com.feth.play.module.pa.controllers.routes.Authenticate
+                        .authenticate(provider);
+            }
 
-			@Override
-			public Call askMerge() {
-				return routes.Account.askMerge();
-			}
+            @Override
+            public Call askMerge() {
+                return routes.Account.askMerge();
+            }
 
-			@Override
-			public Call askLink() {
-				return routes.Account.askLink();
-			}
+            @Override
+            public Call askLink() {
+                return routes.Account.askLink();
+            }
 
-			@Override
-			public Call onException(final AuthException e) {
-				if (e instanceof AccessDeniedException) {
-					return routes.Signup
-							.oAuthDenied(((AccessDeniedException) e)
-									.getProviderKey());
-				}
+            @Override
+            public Call onException(final AuthException e) {
+                if (e instanceof AccessDeniedException) {
+                    return routes.Signup
+                            .oAuthDenied(((AccessDeniedException) e)
+                                    .getProviderKey());
+                }
 
-				// more custom problem handling here...
-				return super.onException(e);
-			}
-		});
+                // more custom problem handling here...
+                return super.onException(e);
+            }
+        });
 		
 		JPA.withTransaction(new play.libs.F.Callback0() {
 			@Override

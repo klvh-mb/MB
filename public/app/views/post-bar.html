@@ -40,7 +40,8 @@
     <!-- Post Body Ends -->
     <ul class="post-sharing-comments">
         <li ng-show="post.n_c > 3 && !post.ep">
-            <span class="post-qna-answer-count">共{{post.n_c}}則留言</span>
+            <span class="post-qna-answer-count" ng-show="post.n_c > 0 && post.n_c <= 3"><b>{{post.n_c}}個留言</b></span>
+            <a href="" ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><b>共{{post.n_c}}個留言</b></a>
             <a class="pull-right" href="" data-ng-click="get_all_comments(post.id)">查看所有留言</a>
         </li>
         <li data-ng-repeat="comment in post.cs">

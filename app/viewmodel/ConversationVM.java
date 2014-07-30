@@ -25,7 +25,7 @@ public class ConversationVM {
 		this.lastMessageDate = conversation.getUpdatedDate();
 		this.msgCount = conversation.getMessageCount(user);
 		try{
-			this.lastMsg = conversation.getLastMessage();
+			this.lastMsg = conversation.getLastMessage(user);
 			this.isToday = DateUtils.isSameDay(this.lastMessageDate, new Date());
 			this.isReaded = conversation.isReadedBy(user);
 		} catch(NullPointerException e){

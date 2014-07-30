@@ -238,6 +238,33 @@ public class UserController extends Controller {
 		return ok(Json.toJson(vm));
 	}
 	
+	
+	@Transactional
+	public static Result getUserNewsfeedsComments(String offset, Long id) {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+		final User user = User.findById(id);
+		final User localUser = Application.getLocalUser(session());
+		List<CommunityPostVM> posts = new ArrayList<>();
+		List<Post> newsFeeds =  user.getUserNewsfeedsComments(Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+		
+		if(newsFeeds != null ){
+			for(Post p : newsFeeds) {
+				CommunityPostVM post = CommunityPostVM.communityPostVisitProfile(p,user,localUser);
+				posts.add(post);
+			}
+		}
+		
+		NewsFeedVM vm = new NewsFeedVM(user, posts);
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+id+"] getUserNewsfeedsComments(offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
+        }
+		return ok(Json.toJson(vm));
+	}
+	
+	
 	@Transactional
 	public static Result searchSocialObjects(String query) {
 		final User localUser = Application.getLocalUser(session());

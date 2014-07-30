@@ -1,6 +1,9 @@
 /*!
  * bootstrap
  */
+#content {
+    min-width: 280px;
+}
 div[class*="col-xs-"], div[class*="col-sm-"], div[class*="col-md-"], div[class*="col-lg-"] {
     padding: 0 5px !important;
 }
@@ -350,7 +353,7 @@ a:focus {
     border-radius: 3px;
     width: 78px;
     height: 78px;
-    vertical-align: initial;
+    vertical-align: baseline;
 }
 #community-banner {
     /*width: 575px;

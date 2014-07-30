@@ -6,6 +6,11 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# WAP Test
+GET     /mobile                     controllers.Application.mobileIndex
+GET     /mobile/login               controllers.Application.mobileLogin
+POST    /mobile/login               controllers.Application.doMobileLogin
+
 # Home page
 GET     /favicon.ico                controllers.Assets.at(path="/public", file="app/images/favicon-1.ico")
 GET     /                           controllers.Application.index
@@ -86,7 +91,8 @@ POST	/image/upload-cover-photo		    controllers.UserController.uploadCoverPhoto
 GET     /get-all-districts            controllers.Application.getAllDistricts
 
 GET		/image/get-profile-image			controllers.UserController.getProfileImage
-GET 	/get-user-newsfeeds/:offset/:id 		controllers.UserController.getUserNewsfeeds(offset : String, id : Long)
+GET 	/get-user-newsfeeds-posts/:offset/:id 		controllers.UserController.getUserNewsfeeds(offset : String, id : Long)
+GET 	/get-user-newsfeeds-comment/:offset/:id 		controllers.UserController.getUserNewsfeedsComments(offset : String, id : Long)
 GET		/image/get-cover-image			controllers.UserController.getCoverImage
 GET		/user-search				controllers.UserController.searchSocialObjects(query: String)
 GET		/get-friend-requests		controllers.UserController.getAllFriendRequests

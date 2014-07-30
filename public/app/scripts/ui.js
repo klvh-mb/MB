@@ -13,3 +13,24 @@ $(window).scroll(function() {
         toggleToNotVisible = false;
     }
 });
+
+// http://stackoverflow.com/questions/22964767/how-to-format-angular-moments-am-time-ago-directive
+// http://jsbin.com/qeweyalu/1/edit
+// am-time-ago date format
+moment.lang('en', {
+    relativeTime : {
+        future: "在 %s",
+        past:   "%s",
+        s:  "%d秒",
+        m:  "1分鐘",
+        mm: "%d分鐘",
+        h:  "1小時",
+        hh: "%d小時",
+        d:  "昨天",
+        dd: "%d日",
+        M:  "1個月",
+        MM: "%d個月",
+        y:  "1年前",
+        yy: "%d年前"
+    }
+});
