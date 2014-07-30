@@ -97,7 +97,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
     @Override
     public void save() {
         super.save();
-        recordPost(owner, this.community);
+        recordPost(owner);
         this.socialUpdatedDate = new Date();
 
         // push to / remove from community
