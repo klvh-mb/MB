@@ -38,7 +38,7 @@ public class NewsfeedCommTargetingEngine {
         logger.underlyingLogger().info("[u="+userId+"] indexCommNewsfeedForUser - start.");
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
-        // Get distribution
+        // Get targeted distribution
         DistributionResult distributionResult = NewsfeedCommWeightDistributor.process(userId, NEWSFEED_FULLLENGTH);
 
         DateTime maxTime = null, minTime = null;
@@ -46,7 +46,9 @@ public class NewsfeedCommTargetingEngine {
         RatioCalculator ratioCalculator = new RatioCalculator();
 
         for (Long commId : distributionResult.getCommunityIds()) {
+            // targeted count
             int commCount = distributionResult.getEntriesCount(commId);
+            // real posts
             LinkedList<Tuple> commPosts = FeedProcessor.getCommunityMostRecentPosts(commId, commCount);
 
             if (commPosts.size() > 0) {
@@ -60,8 +62,8 @@ public class NewsfeedCommTargetingEngine {
                     minTime = curMinTime;
                 }
 
-                distTracker.addCommunity(commId, commPosts);
-                ratioCalculator.addInput(commId, commPosts.size());
+                distTracker.addCommunity(commId, commPosts);  // pass real posts to distribution tracker
+                ratioCalculator.addInput(commId, commCount);  // use target count to compute ratio
             }
         }
 
@@ -77,9 +79,8 @@ public class NewsfeedCommTargetingEngine {
         }
 
         ratioCalculator.calculate();
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+userId+"] Ratio - "+ratioCalculator.getRatioMap());
-        }
+
+        logger.underlyingLogger().info("[u="+userId+"] Normalized ratio: "+ratioCalculator.getRatioMap());
 
         RatioTracker ratioTracker = new RatioTracker(ratioCalculator.getRatioMap(), ratioCalculator.getTotalShares());
 

@@ -47,10 +47,7 @@ public class NewsfeedCommWeightDistributor {
             }
         }
 
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+userId+"] NewsfeedCommWeightDistributor - process. "+result);
-        }
-
+        logger.underlyingLogger().info("[u="+userId+"] Target fetch count: "+result);
         return result;
     }
 

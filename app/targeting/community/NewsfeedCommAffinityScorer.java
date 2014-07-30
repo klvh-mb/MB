@@ -78,7 +78,9 @@ public class NewsfeedCommAffinityScorer {
             results.add(scorable);
         }
 
-        logger.underlyingLogger().info("[u="+userId+"] NewsfeedCommAffinityScore: "+results);
+//        if (logger.underlyingLogger().isDebugEnabled()) {
+//            logger.underlyingLogger().debug("[u="+userId+"] NewsfeedCommAffinityScore: "+results);
+//        }
         return results;
     }
 }
