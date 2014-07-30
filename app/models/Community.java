@@ -24,6 +24,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import common.collection.Pair;
 import common.image.FaceFinder;
 import common.utils.ImageFileUtil;
 
@@ -162,28 +163,52 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	
 	@JsonIgnore
 	public List<User> getMembers() {
-		List<User> members = new ArrayList<>();
-		for (Long memId : getMemberIds()) {
-			members.add(User.findById(memId));
-		}
-		return members;
+        Query query = JPA.em().createQuery(
+            "select u from User u where u.id in (select sr.actor from SocialRelation sr where sr.target = ?1 and sr.action = ?2)"
+        );
+        query.setParameter(1, this.id);
+        query.setParameter(2, SocialRelation.Action.MEMBER);
+        return (List<User>) query.getResultList();
 	}
 
     @JsonIgnore
-    public List<Long> getMemberIds() {
+    public Long getMemberCount() {
         Query query = JPA.em().createNativeQuery(
-            "select sr.actor from SocialRelation sr where sr.target = ?1 and sr.action = ?2"
+            "select count(*) from SocialRelation sr where sr.target = ?1 and sr.action = ?2"
         );
         query.setParameter(1, this.id);
         query.setParameter(2, SocialRelation.Action.MEMBER.name());
+        return ((BigInteger) query.getSingleResult()).longValue();
+    }
 
-        List<BigInteger> memIds = query.getResultList();
+    /**
+     * Return (isPendingJoin, isMember)
+     * @param userId
+     * @return
+     */
+    public Pair<Boolean, Boolean> getMemberStatusForUser(Long userId) {
+        boolean isPendingJoin = false, isMember = false;
 
-        List<Long> result = new ArrayList<>();
-		for (BigInteger memId : memIds) {
-			result.add(memId.longValue());
-		}
-		return result;
+        Query query = JPA.em().createQuery(
+            "SELECT actionType, action from SocialRelation where actor = ?1 and target = ?2 and (actionType = ?3 or action = ?4)"
+        );
+        query.setParameter(1, userId);
+        query.setParameter(2, this.id);
+        query.setParameter(3, SocialRelation.ActionType.JOIN_REQUESTED);
+        query.setParameter(4, SocialRelation.Action.MEMBER);
+
+        List<Object[]> results = query.getResultList();
+        for (Object[] result : results) {
+            SocialRelation.ActionType actionType = (SocialRelation.ActionType) result[0];
+            SocialRelation.Action action = (SocialRelation.Action) result[1];
+            if (actionType == SocialRelation.ActionType.JOIN_REQUESTED) {
+                isPendingJoin = true;
+            }
+            if (action == SocialRelation.Action.MEMBER) {
+                isMember = true;
+            }
+        }
+        return new Pair<>(isPendingJoin, isMember);
     }
 	
 	public static List<Community> search(String q) {

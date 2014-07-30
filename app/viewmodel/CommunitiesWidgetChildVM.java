@@ -1,5 +1,6 @@
 package viewmodel;
 
+import common.collection.Pair;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import models.Community;
@@ -20,17 +21,18 @@ public class CommunitiesWidgetChildVM {
     @JsonProperty("tp") public String type;
 	
 	public CommunitiesWidgetChildVM(Community community, User user) {
-        List<Long> memIds = community.getMemberIds();
+        Pair<Boolean, Boolean> memStatus = community.getMemberStatusForUser(user.id);
+        Long memCount = community.getMemberCount();
 
         this.id = community.id;
         this.name = community.name;
-        this.membersCount = (long) memIds.size();
+        this.membersCount = memCount;
         this.desc = community.description;
         this.icon = community.icon;
         this.type = community.communityType.name();
         this.system = community.system;
         this.isO = user == community.owner;
-        this.isP = user.isJoinRequestPendingFor(community);
-        this.isM = memIds.contains(user.getId());
+        this.isP = memStatus.first;
+        this.isM = memStatus.second;
     }
 }

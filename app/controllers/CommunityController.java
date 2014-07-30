@@ -121,11 +121,13 @@ public class CommunityController extends Controller{
         if(community.objectType == SocialObjectType.COMMUNITY) {
             UserCommunityAffinity.onCommunityView(localUser.getId(), community.getId());
 
+            CommunityVM comVM = CommunityVM.communityVM(community, localUser);
+
             sw.stop();
             if (logger.underlyingLogger().isDebugEnabled()) {
                 logger.underlyingLogger().debug("[u="+localUser.id+"] getCommunityInfoById(c="+id+"). Took "+sw.getElapsedMS()+"ms");
             }
-            return ok(Json.toJson(CommunityVM.communityVM(community, localUser)));
+            return ok(Json.toJson(comVM));
         } else {
             return ok();
         }
