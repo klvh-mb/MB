@@ -350,7 +350,7 @@ a:focus {
     border-radius: 3px;
     width: 78px;
     height: 78px;
-    vertical-align: initial;
+    vertical-align: baseline;
 }
 #community-banner {
     /*width: 575px;

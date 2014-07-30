@@ -271,6 +271,7 @@
     white-space: pre-wrap;
 }
 #message-content .message-body .emoticon {
+    margin: 0px 2px;
     position: static;   /* for IE... do not change this */
 }
 .message-user .message-body, .message-replier .message-body {
