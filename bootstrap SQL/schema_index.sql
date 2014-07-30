@@ -26,6 +26,10 @@ CREATE INDEX primsocialrel_idx_target_action ON primarysocialrelation (target, a
 CREATE INDEX primsocialrel_idx_actor_target_action ON primarysocialrelation (actor, target, action);
 
 
+-- Community
+CREATE INDEX community_idx_tgtType_system ON community (targetingType, system);
+
+
 -- Post
 CREATE INDEX post_idx_comm_ptyp_upddate ON post (community_id, postType, UPDATED_DATE);
 

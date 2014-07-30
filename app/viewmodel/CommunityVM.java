@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import common.collection.Pair;
 import models.Community;
 import models.Community.CommunityType;
 import models.Post;
@@ -35,7 +36,8 @@ public class CommunityVM {
 	@JsonProperty("posts") public List<CommunityPostVM> posts;
 	
 	public static CommunityVM communityVM(Community c, User user) {
-        List<Long> memIds = c.getMemberIds();
+        Pair<Boolean, Boolean> memStatus = c.getMemberStatusForUser(user.id);
+        Long memCount = c.getMemberCount();
 
 		CommunityVM vm = new CommunityVM();
 		vm.loggedUserId = user.id;
@@ -50,11 +52,11 @@ public class CommunityVM {
 		vm.createDate = c.createDate;
 		vm.id = c.id;
 		vm.system = c.system;
-		vm.noOfMembers = memIds.size();
+		vm.noOfMembers = memCount.intValue();
 		
 		//TODO Logic required
-		vm.isMember = memIds.contains(user.getId());
-		vm.isRequested = user.isJoinRequestPendingFor(c);
+		vm.isRequested = memStatus.first;
+        vm.isMember = memStatus.second;
 		vm.isOwner = (user == c.owner) ? true : false;
 		vm.adminPostOnly = c.adminPostOnly;
 		
@@ -72,7 +74,8 @@ public class CommunityVM {
 	}
 	
 	public static CommunityVM communityVM(Community c, User user, Post post) {
-        List<Long> memIds = c.getMemberIds();
+        Pair<Boolean, Boolean> memStatus = c.getMemberStatusForUser(user.id);
+        Long memCount = c.getMemberCount();
 
         CommunityVM vm = new CommunityVM();
         vm.loggedUserId = user.id;
@@ -87,11 +90,11 @@ public class CommunityVM {
         vm.createDate = c.createDate;
         vm.id = c.id;
         vm.system = c.system;
-        vm.noOfMembers = memIds.size();
+        vm.noOfMembers = memCount.intValue();
         
         //TODO Logic required
-        vm.isMember = memIds.contains(user.getId());
-        vm.isRequested = user.isJoinRequestPendingFor(c);
+        vm.isRequested = memStatus.first;
+        vm.isMember = memStatus.second;
         vm.isOwner = (user == c.owner) ? true : false;
         vm.adminPostOnly = c.adminPostOnly;
         
