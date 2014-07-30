@@ -49,7 +49,7 @@ angular.module('minibean', [
         controller : 'QnALandingController'  
       })
       .when('/article/id/:id',{
-    	templateUrl: '/assets/app/views/articlePage.html',
+    	templateUrl: '/assets/app/views/mobile/articlePage.html',
     	controller : 'ShowArticleController'  
       })
       .when('/article/show/:catid',{

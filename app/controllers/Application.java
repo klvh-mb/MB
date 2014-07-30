@@ -87,7 +87,7 @@ public class Application extends Controller {
 	    session().put("mobile", "true");
 	    
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+user.getId()+"] home()");
+            logger.underlyingLogger().debug("[u="+user.getId()+"] mobileHome()");
         }
         
         return ok(views.html.mobile.home.render());
