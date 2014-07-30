@@ -129,14 +129,30 @@ public class Conversation extends domain.Entity implements Serializable,
 		return conversation;
 	}
 
-	public String getLastMessage() {
+	public String getLastMessage(User user) {
 		Message message;
+		
 		
 		Query q = JPA
 					.em()
 					.createQuery(
-							"SELECT m FROM Message m WHERE m.date=(SELECT MAX(date) FROM Message WHERE conversation_id = ?1)");
+							"SELECT m FROM Message m WHERE m.date=(SELECT MAX(date) FROM Message WHERE conversation_id = ?1) and m.date > ?2");
 			q.setParameter(1, this.id);
+			if(this.user1 == user){
+				System.out.println("user1");
+				if(this.user2_archive_time == null){
+					q.setParameter(2, new Date(0));
+				} else {
+					q.setParameter(2, this.user2_archive_time);
+				}
+			} else {
+				System.out.println("user2");
+				if(this.user1_archive_time == null){
+					q.setParameter(2, new Date(0));
+				} else {
+					q.setParameter(2, this.user1_archive_time);
+				}
+			}
 		try{
 			message = (Message) q.getSingleResult();
 			String body = message.body;
