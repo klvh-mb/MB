@@ -127,20 +127,20 @@ public abstract class UsernamePasswordAuthProvider<R, UL extends UsernamePasswor
 				throw new AuthException("登入電郵或密碼錯誤");
 			}
 		} else {
-			return PlayAuthenticate.getResolver().login().url();
+			return PlayAuthenticate.getResolver().login(context.session()).url();
 		}
 	}
 
 	protected String onWrongPassword(Context context) {
-        return PlayAuthenticate.getResolver().login().url();
+        return PlayAuthenticate.getResolver().login(context.session()).url();
     }
 	
 	protected String onLoginUserNotFound(Context context) {
-		return PlayAuthenticate.getResolver().login().url();
+		return PlayAuthenticate.getResolver().login(context.session()).url();
 	}
 
 	protected String onFbUserExists(Context context) {
-        return PlayAuthenticate.getResolver().login().url();
+        return PlayAuthenticate.getResolver().login(context.session()).url();
     }
 	   
 	public static Result handleLogin(final Context ctx) {

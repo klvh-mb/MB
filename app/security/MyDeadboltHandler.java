@@ -29,7 +29,7 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler {
 
 			context.flash().put("error",
 					"You need to log in first, to view '" + originalUrl + "'");
-			return redirect(PlayAuthenticate.getResolver().login());
+			return redirect(PlayAuthenticate.getResolver().login(context.session()));
 		}
 	}
 
