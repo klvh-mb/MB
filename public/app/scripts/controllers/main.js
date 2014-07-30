@@ -3508,8 +3508,16 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 	  
 minibean.service('userNewsFeedService',function($resource){
 
-	this.NewsFeeds = $resource(
-			'/get-user-newsfeeds/:offset/:id',
+	this.NewsFeedsPosts = $resource(
+			'/get-user-newsfeeds-posts/:offset/:id',
+			{alt:'json',callback:'JSON_CALLBACK'},
+			{
+				get: {method:'GET', params:{offset:'@offset',id:'@id'}}
+			}
+	);
+	
+	this.NewsFeedsComments = $resource(
+			'/get-user-newsfeeds-comment/:offset/:id',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
 				get: {method:'GET', params:{offset:'@offset',id:'@id'}}
@@ -3817,31 +3825,80 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 			})
 		});
 	}
+	var noMoreC = false;
+	var offsetC = 0;
+	var noMoreP = false;
+	var offsetP = 0;
 	
-	var noMore = false;
-    var offset = 0;
+	$scope.setSelectedTab = function (iTab) {
+		$scope.selectedTab = iTab;
+		$scope.newsFeeds = { posts: [] };
+		$scope.isBusyP = false;
+		$scope.isBusyC = false;
+		noMoreC = false;
+		offsetC = 0;
+		noMoreP = false;
+		offsetP = 0;
+	}
+	
+	
+	var id = $scope.userInfo.id;
+	
+	
+	// nextNewsFeeds section starts
 	$scope.nextNewsFeeds = function() {
-		var id = $scope.userInfo.id;
 		if($routeParams.id != undefined){
 			id = $routeParams.id;
 		}
-		if ($scope.isBusy) return;
-		if (noMore) return;
-		$scope.isBusy = true;
-		userNewsFeedService.NewsFeeds.get({offset:offset,id:id},
-			function(data){
-				var posts = data.posts;
-				if(posts.length == 0) {
-					noMore = true;
+		console.log("for tab 1");
+		
+		if ($scope.isBusyP) return;
+		if (noMoreP) return;
+		$scope.isBusyP = true;
+			userNewsFeedService.NewsFeedsPosts.get({offset:offsetP,id:id},
+				function(data){
+					
+					var posts = data.posts;
+					if(posts.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
+						noMoreP = true;
+						$scope.isBusyP = false;
+					}
+					
+					for (var i = 0; i < posts.length; i++) {
+						$scope.newsFeeds.posts.push(posts[i]);
+				    }
+				    $scope.isBusyP = false;
+					offsetP++;
 				}
-				
-				for (var i = 0; i < posts.length; i++) {
-					$scope.newsFeeds.posts.push(posts[i]);
-			    }
-			    $scope.isBusy = false;
-				offset++;
-			}
-		);
+			);
+	}
+	// nextNewsFeeds section ends
+	
+	
+	
+	$scope.nextNewsFeedsComments = function() {
+		
+		
+		if ($scope.isBusyC) return;
+		if (noMoreC) return;
+		$scope.isBusyC = true;
+		console.log("for tab 2");
+			userNewsFeedService.NewsFeedsComments.get({offset:offsetC,id:id},
+				function(data){
+					
+					var posts = data.posts;
+					if(posts.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
+						noMoreC = true;
+						$scope.isBusyC = false;
+					}
+					
+					for (var i = 0; i < posts.length; i++) {
+						$scope.newsFeeds.posts.push(posts[i]);
+				    }
+				    $scope.isBusy = false;
+					offsetC++;
+				}
+			);
 	}
 });
 
