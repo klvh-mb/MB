@@ -6,7 +6,7 @@
 		         <a href="/mobile#/article/id/{{article.id}}">
 			         <p>
 			         	<font>
-			         		<font style="text-align: center;">{{article.nm|limitTo:20:false}}<span data-ng-show="article.nm.length > 20">...</span></font><br>
+			         		<font style="text-align: center;">{{article.nm|limitTo:15:false}}<span data-ng-show="article.nm.length > 20">...</span></font><br>
 			         	</font>
 			         	<img class="slider-arrow-left" src="../assets/app/images/general/sliderArrow_right.png">
 		         	</p>
@@ -17,10 +17,10 @@
 	       <a href="/mobile#/article/id/{{category_id}}">
     	       <span class="mask-blue">
     	           <p class="slider-title">
-    	               {{title|limitTo:15:false}}
+    	               {{title|limitTo:10:false}}
     	           </p>
     	           <p class="slider-subtitle">
-    	               {{description|limitTo:28:false}}...
+    	               {{description|limitTo:20:false}}...
     	           </p>
     	       </span>
 	           <img ng-show="image_source != 'No Image'" style="width: 100% !important;" data-ng-src="{{image_source}}">
@@ -31,7 +31,7 @@
                 <a href="/mobile#/article/id/{{article.id}}">
                     <p>
                         <font>
-                            <font style="text-align: center;">{{article.nm|limitTo:20:false}}<span data-ng-show="article.nm.length > 20">...</span></font><br>
+                            <font style="text-align: center;">{{article.nm|limitTo:15:false}}<span data-ng-show="article.nm.length > 20">...</span></font><br>
                         </font>
                         <img class="slider-arrow-right" src="../assets/app/images/general/sliderArrow_left.png">
                     </p>
