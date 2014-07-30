@@ -53,6 +53,10 @@ import domain.SocialObjectType;
 public class CommunityController extends Controller{
     private static play.api.Logger logger = play.api.Logger.apply(CommunityController.class);
 
+    /**
+     * Invoked by suggested communities widget
+     * @return
+     */
     @Transactional
     public static Result getUserUnJoinCommunity() {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
