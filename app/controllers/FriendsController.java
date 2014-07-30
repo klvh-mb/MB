@@ -53,7 +53,7 @@ public class FriendsController extends Controller {
 		final User localUser = Application.getLocalUser(session());
 		List<FriendWidgetChildVM> friends = new ArrayList<>();
 
-        List<User> frds = localUser.getSuggestedFriends(DefaultValues.FRIENDS_UTILITY_COUNT);
+        List<User> frds = localUser.getSuggestedFriends(DefaultValues.DEFAULT_UTILITY_COUNT);
 
 		for(Object friend1 : frds) {
 			User friend = (User) friend1;
