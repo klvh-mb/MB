@@ -1,6 +1,38 @@
-<div id="header" class="header-wrapper no-glow navbar hidden-print navbar-default box main navbar-fixed-top" id="nav_bar" role="navigation" style="top:0px; height: 42px;">
+<style>
+.container-fluid {
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+.themeA-container {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    width: 100% !important;
+    position: relative;
+    /* top: 55px; */
+}
+.post-comment-box .post-qna-reply-textfield {
+    width: 55% !important;
+}
+.post-comment-box .post-sharing-comment-textfield {
+    width: 55% !important;
+}
+span.notif-count {
+    position: relative !important;
+    top: -27px !important;
+    left: -7px !important;
+}
+.dropdown-menu {
+    left: -100px !important;
+}
+</style>
+
+<div id="header" class="header-wrapper no-glow navbar hidden-print navbar-default box main navbar-fixed-top" id="nav_bar" role="navigation" style="top:0px; height: 42px; min-height: 42px;">
     <a class="header-logo pull-left" href="#">
-        <img src="../assets/app/images/logo-1.png" />
+        <img style="width: 42px !important;height: 42px !important;" src="../assets/app/images/logo-mB-1.png" />
     </a>
     <ul class="header-notif-bar pull-left">
         <li class="dropdown notif pull-left" >
@@ -70,76 +102,13 @@
         </li>
     </ul>
     
-    <form method="post" action="">
-        <div id="main-search-box" name="main-search-box" class="pull-left" data-ng-controller="SearchController" >
-            <a id="main-search-wrapper" class="ng-pristine ng-valid">
-                <div class="input-group innerB main-search">
-                    <input type="text" name="searchfield" id="searchfield" class="form-control" ng-model="query" data-ng-keyup="search_result(query)" placeholder="">
-                    <div class="input-group-btn">
-                       <button id="submit-search" name="submit" class="btn btn-default" type="submit">
-                           <i class="fa fa-search"></i>
-                       </button>
-                    </div>
-                </div>
-            </a>
-            
-            <div class="row">
-                <ul style="top:23px;left:5px;overflow-y:scroll;max-height:345px;width:260px;" class="dropdown-menu chat media-list hide" ng-class="{show : result.length > 0 && query.length > 0}">
-                    <li class="media" ng-repeat="sr in result" ng-switch="sr.tp">
-                        <a ng-switch-when="USER" class="pull-left" href="#/profile/{{sr.id}}">
-                            <img class="media-object thumb" data-ng-src="/image/get-mini-image-by-id/{{sr.id}}" alt="50x50" width="50"/>
-                        </a>
-                        
-                        <a ng-switch-when="COMMUNITY" class="pull-left" href="#/community/{{sr.id}}/question">
-                            <img class="media-object thumb" data-ng-src="/image/get-mini-cover-community-image-by-id/{{sr.id}}" alt="50x50" width="50"/>
-                        </a>
-                        
-                        <div class="media-body">
-                            <h5 class="media-heading">{{sr.nm}}</h5>
-                            <p class="margin-none">{{sr.tp}}</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </form>
-    
-    <!--
-    <form id="mainSearch" name="mainSearch" method="post" action="">
-        <div class="pull-left" data-ng-controller="SearchController" >
-            <label for="Main Search"></label>
-            <input type="text" name="searchfield" id="searchfield"  data-ng-keyup="search_result(query)" placeholder="Search Users, Community" data-ng-model="query" style="height: 20px;">
-            <input id="submit-search" name="submit" type="submit">
-        
-            <div class="row">
-                <ul class="col-lg-11 col-md-11 col-sd-11 dropdown-menu chat media-list hide" ng-class="{show : result.length > 0 && query.length > 0}" style="left: 12px;overflow-y: scroll; max-height: 345px;">
-                    <li class="media" ng-repeat="sr in result" ng-switch="sr.tp">
-                        <a ng-switch-when="USER" class="pull-left" href="#/profile/{{sr.id}}">
-                            <img class="media-object thumb" data-ng-src="/image/get-mini-image-by-id/{{sr.id}}" alt="50x50" width="50"/>
-                        </a>
-                        
-                        <a ng-switch-when="COMMUNITY" class="pull-left" href="#/community/{{sr.id}}/question">
-                            <img class="media-object thumb" data-ng-src="/image/get-mini-cover-community-image-by-id/{{sr.id}}" alt="50x50" width="50"/>
-                        </a>
-                        
-                        <div class="media-body">
-                            
-                            <h5 class="media-heading">{{sr.nm}}</h5>
-                            <p class="margin-none">{{sr.tp}}</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </form>
-    -->
     <div class="right-side">
-        <a class="header-main-text" href="#">
+        <!--a class="header-main-text" href="#">
             主頁
         </a>
         <a class="header-main-text" ng-href="#/about/activities">
             {{userInfo.firstName}}
-        </a>
+        </a-->
         <!--a href="#"><img src="../assets/app/images/general/icons/w_home.png" /></a-->
         <a style="position:relative;top:-3px;" class="dropdown-toggle dropdown-hover colorChange" data-toggle="dropdown" href="#">
             <img src="../assets/app/images/general/icons/w_setup.png" />

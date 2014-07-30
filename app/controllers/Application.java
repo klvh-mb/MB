@@ -69,6 +69,62 @@ public class Application extends Controller {
 	public static final String USER_ROLE = "USER";
 	public static final String SUPER_ADMIN_ROLE = "SUPER_ADMIN";
 
+	//
+	// Mobile Testing
+	//
+
+	@Transactional
+    public static Result mobileIndex() {
+        final User localUser = getLocalUser(session());
+        if(localUser == null) {
+            return mobileLogin();
+        }
+
+        return mobileHome(localUser);
+    }
+	
+	public static Result mobileHome(User user) {
+	    session().put("mobile", "true");
+	    
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+user.getId()+"] home()");
+        }
+        
+        return ok(views.html.mobile.home.render());
+    }
+	
+	@Transactional
+    public static Result mobileLogin() {
+	    session().put("mobile", "true");
+	    
+        final User localUser = getLocalUser(session());
+        if(localUser != null) {
+            return redirect("/mobile");
+        }
+        return ok(views.html.mobile.login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, isOverDailySignupThreshold()));
+    }
+	
+	@Transactional
+    public static Result doMobileLogin() {
+	    session().put("mobile", "true");
+	    
+        com.feth.play.module.pa.controllers.Authenticate.noCache(response());
+        final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
+                .bindFromRequest();
+        if (filledForm.hasErrors()) {
+            // User did not fill everything properly
+            flash("error", "登入電郵或密碼錯誤");
+            return badRequest(views.html.mobile.login.render(filledForm, isOverDailySignupThreshold()));
+        } else {
+            // Everything was filled
+            return UsernamePasswordAuthProvider.handleLogin(ctx());
+        }
+    }
+	
+	//
+	// End Mobile Testing
+	//
+	
 	public static User getSuperAdmin() {
 	    return User.getSuperAdmin();
 	}
@@ -114,6 +170,8 @@ public class Application extends Controller {
 	 *     ii. welcome page
 	 */
 	public static Result home(User user) {
+	    session().put("mobile", "false");
+	    
         if (logger.underlyingLogger().isDebugEnabled()) {
 		    logger.underlyingLogger().debug("[u="+user.getId()+"] home()");
         }
@@ -228,6 +286,8 @@ public class Application extends Controller {
 
 	@Transactional
 	public static Result login() {
+	    session().put("mobile", "false");
+	    
 		final User localUser = getLocalUser(session());
 		if(localUser != null) {
 			return redirect("/");
@@ -237,6 +297,8 @@ public class Application extends Controller {
 
 	@Transactional
 	public static Result doLogin() {
+	    session().put("mobile", "false");
+	    
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
 				.bindFromRequest();

@@ -6,6 +6,11 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# WAP Test
+GET     /mobile                     controllers.Application.mobileIndex
+GET     /mobile/login               controllers.Application.mobileLogin
+POST    /mobile/login               controllers.Application.doMobileLogin
+
 # Home page
 GET     /favicon.ico                controllers.Assets.at(path="/public", file="app/images/favicon-1.ico")
 GET     /                           controllers.Application.index
