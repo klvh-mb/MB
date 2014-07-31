@@ -110,6 +110,9 @@ span.notif-count {
     margin-left: 15px;
     margin-right: 0px;
 }
+.memberTagBox, .friendTagBox {
+    max-width: 50%;
+}
 
 /* articles */
 #sta-con-slider {
