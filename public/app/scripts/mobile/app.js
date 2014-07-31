@@ -29,16 +29,12 @@ angular.module('minibean', [
     	controller: 'UserAboutController'
       })
       .when('/profile/:id',{
-    	templateUrl: '/assets/app/views/visit-profile.html',
+    	templateUrl: '/assets/app/views/mobile/visit-profile.html',
     	controller : 'ProfileController'  
       })
       .when('/community/:id/:tab',{
     	templateUrl: '/assets/app/views/community-page.html',
     	controller : 'CommunityPageController'  
-      })
-      .when('/editCommunity/:id',{
-        templateUrl: '/assets/app/views/edit-community.html',
-        controller : 'GroupController'
       })
       .when('/post-landing/id/:id/communityId/:communityId',{
         templateUrl: '/assets/app/views/post-landing.html',
@@ -53,7 +49,7 @@ angular.module('minibean', [
     	controller : 'ShowArticleController'  
       })
       .when('/article/show/:catid',{
-    	templateUrl: '/assets/app/views/showArticlesPage.html',
+    	templateUrl: '/assets/app/views/mobile/showArticlesPage.html',
     	controller : 'ShowArticleControllerNew'  
       })
       .when('/message/:id',{

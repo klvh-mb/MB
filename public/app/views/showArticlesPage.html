@@ -74,10 +74,10 @@
                                         <a class="tag" data-ng-href="/#/article/show/{{article.ct.id}}">
                                             <font><font>{{article.ct.name}}</font></font>
                                         </a>
-                                        <font><font>{{article.pd | date:'yyyy'}}</font></font>
-                                        <font><font>{{article.pd | date:'MMM'}}</font></font>
-                                        <font><font>{{article.pd | date:'dd hh:mm a'}}</font></font>
-                                        <span ng-show="article.nov > 0" class="view-count" style="margin-left:10px;"><img data-ng-src="/assets/app/images/general/icons/view.gif"/>{{article.nov}}</span>
+                                        <!--font>{{article.pd | date:'yyyy'}}</font>
+                                        <font>{{article.pd | date:'MMM'}}</font-->
+                                        <font>{{article.pd | date:'M/dd/yyyy'}}</font>
+                                        <span ng-show="article.nov > 0" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.gif"/>{{article.nov}}</span>
                                         <span ng-show="article.nol > 0" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>{{article.nol}}</span>
                                     </h6>
                                     <p><font><font>{{article.lds|limitTo:85}}...</font></font></p>
