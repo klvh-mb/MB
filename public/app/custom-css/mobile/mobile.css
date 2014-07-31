@@ -26,10 +26,47 @@ body {
 }
 
 /* header */
+.pull-left {
+    float: left;
+    position: relative;
+}
+#header {
+    position: fixed;
+}
+#header-sliding-menu-toggle {
+    background-color: transparent;
+}
+#header-sliding-menu-toggle .icon-bar, #header-sliding-menu-toggle .icon-bar {
+    background-color: #FFD600;
+    border-bottom-left-radius: 1px;
+    border-bottom-right-radius: 1px;
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    display: block;
+    height: 2px;
+    margin: 3px 3px;
+    text-align: center;
+    text-indent: 0px;
+    text-shadow: rgba(0, 0, 0, 0.247059) 0px -1px 0px;
+    text-transform: none;
+    vertical-align: text-top;
+    width: 18px;
+}
+#header-sliding-menu-toggle .icon-bar {
+    
+}
+.header-logo {
+    margin-left: 0px;
+}
+.header-notif-bar {
+    margin-left: 15px;
+}
 span.notif-count {
     position: relative;
     top: -27px;
-    left: -7px;
+    left: 2px;
 }
 
 /* slider */

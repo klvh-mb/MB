@@ -2,6 +2,34 @@
 
 var minibean = angular.module('minibean');
 
+// Control mobile sliding menu
+minibean.controller('MobileUIController', function($scope, $routeParams, $location){
+
+    $scope.ready = false;
+    
+    var bindMobileSlidingMenu = function() {
+        $('#header-sliding-menu-toggle').sidr({
+            name: 'sliding-menu',
+            side: 'left'
+        });
+        $('#header-sliding-menu-close').sidr({
+            name: 'sliding-menu',
+            side: 'left'
+        });
+        
+        //$(document).bind("click", function () {
+        //    $.sidr('close', 'header');
+        //});
+        
+        $scope.ready = true;
+    };
+    
+    $scope.$watch('$viewContentLoaded', function(){
+        //bindMobileSlidingMenu();
+        setTimeout(bindMobileSlidingMenu, 500);     // somehow this is not being called after page load, need to setTimeout!!!
+    });
+});
+
 minibean.controller('UIController', function($scope, $location, $anchorScroll, $window) {
     $scope.gotoTop = function() {
         // set the location.hash to the id of
@@ -975,7 +1003,7 @@ minibean.service('profileService',function($resource){
 
 minibean.controller('ProfileController',function($scope, $routeParams, $location, profileService, friendsService,sendInvitation, unFriendService){
 	
-	$scope.$watch($routeParams.id , function (navigateTo) {
+	$scope.$watch($routeParams.id, function (navigateTo) {
 		if( $routeParams.id  == $scope.userInfo.id){
 			 $location.path("about/activities");
 		}

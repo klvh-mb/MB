@@ -1,4 +1,7 @@
+//
 // header bottom glow
+//
+
 var toggleToNotVisible = true;
 
 $(window).scroll(function() {
@@ -14,9 +17,12 @@ $(window).scroll(function() {
     }
 });
 
+//
 // http://stackoverflow.com/questions/22964767/how-to-format-angular-moments-am-time-ago-directive
 // http://jsbin.com/qeweyalu/1/edit
 // am-time-ago date format
+//
+
 moment.lang('en', {
     relativeTime : {
         future: "在 %s",
