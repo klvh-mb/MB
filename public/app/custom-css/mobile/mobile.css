@@ -1,0 +1,127 @@
+/* main */
+body {
+    font-size: 13px;
+}
+.container-fluid {
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+}
+.themeA-container {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+    position: relative;
+    /* top: 55px; */
+}
+.wall-title {
+    width: 100%;
+    height: 35px;
+    font-size: 14px;
+    padding: 0px 5px;
+    background-color: #826EEE;
+}
+
+/* header */
+span.notif-count {
+    position: relative;
+    top: -27px;
+    left: -7px;
+}
+
+/* slider */
+.slider-menu a {
+    font-size: 13px;
+}
+.slider-category p a {
+    font-size: 12px;
+}
+
+/* post */
+.post-comment-box .post-qna-reply-textfield {
+    width: 55%;
+}
+.post-comment-box .post-sharing-comment-textfield {
+    width: 55%;
+}
+.dropdown-menu {
+    left: -100px;
+}
+.post-qna-body-title {
+    padding-bottom: 10px;
+}
+.post-qna-answers {
+    font-size: 13px;
+}
+.post-qna-answers li {
+    padding: 10px 10px;
+}
+.post-qna-body-title a {
+    font-size: 18px;
+}
+.post-qna-body {
+    padding-top: 0px;
+}
+.post-sharing-body {
+    padding-top: 5px;
+}
+.post-qna-body-text, .post-qna-answer-body-text {
+    padding: 0px 0px 5px 0px;
+    line-height: 1.2;
+    font-size: 14px;
+}
+.post-sharing-body-text {
+    padding: 5px 0px 5px 0px;
+    line-height: 1.2;
+    font-size: 14px;
+}
+
+/* profile */
+#profile-banner {
+    width: 100%;
+    height: 160px;
+    border-radius: 5px 5px 0 0;
+}
+#profile-header-menu img[alt="profile-pic"] {
+    width: 100px;
+    height: 100px;
+    top: -80px;
+}
+#profile-header #profile-user-name {
+    width: 65%;
+    position: absolute;
+    top: -40px;
+    left: 125px;
+    font-size: 26px;
+}
+#profile-header-menu {
+    padding: 7px 10px;
+    position: relative;
+}
+#profile-header-menu #menu-title {
+    position: relative;
+    left: 110px;
+}
+.communityCard {
+    width: 45%;
+    margin-left: 15px;
+    margin-right: 0px;
+}
+
+/*  */
+
+/*  */
+
+/*  */
+
+/*  */
+
+
+
+
+
+
+

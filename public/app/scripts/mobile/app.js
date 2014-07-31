@@ -25,7 +25,7 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/mobile/home.html'
       })
       .when('/about/:tab',{
-    	templateUrl: '/assets/app/views/about-me.html',
+    	templateUrl: '/assets/app/views/mobile/about-me.html',
     	controller: 'UserAboutController'
       })
       .when('/profile/:id',{

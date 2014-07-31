@@ -3,6 +3,11 @@
  */
 #content {
     min-width: 280px;
+    overflow: visible;
+}
+.container-fluid {
+    position: relative;
+    overflow: visible;
 }
 div[class*="col-xs-"], div[class*="col-sm-"], div[class*="col-md-"], div[class*="col-lg-"] {
     padding: 0 5px !important;
@@ -435,7 +440,7 @@ a:focus {
     margin-bottom: 10px;
 }
 #profile-header-menu {
-    padding: 11px 11px;
+    padding: 10px 10px;
     position: relative;
 }
 #profile-header-menu div:first-child a {

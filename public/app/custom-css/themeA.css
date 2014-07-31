@@ -1786,7 +1786,8 @@ pre {
     line-height: 0;
     position: relative;
     width: 100%;
-    height: 76px;
+    height: auto;
+    /*height: 76px;*/
 }
 .communityImageBox img {
     vertical-align: top;
