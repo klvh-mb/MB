@@ -5,8 +5,10 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import com.typesafe.plugin.RedisPlugin;
-
 import common.serialize.JsonSerializer;
+
+import java.util.Set;
+
 
 public class JedisCache {
     private static final play.api.Logger logger = play.api.Logger.apply(JedisCache.class);
@@ -15,6 +17,7 @@ public class JedisCache {
     
     // All Redis Cache Key Prefix
     public static final String ARTICLE_SLIDER_PREFIX = SYS_PREFIX + "user_sc_";
+    public static final String USER_FRIENDS_PREFIX = SYS_PREFIX + "user_frd_";
     public static final String USER_POST_PREFIX = SYS_PREFIX + "user_";
     public static final String COMMUNITY_POST_PREFIX = SYS_PREFIX + "comm_";
     public final static String TODAY_WEATHER_KEY = "TODAY_WEATHER";
@@ -77,7 +80,7 @@ public class JedisCache {
                 returnResource(j);
         }
     }
-    
+
     public String get(String key) {
         Jedis j = null;
         try {
@@ -96,7 +99,56 @@ public class JedisCache {
                 returnResource(j);
         }
     }
-    
+
+    ////////////////////////////////////////
+    // Set operations
+    public Status putToSet(String key, String value) {
+        Jedis j = null;
+        try {
+            j = getResource();
+            j.sadd(key, value);
+            return Status.OK;
+        } finally {
+            if (j != null)
+                returnResource(j);
+        }
+    }
+
+    public Set<String> getSetMembers(String key) {
+        Jedis j = null;
+        try {
+            j = getResource();
+            return j.smembers(key);
+        } finally {
+            if (j != null)
+                returnResource(j);
+        }
+    }
+
+    public boolean isMemberOfSet(String key, String value) {
+        Jedis j = null;
+        try {
+            j = getResource();
+            return j.sismember(key, value);
+        } finally {
+            if (j != null)
+                returnResource(j);
+        }
+    }
+
+    public void removeMemberFromSet(String key, String value) {
+        Jedis j = null;
+        try {
+            j = getResource();
+            j.srem(key, value);
+        } finally {
+            if (j != null)
+                returnResource(j);
+        }
+    }
+    ////////////////////////////////////////
+
+
     public boolean exists(String key) {
         Jedis j = null;
         try {

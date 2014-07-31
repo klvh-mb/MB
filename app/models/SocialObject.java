@@ -13,6 +13,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import common.cache.FriendCache;
 import models.SocialRelation.Action;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -199,7 +200,11 @@ public abstract class SocialObject extends domain.Entity implements
 		SocialRelation action = (SocialRelation) q.getSingleResult();
 		action.actionType = SocialRelation.ActionType.GRANT;
 		action.action = SocialRelation.Action.FRIEND;
+        // update SocialRelation to GRANT
 		action.save();
+
+        // update Friends cache
+        FriendCache.onBecomeFriend(user.id, this.id);
 	}
 
 	protected final void recordRelationshipRequest(User user, Action relation) {

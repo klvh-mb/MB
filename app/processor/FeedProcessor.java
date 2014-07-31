@@ -28,8 +28,10 @@ public class FeedProcessor {
 
     private static final int MAX_COMM_QUEUE_LENGTH = 200;
 
+    // List
 	private static final String USER = JedisCache.USER_POST_PREFIX;
-    private static final String COMMUNITY = JedisCache.COMMUNITY_POST_PREFIX;   // single queue for community posts
+    // SortedSet
+    private static final String COMMUNITY = JedisCache.COMMUNITY_POST_PREFIX;
 
     /**
      * @param userId
@@ -40,11 +42,13 @@ public class FeedProcessor {
 		Jedis j = null;
         try {
             j = jedisPool.getResource();
-            j.del(USER+userId);
+            j.del(USER+userId);                 // delete previous list
 
             for (String postId : postIds) {
-                j.rpush(USER+userId, postId);   // push to tail.
+                j.rpush(USER+userId, postId);   // push to list tail.
             }
+
+            // Note: Might need to expire() on user's list to handle inactive accounts
         } finally {
             if (j != null) {
 		        jedisPool.returnResource(j);
@@ -65,6 +69,7 @@ public class FeedProcessor {
         List<String> ids = null;
         try {
             j = jedisPool.getResource();
+            // fetch front list entries
             ids = j.lrange(USER + u.id, offset * pagerows, ((offset + 1)*pagerows-1));
         } finally {
             if (j != null) {
@@ -178,7 +183,7 @@ public class FeedProcessor {
      * On system startup. Bootstrap different community NF queues.
      */
 	public static void bootstrapCommunityLevelFeed() {
-		ActorSystem  actorSystem = Akka.system();
+		ActorSystem actorSystem = Akka.system();
 		 actorSystem.scheduler().scheduleOnce(
 			Duration.create(0, TimeUnit.MILLISECONDS),
 			new Runnable() {
@@ -186,6 +191,8 @@ public class FeedProcessor {
 					JPA.withTransaction(new play.libs.F.Callback0() {
 						@Override
 						public void invoke() throws Throwable {
+                            NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
                             final List<Object[]> commEntries = JPA.em().createNativeQuery("SELECT id, deleted, excludeFromNewsfeed from Community").getResultList();
 
                             logger.underlyingLogger().info("bootstrapCommunityLevelFeed - start. Total communities: "+commEntries.size());
@@ -232,7 +239,9 @@ public class FeedProcessor {
                                 }
                             }
 
-                            logger.underlyingLogger().info("bootstrapCommunityLevelFeed - end. NumActive="+numActive+", NumDeleted="+numDeleted+", NumExcludeNF="+numExcludeNF);
+                            sw.stop();
+                            logger.underlyingLogger().info("bootstrapCommunityLevelFeed - end. Took "+sw.getElapsedMS()+
+                                    "ms. NumActive="+numActive+", NumDeleted="+numDeleted+", NumExcludeNF="+numExcludeNF);
 						}
 					});
 			    }

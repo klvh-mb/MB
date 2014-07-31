@@ -21,6 +21,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import common.cache.FriendCache;
+import common.collection.Pair;
 import common.image.FaceFinder;
 import common.utils.DateTimeUtil;
 import common.utils.ImageFileUtil;
@@ -222,10 +224,11 @@ public class User extends SocialObject implements Subject, Socializable {
 
     public void requestedToJoin(SocialObject target)
             throws SocialObjectNotJoinableException {
-        if (//((Community)target).owner != this && 
-                !this.isMemberOf((Community)target) && 
-                !this.isJoinRequestPendingFor((Community)target)) 
+        // (pendingJoin, isMember)
+        Pair<Boolean, Boolean> memStatus = ((Community) target).getMemberStatusForUser(this.id);
+        if (!memStatus.first && !memStatus.second) {
             target.onJoinRequest(this);
+        }
     }
 
     public void joinRequestAccepted(SocialObject target, User toBeMember)
@@ -305,17 +308,8 @@ public class User extends SocialObject implements Subject, Socializable {
     
     @JsonIgnore
     public Long getFriendsSize() {
-        CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-        CriteriaQuery<Long> q = cb.createQuery(Long.class);
-        Root<SocialRelation> c = q.from(SocialRelation.class);
-        q.select(cb.count(c));
-        q.where(cb.and(
-                cb.or(cb.equal(c.get("target"), this.id),
-                        cb.equal(c.get("actor"), this.id)),
-                cb.equal(c.get("action"), SocialRelation.Action.FRIEND)));
-
-        Long size = JPA.em().createQuery(q).getSingleResult();
-        return size;
+        int count = FriendCache.getFriendsIds(this.id).size();
+        return new Long(count);
     }
     
     @JsonIgnore
@@ -1045,15 +1039,9 @@ public class User extends SocialObject implements Subject, Socializable {
 
     @JsonIgnore
     public boolean isFriendOf(User localUser) {
-        Query query = JPA.em().createQuery(
-                "SELECT count(*) from SocialRelation where ((target = ?1 and actor = ?2) or (actor = ?1 and target = ?2)) and action = ?3");
-        query.setParameter(1, this.id);
-        query.setParameter(2, localUser.id);
-        query.setParameter(3, SocialRelation.Action.FRIEND);
-        Long result = (Long) query.getSingleResult();
-        return result == 1;
+        boolean isFriend = FriendCache.areFriends(this.id, localUser.id);
+        return isFriend;
     }
-    
 
     @JsonIgnore
     public boolean isMemberOf(Community community) {
@@ -1071,18 +1059,7 @@ public class User extends SocialObject implements Subject, Socializable {
         Long result = (Long) query.getSingleResult();
         return result == 1;
     }
-    
-    @JsonIgnore
-    public boolean isJoinRequestPendingFor(Community community) {
-        Query query = JPA.em().createQuery(
-                "SELECT count(*) from SocialRelation where (actor = ?1 and target = ?2) and actionType = ?3");
-        query.setParameter(1, this.id);
-        query.setParameter(2, community.id);
-        query.setParameter(3, SocialRelation.ActionType.JOIN_REQUESTED);
-        Long result = (Long) query.getSingleResult();
-        return result == 1;
-    }
-    
+
     @JsonIgnore
     public boolean isFriendRequestPendingFor(User user) {
         Query query = JPA.em().createQuery(
@@ -1095,7 +1072,6 @@ public class User extends SocialObject implements Subject, Socializable {
     }
     
     public int doUnFriend(User toBeUnfriend) {
-                
         Query query = JPA.em().createQuery(
                 "SELECT sr FROM SocialRelation sr where sr.actionType=?1 And sr.action = ?4 And " +
                 " ((sr.target = ?2 and sr.actor = ?3) or (sr.actor = ?2 and sr.target = ?3))", SocialRelation.class);
@@ -1108,8 +1084,12 @@ public class User extends SocialObject implements Subject, Socializable {
         query = JPA.em().createQuery("DELETE  Notification n where socialAction =?1");
         query.setParameter(1, sr);
         query.executeUpdate();
-        
+
+        // delete SocialRelation
         sr.delete();
+
+        // update friends cache
+        FriendCache.onUnFriend(this.id, toBeUnfriend.id);
         
         return 1;
     }
@@ -1159,7 +1139,8 @@ public class User extends SocialObject implements Subject, Socializable {
         query = JPA.em().createQuery("DELETE Notification n where socialAction =?1");
         query.setParameter(1, sr);
         query.executeUpdate();
-        
+
+        // delete SocialRelation
         sr.delete();
 
         // remove community affinity

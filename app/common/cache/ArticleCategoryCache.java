@@ -13,8 +13,8 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class ArticleCategoryCache {
-
     // Permanent cache loaded up on system startup.
+
     private static Map<Long, ArticleCategory> categoryMap;
     private static List<ArticleCategory> categoryList;
 
