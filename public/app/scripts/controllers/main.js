@@ -11,10 +11,13 @@ minibean.controller('SlidingMenuController', function($scope, $routeParams, $loc
     // http://startbootstrap.com/templates/simple-sidebar/#
     //
     
-    $scope.fixHeader = function() {
-        $("#header").css("position","fixed");
-    }
     $scope.toggleMenu = function() {
+        if ($("#wrapper").hasClass("toggled")) {
+            $("#slider-menu-backdrop").removeClass("modal-backdrop");
+        } else {
+            $("#slider-menu-backdrop").addClass("modal-backdrop");
+        }
+        
         //e.preventDefault;
         $("#wrapper").toggleClass("toggled");
     }
@@ -346,8 +349,14 @@ minibean.controller('ApplicationController',function($scope,$location, userInfoS
     $scope.showImage = function(imageId) {
         $scope.img_id = imageId;
     }
-    
+
     $scope.toggleMenu = function() {
+        if ($("#wrapper").hasClass("toggled")) {
+            $("#slider-menu-backdrop").removeClass("modal-backdrop");
+        } else {
+            $("#slider-menu-backdrop").addClass("modal-backdrop");
+        }
+        
         //e.preventDefault;
         $("#wrapper").toggleClass("toggled");
     }
