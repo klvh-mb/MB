@@ -16,7 +16,7 @@
     border-color: #e5e6e9 #dfe0e4 #d0d1d5;
     background-color: white;
     margin-bottom: 5px;
-    /*overflow: hidden;*/
+    overflow: hidden;
 }
 .shortcut-box {
     border-radius: 10px;

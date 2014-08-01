@@ -33,7 +33,7 @@ angular.module('minibean', [
     	controller : 'ProfileController'  
       })
       .when('/community/:id/:tab',{
-    	templateUrl: '/assets/app/views/community-page.html',
+    	templateUrl: '/assets/app/views/mobile/community-page.html',
     	controller : 'CommunityPageController'  
       })
       .when('/post-landing/id/:id/communityId/:communityId',{
