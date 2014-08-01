@@ -16,16 +16,25 @@
       	<link rel="stylesheet" href="@routes.Assets.at("app/bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css")"/>
       	
       	<link rel="stylesheet" href="@routes.Assets.at("app/scripts/lib/sidr/css/jquery.sidr.light.css")">
+      	<link rel="stylesheet" href="@routes.Assets.at("app/custom-css/mobile/simple-sidebar-2.css")">
       	
       	<link rel="icon" type="image/png" href="@routes.Assets.at("app/images/favicon-1.ico")">
       	<link rel="shortcut icon" type="image/png" href="@routes.Assets.at("app/images/favicon-1.ico")">
     </head>
     <body id="main-app" class="menu-right-hidden" ng-app="minibean" ng-controller="ApplicationController">
         <span us-spinner spinner-key="loading..." ></span>
-        <div class="container-fluid menu-hidden">
-            <div id="main-view" ng-view="main-view"></div>
-        </div>
+        <div id="wrapper">
+            <!-- Sliding menu -->
+            <div ng-controller="SlidingMenuController" data-ng-include data-src="'/assets/app/views/mobile/sliding-menu.html'"></div>
 
+            <!-- Contents -->
+            <div id="page-content-wrapper">
+                <div class="container-fluid menu-hidden">
+                    <div id="main-view" ng-view="main-view"></div>
+                </div>
+            </div>
+        </div>
+        
         <script type="text/javascript" src="@routes.Assets.at("components/library/jquery/jquery.min.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("components/library/jquery/jquery.validate.min.js")"></script>
         <script src="@routes.Assets.at("app/bower_components/ng-file-upload/angular-file-upload-shim.min.js")"></script>

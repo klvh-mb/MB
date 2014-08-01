@@ -2,32 +2,64 @@
 
 var minibean = angular.module('minibean');
 
-// Control mobile sliding menu
-minibean.controller('MobileUIController', function($scope, $routeParams, $location){
+minibean.controller('SlidingMenuController', function($scope, $routeParams, $location, userInfoService, articleCategoryService){
 
-    $scope.ready = false;
+    //
+    // sliding menu control
+    // http://startbootstrap.com/templates/simple-sidebar/#
+    //
     
+    $scope.fixHeader = function() {
+        $("#header").css("position","fixed");
+    }
+    $scope.toggleMenu = function() {
+        //e.preventDefault;
+        $("#wrapper").toggleClass("toggled");
+    }
+    
+    /* OBSOLETE!!! DON'T USE sidr SIDEBAR!!!
     var bindMobileSlidingMenu = function() {
-        $('#header-sliding-menu-toggle').sidr({
+        $('#header-sliding-menu-toggle').sidr({     // header toggle btn
             name: 'sliding-menu',
-            side: 'left'
+            side: 'left',
+            speed: 500
         });
         $('#header-sliding-menu-close').sidr({
             name: 'sliding-menu',
-            side: 'left'
+            side: 'left',
+            speed: 500
         });
         
-        //$(document).bind("click", function () {
-        //    $.sidr('close', 'header');
+        //$(document).bind("click", function () {     // clicking anywhere should close
+        //    $.sidr('close', 'sliding-menu');
         //});
         
-        $scope.ready = true;
+        $("#sliding-menu").show();
+        $("#header-sliding-menu-toggle").show();
+        console.log("bindMobileSlidingMenu");
     };
     
     $scope.$watch('$viewContentLoaded', function(){
-        //bindMobileSlidingMenu();
         setTimeout(bindMobileSlidingMenu, 500);     // somehow this is not being called after page load, need to setTimeout!!!
     });
+    */
+    
+    //
+    // user info
+    //
+    
+    $scope.userInfo = userInfoService.UserInfo.get();
+    $scope.userTargetProfile = userInfoService.UserTargetProfile.get();
+    
+    $scope.set_background_image = function() {
+        return { background: 'url(/image/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+') center center no-repeat'};
+    } 
+    
+    //
+    // article categories
+    //
+    
+    $scope.articleCategories = articleCategoryService.getAllArticleCategory.get();
 });
 
 minibean.controller('UIController', function($scope, $location, $anchorScroll, $window) {
@@ -236,7 +268,7 @@ minibean.controller('ApplicationController',function($scope,$location, userInfoS
 	$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
 	
 	$scope.set_background_image = function() {
-		return {background : 'url(/image/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+')'};
+		return { background: 'url(/image/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+') center center no-repeat'};
 	} 
 	$scope.unread_msg_count = 0;
 	$scope.friend_requests = userNotification.getAllFriendRequests.get();
@@ -336,6 +368,11 @@ minibean.controller('ApplicationController',function($scope,$location, userInfoS
    
     $scope.showImage = function(imageId) {
         $scope.img_id = imageId;
+    }
+    
+    $scope.toggleMenu = function() {
+        //e.preventDefault;
+        $("#wrapper").toggleClass("toggled");
     }
 });
 
@@ -2985,7 +3022,7 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 	
 	var offset = 0;
 	var noMore = false;
-	$scope.articleCategorys = articleCategoryService.getAllArticleCategory.get();
+	$scope.articleCategories = articleCategoryService.getAllArticleCategory.get();
 	$scope.get_result = function(catId) {
 		usSpinnerService.spin('loading...');
 		$scope.isBusy = true;
@@ -3110,7 +3147,7 @@ minibean.controller('EditArticleController',function($scope,$routeParams,$locati
 		}
 		$scope.relatedResult = allRelatedArticlesService.getRelatedArticles.get({id:$routeParams.id, category_id:response.ct.id});
 	});
-	$scope.articleCategorys = articleCategoryService.getAllArticleCategory.get();
+	$scope.articleCategories = articleCategoryService.getAllArticleCategory.get();
 	
     $scope.open = function(id) {
         var modalInstance = $modal.open({

@@ -1,46 +1,16 @@
-
-<div id="sliding-menu" ng-show="ready == true">
-    <ul>
-        <li>
-            <a id="header-sliding-menu-close" href="#sliding-menu">Back</a>
-        </li>
-        <li class="active"><a href="#">List 2</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-        <li><a href="#">List 3</a></li>
-    </ul>
-</div>
-    
+<!-- Top Header Bar -->    
 <div id="header" class="header-wrapper no-glow navbar hidden-print navbar-default box main navbar-fixed-top" id="nav_bar" role="navigation" style="top:0px; height: 42px; min-height: 42px;">
     
-    <button type="button" id="header-sliding-menu-toggle" href="#sliding-menu" class="btn btn-navbar pull-left">
+    <a id="header-sliding-menu-toggle" href="" ng-click="toggleMenu()" class="btn btn-navbar pull-left">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-    </button>
+    </a>
     
     <a class="header-logo pull-left" href="#">
         <img style="width: 42px !important;height: 42px !important;" src="../assets/app/images/logo-mB-1.png" />
     </a>
-    <ul class="header-notif-bar pull-left">
+    <ul class="header-notif-bar pull-right">
         <li class="dropdown notif pull-left" >
             <a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
                 <img class="colorChange" src="../assets/app/images/general/icons/w_profile.png" data-ng-click="reset_fr_count()"/>
@@ -100,25 +70,25 @@
                 </li>
             </ul>
         </li>
-        <li class="dropdown notif pull-left">
+        <!--li class="dropdown notif pull-left">
             <a href="/#/message/0">
                 <img class="colorChange" src="../assets/app/images/general/icons/w_message.png"/>
                 <span class="notif-count pull-right" data-ng-show="unread_msg_count.count > 0">{{unread_msg_count.count}}</span>
             </a>
-        </li>
+        </li-->
     </ul>
     
     <div class="right-side">
-        <!--a class="header-main-text" href="mobile#">
+        <!--a class="header-main-text" href="#">
             主頁
-        </a-->
+        </a>
         <a class="header-main-text" ng-href="/mobile#/about/activities">
             {{userInfo.firstName}}
         </a>
-        <!--a href="#"><img src="../assets/app/images/general/icons/w_home.png" /></a-->
+        <a href="#"><img src="../assets/app/images/general/icons/w_home.png" /></a>
         <a style="position:relative;top:-3px;" class="dropdown-toggle dropdown-hover colorChange" data-toggle="dropdown" href="#">
             <img src="../assets/app/images/general/icons/w_setup.png" />
-        </a>
+        </a-->
         <ul class="dropdown-menu">
             <!--li><a ng-href="#/">設定</a></li-->
             <li><a href="/logout">登出</a></li>
