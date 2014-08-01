@@ -2101,6 +2101,9 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		usSpinnerService.stop('loading...');
 	});
 	
+	
+	$scope.selectedTab = 1;
+	$scope.selectedTab1 = 1;
 	var tab = $routeParams.tab;
 	if(tab == 'question'){
 		$scope.selectedTab1 = 1;
@@ -2108,8 +2111,10 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	if(tab == 'moment'){
 		$scope.selectedTab1 = 2;
 	}
-	$scope.selectedTab = 1;
-	
+	if(tab == 'members'){
+		$scope.selectedTab = 2;
+	}
+
 	$scope.nonMembers = [];
 	$scope.search_unjoined_users = function(comm_id, query) {
 		if(query.length >1){
@@ -4148,7 +4153,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 		bookmarkService.bookmarkArticle.get({offsetA:offsetA},
             function(data){
     			var articleData = data;
-    			if(data.length = 0) {
+    			if(data.length == 0) {
     				noMoreA = true;
     			}
     			
