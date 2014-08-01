@@ -27,7 +27,7 @@ moment.lang('en', {
     relativeTime : {
         future: "在 %s",
         past:   "%s",
-        s:  "%d秒",
+        s:  "剛剛",   //"%d秒",
         m:  "1分鐘",
         mm: "%d分鐘",
         h:  "1小時",

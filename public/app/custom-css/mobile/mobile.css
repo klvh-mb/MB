@@ -43,25 +43,12 @@ body {
 }
 
 /* sliding menu */
-/*
-.sidr ul li {
-    display: block;
-    margin: 0;
-    line-height: 48px;
-    border-top: none;
-    border-bottom: 1px solid #dfdfdf;
-}
-.sidr ul li:hover, .sidr ul li.active, .sidr ul li.sidr-class-active {
-    border-top: none;
-    line-height: 48px;
-}
-*/
 #wrapper {
     padding-left: 0;
-    -webkit-transition: all 0.0s ease;
-    -moz-transition: all 0.0s ease;
-    -o-transition: all 0.0s ease;
-    transition: all 0.0s ease;
+    -webkit-transition: none;
+    -moz-transition: none;
+    -o-transition: none;
+    transition: none;
 }
 #sidebar-wrapper {
     z-index: 1000;
@@ -72,17 +59,17 @@ body {
     margin-left: -250px;
     overflow-y: auto;
     background: #FFFFFF;
-    -webkit-transition: all 0.0s ease;
-    -moz-transition: all 0.0s ease;
-    -o-transition: all 0.0s ease;
-    transition: all 0.0s ease;
+    -webkit-transition: none;
+    -moz-transition: none;
+    -o-transition: none;
+    transition: none;
 }
 .sidebar-nav li {
     display: block;
     margin: 0;
     line-height: 30px;
     border-top: none;
-    border-bottom: 1px solid #dfdfdf;
+    border-bottom: 1px solid #BEBEBE;
     text-indent: 15px;
 }
 .sidebar-nav li a {
@@ -102,7 +89,7 @@ body {
     line-height: 1.5;
     text-align: center;
     text-indent: 0;
-    border-bottom: 1px solid #dfdfdf;
+    border-bottom: 1px solid #BEBEBE;
 }
 .sidebar-nav .sliding-menu-item {
     border-bottom: none;
@@ -238,7 +225,13 @@ span.notif-count {
 .post-comment-box .post-qna-reply-textfield {
     width: 50%;
 }
+.post-comment-box .post-qna-reply-textfield:focus {
+    width: 50%;
+}
 .post-comment-box .post-sharing-comment-textfield {
+    width: 50%;
+}
+.post-comment-box .post-sharing-comment-textfield:focus {
     width: 50%;
 }
 .dropdown-menu {
