@@ -4,6 +4,8 @@ var minibean = angular.module('minibean');
 
 minibean.controller('SlidingMenuController', function($scope, $routeParams, $location, userInfoService, articleCategoryService){
 
+    console.log("SlidingMenuController starts");
+    
     //
     // sliding menu control
     // http://startbootstrap.com/templates/simple-sidebar/#
@@ -16,33 +18,6 @@ minibean.controller('SlidingMenuController', function($scope, $routeParams, $loc
         //e.preventDefault;
         $("#wrapper").toggleClass("toggled");
     }
-    
-    /* OBSOLETE!!! DON'T USE sidr SIDEBAR!!!
-    var bindMobileSlidingMenu = function() {
-        $('#header-sliding-menu-toggle').sidr({     // header toggle btn
-            name: 'sliding-menu',
-            side: 'left',
-            speed: 500
-        });
-        $('#header-sliding-menu-close').sidr({
-            name: 'sliding-menu',
-            side: 'left',
-            speed: 500
-        });
-        
-        //$(document).bind("click", function () {     // clicking anywhere should close
-        //    $.sidr('close', 'sliding-menu');
-        //});
-        
-        $("#sliding-menu").show();
-        $("#header-sliding-menu-toggle").show();
-        console.log("bindMobileSlidingMenu");
-    };
-    
-    $scope.$watch('$viewContentLoaded', function(){
-        setTimeout(bindMobileSlidingMenu, 500);     // somehow this is not being called after page load, need to setTimeout!!!
-    });
-    */
     
     //
     // user info
@@ -60,6 +35,8 @@ minibean.controller('SlidingMenuController', function($scope, $routeParams, $loc
     //
     
     $scope.articleCategories = articleCategoryService.getAllArticleCategory.get();
+    
+    console.log("SlidingMenuController completed");
 });
 
 minibean.controller('UIController', function($scope, $location, $anchorScroll, $window) {

@@ -2,6 +2,10 @@
 body {
     font-size: 14px;
 }
+.glyphicon-refresh {
+    color: white;
+    font-size: 18px;
+}
 .glyphicon-off {
     color: #428bca;
     font-size: 18px;

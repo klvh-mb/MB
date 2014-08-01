@@ -7,11 +7,11 @@
         <span class="icon-bar"></span>
     </a>
     
-    <a class="header-logo pull-left" href="#">
+    <a class="header-logo pull-left" href="" ng-click="toggleMenu()">
         <img style="width: 42px !important;height: 42px !important;" src="../assets/app/images/logo-mB-1.png" />
     </a>
     <ul class="header-notif-bar pull-right">
-        <li class="dropdown notif pull-left" >
+        <li class="dropdown notif pull-left">
             <a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
                 <img class="colorChange" src="../assets/app/images/general/icons/w_profile.png" data-ng-click="reset_fr_count()"/>
                 <span class="notif-count pull-right" data-ng-show="isFRreaded == true && friend_requests.length > 0">{{friend_requests.length}}</span>
