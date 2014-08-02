@@ -66,7 +66,7 @@ public class FaceFinder {
     }
 
 
-    private static List<Rect> findFaces(BufferedImage origImage, String profile) {
+    private static List<Rect> findFaces(BufferedImage origImage, String profile) throws IOException {
         try {
             InputStream is = FaceFinder.class.getResourceAsStream(profile);
 
@@ -85,11 +85,11 @@ public class FaceFinder {
 
             return results;
         } catch (Throwable t) {
-            throw new RuntimeException(t);
+            throw new IOException(t);
         }
     }
 
-    private static BufferedImage fitForImage(List<Rect> results, BufferedImage origImage, double widthToHeightRatio) {
+    private static BufferedImage fitForImage(List<Rect> results, BufferedImage origImage, double widthToHeightRatio) throws IOException {
         try {
             int minLeft = Integer.MAX_VALUE, minTop = Integer.MAX_VALUE;
             int maxLeft = 0, maxTop = 0;
@@ -143,7 +143,7 @@ public class FaceFinder {
             return origImage.getSubimage(cropSpec.left, cropSpec.top, cropSpec.width, cropSpec.height);
 
         } catch (Throwable t) {
-            throw new RuntimeException(t);
+            throw new IOException(t);
         }
     }
 
@@ -158,6 +158,7 @@ public class FaceFinder {
         int refY = refRectTop + (refRectHeight / 2);
 
         CropSpec cropSpec = new CropSpec();
+        // crop for square
         if (widthToHeightRatio == 1) {
             if (origWidth > origHeight) {
                 cropSpec.top = 0;
@@ -181,20 +182,17 @@ public class FaceFinder {
                 }
             }
         }
+        // crop by width-height ratio
         else {
-            if (origWidth > origHeight) {
-                int newHeight = (int) (origWidth / widthToHeightRatio);
-                cropSpec.left = 0;
-                cropSpec.top = Math.max(refY - (newHeight / 2), 0);
-                cropSpec.width = origWidth;
-                cropSpec.height = newHeight;
+            int newHeight = (int) (origWidth / widthToHeightRatio);
+            cropSpec.left = 0;
+            cropSpec.top = Math.max(refY - (newHeight / 2), 0);
+            cropSpec.width = origWidth;
+            cropSpec.height = newHeight;
 
-                int maxTop = cropSpec.top + cropSpec.height;
-                if (maxTop > origHeight) {
-                    cropSpec.top -= (maxTop - origHeight);
-                }
-            } else {
-                throw new IllegalStateException("Rectangular Crop must have width > height");
+            int maxTop = cropSpec.top + cropSpec.height;
+            if (maxTop > origHeight) {
+                cropSpec.top -= (maxTop - origHeight);
             }
         }
         return cropSpec;
@@ -202,6 +200,7 @@ public class FaceFinder {
 
     private static CropSpec getCenterPointCropSpec(int origWidth, int origHeight, double widthToHeightRatio) {
         CropSpec cropSpec = new CropSpec();
+        // crop for square
         if (widthToHeightRatio == 1) {
             if (origWidth > origHeight) {
                 cropSpec.top = 0;
@@ -215,16 +214,13 @@ public class FaceFinder {
                 cropSpec.height = origWidth;
             }
         }
+        // crop by width-height ratio
         else {
-            if (origWidth > origHeight) {
-                int newHeight = (int) (origWidth / widthToHeightRatio);
-                cropSpec.left = 0;
-                cropSpec.top = (origHeight / 2) - (newHeight / 2);
-                cropSpec.width = origWidth;
-                cropSpec.height = newHeight;
-            } else {
-                throw new IllegalStateException("Rectangular Crop must have width > height");
-            }
+            int newHeight = (int) (origWidth / widthToHeightRatio);
+            cropSpec.left = 0;
+            cropSpec.top = (origHeight / 2) - (newHeight / 2);
+            cropSpec.width = origWidth;
+            cropSpec.height = newHeight;
         }
         return cropSpec;
     }

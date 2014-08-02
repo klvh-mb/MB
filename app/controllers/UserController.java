@@ -110,7 +110,8 @@ public class UserController extends Controller {
 	@Transactional
 	public static Result uploadProfilePhoto() {
 		final User localUser = Application.getLocalUser(session());
-		
+		logger.underlyingLogger().info("[u="+localUser.id+"] uploadProfilePhoto");
+
 		FilePart picture = request().body().asMultipartFormData().getFile("profile-photo");
 		String fileName = picture.getFilename();
 
@@ -119,7 +120,7 @@ public class UserController extends Controller {
             File fileTo = ImageFileUtil.copyImageFileToTemp(file, fileName);
 			localUser.setPhotoProfile(fileTo);
 		} catch (IOException e) {
-		    logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+		    logger.underlyingLogger().error("Error in uploadProfilePhoto", e);
 			return status(500);
 		}
 		return ok();
@@ -128,7 +129,8 @@ public class UserController extends Controller {
 	@Transactional
 	public static Result uploadCoverPhoto() {
 		final User localUser = Application.getLocalUser(session());
-		
+		logger.underlyingLogger().info("[u="+localUser.id+"] uploadCoverPhoto");
+
 		FilePart picture = request().body().asMultipartFormData().getFile("profile-photo");
 		String fileName = picture.getFilename();
 	    
@@ -137,7 +139,7 @@ public class UserController extends Controller {
 	    	File fileTo = ImageFileUtil.copyImageFileToTemp(file, fileName);
 			localUser.setCoverPhoto(fileTo);
 		} catch (IOException e) {
-		    logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+		    logger.underlyingLogger().error("Error in uploadCoverPhoto", e);
 			return status(500);
 		}
 		return ok();
