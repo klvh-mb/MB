@@ -5,7 +5,7 @@ body {
     margin: 0;
     padding: 0;
     background-image: none;
-    background-color: #eeeeee;
+    background-color: #E7E7E7;
 }
 .caret {
     border-top: 7px solid;
@@ -40,8 +40,8 @@ body {
 .themeA-container {
     margin-left: auto;
     margin-right: auto;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 12px;
+    padding-right: 12px;
     width: 100%;
     position: relative;
     /* top: 55px; */
@@ -52,6 +52,9 @@ body {
     font-size: 14px;
     padding: 0px 5px;
     background-color: #826EEE;
+}
+#wall-main .general-box {
+    margin-bottom: 12px;
 }
 
 /* sliding menu */
