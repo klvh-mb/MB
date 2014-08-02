@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.persistence.CascadeType;
@@ -14,6 +15,9 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
+import akka.actor.ActorSystem;
+import common.image.ImageDimensions;
+import common.utils.NanoSecondStopWatch;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.name.Rename;
 
@@ -25,6 +29,8 @@ import com.google.common.base.Objects;
 import domain.Creatable;
 import domain.SocialObjectType;
 import domain.Updatable;
+import play.libs.Akka;
+import scala.concurrent.duration.Duration;
 
 /**
  * Represent a folder contains a set of Resources
@@ -53,6 +59,7 @@ public class Folder extends SocialObject implements Serializable, Creatable, Upd
 		return super.toString() + " " + name;
 	}
 
+
 	/**
 	 * Note: for profile pics, scale it up by 100% as browser will only display crispy profile pic 
 	 * with higher resolution natural size photo. (seems like cover photo does not have this issue)
@@ -63,17 +70,20 @@ public class Folder extends SocialObject implements Serializable, Creatable, Upd
 	 * @return
 	 * @throws IOException
 	 */
-	public Resource addFile(java.io.File source, String description,
-			SocialObjectType type) throws IOException {
+	public Resource addFile(final java.io.File source,
+                            final String description,
+			                final SocialObjectType type) throws IOException {
+        logger.underlyingLogger().info("addFile("+type.name()+") - start.");
+        NanoSecondStopWatch fullSw = new NanoSecondStopWatch();
 
-		Resource resource = new Resource(type);
+		final Resource resource = new Resource(type);
 		resource.resourceName = source.getName();
 		resource.description = description;
 		resource.folder = this;
 		resource.owner = this.owner;
 		resource.save();
 
-        File parentFile = new java.io.File(resource.getPath()).getParentFile();
+        final File parentFile = new java.io.File(resource.getPath()).getParentFile();
         if (!parentFile.exists()) {
             boolean mkdirsSuccess = parentFile.mkdirs();
             if (!mkdirsSuccess) {
@@ -85,136 +95,224 @@ public class Folder extends SocialObject implements Serializable, Creatable, Upd
         //FileUtils.copyFile(source, new java.io.File(resource.getPath()));
 
 		if (type == SocialObjectType.PROFILE_PHOTO) {
+            NanoSecondStopWatch sw = new NanoSecondStopWatch();
             String fileName = new java.io.File(resource.getPath()).getName();
 
-		    Thumbnails
-                    .of(source)
-                    .height(150 * 2)
-                    .width(150 * 2)
+		    Thumbnails.of(source)
+                    .height(ImageDimensions.PROFILE_FULL)
+                    .width(ImageDimensions.PROFILE_FULL)
                     .keepAspectRatio(true)
                     .toFiles(parentFile, Rename.NO_CHANGE);
 		    
-			Thumbnails
-					.of(source)
-					.height(85 * 2)
-					.width(85 * 2)
+			Thumbnails.of(source)
+					.height(ImageDimensions.PROFILE_THUMBNAIL)
+					.width(ImageDimensions.PROFILE_THUMBNAIL)
 					.keepAspectRatio(true)
 					.toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
 			
-			Thumbnails
-					.of(source)
-					.height(40 * 2)
-					.width(40 * 2)
+			Thumbnails.of(source)
+					.height(ImageDimensions.PROFILE_MINI)
+					.width(ImageDimensions.PROFILE_MINI)
 					.keepAspectRatio(true)
 					.toFile(parentFile+"/mini."+fileName);
 			
-			Thumbnails
-					.of(source)
-					.height(32 * 2)
-					.width(32 * 2)
+			Thumbnails.of(source)
+					.height(ImageDimensions.PROFILE_MINI_COMMENT)
+					.width(ImageDimensions.PROFILE_MINI_COMMENT)
 					.keepAspectRatio(true)
 					.toFile(parentFile+"/miniComment."+fileName);
+
+            sw.stop();
+            logger.underlyingLogger().info("addFile("+type.name()+"). Resize Took "+sw.getElapsedMS()+"ms");
 		}
 		else if (type == SocialObjectType.COVER_PHOTO) {
+            NanoSecondStopWatch sw = new NanoSecondStopWatch();
             String fileName = new java.io.File(resource.getPath()).getName();
 
-		    Thumbnails
-					.of(source)
-					.width(580)
+		    Thumbnails.of(source)
+					.width(ImageDimensions.COVERPHOTO_FULL_WIDTH)
 					.keepAspectRatio(true)
 					.toFiles(parentFile, Rename.NO_CHANGE);
 
-		    Thumbnails
-                    .of(source)
-                    .width(250)
+		    Thumbnails.of(source)
+                    .width(ImageDimensions.COVERPHOTO_THUMBNAIL_WIDTH)
                     .keepAspectRatio(true)
                     .toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
 			
-			Thumbnails
-					.of(source)
-					.width(120)
+			Thumbnails.of(source)
+					.width(ImageDimensions.COVERPHOTO_MINI_WIDTH)
 					.keepAspectRatio(true)
 					.toFile(parentFile+"/mini."+fileName);
+
+            sw.stop();
+            logger.underlyingLogger().info("addFile("+type.name()+"). Resize Took "+sw.getElapsedMS()+"ms");
 		}
 		else if (type == SocialObjectType.POST_PHOTO ||
                 type == SocialObjectType.COMMENT_PHOTO) {
+            NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
 			BufferedImage bimg = ImageIO.read(source);
-			int width  = bimg.getWidth();
-			int height = bimg.getHeight();
+			final int origWidth  = bimg.getWidth();
+			final int origHeight = bimg.getHeight();
 			
-			if(width >= height) {
-                int targetFullWidth = (int) (880 * 1.5d);
-                if (width > targetFullWidth) {
-                    Thumbnails
-                            .of(source)
-                            .width(targetFullWidth)
+			if(origWidth >= origHeight) {
+                // horizontal or square
+                int targetPreviewWidth = (type == SocialObjectType.POST_PHOTO) ?
+                        ImageDimensions.POST_IMAGE_PREVIEW_WIDTH_PX :
+                        ImageDimensions.COMMENT_IMAGE_PREVIEW_WIDTH_PX;
+                if (origWidth > targetPreviewWidth) {
+                    Thumbnails.of(source)
+                            .width(targetPreviewWidth)
                             .keepAspectRatio(true)
-                            .toFiles(parentFile, Rename.NO_CHANGE);
+                            .toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
                 } else {
-                    FileUtils.copyFile(source, new java.io.File(resource.getPath()));
+                    FileUtils.copyFile(source, new java.io.File(resource.getThumbnail()));
                 }
-				Thumbnails
-                        .of(source)
-                        .width(255)
-                        .keepAspectRatio(true)
-                        .toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
+
+                ActorSystem actorSystem = Akka.system();
+                actorSystem.scheduler().scheduleOnce(
+                    Duration.create(0, TimeUnit.MILLISECONDS),
+                    new Runnable() {
+                        public void run() {
+                            try {
+                                int targetFullWidth = ImageDimensions.LIGHTBOX_WIDTH_PX;
+                                if (origWidth > targetFullWidth) {
+                                    Thumbnails.of(source)
+                                            .width(targetFullWidth)
+                                            .keepAspectRatio(true)
+                                            .toFiles(parentFile, Rename.NO_CHANGE);
+                                } else {
+                                    FileUtils.copyFile(source, new java.io.File(resource.getPath()));
+                                }
+                            } catch (Exception e) {
+                                logger.underlyingLogger().error("Failed to resize", e);
+                            }
+                        }
+                    }, actorSystem.dispatcher()
+                );
 			} else {
-                int targetFullHeight = (int) (620 * 1.5d);
-                if (height > targetFullHeight) {
-                    Thumbnails
-                            .of(source)
-                            .height(targetFullHeight)
+                int targetPreviewHeight = (type == SocialObjectType.POST_PHOTO) ?
+                        ImageDimensions.POST_IMAGE_PREVIEW_HEIGHT_PX :
+                        ImageDimensions.COMMENT_IMAGE_PREVIEW_HEIGHT_PX;
+                if (origHeight > targetPreviewHeight) {
+                    Thumbnails.of(source)
+                            .height(targetPreviewHeight)
                             .keepAspectRatio(true)
-                            .toFiles(parentFile, Rename.NO_CHANGE);
+                            .toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
                 } else {
-                    FileUtils.copyFile(source, new java.io.File(resource.getPath()));
+                    FileUtils.copyFile(source, new java.io.File(resource.getThumbnail()));
                 }
-				Thumbnails
-                        .of(source)
-                        .height(255)
-                        .keepAspectRatio(true)
-                        .toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
+
+                ActorSystem actorSystem = Akka.system();
+                actorSystem.scheduler().scheduleOnce(
+                    Duration.create(0, TimeUnit.MILLISECONDS),
+                    new Runnable() {
+                        public void run() {
+                            try {
+                                int targetFullHeight = ImageDimensions.LIGHTBOX_HEIGHT_PX;
+                                if (origHeight > targetFullHeight) {
+                                    Thumbnails.of(source)
+                                            .height(targetFullHeight)
+                                            .keepAspectRatio(true)
+                                            .toFiles(parentFile, Rename.NO_CHANGE);
+                                } else {
+                                    FileUtils.copyFile(source, new java.io.File(resource.getPath()));
+                                }
+                            } catch (Exception e) {
+                                logger.underlyingLogger().error("Failed to resize", e);
+                            }
+                        }
+                    }, actorSystem.dispatcher()
+                );
 			}
+
+            sw.stop();
+            logger.underlyingLogger().info("addFile("+type.name()+"). Resize Took "+sw.getElapsedMS()+"ms");
 		}
 		else if (type == SocialObjectType.PRIVATE_PHOTO) {
-			Thumbnails
-                    .of(source)
-                    .height(150)
-                    .width(150)
-                    .keepAspectRatio(true)
-                    .toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
+            NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
             BufferedImage bimg = ImageIO.read(source);
-			int width  = bimg.getWidth();
-			int height = bimg.getHeight();
-			if(width >= height) {
-                int targetFullWidth = (int) (880 * 1.5d);
-                if (width > targetFullWidth) {
-                    Thumbnails
-                            .of(source)
-                            .width(targetFullWidth)
+			final int origWidth  = bimg.getWidth();
+			final int origHeight = bimg.getHeight();
+
+			if (origWidth >= origHeight) {
+                // horizontal or square
+                int targetPreviewWidth = ImageDimensions.PM_IMAGE_PREVIEW_WIDTH_PX;
+                if (origWidth > targetPreviewWidth) {
+                    Thumbnails.of(source)
+                            .width(targetPreviewWidth)
                             .keepAspectRatio(true)
-                            .toFiles(parentFile, Rename.NO_CHANGE);
+                            .toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
                 } else {
-                    FileUtils.copyFile(source, new java.io.File(resource.getPath()));
+                    FileUtils.copyFile(source, new java.io.File(resource.getThumbnail()));
                 }
+
+                ActorSystem actorSystem = Akka.system();
+                actorSystem.scheduler().scheduleOnce(
+                    Duration.create(0, TimeUnit.MILLISECONDS),
+                    new Runnable() {
+                        public void run() {
+                            try {
+                                int targetFullWidth = ImageDimensions.LIGHTBOX_WIDTH_PX;
+                                if (origWidth > targetFullWidth) {
+                                    Thumbnails.of(source)
+                                            .width(targetFullWidth)
+                                            .keepAspectRatio(true)
+                                            .toFiles(parentFile, Rename.NO_CHANGE);
+                                } else {
+                                    FileUtils.copyFile(source, new java.io.File(resource.getPath()));
+                                }
+                            } catch (Exception e) {
+                                logger.underlyingLogger().error("Failed to resize", e);
+                            }
+                        }
+                    }, actorSystem.dispatcher()
+                );
 			} else {
-                int targetFullHeight = (int) (620 * 1.5d);
-                if (height > targetFullHeight) {
-                    Thumbnails
-                            .of(source)
-                            .height(targetFullHeight)
+                int targetPreviewHeight = ImageDimensions.PM_IMAGE_PREVIEW_HEIGHT_PX;
+                if (origHeight > targetPreviewHeight) {
+                    Thumbnails.of(source)
+                            .height(targetPreviewHeight)
                             .keepAspectRatio(true)
-                            .toFiles(parentFile, Rename.NO_CHANGE);
+                            .toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
                 } else {
-                    FileUtils.copyFile(source, new java.io.File(resource.getPath()));
+                    FileUtils.copyFile(source, new java.io.File(resource.getThumbnail()));
                 }
+
+                ActorSystem actorSystem = Akka.system();
+                actorSystem.scheduler().scheduleOnce(
+                    Duration.create(0, TimeUnit.MILLISECONDS),
+                    new Runnable() {
+                        public void run() {
+                            try {
+                                int targetFullHeight = ImageDimensions.LIGHTBOX_HEIGHT_PX;
+                                if (origHeight > targetFullHeight) {
+                                    Thumbnails.of(source)
+                                            .height(targetFullHeight)
+                                            .keepAspectRatio(true)
+                                            .toFiles(parentFile, Rename.NO_CHANGE);
+                                } else {
+                                    FileUtils.copyFile(source, new java.io.File(resource.getPath()));
+                                }
+                            } catch (Exception e) {
+                                logger.underlyingLogger().error("Failed to resize", e);
+                            }
+                        }
+                    }, actorSystem.dispatcher()
+                );
 			}
+
+            sw.stop();
+            logger.underlyingLogger().info("addFile("+type.name()+"). Resize Took "+sw.getElapsedMS()+"ms");
 		}
 
 		this.resources.add(resource);
 		merge();
-		//recordAddedPhoto(owner);
+
+        fullSw.stop();
+        logger.underlyingLogger().info("addFile("+type.name()+") - end. Total Took "+fullSw.getElapsedMS()+"ms");
+
 		return resource;
 	}
 
@@ -288,37 +386,25 @@ public class Folder extends SocialObject implements Serializable, Creatable, Upd
 		}
 	}
 
-
-
 	public String getDescription() {
 		return description;
 	}
-
-
 
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-
-
 	public List<Resource> getResources() {
 		return resources;
 	}
-
-
 
 	public void setResources(List<Resource> resources) {
 		this.resources = resources;
 	}
 
-
-
 	public Boolean getSystem() {
 		return system;
 	}
-
-
 
 	public void setSystem(Boolean system) {
 		this.system = system;

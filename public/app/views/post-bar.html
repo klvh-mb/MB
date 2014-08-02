@@ -60,7 +60,7 @@
     	        </div>
     	        <div data-ng-show="comment.hasImage" class="post-body-image">
                     <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in comment.imgs" href="">
-                        <img style="width:100px;" data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                        <img style="max-width:110px; max-height:150px;" data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
                     </a>
                 </div>
 	        </span>
