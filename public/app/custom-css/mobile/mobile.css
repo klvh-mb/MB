@@ -1,6 +1,11 @@
 /* main */
 body {
     font-size: 14px;
+    font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: none;
+    background-color: #eeeeee;
 }
 .caret {
     border-top: 7px solid;
