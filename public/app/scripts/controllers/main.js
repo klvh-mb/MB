@@ -1103,6 +1103,9 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 	});
 	
 	$scope.comment_on_post = function(id, commentText) {
+        // first convert to links
+        commentText = convertToLinks(commentText);
+
 		var data = {
 			"post_id" : id,
 			"commentText" : commentText
@@ -1489,6 +1492,9 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     }
     
     $scope.comment_on_post = function(id, commentText) {
+        // first convert to links
+        commentText = convertToLinks(commentText);
+
         var data = {
             "post_id" : id,
             "commentText" : commentText,
@@ -1902,6 +1908,9 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     };
     
     $scope.answer_to_question = function(question_post_id, answerText) {
+        // first convert to links
+        answerText = convertToLinks(answerText);
+
         var data = {
             "post_id" : question_post_id,
             "answerText" : answerText,
@@ -2203,6 +2212,9 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	}
 	
 	$scope.comment_on_post = function(id, commentText) {
+        // first convert to links
+        commentText = convertToLinks(commentText);
+
 		var data = {
 			"post_id" : id,
 			"commentText" : commentText,
@@ -2661,7 +2673,10 @@ minibean.controller('QnACommunityController',function($scope, postManagementServ
 	};
 	
 	$scope.answer_to_question = function(question_post_id, answerText) {
-		var data = {
+		// first convert to links
+        answerText = convertToLinks(answerText);
+
+        var data = {
 			"post_id" : question_post_id,
 			"answerText" : answerText,
 			"withPhotos" : $scope.qnaCommentSelectedFiles.length != 0
@@ -3272,6 +3287,9 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 	$scope.get_unread_msg_count();
 	
 	$scope.comment_on_post = function(id, commentText) {
+        // first convert to links
+        commentText = convertToLinks(commentText);
+
 		var data = {
 			"post_id" : id,
 			"commentText" : commentText,
@@ -3475,7 +3493,10 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 	};
 	
 	$scope.answer_to_question = function(question_post_id, answerText) {
-		var data = {
+		// first convert to links
+        answerText = convertToLinks(answerText);
+
+        var data = {
 			"post_id" : question_post_id,
 			"answerText" : answerText,
 			"withPhotos" : $scope.qnaCommentSelectedFiles.length != 0
@@ -3620,6 +3641,9 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
     }
     
 	$scope.comment_on_post = function(id, commentText) {
+        // first convert to links
+        commentText = convertToLinks(commentText);
+
 		var data = {
 			"post_id" : id,
 			"commentText" : commentText,
@@ -3718,7 +3742,10 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 	};
 	
 	$scope.answer_to_question = function(question_post_id, answerText) {
-		var data = {
+		// first convert to links
+        answerText = convertToLinks(answerText);
+
+        var data = {
 			"post_id" : question_post_id,
 			"answerText" : answerText,
 			"withPhotos" : $scope.qnaCommentSelectedFiles.length != 0
@@ -4020,6 +4047,9 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 	$scope.selectedTab1 = 1;
 	
 	$scope.comment_on_post = function(id, commentText) {
+        // first convert to links
+        commentText = convertToLinks(commentText);
+
 		var data = {
 			"post_id" : id,
 			"commentText" : commentText
