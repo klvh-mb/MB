@@ -1,3 +1,13 @@
+
+//
+// Simple log helper
+//
+
+var log = function(str) {
+    if (this.console)
+        console.log(str);
+}
+
 //
 // header bottom glow
 //
@@ -40,3 +50,22 @@ moment.lang('en', {
         yy: "%d年前"
     }
 });
+
+//
+// Utility function to convert to real links
+//
+
+var convertToLinks = function(text) {
+    var replacedText, replacePattern1, replacePattern2;
+
+    //"http(s)://"
+    //replacePattern1 = /(\b(https?):\/\/[-A-Z0-9+&amp;@#\/%?=~_|!:,.;]*[-A-Z0-9+&amp;@#\/%=~_|])/ig;
+    replacePattern1 = /(\b(https?):\/\/.*[-A-Z0-9+&amp;@#\/%=~_|])/ig;
+    replacedText = text.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+
+    //"www."
+    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+    return replacedText;
+}
