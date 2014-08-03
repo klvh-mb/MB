@@ -52,7 +52,8 @@
                 <span class="post-title-user-name post-sharing-comment-font">
                     <a data-ng-href="/#/profile/{{comment.oid}}">{{comment.on}}</a>
                 </span>
-                <span class="post-sharing-comment-body-text">{{comment.d}}</span>
+                <div class="post-sharing-comment-body-text" ng-bind-html="comment.d"></div>
+                <!--<span class="post-sharing-comment-body-text">{{comment.d}}</span>-->
                 <div>
                     <span class="post-date" am-time-ago="comment.cd"></span>
                     <span style="margin-left:5px;"/>
@@ -60,7 +61,7 @@
     	        </div>
     	        <div data-ng-show="comment.hasImage" class="post-body-image">
                     <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in comment.imgs" href="">
-                        <img style="width:100px;" data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                        <img style="max-width:110px; max-height:150px;" data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
                     </a>
                 </div>
 	        </span>

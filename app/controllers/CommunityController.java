@@ -505,13 +505,14 @@ public class CommunityController extends Controller{
         Community c = Community.findById(communityId);
         if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
             String postText = form.get("postText");
-            String withPhotos = form.get("withPhotos");
+            boolean withPhotos = Boolean.parseBoolean(form.get("withPhotos"));
+
             Post p = (Post) c.onPost(localUser, null, postText, PostType.SIMPLE);
-            if(Boolean.parseBoolean(withPhotos)) {
+            if(withPhotos) {
                 p.ensureAlbumExist();
             }
 
-            p.indexPost(Boolean.parseBoolean(withPhotos));
+            p.indexPost(withPhotos);
             
             return ok(Json.toJson(p.id));
         }

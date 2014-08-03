@@ -2,6 +2,23 @@
 
 var minibean = angular.module('minibean');
 
+// Utility function to convert to real links
+function convertToLinks(text) {
+    var replacedText, replacePattern1, replacePattern2;
+
+    //"http(s)://"
+    //replacePattern1 = /(\b(https?):\/\/[-A-Z0-9+&amp;@#\/%?=~_|!:,.;]*[-A-Z0-9+&amp;@#\/%=~_|])/ig;
+    replacePattern1 = /(\b(https?):\/\/.*[-A-Z0-9+&amp;@#\/%=~_|])/ig;
+    replacedText = text.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+
+    //"www."
+    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+    return replacedText;
+}
+
+
 minibean.controller('SlidingMenuController', function($scope, $routeParams, $location, userInfoService, articleCategoryService){
 
     console.log("SlidingMenuController starts");
@@ -1087,6 +1104,9 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 	});
 	
 	$scope.comment_on_post = function(id, commentText) {
+        // first convert to links
+        commentText = convertToLinks(commentText);
+
 		var data = {
 			"post_id" : id,
 			"commentText" : commentText
@@ -1473,6 +1493,9 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     }
     
     $scope.comment_on_post = function(id, commentText) {
+        // first convert to links
+        commentText = convertToLinks(commentText);
+
         var data = {
             "post_id" : id,
             "commentText" : commentText,
@@ -1824,6 +1847,9 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     }
     
     $scope.ask_question_community = function(id, questionTitle, questionText) {
+        // first convert to links
+        questionText = convertToLinks(questionText);
+
         usSpinnerService.spin('loading...');
         var data = {
                 "community_id" : id,
@@ -1883,6 +1909,9 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     };
     
     $scope.answer_to_question = function(question_post_id, answerText) {
+        // first convert to links
+        answerText = convertToLinks(answerText);
+
         var data = {
             "post_id" : question_post_id,
             "answerText" : answerText,
@@ -2184,6 +2213,9 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	}
 	
 	$scope.comment_on_post = function(id, commentText) {
+        // first convert to links
+        commentText = convertToLinks(commentText);
+
 		var data = {
 			"post_id" : id,
 			"commentText" : commentText,
@@ -2253,7 +2285,9 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	}
 	
 	$scope.post_on_community = function(id, postText) {
-		
+        // first convert to links
+		postText = convertToLinks(postText);
+
 		usSpinnerService.spin('loading...');
 		var data = {
 			"community_id" : id,
@@ -2575,6 +2609,9 @@ minibean.controller('QnACommunityController',function($scope, postManagementServ
 	}
 	
 	$scope.ask_question_community = function(id, questionTitle, questionText) {
+        // first convert to links
+        questionText = convertToLinks(questionText);
+
 		usSpinnerService.spin('loading...');
 		var data = {
 				"community_id" : id,
@@ -2637,7 +2674,10 @@ minibean.controller('QnACommunityController',function($scope, postManagementServ
 	};
 	
 	$scope.answer_to_question = function(question_post_id, answerText) {
-		var data = {
+		// first convert to links
+        answerText = convertToLinks(answerText);
+
+        var data = {
 			"post_id" : question_post_id,
 			"answerText" : answerText,
 			"withPhotos" : $scope.qnaCommentSelectedFiles.length != 0
@@ -3248,6 +3288,9 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 	$scope.get_unread_msg_count();
 	
 	$scope.comment_on_post = function(id, commentText) {
+        // first convert to links
+        commentText = convertToLinks(commentText);
+
 		var data = {
 			"post_id" : id,
 			"commentText" : commentText,
@@ -3451,7 +3494,10 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 	};
 	
 	$scope.answer_to_question = function(question_post_id, answerText) {
-		var data = {
+		// first convert to links
+        answerText = convertToLinks(answerText);
+
+        var data = {
 			"post_id" : question_post_id,
 			"answerText" : answerText,
 			"withPhotos" : $scope.qnaCommentSelectedFiles.length != 0
@@ -3581,6 +3627,7 @@ minibean.service('userNewsFeedService',function($resource){
 	);
 });
 
+
 minibean.controller('UserNewsFeedController', function($scope, $routeParams, $timeout, $upload, $interval, postManagementService, bookmarkPostService, likeFrameworkService, userInfoService, $http, allCommentsService, usSpinnerService, userNewsFeedService) {
 	$scope.newsFeeds = { posts: [] };
 	
@@ -3595,6 +3642,9 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
     }
     
 	$scope.comment_on_post = function(id, commentText) {
+        // first convert to links
+        commentText = convertToLinks(commentText);
+
 		var data = {
 			"post_id" : id,
 			"commentText" : commentText,
@@ -3693,7 +3743,10 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 	};
 	
 	$scope.answer_to_question = function(question_post_id, answerText) {
-		var data = {
+		// first convert to links
+        answerText = convertToLinks(answerText);
+
+        var data = {
 			"post_id" : question_post_id,
 			"answerText" : answerText,
 			"withPhotos" : $scope.qnaCommentSelectedFiles.length != 0
@@ -3995,6 +4048,9 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 	$scope.selectedTab1 = 1;
 	
 	$scope.comment_on_post = function(id, commentText) {
+        // first convert to links
+        commentText = convertToLinks(commentText);
+
 		var data = {
 			"post_id" : id,
 			"commentText" : commentText
@@ -4357,6 +4413,9 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
     }
 	
 	$scope.sendMessage = function(msgText) {
+        // first convert to links
+        msgText = convertToLinks(msgText);
+
 		var data = {
 			"receiver_id" : $scope.receiverId,
 			"msgText" : msgText,
