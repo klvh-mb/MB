@@ -382,8 +382,8 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	@JsonIgnore
 	public List<User> getNonMembersOfCommunity(String query) {
 		Query q = JPA.em().createQuery("Select u from User u where lower(u.displayName) LIKE '%"+ query.toLowerCase() +"%' AND " +
-				"u.id not in (select sr.actor from " +
-				"SocialRelation sr where sr.target = ?1 and (sr.action = 'MEMBER' OR sr.actionType = 'INVITE_REQUESTED')) and u.deleted = false");
+				"u.id not in (select sr.actor from SocialRelation sr where sr.target = ?1 and " + 
+		        "(sr.action = 'MEMBER' OR sr.actionType = 'INVITE_REQUESTED')) and u.deleted = false");
 		q.setParameter(1, this.id);
 		return (List<User>)q.getResultList();
 	}

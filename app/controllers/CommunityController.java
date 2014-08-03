@@ -38,7 +38,7 @@ import viewmodel.IconVM;
 import viewmodel.MemberWidgetParentVM;
 import viewmodel.MembersWidgetChildVM;
 import viewmodel.NewsFeedVM;
-import viewmodel.QnAPostsVM;
+import viewmodel.CommunityPostsVM;
 import viewmodel.SocialObjectVM;
 
 import com.mnt.exception.SocialObjectNotCommentableException;
@@ -121,13 +121,13 @@ public class CommunityController extends Controller{
         if(community.objectType == SocialObjectType.COMMUNITY) {
             UserCommunityAffinity.onCommunityView(localUser.getId(), community.getId());
 
-            CommunityVM comVM = CommunityVM.communityVM(community, localUser);
+            CommunityVM communityVM = CommunityVM.communityVM(community, localUser);
 
             sw.stop();
             if (logger.underlyingLogger().isDebugEnabled()) {
                 logger.underlyingLogger().debug("[u="+localUser.id+"] getCommunityInfoById(c="+id+"). Took "+sw.getElapsedMS()+"ms");
             }
-            return ok(Json.toJson(comVM));
+            return ok(Json.toJson(communityVM));
         } else {
             return ok();
         }
@@ -664,12 +664,26 @@ public class CommunityController extends Controller{
     public static Result getAllQuestionsOfCommunity(Long id) {
         final User localUser = Application.getLocalUser(session());
         final Community community = Community.findById(id);
-        QnAPostsVM qnAPostsVM = QnAPostsVM.qnaPosts(community, localUser);
+        List<Post> posts = community.getQuestionsOfCommunity(0, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        CommunityPostsVM postsVM = CommunityPostsVM.posts(community, localUser, posts);
 
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"] getAllQuestionsOfCommunity(c="+id+")="+qnAPostsVM.posts.size());
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getAllQuestionsOfCommunity(c="+id+")="+postsVM.posts.size());
         }
-        return ok(Json.toJson(qnAPostsVM));
+        return ok(Json.toJson(postsVM));
+    }
+
+    @Transactional
+    public static Result getAllPostsOfCommunity(Long id) {
+        final User localUser = Application.getLocalUser(session());
+        final Community community = Community.findById(id);
+        List<Post> posts = community.getPostsOfCommunity(0, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        CommunityPostsVM postsVM = CommunityPostsVM.posts(community, localUser, posts);
+
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getAllPostsOfCommunity(c="+id+")="+postsVM.posts.size());
+        }
+        return ok(Json.toJson(postsVM));
     }
     
     @Transactional
@@ -699,6 +713,10 @@ public class CommunityController extends Controller{
         
         SocialObjectVM object;
         for(User user : nonMembers) {
+            if (user.isSuperAdmin()) {
+                continue;
+            }
+            
             object = new SocialObjectVM(user.id.toString(), user.name, "");
             objectVMs.add(object);
         }
@@ -710,6 +728,9 @@ public class CommunityController extends Controller{
         logger.underlyingLogger().debug("sendInviteToJoinCommunity");
         Community community = Community.findById(community_id);
         User invitee = User.findById(user_id);
+        if (invitee.isSuperAdmin()) {
+            return status(505, "Cannot send invitation to super admin.");
+        }
         
         try {
             community.sendInviteToJoin(invitee);
@@ -718,7 +739,6 @@ public class CommunityController extends Controller{
         }
         return ok();
     }
-    
     
     @Transactional
     public static Result getMyUpdates(Long timestamps){
@@ -954,7 +974,7 @@ public class CommunityController extends Controller{
         if (post == null) {
             return ok("NO_RESULT"); 
         }
-        return ok(Json.toJson(CommunityVM.communityVM(post.community, localUser, post)));
+        return ok(Json.toJson(CommunityPostsVM.posts(post.community, localUser, post)));
     }
     
     @Transactional
@@ -965,6 +985,6 @@ public class CommunityController extends Controller{
         if (post == null) {
             return ok("NO_RESULT"); 
         }
-        return ok(Json.toJson(QnAPostsVM.qnaPosts(post.community, localUser, post)));
+        return ok(Json.toJson(CommunityPostsVM.posts(post.community, localUser, post)));
     }
 }

@@ -155,6 +155,7 @@ GET		/comments/:id							controllers.CommunityController.getAllComments(id : Lon
 GET		/answers/:id							controllers.CommunityController.getAllAnswers(id : Long)
 GET		/posts									controllers.CommunityController.getNextPosts(id: String,offset: String)
 GET		/questions								controllers.CommunityController.getNextQnAs(id: String,offset: String)
+GET     /community/posts/:id                    controllers.CommunityController.getAllPostsOfCommunity(id : Long)
 POST	/community/post							controllers.CommunityController.postOnCommunity()
 POST    /community/post/comment                 controllers.CommunityController.commentOnCommunityPost()
 GET     /delete-post/:postId                    controllers.CommunityController.deletePost(postId : Long)

@@ -598,7 +598,7 @@ minibean.controller('EditCommunityController',function($scope,$q, $location,$rou
 	
 	$scope.tagetDistrict = DefaultValues.districts;
 	
-	$scope.IconsToSelects = iconsService.getAllIcons.get();
+	$scope.iconsToSelects = iconsService.getAllIcons.get();
 
 	$scope.select_icon = function(img, text) {
 		$scope.icon_chosen = img;
@@ -665,7 +665,7 @@ minibean.controller('CreateCommunityController',function($scope, $location, $htt
 		    });
 	}
 	
-	$scope.IconsToSelects = iconsService.getAllIcons.get();
+	$scope.iconsToSelects = iconsService.getAllIcons.get();
 
 	$scope.select_icon = function(img, text) {
 		$scope.icon_chosen = img;
@@ -1295,6 +1295,14 @@ minibean.service('communityPageService',function($resource){
 			}
 	);
 	
+	this.Posts = $resource(
+            '/community/posts/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{id:'@id'}}
+            }
+    );
+    
 	this.GetPosts = $resource(
 			'/posts?id=:id&offset=:offset',
 			{alt:'json',callback:'JSON_CALLBACK'},
@@ -1489,7 +1497,9 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
         usSpinnerService.spin('loading...');
     });
     
-    $scope.community = postLandingService.postLanding.get({id:$routeParams.id,communityId:$routeParams.communityId}, function(response) {
+    $scope.community = communityPageService.Community.get({id:$routeParams.communityId});
+    
+    $scope.posts = postLandingService.postLanding.get({id:$routeParams.id,communityId:$routeParams.communityId}, function(response) {
         if (response[0] == 'NO_RESULT'){
             $scope.noResult = true;
         }
@@ -1516,7 +1526,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     $scope.dataUrls = [];
     
     $scope.get_all_comments = function(id) {
-        angular.forEach($scope.community.posts, function(post, key){
+        angular.forEach($scope.posts.posts, function(post, key){
             if(post.id == id) {
                 post.cs = allCommentsService.comments.get({id:id});
                 post.ep = true;
@@ -1564,11 +1574,11 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                 $('.commentBox').val('');
                 
                 $scope.commentText = "";
-                angular.forEach($scope.community.posts, function(post, key){
+                angular.forEach($scope.posts.posts, function(post, key){
                         if(post.id == data.post_id) {
                             post.n_c++;
                             post.ut = new Date();
-                            var comment = {"oid" : $scope.community.lu, "d" : commentText, "on" : $scope.community.lun,
+                            var comment = {"oid" : $scope.posts.lu, "d" : commentText, "on" : $scope.posts.lun,
                                     "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
                             post.cs.push(comment);
                             
@@ -1636,9 +1646,9 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                 usSpinnerService.stop('loading...');
                 $('.postBox').val('');
                 $scope.postText = "";
-                var post = {"oid" : $scope.community.lu, "pt" : postText, "cn" : $scope.community.n,
-                        "isLike" : false, "nol" : 0, "p" : $scope.community.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
-                $scope.community.posts.unshift(post);
+                var post = {"oid" : $scope.posts.lu, "pt" : postText, "cn" : $scope.community.n,
+                        "isLike" : false, "nol" : 0, "p" : $scope.posts.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
+                $scope.posts.posts.unshift(post);
                 
                 if($scope.selectedFiles.length == 0) {
                     return;
@@ -1660,7 +1670,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                         fileFormDataName: 'post-photo'
                     }).success(function(data, status, headers, config) {
                         usSpinnerService.stop('loading...');
-                        angular.forEach($scope.community.posts, function(post, key){
+                        angular.forEach($scope.posts.posts, function(post, key){
                             if(post.id == post_id) {
                                 post.hasImage = true;
                                 if(post.imgs) { 
@@ -1712,7 +1722,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     
     $scope.bookmarkPost = function(post_id) {
         bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.community.posts, function(post, key){
+            angular.forEach($scope.posts.posts, function(post, key){
                 if(post.id == post_id) {
                     post.isBookmarked = true;
                 }
@@ -1722,7 +1732,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     
     $scope.unBookmarkPost = function(post_id) {
         bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.community.posts, function(post, key){
+            angular.forEach($scope.posts.posts, function(post, key){
                 if(post.id == post_id) {
                     post.isBookmarked = false;
                 }
@@ -1732,7 +1742,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
         
     $scope.like_post = function(post_id) {
         likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.community.posts, function(post, key){
+            angular.forEach($scope.posts.posts, function(post, key){
                 if(post.id == post_id) {
                     post.isLike=true;
                     post.nol++;
@@ -1743,7 +1753,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     
     $scope.unlike_post = function(post_id) {
         likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.community.posts, function(post, key){
+            angular.forEach($scope.posts.posts, function(post, key){
                 if(post.id == post_id) {
                     post.nol--;
                     post.isLike=false;
@@ -1754,7 +1764,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     
     $scope.like_comment = function(post_id,comment_id) {
         likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
-            angular.forEach($scope.community.posts, function(post, key){
+            angular.forEach($scope.posts.posts, function(post, key){
                 if(post.id == post_id) {
                     angular.forEach(post.cs, function(comment, key){
                         if(comment.id == comment_id) {
@@ -1769,7 +1779,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     
     $scope.unlike_comment = function(post_id,comment_id) {
         likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
-            angular.forEach($scope.community.posts, function(post, key){
+            angular.forEach($scope.posts.posts, function(post, key){
                 if(post.id == post_id) {
                     angular.forEach(post.cs, function(comment, key){
                         if(comment.id == comment_id) {
@@ -1824,13 +1834,15 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
 
     log("QnALandingController starts");
 
+    $scope.get_unread_msg_count();
+
     $scope.$on('$viewContentLoaded', function() {
         usSpinnerService.spin('loading...');
     });
     
     $scope.community = communityPageService.Community.get({id:$routeParams.communityId});
     
-    $scope.QnA = qnaLandingService.qnaLanding.get({id:$routeParams.id,communityId:$routeParams.communityId}, function(response) {
+    $scope.QnAs = qnaLandingService.qnaLanding.get({id:$routeParams.id,communityId:$routeParams.communityId}, function(response) {
         if (response[0] == 'NO_RESULT'){
             $scope.noResult = true;
         }
@@ -1839,7 +1851,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     });
     
     //
-    // Below is copied completely from QnACommunityController
+    // Below is copied completely from CommunityQnAController
     // for js functions to handle comment, comment photo, like, bookmark etc
     //
     
@@ -1852,7 +1864,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     }
     
     $scope.get_all_answers = function(id) {
-        angular.forEach($scope.QnA.posts, function(post, key){
+        angular.forEach($scope.QnAs.posts, function(post, key){
             if(post.id == id) {
                 post.cs = allAnswersService.answers.get({id:id});
                 post.ep = true;
@@ -1863,7 +1875,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     // !!!NOTE: Since we reuse qna-bar.html for landing page, and qna-bar.html is 
     // being used in home-news-feed-section.html, "view all" is using 
     // CommunityPageController.get_all_comments() instead of 
-    // QnACommunityController.get_all_answers(). Hence we need to define 
+    // CommunityQnAController.get_all_answers(). Hence we need to define 
     // below to make get_all_comments() available in QnALandingController
     
     $scope.get_all_comments = $scope.get_all_answers;
@@ -1922,9 +1934,9 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
             .success(function(post_id) {
                 usSpinnerService.stop('loading...');
                 $('.postBox').val('');
-                var post = {"oid" : $scope.QnA.lu, "ptl" : questionTitle, "pt" : questionText, "cn" : $scope.community.n, 
-                        "isLike" : false, "nol" : 0, "p" : $scope.QnA.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
-                $scope.QnA.posts.unshift(post);
+                var post = {"oid" : $scope.QnAs.lu, "ptl" : questionTitle, "pt" : questionText, "cn" : $scope.community.n, 
+                        "isLike" : false, "nol" : 0, "p" : $scope.QnAs.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
+                $scope.QnAs.posts.unshift(post);
                 
                 if($scope.QnASelectedFiles.length == 0) {
                     return;
@@ -1947,7 +1959,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                         fileFormDataName: 'post-photo'
                     }).success(function(data, status, headers, config) {
                         usSpinnerService.stop('loading...');
-                        angular.forEach($scope.QnA.posts, function(post, key){
+                        angular.forEach($scope.QnAs.posts, function(post, key){
                             if(post.id == post_id) {
                                 post.hasImage = true;
                                 if(post.imgs) { 
@@ -1982,11 +1994,11 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
         $http.post('/communityQnA/question/answer', data) 
             .success(function(answer_id) {
                 $('.commentBox').val('');
-                angular.forEach($scope.QnA.posts, function(post, key){
+                angular.forEach($scope.QnAs.posts, function(post, key){
                     if(post.id == data.post_id) {
                         post.n_c++;
                         post.ut = new Date();
-                        var answer = {"oid" : $scope.QnA.lu, "d" : answerText, "on" : $scope.QnA.lun, 
+                        var answer = {"oid" : $scope.QnAs.lu, "d" : answerText, "on" : $scope.QnAs.lun, 
                                 "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
                         post.cs.push(answer);
                     
@@ -2063,7 +2075,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     
     $scope.like_post = function(post_id) {
         likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.QnA.posts, function(post, key){
+            angular.forEach($scope.QnAs.posts, function(post, key){
                 if(post.id == post_id) {
                     post.isLike=true;
                     post.nol++;
@@ -2074,7 +2086,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     
     $scope.unlike_post = function(post_id) {
         likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.QnA.posts, function(post, key){
+            angular.forEach($scope.QnAs.posts, function(post, key){
                 if(post.id == post_id) {
                     post.isLike=false;
                     post.nol--;
@@ -2085,7 +2097,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
 
     $scope.like_comment = function(post_id,comment_id) {
         likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
-            angular.forEach($scope.QnA.posts, function(post, key){
+            angular.forEach($scope.QnAs.posts, function(post, key){
                 if(post.id == post_id) {
                     angular.forEach(post.cs, function(comment, key){
                         if(comment.id == comment_id) {
@@ -2100,7 +2112,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     
     $scope.unlike_comment = function(post_id,comment_id) {
         likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
-            angular.forEach($scope.QnA.posts, function(post, key){
+            angular.forEach($scope.QnAs.posts, function(post, key){
                 if(post.id == post_id) {
                     angular.forEach(post.cs, function(comment, key){
                         if(comment.id == comment_id) {
@@ -2115,7 +2127,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     
     $scope.bookmarkPost = function(post_id) {
         bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.QnA.posts, function(post, key){
+            angular.forEach($scope.QnAs.posts, function(post, key){
                 if(post.id == post_id) {
                     post.isBookmarked = true;
                 }
@@ -2125,7 +2137,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     
     $scope.unBookmarkPost = function(post_id) {
         bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.QnA.posts, function(post, key){
+            angular.forEach($scope.QnAs.posts, function(post, key){
                 if(post.id == post_id) {
                     post.isBookmarked = false;
                 }
@@ -2136,32 +2148,20 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     log("QnALandingController completed");
 });
 
-minibean.controller('CommunityPageController', function($scope, $routeParams, $http, profilePhotoModal, searchMembersService, iconsService,
-		allCommentsService, communityPageService, postManagementService, likeFrameworkService, bookmarkPostService, communityJoinService, userInfoService, $upload, $timeout, usSpinnerService){
-	
-	log("CommunityPageController starts");
-	
-	$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
-	
-	$scope.deletePost = function(postId) {
-        //log("deletePost:"+postId);
-        postManagementService.deletePost.get({"postId":postId}, function(data) {
-            angular.forEach($scope.community.posts, function(post, key){
-                if(post.id == postId) {
-                    //log("remove post:"+post.id);
-                    $scope.community.posts.splice($scope.community.posts.indexOf(post),1);
-                }
-            })
-        });
-    }
+minibean.controller('CommunityPageController', function($scope, $routeParams, $http, profilePhotoModal, iconsService,
+        communityPageService, communityJoinService, userInfoService, searchMembersService, $upload, $timeout, usSpinnerService){
     
-	$scope.$on('$viewContentLoaded', function() {
-		usSpinnerService.spin('loading...');
-	});
-	
-	communityPageService.isNewsfeedEnabled.get({community_id:$routeParams.id}, function(data) {
+    log("CommunityPageController starts");
+
+    $scope.$on('$viewContentLoaded', function() {
+        usSpinnerService.spin('loading...');
+    });
+    
+    $scope.userTargetProfile = userInfoService.UserTargetProfile.get();
+
+    communityPageService.isNewsfeedEnabled.get({community_id:$routeParams.id}, function(data) {
         $scope.newsfeedEnabled = data.newsfeedEnabled; 
-	});
+    });
     
     $scope.toggleNewsfeedEnabled = function(community_id) {
         communityPageService.toggleNewsfeedEnabled.get({"community_id":community_id}, function(data) {
@@ -2169,52 +2169,103 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
         });
     }
     
-	$scope.showImage = function(imageId) {
-		$scope.img_id = imageId;
-	}
-	
-	var coverImage = "/image/get-cover-community-image-by-id/"+$routeParams.id;
-	$scope.coverImage = coverImage;
-	
-	$scope.community = communityPageService.Community.get({id:$routeParams.id}, function(){
-		usSpinnerService.stop('loading...');
-	});
-	
-	
-	$scope.selectedTab = 1;
-	$scope.selectedTab1 = 1;
-	var tab = $routeParams.tab;
-	if(tab == 'question'){
-		$scope.selectedTab1 = 1;
-	}
-	if(tab == 'moment'){
-		$scope.selectedTab1 = 2;
-	}
-	if(tab == 'members'){
-		$scope.selectedTab = 2;
-	}
+    $scope.showImage = function(imageId) {
+        $scope.img_id = imageId;
+    }
+    
+    var coverImage = "/image/get-cover-community-image-by-id/"+$routeParams.id;
+    $scope.coverImage = coverImage;
+    
+    $scope.openGroupCoverPhotoModal = function(id) {
+        PhotoModalController.url = "image/upload-cover-photo-group/"+id;
+        profilePhotoModal.OpenModal({
+             templateUrl: 'change-profile-photo-modal.html',
+             controller: PhotoModalController
+        },function() {
+            $scope.coverImage = coverImage + "?q="+ Math.random();
+        });
+    }
+    
+    $scope.community = communityPageService.Community.get({id:$routeParams.id}, function(){
+        usSpinnerService.stop('loading...');
+    });
+    
+    $scope.show = false;
+    
+    $scope.selectedTab = 1;
+    $scope.selectedTab1 = 1;
+    var tab = $routeParams.tab;
+    if(tab == 'question'){
+        $scope.selectedTab1 = 1;
+    }
+    if(tab == 'moment'){
+        $scope.selectedTab1 = 2;
+    }
+    if(tab == 'members'){
+        $scope.selectedTab = 2;
+    }
 
-	$scope.nonMembers = [];
-	$scope.search_unjoined_users = function(comm_id, query) {
-		if(query.length >1){
-			$scope.nonMembers = searchMembersService.getUnjoinedUsers.get({id : comm_id, query: query});
-		}
-	}
+    $scope.nonMembers = [];
+    $scope.search_unjoined_users = function(comm_id, query) {
+        if(query.length >1){
+            $scope.nonMembers = searchMembersService.getUnjoinedUsers.get({id : comm_id, query: query});
+        }
+    }
+    
+    $scope.send_invite_to_join = function(group_id, user_id) {
+        searchMembersService.sendInvitationToNonMember.get({group_id : group_id, user_id: user_id}, function() {
+            angular.forEach($scope.nonMembers, function(member, key){
+                if(member.id == user_id) {
+                    $scope.nonMembers.splice($scope.nonMembers.indexOf(member),1);
+                }
+            });
+        });
+    }
+    
+    $scope.send_join = function(id) {
+        usSpinnerService.spin('loading...');
+        this.send_join_request = communityJoinService.sendJoinRequest.get({"id":id}, function(data) {
+            usSpinnerService.stop('loading...');
+            log($scope.community.typ);
+            $scope.community.isP = $scope.community.typ == 'CLOSE' ?  true : false;
+            $scope.community.isM = $scope.community.typ == 'OPEN'? true : false;
+        });
+    }
+    
+    $scope.leave_community = function(id) {
+        usSpinnerService.spin('loading...');
+        this.leave_this_community = communityJoinService.leaveCommunity.get({"id":id}, function(data) {
+            usSpinnerService.stop('loading...');
+            $scope.community.isM = false;
+        });
+    }
+    
+    //$scope.iconsToSelects = iconsService.getAllIcons.get();
+    
+    log("CommunityPageController completed");
+});
+
+minibean.controller('CommunityPostController', function($scope, $routeParams, $http, profilePhotoModal, iconsService,
+		allCommentsService, communityPageService, postManagementService, likeFrameworkService, bookmarkPostService, communityJoinService, userInfoService, $upload, $timeout, usSpinnerService){
 	
-	$scope.send_invite_to_join = function(group_id, user_id) {
-		searchMembersService.sendInvitationToNonMember.get({group_id : group_id, user_id: user_id}, function() {
-			angular.forEach($scope.nonMembers, function(member, key){
-				if(member.id == user_id) {
-					$scope.nonMembers.splice($scope.nonMembers.indexOf(member),1);
-				}
-			});
-		});
-	}
+	log("CommunityPostController starts");
 	
-	$scope.IconsToSelects = iconsService.getAllIcons.get();
-	
-	$scope.isLoadingEnabled = false;
-	$scope.show = false;
+	$scope.posts = communityPageService.Posts.get({id:$routeParams.id}, function(){
+        usSpinnerService.stop('loading...');
+    });
+    
+	$scope.deletePost = function(postId) {
+        //log("deletePost:"+postId);
+        postManagementService.deletePost.get({"postId":postId}, function(data) {
+            angular.forEach($scope.posts.posts, function(post, key){
+                if(post.id == postId) {
+                    //log("remove post:"+post.id);
+                    $scope.posts.posts.splice($scope.posts.posts.indexOf(post),1);
+                }
+            })
+        });
+    }
+		
 	$scope.postPhoto = function() {
 		$("#post-photo-id").click();
 	}
@@ -2223,7 +2274,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	$scope.dataUrls = [];
 	
 	$scope.get_all_comments = function(id) {
-		angular.forEach($scope.community.posts, function(post, key){
+		angular.forEach($scope.posts.posts, function(post, key){
 			if(post.id == id) {
 				post.cs = allCommentsService.comments.get({id:id});
 				post.ep = true;
@@ -2268,7 +2319,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 			}
 			
 			for (var i = 0; i < posts.length; i++) {
-				$scope.community.posts.push(posts[i]);
+				$scope.posts.posts.push(posts[i]);
 		    }
 			$scope.isBusy = false;
 			offset++;
@@ -2291,11 +2342,11 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 				$('.commentBox').val('');
 				
 				$scope.commentText = "";
-				angular.forEach($scope.community.posts, function(post, key){
+				angular.forEach($scope.posts.posts, function(post, key){
 						if(post.id == data.post_id) {
 							post.n_c++;
 							post.ut = new Date();
-							var comment = {"oid" : $scope.community.lu, "d" : commentText, "on" : $scope.community.lun,
+							var comment = {"oid" : $scope.posts.lu, "d" : commentText, "on" : $scope.posts.lun,
 									"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
 							post.cs.push(comment);
 							
@@ -2365,9 +2416,9 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 				usSpinnerService.stop('loading...');
 				$('.postBox').val('');
 				$scope.postText = "";
-				var post = {"oid" : $scope.community.lu, "pt" : postText, "cn" : $scope.community.n,
-						"isLike" : false, "nol" : 0, "p" : $scope.community.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
-				$scope.community.posts.unshift(post);
+				var post = {"oid" : $scope.posts.lu, "pt" : postText, "cn" : $scope.posts.n,
+						"isLike" : false, "nol" : 0, "p" : $scope.posts.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
+				$scope.posts.posts.unshift(post);
 				
 				if($scope.selectedFiles.length == 0) {
 					return;
@@ -2389,7 +2440,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 						fileFormDataName: 'post-photo'
 					}).success(function(data, status, headers, config) {
 						usSpinnerService.stop('loading...');
-						angular.forEach($scope.community.posts, function(post, key){
+						angular.forEach($scope.posts.posts, function(post, key){
 							if(post.id == post_id) {
 								post.hasImage = true;
 								if(post.imgs) { 
@@ -2405,43 +2456,15 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		});
 	};
 
-	$scope.send_join = function(id) {
-		usSpinnerService.spin('loading...');
-		this.send_join_request = communityJoinService.sendJoinRequest.get({"id":id}, function(data) {
-			usSpinnerService.stop('loading...');
-			log($scope.community.typ);
-			$scope.community.isP = $scope.community.typ == 'CLOSE' ?  true : false;
-			$scope.community.isM = $scope.community.typ == 'OPEN'? true : false;
-		});
-	}
-	
-	$scope.leave_community = function(id) {
-		usSpinnerService.spin('loading...');
-		this.leave_this_community = communityJoinService.leaveCommunity.get({"id":id}, function(data) {
-			usSpinnerService.stop('loading...');
-			$scope.community.isM = false;
-		});
-	}
-	
 	$scope.remove_image = function(index) {
 		$scope.selectedFiles.splice(index, 1);
 		$scope.tempSelectedFiles.splice(index, 1);
 		$scope.dataUrls.splice(index, 1);
 	}
 	
-	$scope.openGroupCoverPhotoModal = function(id) {
-		PhotoModalController.url = "image/upload-cover-photo-group/"+id;
-		profilePhotoModal.OpenModal({
-			 templateUrl: 'change-profile-photo-modal.html',
-			 controller: PhotoModalController
-		},function() {
-			$scope.coverImage = coverImage + "?q="+ Math.random();
-		});
-	}
-	
 	$scope.bookmarkPost = function(post_id) {
 		bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.community.posts, function(post, key){
+			angular.forEach($scope.posts.posts, function(post, key){
 				if(post.id == post_id) {
 					post.isBookmarked = true;
 				}
@@ -2451,7 +2474,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	
 	$scope.unBookmarkPost = function(post_id) {
 		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.community.posts, function(post, key){
+			angular.forEach($scope.posts.posts, function(post, key){
 				if(post.id == post_id) {
 					post.isBookmarked = false;
 				}
@@ -2461,7 +2484,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		
 	$scope.like_post = function(post_id) {
 		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.community.posts, function(post, key){
+			angular.forEach($scope.posts.posts, function(post, key){
 				if(post.id == post_id) {
 					post.isLike=true;
 					post.nol++;
@@ -2472,7 +2495,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	
 	$scope.unlike_post = function(post_id) {
 		likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.community.posts, function(post, key){
+			angular.forEach($scope.posts.posts, function(post, key){
 				if(post.id == post_id) {
 					post.nol--;
 					post.isLike=false;
@@ -2483,7 +2506,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	
 	$scope.like_comment = function(post_id,comment_id) {
 		likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.community.posts, function(post, key){
+			angular.forEach($scope.posts.posts, function(post, key){
 				if(post.id == post_id) {
 					angular.forEach(post.cs, function(comment, key){
 						if(comment.id == comment_id) {
@@ -2498,7 +2521,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 	
 	$scope.unlike_comment = function(post_id,comment_id) {
 		likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.community.posts, function(post, key){
+			angular.forEach($scope.posts.posts, function(post, key){
 				if(post.id == post_id) {
 					angular.forEach(post.cs, function(comment, key){
 						if(comment.id == comment_id) {
@@ -2545,13 +2568,13 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 		}
 	}
 	
-	log("CommunityPageController completed");
+	log("CommunityPostController completed");
 });
 ///////////////////////// Community Page  End ////////////////////////////////
 
 ///////////////////////// Community QnA Page Start ////////////////////////////////
 minibean.service('communityQnAPageService',function($resource){
-	this.QnAPosts = $resource(
+	this.QnAs = $resource(
 			'/communityQnA/questions/:id',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
@@ -2577,18 +2600,18 @@ minibean.service('allAnswersService',function($resource){
 	);
 });
 
-minibean.controller('QnACommunityController',function($scope, postManagementService, bookmarkPostService, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
-    log("QnACommunityController starts");
+minibean.controller('CommunityQnAController',function($scope, postManagementService, bookmarkPostService, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
+    log("CommunityQnAController starts");
 
-    $scope.QnA = communityQnAPageService.QnAPosts.get({id:$routeParams.id}, function(){
+    $scope.QnAs = communityQnAPageService.QnAs.get({id:$routeParams.id}, function(){
         usSpinnerService.stop('loading...');
     });
 	
 	$scope.deletePost = function(postId) {
         postManagementService.deletePost.get({"postId":postId}, function(data) {
-            angular.forEach($scope.QnA.posts, function(post, key){
+            angular.forEach($scope.QnAs.posts, function(post, key){
                 if(post.id == postId) {
-                    $scope.QnA.posts.splice($scope.QnA.posts.indexOf(post),1);
+                    $scope.QnAs.posts.splice($scope.QnAs.posts.indexOf(post),1);
                 }
             })
         });
@@ -2599,7 +2622,7 @@ minibean.controller('QnACommunityController',function($scope, postManagementServ
 	}
 	
 	$scope.get_all_answers = function(id) {
-		angular.forEach($scope.QnA.posts, function(post, key){
+		angular.forEach($scope.QnAs.posts, function(post, key){
 			if(post.id == id) {
 				post.cs = allAnswersService.answers.get({id:id});
 				post.ep = true;
@@ -2607,7 +2630,7 @@ minibean.controller('QnACommunityController',function($scope, postManagementServ
 		});
 	}
 	
-	// Right now community-qna-bar.html > qna-bar.html is using QnACommunityController
+	// Right now community-qna-bar.html > qna-bar.html is using CommunityQnAController
 	// and home-news-feed.html > qna-bar.html is using CommunityPageController
 	// and qna-bar.html is calling get_all_comments() instead of get_all_answers() 
 	// such that it works in all places
@@ -2632,7 +2655,7 @@ minibean.controller('QnACommunityController',function($scope, postManagementServ
 			}
 			
 			for (var i = 0; i < posts.length; i++) {
-				$scope.QnA.posts.push(posts[i]);
+				$scope.QnAs.posts.push(posts[i]);
 		    }
 			$scope.isBusy = false;
 			offsetq++;
@@ -2690,9 +2713,9 @@ minibean.controller('QnACommunityController',function($scope, postManagementServ
 			.success(function(post_id) {
 				usSpinnerService.stop('loading...');
 				$('.postBox').val('');
-				var post = {"oid" : $scope.QnA.lu, "ptl" : questionTitle, "pt" : questionText, "cn" : $scope.community.n, 
-						"isLike" : false, "nol" : 0, "p" : $scope.QnA.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
-				$scope.QnA.posts.unshift(post);
+				var post = {"oid" : $scope.QnAs.lu, "ptl" : questionTitle, "pt" : questionText, "cn" : $scope.community.n, 
+						"isLike" : false, "nol" : 0, "p" : $scope.QnAs.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
+				$scope.QnAs.posts.unshift(post);
 				
 				if($scope.QnASelectedFiles.length == 0) {
 					return;
@@ -2715,7 +2738,7 @@ minibean.controller('QnACommunityController',function($scope, postManagementServ
 						fileFormDataName: 'post-photo'
 					}).success(function(data, status, headers, config) {
 						usSpinnerService.stop('loading...');
-						angular.forEach($scope.QnA.posts, function(post, key){
+						angular.forEach($scope.QnAs.posts, function(post, key){
 							if(post.id == post_id) {
 								post.hasImage = true;
 								if(post.imgs) { 
@@ -2753,11 +2776,11 @@ minibean.controller('QnACommunityController',function($scope, postManagementServ
 		$http.post('/communityQnA/question/answer', data) 
 			.success(function(answer_id) {
 				$('.commentBox').val('');
-				angular.forEach($scope.QnA.posts, function(post, key){
+				angular.forEach($scope.QnAs.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
 						post.ut = new Date();
-						var answer = {"oid" : $scope.QnA.lu, "d" : answerText, "on" : $scope.QnA.lun, 
+						var answer = {"oid" : $scope.QnAs.lu, "d" : answerText, "on" : $scope.QnAs.lun, 
 								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
                         post.cs.push(answer);
 					  
@@ -2833,7 +2856,7 @@ minibean.controller('QnACommunityController',function($scope, postManagementServ
 	
 	$scope.like_post = function(post_id) {
 		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.QnA.posts, function(post, key){
+			angular.forEach($scope.QnAs.posts, function(post, key){
 				if(post.id == post_id) {
 					post.isLike=true;
 					post.nol++;
@@ -2844,7 +2867,7 @@ minibean.controller('QnACommunityController',function($scope, postManagementServ
 	
 	$scope.unlike_post = function(post_id) {
 		likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.QnA.posts, function(post, key){
+			angular.forEach($scope.QnAs.posts, function(post, key){
 				if(post.id == post_id) {
 					post.isLike=false;
 					post.nol--;
@@ -2855,7 +2878,7 @@ minibean.controller('QnACommunityController',function($scope, postManagementServ
 
 	$scope.like_comment = function(post_id,comment_id) {
 		likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.QnA.posts, function(post, key){
+			angular.forEach($scope.QnAs.posts, function(post, key){
 				if(post.id == post_id) {
 					angular.forEach(post.cs, function(comment, key){
 						if(comment.id == comment_id) {
@@ -2870,7 +2893,7 @@ minibean.controller('QnACommunityController',function($scope, postManagementServ
 	
 	$scope.unlike_comment = function(post_id,comment_id) {
 		likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.QnA.posts, function(post, key){
+			angular.forEach($scope.QnAs.posts, function(post, key){
 				if(post.id == post_id) {
 					angular.forEach(post.cs, function(comment, key){
 						if(comment.id == comment_id) {
@@ -2885,7 +2908,7 @@ minibean.controller('QnACommunityController',function($scope, postManagementServ
 	
 	$scope.bookmarkPost = function(post_id) {
 		bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.QnA.posts, function(post, key){
+			angular.forEach($scope.QnAs.posts, function(post, key){
 				if(post.id == post_id) {
 					post.isBookmarked = true;
 				}
@@ -2895,7 +2918,7 @@ minibean.controller('QnACommunityController',function($scope, postManagementServ
 	
 	$scope.unBookmarkPost = function(post_id) {
 		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.QnA.posts, function(post, key){
+			angular.forEach($scope.QnAs.posts, function(post, key){
 				if(post.id == post_id) {
 					post.isBookmarked = false;
 				}
@@ -2903,7 +2926,7 @@ minibean.controller('QnACommunityController',function($scope, postManagementServ
 		});
 	}
 	
-	log("QnACommunityController completed");
+	log("CommunityQnAController completed");
 });
 
 

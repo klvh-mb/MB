@@ -11,17 +11,15 @@ import models.Community.CommunityType;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import domain.DefaultValues;
-
-public class QnAPostsVM {
+public class CommunityPostsVM {
 	
 	@JsonProperty("lu") public Long loggedUserId;
 	@JsonProperty("lun") public String loggedUserName;
 	
 	@JsonProperty("posts") public List<CommunityPostVM> posts = Collections.EMPTY_LIST;
 	
-	public static QnAPostsVM qnaPosts(Community c, User user) {
-		QnAPostsVM vm = new QnAPostsVM();
+	public static CommunityPostsVM posts(Community c, User user, List<Post> posts) {
+	    CommunityPostsVM vm = new CommunityPostsVM();
 		
 		vm.loggedUserId = user.id;
 		vm.loggedUserName = user.displayName;
@@ -29,21 +27,20 @@ public class QnAPostsVM {
 		boolean isMember = user.isMemberOf(c.getId());
         boolean isOwner = (user == c.owner) ? true : false;
         
-		List<CommunityPostVM> posts = new ArrayList<>();
+		List<CommunityPostVM> postsVM = new ArrayList<>();
 		
-		List<Post> postsFromDB = c.getQuestionsOfCommunity(0, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 		if(isMember == true || isOwner == true || c.communityType == CommunityType.OPEN){
-    		for(Post p: postsFromDB) {
+    		for(Post p: posts) {
     			CommunityPostVM post = CommunityPostVM.communityPostVM(p,user);
-    			posts.add(post);
+    			postsVM.add(post);
     		}
 		}
-		vm.posts = posts;
+		vm.posts = postsVM;
 		return vm;
 	}
 	
-	public static QnAPostsVM qnaPosts(Community c, User user, Post post) {
-        QnAPostsVM vm = new QnAPostsVM();
+	public static CommunityPostsVM posts(Community c, User user, Post post) {
+	    CommunityPostsVM vm = new CommunityPostsVM();
         
         vm.loggedUserId = user.id;
         vm.loggedUserName = user.displayName;

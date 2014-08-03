@@ -25,7 +25,7 @@
 </div>
 
 <div infinite-scroll='nextPost()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>	
-    <div data-ng-repeat="post in QnA.posts">
+    <div data-ng-repeat="post in QnAs.posts">
         <div id="wall-main">
             <div class="general-box">
                 <div ng-init="isCommunityPage = true" data-ng-include data-src="'/assets/app/views/qna-bar.html'"></div>
@@ -35,7 +35,7 @@
     <span ng-show="isBusy" spinner-start-active="1" us-spinner="{top: 'inherit'}" ></span>
 </div>
 
-<div class="general-box" ng-show="QnA.posts.length == 0">
+<div class="general-box" ng-show="QnAs.posts.length == 0">
     <div class="section-title">
         <div>
             尚未有問題
