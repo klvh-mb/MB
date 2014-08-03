@@ -2,15 +2,16 @@
 
 var minibean = angular.module('minibean');
 
-// Utility function to convert text into real links.
+// Utility function to convert to real links
 function convertToLinks(text) {
     var replacedText, replacePattern1, replacePattern2;
 
-    //URLs starting with http://, https://
-    replacePattern1 = /(\b(https?):\/\/[-A-Z0-9+&amp;@#\/%?=~_|!:,.;]*[-A-Z0-9+&amp;@#\/%=~_|])/ig;
+    //"http(s)://"
+    //replacePattern1 = /(\b(https?):\/\/[-A-Z0-9+&amp;@#\/%?=~_|!:,.;]*[-A-Z0-9+&amp;@#\/%=~_|])/ig;
+    replacePattern1 = /(\b(https?):\/\/.*[-A-Z0-9+&amp;@#\/%=~_|])/ig;
     replacedText = text.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
 
-    //URLs starting with "www."
+    //"www."
     replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
     replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
 
