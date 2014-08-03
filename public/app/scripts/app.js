@@ -38,7 +38,7 @@ angular.module('minibean', [
       })
       .when('/editCommunity/:id',{
         templateUrl: '/assets/app/views/edit-community.html',
-        controller : 'GroupController'
+        controller : 'EditCommunityController'
       })
       .when('/post-landing/id/:id/communityId/:communityId',{
         templateUrl: '/assets/app/views/post-landing.html',

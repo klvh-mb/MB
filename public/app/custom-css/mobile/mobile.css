@@ -129,7 +129,7 @@ body {
 }
 #main-uphoto {
     width: 100%;
-    height: 62px;
+    height: 80px;
     position: relative;
     overflow: hidden;
     margin-bottom: 0px;
@@ -138,7 +138,7 @@ body {
 #main-uphoto a[title="user-picture"] {
     position: relative;
     left: 0;
-    top: 10px;
+    top: 15px;
     width: 70px;
 }
 #main-uphoto img[alt="user-picture"] {
@@ -146,8 +146,8 @@ body {
     box-shadow: 0 0 5px white;
     border: 3px solid white;
     border-radius: 5px;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
 }
 #sidebar-wrapper ul li #main-uphoto span.userName {
     text-align: left;
@@ -157,8 +157,8 @@ body {
     font-size: large;
     font-weight: bold;
     position: relative;
-    top: -12px;
-    left: 65px;
+    top: -10px;
+    left: 75px;
     width: 180px;
 }
 .myCommunity-info li {
