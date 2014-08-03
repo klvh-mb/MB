@@ -4413,6 +4413,9 @@ minibean.controller('UserConversationController',function($scope, $filter, $time
     }
 	
 	$scope.sendMessage = function(msgText) {
+        // first convert to links
+        msgText = convertToLinks(msgText);
+
 		var data = {
 			"receiver_id" : $scope.receiverId,
 			"msgText" : msgText,
