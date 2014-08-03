@@ -297,6 +297,11 @@ pre {
 #main-search-box a {
     line-height: 1.2 !important;
 }
+#main-search-box .dropdown-menu img {
+    width: 40px;
+    height: auto;
+    border-radius: 3px;
+}
 .main-search {
     padding: 0px;
     border-radius: 15px;

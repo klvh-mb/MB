@@ -273,6 +273,10 @@ public class UserController extends Controller {
 		List<User> users = localUser.searchLike(query);
 		List<SocialObjectVM> socialVMs = new ArrayList<>();
 		for(User user : users) {
+		    if (user.isSuperAdmin()) {
+		        continue;
+		    }
+		    
 			if(localUser != user) {
 				socialVMs.add(new SocialObjectVM(user.id.toString(), user.displayName, user.objectType.name()));
 			}
@@ -557,6 +561,10 @@ public class UserController extends Controller {
 		List<User> users = localUser.searchUserFriends(query);
 		List<SocialObjectVM> socialVMs = new ArrayList<>();
 		for(User user : users) {
+		    if (user.isSuperAdmin()) {
+		        continue;
+		    }
+		    
 			socialVMs.add(new SocialObjectVM(user.id.toString(), user.displayName, user.objectType.name()));
 		}
 		return ok(Json.toJson(socialVMs));
