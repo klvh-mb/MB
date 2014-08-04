@@ -4,11 +4,11 @@ import java.util.List;
 
 public class CommunitiesParentVM {
 	public int sn;
-	public List<CommunitiesWidgetChildVM> fvm;
+	public List<CommunitiesWidgetChildVM> communities;
 	public Boolean isMore;
 	
-	public CommunitiesParentVM(int sn, List<CommunitiesWidgetChildVM> fvm) {
+	public CommunitiesParentVM(int sn, List<CommunitiesWidgetChildVM> communities) {
 		this.sn = sn; 
-		this.fvm = fvm;
+		this.communities = communities;
 	}
 }

@@ -70,7 +70,7 @@
             <div id="profile-about" class="general-box">
                 <div data-ng-include style="width: 100%;" data-src="'/assets/app/views/profile-about-section.html'"></div>
             </div>
-            <div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.fvm.length > 0">
+            <div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.communities.length > 0">
                 <div data-ng-include style="width: 100%;" data-src="'/assets/app/views/utilities/yourFriendsCommunitiesUtility.html'"></div>
             </div>
             <div ng-controller="UserFriendsUtilityController" data-ng-show="result.friends.length > 0">

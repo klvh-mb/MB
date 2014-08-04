@@ -74,14 +74,14 @@ public class CommunityController extends Controller{
             i++;
         }
         
-        CommunitiesParentVM fwVM = new CommunitiesParentVM(unjoinedCommunities.size(), communityList);
-        fwVM.isMore = false;
+        CommunitiesParentVM communitiesVM = new CommunitiesParentVM(unjoinedCommunities.size(), communityList);
+        communitiesVM.isMore = false;
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
             logger.underlyingLogger().debug("[u="+localUser.id+"] getUserUnJoinCommunity. Took "+sw.getElapsedMS()+"ms");
         }
-        return ok(Json.toJson(fwVM));
+        return ok(Json.toJson(communitiesVM));
     }
     
     @Transactional
@@ -223,13 +223,13 @@ public class CommunityController extends Controller{
         for(Community community : communities) {
             communityList.add(new CommunitiesWidgetChildVM(community, localUser));
         }
-        CommunitiesParentVM fwVM = new CommunitiesParentVM(communityList.size(), communityList);
+        CommunitiesParentVM communitiesVM = new CommunitiesParentVM(communityList.size(), communityList);
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
             logger.underlyingLogger().debug("[u="+localUser.id+"] getMyCommunities. Took "+sw.getElapsedMS()+"ms");
         }
-        return ok(Json.toJson(fwVM));
+        return ok(Json.toJson(communitiesVM));
     }
     
     @Transactional
@@ -248,8 +248,8 @@ public class CommunityController extends Controller{
                 break;
             }
         }
-        CommunitiesParentVM fwVM = new CommunitiesParentVM(joinedCommunities.size(), communityList);
-        return ok(Json.toJson(fwVM));
+        CommunitiesParentVM communitiesVM = new CommunitiesParentVM(joinedCommunities.size(), communityList);
+        return ok(Json.toJson(communitiesVM));
     }
     
     @Transactional
@@ -263,8 +263,8 @@ public class CommunityController extends Controller{
             communityList.add(vm);
         }
 
-        CommunitiesParentVM fwVM = new CommunitiesParentVM(communityList.size(), communityList);
-        return ok(Json.toJson(fwVM));
+        CommunitiesParentVM communitiesVM = new CommunitiesParentVM(communityList.size(), communityList);
+        return ok(Json.toJson(communitiesVM));
     }
 
     @Transactional
@@ -601,13 +601,13 @@ public class CommunityController extends Controller{
                 members.add(new MembersWidgetChildVM(member.id, member.displayName,false));
             }
         }
-        MemberWidgetParentVM fwVM = new MemberWidgetParentVM(members.size(), members);
+        MemberWidgetParentVM communitiesVM = new MemberWidgetParentVM(members.size(), members);
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
             logger.underlyingLogger().debug("getCommunityMembers. Took "+sw.getElapsedMS()+"ms");
         }
-        return ok(Json.toJson(fwVM));
+        return ok(Json.toJson(communitiesVM));
     }
     
     @Transactional

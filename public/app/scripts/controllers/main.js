@@ -693,7 +693,7 @@ minibean.controller('SuggestedFriendsWidgetController',function($scope, unFriend
 		$scope.isLoadingEnabled = true;
 		this.invite = sendInvitation.inviteFriend.get({id:id}, function(data) {
 			$scope.isLoadingEnabled = false;
-			angular.forEach($scope.result.fvm, function(request, key){
+			angular.forEach($scope.result.friends, function(request, key){
 				if(request.id == id) {
 					request.isP = true;
 				}
@@ -705,7 +705,7 @@ minibean.controller('SuggestedFriendsWidgetController',function($scope, unFriend
 		$scope.isLoadingEnabled = true;
 		this.unFriendHim = unFriendService.doUnfriend.get({id:id}, function(data) {
 			$scope.isLoadingEnabled = false;
-			angular.forEach($scope.result.fvm, function(request, key){
+			angular.forEach($scope.result.friends, function(request, key){
 				if(request.id == id) {
 					request.isF = true;
 				}
@@ -729,8 +729,8 @@ minibean.service('membersWidgetService',function($resource){
 	);
 });
 
-minibean.controller('CommunityMembersWidgetController',function($scope, $routeParams, membersWidgetService, $http){
-    log("CommunityMembersWidgetController starts");
+minibean.controller('CommunityMembersController',function($scope, $routeParams, membersWidgetService, $http){
+    log("CommunityMembersController starts");
 
 	$scope.result = membersWidgetService.CommunityMembers.get({id:$routeParams.id});
 	$scope.showMembers = true;
@@ -744,7 +744,7 @@ minibean.controller('CommunityMembersWidgetController',function($scope, $routePa
 		$scope.showAdmin = true;
 	}
 	
-	log("CommunityMembersWidgetController completed");
+	log("CommunityMembersController completed");
 });
 
 ///////////////////////// Community Members Widget Service Ends //////////////////////////////////
@@ -846,7 +846,7 @@ minibean.controller('RecommendedCommunityWidgetController',function($scope, usSp
 	$scope.send_request = function(id) {
 		this.invite = sendJoinRequest.sendRequest.get({id:id},
 				function(data) {
-					angular.forEach($scope.result.fvm, function(request, key){
+					angular.forEach($scope.result.communities, function(request, key){
 						if(request.id == id) {
 							request.isP = true;
 						}
@@ -956,7 +956,7 @@ minibean.controller('CommunityWidgetController',function($scope, $routeParams, u
     $scope.myJoinedCommunities = [];
 	$scope.myCommunities = communityWidgetService.UserCommunities.get(
         function(data) {
-            angular.forEach(data.fvm, function(community, key) {
+            angular.forEach(data.communities, function(community, key) {
             if (community.isO)
                 $scope.myAdminCommunities.push(community);
             else
@@ -969,7 +969,7 @@ minibean.controller('CommunityWidgetController',function($scope, $routeParams, u
 		usSpinnerService.spin('loading...');
 		this.invite = sendJoinRequest.sendRequest.get({id:id},
 				function(data) {
-					angular.forEach($scope.result.fvm, function(request, key){
+					angular.forEach($scope.result.communities, function(request, key){
 						if(request.id == id) {
 							request.isP = true;
 						}
@@ -1003,7 +1003,7 @@ minibean.controller('UserCommunityWidgetController',function($scope, communityWi
 	$scope.myCommunities = [];
 	$scope.result = communityWidgetService.UserCommunities.get({}, 
         	function(data) {
-                angular.forEach($scope.result.fvm, function(request, key){
+                angular.forEach($scope.result.communities, function(request, key){
                     if (request.sys) {
                         $scope.sysCommunities.push(request);
                     } else {
@@ -1054,7 +1054,7 @@ minibean.controller('CommunityWidgetByUserIDController',function($scope, $routeP
 		usSpinnerService.spin('loading...');
 		this.invite = sendJoinRequest.sendRequest.get({id:id},
 				function(data) {
-					angular.forEach($scope.allResult.fvm, function(request, key){
+					angular.forEach($scope.allResult.communities, function(request, key){
 						if(request.id == id) {
 							request.isP = true;
 						}

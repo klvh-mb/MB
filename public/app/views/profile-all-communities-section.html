@@ -14,25 +14,25 @@
 <div style="padding:30px;"></div>
 
 <div class="padding5"></div>
-<div class="communityCard" ng-repeat="fvm in allResult.fvm | filter:query">
-    <a href="/#/community/{{fvm.id}}/question" class="d-s ob">
+<div class="communityCard" ng-repeat="community in allResult.communities | filter:query">
+    <a href="/#/community/{{community.id}}/question" class="d-s ob">
         <div class="communityImageBox">
-            <img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{fvm.dn}}" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{fvm.id}}" alt="..." width="70px" height="70px">
+            <img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{community.dn}}" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{community.id}}" alt="..." width="70px" height="70px">
         </div>
     </a>
     <div class="communityTagBox">
-        <img src="{{fvm.gi}}">
+        <img src="{{community.gi}}">
         <p>
-            <a href="/#/community/{{fvm.id}}/question"><b><font>{{fvm.dn}}</font></b></a><br>
-            <span class="community-member-counter"><font>{{fvm.mm}}位成員</font></span>
+            <a href="/#/community/{{community.id}}/question"><b><font>{{community.dn}}</font></b></a><br>
+            <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
             <span class="community-attribute">
-                <!-- font data-ng-show="fvm.tp=='OPEN'">   ·   公開</font --><font data-ng-show="fvm.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
+                <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
             </span>
         </p>
-        <a ng-show="!fvm.isM && !fvm.isP" data-ng-click="send_request(fvm.id)" style="position:relative;right:15px;margin-bottom:10px;" class="btn-general pull-right">
+        <a ng-show="!community.isM && !community.isP" data-ng-click="send_request(community.id)" style="position:relative;right:15px;margin-bottom:10px;" class="btn-general pull-right">
             + <i class="fa fa-user"></i> 加入
         </a>
-        <a ng-show="!fvm.isM && fvm.isP" disabled="disabled" style="position:relative;right:15px;margin-bottom:10px;" class="btn-general pull-right">
+        <a ng-show="!community.isM && community.isP" disabled="disabled" style="position:relative;right:15px;margin-bottom:10px;" class="btn-general pull-right">
             已送出加入邀請
         </a>
     </div>

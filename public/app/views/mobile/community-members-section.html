@@ -25,31 +25,31 @@
 </a>
 <div class="padding10"></div>
 
-<div class="memberCard" ng-repeat="fvm in result.fvm | filter:query " ng-show="showMembers">
- 	<a href="/mobile#/profile/{{fvm.id}}" class="d-s ob">
+<div class="memberCard" ng-repeat="member in result.members | filter:query " ng-show="showMembers">
+ 	<a href="/mobile#/profile/{{member.id}}" class="d-s ob">
     	<div class="memberImageBox">
-        	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{fvm.dn}}" data-ng-src="/image/get-thumbnail-image-by-id/{{fvm.id}}" alt="..." width="70px" height="70px">
-        	<img class="memberImageStar" ng-show="fvm.isAdmin" data-ng-src="/assets/app/images/general/icons/star.png"/>
+        	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{member.dn}}" data-ng-src="/image/get-thumbnail-image-by-id/{{member.id}}" alt="..." width="70px" height="70px">
+        	<img class="memberImageStar" ng-show="member.isAdmin" data-ng-src="/assets/app/images/general/icons/star.png"/>
         </div>
 	</a>
     <div class="memberTagBox">
     	<div class="memberTag">
-        	<a href="/mobile#/profile/{{fvm.id}}" class="memberTagRef"><span class="memberName">{{fvm.dn}}</span></a>
-        	<span class="memberType" ng-show="fvm.isAdmin">管理員</span>
+        	<a href="/mobile#/profile/{{member.id}}" class="memberTagRef"><span class="memberName">{{member.dn}}</span></a>
+        	<span class="memberType" ng-show="member.isAdmin">管理員</span>
         </div>
     </div>
 </div>
-<div class="memberCard" ng-repeat="fvm in result.fvm | filter:query " ng-show="showAdmin && fvm.isAdmin">
- 	<a href="/mobile#/profile/{{fvm.id}}" class="d-s ob">
+<div class="memberCard" ng-repeat="member in result.members | filter:query " ng-show="showAdmin && member.isAdmin">
+ 	<a href="/mobile#/profile/{{member.id}}" class="d-s ob">
     	<div class="memberImageBox">
-        	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{fvm.dn}}" data-ng-src="/image/get-thumbnail-image-by-id/{{fvm.id}}" alt="..." width="70px" height="70px">
-        	<img class="memberImageStar" ng-show="fvm.isAdmin" data-ng-src="/assets/app/images/general/icons/star.png"/>
+        	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{member.dn}}" data-ng-src="/image/get-thumbnail-image-by-id/{{member.id}}" alt="..." width="70px" height="70px">
+        	<img class="memberImageStar" ng-show="member.isAdmin" data-ng-src="/assets/app/images/general/icons/star.png"/>
         </div>
 	</a>
     <div class="memberTagBox">
     	<div class="memberTag">
-        	<a href="/mobile#/profile/{{fvm.id}}" class="memberTagRef">
-        	<span class="memberName">{{fvm.dn}}</span></a><span class="memberType" ng-show="fvm.isAdmin">管理員</span>
+        	<a href="/mobile#/profile/{{member.id}}" class="memberTagRef">
+        	<span class="memberName">{{member.dn}}</span></a><span class="memberType" ng-show="member.isAdmin">管理員</span>
         </div>
     </div>
 </div>

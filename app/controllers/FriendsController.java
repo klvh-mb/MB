@@ -40,8 +40,8 @@ public class FriendsController extends Controller {
             friends.add(new FriendWidgetChildVM(friend.id, friend.displayName, friend.userInfo == null ? null : friend.userInfo.location));
         }
         
-        FriendWidgetParentVM fwVM = new FriendWidgetParentVM(user.getFriendsSize(), friends);
-        return ok(Json.toJson(fwVM));    
+        FriendWidgetParentVM friendsVM = new FriendWidgetParentVM(user.getFriendsSize(), friends);
+        return ok(Json.toJson(friendsVM));    
 	}
 	
 	@Transactional
@@ -58,8 +58,8 @@ public class FriendsController extends Controller {
 	
 	private static Result getAllFriends(User user) {
 	    List<FriendsVM> friends = FriendsVM.friends(user);
-        FriendsParentVM fwVM = new FriendsParentVM(friends.size(), friends);
-        return ok(Json.toJson(fwVM));    
+        FriendsParentVM friendsVM = new FriendsParentVM(friends.size(), friends);
+        return ok(Json.toJson(friendsVM));    
 	}
 	
 	@Transactional
@@ -76,13 +76,13 @@ public class FriendsController extends Controller {
 			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName, friend.userInfo.location));
 		}
 
-		FriendWidgetParentVM fwVM = new FriendWidgetParentVM((long)friends.size(), friends);
+		FriendWidgetParentVM friendsVM = new FriendWidgetParentVM((long)friends.size(), friends);
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
             logger.underlyingLogger().debug("[u="+localUser.id+"] getSuggestedFriends. Took "+sw.getElapsedMS()+"ms");
         }
-		return ok(Json.toJson(fwVM));
+		return ok(Json.toJson(friendsVM));
 	}
 	
 	@Transactional
