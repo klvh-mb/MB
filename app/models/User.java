@@ -41,7 +41,6 @@ import play.Play;
 import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
-import play.i18n.Messages;
 import processor.FeedProcessor;
 import be.objectify.deadbolt.core.models.Permission;
 import be.objectify.deadbolt.core.models.Role;
@@ -271,6 +270,11 @@ public class User extends SocialObject implements Subject, Socializable {
         recordRelationshipRequestAccepted(user, action);
     }
 
+    @JsonIgnore
+    public List<User> getFriends() {
+        return  getFriends(-1);
+    }
+    
     @JsonIgnore
     public List<User> getFriends(int limit) {
         CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
