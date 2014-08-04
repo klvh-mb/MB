@@ -438,7 +438,7 @@ public class User extends SocialObject implements Subject, Socializable {
             q.setParameter(1, this.id);
             q.setParameter(2, SocialRelation.Action.MEMBER.name());
             q.setParameter(3, SocialObjectType.COMMUNITY.name());
-            q.setParameter(4, CommunityType.OPEN.ordinal());
+            q.setParameter(4, CommunityType.OPEN.ordinal());    // Open only
 
             result = (List<Community>)q.getResultList();
 
@@ -608,8 +608,7 @@ public class User extends SocialObject implements Subject, Socializable {
     private void ensureAlbumPhotoProfileExist() {
 
         if (this.albumPhotoProfile == null) {
-            this.albumPhotoProfile = createAlbum("profile",
-                    Messages.get("album.photo-profile.description"), true);
+            this.albumPhotoProfile = createAlbum("profile", "", true);
             this.merge();
         }
     }
@@ -620,8 +619,7 @@ public class User extends SocialObject implements Subject, Socializable {
     private void ensureCoverPhotoProfileExist() {
 
         if (this.albumCoverProfile == null) {
-            this.albumCoverProfile = createAlbum("cover",
-                    Messages.get("album.photo-cover.description"), true);
+            this.albumCoverProfile = createAlbum("cover", "", true);
             this.merge();
         }
     }
@@ -646,7 +644,6 @@ public class User extends SocialObject implements Subject, Socializable {
      * 
      * @param name
      * @param description
-     * @param privacy
      * @param system
      * @return
      */

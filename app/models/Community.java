@@ -174,7 +174,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
     @JsonIgnore
     public Long getMemberCount() {
         Query query = JPA.em().createNativeQuery(
-            "select count(*) from SocialRelation sr where sr.target = ?1 and sr.action = ?2"
+            "select count(*) from User u where u.id in (select sr.actor from SocialRelation sr where sr.target = ?1 and sr.action = ?2) and u.deleted = false"
         );
         query.setParameter(1, this.id);
         query.setParameter(2, SocialRelation.Action.MEMBER.name());
@@ -261,18 +261,15 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	
 
 	private void ensureAlbumPhotoProfileExist() {
-
 		if (this.albumPhotoProfile == null) {
-			this.albumPhotoProfile = createAlbum("profile",
-					Messages.get("album.photo-profile.description"), true);
+			this.albumPhotoProfile = createAlbum("profile", "", true);
 			this.merge();
 		}
 	}
 
 	public Folder createAlbum(String name, String description, Boolean system) {
-
 		//if (ensureFolderExistWithGivenName(name)) {
-			Folder folder = createFolder(name, description,
+			Folder folder = Folder.createFolder(this.owner, name, description,
 					SocialObjectType.FOLDER, system);
 			//folders.add(folder);
 			this.merge(); // Add folder to existing User as new albumn
@@ -281,27 +278,14 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		//return null;
 	}
 
-	private Folder createFolder(String name, String description,
-			SocialObjectType type, Boolean system) {
-
-		Folder folder = new Folder(name);
-		folder.owner = this.owner;
-		folder.name = name;
-		folder.description = description;
-		folder.objectType = type;
-		folder.system = system;
-		folder.save();
-		return folder;
-	}
-
-	private boolean ensureFolderExistWithGivenName(String name) {
-		if (folders != null && folders.contains(new Folder(name))) {
-			return false;
-		}
-
-		folders = new ArrayList<>();
-		return true;
-	}
+//	private boolean ensureFolderExistWithGivenName(String name) {
+//		if (folders != null && folders.contains(new Folder(name))) {
+//			return false;
+//		}
+//
+//		folders = new ArrayList<>();
+//		return true;
+//	}
 	
 	public static Community findById(Long id) {
 	    try {
