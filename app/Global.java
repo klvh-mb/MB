@@ -34,7 +34,7 @@ public class Global extends GlobalSettings {
             @Override
             public Call login(final Session session) {
                 // Your login page
-                if ("true".equalsIgnoreCase(session.get("mobile"))) {
+                if (controllers.Application.isMobileUser()) {
                     return routes.Application.mobileLogin();
                 }
                 return routes.Application.login();
@@ -44,7 +44,7 @@ public class Global extends GlobalSettings {
             public Call afterAuth(final Session session) {
                 // The user will be redirected to this page after authentication
                 // if no original URL was saved
-                if ("true".equalsIgnoreCase(session.get("mobile"))) {
+                if (controllers.Application.isMobileUser()) {
                     return routes.Application.mobileIndex();
                 }
                 return routes.Application.index();
@@ -52,7 +52,7 @@ public class Global extends GlobalSettings {
 
             @Override
             public Call afterLogout(final Session session) {
-                if ("true".equalsIgnoreCase(session.get("mobile"))) {
+                if (controllers.Application.isMobileUser()) {
                     return routes.Application.mobileLogin();
                 }
                 return routes.Application.login();

@@ -70,32 +70,35 @@ public class Application extends Controller {
 	public static final String SUPER_ADMIN_ROLE = "SUPER_ADMIN";
 
 	//
-	// Mobile Testing
+	// Mobile
 	//
 
+	public static boolean isMobileUser() {
+	    return "true".equalsIgnoreCase(session().get("mobile"));
+	}
+	
+	public static void setMobileUser() {
+	    setMobileUser("true");
+	}
+	
+	public static void setMobileUser(String value) {
+        session().put("mobile", value);
+    }
+	
 	@Transactional
     public static Result mobileIndex() {
+	    setMobileUser();
+	    
         final User localUser = getLocalUser(session());
         if(localUser == null) {
             return mobileLogin();
         }
-
-        return mobileHome(localUser);
-    }
-	
-	public static Result mobileHome(User user) {
-	    session().put("mobile", "true");
-	    
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+user.getId()+"] mobileHome()");
-        }
-        
-        return ok(views.html.mobile.home.render());
+        return home(localUser);
     }
 	
 	@Transactional
     public static Result mobileLogin() {
-	    session().put("mobile", "true");
+	    setMobileUser();
 	    
         final User localUser = getLocalUser(session());
         if(localUser != null) {
@@ -106,7 +109,7 @@ public class Application extends Controller {
 	
 	@Transactional
     public static Result doMobileLogin() {
-	    session().put("mobile", "true");
+	    setMobileUser();
 	    
         com.feth.play.module.pa.controllers.Authenticate.noCache(response());
         final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
@@ -121,8 +124,14 @@ public class Application extends Controller {
         }
     }
 	
+	@Transactional
+    public static Result saveMobileSignupInfoFb() {
+	    setMobileUser();
+        return saveSignupInfo();
+    }
+	
 	//
-	// End Mobile Testing
+	// End Mobile
 	//
 	
 	public static User getSuperAdmin() {
@@ -156,6 +165,8 @@ public class Application extends Controller {
 	    
 	@Transactional
 	public static Result index() {
+	    setMobileUser("false");
+	    
         final User localUser = getLocalUser(session());
 		if(localUser == null) {
 			return login();
@@ -170,17 +181,22 @@ public class Application extends Controller {
 	 *     ii. welcome page
 	 */
 	public static Result home(User user) {
-	    session().put("mobile", "false");
-	    
         if (logger.underlyingLogger().isDebugEnabled()) {
 		    logger.underlyingLogger().debug("[u="+user.getId()+"] home()");
         }
 		
 		if (user.userInfo == null) {
-		    if (user.fbLogin) {
-		        return ok(views.html.signup_info_fb.render(user));
+		    if (isMobileUser()) {
+    		    if (user.fbLogin) {
+                    return ok(views.html.mobile.signup_info_fb.render(user));
+                }
+                return ok(views.html.mobile.signup_info_reminder.render(user));     // native signup info must go PC for now, verification link goes to PC
+		    } else {
+    		    if (user.fbLogin) {
+    		        return ok(views.html.signup_info_fb.render(user));
+    		    }
+    	        return ok(views.html.signup_info.render(user));
 		    }
-	        return ok(views.html.signup_info.render(user));
 		}
 		
 	    if (user.isNewUser()) {
@@ -192,11 +208,12 @@ public class Application extends Controller {
 	        user.setNewUser(false);
 	    }
 	    
-	    return ok(views.html.home.render());
+	    return isMobileUser()? ok(views.html.mobile.home.render()) : ok(views.html.home.render());
 	}
 	
 	@Transactional
     public static Result saveSignupInfoFb() {
+	    setMobileUser("false");
 	    return saveSignupInfo();
 	}
 	
@@ -263,7 +280,7 @@ public class Application extends Controller {
             localUser.children.add(userChild);
         }
         
-		return redirect("/");
+        return isMobileUser()? redirect("/mobile") : redirect("/");
 	}
 	
 	public static User getLocalUser(final Session session) {
@@ -286,7 +303,7 @@ public class Application extends Controller {
 
 	@Transactional
 	public static Result login() {
-	    session().put("mobile", "false");
+	    setMobileUser("false");
 	    
 		final User localUser = getLocalUser(session());
 		if(localUser != null) {
@@ -297,7 +314,7 @@ public class Application extends Controller {
 
 	@Transactional
 	public static Result doLogin() {
-	    session().put("mobile", "false");
+	    setMobileUser("false");
 	    
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
