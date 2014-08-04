@@ -681,67 +681,12 @@ minibean.controller('CreateCommunityController',function($scope, $location, $htt
 	log("CreateCommunityController completed");
 });
 
-///////////////////////// User Friends Widget Service Start //////////////////////////////////
-minibean.service('friendWidgetService',function($resource){
-	this.UserFriends = $resource(
-			'/get-user-friends',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get'}
-			}
-	);
-});
-
-minibean.controller('FriendsWidgetController',function($scope, friendWidgetService,userInfoService, $http){
-    log("FriendsWidgetController starts");
-    
-	$scope.result = friendWidgetService.UserFriends.get();
-	$scope.userInfo = userInfoService.UserInfo.get();
-	
-	log("FriendsWidgetController completed");
-});
-
-///////////////////////// My Friends Widget End //////////////////////////////////
-
-
-///////////////////////// User Friends Widget Service Start //////////////////////////////////
-minibean.service('userFriendWidgetService',function($resource){
-	this.UserFriends = $resource(
-			'/get-user-friends-by-ID/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get'}
-			}
-	);
-});
-
-minibean.controller('UserFriendsWidgetController',function($scope,$routeParams, userFriendWidgetService,userInfoService, $http){
-    log("UserFriendsWidgetController starts");
-    
-	$scope.userInfo = userInfoService.UserInfo.get();
-	$scope.result = userFriendWidgetService.UserFriends.get({id:$routeParams.id});
-	
-	log("UserFriendsWidgetController completed");
-});
-
-///////////////////////// User Friends Widget End //////////////////////////////////
-
-
 ///////////////////////// Suggested Friends Widget Service Start //////////////////////////////////
-minibean.service('friendSuggestedWidgetService',function($resource){
-	this.UserFriends = $resource(
-			'/get-suggested-friends',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get'}
-			}
-	);
-});
 
-minibean.controller('SuggestedFriendsWidgetController',function($scope, unFriendService, usSpinnerService, sendInvitation, friendSuggestedWidgetService,userInfoService, $http){
+minibean.controller('SuggestedFriendsWidgetController',function($scope, unFriendService, usSpinnerService, sendInvitation, friendsService, userInfoService, $http){
     log("SuggestedFriendsWidgetController starts");
 
-	$scope.result = friendSuggestedWidgetService.UserFriends.get();
+	$scope.result = friendsService.SuggestedFriends.get();
 	$scope.isLoadingEnabled = false;
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.send_invite = function(id) {
@@ -915,25 +860,81 @@ minibean.controller('RecommendedCommunityWidgetController',function($scope, usSp
 
 ///////////////////////// User UnJoined Communities Widget End //////////////////////////////////
 
-minibean.service('friendService',function($resource){
-	this.UserFriends = $resource(
-			'/get-all-friends',
+minibean.service('friendsService',function($resource){
+    this.MyFriendsForUtility = $resource(
+            '/get-my-friends-for-utility',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
+    
+	this.UserFriendsForUtility = $resource(
+            '/get-user-friends-for-utility/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET', params:{id:'@id'}}
+            }
+    );
+    
+    this.MyFriends = $resource(
+			'/get-all-my-friends',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
 				get: {method:'get'}
 			}
 	);
-});
-
-minibean.controller('FriendsController',function($scope, friendService , $http){
-    log("FriendsController starts");
-
-	$scope.sendMessage = true;
-	$scope.result = friendService.UserFriends.get();
 	
-	log("FriendsController completed");
+	this.UserFriends = $resource(
+            '/get-all-user-friends/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET', params:{id:'@id'}}
+            }
+    );
+    
+    this.SuggestedFriends = $resource(
+            '/get-suggested-friends',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
 });
 
+minibean.controller('MyFriendsUtilityController',function($scope, userInfoService, friendsService, $http){
+    log("MyFriendsUtilityController starts");
+
+    $scope.userInfo = userInfoService.UserInfo.get();
+    $scope.result = friendsService.MyFriendsForUtility.get();
+    
+    log("MyFriendsUtilityController completed");
+});
+
+minibean.controller('UserFriendsUtilityController',function($scope, $routeParams, userInfoService, friendsService, $http){
+    log("UserFriendsUtilityController starts");
+
+    $scope.userInfo = userInfoService.UserInfo.get();
+    $scope.result = friendsService.UserFriendsForUtility.get({id:$routeParams.id});
+    
+    log("UserFriendsUtilityController completed");
+});
+
+minibean.controller('MyFriendsController',function($scope, friendsService, $http){
+    log("MyFriendsController starts");
+
+	$scope.result = friendsService.MyFriends.get();
+	
+	log("MyFriendsController completed");
+});
+
+minibean.controller('UserFriendsController',function($scope, $routeParams, friendsService, $http){
+    log("UserFriendsController starts");
+
+    $scope.result = friendsService.UserFriends.get({id:$routeParams.id});
+    
+    log("UserFriendsController completed");
+});
 
 ///////////////////////// User All Recommend Communities  //////////////////////////////////
 minibean.service('sendJoinRequest',function($resource){
@@ -946,7 +947,7 @@ minibean.service('sendJoinRequest',function($resource){
 	);
 });
 
-minibean.controller('CommunityWidgetController',function($scope,$routeParams, usSpinnerService, communityWidgetService, sendJoinRequest , $http, userInfoService){
+minibean.controller('CommunityWidgetController',function($scope, $routeParams, usSpinnerService, communityWidgetService, sendJoinRequest, $http, userInfoService){
 	log("CommunityWidgetController starts");
 	
 	$scope.userInfo = userInfoService.UserInfo.get();
@@ -1072,16 +1073,6 @@ minibean.controller('CommunityWidgetByUserIDController',function($scope, $routeP
 
 ///////////////////////// User Profile Start //////////////////////////////////
 
-minibean.service('friendsService',function($resource){
-	this.Friends = $resource(
-			'/friends/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{id:'@id'},isArray:true}
-			}
-	);
-});
-
 minibean.service('profileService',function($resource){
 	this.Profile = $resource(
 			'/profile/:id',
@@ -1092,7 +1083,7 @@ minibean.service('profileService',function($resource){
 	);
 });
 
-minibean.controller('ProfileController',function($scope, $routeParams, $location, profileService, friendsService,sendInvitation, unFriendService){
+minibean.controller('ProfileController',function($scope, $routeParams, $location, profileService, friendsService, sendInvitation, unFriendService){
 	log("ProfileController starts");
 	
 	$scope.$watch($routeParams.id, function (navigateTo) {
@@ -1108,7 +1099,7 @@ minibean.controller('ProfileController',function($scope, $routeParams, $location
 	$scope.navigateTo = function (navigateTo) {
 		$scope.active = navigateTo;
 		if(navigateTo === 'friends') {
-			$scope.friends = friendsService.Friends.get({id:$routeParams.id});
+			$scope.friends = friendsService.UserFriends.get({id:$routeParams.id});
 		}
 		
 	}

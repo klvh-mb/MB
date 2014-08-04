@@ -128,12 +128,12 @@ GET		/get-unread-msg-count		controllers.UserController.getUnreadMsgCount()
 GET		/image/get-original-private-image-by-id/:id		controllers.UserController.getOriginalPrivateImageByID(id :Long)
 
 #Friends
-GET		/get-user-friends			controllers.FriendsController.getUserFriends
-GET 	/get-user-friends-by-ID/:id controllers.FriendsController.getFriendsOfUser(id: Long)
-GET		/get-suggested-friends		controllers.FriendsController.getSuggestedFriends
-GET		/get-all-friends			controllers.FriendsController.getAllFriendsOfUser
+GET     /get-suggested-friends      controllers.FriendsController.getSuggestedFriends
+GET		/get-my-friends-for-utility	controllers.FriendsController.getMyFriendsForUtiltiy
+GET 	/get-user-friends-for-utility/:id       controllers.FriendsController.getUserFriendsForUtiltiy(id: Long)
+GET		/get-all-my-friends		    controllers.FriendsController.getAllMyFriends
+GET     /get-all-user-friends/:id   controllers.FriendsController.getAllUserFriends(id: Long)
 GET		/send-invite				controllers.FriendsController.sendInvitation(id: String)
-GET     /friends/:id  				controllers.FriendsController.getUserFriendsByID(id :Long)
 GET		/un-friend					controllers.FriendsController.doUnFriend(id: Long)
 
 #Community

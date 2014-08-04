@@ -4,10 +4,10 @@ import java.util.List;
 
 public class FriendWidgetParentVM {
 	public Long sn;
-	public List<FriendWidgetChildVM> fvm;
+	public List<FriendWidgetChildVM> friends;
 	
-	public FriendWidgetParentVM(Long sn, List<FriendWidgetChildVM> fvm) {
+	public FriendWidgetParentVM(Long sn, List<FriendWidgetChildVM> friends) {
 		this.sn = sn; 
-		this.fvm = fvm;
+		this.friends = friends;
 	}
 }

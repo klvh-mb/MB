@@ -23,27 +23,43 @@ public class FriendsController extends Controller {
 	private static play.api.Logger logger = play.api.Logger.apply(FriendsController.class);
 
 	@Transactional
-	public static Result getUserFriends() {
+	public static Result getMyFriendsForUtiltiy() {
 		final User localUser = Application.getLocalUser(session());
-		List<FriendWidgetChildVM> friends = new ArrayList<>();
-		for(User friend : localUser.getFriends(DefaultValues.FRIENDS_UTILITY_COUNT)) {
-			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName, friend.userInfo == null ? null : friend.userInfo.location));
-		}
-		
-		FriendWidgetParentVM fwVM = new FriendWidgetParentVM(localUser.getFriendsSize(), friends);
-		return ok(Json.toJson(fwVM));
+		return getFriendsForUtility(localUser);
 	}
 	
 	@Transactional
-	public static Result getFriendsOfUser(Long id) {
-		final User user = User.findById(id);
-		List<FriendWidgetChildVM> friends = new ArrayList<>();
-		for(User friend : user.getFriends(DefaultValues.FRIENDS_UTILITY_COUNT)) {
-			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName, friend.userInfo.location));
-		}
-		
-		FriendWidgetParentVM fwVM = new FriendWidgetParentVM(user.getFriendsSize(), friends);
-		return ok(Json.toJson(fwVM));
+    public static Result getUserFriendsForUtiltiy(Long id) {
+	    final User user = User.findById(id);
+	    return getFriendsForUtility(user);
+    }
+
+	private static Result getFriendsForUtility(User user) {
+	    List<FriendWidgetChildVM> friends = new ArrayList<>();
+        for(User friend : user.getFriends(DefaultValues.FRIENDS_UTILITY_COUNT)) {
+            friends.add(new FriendWidgetChildVM(friend.id, friend.displayName, friend.userInfo == null ? null : friend.userInfo.location));
+        }
+        
+        FriendWidgetParentVM fwVM = new FriendWidgetParentVM(user.getFriendsSize(), friends);
+        return ok(Json.toJson(fwVM));    
+	}
+	
+	@Transactional
+    public static Result getAllMyFriends() {
+        final User localUser = Application.getLocalUser(session());
+        return getAllFriends(localUser);
+    }
+
+	@Transactional
+    public static Result getAllUserFriends(Long id) {
+	    final User user = User.findById(id);
+        return getAllFriends(user);
+    }
+	
+	private static Result getAllFriends(User user) {
+	    List<FriendsVM> friends = FriendsVM.friends(user);
+        FriendsParentVM fwVM = new FriendsParentVM(friends.size(), friends);
+        return ok(Json.toJson(fwVM));    
 	}
 	
 	@Transactional
@@ -69,14 +85,6 @@ public class FriendsController extends Controller {
 		return ok(Json.toJson(fwVM));
 	}
 	
-	
-	@Transactional
-	public static Result getUserFriendsByID(Long id) {
-		final User user = User.findById(id);
-		List<FriendsVM> friends = FriendsVM.friends(user);
-		return ok(Json.toJson(friends));
-	}
-	
 	@Transactional
 	public static Result getUserImageById(Long id) {
 	    response().setHeader("Cache-Control", "max-age=10");
@@ -85,14 +93,6 @@ public class FriendsController extends Controller {
 			return ok(new File(user.getPhotoProfile().getThumbnail()));
 		}
 		return ok("No Image");
-	}
-	
-	@Transactional
-	public static Result getAllFriendsOfUser() {
-		final User localUser = Application.getLocalUser(session());
-		List<FriendsVM> friends = FriendsVM.friends(localUser);
-		FriendsParentVM fwVM = new FriendsParentVM(friends.size(), friends);
-		return ok(Json.toJson(fwVM));
 	}
 	
 	@Transactional
@@ -108,7 +108,6 @@ public class FriendsController extends Controller {
 		
 		return ok();
 	}
-	
 
 	@Transactional
 	public static Result doUnFriend(Long id) {

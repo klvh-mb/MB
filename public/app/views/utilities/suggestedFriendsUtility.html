@@ -5,16 +5,16 @@
 		</a>
     </div>
     <div style="margin:8px 10px;">
-        <div style="float:left;margin:2px 0px;padding:0x;" class="widget-thumbnail" ng-repeat="fvm in result.fvm">
-            <a style="float:left;margin-right:10px;" tag="user-picture-a" href="/#/profile/{{fvm.id}}">
-                <img style="width:52px;height:auto;" tag="user-picture-img" data-toggle="tooltip" data-placement="top" data-ng-src="/image/get-thumbnail-image-by-id/{{fvm.id}}" data-tooltip="{{fvm.dn}}">
+        <div style="float:left;margin:2px 0px;padding:0x;" class="widget-thumbnail" ng-repeat="friend in result.friends">
+            <a style="float:left;margin-right:10px;" tag="user-picture-a" href="/#/profile/{{friend.id}}">
+                <img style="width:52px;height:auto;" tag="user-picture-img" data-toggle="tooltip" data-placement="top" data-ng-src="/image/get-thumbnail-image-by-id/{{friend.id}}" data-tooltip="{{friend.dn}}">
             </a>
             <div style="font-weight:bold;margin-bottom:2px;">
-                <a href="/#/profile/{{fvm.id}}" style="color: #428bca;">{{fvm.dn}}</a>
+                <a href="/#/profile/{{friend.id}}" style="color: #428bca;">{{friend.dn}}</a>
             </div>
             <div>
-                <a ng-show="fvm.isf==false && fvm.isP == false && isLoadingEnabled==false" class="btn-general" data-ng-click="send_invite(fvm.id)">+ <i class="fa fa-user"></i> 加為朋友</a></li>
-                <a ng-show="fvm.isP == true && isLoadingEnabled==false" class="btn-general" disabled="disabled">已送出交友邀請</a></li>
+                <a ng-show="friend.isf==false && friend.isP == false && isLoadingEnabled==false" class="btn-general" data-ng-click="send_invite(friend.id)">+ <i class="fa fa-user"></i> 加為朋友</a></li>
+                <a ng-show="friend.isP == true && isLoadingEnabled==false" class="btn-general" disabled="disabled">已送出交友邀請</a></li>
             </div>
         </div>
     </div>
