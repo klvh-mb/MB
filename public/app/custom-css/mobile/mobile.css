@@ -297,6 +297,9 @@ span.notif-count {
     text-indent: 23px;
     background-size: 18px 18px;
 }
+.btn-like {
+    font-size: 14px;
+}
 
 /* profile */
 #profile-banner, #community-banner {
