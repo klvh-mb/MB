@@ -60,6 +60,31 @@ public class Folder extends SocialObject implements Serializable, Creatable, Upd
 	}
 
 
+    /**
+     * @param owner
+     * @param name
+     * @param description
+     * @param system
+     * @return
+     */
+    public static Folder createAlbum(User owner, String name, String description, Boolean system) {
+        Folder folder = createFolder(owner, name, description,
+                SocialObjectType.FOLDER, system);
+        return folder;
+    }
+
+    public static Folder createFolder(User owner, String name, String description,
+                                      SocialObjectType type, Boolean system) {
+        Folder folder = new Folder(name);
+        folder.owner = owner;
+        folder.name = name;
+        folder.description = description;
+        folder.objectType = type;
+        folder.system = system;
+        folder.save();
+        return folder;
+    }
+
 	/**
 	 * Note: for profile pics, scale it up by 100% as browser will only display crispy profile pic 
 	 * with higher resolution natural size photo. (seems like cover photo does not have this issue)

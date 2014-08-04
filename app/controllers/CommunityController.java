@@ -464,16 +464,15 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result commentOnCommunityPost() {
-        logger.underlyingLogger().debug("commentOnCommunityPost");
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
         final User localUser = Application.getLocalUser(session());
+
         DynamicForm form = form().bindFromRequest();
-        
-        
         Long postId = Long.parseLong(form.get("post_id"));
         String commentText = form.get("commentText");
-        
+
         Post p = Post.findById(postId);
-        Community c =p.community;
+        Community c = p.community;
         if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
             Comment comment = null;
             try {
@@ -485,9 +484,16 @@ public class CommunityController extends Controller{
                 }
                 p.setUpdatedDate(new Date());
                 p.merge();
+
+                sw.stop();
+                if (logger.underlyingLogger().isDebugEnabled()) {
+                    logger.underlyingLogger().debug("[u="+localUser.id+", p="+postId+"] commentOnCommunityPost - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
+                }
             } catch (SocialObjectNotCommentableException e) {
                 logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
             }
+
+
             return ok(Json.toJson(comment.id));
         }
         return ok("Be member of community");
@@ -495,13 +501,12 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result postOnCommunity() {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
         final User localUser = Application.getLocalUser(session());
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"] postOnCommunity");
-        }
-        
+
         DynamicForm form = form().bindFromRequest();
         Long communityId = Long.parseLong(form.get("community_id"));
+
         Community c = Community.findById(communityId);
         if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
             String postText = form.get("postText");
@@ -513,7 +518,11 @@ public class CommunityController extends Controller{
             }
 
             p.indexPost(withPhotos);
-            
+
+            sw.stop();
+            if (logger.underlyingLogger().isDebugEnabled()) {
+                logger.underlyingLogger().debug("[u="+localUser.id+"] postOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
+            }
             return ok(Json.toJson(p.id));
         }
         
