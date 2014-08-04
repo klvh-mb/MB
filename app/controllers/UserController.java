@@ -147,13 +147,15 @@ public class UserController extends Controller {
 	
 	@Transactional
 	public static Result getProfileImage() {
-	    response().setHeader("Cache-Control", "max-age=10");
-		final User localUser = Application.getLocalUser(session());
-		if(localUser.getPhotoProfile() != null) {
+	    response().setHeader("Cache-Control", "max-age=1");
+	    final User localUser = Application.getLocalUser(session());
+		
+		if(localUser != null && localUser.getPhotoProfile() != null) {
 			return ok(localUser.getPhotoProfile().getRealFile());
 		}
+		
 		try {
-			return ok(localUser.getDefaultUserPhoto());
+			return ok(User.getDefaultUserPhoto());
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}
@@ -161,13 +163,15 @@ public class UserController extends Controller {
 	
 	@Transactional
 	public static Result getCoverImage() {
-	    response().setHeader("Cache-Control", "max-age=10");
-		final User localUser = Application.getLocalUser(session());
-		if(localUser.getCoverProfile() != null) {
+	    response().setHeader("Cache-Control", "max-age=1");
+	    final User localUser = Application.getLocalUser(session());
+		
+		if(localUser != null && localUser.getCoverProfile() != null) {
 			return ok(localUser.getCoverProfile().getRealFile());
 		}
+		
 		try {
-			return ok(localUser.getDefaultCoverPhoto());
+			return ok(User.getDefaultCoverPhoto());
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}
@@ -384,13 +388,15 @@ public class UserController extends Controller {
     
     @Transactional
 	public static Result getProfileImageByID(Long id) {
-        response().setHeader("Cache-Control", "max-age=10");
-    	User user = User.findById(id);
-		if(user.getPhotoProfile() != null) {
+        response().setHeader("Cache-Control", "max-age=1");
+        User user = User.findById(id);
+    	
+		if(user != null && user.getPhotoProfile() != null) {
 			return ok(user.getPhotoProfile().getRealFile());
 		}
+		
 		try {
-			return ok(user.getDefaultUserPhoto());
+			return ok(User.getDefaultUserPhoto());
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}
@@ -398,13 +404,15 @@ public class UserController extends Controller {
 	
     @Transactional
 	public static Result getOriginalImageByID(Long id) {
-        response().setHeader("Cache-Control", "max-age=10");
-    	User user = User.findById(id);
-		if(user.getPhotoProfile() != null) {
+        response().setHeader("Cache-Control", "max-age=1");
+        User user = User.findById(id);
+
+        if(user != null && user.getPhotoProfile() != null) {
 			return ok(user.getPhotoProfile().getRealFile());
 		}
+        
 		try {
-			return ok(user.getDefaultUserPhoto());
+			return ok(User.getDefaultUserPhoto());
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}
@@ -412,13 +420,14 @@ public class UserController extends Controller {
     
 	@Transactional
 	public static Result getCoverImageByID(Long id) {
-	    response().setHeader("Cache-Control", "max-age=10");
-		User user = User.findById(id);
-		if(user.getCoverProfile() != null) {
+	    response().setHeader("Cache-Control", "max-age=1");
+	    User user = User.findById(id);
+
+	    if(user != null && user.getCoverProfile() != null) {
 			return ok(user.getCoverProfile().getRealFile());
 		}
 		try {
-			return ok(user.getDefaultCoverPhoto());
+			return ok(User.getDefaultCoverPhoto());
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}
@@ -426,15 +435,15 @@ public class UserController extends Controller {
 	
 	@Transactional
 	public static Result getMiniVersionImageByID(Long id) {
+	    response().setHeader("Cache-Control", "max-age=1");
 		final User user = User.findById(id);
-		response().setHeader("Cache-Control", "max-age=10");
-		if(user.getPhotoProfile() != null) {
+		
+		if(user != null && user.getPhotoProfile() != null) {
 			return ok(new File(user.getPhotoProfile().getMini()));
 		} 
 		
 		try {
-			// TODO:
-			return ok(user.getDefaultUserPhoto());
+			return ok(User.getDefaultUserPhoto());
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}
@@ -442,15 +451,15 @@ public class UserController extends Controller {
 	
 	@Transactional
 	public static Result getMiniCommentVersionImageByID(Long id) {
+	    response().setHeader("Cache-Control", "max-age=1");
 		final User user = User.findById(id);
-		response().setHeader("Cache-Control", "max-age=10");
-		if(user.getPhotoProfile() != null) {
+		
+		if(user != null && user.getPhotoProfile() != null) {
 			return ok(new File(user.getPhotoProfile().getMiniComment()));
 		} 
 		
 		try {
-			// TODO:
-			return ok(user.getDefaultUserPhoto());
+			return ok(User.getDefaultUserPhoto());
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}
@@ -458,14 +467,15 @@ public class UserController extends Controller {
 	
 	@Transactional
 	public static Result getThumbnailVersionImageByID(Long id) {
+	    response().setHeader("Cache-Control", "max-age=1");
 		final User user = User.findById(id);
-		response().setHeader("Cache-Control", "max-age=10");
-		if(user.getPhotoProfile() != null) {
+		
+		if(user != null && user.getPhotoProfile() != null) {
 			return ok(new File(user.getPhotoProfile().getThumbnail()));
 		}
+		
 		try {
-			// TODO:
-			return ok(user.getDefaultUserPhoto());
+			return ok(User.getDefaultUserPhoto());
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}
@@ -473,14 +483,15 @@ public class UserController extends Controller {
 	
 	@Transactional
 	public static Result getThumbnailCoverImageByID(Long id) {
-		response().setHeader("Cache-Control", "max-age=10");
+	    response().setHeader("Cache-Control", "max-age=1");
 		final User user = User.findById(id);
-		if(user.getCoverProfile() != null) {
+		
+		if(user != null && user.getCoverProfile() != null) {
 			return ok(new File(user.getCoverProfile().getThumbnail()));
 		}
+		
 		try {
-			// TODO:
-			return ok(user.getDefaultCoverPhoto());
+			return ok(User.getDefaultCoverPhoto());
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}
@@ -531,10 +542,9 @@ public class UserController extends Controller {
         DynamicForm form = form().bindFromRequest();
         
         Long receiverUserID = Long.parseLong(form.get("receiver_id"));
-        System.out.println("ID :: "+receiverUserID);
         User receiverUser = User.findById(receiverUserID);
         String msgText = form.get("msgText");
-        Message message = Conversation.sendMessage(localUser, receiverUser, msgText);
+        Conversation.sendMessage(localUser, receiverUser, msgText);
         Conversation conversation = Conversation.findBetween(localUser, receiverUser);
         return getMessages(conversation.id+"", 0+"");
     }

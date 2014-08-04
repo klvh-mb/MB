@@ -997,19 +997,25 @@ public class User extends SocialObject implements Subject, Socializable {
     }
 
     public static User findById(Long id) {
-        Query q = JPA.em().createQuery("SELECT u FROM User u where id = ?1 and deleted = false");
-        q.setParameter(1, id);
-        return (User) q.getSingleResult();
+        try { 
+            Query q = JPA.em().createQuery("SELECT u FROM User u where id = ?1 and deleted = false");
+            q.setParameter(1, id);
+            return (User) q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public File getDefaultUserPhoto() throws FileNotFoundException {
+    public static File getDefaultUserPhoto() throws FileNotFoundException {
          return new File(Play.application().configuration().getString("storage.user.noimage"));
     }
 
-    public File getDefaultCoverPhoto() throws FileNotFoundException {
+    public static File getDefaultCoverPhoto() throws FileNotFoundException {
          return new File(Play.application().configuration().getString("storage.user.cover.noimage"));
     }
-    
     
     @JsonIgnore
     public List<Notification> getAllFriendRequestNotification() {

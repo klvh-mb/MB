@@ -155,13 +155,13 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getMiniCoverCommunityImageById(Long id) {
-        response().setHeader("Cache-Control", "max-age=10");
+        response().setHeader("Cache-Control", "max-age=1");
         Community community = Community.findById(id);
-        if(community.getPhotoProfile() != null) {
+        if(community != null && community.getPhotoProfile() != null) {
             return ok(new File(community.getPhotoProfile().getMini()));
         }
         try {
-            return ok(community.getDefaultMiniCoverPhoto());
+            return ok(Community.getDefaultMiniCoverPhoto());
         } catch (FileNotFoundException e) {
             return ok("no image set");
         }
@@ -169,13 +169,13 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getThumbnailCoverCommunityImageById(Long id) {
-        response().setHeader("Cache-Control", "max-age=10");
+        response().setHeader("Cache-Control", "max-age=1");
         final Community community = Community.findById(id);
-        if(community.getPhotoProfile() != null) {
+        if(community != null && community.getPhotoProfile() != null) {
             return ok(new File(community.getPhotoProfile().getThumbnail()));
         }
         try {
-            return ok(community.getDefaultThumbnailCoverPhoto());
+            return ok(Community.getDefaultThumbnailCoverPhoto());
         } catch (FileNotFoundException e) {
             return ok("no image set");
         }
@@ -192,7 +192,7 @@ public class CommunityController extends Controller{
             return ok(community.getPhotoProfile().getRealFile());
         }
         try {
-            return ok(community.getDefaultCoverPhoto());
+            return ok(Community.getDefaultCoverPhoto());
         } catch (FileNotFoundException e) {
             return ok("no image set");
         }
@@ -202,11 +202,11 @@ public class CommunityController extends Controller{
     public static Result getCommunityImageById(Long id) {
         response().setHeader("Cache-Control", "max-age=10");
         final Community community = Community.findById(id);
-        if(community.getPhotoProfile() != null) {
+        if(community != null && community.getPhotoProfile() != null) {
             return ok(new File(community.getPhotoProfile().getThumbnail()));
         }
         try {
-            return ok(community.getDefaultThumbnailCoverPhoto());
+            return ok(Community.getDefaultThumbnailCoverPhoto());
         } catch (FileNotFoundException e) {
             return ok("no image set");
         }

@@ -304,10 +304,16 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	}
 	
 	public static Community findById(Long id) {
-		Query q = JPA.em().createQuery("SELECT c FROM Community c where id = ?1 and deleted = false");
-		q.setParameter(1, id);
-		Object o = q.getSingleResult();
-		return o == null? null : (Community)o;
+	    try {
+	        Query q = JPA.em().createQuery("SELECT c FROM Community c where id = ?1 and deleted = false");
+	        q.setParameter(1, id);
+	        return (Community)q.getSingleResult();
+	    } catch (NoResultException e) {
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
 	}
 
 	public static List<Community> findByTargetingType(TargetingSocialObject.TargetingType targetingType) {
@@ -334,15 +340,15 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
         return null;
 	}
 	
-	public File getDefaultThumbnailCoverPhoto()  throws FileNotFoundException {
+	public static File getDefaultThumbnailCoverPhoto() throws FileNotFoundException {
 		return new File(STORAGE_COMMUNITY_COVER_THUMBNAIL_NOIMAGE);
 	}
 	
-	public File getDefaultMiniCoverPhoto()  throws FileNotFoundException {
+	public static File getDefaultMiniCoverPhoto() throws FileNotFoundException {
 		return new File(STORAGE_COMMUNITY_COVER_MINI_NOIMAGE);
 	}
 	
-	public File getDefaultCoverPhoto()  throws FileNotFoundException {
+	public static File getDefaultCoverPhoto() throws FileNotFoundException {
 		 return new File(STORAGE_COMMUNITY_COVER_NOIMAGE);
 	}
 	
