@@ -164,7 +164,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	@JsonIgnore
 	public List<User> getMembers() {
         Query query = JPA.em().createQuery(
-            "select u from User u where u.id in (select sr.actor from SocialRelation sr where sr.target = ?1 and sr.action = ?2)"
+            "select u from User u where u.id in (select sr.actor from SocialRelation sr where sr.target = ?1 and sr.action = ?2) and u.deleted = false"
         );
         query.setParameter(1, this.id);
         query.setParameter(2, SocialRelation.Action.MEMBER);
