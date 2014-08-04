@@ -57,13 +57,13 @@ body {
     margin-bottom: 12px;
 }
 #back-to-top {
-    width: 48px;
+    width: 45px;
     height: 50px;
-    bottom: 30px;
-    right: 2%;
+    bottom: 50px;
+    right: 3%;
 }
 #back-to-top a {
-    padding: 2px 12px;
+    padding: 10px 10px;
 }
 
 /* sliding menu */
@@ -368,6 +368,10 @@ span.notif-count {
     z-index: 10;
     left: 10px;
     bottom: 5px;
+}
+.scCatTitle {
+    font-size: 15px;
+    font-weight: normal;
 }
 .allpost-wrapper li a img:first-child {
     float: left;
