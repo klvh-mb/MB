@@ -58,18 +58,18 @@
                             <span style="margin-left:10px;"/>
                             <!--span class="wall-icon icon-title-community"></span-->
                             <span>
-                                <a ng-click="selectedTab1 = 1; searchQuery = '';" ng-class="{activeTabUnderlined: selectedTab1 == 1}">
+                                <a ng-click="selectedSubTab = 1; searchQuery = '';" ng-class="{activeTabUnderlined: selectedSubTab == 1}">
                                     <span class="post-wall-icon">?</span><font style="color: white;">問題</font>
                                 </a>
                             </span>
                             <div style="margin-left:5px;border-color:white;vertical-align:text-bottom;" class="divider-cus"></div>
                             <!--span class="wall-icon icon-title-friendwall"></span-->
                             <span>
-                                <a ng-click="selectedTab1 = 2; searchQuery = '';" ng-class="{activeTabUnderlined: selectedTab1 == 2}">
+                                <a ng-click="selectedSubTab = 2; searchQuery = '';" ng-class="{activeTabUnderlined: selectedSubTab == 2}">
                                     <span class="post-wall-icon">♥</span><font style="color: white;">分享</font>
                                 </a>
                             </span>
-                            <!--a ng-click="selectedTab1 = 3;" id="contentSearchwrapper" class="pull-right ng-pristine ng-valid">
+                            <!--a ng-click="selectedSubTab = 3;" id="contentSearchwrapper" class="pull-right ng-pristine ng-valid">
                                 <div class="basic-search-wrapper">
                                     <div class="input-group innerB basic-search">
                                         <input type="text" class="form-control" ng-model="searchQuery" placeholder="">
@@ -85,13 +85,13 @@
                     </div>
                     <!-- Community Tabs End -->
                     
-                    <div class="tab-content" ng-if="selectedTab1 == 1" id="qnapost" ng-controller="CommunityQnAController">
+                    <div class="tab-content" ng-if="selectedSubTab == 1" id="qnapost" ng-controller="CommunityQnAController">
                         <div data-ng-include data-src="'/assets/app/views/mobile/community-qna-bar.html'"></div>
                     </div>
-                    <div class="tab-content" ng-if="selectedTab1 == 2" id="post" ng-controller="CommunityPostController">
+                    <div class="tab-content" ng-if="selectedSubTab == 2" id="post" ng-controller="CommunityPostController">
                         <div data-ng-include data-src="'/assets/app/views/mobile/community-post-bar.html'"></div>
                     </div>
-                    <!--div class="tab-content" ng-if="selectedTab1 == 3" id="srchbar" data-ng-controller="SearchPageController">
+                    <!--div class="tab-content" ng-if="selectedSubTab == 3" id="srchbar" data-ng-controller="SearchPageController">
                         <input data-ng-model="search_trigger" type="hidden">
                         <div data-ng-include data-src="'/assets/app/views/mobile/community-search-bar.html'"></div>
                     </div-->

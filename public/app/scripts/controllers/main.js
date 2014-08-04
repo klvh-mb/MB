@@ -2153,12 +2153,39 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
     
     log("CommunityPageController starts");
 
+    $scope.show = false;
+    
+    $scope.selectedTab = 1;
+    $scope.selectedSubTab = 1;
+    var tab = $routeParams.tab;
+    if(tab == 'question'){
+        $scope.selectedSubTab = 1;
+    }
+    if(tab == 'moment'){
+        $scope.selectedSubTab = 2;
+    }
+    if(tab == 'members'){
+        $scope.selectedTab = 2;
+    }
+    if(tab == 'details'){
+        $scope.selectedTab = 3;
+    }
+    
     $scope.$on('$viewContentLoaded', function() {
         usSpinnerService.spin('loading...');
     });
     
     $scope.userTargetProfile = userInfoService.UserTargetProfile.get();
 
+    $scope.community = communityPageService.Community.get({id:$routeParams.id}, function(data){
+        usSpinnerService.stop('loading...');
+        
+        // special handling - select details tab for PN
+        if (data.ttyp == 'PRE_NURSERY') {
+            $scope.selectedTab = 3;
+        }
+    });
+    
     communityPageService.isNewsfeedEnabled.get({community_id:$routeParams.id}, function(data) {
         $scope.newsfeedEnabled = data.newsfeedEnabled; 
     });
@@ -2186,25 +2213,6 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
         });
     }
     
-    $scope.community = communityPageService.Community.get({id:$routeParams.id}, function(){
-        usSpinnerService.stop('loading...');
-    });
-    
-    $scope.show = false;
-    
-    $scope.selectedTab = 1;
-    $scope.selectedTab1 = 1;
-    var tab = $routeParams.tab;
-    if(tab == 'question'){
-        $scope.selectedTab1 = 1;
-    }
-    if(tab == 'moment'){
-        $scope.selectedTab1 = 2;
-    }
-    if(tab == 'members'){
-        $scope.selectedTab = 2;
-    }
-
     $scope.nonMembers = [];
     $scope.search_unjoined_users = function(comm_id, query) {
         if(query.length >1){
@@ -4155,7 +4163,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 	
 	$scope.articles = { article: [] };
 	
-	$scope.selectedTab1 = 1;
+	$scope.selectedSubTab = 1;
 	
 	$scope.comment_on_post = function(id, commentText) {
         // first convert to links
