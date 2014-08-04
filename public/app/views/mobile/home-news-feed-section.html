@@ -1,0 +1,22 @@
+<!--div class="general-box">
+    <div class="wall-title">
+        <span class="wall-icon icon-title-community"></span><a class="activeTabUnderlined" style="cursor:inherit;">我的社群動向</a>
+        <!--span class="wall-icon icon-title-community"></span><a href="#" class="activeTabUnderlined">我的社群動向</a-->
+        <!--span class="wall-icon icon-title-friendwall"></span><a href="#">Forums</a-->
+        <!--span class="pull-right menu-text">Newsfeed</span-->
+    </div>
+</div-->
+
+<div infinite-scroll='nextNewsFeeds()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>
+    <div id="wall-main">
+    	<div data-ng-repeat="post in newsFeeds.posts">
+            <div class="general-box" data-ng-show="post.type=='SIMPLE'">
+                <div data-ng-include data-src="'/assets/app/views/mobile/post-bar.html'"></div>
+            </div>
+            <div class="general-box" data-ng-show="post.type=='QUESTION'">
+		        <div data-ng-include data-src="'/assets/app/views/mobile/qna-bar.html'"></div>
+		    </div>
+     	</div>
+	</div>
+	<span ng-show="isBusy" spinner-start-active="1" us-spinner="{top:'inherit'}"></span>
+</div>

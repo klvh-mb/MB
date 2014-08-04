@@ -37,11 +37,11 @@ angular.module('minibean', [
     	controller : 'CommunityPageController'  
       })
       .when('/post-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/post-landing.html',
+        templateUrl: '/assets/app/views/mobile/post-landing.html',
         controller : 'PostLandingController'  
       })
       .when('/qna-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/qna-landing.html',
+        templateUrl: '/assets/app/views/mobile/qna-landing.html',
         controller : 'QnALandingController'  
       })
       .when('/article/id/:id',{
@@ -51,10 +51,6 @@ angular.module('minibean', [
       .when('/article/show/:catid',{
     	templateUrl: '/assets/app/views/mobile/showArticlesPage.html',
     	controller : 'ShowArticleControllerNew'  
-      })
-      .when('/message/:id',{
-    	templateUrl: '/assets/app/views/message.html',
-    	controller : 'UserConversationController'  
       })
       .when('/error', {
     	  templateUrl: '/assets/app/views/errorPage.html',

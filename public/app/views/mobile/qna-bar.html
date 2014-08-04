@@ -1,0 +1,105 @@
+<div class="post-card">
+    <ul title="qna">
+        <li class="post-intro post-qna-line">
+            <span class="post-qna-tag pull-left" style="margin-right:5px;">?</span>
+            <span class="post-intro-share">發問</span>
+            <span class="post-intro-share" ng-show="!isCommunityPage">於 </span>
+            <a data-ng-href="/mobile#/community/{{post.cid}}/question" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
+            <span class="post-intro-divider"></span>
+            <span class="post-qna-answer-count">回覆: {{post.n_c}}</span>
+            <!--span class="post-intro-divider"></span>
+            <span class="post-qna-answer-count">查看: {{post.nov}}</span-->
+            <span class="post-intro-divider" ng-show="post.n_c > 0"></span>
+            <span class="post-qna-answer-count" ng-show="post.n_c > 0">最新回覆: 
+                <span class="post-date" am-time-ago="post.ut"></span>
+                <!--span class="wall-forum-post-last-time">5</span-->
+            </span>
+            <button ng-show="post.isO || userTargetProfile.isSA" class="post-dropdown-btn btn btn-default dropdown-toggle pull-right" type="button" id="post-dropdown" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+            <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
+                <li role="presentation"><a role="menuitem" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個發問嗎？"><i class="glyphicon glyphicon-trash"></i>刪除發問</a></li>
+            </ul>
+        </li>
+    </ul>
+    <!-- Post Intro Ends -->
+    <ul>
+        <li class="post-qna-body-top">
+            <div class="post-qna-body-title"><a data-ng-href="/mobile#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}">{{post.ptl}}</a></div>
+            <a data-ng-href="/mobile#/profile/{{post.oid}}">
+                <img class="post-title-user-image" data-ng-src="/image/get-mini-image-by-id/{{post.oid}}"/>
+            </a>
+            <span class="post-title-user-name">
+                <a data-ng-href="/mobile#/profile/{{post.oid}}">{{post.p}}</a>
+                <a data-ng-show="!post.isBookmarked" class="post-favorite" href="" data-ng-click="bookmarkPost(post.id)"></a>
+                <a data-ng-show="post.isBookmarked && !isMyBookmarksPage" class="post-favorited" href="" data-ng-click="unBookmarkPost(post.id)"></a>
+                <a data-ng-show="post.isBookmarked && isMyBookmarksPage" class="post-favorited" href="" data-ng-confirm-click="unBookmarkPost(post.id)" data-ng-confirm-message="您確定移除這個喜愛嗎?"></a>
+            </span>
+            <span style="margin-left:5px;"/>
+            <span class="post-date" am-time-ago="post.t"></span>
+        </li>
+       	<li class="post-qna-body">
+            <div class="post-qna-body-text" ng-bind-html="post.pt | highlight: highlightText"></div>
+            <div data-ng-show="post.hasImage" class="post-body-image">
+                <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
+                    <img data-ng-src="/image/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                </a>
+            </div>
+            <span data-ng-include data-src="'/assets/app/views/like-post.html'"></span>
+         </li>
+    </ul>
+    <!-- Post Body Ends -->
+    <ul class="post-qna-answers">
+        <li>
+            <span class="post-qna-answer-count" ng-show="post.n_c == 0"><b>尚未有回覆</b></span>
+            <span class="post-qna-answer-count" ng-show="post.n_c > 0 && post.n_c <= 3"><b>{{post.n_c}}個回覆</b></span>
+            <span class="post-qna-answer-count" ng-show="post.n_c > 3  && post.ep"><b>共{{post.n_c}}個回覆</b></span>
+            <a href="" ng-show="post.n_c > 3 && !post.ep" data-ng-click="get_all_comments(post.id)"><b>共{{post.n_c}}個回覆</b></a>
+            <a class="pull-right" href="" ng-show="post.n_c > 3 && !post.ep" data-ng-click="get_all_comments(post.id)">查看所有回覆</a>
+        </li>
+        <li data-ng-repeat="comment in post.cs">
+            <a data-ng-href="/mobile#/profile/{{comment.oid}}">
+                <img class="post-title-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
+            </a>
+            <span class="post-title-user-name">
+                <a data-ng-href="/mobile#/profile/{{comment.oid}}">{{comment.on}}</a>
+            </span>
+            <span style="margin-left:5px;"/>
+            <span class="post-date" am-time-ago="comment.cd"></span>
+            <div class="post-qna-answer-body">
+                <div class="post-qna-answer-body-text" ng-bind-html="comment.d"></div>
+                <div data-ng-show="comment.hasImage" class="post-body-image">
+                    <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in comment.imgs" href="">
+                        <img data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                    </a>
+                </div>
+                <span data-ng-include data-src="'/assets/app/views/like-comment.html'"></span>
+            </div>
+        </li>
+        <!-- Post Answer box-->
+        <li ng-show="post.isC == true || (community.isM || community.isO)">
+            <a data-ng-href="/mobile#/profile/{{userInfo.id}}">
+                <img class="post-title-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
+            </a>
+            <form class="post-comment-box" name="userComment" method="post" action="">
+                <label for="User Comment"></label>
+                <textarea type="text" name="userCommentfield" class="general-textfield post-qna-reply-textfield" id="userCommentfield" placeholder="回覆..." cols="70" data-ng-model="commentText" rows="1"></textarea>
+                <a class="post-photo-icon" data-ng-hide="qnaCommentSelectedFiles.length >= 3 && commentedOnPost == post.id" id="upload">
+                    <i class="icon-photo-camera-fill" data-ng-click="qnaCommentPhoto(post.id)"></i>
+                </a>
+                <button class="btn btn-primary ng-binding" ng-disabled="userComment.$pristine || (userComment.$dirty && !commentText.length)" type="submit" disabled="disabled" data-ng-click="answer_to_question(post.id, commentText); commentText=''">
+                    回覆
+                </button>
+                <input style="visibility:hidden;width:0px;height:0px;" id="qna-comment-photo-id" type="file" name="comment-photo" ng-file-select="onQnACommentFileSelect($files)"/>
+            </form>
+            <span ng-if="commentedOnPost == post.id">
+                <div ng-show="qnaCommentSelectedFiles != null">
+                    <img class="post-photo-preview" ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
+                        ng-repeat="f in qnaCommentSelectedFiles" tooltip-placement="bottom" tooltip="移除相片" data-ng-click="remove_image_from_qna_comment($index)"
+                        ng-show="qnaCommentDataUrls[$index]" ng-src="{{qnaCommentDataUrls[$index]}}">
+                </div>
+            </span>
+        </li>
+    </ul>
+    <!-- Post Answers Ends -->
+</div>

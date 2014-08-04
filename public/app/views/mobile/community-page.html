@@ -86,15 +86,15 @@
                     <!-- Community Tabs End -->
                     
                     <div class="tab-content" ng-if="selectedTab1 == 1" id="qnapost" ng-controller="CommunityQnAController">
-                        <div data-ng-include data-src="'/assets/app/views/community-qna-bar.html'"></div>
+                        <div data-ng-include data-src="'/assets/app/views/mobile/community-qna-bar.html'"></div>
                     </div>
                     <div class="tab-content" ng-if="selectedTab1 == 2" id="post" ng-controller="CommunityPostController">
-                        <div data-ng-include data-src="'/assets/app/views/community-post-bar.html'"></div>
+                        <div data-ng-include data-src="'/assets/app/views/mobile/community-post-bar.html'"></div>
                     </div>
-                    <div class="tab-content" ng-if="selectedTab1 == 3" id="srchbar" data-ng-controller="SearchPageController">
+                    <!--div class="tab-content" ng-if="selectedTab1 == 3" id="srchbar" data-ng-controller="SearchPageController">
                         <input data-ng-model="search_trigger" type="hidden">
-                        <div data-ng-include data-src="'/assets/app/views/community-search-bar.html'"></div>
-                    </div>
+                        <div data-ng-include data-src="'/assets/app/views/mobile/community-search-bar.html'"></div>
+                    </div-->
                 </div>
                 <div class="general-box" ng-show="!community.isO && !community.isM && !community.isP && community.typ=='CLOSE'">
                     <div class="section-title">
@@ -110,11 +110,11 @@
                 <!-- Closed Community Tips End -->
                 
                 <div class="tab-content row" ng-if="selectedTab == 2 ">
-                    <div data-ng-controller="CommunityMembersWidgetController" data-ng-include data-src="'/assets/app/views/community-members-section.html'"></div>
+                    <div data-ng-controller="CommunityMembersWidgetController" data-ng-include data-src="'/assets/app/views/mobile/community-members-section.html'"></div>
                 </div>
                 
                 <div class="tab-content row" ng-if="selectedTab == 3 ">
-                    <div data-ng-controller="CommunityPNController" data-ng-include data-src="'/assets/app/views/community-pn-section.html'"></div>
+                    <div data-ng-controller="CommunityPNController" data-ng-include data-src="'/assets/app/views/mobile/community-pn-section.html'"></div>
                 </div>
                 
                 <div class="padding20"></div>

@@ -11,7 +11,7 @@
         </div>
     </div>
 </a>
-<a style="position:relative;top:10px;right:-28px;" class="toolsbox toolsbox-single pull-right" data-toggle="modal" data-target="#createCommunityModal"><i class="fa fa-fw  fa-group"></i> 建立社群</a>
+<!--a style="position:relative;top:10px;right:-28px;" class="toolsbox toolsbox-single pull-right" data-toggle="modal" data-target="#createCommunityModal"><i class="fa fa-fw  fa-group"></i> 建立社群</a-->
 <div style="padding:30px;"></div>
 
 <!-- My admin communities -->
@@ -25,7 +25,7 @@
     <div class="padding5"></div>
 
     <div class="communityCard" ng-repeat="community in myAdminCommunities | filter:query" ng-show="community.isO">
-        <a href="/#/community/{{community.id}}/question" class="d-s ob">
+        <a href="/mobile#/community/{{community.id}}/question" class="d-s ob">
             <div class="communityImageBox">
                 <img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{community.dn}}" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{community.id}}" alt="..." width="70px" height="70px">
             </div>
@@ -33,13 +33,13 @@
         <div class="communityTagBox">
             <img src="{{community.gi}}">
             <p>
-                <a href="/#/community/{{community.id}}/question"><b><font>{{community.dn}}</font></b></a><br>
+                <a href="/mobile#/community/{{community.id}}/question"><b><font>{{community.dn}}</font></b></a><br>
                 <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
                 <span class="community-attribute">
                     <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
                 </span>
             </p>
-            <!--a ng-show="community.isO" data-ng-href="/#/editCommunity/{{community.id}}" style="position:relative;right:15px;margin-bottom:10px;" class="btn-general pull-right">
+            <!--a ng-show="community.isO" data-ng-href="/mobile#/editCommunity/{{community.id}}" style="position:relative;right:15px;margin-bottom:10px;" class="btn-general pull-right">
                 <i class="fa fa-fw fa-edit"></i> 編輯社群 
             </a-->
         </div>
@@ -58,7 +58,7 @@
     <div class="padding5"></div>
 
     <div class="communityCard" ng-repeat="community in myJoinedCommunities | filter:query" ng-show="!community.isO">
-        <a href="/#/community/{{community.id}}/question" class="d-s ob">
+        <a href="/mobile#/community/{{community.id}}/question" class="d-s ob">
             <div class="communityImageBox">
                 <img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{community.dn}}" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{community.id}}" alt="..." width="70px" height="70px">
             </div>
@@ -66,7 +66,7 @@
         <div class="communityTagBox">
             <img src="{{community.gi}}">
             <p>
-                <a href="/#/community/{{community.id}}/question"><b><font>{{community.dn}}</font></b></a><br>
+                <a href="/mobile#/community/{{community.id}}/question"><b><font>{{community.dn}}</font></b></a><br>
                 <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
                 <span class="community-attribute">
                     <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
@@ -77,5 +77,3 @@
     <div class="padding5"></div>
 </div>
 <div class="padding20"></div>
-
-<div data-ng-include data-src="'/assets/app/views/createCommunityModal.html'"></div>

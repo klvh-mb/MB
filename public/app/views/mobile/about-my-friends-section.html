@@ -1,0 +1,26 @@
+<a id="membersSearchwrapper" class="pull-right" style="margin-right: 9%;">
+    <div class="basic-search-wrapper">
+        <div class="input-group innerB basic-search">
+            <input type="text" class="form-control" ng-model="query" placeholder="搜尋成員">
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="button">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</a>
+<div style="padding:30px;"></div>
+<div class="friendCard" ng-repeat="fvm in result.fvm | filter:query">
+    <a href="/mobile#/profile/{{fvm.id}}" class="d-s ob">
+        <div class="friendImageBox">
+            <img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{fvm.dn}}" data-ng-src="/image/get-thumbnail-image-by-id/{{fvm.id}}" alt="..." width="70px" height="70px">
+        </div>
+    </a>
+    <div class="friendTagBox">
+        <div class="friendTag">
+            <a href="/mobile#/profile/{{fvm.id}}" class="friendTagRef"><span class="friendName">{{fvm.dn}}</span></a>
+            <span class="friendType"><i class="fa fa-fw fa-map-marker text-muted"></i>{{fvm.ln.displayName}}</span>
+        </div>
+    </div>
+</div>
