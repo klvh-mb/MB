@@ -438,7 +438,7 @@ public class User extends SocialObject implements Subject, Socializable {
             q.setParameter(1, this.id);
             q.setParameter(2, SocialRelation.Action.MEMBER.name());
             q.setParameter(3, SocialObjectType.COMMUNITY.name());
-            q.setParameter(4, CommunityType.OPEN.ordinal());
+            q.setParameter(4, CommunityType.OPEN.ordinal());    // Open only
 
             result = (List<Community>)q.getResultList();
 

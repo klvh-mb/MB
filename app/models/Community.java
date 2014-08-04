@@ -174,7 +174,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
     @JsonIgnore
     public Long getMemberCount() {
         Query query = JPA.em().createNativeQuery(
-            "select count(*) from SocialRelation sr where sr.target = ?1 and sr.action = ?2"
+            "select count(*) from User u where u.id in (select sr.actor from SocialRelation sr where sr.target = ?1 and sr.action = ?2) and u.deleted = false"
         );
         query.setParameter(1, this.id);
         query.setParameter(2, SocialRelation.Action.MEMBER.name());
