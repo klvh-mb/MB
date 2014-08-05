@@ -44,6 +44,7 @@ minibean.controller('SlidingMenuController', function($scope, $routeParams, $loc
 
 minibean.controller('UIController', function($scope, $location, $anchorScroll, $window) {
     $scope.gotoTop = function() {
+    console.log("top");
         // set the location.hash to the id of
         // the element you wish to scroll to
     	$window.scrollTo($window.pageXOffset, 0);
@@ -683,8 +684,8 @@ minibean.controller('CreateCommunityController',function($scope, $location, $htt
 
 ///////////////////////// Suggested Friends Widget Service Start //////////////////////////////////
 
-minibean.controller('SuggestedFriendsWidgetController',function($scope, unFriendService, usSpinnerService, sendInvitation, friendsService, userInfoService, $http){
-    log("SuggestedFriendsWidgetController starts");
+minibean.controller('SuggestedFriendsUtilityController',function($scope, unFriendService, usSpinnerService, sendInvitation, friendsService, userInfoService, $http){
+    log("SuggestedFriendsUtilityController starts");
 
 	$scope.result = friendsService.SuggestedFriends.get();
 	$scope.isLoadingEnabled = false;
@@ -713,7 +714,7 @@ minibean.controller('SuggestedFriendsWidgetController',function($scope, unFriend
 		});
 	}
 	
-	log("SuggestedFriendsWidgetController completed");
+	log("SuggestedFriendsUtilityController completed");
 });
 
 ///////////////////////// User Friends Widget End //////////////////////////////////
