@@ -276,7 +276,7 @@ public class MyUsernamePasswordAuthProvider extends
 		//final boolean isSecure = getConfiguration().getBoolean(SETTING_KEY_VERIFICATION_LINK_SECURE);
 		//final String url = routes.Signup.verify(token).absoluteURL(ctx.request(), isSecure);
 		String url = APPLICATION_ROOT_URL + routes.Signup.verify(token).url();
-		logger.underlyingLogger().debug("getVerifyEmailMailingBody url="+url);
+		logger.underlyingLogger().debug("[u="+user.getId()+"] getVerifyEmailMailingBody url="+url);
 		
 		final Lang lang = Lang.preferred(ctx.request().acceptLanguages());
 		final String langCode = lang.code();
@@ -325,7 +325,7 @@ public class MyUsernamePasswordAuthProvider extends
 		//final boolean isSecure = getConfiguration().getBoolean(SETTING_KEY_PASSWORD_RESET_LINK_SECURE);
 		//final String url = routes.Signup.resetPassword(token).absoluteURL(ctx.request(), isSecure);
 		String url = APPLICATION_ROOT_URL + routes.Signup.resetPassword(token).url();
-		logger.underlyingLogger().debug("getPasswordResetMailingBody url="+url);
+		logger.underlyingLogger().debug("[u="+user.getId()+"] getPasswordResetMailingBody url="+url);
 		
 		final Lang lang = Lang.preferred(ctx.request().acceptLanguages());
 		final String langCode = lang.code();
@@ -406,7 +406,7 @@ public class MyUsernamePasswordAuthProvider extends
 		//final boolean isSecure = getConfiguration().getBoolean(SETTING_KEY_VERIFICATION_LINK_SECURE);
 	    //final String url = routes.Signup.verify(token).absoluteURL(ctx.request(), isSecure);
 	    String url = APPLICATION_ROOT_URL + routes.Signup.verify(token).url();
-        logger.underlyingLogger().debug("getVerifyEmailMailingBodyAfterSignup url="+url);
+	    logger.underlyingLogger().debug("[u="+user.getId()+"] getVerifyEmailMailingBodyAfterSignup url="+url);
         
 		final Lang lang = Lang.preferred(ctx.request().acceptLanguages());
 		final String langCode = lang.code();
