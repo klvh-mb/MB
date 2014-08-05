@@ -258,7 +258,7 @@ public class ArticleController extends Controller {
 	
 	@Transactional
 	public static Result deleteArticle(Long art_id) {
-		Article.deleteByID(art_id);
+		Article.deleteById(art_id);
 		return ok();
 	}
 	

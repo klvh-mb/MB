@@ -19,7 +19,6 @@ import org.elasticsearch.index.query.QueryBuilders;
 
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
-import play.i18n.Messages;
 import processor.FeedProcessor;
 
 import com.github.cleverage.elasticsearch.IndexQuery;

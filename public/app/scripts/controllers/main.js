@@ -4146,17 +4146,27 @@ minibean.service('bookmarkService',function($resource){
     );
 });
 
-minibean.controller('MyBookmarkController', function($scope, bookmarkPostService, likeFrameworkService, $interval, $http, allCommentsService, usSpinnerService, bookmarkService) {
+minibean.controller('MyBookmarkController', function($scope, bookmarkPostService, likeFrameworkService, postManagementService, $interval, $http, allCommentsService, usSpinnerService, bookmarkService) {
     log("MyBookmarkController starts");
     
     $scope.bookmarkSummary = bookmarkService.bookmarkSummary.get();
     
-	$scope.posts = { post: [] };
+	$scope.posts = { posts: [] };
 	
 	$scope.articles = { article: [] };
 	
 	$scope.selectedSubTab = 1;
 	
+	$scope.deletePost = function(postId) {
+        postManagementService.deletePost.get({"postId":postId}, function(data) {
+            angular.forEach($scope.posts.posts, function(post, key){
+                if(post.id == postId) {
+                    $scope.posts.posts.splice($scope.posts.posts.indexOf(post),1);
+                }
+            })
+        });
+    }
+    
 	$scope.comment_on_post = function(id, commentText) {
         // first convert to links
         commentText = convertToLinks(commentText);
@@ -4171,7 +4181,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 				$('.commentBox').val('');
 				
 				$scope.commentText = "";
-				angular.forEach($scope.posts.post, function(post, key){
+				angular.forEach($scope.posts.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
 						post.ut = new Date();
@@ -4188,10 +4198,10 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 	
 	$scope.unBookmarkPost = function(post_id) {
 		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.posts.post, function(post, key){
+			angular.forEach($scope.posts.posts, function(post, key){
 				if(post.id == post_id) {
 					post.isBookmarked = false;
-					$scope.posts.post.splice($scope.posts.post.indexOf(post),1);
+					$scope.posts.posts.splice($scope.posts.posts.indexOf(post),1);
 					if (post.type == 'QUESTION')
     					$scope.bookmarkSummary.qc--;
     			     else if (post.type == 'SIMPLE')
@@ -4215,7 +4225,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 	
 	$scope.like_post = function(post_id) {
 		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.posts.post, function(post, key){
+			angular.forEach($scope.posts.posts, function(post, key){
 				if(post.id == post_id) {
 					post.isLike=true;
 					post.nol++;
@@ -4226,7 +4236,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 	
 	$scope.unlike_post = function(post_id) {
 		likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.posts.post, function(post, key){
+			angular.forEach($scope.posts.posts, function(post, key){
 				if(post.id == post_id) {
 					post.isLike=false;
 					post.nol--;
@@ -4237,7 +4247,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 
 	$scope.like_comment = function(post_id,comment_id) {
 		likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.posts.post, function(post, key){
+			angular.forEach($scope.posts.posts, function(post, key){
 				if(post.id == post_id) {
 					angular.forEach(post.cs, function(comment, key){
 						if(comment.id == comment_id) {
@@ -4252,7 +4262,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 	
 	$scope.unlike_comment = function(post_id,comment_id) {
 		likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.posts.post, function(post, key){
+			angular.forEach($scope.posts.posts, function(post, key){
 				if(post.id == post_id) {
 					angular.forEach(post.cs, function(comment, key){
 						if(comment.id == comment_id) {
@@ -4266,7 +4276,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 	}
 	
 	$scope.get_all_comments = function(id) {
-		angular.forEach($scope.posts.post, function(post, key){
+		angular.forEach($scope.posts.posts, function(post, key){
 			if(post.id == id) {
 				post.cs = allCommentsService.comments.get({id:id});
 				post.ep = true;
@@ -4288,7 +4298,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
     			}
     			
     			for (var i = 0; i < posts.length; i++) {
-    				$scope.posts.post.push(posts[i]);
+    				$scope.posts.posts.push(posts[i]);
     		    }
     			$scope.isBusy = false;
     			offset++;

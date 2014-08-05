@@ -119,7 +119,7 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 		return (Article) q.getSingleResult();
 	}
 	
-	public static int deleteByID(Long id) {
+	public static int deleteById(Long id) {
 		Query q = JPA.em().createQuery("DELETE FROM Article u where id = ?1");
 		q.setParameter(1, id);
 		return q.executeUpdate();
