@@ -56,6 +56,12 @@ body {
 #wall-main .general-box {
     margin-bottom: 12px;
 }
+.modal-dialog {
+    margin: 0;
+}
+.modal-content {
+    top: 0;
+}
 #back-to-top {
     width: 45px;
     height: 50px;
