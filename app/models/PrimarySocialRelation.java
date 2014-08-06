@@ -15,6 +15,8 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 
+import com.mnt.SocialActivity;
+
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import domain.AuditListener;
@@ -175,7 +177,7 @@ public class PrimarySocialRelation extends domain.Entity implements Serializable
 	
 	@Override
 	public void postSave() {
-		
+		SocialActivity.handle(this);
 	}
 	
 	public <T> T getTargetObject(Class<T> claszz){

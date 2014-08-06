@@ -115,7 +115,7 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 		MEMBER,
 		POSTED_QUESTION,
 		POSTED_ANSWER,
-		ANSWERED;
+		ANSWERED, POSTED;
 	}
 
 	public SocialRelation(){}

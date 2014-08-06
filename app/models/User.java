@@ -5,7 +5,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.persistence.CascadeType;
@@ -41,6 +50,7 @@ import play.Play;
 import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+import play.i18n.Messages;
 import processor.FeedProcessor;
 import be.objectify.deadbolt.core.models.Permission;
 import be.objectify.deadbolt.core.models.Role;
@@ -241,7 +251,7 @@ public class User extends SocialObject implements Subject, Socializable {
     }
     
     public void markNotificationRead(Notification notification) {
-        notification.markNotificationRead();
+        notification.changeStatus(1);
     }
 
     @Override
@@ -1022,10 +1032,13 @@ public class User extends SocialObject implements Subject, Socializable {
     public List<Notification> getAllFriendRequestNotification() {
         
         Query q = JPA.em().createQuery(
-                "SELECT n from Notification n where recipetent = ?1 and socialAction.actionType = ?2 and readed = ?3 ");
+                "SELECT n from Notification n where recipetent = ?1 and notificationType in (?2,?3,?4,?5) and status = ?6 ");
         q.setParameter(1, this.id);
-        q.setParameter(2, ActionType.FRIEND_REQUESTED);
-        q.setParameter(3, false);
+        q.setParameter(2, NotificationType.COMMUNITY_JOIN_REQUEST);
+        q.setParameter(3, NotificationType.COMMUNITY_INVITE_REQUEST);
+        q.setParameter(4, NotificationType.COMMUNITY_JOIN_APPROVED);
+        q.setParameter(5, NotificationType.FRIEND_REQUEST);
+        q.setParameter(6, 0);
         List<Notification> notifications = q.getResultList();
         return notifications;
     }
@@ -1040,6 +1053,31 @@ public class User extends SocialObject implements Subject, Socializable {
         q.setParameter(3, NotificationType.COMMUNITY_INVITE_REQUEST);
         q.setParameter(4, NotificationType.COMMUNITY_JOIN_APPROVED);
         q.setParameter(5, false);
+        List<Notification> notifications = q.getResultList();
+        return notifications;
+    }
+    
+    @JsonIgnore
+    public List<Notification> getAllNotification() {
+        
+        Query q = JPA.em().createQuery(
+                "SELECT n from Notification n where recipetent = ?1 and notificationType in (?2,?3,?4,?6,?7) and" +
+                " CREATED_DATE between ?5 and NOW() ORDER BY CREATED_DATE desc");
+        q.setParameter(1, this.id);
+        q.setParameter(2, NotificationType.COMMENT);
+        q.setParameter(3, NotificationType.ANSWERED);
+        q.setParameter(4, NotificationType.LIKED);
+        q.setParameter(6, NotificationType.POSTED);
+        q.setParameter(7, NotificationType.POSTED_QUESTION);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+
+        // substract 7 days
+        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH)-7);
+
+        // convert to date
+        Date myDate = cal.getTime();
+        q.setParameter(5, myDate);
         List<Notification> notifications = q.getResultList();
         return notifications;
     }
@@ -1251,13 +1289,52 @@ public class User extends SocialObject implements Subject, Socializable {
     @JsonIgnore
     public List<Post> getUserNewsfeeds(int offset, int limit) {
         Query query = JPA.em().createQuery(
-                "SELECT p from Post p where p.owner = ?2 and p.deleted = false order by p.socialUpdatedDate desc");
+                "SELECT p from Post p where p.owner = ?2 order by p.socialUpdatedDate desc");
                 query.setParameter(2, this);
                 query.setFirstResult(offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
                 query.setMaxResults(limit);
                 return (List<Post>)query.getResultList();
     }
     
+    @JsonIgnore
+    public List<Post> getUserNewsfeeds(int offset, int limit, User localUser) {
+    	
+        Query query = JPA.em().createQuery(
+                "SELECT p from Post p where p.owner = ?2 and ( (p.community.communityType = ?3) or (p.community.communityType = ?4 and p.community in (select c from Community c where"+
+                " c.id in (select sr.target from SocialRelation sr where sr.actor = ?5 and sr.action = ?6 and sr.targetType = ?7 ) and c.deleted = false and c.communityType = ?4)))order by p.socialUpdatedDate desc");
+                query.setParameter(2, this);
+                query.setParameter(3, Community.CommunityType.OPEN);
+                query.setParameter(4, Community.CommunityType.CLOSE);
+                query.setParameter(5, localUser.id);
+                query.setParameter(6, SocialRelation.Action.MEMBER);
+                query.setParameter(7, SocialObjectType.COMMUNITY);
+                query.setFirstResult(offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+                query.setMaxResults(limit);
+                return (List<Post>)query.getResultList();
+    }
+    
+    @JsonIgnore
+    public List<Post> getUserNewsfeedsComments(int offset, int limit, User localUser) {
+        Query query = JPA.em().createQuery(
+                "SELECT p from Post p where p.id in ("+
+                "select sr.target from  PrimarySocialRelation sr "+
+                "where sr.actor = ?1 and ((sr.action = ?4 and sr.targetType = ?5) or "+
+                "(sr.action = ?6 and sr.targetType = ?7))) and p.deleted = false and ( (p.community.communityType = ?8) or (p.community.communityType = ?9 and p.community in (select c from Community c where"+
+                " c.id in (select sr.target from SocialRelation sr where sr.actor = ?10 and sr.action = ?11 and sr.targetType = ?12 ) and c.deleted = false and c.communityType = ?9))) order by p.socialUpdatedDate desc");
+                query.setParameter(4, PrimarySocialRelation.Action.COMMENTED);
+                query.setParameter(5, SocialObjectType.POST);
+                query.setParameter(6, PrimarySocialRelation.Action.ANSWERED);
+                query.setParameter(7, SocialObjectType.QUESTION);
+                query.setParameter(8, Community.CommunityType.OPEN);
+                query.setParameter(9, Community.CommunityType.CLOSE);
+                query.setParameter(10, localUser.id);
+                query.setParameter(11, SocialRelation.Action.MEMBER);
+                query.setParameter(12, SocialObjectType.COMMUNITY);
+                query.setParameter(1, this.id);
+                query.setFirstResult(offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+                query.setMaxResults(limit);
+                return (List<Post>)query.getResultList();
+    }
     
     @JsonIgnore
     public List<Post> getUserNewsfeedsComments(int offset, int limit) {

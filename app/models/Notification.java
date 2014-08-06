@@ -17,6 +17,7 @@ import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 import domain.AuditListener;
 import domain.Creatable;
+import domain.SocialObjectType;
 import domain.Updatable;
 
 @Entity
@@ -26,18 +27,22 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	public Long id;
 	
-	/*This notification is due to which Action.*/
-	@ManyToOne
-	public SocialRelation socialAction;
-	
 	/*To whom this notification is intended for*/
 	 @Required
 	public Long recipetent;
-	
+	 
 	@Required
 	public String message;
 	
-	public Boolean readed = false;
+	public String URLs;
+	
+	public long socialActionID;
+	
+	public String usersName;
+	
+	public Long count = 0L;
+	
+	public int status = 0;
 	
 	@Enumerated(EnumType.STRING)
 	public NotificationType notificationType;
@@ -50,22 +55,64 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 		COMMUNITY_JOIN_APPROVED,
 		COMMUNITY_INVITE_REQUEST,
 		COMMENT,
-		ANSWERED
+		POSTED,
+		LIKED,
+		ANSWERED, POSTED_QUESTION
 	}
 
-	public void markNotificationRead() {
-		this.readed = true;
+	
+
+	public static Notification getNotification(Long socialActionID, Long recipetent,
+			NotificationType notificationType) {
+		String sql = "SELECT n FROM Notification n WHERE socialActionID=?1 and recipetent =?2 and notificationType = ?3";
+        Query query = JPA.em().createQuery(sql);
+        query.setParameter(1, socialActionID);
+        query.setParameter(2, recipetent);
+        query.setParameter(3, notificationType);
+        try {
+            return (Notification) query.getSingleResult();
+        } catch (NoResultException nre) {
+        	return null;
+        }
+	}
+
+	public void addToList(User addUser) {
+		if(this.usersName == null){
+			this.usersName = addUser.displayName;
+		} else {
+			if(this.usersName.toLowerCase().contains(addUser.displayName.toLowerCase())){
+				return;
+			}
+			if(this.usersName.split(",").length > 3){
+				this.usersName = this.usersName.substring(0,this.usersName.lastIndexOf(","));
+			}
+				this.usersName = addUser.displayName+","+this.usersName;
+		}
+	}
+	
+	
+	
+	
+	
+	public void changeStatus(int status) {
+		this.status = status;
 	    save();
 	}
 
-	public SocialRelation getSocialAction() {
-		return socialAction;
+	public String getUsersName() {
+		return usersName;
 	}
 
+	public void setUsersName(String usersName) {
+		this.usersName = usersName;
+	}
 
+	public Long getCount() {
+		return count;
+	}
 
-	public void setSocialAction(SocialRelation socialAction) {
-		this.socialAction = socialAction;
+	public void setCount(Long count) {
+		this.count = count;
 	}
 
 	public Long getRecipetent() {
@@ -82,14 +129,6 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 
 	public void setMessage(String message) {
 		this.message = message;
-	}
-
-	public Boolean getReaded() {
-		return readed;
-	}
-
-	public void setReaded(Boolean readed) {
-		this.readed = readed;
 	}
 
 	public NotificationType getNotificationType() {

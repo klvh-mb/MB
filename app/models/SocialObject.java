@@ -230,19 +230,19 @@ public abstract class SocialObject extends domain.Entity implements
 	protected final void recordPost(SocialObject user) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.POSTED;
-		action.save();
+		action.postSave();
 	}
 
 	protected void recordQnA(SocialObject user) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.POSTED_QUESTION;
-		action.save();
+		action.postSave();
 	}
 
 	protected void recordCommentOnCommunityPost(SocialObject user) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.COMMENTED;
-		action.save();
+		action.postSave();
 	}
 	
 	protected void recordCommentOnArticle(SocialObject user) {
@@ -256,7 +256,7 @@ public abstract class SocialObject extends domain.Entity implements
 	protected void recordAnswerOnCommunityPost(SocialObject user) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.ANSWERED;
-		action.save();
+		action.postSave();
 	}
 
 	protected void recordAddedPhoto(SocialObject user) {

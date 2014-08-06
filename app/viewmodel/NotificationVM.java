@@ -1,25 +1,47 @@
 package viewmodel;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import java.io.IOException;
 
 import models.Notification;
 
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+
+import domain.SocialObjectType;
+
 public class NotificationVM {
 	public Long id;
-	public Long mm;
 	public Long nid;
+	public int sta;
 	public String msg;
-	public String dn;
 	public String tp;
-	@JsonProperty("cn") public String communityName;
+	public UrlsVM  url;
 	
 	public NotificationVM(Notification no) {
-		this.id = no.socialAction.actor;
-		this.mm = no.socialAction.target;
 		this.nid = no.id;
-		this.dn = no.socialAction.getActorObject().name;
 		this.tp = no.notificationType.name();
 		this.msg = no.message;
-		this.communityName = no.socialAction.getTargetObject().name;
+		this.sta = no.status;
+		try {
+			this.url = new ObjectMapper().readValue(no.URLs, UrlsVM.class);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public NotificationVM(Notification no, SocialObjectType socialObjectType) {
+		this.id = no.recipetent;
+		this.nid = no.id;
+		this.tp = no.notificationType.name();
+		this.msg = no.message;
+		this.sta = no.status;
+		try {
+			this.url = new ObjectMapper().readValue(no.URLs, UrlsVM.class);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -19,6 +19,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
+import play.i18n.Messages;
 import processor.FeedProcessor;
 
 import com.github.cleverage.elasticsearch.IndexQuery;
@@ -96,7 +97,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
     @Override
     public void save() {
         super.save();
-        recordPost(owner);
+       
         this.socialUpdatedDate = new Date();
 
         // push to / remove from community
@@ -107,8 +108,10 @@ public class Post extends SocialObject implements Likeable, Commentable {
         }
         
         if (this.postType == PostType.SIMPLE) {
+        	 recordPost(owner);
             owner.postsCount++;
         } else if (this.postType == PostType.QUESTION) {
+        	 recordQnA(owner);
             owner.questionsCount++;
         }
     }

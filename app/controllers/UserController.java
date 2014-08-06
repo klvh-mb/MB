@@ -11,10 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import common.utils.NanoSecondStopWatch;
-import org.apache.commons.lang.exception.ExceptionUtils;
-
-import common.utils.ImageFileUtil;
 import models.Community;
 import models.Conversation;
 import models.Location;
@@ -24,6 +20,9 @@ import models.Post;
 import models.Resource;
 import models.User;
 import models.UserCommunityAffinity;
+
+import org.apache.commons.lang.exception.ExceptionUtils;
+
 import play.data.DynamicForm;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -33,7 +32,6 @@ import play.mvc.Result;
 import viewmodel.BookmarkSummaryVM;
 import viewmodel.CommunityPostVM;
 import viewmodel.ConversationVM;
-import viewmodel.FriendWidgetChildVM;
 import viewmodel.MessageVM;
 import viewmodel.NewsFeedVM;
 import viewmodel.NotificationVM;
@@ -42,9 +40,12 @@ import viewmodel.SocialObjectVM;
 import viewmodel.UserVM;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
-
 import common.model.TargetGender;
+import common.utils.ImageFileUtil;
+import common.utils.NanoSecondStopWatch;
+
 import domain.DefaultValues;
+import domain.SocialObjectType;
 
 public class UserController extends Controller {
     private static final play.api.Logger logger = play.api.Logger.apply(UserController.class);
@@ -225,8 +226,15 @@ public class UserController extends Controller {
 		final User user = User.findById(id);
 		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostVM> posts = new ArrayList<>();
-		List<Post> newsFeeds = user.getUserNewsfeeds(
-		        Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+		List<Post> newsFeeds;
+		
+		if(user == localUser){
+			newsFeeds = localUser.getUserNewsfeeds(
+			        Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+		} else {
+			newsFeeds = user.getUserNewsfeeds(
+			        Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT, localUser);
+		}
 		
 		if(newsFeeds != null ){
 			for(Post p : newsFeeds) {
@@ -299,9 +307,9 @@ public class UserController extends Controller {
     	final User localUser = Application.getLocalUser(session());
     	List<Notification> friendRequests = localUser.getAllFriendRequestNotification();
     	
-    	List<FriendWidgetChildVM> requests = new ArrayList<>();
+    	List<NotificationVM> requests = new ArrayList<>();
     	for(Notification n : friendRequests) {
-    		requests.add(new FriendWidgetChildVM(n.socialAction.actor, n.socialAction.getActorObject().name,n.id));
+    		requests.add(new NotificationVM(n));
     	}
     	return ok(Json.toJson(requests));
     }
@@ -317,7 +325,7 @@ public class UserController extends Controller {
 			e.printStackTrace();
 		}
     	Notification notification = Notification.findById(notify_id);
-    	notification.readed = true;
+    	notification.status = 1;
     	notification.merge();
     	return ok();
     }
@@ -325,10 +333,10 @@ public class UserController extends Controller {
     @Transactional
     public static Result getAllJoinRequests() {
     	final User localUser = Application.getLocalUser(session());
-    	List<Notification> joinRequests = localUser.getAllJoinRequestNotification();
+    	List<Notification> joinRequests = localUser.getAllNotification();
     	List<NotificationVM> requests = new ArrayList<>();
     	for(Notification n : joinRequests) {
-    		requests.add(new NotificationVM(n));
+    		requests.add(new NotificationVM(n,SocialObjectType.ANSWER));
     	}
     	return ok(Json.toJson(requests));
     }
@@ -347,7 +355,7 @@ public class UserController extends Controller {
 			e.printStackTrace();
 		}
     	Notification notification = Notification.findById(notify_id);
-    	notification.readed = true;
+    	notification.status = 1;
     	notification.merge();
     	return ok();
     }
@@ -366,7 +374,7 @@ public class UserController extends Controller {
 		}
     	
     	Notification notification = Notification.findById(notify_id);
-    	notification.readed = true;
+    	notification.status = 1;
     	notification.merge();
     	return ok();
     }
@@ -374,7 +382,14 @@ public class UserController extends Controller {
     @Transactional
     public static Result markNotificationAsRead (Long id) {
     	Notification notification=Notification.findById(id);
-    	notification.markNotificationRead();
+    	notification.changeStatus(1);
+    	return ok();
+    }
+    
+    @Transactional
+    public static Result ignoreNotification (Long id) {
+    	Notification notification=Notification.findById(id);
+    	notification.changeStatus(2);
     	return ok();
     }
     
@@ -608,6 +623,33 @@ public class UserController extends Controller {
 		vm.put("count", localUser.getUnreadMsgCount());
 		return ok(Json.toJson(vm));
 	}
+	
+	@Transactional
+    public static Result getHeaderBarMetadata() {
+		
+		final User localUser = Application.getLocalUser(session());
+		List<Notification> joinRequests = localUser.getAllNotification();
+    	List<NotificationVM> notif = new ArrayList<>();
+    	for(Notification n : joinRequests) {
+    		notif.add(new NotificationVM(n,SocialObjectType.ANSWER));
+    	}
+		
+    	
+    	List<Notification> friendRequests = localUser.getAllFriendRequestNotification();
+    	List<NotificationVM> requests = new ArrayList<>();
+    	for(Notification n : friendRequests) {
+    		requests.add(new NotificationVM(n));
+    	}
+    	
+    	
+		Map<String, Object> vm = new HashMap<>();
+		
+		vm.put("messageCount", localUser.getUnreadMsgCount());
+		vm.put("requestNotif", requests);
+		vm.put("allNotif", notif);
+		vm.put("name", localUser.firstName);
+    	return ok(Json.toJson(vm));
+    }
 	
 	@Transactional
 	public static Result getMessageImageByID(Long id) {
