@@ -107,9 +107,8 @@ public class FeedProcessor {
         Long commId = post.getCommunity().getId();
 
         if (logger.underlyingLogger().isDebugEnabled()) {
-	        logger.underlyingLogger().debug("pushToCommunity(p="+post.getId()+" c="+commId+") - start");
+	        logger.underlyingLogger().debug("pushToCommunity(p="+post.getId()+" c="+commId+")");
         }
-        NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 		Jedis j = null;
@@ -130,11 +129,6 @@ public class FeedProcessor {
 		        jedisPool.returnResource(j);
             }
         }
-
-        sw.stop();
-        if (logger.underlyingLogger().isDebugEnabled()) {
-	        logger.underlyingLogger().debug("pushToCommunity - end. Took "+sw.getElapsedMS()+"ms");
-        }
 	}
 
 	/**
@@ -142,18 +136,22 @@ public class FeedProcessor {
      * @param post
      */
     public static void removeFromCommunity(Post post) {
-        if (post.getCommunity().isExcludeFromNewsfeed()) {
-            return;     // NF disable
-        }
-
         Long commId = post.getCommunity().getId();
         
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("removeFromCommunity(p="+post.getId()+" c="+commId+") - start");
+            logger.underlyingLogger().debug("removeFromCommunity(p="+post.getId()+" c="+commId+")");
         }
-        
-        // TODO
-        
+
+        JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
+		Jedis j = null;
+        try {
+            j = jedisPool.getResource();
+            j.zrem(COMMUNITY+commId, post.id.toString());   // remove from community sorted set
+        } finally {
+            if (j != null) {
+		        jedisPool.returnResource(j);
+            }
+        }
     }
     
     /**
