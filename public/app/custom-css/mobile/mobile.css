@@ -60,7 +60,7 @@ body {
     margin: 0;
 }
 .modal-content {
-    top: 0;
+    /*top: 0;*/
 }
 .modal .modal-header .close {
     float: right;

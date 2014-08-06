@@ -207,6 +207,12 @@
     padding: 10px 10px;
     border-top: thin solid #CDCECF;
 }
+.post-qna-answers li.post-qna-answer-odd {
+    background-color: #F5F5FF;
+}
+.post-qna-answers li.post-qna-answer-even {
+    background-color: #F9F9FF;
+}
 .post-sharing-comment-count {
     font-weight: normal;
 }
