@@ -128,6 +128,10 @@
 .post-intro .post-dropdown-menu li a {
     padding: 0 12px;
 }
+.post-copy-link-modal .modal-dialog {
+    width: 580px;
+    top: 100px;
+}
 .post-qna-body-top, .post-sharing-body-top {
     color: #77737E;
     margin: 0;
@@ -209,11 +213,11 @@
 }
 .post-qna-answers li.post-qna-answer-odd {
     background-color: #F5F5FF;
-    border-top: 2px solid #E8E7E9;
+    border-top: 1px solid #DADADA;
 }
 .post-qna-answers li.post-qna-answer-even {
     background-color: #F9F9FF;
-    border-top: 2px solid #E8E7E9;
+    border-top: 1px solid #DADADA;
 }
 .post-sharing-comment-count {
     font-weight: normal;

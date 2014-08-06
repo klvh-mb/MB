@@ -16,10 +16,10 @@
 div[class*="col-xs-"], div[class*="col-sm-"], div[class*="col-md-"], div[class*="col-lg-"] {
     padding: 0 5px !important;
 }
-.glyphicon-trash {
+.glyphicon-trash, .glyphicon-share {
     margin-right: 4px;
     font-size: 12px;
-    vertical-align: baseline;
+    vertical-align: text-top;
     color: #3F64A7;
 }
 .glyphicon-lock {

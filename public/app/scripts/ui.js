@@ -69,3 +69,26 @@ var convertToLinks = function(text) {
 
     return replacedText;
 }
+
+var prompt = function(message, className) {
+    bootbox.dialog({
+        message: message,
+        title: "",
+        className: className,
+        buttons: {
+            /*main: {
+                label: "Copy",
+                className: "btn-default",
+                callback: function() {
+                    $('.bootbox-body').select();
+                }
+            },*/
+            success: {
+                label: "OK",
+                className: "btn-primary",
+                callback: function() {
+                }
+            }
+        }
+    });
+}

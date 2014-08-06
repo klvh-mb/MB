@@ -26,8 +26,8 @@ minibean.controller('SlidingMenuController', function($scope, $routeParams, $loc
     // user info
     //
     
-    $scope.userInfo = userInfoService.UserInfo.get();
-    $scope.userTargetProfile = userInfoService.UserTargetProfile.get();
+    //$scope.userInfo = userInfoService.UserInfo.get();
+    //$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
     
     $scope.set_background_image = function() {
         return { background: 'url(/image/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+') center center no-repeat'};
@@ -163,6 +163,16 @@ minibean.controller('SearchController',function($scope, searchService){
 
 
 ///////////////////////// User Info Service Start //////////////////////////////////
+minibean.service('applicationInfoService',function($resource){
+    this.ApplicationInfo = $resource(
+            '/get-application-info',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET'}
+            }
+    );
+});
+
 minibean.service('userInfoService',function($resource){
 	this.UserInfo = $resource(
 			'/get-user-info',
@@ -258,11 +268,12 @@ minibean.controller('UserInfoServiceController',function($scope,userInfoService)
     log("UserInfoServiceController completed");
 });
 
-minibean.controller('ApplicationController',function($scope,$location, userInfoService, userNotification, userSimpleNotifications,
+minibean.controller('ApplicationController',function($scope, $location, applicationInfoService, userInfoService, userNotification, userSimpleNotifications,
 	acceptJoinRequestService, acceptFriendRequestService, userMessageNotifications, notificationMarkReadService, usSpinnerService){
 
     log("ApplicationController starts");
-    	
+
+    $scope.applicationInfo = applicationInfoService.ApplicationInfo.get();
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
 	
@@ -2167,8 +2178,6 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
         usSpinnerService.spin('loading...');
     });
     
-    $scope.userTargetProfile = userInfoService.UserTargetProfile.get();
-
     $scope.community = communityPageService.Community.get({id:$routeParams.id}, function(data){
         usSpinnerService.stop('loading...');
         
@@ -3385,6 +3394,12 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 	
 	$scope.newsFeeds = { posts: [] };
 	
+    $scope.copyLink = function(link) {
+        var link = $scope.applicationInfo.baseUrl + link;
+        prompt(link, "post-copy-link-modal");
+        $('.bootbox-body').select();
+    }
+    
 	$scope.deletePost = function(postId) {
         postManagementService.deletePost.get({"postId":postId}, function(data) {
             angular.forEach($scope.newsFeeds.posts, function(post, key){

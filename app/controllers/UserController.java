@@ -96,8 +96,15 @@ public class UserController extends Controller {
     
 	@Transactional(readOnly=true)
 	public static Result getUserInfo() {
+	    NanoSecondStopWatch sw = new NanoSecondStopWatch();
+	    
 		final User localUser = Application.getLocalUser(session());
 		UserVM userInfo = new UserVM(localUser);
+		
+		sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.getId()+"] getUserInfo(). Took "+sw.getElapsedMS()+"ms");
+        }
 		return ok(Json.toJson(userInfo));
 	}
 	

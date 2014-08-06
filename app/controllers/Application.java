@@ -35,6 +35,7 @@ import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
 import targeting.community.CommunityTargetingEngine;
+import viewmodel.ApplicationInfoVM;
 import viewmodel.PostIndexVM;
 import viewmodel.TodayWeatherInfoVM;
 import viewmodel.UserTargetProfileVM;
@@ -58,6 +59,9 @@ import domain.DefaultValues;
 public class Application extends Controller {
     private static final play.api.Logger logger = play.api.Logger.apply(Application.class);
 
+    public static final String APPLICATION_BASE_URL = 
+            Play.application().configuration().getString("application.baseUrl");
+    
     public static final int SIGNUP_DAILY_THRESHOLD = 
             Play.application().configuration().getInt("signup.daily.threshold", 1000);
     public static final int SIGNUP_DAILY_LIMIT = 
@@ -136,6 +140,11 @@ public class Application extends Controller {
 	
 	public static User getSuperAdmin() {
 	    return User.getSuperAdmin();
+	}
+	
+	@Transactional
+    public static Result getApplicationInfo() {
+	    return ok(Json.toJson(new ApplicationInfoVM(APPLICATION_BASE_URL, isMobileUser()))); 
 	}
 	
 	@Transactional
