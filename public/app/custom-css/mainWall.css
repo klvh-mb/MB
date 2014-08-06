@@ -205,13 +205,15 @@
 }
 .post-qna-answers li {
     padding: 10px 10px;
-    border-top: thin solid #CDCECF;
+    border-top: 1px solid #CDCECF;
 }
 .post-qna-answers li.post-qna-answer-odd {
     background-color: #F5F5FF;
+    border-top: 2px solid #E8E7E9;
 }
 .post-qna-answers li.post-qna-answer-even {
     background-color: #F9F9FF;
+    border-top: 2px solid #E8E7E9;
 }
 .post-sharing-comment-count {
     font-weight: normal;
