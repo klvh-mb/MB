@@ -38,7 +38,7 @@ public class DataBootstrap {
         bootstrapLocation();
         bootstrapCommunity();
         bootstrapPNCommunity();
-        
+
         // clear cache
         clearCache();
         
@@ -590,18 +590,15 @@ public class DataBootstrap {
 
         logger.underlyingLogger().info("bootstrapPNCommunity()");
 
-        // PN Region communities (exclude islands)
+        // PN Region communities
         List<Location> regions = Location.getHongKongRegions();
         for (Location region : regions) {
-            if (!region.getName().contains("離島")) {
-                String name = region.displayName + "PN討論區 15-16";
-                String desc = region.displayName + "PreNursery討論區 2015-2016";
-                createPNCommunity(name, desc, region);
-            }
+            String name = region.displayName + "PN討論區 15-16";
+            String desc = region.displayName + "PreNursery討論區 2015-2016";
+            createPNCommunity(name, desc, region);
         }
     }
 
-    
     private static Community createFeedbackCommunity(String name, String desc) {
         Community community = null;
         try {
