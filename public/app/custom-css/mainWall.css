@@ -123,14 +123,10 @@
 }
 .post-intro .post-dropdown-menu li {
     padding: 0;
-    margin: 5px 0;
+    margin: 7px 0;
 }
 .post-intro .post-dropdown-menu li a {
     padding: 0 12px;
-}
-.post-copy-link-modal .modal-dialog {
-    width: 580px;
-    top: 100px;
 }
 .post-qna-body-top, .post-sharing-body-top {
     color: #77737E;

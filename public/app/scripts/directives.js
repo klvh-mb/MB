@@ -24,7 +24,7 @@ minibean.directive('ngConfirmClick', [function() {
                     bootbox.dialog({
                       message: message,
                       title: "",
-                      className: "post-unfavorite-modal",
+                      className: "post-bootbox-modal",
                       buttons: {
                         cancel: {
                           label: "取消",

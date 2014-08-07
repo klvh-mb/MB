@@ -820,3 +820,26 @@ span.notif-count {
     width: 18px;
     height: 18px;
 }
+.post-bootbox-modal {
+    top: 150px;
+    transition: none !important;
+    transform: none !important;
+}
+.post-bootbox-modal .modal-dialog {
+    width: 280px;
+    transition: none !important;
+    transform: none !important;
+}
+.post-bootbox-modal .modal-dialog .modal-body .bootbox-body {
+    margin-top: 5px;
+}
+.post-bootbox-modal .modal-dialog .modal-footer {
+    margin-top: 5px;
+}
+.post-copy-link-modal .modal-dialog {
+    width: 450px;
+}
+#post-link {
+    width: 85%;
+    padding: 3px;
+}

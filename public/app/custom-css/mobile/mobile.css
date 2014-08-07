@@ -22,6 +22,9 @@ body {
     color: #428bca;
     font-size: 18px;
 }
+.bootbox .modal-dialog {
+    margin-left: 25px;
+}
 .sliding-menu-logout {
     font-size: 15px;
     margin: 5px 0;
@@ -56,18 +59,17 @@ body {
 #wall-main .general-box {
     margin-bottom: 12px;
 }
-.modal-dialog {
+#imageModal .modal-dialog {
     margin: 0;
 }
-.modal-content {
+#imageModal .modal-content {
     /*top: 0;*/
 }
-.modal .modal-header .close {
+#imageModal .modal-header .close {
     float: right;
     font-size: 30px;
     top: 3px;
 }
-
 #back-to-top {
     width: 45px;
     height: 50px;
@@ -258,9 +260,22 @@ span.notif-count {
 }
 
 /* post */
+.post-copy-link-modal {
+    top: 0px;
+}
+.post-copy-link-modal .modal-dialog {
+    width: 250px;
+    margin-left: 10px;
+}
+#post-link {
+    width: 70%;
+}
 .post-intro img {
     width: 18px;
     height: 18px;
+}
+.post-intro .post-dropdown-menu {
+    font-size: 15px;
 }
 .post-comment-box .post-qna-reply-textfield {
     width: 50%;

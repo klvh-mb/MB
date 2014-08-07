@@ -2263,6 +2263,18 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
         usSpinnerService.stop('loading...');
     });
     
+    $scope.displayLink = function(link) {
+        var link = $scope.applicationInfo.baseUrl + link;
+        
+        bootbox.dialog({
+            message: 
+                "<input style='width:85%;padding:3px;' type='text' name='post-link' id='post-link' value="+link+" readonly></input>" + 
+                "<a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink(\"post-link\")'><i class='glyphicon glyphicon-link'></i></a>",
+            title: "",
+            className: "post-bootbox-modal post-copy-link-modal",
+        });
+    }
+    
 	$scope.deletePost = function(postId) {
         //log("deletePost:"+postId);
         postManagementService.deletePost.get({"postId":postId}, function(data) {
@@ -2616,6 +2628,18 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
         usSpinnerService.stop('loading...');
     });
 	
+	$scope.displayLink = function(link) {
+        var link = $scope.applicationInfo.baseUrl + link;
+        
+        bootbox.dialog({
+            message: 
+                "<input style='width:85%;padding:3px;' type='text' name='post-link' id='post-link' value="+link+" readonly></input>" + 
+                "<a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink(\"post-link\")'><i class='glyphicon glyphicon-link'></i></a>",
+            title: "",
+            className: "post-bootbox-modal post-copy-link-modal",
+        });
+    }
+    
 	$scope.deletePost = function(postId) {
         postManagementService.deletePost.get({"postId":postId}, function(data) {
             angular.forEach($scope.QnAs.posts, function(post, key){
@@ -3394,10 +3418,16 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 	
 	$scope.newsFeeds = { posts: [] };
 	
-    $scope.copyLink = function(link) {
+    $scope.displayLink = function(link) {
         var link = $scope.applicationInfo.baseUrl + link;
-        prompt(link, "post-copy-link-modal");
-        $('.bootbox-body').select();
+        
+        bootbox.dialog({
+            message: 
+                "<input type='text' name='post-link' id='post-link' value="+link+"></input>" + 
+                "<a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink(\"post-link\")'><i class='glyphicon glyphicon-link'></i></a>",
+            title: "",
+            className: "post-bootbox-modal post-copy-link-modal",
+        });
     }
     
 	$scope.deletePost = function(postId) {
@@ -3759,6 +3789,18 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 	
 	$scope.newsFeeds = { posts: [] };
 	
+	$scope.displayLink = function(link) {
+        var link = $scope.applicationInfo.baseUrl + link;
+        
+        bootbox.dialog({
+            message: 
+                "<input style='width:85%;padding:3px;' type='text' name='post-link' id='post-link' value="+link+" readonly></input>" + 
+                "<a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink(\"post-link\")'><i class='glyphicon glyphicon-link'></i></a>",
+            title: "",
+            className: "post-bootbox-modal post-copy-link-modal",
+        });
+    }
+    
 	$scope.deletePost = function(postId) {
         postManagementService.deletePost.get({"postId":postId}, function(data) {
             angular.forEach($scope.newsFeeds.posts, function(post, key){
@@ -4172,6 +4214,18 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 	
 	$scope.selectedSubTab = 1;
 	
+	$scope.displayLink = function(link) {
+        var link = $scope.applicationInfo.baseUrl + link;
+        
+        bootbox.dialog({
+            message: 
+                "<input style='width:85%;padding:3px;' type='text' name='post-link' id='post-link' value="+link+" readonly></input>" + 
+                "<a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink(\"post-link\")'><i class='glyphicon glyphicon-link'></i></a>",
+            title: "",
+            className: "post-bootbox-modal post-copy-link-modal",
+        });
+    }
+    
 	$scope.deletePost = function(postId) {
         postManagementService.deletePost.get({"postId":postId}, function(data) {
             angular.forEach($scope.posts.posts, function(post, key){

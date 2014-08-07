@@ -1673,16 +1673,6 @@ pre {
 .post-favorited:after {
     background-image: url(../images/general/icons/message_favorited.png);
 }
-.post-unfavorite-modal {
-    top: 150px;
-    transition: none !important;
-    transform: none !important;
-}
-.post-unfavorite-modal .modal-dialog {
-    width: 280px;
-    transition: none !important;
-    transform: none !important;
-}
 .memberCard, .friendCard {
     -webkit-border-radius: 3px;
     border-radius: 3px;

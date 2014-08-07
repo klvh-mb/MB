@@ -1,5 +1,13 @@
 
 //
+// Common
+//
+
+var highlightLink = function(id) {
+    $('#'+id).select();
+}
+
+//
 // Simple log helper
 //
 
@@ -69,6 +77,10 @@ var convertToLinks = function(text) {
 
     return replacedText;
 }
+
+//
+// bootbox
+//
 
 var prompt = function(message, className) {
     bootbox.dialog({
