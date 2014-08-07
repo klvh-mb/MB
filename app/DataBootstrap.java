@@ -593,7 +593,7 @@ public class DataBootstrap {
         // PN Region communities
         List<Location> regions = Location.getHongKongRegions();
         for (Location region : regions) {
-            String name = region.displayName + "PN討論區 15-16";
+            String name = region.displayName + "PN討論區2015-16";
             String desc = region.displayName + "PreNursery討論區 2015-2016";
             createPNCommunity(name, desc, region);
         }
