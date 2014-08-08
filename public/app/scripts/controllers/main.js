@@ -2335,7 +2335,8 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 		if ($scope.isBusy) return;
 		if (noMore) return;
 		$scope.isBusy = true;
-		time = $scope.posts.posts[$scope.posts.posts.length - 1].t;
+		if($scope.QnAs.posts.length > 0)
+			time = $scope.posts.posts[$scope.posts.posts.length - 1].t;
 		communityPageService.GetPosts.get({id:$routeParams.id,offset:offset,time : time}, function(data){
 			var posts = data;
 			if(data.length == 0) {
@@ -2347,7 +2348,6 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 		    }
 			$scope.isBusy = false;
 			offset++;
-			time = $scope.posts.posts[$scope.posts.posts.length - 1].t;
 		});
 	}
 	
@@ -2607,10 +2607,10 @@ minibean.service('communityQnAPageService',function($resource){
 			}
 	);
 	this.GetQnAs = $resource(
-			'/questions?id=:id&offset=:offset',
+			'/questions?id=:id&offset=:offset&time=:time',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
-				get: {method:'get', params:{id:'@id',offset:'@offset'},isArray:true}
+				get: {method:'get', params:{id:'@id',offset:'@offset',time:'@time'},isArray:true}
 			}
 	);
 });
@@ -2631,7 +2631,6 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
     var time = 0;
     
     $scope.QnAs = communityQnAPageService.QnAs.get({id:$routeParams.id}, function(){
-    	time = $scope.QnAs.posts[$scope.QnAs.posts.length - 1].t;
         usSpinnerService.stop('loading...');
     });
 	
@@ -2688,7 +2687,8 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 		if ($scope.isBusy) return;
 		if (noMore) return;
 		$scope.isBusy = true;
-		time = $scope.QnAs.posts[$scope.QnAs.posts.length - 1].t;
+		if($scope.QnAs.posts.length > 0)
+			time = $scope.QnAs.posts[$scope.QnAs.posts.length - 1].t;
 		communityQnAPageService.GetQnAs.get({id:$routeParams.id,offset:offsetq,time:time}, function(data){
 			var posts = data;
 			if(data.length == 0) {
@@ -2700,7 +2700,6 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 		    }
 			$scope.isBusy = false;
 			offsetq++;
-			time = $scope.QnAs.posts[$scope.QnAs.posts.length - 1].t;
 		});
 		
 	}
