@@ -57,7 +57,10 @@ public class PreNurseryController extends Controller {
             commRegion = LocationCache.getRegion(regionId);
         }
 
-        logger.underlyingLogger().info("[u="+localUser.id+"] getPNs(c="+id+"). region="+commRegion.getDisplayName());
+        if (localUser != null)
+            logger.underlyingLogger().info("[u="+localUser.id+"] getPNs(c="+id+"). region="+commRegion.getDisplayName());
+        else 
+            logger.underlyingLogger().info("[u=NA] getPNs(c="+id+"). region="+commRegion.getDisplayName());
 
         Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.regionId = ?1 and pn.schoolYear = ?2 order by pn.districtId, pn.name");
         q.setParameter(1, commRegion.id);
@@ -65,7 +68,7 @@ public class PreNurseryController extends Controller {
         List<PreNursery> pns = (List<PreNursery>)q.getResultList();
 
         Long userDistrictId = null;
-        if (localUser.userInfo != null && localUser.userInfo.location != null) {
+        if (localUser != null && localUser.userInfo != null && localUser.userInfo.location != null) {
             userDistrictId = localUser.userInfo.location.id;
         }
 
