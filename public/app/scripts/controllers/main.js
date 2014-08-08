@@ -251,6 +251,8 @@ minibean.controller('ApplicationController',function($scope, $location, $interva
 
     log("ApplicationController starts");
 
+    window.isBrowserTabActive = true;
+    
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
 	
@@ -260,6 +262,10 @@ minibean.controller('ApplicationController',function($scope, $location, $interva
 	
 	$scope.unread_msg_count = 0;
 	$scope.get_header_metaData = function() {
+        if (window.isBrowserTabActive == false) {
+            return;
+        }
+        
         //log("get_header_metaData");
 		headerBarMetadataService.headerBardata.get(function(data) {
             //log("headerBardata:"+data.messageCount);
@@ -273,7 +279,7 @@ minibean.controller('ApplicationController',function($scope, $location, $interva
 
 	// refresh header meta data every X secs
 	// To stop - $interval.cancel(stopHeaderMetaData);
-	var stopHeaderMetaData = $interval($scope.get_header_metaData, 5000);
+	var stopHeaderMetaData = $interval($scope.get_header_metaData, 3000);
 	
 	$scope.isFRreaded = true;
 	$scope.isNOreaded = true;
