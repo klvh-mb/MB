@@ -327,7 +327,7 @@ public class CommunityController extends Controller{
     }
     
     @Transactional
-    public static Result getNextPosts(String id,String offset) {
+    public static Result getNextPosts(String id,String offset,String time) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         final User localUser = Application.getLocalUser(session());
@@ -335,7 +335,7 @@ public class CommunityController extends Controller{
         Community community = Community.findById(Long.parseLong(id));
         int start = (Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) + DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
         List<CommunityPostVM> postsVM = new ArrayList<>();
-        List<Post> posts = community.getPostsOfCommunity(start, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        List<Post> posts = community.getPostsOfCommunityByTime(start, Long.parseLong(time));
         for(Post p: posts) {
             CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser);
             postsVM.add(post);
@@ -349,7 +349,7 @@ public class CommunityController extends Controller{
     }
     
     @Transactional
-    public static Result getNextQnAs(String id,String offset) {
+    public static Result getNextQnAs(String id,String offset,String time) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         final User localUser = Application.getLocalUser(session());
@@ -357,7 +357,7 @@ public class CommunityController extends Controller{
         Community community = Community.findById(Long.parseLong(id));
         int start = (Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) + DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
         List<CommunityPostVM> postsVM = new ArrayList<>();
-        List<Post> posts =  community.getQuestionsOfCommunity(start, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        List<Post> posts =  community.getQuestionsOfCommunityByTime(Long.parseLong(time));
         for(Post p: posts) {
             CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
             postsVM.add(post);

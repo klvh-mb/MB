@@ -38,6 +38,7 @@ import play.i18n.Messages;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
 
+import domain.DefaultValues;
 import domain.Joinable;
 import domain.Likeable;
 import domain.PostType;
@@ -357,6 +358,24 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		q.setParameter(1, this);
 		q.setFirstResult(offset);
 		q.setMaxResults(limit);
+		return (List<Post>)q.getResultList();
+	}
+	
+	@JsonIgnore
+	public List<Post> getPostsOfCommunityByTime(int offset, Long time) {
+		Query q = JPA.em().createQuery("Select p from Post p where community=?1 and postType=1 and deleted = false and  (socialUpdatedDate < ?2) order by p.socialUpdatedDate desc");
+		q.setParameter(1, this);
+		q.setParameter(2, new Date(time ));
+		q.setMaxResults(DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+		return (List<Post>)q.getResultList();
+	}
+	
+	@JsonIgnore
+	public List<Post> getQuestionsOfCommunityByTime(Long time) {
+		Query q = JPA.em().createQuery("Select p from Post p where community=?1 and postType=0 and deleted = false and (socialUpdatedDate < ?2)  order by p.socialUpdatedDate desc");
+		q.setParameter(1, this);
+		q.setParameter(2, new Date(time ));
+		q.setMaxResults(DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 		return (List<Post>)q.getResultList();
 	}
 	
