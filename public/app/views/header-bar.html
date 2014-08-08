@@ -65,22 +65,18 @@
                             data-ng-click="accept_invite_request(request.url.actor, request.url.target, request.nid);$event.stopPropagation();" 
                             class="btn btn-xs btn-success pull-right a_{{request.nid}}">accept</button>
                             
-                          <button ng-switch-when="FRIEND_REQUEST" data-ng-init="friend.isFriendAccepted = false"
-                             data-ng-click="accept_friend_request(request.url.actor, request.nid);$event.stopPropagation();" 
-                             class="btn btn-xs btn-success pull-right a_{{request.nid}}">accept</button>
+                        <button ng-switch-when="FRIEND_REQUEST" data-ng-init="friend.isFriendAccepted = false"
+                            data-ng-click="accept_friend_request(request.url.actor, request.nid);$event.stopPropagation();" 
+                            class="btn btn-xs btn-success pull-right a_{{request.nid}}">accept</button>
                             
-                        
                         <button ng-switch-when="COMMUNITY_JOIN_APPROVED" style="margin-right: 0px !important;" 
-                            data-ng-show="request.isfriend_requests LoadingEnable == false" data-ng-init="request.isRequestAccepted = false;"
+                            data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false;"
                             data-ng-click="mark_as_read(request.nid);$event.stopPropagation();"
                             class="btn btn-xs btn-success pull-right a_{{request.nid}}">mark as read</button>
-                            
                             
                        <button data-ng-hide="request.tp == 'COMMUNITY_JOIN_APPROVED'" style="margin-right: 15px;"
                             data-ng-click="ignoreIt(request.nid);$event.stopPropagation();" 
                             class="btn btn-xs btn-success pull-right ignore">ignore</button>
-                            
-                        
                     </div>
                 </li>
             </ul>
@@ -137,7 +133,7 @@
         <li class="dropdown notif pull-left">
             <a href="/#/message/0">
                 <img class="colorChange" src="../assets/app/images/general/icons/w_message.png"/>
-                <span class="notif-count pull-right" data-ng-show="unread_msg_count.count > 0">{{unread_msg_count.count}}</span>
+                <span class="notif-count pull-right" data-ng-show="unread_msg_count > 0">{{unread_msg_count}}</span>
             </a>
         </li>
     </ul>
