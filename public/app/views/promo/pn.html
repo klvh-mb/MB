@@ -1,0 +1,119 @@
+<div id=login-header>
+    <div class="login-logo pull-left">
+        <img src="../assets/app/images/logo-2.png" />
+    </div>
+</div>
+
+<div class="themeA-container">
+    <div class="row">
+        <div class="col-lg-1 col-md-1 col-xs-1" style="width:5%"></div>
+        <div class="col-md-6 col-sm-6 col-xs-6" style="width:50%">
+            <div class="general-box">
+                <div id="community-header-menu">
+                    <div ng-class="{activeTabBold: selectedTab == 1}">
+                        <a ng-click="selectedTab = 1;">香港島</a>
+                    </div>
+                    <div class="divider-cus"></div>
+                    <div ng-class="{activeTabBold: selectedTab == 2}">
+                        <a ng-click="selectedTab = 2;">九龍</a>
+                    </div>
+                    <div class="divider-cus"></div>
+                    <div ng-class="{activeTabBold: selectedTab == 3}">
+                        <a ng-click="selectedTab = 3;">新界</a>
+                    </div>
+                    <div class="divider-cus"></div>
+                    <div ng-class="{activeTabBold: selectedTab == 4}">
+                        <a ng-click="selectedTab = 4;">離島</a>
+                    </div>
+                </div>
+                
+                <div class="pn-box" ng-repeat="pn in hk_pns" ng-show="selectedTab == 1">
+                    <ul class="pn-wrapper" style="padding: 5px 10px 0px 10px;">
+                        <li>
+                            <div class="pn-info">
+                                <a ng-href="{{pn.url}}" target="_blank">
+                                    {{pn.n}}
+                                </a>
+                                <span class="tag" ng-style="{backgroundColor: pn.tagc}">{{pn.dis}}</span>
+                                <div class="pn-info-note"><span ng-show="pn.pho">電話: {{pn.pho}}</span><span ng-show="pn.em"> · 電郵: {{pn.em}}<span></div>
+                                <div class="pn-info-attr">
+                                    <span>開始派表日期: {{pn.fds}}<span ng-show="!pn.fds">--</span></span>
+                                    <span>開始報名日期: {{pn.ads}}<span ng-show="!pn.ads">--</span></span>
+                                    <span>截止日期: {{pn.eds}}<span ng-show="!pn.eds">--</span></span>
+                                    <span class="pull-right" ng-show="pn.fom">申請表格: <a href="{{pn.fom}}" target="_blank"><i class="glyphicon glyphicon-download-alt"></i></a></span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="pn-box" ng-repeat="pn in kl_pns" ng-show="selectedTab == 2">
+                    <ul class="pn-wrapper" style="padding: 5px 10px 0px 10px;">
+                        <li>
+                            <div class="pn-info">
+                                <a ng-href="{{pn.url}}" target="_blank">
+                                    {{pn.n}}
+                                </a>
+                                <span class="tag" ng-style="{backgroundColor: pn.tagc}">{{pn.dis}}</span>
+                                <div class="pn-info-note"><span ng-show="pn.pho">電話: {{pn.pho}}</span><span ng-show="pn.em"> · 電郵: {{pn.em}}<span></div>
+                                <div class="pn-info-attr">
+                                    <span>開始派表日期: {{pn.fds}}<span ng-show="!pn.fds">--</span></span>
+                                    <span>開始報名日期: {{pn.ads}}<span ng-show="!pn.ads">--</span></span>
+                                    <span>截止日期: {{pn.eds}}<span ng-show="!pn.eds">--</span></span>
+                                    <span class="pull-right" ng-show="pn.fom">申請表格: <a href="{{pn.fom}}" target="_blank"><i class="glyphicon glyphicon-download-alt"></i></a></span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="pn-box" ng-repeat="pn in nt_pns" ng-show="selectedTab == 3">
+                    <ul class="pn-wrapper" style="padding: 5px 10px 0px 10px;">
+                        <li>
+                            <div class="pn-info">
+                                <a ng-href="{{pn.url}}" target="_blank">
+                                    {{pn.n}}
+                                </a>
+                                <span class="tag" ng-style="{backgroundColor: pn.tagc}">{{pn.dis}}</span>
+                                <div class="pn-info-note"><span ng-show="pn.pho">電話: {{pn.pho}}</span><span ng-show="pn.em"> · 電郵: {{pn.em}}<span></div>
+                                <div class="pn-info-attr">
+                                    <span>開始派表日期: {{pn.fds}}<span ng-show="!pn.fds">--</span></span>
+                                    <span>開始報名日期: {{pn.ads}}<span ng-show="!pn.ads">--</span></span>
+                                    <span>截止日期: {{pn.eds}}<span ng-show="!pn.eds">--</span></span>
+                                    <span class="pull-right" ng-show="pn.fom">申請表格: <a href="{{pn.fom}}" target="_blank"><i class="glyphicon glyphicon-download-alt"></i></a></span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="pn-box" ng-repeat="pn in is_pns" ng-show="selectedTab == 4">
+                    <ul class="pn-wrapper" style="padding: 5px 10px 0px 10px;">
+                        <li>
+                            <div class="pn-info">
+                                <a ng-href="{{pn.url}}" target="_blank">
+                                    {{pn.n}}
+                                </a>
+                                <span class="tag" ng-style="{backgroundColor: pn.tagc}">{{pn.dis}}</span>
+                                <div class="pn-info-note"><span ng-show="pn.pho">電話: {{pn.pho}}</span><span ng-show="pn.em"> · 電郵: {{pn.em}}<span></div>
+                                <div class="pn-info-attr">
+                                    <span>開始派表日期: {{pn.fds}}<span ng-show="!pn.fds">--</span></span>
+                                    <span>開始報名日期: {{pn.ads}}<span ng-show="!pn.ads">--</span></span>
+                                    <span>截止日期: {{pn.eds}}<span ng-show="!pn.eds">--</span></span>
+                                    <span class="pull-right" ng-show="pn.fom">申請表格: <a href="{{pn.fom}}" target="_blank"><i class="glyphicon glyphicon-download-alt"></i></a></span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div style="margin-left:10px;font-size:11px;">*以上資料只供家長參考，如資料有誤，概以學校最後公布為準。</div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4" style="width:25%">
+            <div class="row">
+            
+            </div>
+        </div>
+    </div>
+</div>

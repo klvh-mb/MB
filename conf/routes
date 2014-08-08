@@ -6,7 +6,10 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# WAP Test
+# Promo
+GET     /promo                      controllers.PromoController.index
+
+# Mobile
 GET     /mobile                     controllers.Application.mobileIndex
 GET     /mobile/login               controllers.Application.mobileLogin
 POST    /mobile/login               controllers.Application.doMobileLogin

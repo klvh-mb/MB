@@ -3,7 +3,6 @@
 var minibean = angular.module('minibean');
 
 minibean.controller('SlidingMenuController', function($scope, $routeParams, $location, userInfoService, articleCategoryService){
-
     log("SlidingMenuController starts");
     
     //
@@ -814,7 +813,7 @@ minibean.controller('CommunityPNController',function($scope, $routeParams, pnSer
                     if (curDistrict == '' || curDistrict != request.dis) {
                         curDistrict = request.dis;
                         tagColorIndex++;
-                        log(curDistrict + ":" + DefaultValues.tagColors[tagColorIndex]);
+                        //log(curDistrict + ":" + DefaultValues.tagColors[tagColorIndex]);
                     }
                     request.tagc = DefaultValues.tagColors[tagColorIndex];
                     if (request.myd) {
