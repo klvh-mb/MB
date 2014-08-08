@@ -2337,7 +2337,7 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 		if ($scope.isBusy) return;
 		if (noMore) return;
 		$scope.isBusy = true;
-		if($scope.QnAs.posts.length > 0)
+		if($scope.posts.posts.length > 0)
 			time = $scope.posts.posts[$scope.posts.posts.length - 1].t;
 		communityPageService.GetPosts.get({id:$routeParams.id,offset:offset,time : time}, function(data){
 			var posts = data;
