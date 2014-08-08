@@ -470,7 +470,7 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 
 	$scope.start = function(index) {
 		$scope.progress[index] = 0;
-		usSpinnerService.spin('loading...');
+		usSpinnerService.spin('loading..');
 		$scope.upload[index] = $upload.upload({
 			url : PhotoModalController.url,
 			method: $scope.httpMethod,
@@ -481,7 +481,7 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 			file: $scope.selectedFiles[index],
 			fileFormDataName: 'profile-photo'
 		}).success(function(data, status, headers, config) {
-			usSpinnerService.stop('loading...');
+			usSpinnerService.stop('loading..');
 			profilePhotoModal.CloseModal();
 		});
 	} // End of start
@@ -1309,10 +1309,10 @@ minibean.service('communityPageService',function($resource){
     );
     
 	this.GetPosts = $resource(
-			'/posts?id=:id&offset=:offset',
+			'/posts?id=:id&offset=:offset&time=:time',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
-				get: {method:'get', params:{id:'@id',offset:'@offset'},isArray:true}
+				get: {method:'get', params:{id:'@id',offset:'@offset', time:'@time'},isArray:true}
 			}
 	);
 	
@@ -2261,6 +2261,8 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 	
 	log("CommunityPostController starts");
 	
+	var time = 0;
+	
 	$scope.posts = communityPageService.Posts.get({id:$routeParams.id}, function(){
         usSpinnerService.stop('loading...');
     });
@@ -2335,7 +2337,9 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 		if ($scope.isBusy) return;
 		if (noMore) return;
 		$scope.isBusy = true;
-		communityPageService.GetPosts.get({id:$routeParams.id,offset:offset}, function(data){
+		if($scope.QnAs.posts.length > 0)
+			time = $scope.posts.posts[$scope.posts.posts.length - 1].t;
+		communityPageService.GetPosts.get({id:$routeParams.id,offset:offset,time : time}, function(data){
 			var posts = data;
 			if(data.length == 0) {
 				noMore = true;
@@ -2605,10 +2609,10 @@ minibean.service('communityQnAPageService',function($resource){
 			}
 	);
 	this.GetQnAs = $resource(
-			'/questions?id=:id&offset=:offset',
+			'/questions?id=:id&offset=:offset&time=:time',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
-				get: {method:'get', params:{id:'@id',offset:'@offset'},isArray:true}
+				get: {method:'get', params:{id:'@id',offset:'@offset',time:'@time'},isArray:true}
 			}
 	);
 });
@@ -2626,6 +2630,8 @@ minibean.service('allAnswersService',function($resource){
 minibean.controller('CommunityQnAController',function($scope, postManagementService, bookmarkPostService, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
     log("CommunityQnAController starts");
 
+    var time = 0;
+    
     $scope.QnAs = communityQnAPageService.QnAs.get({id:$routeParams.id}, function(){
         usSpinnerService.stop('loading...');
     });
@@ -2683,7 +2689,9 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 		if ($scope.isBusy) return;
 		if (noMore) return;
 		$scope.isBusy = true;
-		communityQnAPageService.GetQnAs.get({id:$routeParams.id,offset:offsetq}, function(data){
+		if($scope.QnAs.posts.length > 0)
+			time = $scope.QnAs.posts[$scope.QnAs.posts.length - 1].t;
+		communityQnAPageService.GetQnAs.get({id:$routeParams.id,offset:offsetq,time:time}, function(data){
 			var posts = data;
 			if(data.length == 0) {
 				noMore = true;
