@@ -31,7 +31,7 @@ public class UserVM {
 		}
 		this.id = user.id;
 		this.noOfFriends = user.getFriendsSize();
-		this.noOfGroups = user.getListOfJoinedCommunities().size();
+		this.noOfGroups = user.getListOfJoinedCommunityIds().size();
 	}
 	
 	

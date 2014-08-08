@@ -769,6 +769,7 @@ public class CommunityController extends Controller{
 
         // reloading newsfeed
         if(offset == 0) {
+            logger.underlyingLogger().info("[u="+localUser.id+"][name="+localUser.name+"] Reloading newsfeed");
             // Re-index user's community feed
             NewsfeedCommTargetingEngine.indexCommNewsfeedForUser(localUser.getId());
     	}
