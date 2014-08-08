@@ -41,8 +41,6 @@ public class TodayWeatherInfo implements Serializable {
             info = new TodayWeatherInfo();
             fillInfo(info);
             JedisCache.cache().putObj(JedisCache.TODAY_WEATHER_KEY, info, TodayWeatherInfo.REFRESH_SECS);
-            if (logger.underlyingLogger().isDebugEnabled())
-                logger.underlyingLogger().debug(info.toString());
         }
         return info;
     }

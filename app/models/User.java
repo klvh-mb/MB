@@ -1245,7 +1245,7 @@ public class User extends SocialObject implements Subject, Socializable {
         sw2.stop();
 
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+getId()+"]["+getName()+"] getNewsfeedsAtHomePage(offset="+offset+",limit="+limit+") "+
+            logger.underlyingLogger().debug("[u="+getId()+"] getNewsfeedsAtHomePage(offset="+offset+",limit="+limit+") "+
                     "Redis took "+sw.getElapsedMS()+"ms, DB took "+sw2.getElapsedMS()+"ms");
         }
         return results;
