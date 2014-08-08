@@ -268,10 +268,12 @@ minibean.controller('UserInfoServiceController',function($scope,userInfoService)
     log("UserInfoServiceController completed");
 });
 
-minibean.controller('ApplicationController',function($scope, $location, applicationInfoService, userInfoService, userNotification, userSimpleNotifications,
+minibean.controller('ApplicationController',function($scope, $location, $interval, applicationInfoService, userInfoService, userNotification, userSimpleNotifications,
 	acceptJoinRequestService, acceptFriendRequestService, userMessageNotifications, notificationMarkReadService, usSpinnerService){
 
     log("ApplicationController starts");
+
+    window.isBrowserTabActive = true;
 
     $scope.applicationInfo = applicationInfoService.ApplicationInfo.get();
 	$scope.userInfo = userInfoService.UserInfo.get();
@@ -3413,7 +3415,7 @@ minibean.service('newsFeedService',function($resource){
 	);
 });
 
-minibean.controller('NewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $interval, $timeout, $upload, $http, allCommentsService, usSpinnerService, newsFeedService) {
+minibean.controller('NewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, newsFeedService) {
 	log("NewsFeedController starts");
 	
 	$scope.newsFeeds = { posts: [] };
@@ -3784,7 +3786,7 @@ minibean.service('userNewsFeedService',function($resource){
 	);
 });
 
-minibean.controller('UserNewsFeedController', function($scope, $routeParams, $timeout, $upload, $interval, postManagementService, bookmarkPostService, likeFrameworkService, userInfoService, $http, allCommentsService, usSpinnerService, userNewsFeedService) {
+minibean.controller('UserNewsFeedController', function($scope, $routeParams, $timeout, $upload, postManagementService, bookmarkPostService, likeFrameworkService, userInfoService, $http, allCommentsService, usSpinnerService, userNewsFeedService) {
 	log("UserNewsFeedController starts");
 	
 	$scope.newsFeeds = { posts: [] };
@@ -4203,7 +4205,7 @@ minibean.service('bookmarkService',function($resource){
     );
 });
 
-minibean.controller('MyBookmarkController', function($scope, bookmarkPostService, likeFrameworkService, postManagementService, $interval, $http, allCommentsService, usSpinnerService, bookmarkService) {
+minibean.controller('MyBookmarkController', function($scope, bookmarkPostService, likeFrameworkService, postManagementService, $http, allCommentsService, usSpinnerService, bookmarkService) {
     log("MyBookmarkController starts");
     
     $scope.bookmarkSummary = bookmarkService.bookmarkSummary.get();

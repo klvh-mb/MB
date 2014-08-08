@@ -1,5 +1,35 @@
 
 //
+// Flag to check if browser tab is active
+// To control $interval
+//
+
+window.isBrowserTabActive = false;
+
+$(window).focus(function () {
+    window.isBrowserTabActive = true; 
+}); 
+
+$(window).blur(function () {
+    window.isBrowserTabActive = false; 
+});
+
+$(window).on("blur focus", function(e) {
+    var prevType = $(this).data("prevType"); // getting identifier to check by
+    if (prevType != e.type) {   //  reduce double fire issues by checking identifier
+        switch (e.type) {
+            case "blur":
+                window.isBrowserTabActive = false; 
+                break;
+            case "focus":
+                window.isBrowserTabActive = true; 
+                break;
+        }
+    }
+    $(this).data("prevType", e.type); // reset identifier
+})
+
+//
 // Common
 //
 
