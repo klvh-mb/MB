@@ -843,3 +843,7 @@ span.notif-count {
     width: 85%;
     padding: 3px;
 }
+#imageModal .modal-body img {
+    max-width: 880px; 
+    max-height: 620px;
+}

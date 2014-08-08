@@ -70,6 +70,9 @@ body {
     font-size: 30px;
     top: 3px;
 }
+#imageModal .modal-body img {
+    max-width: 100%;
+}
 #back-to-top {
     width: 45px;
     height: 50px;
