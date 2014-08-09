@@ -7,10 +7,13 @@
     <div style="margin:8px 10px;">
         <div style="float:left;margin:2px 0px;padding:0x;" class="widget-thumbnail" ng-repeat="friend in result.friends">
             <a style="float:left;margin-right:10px;" tag="user-picture-a" href="/#/profile/{{friend.id}}">
-                <img style="width:52px;height:auto;" tag="user-picture-img" data-toggle="tooltip" data-placement="top" data-ng-src="/image/get-thumbnail-image-by-id/{{friend.id}}" data-tooltip="{{friend.dn}}">
+                <img style="width:58px;height:auto;" tag="user-picture-img" data-toggle="tooltip" data-placement="top" data-ng-src="/image/get-thumbnail-image-by-id/{{friend.id}}" data-tooltip="{{friend.dn}}">
             </a>
-            <div style="font-weight:bold;margin-bottom:2px;">
+            <div style="font-weight:bold;font-size:13px;margin-bottom:-7px;">
                 <a href="/#/profile/{{friend.id}}" style="color: #428bca;">{{friend.dn}}</a>
+            </div>
+            <div ng-show="friend.foN != null" style="margin-bottom:-1px;">
+                <span class="mayKnowFD-name">{{friend.foN}} 的朋友</span>
             </div>
             <div>
                 <a ng-show="friend.isf==false && friend.isP == false && isLoadingEnabled==false" class="btn-general" data-ng-click="send_invite(friend.id)">+ <i class="fa fa-user"></i> 加為朋友</a></li>

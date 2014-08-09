@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
 
+import common.collection.Pair;
 import common.utils.NanoSecondStopWatch;
 import domain.DefaultValues;
 
@@ -69,13 +70,14 @@ public class FriendsController extends Controller {
 		final User localUser = Application.getLocalUser(session());
 		List<FriendWidgetChildVM> friends = new ArrayList<>();
 
-        List<User> frds = localUser.getSuggestedFriends(DefaultValues.DEFAULT_UTILITY_COUNT);
+        List<Pair<User, String>> suggestions = localUser.getSuggestedFriends(DefaultValues.DEFAULT_UTILITY_COUNT);
 
-		for(Object friend1 : frds) {
-			User friend = (User) friend1;
-			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName, friend.userInfo.location));
+		for(Pair<User, String> friendPair : suggestions) {
+            User friend = friendPair.first;
+            String frdOfName = friendPair.second;
+			friends.add(new FriendWidgetChildVM(friend.id, friend.displayName,
+                    friend.userInfo.location, frdOfName));
 		}
-
 		FriendWidgetParentVM friendsVM = new FriendWidgetParentVM((long)friends.size(), friends);
 
         sw.stop();

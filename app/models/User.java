@@ -315,19 +315,69 @@ public class User extends SocialObject implements Subject, Socializable {
         int count = FriendCache.getFriendsIds(this.id).size();
         return new Long(count);
     }
-    
+
+    /**
+     * Return 2nd level friends.
+     * @param limit
+     * @return
+     */
     @JsonIgnore
-    public List<User> getSuggestedFriends(int limit) {
-        Query q = JPA.em().createNativeQuery(
-                "Select * from User u where u.id <> ?1 and u.id not in (" + 
-                        "select sr.target from SocialRelation sr where (sr.action = ?2 or sr.actionType = ?3) and sr.actor = ?1 union " + 
-                        "select sr1.actor from SocialRelation sr1 where (sr1.action = ?2 or sr1.actionType = ?3) and sr1.target = ?1" + 
-                        ") and u.emailValidated = true and u.system = 0 and u.userInfo_id is not NULL and u.deleted = false", User.class);
-        q.setParameter(1, this.id);
-        q.setParameter(2, SocialRelation.Action.FRIEND.name());
-        q.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED.name());
-        List<User> frndList = (List<User>)q.setMaxResults(limit).getResultList();
-        return frndList;
+    public List<Pair<User, String>> getSuggestedFriends(int limit) {
+        Set<Long> secondLevelFrdIds = new HashSet<>();
+        Map<Long, Long> secondLevelFrdOf = new HashMap<>();
+
+        List<Long> firstLevelFrdIds = FriendCache.getFriendsIds(this.id);
+        for (Long firstLevelFrdId : firstLevelFrdIds) {
+            List<Long> ids = FriendCache.getFriendsIds(firstLevelFrdId);
+            for (Long secondLevelFrdId : ids) {
+                secondLevelFrdIds.add(secondLevelFrdId);
+                secondLevelFrdOf.put(secondLevelFrdId, firstLevelFrdId);
+            }
+        }
+        // remove myself and any 2nd level friends that are already my friends.
+        secondLevelFrdIds.remove(this.id);
+        secondLevelFrdIds.removeAll(firstLevelFrdIds);
+
+        if (secondLevelFrdIds.size() == 0) {
+            return Collections.EMPTY_LIST;
+        }
+        else {
+            String idsIn = StringUtil.collectionToString(secondLevelFrdIds, ",");
+            Query q = JPA.em().createNativeQuery(
+                    "Select * from User u where u.id in ("+idsIn+") and " +
+                    "u.emailValidated = true and u.system = 0 and u.userInfo_id is not NULL and u.deleted = false "+
+                    "order by u.lastLogin desc",
+                    User.class);
+            List<User> suggestedFrdList = (List<User>)q.setMaxResults(limit).getResultList();
+
+            // resolve friend of whom
+            firstLevelFrdIds.clear();
+            for (User suggestedFrd : suggestedFrdList) {
+                Long firstLevelFrdId = secondLevelFrdOf.get(suggestedFrd.id);
+                if (firstLevelFrdId != null) {
+                    firstLevelFrdIds.add(firstLevelFrdId);
+                }
+            }
+            idsIn = StringUtil.collectionToString(firstLevelFrdIds, ",");
+            q = JPA.em().createNativeQuery("Select u.id, u.displayName from User u where u.id in ("+idsIn+")");
+            List<Object[]> frdOfList = q.getResultList();
+
+            final List<Pair<User, String>> result = new ArrayList<>();
+            for (User suggestedFrd : suggestedFrdList) {
+                Long firstLevelFrdId = secondLevelFrdOf.get(suggestedFrd.id);
+                String frdOf = null;
+                for (Object[] frd : frdOfList) {
+                    BigInteger uid = (BigInteger) frd[0];
+                    String displayName = (String) frd[1];
+                    if (uid.longValue() == firstLevelFrdId.longValue()) {
+                        frdOf = displayName;
+                        break;
+                    }
+                }
+                result.add(new Pair<>(suggestedFrd, frdOf));
+            }
+            return result;
+        }
     }
 
     /**
