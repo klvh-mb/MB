@@ -192,14 +192,14 @@ public class Application extends Controller {
 	public static Result home(User user) {
 		if (user.userInfo == null) {
 		    if (isMobileUser()) {
-                logger.underlyingLogger().info("[u="+user.id+"]["+user.name+"] Login - mobile");
+                logger.underlyingLogger().info("[u="+user.id+"][name="+user.name+"] Login - mobile");
 
     		    if (user.fbLogin) {
                     return ok(views.html.mobile.signup_info_fb.render(user));
                 }
                 return ok(views.html.mobile.signup_info_reminder.render(user));     // native signup info must go PC for now, verification link goes to PC
 		    } else {
-                logger.underlyingLogger().info("[u="+user.id+"]["+user.name+"] Login - PC");
+                logger.underlyingLogger().info("[u="+user.id+"][name="+user.name+"] Login - PC");
 
     		    if (user.fbLogin) {
     		        return ok(views.html.signup_info_fb.render(user));

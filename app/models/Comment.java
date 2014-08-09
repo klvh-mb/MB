@@ -27,7 +27,8 @@ import domain.SocialObjectType;
 
 @Entity
 public class Comment extends SocialObject implements Comparable<Comment>, Likeable, Serializable, Creatable {
-  
+    private static final play.api.Logger logger = play.api.Logger.apply(Comment.class);
+
     public Comment() {}
     
     public Comment(SocialObject socialObject, User user, String body) {
@@ -44,6 +45,10 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
     
     @Override
     public void onLikedBy(User user) {
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+user.id+"][cmt="+id+"] Comment onLikedBy");
+        }
+
         recordLike(user);
         this.noOfLikes++;
         user.likesCount++;
@@ -51,6 +56,10 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
     
     @Override
     public void onUnlikedBy(User user) {
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+user.id+"][cmt="+id+"] Comment onUnlikedBy");
+        }
+
         this.noOfLikes--;
         user.likesCount--;
     }

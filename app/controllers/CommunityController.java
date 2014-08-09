@@ -125,7 +125,7 @@ public class CommunityController extends Controller{
 
             sw.stop();
             if (logger.underlyingLogger().isDebugEnabled()) {
-                logger.underlyingLogger().debug("[u="+localUser.id+"] getCommunityInfoById(c="+id+"). Took "+sw.getElapsedMS()+"ms");
+                logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getCommunityInfoById. Took "+sw.getElapsedMS()+"ms");
             }
             return ok(Json.toJson(communityVM));
         } else {
@@ -137,7 +137,7 @@ public class CommunityController extends Controller{
     public static Result getEditCommunityInfo(Long id) {
         final User localUser = Application.getLocalUser(session());
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.getId()+"] getEditCommunityInfo(c="+id+")");
+            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getEditCommunityInfo");
         }
 
         final Community community = Community.findById(id);
@@ -283,7 +283,7 @@ public class CommunityController extends Controller{
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[p="+id+"] getAllComments count="+comments.size()+". Took "+sw.getElapsedMS()+"ms");
+            logger.underlyingLogger().debug("[u="+localUser.id+"][p="+id+"] getAllComments count="+comments.size()+". Took "+sw.getElapsedMS()+"ms");
         }
         return ok(Json.toJson(commentsToShow));
     }
@@ -304,7 +304,7 @@ public class CommunityController extends Controller{
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[p="+id+"] getAllAnswers count="+comments.size()+". Took "+sw.getElapsedMS()+"ms");
+            logger.underlyingLogger().debug("[u="+localUser.id+"][p="+id+"] getAllAnswers count="+comments.size()+". Took "+sw.getElapsedMS()+"ms");
         }
         return ok(Json.toJson(commentsToShow));
     }
@@ -313,7 +313,7 @@ public class CommunityController extends Controller{
     public static Result sendJoinRequest(String id) {
         final User localUser = Application.getLocalUser(session());
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"] sendJoinRequest(c="+id+")");
+            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] sendJoinRequest Community");
         }
 
         Community community = Community.findById(Long.parseLong(id));
@@ -343,7 +343,7 @@ public class CommunityController extends Controller{
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"] getNextPosts(c="+id+", offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
+            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getNextPosts(offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
         }
         return ok(Json.toJson(postsVM));
     }
@@ -365,14 +365,14 @@ public class CommunityController extends Controller{
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"] getNextQnAs(c="+id+", offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
+            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getNextQnAs(offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
         }
         return ok(Json.toJson(postsVM));
     }
     
     @Transactional
     public static Result uploadCoverPhoto(Long id) {
-        logger.underlyingLogger().info("uploadCoverPhoto(c="+id+")");
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         Community community = Community.findById(id);
         FilePart picture = request().body().asMultipartFormData().getFile("profile-photo");
@@ -386,6 +386,9 @@ public class CommunityController extends Controller{
             logger.underlyingLogger().error("Error in uploadCoverPhoto", e);
             return status(500);
         }
+
+        sw.stop();
+        logger.underlyingLogger().info("[c="+id+"] uploadCoverPhoto Community. Took "+sw.getElapsedMS()+"ms");
         return ok();
     }
     
@@ -432,10 +435,10 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result updateCommunityProfileData(){
-        logger.underlyingLogger().debug("updateCommunityProfileData");
         Form<String> form = DynamicForm.form(String.class).bindFromRequest();
         Map<String, String> dataToUpdate = form.data();
         String communityId = dataToUpdate.get("id");
+
         Community community = Community.findById(Long.parseLong(communityId));
         community.name = dataToUpdate.get("n");
         community.description = dataToUpdate.get("d");
@@ -459,6 +462,8 @@ public class CommunityController extends Controller{
         
         community.icon = dataToUpdate.get("icon");
         community.merge();
+
+        logger.underlyingLogger().debug("[c="+community.id+"] updateCommunityProfileData");
         return ok("true");
     }
     
@@ -474,10 +479,10 @@ public class CommunityController extends Controller{
         Post p = Post.findById(postId);
         Community c = p.community;
         if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
-            Comment comment = null;
             try {
                 //NOTE: Currently commentType is hardcoded to SIMPLE
-                comment = (Comment) p.onComment(localUser, commentText, CommentType.SIMPLE);
+                Comment comment = (Comment) p.onComment(localUser, commentText, CommentType.SIMPLE);
+
                 String withPhotos = form.get("withPhotos");
                 if(Boolean.parseBoolean(withPhotos)) {
                 	comment.ensureAlbumExist();
@@ -487,16 +492,16 @@ public class CommunityController extends Controller{
 
                 sw.stop();
                 if (logger.underlyingLogger().isDebugEnabled()) {
-                    logger.underlyingLogger().debug("[u="+localUser.id+", p="+postId+"] commentOnCommunityPost - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
+                    logger.underlyingLogger().debug("[u="+localUser.id+"][c="+c.id+"][p="+postId+"] commentOnCommunityPost - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
                 }
+
+                return ok(Json.toJson(comment.id));
             } catch (SocialObjectNotCommentableException e) {
                 logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
             }
-
-
-            return ok(Json.toJson(comment.id));
+            return ok("Error in creating comment");
         }
-        return ok("Be member of community");
+        return ok("You are not a member of the community");
     }
     
     @Transactional
@@ -521,7 +526,7 @@ public class CommunityController extends Controller{
 
             sw.stop();
             if (logger.underlyingLogger().isDebugEnabled()) {
-                logger.underlyingLogger().debug("[u="+localUser.id+"] postOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
+                logger.underlyingLogger().debug("[u="+localUser.id+"][c="+c.id+"] postOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
             }
             return ok(Json.toJson(p.id));
         }
@@ -532,11 +537,12 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result deletePost(Long postId) {
         final User localUser = Application.getLocalUser(session());
+        Post post = Post.findById(postId);
+
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug(String.format("[u=%d,pid=%d] deletePost", localUser.id, postId));
+            logger.underlyingLogger().debug(String.format("[u=%d][c=%d][p=%d] deletePost", localUser.id, post.community.id, postId));
         }
 
-        Post post = Post.findById(postId);
         if (localUser.equals(post.owner) || 
                 localUser.isSuperAdmin()) {
             Post.deleteById(postId);
@@ -549,7 +555,7 @@ public class CommunityController extends Controller{
     public static Result deleteComment(Long commentId) {
         final User localUser = Application.getLocalUser(session());
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug(String.format("[u=%d,pid=%d] commentId", localUser.id, commentId));
+            logger.underlyingLogger().debug(String.format("[u=%d][cmt=%d] deleteComment", localUser.id, commentId));
         }
 
         Comment comment = Comment.findById(commentId);
@@ -558,7 +564,7 @@ public class CommunityController extends Controller{
             Comment.deleteById(commentId);
             return ok();
         }
-        return status(500, "Failed to delete comment. [u=" + localUser.id + "] not owner of comment [id=" + commentId + "].");
+        return status(500, "Failed to delete comment. [u="+localUser.id+"] not owner of comment [id=" + commentId + "].");
     }
     
     @Transactional
@@ -580,7 +586,7 @@ public class CommunityController extends Controller{
         Community community = Community.findById(community_id);
 
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"] leaveThisCommunity. community_id="+community_id);
+            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+community.id+"] leaveThisCommunity");
         }
 
         localUser.leaveCommunity(community);
@@ -605,30 +611,38 @@ public class CommunityController extends Controller{
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("getCommunityMembers. Took "+sw.getElapsedMS()+"ms");
+            logger.underlyingLogger().debug("[c="+id+"] getCommunityMembers. Took "+sw.getElapsedMS()+"ms");
         }
         return ok(Json.toJson(communitiesVM));
     }
     
     @Transactional
     public static Result postQuestionOnCommunity() {
-        logger.underlyingLogger().debug("postQuestionOnCommunity");
+
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
         final User localUser = Application.getLocalUser(session());
+
         DynamicForm form = DynamicForm.form().bindFromRequest();
         Long communityId = Long.parseLong(form.get("community_id"));
         String questionTitle = form.get("questionTitle");
         String questionText = form.get("questionText");
+
         Community c = Community.findById(communityId);
         if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
             String withPhotos = form.get("withPhotos");
             
             Post p = (Post) c.onPost(localUser, questionTitle, questionText, PostType.QUESTION);
-            
             if(Boolean.parseBoolean(withPhotos)) {
                 p.ensureAlbumExist();
             }
 
             p.indexPost(Boolean.parseBoolean(withPhotos));
+
+            sw.stop();
+            if (logger.underlyingLogger().isDebugEnabled()) {
+                logger.underlyingLogger().debug("[u="+localUser.id+"][c="+c.id+"] postQuestionOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
+            }
+
             return ok(Json.toJson(p.id));
         }
         return ok("You are not member of this community");
@@ -636,37 +650,38 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result answerToQuestionOnQnACommunity() {
-        logger.underlyingLogger().debug("answerToQuestionOnQnACommunity");
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
         final User localUser = Application.getLocalUser(session());
+
         DynamicForm form = form().bindFromRequest();
-        
         Long postId = Long.parseLong(form.get("post_id"));
         String answerText = form.get("answerText");
         
         Post p = Post.findById(postId);
-        Community c =p.community;
-        Comment comment =null;
-        
+        Community c = p.community;
         if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
             try {
-                comment = (Comment) p.onComment(localUser, answerText, CommentType.ANSWER);
+                Comment comment = (Comment) p.onComment(localUser, answerText, CommentType.ANSWER);
 
                 String withPhotos = form.get("withPhotos");
                 if(Boolean.parseBoolean(withPhotos)) {
                 	comment.ensureAlbumExist();
                 }
-                
                 p.setUpdatedDate(new Date());
                 p.merge();
+
+                sw.stop();
+                if (logger.underlyingLogger().isDebugEnabled()) {
+                    logger.underlyingLogger().debug("[u="+localUser.id+"][c="+c.id+"][p="+postId+"] answerToQuestionOnQnACommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
+                }
+
+                return ok(Json.toJson(comment.id));
             } catch (SocialObjectNotCommentableException e) {
                 logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
             }
-            
-          
-            
-            return ok(Json.toJson(comment.id));
+            return ok("Error in creating answer");
         }
-        return ok("you are not member of community");
+        return ok("You are not a member of the community");
     }
     
     @Transactional
@@ -677,7 +692,7 @@ public class CommunityController extends Controller{
         CommunityPostsVM postsVM = CommunityPostsVM.posts(community, localUser, posts);
 
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"] getAllQuestionsOfCommunity(c="+id+")="+postsVM.posts.size());
+            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getAllQuestionsOfCommunity="+postsVM.posts.size());
         }
         return ok(Json.toJson(postsVM));
     }
@@ -690,7 +705,7 @@ public class CommunityController extends Controller{
         CommunityPostsVM postsVM = CommunityPostsVM.posts(community, localUser, posts);
 
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"] getAllPostsOfCommunity(c="+id+")="+postsVM.posts.size());
+            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getAllPostsOfCommunity="+postsVM.posts.size());
         }
         return ok(Json.toJson(postsVM));
     }
@@ -734,7 +749,8 @@ public class CommunityController extends Controller{
 
     @Transactional
     public static Result sendInviteToJoinCommunity(Long community_id, Long user_id) {
-        logger.underlyingLogger().debug("sendInviteToJoinCommunity");
+        logger.underlyingLogger().info("[c="+community_id+"][recv="+user_id+"] sendInviteToJoinCommunity");
+
         Community community = Community.findById(community_id);
         User invitee = User.findById(user_id);
         if (invitee.isSuperAdmin()) {
@@ -842,10 +858,6 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result likeThePost(Long post_id) {
         User localUser = Application.getLocalUser(session());
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("likeThePost - u=" + localUser.id + " p=" + post_id);
-        }
-
         Post post = Post.findById(post_id);
         post.onLikedBy(localUser);
         return ok();
@@ -854,10 +866,6 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result unlikeThePost(Long post_id) throws SocialObjectNotLikableException {
         User localUser = Application.getLocalUser(session());
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("unlikeThePost - u=" + localUser.id + " p=" + post_id);
-        }
-
         Post post = Post.findById(post_id);
         post.onUnlikedBy(localUser);
         localUser.doUnLike(post_id, post.objectType);
@@ -867,10 +875,6 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result likeTheComment(Long comment_id) {
         User localUser = Application.getLocalUser(session());
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("likeTheComment - u=" + localUser.id + " c=" + comment_id);
-        }
-
         Comment comment = Comment.findById(comment_id);
         comment.onLikedBy(localUser);
         return ok();
@@ -879,10 +883,6 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result unlikeTheComment(Long comment_id) throws SocialObjectNotLikableException {
         User localUser = Application.getLocalUser(session());
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("unlikeTheComment - u=" + localUser.id + " c=" + comment_id);
-        }
-
         Comment comment = Comment.findById(comment_id);
         comment.onUnlikedBy(localUser);
         localUser.doUnLike(comment_id, comment.objectType);
@@ -891,7 +891,6 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result doBookmark(Long post_id){
-        logger.underlyingLogger().debug("doBookmark");
         User localUser = Application.getLocalUser(session());
         Post post = Post.findById(post_id);
         post.onBookmarkedBy(localUser);
@@ -900,7 +899,6 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result doUnBookmark(Long post_id){
-        logger.underlyingLogger().debug("doUnBookmark");
         User localUser = Application.getLocalUser(session());
         Post post = Post.findById(post_id);
         localUser.unBookmarkOn(post_id, post.objectType);

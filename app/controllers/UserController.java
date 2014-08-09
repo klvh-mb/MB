@@ -57,10 +57,6 @@ public class UserController extends Controller {
         if (affinity == null)
             return status(500);
 
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+", c="+communityId+"] isNewsfeedEnabledForCommunity: "+affinity.isNewsfeedEnabled());
-        }
-
         Map<String, Boolean> map = new HashMap<>();
         map.put("newsfeedEnabled", affinity.isNewsfeedEnabled());
         return ok(Json.toJson(map));

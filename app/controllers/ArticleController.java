@@ -228,7 +228,11 @@ public class ArticleController extends Controller {
 		SlidderArticleVM articleVM = new SlidderArticleVM(leftArticles, rightArticles, categoryVMs);
 		return ok(Json.toJson(articleVM));
 	}
-	
+
+    /**
+     * Note: No comment support on Articles right now
+     * @return
+     */
 	@Transactional
 	public static Result commentOnArticle() {
 		final User localUser = Application.getLocalUser(session());

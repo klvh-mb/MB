@@ -35,7 +35,6 @@ public class NewsfeedCommTargetingEngine {
      * @param userId
      */
     public static void indexCommNewsfeedForUser(Long userId) {
-        logger.underlyingLogger().info("[u="+userId+"] indexCommNewsfeedForUser - start.");
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         // Get targeted distribution

@@ -62,6 +62,10 @@ public class Post extends SocialObject implements Likeable, Commentable {
     
     @Override
     public void onLikedBy(User user) {
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+user.id+"][c="+community.id+"][p="+this.id+"] Post onLikedBy");
+        }
+
         recordLike(user);
         this.noOfLikes++;
         user.likesCount++;
@@ -72,11 +76,19 @@ public class Post extends SocialObject implements Likeable, Commentable {
     
     @Override
     public void onUnlikedBy(User user) {
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+user.id+"][c="+community.id+"][p="+this.id+"] Post onUnlikedBy");
+        }
+
         this.noOfLikes--;
         user.likesCount--;
     }
     
     public void onBookmarkedBy(User user) {
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+user.id+"][c="+community.id+"][p="+this.id+"] Post onBookmarkedBy");
+        }
+
         recordBookmark(user);
         // update affinity
         UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
