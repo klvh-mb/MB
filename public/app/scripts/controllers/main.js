@@ -54,6 +54,8 @@ minibean.controller('UIController', function($scope, $location, $anchorScroll, $
 minibean.controller('AnnouncementsWidgetController',function($scope, $http, announcementsWidgetService) {
     log("AnnouncementsWidgetController starts");
     
+    $scope.get_header_metaData();
+    
     $scope.announcements = announcementsWidgetService.getAnnouncements.get();
     
     log("AnnouncementsWidgetController completed");
@@ -266,19 +268,10 @@ minibean.controller('ApplicationController',function($scope,$location, headerBar
 			$scope.friend_requests = data.requestNotif;
 			$scope.join_requests = data.allNotif;
 			$scope.username = data.name;
+			$scope.unread_notify_count = data.notifyCount;
 		});
 	};
 	$scope.get_header_metaData();
-	/* headerBarMetadataService.headerBardata.get(function(data) {
-			alert("Got It");
-			console.log(data);
-			$scope.unread_msg_count = data.messageCount;
-			$scope.friend_requests = data.requestNotif;
-			$scope.join_requests = data.notif;
-			$scope.username = data.name;
-	});*/
-	
-	
 	$scope.isFRreaded = true;
 	$scope.isNOreaded = true;
 	
@@ -2170,6 +2163,8 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
         communityPageService, communityJoinService, userInfoService, searchMembersService, $upload, $timeout, usSpinnerService){
     
     log("CommunityPageController starts");
+    
+    $scope.get_header_metaData();
 
     $scope.show = false;
     

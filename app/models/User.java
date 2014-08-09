@@ -1032,12 +1032,13 @@ public class User extends SocialObject implements Subject, Socializable {
     public List<Notification> getAllFriendRequestNotification() {
         
         Query q = JPA.em().createQuery(
-                "SELECT n from Notification n where recipetent = ?1 and notificationType in (?2,?3,?4,?5) and status = ?6 ");
+                "SELECT n from Notification n where recipetent = ?1 and notificationType in (?2,?3,?4,?5,?7) and status = ?6 ");
         q.setParameter(1, this.id);
         q.setParameter(2, NotificationType.COMMUNITY_JOIN_REQUEST);
         q.setParameter(3, NotificationType.COMMUNITY_INVITE_REQUEST);
         q.setParameter(4, NotificationType.COMMUNITY_JOIN_APPROVED);
         q.setParameter(5, NotificationType.FRIEND_REQUEST);
+        q.setParameter(7, NotificationType.FRIEND_ACCEPTED);
         q.setParameter(6, 0);
         List<Notification> notifications = q.getResultList();
         return notifications;
@@ -1047,7 +1048,7 @@ public class User extends SocialObject implements Subject, Socializable {
     public List<Notification> getAllJoinRequestNotification() {
         
         Query q = JPA.em().createQuery(
-                "SELECT n from Notification n where recipetent = ?1 and notificationType in (?2,?3,?4) and readed = ?5 ");
+                "SELECT n from Notification n where recipetent = ?1 and notificationType in (?2,?3,?4) and readed = ?5 ORDER BY CREATED_DATE desc ");
         q.setParameter(1, this.id);
         q.setParameter(2, NotificationType.COMMUNITY_JOIN_REQUEST);
         q.setParameter(3, NotificationType.COMMUNITY_INVITE_REQUEST);
@@ -1126,8 +1127,8 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(4, SocialRelation.Action.FRIEND);
         
         SocialRelation sr= (SocialRelation) query.getSingleResult();
-        query = JPA.em().createQuery("DELETE  Notification n where socialAction =?1");
-        query.setParameter(1, sr);
+        query = JPA.em().createQuery("DELETE  Notification n where socialActionID =?1");
+        query.setParameter(1, sr.id);
         query.executeUpdate();
 
         // delete SocialRelation
@@ -1181,8 +1182,8 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(4, SocialRelation.Action.MEMBER);
         
         SocialRelation sr= (SocialRelation) query.getSingleResult();
-        query = JPA.em().createQuery("DELETE Notification n where socialAction =?1");
-        query.setParameter(1, sr);
+        query = JPA.em().createQuery("DELETE Notification n where socialActionID =?1");
+        query.setParameter(1, sr.id);
         query.executeUpdate();
 
         // delete SocialRelation

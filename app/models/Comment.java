@@ -75,7 +75,6 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
     @Override
     public void save() {
         super.save();
-        recordCommentOnCommunityPost(owner);
     }
     
     public static Comment findById(Long id) {

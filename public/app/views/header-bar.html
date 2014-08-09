@@ -71,7 +71,7 @@
                             
                         
                         <button ng-switch-when="COMMUNITY_JOIN_APPROVED" style="margin-right: 0px !important;" 
-                            data-ng-show="request.isfriend_requests LoadingEnable == false" data-ng-init="request.isRequestAccepted = false;"
+                            data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false;"
                             data-ng-click="mark_as_read(request.nid);$event.stopPropagation();"
                             class="btn btn-xs btn-success pull-right a_{{request.nid}}">mark as read</button>
                             
@@ -88,10 +88,10 @@
         <li class="dropdown notif pull-left">
             <a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
                 <img class="colorChange" src="../assets/app/images/general/icons/w_notification.png" data-ng-click="reset_notify_count()"/>
-                <span class="notif-count pull-right" data-ng-show="isNOreaded == true && join_requests.length > 0">{{join_requests.length}}</span>
+                <span class="notif-count pull-right" data-ng-show="isNOreaded == true && unread_notify_count > 0">{{unread_notify_count}}</span>
             </a>
             <ul class="dropdown-menu chat media-list" data-ng-show="join_requests.length > 0" style="top: 28px !important;overflow-y: scroll;max-height: 285px;">
-                <li data-ng-class="request.sta == 0 ? 'unread':'read' " class="media" data-ng-repeat="request in join_requests" >
+                <li data-ng-class="request.sta == 0 ? 'unread':'read' " class="media" data-ng-repeat="request in join_requests" data-ng-click="mark_as_read(request.nid)">
                     
                    <!--  <a ng-switch-when="COMMUNITY_JOIN_REQUEST" class="pull-left" ng-href="#/profile/{{request.id}}"><img class="media-object thumb" data-ng-src="/image/get-mini-image-by-id/{{request.id}}" alt="50x50" width="50"></a>
                     
@@ -122,15 +122,12 @@
                     </div> -->
                     
                     
-                    <a class="pull-left" data-ng-href="{{request.url.onClick}}" style="height: 50px;">
+                    <a class="pull-left" data-ng-href="{{request.url.onClick}}" data-ng-click="mark_as_read(request.nid);" style="height: 50px;">
                     	<img class="media-object thumb" data-ng-src="{{request.url.photo}}"  style="height: 50px; width: 60px;" width="50">
                     </a>
                     <div class="media-body">
                         <p class="margin-none">{{request.msg}}</p>
                     </div>
-                    <button style="margin-right: 0px !important;" 
-                            data-ng-click="mark_as_read(request.nid);" data-ng-init="request.sta = 1"
-                            class="btn btn-xs btn-success pull-right a_{{request.id}}_{{request.mm}}">mark as read</button>
                 </li>
             </ul>
         </li>

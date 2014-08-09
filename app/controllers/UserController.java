@@ -628,10 +628,14 @@ public class UserController extends Controller {
     public static Result getHeaderBarMetadata() {
 		
 		final User localUser = Application.getLocalUser(session());
-		List<Notification> joinRequests = localUser.getAllNotification();
+		List<Notification> allNotify = localUser.getAllNotification();
+		int unread_notify_count = 0;
     	List<NotificationVM> notif = new ArrayList<>();
-    	for(Notification n : joinRequests) {
-    		notif.add(new NotificationVM(n,SocialObjectType.ANSWER));
+    	for(Notification n : allNotify) {
+    		if(n.status == 0){
+    			unread_notify_count++;
+    		}
+    		notif.add(new NotificationVM(n));
     	}
 		
     	
@@ -648,6 +652,7 @@ public class UserController extends Controller {
 		vm.put("requestNotif", requests);
 		vm.put("allNotif", notif);
 		vm.put("name", localUser.firstName);
+		vm.put("notifyCount", unread_notify_count);
     	return ok(Json.toJson(vm));
     }
 	

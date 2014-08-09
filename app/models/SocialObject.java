@@ -136,7 +136,7 @@ public abstract class SocialObject extends domain.Entity implements
         // use existing join request to capture MEMBER relationship
         request.action = SocialRelation.Action.MEMBER;
         request.actionType = SocialRelation.ActionType.GRANT;
-        request.ensureUniqueAndCreate();
+        request.postSave();
         
         // save community affinity
         UserCommunityAffinity.onJoinedCommunity(user.id, this.id);
@@ -201,7 +201,7 @@ public abstract class SocialObject extends domain.Entity implements
 		action.actionType = SocialRelation.ActionType.GRANT;
 		action.action = SocialRelation.Action.FRIEND;
         // update SocialRelation to GRANT
-		action.save();
+		action.postSave();
 
         // update Friends cache
         FriendCache.onBecomeFriend(user.id, this.id);
