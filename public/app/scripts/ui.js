@@ -54,7 +54,7 @@ var toggleToNotVisible = true;
 
 $(window).scroll(function() {
     //console.log("main-app scroll");
-    if ($('#main-top') != undefined && $('#main-top').visible(true)) {
+    if ($('#main-top').length > 0 && $('#main-top').visible(true)) {
         //console.log("header no glow");
         $('#header').removeClass('header-glow');
         toggleToNotVisible = true;
