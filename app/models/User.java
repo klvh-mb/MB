@@ -342,12 +342,15 @@ public class User extends SocialObject implements Subject, Socializable {
             return Collections.EMPTY_LIST;
         }
         else {
+            // resolve suggested friends (filter out invited, deleted users, not validated)
             String idsIn = StringUtil.collectionToString(secondLevelFrdIds, ",");
             Query q = JPA.em().createNativeQuery(
-                    "Select * from User u where u.id in ("+idsIn+") and " +
+                    "Select * from User u where u.id in ("+idsIn+") and "+
+                    "u.id not in (select s.target from SocialRelation s where s.actor = ?1 and s.actionType = 'FRIEND_REQUESTED') and " +
                     "u.emailValidated = true and u.system = 0 and u.userInfo_id is not NULL and u.deleted = false "+
                     "order by u.lastLogin desc",
                     User.class);
+            q.setParameter(1, this.id);
             List<User> suggestedFrdList = (List<User>)q.setMaxResults(limit).getResultList();
 
             // resolve friend of whom

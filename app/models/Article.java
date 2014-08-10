@@ -60,8 +60,6 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	
 	@Transactional
 	public static List<Article> getArticlesByCategory(Long id, int offset) {
-        NanoSecondStopWatch sw = new NanoSecondStopWatch();
-
 		Query q;
 		if (id == 0){
 			q = JPA.em().createQuery("Select a from Article a where deleted = false order by publishedDate,id desc");
@@ -71,12 +69,8 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 		}
 		q.setFirstResult(offset);
 		q.setMaxResults(DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
-        List<Article> ret = (List<Article>)q.getResultList();
 
-        sw.stop();
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("getArticlesByCategory(cat="+id+", offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
-        }
+        List<Article> ret = (List<Article>)q.getResultList();
 		return ret;
 	}
 	
