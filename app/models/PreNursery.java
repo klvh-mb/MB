@@ -37,6 +37,8 @@ public class PreNursery {
 
     public String email;
 
+    public String address;
+
     public boolean couponSupport = false;
 
     public String formStartDateString;
@@ -56,6 +58,7 @@ public class PreNursery {
 
     public String formUrl;
 
+    public String mapUrlSuffix;
 
     public String schoolYear;
 
@@ -75,9 +78,9 @@ public class PreNursery {
 
         StringBuilder sb = new StringBuilder();
         sb.append("insert into PreNursery (");
-        sb.append("regionId, districtId, name, url, phoneText, email, couponSupport, formStartDateString, ");
+        sb.append("regionId, districtId, name, url, phoneText, email, address, couponSupport, formStartDateString, ");
         sb.append("formStartDate, applicationStartDateString, applicationStartDate, applicationEndDateString, applicationEndDate, ");
-        sb.append("formUrl, schoolYear");
+        sb.append("formUrl, mapUrlSuffix, schoolYear");
         sb.append(") values (");
         sb.append(regionId).append(", ");
         sb.append(districtId).append(", ");
@@ -85,6 +88,7 @@ public class PreNursery {
         if (url != null) sb.append("'").append(url).append("', "); else sb.append("NULL, ");
         if (phoneText != null) sb.append("'").append(phoneText).append("', "); else sb.append("NULL, ");
         if (email != null) sb.append("'").append(email).append("', "); else sb.append("NULL, ");
+        if (address != null) sb.append("'").append(address.replace("'","")).append("', "); else sb.append("NULL, ");
         sb.append(couponSupport ? 1 : 0).append(", ");
         if (formStartDateString != null) sb.append("'").append(formStartDateString).append("', "); else sb.append("NULL, ");
         if (formStartDate != null) sb.append("'").append(dateFormat.format(formStartDate)).append("', "); else sb.append("NULL, ");
@@ -93,6 +97,7 @@ public class PreNursery {
         if (applicationEndDateString != null) sb.append("'").append(applicationEndDateString).append("', "); else sb.append("NULL, ");
         if (applicationEndDate != null) sb.append("'").append(dateFormat.format(applicationEndDate)).append("', "); else sb.append("NULL, ");
         if (formUrl != null) sb.append("'").append(formUrl).append("', "); else sb.append("NULL, ");
+        if (mapUrlSuffix != null) sb.append("'").append(mapUrlSuffix.replace("'","")).append("', "); else sb.append("NULL, ");
 
         if (schoolYear != null) sb.append("'").append(schoolYear).append("'"); else sb.append("NULL");
         sb.append(");");
