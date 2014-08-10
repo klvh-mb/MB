@@ -54,6 +54,7 @@ import common.model.TargetGender;
 import common.model.TargetProfile;
 import common.model.TodayWeatherInfo;
 import common.utils.DateTimeUtil;
+import common.utils.UserAgentUtil;
 import domain.DefaultValues;
 
 public class Application extends Controller {
@@ -174,11 +175,14 @@ public class Application extends Controller {
 	    
 	@Transactional
 	public static Result index() {
-	    setMobileUser("false");
+	    UserAgentUtil userAgentUtil = new UserAgentUtil(request());
+	    boolean isMobile = userAgentUtil.isMobileUserAgent();
+	    
+	    setMobileUser(isMobile? "true":"false");
 	    
         final User localUser = getLocalUser(session());
 		if(localUser == null) {
-			return login();
+			return isMobile? mobileLogin():login();
 		}
 
 		return home(localUser);
