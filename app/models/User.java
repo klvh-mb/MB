@@ -342,6 +342,8 @@ public class User extends SocialObject implements Subject, Socializable {
             return Collections.EMPTY_LIST;
         }
         else {
+            final List<Pair<User, String>> result = new ArrayList<>();
+
             // resolve suggested friends (filter out invited, deleted users, not validated)
             String idsIn = StringUtil.collectionToString(secondLevelFrdIds, ",");
             Query q = JPA.em().createNativeQuery(
@@ -353,31 +355,32 @@ public class User extends SocialObject implements Subject, Socializable {
             q.setParameter(1, this.id);
             List<User> suggestedFrdList = (List<User>)q.setMaxResults(limit).getResultList();
 
-            // resolve friend of whom
-            firstLevelFrdIds.clear();
-            for (User suggestedFrd : suggestedFrdList) {
-                Long firstLevelFrdId = secondLevelFrdOf.get(suggestedFrd.id);
-                if (firstLevelFrdId != null) {
-                    firstLevelFrdIds.add(firstLevelFrdId);
-                }
-            }
-            idsIn = StringUtil.collectionToString(firstLevelFrdIds, ",");
-            q = JPA.em().createNativeQuery("Select u.id, u.displayName from User u where u.id in ("+idsIn+")");
-            List<Object[]> frdOfList = q.getResultList();
-
-            final List<Pair<User, String>> result = new ArrayList<>();
-            for (User suggestedFrd : suggestedFrdList) {
-                Long firstLevelFrdId = secondLevelFrdOf.get(suggestedFrd.id);
-                String frdOf = null;
-                for (Object[] frd : frdOfList) {
-                    BigInteger uid = (BigInteger) frd[0];
-                    String displayName = (String) frd[1];
-                    if (uid.longValue() == firstLevelFrdId.longValue()) {
-                        frdOf = displayName;
-                        break;
+            if (suggestedFrdList.size() > 0) {
+                // resolve friend of whom
+                firstLevelFrdIds.clear();
+                for (User suggestedFrd : suggestedFrdList) {
+                    Long firstLevelFrdId = secondLevelFrdOf.get(suggestedFrd.id);
+                    if (firstLevelFrdId != null) {
+                        firstLevelFrdIds.add(firstLevelFrdId);
                     }
                 }
-                result.add(new Pair<>(suggestedFrd, frdOf));
+                idsIn = StringUtil.collectionToString(firstLevelFrdIds, ",");
+                q = JPA.em().createNativeQuery("Select u.id, u.displayName from User u where u.id in ("+idsIn+")");
+                List<Object[]> frdOfList = q.getResultList();
+
+                for (User suggestedFrd : suggestedFrdList) {
+                    Long firstLevelFrdId = secondLevelFrdOf.get(suggestedFrd.id);
+                    String frdOf = null;
+                    for (Object[] frd : frdOfList) {
+                        BigInteger uid = (BigInteger) frd[0];
+                        String displayName = (String) frd[1];
+                        if (uid.longValue() == firstLevelFrdId.longValue()) {
+                            frdOf = displayName;
+                            break;
+                        }
+                    }
+                    result.add(new Pair<>(suggestedFrd, frdOf));
+                }
             }
             return result;
         }
