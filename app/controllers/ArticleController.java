@@ -97,9 +97,7 @@ public class ArticleController extends Controller {
 		}
 
         sw.stop();
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"] getArticlesCategorywise(cat="+cat_id+", off="+offset+"). Took "+sw.getElapsedMS()+"ms");
-        }
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] getArticlesCategorywise(cat="+cat_id+", off="+offset+"). Took "+sw.getElapsedMS()+"ms");
 		return ok(Json.toJson(listOfArticles));
 	}
 	

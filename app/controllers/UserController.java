@@ -113,7 +113,7 @@ public class UserController extends Controller {
 	@Transactional
 	public static Result uploadProfilePhoto() {
 		final User localUser = Application.getLocalUser(session());
-		logger.underlyingLogger().info("[u="+localUser.id+"] uploadProfilePhoto");
+		logger.underlyingLogger().info("STS [u="+localUser.id+"] uploadProfilePhoto");
 
 		FilePart picture = request().body().asMultipartFormData().getFile("profile-photo");
 		String fileName = picture.getFilename();
@@ -132,7 +132,7 @@ public class UserController extends Controller {
 	@Transactional
 	public static Result uploadCoverPhoto() {
 		final User localUser = Application.getLocalUser(session());
-		logger.underlyingLogger().info("[u="+localUser.id+"] uploadCoverPhoto");
+		logger.underlyingLogger().info("STS [u="+localUser.id+"] uploadCoverPhoto");
 
 		FilePart picture = request().body().asMultipartFormData().getFile("profile-photo");
 		String fileName = picture.getFilename();

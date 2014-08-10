@@ -196,14 +196,14 @@ public class Application extends Controller {
 	public static Result home(User user) {
 		if (user.userInfo == null) {
 		    if (isMobileUser()) {
-                logger.underlyingLogger().info("[u="+user.id+"][name="+user.name+"] Login - mobile");
+                logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.name+"] Login - mobile");
 
     		    if (user.fbLogin) {
                     return ok(views.html.mobile.signup_info_fb.render(user));
                 }
                 return ok(views.html.mobile.signup_info_reminder.render(user));     // native signup info must go PC for now, verification link goes to PC
 		    } else {
-                logger.underlyingLogger().info("[u="+user.id+"][name="+user.name+"] Login - PC");
+                logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.name+"] Login - PC");
 
     		    if (user.fbLogin) {
     		        return ok(views.html.signup_info_fb.render(user));
@@ -213,6 +213,8 @@ public class Application extends Controller {
 		}
 		
 	    if (user.isNewUser()) {
+            logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.name+"] Signup completed");
+
 	        CommunityTargetingEngine.assignSystemCommunitiesToUser(user);
 	        
 	        // TODO - keith
@@ -426,6 +428,8 @@ public class Application extends Controller {
 			// Everything was filled
 		    String email = filledForm.get().email;
 		    session().put(SIGNUP_EMAIL, email);
+
+            logger.underlyingLogger().info("STS [email="+email+"] Native signup submitted");
 			return UsernamePasswordAuthProvider.handleSignup(ctx());
 		}
 	}

@@ -10,7 +10,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * To change this template use File | Settings | File Templates.
  */
 public class PreNurseryVM {
-    private static final String MAPURL_PREFIX = "http://maps.google.com.hk/maps/place/";
+    private static final String MAPURL_PREFIX = "http://maps.google.com.hk/maps?q=";
 
     @JsonProperty("myd")  public boolean isMyDistrict;
     @JsonProperty("dis")  public String districtName;

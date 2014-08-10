@@ -124,9 +124,7 @@ public class CommunityController extends Controller{
             CommunityVM communityVM = CommunityVM.communityVM(community, localUser);
 
             sw.stop();
-            if (logger.underlyingLogger().isDebugEnabled()) {
-                logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getCommunityInfoById. Took "+sw.getElapsedMS()+"ms");
-            }
+            logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+id+"] getCommunityInfoById. Took "+sw.getElapsedMS()+"ms");
             return ok(Json.toJson(communityVM));
         } else {
             return ok();
@@ -491,9 +489,7 @@ public class CommunityController extends Controller{
                 p.merge();
 
                 sw.stop();
-                if (logger.underlyingLogger().isDebugEnabled()) {
-                    logger.underlyingLogger().debug("[u="+localUser.id+"][c="+c.id+"][p="+postId+"] commentOnCommunityPost - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
-                }
+                logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"][p="+postId+"] commentOnCommunityPost - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
 
                 return ok(Json.toJson(comment.id));
             } catch (SocialObjectNotCommentableException e) {
@@ -525,9 +521,7 @@ public class CommunityController extends Controller{
             p.indexPost(withPhotos);
 
             sw.stop();
-            if (logger.underlyingLogger().isDebugEnabled()) {
-                logger.underlyingLogger().debug("[u="+localUser.id+"][c="+c.id+"] postOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
-            }
+            logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"] postOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
             return ok(Json.toJson(p.id));
         }
         
@@ -639,9 +633,7 @@ public class CommunityController extends Controller{
             p.indexPost(Boolean.parseBoolean(withPhotos));
 
             sw.stop();
-            if (logger.underlyingLogger().isDebugEnabled()) {
-                logger.underlyingLogger().debug("[u="+localUser.id+"][c="+c.id+"] postQuestionOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
-            }
+            logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"] postQuestionOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
 
             return ok(Json.toJson(p.id));
         }
@@ -671,9 +663,7 @@ public class CommunityController extends Controller{
                 p.merge();
 
                 sw.stop();
-                if (logger.underlyingLogger().isDebugEnabled()) {
-                    logger.underlyingLogger().debug("[u="+localUser.id+"][c="+c.id+"][p="+postId+"] answerToQuestionOnQnACommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
-                }
+                logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"][p="+postId+"] answerToQuestionOnQnACommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
 
                 return ok(Json.toJson(comment.id));
             } catch (SocialObjectNotCommentableException e) {
@@ -785,7 +775,7 @@ public class CommunityController extends Controller{
 
         // reloading newsfeed
         if(offset == 0) {
-            logger.underlyingLogger().info("[u="+localUser.id+"][name="+localUser.name+"] Reloading newsfeed");
+            logger.underlyingLogger().info("STS [u="+localUser.id+"][name="+localUser.name+"] Reloading newsfeed");
             // Re-index user's community feed
             NewsfeedCommTargetingEngine.indexCommNewsfeedForUser(localUser.getId());
     	}
