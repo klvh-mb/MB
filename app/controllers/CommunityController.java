@@ -184,7 +184,7 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result getFullCoverCommunityImageById(Long id)  {
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("getFullCoverCommunityImageById(c="+id+")");
+            logger.underlyingLogger().debug("[c="+id+"] getFullCoverCommunityImageById");
         }
 
         final Community community = Community.findById(id);
