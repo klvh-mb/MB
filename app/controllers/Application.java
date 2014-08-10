@@ -40,8 +40,6 @@ import viewmodel.PostIndexVM;
 import viewmodel.TodayWeatherInfoVM;
 import viewmodel.UserTargetProfileVM;
 import views.html.signup;
-import be.objectify.deadbolt.java.actions.Group;
-import be.objectify.deadbolt.java.actions.Restrict;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
@@ -300,18 +298,6 @@ public class Application extends Controller {
 		final AuthUser currentAuthUser = PlayAuthenticate.getUser(session);
 		final User localUser = User.findByAuthUserIdentity(currentAuthUser);
 		return localUser;
-	}
-
-	@Restrict(@Group(Application.USER_ROLE))
-	public static Result restricted() {
-		final User localUser = getLocalUser(session());
-		return ok(views.html.restricted.render(localUser));
-	}
-
-	@Restrict(@Group(Application.USER_ROLE))
-	public static Result profile() {
-		final User localUser = getLocalUser(session());
-		return ok(views.html.profile.render(localUser));
 	}
 
 	@Transactional

@@ -4,87 +4,88 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=0.4">
-    <link rel="stylesheet" href="../assets/app/custom-css/textfield.css">
-	<link rel="stylesheet" href="../assets/app/custom-css/bootstrap.css">
-	<link rel="stylesheet" href="../assets/app/custom-css/icon.css">
-	<link rel="stylesheet" href="../assets/app/custom-css/login.css">
-	<link rel="stylesheet" href="../assets/app/custom-css/themeA.css">
-	<link rel="stylesheet" href="../assets/app/custom-css/themeA.append.css">
-<style>
-    body {
-        background-image: url(../assets/app/images/login/login-bg.jpg);
-        background-size: cover;
-        background-position: center center;
-        margin: 0;
-        padding: 0;
-    }
-</style>
-</head>
-
-<body>
-    <div id=login-header>
-        <div class="login-logo pull-left">
-            <img src="../assets/app/images/logo-2.png" />
+    <head>
+        <title>miniBean 小萌豆 - 會員登記</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=0.4">
+            <link rel="stylesheet" href="../assets/app/custom-css/textfield.css">
+        	<link rel="stylesheet" href="../assets/app/custom-css/bootstrap.css">
+        	<link rel="stylesheet" href="../assets/app/custom-css/icon.css">
+        	<link rel="stylesheet" href="../assets/app/custom-css/login.css">
+        	<link rel="stylesheet" href="../assets/app/custom-css/themeA.css">
+        	<link rel="stylesheet" href="../assets/app/custom-css/themeA.append.css">
+        <style>
+            body {
+                background-image: url(../assets/app/images/login/login-bg.jpg);
+                background-size: cover;
+                background-position: center center;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <div id=login-header>
+            <div class="login-logo pull-left">
+                <img src="../assets/app/images/logo-2.png" />
+            </div>
         </div>
-    </div>
-    <div class="login-container">
-        <div class="login-box" id="login-promote">
-            <!--img src="../assets/app/images/login/login-pic.png" alt="title-image"/-->
-            <div><h2><b>歡迎來到 miniBean 小萌豆!</b></h2></div>
-            <div><h3>一個屬於所有媽媽爸爸的社群</h3></div>
-            <!--div><p>歡迎來到小萌豆!</p></div-->
-            <h1><b>請立即加入小萌豆的大家庭!</b></h1>
+        <div class="login-container">
+            <div class="login-box" id="login-promote">
+                <!--img src="../assets/app/images/login/login-pic.png" alt="title-image"/-->
+                <div><h2><b>歡迎來到 miniBean 小萌豆!</b></h2></div>
+                <div><h3>一個屬於所有媽媽爸爸的社群</h3></div>
+                <!--div><p>歡迎來到小萌豆!</p></div-->
+                <h1><b>請立即加入小萌豆的大家庭!</b></h1>
+            </div>
+            <div class="login-box" id="login-section">
+                <ul>
+                    <li><img src="../assets/app/images/login/login_flag.png" /><h4>會員註冊</h4></li>
+                    <li style="height:10px"></li>
+                    <li id="login-info-wrapper" name="login-info">
+                        <!--  <form id="login-info-wrapper" name="login-info" method="post" action=""> -->
+                        @helper.form(routes.Application.doSignup) {
+                            <!--
+                            @if(signupForm.hasErrors && signupForm.errors.get("userExist") != null) { 
+                            <div style="width: 100%;text-align: left;margin-bottom: 5px;">
+                                <i class="glyphicon glyphicon-exclamation-sign"></i>
+                                <span class="text-danger">您輸入的電郵已經登記。請重試</span>
+                                <span class="text-danger">@signupForm.errors.get("userExist").get(0).message</span>
+                            </div>
+                            }
+                            -->
+                            
+                            @if(flash.get("error")) {
+                            <div style="width: 100%;text-align: left;margin-bottom: 5px;">
+                                <i class="glyphicon glyphicon-exclamation-sign"></i>
+                                <span class="text-danger">@flash.get("error")</span>
+                            </div>
+                            }
+    				        
+    				        <div style="position:relative;display:inline-block;width:100%;">
+                            <label for="Signup lastname"></label>
+                            <input type="text" name="lname" id="signup-lastname" class=" form-control general-textfield" style="width:40%; float:left; margin-left:0px;" placeholder="姓" />
+                            <label for="Signup firstname"></label>
+                            <input type="text" name="fname" id="signup-firstname" class="form-control general-textfield" style="width:50%; float:right; margin-right:12px;" placeholder="名" />
+                            </div>
+                            <label for="Signup email"></label>
+                            <input type="text" name="email" id="signup-email" class="form-control general-textfield" placeholder="你的電郵" />
+                            <label for="Signup password"></label>
+                            <input type="password" name="password" id="signup-password" class="form-control general-textfield" placeholder="密碼" />
+                            <label for="Signup password"></label>
+                            <input type="password" name="repeatPassword" id="signup-password" class="form-control general-textfield" placeholder="再次輸入密碼" />
+                            <p>按以下 [註冊] 鍵, 即代表你願意接受miniBean之<a href="/page/privacy.html" target="_blank">私隱權聲明</a>及<a href="/page/tc.html" target="_blank">使用條款細則</a>所約束</p>
+                            <input type="submit" name="signup-btn" id="signup-btn" value="註冊" />
+    					}
+                    </li>
+                    <li id="login-newacc"><p>已是miniBean會員。<a href="@routes.Application.login">請登入</a></p></li>
+                </ul>
+            </div>
         </div>
-        <div class="login-box" id="login-section">
-            <ul>
-                <li><img src="../assets/app/images/login/login_flag.png" /><h4>會員註冊</h4></li>
-                <li style="height:10px"></li>
-                <li id="login-info-wrapper" name="login-info">
-                    <!--  <form id="login-info-wrapper" name="login-info" method="post" action=""> -->
-                    @helper.form(routes.Application.doSignup) {
-                        <!--
-                        @if(signupForm.hasErrors && signupForm.errors.get("userExist") != null) { 
-                        <div style="width: 100%;text-align: left;margin-bottom: 5px;">
-                            <i class="glyphicon glyphicon-exclamation-sign"></i>
-                            <span class="text-danger">您輸入的電郵已經登記。請重試</span>
-                            <span class="text-danger">@signupForm.errors.get("userExist").get(0).message</span>
-                        </div>
-                        }
-                        -->
-                        
-                        @if(flash.get("error")) {
-                        <div style="width: 100%;text-align: left;margin-bottom: 5px;">
-                            <i class="glyphicon glyphicon-exclamation-sign"></i>
-                            <span class="text-danger">@flash.get("error")</span>
-                        </div>
-                        }
-				        
-				        <div style="position:relative;display:inline-block;width:100%;">
-                        <label for="Signup lastname"></label>
-                        <input type="text" name="lname" id="signup-lastname" class=" form-control general-textfield" style="width:40%; float:left; margin-left:0px;" placeholder="姓" />
-                        <label for="Signup firstname"></label>
-                        <input type="text" name="fname" id="signup-firstname" class="form-control general-textfield" style="width:50%; float:right; margin-right:12px;" placeholder="名" />
-                        </div>
-                        <label for="Signup email"></label>
-                        <input type="text" name="email" id="signup-email" class="form-control general-textfield" placeholder="你的電郵" />
-                        <label for="Signup password"></label>
-                        <input type="password" name="password" id="signup-password" class="form-control general-textfield" placeholder="密碼" />
-                        <label for="Signup password"></label>
-                        <input type="password" name="repeatPassword" id="signup-password" class="form-control general-textfield" placeholder="再次輸入密碼" />
-                        <p>按以下 [註冊] 鍵, 即代表你願意接受miniBean之<a href="/page/privacy.html" target="_blank">私隱權聲明</a>及<a href="/page/tc.html" target="_blank">使用條款細則</a>所約束</p>
-                        <input type="submit" name="signup-btn" id="signup-btn" value="註冊" />
-					}
-                </li>
-                <li id="login-newacc"><p>已是miniBean會員。<a href="@routes.Application.login">請登入</a></p></li>
-            </ul>
+        <div id="login-footer">
+            <p><a href="#">關於</a><a href="#">幫助中心</a><a href="#">使用條款</a><a href="#">私隱政策</a><a href="#">Cookies</a><a href="#">刊登廣告</a></p>
         </div>
-    </div>
-    <div id="login-footer">
-        <p><a href="#">關於</a><a href="#">幫助中心</a><a href="#">使用條款</a><a href="#">私隱政策</a><a href="#">Cookies</a><a href="#">刊登廣告</a></p>
-    </div>
-</body>
+    </body>
 </html>

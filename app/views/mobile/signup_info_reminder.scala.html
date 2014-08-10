@@ -6,81 +6,82 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="../assets/app/custom-css/textfield.css">
-<link rel="stylesheet" href="../assets/app/custom-css/bootstrap.css">
-<link rel="stylesheet" href="../assets/app/custom-css/boxSetup.css">
-<link rel="stylesheet" href="../assets/app/custom-css/login.css">
-<link rel="stylesheet" href="../assets/app/custom-css/themeA.css">
-<link rel="stylesheet" href="../assets/app/custom-css/themeA.append.css">
-<script src="@routes.Assets.at("components/library/jquery/jquery.min.js")"></script>
-<script src="@routes.Application.jsRoutes" defer="defer"></script>
-<style>
-    body {
-        background-image: url(../assets/app/images/login/login-bg.jpg);
-        background-size: cover;
-        background-position: center center;
-        margin: 0;
-        padding: 0;
-    }
+    <head>
+        <title>miniBean 小萌豆 - 會員登記</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../assets/app/custom-css/textfield.css">
+        <link rel="stylesheet" href="../assets/app/custom-css/bootstrap.css">
+        <link rel="stylesheet" href="../assets/app/custom-css/boxSetup.css">
+        <link rel="stylesheet" href="../assets/app/custom-css/login.css">
+        <link rel="stylesheet" href="../assets/app/custom-css/themeA.css">
+        <link rel="stylesheet" href="../assets/app/custom-css/themeA.append.css">
+        <script src="@routes.Assets.at("components/library/jquery/jquery.min.js")"></script>
+        <script src="@routes.Application.jsRoutes" defer="defer"></script>
+        <style>
+            body {
+                background-image: url(../assets/app/images/login/login-bg.jpg);
+                background-size: cover;
+                background-position: center center;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .login-logo {
+                margin-left: 0px;
+            }
+            #login-header {
+                margin-bottom: 0px !important;
+            }
+            .login-container {
+                position: relative !important;
+                width: auto !important;
+                height: auto !important;
+                left: 0 !important;
+                margin-left: 15px !important;
+                margin-right: 15px !important;
+            }
+            .login-container div {
+                float: left !important;
+                width: auto !important;
+                margin-top: 10px !important;
+            }
+            .login-container div h3 {
+                line-height: 1.5 !important;
+            }
+            .login-container div.login-box:first-child {
+                padding: 0px 25px 25px 25px !important;
+            }
+            #login-promote {
+                width: 100% !important;
+            }
+            #login-footer {
+                width: 100% !important;
+                float: left !important;
+                left: 0 !important;
+                margin-left: 0 !important;
+                margin-top: 15px !important;
+                margin-bottom: 50px;
+            }
+        </style>
+    </head>
     
-    .login-logo {
-        margin-left: 0px;
-    }
-    #login-header {
-        margin-bottom: 0px !important;
-    }
-    .login-container {
-        position: relative !important;
-        width: auto !important;
-        height: auto !important;
-        left: 0 !important;
-        margin-left: 15px !important;
-        margin-right: 15px !important;
-    }
-    .login-container div {
-        float: left !important;
-        width: auto !important;
-        margin-top: 10px !important;
-    }
-    .login-container div h3 {
-        line-height: 1.5 !important;
-    }
-    .login-container div.login-box:first-child {
-        padding: 0px 25px 25px 25px !important;
-    }
-    #login-promote {
-        width: 100% !important;
-    }
-    #login-footer {
-        width: 100% !important;
-        float: left !important;
-        left: 0 !important;
-        margin-left: 0 !important;
-        margin-top: 15px !important;
-        margin-bottom: 50px;
-    }
-</style>
-</head>
-
-<body>
-    <div id=login-header>
-        <div class="login-logo pull-left">
-            <img src="../assets/app/images/logo-2.png" />
+    <body>
+        <div id=login-header>
+            <div class="login-logo pull-left">
+                <img src="../assets/app/images/logo-2.png" />
+            </div>
         </div>
-    </div>
-    <div class="login-container">
-        <div class="login-box">
-            <ul>
-                <li>
-                    <h3>@user.firstName 您好!</h3>
-                    <h5 style="line-height:1.28;">歡迎您加入 miniBean 小萌豆的大家庭! 請立即到電腦版登入並完成註冊。 便可使用手機版隨時查看最新資訊!</h5>
-                </li>
-            </ul>
+        <div class="login-container">
+            <div class="login-box">
+                <ul>
+                    <li>
+                        <h3>@user.firstName 您好!</h3>
+                        <h5 style="line-height:1.28;">歡迎您加入 miniBean 小萌豆的大家庭! 請立即到電腦版登入並完成會員登記。 便可使用手機版隨時查看最新資訊!</h5>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>
