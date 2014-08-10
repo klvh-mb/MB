@@ -9,7 +9,7 @@ public class BookmarkSummaryVM {
 	@JsonProperty("ac") public long articleBookmarkCount;
 	
 	public BookmarkSummaryVM(long qnaBookmarkCount, long postBookmarkCount, long articleBookmarkCount) {
-	    this.hasBookmarks = (qnaBookmarkCount + postBookmarkCount + articleBookmarkCount > 0);
+	    this.hasBookmarks = (qnaBookmarkCount + postBookmarkCount + articleBookmarkCount) > 0;
 	    this.qnaBookmarkCount = qnaBookmarkCount;
 	    this.postBookmarkCount = postBookmarkCount;
 	    this.articleBookmarkCount = articleBookmarkCount;
