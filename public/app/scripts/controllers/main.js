@@ -2260,9 +2260,40 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 	
 	log("CommunityPostController starts");
 	
+    var firstBatchLoaded = false;
+    var offset = 0;
+    var time = 0;
+    var noMore = false;
+    
 	$scope.posts = communityPageService.Posts.get({id:$routeParams.id}, function(){
+        //log("===> get first batch posts completed");
+        firstBatchLoaded = true;
         usSpinnerService.stop('loading...');
     });
+    
+    $scope.nextPosts = function() {
+        //log("===> nextPosts:isBusy="+$scope.isBusy+"|offsetq="+offsetq+"|time="+time+"|firstBatchLoaded="+firstBatchLoaded+"|noMore="+noMore);
+        if ($scope.isBusy) return;
+        if (!firstBatchLoaded) return;
+        if (noMore) return;
+        $scope.isBusy = true;
+        if(angular.isObject($scope.posts.posts) && $scope.posts.posts.length > 0) {
+            time = $scope.posts.posts[$scope.posts.posts.length - 1].t;
+            //log("===> set time:"+time);
+        }
+        communityPageService.GetPosts.get({id:$routeParams.id,offset:offset,time:time}, function(data){
+            var posts = data;
+            if(data.length == 0) {
+                noMore = true;
+            }
+            
+            for (var i = 0; i < posts.length; i++) {
+                $scope.posts.posts.push(posts[i]);
+            }
+            $scope.isBusy = false;
+            offset++;
+        });
+    }
     
     $scope.displayLink = function(link) {
         var link = $scope.applicationInfo.baseUrl + link;
@@ -2326,32 +2357,6 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 				}(fileReader, i);
 			}
 		}
-	}
-	
-	var offset = 0;
-	var time = 0;
-	var noMore = false;
-	$scope.nextPost = function() {
-        //log($scope.isBusy+"|"+offset+"|"+time+"|"+noMore);
-		if ($scope.isBusy) return;
-		if (noMore) return;
-		$scope.isBusy = true;
-		if(angular.isObject($scope.posts.posts) && $scope.posts.posts.length > 0) {
-			time = $scope.posts.posts[$scope.posts.posts.length - 1].t;
-            //log("===> "+time);
-        }
-		communityPageService.GetPosts.get({id:$routeParams.id,offset:offset,time:time}, function(data){
-			var posts = data;
-			if(data.length == 0) {
-				noMore = true;
-			}
-			
-			for (var i = 0; i < posts.length; i++) {
-				$scope.posts.posts.push(posts[i]);
-		    }
-			$scope.isBusy = false;
-			offset++;
-		});
 	}
 	
 	$scope.comment_on_post = function(id, commentText) {
@@ -2631,10 +2636,42 @@ minibean.service('allAnswersService',function($resource){
 minibean.controller('CommunityQnAController',function($scope, postManagementService, bookmarkPostService, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
     log("CommunityQnAController starts");
 
+    var firstBatchLoaded = false;
+    var offsetq = 0;
+    var time = 0;
+    var noMore = false;
+    
     $scope.QnAs = communityQnAPageService.QnAs.get({id:$routeParams.id}, function(){
+        //log("===> get first batch QnAs completed");
+        firstBatchLoaded = true;
         usSpinnerService.stop('loading...');
     });
 	
+    $scope.nextPosts = function() {
+        //log("===> nextPosts:isBusy="+$scope.isBusy+"|offsetq="+offsetq+"|time="+time+"|firstBatchLoaded="+firstBatchLoaded+"|noMore="+noMore);
+        if ($scope.isBusy) return;
+        if (!firstBatchLoaded) return;
+        if (noMore) return;
+        $scope.isBusy = true;
+        if(angular.isObject($scope.QnAs.posts) && $scope.QnAs.posts.length > 0) {
+            time = $scope.QnAs.posts[$scope.QnAs.posts.length - 1].t;
+            //log("===> set time:"+time);
+        }
+        communityQnAPageService.GetQnAs.get({id:$routeParams.id,offset:offsetq,time:time}, function(data){
+            var posts = data;
+            if(data.length == 0) {
+                noMore = true;
+            }
+            
+            for (var i = 0; i < posts.length; i++) {
+                $scope.QnAs.posts.push(posts[i]);
+            }
+            $scope.isBusy = false;
+            offsetq++;
+        });
+        
+    }
+    
 	$scope.displayLink = function(link) {
         var link = $scope.applicationInfo.baseUrl + link;
         
@@ -2681,33 +2718,6 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 	$scope.QnASelectedFiles = [];
 	$scope.dataUrls = [];
 	$scope.tempSelectedFiles = [];
-	
-	var offsetq = 0;
-	var time = 0;
-	var noMore = false;
-	$scope.nextPost = function() {
-        //log($scope.isBusy+"|"+offsetq+"|"+time+"|"+noMore);
-		if ($scope.isBusy) return;
-		if (noMore) return;
-		$scope.isBusy = true;
-		if(angular.isObject($scope.QnAs.posts) && $scope.QnAs.posts.length > 0) {
-			time = $scope.QnAs.posts[$scope.QnAs.posts.length - 1].t;
-			//log("===> "+time);
-		}
-		communityQnAPageService.GetQnAs.get({id:$routeParams.id,offset:offsetq,time:time}, function(data){
-			var posts = data;
-			if(data.length == 0) {
-				noMore = true;
-			}
-			
-			for (var i = 0; i < posts.length; i++) {
-				$scope.QnAs.posts.push(posts[i]);
-		    }
-			$scope.isBusy = false;
-			offsetq++;
-		});
-		
-	}
 	
 	$scope.qnaCommentPhoto = function(post_id) {
 		$("#qna-comment-photo-id").click();
@@ -4140,7 +4150,6 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 		if($routeParams.id != undefined){
 			id = $routeParams.id;
 		}
-		log("for tab 1");
 		
 		if ($scope.isBusyP) return;
 		if (noMoreP) return;
@@ -4368,7 +4377,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 
 	var offset = 0;
 	var noMore = false;
-	$scope.nextPost = function() {
+	$scope.nextPosts = function() {
 		if ($scope.isBusy) return;
 		if (noMore) return;
 		$scope.isBusy = true;
