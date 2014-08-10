@@ -5,6 +5,10 @@
             <span class="post-intro-share">分享</span>
             <span class="post-intro-share" ng-show="!isCommunityPage">於 </span>
             <a data-ng-href="/#/community/{{post.cid}}/moment" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
+            <span class="post-intro-divider" ng-show="post.n_c > 0"></span>
+            <span class="post-qna-answer-count" ng-show="post.n_c > 0">最新留言: 
+                <span class="post-date" am-time-ago="post.ut"></span>
+            </span>
             <button class="post-dropdown-btn btn btn-default dropdown-toggle pull-right" type="button" id="post-dropdown" data-toggle="dropdown">
                 <span class="caret"></span>
             </button>
