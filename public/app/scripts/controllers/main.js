@@ -1311,7 +1311,7 @@ minibean.service('communityPageService',function($resource){
 			'/posts?id=:id&offset=:offset&time=:time',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
-				get: {method:'get', params:{id:'@id',offset:'@offset', time:'@time'},isArray:true}
+				get: {method:'get', params:{id:'@id',offset:'@offset',time:'@time'},isArray:true}
 			}
 	);
 	
@@ -2260,8 +2260,6 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 	
 	log("CommunityPostController starts");
 	
-	var time = 0;
-	
 	$scope.posts = communityPageService.Posts.get({id:$routeParams.id}, function(){
         usSpinnerService.stop('loading...');
     });
@@ -2331,14 +2329,18 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 	}
 	
 	var offset = 0;
+	var time = 0;
 	var noMore = false;
 	$scope.nextPost = function() {
+        //log($scope.isBusy+"|"+offset+"|"+time+"|"+noMore);
 		if ($scope.isBusy) return;
 		if (noMore) return;
 		$scope.isBusy = true;
-		if($scope.posts.posts.length > 0)
+		if(angular.isObject($scope.posts.posts) && $scope.posts.posts.length > 0) {
 			time = $scope.posts.posts[$scope.posts.posts.length - 1].t;
-		communityPageService.GetPosts.get({id:$routeParams.id,offset:offset,time : time}, function(data){
+            //log("===> "+time);
+        }
+		communityPageService.GetPosts.get({id:$routeParams.id,offset:offset,time:time}, function(data){
 			var posts = data;
 			if(data.length == 0) {
 				noMore = true;
@@ -2629,8 +2631,6 @@ minibean.service('allAnswersService',function($resource){
 minibean.controller('CommunityQnAController',function($scope, postManagementService, bookmarkPostService, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
     log("CommunityQnAController starts");
 
-    var time = 0;
-    
     $scope.QnAs = communityQnAPageService.QnAs.get({id:$routeParams.id}, function(){
         usSpinnerService.stop('loading...');
     });
@@ -2683,13 +2683,17 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 	$scope.tempSelectedFiles = [];
 	
 	var offsetq = 0;
+	var time = 0;
 	var noMore = false;
 	$scope.nextPost = function() {
+        //log($scope.isBusy+"|"+offsetq+"|"+time+"|"+noMore);
 		if ($scope.isBusy) return;
 		if (noMore) return;
 		$scope.isBusy = true;
-		if($scope.QnAs.posts.length > 0)
+		if(angular.isObject($scope.QnAs.posts) && $scope.QnAs.posts.length > 0) {
 			time = $scope.QnAs.posts[$scope.QnAs.posts.length - 1].t;
+			//log("===> "+time);
+		}
 		communityQnAPageService.GetQnAs.get({id:$routeParams.id,offset:offsetq,time:time}, function(data){
 			var posts = data;
 			if(data.length == 0) {
