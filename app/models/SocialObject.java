@@ -75,7 +75,11 @@ public abstract class SocialObject extends domain.Entity implements
     public Boolean system = false;
     
 	@Required
-    public Boolean deleted = false;     // social objects should always be soft delete
+    public Boolean deleted = false;     // social objects should always be soft deleted
+	
+	@JsonIgnore
+    @ManyToOne
+    public User deletedBy;
 	
 	protected final void recordLike(User user) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);

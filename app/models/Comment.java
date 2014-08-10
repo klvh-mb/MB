@@ -14,7 +14,6 @@ import javax.persistence.Query;
 
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
-import play.i18n.Messages;
 import domain.CommentType;
 import domain.Creatable;
 import domain.Likeable;
@@ -93,9 +92,10 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
         return (Comment) q.getSingleResult();
     }
     
-    public static void deleteById(Long id) {
+    public static void delete(Long id, User deletedBy) {
         Comment comment = findById(id);
         comment.deleted = true;
+        comment.deletedBy = deletedBy;
         comment.save();
     }
     

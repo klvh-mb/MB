@@ -545,7 +545,7 @@ public class CommunityController extends Controller{
 
         if (localUser.equals(post.owner) || 
                 localUser.isSuperAdmin()) {
-            Post.deleteById(postId);
+            Post.delete(postId, localUser);
             return ok();
         }
         return status(500, "Failed to delete post. [u=" + localUser.id + "] not owner of post [id=" + postId + "].");
@@ -561,7 +561,7 @@ public class CommunityController extends Controller{
         Comment comment = Comment.findById(commentId);
         if (localUser.equals(comment.owner) ||
                 localUser.isSuperAdmin()) {
-            Comment.deleteById(commentId);
+            Comment.delete(commentId, localUser);
             return ok();
         }
         return status(500, "Failed to delete comment. [u="+localUser.id+"] not owner of comment [id=" + commentId + "].");

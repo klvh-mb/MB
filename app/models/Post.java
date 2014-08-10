@@ -135,12 +135,14 @@ public class Post extends SocialObject implements Likeable, Commentable {
         }
     }
     
-    public static void deleteById(Long id) {
+    public static void delete(Long id, User deletedBy) {
         Post post = findById(id);
         for (Comment comment : post.comments) {
             comment.deleted = true;
+            comment.deletedBy = deletedBy;
         }
         post.deleted = true;
+        post.deletedBy = deletedBy;
         post.save();
     }
     

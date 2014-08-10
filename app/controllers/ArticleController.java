@@ -262,7 +262,8 @@ public class ArticleController extends Controller {
 	
 	@Transactional
 	public static Result deleteArticle(Long art_id) {
-		Article.deleteById(art_id);
+	    final User localUser = Application.getLocalUser(session());
+		Article.delete(art_id, localUser);
 		return ok();
 	}
 	
