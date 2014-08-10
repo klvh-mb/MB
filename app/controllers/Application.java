@@ -1,5 +1,7 @@
 package controllers;
 
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 import common.cache.LocationCache;
 import indexing.PostIndex;
 
@@ -300,6 +302,18 @@ public class Application extends Controller {
 		return localUser;
 	}
 
+	@Restrict(@Group(Application.USER_ROLE))
+    public static Result restricted() {
+        final User localUser = getLocalUser(session());
+        return ok(views.html.restricted.render(localUser));
+    }
+
+    @Restrict(@Group(Application.USER_ROLE))
+    public static Result profile() {
+        final User localUser = getLocalUser(session());
+        return ok(views.html.profile.render(localUser));
+    }
+    
 	@Transactional
 	public static Result login() {
 	    setMobileUser("false");

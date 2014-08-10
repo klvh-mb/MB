@@ -17,17 +17,18 @@ POST    /mobile/saveSignupInfoFb    controllers.Application.saveMobileSignupInfo
 
 # Home page
 GET     /favicon.ico                controllers.Assets.at(path="/public", file="app/images/favicon-1.ico")
-GET     /                           controllers.Application.index
-GET     /restricted                 controllers.Application.restricted
 GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
 
+GET     /restricted                 controllers.Application.restricted
 GET     /profile                    controllers.Application.profile
-GET     /get-application-info       controllers.Application.getApplicationInfo
-GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
+
+GET     /                           controllers.Application.index
 GET     /login                      controllers.Application.login
 POST    /login                      controllers.Application.doLogin
 POST	/saveSignupInfo				controllers.Application.saveSignupInfo
 POST    /saveSignupInfoFb           controllers.Application.saveSignupInfoFb
+GET     /get-application-info       controllers.Application.getApplicationInfo
+GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
 
 GET		/getAllArticleCategory		controllers.ArticleController.getAllArticleCategory
 GET     /get-all-Articles			controllers.ArticleController.getAllArticles
