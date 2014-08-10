@@ -5,19 +5,37 @@
 		</a>
     </div>
     <div style="margin:8px 10px;">
-        <div style="float:left;margin:3px 0px;padding:0x;" class="widget-thumbnail" ng-repeat="friend in result.friends">
+        <div style="float:left;margin:1px 0 4px 0;padding:0x;" class="widget-thumbnail" ng-repeat="friend in result.friends">
             <a style="float:left;margin-right:10px;" tag="user-picture-a" href="/#/profile/{{friend.id}}">
                 <img style="width:60px;height:auto;" tag="user-picture-img" data-toggle="tooltip" data-placement="top" data-ng-src="/image/get-thumbnail-image-by-id/{{friend.id}}" data-tooltip="{{friend.dn}}">
             </a>
             <div>
-                <div style="font-weight:bold;line-height:1.0;">
+                <div style="font-weight:bold;line-height:1.1;">
                     <a href="/#/profile/{{friend.id}}" style="color: #428bca;">{{friend.dn}}</a>
                 </div>
-                <div style="line-height:1.0;" ng-show="friend.foN != null">
+                <div style="line-height:1.1;" ng-show="friend.foN != null">
                     <span class="mayKnowFD-name">{{friend.foN}} 的朋友</span>
                 </div>
             </div>
-            <div style="margin-top:3px;">
+            <div style="margin-top:5px;">
+                <a ng-show="friend.isf==false && friend.isP == false && isLoadingEnabled==false" class="btn-general" data-ng-click="send_invite(friend.id)">+ <i class="fa fa-user"></i> 加為朋友</a></li>
+                <a ng-show="friend.isP == true && isLoadingEnabled==false" class="btn-general" disabled="disabled">已送出交友邀請</a></li>
+            </div>
+        </div>
+        
+        <div style="float:left;margin:1px 0 4px 0;padding:0x;" class="widget-thumbnail" ng-repeat="friend in result.friends">
+            <a style="float:left;margin-right:10px;" tag="user-picture-a" href="/#/profile/{{friend.id}}">
+                <img style="width:60px;height:auto;" tag="user-picture-img" data-toggle="tooltip" data-placement="top" data-ng-src="/image/get-thumbnail-image-by-id/{{friend.id}}" data-tooltip="{{friend.dn}}">
+            </a>
+            <div>
+                <div style="font-weight:bold;line-height:1.1;">
+                    <a href="/#/profile/{{friend.id}}" style="color: #428bca;">{{friend.dn}}</a>
+                </div>
+                <div style="line-height:1.1;" ng-show="friend.foN != null">
+                    <span class="mayKnowFD-name">{{friend.foN}} 的朋友</span>
+                </div>
+            </div>
+            <div style="margin-top:5px;">
                 <a ng-show="friend.isf==false && friend.isP == false && isLoadingEnabled==false" class="btn-general" data-ng-click="send_invite(friend.id)">+ <i class="fa fa-user"></i> 加為朋友</a></li>
                 <a ng-show="friend.isP == true && isLoadingEnabled==false" class="btn-general" disabled="disabled">已送出交友邀請</a></li>
             </div>

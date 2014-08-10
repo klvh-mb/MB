@@ -616,6 +616,9 @@ pre {
 /* Shortcut End */
 
 /* May Know Friends Start */
+#friends .btn-general {
+    padding: 3px;
+}
 .mayKnowFD-name {
     font-size: 11px !important;
     color: #565656 !important;
