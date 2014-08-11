@@ -4648,7 +4648,7 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 		usSpinnerService.spin('loading...');
 		$http.post('/Message/sendMsg', data) 
 			.success(function(messagedata) {
-				log(messagedata);
+				//log(messagedata);
 				$scope.messages = messagedata.message;
 				$scope.conversations = allConversationService.UserAllConversation.get();
 				usSpinnerService.stop('loading...');	
@@ -4663,9 +4663,9 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
                 }
                 
                 $upload.upload({
-                    url : '/image/sendMessagePhoto',
+                    url: '/image/sendMessagePhoto',
                     method: $scope.httpMethod,
-                    data : {
+                    data: {
                     	messageId : $scope.messages[0].id
                     },
                     file: $scope.tempSelectedFiles[0],
@@ -4682,9 +4682,11 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
             			var objDiv = document.getElementById('message-area');
             			objDiv.scrollTop = objDiv.scrollHeight;
             	    });
+            	    $scope.remove_image(0);
                 });
 		});
 	};
+	
 	$scope.currentHeader = "";
 	$scope.createDateHeader = function(msgDate) {
 		var date = $filter('date')(new Date(msgDate), 'dd/MM/yyyy');

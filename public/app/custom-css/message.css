@@ -187,8 +187,9 @@
     left: 10px;
 }
 #message-content .post-comment-box ul.dropdown-menu {
-    top: 20px;
+    top: 15px;
     right: 10px;
+    left: auto;
     width: 180px;
     height: auto;
     padding: 5px;
@@ -201,6 +202,11 @@
 }
 #message-content .post-comment-box ul.dropdown-menu li img {
     margin: 0px;
+}
+#message-content .post-comment-box .post-photo-icon {
+    top: 0;
+    margin: 0 7px 0 0;
+    padding: 0;
 }
 #message-content #main-search-box input {
     height: 26px !important;

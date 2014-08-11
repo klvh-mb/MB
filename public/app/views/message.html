@@ -124,25 +124,25 @@
                                 </table>
                             </div-->
                         </form>
-                        <div style="width:150px;margin-right:15px;" class="post-comment-box pull-right">
-                            <input style="visibility:hidden;display:inline-block;width:0px;height:0px;" id="send-photo-id" type="file" name="send-photo" ng-file-select="onFileSelect($files)"/>
-                            <a class="post-photo-icon" data-ng-show="selectedFiles.length == 0">
+                        <div style="margin:5px 15px;" class="post-comment-box">
+                            <button class="btn btn-primary ng-binding pull-right" ng-disabled="messageEntry.$pristine || (messageEntry.$dirty && !messageText.length)" type="submit" disabled="disabled" 
+                                    data-ng-click="sendMessage(messageText);messageText='';">
+                                發出訊息
+                            </button>
+                            <input style="visibility:hidden;display:none;" id="send-photo-id" type="file" name="send-photo" ng-file-select="onFileSelect($files)"/>
+                            <a class="post-photo-icon pull-right" data-ng-show="selectedFiles.length == 0">
                                 <i class="icon-photo-camera-fill" data-ng-click="sendPhoto()"></i>
                             </a>
-                            <a class="dropdown-toggle dropdown-hover colorChange" data-toggle="dropdown" href="#">
-                                <img src="../assets/app/images/general/icons/w_setup.png" />
+                            <a class="dropdown-toggle dropdown-hover colorChange pull-right" data-toggle="dropdown" href="#">
+                                <img style="width:18px;margin:2px 7px 0 0;" src="../assets/app/images/emoticons/smile.png" />
                             </a>
-                            <ul class="dropdown-menu icon-dropdown">
+                            <ul class="dropdown-menu dropdown-menu-right icon-dropdown">
                                 <li data-ng-repeat="emoticon in emoticons">
                                     <a href="" data-ng-click="select_emoticon(emoticon.code)">
                                         <img class="emoticon" data-ng-src="{{emoticon.url}}"/>
                                     </a>
                                 </li>
                             </ul>
-                            <button class="btn btn-primary ng-binding" ng-disabled="messageEntry.$pristine || (messageEntry.$dirty && !messageText.length)" type="submit" disabled="disabled" 
-                                    data-ng-click="sendMessage(messageText);messageText='';">
-                                發出訊息
-                            </button>
                         </div>
                     </div>
                 </div>
