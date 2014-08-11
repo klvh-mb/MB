@@ -23,18 +23,21 @@ public class Emoticon {
     
     public String code;
     
+    public int seq;
+    
     public String url;
     
     public Emoticon(){}
     
-    public Emoticon(String name, String code, String url) {
+    public Emoticon(String name, String code, int seq, String url) {
         this.name = name;
         this.code = code;
+        this.seq = seq;
         this.url = url;
     }
     
     public static List<Emoticon> loadEmoticons() {
-        Query q = JPA.em().createQuery("Select i from Emoticon i");
+        Query q = JPA.em().createQuery("Select i from Emoticon i order by seq");
         return (List<Emoticon>)q.getResultList();
     }
     

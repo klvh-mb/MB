@@ -3445,7 +3445,7 @@ minibean.service('newsFeedService',function($resource){
 	);
 });
 
-minibean.controller('NewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, newsFeedService) {
+minibean.controller('NewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, newsFeedService, iconsService) {
 	log("NewsFeedController starts");
 	
 	$scope.newsFeeds = { posts: [] };
@@ -3474,6 +3474,18 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
     
 	$scope.get_unread_msg_count();
 	
+	/*
+	$scope.emoticons = iconsService.getEmoticons.get();
+
+    $scope.commentText = "";
+
+    $scope.select_emoticon = function(code) {
+        $scope.commentText += code;
+        //$("#message-inputfield").val($("#message-inputfield").val() + code);
+        //$("#message-inputfield").focus();
+    }
+    */
+    
 	$scope.comment_on_post = function(id, commentText) {
         // first convert to links
         commentText = convertToLinks(commentText);
@@ -3753,7 +3765,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 		$scope.qnaCommentDataUrls.splice(index, 1);
 	};
 	
-	/**images **/
+	/** images **/
 	
 	$scope.commentPhoto = function(post_id) {
 		$("#comment-photo-id").click();

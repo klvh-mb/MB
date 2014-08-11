@@ -25,7 +25,7 @@
     <!-- Post Intro Ends -->
     <ul>
         <li class="post-qna-body-top">
-            <div class="post-qna-body-title"><a data-ng-href="/mobile#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}">{{post.ptl}}</a></div>
+            <div class="post-qna-body-title"><a data-ng-href="/mobile#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><div ng-bind-html="post.ptl"></div></a></div>
             <a data-ng-href="/mobile#/profile/{{post.oid}}">
                 <img class="post-title-user-image" data-ng-src="/image/get-mini-image-by-id/{{post.oid}}"/>
             </a>
