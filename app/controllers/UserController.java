@@ -12,11 +12,13 @@ import java.util.List;
 import java.util.Map;
 
 import common.utils.NanoSecondStopWatch;
+
 import org.apache.commons.lang.exception.ExceptionUtils;
 
 import common.utils.ImageFileUtil;
 import models.Community;
 import models.Conversation;
+import models.Emoticon;
 import models.Location;
 import models.Message;
 import models.Notification;
@@ -33,6 +35,7 @@ import play.mvc.Result;
 import viewmodel.BookmarkSummaryVM;
 import viewmodel.CommunityPostVM;
 import viewmodel.ConversationVM;
+import viewmodel.EmoticonVM;
 import viewmodel.FriendWidgetChildVM;
 import viewmodel.MessageVM;
 import viewmodel.NewsFeedVM;
@@ -209,16 +212,6 @@ public class UserController extends Controller {
         localUser.merge();
         
 		return ok("true");
-	}
-	
-	@Transactional
-	public static Result startConeversation(Long id1, Long id2) {
-		final User user1 = User.findById(id1);
-		final User user2 = User.findById(id2);
-		Conversation conversation = user1.findMyConversationsWith(user2);
-		conversation.addMessage(user1, ".");
-		conversation.addMessage(user2, ".");
-		return ok();
 	}
 	
 	@Transactional
@@ -501,6 +494,24 @@ public class UserController extends Controller {
 	}
 	
 	@Transactional
+    public static Result getEmoticons() {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+        List<Emoticon> emoticons = Emoticon.getEmoticons();
+        
+        List<EmoticonVM> emoticonVMs = new ArrayList<>();
+        for(Emoticon emoticon : emoticons) {
+            EmoticonVM vm = new EmoticonVM(emoticon);
+            emoticonVMs.add(vm);
+        }
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("getEmoticons. Took "+sw.getElapsedMS()+"ms");
+        }
+        return ok(Json.toJson(emoticonVMs));
+    }
+	   
+	@Transactional
 	public static Result getAllConversation() {
 		final User localUser = Application.getLocalUser(session());
 		List<ConversationVM> vms = new ArrayList<>();
@@ -559,6 +570,16 @@ public class UserController extends Controller {
         return getAllConversation();
     }
 	
+    @Transactional
+    public static Result startConversation(Long id1, Long id2) {
+        final User user1 = User.findById(id1);
+        final User user2 = User.findById(id2);
+        Conversation conversation = user1.findMyConversationsWith(user2);
+        conversation.addMessage(user1, ".");
+        conversation.addMessage(user2, ".");
+        return ok();
+    }
+    
 	@Transactional
     public static Result startConversation(Long id) {
         final User localUser = Application.getLocalUser(session());

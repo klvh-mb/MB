@@ -58,7 +58,7 @@
                       		</div>
                       	
                       		<div class="col-md-2" style="width:52px;padding:0px;margin:0px;">
-                      			<li class="col-md-12 dropdown">
+                      			<div class="col-md-12 dropdown">
     	                  			<div class="form-control dropdown-toggle" style="padding:4px 2px;">
     	                  				<img class="pull-left media-object" data-ng-src={{icon_chosen}} width="25">
     	    							<div data-ng-if="!isChosen" data-ng-init="isChosen=false">
@@ -66,14 +66,14 @@
     	    							</div>
     	  							</div>
     		                  		<ul class="dropdown-menu icon-dropdown">
-                                        <li data-ng-repeat="icon in iconsToSelects">
+                                        <li data-ng-repeat="icon in icons">
                                             <a style="padding:0px;" href="" data-ng-click="select_icon(icon.url, icon.name)">
                                                 <img style="width:25px;" data-ng-src="{{icon.url}}"/>
                                                 <input type="hidden" name="icon_url" id="icon_url" data-ng-model="formData.icon" required>
                                             </a>
                                         </li>
     						        </ul>
-    						    </li>
+    						    </div>
                       		</div>
                       	</div>
                    </div>

@@ -110,7 +110,6 @@ public class Conversation extends domain.Entity implements Serializable,
 		q.setParameter(1, user);
 		
 		try {
-			
 			return  q.setMaxResults(latest).getResultList();
 		} catch (NoResultException e) {
 			return null;
@@ -132,21 +131,18 @@ public class Conversation extends domain.Entity implements Serializable,
 	public String getLastMessage(User user) {
 		Message message;
 		
-		
 		Query q = JPA
 					.em()
 					.createQuery(
 							"SELECT m FROM Message m WHERE m.date=(SELECT MAX(date) FROM Message WHERE conversation_id = ?1) and m.date > ?2");
 			q.setParameter(1, this.id);
 			if(this.user1 == user){
-				System.out.println("user1");
 				if(this.user2_archive_time == null){
 					q.setParameter(2, new Date(0));
 				} else {
 					q.setParameter(2, this.user2_archive_time);
 				}
 			} else {
-				System.out.println("user2");
 				if(this.user1_archive_time == null){
 					q.setParameter(2, new Date(0));
 				} else {
@@ -196,8 +192,8 @@ public class Conversation extends domain.Entity implements Serializable,
 			conversation = Conversation.startConversation(sender, receiver);
 		}
 		if(msgText != null){
-			for(EmotIcon ei : EmotIcon.getIcons()){
-				msgText = msgText.replace(ei.name, ei.url);
+			for(Emoticon emoticon : Emoticon.getEmoticons()){
+				msgText = msgText.replace(emoticon.code, String.format("<img class='emoticon' src='%s'>", emoticon.url));
 			}
 		}
 		return conversation.addMessage(sender, msgText);
@@ -218,7 +214,6 @@ public class Conversation extends domain.Entity implements Serializable,
 		conversation.setArchiveTime(user);
 	}
 	
-
 	private void deleteConversation() {
 		// TODO Auto-generated method stub
 		Query q = JPA.em().createQuery("DELETE FROM Message where conversation_id = ?1");
@@ -251,7 +246,6 @@ public class Conversation extends domain.Entity implements Serializable,
 		        }
 			}
 		}
-		
 	}
 
 	public Long getMessageCount(User user) {
@@ -259,8 +253,6 @@ public class Conversation extends domain.Entity implements Serializable,
 	        q.setParameter(1, user.id);
 	        q.setParameter(2, this.id);
 	        Long ret = (Long) q.getSingleResult();
-
 	        return ret;
 	}
-	
 }

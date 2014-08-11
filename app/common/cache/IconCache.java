@@ -1,5 +1,6 @@
 package common.cache;
 
+import models.Emoticon;
 import models.Icon;
 
 import java.util.HashMap;
@@ -12,14 +13,20 @@ import java.util.Map;
 public class IconCache {
     // Permanent cache loaded up on system startup.
 
+    private static List<Emoticon> emoticons;
     private static List<Icon> communityIcons;
     private static Map<Integer, Icon> weatherIconsMap;
 
     static {
+        emoticons = Emoticon.loadEmoticons();
         communityIcons = Icon.loadCommunityIcons();
         weatherIconsMap = new HashMap<Integer, Icon>();
     }
 
+    public static List<Emoticon> getEmoticons() {
+        return emoticons;
+    }
+    
     public static List<Icon> getCommunityIcons() {
 		return communityIcons;
 	}

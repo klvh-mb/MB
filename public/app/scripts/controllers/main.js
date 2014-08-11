@@ -611,7 +611,7 @@ minibean.controller('EditCommunityController',function($scope,$q, $location,$rou
 	
 	$scope.tagetDistrict = DefaultValues.districts;
 	
-	$scope.iconsToSelects = iconsService.getAllIcons.get();
+	$scope.icons = iconsService.getCommunityIcons.get();
 
 	$scope.select_icon = function(img, text) {
 		$scope.icon_chosen = img;
@@ -678,7 +678,7 @@ minibean.controller('CreateCommunityController',function($scope, $location, $htt
 		    });
 	}
 	
-	$scope.iconsToSelects = iconsService.getAllIcons.get();
+	$scope.icons = iconsService.getCommunityIcons.get();
 
 	$scope.select_icon = function(img, text) {
 		$scope.icon_chosen = img;
@@ -686,6 +686,7 @@ minibean.controller('CreateCommunityController',function($scope, $location, $htt
 		$scope.isChosen = true;
 		$scope.formData.icon = img;
 	}
+	
 	$scope.onFileSelect = function($files) {
 		$scope.selectedFiles = $files;
 		$scope.formData.photo = 'cover-photo';
@@ -1379,13 +1380,21 @@ minibean.service('communityJoinService',function($resource){
 });
 
 minibean.service('iconsService',function($resource){
-	this.getAllIcons = $resource(
-			'/image/getAllIcons',
+	this.getCommunityIcons = $resource(
+			'/image/getCommunityIcons',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
 				get: {method:'get' ,isArray:true}
 			}
 	);
+	
+	this.getEmoticons = $resource(
+            '/image/getEmoticons',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get' ,isArray:true}
+            }
+    );
 });
 
 minibean.service('searchMembersService',function($resource){
@@ -2250,7 +2259,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
         });
     }
     
-    //$scope.iconsToSelects = iconsService.getAllIcons.get();
+    //$scope.icons = iconsService.getCommunityIcons.get();
     
     log("CommunityPageController completed");
 });
@@ -4470,9 +4479,19 @@ minibean.service('searchFriendService',function($resource){
 	);
 });
 
-minibean.controller('UserConversationController',function($scope, $filter, $timeout, $upload, $routeParams, searchFriendService, usSpinnerService, getMessageService, $http, allConversationService){
+minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $routeParams, searchFriendService, usSpinnerService, getMessageService, allConversationService, iconsService) {
     log("UserConversationController starts");
 
+    $scope.emoticons = iconsService.getEmoticons.get();
+
+    $scope.messageText = "";
+
+    $scope.select_emoticon = function(code) {
+        $scope.messageText += code;
+        //$("#message-inputfield").val($("#message-inputfield").val() + code);
+        $("#message-inputfield").focus();
+    }
+    
 	if($routeParams.id == 0){
 		$scope.conversations = allConversationService.UserAllConversation.get(function(){
 			if($scope.conversations.length > 0){

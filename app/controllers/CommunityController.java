@@ -702,7 +702,7 @@ public class CommunityController extends Controller{
     }
     
     @Transactional
-    public static Result getAllIcons() {
+    public static Result getCommunityIcons() {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
         List<Icon> icons = Icon.getCommunityIcons();
         
@@ -714,7 +714,7 @@ public class CommunityController extends Controller{
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("getAllIcons. Took "+sw.getElapsedMS()+"ms");
+            logger.underlyingLogger().debug("getCommunityIcons. Took "+sw.getElapsedMS()+"ms");
         }
         return ok(Json.toJson(iconVMs));
     }

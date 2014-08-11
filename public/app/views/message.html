@@ -106,9 +106,9 @@
         							ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
                             </div>
                             <label for="Input Message"></label>
-                            <textarea rows="4" cols="70" name="message-inputfield" data-ng-model="messageText" data-ng-maxlength="500" maxlength="500"></textarea>
+                            <textarea rows="4" cols="70" id="message-inputfield" name="message-inputfield" data-ng-model="messageText" data-ng-maxlength="500" maxlength="500"></textarea>
                             <p ng-show="messageText.length >= 480">Reached message Limit</p>
-                            <a href="#emo" id="message-emo-icon" class="icon-box icon-title-emo"></a>
+                            <!--a href="#emo" id="message-emo-icon" class="icon-box icon-title-emo"></a>
                             <div id="message-emo-box">
                                 <table border="0" cellspacing="0" cellpadding="0">
                                   <tr>
@@ -122,13 +122,23 @@
                                     <td><a href="#"><img src="../assets/app/images/emoticons/gasp.png" /></a></td>
                                   </tr>
                                 </table>
-                            </div>
+                            </div-->
                         </form>
-                        <div style="width:120px;margin-right:15px;" class="post-comment-box pull-right">
+                        <div style="width:150px;margin-right:15px;" class="post-comment-box pull-right">
                             <input style="visibility:hidden;display:inline-block;width:0px;height:0px;" id="send-photo-id" type="file" name="send-photo" ng-file-select="onFileSelect($files)"/>
                             <a class="post-photo-icon" data-ng-show="selectedFiles.length == 0">
                                 <i class="icon-photo-camera-fill" data-ng-click="sendPhoto()"></i>
                             </a>
+                            <a class="dropdown-toggle dropdown-hover colorChange" data-toggle="dropdown" href="#">
+                                <img src="../assets/app/images/general/icons/w_setup.png" />
+                            </a>
+                            <ul class="dropdown-menu icon-dropdown">
+                                <li data-ng-repeat="emoticon in emoticons">
+                                    <a href="" data-ng-click="select_emoticon(emoticon.code)">
+                                        <img class="emoticon" data-ng-src="{{emoticon.url}}"/>
+                                    </a>
+                                </li>
+                            </ul>
                             <button class="btn btn-primary ng-binding" ng-disabled="messageEntry.$pristine || (messageEntry.$dirty && !messageText.length)" type="submit" disabled="disabled" 
                                     data-ng-click="sendMessage(messageText);messageText='';">
                                 發出訊息

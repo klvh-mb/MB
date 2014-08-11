@@ -126,11 +126,12 @@ GET		/get-messages/:id/:offset	controllers.UserController.getMessages(id: String
 GET		/start-Conversation/:id		controllers.UserController.startConversation(id: Long)
 GET		/delete-Conversation/:id	controllers.UserController.deleteConversation(id: Long)
 POST	/Message/sendMsg			controllers.UserController.sendMessage()
-POST	/image/sendMessagePhoto			controllers.UserController.sendPhotoInMessage()
+POST	/image/sendMessagePhoto     controllers.UserController.sendPhotoInMessage()
 GET		/user-friend-search			controllers.UserController.searchUserFriends(query: String)
 GET		/image/get-message-image-by-id/:id		controllers.UserController.getMessageImageByID(id :Long)
 GET		/get-unread-msg-count		controllers.UserController.getUnreadMsgCount()
 GET		/image/get-original-private-image-by-id/:id		controllers.UserController.getOriginalPrivateImageByID(id :Long)
+GET     /image/getEmoticons         controllers.UserController.getEmoticons()
 
 #Friends
 GET     /get-suggested-friends      controllers.FriendsController.getSuggestedFriends
@@ -167,18 +168,18 @@ POST    /community/post/comment                 controllers.CommunityController.
 GET     /delete-post/:postId                    controllers.CommunityController.deletePost(postId : Long)
 GET     /delete-comment/:commentId              controllers.CommunityController.deleteComment(commentId : Long)
 POST	/createCommunity						controllers.CommunityController.createCommunity()
-POST	/image/upload-cover-photo-group/:id		   	controllers.CommunityController.uploadCoverPhoto(id : Long)
+POST	/image/upload-cover-photo-group/:id		controllers.CommunityController.uploadCoverPhoto(id : Long)
 POST	/updateCommunityProfileData				controllers.CommunityController.updateCommunityProfileData
 GET		/communityQnA/questions/:id				controllers.CommunityController.getAllQuestionsOfCommunity(id : Long)
 POST	/communityQnA/question/post				controllers.CommunityController.postQuestionOnCommunity()
 POST	/communityQnA/question/answer			controllers.CommunityController.answerToQuestionOnQnACommunity()
-POST	/image/uploadPostPhoto						controllers.CommunityController.uploadPhotoOfPost()
-GET		/image/getAllIcons							controllers.CommunityController.getAllIcons()
+POST	/image/uploadPostPhoto					controllers.CommunityController.uploadPhotoOfPost()
+GET		/image/getCommunityIcons				controllers.CommunityController.getCommunityIcons()
 GET		/getAllUnjoinedMembers/:id/:query		controllers.CommunityController.getAllUnjoinedUsers(id : Long, query: String)
 GET		/inviteToCommunity/:community_id/:user_id   controllers.CommunityController.sendInviteToJoinCommunity(community_id : Long, user_id: Long)
-POST	/image/uploadCommentPhoto						controllers.CommunityController.uploadCommentPhoto()
-POST	/image/uploadQnACommentPhoto					controllers.CommunityController.uploadQnACommentPhoto()	
-GET		/image/get-comment-image-by-id/:id			controllers.CommunityController.getCommentImageById(id : Long)
+POST	/image/uploadCommentPhoto               controllers.CommunityController.uploadCommentPhoto()
+POST	/image/uploadQnACommentPhoto			controllers.CommunityController.uploadQnACommentPhoto()	
+GET		/image/get-comment-image-by-id/:id		controllers.CommunityController.getCommentImageById(id : Long)
 GET     /post-landing/:id/:communityId          controllers.CommunityController.postLanding(id:Long, communityId:Long)
 GET     /qna-landing/:id/:communityId           controllers.CommunityController.qnaLanding(id:Long, communityId:Long)
 

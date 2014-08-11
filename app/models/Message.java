@@ -15,7 +15,6 @@ import javax.persistence.Query;
 import domain.SocialObjectType;
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
-import play.i18n.Messages;
 
 @Entity
 public class Message  extends SocialObject implements Comparable<Message> {
@@ -47,7 +46,6 @@ public class Message  extends SocialObject implements Comparable<Message> {
 	      return conversation.user1;
 	    }
 	}
-
 
 	@Override
 	public int compareTo(Message o) {

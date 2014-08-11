@@ -180,11 +180,27 @@
     left: 5px;
     top: 7px;
 }
-#message-content .dropdown-menu {
-    width:200px;
-    height:auto;
-    position:absolute;
-    left:10px;
+#message-content #main-search-box .dropdown-menu {
+    width: 200px;
+    height: auto;
+    position: absolute;
+    left: 10px;
+}
+#message-content .post-comment-box ul.dropdown-menu {
+    top: 20px;
+    right: 10px;
+    width: 180px;
+    height: auto;
+    padding: 5px;
+}
+#message-content .post-comment-box ul.dropdown-menu li {
+    padding: 0px;
+    margin: 3px;
+    width: 18px;
+    height: 18px;
+}
+#message-content .post-comment-box ul.dropdown-menu li img {
+    margin: 0px;
 }
 #message-content #main-search-box input {
     height: 26px !important;
