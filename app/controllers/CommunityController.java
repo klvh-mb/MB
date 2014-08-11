@@ -11,6 +11,7 @@ import java.util.*;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 
+import common.utils.HtmlUtil;
 import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
 import models.Comment;
@@ -397,6 +398,9 @@ public class CommunityController extends Controller{
                 DynamicForm.form(Community.class).bindFromRequest(
                         "name","description","icon","communityType");
         Community community = form.get();
+        community.name = HtmlUtil.escapeSpecialCharacters(community.name);
+        community.description = HtmlUtil.escapeSpecialCharacters(community.description);
+        
         if (community.communityType == null) {
             community.communityType = CommunityType.OPEN;
         }
@@ -472,8 +476,8 @@ public class CommunityController extends Controller{
 
         DynamicForm form = form().bindFromRequest();
         Long postId = Long.parseLong(form.get("post_id"));
-        String commentText = form.get("commentText");
-
+        String commentText = HtmlUtil.escapeSpecialCharacters(form.get("commentText"));
+        
         Post p = Post.findById(postId);
         Community c = p.community;
         if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
@@ -510,7 +514,7 @@ public class CommunityController extends Controller{
 
         Community c = Community.findById(communityId);
         if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
-            String postText = form.get("postText");
+            String postText = HtmlUtil.escapeSpecialCharacters(form.get("postText"));
             boolean withPhotos = Boolean.parseBoolean(form.get("withPhotos"));
 
             Post p = (Post) c.onPost(localUser, null, postText, PostType.SIMPLE);
@@ -619,8 +623,8 @@ public class CommunityController extends Controller{
 
         DynamicForm form = DynamicForm.form().bindFromRequest();
         Long communityId = Long.parseLong(form.get("community_id"));
-        String questionTitle = form.get("questionTitle");
-        String questionText = form.get("questionText");
+        String questionTitle = HtmlUtil.escapeSpecialCharacters(form.get("questionTitle"));
+        String questionText = HtmlUtil.escapeSpecialCharacters(form.get("questionText"));
 
         Community c = Community.findById(communityId);
         if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
@@ -648,7 +652,7 @@ public class CommunityController extends Controller{
 
         DynamicForm form = form().bindFromRequest();
         Long postId = Long.parseLong(form.get("post_id"));
-        String answerText = form.get("answerText");
+        String answerText = HtmlUtil.escapeSpecialCharacters(form.get("answerText"));
         
         Post p = Post.findById(postId);
         Community c = p.community;

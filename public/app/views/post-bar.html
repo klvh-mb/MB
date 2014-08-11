@@ -71,21 +71,31 @@
                 </div>
 	        </span>
     	</li>
-    	<!-- Post Comment box-->
+    	<!-- Post Comment box -->
         <li ng-show="post.isC || (community.isM || community.isO)">
             <a data-ng-href="/#/profile/{{userInfo.id}}">
                 <img style="margin-top:5px;" class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
             </a>
             <form class="post-comment-box" name="userComment" method="post" action="">
                 <label for="User Comment"></label>
-                <textarea type="text" name="userCommentfield" id="userCommentfield" class="general-textfield post-sharing-comment-textfield" placeholder="留言..." cols="70" data-ng-model="commentText" rows="1"></textarea>
+                <textarea type="text" id="userCommentfield" name="userCommentfield" id="userCommentfield" class="general-textfield post-sharing-comment-textfield" placeholder="留言..." cols="70" data-ng-model="commentText" rows="1"></textarea>
+                <!--a class="dropdown-toggle dropdown-hover colorChange post-emoticon-dropdown" data-toggle="dropdown" href="#">
+                    <img src="../assets/app/images/emoticons/smile.png" />
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right icon-dropdown post-emoticon-dropdown-menu">
+                    <li data-ng-repeat="emoticon in emoticons">
+                        <a href="" data-ng-click="select_emoticon(emoticon.code)">
+                            <img class="emoticon" data-ng-src="{{emoticon.url}}"/>
+                        </a>
+                    </li>
+                </ul-->
                 <a class="post-photo-icon" data-ng-hide="commentSelectedFiles.length >= 3 && commentedOnPost == post.id" id="upload">
                     <i class="icon-photo-camera-fill" data-ng-click="commentPhoto(post.id)"></i>
                 </a>
                 <button class="btn btn-primary ng-binding" ng-disabled="userComment.$pristine || (userComment.$dirty && !commentText.length)" type="submit" disabled="disabled" data-ng-click="comment_on_post(post.id, commentText); commentText=''">
                     留言
                 </button>
-                <input style="visibility:hidden;width:0px;height:0px;" id="comment-photo-id" type="file" name="comment-photo" ng-file-select="onCommentFileSelect($files)"/>
+                <input style="visibility:hidden;display:none;" id="comment-photo-id" type="file" name="comment-photo" ng-file-select="onCommentFileSelect($files)"/>
             </form>
             <span ng-if="commentedOnPost == post.id">
                 <div ng-show="commentSelectedFiles != null">
