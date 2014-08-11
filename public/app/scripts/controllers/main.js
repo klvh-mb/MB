@@ -3,7 +3,6 @@
 var minibean = angular.module('minibean');
 
 minibean.controller('SlidingMenuController', function($scope, $routeParams, $location, userInfoService, articleCategoryService){
-
     log("SlidingMenuController starts");
     
     //
@@ -249,11 +248,13 @@ minibean.controller('UserInfoServiceController',function($scope,userInfoService)
     log("UserInfoServiceController completed");
 });
 
-minibean.controller('ApplicationController',function($scope,$location, headerBarMetadataService, userInfoService,
+minibean.controller('ApplicationController',function($scope, $location, $interval, headerBarMetadataService, userInfoService,
 	acceptJoinRequestService, acceptFriendRequestService, notificationMarkReadService, usSpinnerService){
 
     log("ApplicationController starts");
-    	
+
+    window.isBrowserTabActive = true;
+    
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
 	
@@ -263,7 +264,13 @@ minibean.controller('ApplicationController',function($scope,$location, headerBar
 	
 	$scope.unread_msg_count = 0;
 	$scope.get_header_metaData = function() {
+        if (window.isBrowserTabActive == false) {
+            return;
+        }
+        
+        //log("get_header_metaData");
 		headerBarMetadataService.headerBardata.get(function(data) {
+            //log("headerBardata:"+data.messageCount);
 			$scope.unread_msg_count = data.messageCount;
 			$scope.friend_requests = data.requestNotif;
 			$scope.join_requests = data.allNotif;
@@ -272,6 +279,13 @@ minibean.controller('ApplicationController',function($scope,$location, headerBar
 		});
 	};
 	$scope.get_header_metaData();
+
+
+	// refresh header meta data every X secs
+	// To stop - $interval.cancel(stopHeaderMetaData);
+	var stopHeaderMetaData = $interval($scope.get_header_metaData, 3000);
+	
+
 	$scope.isFRreaded = true;
 	$scope.isNOreaded = true;
 	
@@ -491,9 +505,7 @@ minibean.service('profilePhotoModal',function( $modal){
 minibean.controller('UserAboutController',function($routeParams, $scope, $http, userAboutService, locationService, profilePhotoModal){
 	log("UserAboutController starts");
 	
-	$scope.get_header_metaData();
 	var tab = $routeParams.tab;
-	
 	
 	if (tab == 'activities' || tab == undefined) {
 		$scope.selectedTab = 1;
@@ -582,8 +594,6 @@ minibean.service('editCommunityPageService',function($resource){
 minibean.controller('EditCommunityController',function($scope,$q, $location,$routeParams, $http, usSpinnerService, iconsService, editCommunityPageService, $upload, profilePhotoModal){
     log("EditCommunityController starts");
    
-	$scope.get_header_metaData();
-	
 	$scope.submitBtn = "儲存";
 	$scope.community = editCommunityPageService.EditCommunityPage.get({id:$routeParams.id}, 
 			function(response) {
@@ -1088,7 +1098,6 @@ minibean.service('profileService',function($resource){
 
 minibean.controller('ProfileController',function($scope, $routeParams, $location, profileService, friendsService, sendInvitation, unFriendService){
 	log("ProfileController starts");
-	$scope.get_header_metaData();
 	
 	$scope.$watch($routeParams.id, function (navigateTo) {
 		if( $routeParams.id  == $scope.userInfo.id){
@@ -1487,8 +1496,6 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     
     log("PostLandingController starts");
 
-	$scope.get_header_metaData();
-	
     $scope.$on('$viewContentLoaded', function() {
         usSpinnerService.spin('loading...');
     });
@@ -1837,8 +1844,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     qnaLandingService, communityPageService, allAnswersService, showImageService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
 
     log("QnALandingController starts");
-	$scope.get_header_metaData();
-	
+    
     $scope.$on('$viewContentLoaded', function() {
         usSpinnerService.spin('loading...');
     });
@@ -3401,7 +3407,7 @@ minibean.service('newsFeedService',function($resource){
 	);
 });
 
-minibean.controller('NewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $interval, $timeout, $upload, $http, allCommentsService, usSpinnerService, newsFeedService) {
+minibean.controller('NewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, newsFeedService) {
 	log("NewsFeedController starts");
 	
 	$scope.newsFeeds = { posts: [] };
@@ -3760,7 +3766,7 @@ minibean.service('userNewsFeedService',function($resource){
 	);
 });
 
-minibean.controller('UserNewsFeedController', function($scope, $routeParams, $timeout, $upload, $interval, postManagementService, bookmarkPostService, likeFrameworkService, userInfoService, $http, allCommentsService, usSpinnerService, userNewsFeedService) {
+minibean.controller('UserNewsFeedController', function($scope, $routeParams, $timeout, $upload, postManagementService, bookmarkPostService, likeFrameworkService, userInfoService, $http, allCommentsService, usSpinnerService, userNewsFeedService) {
 	log("UserNewsFeedController starts");
 	
 	$scope.newsFeeds = { posts: [] };
@@ -4167,7 +4173,7 @@ minibean.service('bookmarkService',function($resource){
     );
 });
 
-minibean.controller('MyBookmarkController', function($scope, bookmarkPostService, likeFrameworkService, postManagementService, $interval, $http, allCommentsService, usSpinnerService, bookmarkService) {
+minibean.controller('MyBookmarkController', function($scope, bookmarkPostService, likeFrameworkService, postManagementService, $http, allCommentsService, usSpinnerService, bookmarkService) {
     log("MyBookmarkController starts");
     
     $scope.bookmarkSummary = bookmarkService.bookmarkSummary.get();

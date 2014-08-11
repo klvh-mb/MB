@@ -40,7 +40,6 @@ import common.utils.StringUtil;
 import models.Community.CommunityType;
 import models.Notification.NotificationType;
 import models.SocialRelation.Action;
-import models.SocialRelation.ActionType;
 import models.TargetingSocialObject.TargetingType;
 import models.TokenAction.Type;
 
@@ -50,7 +49,6 @@ import play.Play;
 import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
-import play.i18n.Messages;
 import processor.FeedProcessor;
 import be.objectify.deadbolt.core.models.Permission;
 import be.objectify.deadbolt.core.models.Role;
@@ -329,7 +327,10 @@ public class User extends SocialObject implements Subject, Socializable {
     @JsonIgnore
     public List<User> getSuggestedFriends(int limit) {
         Query q = JPA.em().createNativeQuery(
-                "Select * from User u where u.id <> ?1 and u.id not in (select sr.target from SocialRelation sr where sr.action = ?2 or sr.actionType = ?3 and sr.actor = ?1 union select sr1.actor from SocialRelation sr1 where sr1.action = ?2 or sr1.actionType = ?3 and sr1.target = ?1) and u.emailValidated = true and u.system = 0 and u.userInfo_id is not NULL and u.deleted = false", User.class);
+                "Select * from User u where u.id <> ?1 and u.id not in (" + 
+                        "select sr.target from SocialRelation sr where (sr.action = ?2 or sr.actionType = ?3) and sr.actor = ?1 union " + 
+                        "select sr1.actor from SocialRelation sr1 where (sr1.action = ?2 or sr1.actionType = ?3) and sr1.target = ?1" + 
+                        ") and u.emailValidated = true and u.system = 0 and u.userInfo_id is not NULL and u.deleted = false", User.class);
         q.setParameter(1, this.id);
         q.setParameter(2, SocialRelation.Action.FRIEND.name());
         q.setParameter(3, SocialRelation.ActionType.FRIEND_REQUESTED.name());
