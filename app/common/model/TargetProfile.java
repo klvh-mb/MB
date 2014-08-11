@@ -146,6 +146,16 @@ public class TargetProfile {
     public boolean isNewParent() {
         return childrenMinAgeMonths >= 0 && childrenMinAgeMonths < 12;
     }
+
+    public boolean isPreNurseryApplicable() {
+        for (DateTime birthDate : getChildBirthDates()) {
+            Months months = Months.monthsBetween(birthDate, DateTime.now());
+            if (months.getMonths() >= 6 && months.getMonths() <= 30) {
+                return true;
+            }
+        }
+        return false;
+    }
     
     @Override
     public String toString() {

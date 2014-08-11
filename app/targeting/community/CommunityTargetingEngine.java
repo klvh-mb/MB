@@ -77,6 +77,19 @@ public class CommunityTargetingEngine {
                     TargetingSocialObject.TargetingType.LOCATION_DISTRICT, district.id.toString());
             assign(community, user);
         }
+
+        // PreNursery communities
+        if (targetProfile.isPreNurseryApplicable()) {
+            Location region = Location.getParentLocation(targetProfile.getLocation(), Location.LocationType.REGION);
+            if (region != null) {
+                Community community = Community.findByTargetingTypeTargetingInfo(
+                    TargetingSocialObject.TargetingType.PRE_NURSERY, region.id.toString());
+                if (community != null) {
+                    assign(community, user);
+                }
+            }
+        }
+
     }
     
     private static void assign(Community community, User user) {

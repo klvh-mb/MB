@@ -32,12 +32,6 @@ public class UserTargetProfileVM {
         this.isNewParent = targetProfile.isNewParent();
         
         // UI controlling flags
-        this.recommendPN = false;
-        for (DateTime birthDate : targetProfile.getChildBirthDates()) {
-            Months months = Months.monthsBetween(birthDate, DateTime.now());
-            if (months.getMonths() >= 6 && months.getMonths() <= 30) {
-                this.recommendPN = true;
-            }
-        }
+        this.recommendPN = targetProfile.isPreNurseryApplicable();
     }
 }
