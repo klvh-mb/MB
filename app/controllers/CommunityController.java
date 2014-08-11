@@ -539,7 +539,8 @@ public class CommunityController extends Controller{
 
         if (localUser.equals(post.owner) || 
                 localUser.isSuperAdmin()) {
-            Post.delete(postId, localUser);
+            post.delete(localUser);
+            User.unBookmarkAllUsersOn(post.id, post.objectType);    // unbookmark for all users
             return ok();
         }
         return status(500, "Failed to delete post. [u=" + localUser.id + "] not owner of post [id=" + postId + "].");
@@ -555,7 +556,7 @@ public class CommunityController extends Controller{
         Comment comment = Comment.findById(commentId);
         if (localUser.equals(comment.owner) ||
                 localUser.isSuperAdmin()) {
-            Comment.delete(commentId, localUser);
+            comment.delete(localUser);
             return ok();
         }
         return status(500, "Failed to delete comment. [u="+localUser.id+"] not owner of comment [id=" + commentId + "].");

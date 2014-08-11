@@ -86,17 +86,16 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
         recordCommentOnCommunityPost(owner);
     }
     
+    public void delete(User deletedBy) {
+        this.deleted = true;
+        this.deletedBy = deletedBy;
+        save();
+    }
+    
     public static Comment findById(Long id) {
         Query q = JPA.em().createQuery("SELECT c FROM Comment c where id = ?1 and deleted = false");
         q.setParameter(1, id);
         return (Comment) q.getSingleResult();
-    }
-    
-    public static void delete(Long id, User deletedBy) {
-        Comment comment = findById(id);
-        comment.deleted = true;
-        comment.deletedBy = deletedBy;
-        comment.save();
     }
     
     public boolean isLikedBy(User user) {

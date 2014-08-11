@@ -125,6 +125,16 @@ public class Post extends SocialObject implements Likeable, Commentable {
         }
     }
     
+    public void delete(User deletedBy) {
+        for (Comment comment : this.comments) {
+            comment.deleted = true;
+            comment.deletedBy = deletedBy;
+        }
+        this.deleted = true;
+        this.deletedBy = deletedBy;
+        save();
+    }
+    
     public static Post findById(Long id) {
         try {
             Query q = JPA.em().createQuery("SELECT p FROM Post p where id = ?1 and deleted = false");
@@ -133,17 +143,6 @@ public class Post extends SocialObject implements Likeable, Commentable {
         } catch (NoResultException nre) {
             return null;
         }
-    }
-    
-    public static void delete(Long id, User deletedBy) {
-        Post post = findById(id);
-        for (Comment comment : post.comments) {
-            comment.deleted = true;
-            comment.deletedBy = deletedBy;
-        }
-        post.deleted = true;
-        post.deletedBy = deletedBy;
-        post.save();
     }
     
     @Override

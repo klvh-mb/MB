@@ -5,7 +5,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.persistence.CascadeType;
@@ -1117,8 +1125,7 @@ public class User extends SocialObject implements Subject, Socializable {
     @JsonIgnore
     public boolean isMemberOf(Long communityId) {
         Query query = JPA.em().createQuery(
-                "SELECT count(*) from SocialRelation where actor = ?1 and target = ?2 and action = ?3"
-        );
+                "SELECT count(*) from SocialRelation where actor = ?1 and target = ?2 and action = ?3");
         query.setParameter(1, this.id);
         query.setParameter(2, communityId);
         query.setParameter(3, SocialRelation.Action.MEMBER);
@@ -1139,7 +1146,7 @@ public class User extends SocialObject implements Subject, Socializable {
     
     public int doUnFriend(User toBeUnfriend) {
         Query query = JPA.em().createQuery(
-                "SELECT sr FROM SocialRelation sr where sr.actionType=?1 And sr.action = ?4 And " +
+                "SELECT sr FROM SocialRelation sr where sr.actionType=?1 and sr.action = ?4 and " +
                 " ((sr.target = ?2 and sr.actor = ?3) or (sr.actor = ?2 and sr.target = ?3))", SocialRelation.class);
         query.setParameter(1, SocialRelation.ActionType.GRANT);
         query.setParameter(2, this.id);
@@ -1163,8 +1170,8 @@ public class User extends SocialObject implements Subject, Socializable {
     public int doUnLike(Long id, SocialObjectType type) {
         
         Query query = JPA.em().createQuery(
-                "SELECT sr FROM PrimarySocialRelation sr where  sr.targetType = ?4 and sr.action = ?3 And " + 
-                " ((sr.target = ?1 and sr.actor = ?2))", PrimarySocialRelation.class);
+                "SELECT sr FROM PrimarySocialRelation sr where sr.targetType = ?4 and sr.action = ?3 and " + 
+                "(sr.target = ?1 and sr.actor = ?2)", PrimarySocialRelation.class);
         query.setParameter(1, id);
         query.setParameter(2, this.id);
         query.setParameter(3, PrimarySocialRelation.Action.LIKED);
@@ -1180,8 +1187,8 @@ public class User extends SocialObject implements Subject, Socializable {
     public int unBookmarkOn(Long id, SocialObjectType type) {
         
         Query query = JPA.em().createQuery(
-                "SELECT sr FROM SecondarySocialRelation sr where  sr.targetType = ?4 and sr.action = ?3 And " +
-                " ((sr.target = ?1 and sr.actor = ?2))", SecondarySocialRelation.class);
+                "SELECT sr FROM SecondarySocialRelation sr where sr.targetType = ?4 and sr.action = ?3 and " +
+                "(sr.target = ?1 and sr.actor = ?2)", SecondarySocialRelation.class);
         query.setParameter(1, id);
         query.setParameter(2, this.id);
         query.setParameter(3, SecondarySocialRelation.Action.BOOKMARKED);
@@ -1192,10 +1199,20 @@ public class User extends SocialObject implements Subject, Socializable {
         return 1;
     }
     
+    public static int unBookmarkAllUsersOn(Long id, SocialObjectType type) {
+        
+        Query query = JPA.em().createQuery(
+                "DELETE from SecondarySocialRelation sr where sr.targetType = ?1 and sr.action = ?2 and sr.target = ?3");
+        query.setParameter(1, type);
+        query.setParameter(2, SecondarySocialRelation.Action.BOOKMARKED);
+        query.setParameter(3, id);
+        return query.executeUpdate();
+    }
+    
     public int leaveCommunity(Community community) {
         Query query = JPA.em().createQuery(
-                "SELECT sr FROM SocialRelation sr where sr.actionType=?1 And  sr.action = ?4 And " +
-                " sr.actor = ?2 and sr.target = ?3", SocialRelation.class);
+                "SELECT sr FROM SocialRelation sr where sr.actionType=?1 And  sr.action = ?4 and " +
+                "sr.actor = ?2 and sr.target = ?3", SocialRelation.class);
         query.setParameter(1, SocialRelation.ActionType.GRANT);
         query.setParameter(2, this.id);
         query.setParameter(3, community.id);

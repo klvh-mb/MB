@@ -1,6 +1,5 @@
 package models;
 
-import common.utils.DateTimeUtil;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.data.format.Formats;

@@ -9,7 +9,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import common.utils.NanoSecondStopWatch;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -153,11 +152,18 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	{
 		this.merge();
 	}
+	
 	public void saveArticle()
 	{
 		this.save();
 	}
 
+    public void delete(User deletedBy) {
+        this.deleted = true;
+        this.deletedBy = deletedBy;
+        save();
+    }
+	   
 	@Override
 	public void onLikedBy(User user) {
 		recordLike(user);

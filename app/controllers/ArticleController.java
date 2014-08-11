@@ -259,11 +259,13 @@ public class ArticleController extends Controller {
 	}
 	
 	@Transactional
-	public static Result deleteArticle(Long art_id) {
-	    final User localUser = Application.getLocalUser(session());
-		Article.delete(art_id, localUser);
-		return ok();
-	}
+    public static Result deleteArticle(Long art_id) {
+        final User localUser = Application.getLocalUser(session());
+        Article article = Article.findById(art_id);
+        article.delete(localUser);
+        User.unBookmarkAllUsersOn(article.id, article.objectType);    // unbookmark for all users
+        return ok();
+    }
 	
     @Transactional
     public static Result infoArticle(Long art_id) {
