@@ -336,7 +336,7 @@ public class UserController extends Controller {
     	List<Notification> joinRequests = localUser.getAllNotification();
     	List<NotificationVM> requests = new ArrayList<>();
     	for(Notification n : joinRequests) {
-    		requests.add(new NotificationVM(n,SocialObjectType.ANSWER));
+    		requests.add(new NotificationVM(n));
     	}
     	return ok(Json.toJson(requests));
     }
