@@ -505,6 +505,7 @@ minibean.service('profilePhotoModal',function( $modal){
 minibean.controller('UserAboutController',function($routeParams, $scope, $http, userAboutService, locationService, profilePhotoModal){
 	log("UserAboutController starts");
 	
+	$scope.get_header_metaData();
 	var tab = $routeParams.tab;
 	
 	if (tab == 'activities' || tab == undefined) {
@@ -594,6 +595,8 @@ minibean.service('editCommunityPageService',function($resource){
 minibean.controller('EditCommunityController',function($scope,$q, $location,$routeParams, $http, usSpinnerService, iconsService, editCommunityPageService, $upload, profilePhotoModal){
     log("EditCommunityController starts");
    
+	$scope.get_header_metaData();
+	
 	$scope.submitBtn = "儲存";
 	$scope.community = editCommunityPageService.EditCommunityPage.get({id:$routeParams.id}, 
 			function(response) {
@@ -1098,6 +1101,7 @@ minibean.service('profileService',function($resource){
 
 minibean.controller('ProfileController',function($scope, $routeParams, $location, profileService, friendsService, sendInvitation, unFriendService){
 	log("ProfileController starts");
+	$scope.get_header_metaData();
 	
 	$scope.$watch($routeParams.id, function (navigateTo) {
 		if( $routeParams.id  == $scope.userInfo.id){
@@ -1496,6 +1500,8 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     
     log("PostLandingController starts");
 
+	$scope.get_header_metaData();
+	
     $scope.$on('$viewContentLoaded', function() {
         usSpinnerService.spin('loading...');
     });
@@ -1844,7 +1850,8 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     qnaLandingService, communityPageService, allAnswersService, showImageService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
 
     log("QnALandingController starts");
-    
+	$scope.get_header_metaData();
+	
     $scope.$on('$viewContentLoaded', function() {
         usSpinnerService.spin('loading...');
     });

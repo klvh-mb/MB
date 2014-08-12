@@ -206,7 +206,7 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	
 	@Override
 	public void delete() {
-	    Notification notification = Notification.findBySocialAction(this);
+	    Notification notification = Notification.findBySocialActionID(this.id);
         if (notification != null)
             notification.delete();
         super.delete();

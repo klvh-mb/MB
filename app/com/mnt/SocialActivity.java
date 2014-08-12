@@ -234,7 +234,8 @@ public class SocialActivity {
 						notification.merge();
 					}
 				} else if(socialAction.targetType == SocialObjectType.COMMENT){
-					long owner_id = Comment.findById(socialAction.target).owner.id;
+					Comment comment = Comment.findById(socialAction.target);
+					long owner_id = comment.owner.id;
 					if(User.findById(socialAction.actor).id == owner_id){
 						return;
 					}
@@ -248,7 +249,7 @@ public class SocialActivity {
 			        	notification.count++;
 			        	notification.socialActionID = socialAction.target;
 			        	jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
-			        	jsonMap.put("onClick", "/#/profile/"+owner_id);
+			        	jsonMap.put("onClick", "/#/community/" + comment.getPost().community.id + "/moment");
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 			        	notification.addToList(User.findById(socialAction.actor));
 			        	
@@ -256,7 +257,7 @@ public class SocialActivity {
 			        	notification.save();
 					} else {
 						jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
-			        	jsonMap.put("onClick", "/#/profile/"+owner_id);
+			        	jsonMap.put("onClick", "/#/community/" + comment.getPost().community.id + "/moment");
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 						notification.count++;
 						notification.setMessage(socialAction.actorname+ " Liked on your Comment ");
@@ -266,7 +267,8 @@ public class SocialActivity {
 					}
 					
 				} else if(socialAction.targetType == SocialObjectType.ANSWER){
-					long owner_id = Comment.findById(socialAction.target).owner.id;
+					Comment comment = Comment.findById(socialAction.target);
+					long owner_id = comment.owner.id;
 					if(User.findById(socialAction.actor).id == owner_id){
 						return;
 					}
@@ -279,7 +281,7 @@ public class SocialActivity {
 			        	notification.recipetent = owner_id;
 			        	notification.count++;
 			        	jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
-			        	jsonMap.put("onClick", "/#/profile/"+owner_id);
+			        	jsonMap.put("onClick", "/#//community/" + comment.getPost().community.id + "/question");
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 			        	notification.addToList(User.findById(socialAction.actor));
 			        	
@@ -288,7 +290,7 @@ public class SocialActivity {
 			        	notification.save();
 					} else {
 						jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
-			        	jsonMap.put("onClick", "/#/profile/"+owner_id);
+			        	jsonMap.put("onClick", "/#/community/" + comment.getPost().community.id + "/question");
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 						notification.count++;
 						notification.setMessage(socialAction.actorname+ " Liked on your Answer ");
@@ -299,7 +301,8 @@ public class SocialActivity {
 					
 				
 				} else if(socialAction.targetType == SocialObjectType.QUESTION){
-					long owner_id = Post.findById(socialAction.target).owner.id;
+					Post post = Post.findById(socialAction.target);
+					long owner_id = post.owner.id;
 					if(User.findById(socialAction.actor).id == owner_id){
 						return;
 					}
@@ -314,13 +317,13 @@ public class SocialActivity {
 			        	notification.socialActionID = socialAction.target;
 			        	notification.addToList(User.findById(socialAction.actor));
 			        	jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
-			        	jsonMap.put("onClick", "/#/community/"+socialAction.target+"/question");
+			        	jsonMap.put("onClick", "/#/community/"+ post.community.id +"/question");
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 			        	notification.message = socialAction.actorname+ " Liked on your Question ";
 			        	notification.save();
 					} else {
 						jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
-			        	jsonMap.put("onClick", "/#/community/"+socialAction.target+"/question");
+			        	jsonMap.put("onClick", "/#/community/"+ post.community.id +"/question");
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 						notification.count++;
 						notification.setMessage(socialAction.actorname+ " Liked on your Question ");
