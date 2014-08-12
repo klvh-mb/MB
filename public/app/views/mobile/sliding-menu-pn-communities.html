@@ -1,0 +1,14 @@
+<div class="sliding-menu-small-title">PN 幼兒班社群</div>
+<ul class="myCommunity-info">
+    <li ng-repeat="community in pnCommunities" ng-show="!community.isM">
+        <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
+        <a href="#/community/{{community.id}}/question"><img src="{{community.gi}}"></a>
+        <p>
+            <a href="#/community/{{community.id}}/question"><b>{{community.dn|characters:20:true}}</b></a>
+            <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
+            <span class="community-attribute">
+                <font>   ·   (立即加入)</font>
+            </span>
+        </p>
+    </li>
+</ul>

@@ -1,8 +1,6 @@
 package viewmodel;
 
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.joda.time.DateTime;
-import org.joda.time.Months;
 
 import common.model.TargetProfile;
 

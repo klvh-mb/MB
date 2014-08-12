@@ -52,8 +52,8 @@ pre {
     height: 25px;
 }
 .btn-general {
-    font-size: 11px !important;
-    color: black !important;
+    font-size: 12px;
+    color: black;
     display: inline-block;
     padding: 5px;
     background-color: white;

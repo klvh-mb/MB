@@ -242,8 +242,6 @@ a:focus {
     padding: 20px;
 }
 .btn-general {
-    font-size: 12px !important;
-    color: black !important;
     display: inline-block;
     padding: 5px;
     background-color: white;

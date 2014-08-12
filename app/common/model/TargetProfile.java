@@ -8,7 +8,6 @@ import org.joda.time.DateTime;
 import org.joda.time.Months;
 
 import common.utils.DateTimeUtil;
-import controllers.Application;
 
 import java.util.ArrayList;
 import java.util.List;

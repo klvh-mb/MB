@@ -50,7 +50,12 @@
                     </li>
                 </ul>
             </div>
-            <!--Community Header End -->
+            <!-- Action buttons -->
+            <div class="community-action-menu row">
+                <a ng-show="!community.isO && community.isM == false && community.isP == false" class="btn-general pull-right" data-ng-click="send_join(community.id)">+ <i class="fa fa-user"></i> 加入社群</a>
+                <a ng-show="!community.isO && community.isP == true" class="btn-general pull-right" disabled="disabled"">已送出加入邀請</a>
+            </div>
+            <!-- Community Header End -->
             <div id="wall">
                 <div class="tab-content" ng-if="selectedTab == 1 ">
                     <div class="general-box" style="margin:-1px">

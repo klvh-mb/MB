@@ -32,6 +32,7 @@ body {
 .sliding-menu-logout {
     font-size: 15px;
     margin: 5px 0;
+    border-top: 1px solid #BEBEBE;
 }
 .sliding-menu-logout-icon {
     text-indent: 0;
@@ -114,7 +115,7 @@ body {
     margin: 0;
     line-height: 30px;
     border-top: none;
-    border-bottom: 1px solid #BEBEBE;
+    /*border-bottom: 1px solid #BEBEBE;*/
     text-indent: 15px;
 }
 .sidebar-nav li a {
@@ -134,6 +135,7 @@ body {
     line-height: 1.5;
     text-align: center;
     text-indent: 0;
+    border-top: 1px solid #BEBEBE;
     border-bottom: 1px solid #BEBEBE;
 }
 .sidebar-nav .sliding-menu-item {
@@ -363,6 +365,19 @@ span.notif-count {
 }
 
 /* community */
+.community-action-menu {
+
+}
+.community-action-menu .btn-general {
+    font-size: 14px;
+    width: 130px;
+    margin: 0 8px 8px 0;
+    padding: 7px;
+    text-align: center;
+}
+#community-header #community-header-name {
+    font-size: 22px;
+}
 #community-header-menu ul {
     position: absolute;
     min-width: 170px;
