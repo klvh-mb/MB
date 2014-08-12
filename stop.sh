@@ -1,7 +1,7 @@
 #!/bin/bash
 
 APP_HOME=/apps/MB
-INSTALL_PATH=$APP_HOME/parent-social-1.0-SNAPSHOT
+INSTALL_PATH=$APP_HOME/current
 
 cd $INSTALL_PATH
 read playpid < RUNNING_PID

@@ -5,7 +5,9 @@ import play.Project._
 object ApplicationBuild extends Build {
 
   val appName         = "parent-social"
-  val appVersion      = "1.0-SNAPSHOT"
+
+  //val appVersion      = "1.0-SNAPSHOT"
+  val appVersion      = "%s-%s".format("git rev-parse --abbrev-ref HEAD".!!.trim, "git rev-parse --short HEAD".!!.trim)
 
   val appDependencies = Seq(
     // Add your project dependencies here,

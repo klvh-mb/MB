@@ -1,7 +1,7 @@
 #!/bin/bash
 
 APP_HOME=/apps/MB
-INSTALL_PATH=$APP_HOME/parent-social-1.0-SNAPSHOT
+INSTALL_PATH=$APP_HOME/current
 LOG_DIR=$INSTALL_PATH/logs
 
 SERVICE_NAME=application
