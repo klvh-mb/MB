@@ -41,7 +41,6 @@ import viewmodel.ApplicationInfoVM;
 import viewmodel.PostIndexVM;
 import viewmodel.TodayWeatherInfoVM;
 import viewmodel.UserTargetProfileVM;
-import views.html.signup;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
@@ -91,48 +90,24 @@ public class Application extends Controller {
     }
 	
 	@Transactional
-    public static Result mobileIndex() {
-	    setMobileUser();
-	    
+    public static Result mobile() {
+        setMobileUser();    // manually set mobile to true
+        
         final User localUser = getLocalUser(session());
         if(localUser == null) {
             return mobileLogin();
         }
+
         return home(localUser);
     }
-	
+
 	@Transactional
     public static Result mobileLogin() {
-	    setMobileUser();
-	    
         final User localUser = getLocalUser(session());
         if(localUser != null) {
             return redirect("/mobile");
         }
         return ok(views.html.mobile.login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, isOverDailySignupThreshold()));
-    }
-	
-	@Transactional
-    public static Result doMobileLogin() {
-	    setMobileUser();
-	    
-        com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-        final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
-                .bindFromRequest();
-        if (filledForm.hasErrors()) {
-            // User did not fill everything properly
-            flash("error", "登入電郵或密碼錯誤");
-            return badRequest(views.html.mobile.login.render(filledForm, isOverDailySignupThreshold()));
-        } else {
-            // Everything was filled
-            return UsernamePasswordAuthProvider.handleLogin(ctx());
-        }
-    }
-	
-	@Transactional
-    public static Result saveMobileSignupInfoFb() {
-	    setMobileUser();
-        return saveSignupInfo();
     }
 	
 	//
@@ -182,7 +157,7 @@ public class Application extends Controller {
 	    
         final User localUser = getLocalUser(session());
 		if(localUser == null) {
-			return isMobile? mobileLogin():login();
+			return login();
 		}
 
 		return home(localUser);
@@ -194,22 +169,21 @@ public class Application extends Controller {
 	 *     ii. welcome page
 	 */
 	public static Result home(User user) {
+	    if (isMobileUser()) {
+            logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.name+"] Login - mobile");
+        } else {
+            logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.name+"] Login - PC");
+        }
+	    
 		if (user.userInfo == null) {
-		    if (isMobileUser()) {
-                logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.name+"] Login - mobile");
-
-    		    if (user.fbLogin) {
-                    return ok(views.html.mobile.signup_info_fb.render(user));
-                }
-                return ok(views.html.mobile.signup_info_reminder.render(user));     // native signup info must go PC for now, verification link goes to PC
-		    } else {
-                logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.name+"] Login - PC");
-
-    		    if (user.fbLogin) {
-    		        return ok(views.html.signup_info_fb.render(user));
-    		    }
-    	        return ok(views.html.signup_info.render(user));
+		    if (user.fbLogin) {
+		        return isMobileUser()? 
+		                ok(views.html.mobile.signup_info_fb.render(user)):
+		                    ok(views.html.signup_info_fb.render(user));
 		    }
+    	    return isMobileUser()? 
+    	            ok(views.html.mobile.signup_info.render(user)):
+    	                ok(views.html.signup_info.render(user));
 		}
 		
 	    if (user.isNewUser()) {
@@ -228,7 +202,6 @@ public class Application extends Controller {
 	
 	@Transactional
     public static Result saveSignupInfoFb() {
-	    setMobileUser("false");
 	    return saveSignupInfo();
 	}
 	
@@ -295,7 +268,7 @@ public class Application extends Controller {
             localUser.children.add(userChild);
         }
         
-        return isMobileUser()? redirect("/mobile") : redirect("/");
+        return redirect("/");
 	}
 	
 	public static User getLocalUser(final Session session) {
@@ -318,26 +291,31 @@ public class Application extends Controller {
     
 	@Transactional
 	public static Result login() {
-	    setMobileUser("false");
-	    
+	    UserAgentUtil userAgentUtil = new UserAgentUtil(request());
+        boolean isMobile = userAgentUtil.isMobileUserAgent();
+        
+        setMobileUser(isMobile? "true":"false");
+        
 		final User localUser = getLocalUser(session());
 		if(localUser != null) {
 			return redirect("/");
 		}
-		return ok(views.html.login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, isOverDailySignupThreshold()));
+		return isMobileUser()?
+		        ok(views.html.mobile.login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, isOverDailySignupThreshold())):
+		            ok(views.html.login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, isOverDailySignupThreshold()));
 	}
 
 	@Transactional
 	public static Result doLogin() {
-	    setMobileUser("false");
-	    
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			// User did not fill everything properly
 			flash("error", "登入電郵或密碼錯誤");
-			return badRequest(views.html.login.render(filledForm, isOverDailySignupThreshold()));
+			return isMobileUser()? 
+			        badRequest(views.html.mobile.login.render(filledForm, isOverDailySignupThreshold())):
+			            badRequest(views.html.login.render(filledForm, isOverDailySignupThreshold()));
 		} else {
 			// Everything was filled
 			return UsernamePasswordAuthProvider.handleLogin(ctx());
@@ -350,7 +328,9 @@ public class Application extends Controller {
 		if(localUser != null) {
 			return redirect("/");
 		}
-		return ok(signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));
+		return isMobileUser()? 
+		        ok(views.html.mobile.signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM)):
+		            ok(views.html.signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));
 	}
 
     public static Result jsRoutes() {
@@ -423,7 +403,9 @@ public class Application extends Controller {
 		    } else {
                 flash().put(controllers.Application.FLASH_ERROR_KEY, Messages.get("error.invalid"));
 		    }
-			return badRequest(views.html.signup.render(filledForm));
+			return isMobileUser()? 
+			        badRequest(views.html.mobile.signup.render(filledForm)):
+			            badRequest(views.html.signup.render(filledForm));
 		} else {
 			// Everything was filled
 		    String email = filledForm.get().email;

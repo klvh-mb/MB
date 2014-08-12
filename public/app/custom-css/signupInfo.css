@@ -68,22 +68,19 @@ ul, li {
     padding-bottom: 10px;
 }
 .signup-info-container {
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     position: relative;
-    width: 650px;
-    height: 100%;
-    left: 50%;
-    margin-left: -320px;
-    display: inline-block;
+    max-width: 650px;
+    width: 90%;
+    height: auto;
 }
 .signup-info-container div.signup-info-box {
     float: left;
     width: 100%;
     margin-right: 2%;
     height: 100%;
-    /*padding: 10% 3% 20% 5%;*/
-    padding: 20px 50px 20px 50px;
+    padding: 2% 7%;
 }
 .signup-info-container div.signup-info-box div {
     float: left;
@@ -93,6 +90,9 @@ ul, li {
     position: absolute;
     bottom: 45%;
     left: 10%;
+}
+.signup-info-container div.signup-info-box h5 {
+    line-height: 1.3;
 }
 .signup-info-container div.signup-info-box p {
     color: gray;
