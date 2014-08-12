@@ -10,10 +10,8 @@
 GET     /promo                      controllers.PromoController.index
 
 # Mobile
-GET     /mobile                     controllers.Application.mobileIndex
+GET     /mobile                     controllers.Application.mobile
 GET     /mobile/login               controllers.Application.mobileLogin
-POST    /mobile/login               controllers.Application.doMobileLogin
-POST    /mobile/saveSignupInfoFb    controllers.Application.saveMobileSignupInfoFb
 
 # Home page
 GET     /favicon.ico                controllers.Assets.at(path="/public", file="app/images/favicon-1.ico")
