@@ -45,7 +45,7 @@ public class Global extends GlobalSettings {
                 // The user will be redirected to this page after authentication
                 // if no original URL was saved
                 if (controllers.Application.isMobileUser()) {
-                    return routes.Application.mobileIndex();
+                    return routes.Application.mobile();
                 }
                 return routes.Application.index();
             }
