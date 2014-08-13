@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.Query;
 
 import common.cache.IconCache;
-
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
@@ -43,6 +42,15 @@ public class Emoticon {
     
     public static List<Emoticon> getEmoticons() {
         return IconCache.getEmoticons();
+    }
+    
+    public static String replace(String text) {
+        if(text != null){
+            for(Emoticon emoticon : Emoticon.getEmoticons()){
+                text = text.replace(emoticon.code, String.format("<img class='emoticon' src='%s'>", emoticon.url));
+            }
+        }
+        return text;
     }
     
     public String getName() {

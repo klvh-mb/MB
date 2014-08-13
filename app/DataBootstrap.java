@@ -102,7 +102,7 @@ public class DataBootstrap {
         emoticon.save();
         emoticon = new Emoticon("teeth", "^^]", 8, "/assets/app/images/emoticons/teeth.png");
         emoticon.save();
-        emoticon = new Emoticon("tongue", ":P", 7, "/assets/app/images/emoticons/tongue.png");
+        emoticon = new Emoticon("tongue", ":p", 7, "/assets/app/images/emoticons/tongue.png");
         emoticon.save();
         emoticon = new Emoticon("wacko", ":S", 18, "/assets/app/images/emoticons/wacko.png");
         emoticon.save();
