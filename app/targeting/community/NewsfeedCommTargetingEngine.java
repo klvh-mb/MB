@@ -245,7 +245,7 @@ public class NewsfeedCommTargetingEngine {
 
         public void addInput(Long commId, Integer length) {
             ratioMap.put(commId, length);
-            if (minLength == null || length < minLength) {
+            if (length != 0 && (minLength == null || length < minLength)) { 
                 minLength = length;
             }
         }
