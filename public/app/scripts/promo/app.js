@@ -24,9 +24,9 @@ angular.module('minibeanPromo', [
       //.when('/', {
       //  templateUrl: '/assets/app/views/promo/promo.html'
       //})
-      .when('/pn/:region', {
+      .when('/pn/:id', {
         templateUrl: '/assets/app/views/promo/pn.html',
-        controller: 'PNController'
+        controller: 'PromoPNController'
       });
   })
   .run(function(editableOptions) {

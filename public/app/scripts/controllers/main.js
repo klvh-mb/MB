@@ -509,6 +509,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 	
 	if (tab == 'activities' || tab == undefined) {
 		$scope.selectedTab = 1;
+		$scope.selectedSubTab = 1;
 	}
 	
 	if (tab == 'communities' ) {
@@ -2211,8 +2212,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
         $scope.img_id = imageId;
     }
     
-    var coverImage = "/image/get-cover-community-image-by-id/"+$routeParams.id;
-    $scope.coverImage = coverImage;
+    $scope.coverImage = "/image/get-cover-community-image-by-id/" + $routeParams.id;
     
     $scope.openGroupCoverPhotoModal = function(id) {
         PhotoModalController.url = "image/upload-cover-photo-group/"+id;
@@ -4153,8 +4153,8 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 	var noMoreP = false;
 	var offsetP = 0;
 	
-	$scope.setSelectedTab = function (iTab) {
-		$scope.selectedTab = iTab;
+	$scope.setSelectedSubTab = function (iTab) {
+		$scope.selectedSubTab = iTab;
 		$scope.newsFeeds = { posts: [] };
 		$scope.isBusyP = false;
 		$scope.isBusyC = false;

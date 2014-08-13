@@ -50,7 +50,7 @@ public class PreNurseryController extends Controller {
 	public static Result getPNs(Long id) {
 		final User localUser = Application.getLocalUser(session());
         final Community community = Community.findById(id);
-        if (community == null) {
+        if (community == null || community.getTargetingType() != TargetingType.PRE_NURSERY) {
             return ok(Json.toJson(new ArrayList<PreNurseryVM>()));
         }
         

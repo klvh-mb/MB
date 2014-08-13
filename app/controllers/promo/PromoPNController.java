@@ -39,8 +39,8 @@ public class PromoPNController extends Controller {
     }
     
     @Transactional
-    public static Result getPNs(String region) {
-        return PreNurseryController.getPNs((long)getPNCommunityId(region));
+    public static Result getPNs(Long id) {
+        return PreNurseryController.getPNs(id);
     }
     
     private static int getPNCommunityId(String region) {

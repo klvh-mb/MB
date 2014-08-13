@@ -156,4 +156,58 @@ public class CommunityPostVM {
 		
 		return postVM;
 	}
+	
+	public static CommunityPostVM communityPostVM(Post post) {
+        CommunityPostVM postVM = new CommunityPostVM();
+        postVM.postId = post.id;
+        postVM.ownerId = post.owner.id;
+        postVM.postedBy = post.owner.name;
+        postVM.postedOn = post.getCreatedDate().getTime();
+        postVM.updatedOn = post.getSocialUpdatedDate().getTime();
+        postVM.postedTitle = post.title;
+        postVM.postedText = post.body;
+        postVM.noOfComments = post.noOfComments;
+        postVM.postType = post.postType.name();
+        postVM.communityName = post.community.name;
+        postVM.communityIcon = post.community.icon;
+        postVM.communityId = post.community.id;
+        //need to write logic for showing no of views
+        postVM.noOfViews = 0;
+        postVM.noOfLikes = post.noOfLikes;
+        postVM.expanded = false;
+        postVM.isBookmarked = false;
+        postVM.isCommentable = false;
+        postVM.isOwner = false;
+
+        if(post.folder != null && !CollectionUtils.isEmpty(post.folder.resources)) {
+            postVM.hasImage = true;
+            postVM.images = new Long[post.folder.resources.size()];
+            int i = 0;
+            for (Resource rs : post.folder.resources) {
+                postVM.images[i++] = rs.id;
+            }
+        }
+
+        // fetch preview comments
+        List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
+        List<Comment> comments = post.getCommentsOfPost(COMMENT_PREVIEW_COUNT);
+
+        List<Long> likeCheckIds = new ArrayList<>();
+        likeCheckIds.add(post.id);
+        for(int i = comments.size() - 1; i >= 0 ; i--) {
+            likeCheckIds.add(comments.get(i).getId());
+        }
+
+        for(int i = comments.size() - 1; i >= 0 ; i--) {
+            Comment comment = comments.get(i);
+            CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment);
+            commentVM.isLike = false;
+            commentsToShow.add(commentVM);
+        }
+
+        postVM.isLike = false;
+        postVM.comments = commentsToShow;
+        
+        return postVM;
+    }
 }

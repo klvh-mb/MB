@@ -121,13 +121,21 @@ public class CommunityController extends Controller{
 
         //if(localUser.isMemberOf(community) || community.owner.id == localUser.id || community.communityType.toString().equals("OPEN") && localUser.isMemberOf(community) == false || community.communityType.toString().equals("CLOSE") && localUser.isMemberOf(community) == true){
         if(community.objectType == SocialObjectType.COMMUNITY) {
-            UserCommunityAffinity.onCommunityView(localUser.getId(), community.getId());
-
-            CommunityVM communityVM = CommunityVM.communityVM(community, localUser);
-
-            sw.stop();
-            logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+id+"] getCommunityInfoById. Took "+sw.getElapsedMS()+"ms");
-            return ok(Json.toJson(communityVM));
+            if (localUser != null) {
+                UserCommunityAffinity.onCommunityView(localUser.getId(), community.getId());
+    
+                CommunityVM communityVM = CommunityVM.communityVM(community, localUser);
+    
+                sw.stop();
+                logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+id+"] getCommunityInfoById. Took "+sw.getElapsedMS()+"ms");
+                return ok(Json.toJson(communityVM));
+            } else {
+                CommunityVM communityVM = CommunityVM.communityVM(community);
+                
+                sw.stop();
+                logger.underlyingLogger().info("STS [u=NA][c="+id+"] getCommunityInfoById. Took "+sw.getElapsedMS()+"ms");
+                return ok(Json.toJson(communityVM));
+            }
         } else {
             return ok();
         }
@@ -337,13 +345,18 @@ public class CommunityController extends Controller{
         List<CommunityPostVM> postsVM = new ArrayList<>();
         List<Post> posts = community.getPostsOfCommunityByTime(start, Long.parseLong(time));
         for(Post p: posts) {
-            CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser);
+            CommunityPostVM post = localUser != null? 
+                    CommunityPostVM.communityPostVM(p, localUser):
+                        CommunityPostVM.communityPostVM(p);
             postsVM.add(post);
         }
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getNextPosts(offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
+            if (localUser != null)
+                logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getNextPosts(offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
+            else
+                logger.underlyingLogger().debug("[u=NA][c="+id+"] getNextPosts(offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
         }
         return ok(Json.toJson(postsVM));
     }
@@ -359,13 +372,18 @@ public class CommunityController extends Controller{
         List<CommunityPostVM> postsVM = new ArrayList<>();
         List<Post> posts =  community.getQuestionsOfCommunityByTime(Long.parseLong(time));
         for(Post p: posts) {
-            CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
+            CommunityPostVM post = localUser != null? 
+                    CommunityPostVM.communityPostVM(p, localUser):
+                        CommunityPostVM.communityPostVM(p);
             postsVM.add(post);
         }
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getNextQnAs(offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
+            if (localUser != null)
+                logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getNextQnAs(offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
+            else 
+                logger.underlyingLogger().debug("[u=NA][c="+id+"] getNextQnAs(offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
         }
         return ok(Json.toJson(postsVM));
     }
@@ -685,10 +703,20 @@ public class CommunityController extends Controller{
         final User localUser = Application.getLocalUser(session());
         final Community community = Community.findById(id);
         List<Post> posts = community.getQuestionsOfCommunity(0, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
-        CommunityPostsVM postsVM = CommunityPostsVM.posts(community, localUser, posts);
-
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getAllQuestionsOfCommunity="+postsVM.posts.size());
+        
+        CommunityPostsVM postsVM = null;
+        if (localUser != null) {
+            postsVM = CommunityPostsVM.posts(community, localUser, posts);
+    
+            if (logger.underlyingLogger().isDebugEnabled()) {
+                logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getAllQuestionsOfCommunity="+postsVM.posts.size());
+            }
+        } else {
+            postsVM = CommunityPostsVM.posts(community, posts);
+            
+            if (logger.underlyingLogger().isDebugEnabled()) {
+                logger.underlyingLogger().debug("[u=NA][c="+id+"] getAllQuestionsOfCommunity="+postsVM.posts.size());
+            }
         }
         return ok(Json.toJson(postsVM));
     }
@@ -698,10 +726,20 @@ public class CommunityController extends Controller{
         final User localUser = Application.getLocalUser(session());
         final Community community = Community.findById(id);
         List<Post> posts = community.getPostsOfCommunity(0, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
-        CommunityPostsVM postsVM = CommunityPostsVM.posts(community, localUser, posts);
-
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getAllPostsOfCommunity="+postsVM.posts.size());
+        
+        CommunityPostsVM postsVM = null;
+        if (localUser != null) {
+            postsVM = CommunityPostsVM.posts(community, localUser, posts);
+    
+            if (logger.underlyingLogger().isDebugEnabled()) {
+                logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getAllPostsOfCommunity="+postsVM.posts.size());
+            }
+        } else {
+            postsVM = CommunityPostsVM.posts(community, posts);
+            
+            if (logger.underlyingLogger().isDebugEnabled()) {
+                logger.underlyingLogger().debug("[u=NA][c="+id+"] getAllPostsOfCommunity="+postsVM.posts.size());
+            }
         }
         return ok(Json.toJson(postsVM));
     }

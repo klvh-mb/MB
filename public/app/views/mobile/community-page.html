@@ -57,7 +57,7 @@
             </div>
             <!-- Community Header End -->
             <div id="wall">
-                <div class="tab-content" ng-if="selectedTab == 1 ">
+                <div class="tab-content" ng-show="selectedTab == 1">
                     <div class="general-box" style="margin:-1px">
                         <div class="wall-title">
                             <span style="margin-left:10px;"/>
@@ -114,11 +114,11 @@
                 </div>
                 <!-- Closed Community Tips End -->
                 
-                <div class="tab-content row" ng-if="selectedTab == 2 ">
+                <div class="tab-content row" ng-if="selectedTab == 2">
                     <div data-ng-controller="CommunityMembersController" data-ng-include data-src="'/assets/app/views/mobile/community-members-section.html'"></div>
                 </div>
                 
-                <div class="tab-content row" ng-if="selectedTab == 3 ">
+                <div class="tab-content row" ng-show="selectedTab == 3">
                     <div data-ng-controller="CommunityPNController" data-ng-include data-src="'/assets/app/views/mobile/community-pn-section.html'"></div>
                 </div>
                 

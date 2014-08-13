@@ -9,7 +9,7 @@
 # Promo
 GET     /promo                      controllers.promo.PromoController.index
 GET     /get-promo-pn-communities   controllers.promo.PromoPNController.getPNCommunities()
-GET     /get-promo-pns/:region      controllers.promo.PromoPNController.getPNs(region:String)
+GET     /get-promo-pns/:id          controllers.promo.PromoPNController.getPNs(id:Long)
 
 # Mobile
 GET     /mobile                     controllers.Application.mobile

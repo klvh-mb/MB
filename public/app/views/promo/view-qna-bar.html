@@ -1,0 +1,75 @@
+<div class="post-card">
+    <ul title="qna">
+        <li class="post-intro post-qna-line">
+            <span class="post-qna-tag pull-left" style="margin-right:5px;">?</span>
+            <span class="post-intro-share">發問</span>
+            <span class="post-intro-share" ng-show="!isCommunityPage">於 </span>
+            <a href="" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
+            <span class="post-intro-divider"></span>
+            <span class="post-qna-answer-count">回覆: {{post.n_c}}</span>
+            <!--span class="post-intro-divider"></span>
+            <span class="post-qna-answer-count">查看: {{post.nov}}</span-->
+            <span class="post-intro-divider" ng-show="post.n_c > 0"></span>
+            <span class="post-qna-answer-count" ng-show="post.n_c > 0">最新回覆: 
+                <span class="post-date" am-time-ago="post.ut"></span>
+            </span>
+        </li>
+    </ul>
+    <!-- Post Intro Ends -->
+    <ul>
+        <li class="post-qna-body-top">
+            <div class="post-qna-body-title"><a href="" target="_blank"><div ng-bind-html="post.ptl"></div></a></div>
+            <a href="/#/profile/{{post.oid}}">
+                <img class="post-title-user-image" data-ng-src="/image/get-mini-image-by-id/{{post.oid}}"/>
+            </a>
+            <span class="post-title-user-name">
+                <a href="">{{post.p}}</a>
+            </span>
+            <span style="margin-left:5px;"/>
+            <span class="post-date" am-time-ago="post.t"></span>
+        </li>
+       	<li class="post-qna-body">
+            <div class="post-qna-body-text" ng-bind-html="post.pt"></div>
+            <div data-ng-show="post.hasImage" class="post-body-image">
+                <a data-toggle="modal" data-ng-repeat="imageID in post.imgs" href="">
+                    <img data-ng-src="/image/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                </a>
+            </div>
+            <span class="btn-like-wrapper">
+                <span ng-show="post.nol > 0"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/><b>{{post.nol}}</b></span>
+            </span>
+         </li>
+    </ul>
+    <!-- Post Body Ends -->
+    <ul class="post-qna-answers">
+        <li>
+            <span class="post-qna-answer-count" ng-show="post.n_c == 0"><b>尚未有回覆</b></span>
+            <span class="post-qna-answer-count" ng-show="post.n_c > 0 && post.n_c <= 3"><b>{{post.n_c}}個回覆</b></span>
+            <span class="post-qna-answer-count" ng-show="post.n_c > 3  && post.ep"><b>共{{post.n_c}}個回覆</b></span>
+            <a href="" ng-show="post.n_c > 3 && !post.ep" data-ng-click="get_all_comments(post.id)"><b>共{{post.n_c}}個回覆</b></a>
+            <a class="pull-right" href="" ng-show="post.n_c > 3 && !post.ep" data-ng-click="get_all_comments(post.id)">查看所有回覆</a>
+        </li>
+        <li data-ng-repeat="comment in post.cs" ng-class-odd="'post-qna-answer-odd'" ng-class-even="'post-qna-answer-even'">
+            <a href="">
+                <img class="post-title-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
+            </a>
+            <span class="post-title-user-name">
+                <a href="">{{comment.on}}</a>
+            </span>
+            <span style="margin-left:5px;"/>
+            <span class="post-date" am-time-ago="comment.cd"></span>
+            <div class="post-qna-answer-body">
+                <div class="post-qna-answer-body-text" ng-bind-html="comment.d"></div>
+                <div data-ng-show="comment.hasImage" class="post-body-image">
+                    <a data-toggle="modal" data-ng-repeat="imageID in comment.imgs" href="">
+                        <img data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                    </a>
+                </div>
+                <span class="btn-like-wrapper">
+                    <span ng-show="post.nol > 0"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/><b>{{post.nol}}</b></span>
+                </span>
+            </div>
+        </li>
+    </ul>
+    <!-- Post Answers Ends -->
+</div>
