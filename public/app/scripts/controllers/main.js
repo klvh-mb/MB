@@ -272,8 +272,8 @@ minibean.controller('ApplicationController',function($scope, $location, $interva
 		headerBarMetadataService.headerBardata.get(function(data) {
             //log("headerBardata:"+data.messageCount);
 			$scope.unread_msg_count = data.messageCount;
-			$scope.friend_requests = data.requestNotif;
-			$scope.join_requests = data.allNotif;
+			$scope.request_notif = data.requestNotif;
+			$scope.batchup_notif = data.allNotif;
 			$scope.username = data.name;
 			$scope.unread_notify_count = data.notifyCount;
 		});

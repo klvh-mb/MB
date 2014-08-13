@@ -45,7 +45,6 @@ import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
 
 import domain.DefaultValues;
-import domain.SocialObjectType;
 
 public class UserController extends Controller {
     private static final play.api.Logger logger = play.api.Logger.apply(UserController.class);
@@ -303,18 +302,6 @@ public class UserController extends Controller {
 	
 
     @Transactional
-    public static Result getAllFriendRequests() {
-    	final User localUser = Application.getLocalUser(session());
-    	List<Notification> friendRequests = localUser.getAllFriendRequestNotification();
-    	
-    	List<NotificationVM> requests = new ArrayList<>();
-    	for(Notification n : friendRequests) {
-    		requests.add(new NotificationVM(n));
-    	}
-    	return ok(Json.toJson(requests));
-    }
-    
-    @Transactional
     public static Result acceptFriendRequest(Long id, Long notify_id) {
     	final User localUser = Application.getLocalUser(session());
     	User invitee = User.findById(id);
@@ -330,16 +317,6 @@ public class UserController extends Controller {
     	return ok();
     }
     
-    @Transactional
-    public static Result getAllJoinRequests() {
-    	final User localUser = Application.getLocalUser(session());
-    	List<Notification> joinRequests = localUser.getAllNotification();
-    	List<NotificationVM> requests = new ArrayList<>();
-    	for(Notification n : joinRequests) {
-    		requests.add(new NotificationVM(n));
-    	}
-    	return ok(Json.toJson(requests));
-    }
     
     @Transactional
     public static Result acceptJoinRequest(Long member_id,Long group_id,Long notify_id) {
@@ -628,10 +605,10 @@ public class UserController extends Controller {
     public static Result getHeaderBarMetadata() {
 		
 		final User localUser = Application.getLocalUser(session());
-		List<Notification> allNotify = localUser.getAllNotification();
+		List<Notification> batchupNotif = localUser.getAllNotification();
 		int unread_notify_count = 0;
     	List<NotificationVM> notif = new ArrayList<>();
-    	for(Notification n : allNotify) {
+    	for(Notification n : batchupNotif) {
     		if(n.status == 0){
     			unread_notify_count++;
     		}
@@ -639,9 +616,9 @@ public class UserController extends Controller {
     	}
 		
     	
-    	List<Notification> friendRequests = localUser.getAllFriendRequestNotification();
+    	List<Notification> requestNotif = localUser.getAllRequestNotification();
     	List<NotificationVM> requests = new ArrayList<>();
-    	for(Notification n : friendRequests) {
+    	for(Notification n : requestNotif) {
     		requests.add(new NotificationVM(n));
     	}
     	

@@ -1030,7 +1030,7 @@ public class User extends SocialObject implements Subject, Socializable {
     }
     
     @JsonIgnore
-    public List<Notification> getAllFriendRequestNotification() {
+    public List<Notification> getAllRequestNotification() {
         
         Query q = JPA.em().createQuery(
                 "SELECT n from Notification n where recipetent = ?1 and notificationType in (?2,?3,?4,?5,?7) and status = ?6 ");
@@ -1045,20 +1045,7 @@ public class User extends SocialObject implements Subject, Socializable {
         return notifications;
     }
     
-    @JsonIgnore
-    public List<Notification> getAllJoinRequestNotification() {
-        
-        Query q = JPA.em().createQuery(
-                "SELECT n from Notification n where recipetent = ?1 and notificationType in (?2,?3,?4) and readed = ?5 ORDER BY CREATED_DATE desc ");
-        q.setParameter(1, this.id);
-        q.setParameter(2, NotificationType.COMMUNITY_JOIN_REQUEST);
-        q.setParameter(3, NotificationType.COMMUNITY_INVITE_REQUEST);
-        q.setParameter(4, NotificationType.COMMUNITY_JOIN_APPROVED);
-        q.setParameter(5, false);
-        List<Notification> notifications = q.getResultList();
-        return notifications;
-    }
-    
+ 
     @JsonIgnore
     public List<Notification> getAllNotification() {
         
