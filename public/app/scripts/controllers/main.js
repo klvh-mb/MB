@@ -506,10 +506,10 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 	var tab = $routeParams.tab;
 	
 	$scope.get_unread_msg_count();
-	
+
+    $scope.selectedSubTab = 1;	
 	if (tab == 'activities' || tab == undefined) {
 		$scope.selectedTab = 1;
-		$scope.selectedSubTab = 1;
 	}
 	
 	if (tab == 'communities' ) {
