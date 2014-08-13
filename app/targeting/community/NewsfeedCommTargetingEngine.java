@@ -7,7 +7,6 @@ import play.Play;
 import processor.FeedProcessor;
 import redis.clients.jedis.Tuple;
 
-import javax.validation.constraints.Max;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -252,7 +251,8 @@ public class NewsfeedCommTargetingEngine {
 
         public void calculate() {
             for (Long commId : ratioMap.keySet()) {
-                int normalizedLen = ratioMap.get(commId) / minLength;
+                int divisor = (minLength == null || minLength == 0) ? 1 : minLength; 
+                int normalizedLen = ratioMap.get(commId) / divisor; 
 
                 ratioMap.put(commId, normalizedLen);
                 totalShares += normalizedLen;
