@@ -1,4 +1,4 @@
-package controllers;
+package controllers.promo;
 
 import play.Play;
 import play.db.jpa.Transactional;

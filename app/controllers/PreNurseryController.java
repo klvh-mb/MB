@@ -50,7 +50,10 @@ public class PreNurseryController extends Controller {
 	public static Result getPNs(Long id) {
 		final User localUser = Application.getLocalUser(session());
         final Community community = Community.findById(id);
-
+        if (community == null) {
+            return ok(Json.toJson(new ArrayList<PreNurseryVM>()));
+        }
+        
         Location commRegion = null;
         if (community.targetingInfo != null) {
             Long regionId = Long.parseLong(community.targetingInfo);

@@ -80,9 +80,9 @@ public class DataBootstrap {
         emoticon.save();
         emoticon = new Emoticon("gasp", ":O", 19, "/assets/app/images/emoticons/gasp.png");
         emoticon.save();
-        emoticon = new Emoticon("grin", "^^D", 3, "/assets/app/images/emoticons/grin.png");
+        emoticon = new Emoticon("grin", ":D", 3, "/assets/app/images/emoticons/grin.png");
         emoticon.save();
-        //emoticon = new Emoticon("happy", ":D", "/assets/app/images/emoticons/happy.png");
+        //emoticon = new Emoticon("happy", "^^D", "/assets/app/images/emoticons/happy.png");
         //emoticon.save();
         emoticon = new Emoticon("huh", "O_o", 17, "/assets/app/images/emoticons/huh.png");
         emoticon.save();

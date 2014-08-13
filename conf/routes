@@ -7,7 +7,9 @@
 # ~~~~
 
 # Promo
-GET     /promo                      controllers.PromoController.index
+GET     /promo                      controllers.promo.PromoController.index
+GET     /get-promo-pn-communities   controllers.promo.PromoPNController.getPNCommunities()
+GET     /get-promo-pns/:region      controllers.promo.PromoPNController.getPNs(region:String)
 
 # Mobile
 GET     /mobile                     controllers.Application.mobile

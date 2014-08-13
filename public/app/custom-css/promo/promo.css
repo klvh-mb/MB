@@ -1,3 +1,4 @@
+/* Override */
 body {
     background-image: url(../../images/login/login-bg.jpg);
     background-size: cover;
@@ -17,6 +18,11 @@ body {
 #community-header-menu a {
     color: #161616;
 }
+.newCommunity-info p, .myCommunity-info p {
+    width: auto;
+}
+
+/* Promo */
 .pn-box {
     border-bottom: 1px solid #c0c0c0;
     margin: 5px;

@@ -11,6 +11,8 @@ minibeanPromo.controller('PromoController', function($scope, $routeParams, $loca
 minibeanPromo.controller('PNController',function($scope, $routeParams, $http, pnService) {
     log("PNController starts");
 
+    $scope.pnCommunities = pnService.PNCommunities.get();
+
     if ($routeParams.region == 'hk') {
         $scope.selectedTab = 1;
     } else if ($routeParams.region == 'kl') {
@@ -22,17 +24,6 @@ minibeanPromo.controller('PNController',function($scope, $routeParams, $http, pn
     } else {
         $scope.selectedTab = 1;
     }
-    
-    // TODO: hardcoded!!!
-    //var hk_commId = 38;
-    //var kl_commId = 39;
-    //var nt_commId = 40;
-    //var is_commId = 41;
-    
-    var hk_commId = 49;
-    var kl_commId = 50;
-    var nt_commId = 51;
-    var is_commId = 53;
     
     $scope.tagDistricts = function(data) {
         var curDistrict = '';
@@ -47,27 +38,27 @@ minibeanPromo.controller('PNController',function($scope, $routeParams, $http, pn
         });
     }
             
-    $scope.hk_pns = pnService.PNs.get({id:hk_commId}, $scope.tagDistricts);
-    $scope.kl_pns = pnService.PNs.get({id:kl_commId}, $scope.tagDistricts);
-    $scope.nt_pns = pnService.PNs.get({id:nt_commId}, $scope.tagDistricts);
-    $scope.is_pns = pnService.PNs.get({id:is_commId}, $scope.tagDistricts);
+    $scope.hk_pns = pnService.PNs.get({region:"hk"}, $scope.tagDistricts);
+    $scope.kl_pns = pnService.PNs.get({region:"kl"}, $scope.tagDistricts);
+    $scope.nt_pns = pnService.PNs.get({region:"nt"}, $scope.tagDistricts);
+    $scope.is_pns = pnService.PNs.get({region:"is"}, $scope.tagDistricts);
     
     log("PNController completed");
 });
 
 minibeanPromo.service('pnService',function($resource){
     this.PNCommunities = $resource(
-            '/get-pn-communities',
+            '/get-promo-pn-communities',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'GET', isArray:true}
             }
     );
     this.PNs = $resource(
-            '/getPNs/:id',
+            '/get-promo-pns/:region',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'GET', params:{id:'@id'},isArray:true}
+                get: {method:'GET', params:{region:'@region'},isArray:true}
             }
     );
 });

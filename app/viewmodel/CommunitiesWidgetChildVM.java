@@ -6,8 +6,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import models.Community;
 import models.User;
 
-import java.util.List;
-
 public class CommunitiesWidgetChildVM {
     @JsonProperty("id") public Long id;
     @JsonProperty("gi") public String icon;
@@ -34,5 +32,20 @@ public class CommunitiesWidgetChildVM {
         this.isO = user == community.owner;
         this.isP = memStatus.first;
         this.isM = memStatus.second;
+    }
+	
+	public CommunitiesWidgetChildVM(Community community) {
+        Long memCount = community.getMemberCount();
+
+        this.id = community.id;
+        this.name = community.name;
+        this.membersCount = memCount;
+        this.desc = community.description;
+        this.icon = community.icon;
+        this.type = community.communityType.name();
+        this.system = community.system;
+        this.isO = false;
+        this.isP = false;
+        this.isM = false;
     }
 }
