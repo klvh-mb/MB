@@ -1033,7 +1033,10 @@ public class User extends SocialObject implements Subject, Socializable {
     public List<Notification> getAllRequestNotification() {
         
         Query q = JPA.em().createQuery(
-                "SELECT n from Notification n where recipetent = ?1 and notificationType in (?2,?3,?4,?5,?7) and status = ?6 ");
+                "SELECT n from Notification n where recipetent = ?1 and ( " +
+                "( notificationType in (?2,?3,?4) and status in (?6,?8) ) or " +
+                "( notificationType in (?5,?7) and CREATED_DATE between ?9 and NOW() )" +
+                ") ORDER BY CREATED_DATE desc ");
         q.setParameter(1, this.id);
         q.setParameter(2, NotificationType.COMMUNITY_JOIN_REQUEST);
         q.setParameter(3, NotificationType.COMMUNITY_INVITE_REQUEST);
@@ -1041,6 +1044,19 @@ public class User extends SocialObject implements Subject, Socializable {
         q.setParameter(5, NotificationType.FRIEND_REQUEST);
         q.setParameter(7, NotificationType.FRIEND_ACCEPTED);
         q.setParameter(6, 0);
+        q.setParameter(8, 1);
+        
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+
+        // substract 7 days
+        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH)-7);
+
+        // convert to date
+        Date myDate = cal.getTime();
+        q.setParameter(9, myDate);
+
+        
         List<Notification> notifications = q.getResultList();
         return notifications;
     }

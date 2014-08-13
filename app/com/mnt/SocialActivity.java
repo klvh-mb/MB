@@ -102,7 +102,7 @@ public class SocialActivity {
 			case INVITE_REQUESTED: {
 				Notification notification = new Notification();
 				notification.socialActionID = socialAction.id;
-				jsonMap.put("photo", "/image/get-mini-image-by-id/" + socialAction.actor);
+				jsonMap.put("photo", "/get-mini-cover-community-image-by-id/"+socialAction.target);
 				jsonMap.put("onClick", "#/community/" + socialAction.target + "/moment");
 				notification.URLs = Json.stringify(Json.toJson(jsonMap));
 				notification.recipetent = socialAction.actor;

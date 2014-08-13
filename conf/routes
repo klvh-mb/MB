@@ -96,12 +96,10 @@ GET 	/get-user-newsfeeds-posts/:offset/:id 		controllers.UserController.getUserN
 GET 	/get-user-newsfeeds-comment/:offset/:id 		controllers.UserController.getUserNewsfeedsComments(offset : String, id : Long)
 GET		/image/get-cover-image			controllers.UserController.getCoverImage
 GET		/user-search				controllers.UserController.searchSocialObjects(query: String)
-GET		/get-friend-requests		controllers.UserController.getAllFriendRequests
 GET		/accept-friend-request		controllers.UserController.acceptFriendRequest(friend_id :Long, notify_id: Long)
-GET		/get-join-requests			controllers.UserController.getAllJoinRequests
 GET		/accept-join-request/:member_id/:community_id/:notify_id		controllers.UserController.acceptJoinRequest(member_id :Long, community_id :Long, notify_id: Long)
 GET		/accept-invite-request/:member_id/:community_id/:notify_id		controllers.UserController.acceptInviteRequest(member_id :Long, community_id :Long, notify_id: Long)
-GET		/mark-as-read/:id						controllers.UserController.markNotificationAsRead(id:Long)
+GET		/mark-as-read/:ids						controllers.UserController.markNotificationAsRead(ids:String)
 GET		/ignore-it/:id						controllers.UserController.ignoreNotification(id:Long)
 GET     /get-bookmark-summary                       controllers.UserController.getBookmarkSummary()
 GET     /is-newsfeed-enabled-for-community/:community_id            controllers.UserController.isNewsfeedEnabledForCommunity(community_id : Long)

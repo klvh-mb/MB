@@ -223,10 +223,10 @@ minibean.service('acceptJoinRequestService',function($resource){
 
 minibean.service('notificationMarkReadService',function($resource){
 	this.markAsRead = $resource(
-			'/mark-as-read/:notify_id',
+			'/mark-as-read/:notify_ids',
 			{alt:'json',callback:'JSON_CALLBACK'},
 			{
-				get: {method:'GET', params:{member_id:'@member_id',group_id:'@group_id',notify_id:'@notify_id'}, isArray:true}
+				get: {method:'GET', params:{notify_ids:'@notify_ids'}, isArray:true}
 			}
 	);
 	
@@ -276,6 +276,8 @@ minibean.controller('ApplicationController',function($scope, $location, $interva
 			$scope.batchup_notif = data.allNotif;
 			$scope.username = data.name;
 			$scope.unread_notify_count = data.notifyCount;
+			$scope.unread_request_count = data.requestCount;
+			
 		});
 	};
 	$scope.get_header_metaData();
@@ -345,7 +347,7 @@ minibean.controller('ApplicationController',function($scope, $location, $interva
 	
 	$scope.ignoreIt = function(notify_id) {
 		notificationMarkReadService.ignoreIt.get({"notify_id":notify_id}, function() {
-			angular.forEach($scope.friend_requests, function(request, key){
+			angular.forEach($scope.request_notif, function(request, key){
 				if(request.nid == notify_id) {
 					$scope.friend_requests.splice($scope.friend_requests.indexOf(request),1);
 				}
@@ -353,12 +355,30 @@ minibean.controller('ApplicationController',function($scope, $location, $interva
 		});
 	}
 	
-	$scope.mark_as_read = function(notify_id) {
-		notificationMarkReadService.markAsRead.get({"notify_id":notify_id});
+	$scope.mark_notif_read = function() {
+		var data = null;
+		angular.forEach($scope.batchup_notif, function(request, key){
+			if(data == null){
+				data = request.nid;
+			} else {
+				data = data + "," + request.nid;
+			}
+		});
+		notificationMarkReadService.markAsRead.get({"notify_ids":data});
 	}
 
-	$scope.reset_fr_count = function() {
-		$scope.isFRreaded = false;
+	$scope.mark_requests_read = function() {
+		var data = null;
+		angular.forEach($scope.request_notif, function(request, key){
+			if(data == null){
+				data = request.nid;
+			} else {
+				data = data + "," + request.nid;
+			}
+		});
+		notificationMarkReadService.markAsRead.get({"notify_ids":data});
+		
+		
 	}
 	
 	$scope.reset_notify_count = function() {

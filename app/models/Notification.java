@@ -1,6 +1,8 @@
 package models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -9,7 +11,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
@@ -17,7 +18,6 @@ import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 import domain.AuditListener;
 import domain.Creatable;
-import domain.SocialObjectType;
 import domain.Updatable;
 
 @Entity
@@ -171,4 +171,18 @@ public class Notification  extends domain.Entity implements Serializable, Creata
         }
         return null;
     }
+
+	public static void markAsRead(String ids) {
+		
+		String[] idsLong = ids.split(",");
+		List<Long> data = new ArrayList<>(); 
+		for (int i = 0; i < idsLong.length; i++) {     
+		    data.add(Long.parseLong(idsLong[i]));     
+		}  
+		 Query query = JPA.em().createQuery("update Notification n set n.status = ?1 where n.id in ?3 and n.status = ?2");
+		 query.setParameter(1, 1);
+		 query.setParameter(2, 0);
+		 query.setParameter(3, data);
+		 query.executeUpdate();
+	}
 }

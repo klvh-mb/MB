@@ -312,7 +312,7 @@ public class UserController extends Controller {
 			e.printStackTrace();
 		}
     	Notification notification = Notification.findById(notify_id);
-    	notification.status = 1;
+    	notification.status = 3;
     	notification.merge();
     	return ok();
     }
@@ -332,7 +332,7 @@ public class UserController extends Controller {
 			e.printStackTrace();
 		}
     	Notification notification = Notification.findById(notify_id);
-    	notification.status = 1;
+    	notification.status = 3;
     	notification.merge();
     	return ok();
     }
@@ -351,15 +351,14 @@ public class UserController extends Controller {
 		}
     	
     	Notification notification = Notification.findById(notify_id);
-    	notification.status = 1;
+    	notification.status = 3;
     	notification.merge();
     	return ok();
     }
     
     @Transactional
-    public static Result markNotificationAsRead (Long id) {
-    	Notification notification=Notification.findById(id);
-    	notification.changeStatus(1);
+    public static Result markNotificationAsRead (String ids) {
+    	Notification.markAsRead(ids);
     	return ok();
     }
     
@@ -606,11 +605,12 @@ public class UserController extends Controller {
 		
 		final User localUser = Application.getLocalUser(session());
 		List<Notification> batchupNotif = localUser.getAllNotification();
-		int unread_notify_count = 0;
+		int unread_allNotif_count = 0;
+		int unread_reqNotif_count = 0;
     	List<NotificationVM> notif = new ArrayList<>();
     	for(Notification n : batchupNotif) {
     		if(n.status == 0){
-    			unread_notify_count++;
+    			unread_allNotif_count++;
     		}
     		notif.add(new NotificationVM(n));
     	}
@@ -619,6 +619,9 @@ public class UserController extends Controller {
     	List<Notification> requestNotif = localUser.getAllRequestNotification();
     	List<NotificationVM> requests = new ArrayList<>();
     	for(Notification n : requestNotif) {
+    		if(n.status == 0){
+    			unread_reqNotif_count++;
+    		}
     		requests.add(new NotificationVM(n));
     	}
     	
@@ -629,7 +632,8 @@ public class UserController extends Controller {
 		vm.put("requestNotif", requests);
 		vm.put("allNotif", notif);
 		vm.put("name", localUser.firstName);
-		vm.put("notifyCount", unread_notify_count);
+		vm.put("notifyCount", unread_allNotif_count);
+		vm.put("requestCount", unread_reqNotif_count);
     	return ok(Json.toJson(vm));
     }
 	
