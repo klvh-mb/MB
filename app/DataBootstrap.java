@@ -121,7 +121,7 @@ public class DataBootstrap {
         
         Announcement announcement = 
                 new Announcement(
-                        "歡迎來到 miniBean 小萌豆! 係呢度您地會搵到最啱傾嘅媽媽爸爸社群! 請開心分享!", 
+                        "歡迎來到 miniBean 小萌豆! 喺呢度您地會搵到最啱傾嘅媽媽爸爸社群! 請開心分享!", 
                         new DateTime(2015,12,31,0,0).toDate());
         announcement.save();
     }
