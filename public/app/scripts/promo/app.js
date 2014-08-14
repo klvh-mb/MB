@@ -24,6 +24,10 @@ angular.module('minibeanPromo', [
       //.when('/', {
       //  templateUrl: '/assets/app/views/promo/promo.html'
       //})
+      .when('/pn', {
+        templateUrl: '/assets/app/views/promo/pn.html',
+        controller: 'PromoPNController'
+      })
       .when('/pn/:id', {
         templateUrl: '/assets/app/views/promo/pn.html',
         controller: 'PromoPNController'

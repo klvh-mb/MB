@@ -15,6 +15,11 @@ minibeanPromo.controller('PromoController', function($scope, $routeParams, $loca
 minibeanPromo.controller('PromoPNController',function($scope, $routeParams, $http, promoPNService) {
     log("PromoPNController starts");
 
+    $scope.pnHome = false;
+    if ($routeParams.id == undefined) {
+        $scope.pnHome = true;
+    }
+    
     $scope.pnCommunities = promoPNService.PNCommunities.get();
 
     log("PromoPNController completed");
