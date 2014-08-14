@@ -56,25 +56,4 @@ public class CommunityPostsVM {
         vm.posts = posts;
         return vm;
     }
-	
-	public static CommunityPostsVM posts(Community c, List<Post> posts) {
-        CommunityPostsVM vm = new CommunityPostsVM();
-        
-        vm.loggedUserId = -1L;
-        vm.loggedUserName = "";
-        
-        boolean isMember = false;
-        boolean isOwner = false;
-        
-        List<CommunityPostVM> postsVM = new ArrayList<>();
-        
-        if(isMember == true || isOwner == true || c.communityType == CommunityType.OPEN){
-            for(Post p: posts) {
-                CommunityPostVM post = CommunityPostVM.communityPostVM(p);
-                postsVM.add(post);
-            }
-        }
-        vm.posts = postsVM;
-        return vm;
-    }
 }

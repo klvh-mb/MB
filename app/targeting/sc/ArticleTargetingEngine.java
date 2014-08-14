@@ -9,13 +9,11 @@ import domain.SocialObjectType;
 import models.*;
 
 import play.db.jpa.JPA;
-import scala.collection.parallel.ParIterableLike;
 import targeting.Scorable;
 import targeting.ScoreSortedList;
 
 import javax.persistence.Query;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,8 +43,8 @@ public class ArticleTargetingEngine {
      * @return
      */
     public static List<Article> getTargetedArticles(User user, int k) {
-        if (user == null) {
-            throw new IllegalArgumentException("user is null");
+        if (!User.isLoggedIn(user)) {
+            throw new IllegalArgumentException("user is not logged in");
         }
 
         List<Article> results;

@@ -4154,6 +4154,9 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 	var offsetP = 0;
 	
 	$scope.setSelectedSubTab = function (iTab) {
+        if ($scope.selectedSubTab == iTab)
+            return;
+            
 		$scope.selectedSubTab = iTab;
 		$scope.newsFeeds = { posts: [] };
 		$scope.isBusyP = false;

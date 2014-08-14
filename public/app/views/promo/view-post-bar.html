@@ -4,7 +4,7 @@
             <span class="post-sharing-tag pull-left" style="margin-right:5px;">♥</span>
             <span class="post-intro-share">分享</span>
             <span class="post-intro-share" ng-show="!isCommunityPage">於 </span>
-            <a href="" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
+            <span ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</span>
             <span class="post-intro-divider" ng-show="post.n_c > 0"></span>
             <span class="post-qna-answer-count" ng-show="post.n_c > 0">最新留言: 
                 <span class="post-date" am-time-ago="post.ut"></span>
@@ -14,20 +14,20 @@
     <!-- Post Intro Ends -->
     <ul>
         <li class="post-sharing-body-top">
-            <a href="">
+            <span>
                 <img class="post-title-user-image" data-ng-src="/image/get-mini-image-by-id/{{post.oid}}"/>
-            </a>
-            <div class="post-title-user-name">
-                <a href="">{{post.p}}</a>
-            </div>
+            </span>
+            <!--div class="post-title-user-name">
+                <span>{{post.p}}</span>
+            </div-->
             <span class="post-date" am-time-ago="post.t"></span>
         </li>
         <li class="post-sharing-body">
             <div class="post-sharing-body-text" ng-bind-html="post.pt | highlight: highlightText"></div>
             <div data-ng-show="post.hasImage" class="post-body-image">
-                <a data-toggle="modal" data-ng-repeat="imageID in post.imgs" href="">
-                    <img data-ng-src="/image/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
-                </a>
+                <span data-ng-repeat="imageID in post.imgs">
+                    <img data-ng-src="/image/get-post-image-by-id/{{imageID}}" alt="">
+                </span>
             </div>
             <span class="btn-like-wrapper">
                 <span ng-show="post.nol > 0"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/><b>{{post.nol}}</b></span>
@@ -42,13 +42,13 @@
             <a class="pull-right" href="" data-ng-click="get_all_comments(post.id)">查看所有留言</a>
         </li>
         <li data-ng-repeat="comment in post.cs">
-            <a href="">
+            <span>
                 <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
-            </a>
+            </span>
             <span class="post-sharing-comment-body">
-                <span class="post-title-user-name post-sharing-comment-font">
-                    <a href="">{{comment.on}}</a>
-                </span>
+                <!--span class="post-title-user-name post-sharing-comment-font">
+                    <span>{{comment.on}}</span>
+                </span-->
                 <span class="post-sharing-comment-body-text" ng-bind-html="comment.d"></span>
                 <!--<span class="post-sharing-comment-body-text">{{comment.d}}</span>-->
                 <div>
@@ -59,9 +59,9 @@
                     </span>
     	        </div>
     	        <div data-ng-show="comment.hasImage" class="post-body-image">
-                    <a data-toggle="modal" data-ng-repeat="imageID in comment.imgs" href="">
+                    <span data-ng-repeat="imageID in comment.imgs">
                         <img style="max-width:110px; max-height:150px;" data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
-                    </a>
+                    </span>
                 </div>
 	        </span>
     	</li>

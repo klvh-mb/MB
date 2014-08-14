@@ -157,7 +157,7 @@ public class UserController extends Controller {
 	    response().setHeader("Cache-Control", "max-age=1");
 	    final User localUser = Application.getLocalUser(session());
 		
-		if(localUser != null && localUser.getPhotoProfile() != null) {
+		if(User.isLoggedIn(localUser) && localUser.getPhotoProfile() != null) {
 			return ok(localUser.getPhotoProfile().getRealFile());
 		}
 		
@@ -173,7 +173,7 @@ public class UserController extends Controller {
 	    response().setHeader("Cache-Control", "max-age=1");
 	    final User localUser = Application.getLocalUser(session());
 		
-		if(localUser != null && localUser.getCoverProfile() != null) {
+		if(User.isLoggedIn(localUser) && localUser.getCoverProfile() != null) {
 			return ok(localUser.getCoverProfile().getRealFile());
 		}
 		
@@ -388,7 +388,7 @@ public class UserController extends Controller {
         response().setHeader("Cache-Control", "max-age=1");
         User user = User.findById(id);
     	
-		if(user != null && user.getPhotoProfile() != null) {
+		if(User.isLoggedIn(user) && user.getPhotoProfile() != null) {
 			return ok(user.getPhotoProfile().getRealFile());
 		}
 		
@@ -404,7 +404,7 @@ public class UserController extends Controller {
         response().setHeader("Cache-Control", "max-age=1");
         User user = User.findById(id);
 
-        if(user != null && user.getPhotoProfile() != null) {
+        if(User.isLoggedIn(user) && user.getPhotoProfile() != null) {
 			return ok(user.getPhotoProfile().getRealFile());
 		}
         
@@ -420,7 +420,7 @@ public class UserController extends Controller {
 	    response().setHeader("Cache-Control", "max-age=1");
 	    User user = User.findById(id);
 
-	    if(user != null && user.getCoverProfile() != null) {
+	    if(User.isLoggedIn(user) && user.getCoverProfile() != null) {
 			return ok(user.getCoverProfile().getRealFile());
 		}
 		try {
@@ -435,7 +435,7 @@ public class UserController extends Controller {
 	    response().setHeader("Cache-Control", "max-age=1");
 		final User user = User.findById(id);
 		
-		if(user != null && user.getPhotoProfile() != null) {
+		if(User.isLoggedIn(user) && user.getPhotoProfile() != null) {
 			return ok(new File(user.getPhotoProfile().getMini()));
 		} 
 		
@@ -451,7 +451,7 @@ public class UserController extends Controller {
 	    response().setHeader("Cache-Control", "max-age=1");
 		final User user = User.findById(id);
 		
-		if(user != null && user.getPhotoProfile() != null) {
+		if(User.isLoggedIn(user) && user.getPhotoProfile() != null) {
 			return ok(new File(user.getPhotoProfile().getMiniComment()));
 		} 
 		
@@ -467,7 +467,7 @@ public class UserController extends Controller {
 	    response().setHeader("Cache-Control", "max-age=1");
 		final User user = User.findById(id);
 		
-		if(user != null && user.getPhotoProfile() != null) {
+		if(User.isLoggedIn(user) && user.getPhotoProfile() != null) {
 			return ok(new File(user.getPhotoProfile().getThumbnail()));
 		}
 		
@@ -483,7 +483,7 @@ public class UserController extends Controller {
 	    response().setHeader("Cache-Control", "max-age=1");
 		final User user = User.findById(id);
 		
-		if(user != null && user.getCoverProfile() != null) {
+		if(User.isLoggedIn(user) && user.getCoverProfile() != null) {
 			return ok(new File(user.getCoverProfile().getThumbnail()));
 		}
 		

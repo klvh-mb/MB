@@ -21,6 +21,13 @@ body {
 .newCommunity-info p, .myCommunity-info p {
     width: auto;
 }
+.post-card a img:hover {
+    cursor: pointer;
+    opacity: 1.0;
+}
+.section-title {
+    font-weight: bold;
+}
 
 /* Promo */
 .pn-box {

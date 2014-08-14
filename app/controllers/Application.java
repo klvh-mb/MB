@@ -94,7 +94,7 @@ public class Application extends Controller {
         setMobileUser();    // manually set mobile to true
         
         final User localUser = getLocalUser(session());
-        if(localUser == null) {
+        if(!User.isLoggedIn(localUser)) {
             return mobileLogin();
         }
 
@@ -104,7 +104,7 @@ public class Application extends Controller {
 	@Transactional
     public static Result mobileLogin() {
         final User localUser = getLocalUser(session());
-        if(localUser != null) {
+        if(User.isLoggedIn(localUser)) {
             return redirect("/mobile");
         }
         return ok(views.html.mobile.login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, isOverDailySignupThreshold()));
@@ -156,7 +156,7 @@ public class Application extends Controller {
 	    setMobileUser(isMobile? "true":"false");
 	    
         final User localUser = getLocalUser(session());
-		if(localUser == null) {
+		if(!User.isLoggedIn(localUser)) {
 			return login();
 		}
 
@@ -175,7 +175,7 @@ public class Application extends Controller {
             logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.name+"] Login - PC");
         }
 	    
-		if (user.userInfo == null) {
+		if (User.isLoggedIn(user) && user.userInfo == null) {
 		    if (user.fbLogin) {
 		        return isMobileUser()? 
 		                ok(views.html.mobile.signup_info_fb.render(user)):
@@ -273,6 +273,9 @@ public class Application extends Controller {
 	
 	public static User getLocalUser(final Session session) {
 		final AuthUser currentAuthUser = PlayAuthenticate.getUser(session);
+		if (currentAuthUser == null) {
+		    return User.noLoginUser();
+		}
 		final User localUser = User.findByAuthUserIdentity(currentAuthUser);
 		return localUser;
 	}
@@ -297,7 +300,7 @@ public class Application extends Controller {
         setMobileUser(isMobile? "true":"false");
         
 		final User localUser = getLocalUser(session());
-		if(localUser != null) {
+		if(User.isLoggedIn(localUser)) {
 			return redirect("/");
 		}
 		return isMobileUser()?
@@ -325,7 +328,7 @@ public class Application extends Controller {
 	@Transactional
 	public static Result signup() {
 		final User localUser = getLocalUser(session());
-		if(localUser != null) {
+		if(User.isLoggedIn(localUser)) {
 			return redirect("/");
 		}
 		return isMobileUser()? 

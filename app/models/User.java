@@ -304,13 +304,13 @@ public class User extends SocialObject implements Subject, Socializable {
         for (SocialRelation rslt : result) {
             if (rslt.actor.equals(this.id)) {
                 User user = (User) rslt.getTargetObject(User.class);
-                if (user != null) {
+                if (User.isLoggedIn(user)) {
                     frndList.add(user);
                 }
             }
             else if (rslt.target.equals(this.id)) {
                 User user = (User) rslt.getActorObject(User.class);
-                if (user != null) {
+                if (User.isLoggedIn(user)) {
                     frndList.add(user);
                 }
             }
@@ -1551,5 +1551,15 @@ public class User extends SocialObject implements Subject, Socializable {
 
         logger.underlyingLogger().info("[u="+id+"] getUnreadMsgCount=" + ret);
         return ret;
+    }
+    
+    public static User noLoginUser() {
+        User noLoginUser = new User();
+        noLoginUser.id = -1L;
+        return noLoginUser;
+    }
+    
+    public static boolean isLoggedIn(User user) {
+        return user != null && user.id != -1L;
     }
 }

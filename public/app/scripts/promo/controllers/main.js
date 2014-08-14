@@ -117,11 +117,12 @@ minibeanPromo.controller('ViewCommunityQnAController', function($scope, $routePa
             }
         });
     }
+    $scope.get_all_comments = $scope.get_all_answers;
     
     log("ViewCommunityQnAController completed");
 });
 
-minibeanPromo.controller('ViewCommunityPostController', function($scope, $routeParams, $http, viewCommunityPageService, usSpinnerService){
+minibeanPromo.controller('ViewCommunityPostController', function($scope, $routeParams, $http, viewCommunityPageService, allCommentsService, usSpinnerService){
     log("ViewCommunityPostController starts");
 
     var firstBatchLoaded = false;
@@ -239,3 +240,14 @@ minibeanPromo.service('allAnswersService',function($resource){
             }
     );
 });
+
+minibeanPromo.service('allCommentsService',function($resource){
+    this.comments = $resource(
+            '/comments/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{id:'@id'},isArray:true}
+            }
+    );
+});
+
