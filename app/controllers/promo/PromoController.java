@@ -13,9 +13,7 @@ public class PromoController extends Controller {
     
 	@Transactional
 	public static Result index() {
-	    if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("index()");
-        }
+        logger.underlyingLogger().info("STS PromoController index()");
         return ok(views.html.promo.home.render());
     }
 }

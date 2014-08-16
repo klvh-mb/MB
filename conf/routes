@@ -18,6 +18,7 @@ GET     /mobile/login               controllers.Application.mobileLogin
 # Home page
 GET     /favicon.ico                controllers.Assets.at(path="/public", file="app/images/favicon-1.ico")
 GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
+GET     /privacy                    controllers.AdministrativeController.privacy()
 
 GET     /restricted                 controllers.Application.restricted
 GET     /profile                    controllers.Application.profile
