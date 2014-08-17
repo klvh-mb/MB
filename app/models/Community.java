@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import common.collection.Pair;
 import common.image.FaceFinder;
 import common.utils.ImageFileUtil;
 
+import common.utils.StringUtil;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.Play;
@@ -181,6 +183,23 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
         query.setParameter(2, SocialRelation.Action.MEMBER.name());
         return ((BigInteger) query.getSingleResult()).longValue();
     }
+
+    @JsonIgnore
+	public List<User> getMembersIn(List<Long> userIds) {
+        if (userIds == null || userIds.size() == 0) {
+            return Collections.EMPTY_LIST;
+        }
+
+        Query query = JPA.em().createQuery(
+            "select u from User u where "+
+            "u.id in (select sr.actor from SocialRelation sr where sr.target = ?1 and sr.action = ?2) and "+
+            "u.id in ("+StringUtil.collectionToString(userIds,",")+") and "+
+            "u.deleted = false"
+        );
+        query.setParameter(1, this.id);
+        query.setParameter(2, SocialRelation.Action.MEMBER);
+        return (List<User>) query.getResultList();
+	}
 
     /**
      * Return (isPendingJoin, isMember)

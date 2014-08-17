@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import common.cache.FriendCache;
 import play.libs.Json;
 
 import models.Comment;
@@ -126,40 +127,42 @@ public class SocialActivity {
 			switch (socialAction.action) {
 
 			case POSTED: {
-				Community community = Post.findById(socialAction.target).community;
-				List<User> members = community.getMembers();
-				for(User user : members){
-					if(user.id == socialAction.actor)
-						continue;
-					Notification notification = Notification.getNotification(community.id, user.id, NotificationType.POSTED);
-					
-					if(notification == null){
-						notification = new Notification();
-			        	notification.notificationType = NotificationType.POSTED;
-			        	notification.recipetent = user.id;
-			        	notification.count++;
-			        	notification.socialActionID = community.id;
-						jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
-						jsonMap.put("onClick", "#/community/" + community.id + "/moment");
-						notification.URLs = Json.stringify(Json.toJson(jsonMap));
-			        	notification.addToList(User.findById(socialAction.actor));
-			        	notification.message = socialAction.actorname+ " posted on community "
-								+ community.name;
-			        	notification.save();
-					} else {
-						jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
-						jsonMap.put("onClick", "#/community/" + community.id + "/moment");
-						notification.URLs = Json.stringify(Json.toJson(jsonMap));
-						notification.count++;
-						notification.setMessage(socialAction.actorname+ " posted on community "
-								+ community.name);
-						notification.addToList(User.findById(socialAction.actor));
-						notification.merge();
-					}
-					
-				}
-				
-			}
+                // fan out to friends of same community only
+                List<Long> frdIds = FriendCache.getFriendsIds(socialAction.actor);
+
+                if (frdIds.size() > 0) {
+                    Community community = Post.findById(socialAction.target).community;
+                    List<User> frdMembers = community.getMembersIn(frdIds);
+
+                    for(User user : frdMembers) {
+                        Notification notification = Notification.getNotification(community.id, user.id, NotificationType.POSTED);
+
+                        if(notification == null){
+                            notification = new Notification();
+                            notification.notificationType = NotificationType.POSTED;
+                            notification.recipetent = user.id;
+                            notification.count++;
+                            notification.socialActionID = community.id;
+                            jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
+                            jsonMap.put("onClick", "#/community/" + community.id + "/moment");
+                            notification.URLs = Json.stringify(Json.toJson(jsonMap));
+                            notification.addToList(User.findById(socialAction.actor));
+                            notification.message = socialAction.actorname+ " posted on community "
+                                    + community.name;
+                            notification.save();
+                        } else {
+                            jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
+                            jsonMap.put("onClick", "#/community/" + community.id + "/moment");
+                            notification.URLs = Json.stringify(Json.toJson(jsonMap));
+                            notification.count++;
+                            notification.setMessage(socialAction.actorname+ " posted on community "
+                                    + community.name);
+                            notification.addToList(User.findById(socialAction.actor));
+                            notification.merge();
+                        }
+                    }
+                }
+            }
 				break;
 				
 			case POSTED_QUESTION: {
