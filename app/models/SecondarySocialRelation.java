@@ -175,7 +175,7 @@ public class SecondarySocialRelation extends domain.Entity implements Serializab
 		try {
             return (T)q.getSingleResult();
         } catch (NoResultException e) {
-            logger.underlyingLogger().error("getTargetObject() - TargetObject not found Id:" + this.target);
+            logger.underlyingLogger().error("getTargetObject() - TargetObject not found [Class|Id]:[" + claszz.getName() + "|" + this.target + "]");
             logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         }
         return null;
@@ -208,7 +208,7 @@ public class SecondarySocialRelation extends domain.Entity implements Serializab
 		try {
             return (T)q.getSingleResult();
         } catch (NoResultException e) {
-            logger.underlyingLogger().error("getActorObject() - ActorObject not found Id:" + this.target);
+            logger.underlyingLogger().error("getActorObject() - ActorObject not found [Class|Id]:[" + claszz.getName() + "|" + this.actor + "]");
             logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         }
         return null;
