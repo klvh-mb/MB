@@ -136,6 +136,7 @@ public abstract class SocialObject extends domain.Entity implements
         // use existing join request to capture MEMBER relationship
         request.action = SocialRelation.Action.MEMBER;
         request.actionType = SocialRelation.ActionType.GRANT;
+        request.isPostSave = true;
         request.postSave();
         
         // save community affinity
@@ -156,6 +157,8 @@ public abstract class SocialObject extends domain.Entity implements
         // use existing join request to capture MEMBER relationship
         request.action = SocialRelation.Action.MEMBER;
         request.actionType = SocialRelation.ActionType.GRANT;
+		 request.isPostSave = true;
+        request.postSave();
 
         // save community affinity
         UserCommunityAffinity.onJoinedCommunity(user.id, this.id);

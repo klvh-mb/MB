@@ -147,6 +147,7 @@ public class SocialActivity {
                             jsonMap.put("onClick", "#/community/" + community.id + "/moment");
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
                             notification.addToList(User.findById(socialAction.actor));
+                            notification.status = 0;
                             notification.message = socialAction.actorname+ " posted on community "
                                     + community.name;
                             notification.save();
@@ -157,6 +158,7 @@ public class SocialActivity {
                             notification.count++;
                             notification.setMessage(socialAction.actorname+ " posted on community "
                                     + community.name);
+                            notification.status = 0;
                             notification.addToList(User.findById(socialAction.actor));
                             notification.merge();
                         }
@@ -182,6 +184,7 @@ public class SocialActivity {
 						jsonMap.put("onClick", "#/community/" + community.id + "/question");
 						notification.URLs = Json.stringify(Json.toJson(jsonMap));
 			        	notification.count++;
+			        	notification.status = 0;
 			        	notification.socialActionID = community.id;
 			        	notification.message = socialAction.actorname+ " Questioned on community "
 								+ community.name;
@@ -193,6 +196,7 @@ public class SocialActivity {
 						notification.count++;
 						notification.setMessage(socialAction.actorname+ " Questioned on community "
 								+ community.name);
+						notification.status = 0;
 						notification.addToList(User.findById(socialAction.actor));
 						notification.merge();
 					}
@@ -225,6 +229,7 @@ public class SocialActivity {
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 			        	notification.addToList(User.findById(socialAction.actor));
 			        	notification.message = socialAction.actorname+ " Liked on your Post ";
+			        	notification.status = 0;
 			        	notification.save();
 					} else {
 						jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
@@ -233,7 +238,7 @@ public class SocialActivity {
 						notification.count++;
 						notification.setMessage(socialAction.actorname+ " Liked on your Post ");
 						notification.addToList(User.findById(socialAction.actor));
-						
+						notification.status = 0;
 						notification.merge();
 					}
 				} else if(socialAction.targetType == SocialObjectType.COMMENT){
@@ -255,7 +260,7 @@ public class SocialActivity {
 			        	jsonMap.put("onClick", "/#/community/" + comment.getPost().community.id + "/moment");
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 			        	notification.addToList(User.findById(socialAction.actor));
-			        	
+			        	notification.status = 0;
 			        	notification.message = socialAction.actorname+ " Liked on your Comment ";
 			        	notification.save();
 					} else {
@@ -265,7 +270,7 @@ public class SocialActivity {
 						notification.count++;
 						notification.setMessage(socialAction.actorname+ " Liked on your Comment ");
 						notification.addToList(User.findById(socialAction.actor));
-						
+						notification.status = 0;
 						notification.merge();
 					}
 					
@@ -287,7 +292,7 @@ public class SocialActivity {
 			        	jsonMap.put("onClick", "/#//community/" + comment.getPost().community.id + "/question");
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 			        	notification.addToList(User.findById(socialAction.actor));
-			        	
+			        	notification.status = 0;
 			        	notification.socialActionID = socialAction.target;
 			        	notification.message = socialAction.actorname+ " Liked on your Answer ";
 			        	notification.save();
@@ -298,7 +303,7 @@ public class SocialActivity {
 						notification.count++;
 						notification.setMessage(socialAction.actorname+ " Liked on your Answer ");
 						notification.addToList(User.findById(socialAction.actor));
-						
+						notification.status = 0;
 						notification.merge();
 					}	
 					
@@ -323,6 +328,7 @@ public class SocialActivity {
 			        	jsonMap.put("onClick", "/#/community/"+ post.community.id +"/question");
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 			        	notification.message = socialAction.actorname+ " Liked on your Question ";
+			        	notification.status = 0;
 			        	notification.save();
 					} else {
 						jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
@@ -331,6 +337,7 @@ public class SocialActivity {
 						notification.count++;
 						notification.setMessage(socialAction.actorname+ " Liked on your Question ");
 						notification.addToList(User.findById(socialAction.actor));
+						notification.status = 0;
 						notification.merge();
 					}
 				}
@@ -360,6 +367,7 @@ public class SocialActivity {
 		        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 		        	notification.addToList(User.findById(socialAction.actor));
 		        	notification.message = socialAction.actorname+ " Commented on your Post ";
+		        	notification.status = 0;
 		        	notification.save();
 				} else {
 					notification.count++;
@@ -368,6 +376,7 @@ public class SocialActivity {
 					jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
 		        	jsonMap.put("onClick", "/#/community/"+post.community.id+"/moment");
 		        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
+		        	notification.status = 0;
 					notification.merge();
 				}
 			}
@@ -392,6 +401,7 @@ public class SocialActivity {
 		        	notification.socialActionID = socialAction.target;
 		        	notification.addToList(User.findById(socialAction.actor));
 		        	notification.message = socialAction.actorname+ " Answered on your Question ";
+		        	notification.status = 0;
 		        	notification.save();
 				} else {
 					notification.count++;
@@ -400,6 +410,7 @@ public class SocialActivity {
 					jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
 		        	jsonMap.put("onClick", "/#/community/"+ post.community.id +"/question");
 		        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
+		        	notification.status = 0;
 					notification.merge();
 				}
 			}

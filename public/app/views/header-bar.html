@@ -5,11 +5,11 @@
     <ul class="header-notif-bar pull-left">
         <li class="dropdown notif pull-left" >
             <a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
-                <img class="colorChange" src="../assets/app/images/general/icons/w_profile.png" /  data-ng-click="mark_requests_read();">
+                <img class="colorChange" src="../assets/app/images/general/icons/w_profile.png"  data-ng-click="mark_requests_read();">
                 <span class="notif-count pull-right" data-ng-show="unread_request_count > 0">{{unread_request_count}}</span>
             </a>
             <ul class="dropdown-menu chat media-list" data-ng-show="request_notif.length > 0" style="top: 28px !important;" >
-                <li class="media" data-ng-repeat="request in request_notif" ng-switch="request.tp">
+                <li data-ng-class="request.sta == 0 ? 'unread':'read'" class="media" data-ng-repeat="request in request_notif" ng-switch="request.tp">
                     
                     <a class="pull-left" ng-href="{{request.url.onClick}}" style="height: 50px;">
                      	<img class="media-object thumb" data-ng-src="{{request.url.photo}}"  style="height: 50px; width: 60px;" width="50">

@@ -179,10 +179,11 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 		for (int i = 0; i < idsLong.length; i++) {     
 		    data.add(Long.parseLong(idsLong[i]));     
 		}  
-		 Query query = JPA.em().createQuery("update Notification n set n.status = ?1, n.count = ?0 where n.id in ?3 and n.status = ?2");
+		 Query query = JPA.em().createQuery("update Notification n set n.status = ?1, n.count = ?4 where n.id in ?3 and n.status = ?2");
 		 query.setParameter(1, 1);
 		 query.setParameter(2, 0);
 		 query.setParameter(3, data);
+		 query.setParameter(4, 0L);
 		 query.executeUpdate();
 	}
 }
