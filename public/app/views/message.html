@@ -65,9 +65,6 @@
                             <a class="message-load-more" data-ng-click="nextMessages()">Load Message</a>
                         </li>
                     	<div data-ng-repeat="msg in messages.slice().reverse()">
-                            <div ng-show="createDateHeader(msg.cd)">
-                                <p class="message-timer">{{msg.cd|date:'M月dd日'}}</p>
-                            </div>
                             <li class="message-user" ng-show="msg.suid == userInfo.id">
                                 <div>
                                     <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
@@ -78,7 +75,7 @@
                                                 <img class="message-body-image" data-ng-src="/image/get-message-image-by-id/{{msg.imgs}}" data-ng-click="showImage(msg.imgs)" alt="">
                                             </a>
                                         </div>
-                                        <span class="message-timestamp">{{msg.cd|date:'hh:mm a'}}</span>
+                                        <span class="message-timestamp">{{msg.cd|date:'dd-MMM hh:mm a'}}</span>
                                     </div>
                                 </div>
                             </li>
@@ -92,7 +89,7 @@
                                                 <img class="message-body-image" data-ng-src="/image/get-message-image-by-id/{{msg.imgs}}" data-ng-click="showImage(msg.imgs)" alt="">
                                             </a>
                                         </div>
-                                        <span class="message-timestamp">{{msg.cd|date:'hh:mm a'}}</span>
+                                        <span class="message-timestamp">{{msg.cd|date:'dd-MMM hh:mm a'}}</span>
                                     </div>
                                 </div>
                             </li>
