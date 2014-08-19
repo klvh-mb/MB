@@ -456,6 +456,10 @@ public class Application extends Controller {
 		}
 	}
 
+	public static Result privacy() {
+        return ok(views.html.privacy.render());
+    }
+	
 	public static String formatTimestamp(final long t) {
 		return new SimpleDateFormat("yyyy-dd-MM HH:mm:ss").format(new Date(t));
 	}

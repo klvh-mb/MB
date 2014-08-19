@@ -41,13 +41,11 @@ ul, li {
     color: #4f39a2;
 }
 .login-container {
-    margin: 0;
     padding: 0;
     position: relative;
     width: 950px;
     height: 477px;
-    left: 50%;
-    margin-left: -450px;
+    margin: 0 auto;
 }
 .login-container div.login-box:first-child {
     float: left;
@@ -271,10 +269,9 @@ ul, li {
     margin-left: 10px;
 }
 #login-footer {
-    width: 950px;
+    width: 100%;
     position: relative;
-    left: 50%;
-    margin-left: -475px;
+    float: left;
     margin-top: 20px;
     margin-bottom: 50px;
     text-align: center;
@@ -288,21 +285,19 @@ ul, li {
 
 /* Password related */
 .pwd-container {
-    margin: 0;
     padding: 0;
     position: relative;
-    width: 950px;
-    height: 350px;
-    left: 50%;
-    margin-left: -325px;
+    width: 500px;
+    height: auto;
+    margin: 0 auto;
 }
 .pwd-container div.login-box:first-child {
     float: left;
-    width: 70%;
+    width: 100%;
     margin-right: 2%;
     height: 100%;
     /*padding: 10% 3% 20% 5%;*/
-    padding: 20px 50px 20px 50px;
+    padding: 20px 30px;
 }
 .pwd-container div.login-box:first-child div {
     float: left;
