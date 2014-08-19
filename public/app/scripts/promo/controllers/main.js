@@ -25,9 +25,11 @@ minibeanPromo.controller('PromoPNController',function($scope, $routeParams, $htt
     log("PromoPNController completed");
 });
 
-minibeanPromo.controller('ViewCommunityPNController',function($scope, $routeParams, $http, promoPNService) {
+minibeanPromo.controller('ViewCommunityPNController',function($scope, $routeParams, $http, $filter, promoPNService) {
     log("ViewCommunityPNController starts");
 
+    $scope.allDistricts = [];
+                
     $scope.tagDistricts = function(data) {
         var curDistrict = '';
         var tagColorIndex = -1;
@@ -35,14 +37,24 @@ minibeanPromo.controller('ViewCommunityPNController',function($scope, $routePara
             if (curDistrict == '' || curDistrict != request.dis) {
                 curDistrict = request.dis;
                 tagColorIndex++;
+                $scope.allDistricts.push(curDistrict);
                 //log(curDistrict + ":" + DefaultValues.tagColors[tagColorIndex]);
             }
             request.tagc = DefaultValues.tagColors[tagColorIndex];
         });
+        $scope.filteredPNs = $scope.pns;
     }
     
     $scope.pns = promoPNService.PNs.get({id:$routeParams.id}, $scope.tagDistricts);
 
+    $scope.applyPNFilter = function(district) {
+       if (district == "all") {
+           $scope.filteredPNs = $scope.pns;
+       } else {
+           $scope.filteredPNs = $filter('objFilter')($scope.pns, {"dis":district});
+       }
+    };
+    
     log("ViewCommunityPNController completed");
 });
 

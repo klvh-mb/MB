@@ -17,7 +17,7 @@
 <div class="padding5"></div>
 <!-- Bookmark Tabs End -->
 
-<div ng-if="selectedSubTab == 1" infinite-scroll='nextNewsFeeds()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>
+<div ng-if="selectedSubTab == 1" infinite-scroll='nextNewsFeeds()' infinite-scroll-disabled='isBusyP' infinite-scroll-distance='1'>
     <div id="wall-main">
     	<div data-ng-repeat="post in newsFeeds.posts">
             <div class="general-box" data-ng-show="post.type=='SIMPLE'">
@@ -28,10 +28,10 @@
 		    </div>
      	</div>
 	</div>
-	<span ng-show="isBusy" spinner-start-active="1" us-spinner="{top:'inherit'}"></span>
+	<span ng-show="isBusyP" spinner-start-active="1" us-spinner="{top:'inherit'}"></span>
 </div>
 
-<div ng-if="selectedSubTab == 2" infinite-scroll='nextNewsFeedsComments()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>
+<div ng-if="selectedSubTab == 2" infinite-scroll='nextNewsFeedsComments()' infinite-scroll-disabled='isBusyC' infinite-scroll-distance='1'>
     <div id="wall-main">
     	<div data-ng-repeat="post in newsFeeds.posts">
             <div class="general-box" data-ng-show="post.type=='SIMPLE'">
@@ -42,5 +42,5 @@
 		    </div>
      	</div>
 	</div>
-	<span ng-show="isBusy" spinner-start-active="1" us-spinner="{top:'inherit'}"></span>
+	<span ng-show="isBusyC" spinner-start-active="1" us-spinner="{top:'inherit'}"></span>
 </div>

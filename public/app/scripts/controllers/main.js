@@ -802,11 +802,15 @@ minibean.controller('PNCommunitiesUtilityController', function($scope, $routePar
     log("PNCommunitiesUtilityController completed");
 });
 
-minibean.controller('CommunityPNController',function($scope, $routeParams, pnService, $http){
+minibean.controller('CommunityPNController',function($scope, $routeParams, $http, $filter, pnService) {
     log("CommunityPNController starts");
 
+    $scope.allDistricts = [];
     $scope.myDistrictPNs = [];
     $scope.otherPNs = [];
+    $scope.filteredMyDistrictPNs = [];
+    $scope.filteredOtherPNs = [];
+                
     var curDistrict = '';
     var tagColorIndex = -1;
 	$scope.pns = pnService.PNs.get({id:$routeParams.id}, 
@@ -815,6 +819,7 @@ minibean.controller('CommunityPNController',function($scope, $routeParams, pnSer
                     if (curDistrict == '' || curDistrict != request.dis) {
                         curDistrict = request.dis;
                         tagColorIndex++;
+                        $scope.allDistricts.push(curDistrict);
                         //log(curDistrict + ":" + DefaultValues.tagColors[tagColorIndex]);
                     }
                     request.tagc = DefaultValues.tagColors[tagColorIndex];
@@ -824,8 +829,20 @@ minibean.controller('CommunityPNController',function($scope, $routeParams, pnSer
                         $scope.otherPNs.push(request);
                     }
                 });
+                $scope.filteredMyDistrictPNs = $scope.myDistrictPNs;
+                $scope.filteredOtherPNs = $scope.otherPNs;
             }
 	);
+	
+	$scope.applyPNFilter = function(district) {
+	   if (district == "all") {
+	       $scope.filteredMyDistrictPNs = $scope.myDistrictPNs;
+           $scope.filteredOtherPNs = $scope.otherPNs;
+	   } else {
+	       $scope.filteredMyDistrictPNs = [];
+	       $scope.filteredOtherPNs = $filter('objFilter')($scope.pns, {"dis":district});
+	   }
+	};
 	
 	log("CommunityPNController completed");
 });
@@ -4182,7 +4199,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 				function(data){
 					
 					var posts = data.posts;
-					if(posts.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
+					if(posts.length == 0) {
 						noMoreP = true;
 						$scope.isBusyP = false;
 					}
@@ -4205,7 +4222,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 			function(data){
 				
 				var posts = data.posts;
-				if(posts.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
+				if(posts.length == 0) {
 					noMoreC = true;
 					$scope.isBusyC = false;
 				}
@@ -4213,7 +4230,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 				for (var i = 0; i < posts.length; i++) {
 					$scope.newsFeeds.posts.push(posts[i]);
 			    }
-			    $scope.isBusy = false;
+			    $scope.isBusyC = false;
 				offsetC++;
 			}
 		);

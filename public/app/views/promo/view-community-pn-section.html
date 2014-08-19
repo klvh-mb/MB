@@ -1,5 +1,16 @@
+<div class="btn-group" dropdown style="margin-top: 2%;margin-left: 10px;">
+    <button type="button" id="membersDropdownBtn" class="btn btn-primary dropdown-toggle">
+        所有地區 ({{allDistricts.length}}) <span class="caret"></span>
+    </button>
+    <ul id="membersDropdown" class="dropdown-menu" role="menu">
+        <li ng-click="applyPNFilter('all')" style="cursor:pointer;">所有地區</li>
+        <li ng-click="applyPNFilter(district)" style="cursor:pointer;" ng-repeat="district in allDistricts">{{district}}</li>
+    </ul>
+</div>
+<div class="padding5 row"></div>
+
 <div id="pn-section" class="general-box">
-    <div class="pn-box" ng-repeat="pn in pns">
+    <div class="pn-box" ng-repeat="pn in filteredPNs | objFilter:pnFilter">
         <ul class="pn-wrapper" style="padding: 5px 10px 0px 10px;">
             <li>
                 <div class="pn-info">
