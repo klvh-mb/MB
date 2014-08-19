@@ -4202,7 +4202,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 			function(data){
 				
 				var posts = data.posts;
-				if(posts.length < DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) {
+				if(posts.length == 0) {
 					noMoreC = true;
 					$scope.isBusyC = false;
 				}
@@ -4210,7 +4210,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 				for (var i = 0; i < posts.length; i++) {
 					$scope.newsFeeds.posts.push(posts[i]);
 			    }
-			    $scope.isBusy = false;
+			    $scope.isBusyC = false;
 				offsetC++;
 			}
 		);
