@@ -1,8 +1,7 @@
-@(verificationUrl: String, token: String, name: String, email: String)Howdy @name, 
+@(verificationUrl: String, token: String, name: String, email: String)
+@name 您好! 
 
-
-To verify your e-mail address, follow this link now:
+請按以下連結，驗證您的電郵地址:
 @verificationUrl
 
-Cheers,
-The PlayAuthenticate Team
+miniBean 小萌豆 - 所有媽媽爸爸的分享社群
