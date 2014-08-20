@@ -871,6 +871,23 @@ public class CommunityController extends Controller{
         localUser.doUnLike(post_id, post.objectType);
         return ok();
     }
+
+    @Transactional
+    public static Result wantAnswerFromQuestion(Long post_id) {
+        User localUser = Application.getLocalUser(session());
+        Post post = Post.findById(post_id);
+        post.onWantAnswerBy(localUser);
+        return ok();
+    }
+
+    @Transactional
+    public static Result unwantAnswerFromQuestion(Long post_id) throws SocialObjectNotLikableException {
+        User localUser = Application.getLocalUser(session());
+        Post post = Post.findById(post_id);
+        post.onUnwantAnswerBy(localUser);
+        localUser.doUnwantAnswer(post_id, post.objectType);
+        return ok();
+    }
     
     @Transactional
     public static Result likeTheComment(Long comment_id) {

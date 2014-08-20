@@ -86,6 +86,12 @@ public abstract class SocialObject extends domain.Entity implements
 		action.action = PrimarySocialRelation.Action.LIKED;
 		action.validateUniquenessAndCreate();
 	}
+
+    protected final void recordWantAnswer(User user) {
+		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
+		action.action = PrimarySocialRelation.Action.WANT_ANS;
+		action.validateUniquenessAndCreate();
+	}
 	
 	protected final void recordBookmark(User user) {
 		SecondarySocialRelation action = new SecondarySocialRelation(user, this);
@@ -117,10 +123,6 @@ public abstract class SocialObject extends domain.Entity implements
         if (action.ensureUniqueAndCreate()) {
             // save community affinity
             UserCommunityAffinity.onJoinedCommunity(user.id, this.id);
-
-            // skip email
-            //String message = "Congratulation " + user.name + "," + "\n" + " You are now member of " + this.name + " Community.";
-            //MailJob.sendMail("Some subject", new Body(message), user.email);
         }
         
         // Clear up invite request if any
@@ -144,10 +146,6 @@ public abstract class SocialObject extends domain.Entity implements
         
         // save community affinity
         UserCommunityAffinity.onJoinedCommunity(user.id, this.id);
-
-        // skip email
-        //String message = "Congratulation " + user.name + "," + "\n" + " You are now member of " + this.name + " Community.";
-        //MailJob.sendMail("Some subject", new Body(message), user.email);
 	}
 	
 	protected final void recordInviteRequestAccepted(User user) {

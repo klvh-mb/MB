@@ -116,6 +116,8 @@ public class User extends SocialObject implements Subject, Socializable {
     public int commentsCount = 0;
     
     public int likesCount = 0;
+
+    public int wantAnsCount = 0;
     
     // system
     
@@ -1191,6 +1193,24 @@ public class User extends SocialObject implements Subject, Socializable {
         
         sr.delete();
         
+        return 1;
+    }
+
+    public int doUnwantAnswer(Long id, SocialObjectType type) {
+        Query query = JPA.em().createQuery(
+                "SELECT sr FROM PrimarySocialRelation sr where sr.targetType = ?4 and sr.action = ?3 and " +
+                "(sr.target = ?1 and sr.actor = ?2)", PrimarySocialRelation.class);
+        query.setParameter(1, id);
+        query.setParameter(2, this.id);
+        query.setParameter(3, PrimarySocialRelation.Action.WANT_ANS);
+        query.setParameter(4, type);
+
+        try {
+            PrimarySocialRelation sr = (PrimarySocialRelation) query.getSingleResult();
+            sr.delete();
+        } catch (Exception e) {
+            logger.underlyingLogger().error("Error in doUnwantAnswer", e);
+        }
         return 1;
     }
     

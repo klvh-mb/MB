@@ -197,6 +197,8 @@ GET		/like-post/:post_id						controllers.CommunityController.likeThePost(post_i
 GET		/unlike-post/:post_id					controllers.CommunityController.unlikeThePost(post_id:Long)
 GET		/like-comment/:comment_id				controllers.CommunityController.likeTheComment(comment_id:Long)
 GET		/unlike-comment/:comment_id				controllers.CommunityController.unlikeTheComment(comment_id:Long)
+GET		/want-ans/:post_id						controllers.CommunityController.wantAnswerFromQuestion(post_id:Long)
+GET		/unwant-ans/:post_id					controllers.CommunityController.unwantAnswerFromQuestion(post_id:Long)
 
 GET     /get-pn-communities                     controllers.PreNurseryController.getPNCommunities()
 GET		/getPNs/:id	                            controllers.PreNurseryController.getPNs(id:Long)

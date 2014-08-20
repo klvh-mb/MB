@@ -6,14 +6,12 @@ import java.util.Set;
 
 import common.collection.Pair;
 import domain.SocialObjectType;
-import models.Comment;
-import models.Post;
-import models.Resource;
-import models.User;
+import models.*;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.jackson.annotate.JsonProperty;
-import processor.LikeManager;
+import processor.PrimarySocialRelationManager;
+import static processor.PrimarySocialRelationManager.PrimarySocialResult;
 
 public class CommunityPostVM {
 	@JsonProperty("id") public Long postId;
@@ -33,11 +31,13 @@ public class CommunityPostVM {
 	@JsonProperty("cid") public Long communityId;
 	@JsonProperty("nov") public int noOfViews;
 	@JsonProperty("nol") public int noOfLikes;
+    @JsonProperty("nowa") public int noOfWantAnswers;
 	@JsonProperty("ep") public boolean expanded;
 	
 	@JsonProperty("isO") public boolean isOwner = false;
 	@JsonProperty("isC") public boolean isCommentable = false;
 	@JsonProperty("isLike") public boolean isLike = false;
+    @JsonProperty("isWtAns") public boolean isWantAnswer = false;
 	@JsonProperty("isBookmarked") public boolean isBookmarked = false;
 
 
@@ -64,8 +64,9 @@ public class CommunityPostVM {
 		//need to write logic for showing no of views
 		postVM.noOfViews = 0;
 		postVM.noOfLikes = post.noOfLikes;
+        postVM.noOfWantAnswers = post.noWantAns;
 		postVM.expanded = false;
-		postVM.isBookmarked = User.isLoggedIn(user)? post.isBookmarkedBy(user):false;
+		postVM.isBookmarked = User.isLoggedIn(user) ? post.isBookmarkedBy(user):false;
 		postVM.isCommentable = isCommMember;
 		postVM.isOwner = post.owner.id == user.id;
 
@@ -89,16 +90,17 @@ public class CommunityPostVM {
         }
         
         if (User.isLoggedIn(user)){
-            Set<Pair<Long, SocialObjectType>> likesByUser = LikeManager.getLikedBy(user, likeCheckIds);
+            Set<PrimarySocialResult> srByUser = PrimarySocialRelationManager.getSocialRelationBy(user, likeCheckIds);
     
     		for(int i = comments.size() - 1; i >= 0 ; i--) {
     			Comment comment = comments.get(i);
     			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, user);
-    			commentVM.isLike = likesByUser.contains(new Pair<>(comment.id, SocialObjectType.COMMENT));
+    			commentVM.isLike = srByUser.contains(new PrimarySocialResult(comment.id, SocialObjectType.COMMENT, PrimarySocialRelation.Action.LIKED));
     			commentsToShow.add(commentVM);
     		}
 
-    		postVM.isLike = likesByUser.contains(new Pair<>(post.id, SocialObjectType.POST));
+    		postVM.isLike = srByUser.contains(new PrimarySocialResult(post.id, SocialObjectType.POST, PrimarySocialRelation.Action.LIKED));
+            postVM.isWantAnswer = srByUser.contains(new PrimarySocialResult(post.id, SocialObjectType.POST, PrimarySocialRelation.Action.WANT_ANS));
         } else {
             for(int i = comments.size() - 1; i >= 0 ; i--) {
                 Comment comment = comments.get(i);
@@ -108,6 +110,7 @@ public class CommunityPostVM {
             }
 
             postVM.isLike = false;
+            postVM.isWantAnswer = false;
         }
         postVM.comments = commentsToShow;
 		
@@ -131,6 +134,7 @@ public class CommunityPostVM {
 		//need to write logic for showing no of views
 		postVM.noOfViews = 0;
 		postVM.noOfLikes = post.noOfLikes;
+        postVM.noOfWantAnswers = post.noWantAns;
 		postVM.expanded = false;
 		postVM.isBookmarked = post.isBookmarkedBy(localUser);
 		postVM.isCommentable = localUser.isMemberOf(post.community.id);
@@ -154,16 +158,17 @@ public class CommunityPostVM {
         for(int i = comments.size() - 1; i >= 0 ; i--) {
             likeCheckIds.add(comments.get(i).getId());
         }
-        Set<Pair<Long, SocialObjectType>> likesByUser = LikeManager.getLikedBy(localUser, likeCheckIds);
+        Set<PrimarySocialResult> srByUser = PrimarySocialRelationManager.getSocialRelationBy(localUser, likeCheckIds);
 
 		for(int i = comments.size() - 1; i >= 0 ; i--) {
 			Comment comment = comments.get(i);
 			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, localUser);
-			commentVM.isLike = likesByUser.contains(new Pair<>(comment.id, SocialObjectType.COMMENT));
+			commentVM.isLike = srByUser.contains(new PrimarySocialResult(comment.id, SocialObjectType.COMMENT, PrimarySocialRelation.Action.LIKED));
 			commentsToShow.add(commentVM);
 		}
 
-        postVM.isLike = likesByUser.contains(new Pair<>(post.id, SocialObjectType.POST));
+        postVM.isLike = srByUser.contains(new PrimarySocialResult(post.id, SocialObjectType.POST, PrimarySocialRelation.Action.LIKED));
+        postVM.isWantAnswer = srByUser.contains(new PrimarySocialResult(post.id, SocialObjectType.POST, PrimarySocialRelation.Action.WANT_ANS));
 		postVM.comments = commentsToShow;
 		
 		return postVM;

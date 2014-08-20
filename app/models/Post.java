@@ -57,6 +57,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
     
     public int noOfComments = 0;
     public int noOfLikes = 0;
+    public int noWantAns = 0;
 
 	public Date socialUpdatedDate = new Date();
     
@@ -83,6 +84,31 @@ public class Post extends SocialObject implements Likeable, Commentable {
         this.noOfLikes--;
         user.likesCount--;
     }
+
+    public void onWantAnswerBy(User user) {
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+user.id+"][c="+community.id+"][q="+this.id+"] Question onWantAnswerBy");
+        }
+
+        // update last socialUpdatedDate in Question
+        this.socialUpdatedDate = new Date();
+
+        recordWantAnswer(user);
+        this.noWantAns++;
+        user.wantAnsCount++;
+
+        // update affinity
+        UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
+    }
+
+    public void onUnwantAnswerBy(User user) {
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+user.id+"][c="+community.id+"][q="+this.id+"] Question onUnwantAnswerBy");
+        }
+
+        this.noWantAns--;
+        user.wantAnsCount--;
+    }
     
     public void onBookmarkedBy(User user) {
         if (logger.underlyingLogger().isDebugEnabled()) {
@@ -93,7 +119,9 @@ public class Post extends SocialObject implements Likeable, Commentable {
         // update affinity
         UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
     }
-    
+
+
+
     public Post(User actor, String title, String post, Community community) {
         this.owner = actor;
         this.title = title;
@@ -353,6 +381,23 @@ public class Post extends SocialObject implements Likeable, Commentable {
         Query q = JPA.em().createQuery("Select sr from PrimarySocialRelation sr where sr.action=?1 and sr.actor=?2 " +
                 "and sr.target=?3 and sr.targetType=?4");
         q.setParameter(1, PrimarySocialRelation.Action.LIKED);
+        q.setParameter(2, user.id);
+        q.setParameter(3, this.id);
+        q.setParameter(4, this.objectType);
+        PrimarySocialRelation sr = null;
+        try {
+            sr = (PrimarySocialRelation)q.getSingleResult();
+        }
+        catch(NoResultException nre) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isWantAnswerBy(User user) {
+        Query q = JPA.em().createQuery("Select sr from PrimarySocialRelation sr where sr.action=?1 and sr.actor=?2 " +
+                "and sr.target=?3 and sr.targetType=?4");
+        q.setParameter(1, PrimarySocialRelation.Action.WANT_ANS);
         q.setParameter(2, user.id);
         q.setParameter(3, this.id);
         q.setParameter(4, this.objectType);
