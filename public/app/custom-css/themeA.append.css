@@ -354,7 +354,7 @@ a:focus {
 .widget-thumbnail {
     width: 95%;
     position: relative;
-    margin: 8px;
+    margin: 10px;
 }
 .widget-thumbnail a[tag="user-picture-a"] {
     position: relative;
@@ -364,8 +364,8 @@ a:focus {
     z-index: -5;
     border: 1px solid #4440AC;
     border-radius: 3px;
-    width: 78px;
-    height: 78px;
+    width: 86px;
+    height: 86px;
     vertical-align: baseline;
 }
 #community-banner {
