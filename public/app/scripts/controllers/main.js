@@ -1128,6 +1128,8 @@ minibean.controller('ProfileController',function($scope, $routeParams, $location
 	
 	$scope.isLoadingEnabled = false;
 	$scope.selectedTab = 1;
+	$scope.selectedSubTab = 1; 
+	
 	$scope.navigateTo = function (navigateTo) {
 		$scope.active = navigateTo;
 		if(navigateTo === 'friends') {
