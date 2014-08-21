@@ -1,6 +1,6 @@
 <span class="btn-like-wrapper">
     <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)">覺得有用</a> 
     <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)">取消</a>
-    <span ng-show="comment.nol > 0"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/><b>{{comment.nol}}</b></span>
-    <span ng-show="comment.isLike"> · 你覺得這回覆有用</span>
+    <span ng-show="comment.nol > 0"><b> · <img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>{{comment.nol}}</b></span>
+    <span ng-show="comment.isLike"> 你覺得這回覆有用</span>
 </span>
