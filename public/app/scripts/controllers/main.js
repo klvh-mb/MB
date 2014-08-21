@@ -43,7 +43,6 @@ minibean.controller('SlidingMenuController', function($scope, $routeParams, $loc
 
 minibean.controller('UIController', function($scope, $location, $anchorScroll, $window) {
     $scope.gotoTop = function() {
-    console.log("top");
         // set the location.hash to the id of
         // the element you wish to scroll to
     	$window.scrollTo($window.pageXOffset, 0);
@@ -310,7 +309,7 @@ minibean.controller('ApplicationController',function($scope, $location, $interva
 		);
 	};
 	$scope.accept_join_request = function(member_id,group_id, notification_id) {
-		log(notification_id);
+		//log(notification_id);
 		var spinner = new Spinner().spin();
 		
 		$(".a_" + member_id + "_" + group_id).append(spinner.el);    
@@ -1640,7 +1639,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                             $scope.commentDataUrls = [];
                             
                             // when post is done in BE then do photo upload
-                            log($scope.commentTempSelectedFiles.length);
+                            //log($scope.commentTempSelectedFiles.length);
                             for(var i=0 ; i<$scope.commentTempSelectedFiles.length ; i++) {
                                 usSpinnerService.spin('loading...');
                                 $upload.upload({
@@ -1740,7 +1739,6 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
         usSpinnerService.spin('loading...');
         this.send_join_request = communityJoinService.sendJoinRequest.get({"id":id}, function(data) {
             usSpinnerService.stop('loading...');
-            log($scope.community.typ);
             $scope.community.isP = $scope.community.typ == 'CLOSE' ?  true : false;
             $scope.community.isM = $scope.community.typ == 'OPEN'? true : false;
         });
@@ -1852,13 +1850,13 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     $scope.commentDataUrls = [];
     
     $scope.onCommentFileSelect = function($files) {
-        log($scope.commentSelectedFiles.length);
+        //log($scope.commentSelectedFiles.length);
         if($scope.commentSelectedFiles.length == DefaultValues.POST_PHOTO_UPLOAD) {
             $scope.commentTempSelectedFiles = [];
         }
         
         $scope.commentSelectedFiles.push($files);
-        log($scope.commentSelectedFiles);
+        //log($scope.commentSelectedFiles);
         $scope.commentTempSelectedFiles.push($files);
         for ( var i = 0; i < $files.length; i++) {
             var $file = $files[i];
@@ -1944,13 +1942,13 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     $scope.qnaCommentDataUrls = [];
     
     $scope.onQnACommentFileSelect = function($files) {
-        log($scope.qnaCommentSelectedFiles.length);
+        //log($scope.qnaCommentSelectedFiles.length);
         if($scope.qnaCommentSelectedFiles.length == DefaultValues.POST_PHOTO_UPLOAD) {
             $scope.qnaTempCommentSelectedFiles = [];
         }
         
         $scope.qnaCommentSelectedFiles.push($files);
-        log($scope.qnaCommentSelectedFiles);
+        //log($scope.qnaCommentSelectedFiles);
         $scope.qnaTempCommentSelectedFiles.push($files);
         for ( var i = 0; i < $files.length; i++) {
             var $file = $files[i];
@@ -2061,7 +2059,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                         
                     
                         // when post is done in BE then do photo upload
-                        log($scope.qnaTempCommentSelectedFiles.length);
+                        //log($scope.qnaTempCommentSelectedFiles.length);
                         for(var i=0 ; i<$scope.qnaTempCommentSelectedFiles.length ; i++) {
                             usSpinnerService.spin('loading...');
                             $upload.upload({
@@ -2303,7 +2301,6 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
         usSpinnerService.spin('loading...');
         this.send_join_request = communityJoinService.sendJoinRequest.get({"id":id}, function(data) {
             usSpinnerService.stop('loading...');
-            log($scope.community.typ);
             $scope.community.isP = $scope.community.typ == 'CLOSE' ?  true : false;
             $scope.community.isM = $scope.community.typ == 'OPEN'? true : false;
         });
@@ -2458,7 +2455,7 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 							$scope.commentDataUrls = [];
 							
 							// when post is done in BE then do photo upload
-							log($scope.commentTempSelectedFiles.length);
+							//log($scope.commentTempSelectedFiles.length);
 							for(var i=0 ; i<$scope.commentTempSelectedFiles.length ; i++) {
 								usSpinnerService.spin('loading...');
 								$upload.upload({
@@ -2644,13 +2641,13 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 	$scope.commentDataUrls = [];
 	
 	$scope.onCommentFileSelect = function($files) {
-		log($scope.commentSelectedFiles.length);
+		//log($scope.commentSelectedFiles.length);
 		if($scope.commentSelectedFiles.length == DefaultValues.POST_PHOTO_UPLOAD) {
 			$scope.commentTempSelectedFiles = [];
 		}
 		
 		$scope.commentSelectedFiles.push($files);
-		log($scope.commentSelectedFiles);
+		//log($scope.commentSelectedFiles);
 		$scope.commentTempSelectedFiles.push($files);
 		for ( var i = 0; i < $files.length; i++) {
 			var $file = $files[i];
@@ -2796,13 +2793,13 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 	$scope.qnaCommentDataUrls = [];
 	
 	$scope.onQnACommentFileSelect = function($files) {
-		log($scope.qnaCommentSelectedFiles.length);
+		//log($scope.qnaCommentSelectedFiles.length);
 		if($scope.qnaCommentSelectedFiles.length == DefaultValues.POST_PHOTO_UPLOAD) {
 			$scope.qnaTempCommentSelectedFiles = [];
 		}
 		
 		$scope.qnaCommentSelectedFiles.push($files);
-		log($scope.qnaCommentSelectedFiles);
+		//log($scope.qnaCommentSelectedFiles);
 		$scope.qnaTempCommentSelectedFiles.push($files);
 		for ( var i = 0; i < $files.length; i++) {
 			var $file = $files[i];
@@ -2915,7 +2912,7 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 						$scope.qnaCommentDataUrls = [];
 					
 						// when post is done in BE then do photo upload
-						log($scope.qnaTempCommentSelectedFiles.length);
+						//log($scope.qnaTempCommentSelectedFiles.length);
 						for(var i=0 ; i<$scope.qnaTempCommentSelectedFiles.length ; i++) {
 							usSpinnerService.spin('loading...');
 							$upload.upload({
@@ -3373,11 +3370,9 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 		if ($scope.isBusy) return;
 		if (noMore) return;
 		$scope.isBusy = true;
-		log($scope.result);
 		usSpinnerService.spin('loading...');
 		allArticlesService.ArticleCategorywise.get({id:catId, offset: offset},
 			function(data){
-			log(data);
 				var posts = data;
 				if(posts.length == 0) {
 					noMore = true;
@@ -3386,7 +3381,6 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 				for (var i = 0; i < posts.length; i++) {
 					$scope.result.push(posts[i]);
 			    }
-				log($scope.result);
 			    $scope.isBusy = false;
 			    offset++;
 			    usSpinnerService.stop('loading...');
@@ -3436,7 +3430,6 @@ minibean.controller('EditArticleController',function($scope,$routeParams,$locati
             templateUrl: 'myModalContent.html',
         });
         var msg = getDescriptionService.GetDescription.get({id:id}, function(data) {
-            log(data.description);
             $('.modal-body').html(data.description);
         });
     };
@@ -3599,7 +3592,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 						$scope.commentDataUrls = [];
 						
 						// when post is done in BE then do photo upload
-						log($scope.commentTempSelectedFiles.length);
+						//log($scope.commentTempSelectedFiles.length);
 						for(var i=0 ; i<$scope.commentTempSelectedFiles.length ; i++) {
 							usSpinnerService.spin('loading...');
 							$upload.upload({
@@ -3770,13 +3763,13 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 	$scope.qnaCommentDataUrls = [];
 	
 	$scope.onQnACommentFileSelect = function($files) {
-		log($scope.qnaCommentSelectedFiles.length);
+		//log($scope.qnaCommentSelectedFiles.length);
 		if($scope.qnaCommentSelectedFiles.length == DefaultValues.POST_PHOTO_UPLOAD) {
 			$scope.qnaTempCommentSelectedFiles = [];
 		}
 		
 		$scope.qnaCommentSelectedFiles.push($files);
-		log($scope.qnaCommentSelectedFiles);
+		//log($scope.qnaCommentSelectedFiles);
 		$scope.qnaTempCommentSelectedFiles.push($files);
 		for ( var i = 0; i < $files.length; i++) {
 			var $file = $files[i];
@@ -3809,8 +3802,6 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 			.success(function(answer_id) {
 				$('.commentBox').val('');
 				angular.forEach($scope.newsFeeds.posts, function(post, key){
-					log(post);
-					
 					if(post.id == data.post_id) {
 						post.n_c++;
 						post.ut = new Date();
@@ -3826,7 +3817,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 						$scope.qnaCommentDataUrls = [];
 					
 						// when post is done in BE then do photo upload
-						log($scope.qnaTempCommentSelectedFiles.length);
+						//log($scope.qnaTempCommentSelectedFiles.length);
 						for(var i=0 ; i<$scope.qnaTempCommentSelectedFiles.length ; i++) {
 							usSpinnerService.spin('loading...');
 							$upload.upload({
@@ -3878,13 +3869,13 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 	$scope.commentDataUrls = [];
 	
 	$scope.onCommentFileSelect = function($files) {
-		log($scope.commentSelectedFiles.length);
+		//log($scope.commentSelectedFiles.length);
 		if($scope.commentSelectedFiles.length == DefaultValues.POST_PHOTO_UPLOAD) {
 			$scope.commentTempSelectedFiles = [];
 		}
 		
 		$scope.commentSelectedFiles.push($files);
-		log($scope.commentSelectedFiles);
+		//log($scope.commentSelectedFiles);
 		$scope.commentTempSelectedFiles.push($files);
 		for ( var i = 0; i < $files.length; i++) {
 			var $file = $files[i];
@@ -3990,7 +3981,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 						$scope.commentDataUrls = [];
 						
 						// when post is done in BE then do photo upload
-						log($scope.commentTempSelectedFiles.length);
+						//log($scope.commentTempSelectedFiles.length);
 						for(var i=0 ; i<$scope.commentTempSelectedFiles.length ; i++) {
 							usSpinnerService.spin('loading...');
 							$upload.upload({
@@ -4034,13 +4025,13 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 	$scope.qnaCommentDataUrls = [];
 	
 	$scope.onQnACommentFileSelect = function($files) {
-		log($scope.qnaCommentSelectedFiles.length);
+		//log($scope.qnaCommentSelectedFiles.length);
 		if($scope.qnaCommentSelectedFiles.length == DefaultValues.POST_PHOTO_UPLOAD) {
 			$scope.qnaTempCommentSelectedFiles = [];
 		}
 		
 		$scope.qnaCommentSelectedFiles.push($files);
-		log($scope.qnaCommentSelectedFiles);
+		//log($scope.qnaCommentSelectedFiles);
 		$scope.qnaTempCommentSelectedFiles.push($files);
 		for ( var i = 0; i < $files.length; i++) {
 			var $file = $files[i];
@@ -4088,7 +4079,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 						$scope.qnaCommentDataUrls = [];
 					
 						// when post is done in BE then do photo upload
-						log($scope.qnaTempCommentSelectedFiles.length);
+						//log($scope.qnaTempCommentSelectedFiles.length);
 						for(var i=0 ; i<$scope.qnaTempCommentSelectedFiles.length ; i++) {
 							usSpinnerService.spin('loading...');
 							$upload.upload({
@@ -4139,13 +4130,13 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 	$scope.commentDataUrls = [];
 	
 	$scope.onCommentFileSelect = function($files) {
-		log($scope.commentSelectedFiles.length);
+		//log($scope.commentSelectedFiles.length);
 		if($scope.commentSelectedFiles.length == DefaultValues.POST_PHOTO_UPLOAD) {
 			$scope.commentTempSelectedFiles = [];
 		}
 		
 		$scope.commentSelectedFiles.push($files);
-		log($scope.commentSelectedFiles);
+		//log($scope.commentSelectedFiles);
 		$scope.commentTempSelectedFiles.push($files);
 		for ( var i = 0; i < $files.length; i++) {
 			var $file = $files[i];
@@ -4775,10 +4766,8 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
         getMessageService.getMessages.get({id: $scope.currentConversation,offset: offset},
             function(data){
                 $scope.loadMore = true;
-                //log(data);
                 var objDiv = document.getElementById('message-area');
                 var height = objDiv.scrollHeight;
-                //log("nextMessages() - height:"+height);
                 var messages = data.message;
                 $scope.unread_msg_count.count = data.counter;
                 for (var i = 0; i < messages.length; i++) {
@@ -4792,7 +4781,6 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
                 $timeout(function(){
                     var objDiv = document.getElementById('message-area');
                     objDiv.scrollTop = objDiv.scrollHeight - height;
-                    //log("nextMessages() - message-area.scrollTop:"+objDiv.scrollTop);
                 });
             });
     }
@@ -4809,7 +4797,6 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 		usSpinnerService.spin('loading...');
 		$http.post('/Message/sendMsg', data) 
 			.success(function(messagedata) {
-				//log(messagedata);
 				$scope.messages = messagedata.message;
 				$scope.conversations = allConversationService.UserAllConversation.get();
 				usSpinnerService.stop('loading...');	
@@ -4853,7 +4840,6 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 		var date = $filter('date')(new Date(msgDate), 'dd/MM/yyyy');
 	    var showHeader = (date != $scope.currentHeader); 
 	    $scope.currentHeader = date;
-	    log("createDateHeader()");
 	    return showHeader;
 	}
 	
