@@ -33,7 +33,7 @@
         </a>
     </div>
     <ul class="myCommunity-info"-->
-        <li ng-repeat="community in sysCommunities">
+        <li ng-repeat="community in sysCommunities" ng-if="community.tinfo != 'FEEDBACK'">
             <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
             <a href="#/community/{{community.id}}/question"><img src="{{community.gi}}"></a>
             <p>
