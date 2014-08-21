@@ -99,6 +99,8 @@ public class Post extends SocialObject implements Likeable, Commentable {
 
         // update affinity
         UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
+        // push to community
+        FeedProcessor.pushToCommunity(this);
     }
 
     public void onUnwantAnswerBy(User user) {
