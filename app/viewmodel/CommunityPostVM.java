@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import common.collection.Pair;
 import domain.SocialObjectType;
 import models.*;
 
@@ -95,12 +94,12 @@ public class CommunityPostVM {
     		for(int i = comments.size() - 1; i >= 0 ; i--) {
     			Comment comment = comments.get(i);
     			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, user);
-    			commentVM.isLike = srByUser.contains(new PrimarySocialResult(comment.id, SocialObjectType.COMMENT, PrimarySocialRelation.Action.LIKED));
+    			commentVM.isLike = srByUser.contains(new PrimarySocialResult(comment.id, comment.objectType, PrimarySocialRelation.Action.LIKED));
     			commentsToShow.add(commentVM);
     		}
 
-    		postVM.isLike = srByUser.contains(new PrimarySocialResult(post.id, SocialObjectType.POST, PrimarySocialRelation.Action.LIKED));
-            postVM.isWantAnswer = srByUser.contains(new PrimarySocialResult(post.id, SocialObjectType.POST, PrimarySocialRelation.Action.WANT_ANS));
+    		postVM.isLike = srByUser.contains(new PrimarySocialResult(post.id, post.objectType, PrimarySocialRelation.Action.LIKED));
+            postVM.isWantAnswer = srByUser.contains(new PrimarySocialResult(post.id, post.objectType, PrimarySocialRelation.Action.WANT_ANS));
         } else {
             for(int i = comments.size() - 1; i >= 0 ; i--) {
                 Comment comment = comments.get(i);
@@ -163,12 +162,12 @@ public class CommunityPostVM {
 		for(int i = comments.size() - 1; i >= 0 ; i--) {
 			Comment comment = comments.get(i);
 			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, localUser);
-			commentVM.isLike = srByUser.contains(new PrimarySocialResult(comment.id, SocialObjectType.COMMENT, PrimarySocialRelation.Action.LIKED));
+			commentVM.isLike = srByUser.contains(new PrimarySocialResult(comment.id, comment.objectType, PrimarySocialRelation.Action.LIKED));
 			commentsToShow.add(commentVM);
 		}
 
-        postVM.isLike = srByUser.contains(new PrimarySocialResult(post.id, SocialObjectType.POST, PrimarySocialRelation.Action.LIKED));
-        postVM.isWantAnswer = srByUser.contains(new PrimarySocialResult(post.id, SocialObjectType.POST, PrimarySocialRelation.Action.WANT_ANS));
+        postVM.isLike = srByUser.contains(new PrimarySocialResult(post.id, post.objectType, PrimarySocialRelation.Action.LIKED));
+        postVM.isWantAnswer = srByUser.contains(new PrimarySocialResult(post.id, post.objectType, PrimarySocialRelation.Action.WANT_ANS));
 		postVM.comments = commentsToShow;
 		
 		return postVM;

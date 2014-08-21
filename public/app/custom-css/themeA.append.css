@@ -37,6 +37,14 @@ div[class*="col-xs-"], div[class*="col-sm-"], div[class*="col-md-"], div[class*=
     color: #428bca;
     font-size: 14px;
 }
+.glyphicon-map-marker {
+
+}
+.glyphicon-hand-up {
+    color: #428bca;
+    font-size: 15px;
+    margin: 0 3px;
+}
 .btn {
     padding: 3px 8px;
 }

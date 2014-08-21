@@ -1468,6 +1468,23 @@ minibean.service('bookmarkPostService', function($resource) {
 });
 	
 minibean.service('likeFrameworkService', function($resource) {
+
+    this.hitWantAnswerOnQnA = $resource(
+            '/want-ans/:post_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{post_id:'@post_id'}}
+            }
+    );
+    
+    this.hitUnwantAnswerOnQnA = $resource(
+            '/unwant-ans/:post_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{post_id:'@post_id'}}
+            }
+    );
+    
 	this.hitLikeOnPost = $resource(
 			'/like-post/:post_id',
 			{alt:'json',callback:'JSON_CALLBACK'},
@@ -2102,6 +2119,28 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     $scope.remove_image = function(index) {
         $scope.QnASelectedFiles.splice(index, 1);
         $scope.dataUrls.splice(index, 1);
+    }
+    
+    $scope.want_answer = function(post_id) {
+        likeFrameworkService.hitWantAnswerOnQnA.get({"post_id":post_id}, function(data) {
+            angular.forEach($scope.QnAs.posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isWtAns=true;
+                    post.nowa++;
+                }
+            })
+        });
+    }
+    
+    $scope.unwant_answer = function(post_id) {
+        likeFrameworkService.hitUnwantAnswerOnQnA.get({"post_id":post_id}, function(data) {
+            angular.forEach($scope.QnAs.posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isWtAns=false;
+                    post.nowa--;
+                }
+            })
+        });
     }
     
     $scope.like_post = function(post_id) {
@@ -2936,6 +2975,28 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 		$scope.dataUrls.splice(index, 1);
 	}
 	
+	$scope.want_answer = function(post_id) {
+        likeFrameworkService.hitWantAnswerOnQnA.get({"post_id":post_id}, function(data) {
+            angular.forEach($scope.QnAs.posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isWtAns=true;
+                    post.nowa++;
+                }
+            })
+        });
+    }
+    
+    $scope.unwant_answer = function(post_id) {
+        likeFrameworkService.hitUnwantAnswerOnQnA.get({"post_id":post_id}, function(data) {
+            angular.forEach($scope.QnAs.posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isWtAns=false;
+                    post.nowa--;
+                }
+            })
+        });
+    }
+    
 	$scope.like_post = function(post_id) {
 		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.QnAs.posts, function(post, key){
@@ -3590,6 +3651,28 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 		});
 	}
 	
+	$scope.want_answer = function(post_id) {
+        likeFrameworkService.hitWantAnswerOnQnA.get({"post_id":post_id}, function(data) {
+            angular.forEach($scope.newsFeeds.posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isWtAns=true;
+                    post.nowa++;
+                }
+            })
+        });
+    }
+    
+    $scope.unwant_answer = function(post_id) {
+        likeFrameworkService.hitUnwantAnswerOnQnA.get({"post_id":post_id}, function(data) {
+            angular.forEach($scope.newsFeeds.posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isWtAns=false;
+                    post.nowa--;
+                }
+            })
+        });
+    }
+    
 	$scope.like_post = function(post_id) {
 		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.newsFeeds.posts, function(post, key){
@@ -4113,6 +4196,28 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 		});
 	}
 	
+	$scope.want_answer = function(post_id) {
+        likeFrameworkService.hitWantAnswerOnQnA.get({"post_id":post_id}, function(data) {
+            angular.forEach($scope.newsFeeds.posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isWtAns=true;
+                    post.nowa++;
+                }
+            })
+        });
+    }
+    
+    $scope.unwant_answer = function(post_id) {
+        likeFrameworkService.hitUnwantAnswerOnQnA.get({"post_id":post_id}, function(data) {
+            angular.forEach($scope.newsFeeds.posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isWtAns=false;
+                    post.nowa--;
+                }
+            })
+        });
+    }
+    
 	$scope.like_post = function(post_id) {
 		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.newsFeeds.posts, function(post, key){
@@ -4355,6 +4460,28 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 		});
 	}
 	
+	$scope.want_answer = function(post_id) {
+        likeFrameworkService.hitWantAnswerOnQnA.get({"post_id":post_id}, function(data) {
+            angular.forEach($scope.posts.posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isWtAns=true;
+                    post.nowa++;
+                }
+            })
+        });
+    }
+    
+    $scope.unwant_answer = function(post_id) {
+        likeFrameworkService.hitUnwantAnswerOnQnA.get({"post_id":post_id}, function(data) {
+            angular.forEach($scope.posts.posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isWtAns=false;
+                    post.nowa--;
+                }
+            })
+        });
+    }
+    
 	$scope.like_post = function(post_id) {
 		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.posts.posts, function(post, key){
