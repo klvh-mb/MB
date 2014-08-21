@@ -14,13 +14,13 @@
                             <input id="message-search-icon" name="message-search-icon" type="submit" value=" " class="icon-box icon-title-search" />
                         </form>
                     </div> -->
-                    <ul style="overflow-y:scroll;">
+                    <ul style="overflow-y:scroll;height:520px;">
                         <li id="conversation" data-ng-class="selectedIndex == $index?'message-list-active':conv.isReaded == true?'message-list-unread':'message-list-read'" data-ng-repeat="conv in conversations" data-ng-click="getMessages(conv.id, conv.uid); setSelectedIndex($index)">
                             <img data-ng-src="/image/get-mini-image-by-id/{{conv.uid}}" style="height:50px;">
                             <div class="message-preview"><h5>{{conv.nm}}</h5><p data-ng-bind-html="conv.lm"></p></div>
                             <div>
-                                <p ng-show="conv.isToday"><span class="message-timestamp">{{conv.lmd|date:'M月dd日 hh:mm a'}}</span></p>
-                                <p ng-show="!conv.isToday"><span class="message-timestamp">{{conv.lmd|date:'yyyy-M-d'}}</span></p>
+                                <p ng-show="conv.isToday"><span class="message-timestamp">{{conv.lmd|date:'h:mm a'}}</span></p>
+                                <p ng-show="!conv.isToday"><span class="message-timestamp">{{conv.lmd|date:'yyyy年M月dd日'}}</span></p>
                                 <a class="message-del-icon" data-ng-confirm-click="deleteConversation(conv.id)" data-ng-confirm-message="您確定刪除這個訊息嗎?"></a>
                                 <p class="message-tooltips">移除</p>
                                 <a ng-show="conv.mc > 0" class="message-notice"><a class="message-notice">{{conv.mc}}</a>
@@ -70,29 +70,29 @@
                             </div-->
                             <li class="message-user" ng-show="msg.suid == userInfo.id">
                                 <div>
-                                    <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
+                                    <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height: 40px">
                                     <div class="message-body">
-                                        <span class="message-body-text" ng-bind-html="msg.txt"></span>
+                                        <span class="message-body-text" ng-bind-html="msg.txt | to_trusted"></span>
                                         <div ng-if="msg.hasImage">
                                             <a data-toggle="modal" data-target="#imageModal" href="">
                                                 <img class="message-body-image" data-ng-src="/image/get-message-image-by-id/{{msg.imgs}}" data-ng-click="showImage(msg.imgs)" alt="">
                                             </a>
                                         </div>
-                                        <span class="message-timestamp">{{msg.cd|date:'M月dd日 hh:mm a'}}</span>
+                                        <span class="message-timestamp">{{msg.cd|date:'M月dd日 h:mm a'}}</span>
                                     </div>
                                 </div>
                             </li>
                             <li class="message-replier" ng-show="msg.suid != userInfo.id" >
                                 <div>
-                                    <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height : 40px">
+                                    <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height: 40px">
                                     <div class="message-body">
-                                        <span class="message-body-text" ng-bind-html="msg.txt"></span>
+                                        <span class="message-body-text" ng-bind-html="msg.txt | to_trusted"></span>
                                         <div ng-if="msg.hasImage">
                                             <a data-toggle="modal" data-target="#imageModal" href="">
                                                 <img class="message-body-image" data-ng-src="/image/get-message-image-by-id/{{msg.imgs}}" data-ng-click="showImage(msg.imgs)" alt="">
                                             </a>
                                         </div>
-                                        <span class="message-timestamp">{{msg.cd|date:'M月dd日 hh:mm a'}}</span>
+                                        <span class="message-timestamp">{{msg.cd|date:'M月dd日 h:mm a'}}</span>
                                     </div>
                                 </div>
                             </li>

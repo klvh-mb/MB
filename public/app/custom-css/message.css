@@ -248,9 +248,10 @@
 }
 .message-timestamp {
     color: gray;
-    font-size: 11px;
+    font-size: 10px;
     opacity: 0.8;
     display: block;
+    margin-top: 5px;
 }
 #conversation img {
     border-radius: 5px;
@@ -258,6 +259,7 @@
 #conversation .message-timestamp {
     font-size: 12px;
     opacity: 1;
+    margin-top: 0px;
 }
 .message-list-active .message-timestamp {
     color: white;
