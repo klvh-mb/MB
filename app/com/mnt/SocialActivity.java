@@ -257,7 +257,7 @@ public class SocialActivity {
 			        	notification.count++;
 			        	notification.socialActionID = socialAction.target;
 			        	jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
-			        	jsonMap.put("onClick", "/#/community/" + comment.getPost().community.id + "/moment");
+			        	jsonMap.put("onClick", "/#/post-landing/id/"+comment.getPost().id+"/communityId/"+comment.getPost().community.id);
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 			        	notification.addToList(User.findById(socialAction.actor));
 			        	notification.status = 0;
@@ -265,7 +265,7 @@ public class SocialActivity {
 			        	notification.save();
 					} else {
 						jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
-			        	jsonMap.put("onClick", "/#/community/" + comment.getPost().community.id + "/moment");
+			        	jsonMap.put("onClick", "/#/post-landing/id/"+comment.getPost().id+"/communityId/"+comment.getPost().community.id);
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 						notification.count++;
 						notification.setMessage(socialAction.actorname+ " Liked on your Comment ");
@@ -289,7 +289,7 @@ public class SocialActivity {
 			        	notification.recipetent = owner_id;
 			        	notification.count++;
 			        	jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
-			        	jsonMap.put("onClick", "/#//community/" + comment.getPost().community.id + "/question");
+			        	jsonMap.put("onClick", "/#/qna-landing/id/"+comment.getPost().id+"/communityId/"+comment.getPost().community.id);
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 			        	notification.addToList(User.findById(socialAction.actor));
 			        	notification.status = 0;
@@ -298,7 +298,7 @@ public class SocialActivity {
 			        	notification.save();
 					} else {
 						jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
-			        	jsonMap.put("onClick", "/#/community/" + comment.getPost().community.id + "/question");
+			        	jsonMap.put("onClick", "/#/qna-landing/id/"+comment.getPost().id+"/communityId/"+comment.getPost().community.id);
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 						notification.count++;
 						notification.setMessage(socialAction.actorname+ " Liked on your Answer ");
