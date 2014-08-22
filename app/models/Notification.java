@@ -18,6 +18,7 @@ import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 import domain.AuditListener;
 import domain.Creatable;
+import domain.SocialObjectType;
 import domain.Updatable;
 
 @Entity
@@ -35,6 +36,11 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 	public String message;
 	
 	public String URLs;
+	
+	@Enumerated(EnumType.STRING)
+	public SocialObjectType targetType;
+	
+	public Long target;
 	
 	public long socialActionID;
 	
@@ -61,14 +67,14 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 	}
 
 	
-
-	public static Notification getNotification(Long socialActionID, Long recipetent,
-			NotificationType notificationType) {
-		String sql = "SELECT n FROM Notification n WHERE socialActionID=?1 and recipetent =?2 and notificationType = ?3";
+ 
+	public static Notification getNotification(Long target,
+			NotificationType notificationType, SocialObjectType targetType) {
+		String sql = "SELECT n FROM Notification n WHERE target=?1 and notificationType = ?3 and targetType = ?4";
         Query query = JPA.em().createQuery(sql);
-        query.setParameter(1, socialActionID);
-        query.setParameter(2, recipetent);
+        query.setParameter(1, target);
         query.setParameter(3, notificationType);
+        query.setParameter(4, targetType);
         try {
             return (Notification) query.getSingleResult();
         } catch (NoResultException nre) {
