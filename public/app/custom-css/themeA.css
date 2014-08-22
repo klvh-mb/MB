@@ -1728,7 +1728,7 @@ pre {
     overflow: hidden;
 }
 .memberTagBox {
-    max-width: 85px;
+    max-width: 80px;
 }
 .friendTagBox {
     max-width: 170px;
@@ -1822,7 +1822,7 @@ pre {
     vertical-align: text-bottom;
 }
 .communityTagBox p {
-    width: 77%;
+    width: 75%;
     display: inline-block;
 }
 .section-title {
