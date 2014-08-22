@@ -1067,7 +1067,7 @@ public class User extends SocialObject implements Subject, Socializable {
         
         Query q = JPA.em().createQuery(
                 "SELECT n from Notification n where recipetent = ?1 and notificationType in (?2,?3,?4,?6,?7) and" +
-                " CREATED_DATE between ?5 and NOW() ORDER BY CREATED_DATE desc");
+                " CREATED_DATE between ?5 and NOW() ORDER BY UPDATED_DATE desc");
         q.setParameter(1, this.id);
         q.setParameter(2, NotificationType.COMMENT);
         q.setParameter(3, NotificationType.ANSWERED);

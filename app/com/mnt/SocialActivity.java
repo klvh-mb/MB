@@ -1,11 +1,9 @@
 package com.mnt;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import common.cache.FriendCache;
-import play.libs.Json;
 
 import models.Comment;
 import models.Community;
@@ -15,6 +13,10 @@ import models.Post;
 import models.PrimarySocialRelation;
 import models.SocialRelation;
 import models.User;
+import play.libs.Json;
+
+import common.cache.FriendCache;
+
 import domain.SocialObjectType;
 
 public class SocialActivity {
@@ -135,11 +137,12 @@ public class SocialActivity {
                     List<User> frdMembers = community.getMembersIn(frdIds);
 
                     for(User user : frdMembers) {
-                        Notification notification = Notification.getNotification(community.id, user.id, NotificationType.POSTED);
+                        Notification notification = Notification.getNotification(community.id, NotificationType.POSTED, SocialObjectType.COMMUNITY);
 
                         if(notification == null){
                             notification = new Notification();
                             notification.notificationType = NotificationType.POSTED;
+                            notification.targetType = SocialObjectType.COMMUNITY;
                             notification.recipetent = user.id;
                             notification.count++;
                             notification.socialActionID = community.id;
@@ -150,16 +153,17 @@ public class SocialActivity {
                             notification.status = 0;
                             notification.message = socialAction.actorname+ " posted on community "
                                     + community.name;
+                            notification.setUpdatedDate(new Date());
                             notification.save();
                         } else {
                             jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
                             jsonMap.put("onClick", "#/community/" + community.id + "/moment");
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
                             notification.count++;
-                            notification.setMessage(socialAction.actorname+ " posted on community "
-                                    + community.name);
                             notification.status = 0;
                             notification.addToList(User.findById(socialAction.actor));
+                            notification.setMessage(notification.usersName+ " posted on community "
+                                    + community.name);
                             notification.merge();
                         }
                     }
@@ -173,7 +177,7 @@ public class SocialActivity {
 				for(User user : members){
 					if(user.id == socialAction.actor)
 						continue;
-					Notification notification = Notification.getNotification(community.id, user.id, NotificationType.POSTED_QUESTION);
+					Notification notification = Notification.getNotification(community.id, NotificationType.POSTED_QUESTION,SocialObjectType.COMMUNITY);
 					
 					if(notification == null){
 						notification = new Notification();
@@ -188,16 +192,17 @@ public class SocialActivity {
 			        	notification.socialActionID = community.id;
 			        	notification.message = socialAction.actorname+ " Questioned on community "
 								+ community.name;
+			        	notification.setUpdatedDate(new Date());
 			        	notification.save();
 					} else {
 						jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
 						jsonMap.put("onClick", "#/community/" + community.id + "/question");
 						notification.URLs = Json.stringify(Json.toJson(jsonMap));
 						notification.count++;
-						notification.setMessage(socialAction.actorname+ " Questioned on community "
-								+ community.name);
 						notification.status = 0;
 						notification.addToList(User.findById(socialAction.actor));
+						notification.setMessage(notification.usersName+" Questioned on community "
+								+ community.name);
 						notification.merge();
 					}
 					
@@ -216,10 +221,12 @@ public class SocialActivity {
 						return;
 					}
 					
-					Notification notification = Notification.getNotification(socialAction.target, socialAction.actor, NotificationType.LIKED);
+					Notification notification = Notification.getNotification(socialAction.target, NotificationType.LIKED,SocialObjectType.POST);
 						
 					if(notification == null){
 						notification = new Notification();
+						notification.target = socialAction.target;
+						notification.targetType = SocialObjectType.POST;
 			        	notification.notificationType = NotificationType.LIKED;
 			        	notification.recipetent = owner_id;
 			        	notification.count = 1L;
@@ -230,14 +237,15 @@ public class SocialActivity {
 			        	notification.addToList(User.findById(socialAction.actor));
 			        	notification.message = socialAction.actorname+ " Liked on your Post ";
 			        	notification.status = 0;
+			        	notification.setUpdatedDate(new Date());
 			        	notification.save();
 					} else {
 						jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
 			        	jsonMap.put("onClick", "#/community/" + post.community.id + "/moment");
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 						notification.count++;
-						notification.setMessage(socialAction.actorname+ " Liked on your Post ");
 						notification.addToList(User.findById(socialAction.actor));
+						notification.setMessage(notification.usersName+ " Liked on your Post ");
 						notification.status = 0;
 						notification.merge();
 					}
@@ -248,10 +256,12 @@ public class SocialActivity {
 						return;
 					}
 					
-					Notification notification = Notification.getNotification(socialAction.target, socialAction.actor, NotificationType.LIKED);
+					Notification notification = Notification.getNotification(socialAction.target, NotificationType.LIKED,SocialObjectType.COMMENT);
 					
 					if(notification == null){
 						notification = new Notification();
+						notification.target = socialAction.target;
+						notification.targetType = SocialObjectType.COMMENT;
 			        	notification.notificationType = NotificationType.LIKED;
 			        	notification.recipetent = owner_id;
 			        	notification.count++;
@@ -262,14 +272,15 @@ public class SocialActivity {
 			        	notification.addToList(User.findById(socialAction.actor));
 			        	notification.status = 0;
 			        	notification.message = socialAction.actorname+ " Liked on your Comment ";
+			        	notification.setUpdatedDate(new Date());
 			        	notification.save();
 					} else {
 						jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
 			        	jsonMap.put("onClick", "/#/post-landing/id/"+comment.getPost().id+"/communityId/"+comment.getPost().community.id);
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 						notification.count++;
-						notification.setMessage(socialAction.actorname+ " Liked on your Comment ");
 						notification.addToList(User.findById(socialAction.actor));
+						notification.setMessage(notification.usersName+ " Liked on your Comment ");
 						notification.status = 0;
 						notification.merge();
 					}
@@ -281,10 +292,12 @@ public class SocialActivity {
 						return;
 					}
 					
-					Notification notification = Notification.getNotification(socialAction.target, socialAction.actor, NotificationType.LIKED);
+					Notification notification = Notification.getNotification(socialAction.target, NotificationType.LIKED,SocialObjectType.ANSWER);
 					
 					if(notification == null){
 						notification = new Notification();
+						notification.target = socialAction.target;
+						notification.targetType = SocialObjectType.ANSWER;
 			        	notification.notificationType = NotificationType.LIKED;
 			        	notification.recipetent = owner_id;
 			        	notification.count++;
@@ -295,14 +308,15 @@ public class SocialActivity {
 			        	notification.status = 0;
 			        	notification.socialActionID = socialAction.target;
 			        	notification.message = socialAction.actorname+ " Liked on your Answer ";
+			        	notification.setUpdatedDate(new Date());
 			        	notification.save();
 					} else {
 						jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
 			        	jsonMap.put("onClick", "/#/qna-landing/id/"+comment.getPost().id+"/communityId/"+comment.getPost().community.id);
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 						notification.count++;
-						notification.setMessage(socialAction.actorname+ " Liked on your Answer ");
 						notification.addToList(User.findById(socialAction.actor));
+						notification.setMessage(notification.usersName+ " Liked on your Answer ");
 						notification.status = 0;
 						notification.merge();
 					}	
@@ -315,10 +329,12 @@ public class SocialActivity {
 						return;
 					}
 					
-					Notification notification = Notification.getNotification(socialAction.target, socialAction.actor, NotificationType.LIKED);
+					Notification notification = Notification.getNotification(socialAction.target, NotificationType.LIKED,SocialObjectType.QUESTION);
 					
 					if(notification == null){
 						notification = new Notification();
+						notification.target = socialAction.target;
+						notification.targetType = SocialObjectType.QUESTION;
 			        	notification.notificationType = NotificationType.LIKED;
 			        	notification.recipetent = owner_id;
 			        	notification.count++;
@@ -329,14 +345,15 @@ public class SocialActivity {
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 			        	notification.message = socialAction.actorname+ " Liked on your Question ";
 			        	notification.status = 0;
+			        	notification.setUpdatedDate(new Date());
 			        	notification.save();
 					} else {
 						jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
 			        	jsonMap.put("onClick", "/#/community/"+ post.community.id +"/question");
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 						notification.count++;
-						notification.setMessage(socialAction.actorname+ " Liked on your Question ");
 						notification.addToList(User.findById(socialAction.actor));
+						notification.setMessage(notification.usersName+ " Liked on your Question ");
 						notification.status = 0;
 						notification.merge();
 					}
@@ -353,11 +370,14 @@ public class SocialActivity {
 				if(User.findById(socialAction.actor).id == post.owner.id){
 					return;
 				}
-				Notification notification = Notification.getNotification(socialAction.target, socialAction.actor, NotificationType.COMMENT);
+				Notification notification = Notification.getNotification(socialAction.target, NotificationType.COMMENT, SocialObjectType.POST);
 				
 				
 				if(notification == null){
+					
 					notification = new Notification();
+					notification.target = socialAction.target;
+					notification.targetType = SocialObjectType.POST;
 		        	notification.notificationType = NotificationType.COMMENT;
 		        	notification.recipetent = Post.findById(socialAction.target).owner.id;
 		        	notification.count = 1L;
@@ -368,15 +388,16 @@ public class SocialActivity {
 		        	notification.addToList(User.findById(socialAction.actor));
 		        	notification.message = socialAction.actorname+ " Commented on your Post ";
 		        	notification.status = 0;
+		        	notification.setUpdatedDate(new Date());
 		        	notification.save();
 				} else {
 					notification.count++;
-					notification.setMessage(socialAction.actorname+ " Commented on your Post ");
 					notification.addToList(User.findById(socialAction.actor));
 					jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
 		        	jsonMap.put("onClick", "/#/community/"+post.community.id+"/moment");
 		        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 		        	notification.status = 0;
+		        	notification.setMessage(notification.usersName+ " Commented on your Post ");
 					notification.merge();
 				}
 			}
@@ -388,10 +409,12 @@ public class SocialActivity {
 				if(User.findById(socialAction.actor).id == post.owner.id){
 					return;
 				}
-				Notification notification = Notification.getNotification(socialAction.target, socialAction.actor, NotificationType.ANSWERED);
+				Notification notification = Notification.getNotification(socialAction.target, NotificationType.ANSWERED,SocialObjectType.POST);
 				
 				if(notification == null){
 					notification = new Notification();
+					notification.target = socialAction.target;
+					notification.targetType = SocialObjectType.POST;
 		        	notification.notificationType = NotificationType.ANSWERED;
 		        	notification.recipetent = Post.findById(socialAction.target).owner.id;
 		        	notification.count = 1L;
@@ -402,14 +425,15 @@ public class SocialActivity {
 		        	notification.addToList(User.findById(socialAction.actor));
 		        	notification.message = socialAction.actorname+ " Answered on your Question ";
 		        	notification.status = 0;
+		        	notification.setUpdatedDate(new Date());
 		        	notification.save();
 				} else {
 					notification.count++;
-					notification.setMessage(socialAction.actorname+ " Answered on your Question ");
 					notification.addToList(User.findById(socialAction.actor));
 					jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
 		        	jsonMap.put("onClick", "/#/community/"+ post.community.id +"/question");
 		        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
+		        	notification.setMessage(notification.usersName+ " Answered on your Question ");
 		        	notification.status = 0;
 					notification.merge();
 				}
