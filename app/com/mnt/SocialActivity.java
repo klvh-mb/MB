@@ -168,41 +168,44 @@ public class SocialActivity {
 				break;
 				
 			case POSTED_QUESTION: {
-				Community community =  Post.findById(socialAction.target).community;
-				List<User> members = community.getMembers();
-				for(User user : members){
-					if(user.id == socialAction.actor)
-						continue;
-					Notification notification = Notification.getNotification(community.id, user.id, NotificationType.POSTED_QUESTION);
-					
-					if(notification == null){
-						notification = new Notification();
-						notification.addToList(User.findById(socialAction.actor));
-			        	notification.notificationType = NotificationType.POSTED_QUESTION;
-			        	notification.recipetent = user.id;
-						jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
-						jsonMap.put("onClick", "#/community/" + community.id + "/question");
-						notification.URLs = Json.stringify(Json.toJson(jsonMap));
-			        	notification.count++;
-			        	notification.status = 0;
-			        	notification.socialActionID = community.id;
-			        	notification.message = socialAction.actorname+ " Questioned on community "
-								+ community.name;
-			        	notification.save();
-					} else {
-						jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
-						jsonMap.put("onClick", "#/community/" + community.id + "/question");
-						notification.URLs = Json.stringify(Json.toJson(jsonMap));
-						notification.count++;
-						notification.setMessage(socialAction.actorname+ " Questioned on community "
-								+ community.name);
-						notification.status = 0;
-						notification.addToList(User.findById(socialAction.actor));
-						notification.merge();
-					}
-					
-				}
-				
+                // fan out to friends of same community only
+                List<Long> frdIds = FriendCache.getFriendsIds(socialAction.actor);
+
+                if (frdIds.size() > 0) {
+                    Community community = Post.findById(socialAction.target).community;
+                    List<User> frdMembers = community.getMembersIn(frdIds);
+
+                    for(User user : frdMembers){
+                        Notification notification = Notification.getNotification(community.id, user.id, NotificationType.POSTED_QUESTION);
+
+                        if(notification == null){
+                            notification = new Notification();
+                            notification.addToList(User.findById(socialAction.actor));
+                            notification.notificationType = NotificationType.POSTED_QUESTION;
+                            notification.recipetent = user.id;
+                            jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
+                            jsonMap.put("onClick", "#/community/" + community.id + "/question");
+                            notification.URLs = Json.stringify(Json.toJson(jsonMap));
+                            notification.count++;
+                            notification.status = 0;
+                            notification.socialActionID = community.id;
+                            notification.message = socialAction.actorname+ " Questioned on community "
+                                    + community.name;
+                            notification.save();
+                        } else {
+                            jsonMap.put("photo", "/image/get-mini-image-by-id/"+socialAction.actor);
+                            jsonMap.put("onClick", "#/community/" + community.id + "/question");
+                            notification.URLs = Json.stringify(Json.toJson(jsonMap));
+                            notification.count++;
+                            notification.setMessage(socialAction.actorname+ " Questioned on community "
+                                    + community.name);
+                            notification.status = 0;
+                            notification.addToList(User.findById(socialAction.actor));
+                            notification.merge();
+                        }
+
+                    }
+                }
 			}
 				break;
 				
