@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import common.utils.HtmlUtil;
 import common.utils.NanoSecondStopWatch;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -188,8 +187,8 @@ public class UserController extends Controller {
 	public static Result updateUserProfileData() {
 		// UserInfo
         DynamicForm form = DynamicForm.form().bindFromRequest();
-        String firstName = HtmlUtil.escapeSpecialCharacters(form.get("firstName"));
-        String lastName = HtmlUtil.escapeSpecialCharacters(form.get("lastName"));
+        String firstName = form.get("firstName");
+        String lastName = form.get("lastName");
         String birthYear = form.get("userInfo.birthYear");
         Location location = null;
         try {
@@ -199,7 +198,7 @@ public class UserController extends Controller {
         try {
             gender = TargetGender.valueOfInt(Integer.valueOf(form.get("userInfo.gender")));
         } catch (Exception e) { }
-        String aboutMe = Emoticon.replace(HtmlUtil.escapeSpecialCharacters(form.get("userInfo.aboutMe")));
+        String aboutMe = Emoticon.replace(form.get("userInfo.aboutMe"));
         
         final User localUser = Application.getLocalUser(session());
         localUser.firstName = firstName;
@@ -558,7 +557,7 @@ public class UserController extends Controller {
         
         Long receiverUserID = Long.parseLong(form.get("receiver_id"));
         User receiverUser = User.findById(receiverUserID);
-        String msgText = Emoticon.replace(HtmlUtil.escapeSpecialCharacters(form.get("msgText")));
+        String msgText = Emoticon.replace(form.get("msgText"));
         Conversation.sendMessage(localUser, receiverUser, msgText);
         Conversation conversation = Conversation.findBetween(localUser, receiverUser);
         return getMessages(conversation.id+"", 0+"");

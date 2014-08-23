@@ -93,6 +93,20 @@ moment.lang('en', {
 // Utility function to convert to real links
 //
 
+var convertText = function(text) {
+    var escaped = escapeHtmlSpecialChars(text);
+    return convertToLinks(convertEmoticons(escaped));
+}
+
+var escapeHtmlSpecialChars = function(text) {
+    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+}
+
+var convertEmoticons = function(text) {
+    // TODO
+    return text;
+}
+
 var convertToLinks = function(text) {
     var replacedText, replacePattern1, replacePattern2;
 

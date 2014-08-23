@@ -1146,7 +1146,7 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 	
 	$scope.comment_on_post = function(id, commentText) {
         // first convert to links
-        commentText = convertToLinks(commentText);
+        commentText = convertText(commentText);
 
 		var data = {
 			"post_id" : id,
@@ -1570,7 +1570,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     
     $scope.comment_on_post = function(id, commentText) {
         // first convert to links
-        commentText = convertToLinks(commentText);
+        commentText = convertText(commentText);
 
         var data = {
             "post_id" : id,
@@ -1929,7 +1929,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     
     $scope.ask_question_community = function(id, questionTitle, questionText) {
         // first convert to links
-        questionText = convertToLinks(questionText);
+        questionText = convertText(questionText);
 
         usSpinnerService.spin('loading...');
         var data = {
@@ -1991,7 +1991,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     
     $scope.answer_to_question = function(question_post_id, answerText) {
         // first convert to links
-        answerText = convertToLinks(answerText);
+        answerText = convertText(answerText);
 
         var data = {
             "post_id" : question_post_id,
@@ -2386,7 +2386,7 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 	
 	$scope.comment_on_post = function(id, commentText) {
         // first convert to links
-        commentText = convertToLinks(commentText);
+        commentText = convertText(commentText);
 
 		var data = {
 			"post_id" : id,
@@ -2458,7 +2458,7 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 	
 	$scope.post_on_community = function(id, postText) {
         // first convert to links
-		postText = convertToLinks(postText);
+		postText = convertText(postText);
 
 		usSpinnerService.spin('loading...');
 		var data = {
@@ -2780,7 +2780,7 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 	
 	$scope.ask_question_community = function(id, questionTitle, questionText) {
         // first convert to links
-        questionText = convertToLinks(questionText);
+        questionText = convertText(questionText);
 
 		usSpinnerService.spin('loading...');
 		var data = {
@@ -2845,7 +2845,7 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 	
 	$scope.answer_to_question = function(question_post_id, answerText) {
 		// first convert to links
-        answerText = convertToLinks(answerText);
+        answerText = convertText(answerText);
 
         var data = {
 			"post_id" : question_post_id,
@@ -3522,7 +3522,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
     
 	$scope.comment_on_post = function(id, commentText) {
         // first convert to links
-        commentText = convertToLinks(commentText);
+        commentText = convertText(commentText);
 
 		var data = {
 			"post_id" : id,
@@ -3750,7 +3750,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 	
 	$scope.answer_to_question = function(question_post_id, answerText) {
 		// first convert to links
-        answerText = convertToLinks(answerText);
+        answerText = convertText(answerText);
 
         var data = {
 			"post_id" : question_post_id,
@@ -3911,7 +3911,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
     
 	$scope.comment_on_post = function(id, commentText) {
         // first convert to links
-        commentText = convertToLinks(commentText);
+        commentText = convertText(commentText);
 
 		var data = {
 			"post_id" : id,
@@ -4012,7 +4012,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 	
 	$scope.answer_to_question = function(question_post_id, answerText) {
 		// first convert to links
-        answerText = convertToLinks(answerText);
+        answerText = convertText(answerText);
 
         var data = {
 			"post_id" : question_post_id,
@@ -4360,7 +4360,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
     
 	$scope.comment_on_post = function(id, commentText) {
         // first convert to links
-        commentText = convertToLinks(commentText);
+        commentText = convertText(commentText);
 
 		var data = {
 			"post_id" : id,
@@ -4592,7 +4592,7 @@ minibean.service('searchFriendService',function($resource){
 	);
 });
 
-minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $routeParams, searchFriendService, usSpinnerService, getMessageService, allConversationService, iconsService) {
+minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $routeParams, $sce, searchFriendService, usSpinnerService, getMessageService, allConversationService, iconsService) {
     log("UserConversationController starts");
 
     $scope.emoticons = iconsService.getEmoticons.get();
@@ -4748,7 +4748,7 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 	
 	$scope.sendMessage = function(msgText) {
         // first convert to links
-        msgText = convertToLinks(msgText);
+        msgText = convertText(msgText);
 
 		var data = {
 			"receiver_id" : $scope.receiverId,

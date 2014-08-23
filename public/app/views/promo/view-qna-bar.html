@@ -18,7 +18,7 @@
     <!-- Post Intro Ends -->
     <ul>
         <li class="post-qna-body-top">
-            <div class="post-qna-body-title"><a href="" target="_blank"><div ng-bind-html="post.ptl"></div></a></div>
+            <div class="post-qna-body-title"><a href="" target="_blank"><div ng-bind-html="post.ptl | to_trusted"></div></a></div>
             <a href="">
                 <img class="post-title-user-image" data-ng-src="/image/get-mini-image-by-id/{{post.oid}}"/>
             </a>
@@ -29,7 +29,7 @@
             <span class="post-date" am-time-ago="post.t"></span>
         </li>
        	<li class="post-qna-body">
-            <div class="post-qna-body-text" ng-bind-html="post.pt"></div>
+            <div class="post-qna-body-text" ng-bind-html="post.pt | to_trusted"></div>
             <div data-ng-show="post.hasImage" class="post-body-image">
                 <a data-toggle="modal" data-ng-repeat="imageID in post.imgs" href="">
                     <img data-ng-src="/image/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
@@ -59,7 +59,7 @@
             <span style="margin-left:5px;"/>
             <span class="post-date" am-time-ago="comment.cd"></span>
             <div class="post-qna-answer-body">
-                <div class="post-qna-answer-body-text" ng-bind-html="comment.d"></div>
+                <div class="post-qna-answer-body-text" ng-bind-html="comment.d | to_trusted"></div>
                 <div data-ng-show="comment.hasImage" class="post-body-image">
                     <a data-toggle="modal" data-ng-repeat="imageID in comment.imgs" href="">
                         <img data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">

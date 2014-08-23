@@ -33,6 +33,15 @@ minibean.filter('objFilter', function() {
 });
 
 /**
+ * trustAsHtml
+ */
+minibean.filter('to_trusted', ['$sce', function($sce){
+    return function(text) {
+        return $sce.trustAsHtml(text);
+    };
+}]);
+
+/**
  * A generic confirmation for risky actions.
  * Usage: Add attributes: ng-really-message="Are you sure"? ng-really-click="takeAction()" function
  */

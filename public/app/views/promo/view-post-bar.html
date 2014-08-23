@@ -23,7 +23,7 @@
             <span class="post-date" am-time-ago="post.t"></span>
         </li>
         <li class="post-sharing-body">
-            <div class="post-sharing-body-text" ng-bind-html="post.pt | highlight: highlightText"></div>
+            <div class="post-sharing-body-text" ng-bind-html="post.pt | to_trusted | highlight: highlightText"></div>
             <div data-ng-show="post.hasImage" class="post-body-image">
                 <span data-ng-repeat="imageID in post.imgs">
                     <img data-ng-src="/image/get-post-image-by-id/{{imageID}}" alt="">
@@ -49,7 +49,7 @@
                 <!--span class="post-title-user-name post-sharing-comment-font">
                     <span>{{comment.on}}</span>
                 </span-->
-                <span class="post-sharing-comment-body-text" ng-bind-html="comment.d"></span>
+                <span class="post-sharing-comment-body-text" ng-bind-html="comment.d | to_trusted"></span>
                 <!--<span class="post-sharing-comment-body-text">{{comment.d}}</span>-->
                 <div>
                     <span class="post-date" am-time-ago="comment.cd"></span>

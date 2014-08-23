@@ -6,7 +6,7 @@
 			<ul>
 				<li><img class="wall-userpic" data-ng-src="/image/get-thumbnail-image-by-id/{{post.oid}}"/><p class="wall-user-actState" style="position: relative;"><a data-ng-href="/#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="/#/community/{{post.cid}}/moment" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span><span class="sharing-tag pull-right">Ã¥Ë†â€ Ã¤ÂºÂ«</span><a class="post-favorite" href="#"></a></p>
 	            <span class="wall-user-actState-date" am-time-ago="post.t"></span></li>
-	            <li><p ng-bind-html="post.pt| highlight: highlightText" class="wall-user-post-text"></p></li>
+	            <li><p ng-bind-html="post.pt | to_trusted | highlight: highlightText" class="wall-user-post-text"></p></li>
 	            <li><div data-ng-show="post.hasImage" class="wall-user-post-image">
 						<p class="lead"></p>
 						<a data-ng-repeat="imageID in post.imgs" href="">
@@ -32,7 +32,7 @@
                              <div>
                                  <p class="user-comment">
                                      <a class="commentUsername" href="#" style="color: #428bca !important;">{{comment.on}}</a>
-                                     <pre ng-bind-html="comment.d | highlight: highlightText"></pre>
+                                     <pre ng-bind-html="comment.d | to_trusted | highlight: highlightText"></pre>
                                  </p>
                                  <span class="wall-user-actState-date" am-time-ago="comment.cd"></span>
                                  <a class="btn-like" href="#" style="color: #428bca !important;">Like</a>
