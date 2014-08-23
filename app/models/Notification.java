@@ -47,7 +47,8 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 	public String usersName;
 	
 	public Long count = 0L;
-	
+
+    // 0=unread, 1=read, 2=ignored, 3=accepted
 	public int status = 0;
 	
 	@Enumerated(EnumType.STRING)
