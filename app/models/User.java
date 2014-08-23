@@ -45,6 +45,7 @@ import models.TokenAction.Type;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import org.joda.time.DateTime;
 import play.Play;
 import play.data.format.Formats;
 import play.db.jpa.JPA;
@@ -1035,7 +1036,7 @@ public class User extends SocialObject implements Subject, Socializable {
         Query q = JPA.em().createQuery(
                 "SELECT n from Notification n where recipient = ?1 and ( " +
                 "( notificationType in (?2,?3,?5) and n.status in(?6,?8) ) or " +
-                "( notificationType in (?4,?7) and CREATED_DATE between ?9 and NOW() )" +
+                "( notificationType in (?4,?7) and CREATED_DATE > ?9)" +
                 ") ORDER BY CREATED_DATE desc ");
         q.setParameter(1, this.id);
         q.setParameter(2, NotificationType.COMMUNITY_JOIN_REQUEST);
@@ -1045,18 +1046,10 @@ public class User extends SocialObject implements Subject, Socializable {
         q.setParameter(7, NotificationType.FRIEND_ACCEPTED);
         q.setParameter(6, 0);
         q.setParameter(8, 1);
-        
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
+        // subtract 7 days
+        DateTime sevenDaysBefore = (new DateTime()).minusDays(7);
+        q.setParameter(9, sevenDaysBefore.toDate());
 
-        // substract 7 days
-        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH)-7);
-
-        // convert to date
-        Date myDate = cal.getTime();
-        q.setParameter(9, myDate);
-
-        
         List<Notification> notifications = q.getResultList();
         return notifications;
     }
@@ -1067,22 +1060,17 @@ public class User extends SocialObject implements Subject, Socializable {
         
         Query q = JPA.em().createQuery(
                 "SELECT n from Notification n where recipient = ?1 and notificationType in (?2,?3,?4,?6,?7) and" +
-                " CREATED_DATE between ?5 and NOW() ORDER BY UPDATED_DATE desc");
+                " CREATED_DATE > ?5 ORDER BY UPDATED_DATE desc");
         q.setParameter(1, this.id);
         q.setParameter(2, NotificationType.COMMENT);
         q.setParameter(3, NotificationType.ANSWERED);
         q.setParameter(4, NotificationType.LIKED);
         q.setParameter(6, NotificationType.POSTED);
         q.setParameter(7, NotificationType.POSTED_QUESTION);
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
+        // subtract 7 days
+        DateTime sevenDaysBefore = (new DateTime()).minusDays(7);
+        q.setParameter(5, sevenDaysBefore.toDate());
 
-        // substract 7 days
-        cal.set(Calendar.DAY_OF_MONTH, cal.get(Calendar.DAY_OF_MONTH)-7);
-
-        // convert to date
-        Date myDate = cal.getTime();
-        q.setParameter(5, myDate);
         List<Notification> notifications = q.getResultList();
         return notifications;
     }
