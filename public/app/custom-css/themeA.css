@@ -1480,9 +1480,9 @@ pre {
 }
 .post-detail-wrapper div {
     float: left;
-    padding-left: 10px;
+    padding-left: 3px;
     position: relative;
-    width: 82%;
+    width: 98%;
 }
 .post-detail-wrapper h3 {
     margin: 0;
