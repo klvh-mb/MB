@@ -1033,7 +1033,7 @@ public class User extends SocialObject implements Subject, Socializable {
     public List<Notification> getAllRequestNotification() {
         
         Query q = JPA.em().createQuery(
-                "SELECT n from Notification n where recipetent = ?1 and ( " +
+                "SELECT n from Notification n where recipient = ?1 and ( " +
                 "( notificationType in (?2,?3,?5) and n.status in(?6,?8) ) or " +
                 "( notificationType in (?4,?7) and CREATED_DATE between ?9 and NOW() )" +
                 ") ORDER BY CREATED_DATE desc ");
@@ -1066,7 +1066,7 @@ public class User extends SocialObject implements Subject, Socializable {
     public List<Notification> getAllNotification() {
         
         Query q = JPA.em().createQuery(
-                "SELECT n from Notification n where recipetent = ?1 and notificationType in (?2,?3,?4,?6,?7) and" +
+                "SELECT n from Notification n where recipient = ?1 and notificationType in (?2,?3,?4,?6,?7) and" +
                 " CREATED_DATE between ?5 and NOW() ORDER BY UPDATED_DATE desc");
         q.setParameter(1, this.id);
         q.setParameter(2, NotificationType.COMMENT);
@@ -1544,8 +1544,6 @@ public class User extends SocialObject implements Subject, Socializable {
                 "Select count(c) from Conversation c where ( c.user1.id = ?1 and (c.user1_time < c.conv_time or c.user1_time is null)) or (c.user2.id = ?1 and (user2_time < c.conv_time or c.user2_time is null ))");
         q.setParameter(1, this.id);
         Long ret = (Long) q.getSingleResult();
-
-        logger.underlyingLogger().info("[u=" + id + "] getUnreadMsgCount=" + ret);
         return ret;
     }
 }

@@ -29,8 +29,8 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 	public Long id;
 	
 	/*To whom this notification is intended for*/
-	 @Required
-	public Long recipetent;
+	@Required
+	public Long recipient;
 	 
 	@Required
 	public String message;
@@ -121,12 +121,12 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 		this.count = count;
 	}
 
-	public Long getRecipetent() {
-		return recipetent;
+	public Long getRecipient() {
+		return recipient;
 	}
 
-	public void setRecipetent(Long recipetent) {
-		this.recipetent = recipetent;
+	public void setRecipient(Long recipient) {
+		this.recipient = recipient;
 	}
 
 	public String getMessage() {

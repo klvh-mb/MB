@@ -4,11 +4,7 @@ import java.io.IOException;
 
 import models.Notification;
 
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-
-import domain.SocialObjectType;
 
 public class NotificationVM {
 	public Long id;
@@ -19,7 +15,7 @@ public class NotificationVM {
 	public UrlsVM  url;
 	
 	public NotificationVM(Notification no) {
-		this.id = no.recipetent;
+		this.id = no.recipient;
 		this.nid = no.id;
 		this.tp = no.notificationType.name();
 		this.msg = no.message;

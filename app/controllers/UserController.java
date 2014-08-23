@@ -602,7 +602,8 @@ public class UserController extends Controller {
 	
 	@Transactional
     public static Result getHeaderBarMetadata() {
-		
+		NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
 		final User localUser = Application.getLocalUser(session());
 		List<Notification> batchupNotif = localUser.getAllNotification();
 		int unread_allNotif_count = 0;
@@ -634,6 +635,9 @@ public class UserController extends Controller {
 		vm.put("name", localUser.firstName);
 		vm.put("notifyCount", unread_allNotif_count);
 		vm.put("requestCount", unread_reqNotif_count);
+
+        sw.stop();
+        logger.underlyingLogger().info("[u="+localUser.id+"] getHeaderBarMetadata. Took "+sw.getElapsedMS()+"ms");
     	return ok(Json.toJson(vm));
     }
 	
