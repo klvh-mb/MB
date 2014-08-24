@@ -765,12 +765,28 @@ minibean.controller('PNCommunitiesUtilityController', function($scope, $routePar
 minibean.controller('CommunityPNController',function($scope, $routeParams, $http, $filter, pnService) {
     log("CommunityPNController starts");
 
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = 30;
+    
+    $scope.setPNPage = function(page) {
+        var begin = ((page - 1) * $scope.itemsPerPage);
+        var end = begin + $scope.itemsPerPage;
+        $scope.pagedFilteredOtherPNs = $scope.filteredOtherPNs.slice(begin, end);
+        $scope.currentPage = page;
+    }
+
+    // base data
     $scope.allDistricts = [];
     $scope.myDistrictPNs = [];
     $scope.otherPNs = [];
+    
+    // filtered data
     $scope.filteredMyDistrictPNs = [];
     $scope.filteredOtherPNs = [];
-                
+
+    // paged filtered data
+    $scope.pagedFilteredOtherPNs = [];
+    
     var curDistrict = '';
     var tagColorIndex = -1;
 	$scope.pns = pnService.PNs.get({id:$routeParams.id}, 
@@ -791,17 +807,19 @@ minibean.controller('CommunityPNController',function($scope, $routeParams, $http
                 });
                 $scope.filteredMyDistrictPNs = $scope.myDistrictPNs;
                 $scope.filteredOtherPNs = $scope.otherPNs;
+                $scope.setPNPage(1);
             }
 	);
 	
-	$scope.applyPNFilter = function(district) {
-	   if (district == "all") {
-	       $scope.filteredMyDistrictPNs = $scope.myDistrictPNs;
-           $scope.filteredOtherPNs = $scope.otherPNs;
-	   } else {
-	       $scope.filteredMyDistrictPNs = [];
-	       $scope.filteredOtherPNs = $filter('objFilter')($scope.pns, {"dis":district});
-	   }
+    $scope.applyPNFilter = function(district) {
+        if (district == "all") {
+            $scope.filteredMyDistrictPNs = $scope.myDistrictPNs;
+            $scope.filteredOtherPNs = $scope.otherPNs;
+        } else {
+            $scope.filteredMyDistrictPNs = [];
+            $scope.filteredOtherPNs = $filter('objFilter')($scope.pns, {"dis":district});
+        }
+        $scope.setPNPage(1);
 	};
 	
 	log("CommunityPNController completed");

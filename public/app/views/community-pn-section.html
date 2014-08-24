@@ -1,18 +1,4 @@
-<!--a id="membersSearchwrapper" class="pull-right" style="margin-right: 9%;">
-    <div class="basic-search-wrapper">
-        <div class="input-group innerB basic-search">
-            <input type="text" class="form-control" ng-model="pnFilter.dis" placeholder="搜尋">
-            <div class="input-group-btn">
-                <button class="btn btn-default" type="button">
-                    <i class="fa fa-search"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-</a>
-<div class="padding10 row"></div-->
-
-<div class="btn-group" dropdown style="margin-top: 2%;margin-left: 10px;">
+<div class="btn-group" dropdown style="margin-top:2%;margin-left:10px;">
     <button type="button" id="membersDropdownBtn" class="btn btn-primary dropdown-toggle">
         所有地區 ({{allDistricts.length}}) <span class="caret"></span>
     </button>
@@ -64,7 +50,8 @@
     </div>
 </div>
 
-<div class="general-box" ng-repeat="pn in filteredOtherPNs | objFilter:pnFilter">
+<pagination direction-links="false" ng-show="filteredOtherPNs.length > itemsPerPage" total-items="filteredOtherPNs.length" page="currentPage" on-select-page="setPNPage(page)" items-per-page="itemsPerPage"></pagination>
+<div class="general-box" ng-repeat="pn in pagedFilteredOtherPNs">
     <ul class="pn-wrapper" style="padding: 5px 10px 0px 10px;">
         <li>
             <div class="pn-info">
@@ -85,5 +72,6 @@
         </li>
     </ul>
 </div>
+<pagination direction-links="false" ng-show="filteredOtherPNs.length > itemsPerPage" total-items="filteredOtherPNs.length" page="currentPage" on-select-page="setPNPage(page)" items-per-page="itemsPerPage"></pagination>
 
 <div><h6>*以上資料只供家長參考，如資料有誤，概以學校最後公布為準。</h6></div>

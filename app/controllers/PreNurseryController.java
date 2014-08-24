@@ -1,6 +1,7 @@
 package controllers;
 
 import common.cache.LocationCache;
+import common.utils.NanoSecondStopWatch;
 import models.Community;
 import models.Location;
 import models.PreNursery;
@@ -48,6 +49,8 @@ public class PreNurseryController extends Controller {
     
     @Transactional
 	public static Result getPNs(Long id) {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+        
 		final User localUser = Application.getLocalUser(session());
         final Community community = Community.findById(id);
         if (community == null || community.getTargetingType() != TargetingType.PRE_NURSERY) {
@@ -60,7 +63,8 @@ public class PreNurseryController extends Controller {
             commRegion = LocationCache.getRegion(regionId);
         }
 
-        logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+id+"] getPNs");
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+id+"] getPNs. Took "+sw.getElapsedMS()+"ms");
 
         Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.regionId = ?1 and pn.schoolYear = ?2 order by pn.districtId, pn.name");
         q.setParameter(1, commRegion.id);

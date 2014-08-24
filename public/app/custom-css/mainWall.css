@@ -1,4 +1,3 @@
-
 /* Content Uploader Start */
 #content-uploader {
     border-radius: 0px 0px 4px 4px;
@@ -415,4 +414,10 @@
 }
 #wall li {
     position: relative;
+}
+.pagination {
+    margin: 3px 0;
+}
+.pagination > li > a, .pagination > li > span {
+    padding: 3px 10px;
 }
