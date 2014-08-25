@@ -53,7 +53,7 @@ playauthenticate.password.signup.error.passwords_not_same=密碼不相符。請�
 playauthenticate.password.login.unknown_user_or_pw=電郵或密碼不正確。請重試
 
 playauthenticate.password.verify_signup.subject=[miniBean 小萌豆] 離成功註冊只差一步!
-playauthenticate.password.verify_email.subject=[miniBean 小萌豆] Email 地址驗證
+playauthenticate.password.verify_email.subject=[miniBean 小萌豆] Email 地址認證
 playauthenticate.password.reset_email.subject=[miniBean 小萌豆] 重設您的戶口密碼
 
 # play-authenticate: Additional translations
@@ -93,12 +93,12 @@ playauthenticate.link.account.ok=OK
 
 # play-authenticate: Signup folder translations
 
-playauthenticate.verify.email.title=驗證您的電郵
-playauthenticate.verify.email.cta.1=恭喜您已成功註冊成為 miniBean 小萌豆的一份子!
-playauthenticate.verify.email.cta.2=驗證電郵已經發送到
-playauthenticate.verify.email.cta.3=請立即啟動並登入您的 miniBean 小萌豆賬戶。
+playauthenticate.verify.email.title=認證您的電郵
+playauthenticate.verify.email.cta.1=歡迎您成為 miniBean 小萌豆的一份子!
+playauthenticate.verify.email.cta.2=我們已經將會員認證電郵發送到
+playauthenticate.verify.email.cta.3=請點擊信件中的連結即可使用帳號。
 
-playauthenticate.verified.email=您的電郵已經驗證。請立即登入
+playauthenticate.verified.email=您的電郵已經認證。請立即登入
 
 playauthenticate.password.reset.title=密碼重設
 playauthenticate.password.reset.cta=重設密碼
