@@ -15,22 +15,31 @@ var minibeanPromo = angular.module('minibeanPromo');
  * </ul>
  */
 minibeanPromo.filter('objFilter', function() {
-  return function(items, filter) {
-      if (!filter){
-          return items;
-      }  
-      var result = {};
+    return function(items, filter) {
+        if (!filter){
+            return items;
+        }
+        var result = [];
         angular.forEach( filter, function(filterVal, filterKey) {
-          angular.forEach(items, function(item, key) {
-              var fieldVal = item[filterKey];
-              if (fieldVal && fieldVal.toLowerCase().indexOf(filterVal.toLowerCase()) > -1){
-                  result[key] = item;
-              }
-          });
+            angular.forEach(items, function(item, key) {
+                var fieldVal = item[filterKey];
+                if (fieldVal && fieldVal.toLowerCase().indexOf(filterVal.toLowerCase()) > -1){
+                    result.push(item);
+                }
+            });
         });
         return result;
     };
 });
+
+/**
+ * trustAsHtml
+ */
+minibeanPromo.filter('to_trusted', ['$sce', function($sce){
+    return function(text) {
+        return $sce.trustAsHtml(text);
+    };
+}]);
 
 /**
  * A generic confirmation for risky actions.
