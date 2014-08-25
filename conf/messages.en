@@ -96,7 +96,7 @@ playauthenticate.link.account.ok=OK
 playauthenticate.verify.email.title=認證您的電郵
 playauthenticate.verify.email.cta.1=歡迎您成為 miniBean 小萌豆的一份子!
 playauthenticate.verify.email.cta.2=我們已經將會員認證電郵發送到
-playauthenticate.verify.email.cta.3=請點擊信件中的連結即可使用帳號。
+playauthenticate.verify.email.cta.3=請點擊電郵中的連結即可使用帳號。
 
 playauthenticate.verified.email=您的電郵已經認證。請立即登入
 
