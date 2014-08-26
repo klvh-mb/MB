@@ -253,10 +253,14 @@
     display: block;
     margin-top: 5px;
 }
-#conversation img {
+.conversation-panel {
+    overflow-y: scroll;
+    max-height: 520px;
+}
+.conversation img {
     border-radius: 5px;
 }
-#conversation .message-timestamp {
+.conversation .message-timestamp {
     font-size: 12px;
     opacity: 1;
     margin-top: 0px;
