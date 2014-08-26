@@ -63,9 +63,6 @@ public class PreNurseryController extends Controller {
             commRegion = LocationCache.getRegion(regionId);
         }
 
-        sw.stop();
-        logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+id+"] getPNs. Took "+sw.getElapsedMS()+"ms");
-
         Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.regionId = ?1 and pn.schoolYear = ?2 order by pn.districtId, pn.name");
         q.setParameter(1, commRegion.id);
         q.setParameter(2, SCHOOL_YEAR);
@@ -77,7 +74,6 @@ public class PreNurseryController extends Controller {
         }
 
         final List<PreNurseryVM> pnVMs = new ArrayList<>();
-
         for (PreNursery pn : pns) {
             boolean isMyDistrict = userDistrictId != null && userDistrictId.equals(pn.districtId);
 
@@ -85,6 +81,9 @@ public class PreNurseryController extends Controller {
             PreNurseryVM vm = new PreNurseryVM(pn, isMyDistrict, districtName);
             pnVMs.add(vm);
         }
+
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+id+"] getPNs. Took "+sw.getElapsedMS()+"ms");
 		return ok(Json.toJson(pnVMs));
 	}
 }

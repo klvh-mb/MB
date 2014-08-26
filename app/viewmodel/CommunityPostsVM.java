@@ -15,45 +15,53 @@ public class CommunityPostsVM {
 	
 	@JsonProperty("lu") public Long loggedUserId;
 	@JsonProperty("lun") public String loggedUserName;
-	
 	@JsonProperty("posts") public List<CommunityPostVM> posts = Collections.EMPTY_LIST;
 	
 	public static CommunityPostsVM posts(Community c, User user, List<Post> posts) {
 	    CommunityPostsVM vm = new CommunityPostsVM();
-		
 		vm.loggedUserId = user.id;
 		vm.loggedUserName = user.displayName;
 		
-		boolean isMember = user.isMemberOf(c.getId());
-        boolean isOwner = (user == c.owner) ? true : false;
-        
 		List<CommunityPostVM> postsVM = new ArrayList<>();
-		
-		if(isMember == true || isOwner == true || c.communityType == CommunityType.OPEN){
+		if (canSeePostsOfCommunity(user, c)) {
     		for(Post p: posts) {
     			CommunityPostVM post = CommunityPostVM.communityPostVM(p,user);
     			postsVM.add(post);
     		}
 		}
+
 		vm.posts = postsVM;
 		return vm;
 	}
 	
 	public static CommunityPostsVM posts(Community c, User user, Post post) {
 	    CommunityPostsVM vm = new CommunityPostsVM();
-        
         vm.loggedUserId = user.id;
         vm.loggedUserName = user.displayName;
-        
-        boolean isMember = user.isMemberOf(c.getId());
-        boolean isOwner = (user == c.owner) ? true : false;
-        
+
         List<CommunityPostVM> posts = new ArrayList<>();
-        
-        if(isMember == true || isOwner == true || c.communityType == CommunityType.OPEN){
+        if (canSeePostsOfCommunity(user, c)) {
             posts.add(CommunityPostVM.communityPostVM(post,user));
         }
+
         vm.posts = posts;
         return vm;
+    }
+
+    /**
+     * Check if the given user can see posts of the community.
+     * @param user
+     * @param c
+     * @return
+     */
+    private static boolean canSeePostsOfCommunity(User user, Community c) {
+        if (c.communityType != CommunityType.CLOSE) {
+            return true;
+        }
+        else {
+            boolean isMember = user.isMemberOf(c.getId());
+            boolean isOwner = (c.owner != null) && (c.owner.getId() == user.getId());
+            return isMember || isOwner;
+        }
     }
 }

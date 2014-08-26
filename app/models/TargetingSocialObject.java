@@ -15,7 +15,7 @@ public abstract class TargetingSocialObject extends SocialObject {
     @Enumerated(EnumType.STRING)
     public TargetingType targetingType;
     
-    @Column(nullable=true, unique=true)     // has to be unique as we will query based on targetingInfo
+    @Column(nullable=true)          // targetingType, targetingInfo combined must be unique
     public String targetingInfo;
     
     @Column(nullable=true)
