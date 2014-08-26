@@ -1100,8 +1100,10 @@ pre {
 }
 #community-header #community-header-name {
     width: 90%;
+    display: table;
     position: absolute;
-    top: -40px;
+    /*top: -40px;*/
+    bottom: 0px;
     left: 15px;
     color: white;
     font-size: 26px;
@@ -1118,7 +1120,7 @@ pre {
 #community-header-menu div {
     display: inline;
 }
-#community-header-menu img {
+#community-header-menu img, #community-header-name img {
     width: 30px;
     height: 30px;
     margin-right: 5px;
@@ -1128,6 +1130,9 @@ pre {
 #community-header-menu .pull-right {
     position: relative;
     top: -5px;
+}
+#community-header-cover {
+    position: relative;
 }
 #community-header-cover a {
     position: absolute;

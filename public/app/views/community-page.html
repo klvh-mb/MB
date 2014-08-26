@@ -43,11 +43,12 @@
     				<ul>
     					<li>
                             <div id="community-header-cover">
-                                <img id="community-banner" data-ng-src="{{coverImage}}" />
+                                <img id="community-banner" data-ng-src="{{coverImage}}"/>
                                 <a data-ng-show="community.isO" ng-click="openGroupCoverPhotoModal(community.id)">
                                     <span class="icon-box-2 icon-title-edit-photo"></span>
                                     <span class="icon-box-2 icon-box-black-op05"></span>
                                 </a>
+                                <p id="community-header-name" class="ng-binding"><span><img src="{{community.icon}}"/>{{community.n}}</p>
                             </div>
     				    </li>
     					<li id="community-header-menu">
@@ -83,7 +84,6 @@
                             <div class="pull-right">
                                 <a class="toolsbox toolsbox-start" data-toggle="modal" data-target="#createCommunityModal"><i class="fa fa-fw  fa-group"></i> 建立社群</a>
                             </div>
-    						<p id="community-header-name" class="ng-binding"><img src="{{community.icon}}">{{community.n}}</p>
     					</li>
     				</ul>
     			</div>
