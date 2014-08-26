@@ -380,6 +380,7 @@ span.notif-count {
 }
 #community-header #community-header-name {
     font-size: 22px;
+    bottom: 42px;
 }
 #community-header-menu ul {
     position: absolute;
