@@ -28,9 +28,11 @@ public class FeedProcessor {
 
     private static final int MAX_COMM_QUEUE_LENGTH = 200;
 
-    // List
-	private static final String USER = JedisCache.USER_POST_PREFIX;
-    // SortedSet
+    // List (User social feed)
+	private static final String SOCIAL_FEED_KEY = JedisCache.SOCIAL_FEED_PREFIX;
+    // List (User business feed)
+    private static final String BIZ_FEED_KEY = JedisCache.BIZ_FEED_PREFIX;
+    // SortedSet (community post queue)
     private static final String COMMUNITY = JedisCache.COMMUNITY_POST_PREFIX;
 
     /**
@@ -42,10 +44,33 @@ public class FeedProcessor {
 		Jedis j = null;
         try {
             j = jedisPool.getResource();
-            j.del(USER+userId);                 // delete previous list
+            j.del(SOCIAL_FEED_KEY +userId);                 // delete previous list
 
             for (String postId : postIds) {
-                j.rpush(USER+userId, postId);   // push to list tail.
+                j.rpush(SOCIAL_FEED_KEY +userId, postId);   // push to list tail.
+            }
+
+            // Note: Might need to expire() on user's list to handle inactive accounts
+        } finally {
+            if (j != null) {
+		        jedisPool.returnResource(j);
+            }
+        }
+	}
+
+    /**
+     * @param userId
+     * @param postIds
+     */
+    public static void refreshBusinessCommunityFeed(Long userId, List<String> postIds) {
+		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
+		Jedis j = null;
+        try {
+            j = jedisPool.getResource();
+            j.del(BIZ_FEED_KEY +userId);                 // delete previous list
+
+            for (String postId : postIds) {
+                j.rpush(BIZ_FEED_KEY +userId, postId);   // push to list tail.
             }
 
             // Note: Might need to expire() on user's list to handle inactive accounts
@@ -70,7 +95,30 @@ public class FeedProcessor {
         try {
             j = jedisPool.getResource();
             // fetch front list entries
-            ids = j.lrange(USER + u.id, offset * pagerows, ((offset + 1)*pagerows-1));
+            ids = j.lrange(SOCIAL_FEED_KEY + u.id, offset * pagerows, ((offset + 1)*pagerows-1));
+        } finally {
+            if (j != null) {
+		        jedisPool.returnResource(j);
+            }
+        }
+		return ids;
+	}
+
+    /**
+     * For homepage display.
+     * @param u
+     * @param offset
+     * @param pagerows
+     * @return
+     */
+	public static List<String> getBusinessFeedIds(User u, int offset, int pagerows) {
+        JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
+        Jedis j = null;
+        List<String> ids = null;
+        try {
+            j = jedisPool.getResource();
+            // fetch front list entries
+            ids = j.lrange(BIZ_FEED_KEY + u.id, offset * pagerows, ((offset + 1)*pagerows-1));
         } finally {
             if (j != null) {
 		        jedisPool.returnResource(j);
@@ -86,7 +134,7 @@ public class FeedProcessor {
         List<String> ids = null;
         try {
             j = jedisPool.getResource();
-		    ids = j.lrange(USER + u.id, 0, -1);
+		    ids = j.lrange(SOCIAL_FEED_KEY + u.id, 0, -1);
         } finally {
             if (j != null) {
 		        jedisPool.returnResource(j);

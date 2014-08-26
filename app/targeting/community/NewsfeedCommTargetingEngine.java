@@ -1,6 +1,7 @@
 package targeting.community;
 
 import common.collection.Pair;
+import common.system.config.ConfigurationKeys;
 import common.utils.NanoSecondStopWatch;
 import org.elasticsearch.common.joda.time.DateTime;
 import play.Play;
@@ -21,12 +22,9 @@ import static targeting.community.NewsfeedCommWeightDistributor.DistributionResu
 public class NewsfeedCommTargetingEngine {
     private static final play.api.Logger logger = play.api.Logger.apply(NewsfeedCommTargetingEngine.class);
 
-    private static final String NEWSFEED_FULLLENGTH_PROP = "newsfeed.fulllength";
-    private static final String NEWSFEED_TIMEDISORDER_TOL_PROP = "newsfeed.timedisorder.tolerance";
-
     // Configurations for news feed
-    public static final int NEWSFEED_FULLLENGTH = Play.application().configuration().getInt(NEWSFEED_FULLLENGTH_PROP, 120);
-    public static final double NEWSFEED_TIME_TOL = Play.application().configuration().getDouble(NEWSFEED_TIMEDISORDER_TOL_PROP, 0.15d);  // 15%
+    public static final int NEWSFEED_FULLLENGTH = Play.application().configuration().getInt(ConfigurationKeys.NEWSFEED_FULLLENGTH_PROP, 120);
+    public static final double NEWSFEED_TIME_TOL = Play.application().configuration().getDouble(ConfigurationKeys.NEWSFEED_TIMEDISORDER_TOL_PROP, 0.15d);  // 15%
 
     private static final long MAX_TIME_TOLERANCE = 3 * 24 * 60 * 60 * 1000;
 

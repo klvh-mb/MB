@@ -18,7 +18,8 @@ public class JedisCache {
     // All Redis Cache Key Prefix
     public static final String ARTICLE_SLIDER_PREFIX = SYS_PREFIX + "user_sc_";
     public static final String USER_FRIENDS_PREFIX = SYS_PREFIX + "user_frd_";
-    public static final String USER_POST_PREFIX = SYS_PREFIX + "user_";
+    public static final String SOCIAL_FEED_PREFIX = SYS_PREFIX + "user_";
+    public static final String BIZ_FEED_PREFIX = SYS_PREFIX + "biz_";
     public static final String COMMUNITY_POST_PREFIX = SYS_PREFIX + "comm_";
     public final static String TODAY_WEATHER_KEY = "TODAY_WEATHER";
     
