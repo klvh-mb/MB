@@ -114,7 +114,6 @@ public class SocialActivity {
 				notification.save();
 			}
 				break;
-
 			}
 		}
 
@@ -142,6 +141,7 @@ public class SocialActivity {
                         if(notification == null){
                             notification = new Notification();
                             notification.notificationType = NotificationType.POSTED;
+                            notification.target = socialAction.target;
                             notification.targetType = SocialObjectType.COMMUNITY;
                             notification.recipient = user.id;
                             notification.count++;
@@ -185,6 +185,8 @@ public class SocialActivity {
                         if(notification == null){
                             notification = new Notification();
                             notification.addToList(User.findById(socialAction.actor));
+                            notification.target = socialAction.target;
+                            notification.targetType = SocialObjectType.COMMUNITY;
                             notification.notificationType = NotificationType.POSTED_QUESTION;
                             notification.recipient = user.id;
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
@@ -235,7 +237,7 @@ public class SocialActivity {
 			        	notification.count = 1L;
 			        	notification.socialActionID = socialAction.target;
 			        	jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
-			        	jsonMap.put("onClick", "#/community/" + post.community.id + "/moment");
+			        	jsonMap.put("onClick", "/#/post-landing/id/"+post.id+"/communityId/"+post.community.id);
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 			        	notification.addToList(User.findById(socialAction.actor));
 			        	notification.message = socialAction.actorname+ " Liked on your Post ";
@@ -244,7 +246,7 @@ public class SocialActivity {
 			        	notification.save();
 					} else {
 						jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
-			        	jsonMap.put("onClick", "#/community/" + post.community.id + "/moment");
+			        	jsonMap.put("onClick", "/#/post-landing/id/"+post.id+"/communityId/"+post.community.id);
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 						notification.count++;
 						notification.addToList(User.findById(socialAction.actor));
@@ -344,7 +346,7 @@ public class SocialActivity {
 			        	notification.socialActionID = socialAction.target;
 			        	notification.addToList(User.findById(socialAction.actor));
 			        	jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
-			        	jsonMap.put("onClick", "/#/community/"+ post.community.id +"/question");
+			        	jsonMap.put("onClick", "/#/qna-landing/id/"+post.id+"/communityId/"+post.community.id);
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 			        	notification.message = socialAction.actorname+ " Liked on your Question ";
 			        	notification.status = 0;
@@ -352,7 +354,7 @@ public class SocialActivity {
 			        	notification.save();
 					} else {
 						jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
-			        	jsonMap.put("onClick", "/#/community/"+ post.community.id +"/question");
+			        	jsonMap.put("onClick", "/#/qna-landing/id/"+post.id+"/communityId/"+post.community.id);
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 						notification.count++;
 						notification.addToList(User.findById(socialAction.actor));
@@ -386,7 +388,7 @@ public class SocialActivity {
 		        	notification.count = 1L;
 		        	notification.socialActionID = socialAction.target;
 		        	jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
-		        	jsonMap.put("onClick", "/#/community/"+post.community.id+"/moment");
+		        	jsonMap.put("onClick", "/#/post-landing/id/"+post.id+"/communityId/"+post.community.id);
 		        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 		        	notification.addToList(User.findById(socialAction.actor));
 		        	notification.message = socialAction.actorname+ " Commented on your Post ";
@@ -397,7 +399,7 @@ public class SocialActivity {
 					notification.count++;
 					notification.addToList(User.findById(socialAction.actor));
 					jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
-		        	jsonMap.put("onClick", "/#/community/"+post.community.id+"/moment");
+		        	jsonMap.put("onClick", "/#/post-landing/id/"+post.id+"/communityId/"+post.community.id);
 		        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 		        	notification.status = 0;
 		        	notification.setMessage(notification.usersName+ " Commented on your Post ");
@@ -422,7 +424,7 @@ public class SocialActivity {
 		        	notification.recipient = Post.findById(socialAction.target).owner.id;
 		        	notification.count = 1L;
 		        	jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
-		        	jsonMap.put("onClick", "/#/community/"+ post.community.id +"/question");
+		        	jsonMap.put("onClick", "/#/qna-landing/id/"+post.id+"/communityId/"+post.community.id);
 		        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 		        	notification.socialActionID = socialAction.target;
 		        	notification.addToList(User.findById(socialAction.actor));
@@ -434,7 +436,7 @@ public class SocialActivity {
 					notification.count++;
 					notification.addToList(User.findById(socialAction.actor));
 					jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
-		        	jsonMap.put("onClick", "/#/community/"+ post.community.id +"/question");
+		        	jsonMap.put("onClick", "/#/qna-landing/id/"+post.id+"/communityId/"+post.community.id);
 		        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 		        	notification.setMessage(notification.usersName+ " Answered on your Question ");
 		        	notification.status = 0;
