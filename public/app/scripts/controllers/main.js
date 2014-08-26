@@ -4573,6 +4573,7 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 		allConversationService.startConversation.get({id: uid},
 				function(data){
 			$scope.conversations = data;
+			$scope.selectedIndex = 0; 
 			$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
 			usSpinnerService.stop('loading...');
 		});
@@ -4585,6 +4586,7 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 			$scope.conversations = data;
 			$scope.messages = 0;
 			$scope.noMore = false;
+			$scope.selectedIndex = 0; 
 			usSpinnerService.stop('loading...');
 		});
 	}
@@ -4616,7 +4618,7 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
         $scope.img_id = imageId;
     }
     
-	$scope.selectedindex = 0; 
+	$scope.selectedIndex = 0; 
 	$scope.setSelectedIndex = function($index) {
 		$scope.selectedIndex = $index ;
 	}

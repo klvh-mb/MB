@@ -193,7 +193,7 @@ public class Conversation extends domain.Entity implements Serializable,
 		}
 		if(msgText != null){
 			for(Emoticon emoticon : Emoticon.getEmoticons()){
-				msgText = msgText.replace(emoticon.code, String.format("<img class='emoticon' src='%s'>", emoticon.url));
+				msgText = msgText.replace(emoticon.name, emoticon.url);
 			}
 		}
 		return conversation.addMessage(sender, msgText);
