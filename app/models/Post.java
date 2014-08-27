@@ -144,14 +144,20 @@ public class Post extends SocialObject implements Likeable, Commentable {
         // push to / remove from community
         if (!this.deleted) {
             FeedProcessor.pushToCommunity(this);
+            
+            if (this.postType == PostType.SIMPLE) {
+                owner.postsCount++;
+            } else if (this.postType == PostType.QUESTION) {
+                owner.questionsCount++;
+            }
         } else {
             FeedProcessor.removeFromCommunity(this);
-        }
-        
-        if (this.postType == PostType.SIMPLE) {
-            owner.postsCount++;
-        } else if (this.postType == PostType.QUESTION) {
-            owner.questionsCount++;
+            
+            if (this.postType == PostType.SIMPLE) {
+                owner.postsCount--;
+            } else if (this.postType == PostType.QUESTION) {
+                owner.questionsCount--;
+            }
         }
     }
     
