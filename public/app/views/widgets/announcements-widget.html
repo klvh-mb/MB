@@ -4,7 +4,7 @@
     </div>
     <div class="content-wrapper">
         <ul>
-            <li data-ng-repeat="announcement in announcements" ng-switch on="announcement.url">
+            <li data-ng-repeat="announcement in announcements" ng-switch on="announcement.url" ng-class-odd="'announcement-general-odd'" ng-class-even="'announcement-general-even'">
                 <span ng-switch-when="url.length > 0">
                     <a href="{{announcement.url}}"><img src="{{announcement.ic}}" ng-if="announcement.ic.length > 0">{{announcement.t}}</a>
                 </span>
