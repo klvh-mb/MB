@@ -851,7 +851,7 @@ public class User extends SocialObject implements Subject, Socializable {
         } catch (NoResultException e) {
             return null;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.underlyingLogger().error("Error in findByUsernamePasswordIdentity", e);
             return null;
         }
     }
@@ -976,7 +976,7 @@ public class User extends SocialObject implements Subject, Socializable {
         } catch (NoResultException e) {
             return null;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.underlyingLogger().error("Error in findByEmail", e);
             return null;
         }
     }
@@ -992,7 +992,7 @@ public class User extends SocialObject implements Subject, Socializable {
         } catch (NoResultException e) {
             return null;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.underlyingLogger().error("Error in findByFbEmail", e);
             return null;
         }
     }
@@ -1084,7 +1084,7 @@ public class User extends SocialObject implements Subject, Socializable {
         } catch (NoResultException e) {
             return null;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.underlyingLogger().error("Error in findById", e);
             return null;
         }
     }

@@ -22,9 +22,9 @@ import domain.Creatable;
 import domain.Updatable;
 
 @Entity
-public class Conversation extends domain.Entity implements Serializable,
-		Creatable, Updatable {
-
+public class Conversation extends domain.Entity implements Serializable, Creatable, Updatable {
+    private static final play.api.Logger logger = play.api.Logger.apply(User.class);
+    
 	public Conversation(){}
 	
 	public Conversation(User user1, User user2) {
@@ -87,15 +87,12 @@ public class Conversation extends domain.Entity implements Serializable,
 	}
 
 	public static Conversation findBetween(User u1, User u2) {
-		Query q = JPA
-				.em()
-				.createQuery(
-						"SELECT c from Conversation c  where ((user1 = ?1 and user2 = ?2) or (user1 = ?2 and user2 = ?1))");
+		Query q = JPA.em().createQuery(
+		        "SELECT c from Conversation c  where ((user1 = ?1 and user2 = ?2) or (user1 = ?2 and user2 = ?1))");
 		q.setParameter(1, u1);
 		q.setParameter(2, u2);
 		
 		try {
-			
 			return (Conversation) q.getSingleResult();
 		} catch (NoResultException e) {
 			return null;
@@ -103,14 +100,12 @@ public class Conversation extends domain.Entity implements Serializable,
 	}
 
 	public static List<Conversation> findAllConversations(User user, int latest) {
-		Query q = JPA
-				.em()
-				.createQuery(
-						"SELECT c from Conversation c  where ((user1 = ?1 and (user1_archive_time < conv_time or user1_archive_time is NULL )) or (user2 = ?1 and (user2_archive_time < conv_time or user2_archive_time is NULL))) order by updated_date desc");
+		Query q = JPA.em().createQuery(
+		        "SELECT c from Conversation c  where ((user1 = ?1 and (user1_archive_time < conv_time or user1_archive_time is NULL )) or (user2 = ?1 and (user2_archive_time < conv_time or user2_archive_time is NULL))) order by updated_date desc");
 		q.setParameter(1, user);
 		
 		try {
-			return  q.setMaxResults(latest).getResultList();
+			return q.setMaxResults(latest).getResultList();
 		} catch (NoResultException e) {
 			return null;
 		}
@@ -131,27 +126,28 @@ public class Conversation extends domain.Entity implements Serializable,
 	public String getLastMessage(User user) {
 		Message message;
 		
-		Query q = JPA
-					.em()
-					.createQuery(
-							"SELECT m FROM Message m WHERE m.date=(SELECT MAX(date) FROM Message WHERE conversation_id = ?1) and m.date > ?2");
-			q.setParameter(1, this.id);
-			if(this.user1 == user){
-				if(this.user2_archive_time == null){
-					q.setParameter(2, new Date(0));
-				} else {
-					q.setParameter(2, this.user2_archive_time);
-				}
-			} else {
-				if(this.user1_archive_time == null){
-					q.setParameter(2, new Date(0));
-				} else {
-					q.setParameter(2, this.user1_archive_time);
-				}
-			}
+		Query q = JPA.em().createQuery(
+		        "SELECT m FROM Message m WHERE m.date=(SELECT MAX(date) FROM Message WHERE conversation_id = ?1) and m.date > ?2");
+        q.setParameter(1, this.id);
+        if(this.user1 == user){
+        	if(this.user2_archive_time == null){
+        		q.setParameter(2, new Date(0));
+        	} else {
+        		q.setParameter(2, this.user2_archive_time);
+        	}
+        } else {
+        	if(this.user1_archive_time == null){
+        		q.setParameter(2, new Date(0));
+        	} else {
+        		q.setParameter(2, this.user1_archive_time);
+        	}
+        }
+        
 		try{
 			message = (Message) q.getSingleResult();
 			String body = message.body;
+			return body;
+			/*
 			String data = null;
 			int i = body.indexOf("<img");
 			int pointer = i;
@@ -175,7 +171,11 @@ public class Conversation extends domain.Entity implements Serializable,
 				data = body.substring(0, Math.min(body.length(), 20));
 			}
 			return data;
-		}catch(Exception e){
+			*/
+		} catch (NoResultException e) {
+		    return null;
+		} catch (Exception e){
+		    logger.underlyingLogger().error("Error in getLastMessage", e);
 			return null;
 		}
 	}
