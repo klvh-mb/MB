@@ -120,11 +120,19 @@ public class DataBootstrap {
         
         logger.underlyingLogger().info("bootstrapAnnouncement()");
         
+        // General
         Announcement announcement = 
                 new Announcement(
-                        "歡迎來到 miniBean 小萌豆! 喺呢度您地會搵到最啱傾嘅媽媽爸爸社群! 請開心分享!", 
+                        "歡迎來到 miniBean小萌豆！喺呢度您地會搵到最啱傾嘅媽媽爸爸社群。 請開心分享！", 
                         new DateTime(2015,12,31,0,0).toDate());
         announcement.save();
+        announcement = 
+                new Announcement(
+                        "我地有手機版啦！立即用手機登入 minibean.com.hk 試下啦", 
+                        new DateTime(2015,12,31,0,0).toDate());
+        announcement.save();
+        
+        // Top info
         announcement = 
                 new Announcement(
                         "小萌豆為所有龍媽媽蛇媽媽編制了2015-2016嘅幼兒班申請資訊。<br>請立即到 PN討論區 査看啦<br>" + 

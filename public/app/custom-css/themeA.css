@@ -541,8 +541,27 @@ pre {
 /*Setup Box End*/
 
 /* Box Content Start */
-#announce .content-wrapper ul {
+#announce .content-wrapper {
+}
+#announce ul {
     color: #7E1E00;
+    padding: 0;
+    margin: 0;
+}
+#announce li {
+    padding: 5px 0px;
+    margin: 0;
+    line-height: 1.35;
+    border-top: 1px dotted #ccc;
+}
+#announce li:first-child {
+    border-top: none;
+}
+#announce li.announcement-general-odd {
+    background-color: white;   
+}
+#announce li.announcement-general-even {
+    background-color: white;
 }
 #announce a {
     color: #D8596D;
