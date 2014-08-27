@@ -55,15 +55,15 @@ public class Announcement  {
     public Announcement() {}
     
     public Announcement(String title, Date toDate) {
-        this(title, null, null, null, AnnouncementType.GENERAL, new Date(), toDate, null);
+        this(title, "", "", "", AnnouncementType.GENERAL, new Date(), toDate);
     }
     
     public Announcement(String title, AnnouncementType announcementType, Date toDate) {
-        this(title, null, null, null, announcementType, new Date(), toDate, null);
+        this(title, "", "", "", announcementType, new Date(), toDate);
     }
 
     public Announcement(String title, String description, String icon, String url, 
-            AnnouncementType announcementType, Date fromDate, Date toDate, Location location) {
+            AnnouncementType announcementType, Date fromDate, Date toDate) {
        this.title = title;
        this.description = description;
        this.icon = icon;
