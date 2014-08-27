@@ -12,6 +12,9 @@ body {
 #community-header {
     border-radius: 5px;
 }
+#community-header #community-header-name {
+    bottom: 35px;
+}
 #community-header-menu {
     border-bottom: 1px solid #c0c0c0;
     margin: 0 5px;
