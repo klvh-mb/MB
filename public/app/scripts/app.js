@@ -78,6 +78,7 @@ angular.module('minibean', [
 var minibean = angular.module('minibean');
 
 var URL_IGNORE = [
+    "tracking",
     "template", 
     "assets", 
     "image", 

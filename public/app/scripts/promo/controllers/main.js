@@ -12,12 +12,13 @@ minibeanPromo.controller('PromoController', function($scope, $routeParams, $loca
     log("PromoController completed");
 });
 
-minibeanPromo.controller('PromoPNController',function($scope, $routeParams, $http, promoPNService) {
+minibeanPromo.controller('PromoPNController',function($scope, $routeParams, $http, promoPNService, trackingService) {
     log("PromoPNController starts");
 
     $scope.pnHome = false;
     if ($routeParams.id == undefined) {
         $scope.pnHome = true;
+        trackingService.Track.get({page:'promo-pn-home',fr:$routeParams.fr});
     }
     
     $scope.pnCommunities = promoPNService.PNCommunities.get();
@@ -189,6 +190,16 @@ minibeanPromo.controller('ViewCommunityPostController', function($scope, $routeP
 //
 // Services
 //
+
+minibeanPromo.service('trackingService',function($resource){
+    this.Track = $resource(
+            '/do-tracking?page=:page&fr=:fr',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET'}
+            }
+    );
+});
 
 minibeanPromo.service('promoPNService',function($resource){
     this.PNCommunities = $resource(

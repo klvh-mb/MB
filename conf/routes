@@ -6,6 +6,8 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+GET     /do-tracking                controllers.TrackingController.track
+
 # Promo
 GET     /promo                      controllers.promo.PromoController.index
 GET     /get-promo-pn-communities   controllers.promo.PromoPNController.getPNCommunities()

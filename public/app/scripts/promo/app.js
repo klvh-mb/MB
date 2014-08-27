@@ -44,6 +44,7 @@ angular.module('minibeanPromo', [
 var minibeanPromo = angular.module('minibeanPromo');
 
 var URL_IGNORE = [
+    "tracking",
     "template", 
     "assets", 
     "image", 

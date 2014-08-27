@@ -2,6 +2,16 @@
 
 var minibean = angular.module('minibean');
 
+minibean.service('trackingService',function($resource){
+    this.Track = $resource(
+            '/do-tracking?page=:page&fr=:fr',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET'}
+            }
+    );
+});
+
 minibean.controller('UIController', function($scope, $location, $anchorScroll, $window) {
     $scope.gotoTop = function() {
         // set the location.hash to the id of
