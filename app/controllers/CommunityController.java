@@ -831,7 +831,6 @@ public class CommunityController extends Controller{
             BusinessFeedCommTargetingEngine.indexBusinessNewsfeedForUser(localUser.getId());
     	}
 
-        // TODO
         List<Post> newsFeeds = localUser.getFeedPosts(false, offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
