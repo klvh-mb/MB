@@ -192,46 +192,6 @@ public class NewsfeedCommTargetingEngine {
         }
     }
 
-    private static class PostDistributionTracker {
-        private Map<Long, LinkedList<Tuple>> postDistMap = new HashMap<>();
-
-        public void addCommunity(Long commId, LinkedList<Tuple> posts) {
-            postDistMap.put(commId, posts);
-        }
-
-        public Pair<Long, Tuple> peekLatest(Set<Long> commIds) {
-            Long retCommId = null;
-            Tuple retTuple = null;
-
-            for (Long commId : postDistMap.keySet()) {
-                if (commIds == null || commIds.contains(commId)) {
-                    Tuple tuple = postDistMap.get(commId).peekFirst();
-                    if (tuple != null) {
-                        if (retCommId == null || retTuple == null) {
-                            retCommId = commId;
-                            retTuple = tuple;
-                        } else {
-                            if (tuple.getScore() > retTuple.getScore()) {
-                                retCommId = commId;
-                                retTuple = tuple;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (retCommId != null) {
-                return new Pair<>(retCommId, retTuple);
-            } else {
-                return null;
-            }
-        }
-
-        public void removeLatest(Long commId) {
-            postDistMap.get(commId).pollFirst();
-        }
-    }
-
     /**
      * Normalize entries count to ratio.
      */

@@ -3,7 +3,7 @@ package targeting.community;
 import common.collection.Pair;
 import common.system.config.ConfigurationKeys;
 import common.utils.NanoSecondStopWatch;
-import org.elasticsearch.common.joda.time.DateTime;
+import models.Community;
 import play.Play;
 import processor.FeedProcessor;
 import redis.clients.jedis.Tuple;
@@ -29,14 +29,35 @@ public class BusinessFeedCommTargetingEngine {
     public static void indexBusinessNewsfeedForUser(Long userId) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
+        // get list of business comm ids
+        List<Long> bizCommIds = Community.findIdsByCommunityType(Community.CommunityType.BUSINESS);
+
+        PostDistributionTracker distTracker = new PostDistributionTracker();
+
+        for (Long commId : bizCommIds) {
+            // targeted count
+            int commCount = NEWSFEED_FULLLENGTH;
+            // real posts
+            LinkedList<Tuple> commPosts = FeedProcessor.getCommunityMostRecentPosts(commId, commCount);
+
+            if (commPosts.size() > 0) {
+                distTracker.addCommunity(commId, commPosts);  // pass real posts to distribution tracker
+            }
+        }
 
         final List<String> nfPostIds = new ArrayList<>();
 
-        Set<Long> tmpCommIds = new HashSet<>();
-        Tuple lastPost = null;
-
         while (nfPostIds.size() < NEWSFEED_FULLLENGTH) {
-           break;
+            Pair<Long, Tuple> postPair = distTracker.peekLatest(null);
+
+            if (postPair != null) {
+                nfPostIds.add(postPair.second.getElement());
+                distTracker.removeLatest(postPair.first);
+            }
+            else {
+                logger.underlyingLogger().info("[u="+userId+"] Business_NF_size="+nfPostIds.size());
+                break;
+            }
         }
 
         // Refresh with result

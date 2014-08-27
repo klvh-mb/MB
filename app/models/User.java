@@ -1329,10 +1329,12 @@ public class User extends SocialObject implements Subject, Socializable {
         return (List<Article>)query.getResultList();
     }
     
-    public List<Post> getNewsfeedsAtHomePage(int offset, int limit) {
+    public List<Post> getFeedPosts(boolean isSocialFeed, int offset, int limit) {
         final NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
-        List<String> ids = FeedProcessor.getUserFeedIds(this, offset, limit);
+        List<String> ids = isSocialFeed ?
+            FeedProcessor.getUserFeedIds(this, offset, limit) : FeedProcessor.getBusinessFeedIds(this, offset, limit);
+
         if (ids == null || ids.size() == 0) {
             return null;
         }
@@ -1342,13 +1344,14 @@ public class User extends SocialObject implements Subject, Socializable {
 
         String idsStr = ids.toString();
         String idsForIn = idsStr.substring(1, idsStr.length() - 1);
+
         Query query = JPA.em().createQuery(
                 "SELECT p from Post p where p.id in (" + idsForIn + ") and p.deleted = false order by FIELD(p.id," + idsForIn + ")");
         List<Post> results = (List<Post>)query.getResultList();
         sw2.stop();
 
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+id+"] getNewsfeedsAtHomePage(offset="+offset+",limit="+limit+") "+
+            logger.underlyingLogger().debug("[u="+id+"] getFeedPosts(offset="+offset+",limit="+limit+") "+
                     "Redis took "+sw.getElapsedMS()+"ms, DB took "+sw2.getElapsedMS()+"ms");
         }
         return results;

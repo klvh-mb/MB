@@ -195,6 +195,7 @@ GET		/get-my-updates/:timestamp				controllers.CommunityController.getMyUpdates(
 GET		/get-my-live-updates/:timestamp			controllers.CommunityController.getMyLiveUpdates(timestamp:Long)
 GET		/get-next-news-feeds/:timestamp			controllers.CommunityController.getNextNewsFeeds(timestamp:Long)	
 GET		/get-newsfeeds/:offset					controllers.CommunityController.getNewsfeeds(offset:Integer)
+GET		/get-businessfeeds/:offset			    controllers.CommunityController.getBusinessfeeds(offset:Integer)
 
 GET		/like-post/:post_id						controllers.CommunityController.likeThePost(post_id:Long)
 GET		/unlike-post/:post_id					controllers.CommunityController.unlikeThePost(post_id:Long)

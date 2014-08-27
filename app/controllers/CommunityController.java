@@ -29,6 +29,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import targeting.community.BusinessFeedCommTargetingEngine;
 import targeting.community.NewsfeedCommTargetingEngine;
 import viewmodel.CommunitiesParentVM;
 import viewmodel.CommunitiesWidgetChildVM;
@@ -776,35 +777,32 @@ public class CommunityController extends Controller{
         NewsFeedVM vm = new NewsFeedVM(localUser, posts);
         return ok(Json.toJson(vm));
     }
-    
+
+    /**
+     * Play routes AJAX call
+     * @param offset
+     * @return
+     */
     @Transactional
     public static Result getNewsfeeds(int offset) {
         final User localUser = Application.getLocalUser(session());
 
         // reloading newsfeed
         if(offset == 0) {
-            logger.underlyingLogger().info("STS [u="+localUser.id+"][name="+localUser.name+"] Reloading newsfeed");
+            logger.underlyingLogger().info("STS [u="+localUser.id+"][name="+localUser.name+"] Reloading social newsfeed");
             // Re-index user's community feed
             NewsfeedCommTargetingEngine.indexCommNewsfeedForUser(localUser.getId());
     	}
 
-        List<Post> newsFeeds = localUser.getNewsfeedsAtHomePage(offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        List<Post> newsFeeds = localUser.getFeedPosts(true, offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         List<CommunityPostVM> posts = new ArrayList<>();
         if (newsFeeds != null) {
-            Map<Long, Boolean> userCommMemberMap = new HashMap<>();
+            final boolean isMember = true;    // must be member of community for social NF entries
 
             for (Post p : newsFeeds) {
-                Long commId = p.getCommunity().getId();
-
-                Boolean isMember = userCommMemberMap.get(commId);
-                if (isMember == null) {
-                    isMember = localUser.isMemberOf(commId);
-                    userCommMemberMap.put(commId, isMember);
-                }
-
                 CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser, isMember);
                 posts.add(post);
             }
@@ -814,6 +812,43 @@ public class CommunityController extends Controller{
 
         sw.stop();
         logger.underlyingLogger().info("[u="+localUser.id+"] getNewsfeeds(offset="+offset+") count="+posts.size()+". vm create Took "+sw.getElapsedMS()+"ms");
+        return ok(Json.toJson(vm));
+    }
+
+    /**
+     * Play routes AJAX call
+     * @param offset
+     * @return
+     */
+    @Transactional
+    public static Result getBusinessfeeds(int offset) {
+        final User localUser = Application.getLocalUser(session());
+
+        // reloading business feed
+        if(offset == 0) {
+            logger.underlyingLogger().info("STS [u="+localUser.id+"][name="+localUser.name+"] Reloading business newsfeed");
+            // Re-index user's biz feed
+            BusinessFeedCommTargetingEngine.indexBusinessNewsfeedForUser(localUser.getId());
+    	}
+
+        List<Post> newsFeeds = localUser.getFeedPosts(false, offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        List<CommunityPostVM> posts = new ArrayList<>();
+        if (newsFeeds != null) {
+            final boolean isMember = false;    // must NOT be member for biz NF entries
+
+            for (Post p : newsFeeds) {
+                CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser, isMember);
+                posts.add(post);
+            }
+        }
+
+        NewsFeedVM vm = new NewsFeedVM(localUser, posts);
+
+        sw.stop();
+        logger.underlyingLogger().info("[u="+localUser.id+"] getBusinessfeeds(offset="+offset+") count="+posts.size()+". vm create Took "+sw.getElapsedMS()+"ms");
         return ok(Json.toJson(vm));
     }
     
