@@ -128,10 +128,10 @@ public class DataBootstrap {
         announcement = 
                 new Announcement(
                         "小萌豆為所有龍媽媽蛇媽媽編制了2015-2016嘅幼兒班申請資訊。<br>請立即到 PN討論區 査看啦<br>" + 
-                        "<span style='margin-left:25px;width:40%;display:inline-block;'><a href='#/community/49/question'><b>港島PN討論區</b></a></span>" + 
-                        "<span style='margin-left:25px;width:40%;display:inline-block;'><a href='#/community/50/question'><b>九龍PN討論區</b></a></span>" + 
-                        "<span style='margin-left:25px;width:40%;display:inline-block;'><a href='#/community/51/question'><b>新界PN討論區</b></a></span>" +
-                        "<span style='margin-left:25px;width:40%;display:inline-block;'><a href='#/community/53/question'><b>離島PN討論區</b></a></span>",
+                        "<span style='margin-left:25px;width:40%;display:inline-block;'><a href='#/community/49/question'>港島PN討論區</a></span>" + 
+                        "<span style='margin-left:25px;width:40%;display:inline-block;'><a href='#/community/50/question'>九龍PN討論區</a></span>" + 
+                        "<span style='margin-left:25px;width:40%;display:inline-block;'><a href='#/community/51/question'>新界PN討論區</a></span>" +
+                        "<span style='margin-left:25px;width:40%;display:inline-block;'><a href='#/community/53/question'>離島PN討論區</a></span>",
                         AnnouncementType.TOP_INFO, 
                         new DateTime(2014,12,31,0,0).toDate());
         announcement.save();
