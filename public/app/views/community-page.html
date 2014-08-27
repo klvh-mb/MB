@@ -13,7 +13,7 @@
                     <a href="#/about/activities" class="userName">{{userInfo.firstName}}</a>
                 </div>
     			<!--ProfilePicture End -->
-    			<div ng-controller="AnnouncementsWidgetController">
+    			<div ng-controller="AnnouncementsWidgetController" ng-show="announcements.length > 0">
                     <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/widgets/announcements-widget.html'"></div>
                 </div>
     			<!--Announce End -->

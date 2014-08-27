@@ -10,17 +10,25 @@ minibean.controller('UIController', function($scope, $location, $anchorScroll, $
     };
 });
 
-minibean.controller('AnnouncementsWidgetController',function($scope, $http, announcementsWidgetService) {
+minibean.controller('AnnouncementsWidgetController',function($scope, $http, announcementsService) {
     log("AnnouncementsWidgetController starts");
     
-    $scope.announcements = announcementsWidgetService.getAnnouncements.get();
+    $scope.announcements = announcementsService.getGeneralAnnouncements.get();
     
     log("AnnouncementsWidgetController completed");
 });
 
-minibean.service('announcementsWidgetService',function($resource) {
-    this.getAnnouncements = $resource(
-            '/get-announcements',
+minibean.service('announcementsService',function($resource) {
+    this.getGeneralAnnouncements = $resource(
+            '/get-general-announcements',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    
+    this.getTopAnnouncements = $resource(
+            '/get-top-announcements',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get',isArray:true}
@@ -227,12 +235,14 @@ minibean.controller('UserInfoServiceController',function($scope,userInfoService)
     log("UserInfoServiceController completed");
 });
 
-minibean.controller('ApplicationController',function($scope, $location, $interval, applicationInfoService, userInfoService, userNotification, userSimpleNotifications,
-	acceptJoinRequestService, acceptFriendRequestService, userMessageNotifications, notificationMarkReadService, usSpinnerService){
+minibean.controller('ApplicationController',function($scope, $location, $interval, applicationInfoService, announcementsService, userInfoService, 
+    userNotification, userSimpleNotifications, acceptJoinRequestService, acceptFriendRequestService, userMessageNotifications, notificationMarkReadService, usSpinnerService){
 
     log("ApplicationController starts");
 
     window.isBrowserTabActive = true;
+
+    $scope.topAnnouncements = announcementsService.getTopAnnouncements.get();
 
     $scope.applicationInfo = applicationInfoService.ApplicationInfo.get();
 	$scope.userInfo = userInfoService.UserInfo.get();
@@ -251,7 +261,6 @@ minibean.controller('ApplicationController',function($scope, $location, $interva
 	$scope.isNOreaded = true;
 	
 	$scope.accept_friend_request = function(id, notify_id) {
-		
 		angular.forEach($scope.friend_requests, function(request, key){
 			if(request.id == id) {
 				request.isLoadingEnable = true;

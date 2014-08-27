@@ -541,6 +541,9 @@ pre {
 /*Setup Box End*/
 
 /* Box Content Start */
+#announce .content-wrapper ul {
+    color: #7E1E00;
+}
 #announce a {
     color: #D8596D;
 }

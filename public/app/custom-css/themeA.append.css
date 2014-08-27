@@ -853,3 +853,17 @@ span.notif-count {
     max-width: 880px; 
     max-height: 620px;
 }
+.alert {
+    padding: 5px 15px;
+    margin-bottom: 7px;
+}
+.alert.alert-info {
+    color: #111111;
+    background: #dff3f8;
+    border-color: #93b9d8;
+}
+.alert.alert-warning {
+    color: #111111;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}

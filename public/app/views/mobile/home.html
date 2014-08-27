@@ -6,9 +6,12 @@
 	<div id="content">
 		<div class="row">
     		<div>
+                <div ng-show="topAnnouncements.length > 0">
+                    <div data-ng-include data-src="'/assets/app/views/top-announcements.html'"></div>
+                </div>
                 <div class="general-box">
                     <div class="wall-title">
-                        <span class="wall-icon icon-title-friendwall"></span><a href="#" style="cursor: pointer;"><font style="font-size:15px;font-weight:normal;vertical-align:middle;">我的社群動向</font></a>
+                        <span class="wall-icon icon-title-friendwall"></span><a href="#" style="cursor:pointer;"><font style="font-size:15px;font-weight:normal;vertical-align:middle;">我的社群動向</font></a>
                         <a href="#" class="pull-right"><i class="glyphicon glyphicon-refresh"></i></a>
                     </div>
                 </div>

@@ -1,16 +1,15 @@
 package models;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Query;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -29,11 +28,15 @@ public class Announcement  {
     public Long id;
     
     @Required
+    @Column(length=2000)
     public String title;
     
+    @Column(length=2000)
     public String description;
     
     public String icon;
+    
+    public String url;
     
     @Enumerated(EnumType.STRING)
     public AnnouncementType announcementType;
@@ -42,70 +45,38 @@ public class Announcement  {
     
     public Date toDate;
     
-    @ManyToOne
-    public Location location;       // most of the time just need to check location.LocationCode
-    
     public static enum AnnouncementType {
         GENERAL,
-        ALERT,
+        TOP_INFO,
+        TOP_ALERT,
         PROMOTIONS
     }
     
     public Announcement() {}
     
     public Announcement(String title, Date toDate) {
-        this(title, "", "", AnnouncementType.GENERAL, new Date(), toDate, null);
-    }
-
-    public Announcement(String title, Date toDate, Location location) {
-        this(title, "", "", AnnouncementType.GENERAL, new Date(), toDate, location);
+        this(title, null, null, null, AnnouncementType.GENERAL, new Date(), toDate, null);
     }
     
     public Announcement(String title, AnnouncementType announcementType, Date toDate) {
-        this(title, "", "", announcementType, new Date(), toDate, null);
+        this(title, null, null, null, announcementType, new Date(), toDate, null);
     }
 
-    public Announcement(String title, AnnouncementType announcementType, Date toDate, Location location) {
-        this(title, "", "", announcementType, new Date(), toDate, location);
-    }
-    
-    public Announcement(String title, String description, String icon, Date toDate) {
-        this(title, description, icon, AnnouncementType.GENERAL, new Date(), toDate, null);
-    }
-    
-    public Announcement(String title, String description, String icon, Date toDate, Location location) {
-        this(title, description, icon, AnnouncementType.GENERAL, new Date(), toDate, location);
-    }
-    
-    public Announcement(String title, String description, String icon, 
+    public Announcement(String title, String description, String icon, String url, 
             AnnouncementType announcementType, Date fromDate, Date toDate, Location location) {
        this.title = title;
        this.description = description;
        this.icon = icon;
+       this.url = url;
        this.announcementType = announcementType;
        this.fromDate = fromDate;
        this.toDate = toDate;
-       this.location = location;
     }
     
-    public static List<Announcement> getAnnouncements() {
-        return getAnnouncements(null);
-    }
-    
-    public static List<Announcement> getAnnouncements(Location location) {
-        Query q = JPA.em().createQuery("select a from Announcement a where fromDate < NOW() and toDate > NOW()");
-        List<Announcement> announcements = (List<Announcement>)q.getResultList();
-        if (location == null) {
-            return announcements;
-        }
-        
-        List<Announcement> announcementsByLocation = new ArrayList<Announcement>();
-        for (Announcement announcement : announcements) {
-            if (location.locationCode == announcement.location.locationCode) {
-                announcementsByLocation.add(announcement);
-            }
-        }
-        return announcementsByLocation;
+    public static List<Announcement> getAnnouncements(AnnouncementType announcementType) {
+        Query q = JPA.em().createQuery("select a from Announcement a where announcementType = ?1 and fromDate < NOW() and toDate > NOW()");
+        q.setParameter(1, announcementType);
+        return (List<Announcement>)q.getResultList();
     }
     
     @Override
@@ -119,9 +90,8 @@ public class Announcement  {
     
     @Override
     public  String toString() {
-        return "[" + location.locationCode + "|" + announcementType + 
-                "|" + title + "|" + description + "|" + icon + "|" + fromDate + 
-                "|" + toDate + "]";
+        return "[" + announcementType + "|" + title + "|" + description + "|" + 
+                icon + "|"  + url + "|" + fromDate + "|" + toDate + "]";
     }
     
     @Transactional

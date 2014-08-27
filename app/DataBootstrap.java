@@ -4,6 +4,7 @@ import java.util.List;
 import javax.persistence.Query;
 
 import models.Announcement;
+import models.Announcement.AnnouncementType;
 import models.ArticleCategory;
 import models.Community;
 import models.Community.CommunityType;
@@ -123,6 +124,16 @@ public class DataBootstrap {
                 new Announcement(
                         "歡迎來到 miniBean 小萌豆! 喺呢度您地會搵到最啱傾嘅媽媽爸爸社群! 請開心分享!", 
                         new DateTime(2015,12,31,0,0).toDate());
+        announcement.save();
+        announcement = 
+                new Announcement(
+                        "小萌豆為所有龍媽媽蛇媽媽編制了2015-2016嘅幼兒班申請資訊。<br>請立即到 PN討論區 査看啦<br>" + 
+                        "<span style='margin-left:25px;width:40%;display:inline-block;'><a href='#/community/49/question'><b>港島PN討論區</b></a></span>" + 
+                        "<span style='margin-left:25px;width:40%;display:inline-block;'><a href='#/community/50/question'><b>九龍PN討論區</b></a></span>" + 
+                        "<span style='margin-left:25px;width:40%;display:inline-block;'><a href='#/community/51/question'><b>新界PN討論區</b></a></span>" +
+                        "<span style='margin-left:25px;width:40%;display:inline-block;'><a href='#/community/53/question'><b>離島PN討論區</b></a></span>",
+                        AnnouncementType.TOP_INFO, 
+                        new DateTime(2014,12,31,0,0).toDate());
         announcement.save();
     }
     

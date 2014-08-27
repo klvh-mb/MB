@@ -34,7 +34,6 @@ import play.Play;
 import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
-import play.i18n.Messages;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
 
