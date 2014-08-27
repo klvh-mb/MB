@@ -23,7 +23,7 @@ import domain.Updatable;
 
 @Entity
 public class Conversation extends domain.Entity implements Serializable, Creatable, Updatable {
-    private static final play.api.Logger logger = play.api.Logger.apply(User.class);
+    private static final play.api.Logger logger = play.api.Logger.apply(Conversation.class);
     
 	public Conversation(){}
 	

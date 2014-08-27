@@ -49,7 +49,7 @@ public class Announcement  {
         GENERAL,
         TOP_INFO,
         TOP_ALERT,
-        PROMOTIONS
+        PROMOTION
     }
     
     public Announcement() {}
