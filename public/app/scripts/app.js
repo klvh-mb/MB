@@ -48,6 +48,10 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/qna-landing.html',
         controller : 'QnALandingController'  
       })
+      .when('/community/b/:id/:tab',{
+        templateUrl: '/assets/app/views/business-community-page.html',
+        controller : 'BusinessCommunityPageController'  
+      })
       .when('/article/id/:id',{
     	templateUrl: '/assets/app/views/articlePage.html',
     	controller : 'ShowArticleController'  

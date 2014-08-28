@@ -2,14 +2,105 @@
 
 var minibean = angular.module('minibean');
 
-minibean.service('trackingService',function($resource){
-    this.Track = $resource(
-            '/do-tracking?page=:page&fr=:fr',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'GET'}
-            }
-    );
+minibean.controller('BusinessCommunityPageController', function($scope, $routeParams, $http, profilePhotoModal, iconsService,
+        communityPageService, communityJoinService, userInfoService, searchMembersService, $upload, $timeout, usSpinnerService){
+    
+    log("BusinessCommunityPageController starts");
+
+    $scope.show = false;
+    
+    $scope.selectedTab = 1;
+    $scope.selectedSubTab = 1;
+    var tab = $routeParams.tab;
+    if(tab == 'question'){
+        $scope.selectedSubTab = 1;
+    }
+    if(tab == 'moment'){
+        $scope.selectedSubTab = 2;
+    }
+    if(tab == 'members'){
+        $scope.selectedTab = 2;
+    }
+    if(tab == 'details'){
+        $scope.selectedTab = 3;
+    }
+    
+    $scope.$on('$viewContentLoaded', function() {
+        usSpinnerService.spin('loading...');
+    });
+    
+    $scope.community = communityPageService.Community.get({id:$routeParams.id}, function(data){
+        usSpinnerService.stop('loading...');
+        
+        // special handling - select details tab for PN
+        if (data.ttyp == 'PRE_NURSERY') {
+            $scope.selectedTab = 3;
+        }
+    });
+    
+    communityPageService.isNewsfeedEnabled.get({community_id:$routeParams.id}, function(data) {
+        $scope.newsfeedEnabled = data.newsfeedEnabled; 
+    });
+    
+    $scope.toggleNewsfeedEnabled = function(community_id) {
+        communityPageService.toggleNewsfeedEnabled.get({"community_id":community_id}, function(data) {
+            $scope.newsfeedEnabled = data.newsfeedEnabled; 
+        });
+    }
+    
+    $scope.showImage = function(imageId) {
+        $scope.img_id = imageId;
+    }
+    
+    $scope.coverImage = "/image/get-cover-community-image-by-id/" + $routeParams.id;
+    
+    $scope.openGroupCoverPhotoModal = function(id) {
+        PhotoModalController.url = "image/upload-cover-photo-group/"+id;
+        profilePhotoModal.OpenModal({
+             templateUrl: 'change-profile-photo-modal.html',
+             controller: PhotoModalController
+        },function() {
+            $scope.coverImage = coverImage + "?q="+ Math.random();
+        });
+    }
+    
+    $scope.nonMembers = [];
+    $scope.search_unjoined_users = function(comm_id, query) {
+        if(query.length >1){
+            $scope.nonMembers = searchMembersService.getUnjoinedUsers.get({id : comm_id, query: query});
+        }
+    }
+    
+    $scope.send_invite_to_join = function(group_id, user_id) {
+        searchMembersService.sendInvitationToNonMember.get({group_id : group_id, user_id: user_id}, function() {
+            angular.forEach($scope.nonMembers, function(member, key){
+                if(member.id == user_id) {
+                    $scope.nonMembers.splice($scope.nonMembers.indexOf(member),1);
+                }
+            });
+        });
+    }
+    
+    $scope.send_join = function(id) {
+        usSpinnerService.spin('loading...');
+        this.send_join_request = communityJoinService.sendJoinRequest.get({"id":id}, function(data) {
+            usSpinnerService.stop('loading...');
+            $scope.community.isP = $scope.community.typ == 'CLOSE' ?  true : false;
+            $scope.community.isM = $scope.community.typ == 'OPEN'? true : false;
+        });
+    }
+    
+    $scope.leave_community = function(id) {
+        usSpinnerService.spin('loading...');
+        this.leave_this_community = communityJoinService.leaveCommunity.get({"id":id}, function(data) {
+            usSpinnerService.stop('loading...');
+            $scope.community.isM = false;
+        });
+    }
+    
+    //$scope.icons = iconsService.getCommunityIcons.get();
+    
+    log("BusinessCommunityPageController completed");
 });
 
 minibean.controller('UIController', function($scope, $location, $anchorScroll, $window) {
@@ -28,101 +119,12 @@ minibean.controller('AnnouncementsWidgetController',function($scope, $http, anno
     log("AnnouncementsWidgetController completed");
 });
 
-minibean.service('announcementsService',function($resource) {
-    this.getGeneralAnnouncements = $resource(
-            '/get-general-announcements',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get',isArray:true}
-            }
-    );
-    
-    this.getTopAnnouncements = $resource(
-            '/get-top-announcements',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get',isArray:true}
-            }
-    );
-});
-
 minibean.controller('TodayWeatherInfoController',function($scope, $http, todayWeatherInfoService) {
     log("TodayWeatherInfoController starts");
     
     $scope.todayWeatherInfo = todayWeatherInfoService.getTodayWeatherInfo.get();
     
     log("TodayWeatherInfoController completed");
-});
-
-minibean.service('todayWeatherInfoService',function($resource) {
-    this.getTodayWeatherInfo = $resource(
-            '/get-today-weather-info',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get'}
-            }
-    );
-});
-
-minibean.service('locationService',function($resource){
-    this.getAllDistricts = $resource(
-            '/get-all-districts',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get',isArray:true}
-            }
-    );
-});
-
-minibean.service('postLandingService',function($resource){
-    this.postLanding = $resource(
-            '/post-landing/:id/:communityId',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get',params:{id:'@id',communityId:'@communityId'}}
-            }
-    );
-});
-
-minibean.service('qnaLandingService',function($resource){
-    this.qnaLanding = $resource(
-            '/qna-landing/:id/:communityId',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get',params:{id:'@id',communityId:'@communityId'}}
-            }
-    );
-});
-
-///////////////////////// Search Service Start //////////////////////////////////
-minibean.service('searchService',function($resource){
-	this.userSearch = $resource(
-			'/user-search?query=:q',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{q:'@q'}, isArray:true}
-			}
-	);
-});
-
-minibean.service('sendInvitation',function($resource){
-	this.inviteFriend = $resource(
-			'/send-invite?id=:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{id:'@id'}}
-			}
-	);
-});
-
-minibean.service('unFriendService',function($resource){
-	this.doUnfriend = $resource(
-			'/un-friend?id=:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{id:'@id'}}
-			}
-	);
 });
 
 minibean.controller('SearchController',function($scope, searchService){
@@ -135,106 +137,6 @@ minibean.controller('SearchController',function($scope, searchService){
 	}
 	
 	log("SearchController completed");
-});
-///////////////////////// Search Service End //////////////////////////////////
-
-
-///////////////////////// User Info Service Start //////////////////////////////////
-minibean.service('applicationInfoService',function($resource){
-    this.ApplicationInfo = $resource(
-            '/get-application-info',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'GET'}
-            }
-    );
-});
-
-minibean.service('userInfoService',function($resource){
-	this.UserInfo = $resource(
-			'/get-user-info',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET'}
-			}
-	);
-	
-	this.UserTargetProfile = $resource(
-            '/get-user-target-profile',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'GET'}
-            }
-    );
-});
-
-minibean.service('userNotification',function($resource){
-	this.getAllFriendRequests = $resource(
-			'/get-friend-requests',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', isArray:true}
-			}
-	);
-});
-
-minibean.service('acceptFriendRequestService',function($resource){
-	this.acceptFriendRequest = $resource(
-			'/accept-friend-request?friend_id=:id&notify_id=:notify_id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{id:'@id',notify_id:'@notify_id'}, isArray:true}
-			}
-	);
-});
-
-minibean.service('userSimpleNotifications',function($resource){
-	this.getAllJoinRequests = $resource(
-			'/get-join-requests',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', isArray:true}
-			}
-	);
-});
-
-minibean.service('userMessageNotifications',function($resource){
-	this.getUnreadMsgCount = $resource(
-			'/get-unread-msg-count',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET'}
-			}
-	);
-});
-
-
-minibean.service('acceptJoinRequestService',function($resource){
-	this.acceptJoinRequest = $resource(
-			'/accept-join-request/:member_id/:group_id/:notify_id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{member_id:'@member_id',group_id:'@group_id',notify_id:'@notify_id'}, isArray:true}
-			}
-	);
-	
-	this.acceptInviteRequest = $resource(
-			'/accept-invite-request/:member_id/:group_id/:notify_id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{member_id:'@member_id',group_id:'@group_id',notify_id:'@notify_id'}, isArray:true}
-			}
-	);
-});
-
-minibean.service('notificationMarkReadService',function($resource){
-	this.markAsRead = $resource(
-			'/mark-as-read/:notify_id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{member_id:'@member_id',group_id:'@group_id',notify_id:'@notify_id'}, isArray:true}
-			}
-	);
 });
 
 minibean.controller('UserInfoServiceController',function($scope,userInfoService){
@@ -374,21 +276,6 @@ minibean.controller('ApplicationController',function($scope, $location, $interva
     log("ApplicationController completed");
 });
 
-///////////////////////// User Info Service End //////////////////////////////////
-
-
-
-///////////////////////// User Notification Service Start //////////////////////////////////
-minibean.service('userAboutService',function($resource){
-	this.UserAbout = $resource(
-			'/about-user',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get'}
-			}
-	);
-});
-
 // TODO: I dont like way i am defining PhotoModalController
 var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePhotoModal, usSpinnerService) {
 	$scope.fileReaderSupported = window.FileReader != null;
@@ -463,21 +350,7 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 			profilePhotoModal.CloseModal();
 		});
 	} // End of start
-	
 }
-
-minibean.service('profilePhotoModal',function( $modal){
-	
-	this.OpenModal = function(arg, successCallback) {
-		this.instance = $modal.open(arg);
-		this.onSuccess = successCallback;
-	}
-	
-	this.CloseModal = function() {
-		this.instance.dismiss('close');
-		this.onSuccess();
-	}
-});
 
 minibean.controller('UserAboutController',function($routeParams, $scope, $http, userAboutService, locationService, profilePhotoModal){
 	log("UserAboutController starts");
@@ -557,18 +430,6 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
     }
     
     log("UserAboutController completed");
-});
-
-
-///////////////////////// Create community Home Page  //////////////////////////////////
-minibean.service('editCommunityPageService',function($resource){
-	this.EditCommunityPage = $resource(
-			'/editCommunity/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{id:'@id'}}
-			}
-	);
 });
 
 minibean.controller('EditCommunityController',function($scope,$q, $location,$routeParams, $http, usSpinnerService, iconsService, editCommunityPageService, $upload, profilePhotoModal){
@@ -710,19 +571,6 @@ minibean.controller('SuggestedFriendsUtilityController',function($scope, unFrien
 	log("SuggestedFriendsUtilityController completed");
 });
 
-///////////////////////// User Friends Widget End //////////////////////////////////
-
-///////////////////////// Community Members Widget Service Start //////////////////////////////////
-minibean.service('membersWidgetService',function($resource){
-	this.CommunityMembers = $resource(
-			'/get-community-members/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get'}
-			}
-	);
-});
-
 minibean.controller('CommunityMembersController',function($scope, $routeParams, membersWidgetService, $http){
     log("CommunityMembersController starts");
 
@@ -739,27 +587,6 @@ minibean.controller('CommunityMembersController',function($scope, $routeParams, 
 	}
 	
 	log("CommunityMembersController completed");
-});
-
-///////////////////////// Community Members Widget Service Ends //////////////////////////////////
-
-
-///////////////////////// Community PN Service Start //////////////////////////////////
-minibean.service('pnService',function($resource){
-	this.PNCommunities = $resource(
-            '/get-pn-communities',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'GET', isArray:true}
-            }
-    );
-    this.PNs = $resource(
-			'/getPNs/:id',
-            {alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{id:'@id'},isArray:true}
-			}
-	);
 });
 
 minibean.controller('PNCommunitiesUtilityController', function($scope, $routeParams, pnService, sendJoinRequest, $http){
@@ -843,29 +670,6 @@ minibean.controller('CommunityPNController',function($scope, $routeParams, $http
 	
 	log("CommunityPNController completed");
 });
-///////////////////////// Community PN Ends //////////////////////////////////
-
-
-///////////////////////// User UnJoined Communities Widget Service Start //////////////////////////////////
-minibean.service('unJoinedCommunityWidgetService',function($resource){
-	this.UserCommunitiesNot = $resource(
-			'/get-not-join-community',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get'}
-			}
-	);
-});
-
-minibean.service('sendJoinRequest',function($resource){
-	this.sendRequest = $resource(
-			'/send-request?id=:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{id:'@id'}}
-			}
-	);
-});
 
 minibean.controller('RecommendedCommunityWidgetController',function($scope, usSpinnerService, sendJoinRequest, unJoinedCommunityWidgetService, userInfoService, $http){
     log("RecommendedCommunityWidgetController starts");
@@ -885,50 +689,6 @@ minibean.controller('RecommendedCommunityWidgetController',function($scope, usSp
 	}
 	
 	log("RecommendedCommunityWidgetController completed");
-});
-
-///////////////////////// User UnJoined Communities Widget End //////////////////////////////////
-
-minibean.service('friendsService',function($resource){
-    this.MyFriendsForUtility = $resource(
-            '/get-my-friends-for-utility',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get'}
-            }
-    );
-    
-	this.UserFriendsForUtility = $resource(
-            '/get-user-friends-for-utility/:id',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'GET', params:{id:'@id'}}
-            }
-    );
-    
-    this.MyFriends = $resource(
-			'/get-all-my-friends',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get'}
-			}
-	);
-	
-	this.UserFriends = $resource(
-            '/get-all-user-friends/:id',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'GET', params:{id:'@id'}}
-            }
-    );
-    
-    this.SuggestedFriends = $resource(
-            '/get-suggested-friends',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get'}
-            }
-    );
 });
 
 minibean.controller('MyFriendsUtilityController',function($scope, userInfoService, friendsService, $http){
@@ -963,17 +723,6 @@ minibean.controller('UserFriendsController',function($scope, $routeParams, frien
     $scope.result = friendsService.UserFriends.get({id:$routeParams.id});
     
     log("UserFriendsController completed");
-});
-
-///////////////////////// User All Recommend Communities  //////////////////////////////////
-minibean.service('sendJoinRequest',function($resource){
-	this.sendRequest = $resource(
-			'/send-request?id=:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{id:'@id'}}
-			}
-	);
 });
 
 minibean.controller('CommunityWidgetController',function($scope, $routeParams, usSpinnerService, communityWidgetService, sendJoinRequest, $http, userInfoService){
@@ -1011,20 +760,6 @@ minibean.controller('CommunityWidgetController',function($scope, $routeParams, u
 	log("CommunityWidgetController completed");
 });
 
-///////////////////////// User All Recommend Communities End //////////////////////////////////
-
-
-///////////////////////// User All Communities  //////////////////////////////////
-minibean.service('communityWidgetService',function($resource){
-	this.UserCommunities = $resource(
-			'/get-my-communities',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get'}
-			}
-	);
-});
-
 minibean.controller('UserCommunityWidgetController',function($scope, communityWidgetService){
 	log("UserCommunityWidgetController starts");
 	
@@ -1046,31 +781,6 @@ minibean.controller('UserCommunityWidgetController',function($scope, communityWi
 	
 	log("UserCommunityWidgetController completed");
 });
-
-///////////////////////// User All Communities End //////////////////////////////////
-
-
-///////////////////////// User All Communities  //////////////////////////////////
-minibean.service('communityWidgetByUserService',function($resource){
-	this.UserCommunities = $resource(
-			'/get-user-communities/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get'}
-			}
-	);
-});
-
-minibean.service('allCommunityWidgetByUserService',function($resource){
-	this.UserAllCommunities = $resource(
-			'/get-user-all-communities/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get'}
-			}
-	);
-});
-
 
 minibean.controller('CommunityWidgetByUserIDController',function($scope, $routeParams, usSpinnerService, sendJoinRequest, communityJoinService, allCommunityWidgetByUserService, communityWidgetByUserService , $http, userInfoService){
     log("CommunityWidgetByUserIDController starts");
@@ -1094,22 +804,6 @@ minibean.controller('CommunityWidgetByUserIDController',function($scope, $routeP
 	}
 	
 	log("CommunityWidgetByUserIDController completed");
-});
-
-///////////////////////// User All Communities End //////////////////////////////////
-
-
-
-///////////////////////// User Profile Start //////////////////////////////////
-
-minibean.service('profileService',function($resource){
-	this.Profile = $resource(
-			'/profile/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{id:'@id'}}
-			}
-	);
 });
 
 minibean.controller('ProfileController',function($scope, $routeParams, $location, profileService, friendsService, sendInvitation, unFriendService){
@@ -1158,18 +852,6 @@ minibean.controller('ProfileController',function($scope, $routeParams, $location
     }
     
     log("CommunityWidgetByUserIDController completed");
-});
-
-///////////////////////// User Profile End //////////////////////////////////
-
-minibean.service('communitySearchPageService',function($resource){
-	this.GetPostsFromIndex = $resource(
-			'/searchForPosts/index/:query/:community_id/:offset',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{community_id:'@community_id',query:'@query',offset:'@offset'},isArray:true}
-			}
-	);
 });
 
 minibean.controller('SearchPageController', function($scope, $routeParams, likeFrameworkService, communityPageService, $http, communitySearchPageService, usSpinnerService){
@@ -1304,233 +986,6 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 	}
 	
 	log("SearchPageController completed");
-});
-
-///////////////////////// Community Page Start //////////////////////////////////
-
-minibean.service('communityPageService',function($resource){
-	this.Community = $resource(
-			'/community/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{id:'@id'}}
-			}
-	);
-	
-	this.Posts = $resource(
-            '/community/posts/:id',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get', params:{id:'@id'}}
-            }
-    );
-    
-	this.GetPosts = $resource(
-			'/posts?id=:id&offset=:offset&time=:time',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{id:'@id',offset:'@offset',time:'@time'},isArray:true}
-			}
-	);
-	
-	this.isNewsfeedEnabled = $resource(
-            '/is-newsfeed-enabled-for-community/:community_id',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get', params:{community_id:'@community_id'}}
-            }
-    );
-    
-	this.toggleNewsfeedEnabled = $resource(
-            '/toggle-newsfeed-enabled-for-community/:community_id',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get', params:{community_id:'@community_id'}}
-            }
-    );
-});
-
-minibean.service('postManagementService',function($resource){
-    this.deletePost = $resource(
-            '/delete-post/:postId',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get', params:{postId:'@postId'}}
-            }
-    );
-    
-    this.deleteComment = $resource(
-            '/delete-comment/:commentId',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get', params:{commentId:'@commentId'}}
-            }
-    );
-});
-
-minibean.service('allCommentsService',function($resource){
-	this.comments = $resource(
-			'/comments/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{id:'@id'},isArray:true}
-			}
-	);
-});
-
-minibean.service('communityJoinService',function($resource){
-	this.sendJoinRequest = $resource(
-			'/community/join/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{id:'@id'}}
-			}
-	);
-	
-	this.leaveCommunity = $resource(
-			'/community/leave/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{id:'@id'}}
-			}
-	);
-});
-
-minibean.service('iconsService',function($resource){
-	this.getCommunityIcons = $resource(
-			'/image/getCommunityIcons',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get' ,isArray:true}
-			}
-	);
-	
-	this.getEmoticons = $resource(
-            '/image/getEmoticons',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get' ,isArray:true}
-            }
-    );
-});
-
-minibean.service('searchMembersService',function($resource){
-	this.getUnjoinedUsers = $resource(
-			'/getAllUnjoinedMembers/:id/:query',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{id:'@id',query : '@query'}, isArray:true}
-			}
-	);
-	
-	this.sendInvitationToNonMember = $resource(
-			'/inviteToCommunity/:group_id/:user_id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{group_id:'@group_id',user_id : '@user_id'}, isArray:true}
-			}
-	);
-});
-
-minibean.service('bookmarkPostService', function($resource) {
-	this.bookmarkPost = $resource(
-			'/bookmark-post/:post_id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{post_id:'@post_id'}}
-			}
-	);
-	
-	this.unbookmarkPost = $resource(
-			'/unbookmark-post/:post_id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{post_id:'@post_id'}}
-			}
-	);
-	
-	this.bookmarkArticle = $resource(
-			'/bookmark-article/:article_id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{article_id:'@article_id'}}
-			}
-	);
-	
-	this.unbookmarkArticle = $resource(
-			'/unbookmark-article/:article_id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{article_id:'@article_id'}}
-			}
-	);
-});
-	
-minibean.service('likeFrameworkService', function($resource) {
-
-    this.hitWantAnswerOnQnA = $resource(
-            '/want-ans/:post_id',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get', params:{post_id:'@post_id'}}
-            }
-    );
-    
-    this.hitUnwantAnswerOnQnA = $resource(
-            '/unwant-ans/:post_id',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get', params:{post_id:'@post_id'}}
-            }
-    );
-    
-	this.hitLikeOnPost = $resource(
-			'/like-post/:post_id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{post_id:'@post_id'}}
-			}
-	);
-	
-	this.hitUnlikeOnPost = $resource(
-			'/unlike-post/:post_id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{post_id:'@post_id'}}
-			}
-	);
-	
-	this.hitLikeOnComment = $resource(
-			'/like-comment/:comment_id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{post_id:'@post_id'}}
-			}
-	);
-	
-	this.hitUnlikeOnComment = $resource(
-			'/unlike-comment/:comment_id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{post_id:'@post_id'}}
-			}
-	);
-	
-	this.hitLikeOnArticle = $resource(
-			'/like-article/:article_id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{article_id:'@article_id'}}
-			}
-	);
-	
-	this.hitUnlikeOnArticle = $resource(
-			'/unlike-article/:article_id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{article_id:'@article_id'}}
-			}
-	);
 });
 
 minibean.controller('PostLandingController', function($scope, $routeParams, $http, $timeout, $upload, $validator, 
@@ -2665,35 +2120,6 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 	
 	log("CommunityPostController completed");
 });
-///////////////////////// Community Page  End ////////////////////////////////
-
-///////////////////////// Community QnA Page Start ////////////////////////////////
-minibean.service('communityQnAPageService',function($resource){
-	this.QnAs = $resource(
-			'/communityQnA/questions/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{id:'@id'}}
-			}
-	);
-	this.GetQnAs = $resource(
-			'/questions?id=:id&offset=:offset&time=:time',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{id:'@id',offset:'@offset',time:'@time'},isArray:true}
-			}
-	);
-});
-
-minibean.service('allAnswersService',function($resource){
-	this.answers = $resource(
-			'/answers/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get', params:{id:'@id'},isArray:true}
-			}
-	);
-});
 
 minibean.controller('CommunityQnAController',function($scope, postManagementService, bookmarkPostService, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
     log("CommunityQnAController starts");
@@ -3113,102 +2539,6 @@ minibean.controller('CreateArticleController',function($scope,$http,usSpinnerSer
 	log("CreateArticleController completed");
 });
 
-minibean.service('articleCategoryService',function($resource){
-	this.getAllArticleCategory = $resource(
-			'/getAllArticleCategory',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get' ,isArray:true}
-			}
-	);
-});
-
-
-minibean.service('allArticlesService',function($resource){
-	this.AllArticles = $resource(
-			'/get-all-Articles',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get' ,isArray:true}
-			}
-	);
-	this.NewArticles = $resource(
-			'/get-new-Articles',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get' ,isArray:true}
-			}
-	);
-	this.HotArticles = $resource(
-			'/get-hot-Articles',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get' ,isArray:true}
-			}
-	);
-    this.RecommendedArticles = $resource(
-            '/get-recommended-Articles',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get' ,isArray:true}
-            }
-    );	
-	this.ArticleCategorywise = $resource(
-			'/get-Articles-Categorywise/:id/:offset',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get' ,isArray:true}
-			}
-	);
-	this.SixArticles = $resource(
-			'/get-Six-Articles',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get'}
-			}
-	);
-});
-
-minibean.service('getDescriptionService',function($resource){
-	this.GetDescription = $resource(
-			'/getDescriptionOfArticle/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get'}
-			}
-	);
-});
-
-minibean.service('allRelatedArticlesService',function($resource){
-	this.getRelatedArticles = $resource(
-			'/get-Related-Articles/:id/:category_id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get',isArray:true}
-			}
-	);
-});
-
-minibean.service('deleteArticleService',function($resource){
-	this.DeleteArticle = $resource(
-			'/deleteArticle/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get'}
-			}
-	);
-});
-
-minibean.service('showImageService',function($resource){
-	this.getImage = $resource(
-			'/get-image-url/:id',
-			{alt:'json',callback:'JSON_CALLBACK', },
-			{
-				get: {method:'get'}
-			}
-	);
-});
-
 minibean.controller('ArticleSliderController', function($scope, $modal, $routeParams, showImageService, usSpinnerService, allArticlesService){
     log("ArticleSliderController starts");
   
@@ -3389,26 +2719,6 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 	log("ShowArticleControllerNew completed");
 });
 
-minibean.service('articleService',function($resource){
-	this.ArticleInfo = $resource(
-			'/article/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get'}
-			}
-	);
-});
-
-minibean.service('articleCommentsService',function($resource){
-	this.comments = $resource(
-			'/ArticleComments/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'get' ,isArray:true}
-			}
-	);
-});
-
 minibean.controller('EditArticleController',function($scope,$routeParams,$location, bookmarkPostService, likeFrameworkService, articleCommentsService, userInfoService, usSpinnerService, articleService, articleCategoryService,allRelatedArticlesService,$http){
 	log("EditArticleController starts");
 	
@@ -3504,16 +2814,6 @@ minibean.controller('EditArticleController',function($scope,$routeParams,$locati
 	}
 	
 	log("EditArticleController completed");
-});
-
-minibean.service('newsFeedService',function($resource){
-	this.NewsFeeds = $resource(
-			'/get-newsfeeds/:offset',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{offset:'@offset'}}
-			}
-	);
 });
 
 minibean.controller('NewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, newsFeedService, iconsService) {
@@ -3898,25 +3198,6 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 	}
 	
 	log("NewsFeedController completed");
-});
-	  
-minibean.service('userNewsFeedService',function($resource){
-
-	this.NewsFeedsPosts = $resource(
-			'/get-user-newsfeeds-posts/:offset/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{offset:'@offset',id:'@id'}}
-			}
-	);
-	
-	this.NewsFeedsComments = $resource(
-			'/get-user-newsfeeds-comment/:offset/:id',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{offset:'@offset',id:'@id'}}
-			}
-	);
 });
 
 minibean.controller('UserNewsFeedController', function($scope, $routeParams, $timeout, $upload, postManagementService, bookmarkPostService, likeFrameworkService, userInfoService, $http, allCommentsService, usSpinnerService, userNewsFeedService) {
@@ -4335,33 +3616,6 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 	log("UserNewsFeedController completed");
 });
 
-
-minibean.service('bookmarkService',function($resource){
-	this.bookmarkPost = $resource(
-			'/get-bookmark-post/:offset',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{offset:'@offset'}, isArray:true}
-			}
-	);
-	
-	this.bookmarkArticle = $resource(
-			'/get-bookmark-article/:offsetA',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{offsetA:'@offsetA'}, isArray:true}
-			}
-	);
-	
-	this.bookmarkSummary = $resource(
-            '/get-bookmark-summary',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'GET'}
-            }
-    );
-});
-
 minibean.controller('MyBookmarkController', function($scope, bookmarkPostService, likeFrameworkService, postManagementService, $http, allCommentsService, usSpinnerService, bookmarkService) {
     log("MyBookmarkController starts");
     
@@ -4577,56 +3831,6 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 	}
 	
 	log("MyBookmarkController completed");
-});
-
-///////////////////////// User  Converstion //////////////////////////////////
-
-minibean.service('allConversationService',function($resource){
-	this.UserAllConversation = $resource(
-		'/get-all-Conversation',
-		{alt:'json',callback:'JSON_CALLBACK'},
-		{
-			get: {method:'get',isArray:true}
-		}
-	);
-	
-	this.startConversation = $resource(
-		'/start-Conversation/:id',
-		{alt:'json',callback:'JSON_CALLBACK'},
-		{
-			get: {method:'get', isArray:true}
-		}
-	);
-	
-	this.deleteConversation = $resource(
-		'/delete-Conversation/:id',
-		{alt:'json',callback:'JSON_CALLBACK'},
-		{
-			get: {method:'get', isArray:true}
-		}
-	);
-	
-});
-
-minibean.service('getMessageService',function($resource){
-	this.getMessages = $resource(
-		'/get-messages/:id/:offset',
-		{alt:'json',callback:'JSON_CALLBACK'},
-		{
-			get: {method:'get'}
-		}
-	);
-});
-
-
-minibean.service('searchFriendService',function($resource){
-	this.userSearch = $resource(
-			'/user-friend-search?query=:q',
-			{alt:'json',callback:'JSON_CALLBACK'},
-			{
-				get: {method:'GET', params:{q:'@q'}, isArray:true}
-			}
-	);
 });
 
 minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $routeParams, $sce, searchFriendService, usSpinnerService, getMessageService, allConversationService, iconsService) {
