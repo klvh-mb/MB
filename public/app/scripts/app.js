@@ -17,7 +17,8 @@ angular.module('minibean', [
   'ui.tinymce',
   'ui.utils',
   'ngSanitize',
-  'angularMoment'
+  'angularMoment',
+  'wu.masonry'
 ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -31,6 +32,10 @@ angular.module('minibean', [
       .when('/profile/:id',{
     	templateUrl: '/assets/app/views/visit-profile.html',
     	controller : 'ProfileController'  
+      })
+      .when('/community/:id',{
+        templateUrl: '/assets/app/views/community-page.html',
+        controller : 'CommunityPageController'  
       })
       .when('/community/:id/:tab',{
     	templateUrl: '/assets/app/views/community-page.html',
@@ -48,7 +53,11 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/qna-landing.html',
         controller : 'QnALandingController'  
       })
-      .when('/community/b/:id/:tab',{
+      .when('/business/community/:id',{
+        templateUrl: '/assets/app/views/business-community-page.html',
+        controller : 'BusinessCommunityPageController'  
+      })
+      .when('/business/community/:id/:tab',{
         templateUrl: '/assets/app/views/business-community-page.html',
         controller : 'BusinessCommunityPageController'  
       })

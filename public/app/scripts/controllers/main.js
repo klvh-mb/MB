@@ -7,22 +7,17 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
     
     log("BusinessCommunityPageController starts");
 
-    $scope.show = false;
-    
     $scope.selectedTab = 1;
     $scope.selectedSubTab = 1;
     var tab = $routeParams.tab;
-    if(tab == 'question'){
+    if(tab == 'sharing'){
         $scope.selectedSubTab = 1;
     }
-    if(tab == 'moment'){
+    if(tab == 'question'){
         $scope.selectedSubTab = 2;
     }
     if(tab == 'members'){
         $scope.selectedTab = 2;
-    }
-    if(tab == 'details'){
-        $scope.selectedTab = 3;
     }
     
     $scope.$on('$viewContentLoaded', function() {
@@ -31,11 +26,6 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
     
     $scope.community = communityPageService.Community.get({id:$routeParams.id}, function(data){
         usSpinnerService.stop('loading...');
-        
-        // special handling - select details tab for PN
-        if (data.ttyp == 'PRE_NURSERY') {
-            $scope.selectedTab = 3;
-        }
     });
     
     communityPageService.isNewsfeedEnabled.get({community_id:$routeParams.id}, function(data) {
@@ -1684,7 +1674,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
     if(tab == 'question'){
         $scope.selectedSubTab = 1;
     }
-    if(tab == 'moment'){
+    if(tab == 'sharing'){
         $scope.selectedSubTab = 2;
     }
     if(tab == 'members'){

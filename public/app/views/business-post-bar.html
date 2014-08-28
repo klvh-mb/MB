@@ -1,7 +1,18 @@
 <div class="post-card">
+    <ul>
+        <li class="post-sharing-body">
+            <div data-ng-show="post.hasImage" class="post-body-image">
+                <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
+                    <img data-ng-src="/image/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                </a>
+            </div>
+            <div class="post-sharing-body-text" ng-bind-html="post.pt | to_trusted | highlight: highlightText"></div>
+            <span data-ng-include data-src="'/assets/app/views/like-post.html'"></span>
+        </li>
+    </ul>
+    <!-- Post Body Ends -->
     <ul title="sharing">
         <li class="post-intro post-sharing-line">
-            <span class="post-sharing-tag pull-left" style="margin-right:5px;">♥</span>
             <span class="post-intro-share">分享</span>
             <span class="post-intro-share" ng-show="!isCommunityPage">於 </span>
             <a data-ng-href="/#/community/{{post.cid}}/sharing" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
@@ -19,7 +30,7 @@
         </li>
     </ul>
     <!-- Post Intro Ends -->
-    <ul>
+    <ul class="post-sharing-comments">
         <li class="post-sharing-body-top">
             <a data-ng-href="/#/profile/{{post.oid}}">
                 <img class="post-title-user-image" data-ng-src="/image/get-mini-image-by-id/{{post.oid}}"/>
@@ -32,18 +43,6 @@
             </div>
             <span class="post-date" am-time-ago="post.t"></span>
         </li>
-        <li class="post-sharing-body">
-            <div class="post-sharing-body-text" ng-bind-html="post.pt | to_trusted | highlight: highlightText"></div>
-            <div data-ng-show="post.hasImage" class="post-body-image">
-                <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
-                    <img data-ng-src="/image/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
-                </a>
-            </div>
-            <span data-ng-include data-src="'/assets/app/views/like-post.html'"></span>
-        </li>
-    </ul>
-    <!-- Post Body Ends -->
-    <ul class="post-sharing-comments">
         <li ng-show="post.n_c > 3 && !post.ep">
             <span class="post-qna-answer-count" ng-show="post.n_c > 0 && post.n_c <= 3"><b>{{post.n_c}}個留言</b></span>
             <a href="" ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><b>共{{post.n_c}}個留言</b></a>
@@ -66,7 +65,7 @@
     	        </div>
     	        <div data-ng-show="comment.hasImage" class="post-body-image">
                     <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in comment.imgs" href="">
-                        <img style="max-width:110px; max-height:150px;" data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                        <img style="max-width:70%; max-height:100px;" data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
                     </a>
                 </div>
 	        </span>
@@ -74,7 +73,7 @@
     	<!-- Post Comment box -->
         <li ng-show="post.isC || (community.isM || community.isO)">
             <a data-ng-href="/#/profile/{{userInfo.id}}">
-                <img style="margin-top:5px;" class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
+                <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
             </a>
             <form class="post-comment-box" name="userComment" method="post" action="">
                 <label for="User Comment"></label>
@@ -89,9 +88,9 @@
                         </a>
                     </li>
                 </ul-->
-                <a class="post-photo-icon" data-ng-hide="commentSelectedFiles.length >= 3 && commentedOnPost == post.id" id="upload">
+                <!--a class="post-photo-icon" data-ng-hide="commentSelectedFiles.length >= 3 && commentedOnPost == post.id" id="upload">
                     <i class="icon-photo-camera-fill" data-ng-click="commentPhoto(post.id)"></i>
-                </a>
+                </a-->
                 <button class="btn btn-primary ng-binding" ng-disabled="userComment.$pristine || (userComment.$dirty && !commentText.length)" type="submit" disabled="disabled" data-ng-click="comment_on_post(post.id, commentText); commentText=''">
                     留言
                 </button>
