@@ -20,7 +20,7 @@ else
    usage
 fi
 
-nowdate=`date +%y_%m_%d_%H_%M`
+nowdate=`date +%Y%m%d_%H%M`
 
 # dump mysql
 mysqldump -uroot -p${PASSWORD} parent-social > ${DATA_BACKUP_PATH}/parent-social.sql
