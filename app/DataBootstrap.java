@@ -386,8 +386,8 @@ public class DataBootstrap {
         MyUsernamePasswordAuthUser authUser = new MyUsernamePasswordAuthUser(signup);
         User superAdmin = User.create(authUser);
         
-        superAdmin.roles = Collections.singletonList(SecurityRole
-                .findByRoleName(controllers.Application.SUPER_ADMIN_ROLE));
+        superAdmin.roles = Collections.singletonList(
+                SecurityRole.findByRoleName(SecurityRole.RoleType.SUPER_ADMIN.name()));
         superAdmin.emailValidated = true;
         superAdmin.newUser = false;
         superAdmin.system = true;

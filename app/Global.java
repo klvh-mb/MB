@@ -118,8 +118,10 @@ public class Global extends GlobalSettings {
 	private void init() {
         if (SecurityRole.findRowCount() == 0L) {
             for (final String roleName : Arrays.asList(
-                    controllers.Application.USER_ROLE,
-                    controllers.Application.SUPER_ADMIN_ROLE)) {
+                    SecurityRole.USER,
+                    SecurityRole.SUPER_ADMIN,
+                    SecurityRole.BUSINESS_ADMIN,
+                    SecurityRole.COMMUNITY_ADMIN)) {
                 final SecurityRole role = new SecurityRole();
                 role.roleName = roleName;
                 role.save();
