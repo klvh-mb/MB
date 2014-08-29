@@ -73,9 +73,9 @@
     	</li>
     	<!-- Post Comment box-->
         <li ng-show="post.isC || (community.isM || community.isO)">
-            <a data-ng-href="/mobile#/profile/{{userInfo.id}}">
+            <!--a data-ng-href="/mobile#/profile/{{userInfo.id}}">
                 <img style="margin-top:5px;" class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
-            </a>
+            </a-->
             <form class="post-comment-box" name="userComment" method="post" action="">
                 <label for="User Comment"></label>
                 <textarea type="text" name="userCommentfield" id="userCommentfield" class="general-textfield post-sharing-comment-textfield" placeholder="留言..." cols="70" data-ng-model="commentText" rows="1"></textarea>

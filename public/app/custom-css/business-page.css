@@ -23,13 +23,56 @@
     border-radius: 3px;
 }
 .masonry-brick .post-sharing-comment-user-image {
-    margin-right: 10px;
+    margin-right: 5px;
     float: left;
     width: 30px;
     height: 30px;
     border-radius: 3px;
-    margin-top: 2px;
+    margin-top: 0px;
 }
 .masonry-brick .post-body-image {
     padding: 0px;
 }
+.masonry-brick .post-date {
+    color: #77737E;
+    font-weight: normal;
+    font-size: 12px;
+}
+.masonry-brick .post-intro {
+    padding-bottom: 5px;
+    margin-bottom: 7px;
+    border-bottom: 1px solid #e1e2e3;
+}
+.masonry-brick .post-intro img {
+    width: 15px;
+    height: 15px;
+}
+.masonry-brick .post-sharing-comments {
+    background-color: #F9FBFF;
+}
+.masonry-brick .post-sharing-body-text-wrapper {
+    position: relative;    
+}
+.masonry-brick .post-sharing-body-text-wrapper .post-sharing-body-text {
+    padding: 5px 15px 5px 0;
+}
+.masonry-brick .post-favorite, .masonry-brick .post-favorited {
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    right: -7px;
+    top: 7px;
+    text-align: right;
+}
+.masonry-brick .post-sharing-body-text-wrapper .post-dropdown-btn {
+    border-color: transparent;
+    padding: 0px 5px;
+}
+.masonry-brick .post-sharing-body-text-wrapper .dropdown-menu {
+    min-width: 120px;
+    position: absolute;
+    top: 150%;
+    left: 100px;
+}
+
+

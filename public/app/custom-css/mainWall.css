@@ -301,12 +301,13 @@
 .btn-like-wrapper {
     position: relative;
 }
-.btn-like-wrapper span {
+.btn-like-wrapper span, .btn-like-wrapper div {
     color: #77737E;
     font-size: 12px;
     font-weight: normal;
 }
 .btn-like-wrapper span img {
+    width: 22px;
     height: 16px;
     vertical-align: text-bottom;
     padding: 0 3px 0 3px;

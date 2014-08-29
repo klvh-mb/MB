@@ -1,6 +1,9 @@
 <div class="btn-group" dropdown style="margin-top: 2%;margin-left: 10px;">
-	<button type="button" id="membersDropdownBtn" class="btn btn-primary dropdown-toggle" ng-show="showMembers">
+	<button type="button" id="membersDropdownBtn" class="btn btn-primary dropdown-toggle" ng-show="showMembers && community.typ != 'BUSINESS'">
     	成員 ({{result.sn}}) <span class="caret"></span>
+    </button>
+    <button type="button" id="membersDropdownBtn" class="btn btn-primary dropdown-toggle" ng-show="showMembers && community.typ == 'BUSINESS'">
+        喜愛 ({{result.sn}}) <span class="caret"></span>
     </button>
     <button type="button" id="membersDropdownBtn" class="btn btn-primary dropdown-toggle" ng-show="showAdmin">
     	管理員 <span class="caret"></span>
@@ -14,7 +17,7 @@
 <a id="membersSearchwrapper" class="pull-right" style="margin-right: 9%;">
 	<div class="basic-search-wrapper">
 		<div class="input-group innerB basic-search">
-    		<input type="text" class="form-control" ng-model="query" placeholder="搜尋成員">
+    		<input type="text" class="form-control" ng-model="query" placeholder="搜尋">
         	<div class="input-group-btn">
            		<button class="btn btn-default" type="button">
                		<i class="fa fa-search"></i>

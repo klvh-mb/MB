@@ -290,16 +290,16 @@ span.notif-count {
     font-size: 15px;
 }
 .post-comment-box .post-qna-reply-textfield {
-    width: 50%;
+    width: 60%;
 }
 .post-comment-box .post-qna-reply-textfield:focus {
-    width: 50%;
+    width: 60%;
 }
 .post-comment-box .post-sharing-comment-textfield {
-    width: 50%;
+    width: 60%;
 }
 .post-comment-box .post-sharing-comment-textfield:focus {
-    width: 50%;
+    width: 60%;
 }
 .dropdown-menu {
     left: -35px;
@@ -380,7 +380,7 @@ span.notif-count {
 }
 #community-header #community-header-name {
     font-size: 22px;
-    bottom: 42px;
+    bottom: 0px;
 }
 #community-header-menu ul {
     position: absolute;
@@ -458,8 +458,24 @@ span.notif-count {
     font-weight: normal;
 }
 
-/*  */
-
+/* masonry */
+.masonry-brick .post-card ul:first-child {
+    padding: 0px;
+    margin: 2px 5px;
+}
+.masonry-brick .post-sharing-body-text {
+    padding: 5px 0px 5px 0px;
+    margin: 0 5px;
+}
+.masonry-brick .btn-like-wrapper {
+    margin: 0 5px;
+}
+.masonry-brick .post-sharing-body-text-wrapper .post-sharing-body-text {
+    padding: 5px 15px 10px 0;
+}
+.masonry-brick .post-sharing-body-text-wrapper .dropdown-menu {
+    left: 45px;
+}
 /*  */
 
 /*  */

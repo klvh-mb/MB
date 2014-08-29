@@ -2,5 +2,5 @@
     <a data-ng-show="!article.isLike" class="btn-like" href="" data-ng-click="like_article(article.id)">讚好</a> 
     <a data-ng-show="article.isLike" class="btn-like" href="" data-ng-click="unlike_article(article.id)">取消讚好</a>
     <span ng-show="article.nol > 0"><b> · <img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>{{article.nol}}</b></span>
-    <span ng-show="article.isLike">你對這讚好</span>
+    <div ng-show="article.isLike">你對這讚好</div>
 </span>

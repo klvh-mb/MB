@@ -31,7 +31,7 @@
         <li ng-show="post.n_c > 3 && !post.ep">
             <span class="post-qna-answer-count" ng-show="post.n_c > 0 && post.n_c <= 3"><b>{{post.n_c}}個留言</b></span>
             <a href="" ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><b>共{{post.n_c}}個留言</b></a>
-            <a class="pull-right" href="" data-ng-click="get_all_comments(post.id)">查看所有留言</a>
+            <!--a class="pull-right" href="" data-ng-click="get_all_comments(post.id)">查看所有留言</a-->
         </li>
         <li data-ng-repeat="comment in post.cs">
             <a data-ng-href="/#/profile/{{comment.oid}}">
@@ -46,20 +46,20 @@
                 <div>
                     <span class="post-date" am-time-ago="comment.cd"></span>
                     <span style="margin-left:5px;"/>
-    	            <span data-ng-include data-src="'/assets/app/views/like-comment.html'"></span>
-    	        </div>
-    	        <div data-ng-show="comment.hasImage" class="post-body-image">
+                    <span data-ng-include data-src="'/assets/app/views/like-comment.html'"></span>
+                </div>
+                <div data-ng-show="comment.hasImage" class="post-body-image">
                     <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in comment.imgs" href="">
                         <img style="max-width:70%; max-height:100px;" data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
                     </a>
                 </div>
-	        </span>
-    	</li>
-    	<!-- Post Comment box -->
+            </span>
+        </li>
+        <!-- Post Comment box -->
         <li ng-show="post.isC || (community.isM || community.isO)">
-            <a data-ng-href="/#/profile/{{userInfo.id}}">
+            <!--a data-ng-href="/#/profile/{{userInfo.id}}">
                 <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
-            </a>
+            </a-->
             <form class="post-comment-box" name="userComment" method="post" action="">
                 <label for="User Comment"></label>
                 <textarea type="text" id="userCommentfield" name="userCommentfield" id="userCommentfield" class="general-textfield post-sharing-comment-textfield" placeholder="留言..." cols="70" data-ng-model="commentText" rows="1"></textarea>
