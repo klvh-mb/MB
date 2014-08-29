@@ -883,8 +883,8 @@ public class User extends SocialObject implements Subject, Socializable {
 
     public static User create(final AuthUser authUser) {
         final User user = new User();
-        user.roles = Collections.singletonList(SecurityRole
-                .findByRoleName(controllers.Application.USER_ROLE));
+        user.roles = Collections.singletonList(
+                SecurityRole.findByRoleName(SecurityRole.RoleType.USER.name()));
         user.active = true;
         user.newUser = true;
         user.lastLogin = new Date();
@@ -1000,7 +1000,7 @@ public class User extends SocialObject implements Subject, Socializable {
     @Transactional
     public boolean isSuperAdmin() {
         for (SecurityRole role : roles) {
-            if (Application.SUPER_ADMIN_ROLE.equals(role.roleName)) {
+            if (SecurityRole.RoleType.SUPER_ADMIN.name().equals(role.roleName)) {
                 return true;
             }
         }
@@ -1012,7 +1012,8 @@ public class User extends SocialObject implements Subject, Socializable {
         if (SUPER_ADMIN != null)
             return SUPER_ADMIN;
         
-        Query q = JPA.em().createQuery("SELECT u FROM User u where active = ?1 and system = ?2 and deleted = false");
+        Query q = JPA.em().createQuery(
+                "SELECT u FROM User u where active = ?1 and system = ?2 and deleted = false");
         q.setParameter(1, true);
         q.setParameter(2, true);
         List<User> sysUsers = (List<User>)q.getResultList();
@@ -1022,6 +1023,26 @@ public class User extends SocialObject implements Subject, Socializable {
             }
         }
         return SUPER_ADMIN;
+    }
+    
+    @Transactional
+    public boolean isBusinessAdmin() {
+        for (SecurityRole role : roles) {
+            if (SecurityRole.RoleType.BUSINESS_ADMIN.name().equals(role.roleName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    @Transactional
+    public boolean isCommunityAdmin() {
+        for (SecurityRole role : roles) {
+            if (SecurityRole.RoleType.COMMUNITY_ADMIN.name().equals(role.roleName)) {
+                return true;
+            }
+        }
+        return false;
     }
     
     @Transactional

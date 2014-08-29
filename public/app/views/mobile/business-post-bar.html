@@ -16,7 +16,7 @@
                 </button>
                 <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
                     <li role="presentation"><a role="menuitem" href="" ng-click="displayLink('/#/post-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i>複製連結</a></li>
-                    <li role="presentation" ng-show="post.isO || userTargetProfile.isSA"><a role="menuitem" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個分享嗎？"><i class="glyphicon glyphicon-trash"></i>刪除分享</a></li>
+                    <li role="presentation" ng-show="post.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個分享嗎？"><i class="glyphicon glyphicon-trash"></i>刪除分享</a></li>
                 </ul>
             </div>
             <span data-ng-include data-src="'/assets/app/views/like-post.html'"></span>
@@ -41,18 +41,15 @@
                 <span class="post-title-user-name post-sharing-comment-font">
                     <a data-ng-href="/#/profile/{{comment.oid}}">{{comment.on}}</a>
                 </span>
-                <span class="post-sharing-comment-body-text" ng-bind-html="comment.d | to_trusted"></span>
-                <!--<span class="post-sharing-comment-body-text">{{comment.d}}</span>-->
+                <span class="post-date" am-time-ago="comment.cd"></span>
                 <div>
-                    <span class="post-date" am-time-ago="comment.cd"></span>
-                    <span style="margin-left:5px;"/>
-                    <span data-ng-include data-src="'/assets/app/views/like-comment.html'"></span>
+                    <span class="post-sharing-comment-body-text" ng-bind-html="comment.d | to_trusted"></span>
                 </div>
-                <div data-ng-show="comment.hasImage" class="post-body-image">
+                <!--div data-ng-show="comment.hasImage" class="post-body-image">
                     <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in comment.imgs" href="">
                         <img style="max-width:70%; max-height:100px;" data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
                     </a>
-                </div>
+                </div-->
             </span>
         </li>
         <!-- Post Comment box -->

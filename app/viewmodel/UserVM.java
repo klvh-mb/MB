@@ -1,21 +1,27 @@
 package viewmodel;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import models.Location;
 import models.User;
 
 public class UserVM {
-	public String firstName;
-	public String lastName;
-	public String displayName;
-	public String email;
-	public String birthYear;
-	public String gender;
-	public String aboutMe;
-	public Location location;
-	public Long id;
-	public Long noOfFriends;
-	public int noOfGroups;
-	
+    @JsonProperty("id") public Long id;
+    @JsonProperty("firstName") public String firstName;
+    @JsonProperty("lastName") public String lastName;
+    @JsonProperty("displayName") public String displayName;
+    @JsonProperty("email") public String email;
+    @JsonProperty("birthYear") public String birthYear;
+    @JsonProperty("gender") public String gender;
+    @JsonProperty("aboutMe") public String aboutMe;
+    @JsonProperty("location") public Location location;
+    @JsonProperty("noOfFriends") public Long noOfFriends;
+    @JsonProperty("noOfGroups") public int noOfGroups;
+    @JsonProperty("isSA") public boolean isSuperAdmin;
+    @JsonProperty("isBA") public boolean isBusinessAdmin;
+    @JsonProperty("isCA") public boolean isCommunityAdmin;
+    @JsonProperty("isAdmin") public boolean isAdmin;
+    
 	public UserVM(User user) {
 		this.firstName = user.firstName;
 		this.lastName = user.lastName;
@@ -32,7 +38,9 @@ public class UserVM {
 		this.id = user.id;
 		this.noOfFriends = user.getFriendsSize();
 		this.noOfGroups = user.getListOfJoinedCommunityIds().size();
+		this.isSuperAdmin = user.isSuperAdmin();
+		this.isBusinessAdmin = user.isBusinessAdmin();
+		this.isCommunityAdmin = user.isCommunityAdmin();
+		this.isAdmin = this.isSuperAdmin || this.isBusinessAdmin || this.isCommunityAdmin;
 	}
-	
-	
 }

@@ -14,7 +14,7 @@
             </button>
             <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
                 <li role="presentation"><a role="menuitem" href="" ng-click="displayLink('/#/post-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i>複製連結</a></li>
-                <li role="presentation" ng-show="post.isO || userTargetProfile.isSA"><a role="menuitem" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個分享嗎？"><i class="glyphicon glyphicon-trash"></i>刪除分享</a></li>
+                <li role="presentation" ng-show="post.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個分享嗎？"><i class="glyphicon glyphicon-trash"></i>刪除分享</a></li>
             </ul>
         </li>
     </ul>

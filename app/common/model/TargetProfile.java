@@ -20,8 +20,6 @@ import java.util.List;
  */
 public class TargetProfile {
     
-    private boolean isSuperAdmin;
-    
     // parent
     private TargetGender parentGender;
     private Location location;
@@ -41,9 +39,6 @@ public class TargetProfile {
         TargetProfile profile = new TargetProfile();
         List<TargetYear> childYears = new ArrayList<TargetYear>();
         List<DateTime> childBirthDates = new ArrayList<DateTime>();
-        
-        // super admin
-        profile.isSuperAdmin = user.isSuperAdmin();
         
         if (user.userInfo == null)
             return null;
@@ -102,10 +97,6 @@ public class TargetProfile {
         return profile;
     }
 
-    public boolean isSuperAdmin() {
-        return isSuperAdmin;
-    }
-    
     public TargetGender getParentGender() {
         return parentGender;
     }

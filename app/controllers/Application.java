@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import models.Location;
+import models.SecurityRole;
 import models.User;
 import models.UserChild;
 import models.UserInfo;
@@ -70,8 +71,6 @@ public class Application extends Controller {
     public static final String SIGNUP_EMAIL = "signup_email";
     public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";
-	public static final String USER_ROLE = "USER";
-	public static final String SUPER_ADMIN_ROLE = "SUPER_ADMIN";
 
 	//
 	// Mobile
@@ -280,13 +279,13 @@ public class Application extends Controller {
 		return localUser;
 	}
 
-	@Restrict(@Group(Application.USER_ROLE))
+	@Restrict(@Group(SecurityRole.USER))
     public static Result restricted() {
         final User localUser = getLocalUser(session());
         return ok(views.html.restricted.render(localUser));
     }
 
-    @Restrict(@Group(Application.USER_ROLE))
+    @Restrict(@Group(SecurityRole.USER))
     public static Result profile() {
         final User localUser = getLocalUser(session());
         return ok(views.html.profile.render(localUser));

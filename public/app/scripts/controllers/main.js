@@ -129,14 +129,6 @@ minibean.controller('SearchController',function($scope, searchService){
 	log("SearchController completed");
 });
 
-minibean.controller('UserInfoServiceController',function($scope,userInfoService){
-    log("UserInfoServiceController starts");
-
-    $scope.userInfo = userInfoService.UserInfo.get();
-    
-    log("UserInfoServiceController completed");
-});
-
 minibean.controller('ApplicationController',function($scope, $location, $interval, applicationInfoService, announcementsService, userInfoService, 
     userNotification, userSimpleNotifications, acceptJoinRequestService, acceptFriendRequestService, userMessageNotifications, notificationMarkReadService, usSpinnerService){
 

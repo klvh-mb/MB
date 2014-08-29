@@ -1,6 +1,7 @@
 package controllers;
 
 import static play.data.Form.form;
+import models.SecurityRole;
 import models.User;
 import play.data.Form;
 import play.data.format.Formats.NonEmpty;
@@ -12,11 +13,12 @@ import play.mvc.Result;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
-
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthUser;
+
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.user.AuthUser;
+
 import views.html.account.*;
 
 public class Account extends Controller {
@@ -80,7 +82,7 @@ public class Account extends Controller {
 		return ok(views.html.account.link.render());
 	}
 
-	@Restrict(@Group(Application.USER_ROLE))
+	@Restrict(@Group(SecurityRole.USER))
 	public static Result verifyEmail() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final User user = Application.getLocalUser(session());
@@ -102,7 +104,7 @@ public class Account extends Controller {
 		return redirect(routes.Application.profile());
 	}
 
-	@Restrict(@Group(Application.USER_ROLE))
+	@Restrict(@Group(SecurityRole.USER))
 	public static Result changePassword() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final User u = Application.getLocalUser(session());
@@ -114,7 +116,7 @@ public class Account extends Controller {
 		}
 	}
 
-	@Restrict(@Group(Application.USER_ROLE))
+	@Restrict(@Group(SecurityRole.USER))
 	public static Result doChangePassword() {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<Account.PasswordChange> filledForm = PASSWORD_CHANGE_FORM
