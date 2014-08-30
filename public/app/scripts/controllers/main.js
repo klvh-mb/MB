@@ -747,11 +747,14 @@ minibean.controller('UserCommunityWidgetController',function($scope, communityWi
 	
 	$scope.sysCommunities = [];
 	$scope.myCommunities = [];
+	$scope.myBusinessCommunities = [];
 	$scope.result = communityWidgetService.UserCommunities.get({}, 
         	function(data) {
                 angular.forEach($scope.result.communities, function(request, key){
                     if (request.sys) {
                         $scope.sysCommunities.push(request);
+                    } else if (request.tp == 'BUSINESS') {
+                        $scope.myBusinessCommunities.push(request);
                     } else {
                         $scope.myCommunities.push(request);
                     }

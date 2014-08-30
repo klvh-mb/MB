@@ -8,11 +8,13 @@
             </div>
             <div class="post-sharing-body-text-wrapper">
                 <a href="/#/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}">
-                    <div class="post-sharing-body-text"><span ng-bind-html="post.pt | limitTo:50:false | to_trusted"></span><span ng-show="post.pt.length > 50"> ...</span></div>
+                    <div class="post-sharing-body-text"><span ng-bind-html="post.pt | limitTo:100:false | to_trusted"></span><span ng-show="post.pt.length > 50"> ...</span></div>
                 </a>
-                <a data-ng-show="!post.isBookmarked" class="post-favorite" href="" data-ng-click="bookmarkPost(post.id)"></a>
-                <a data-ng-show="post.isBookmarked && !isMyBookmarksPage" class="post-favorited" href="" data-ng-click="unBookmarkPost(post.id)"></a>
-                <a data-ng-show="post.isBookmarked && isMyBookmarksPage" class="post-favorited" href="" data-ng-confirm-click="unBookmarkPost(post.id)" data-ng-confirm-message="您確定移除這個喜愛嗎?"></a>
+                <div>
+                    <a data-ng-show="!post.isBookmarked" class="post-favorite" href="" data-ng-click="bookmarkPost(post.id)"></a>
+                    <a data-ng-show="post.isBookmarked && !isMyBookmarksPage" class="post-favorited" href="" data-ng-click="unBookmarkPost(post.id)"></a>
+                    <a data-ng-show="post.isBookmarked && isMyBookmarksPage" class="post-favorited" href="" data-ng-confirm-click="unBookmarkPost(post.id)" data-ng-confirm-message="您確定移除這個喜愛嗎?"></a>
+                </div>
                 <button class="post-dropdown-btn btn btn-default dropdown-toggle pull-right" type="button" id="post-dropdown" data-toggle="dropdown">
                     <span class="caret"></span>
                 </button>
@@ -27,7 +29,7 @@
     <!-- Post Body Ends -->
     <ul class="post-sharing-comments">
         <li class="post-intro">
-            <a data-ng-href="/#/community/{{post.cid}}/sharing" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
+            <a data-ng-href="/#/business/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
             <span class="post-date" am-time-ago="post.t"></span>
         </li>
         <li ng-show="post.n_c > 2 && !post.ep">

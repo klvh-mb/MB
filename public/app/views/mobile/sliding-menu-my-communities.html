@@ -1,39 +1,47 @@
-<div class="sliding-menu-small-title">我的社群</div>
-<ul class="myCommunity-info">
-    <li ng-repeat="community in myCommunities">
-        <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
-        <a href="#/community/{{community.id}}/question"><img src="{{community.gi}}"></a>
-        <p>
-            <a href="#/community/{{community.id}}/question"><b>{{community.dn|characters:20:true}}</b></a>
-            <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
-            <span class="community-attribute">
-                <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開的社群</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開的社群</font>
-            </span>
-        </p>
-    </li>
-    <!--li ng-show="myCommunities.length == 0">
-        <div class="general-box" style="margin:0 5px;">
-            <div class="section-title">
-                <span style="font-size:14px;">尚未建立或加入其他媽媽爸爸建立的社群</span>
+<div>
+    <div class="sliding-menu-small-title">我的社群</div>
+    <ul class="myCommunity-info">
+        <li ng-repeat="community in myCommunities">
+            <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
+            <a href="#/community/{{community.id}}/question"><img src="{{community.gi}}"></a>
+            <p>
+                <a href="#/community/{{community.id}}/question"><b>{{community.dn|characters:20:true}}</b></a>
+                <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
+                <span class="community-attribute">
+                    <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開的社群</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開的社群</font>
+                </span>
+            </p>
+        </li>
+        <!--li ng-show="myCommunities.length == 0">
+            <div class="general-box" style="margin:0 5px;">
+                <div class="section-title">
+                    <span style="font-size:14px;">尚未建立或加入其他媽媽爸爸建立的社群</span>
+                </div>
             </div>
-        </div>
-    </li-->
-<!--/ul>
-<div class="con-title" style="border-top: solid 1px #C8C8C8;">
-    <a href="/#/about/myCommunities/" class="text-muted">
-        <span class="icon-box icon-box-blueDark icon-title-community"></span>小萌豆社群
-    </a>
+        </li-->
+        <li ng-repeat="community in sysCommunities" ng-if="community.tinfo != 'FEEDBACK'">
+            <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
+            <a href="#/community/{{community.id}}/question"><img src="{{community.gi}}"></a>
+            <p>
+                <a href="#/community/{{community.id}}/question"><b>{{community.dn|characters:20:true}}</b></a>
+                <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
+                <span class="community-attribute">
+                    <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開的社群</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開的社群</font>
+                </span>
+            </p>
+        </li>
+    </ul>
 </div>
-<ul class="myCommunity-info"-->
-    <li ng-repeat="community in sysCommunities" ng-if="community.tinfo != 'FEEDBACK'">
-        <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
-        <a href="#/community/{{community.id}}/question"><img src="{{community.gi}}"></a>
-        <p>
-            <a href="#/community/{{community.id}}/question"><b>{{community.dn|characters:20:true}}</b></a>
-            <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
-            <span class="community-attribute">
-                <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開的社群</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開的社群</font>
-            </span>
-        </p>
-    </li>
-</ul>
+<div ng-show="myBusinessCommunities.length > 0">
+    <div class="sliding-menu-small-title">我喜愛的專頁</div>
+    <ul class="myCommunity-info">
+        <li ng-repeat="community in myBusinessCommunities">
+            <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
+            <a href="#/business/community/{{community.id}}"><img src="{{community.gi}}"></a>
+            <p>
+                <a href="#/business/community/{{community.id}}"><b>{{community.dn|characters:20:true}}</b></a>
+                <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
+            </p>
+        </li>
+    </ul>
+</div>
