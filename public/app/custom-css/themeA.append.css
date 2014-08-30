@@ -22,6 +22,12 @@ div[class*="col-xs-"], div[class*="col-sm-"], div[class*="col-md-"], div[class*=
     vertical-align: text-top;
     color: #3F64A7;
 }
+.glyphicon-film {
+    margin: 0 10px 0 3px;
+    font-size: 20px;
+    vertical-align: text-bottom;
+    color: #CB3BCF;
+}
 .glyphicon-lock {
     font-size: 10px;
     margin-right: 2px;

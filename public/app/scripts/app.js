@@ -25,6 +25,9 @@ angular.module('minibean', [
       .when('/', {
         templateUrl: '/assets/app/views/home.html'
       })
+      .when('/magazine', {
+        templateUrl: '/assets/app/views/magazine.html'
+      })
       .when('/about/:tab',{
     	templateUrl: '/assets/app/views/about-me.html',
     	controller: 'UserAboutController'

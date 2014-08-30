@@ -737,6 +737,16 @@ minibean.service('articleCommentsService',function($resource){
     );
 });
 
+minibean.service('magazineNewsFeedService',function($resource){
+    this.NewsFeeds = $resource(
+            '/get-businessfeeds/:offset',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET', params:{offset:'@offset'}}
+            }
+    );
+});
+
 minibean.service('newsFeedService',function($resource){
     this.NewsFeeds = $resource(
             '/get-newsfeeds/:offset',

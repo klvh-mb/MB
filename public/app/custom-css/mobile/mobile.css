@@ -12,6 +12,11 @@ body {
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
 }
+.glyphicon-film {
+    text-indent: 0px;
+    margin-top: 5px;
+    font-size: 22px;
+}
 .glyphicon-map-marker {
     font-size: 17px;
     vertical-align: text-bottom;
