@@ -61,7 +61,10 @@
     background-color: #F9FBFF;
 }
 .masonry-brick .post-sharing-body-text-wrapper {
-    position: relative;    
+    position: relative; 
+}
+.masonry-brick .post-sharing-body-text-wrapper a:hover {
+    text-decoration: none;
 }
 .masonry-brick .post-sharing-body-text-wrapper .post-sharing-body-text {
     padding: 5px 15px 5px 0;
