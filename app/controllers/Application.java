@@ -195,7 +195,9 @@ public class Application extends Controller {
 	        
 	        user.setNewUser(false);
 	    }
-	    
+
+        // reset last login time
+        user.setLastLogin(new Date());
 	    return isMobileUser()? ok(views.html.mobile.home.render()) : ok(views.html.home.render());
 	}
 	

@@ -23,7 +23,7 @@ if [ -d "$LOG_DIR" ]; then
     fi
 
     if [ -e  $SERVICE_NAME.log ]; then
-        nowdate=`date +%y_%m_%d_%H_%M`
+        nowdate=`date +%Y%m%d_%H%M`
         tar cfz archive/${SERVICE_NAME}_$nowdate.tar.gz  $SERVICE_NAME.log* jvm.log
         rm $SERVICE_NAME.log*
     fi

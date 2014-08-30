@@ -3,10 +3,14 @@
     
   <conversionRule conversionWord="coloredLevel" converterClass="play.api.Logger$ColoredLevel" />
   
-  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
      <file>${application.home}/logs/application.log</file>
+
+     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <FileNamePattern>${application.home}/logs/application.%d{yyyy-MM-dd}.log</FileNamePattern>
+     </rollingPolicy>
      <encoder>
-       <pattern>%d{yyyy-MM-dd HH:mm:ss:SSS} %-5level %logger{15} - %message%n%xException{10}</pattern>
+        <pattern>%d{yyyy-MM-dd HH:mm:ss:SSS} %-5level %logger{15} - %message%n%xException{10}</pattern>
      </encoder>
    </appender>
 
