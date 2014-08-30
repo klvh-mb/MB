@@ -500,7 +500,7 @@ public class UserAgentUtil {
     //
     
     private void log(String fn) {
-        logger.underlyingLogger().info("STS " + fn + " - " + this.userAgent);
+        logger.underlyingLogger().info("STS UserAgent. " + fn + " - " + this.userAgent);
     }
     
     public boolean isDesktopUserAgent() {
