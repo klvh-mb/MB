@@ -418,7 +418,7 @@ public class CommunityController extends Controller{
         File file = picture.getFile();
         try {
             Community newCommunity = localUser.createCommunity(
-                    community.name, community.description,community.communityType, community.icon);
+                    community.name, community.description, community.communityType, community.icon);
             if (newCommunity == null) {
                 return status(505, "Failed to create community. Invalid parameters.");
             }

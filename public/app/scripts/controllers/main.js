@@ -486,7 +486,11 @@ minibean.controller('CreateCommunityController',function($scope, $location, $htt
 			    }).success(function(data, status, headers, config) {
 			    	$scope.submitBtn = "完成";
 			    	usSpinnerService.stop('loading...');
-			    	$location.path('/community/'+data+'/question');
+			    	if ($scope.formData.communityType == 'BUSINESS') {
+			    	    $location.path('/business/community/'+data);
+			    	} else {
+			    	    $location.path('/community/'+data);
+			    	}
 			    	$("#myModal").modal('hide');
 			    }).error(function(data, status, headers, config) {
 			    	if( status == 505 ) {
