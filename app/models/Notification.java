@@ -14,8 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import org.joda.time.DateTime;
+
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
+import play.db.jpa.Transactional;
 import domain.AuditListener;
 import domain.Creatable;
 import domain.SocialObjectType;
@@ -191,6 +194,15 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 		 query.setParameter(2, 0);
 		 query.setParameter(3, data);
 		 query.setParameter(4, 0L);
+		 query.executeUpdate();
+	}
+
+	@Transactional
+	public static void purgeNotification() {
+		Query query = JPA.em().createQuery("DELETE Notification n where n.status = ?1 and CREATED_DATE < ?2");
+		 query.setParameter(1, 1);
+		 DateTime sevenDaysBefore = (new DateTime()).minusDays(7);
+		 query.setParameter(2, sevenDaysBefore.toDate());
 		 query.executeUpdate();
 	}
 }
