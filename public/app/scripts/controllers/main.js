@@ -2,6 +2,14 @@
 
 var minibean = angular.module('minibean');
 
+minibean.controller('UIController', function($scope, $location, $anchorScroll, $window) {
+    $scope.gotoTop = function() {
+        // set the location.hash to the id of
+        // the element you wish to scroll to
+        $window.scrollTo($window.pageXOffset, 0);
+    };
+});
+
 minibean.controller('BusinessCommunityPageController', function($scope, $routeParams, $http, profilePhotoModal, iconsService,
         communityPageService, communityJoinService, userInfoService, searchMembersService, $upload, $timeout, usSpinnerService){
     
@@ -93,14 +101,6 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
     log("BusinessCommunityPageController completed");
 });
 
-minibean.controller('UIController', function($scope, $location, $anchorScroll, $window) {
-    $scope.gotoTop = function() {
-        // set the location.hash to the id of
-        // the element you wish to scroll to
-    	$window.scrollTo($window.pageXOffset, 0);
-    };
-});
-
 minibean.controller('AnnouncementsWidgetController',function($scope, $http, announcementsService) {
     log("AnnouncementsWidgetController starts");
     
@@ -129,13 +129,17 @@ minibean.controller('SearchController',function($scope, searchService){
 	log("SearchController completed");
 });
 
-minibean.controller('ApplicationController',function($scope, $location, $interval, applicationInfoService, announcementsService, userInfoService, 
+minibean.controller('ApplicationController',function($scope, $location, $interval, $route, applicationInfoService, announcementsService, userInfoService, 
     userNotification, userSimpleNotifications, acceptJoinRequestService, acceptFriendRequestService, userMessageNotifications, notificationMarkReadService, usSpinnerService){
 
     log("ApplicationController starts");
 
     window.isBrowserTabActive = true;
 
+    $scope.reloadPage = function() {
+        $route.reload();
+    }
+    
     $scope.topAnnouncements = announcementsService.getTopAnnouncements.get();
 
     $scope.applicationInfo = applicationInfoService.ApplicationInfo.get();
