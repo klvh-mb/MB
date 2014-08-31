@@ -226,7 +226,7 @@ public class UserController extends Controller {
 		
 		if(newsFeeds != null ){
 			for(Post p : newsFeeds) {
-				CommunityPostVM post = CommunityPostVM.communityPostVisitProfile(p,user,localUser);
+				CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser);
 				posts.add(post);
 			}
 		}
@@ -252,7 +252,7 @@ public class UserController extends Controller {
 		
 		if(newsFeeds != null ){
 			for(Post p : newsFeeds) {
-				CommunityPostVM post = CommunityPostVM.communityPostVisitProfile(p,user,localUser);
+				CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser);
 				posts.add(post);
 			}
 		}

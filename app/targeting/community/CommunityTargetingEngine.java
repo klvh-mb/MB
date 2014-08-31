@@ -70,13 +70,13 @@ public class CommunityTargetingEngine {
             assign(community, user);
         }
         
-        // District communities
-        if (targetProfile.getLocation() != null) {
-            Location district = Location.getParentLocation(targetProfile.getLocation(), Location.LocationType.DISTRICT);
-            Community community = Community.findByTargetingTypeTargetingInfo(
-                    TargetingSocialObject.TargetingType.LOCATION_DISTRICT, district.id.toString());
-            assign(community, user);
-        }
+        // Note: Take out auto-assign District communities (as of 8/31/2014)
+//        if (targetProfile.getLocation() != null) {
+//            Location district = Location.getParentLocation(targetProfile.getLocation(), Location.LocationType.DISTRICT);
+//            Community community = Community.findByTargetingTypeTargetingInfo(
+//                    TargetingSocialObject.TargetingType.LOCATION_DISTRICT, district.id.toString());
+//            assign(community, user);
+//        }
 
         // PreNursery communities
         if (targetProfile.isPreNurseryApplicable()) {

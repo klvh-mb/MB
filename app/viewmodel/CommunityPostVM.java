@@ -25,6 +25,7 @@ public class CommunityPostVM {
 	@JsonProperty("cs") public List<CommunityPostCommentVM> comments;
 	@JsonProperty("imgs") public Long[] images;
 	@JsonProperty("type") public String postType;
+    @JsonProperty("ctyp") public String communityType;
 	@JsonProperty("cn") public String communityName;
 	@JsonProperty("ci") public String communityIcon;
 	@JsonProperty("cid") public Long communityId;
@@ -57,6 +58,7 @@ public class CommunityPostVM {
 		postVM.postedText = post.body;
 		postVM.noOfComments = post.noOfComments;
 		postVM.postType = post.postType.name();
+        postVM.communityType = post.community.communityType.name();
 		postVM.communityName = post.community.name;
 		postVM.communityIcon = post.community.icon;
 		postVM.communityId = post.community.id;
@@ -112,63 +114,6 @@ public class CommunityPostVM {
             postVM.isWantAnswer = false;
         }
         postVM.comments = commentsToShow;
-		
-		return postVM;
-	}
-	
-	public static CommunityPostVM communityPostVisitProfile(Post post, User visitedUser, User localUser) {
-		CommunityPostVM postVM = new CommunityPostVM();
-		postVM.postId = post.id;
-		postVM.ownerId = post.owner.id;
-		postVM.postedBy = post.owner.name;
-		postVM.postedOn = post.getCreatedDate().getTime();
-		postVM.updatedOn = post.getSocialUpdatedDate().getTime();
-		postVM.postedTitle = post.title;
-		postVM.postedText = post.body;
-		postVM.noOfComments = post.noOfComments;
-		postVM.postType = post.postType.name();
-		postVM.communityName = post.community.name;
-		postVM.communityIcon = post.community.icon;
-		postVM.communityId = post.community.id;
-		//need to write logic for showing no of views
-		postVM.noOfViews = 0;
-		postVM.noOfLikes = post.noOfLikes;
-        postVM.noOfWantAnswers = post.noWantAns;
-		postVM.expanded = false;
-		postVM.isBookmarked = post.isBookmarkedBy(localUser);
-		postVM.isCommentable = localUser.isMemberOf(post.community.id);
-		postVM.isOwner = post.owner.id == localUser.id;
-		
-		if(post.folder != null && !CollectionUtils.isEmpty(post.folder.resources)) {
-			postVM.hasImage = true;
-			postVM.images = new Long[post.folder.resources.size()];
-			int i = 0;
-			for (Resource rs : post.folder.resources) {
-				postVM.images[i++] = rs.id;
-			}
-		}
-
-        // fetch preview comments
-		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
-		List<Comment> comments = post.getCommentsOfPost(COMMENT_PREVIEW_COUNT);
-
-        List<Long> likeCheckIds = new ArrayList<>();
-        likeCheckIds.add(post.id);
-        for(int i = comments.size() - 1; i >= 0 ; i--) {
-            likeCheckIds.add(comments.get(i).getId());
-        }
-        Set<PrimarySocialResult> srByUser = PrimarySocialRelationManager.getSocialRelationBy(localUser, likeCheckIds);
-
-		for(int i = comments.size() - 1; i >= 0 ; i--) {
-			Comment comment = comments.get(i);
-			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, localUser);
-			commentVM.isLike = srByUser.contains(new PrimarySocialResult(comment.id, comment.objectType, PrimarySocialRelation.Action.LIKED));
-			commentsToShow.add(commentVM);
-		}
-
-        postVM.isLike = srByUser.contains(new PrimarySocialResult(post.id, post.objectType, PrimarySocialRelation.Action.LIKED));
-        postVM.isWantAnswer = srByUser.contains(new PrimarySocialResult(post.id, post.objectType, PrimarySocialRelation.Action.WANT_ANS));
-		postVM.comments = commentsToShow;
 		
 		return postVM;
 	}
