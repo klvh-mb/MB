@@ -70,14 +70,14 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 		ANSWERED, POSTED_QUESTION
 	}
 
-	
- 
-	public static Notification getNotification(Long target,
-			NotificationType notificationType, SocialObjectType targetType) {
-		String sql = "SELECT n FROM Notification n WHERE target=?1 and notificationType = ?3 and targetType = ?4";
+
+    public static Notification getNotification(Long recipient, NotificationType notificationType,
+                                               Long target, SocialObjectType targetType) {
+		String sql = "SELECT n FROM Notification n WHERE recipient=?1 and notificationType=?2 and target=?3 and targetType=?4 and status=0";
         Query query = JPA.em().createQuery(sql);
-        query.setParameter(1, target);
-        query.setParameter(3, notificationType);
+        query.setParameter(1, recipient);
+        query.setParameter(2, notificationType);
+        query.setParameter(3, target);
         query.setParameter(4, targetType);
         try {
             return (Notification) query.getSingleResult();
@@ -88,22 +88,23 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 
 	public void addToList(User addUser) {
 		if(this.usersName == null){
-			this.usersName = addUser.displayName;
-		} else {
+            this.usersName = addUser.displayName;
+		}
+        else {
 			if(this.usersName.toLowerCase().contains(addUser.displayName.toLowerCase())){
 				return;
 			}
-			if(this.usersName.split(",").length > 3){
-				this.usersName = this.usersName.substring(0,this.usersName.lastIndexOf(","));
-			}
-				this.usersName = addUser.displayName+","+this.usersName;
+
+			if(count >= 3){
+                int lastDelimIdx = this.usersName.lastIndexOf(",");
+                long othersCount = count - 3;
+				this.usersName = addUser.displayName+", "+this.usersName.substring(0,lastDelimIdx)+" and "+othersCount+" others";
+			} else {
+				this.usersName = addUser.displayName+", "+this.usersName;
+            }
 		}
 	}
-	
-	
-	
-	
-	
+
 	public void changeStatus(int status) {
 		this.status = status;
 	    save();

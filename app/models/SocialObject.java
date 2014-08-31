@@ -136,8 +136,7 @@ public abstract class SocialObject extends domain.Entity implements
         // use existing join request to capture MEMBER relationship
         request.action = SocialRelation.Action.MEMBER;
         request.actionType = SocialRelation.ActionType.GRANT;
-        request.isPostSave = true;
-        request.postSave();
+        request.ensureUniqueAndCreate();
         
         // save community affinity
         UserCommunityAffinity.onJoinedCommunity(user.id, this.id);
@@ -157,8 +156,7 @@ public abstract class SocialObject extends domain.Entity implements
         // use existing join request to capture MEMBER relationship
         request.action = SocialRelation.Action.MEMBER;
         request.actionType = SocialRelation.ActionType.GRANT;
-		 request.isPostSave = true;
-        request.postSave();
+        request.save();
 
         // save community affinity
         UserCommunityAffinity.onJoinedCommunity(user.id, this.id);
@@ -204,7 +202,7 @@ public abstract class SocialObject extends domain.Entity implements
 		action.actionType = SocialRelation.ActionType.GRANT;
 		action.action = SocialRelation.Action.FRIEND;
         // update SocialRelation to GRANT
-		action.postSave();
+		action.save();
 
         // update Friends cache
         FriendCache.onBecomeFriend(user.id, this.id);
@@ -233,33 +231,31 @@ public abstract class SocialObject extends domain.Entity implements
 	protected final void recordPost(SocialObject user) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.POSTED;
-		action.postSave();
+		action.save();
 	}
 
 	protected void recordQnA(SocialObject user) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.POSTED_QUESTION;
-		action.postSave();
+		action.save();
 	}
 
 	protected void recordCommentOnCommunityPost(SocialObject user) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.COMMENTED;
-		action.postSave();
+		action.save();
 	}
 	
 	protected void recordCommentOnArticle(SocialObject user) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.COMMENTED;
-		 JPA.em().persist(this);
-		  JPA.em().flush();
-		  postSave();
+		action.save();
 	}
 	
 	protected void recordAnswerOnCommunityPost(SocialObject user) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.ANSWERED;
-		action.postSave();
+        action.save();
 	}
 
 	protected void recordAddedPhoto(SocialObject user) {
