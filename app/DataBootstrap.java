@@ -3,19 +3,12 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-import models.Announcement;
+import models.*;
 import models.Announcement.AnnouncementType;
-import models.ArticleCategory;
-import models.Community;
 import models.Community.CommunityType;
-import models.Emoticon;
-import models.Icon;
 import models.Icon.IconType;
-import models.Location;
 import models.Location.LocationCode;
-import models.SecurityRole;
 import models.TargetingSocialObject.TargetingType;
-import models.User;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.joda.time.DateTime;
@@ -35,6 +28,7 @@ public class DataBootstrap {
         bootstrapIcon();
         bootstrapEmoticon();
         bootstrapArticleCategory();
+        bootstrapCommunityCategory();
         bootstrapUser();
         bootstrapLocation();
         bootstrapCommunity();
@@ -363,6 +357,29 @@ public class DataBootstrap {
         category = new ArticleCategory(cats[4], cats[4], "/assets/app/images/article/cat_5.jpg");
         category.save();
         category = new ArticleCategory(cats[5], cats[5], "/assets/app/images/article/cat_6.jpg");
+        category.save();
+    }
+
+    private static void bootstrapCommunityCategory() {
+        Query q = JPA.em().createQuery("Select count(cc) from CommunityCategory cc");
+        Long count = (Long)q.getSingleResult();
+        if (count > 0) {
+            return;
+        }
+
+        logger.underlyingLogger().info("bootstrapCommunityCategory()");
+
+        final String[] cats = new String[] {
+                "最新動向", "熱門產品", "親子好去處", "送給您的小萌豆"
+        };
+
+        CommunityCategory category = new CommunityCategory(cats[0]);
+        category.save();
+        category = new CommunityCategory(cats[1]);
+        category.save();
+        category = new CommunityCategory(cats[2]);
+        category.save();
+        category = new CommunityCategory(cats[3]);
         category.save();
     }
     
