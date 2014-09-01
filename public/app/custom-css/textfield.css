@@ -1,9 +1,9 @@
 .general-textfield {
     border-radius: 3px;
     border: #bcbcbc thin solid;
-    padding: 7px;
+    padding: 5px;
     width: 80%;
-    height: 32px;
+    height: 28px;
 }
 .general-textfield:focus {
     outline: none;

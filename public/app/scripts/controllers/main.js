@@ -1012,7 +1012,29 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     }
     
     $scope.isLoadingEnabled = false;
-    $scope.show = false;
+    
+    $scope.displayLink = function(link) {
+        var link = $scope.applicationInfo.baseUrl + link;
+        
+        bootbox.dialog({
+            message: 
+                "<input style='width:85%;padding:3px;' type='text' name='post-link' id='post-link' value="+link+" readonly></input>" + 
+                "<a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink(\"post-link\")'><i class='glyphicon glyphicon-link'></i></a>",
+            title: "",
+            className: "post-bootbox-modal post-copy-link-modal",
+        });
+    }
+    
+    $scope.deletePost = function(postId) {
+        postManagementService.deletePost.get({"postId":postId}, function(data) {
+            angular.forEach($scope.QnAs.posts, function(post, key){
+                if(post.id == postId) {
+                    $scope.QnAs.posts.splice($scope.QnAs.posts.indexOf(post),1);
+                }
+            })
+        });
+    }
+    
     $scope.postPhoto = function() {
         $("#post-photo-id").click();
     }
@@ -1353,6 +1375,28 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
         $scope.img_id = imageId;
     }
     
+    $scope.displayLink = function(link) {
+        var link = $scope.applicationInfo.baseUrl + link;
+        
+        bootbox.dialog({
+            message: 
+                "<input style='width:85%;padding:3px;' type='text' name='post-link' id='post-link' value="+link+" readonly></input>" + 
+                "<a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink(\"post-link\")'><i class='glyphicon glyphicon-link'></i></a>",
+            title: "",
+            className: "post-bootbox-modal post-copy-link-modal",
+        });
+    }
+    
+    $scope.deletePost = function(postId) {
+        postManagementService.deletePost.get({"postId":postId}, function(data) {
+            angular.forEach($scope.QnAs.posts, function(post, key){
+                if(post.id == postId) {
+                    $scope.QnAs.posts.splice($scope.QnAs.posts.indexOf(post),1);
+                }
+            })
+        });
+    }
+    
     $scope.postPhoto = function() {
         $("#QnA-photo-id").click();
     }
@@ -1669,8 +1713,6 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
     
     log("CommunityPageController starts");
 
-    $scope.show = false;
-    
     $scope.selectedTab = 1;
     $scope.selectedSubTab = 1;
     var tab = $routeParams.tab;

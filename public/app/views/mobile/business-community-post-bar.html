@@ -25,7 +25,7 @@
 
 <div id="pin-container" infinite-scroll='nextPosts()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>
     <div masonry>
-        <div class="masonry-brick" data-ng-repeat="post in posts.posts">
+        <div class="masonry-brick pin-brick" data-ng-repeat="post in posts.posts">
             <div id="wall-main">
                 <div class="general-box">
                     <div ng-init="isCommunityPage = true" data-ng-include data-src="'/assets/app/views/mobile/business-post-bar.html'"></div>

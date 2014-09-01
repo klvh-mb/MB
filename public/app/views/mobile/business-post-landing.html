@@ -1,40 +1,27 @@
 <header>
-    <div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/header-bar.html'"></div>
+    <div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/mobile/header-bar-back.html'"></div>
 </header>
 
 <div class="themeA-container">
-    <div>
-        <div class="col-lg-1 col-md-1 col-xs-1" style="width:5%;"></div>
-        <div class="col-md-6 col-sm-6 col-xs-6" style="width:52%;">
-            <div id="wall">
-                <div class="pin-brick" style="width:100%;" data-ng-repeat="post in posts.posts">
-                    <div id="wall-main">
-                        <div class="general-box">
-                            <div class="post-card">
-                                <ul>
-                                    <li class="post-sharing-body">
-                                        <div class="post-sharing-body-text-wrapper">
-                                            <a href="/#/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}">
-                                                <div class="post-sharing-body-text"><span ng-bind-html="post.pt | to_trusted"></span></div>
-                                            </a>
-                                        </div>
-                                        <div data-ng-show="post.hasImage" class="post-body-image">
-                                            <div data-ng-repeat="imageID in post.imgs" href="/#/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}">
-                                                <img style="width:auto;max-width:100%;" data-ng-src="/image/get-original-post-image-by-id/{{imageID}}">
-                                            </div>
-                                        </div>
-                                        <div class="padding10"></div>
-                                    </li>
-                                </ul>
+    <div class="pin-brick" style="width:100%;" data-ng-repeat="post in posts.posts">
+        <div id="wall-main">
+            <div class="general-box">
+                <div class="post-card">
+                    <ul>
+                        <li class="post-sharing-body">
+                            <div class="post-sharing-body-text-wrapper">
+                                <a href="/#/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}">
+                                    <div class="post-sharing-body-text"><span ng-bind-html="post.pt | to_trusted"></span></div>
+                                </a>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-4 col-xs-4" style="width:300px;">
-            <div class="pin-brick" style="width:100%;padding:0px;" data-ng-repeat="post in posts.posts">
-                <div class="general-box utility-box">
+                            <div data-ng-show="post.hasImage" class="post-body-image">
+                                <div data-ng-repeat="imageID in post.imgs" href="/#/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}">
+                                    <img style="width:auto;max-width:100%;" data-ng-src="/image/get-original-post-image-by-id/{{imageID}}">
+                                </div>
+                            </div>
+                            <div class="padding10"></div>
+                        </li>
+                    </ul>
                     <ul class="post-sharing-comments">
                         <li class="post-intro">
                             <a data-ng-href="/#/business/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
@@ -87,9 +74,6 @@
                     </ul>
                 </div>
             </div>
-        </div>
+         </div>
     </div>
-</div>
-<div id="back-to-top" style="z-index:1000" data-ng-controller="UIController">
-    <a data-ng-click="gotoTop()"><span class="icon-title-arrow-up"></span>Top</a>
 </div>

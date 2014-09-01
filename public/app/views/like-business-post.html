@@ -1,0 +1,6 @@
+<span class="btn-like-wrapper">
+    <a data-ng-show="!post.isLike" class="btn-like" href="" data-ng-click="like_post(post.id)">讚好</a> 
+    <a data-ng-show="post.isLike" class="btn-like" href="" data-ng-click="unlike_post(post.id)">取消讚好</a>
+    <span ng-show="post.nol > 0"><b> · <img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>{{post.nol}}</b></span>
+    <!--div ng-show="post.isLike"> 你對這讚好</div-->
+</span>
