@@ -1,6 +1,6 @@
 'use strict';
 
-var minibeanPromo = angular.module('minibeanPromo');
+var minibeanMag = angular.module('minibeanMag');
 
 /**
  * e.g.
@@ -14,7 +14,7 @@ var minibeanPromo = angular.module('minibeanPromo');
  *     </li>
  * </ul>
  */
-minibeanPromo.filter('objFilter', function() {
+minibeanMag.filter('objFilter', function() {
     return function(items, filter) {
         if (!filter){
             return items;
@@ -35,7 +35,7 @@ minibeanPromo.filter('objFilter', function() {
 /**
  * trustAsHtml
  */
-minibeanPromo.filter('to_trusted', ['$sce', function($sce){
+minibeanMag.filter('to_trusted', ['$sce', function($sce){
     return function(text) {
         return $sce.trustAsHtml(text);
     };
@@ -45,7 +45,7 @@ minibeanPromo.filter('to_trusted', ['$sce', function($sce){
  * A generic confirmation for risky actions.
  * Usage: Add attributes: ng-really-message="Are you sure"? ng-really-click="takeAction()" function
  */
-minibeanPromo.directive('ngConfirmClick', [function() {
+minibeanMag.directive('ngConfirmClick', [function() {
     return {
         restrict: 'A',
         link: function(scope, element, attrs) {
@@ -93,7 +93,7 @@ minibeanPromo.directive('ngConfirmClick', [function() {
 /**
  * Use this directive 'valid-file' together with 'required' for input type='file'. 
  */
-minibeanPromo.directive('validFile',function(){
+minibeanMag.directive('validFile',function(){
     return {
         require:'ngModel',
         link:function(scope,el,attrs,ngModel){

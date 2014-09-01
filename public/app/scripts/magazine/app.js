@@ -25,13 +25,8 @@ angular.module('minibeanMag', [
       .when('/', {
         templateUrl: '/assets/app/views/magazine/home.html'
       })
-      .when('/freeExchange', {
-        templateUrl: '/assets/app/views/magazine/free-exchange.html',
-        controller: 'FreeExchangeController'
-      })
-      .when('/communities', {
-        templateUrl: '/assets/app/views/magazine/communities.html',
-        controller: 'CommunitiesController'
+      .when('/view/:cat', {
+        templateUrl: '/assets/app/views/magazine/home.html'
       });
   })
   .run(function(editableOptions) {

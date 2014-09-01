@@ -148,14 +148,3 @@ var prompt = function(message, className) {
         }
     });
 }
-
-//
-// Masonry layout
-//
-
-//var container = document.querySelector('#pin-container');
-//var msnry = new Masonry(container, {
-  //columnWidth: container.querySelector('.grid-sizer'),
-//  isAnimated: true,
-//  itemSelector: '.pin-item'
-//});

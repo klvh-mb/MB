@@ -64,8 +64,8 @@
                 <span data-ng-include data-src="'/assets/app/views/like-post.html'"></span>
             </span>
             <span class="pull-right">
-                <a href="" ng-click="displayLink('/#/business-post-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i>複製連結</a>
-                <a ng-show="post.isO || userInfo.isSA" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個分享嗎？"><i class="glyphicon glyphicon-trash"></i>刪除</a>
+                <a href="" ng-click="displayLink('/#/business-post-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i></a>
+                <a ng-show="post.isO || userInfo.isSA" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個分享嗎？"><i class="glyphicon glyphicon-trash"></i></a>
             </span>
         </li>
     </ul>
