@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('minibeanPromo', [
+angular.module('minibeanMag', [
   'infinite-scroll',
   'ngResource',
   'ngRoute',
@@ -17,20 +17,21 @@ angular.module('minibeanPromo', [
   'ui.tinymce',
   'ui.utils',
   'ngSanitize',
-  'angularMoment'
+  'angularMoment',
+  'wu.masonry'
 ])
   .config(function ($routeProvider) {
     $routeProvider
-      //.when('/', {
-      //  templateUrl: '/assets/app/views/promo/home.html'
-      //})
-      .when('/pn', {
-        templateUrl: '/assets/app/views/promo/pn.html',
-        controller: 'PromoPNController'
+      .when('/', {
+        templateUrl: '/assets/app/views/magazine/home.html'
       })
-      .when('/pn/:id', {
-        templateUrl: '/assets/app/views/promo/pn.html',
-        controller: 'PromoPNController'
+      .when('/freeExchange', {
+        templateUrl: '/assets/app/views/magazine/free-exchange.html',
+        controller: 'FreeExchangeController'
+      })
+      .when('/communities', {
+        templateUrl: '/assets/app/views/magazine/communities.html',
+        controller: 'CommunitiesController'
       });
   })
   .run(function(editableOptions) {
@@ -41,7 +42,7 @@ angular.module('minibeanPromo', [
 // noCache for browser
 //
 
-var minibeanPromo = angular.module('minibeanPromo');
+var minibeanMag = angular.module('minibeanMag');
 
 var URL_IGNORE = [
     "tracking",
@@ -52,7 +53,7 @@ var URL_IGNORE = [
     "modal"
 ];
 
-minibeanPromo.config(['$httpProvider', function($httpProvider) {
+minibeanMag.config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('noCacheInterceptor');
     }]).factory('noCacheInterceptor', function () {
             return {

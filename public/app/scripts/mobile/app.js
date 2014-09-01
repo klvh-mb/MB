@@ -26,7 +26,7 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/mobile/home.html'
       })
       .when('/magazine', {
-        templateUrl: '/assets/app/views/mobile/magazine.html'
+        templateUrl: '/assets/app/views/mobile/my-magazine.html'
       })
       .when('/about/:tab',{
     	templateUrl: '/assets/app/views/mobile/about-me.html',

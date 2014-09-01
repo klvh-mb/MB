@@ -13,6 +13,9 @@ GET     /promo                      controllers.promo.PromoController.index
 GET     /get-promo-pn-communities   controllers.promo.PromoPNController.getPNCommunities()
 GET     /get-promo-pns/:id          controllers.promo.PromoPNController.getPNs(id:Long)
 
+# Magazine
+GET     /magazine                   controllers.magazine.MagazineController.index
+
 # Mobile
 GET     /mobile                     controllers.Application.mobile
 GET     /mobile/login               controllers.Application.mobileLogin
