@@ -10,9 +10,9 @@
     <ul class="myCommunity-info">
         <li ng-repeat="community in myCommunities">
             <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
-            <a href="#/community/{{community.id}}/question"><img src="{{community.gi}}"></a>
+            <a href="my#/community/{{community.id}}/question"><img src="{{community.gi}}"></a>
             <p>
-                <a href="#/community/{{community.id}}/question"><b>{{community.dn|characters:20:true}}</b></a><br>
+                <a href="my#/community/{{community.id}}/question"><b>{{community.dn|characters:20:true}}</b></a><br>
                 <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
                 <span class="community-attribute">
                     <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開的社群</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開的社群</font>
@@ -28,9 +28,9 @@
         </li-->
         <li ng-repeat="community in sysCommunities" ng-if="community.tinfo != 'FEEDBACK'">
             <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
-            <a href="#/community/{{community.id}}/question"><img src="{{community.gi}}"></a>
+            <a href="my#/community/{{community.id}}/question"><img src="{{community.gi}}"></a>
             <p>
-                <a href="#/community/{{community.id}}/question"><b>{{community.dn|characters:20:true}}</b></a><br>
+                <a href="my#/community/{{community.id}}/question"><b>{{community.dn|characters:20:true}}</b></a><br>
                 <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
                 <span class="community-attribute">
                     <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開的社群</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開的社群</font>
@@ -51,9 +51,9 @@
     <ul class="myCommunity-info">
         <li ng-repeat="community in myBusinessCommunities">
             <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
-            <a href="#/business/community/{{community.id}}"><img src="{{community.gi}}"></a>
+            <a href="my#/business/community/{{community.id}}"><img src="{{community.gi}}"></a>
             <p>
-                <a href="#/business/community/{{community.id}}"><b>{{community.dn|characters:20:true}}</b></a><br>
+                <a href="my#/business/community/{{community.id}}"><b>{{community.dn|characters:20:true}}</b></a><br>
                 <span class="community-member-counter"><font>{{community.mm}}個人喜愛</font></span>
             </p>
         </li>

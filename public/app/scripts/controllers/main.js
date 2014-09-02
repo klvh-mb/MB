@@ -2,14 +2,6 @@
 
 var minibean = angular.module('minibean');
 
-minibean.controller('UIController', function($scope, $location, $anchorScroll, $window) {
-    $scope.gotoTop = function() {
-        // set the location.hash to the id of
-        // the element you wish to scroll to
-        $window.scrollTo($window.pageXOffset, 0);
-    };
-});
-
 minibean.controller('BusinessCommunityPageController', function($scope, $routeParams, $http, profilePhotoModal, iconsService,
         communityPageService, communityJoinService, userInfoService, searchMembersService, $upload, $timeout, usSpinnerService){
     
@@ -130,10 +122,9 @@ minibean.controller('SearchController',function($scope, searchService){
 });
 
 minibean.controller('ApplicationController', 
-    function($scope, $location, $interval, $route, 
+    function($scope, $location, $interval, $route, $window, 
         applicationInfoService, announcementsService, userInfoService, userNotification, userSimpleNotifications, 
-        acceptJoinRequestService, acceptFriendRequestService, userMessageNotifications, notificationMarkReadService,  
-        postManagementService, bookmarkPostService, likeFrameworkService, allCommentsService, usSpinnerService) {
+        acceptJoinRequestService, acceptFriendRequestService, userMessageNotifications, notificationMarkReadService, usSpinnerService) {
 
     log("ApplicationController starts");
 
@@ -263,7 +254,7 @@ minibean.controller('ApplicationController',
     }
     
     //
-    // Post management
+    // UI helper
     //
     
     $scope.displayLink = function(link) {
@@ -278,161 +269,10 @@ minibean.controller('ApplicationController',
         });
     }
     
-    $scope.deletePost = function(postId) {
-        postManagementService.deletePost.get({"postId":postId}, function(data) {
-            angular.forEach($scope.newsFeeds.posts, function(post, key){
-                if(post.id == postId) {
-                    $scope.newsFeeds.posts.splice($scope.newsFeeds.posts.indexOf(post),1);
-                }
-            })
-        });
-    }
-
-    $scope.bookmarkPost = function(post_id) {
-        bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.posts.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isBookmarked = true;
-                }
-            })
-        });
-    }
-    
-    $scope.unBookmarkPost = function(post_id) {
-        bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.posts.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isBookmarked = false;
-                }
-            })
-        });
-    }
-
-    $scope.like_post = function(post_id) {
-        likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.posts.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isLike=true;
-                    post.nol++;
-                }
-            })
-        });
-    }
-    
-    $scope.unlike_post = function(post_id) {
-        likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.posts.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.nol--;
-                    post.isLike=false;
-                }
-            })
-        });
-    }
-    
-    $scope.like_comment = function(post_id,comment_id) {
-        likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
-            angular.forEach($scope.posts.posts, function(post, key){
-                if(post.id == post_id) {
-                    angular.forEach(post.cs, function(comment, key){
-                        if(comment.id == comment_id) {
-                            comment.nol++;
-                            comment.isLike=true;
-                        }
-                    })
-                }
-            })
-        });
-    }
-    
-    $scope.unlike_comment = function(post_id,comment_id) {
-        likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
-            angular.forEach($scope.posts.posts, function(post, key){
-                if(post.id == post_id) {
-                    angular.forEach(post.cs, function(comment, key){
-                        if(comment.id == comment_id) {
-                            comment.nol--;
-                            comment.isLike=false;
-                        }
-                    })
-                }
-            })
-        });
-    }
-    
-    $scope.get_all_comments = function(id) {
-        angular.forEach($scope.newsFeeds.posts, function(post, key){
-            if(post.id == id) {
-                post.cs = allCommentsService.comments.get({id:id});
-                post.ep = true;
-            }
-        });
-    }
-    
-    $scope.comment_on_post = function(id, commentText) {
-        // first convert to links
-        commentText = convertText(commentText);
-
-        var data = {
-            "post_id" : id,
-            "commentText" : commentText,
-            "withPhotos" : $scope.commentSelectedFiles.length != 0
-        };
-        var post_data = data;
-        usSpinnerService.spin('loading...');
-        $http.post('/community/post/comment', data) 
-            .success(function(comment_id) {
-                $('.commentBox').val('');
-                
-                $scope.commentText = "";
-                angular.forEach($scope.posts.posts, function(post, key){
-                        if(post.id == data.post_id) {
-                            post.n_c++;
-                            post.ut = new Date();
-                            var comment = {"oid" : $scope.posts.lu, "d" : commentText, "on" : $scope.posts.lun,
-                                    "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
-                            post.cs.push(comment);
-                            
-                            if($scope.commentSelectedFiles.length == 0) {
-                                return;
-                            }
-                            
-                            $scope.commentSelectedFiles = [];
-                            $scope.commentDataUrls = [];
-                            
-                            // when post is done in BE then do photo upload
-                            //log($scope.commentTempSelectedFiles.length);
-                            for(var i=0 ; i<$scope.commentTempSelectedFiles.length ; i++) {
-                                usSpinnerService.spin('loading...');
-                                $upload.upload({
-                                    url : '/image/uploadCommentPhoto',
-                                    method: $scope.httpMethod,
-                                    data : {
-                                        commentId : comment_id
-                                    },
-                                    file: $scope.commentTempSelectedFiles[i],
-                                    fileFormDataName: 'comment-photo'
-                                }).success(function(data, status, headers, config) {
-                                    $scope.commentTempSelectedFiles.length = 0;
-                                    if(post.id == post_data.post_id) {
-                                        angular.forEach(post.cs, function(cmt, key){
-                                            if(cmt.id == comment_id) {
-                                                cmt.hasImage = true;
-                                                if(cmt.imgs) {
-                                                    
-                                                } else {
-                                                    cmt.imgs = [];
-                                                }
-                                                cmt.imgs.push(data);
-                                            }
-                                        });
-                                    }
-                                });
-                        }
-                    }
-            });
-            usSpinnerService.stop('loading...');    
-        });
+    $scope.gotoTop = function() {
+        // set the location.hash to the id of
+        // the element you wish to scroll to
+        $window.scrollTo($window.pageXOffset, 0);
     };
     
     log("ApplicationController completed");
@@ -1189,18 +1029,6 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     
     $scope.isLoadingEnabled = false;
     
-    $scope.displayLink = function(link) {
-        var link = $scope.applicationInfo.baseUrl + link;
-        
-        bootbox.dialog({
-            message: 
-                "<input style='width:85%;padding:3px;' type='text' name='post-link' id='post-link' value="+link+" readonly></input>" + 
-                "<a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink(\"post-link\")'><i class='glyphicon glyphicon-link'></i></a>",
-            title: "",
-            className: "post-bootbox-modal post-copy-link-modal",
-        });
-    }
-    
     $scope.deletePost = function(postId) {
         postManagementService.deletePost.get({"postId":postId}, function(data) {
             angular.forEach($scope.QnAs.posts, function(post, key){
@@ -1549,18 +1377,6 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     
     $scope.showImage = function(imageId) {
         $scope.img_id = imageId;
-    }
-    
-    $scope.displayLink = function(link) {
-        var link = $scope.applicationInfo.baseUrl + link;
-        
-        bootbox.dialog({
-            message: 
-                "<input style='width:85%;padding:3px;' type='text' name='post-link' id='post-link' value="+link+" readonly></input>" + 
-                "<a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink(\"post-link\")'><i class='glyphicon glyphicon-link'></i></a>",
-            title: "",
-            className: "post-bootbox-modal post-copy-link-modal",
-        });
     }
     
     $scope.deletePost = function(postId) {
@@ -2023,18 +1839,6 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
         });
     }
     
-    $scope.displayLink = function(link) {
-        var link = $scope.applicationInfo.baseUrl + link;
-        
-        bootbox.dialog({
-            message: 
-                "<input style='width:85%;padding:3px;' type='text' name='post-link' id='post-link' value="+link+" readonly></input>" + 
-                "<a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink(\"post-link\")'><i class='glyphicon glyphicon-link'></i></a>",
-            title: "",
-            className: "post-bootbox-modal post-copy-link-modal",
-        });
-    }
-    
 	$scope.deletePost = function(postId) {
         //log("deletePost:"+postId);
         postManagementService.deletePost.get({"postId":postId}, function(data) {
@@ -2369,18 +2173,6 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
             offsetq++;
         });
         
-    }
-    
-	$scope.displayLink = function(link) {
-        var link = $scope.applicationInfo.baseUrl + link;
-        
-        bootbox.dialog({
-            message: 
-                "<input style='width:85%;padding:3px;' type='text' name='post-link' id='post-link' value="+link+" readonly></input>" + 
-                "<a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink(\"post-link\")'><i class='glyphicon glyphicon-link'></i></a>",
-            title: "",
-            className: "post-bootbox-modal post-copy-link-modal",
-        });
     }
     
 	$scope.deletePost = function(postId) {
@@ -3027,22 +2819,10 @@ minibean.controller('EditArticleController',function($scope,$routeParams,$locati
 	log("EditArticleController completed");
 });
 
-minibean.controller('MagazineNewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, magazineNewsFeedService, iconsService) {
-    log("MagazineNewsFeedController starts");
+minibean.controller('MyMagazineNewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, magazineNewsFeedService, iconsService) {
+    log("MyMagazineNewsFeedController starts");
     
     $scope.newsFeeds = { posts: [] };
-    
-    $scope.displayLink = function(link) {
-        var link = $scope.applicationInfo.baseUrl + link;
-        
-        bootbox.dialog({
-            message: 
-                "<input type='text' name='post-link' id='post-link' value="+link+"></input>" + 
-                "<a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink(\"post-link\")'><i class='glyphicon glyphicon-link'></i></a>",
-            title: "",
-            className: "post-bootbox-modal post-copy-link-modal",
-        });
-    }
     
     $scope.deletePost = function(postId) {
         postManagementService.deletePost.get({"postId":postId}, function(data) {
@@ -3181,7 +2961,7 @@ minibean.controller('MagazineNewsFeedController', function($scope, postManagemen
         );
     }
 
-    log("MagazineNewsFeedController completed");
+    log("MyMagazineNewsFeedController completed");
 });
 
 minibean.controller('NewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, newsFeedService, iconsService) {
@@ -3189,18 +2969,6 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 	
 	$scope.newsFeeds = { posts: [] };
 	
-    $scope.displayLink = function(link) {
-        var link = $scope.applicationInfo.baseUrl + link;
-        
-        bootbox.dialog({
-            message: 
-                "<input type='text' name='post-link' id='post-link' value="+link+"></input>" + 
-                "<a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink(\"post-link\")'><i class='glyphicon glyphicon-link'></i></a>",
-            title: "",
-            className: "post-bootbox-modal post-copy-link-modal",
-        });
-    }
-    
 	$scope.deletePost = function(postId) {
         postManagementService.deletePost.get({"postId":postId}, function(data) {
             angular.forEach($scope.newsFeeds.posts, function(post, key){
@@ -3573,18 +3341,6 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 	
 	$scope.newsFeeds = { posts: [] };
 	
-	$scope.displayLink = function(link) {
-        var link = $scope.applicationInfo.baseUrl + link;
-        
-        bootbox.dialog({
-            message: 
-                "<input style='width:85%;padding:3px;' type='text' name='post-link' id='post-link' value="+link+" readonly></input>" + 
-                "<a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink(\"post-link\")'><i class='glyphicon glyphicon-link'></i></a>",
-            title: "",
-            className: "post-bootbox-modal post-copy-link-modal",
-        });
-    }
-    
 	$scope.deletePost = function(postId) {
         postManagementService.deletePost.get({"postId":postId}, function(data) {
             angular.forEach($scope.newsFeeds.posts, function(post, key){
@@ -3995,18 +3751,6 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 	
 	$scope.selectedSubTab = 1;
 	
-	$scope.displayLink = function(link) {
-        var link = $scope.applicationInfo.baseUrl + link;
-        
-        bootbox.dialog({
-            message: 
-                "<input style='width:85%;padding:3px;' type='text' name='post-link' id='post-link' value="+link+" readonly></input>" + 
-                "<a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink(\"post-link\")'><i class='glyphicon glyphicon-link'></i></a>",
-            title: "",
-            className: "post-bootbox-modal post-copy-link-modal",
-        });
-    }
-    
 	$scope.deletePost = function(postId) {
         postManagementService.deletePost.get({"postId":postId}, function(data) {
             angular.forEach($scope.posts.posts, function(post, key){

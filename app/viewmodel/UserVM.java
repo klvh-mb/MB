@@ -17,11 +17,11 @@ public class UserVM {
     @JsonProperty("location") public Location location;
     @JsonProperty("noOfFriends") public Long noOfFriends;
     @JsonProperty("noOfGroups") public int noOfGroups;
-    @JsonProperty("isLoggedIn") public boolean isLoggedIn;
-    @JsonProperty("isSA") public boolean isSuperAdmin;
-    @JsonProperty("isBA") public boolean isBusinessAdmin;
-    @JsonProperty("isCA") public boolean isCommunityAdmin;
-    @JsonProperty("isAdmin") public boolean isAdmin;
+    @JsonProperty("isLoggedIn") public boolean isLoggedIn = false;
+    @JsonProperty("isSA") public boolean isSuperAdmin = false;
+    @JsonProperty("isBA") public boolean isBusinessAdmin = false;
+    @JsonProperty("isCA") public boolean isCommunityAdmin = false;
+    @JsonProperty("isAdmin") public boolean isAdmin = false;
     
 	public UserVM(User user) {
 		this.firstName = user.firstName;
@@ -40,9 +40,11 @@ public class UserVM {
 		this.noOfFriends = user.getFriendsSize();
 		this.noOfGroups = user.getListOfJoinedCommunityIds().size();
 		this.isLoggedIn = user.isLoggedIn();
-		this.isSuperAdmin = user.isSuperAdmin();
-		this.isBusinessAdmin = user.isBusinessAdmin();
-		this.isCommunityAdmin = user.isCommunityAdmin();
-		this.isAdmin = this.isSuperAdmin || this.isBusinessAdmin || this.isCommunityAdmin;
+		if (this.isLoggedIn) {
+		    this.isSuperAdmin = user.isSuperAdmin();
+	        this.isBusinessAdmin = user.isBusinessAdmin();
+	        this.isCommunityAdmin = user.isCommunityAdmin();
+	        this.isAdmin = this.isSuperAdmin || this.isBusinessAdmin || this.isCommunityAdmin;    
+		}
 	}
 }

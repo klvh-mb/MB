@@ -107,27 +107,34 @@
     </span>
     
     <div class="right-side">
-        <a class="header-main-text" href="magazine#">
+        <!--a class="header-main-text" href="magazine#">
             首頁
-        </a>
-        <a ng-if="userInfo.isLoggedIn" class="header-main-text" ng-href="my#">
-            我的小萌豆
-        </a>
-        <a ng-if="!userInfo.isLoggedIn" class="header-main-text" ng-href="my#">
-            登入
-        </a>
-        <!--a ng-if="userInfo.isLoggedIn" class="header-main-text" ng-href="my#/about/activities">
-            {{userInfo.firstName}}
         </a-->
-        <a ng-if="userInfo.isLoggedIn" style="position:relative;top:-3px;" class="dropdown-toggle dropdown-hover colorChange" data-toggle="dropdown" href="">
-            <img src="../assets/app/images/general/icons/w_setup.png" />
-        </a>
-        <ul class="dropdown-menu">
-            <!--li><a ng-href="my#/">設定</a></li-->
-            <li><a href="/logout">登出</a></li>
-            <li class="dropdown-divider" role="presentation"></li>
-            <!--li><a ng-href="">回報問題</a></li-->
-        </ul>
+        <span ng-if="userInfo.isLoggedIn">
+            <a ng-if="userInfo.isLoggedIn" class="header-main-text" ng-href="my#">
+                我的小萌豆
+            </a>
+            <a ng-if="userInfo.isLoggedIn" class="header-main-text" ng-href="my#/about/activities">
+                {{userInfo.firstName}}
+            </a>
+            <a style="position:relative;top:-3px;" class="dropdown-toggle dropdown-hover colorChange" data-toggle="dropdown" href="">
+                <img src="../assets/app/images/general/icons/w_setup.png" />
+            </a>
+            <ul class="dropdown-menu">
+                <!--li><a ng-href="my#/">設定</a></li-->
+                <li><a href="/logout">登出</a></li>
+                <li class="dropdown-divider" role="presentation"></li>
+                <!--li><a ng-href="">回報問題</a></li-->
+            </ul>
+        </span>
+        <span ng-if="!userInfo.isLoggedIn">
+            <a ng-if="!userInfo.isLoggedIn" class="header-main-text" ng-href="/signup">
+                新會員登記
+            </a>
+            <a ng-if="!userInfo.isLoggedIn" class="header-main-text" ng-href="my#">
+                登入
+            </a>
+        </span>
     </div>
 </div>
 <div id="main-top"/>

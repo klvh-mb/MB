@@ -6,7 +6,7 @@
         <li ng-repeat="community in result.communities">
             <img src="{{community.gi}}">
             <p>
-                <a href="#/community/{{community.id}}/question"><b><font><font style="color: #428bca;">{{community.dn|characters:15:true}}</font></font></b></a><br>
+                <a href="my#/community/{{community.id}}/question"><b><font><font style="color: #428bca;">{{community.dn|characters:15:true}}</font></font></b></a><br>
                 <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
                 <span class="community-attribute">
                     <!--font data-ng-show="community.tp=='OPEN'">   ·   公開的社群</font--><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開的社群</font>
@@ -17,19 +17,3 @@
         </li>
     </ul>
 </div>
- 
-<!-- 
-<div id="newCommunity" class="general-box utility-box">
-    <div class="con-title">
-        <span class="icon-box icon-box-green icon-title-newcommunity"></span><a href="#">New Community</a>
-        <div class="pull-right">
-        	<a href="my#/myGroups/groups" class="text-muted"><i class="fa fa-2x fa-th-large"></i></a>
-		</div>
-    </div>
-    <div class="photo-wrapper-A">
-        <ul class="photo-list">
-            <li ng-repeat="community in result.communities"><a data-ng-href="#/community/{{community.id}}" ><p class="photo-title-B">{{community.dn}}</p><span class="mask-100percent-height"></span><img src="/community-image-by-id/{{community.id}}" width="175" height="125"></a></li>
-        </ul>
-    </div>
-</div> 
--->
