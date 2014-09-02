@@ -222,8 +222,15 @@ public class UserController extends Controller {
 		final User user = User.findById(id);
 		final User localUser = Application.getLocalUser(session());
 		List<CommunityPostVM> posts = new ArrayList<>();
-		List<Post> newsFeeds = user.getUserNewsfeeds(
-		        Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+		List<Post> newsFeeds;
+		
+		if(user == localUser){
+			newsFeeds = localUser.getUserNewsfeeds(
+			        Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+		} else {
+			newsFeeds = user.getUserNewsfeeds(
+			        Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT, localUser);
+		}
 		
 		if(newsFeeds != null ){
 			for(Post p : newsFeeds) {
