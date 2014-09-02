@@ -9,16 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.NoResultException;
-import javax.persistence.OneToMany;
-import javax.persistence.Query;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -68,7 +59,10 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 
 	@OneToMany(cascade=CascadeType.REMOVE, fetch = FetchType.LAZY)
 	public List<Post> posts = new ArrayList<Post>();
-	
+
+    @ManyToMany
+    public List<CommunityCategory> communityCategories;
+
 	@Enumerated(EnumType.ORDINAL)
 	public CommunityType communityType;
 
@@ -93,10 +87,21 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	
 	public String icon;
 
+
+    /**
+     * Ctor
+     */
 	public Community() {
 		this.objectType = SocialObjectType.COMMUNITY;
 	}
-	
+
+    /**
+     * Ctor
+     * @param name
+     * @param description
+     * @param owner
+     * @param type
+     */
 	public Community(String name, String description, User owner, CommunityType type) {
 		this();
 		this.name = name;
@@ -305,6 +310,24 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
         }
         return result;
     }
+
+    public static List<Long> findBusinessCommIdsByCategory(Long commCategoryId) {
+        Query q = JPA.em().createNativeQuery("SELECT c.id FROM Community c where c.communityType = ?1 and c.deleted = false "+
+                "and c.id in (select Community_id from Community_CommunityCategory where communityCategories_id = ?2)");
+        q.setParameter(1, CommunityType.BUSINESS.name());
+        q.setParameter(2, commCategoryId.longValue());
+
+        final List<Long> result = new ArrayList<>();
+        try {
+            List<BigInteger> commIds = q.getResultList();
+            for (BigInteger commId : commIds) {
+                result.add(commId.longValue());
+            }
+        } catch (NoResultException e) {
+        }
+		return result;
+    }
+
 
 	public static List<Community> findByTargetingType(TargetingSocialObject.TargetingType targetingType) {
         Query q = JPA.em().createQuery("SELECT c FROM Community c where system = ?1 and targetingType = ?2 and excludeFromTargeting = false and deleted = false");

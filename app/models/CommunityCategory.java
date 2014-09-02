@@ -4,7 +4,6 @@ import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,9 +20,6 @@ public class CommunityCategory {
 
 	public String name;
 
-    // TODO: need to revise
-//    @ManyToMany
-//    public List<Community> communities;
 
 
     public CommunityCategory() { }

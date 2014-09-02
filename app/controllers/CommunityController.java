@@ -855,14 +855,14 @@ public class CommunityController extends Controller{
      * @return
      */
     @Transactional
-    public static Result getBusinessfeeds(int offset) {
+    public static Result getBusinessfeedsByCategory(int offset, Long communityCategoryId) {
         final User localUser = Application.getLocalUser(session());
 
         // reloading business feed
         if(offset == 0) {
-            logger.underlyingLogger().info("STS [u="+localUser.id+"][name="+localUser.name+"] Reloading business newsfeed");
+            logger.underlyingLogger().info("STS [u="+localUser.id+"][name="+localUser.name+"][cat="+communityCategoryId+"] Reloading business newsfeed");
             // Re-index user's biz feed
-            BusinessFeedCommTargetingEngine.indexBusinessNewsfeedForUser(localUser.getId());
+            BusinessFeedCommTargetingEngine.indexBusinessNewsfeedForUser(localUser.getId(), communityCategoryId);
     	}
 
         List<Post> newsFeeds = localUser.getFeedPosts(false, offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
@@ -882,8 +882,13 @@ public class CommunityController extends Controller{
         NewsFeedVM vm = new NewsFeedVM(localUser, posts);
 
         sw.stop();
-        logger.underlyingLogger().info("[u="+localUser.id+"] getBusinessfeeds(offset="+offset+") count="+posts.size()+". vm create Took "+sw.getElapsedMS()+"ms");
+        logger.underlyingLogger().info("[u="+localUser.id+"][cat="+communityCategoryId+"] getBusinessfeeds(offset="+offset+") count="+posts.size()+". vm create Took "+sw.getElapsedMS()+"ms");
         return ok(Json.toJson(vm));
+    }
+
+    @Transactional
+    public static Result getBusinessfeeds(int offset) {
+        return getBusinessfeedsByCategory(offset, null);
     }
     
     @Transactional

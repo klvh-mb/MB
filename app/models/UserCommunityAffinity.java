@@ -41,6 +41,9 @@ public class UserCommunityAffinity extends domain.Entity {
 
     private boolean newsfeedEnabled = true;      // default to true
 
+    /**
+     * Ctor
+     */
     public UserCommunityAffinity() { }
 
     /**
@@ -88,10 +91,32 @@ public class UserCommunityAffinity extends domain.Entity {
         executeUpdate();
     }
 
-    public static List<UserCommunityAffinity> findNewsFeedActiveByUser(Long userId) {
+    /**
+     * Social and active communities only.
+     * @param userId
+     * @return
+     */
+    public static List<UserCommunityAffinity> findSocialFeedCommunitiesByUser(Long userId) {
         Query q = JPA.em().createQuery("select u from UserCommunityAffinity u, Community c "+
-                "where u.userId = ?1 and u.newsfeedEnabled = 1 and u.communityId = c.id and c.deleted = 0");
+                "where u.userId = ?1 and u.newsfeedEnabled = 1 and u.communityId = c.id "+
+                "and c.deleted = 0 and c.communityType in (?2, ?3)");
         q.setParameter(1, userId);
+        q.setParameter(2, Community.CommunityType.OPEN);
+        q.setParameter(3, Community.CommunityType.CLOSE);
+        return (List<UserCommunityAffinity>) q.getResultList();
+    }
+
+    /**
+     * Business and active communities only.
+     * @param userId
+     * @return
+     */
+    public static List<UserCommunityAffinity> findBusinessFeedCommunitiesByUser(Long userId) {
+        Query q = JPA.em().createQuery("select u from UserCommunityAffinity u, Community c "+
+                "where u.userId = ?1 and u.newsfeedEnabled = 1 and u.communityId = c.id "+
+                "and c.deleted = 0 and c.communityType = ?2");
+        q.setParameter(1, userId);
+        q.setParameter(2, Community.CommunityType.BUSINESS);
         return (List<UserCommunityAffinity>) q.getResultList();
     }
 

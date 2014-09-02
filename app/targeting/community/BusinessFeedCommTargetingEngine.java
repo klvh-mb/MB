@@ -26,11 +26,16 @@ public class BusinessFeedCommTargetingEngine {
      /**
      * @param userId
      */
-    public static void indexBusinessNewsfeedForUser(Long userId) {
+    public static void indexBusinessNewsfeedForUser(Long userId, Long commCategoryId) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         // get list of business comm ids
-        List<Long> bizCommIds = Community.findIdsByCommunityType(Community.CommunityType.BUSINESS);
+        List<Long> bizCommIds;
+        if (commCategoryId == null) {
+            bizCommIds = Community.findIdsByCommunityType(Community.CommunityType.BUSINESS);
+        } else {
+            bizCommIds = Community.findBusinessCommIdsByCategory(commCategoryId);
+        }
 
         PostDistributionTracker distTracker = new PostDistributionTracker();
 
