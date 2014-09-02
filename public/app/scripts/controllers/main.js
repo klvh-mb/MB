@@ -129,8 +129,11 @@ minibean.controller('SearchController',function($scope, searchService){
 	log("SearchController completed");
 });
 
-minibean.controller('ApplicationController',function($scope, $location, $interval, $route, applicationInfoService, announcementsService, userInfoService, 
-    userNotification, userSimpleNotifications, acceptJoinRequestService, acceptFriendRequestService, userMessageNotifications, notificationMarkReadService, usSpinnerService){
+minibean.controller('ApplicationController', 
+    function($scope, $location, $interval, $route, 
+        applicationInfoService, announcementsService, userInfoService, userNotification, userSimpleNotifications, 
+        acceptJoinRequestService, acceptFriendRequestService, userMessageNotifications, notificationMarkReadService,  
+        postManagementService, bookmarkPostService, likeFrameworkService, allCommentsService, usSpinnerService) {
 
     log("ApplicationController starts");
 
@@ -140,11 +143,11 @@ minibean.controller('ApplicationController',function($scope, $location, $interva
         $route.reload();
     }
     
-    $scope.topAnnouncements = announcementsService.getTopAnnouncements.get();
-
     $scope.applicationInfo = applicationInfoService.ApplicationInfo.get();
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
+
+    $scope.topAnnouncements = announcementsService.getTopAnnouncements.get();
 	
 	$scope.set_background_image = function() {
 		return { background: 'url(/image/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+') center center no-repeat'};
@@ -258,6 +261,179 @@ minibean.controller('ApplicationController',function($scope, $location, $interva
         //e.preventDefault;
         $("#wrapper").toggleClass("toggled");
     }
+    
+    //
+    // Post management
+    //
+    
+    $scope.displayLink = function(link) {
+        var link = $scope.applicationInfo.baseUrl + link;
+        
+        bootbox.dialog({
+            message: 
+                "<input type='text' name='post-link' id='post-link' value="+link+"></input>" + 
+                "<a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink(\"post-link\")'><i class='glyphicon glyphicon-link'></i></a>",
+            title: "",
+            className: "post-bootbox-modal post-copy-link-modal",
+        });
+    }
+    
+    $scope.deletePost = function(postId) {
+        postManagementService.deletePost.get({"postId":postId}, function(data) {
+            angular.forEach($scope.newsFeeds.posts, function(post, key){
+                if(post.id == postId) {
+                    $scope.newsFeeds.posts.splice($scope.newsFeeds.posts.indexOf(post),1);
+                }
+            })
+        });
+    }
+
+    $scope.bookmarkPost = function(post_id) {
+        bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
+            angular.forEach($scope.posts.posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isBookmarked = true;
+                }
+            })
+        });
+    }
+    
+    $scope.unBookmarkPost = function(post_id) {
+        bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
+            angular.forEach($scope.posts.posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isBookmarked = false;
+                }
+            })
+        });
+    }
+
+    $scope.like_post = function(post_id) {
+        likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
+            angular.forEach($scope.posts.posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isLike=true;
+                    post.nol++;
+                }
+            })
+        });
+    }
+    
+    $scope.unlike_post = function(post_id) {
+        likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
+            angular.forEach($scope.posts.posts, function(post, key){
+                if(post.id == post_id) {
+                    post.nol--;
+                    post.isLike=false;
+                }
+            })
+        });
+    }
+    
+    $scope.like_comment = function(post_id,comment_id) {
+        likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
+            angular.forEach($scope.posts.posts, function(post, key){
+                if(post.id == post_id) {
+                    angular.forEach(post.cs, function(comment, key){
+                        if(comment.id == comment_id) {
+                            comment.nol++;
+                            comment.isLike=true;
+                        }
+                    })
+                }
+            })
+        });
+    }
+    
+    $scope.unlike_comment = function(post_id,comment_id) {
+        likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
+            angular.forEach($scope.posts.posts, function(post, key){
+                if(post.id == post_id) {
+                    angular.forEach(post.cs, function(comment, key){
+                        if(comment.id == comment_id) {
+                            comment.nol--;
+                            comment.isLike=false;
+                        }
+                    })
+                }
+            })
+        });
+    }
+    
+    $scope.get_all_comments = function(id) {
+        angular.forEach($scope.newsFeeds.posts, function(post, key){
+            if(post.id == id) {
+                post.cs = allCommentsService.comments.get({id:id});
+                post.ep = true;
+            }
+        });
+    }
+    
+    $scope.comment_on_post = function(id, commentText) {
+        // first convert to links
+        commentText = convertText(commentText);
+
+        var data = {
+            "post_id" : id,
+            "commentText" : commentText,
+            "withPhotos" : $scope.commentSelectedFiles.length != 0
+        };
+        var post_data = data;
+        usSpinnerService.spin('loading...');
+        $http.post('/community/post/comment', data) 
+            .success(function(comment_id) {
+                $('.commentBox').val('');
+                
+                $scope.commentText = "";
+                angular.forEach($scope.posts.posts, function(post, key){
+                        if(post.id == data.post_id) {
+                            post.n_c++;
+                            post.ut = new Date();
+                            var comment = {"oid" : $scope.posts.lu, "d" : commentText, "on" : $scope.posts.lun,
+                                    "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+                            post.cs.push(comment);
+                            
+                            if($scope.commentSelectedFiles.length == 0) {
+                                return;
+                            }
+                            
+                            $scope.commentSelectedFiles = [];
+                            $scope.commentDataUrls = [];
+                            
+                            // when post is done in BE then do photo upload
+                            //log($scope.commentTempSelectedFiles.length);
+                            for(var i=0 ; i<$scope.commentTempSelectedFiles.length ; i++) {
+                                usSpinnerService.spin('loading...');
+                                $upload.upload({
+                                    url : '/image/uploadCommentPhoto',
+                                    method: $scope.httpMethod,
+                                    data : {
+                                        commentId : comment_id
+                                    },
+                                    file: $scope.commentTempSelectedFiles[i],
+                                    fileFormDataName: 'comment-photo'
+                                }).success(function(data, status, headers, config) {
+                                    $scope.commentTempSelectedFiles.length = 0;
+                                    if(post.id == post_data.post_id) {
+                                        angular.forEach(post.cs, function(cmt, key){
+                                            if(cmt.id == comment_id) {
+                                                cmt.hasImage = true;
+                                                if(cmt.imgs) {
+                                                    
+                                                } else {
+                                                    cmt.imgs = [];
+                                                }
+                                                cmt.imgs.push(data);
+                                            }
+                                        });
+                                    }
+                                });
+                        }
+                    }
+            });
+            usSpinnerService.stop('loading...');    
+        });
+    };
     
     log("ApplicationController completed");
 });

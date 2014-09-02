@@ -29,7 +29,7 @@
 <div class="padding10"></div>
 
 <div class="memberCard" ng-repeat="member in result.members | filter:query " ng-show="showMembers">
- 	<a href="/#/profile/{{member.id}}" class="d-s ob">
+ 	<a href="my#/profile/{{member.id}}" class="d-s ob">
     	<div class="memberImageBox">
         	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{member.dn}}" data-ng-src="/image/get-thumbnail-image-by-id/{{member.id}}" alt="..." width="70px" height="70px">
         	<img class="memberImageStar" ng-show="member.isAdmin" data-ng-src="/assets/app/images/general/icons/star.png"/>
@@ -37,13 +37,13 @@
 	</a>
     <div class="memberTagBox">
     	<div class="memberTag">
-        	<a href="/#/profile/{{member.id}}" class="memberTagRef"><span class="memberName">{{member.dn}}</span></a>
+        	<a href="my#/profile/{{member.id}}" class="memberTagRef"><span class="memberName">{{member.dn}}</span></a>
         	<span class="memberType" ng-show="member.isAdmin">管理員</span>
         </div>
     </div>
 </div>
 <div class="memberCard" ng-repeat="member in result.members | filter:query " ng-show="showAdmin && member.isAdmin">
- 	<a href="/#/profile/{{member.id}}" class="d-s ob">
+ 	<a href="my#/profile/{{member.id}}" class="d-s ob">
     	<div class="memberImageBox">
         	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{member.dn}}" data-ng-src="/image/get-thumbnail-image-by-id/{{member.id}}" alt="..." width="70px" height="70px">
         	<img class="memberImageStar" ng-show="member.isAdmin" data-ng-src="/assets/app/images/general/icons/star.png"/>
@@ -51,7 +51,7 @@
 	</a>
     <div class="memberTagBox">
     	<div class="memberTag">
-        	<a href="/#/profile/{{member.id}}" class="memberTagRef">
+        	<a href="my#/profile/{{member.id}}" class="memberTagRef">
         	<span class="memberName">{{member.dn}}</span></a><span class="memberType" ng-show="member.isAdmin">管理員</span>
         </div>
     </div>

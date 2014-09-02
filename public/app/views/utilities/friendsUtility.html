@@ -1,11 +1,11 @@
 <div id="friends" class="general-box utility-box">
     <div class="con-title">
-        <a class="text-muted" ng-href="/#/about">
-            <span class="icon-box icon-box-purpleLight icon-title-friends"></span><a href="/#/about/friends/" class="text-muted">朋友</a><span class="text-muted" style="margin-left:5px;">({{result.sn}})</span>
+        <a class="text-muted" ng-href="my#/about">
+            <span class="icon-box icon-box-purpleLight icon-title-friends"></span><a href="my#/about/friends/" class="text-muted">朋友</a><span class="text-muted" style="margin-left:5px;">({{result.sn}})</span>
         </a>
     </div>
     <div class="widget-thumbnail">
-        <a tag="user-picture-a" href="/#/profile/{{friend.id}}" ng-repeat="friend in result.friends">
+        <a tag="user-picture-a" href="my#/profile/{{friend.id}}" ng-repeat="friend in result.friends">
             <img tag="user-picture-img" data-toggle="tooltip" data-placement="top" data-ng-src="/image/get-thumbnail-image-by-id/{{friend.id}}" data-tooltip="{{friend.dn}}">
         </a>
     </div>

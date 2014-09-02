@@ -69,7 +69,6 @@ import com.mnt.exception.SocialObjectNotJoinableException;
 import com.mnt.exception.SocialObjectNotLikableException;
 import com.mnt.exception.SocialObjectNotPostableException;
 
-import controllers.Application;
 import domain.CommentType;
 import domain.DefaultValues;
 import domain.PostType;
@@ -1597,13 +1596,17 @@ public class User extends SocialObject implements Subject, Socializable {
         return ret;
     }
     
-    public static User noLoginUser() {
-        User noLoginUser = new User();
-        noLoginUser.id = -1L;
-        return noLoginUser;
+    public boolean isLoggedIn() {
+        return isLoggedIn(this);
     }
     
     public static boolean isLoggedIn(User user) {
         return user != null && user.id != -1L;
+    }
+    
+    public static User noLoginUser() {
+        User noLoginUser = new User();
+        noLoginUser.id = -1L;
+        return noLoginUser;
     }
 }

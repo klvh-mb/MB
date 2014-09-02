@@ -126,10 +126,6 @@ public class Application extends Controller {
     public static Result getUserTargetProfile() {
 	    final User localUser = getLocalUser(session());
 	    TargetProfile targetProfile = TargetProfile.fromUser(localUser);
-        if (targetProfile == null) {
-            logger.underlyingLogger().error(String.format("[u=%d] getUserTargetProfile returns null", localUser.getId()));
-            return status(500);
-        }
         return ok(Json.toJson(new UserTargetProfileVM(targetProfile)));
     }
     
@@ -156,7 +152,8 @@ public class Application extends Controller {
 	    
         final User localUser = getLocalUser(session());
 		if(!User.isLoggedIn(localUser)) {
-			return login();
+			//return ok(views.html.magazine.home.render());
+		    return login();
 		}
 
 		return home(localUser);

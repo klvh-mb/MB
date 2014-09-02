@@ -55,7 +55,7 @@ public class UserController extends Controller {
     @Transactional(readOnly=true)
     public static Result isNewsfeedEnabledForCommunity(Long communityId) {
         final User localUser = Application.getLocalUser(session());
-
+        
         UserCommunityAffinity affinity = UserCommunityAffinity.findByUserCommunity(localUser.id, communityId);
         if (affinity == null)
             return status(500);
@@ -68,6 +68,10 @@ public class UserController extends Controller {
     @Transactional
     public static Result toggleNewsfeedEnabledForCommunity(Long communityId) {
         final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
 
         UserCommunityAffinity affinity = UserCommunityAffinity.findByUserCommunity(localUser.id, communityId);
         if (affinity == null)
@@ -88,6 +92,7 @@ public class UserController extends Controller {
     @Transactional(readOnly=true)
     public static Result getBookmarkSummary() {
         final User localUser = Application.getLocalUser(session());
+        
         BookmarkSummaryVM summary = new BookmarkSummaryVM(
                 localUser.getQnABookmarkCount(), localUser.getPostBookmarkCount(), localUser.getArticleBookmarkCount());
         return ok(Json.toJson(summary));
@@ -98,6 +103,7 @@ public class UserController extends Controller {
 	    NanoSecondStopWatch sw = new NanoSecondStopWatch();
 	    
 		final User localUser = Application.getLocalUser(session());
+
 		UserVM userInfo = new UserVM(localUser);
 		
 		sw.stop();
@@ -116,6 +122,10 @@ public class UserController extends Controller {
 	@Transactional
 	public static Result uploadProfilePhoto() {
 		final User localUser = Application.getLocalUser(session());
+		if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
 		logger.underlyingLogger().info("STS [u="+localUser.id+"] uploadProfilePhoto");
 
 		FilePart picture = request().body().asMultipartFormData().getFile("profile-photo");
@@ -135,6 +145,11 @@ public class UserController extends Controller {
 	@Transactional
 	public static Result uploadCoverPhoto() {
 		final User localUser = Application.getLocalUser(session());
+		if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+		
 		logger.underlyingLogger().info("STS [u="+localUser.id+"] uploadCoverPhoto");
 
 		FilePart picture = request().body().asMultipartFormData().getFile("profile-photo");
@@ -201,6 +216,11 @@ public class UserController extends Controller {
         String aboutMe = Emoticon.replace(form.get("userInfo.aboutMe"));
         
         final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
         localUser.firstName = firstName;
         localUser.lastName = lastName;
         localUser.displayName = firstName + " " + lastName;
@@ -220,6 +240,7 @@ public class UserController extends Controller {
 
 		final User user = User.findById(id);
 		final User localUser = Application.getLocalUser(session());
+
 		List<CommunityPostVM> posts = new ArrayList<>();
 		List<Post> newsFeeds = user.getUserNewsfeeds(
 		        Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
@@ -247,6 +268,7 @@ public class UserController extends Controller {
 
 		final User user = User.findById(id);
 		final User localUser = Application.getLocalUser(session());
+		
 		List<CommunityPostVM> posts = new ArrayList<>();
 		List<Post> newsFeeds =  user.getUserNewsfeedsComments(Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 		
@@ -270,6 +292,11 @@ public class UserController extends Controller {
 	@Transactional
 	public static Result searchSocialObjects(String query) {
 		final User localUser = Application.getLocalUser(session());
+		if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+		
 		List<User> users = localUser.searchLike(query);
 		List<SocialObjectVM> socialVMs = new ArrayList<>();
 		for(User user : users) {
@@ -293,6 +320,7 @@ public class UserController extends Controller {
     @Transactional
     public static Result getAllFriendRequests() {
     	final User localUser = Application.getLocalUser(session());
+    	
     	List<Notification> friendRequests = localUser.getAllFriendRequestNotification();
     	
     	List<FriendWidgetChildVM> requests = new ArrayList<>();
@@ -305,6 +333,11 @@ public class UserController extends Controller {
     @Transactional
     public static Result acceptFriendRequest(Long id, Long notify_id) {
     	final User localUser = Application.getLocalUser(session());
+    	if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+    	
     	User invitee = User.findById(id);
     	
     	try {
@@ -321,6 +354,7 @@ public class UserController extends Controller {
     @Transactional
     public static Result getAllJoinRequests() {
     	final User localUser = Application.getLocalUser(session());
+    	
     	List<Notification> joinRequests = localUser.getAllJoinRequestNotification();
     	List<NotificationVM> requests = new ArrayList<>();
     	for(Notification n : joinRequests) {
@@ -332,6 +366,10 @@ public class UserController extends Controller {
     @Transactional
     public static Result acceptJoinRequest(Long member_id,Long group_id,Long notify_id) {
     	final User localUser = Application.getLocalUser(session());
+    	if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
     	
     	User invitee = User.findById(member_id);
     	Community community = Community.findById(group_id);
@@ -351,6 +389,10 @@ public class UserController extends Controller {
     @Transactional
     public static Result acceptInviteRequest(Long member_id, Long group_id, Long notify_id) {
     	final User localUser = Application.getLocalUser(session());
+    	if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
     	
     	User invitee = User.findById(member_id);
     	Community community = Community.findById(group_id);
@@ -378,7 +420,6 @@ public class UserController extends Controller {
     public static Result getProfile(Long id) {
     	User user = User.findById(id);
     	final User localUser = Application.getLocalUser(session());
-    	
     	return ok(Json.toJson(ProfileVM.profile(user,localUser)));
     }
     
@@ -553,6 +594,11 @@ public class UserController extends Controller {
 	@Transactional
     public static Result sendMessage() {
         final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
         DynamicForm form = form().bindFromRequest();
         
         Long receiverUserID = Long.parseLong(form.get("receiver_id"));
@@ -566,6 +612,11 @@ public class UserController extends Controller {
 	@Transactional
     public static Result deleteConversation(Long id) {
 		final User localUser = Application.getLocalUser(session());
+		if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+		
         Conversation.archiveConversation(id, localUser);
         return getAllConversation();
     }
@@ -583,6 +634,11 @@ public class UserController extends Controller {
 	@Transactional
     public static Result startConversation(Long id) {
         final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
         User user = User.findById(id);
         Conversation conversation = Conversation.startConversation(localUser, user);
         conversation.setUpdatedDate(new Date());
@@ -592,6 +648,11 @@ public class UserController extends Controller {
 	@Transactional
 	public static Result searchUserFriends(String query) {
 		final User localUser = Application.getLocalUser(session());
+		if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+		
 		List<User> users = localUser.searchUserFriends(query);
 		List<SocialObjectVM> socialVMs = new ArrayList<>();
 		for(User user : users) {
@@ -607,6 +668,11 @@ public class UserController extends Controller {
 	@Transactional
 	public static Result sendPhotoInMessage() {
 		final User localUser = Application.getLocalUser(session());
+		if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+		
         DynamicForm form = DynamicForm.form().bindFromRequest();
         String messageId = form.get("messageId");
         

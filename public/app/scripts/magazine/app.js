@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('minibeanMag', [
+angular.module('minibean', [
   'infinite-scroll',
   'ngResource',
   'ngRoute',
@@ -27,6 +27,18 @@ angular.module('minibeanMag', [
       })
       .when('/view/:cat', {
         templateUrl: '/assets/app/views/magazine/home.html'
+      })
+      .when('/business/community/:id',{
+        templateUrl: '/assets/app/views/business-community-page.html',
+        controller : 'BusinessCommunityPageController'  
+      })
+      .when('/business/community/:id/:tab',{
+        templateUrl: '/assets/app/views/business-community-page.html',
+        controller : 'BusinessCommunityPageController'  
+      })
+      .when('/business-post-landing/id/:id/communityId/:communityId',{
+        templateUrl: '/assets/app/views/business-post-landing.html',
+        controller : 'PostLandingController'  
       });
   })
   .run(function(editableOptions) {
@@ -37,7 +49,7 @@ angular.module('minibeanMag', [
 // noCache for browser
 //
 
-var minibeanMag = angular.module('minibeanMag');
+var minibean = angular.module('minibean');
 
 var URL_IGNORE = [
     "tracking",
@@ -48,7 +60,7 @@ var URL_IGNORE = [
     "modal"
 ];
 
-minibeanMag.config(['$httpProvider', function($httpProvider) {
+minibean.config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('noCacheInterceptor');
     }]).factory('noCacheInterceptor', function () {
             return {

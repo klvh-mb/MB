@@ -274,7 +274,6 @@ public class CommunityController extends Controller{
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         final User localUser = Application.getLocalUser(session());
-        
         Post post = Post.findById(id);
         List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
         List<Comment> comments = post.getCommentsOfPost();
@@ -295,7 +294,6 @@ public class CommunityController extends Controller{
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         final User localUser = Application.getLocalUser(session());
-        
         Post post = Post.findById(id);
         List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
         List<Comment> comments = post.getCommentsOfPost();
@@ -333,7 +331,6 @@ public class CommunityController extends Controller{
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         final User localUser = Application.getLocalUser(session());
-
         Community community = Community.findById(Long.parseLong(id));
         int start = (Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) + DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
         List<CommunityPostVM> postsVM = new ArrayList<>();
@@ -355,7 +352,6 @@ public class CommunityController extends Controller{
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         final User localUser = Application.getLocalUser(session());
-
         Community community = Community.findById(Long.parseLong(id));
         int start = (Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) + DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
         List<CommunityPostVM> postsVM = new ArrayList<>();
@@ -397,6 +393,11 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result createCommunity() {
         final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
         Form<Community> form =
                 DynamicForm.form(Community.class).bindFromRequest(
                         "name","description","icon","communityType");
@@ -474,7 +475,12 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result commentOnCommunityPost() {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
+        
         final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
 
         DynamicForm form = form().bindFromRequest();
         Long postId = Long.parseLong(form.get("post_id"));
@@ -510,6 +516,10 @@ public class CommunityController extends Controller{
     public static Result postOnCommunity() {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
         final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
 
         DynamicForm form = form().bindFromRequest();
         Long communityId = Long.parseLong(form.get("community_id"));
@@ -537,6 +547,11 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result deletePost(Long postId) {
         final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
         Post post = Post.findById(postId);
 
         if (logger.underlyingLogger().isDebugEnabled()) {
@@ -571,7 +586,13 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result joinToCommunity(Long id) {
         logger.underlyingLogger().debug("joinToCommunity");
+        
         final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
         Community community = Community.findById(id);
         try {
             localUser.requestedToJoin(community);
@@ -584,6 +605,11 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result leaveThisCommunity(Long community_id) {
         final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
         Community community = Community.findById(community_id);
 
         if (logger.underlyingLogger().isDebugEnabled()) {
@@ -619,9 +645,13 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result postQuestionOnCommunity() {
-
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
+        
         final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
 
         DynamicForm form = DynamicForm.form().bindFromRequest();
         Long communityId = Long.parseLong(form.get("community_id"));
@@ -650,7 +680,12 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result answerToQuestionOnQnACommunity() {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
+        
         final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
 
         DynamicForm form = form().bindFromRequest();
         Long postId = Long.parseLong(form.get("post_id"));
@@ -768,7 +803,6 @@ public class CommunityController extends Controller{
     public static Result getMyUpdates(Long timestamps){
         logger.underlyingLogger().debug("getMyUpdates");
         final User localUser = Application.getLocalUser(session());
-        
         List<CommunityPostVM> posts = new ArrayList<>();
         for(Post p :localUser.getMyUpdates(timestamps)) {
             CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
@@ -872,6 +906,7 @@ public class CommunityController extends Controller{
     public static Result getNextNewsFeeds(Long timestamp) {
         logger.underlyingLogger().debug("getNextNewsFeeds");
         final User localUser = Application.getLocalUser(session());
+        
         List<CommunityPostVM> posts = new ArrayList<>();
         for(Post p :localUser.getMyNextNewsFeeds(timestamp)) {
             CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
@@ -891,6 +926,11 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result likeThePost(Long post_id) {
         User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
         Post post = Post.findById(post_id);
         post.onLikedBy(localUser);
         return ok();
@@ -899,6 +939,11 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result unlikeThePost(Long post_id) throws SocialObjectNotLikableException {
         User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
         Post post = Post.findById(post_id);
         post.onUnlikedBy(localUser);
         localUser.doUnLike(post_id, post.objectType);
@@ -908,6 +953,11 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result wantAnswerFromQuestion(Long post_id) {
         User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
         Post post = Post.findById(post_id);
         post.onWantAnswerBy(localUser);
         return ok();
@@ -916,6 +966,11 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result unwantAnswerFromQuestion(Long post_id) throws SocialObjectNotLikableException {
         User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
         Post post = Post.findById(post_id);
         post.onUnwantAnswerBy(localUser);
         localUser.doUnwantAnswer(post_id, post.objectType);
@@ -925,6 +980,11 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result likeTheComment(Long comment_id) {
         User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
         Comment comment = Comment.findById(comment_id);
         comment.onLikedBy(localUser);
         return ok();
@@ -933,6 +993,11 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result unlikeTheComment(Long comment_id) throws SocialObjectNotLikableException {
         User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
         Comment comment = Comment.findById(comment_id);
         comment.onUnlikedBy(localUser);
         localUser.doUnLike(comment_id, comment.objectType);
@@ -942,6 +1007,11 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result doBookmark(Long post_id){
         User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
         Post post = Post.findById(post_id);
         post.onBookmarkedBy(localUser);
         return ok();
@@ -950,6 +1020,11 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result doUnBookmark(Long post_id){
         User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
         Post post = Post.findById(post_id);
         localUser.unBookmarkOn(post_id, post.objectType);
         return ok();
@@ -960,6 +1035,11 @@ public class CommunityController extends Controller{
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
         List<CommunityPostVM> posts = new ArrayList<>();
         List<Post> bookmarkedPosts = localUser.getBookmarkedPosts(offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
         if(bookmarkedPosts != null ){
@@ -1028,6 +1108,7 @@ public class CommunityController extends Controller{
     public static Result postLanding(Long id, Long communityId) {
         logger.underlyingLogger().debug("postLanding");
         final User localUser = Application.getLocalUser(session());
+        
         final Post post = Post.findById(id);
         if (post == null) {
             return ok("NO_RESULT"); 
@@ -1039,6 +1120,7 @@ public class CommunityController extends Controller{
     public static Result qnaLanding(Long id, Long communityId) {
         logger.underlyingLogger().debug("qnaLanding");
         final User localUser = Application.getLocalUser(session());
+        
         final Post post = Post.findById(id);
         if (post == null) {
             return ok("NO_RESULT"); 

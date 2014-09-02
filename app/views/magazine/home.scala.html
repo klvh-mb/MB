@@ -18,7 +18,7 @@
         <link rel="icon" type="image/png" href="@routes.Assets.at("app/images/favicon-1.ico")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("app/images/favicon-1.ico")">
     </head>
-    <body id="main-app" class="menu-right-hidden" ng-app="minibeanMag" ng-controller="MagazineController">
+    <body id="main-app" class="menu-right-hidden" ng-app="minibean" ng-controller="ApplicationController">
         <span us-spinner spinner-key="loading..." ></span>
         <div class="container-fluid menu-hidden">
             <div id="main-view" ng-view=""></div>
@@ -61,9 +61,11 @@
         <script src="@routes.Assets.at("app/scripts/lib/bootbox-4.2.0.min.js")"></script>
         
         <script type="text/javascript" src="@routes.Assets.at("app/scripts/magazine/app.js")"></script>
-        <script type="text/javascript" src="@routes.Assets.at("app/scripts/magazine/directives.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("app/scripts/directives.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("app/scripts/default-values.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("app/scripts/ui.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("app/scripts/controllers/services.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("app/scripts/controllers/main.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("app/scripts/magazine/controllers/services.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("app/scripts/magazine/controllers/main.js")"></script>
         <link rel="stylesheet" href="../assets/app/custom-css/icon.css">
