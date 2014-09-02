@@ -21,8 +21,9 @@ public class CommunityCategory {
 
 	public String name;
 
-    @ManyToMany
-    public List<Community> communities;
+    // TODO: need to revise
+//    @ManyToMany
+//    public List<Community> communities;
 
 
     public CommunityCategory() { }
