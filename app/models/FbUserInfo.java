@@ -5,7 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NoResultException;
-import javax.persistence.OneToOne;
 import javax.persistence.Query;
 
 import com.feth.play.module.pa.providers.oauth2.facebook.FacebookAuthUser;
@@ -24,6 +23,7 @@ public class FbUserInfo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
     
+    public String fbId;
     public String email;
     public String name;
     public String firstName;
@@ -48,6 +48,7 @@ public class FbUserInfo {
     }
     
     public FbUserInfo(FacebookAuthUser fbAuthUser) {
+        this.fbId = fbAuthUser.getId();
         this.email = fbAuthUser.getEmail();
         this.name = fbAuthUser.getName();
         this.firstName = fbAuthUser.getFirstName();
