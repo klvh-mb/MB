@@ -1,6 +1,7 @@
 package viewmodel;
 
 import models.Announcement;
+import models.Icon;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -8,7 +9,7 @@ public class AnnouncementVM {
     @JsonProperty("id") public long id;
     @JsonProperty("t") public String title;
     @JsonProperty("d") public String description;
-    @JsonProperty("ic") public String icon;
+    @JsonProperty("ic") public Icon icon;
     @JsonProperty("url") public String url;
     @JsonProperty("ty") public String type;
 

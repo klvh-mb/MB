@@ -1756,8 +1756,9 @@ pre {
 }
 #all-post-thumbnail li div {
     position: relative;
-    border-top: #bcbcbc thin solid;
+    border-bottom: #bcbcbc thin solid;
     padding-top: 5px;
+    padding-bottom: 5px;
 }
 #all-post-thumbnail li p {
     position: absolute;

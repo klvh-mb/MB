@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Query;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -34,7 +35,8 @@ public class Announcement  {
     @Column(length=2000)
     public String description;
     
-    public String icon;
+    @ManyToOne
+    public Icon icon;
     
     public String url;
     
@@ -55,14 +57,14 @@ public class Announcement  {
     public Announcement() {}
     
     public Announcement(String title, Date toDate) {
-        this(title, "", "", "", AnnouncementType.GENERAL, new Date(), toDate);
+        this(title, "", null, "", AnnouncementType.GENERAL, new Date(), toDate);
     }
     
     public Announcement(String title, AnnouncementType announcementType, Date toDate) {
-        this(title, "", "", "", announcementType, new Date(), toDate);
+        this(title, "", null, "", announcementType, new Date(), toDate);
     }
 
-    public Announcement(String title, String description, String icon, String url, 
+    public Announcement(String title, String description, Icon icon, String url, 
             AnnouncementType announcementType, Date fromDate, Date toDate) {
        this.title = title;
        this.description = description;
