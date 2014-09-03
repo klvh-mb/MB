@@ -27,6 +27,7 @@ public class FeedProcessor {
     private static play.api.Logger logger = play.api.Logger.apply(FeedProcessor.class);
 
     private static final int MAX_COMM_QUEUE_LENGTH = 200;
+    private static final int ttlSecs = 6 * 60 * 60;     // 6 hours
 
     // List (User social feed)
 	private static final String SOCIAL_FEED_KEY = JedisCache.SOCIAL_FEED_PREFIX;
@@ -50,7 +51,8 @@ public class FeedProcessor {
                 j.rpush(SOCIAL_FEED_KEY +userId, postId);   // push to list tail.
             }
 
-            // Note: Might need to expire() on user's list to handle inactive accounts
+            // mark TTL to cleanup for inactive accounts
+            j.expire(SOCIAL_FEED_KEY +userId, ttlSecs);
         } finally {
             if (j != null) {
 		        jedisPool.returnResource(j);
@@ -73,7 +75,8 @@ public class FeedProcessor {
                 j.rpush(BIZ_FEED_KEY +userId, postId);   // push to list tail.
             }
 
-            // Note: Might need to expire() on user's list to handle inactive accounts
+            // mark TTL to cleanup for inactive accounts
+            j.expire(BIZ_FEED_KEY +userId, ttlSecs);
         } finally {
             if (j != null) {
 		        jedisPool.returnResource(j);
