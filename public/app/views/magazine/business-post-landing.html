@@ -15,7 +15,7 @@
                                 <ul>
                                     <li class="post-sharing-body">
                                         <div class="post-sharing-body-text-wrapper">
-                                            <div class="post-sharing-body-text" style="line-height:1.3;font-size:17px;margin-bottom:10px;"><span ng-bind-html="post.pt | to_trusted"></span></div>
+                                            <div class="post-sharing-body-text" style="line-height:1.3;font-size:17px;margin-bottom:10px;padding-left:10px;"><span ng-bind-html="post.pt | to_trusted"></span></div>
                                         </div>
                                         <div data-ng-show="post.hasImage" class="post-body-image">
                                             <div data-ng-repeat="imageID in post.imgs" href="my#/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}">

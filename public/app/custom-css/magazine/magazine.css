@@ -1,10 +1,33 @@
-body {
+/*body {
     font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
     margin: 0;
     padding: 0;
     background-image: url(../../images/general/mag_bg.jpg);
     background-attachment: fixed;
+}*/
+
+#promo-signup {
+    padding: 10px;
 }
+#promo-signup .promo-signup-text {
+    font-size: 15px;
+    font-weight: normal;
+}
+#promo-signup .promo-signup-fb {
+    margin: 15px 0px;
+    text-align: center;
+}
+#promo-signup .promo-signup-fb h5 {
+    color: gray;
+    font-size: 12px;
+    margin: 10px 30px;
+}
+#promo-signup .promo-signup-native {
+    font-size: 14px;
+    text-align: center;
+    margin: 10px 0px;
+}
+
 #nav-bar, #nav-subbar {
     width: 100%;
     height: auto;

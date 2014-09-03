@@ -2582,6 +2582,8 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
 minibean.controller('ShowArticleController',function($scope, $modal, $routeParams, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService, allArticlesService, allRelatedArticlesService){
     log("ShowArticleController starts");
     
+    $scope.selectedNavBar = 'ARTICLE';
+    
     $scope.hotArticles = allArticlesService.HotArticles.get();
     $scope.recommendedArticles = allArticlesService.RecommendedArticles.get();
     $scope.newArticles = allArticlesService.NewArticles.get();
@@ -2624,6 +2626,8 @@ minibean.controller('ShowArticleController',function($scope, $modal, $routeParam
 
 minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routeParams, bookmarkPostService, articleCategoryService, showImageService, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService) {
     log("ShowArticleControllerNew starts");
+
+    $scope.selectedNavBar = 'ARTICLE';
 
 	$scope.result = [];
 	

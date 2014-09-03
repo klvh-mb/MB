@@ -22,6 +22,9 @@ angular.module('minibean', [
 ])
   .config(function ($routeProvider) {
     $routeProvider
+      .when('/', {
+        templateUrl: '/assets/app/views/magazine/home.html'
+      })
       .when('/view', {
         templateUrl: '/assets/app/views/magazine/home.html'
       })
