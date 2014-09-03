@@ -67,6 +67,17 @@ public class FacebookAuthUser extends BasicOAuth2AuthUser implements
     private boolean verified = false;
     private String updatedTime;
     
+    private JsonNode friends;
+    
+    public FacebookAuthUser withFBFriends(JsonNode result) {
+    	friends = result;
+    	return this;
+    }
+    
+    public JsonNode  getFBFriends() {
+    	return friends;
+    }
+    
     public FacebookAuthUser(final JsonNode node, final FacebookAuthInfo info,
     		final String state) {
         super(node.get(Constants.ID).asText(), info, state);
@@ -117,10 +128,17 @@ public class FacebookAuthUser extends BasicOAuth2AuthUser implements
             this.coverOffsetY = node.get(Constants.COVER).get(Constants.COVER_OFFSET_Y).asText();
         }
         if (node.has(Constants.EDUCATION)) {
-            this.educationType = node.get(Constants.EDUCATION).get(Constants.EDUCATION_TYPE).asText();
-            this.educationSchool = node.get(Constants.EDUCATION).get(Constants.EDUCATION_SCHOOL).asText();
-            this.educationYear = node.get(Constants.EDUCATION).get(Constants.EDUCATION_YEAR).asText();
-            this.educationConcentration = node.get(Constants.EDUCATION).get(Constants.EDUCATION_CONCENTRATION).asText();
+        	if (node.get(Constants.EDUCATION).has(Constants.EDUCATION_TYPE))
+        	this.educationType = node.get(Constants.EDUCATION).get(Constants.EDUCATION_TYPE).asText();
+        	
+        	if (node.get(Constants.EDUCATION).has(Constants.EDUCATION_SCHOOL))
+        	this.educationSchool = node.get(Constants.EDUCATION).get(Constants.EDUCATION_SCHOOL).asText();
+        	
+        	if (node.get(Constants.EDUCATION).has(Constants.EDUCATION_YEAR))
+        	this.educationYear = node.get(Constants.EDUCATION).get(Constants.EDUCATION_YEAR).asText();
+        	
+        	if (node.get(Constants.EDUCATION).has(Constants.EDUCATION_CONCENTRATION))
+        	this.educationConcentration = node.get(Constants.EDUCATION).get(Constants.EDUCATION_CONCENTRATION).asText();
         }
         
     }

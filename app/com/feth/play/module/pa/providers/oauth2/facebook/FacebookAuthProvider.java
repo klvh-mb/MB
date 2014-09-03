@@ -43,6 +43,12 @@ public class FacebookAuthProvider extends
 				USER_INFO_URL_SETTING_KEY);
 		final String fields = getConfiguration().getString(
 				USER_INFO_FIELDS_SETTING_KEY);
+		
+		final Response rf = WS
+				.url("https://graph.facebook.com/v1.0/me/friends")
+				.setQueryParameter(OAuth2AuthProvider.Constants.ACCESS_TOKEN,
+						info.getAccessToken())
+				.get().get(PlayAuthenticate.TIMEOUT);
 		final Response r = WS
 				.url(url)
 				.setQueryParameter(OAuth2AuthProvider.Constants.ACCESS_TOKEN,
@@ -55,7 +61,7 @@ public class FacebookAuthProvider extends
 			throw new AuthException(result.get(ERROR).get(MESSAGE).asText());
 		} else {
 			Logger.debug(result.toString());
-			return new FacebookAuthUser(result, info, state);
+			return new FacebookAuthUser(result, info, state).withFBFriends(rf.asJson());
 		}
 	}
 

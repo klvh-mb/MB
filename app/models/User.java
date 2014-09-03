@@ -43,12 +43,16 @@ import models.SocialRelation.ActionType;
 import models.TargetingSocialObject.TargetingType;
 import models.TokenAction.Type;
 
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 
 import play.Play;
 import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+import play.libs.Json;
 import processor.FeedProcessor;
 import be.objectify.deadbolt.core.models.Permission;
 import be.objectify.deadbolt.core.models.Role;
@@ -932,10 +936,34 @@ public class User extends SocialObject implements Subject, Socializable {
         user.save();
         user.linkedAccounts = Collections.singletonList(
                 LinkedAccount.create(authUser).addUser(user));
-        // user.saveManyToManyAssociations("roles");
-        // user.saveManyToManyAssociations("permissions");
+         //user.saveManyToManyAssociations("roles");
+         //user.saveManyToManyAssociations("permissions");
+        
+        if (authUser instanceof FacebookAuthUser) {
+            saveFbFriends(authUser, user);
+            
+        }
         return user;
     }
+
+	private static void saveFbFriends(final AuthUser authUser, final User user) {
+		final FacebookAuthUser fbAuthUser = (FacebookAuthUser) authUser;
+		JsonNode frds = fbAuthUser.getFBFriends();
+		
+		if (frds.has("data")) {
+			List<FbUserFriend> fbUserFriend = null;
+			try{
+			fbUserFriend = new ObjectMapper().readValue(frds.get("data").traverse(), new TypeReference<List<FbUserFriend>>() {});
+			
+			} catch(Exception e) {
+				
+			}
+			for(FbUserFriend frnd : fbUserFriend) {
+				frnd.user = user;
+				frnd.save();
+			}
+		}
+	}
 
     public static void merge(final AuthUser oldUser, final AuthUser newUser) {
         User.findByAuthUserIdentity(oldUser).merge(

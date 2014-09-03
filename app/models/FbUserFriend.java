@@ -11,13 +11,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import play.db.jpa.JPA;
 
 @Entity
 public class FbUserFriend {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonIgnore
 	public Long id;
+	
+	@JsonProperty(value="id")
+	public Long pkid;
 	
 	@ManyToOne
 	public User user;
