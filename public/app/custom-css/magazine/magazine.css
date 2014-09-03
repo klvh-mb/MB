@@ -37,7 +37,7 @@
 }
 .nav-menu a.nav-item {
     padding: 3px 10px 0 10px;
-    border-bottom: 3px solid transparent;
+    border-bottom: 4px solid transparent;
     /*border-radius: 5px 5px 2px 2px;*/
     display: inline-block;
 }

@@ -2,20 +2,26 @@
 
 var minibean = angular.module('minibean');
 
-minibean.controller('MagazineNewsFeedController', function($scope, $timeout, $upload, $http, 
+minibean.controller('MagazineNewsFeedController', function($scope, $timeout, $upload, $http, $routeParams,  
     bookmarkPostService, likeFrameworkService, postManagementService, allCommentsService, magazineNewsFeedService, iconsService, usSpinnerService) {
     
     log("MagazineNewsFeedController starts");
+    
+    $scope.selectNavBar('MAGAZINE');
     
     $scope.newsFeeds = { posts: [] };
 
     var noMore = false;
     var offset = 0;
+    var cat = $routeParams.cat;
+    if (cat == undefined) {
+        cat = 0;
+    }
     $scope.nextNewsFeeds = function() {
         if ($scope.isBusy) return;
         if (noMore) return;
         $scope.isBusy = true;
-        magazineNewsFeedService.NewsFeeds.get({offset:offset},
+        magazineNewsFeedService.NewsFeeds.get({offset:offset,cat:cat},
             function(data){
                 var posts = data.posts;
                 if(posts.length == 0) {

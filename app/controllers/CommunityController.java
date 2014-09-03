@@ -16,6 +16,7 @@ import common.utils.NanoSecondStopWatch;
 import models.Comment;
 import models.Community;
 import models.Community.CommunityType;
+import models.CommunityCategory;
 import models.Emoticon;
 import models.Icon;
 import models.Post;
@@ -33,6 +34,7 @@ import targeting.community.BusinessFeedCommTargetingEngine;
 import targeting.community.NewsfeedCommTargetingEngine;
 import viewmodel.CommunitiesParentVM;
 import viewmodel.CommunitiesWidgetChildVM;
+import viewmodel.CommunityCategoryVM;
 import viewmodel.CommunityPostCommentVM;
 import viewmodel.CommunityPostVM;
 import viewmodel.CommunityVM;
@@ -888,7 +890,7 @@ public class CommunityController extends Controller{
 
     @Transactional
     public static Result getBusinessfeeds(int offset) {
-        return getBusinessfeedsByCategory(offset, null);
+        return getBusinessfeedsByCategory(offset, 0L);
     }
     
     @Transactional
@@ -1131,5 +1133,17 @@ public class CommunityController extends Controller{
             return ok("NO_RESULT"); 
         }
         return ok(Json.toJson(CommunityPostsVM.posts(post.community, localUser, post)));
+    }
+    
+    @Transactional
+    public static Result getAllCommunityCategories() {
+        List<CommunityCategory> categories = CommunityCategory.getAllCategories();
+        
+        List<CommunityCategoryVM> communityCategoryVMs = new ArrayList<>();
+        for(CommunityCategory communityCategory : categories) {
+            CommunityCategoryVM vm = CommunityCategoryVM.communityCategoryVM(communityCategory);
+            communityCategoryVMs.add(vm);
+        }
+        return ok(Json.toJson(communityCategoryVMs));
     }
 }

@@ -31,7 +31,7 @@ public class BusinessFeedCommTargetingEngine {
 
         // get list of business comm ids
         List<Long> bizCommIds;
-        if (commCategoryId == null) {
+        if (commCategoryId == null || commCategoryId == 0) {
             bizCommIds = Community.findIdsByCommunityType(Community.CommunityType.BUSINESS);
         } else {
             bizCommIds = Community.findBusinessCommIdsByCategory(commCategoryId);

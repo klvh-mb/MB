@@ -25,9 +25,6 @@ angular.module('minibean', [
       .when('/', {
         templateUrl: '/assets/app/views/magazine/home.html'
       })
-      .when('/view', {
-        templateUrl: '/assets/app/views/magazine/home.html'
-      })
       .when('/view/:cat', {
         templateUrl: '/assets/app/views/magazine/home.html'
       })
@@ -43,13 +40,13 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/magazine/business-post-landing.html',
         controller : 'PostLandingController'  
       })
-      .when('/article/id/:id',{
-        templateUrl: '/assets/app/views/magazine/articlePage.html',
-        controller : 'ShowArticleController'  
-      })
       .when('/article/show/:catid',{
         templateUrl: '/assets/app/views/magazine/showArticlesPage.html',
         controller : 'ShowArticleControllerNew'  
+      })
+      .when('/article/id/:id',{
+        templateUrl: '/assets/app/views/magazine/articlePage.html',
+        controller : 'ShowArticleController'  
       });
   })
   .run(function(editableOptions) {

@@ -622,6 +622,16 @@ minibean.service('allAnswersService',function($resource){
     );
 });
 
+minibean.service('communityCategoryService',function($resource){
+    this.getAllCommunityCategories = $resource(
+            '/get-all-community-categories',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get' ,isArray:true}
+            }
+    );
+});
+
 minibean.service('articleCategoryService',function($resource){
     this.getAllArticleCategory = $resource(
             '/getAllArticleCategory',
@@ -737,9 +747,9 @@ minibean.service('articleCommentsService',function($resource){
     );
 });
 
-minibean.service('magazineNewsFeedService',function($resource){
+minibean.service('myMagazineNewsFeedService',function($resource){
     this.NewsFeeds = $resource(
-            '/get-businessfeeds/:offset',
+            '/get-my-businessfeeds/:offset',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'GET', params:{offset:'@offset'}}

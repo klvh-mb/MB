@@ -125,16 +125,16 @@ minibean.controller('ApplicationController',
     function($scope, $location, $interval, $route, $window, 
         applicationInfoService, announcementsService, userInfoService, userNotification, userSimpleNotifications, 
         acceptJoinRequestService, acceptFriendRequestService, userMessageNotifications, notificationMarkReadService, 
-        articleCategoryService, usSpinnerService) {
+        communityCategoryService, articleCategoryService, usSpinnerService) {
 
     log("ApplicationController starts");
 
     window.isBrowserTabActive = true;
     
-    $scope.selectedNavBar = 'MAGAZINE';
     $scope.selectNavBar = function(value) {
         $scope.selectedNavBar = value;
     }
+    $scope.selectNavBar('MAGAZINE');
     
     $scope.reloadPage = function() {
         $route.reload();
@@ -145,6 +145,7 @@ minibean.controller('ApplicationController',
 	$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
 
     $scope.topAnnouncements = announcementsService.getTopAnnouncements.get();
+	$scope.communityCategories = communityCategoryService.getAllCommunityCategories.get();
 	$scope.articleCategories = articleCategoryService.getAllArticleCategory.get();
 	
 	$scope.set_background_image = function() {
@@ -2582,7 +2583,7 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
 minibean.controller('ShowArticleController',function($scope, $modal, $routeParams, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService, allArticlesService, allRelatedArticlesService){
     log("ShowArticleController starts");
     
-    $scope.selectedNavBar = 'ARTICLE';
+    $scope.selectNavBar('ARTICLE');
     
     $scope.hotArticles = allArticlesService.HotArticles.get();
     $scope.recommendedArticles = allArticlesService.RecommendedArticles.get();
@@ -2627,7 +2628,7 @@ minibean.controller('ShowArticleController',function($scope, $modal, $routeParam
 minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routeParams, bookmarkPostService, articleCategoryService, showImageService, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService) {
     log("ShowArticleControllerNew starts");
 
-    $scope.selectedNavBar = 'ARTICLE';
+    $scope.selectNavBar('ARTICLE');
 
 	$scope.result = [];
 	
@@ -2826,7 +2827,7 @@ minibean.controller('EditArticleController',function($scope,$routeParams,$locati
 	log("EditArticleController completed");
 });
 
-minibean.controller('MyMagazineNewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, magazineNewsFeedService, iconsService) {
+minibean.controller('MyMagazineNewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, myMagazineNewsFeedService, iconsService) {
     log("MyMagazineNewsFeedController starts");
     
     $scope.newsFeeds = { posts: [] };
@@ -2952,7 +2953,7 @@ minibean.controller('MyMagazineNewsFeedController', function($scope, postManagem
         if ($scope.isBusy) return;
         if (noMore) return;
         $scope.isBusy = true;
-        magazineNewsFeedService.NewsFeeds.get({offset:offset},
+        myMagazineNewsFeedService.NewsFeeds.get({offset:offset},
             function(data){
                 var posts = data.posts;
                 if(posts.length == 0) {

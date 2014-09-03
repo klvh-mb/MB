@@ -346,17 +346,17 @@ public class DataBootstrap {
                 "孕婦須知", "育兒通識", "親子活動", "教育與學校", "秀身扮靚", "有趣分享"
         };
 
-        ArticleCategory category = new ArticleCategory(cats[0], cats[0], "/assets/app/images/article/cat_1.jpg");
+        ArticleCategory category = new ArticleCategory(cats[0], cats[0], "/assets/app/images/article/cat_1.jpg", 1);
         category.save();
-        category = new ArticleCategory(cats[1], cats[1], "/assets/app/images/article/cat_2.jpg");
+        category = new ArticleCategory(cats[1], cats[1], "/assets/app/images/article/cat_2.jpg", 2);
         category.save();
-        category = new ArticleCategory(cats[2], cats[2], "/assets/app/images/article/cat_3.jpg");
+        category = new ArticleCategory(cats[2], cats[2], "/assets/app/images/article/cat_3.jpg", 3);
         category.save();
-        category = new ArticleCategory(cats[3], cats[3], "/assets/app/images/article/cat_4.jpg");
+        category = new ArticleCategory(cats[3], cats[3], "/assets/app/images/article/cat_4.jpg", 4);
         category.save();
-        category = new ArticleCategory(cats[4], cats[4], "/assets/app/images/article/cat_5.jpg");
+        category = new ArticleCategory(cats[4], cats[4], "/assets/app/images/article/cat_5.jpg", 5);
         category.save();
-        category = new ArticleCategory(cats[5], cats[5], "/assets/app/images/article/cat_6.jpg");
+        category = new ArticleCategory(cats[5], cats[5], "/assets/app/images/article/cat_6.jpg", 6);
         category.save();
     }
 
@@ -370,17 +370,13 @@ public class DataBootstrap {
         logger.underlyingLogger().info("bootstrapCommunityCategory()");
 
         final String[] cats = new String[] {
-                "最新動向", "熱門產品", "親子好去處", "送給您的小萌豆"
+                "熱門產品", "親子好去處", "優惠券", "送給您的小萌豆"
         };
 
-        CommunityCategory category = new CommunityCategory(cats[0]);
-        category.save();
-        category = new CommunityCategory(cats[1]);
-        category.save();
-        category = new CommunityCategory(cats[2]);
-        category.save();
-        category = new CommunityCategory(cats[3]);
-        category.save();
+        for (int i = 0; i < cats.length; i++) {
+            CommunityCategory category = new CommunityCategory(cats[i], i+1);
+            category.save();
+        }
     }
     
     private static void bootstrapUser() {

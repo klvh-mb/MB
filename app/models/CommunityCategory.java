@@ -1,9 +1,13 @@
 package models;
 
+import java.util.List;
+
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
 import javax.persistence.*;
+
+import common.cache.CommunityCategoryCache;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,12 +24,15 @@ public class CommunityCategory {
 
 	public String name;
 
+	public int seq;
 
-
+	public boolean deleted = false;
+	
     public CommunityCategory() { }
 
-    public CommunityCategory(String name) {
+    public CommunityCategory(String name, int seq) {
         this.name = name;
+        this.seq = seq;
     }
 
     @Transactional
@@ -47,5 +54,14 @@ public class CommunityCategory {
     @Transactional
     public void refresh() {
         JPA.em().refresh(this);
+    }
+    
+    public static List<CommunityCategory> loadAllCategories() {
+        Query q = JPA.em().createQuery("Select c from CommunityCategory c where deleted = false order by seq");
+        return (List<CommunityCategory>)q.getResultList();
+    }
+    
+    public static List<CommunityCategory> getAllCategories() {
+        return CommunityCategoryCache.getAllCategories();
     }
 }

@@ -1,6 +1,6 @@
 <div id="nav-bar">
     <div class="nav-menu">
-        <a class="nav-item" href="magazine#/view" ng-class="{selected: selectedNavBar == 'MAGAZINE'}" ng-click="selectNavBar('MAGAZINE')">
+        <a class="nav-item" href="magazine#/" ng-class="{selected: selectedNavBar == 'MAGAZINE'}" ng-click="selectNavBar('MAGAZINE')">
             小萌豆 Magazine
         </a>
         <a class="nav-item" href="magazine#/article/show/0" ng-class="{selected: selectedNavBar == 'ARTICLE'}" ng-click="selectNavBar('ARTICLE')">
@@ -10,18 +10,12 @@
 </div>
 <div id="nav-subbar" ng-show="selectedNavBar == 'MAGAZINE'">
     <div class="nav-menu">
-        <a class="nav-item nav-item-purple" href="magazine#/view/1">
+        <a class="nav-item nav-item-green" href="magazine#/">
             最新動向
         </a>
-        <a class="nav-item nav-item-green" href="magazine#/view/2">
-            熱門產品
+        <a class="nav-item nav-item-green" href="magazine#/view/{{category.id}}" ng-repeat="category in communityCategories">
+            {{category.name}}
         </a>
-        <a class="nav-item nav-item-blue" href="magazine#/view/3">
-            親子好去處            
-        </a>
-        <!--a class="nav-item nav-item-yellow" href="magazine#/view/4">
-            送給您的小萌豆
-        </a-->
     </div>
 </div>
 <div id="nav-subbar" ng-show="selectedNavBar == 'ARTICLE'">

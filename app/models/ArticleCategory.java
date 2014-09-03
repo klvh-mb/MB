@@ -34,37 +34,39 @@ public class ArticleCategory  {
 	
 	public String pictureName;
 	
+	public int seq;
+	
+	public boolean deleted = false;
+	
 	public ArticleCategory(){}
 	
-	public ArticleCategory( String name, String description, String pictureName){
+	public ArticleCategory(String name, String description, String pictureName, int seq){
 		this.name = name;
 		this.description = description;
 		this.pictureName = pictureName;
+		this.seq = seq;
 	}
 	
-	  @Transactional
-	  public void save() {
-		  JPA.em().persist(this);
-		  JPA.em().flush();
-		  
-	  }
+	@Transactional
+	public void save() {
+	    JPA.em().persist(this);
+	    JPA.em().flush();
+	}
 	  
-	  @Transactional
-	  public void delete() {
-		  JPA.em().remove(this);
-		  
-	  }
+	@Transactional
+	public void delete() {
+	    JPA.em().remove(this);
+	}
 	  
-	  @Transactional
-	  public void merge() {
-		  JPA.em().merge(this);
-		  
-	  }
-	  @Transactional
-	  public void refresh() {
-		  JPA.em().refresh(this);
-		  
-	  }
+	@Transactional
+	public void merge() {
+	    JPA.em().merge(this);
+	}
+
+	@Transactional
+	public void refresh() {
+	    JPA.em().refresh(this);
+	}
 	
 	@JsonIgnore
 	public File getPicture() {
@@ -81,7 +83,7 @@ public class ArticleCategory  {
      * @return
      */
     public static List<ArticleCategory> loadAllCategory() {
-		Query q = JPA.em().createQuery("Select a from ArticleCategory a");
+		Query q = JPA.em().createQuery("Select a from ArticleCategory a where deleted = false order by seq");
 		return (List<ArticleCategory>)q.getResultList();
     }
 
