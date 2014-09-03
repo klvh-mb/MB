@@ -6,7 +6,7 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET     /                           controllers.magazine.MagazineController.index
+GET     /                           controllers.magazine.MagazineController.redirect
 GET     /do-tracking                controllers.TrackingController.track
 
 # Promo
