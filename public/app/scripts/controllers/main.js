@@ -124,12 +124,18 @@ minibean.controller('SearchController',function($scope, searchService){
 minibean.controller('ApplicationController', 
     function($scope, $location, $interval, $route, $window, 
         applicationInfoService, announcementsService, userInfoService, userNotification, userSimpleNotifications, 
-        acceptJoinRequestService, acceptFriendRequestService, userMessageNotifications, notificationMarkReadService, usSpinnerService) {
+        acceptJoinRequestService, acceptFriendRequestService, userMessageNotifications, notificationMarkReadService, 
+        articleCategoryService, usSpinnerService) {
 
     log("ApplicationController starts");
 
     window.isBrowserTabActive = true;
-
+    
+    $scope.selectedNavBar = 'MAGAZINE';
+    $scope.selectNavBar = function(value) {
+        $scope.selectedNavBar = value;
+    }
+    
     $scope.reloadPage = function() {
         $route.reload();
     }
@@ -139,6 +145,7 @@ minibean.controller('ApplicationController',
 	$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
 
     $scope.topAnnouncements = announcementsService.getTopAnnouncements.get();
+	$scope.articleCategories = articleCategoryService.getAllArticleCategory.get();
 	
 	$scope.set_background_image = function() {
 		return { background: 'url(/image/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+') center center no-repeat'};
@@ -2522,8 +2529,6 @@ minibean.controller('CreateArticleController',function($scope,$http,usSpinnerSer
 		    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
 	}
 	
-	$scope.articleCategories = articleCategoryService.getAllArticleCategory.get();
-	
 	$scope.select_category = function(id, name, pn) {
 		$scope.category_id = id;
 		$scope.category_picture = pn;
@@ -2628,7 +2633,6 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 	
 	var offset = 0;
 	var noMore = false;
-	$scope.articleCategories = articleCategoryService.getAllArticleCategory.get();
 	$scope.get_result = function(catId) {
 		usSpinnerService.spin('loading...');
 		$scope.isBusy = true;
@@ -2734,7 +2738,6 @@ minibean.controller('EditArticleController',function($scope,$routeParams,$locati
 		}
 		$scope.relatedResult = allRelatedArticlesService.getRelatedArticles.get({id:$routeParams.id, category_id:response.ct.id});
 	});
-	$scope.articleCategories = articleCategoryService.getAllArticleCategory.get();
 	
     $scope.open = function(id) {
         var modalInstance = $modal.open({

@@ -22,7 +22,7 @@ angular.module('minibean', [
 ])
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/', {
+      .when('/view', {
         templateUrl: '/assets/app/views/magazine/home.html'
       })
       .when('/view/:cat', {
@@ -37,8 +37,16 @@ angular.module('minibean', [
         controller : 'BusinessCommunityPageController'  
       })
       .when('/business-post-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/business-post-landing.html',
+        templateUrl: '/assets/app/views/magazine/business-post-landing.html',
         controller : 'PostLandingController'  
+      })
+      .when('/article/id/:id',{
+        templateUrl: '/assets/app/views/magazine/articlePage.html',
+        controller : 'ShowArticleController'  
+      })
+      .when('/article/show/:catid',{
+        templateUrl: '/assets/app/views/magazine/showArticlesPage.html',
+        controller : 'ShowArticleControllerNew'  
       });
   })
   .run(function(editableOptions) {

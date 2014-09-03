@@ -1,16 +1,36 @@
 <div id="nav-bar">
-    <div>
-        <a class="nav-item nav-item-purple" href="#">
+    <div class="nav-menu">
+        <a class="nav-item" href="magazine#/view" ng-class="{selected: selectedNavBar == 'MAGAZINE'}" ng-click="selectNavBar('MAGAZINE')">
+            小萌豆 Magazine
+        </a>
+        <a class="nav-item" href="magazine#/article/show/0" ng-class="{selected: selectedNavBar == 'ARTICLE'}" ng-click="selectNavBar('ARTICLE')">
+            熱門文章
+        </a>
+    </div>
+</div>
+<div id="nav-subbar" ng-show="selectedNavBar == 'MAGAZINE'">
+    <div class="nav-menu">
+        <a class="nav-item nav-item-purple" href="magazine#/view/1">
             最新動向
         </a>
-        <a class="nav-item nav-item-green" href="#">
+        <a class="nav-item nav-item-green" href="magazine#/view/2">
             熱門產品
         </a>
-        <a class="nav-item nav-item-blue" href="#">
+        <a class="nav-item nav-item-blue" href="magazine#/view/3">
             親子好去處            
         </a>
-        <a class="nav-item nav-item-yellow" href="#">
+        <a class="nav-item nav-item-yellow" href="magazine#/view/4">
             送給您的小萌豆
+        </a>
+    </div>
+</div>
+<div id="nav-subbar" ng-show="selectedNavBar == 'ARTICLE'">
+    <div class="nav-menu">
+        <a class="nav-item nav-item-yellow" style="cursor:pointer;" ng-href="magazine#/article/show/0">
+            所有文章
+        </a>
+        <a class="nav-item nav-item-yellow" style="cursor:pointer;" ng-href="magazine#/article/show/{{category.id}}" ng-repeat="category in articleCategories">
+            {{category.name}}
         </a>
     </div>
 </div>

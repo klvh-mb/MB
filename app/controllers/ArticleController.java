@@ -234,6 +234,11 @@ public class ArticleController extends Controller {
 	@Transactional
 	public static Result commentOnArticle() {
 		final User localUser = Application.getLocalUser(session());
+		if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+		
 		DynamicForm form = form().bindFromRequest();
 		
 		Long postId = Long.parseLong(form.get("article_id"));
@@ -261,6 +266,11 @@ public class ArticleController extends Controller {
 	@Transactional
     public static Result deleteArticle(Long art_id) {
         final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
         Article article = Article.findById(art_id);
         article.delete(localUser);
         User.unBookmarkAllUsersOn(article.id, article.objectType);    // unbookmark for all users
@@ -285,6 +295,11 @@ public class ArticleController extends Controller {
 	@Transactional
 	public static Result onLike(Long article_id) throws SocialObjectNotLikableException {
 		User localUser = Application.getLocalUser(session());
+		if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+		
 		Article article = Article.findById(article_id);
 		article.onLikedBy(localUser);
 		return ok();
@@ -293,6 +308,11 @@ public class ArticleController extends Controller {
 	@Transactional
 	public static Result onUnlike(Long article_id) throws SocialObjectNotLikableException {
 		User localUser = Application.getLocalUser(session());
+		if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+		
 		Article article = Article.findById(article_id);
 		article.onUnlikedBy(localUser);
 		localUser.doUnLike(article_id, article.objectType);
@@ -302,6 +322,11 @@ public class ArticleController extends Controller {
 	@Transactional
 	public static Result onBookamrk(Long article_id) {
 		User localUser = Application.getLocalUser(session());
+		if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+		
 		Article article = Article.findById(article_id);
 		article.onBookmarkedBy(localUser);
 		return ok();
@@ -310,6 +335,11 @@ public class ArticleController extends Controller {
 	@Transactional
 	public static Result onUnBookmark(Long article_id) {
 		User localUser = Application.getLocalUser(session());
+		if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+		
 		Article article = Article.findById(article_id);
 		localUser.unBookmarkOn(article_id, article.objectType);
 		return ok();

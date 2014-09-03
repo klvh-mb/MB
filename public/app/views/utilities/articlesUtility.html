@@ -5,11 +5,11 @@
     <div class="static-content-wrapper" >
         <ul>
             <li data-ng-repeat="article in hotArticles">
-                <a href="my#/article/id/{{article.id}}">
+                <a href="#/article/id/{{article.id}}">
                     <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}" style="height: 60px; width:60px;">
                 </a>
                 <div class="pull-right">
-                    <a href="my#/article/id/{{article.id}}" style="font-size:14px;color:#324fe1;line-height:1.2;">
+                    <a href="#/article/id/{{article.id}}" style="font-size:14px;color:#324fe1;line-height:1.2;">
                         <font>{{article.nm|limitTo:18}}</font>
                     </a>
                     <span ng-show="article.nov > 0" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.gif"/>{{article.nov}}</span>
@@ -29,11 +29,11 @@
     <div class="static-content-wrapper" >
         <ul>
             <li data-ng-repeat="article in recommendedArticles">
-                <a href="my#/article/id/{{article.id}}">
+                <a href="#/article/id/{{article.id}}">
                     <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}" style="height:60px;width:60px;">
                 </a>
                 <div class="pull-right">
-                    <a href="my#/article/id/{{article.id}}" style="font-size:14px;color:#324fe1;line-height:1.2;">
+                    <a href="#/article/id/{{article.id}}" style="font-size:14px;color:#324fe1;line-height:1.2;">
                         <font>{{article.nm|limitTo:18}}</font>
                     </a>
                     <span style="margin-left:10px;" ng-show="article.nol > 0" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>{{article.nol}}</span>
@@ -53,11 +53,11 @@
     <div class="static-content-wrapper">
         <ul>
             <li data-ng-repeat="article in newArticles">
-                <a href="my#/article/id/{{article.id}}">
+                <a href="#/article/id/{{article.id}}">
                     <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}" style="height:60px;width:60px;">
                 </a>
                 <div class="pull-right">
-                    <a href="my#/article/id/{{article.id}}" style="font-size:14px;color:#324fe1;line-height:1.2;">
+                    <a href="#/article/id/{{article.id}}" style="font-size:14px;color:#324fe1;line-height:1.2;">
                         <font>{{article.nm|limitTo:18}}</font>
                     </a>
                     <p>

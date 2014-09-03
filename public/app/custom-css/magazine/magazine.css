@@ -5,48 +5,72 @@ body {
     background-image: url(../../images/general/mag_bg.jpg);
     background-attachment: fixed;
 }
-#nav-bar {
+#nav-bar, #nav-subbar {
     width: 100%;
     height: auto;
     padding-left: 7%;
     margin-bottom: 10px;
-    margin-top: -7px;
-    background-color: #f8f8f8;
     border-bottom: 1px solid #CACACA;
 }
-#nav-bar a:hover {
-    text-decoration: none;
-    border-bottom: 3px solid;
-}
-#nav-bar .nav-item {
+.nav-menu a.nav-item {
     padding: 3px 10px 0 10px;
-    border-bottom: 3px solid #f8f8f8;
+    border-bottom: 3px solid transparent;
     /*border-radius: 5px 5px 2px 2px;*/
-    color: #161513;
-    font-size: 14px;
     display: inline-block;
 }
-#nav-bar .nav-item-purple {
+.nav-menu a.nav-item:hover {
+    text-decoration: none;
+}
+.nav-menu .nav-item-purple {
 
 }
-#nav-bar a.nav-item-purple:hover {
+.nav-menu a.nav-item-purple:hover {
     border-bottom-color: #4F27A5;
 }
-#nav-bar .nav-item-green {
+.nav-menu .nav-item-green {
 
 }
-#nav-bar a.nav-item-green:hover {
+.nav-menu a.nav-item-green:hover {
     border-bottom-color: #449d44;
 }
-#nav-bar .nav-item-blue {
+.nav-menu .nav-item-blue {
 
 }
-#nav-bar a.nav-item-blue:hover {
+.nav-menu a.nav-item-blue:hover {
     border-bottom-color: #428bca;
 }
-#nav-bar .nav-item-yellow {
+.nav-menu .nav-item-yellow {
 
 }
-#nav-bar a.nav-item-yellow:hover {
-    border-bottom-color: #f0ad4e;
+.nav-menu a.nav-item-yellow:hover {
+    border-bottom-color: #FFB32D;
+}
+
+/* specific styles */
+#nav-bar .selected {
+    background-color: #7272F3;
+}
+#nav-bar {
+    font-size: 15px;
+    background-color: #8B86FF;
+    /*background-color: #FCE27B*/
+    margin-top: -8px;
+}
+#nav-subbar {
+    font-size: 14px;
+    background-color: #f8f8f8;
+    margin-top: -12px;
+}
+#nav-bar .nav-menu a.nav-item {
+    font-weight: bold;
+    color: white;
+}
+#nav-bar .nav-menu a.nav-item:hover {
+    background-color: #7272F3;
+}
+#nav-subbar .nav-menu a.nav-item {
+    color: #161513;
+}
+#nav-subbar .nav-menu a.nav-item:hover {
+    background-color: transparent;
 }
