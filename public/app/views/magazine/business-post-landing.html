@@ -18,7 +18,7 @@
                                             <div class="post-sharing-body-text" style="line-height:1.3;font-size:17px;margin-bottom:10px;padding-left:10px;"><span ng-bind-html="post.pt | to_trusted"></span></div>
                                         </div>
                                         <div data-ng-show="post.hasImage" class="post-body-image">
-                                            <div data-ng-repeat="imageID in post.imgs" href="my#/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}">
+                                            <div data-ng-repeat="imageID in post.imgs">
                                                 <img style="width:auto;max-width:100%;" data-ng-src="/image/get-original-post-image-by-id/{{imageID}}">
                                             </div>
                                         </div>
@@ -36,7 +36,7 @@
                 <div class="general-box utility-box">
                     <ul class="post-sharing-comments">
                         <li class="post-intro">
-                            <a data-ng-href="my#/business/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
+                            <a data-ng-href="#/business/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
                             <div class="post-date" am-time-ago="post.t"></div>
                         </li>
                         <li ng-show="post.n_c > 3 && !post.ep">
