@@ -36,6 +36,9 @@
                 </div>
             </div-->
             <!--Post Category End -->
+            <div ng-show="!userInfo.isLoggedIn">
+                <div data-ng-include data-src="'/assets/app/views/magazine/promo-signup-widget.html'"></div>
+            </div>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-6" style="width:48%;">
             <div id="slider" class="general-box" style="height:100%;">

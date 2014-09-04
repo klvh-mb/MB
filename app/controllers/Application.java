@@ -73,11 +73,15 @@ public class Application extends Controller {
 	public static final String FLASH_ERROR_KEY = "error";
 
 	@Transactional
-    public static Result home() {
-	    //final User localUser = getLocalUser(session());
-        //if(User.isLoggedIn(localUser)) {
-        //    return redirect("/my");
-        //}
+    public static Result index() {
+        UserAgentUtil userAgentUtil = new UserAgentUtil(request());
+        boolean isMobile = userAgentUtil.isMobileUserAgent();
+        
+        setMobileUser(isMobile? "true":"false");
+        
+        if (isMobile) {
+            return redirect("/my");     // mobile has no magazine yet!
+        }
         return redirect("/magazine");
     }
 	
@@ -156,7 +160,7 @@ public class Application extends Controller {
     }
 	    
 	@Transactional
-	public static Result index() {
+	public static Result home() {
 	    UserAgentUtil userAgentUtil = new UserAgentUtil(request());
 	    boolean isMobile = userAgentUtil.isMobileUserAgent();
 	    

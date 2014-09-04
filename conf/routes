@@ -6,7 +6,7 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET     /                           controllers.Application.home
+GET     /                           controllers.Application.index
 GET     /do-tracking                controllers.TrackingController.track
 
 # Promo
@@ -29,7 +29,7 @@ GET     /privacy                    controllers.Application.privacy
 GET     /restricted                 controllers.Application.restricted
 GET     /profile                    controllers.Application.profile
 
-GET     /my                         controllers.Application.index
+GET     /my                         controllers.Application.home
 GET     /login                      controllers.Application.login
 POST    /login                      controllers.Application.doLogin
 POST	/saveSignupInfo				controllers.Application.saveSignupInfo
