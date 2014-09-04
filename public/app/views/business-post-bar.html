@@ -62,6 +62,7 @@
                 <a data-ng-show="post.isBookmarked && !isMyBookmarksPage" class="post-favorited" href="" data-ng-click="unBookmarkPost(post.id)"></a>
                 <a data-ng-show="post.isBookmarked && isMyBookmarksPage" class="post-favorited" href="" data-ng-confirm-click="unBookmarkPost(post.id)" data-ng-confirm-message="您確定移除這個喜愛嗎?"></a-->
                 <span data-ng-include data-src="'/assets/app/views/like-business-post.html'"></span>
+                <span class="btn-like-wrapper"><span ng-show="post.nov > 0" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.gif"/>{{post.nov}}</span></span>
             </span>
             <span class="pull-right">
                 <a href="" ng-click="displayLink('#/business-post-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i></a>
