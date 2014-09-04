@@ -94,6 +94,9 @@
 #nav-bar .nav-menu a.nav-item {
     font-weight: bold;
     color: white;
+    display: inline-block;
+    min-width: 85px;
+    text-align: center;
 }
 #nav-bar .nav-menu a.nav-item:hover {
     background-color: #7272F3;

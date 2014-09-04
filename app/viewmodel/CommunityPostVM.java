@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import domain.SocialObjectType;
 import models.*;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -63,7 +62,7 @@ public class CommunityPostVM {
 		postVM.communityIcon = post.community.icon;
 		postVM.communityId = post.community.id;
 		//need to write logic for showing no of views
-		postVM.noOfViews = 0;
+		postVM.noOfViews = post.noOfViews;
 		postVM.noOfLikes = post.noOfLikes;
         postVM.noOfWantAnswers = post.noWantAns;
 		postVM.expanded = false;

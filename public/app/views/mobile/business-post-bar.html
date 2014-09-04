@@ -3,7 +3,7 @@
         <li class="post-sharing-body">
             <div class="post-sharing-body-text-wrapper">
                 <a href="/mobile#/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}">
-                    <div class="post-sharing-body-text"><span ng-bind-html="post.pt | limitTo:100:false | to_trusted"></span><span ng-show="post.pt.length > 50"> ...</span></div>
+                    <div class="post-sharing-body-text"><span ng-bind-html="post.pt | limitTo:65:false | to_trusted"></span><span ng-show="post.pt.length > 65"> ...</span></div>
                 </a>
             </div>
             <div data-ng-show="post.hasImage" class="post-body-image">
@@ -58,18 +58,12 @@
         </li-->
         <li style="height:25px;">
             <span class="pull-left">
-                <a data-ng-show="!post.isBookmarked" class="post-favorite" href="" data-ng-click="bookmarkPost(post.id)"></a>
+                <!--a data-ng-show="!post.isBookmarked" class="post-favorite" href="" data-ng-click="bookmarkPost(post.id)"></a>
                 <a data-ng-show="post.isBookmarked && !isMyBookmarksPage" class="post-favorited" href="" data-ng-click="unBookmarkPost(post.id)"></a>
-                <a data-ng-show="post.isBookmarked && isMyBookmarksPage" class="post-favorited" href="" data-ng-confirm-click="unBookmarkPost(post.id)" data-ng-confirm-message="您確定移除這個喜愛嗎?"></a>
+                <a data-ng-show="post.isBookmarked && isMyBookmarksPage" class="post-favorited" href="" data-ng-confirm-click="unBookmarkPost(post.id)" data-ng-confirm-message="您確定移除這個喜愛嗎?"></a-->
+                <span data-ng-include data-src="'/assets/app/views/like-business-post.html'"></span>
+                <span class="btn-like-wrapper"><span ng-show="post.nov > 0" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.gif"/>{{post.nov}}</span></span>
             </span>
-            <!--span data-ng-include data-src="'/assets/app/views/like-business-post.html'"></span-->
-            <button class="post-dropdown-btn btn btn-default dropdown-toggle pull-right" type="button" id="post-dropdown" data-toggle="dropdown">
-                <span class="caret"></span>
-            </button>
-            <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
-                <li role="presentation"><a role="menuitem" href="" ng-click="displayLink('/#/business-post-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i></a></li>
-                <li role="presentation" ng-show="post.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個分享嗎？"><i class="glyphicon glyphicon-trash"></i></a></li>
-            </ul>
         </li>
     </ul>
     <!-- Post Comments Ends -->

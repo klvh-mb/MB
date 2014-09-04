@@ -494,7 +494,7 @@ span.notif-count {
     margin: 0 5px;
 }
 .pin-brick .btn-like-wrapper {
-    margin: 0 5px;
+    margin: 0;
 }
 .pin-brick .post-sharing-body-text-wrapper .post-sharing-body-text {
     padding: 5px 15px 10px 0;

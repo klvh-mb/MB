@@ -1119,6 +1119,7 @@ public class CommunityController extends Controller{
         if (post == null) {
             return ok("NO_RESULT"); 
         }
+        post.noOfViews++;
         return ok(Json.toJson(CommunityPostsVM.posts(post.community, localUser, post)));
     }
     
@@ -1131,6 +1132,7 @@ public class CommunityController extends Controller{
         if (post == null) {
             return ok("NO_RESULT"); 
         }
+        post.noOfViews++;
         return ok(Json.toJson(CommunityPostsVM.posts(post.community, localUser, post)));
     }
     
