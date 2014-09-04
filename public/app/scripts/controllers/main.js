@@ -75,8 +75,7 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
         usSpinnerService.spin('loading...');
         this.send_join_request = communityJoinService.sendJoinRequest.get({"id":id}, function(data) {
             usSpinnerService.stop('loading...');
-            $scope.community.isP = $scope.community.typ == 'CLOSE' ?  true : false;
-            $scope.community.isM = $scope.community.typ == 'OPEN'? true : false;
+            $scope.community.isM = $scope.community.typ == 'BUSINESS'? true : false;
         });
     }
     
