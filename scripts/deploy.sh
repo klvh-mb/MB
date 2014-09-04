@@ -28,7 +28,7 @@ LOG_BACKUP_PATH=$FTP_HOME/backup_logs
 echo "Backing up application logs"
 nowdate=`date +%Y%m%d_%H%M`
 cp $APP_LOG_PATH/application.log $LOG_BACKUP_PATH/application.$nowdate.log
-ls -l $APP_LOG_PATH/application.*.log | while read f; do
+ls $APP_LOG_PATH/application.*.log | while read f; do
   cp "$f" $LOG_BACKUP_PATH
 done
 
@@ -43,7 +43,7 @@ then
 fi
 
 echo "Deploying new version $UPGRADE_VERSION from prerelease"
-mv $PRERELEASE_PATH/$UPGRADE_VERSION.zip $APP_HOME
+cp $PRERELEASE_PATH/$UPGRADE_VERSION.zip $APP_HOME
 
 cd $APP_HOME
 rm current
