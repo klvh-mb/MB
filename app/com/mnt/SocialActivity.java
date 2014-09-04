@@ -152,8 +152,7 @@ public class SocialActivity {
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
                             notification.addToList(User.findById(socialAction.actor));  // post owner
                             notification.status = 0;
-                            notification.message = socialAction.actorname+ " posted on community "
-                                    + community.name;
+                            notification.message = socialAction.actorname+" 在「"+community.name+"」裏分享。";
                             notification.setUpdatedDate(new Date());
                             notification.save();
                         } else {
@@ -163,8 +162,7 @@ public class SocialActivity {
                             notification.count++;
                             notification.status = 0;
                             notification.addToList(User.findById(socialAction.actor));
-                            notification.setMessage(notification.usersName+ " posted on community "
-                                    + community.name);
+                            notification.message = notification.usersName+" 在「"+community.name+"」裏分享。";
                             notification.merge();
                         }
                     }
@@ -197,8 +195,7 @@ public class SocialActivity {
                             notification.count++;
                             notification.status = 0;
                             notification.socialActionID = community.id;
-                            notification.message = socialAction.actorname+ " Questioned on community "
-                                    + community.name;
+                            notification.message = socialAction.actorname+" 在「"+community.name+"」裏發問。";
                             notification.setUpdatedDate(new Date());
                             notification.save();
                         } else {
@@ -208,19 +205,15 @@ public class SocialActivity {
                             notification.count++;
                             notification.status = 0;
                             notification.addToList(User.findById(socialAction.actor));
-                            notification.setMessage(notification.usersName+" Questioned on community "
-                                    + community.name);
+                            notification.message = notification.usersName+" 在「"+community.name+"」裏發問。";
                             notification.merge();
                         }
-
                     }
                 }
 			}
 				break;
 				
 			case LIKED: {
-				//notification.URLs = Json.stringify(Json.toJson(jsonMap));
-				
 				if(socialAction.targetType == SocialObjectType.POST){
 					Post post = Post.findById(socialAction.target);
 					long owner_id = post.owner.id;
@@ -243,7 +236,7 @@ public class SocialActivity {
 			        	jsonMap.put("onClick", "/#/post-landing/id/"+post.id+"/communityId/"+post.community.id);
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 			        	notification.addToList(User.findById(socialAction.actor));
-			        	notification.message = socialAction.actorname+ " Liked on your Post ";
+			        	notification.message = socialAction.actorname+" 對你的分享讚好。";
 			        	notification.status = 0;
 			        	notification.setUpdatedDate(new Date());
 			        	notification.save();
@@ -253,7 +246,7 @@ public class SocialActivity {
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 						notification.count++;
 						notification.addToList(User.findById(socialAction.actor));
-						notification.setMessage(notification.usersName+ " Liked on your Post ");
+						notification.message = notification.usersName+" 對你的分享讚好。";
 						notification.status = 0;
 						notification.merge();
 					}
@@ -281,7 +274,7 @@ public class SocialActivity {
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 			        	notification.addToList(User.findById(socialAction.actor));
 			        	notification.status = 0;
-			        	notification.message = socialAction.actorname+ " Liked on your Comment ";
+			        	notification.message = socialAction.actorname+" 對你的留言讚好。";
 			        	notification.setUpdatedDate(new Date());
 			        	notification.save();
 					} else {
@@ -290,7 +283,7 @@ public class SocialActivity {
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 						notification.count++;
 						notification.addToList(User.findById(socialAction.actor));
-						notification.setMessage(notification.usersName+ " Liked on your Comment ");
+						notification.message = notification.usersName+" 對你的留言讚好。";
 						notification.status = 0;
 						notification.merge();
 					}
@@ -319,7 +312,7 @@ public class SocialActivity {
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 			        	notification.addToList(User.findById(socialAction.actor));
 			        	notification.status = 0;
-			        	notification.message = socialAction.actorname+ " Liked on your Answer ";
+			        	notification.message = socialAction.actorname+" 覺得你的回覆有用。";
 			        	notification.setUpdatedDate(new Date());
 			        	notification.save();
 					} else {
@@ -328,7 +321,7 @@ public class SocialActivity {
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 						notification.count++;
 						notification.addToList(User.findById(socialAction.actor));
-						notification.setMessage(notification.usersName+ " Liked on your Answer ");
+						notification.message = notification.usersName+" 覺得你的回覆有用。";
 						notification.status = 0;
 						notification.merge();
 					}	
@@ -356,7 +349,7 @@ public class SocialActivity {
 			        	jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
 			        	jsonMap.put("onClick", "/#/qna-landing/id/"+post.id+"/communityId/"+post.community.id);
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
-			        	notification.message = socialAction.actorname+ " Liked on your Question ";
+			        	notification.message = socialAction.actorname+" 把你的發問推上。";
 			        	notification.status = 0;
 			        	notification.setUpdatedDate(new Date());
 			        	notification.save();
@@ -366,7 +359,7 @@ public class SocialActivity {
 			        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 						notification.count++;
 						notification.addToList(User.findById(socialAction.actor));
-						notification.setMessage(notification.usersName+ " Liked on your Question ");
+						notification.message = notification.usersName+" 把你的發問推上。";
 						notification.status = 0;
 						notification.merge();
 					}
@@ -396,7 +389,7 @@ public class SocialActivity {
 		        	jsonMap.put("onClick", "/#/post-landing/id/"+post.id+"/communityId/"+post.community.id);
 		        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 		        	notification.addToList(User.findById(socialAction.actor));
-		        	notification.message = socialAction.actorname+ " Commented on your Post ";
+		        	notification.message = socialAction.actorname+" 在你的分享留言。";
 		        	notification.status = 0;
 		        	notification.setUpdatedDate(new Date());
 		        	notification.save();
@@ -407,7 +400,7 @@ public class SocialActivity {
 		        	jsonMap.put("onClick", "/#/post-landing/id/"+post.id+"/communityId/"+post.community.id);
 		        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 		        	notification.status = 0;
-		        	notification.setMessage(notification.usersName+ " Commented on your Post ");
+		        	notification.message = notification.usersName+" 在你的分享留言。";
 					notification.merge();
 				}
 			}
@@ -435,7 +428,7 @@ public class SocialActivity {
 		        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
 		        	notification.socialActionID = socialAction.target;
 		        	notification.addToList(User.findById(socialAction.actor));
-		        	notification.message = socialAction.actorname+ " Answered on your Question ";
+		        	notification.message = socialAction.actorname+" 回應了你的發問。";
 		        	notification.status = 0;
 		        	notification.setUpdatedDate(new Date());
 		        	notification.save();
@@ -445,7 +438,7 @@ public class SocialActivity {
 					jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
 		        	jsonMap.put("onClick", "/#/qna-landing/id/"+post.id+"/communityId/"+post.community.id);
 		        	notification.URLs = Json.stringify(Json.toJson(jsonMap));
-		        	notification.setMessage(notification.usersName+ " Answered on your Question ");
+		        	notification.message = notification.usersName+" 回應了你的發問。";
 		        	notification.status = 0;
 					notification.merge();
 				}
@@ -453,6 +446,5 @@ public class SocialActivity {
 				break;	
 			}
 		} 
-		
 	}
 }
