@@ -449,7 +449,6 @@ public class CommunityController extends Controller{
         Community community = Community.findById(Long.parseLong(communityId));
         community.name = dataToUpdate.get("n");
         community.description = dataToUpdate.get("d");
-        community.tagetDistrict = dataToUpdate.get("td");
         if(dataToUpdate.get("typ").equalsIgnoreCase("open")){
             community.communityType = CommunityType.OPEN;
         }else{

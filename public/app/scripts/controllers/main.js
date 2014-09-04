@@ -460,8 +460,6 @@ minibean.controller('EditCommunityController',function($scope,$q, $location,$rou
 
 	$scope.community.typ = DefaultValues.communityType;
 	
-	$scope.tagetDistrict = DefaultValues.districts;
-	
 	$scope.icons = iconsService.getCommunityIcons.get();
 
 	$scope.select_icon = function(img, text) {

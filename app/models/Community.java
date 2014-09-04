@@ -73,8 +73,6 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	@Column(length=2000)
 	public String description;
 	
-	public String tagetDistrict;
-	
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
 	public Date createDate;
 
@@ -87,6 +85,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	
 	public String icon;
 
+	public boolean promoted = false;
 
     /**
      * Ctor
@@ -460,14 +459,6 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 
 	public void setAlbumPhotoProfile(Folder albumPhotoProfile) {
 		this.albumPhotoProfile = albumPhotoProfile;
-	}
-
-	public String getTagetDistrict() {
-		return tagetDistrict;
-	}
-
-	public void setTagetDistrict(String tagetDistrict) {
-		this.tagetDistrict = tagetDistrict;
 	}
 
 	public Date getCreateDate() {

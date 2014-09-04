@@ -22,7 +22,6 @@ public class CommunityVM {
 	@JsonProperty("tinfo") public String targetingInfo;
 	@JsonProperty("icon") public String icon;
 	@JsonProperty("dte") public Date createDate;
-	@JsonProperty("td") public String tagetDistrict;
 	@JsonProperty("id") public long id;
 	@JsonProperty("sys") public boolean system;
 	@JsonProperty("isM") public boolean isMember;
@@ -44,7 +43,6 @@ public class CommunityVM {
 		vm.targetingType = c.targetingType;
 		vm.targetingInfo = c.targetingInfo;
 		vm.icon = c.icon;
-		vm.tagetDistrict = c.tagetDistrict;
 		vm.createDate = c.createDate;
 		vm.id = c.id;
 		vm.system = c.system;
@@ -72,7 +70,6 @@ public class CommunityVM {
         vm.targetingType = c.targetingType;
         vm.targetingInfo = c.targetingInfo;
         vm.icon = c.icon;
-        vm.tagetDistrict = c.tagetDistrict;
         vm.createDate = c.createDate;
         vm.id = c.id;
         vm.system = c.system;

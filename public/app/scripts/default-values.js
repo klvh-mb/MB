@@ -66,14 +66,4 @@ var DefaultValues = new function() {
                            {value: 'OPEN', text: 'Open'},
                            {value: 'CLOSE', text: 'Close'}
                          ];
-
-    this.districts = [
-                       {value: 'Pune', text: 'Pune'},
-                       {value: 'Mumbai', text: 'Mumbai'},
-                       {value: 'Kolakata', text: 'Kolakata'},
-                       {value: 'Nagpur', text: 'Nagpur'},
-                       {value: 'Delhi', text: 'Delhi'},
-                       {value: 'Surat', text: 'Surat'}
-                     ];
-
 };
