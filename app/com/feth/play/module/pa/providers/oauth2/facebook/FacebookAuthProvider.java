@@ -45,7 +45,7 @@ public class FacebookAuthProvider extends
 				USER_INFO_FIELDS_SETTING_KEY);
 		
 		final Response rf = WS
-				.url("https://graph.facebook.com/v1.0/me/friends")
+				.url("https://graph.facebook.com/v2.0/me/friends")
 				.setQueryParameter(OAuth2AuthProvider.Constants.ACCESS_TOKEN,
 						info.getAccessToken())
 				.get().get(PlayAuthenticate.TIMEOUT);

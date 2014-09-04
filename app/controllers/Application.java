@@ -72,6 +72,15 @@ public class Application extends Controller {
     public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";
 
+	@Transactional
+    public static Result home() {
+	    //final User localUser = getLocalUser(session());
+        //if(User.isLoggedIn(localUser)) {
+        //    return redirect("/my");
+        //}
+        return redirect("/magazine");
+    }
+	
 	//
 	// Mobile
 	//
