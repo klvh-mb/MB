@@ -26,7 +26,7 @@
 							<a ng-click="selectedTab = 1;">最新訊息</a>
 						</div>
 						<div class="divider-cus"></div>
-						<div ng-class="{activeTabBold: selectedTab == 2}">
+						<div ng-class="{activeTabBold: selectedTab == 2}" ng-if="userInfo.isLoggedIn">
 							<a ng-click="selectedTab = 2;">喜愛</a>
 						</div>
 						<div class="dropdown pull-right">
@@ -75,7 +75,7 @@
                     </div>
 				</div>
                 
-                <div class="tab-content row" ng-if="selectedTab == 2">
+                <div class="tab-content row" ng-if="selectedTab == 2" ng-if="userInfo.isLoggedIn">
                     <div data-ng-controller="CommunityMembersController" data-ng-include data-src="'/assets/app/views/mobile/community-members-section.html'"></div>
                 </div>
                 

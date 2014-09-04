@@ -47,7 +47,7 @@
     							<a ng-click="selectedTab = 1;">最新訊息</a>
     						</div>
     						<div class="divider-cus"></div>
-    						<div ng-class="{activeTabBold: selectedTab == 2}">
+    						<div ng-class="{activeTabBold: selectedTab == 2}" ng-if="userInfo.isLoggedIn">
     							<a ng-click="selectedTab = 2;">喜愛</a>
     						</div>
     						<div class="dropdown pull-right" ng-if="userInfo.isLoggedIn">
@@ -96,7 +96,7 @@
                         </div>
     				</div>
                     
-                    <div class="tab-content row" ng-if="selectedTab == 2">
+                    <div class="tab-content row" ng-if="selectedTab == 2" ng-if="userInfo.isLoggedIn">
                         <div data-ng-controller="CommunityMembersController" data-ng-include data-src="'/assets/app/views/community-members-section.html'"></div>
                     </div>
                     
@@ -113,8 +113,8 @@
     				<div class="con-title">
     					<span class="icon-box icon-box-blueLight icon-title-profile-about"></span>關於
     					<div class="pull-right">
-    						<a ng-click="selectedTab = 2;">{{community.nom}}個喜愛</a>
-    						<p data-ng-show="community.typ == 'BUSINESS'" class="small">專頁</p>
+    						{{community.nom}}個喜愛
+    						<div data-ng-show="community.typ == 'BUSINESS'" class="small">專頁</div>
     					</div>
     				</div>
     
