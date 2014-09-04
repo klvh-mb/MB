@@ -52,7 +52,6 @@ import play.Play;
 import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
-import play.libs.Json;
 import processor.FeedProcessor;
 import be.objectify.deadbolt.core.models.Permission;
 import be.objectify.deadbolt.core.models.Role;
@@ -941,7 +940,6 @@ public class User extends SocialObject implements Subject, Socializable {
         
         if (authUser instanceof FacebookAuthUser) {
             saveFbFriends(authUser, user);
-            
         }
         return user;
     }
@@ -951,17 +949,17 @@ public class User extends SocialObject implements Subject, Socializable {
 		JsonNode frds = fbAuthUser.getFBFriends();
 		
 		if (frds.has("data")) {
-			List<FbUserFriend> fbUserFriend = null;
+			List<FbUserFriend> fbUserFriends = null;
 			try{
-			fbUserFriend = new ObjectMapper().readValue(frds.get("data").traverse(), new TypeReference<List<FbUserFriend>>() {});
-			
+			    fbUserFriends = new ObjectMapper().readValue(frds.get("data").traverse(), new TypeReference<List<FbUserFriend>>() {});
 			} catch(Exception e) {
 				
 			}
-			for(FbUserFriend frnd : fbUserFriend) {
+			for(FbUserFriend frnd : fbUserFriends) {
 				frnd.user = user;
 				frnd.save();
 			}
+			logger.underlyingLogger().info("[u="+user.id+"] saveFbFriends="+fbUserFriends.size());
 		}
 	}
 

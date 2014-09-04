@@ -269,7 +269,7 @@ public class Application extends Controller {
             localUser.children.add(userChild);
         }
         
-        return redirect("/");
+        return redirect("/my");
 	}
 	
 	public static User getLocalUser(final Session session) {
@@ -278,6 +278,9 @@ public class Application extends Controller {
 		    return User.noLoginUser();
 		}
 		final User localUser = User.findByAuthUserIdentity(currentAuthUser);
+		if (localUser == null) {
+            return User.noLoginUser();
+        }
 		return localUser;
 	}
 
@@ -302,7 +305,7 @@ public class Application extends Controller {
         
 		final User localUser = getLocalUser(session());
 		if(User.isLoggedIn(localUser)) {
-			return redirect("/");
+			return redirect("/my");
 		}
 		return isMobileUser()?
 		        ok(views.html.mobile.login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, isOverDailySignupThreshold())):
@@ -330,7 +333,7 @@ public class Application extends Controller {
 	public static Result signup() {
 		final User localUser = getLocalUser(session());
 		if(User.isLoggedIn(localUser)) {
-			return redirect("/");
+			return redirect("/my");
 		}
 		return isMobileUser()? 
 		        ok(views.html.mobile.signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM)):
