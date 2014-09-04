@@ -47,7 +47,7 @@ public class Global extends GlobalSettings {
                 if (controllers.Application.isMobileUser()) {
                     return routes.Application.mobile();
                 }
-                return routes.Application.index();
+                return routes.Application.home();
             }
 
             @Override
