@@ -287,6 +287,20 @@ span.notif-count {
 #post-link {
     width: 70%;
 }
+.post-qna-tag, .post-sharing-tag {
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 15px;
+    width: 15px;
+    height: 15px;
+    margin-top: 3px;
+}
+.post-date {
+    font-size: 11px;
+}
+.post-intro {
+    font-size: 12px;
+}
 .post-intro img {
     width: 18px;
     height: 18px;
@@ -306,9 +320,6 @@ span.notif-count {
 .post-comment-box .post-sharing-comment-textfield:focus {
     width: 60%;
 }
-.dropdown-menu {
-    left: -35px;
-}
 .post-qna-body-title {
     padding-bottom: 10px;
 }
@@ -316,7 +327,7 @@ span.notif-count {
     font-size: 13px;
 }
 .post-qna-answers li {
-    padding: 10px 10px;
+    /*padding: 10px 10px;*/
 }
 .post-qna-body-title a {
     font-size: 18px;
@@ -341,8 +352,11 @@ span.notif-count {
     text-indent: 23px;
     background-size: 18px 18px;
 }
+.dropdown-menu {
+    left: -35px;
+}
 .btn-like {
-    font-size: 14px;
+    font-size: 13px;
 }
 
 /* profile */

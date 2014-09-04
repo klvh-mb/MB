@@ -59,7 +59,7 @@
         </li>
         <li data-ng-repeat="comment in post.cs" ng-class-odd="'post-qna-answer-odd'" ng-class-even="'post-qna-answer-even'">
             <a data-ng-href="/mobile#/profile/{{comment.oid}}">
-                <img class="post-title-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
+                <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
             </a>
             <span class="post-title-user-name">
                 <a data-ng-href="/mobile#/profile/{{comment.oid}}">{{comment.on}}</a>
@@ -79,7 +79,7 @@
         <!-- Post Answer box-->
         <li ng-show="post.isC == true || (community.isM || community.isO)">
             <!--a data-ng-href="/mobile#/profile/{{userInfo.id}}">
-                <img class="post-title-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
+                <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
             </a-->
             <form class="post-comment-box" name="userComment" method="post" action="">
                 <label for="User Comment"></label>
