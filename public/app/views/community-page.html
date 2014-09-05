@@ -60,6 +60,8 @@
                                     <!--li ng-show="community.isO"><a data-ng-href="my#/editCommunity/{{community.id}}">編輯社群</a></li-->
                                     <li class="dropdown-divider" role="presentation"></li>
                                     <li ng-show="!community.isO && community.isM == true"><a data-ng-confirm-click="leave_community(community.id)" data-ng-confirm-message="您確定退出 '{{community.n}}' 嗎?">退出社群</a></li>
+                                    <li ng-show="community.isM == true"><a ng-click="openModel(community.id,'COMMUNITY')"> Report Spam</a></li>
+                                    <li class="dropdown-divider" role="presentation"></li>
                                     <!--li><a data-ng-click="">檢舉社群</a></li-->
                                 </ul> 
                             </div>

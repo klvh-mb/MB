@@ -1,0 +1,27 @@
+  <div class="modal-dialog">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel"><i class="fa fa-fw fa-group"></i> Report </h4>
+          </div>
+          
+          <div class="modal-body">
+    
+    			 <form novalidate class="simple-form">
+				      Category:<br /><select data-ng-model="report.category"
+									    ng-options="country.value as country.text for country in category">
+									</select></br>
+					  Comment:<br><textarea name="community_desc" id="community_desc" class="form-control" data-ng-model="report.comment"></textarea></br>		
+				     
+				      <button class="btn btn-primary ng-binding" ng-click="update(report)">{{submitBtn}}</button>
+				    </form>
+    
+    </div>
+</div>
+
+
+<style>
+.modal-content{
+	overflow-x: hidden !important;
+	overflow-y: hidden !important;
+}
+
+</style>

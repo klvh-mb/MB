@@ -12,6 +12,7 @@
             <button class="post-dropdown-btn btn btn-default dropdown-toggle pull-right" type="button" id="post-dropdown" data-toggle="dropdown">
                 <span class="caret"></span>
             </button>
+            <a ng-click="openModel(post.id,'POST')"><span style="float:right;" class="glyphicon glyphicon-warning-sign"></span></a>
             <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
                 <li role="presentation"><a role="menuitem" href="" ng-click="displayLink('/#/post-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i>複製連結</a></li>
                 <li role="presentation" ng-show="post.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個分享嗎？"><i class="glyphicon glyphicon-trash"></i>刪除分享</a></li>
@@ -58,6 +59,7 @@
                     <a data-ng-href="my#/profile/{{comment.oid}}">{{comment.on}}</a>
                 </span>
                 <span class="post-sharing-comment-body-text" ng-bind-html="comment.d | to_trusted"></span>
+                <a ng-click="openModel(comment.id,'COMMENT')"><span style="float:right;" class="glyphicon glyphicon-warning-sign"></span></a>
                 <!--<span class="post-sharing-comment-body-text">{{comment.d}}</span>-->
                 <div>
                     <span class="post-date" am-time-ago="comment.cd"></span>

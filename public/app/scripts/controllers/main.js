@@ -288,8 +288,54 @@ minibean.controller('ApplicationController',
         $window.scrollTo($window.pageXOffset, 0);
     };
     
+    
+     $scope.openModel = function (id, objectType) {
+    	
+    	var modalInstance = $modal.open({
+            templateUrl: '/assets/app/views/reportObject.html',
+            controller: ModalInstanceCtrl,
+            resolve: {
+          	objectType: function () {
+          		return objectType;
+              },
+              id: function () {
+                  return id;
+              }
+            }
+          });
+    	 modalInstance.result.then(function (selectedItem) {
+    	      $scope.selected = selectedItem;
+    	    }, function () {
+    	});
+    }
+    
     log("ApplicationController completed");
 });
+
+//////////////////////// User Info Service End //////////////////////////////////
+
+///////////////////////// Modal for Reported Object /////////////////////////////
+
+var ModalInstanceCtrl = function ($scope, $modalInstance, objectType, id, usSpinnerService, $http) {
+	$scope.objectType = objectType;
+	
+	$scope.category = DefaultValues.reportCategoryType;
+	$scope.submitBtn = "ok";
+	  $scope.update = function (report) {
+		  report.socialObjectID = id;
+		  report.objectType = objectType;
+	      $scope.submitBtn = "done";
+	      usSpinnerService.spin('loading...');
+	      console.log(report);
+		$http.post('/generateReport', report).success(function(data){
+			$scope.submitBtn = "Complete";
+			usSpinnerService.stop('loading...');
+		});
+	      
+	      
+	  };
+};
+
 
 // TODO: I dont like way i am defining PhotoModalController
 var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePhotoModal, usSpinnerService) {
@@ -4172,3 +4218,35 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 	
 	log("UserConversationController completed");
 });
+
+
+
+minibean.service('subscriptionService',function($resource){
+    this.getAllsubscriptions = $resource(
+            '/get-all-subscriptions',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.subscribe = $resource(
+    		'/subscribe/:id/:isSubscribe',
+    		{alt:'json',callback:'JSON_CALLBACK'},
+    		{
+    			get: {method:'get'}
+    		}
+    );
+});
+
+minibean.controller('subscriptionController', function($scope,subscriptionService) {
+    $scope.subscriptions = subscriptionService.getAllsubscriptions.get();
+    $scope.subscribe = function(sub,isSubscribe) {
+    	sub.isSub = isSubscribe;
+    	subscriptionService.subscribe.get({id: sub.id,isSubscribe: isSubscribe})
+	}
+	
+    
+});
+
+
+

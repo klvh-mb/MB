@@ -6,6 +6,7 @@
             <span class="post-intro-share" ng-show="!isCommunityPage">於 </span>
             <a data-ng-href="my#/community/{{post.cid}}/question" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
             <span class="post-intro-divider"></span>
+            <a ng-click="openModel(post.id,'QUESTION')"><span style="float:right;" class="glyphicon glyphicon-warning-sign"></span></a>
             <span class="post-qna-answer-count">回覆: {{post.n_c}}</span>
             <!--span class="post-intro-divider"></span>
             <span class="post-qna-answer-count">查看: {{post.nov}}</span-->
@@ -66,6 +67,7 @@
             </span>
             <span style="margin-left:5px;"/>
             <span class="post-date" am-time-ago="comment.cd"></span>
+            <a ng-click="openModel(comment.id,'ANSWER')"><span style="float:right;" class="glyphicon glyphicon-warning-sign"></span></a>
             <div class="post-qna-answer-body">
                 <div class="post-qna-answer-body-text" ng-bind-html="comment.d | to_trusted"></div>
                 <div data-ng-show="comment.hasImage" class="post-body-image">

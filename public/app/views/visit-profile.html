@@ -24,6 +24,7 @@
                         <div class="pull-right">
                             <a style="margin:5px 0" ng-show="profile.isf == true && isLoadingEnabled == false" class="btn-general pull-right" data-ng-href="my#/message/{{profile.id}}">私人訊息</a>
                             <!--a style="margin:5px 0" class="btn-general pull-right" data-ng-href="my#/message/{{profile.id}}">私人訊息</a-->
+                            <a ng-click="openModel(profile.id,'USER')"><span style="float:right; margin-top: 5px; margin-right: 5px" class="glyphicon glyphicon-warning-sign"></span></a>
                         </div>
                     </li>
                 </ul>
