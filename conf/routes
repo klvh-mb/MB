@@ -218,3 +218,13 @@ GET		/searchForPosts/index/:query/:community_id/:offset	controllers.Application.
 GET     /get-today-weather-info                 controllers.Application.getTodayWeatherInfo()
 
 GET		/image/article/:year/:month/:date/:name			controllers.ArticleController.getImage(year :Long, month :Long, date :Long, name : String)
+
+
+
+#Subscription
+GET		/get-all-subscriptions					controllers.UserController.getAllSubscription()
+GET		/subscribe/:id/:isSubscribe				controllers.UserController.subscribe(id: Long, isSubscribe: Boolean)
+
+#Report Generation
+
+POST	/generateReport							controllers.ReportObjectController.createReport()
