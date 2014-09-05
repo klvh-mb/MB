@@ -48,9 +48,6 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
     private static final String STORAGE_COMMUNITY_COVER_NOIMAGE = 
             Play.application().configuration().getString("storage.community.cover.noimage");
 
-    /**
-     * Types of communities.
-     */
     public static enum CommunityType {
 		OPEN,
 		CLOSE,
