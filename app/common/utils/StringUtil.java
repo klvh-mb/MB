@@ -26,6 +26,13 @@ public class StringUtil {
         return sb.toString();
     }
 
+    public static String removeNonDigits(String text) {
+        if (text == null) {
+            return null;
+        }
+        return text.replaceAll("[^0-9]", "");
+    }
+
     public static String compress(String in) {
         if (in == null || "".equals(in)) {
             return in;
