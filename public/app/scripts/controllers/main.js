@@ -140,7 +140,14 @@ minibean.controller('ApplicationController',
     }
     
     $scope.applicationInfo = applicationInfoService.ApplicationInfo.get();
-	$scope.userInfo = userInfoService.UserInfo.get();
+	$scope.userInfo = userInfoService.UserInfo.get(
+        function(data) {
+            if (data.isLoggedIn) {
+                $scope.friend_requests = userNotification.getAllFriendRequests.get();
+                $scope.join_requests = userSimpleNotifications.getAllJoinRequests.get();
+	       }
+	   }
+	);
 	$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
 
     $scope.topAnnouncements = announcementsService.getTopAnnouncements.get();
@@ -150,15 +157,14 @@ minibean.controller('ApplicationController',
 	$scope.set_background_image = function() {
 		return { background: 'url(/image/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+') center center no-repeat'};
 	} 
-	$scope.unread_msg_count = 0;
-	$scope.friend_requests = userNotification.getAllFriendRequests.get();
-	$scope.join_requests = userSimpleNotifications.getAllJoinRequests.get();
-	$scope.get_unread_msg_count = function() {
-		$scope.unread_msg_count = userMessageNotifications.getUnreadMsgCount.get();
-	}
-	$scope.isFRreaded = true;
-	$scope.isNOreaded = true;
 	
+	$scope.isFRreaded = true;
+    $scope.isNOreaded = true;
+	$scope.unread_msg_count = 0;
+	$scope.get_unread_msg_count = function() {
+        $scope.unread_msg_count = userMessageNotifications.getUnreadMsgCount.get();
+    }
+                
 	$scope.accept_friend_request = function(id, notify_id) {
 		angular.forEach($scope.friend_requests, function(request, key){
 			if(request.id == id) {
