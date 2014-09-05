@@ -111,10 +111,13 @@
             首頁
         </a-->
         <span ng-if="userInfo.isLoggedIn">
-            <a ng-if="userInfo.isLoggedIn" class="header-main-text" ng-href="my#">
+            <a class="header-main-text" ng-href="magazine#">
+                首頁
+            </a>
+            <a class="header-main-text" ng-href="my#">
                 我的小萌豆
             </a>
-            <a ng-if="userInfo.isLoggedIn" class="header-main-text" ng-href="my#/about/activities">
+            <a class="header-main-text" ng-href="my#/about/activities">
                 {{userInfo.firstName}}
             </a>
             <a style="position:relative;top:-3px;" class="dropdown-toggle dropdown-hover colorChange" data-toggle="dropdown" href="">
@@ -128,10 +131,10 @@
             </ul>
         </span>
         <span ng-if="!userInfo.isLoggedIn">
-            <a ng-if="!userInfo.isLoggedIn" class="header-main-text" ng-href="/signup">
+            <a class="header-main-text" ng-href="/signup">
                 新會員登記
             </a>
-            <a ng-if="!userInfo.isLoggedIn" class="header-main-text" ng-href="my#">
+            <a class="header-main-text" ng-href="my#">
                 登入
             </a>
         </span>

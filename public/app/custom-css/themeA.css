@@ -301,6 +301,12 @@ pre {
     width: 32px;
     height: 25px;
 }
+#header .dropdown-menu {
+    min-width: 120px;
+    position: absolute;
+    top: 100%;
+    left: 100px;
+}
 .btn-general {
     font-size: 12px;
     color: black;
