@@ -53,6 +53,7 @@ import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import processor.FeedProcessor;
+import viewmodel.SubscriptionVM;
 import be.objectify.deadbolt.core.models.Permission;
 import be.objectify.deadbolt.core.models.Role;
 import be.objectify.deadbolt.core.models.Subject;
@@ -103,6 +104,9 @@ public class User extends SocialObject implements Subject, Socializable {
     
     @OneToOne
     public FbUserInfo fbUserInfo;
+    
+    @ManyToMany
+    public List<Subscription> subscriptions;
     
     @OneToMany
     public List<FbUserFriend> fbUserFriends;
@@ -1635,4 +1639,22 @@ public class User extends SocialObject implements Subject, Socializable {
         noLoginUser.id = -1L;
         return noLoginUser;
     }
+	
+		public void setSubscribtion(Long subID) {
+		Subscription subscription = Subscription.findById(subID);
+		this.subscriptions.add(subscription);
+		JPA.em().merge(this);
+	}
+	
+	public void setUnsubscribtion(Long subID) {
+		Subscription subscription = Subscription.findById(subID);
+		if(this.isSubscribeBy(subscription)){
+			this.subscriptions.remove(subscription);
+			JPA.em().merge(this);
+		}
+	}
+
+	public boolean isSubscribeBy(Subscription subscription) {
+		return this.subscriptions.contains(subscription);
+	}
 }
