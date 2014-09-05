@@ -7,6 +7,9 @@
     <div id="content">
 		<div class="row">
     		<div class="col-md-6 col-sm-6 col-xs-6" style="width:68%;">
+                <div ng-show="topAnnouncements.length > 0">
+                    <div data-ng-include data-src="'/assets/app/views/top-announcements.html'"></div>
+                </div>
                 <div id="wall">
                     <div ng-controller="MagazineNewsFeedController" data-ng-include style="width:102%;" data-src="'/assets/app/views/magazine/magazine-news-feed-section.html'"></div>
                 </div>
