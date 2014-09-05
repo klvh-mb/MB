@@ -199,7 +199,7 @@ public class Application extends Controller {
 		}
 		
 	    if (user.isNewUser()) {
-            logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.name+"] Signup completed");
+            logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.name+"] Signup completed - "+(isMobileUser()?"mobile":"PC"));
 
 	        CommunityTargetingEngine.assignSystemCommunitiesToUser(user);
 	        
