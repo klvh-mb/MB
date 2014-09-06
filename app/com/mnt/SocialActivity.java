@@ -20,9 +20,8 @@ import common.cache.FriendCache;
 import domain.SocialObjectType;
 
 public class SocialActivity {
-	// TODO
-	public static void handle(SocialRelation socialAction) {
 
+	public static void handle(SocialRelation socialAction) {
 		Map<String, Object> jsonMap = new HashMap<>();
 		jsonMap.put("actor", socialAction.actor);
 		jsonMap.put("target", socialAction.target);
@@ -38,7 +37,7 @@ public class SocialActivity {
 				notification.URLs = Json.stringify(Json.toJson(jsonMap));
 				notification.recipient = socialAction.actor;
 				notification.notificationType = NotificationType.COMMUNITY_JOIN_APPROVED;
-				notification.message = "You are now member of " + socialAction.getTargetObject().name;
+				notification.message = "你已成為「"+socialAction.getTargetObject().name+"」的成員。";
 				notification.status = 0;
 				notification.save();
 			}
@@ -52,13 +51,11 @@ public class SocialActivity {
 				notification.URLs = Json.stringify(Json.toJson(jsonMap));
 				notification.recipient = socialAction.actor;
 				notification.notificationType = NotificationType.FRIEND_ACCEPTED;
-				notification.message = "You are now Friend of "
-						+ socialAction.getTargetObject().name;
+				notification.message = "你與 "+socialAction.getTargetObject().name+" 成為了朋友。";
 				notification.status = 0;
 				notification.save();
 			}
 				break;
-
 			}
 		} 
 		
@@ -73,7 +70,7 @@ public class SocialActivity {
 				notification.usersName = socialAction.getActorObject().name;
 				notification.recipient = socialAction.targetOwner;
 				notification.notificationType = NotificationType.COMMUNITY_JOIN_REQUEST;
-				notification.message = socialAction.getActorObject().name+" wants to join community " + socialAction.targetname;
+				notification.message = socialAction.getActorObject().name+" 有意加入「" + socialAction.targetname+"」社群。";
 				notification.save();
 			}
 				break;
@@ -86,21 +83,21 @@ public class SocialActivity {
 				notification.URLs = Json.stringify(Json.toJson(jsonMap));
 				notification.recipient = socialAction.target;
 				notification.notificationType = NotificationType.FRIEND_REQUEST;
-				notification.message = socialAction.getActorObject().name;
+				notification.message = socialAction.getActorObject().name+" 有意與你成為朋友。";
 				notification.save();
 			}
 				break;
 
-			case RELATIONSHIP_REQUESTED: {
-				Notification notification = new Notification();
-				notification.socialActionID = socialAction.id;
-				notification.recipient = socialAction.target;
-				notification.message = socialAction.actorname
-						+ " wants to add you in " + socialAction.action
-						+ " list. ";
-				notification.save();
-			}
-				break;
+//			case RELATIONSHIP_REQUESTED: {
+//				Notification notification = new Notification();
+//				notification.socialActionID = socialAction.id;
+//				notification.recipient = socialAction.target;
+//				notification.message = socialAction.actorname
+//						+ " wants to add you in " + socialAction.action
+//						+ " list. ";
+//				notification.save();
+//			}
+//				break;
 				
 			case INVITE_REQUESTED: {
 				Notification notification = new Notification();
@@ -110,13 +107,12 @@ public class SocialActivity {
 				notification.URLs = Json.stringify(Json.toJson(jsonMap));
 				notification.recipient = socialAction.actor;
 				notification.notificationType = NotificationType.COMMUNITY_INVITE_REQUEST;
-				notification.message = "You are invited to join community " + socialAction.targetname;
+				notification.message = "你被邀請成為「"+socialAction.targetname+"」社群的成員。";
 				notification.save();
 			}
 				break;
 			}
 		}
-
 	}
 
 	public static void handle(PrimarySocialRelation socialAction) {
