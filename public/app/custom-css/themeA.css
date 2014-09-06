@@ -305,7 +305,7 @@ pre {
     min-width: 120px;
     position: absolute;
     top: 100%;
-    left: 100px;
+    left: 0px;
 }
 .btn-general {
     font-size: 12px;
@@ -1061,6 +1061,13 @@ pre {
     color: white;
     font-size: 15px !important;
     font-weight: bold !important;
+}
+.header-main-text img {
+    margin-right: 7px;
+    float: left;
+    width: 25px;
+    height: auto;
+    border-radius: 0px;
 }
 .right-side {
     position: absolute;
@@ -1941,6 +1948,10 @@ pre {
     display: none;
     right: 25px;
     top: 20px;
+}
+#profile-header #profile-header-menu div:first-child a {
+    left: 100px;
+    top: -100px;
 }
 #profile-header div:first-child a span:first-child {
     position: absolute;

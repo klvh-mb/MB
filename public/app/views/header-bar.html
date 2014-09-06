@@ -107,17 +107,15 @@
     </span>
     
     <div class="right-side">
-        <!--a class="header-main-text" href="magazine#/">
-            首頁
-        </a-->
         <span ng-if="userInfo.isLoggedIn">
-            <a class="header-main-text" ng-href="magazine#">
+            <!--a class="header-main-text" ng-href="magazine#">
                 首頁
             </a>
             <a class="header-main-text" ng-href="my#">
                 我的小萌豆
-            </a>
+            </a-->
             <a class="header-main-text" ng-href="my#/about/activities">
+                <img class="post-title-user-image" ng-src="/image/get-mini-image-by-id/{{userInfo.id}}">
                 {{userInfo.firstName}}
             </a>
             <a style="position:relative;top:-3px;" class="dropdown-toggle dropdown-hover colorChange" data-toggle="dropdown" href="">

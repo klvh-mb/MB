@@ -224,6 +224,10 @@ body {
 #header {
     position: fixed;
 }
+#header .dropdown-menu {
+    top: 100%;
+    left: -250px;
+}
 #header-sliding-menu-toggle {
     background-color: transparent;
     padding: 10px 10px;
@@ -364,6 +368,10 @@ span.notif-count {
     width: 100%;
     height: 160px;
     border-radius: 5px 5px 0 0;
+}
+#profile-header #profile-header-menu div:first-child a {
+    left: 60px;
+    top: -70px;
 }
 #profile-header-menu img[alt="profile-pic"] {
     width: 100px;

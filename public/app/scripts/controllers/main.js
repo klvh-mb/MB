@@ -7,6 +7,8 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
     
     log("BusinessCommunityPageController starts");
 
+    $scope.selectNavBar('HOME');
+
     $scope.selectedTab = 1;
     $scope.selectedSubTab = 1;
     var tab = $routeParams.tab;
@@ -133,7 +135,7 @@ minibean.controller('ApplicationController',
     $scope.selectNavBar = function(value) {
         $scope.selectedNavBar = value;
     }
-    $scope.selectNavBar('MAGAZINE');
+    $scope.selectNavBar('HOME');
     
     $scope.reloadPage = function() {
         $route.reload();
