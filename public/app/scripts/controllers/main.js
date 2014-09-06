@@ -52,7 +52,7 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
              templateUrl: 'change-profile-photo-modal.html',
              controller: PhotoModalController
         },function() {
-            $scope.coverImage = coverImage + "?q="+ Math.random();
+            $scope.coverImage = $scope.coverImage + "?q="+ Math.random();
         });
     }
     
@@ -397,12 +397,10 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
         $scope.selectedTab = 4;
     }
     
-	var profileImage = "/image/get-profile-image";
-	var coverImage = "/image/get-cover-image";
+	$scope.profileImage = "/image/get-profile-image";
+	$scope.coverImage = "/image/get-cover-image";
 	$scope.isEdit = true;
 	$scope.result = userAboutService.UserAbout.get();
-	$scope.profileImage = profileImage;
-	$scope.coverImage = coverImage;
 	
 	$scope.genders = DefaultValues.genders;
 	
@@ -426,7 +424,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 			 templateUrl: 'change-profile-photo-modal.html',
 			 controller: PhotoModalController
 		},function() {
-			$scope.profileImage = profileImage + "?q="+ Math.random();
+			$scope.profileImage = $scope.profileImage + "?q="+ Math.random();
 		});
 		PhotoModalController.isProfileOn = true;
 	}
@@ -437,7 +435,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 			 templateUrl: 'change-profile-photo-modal.html',
 			 controller: PhotoModalController
 		},function() {
-			$scope.coverImage = coverImage + "?q="+ Math.random();
+			$scope.coverImage = $scope.coverImage + "?q="+ Math.random();
 		});
 		PhotoModalController.isProfileOn = false;
 	}
@@ -1243,16 +1241,6 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
         $scope.dataUrls.splice(index, 1);
     }
     
-    $scope.openGroupCoverPhotoModal = function(id) {
-        PhotoModalController.url = "image/upload-cover-photo-group/"+id;
-        profilePhotoModal.OpenModal({
-             templateUrl: 'change-profile-photo-modal.html',
-             controller: PhotoModalController
-        },function() {
-            $scope.coverImage = coverImage + "?q="+ Math.random();
-        });
-    }
-    
     $scope.bookmarkPost = function(post_id) {
         bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
             angular.forEach($scope.posts.posts, function(post, key){
@@ -1769,7 +1757,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
              templateUrl: 'change-profile-photo-modal.html',
              controller: PhotoModalController
         },function() {
-            $scope.coverImage = coverImage + "?q="+ Math.random();
+            $scope.coverImage = $scope.coverImage + "?q="+ Math.random();
         });
     }
     
