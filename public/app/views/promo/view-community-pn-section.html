@@ -19,8 +19,9 @@
                     </a>
                     <span class="tag" ng-style="{backgroundColor: pn.tagc}">{{pn.dis}}</span>
                     <a ng-show="pn.map != null" href="{{pn.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i></a>
-    
-                    <div class="pn-info-note"><span ng-show="pn.pho">電話: {{pn.pho}}</span><span ng-show="pn.em"> · 電郵: {{pn.em}}<span></div>
+
+                    <div class="pn-info-note"><span ng-show="pn.adr">{{pn.adr}}</span></div>
+                    <div class="pn-info-note"><span ng-show="pn.pho">電話: {{pn.pho}}</span><span ng-show="pn.em"> · 電郵: {{pn.em}}</span></div>
                     <div class="pn-info-attr">
                         <span>派表日期: {{pn.fds}}<span ng-show="!pn.fds">--</span></span>
                         <span>報名日期: {{pn.ads}}<span ng-show="!pn.ads">--</span></span>

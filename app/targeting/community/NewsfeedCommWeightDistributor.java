@@ -42,7 +42,7 @@ public class NewsfeedCommWeightDistributor {
 
             if (affinity.isNewsfeedEnabled()) {
                 // each community fetch count based on ratio of scores
-                int entriesCount = totalToFetch * scorable.getScore() / totalScore;
+                int entriesCount = (totalScore == 0) ? 0 : totalToFetch * scorable.getScore() / totalScore;
                 result.setEntriesCount(affinity.getCommunityId(), entriesCount);
             }
         }

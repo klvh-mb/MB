@@ -1,5 +1,6 @@
 package viewmodel;
 
+import common.utils.StringUtil;
 import models.PreNursery;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -17,9 +18,9 @@ public class PreNurseryVM {
     @JsonProperty("n")    public String name;
     @JsonProperty("url")  public String url;
     @JsonProperty("pho")  public String phoneText;
+    @JsonProperty("phol") public String phoneUrl;
     @JsonProperty("em")   public String email;
-    @JsonProperty("adr")   public String address;
-    @JsonProperty("coup") public boolean couponSupport;
+    @JsonProperty("adr")  public String address;
     @JsonProperty("fds")  public String formStartDateStr;
     @JsonProperty("ads")  public String applicationStartDateStr;
     @JsonProperty("eds")  public String applicationEndDateStr;
@@ -32,9 +33,9 @@ public class PreNurseryVM {
         this.name = pn.name;
         this.url = pn.url;
         this.phoneText = pn.phoneText;
+        this.phoneUrl = StringUtil.removeNonDigits(pn.phoneText);
         this.email = pn.email;
         this.address = pn.address;
-        this.couponSupport = pn.couponSupport;
         this.formStartDateStr = pn.formStartDateString;
         this.applicationStartDateStr = pn.applicationStartDateString;
         this.applicationEndDateStr = pn.applicationEndDateString;
