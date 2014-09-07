@@ -14,7 +14,7 @@
         <li data-ng-click="getAdmin()" style="cursor:pointer;">管理員 </li>
     </ul>
 </div>
-<a id="membersSearchwrapper" class="pull-right" style="margin-right: 9%;">
+<!--a id="membersSearchwrapper" class="pull-right" style="margin-right: 9%;">
 	<div class="basic-search-wrapper">
 		<div class="input-group innerB basic-search">
     		<input type="text" class="form-control" ng-model="query" placeholder="搜尋">
@@ -25,7 +25,7 @@
         	</div>
     	</div>
 	</div>
-</a>
+</a-->
 <div class="padding10"></div>
 
 <pagination style="width:100%;margin: 0px 0px 10px 20px;" direction-links="false" ng-show="result.members.length > itemsPerPage && showMembers" total-items="result.members.length" page="currentPage" on-select-page="setMemberPage(page)" items-per-page="itemsPerPage"></pagination>

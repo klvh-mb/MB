@@ -29,7 +29,8 @@
     left: 30px;
 }
 #membersSearchwrapper {
-    width: 200px;
+    width: 40%;
+    max-width: 200px;
     position: relative;
     top: 0px;
     right: -40px;
