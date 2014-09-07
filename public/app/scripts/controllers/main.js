@@ -372,6 +372,8 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 minibean.controller('UserAboutController',function($routeParams, $scope, $http, userAboutService, locationService, profilePhotoModal){
 	log("UserAboutController starts");
 	
+	$scope.selectNavBar('HOME');
+	
 	var tab = $routeParams.tab;
 	
 	$scope.get_unread_msg_count();
