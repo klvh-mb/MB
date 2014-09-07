@@ -592,8 +592,24 @@ minibean.controller('SuggestedFriendsUtilityController',function($scope, unFrien
 
 minibean.controller('CommunityMembersController',function($scope, $routeParams, membersWidgetService, $http){
     log("CommunityMembersController starts");
-
-	$scope.result = membersWidgetService.CommunityMembers.get({id:$routeParams.id});
+    
+    // paged filtered data
+    $scope.pagedMembers = [];
+    
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = DefaultValues.DEFAULT_MEMBERS_PER_PAGE;
+    $scope.setMemberPage = function(page) {
+        var begin = ((page - 1) * $scope.itemsPerPage);
+        var end = begin + $scope.itemsPerPage;
+        $scope.pagedMembers = $scope.result.members.slice(begin, end);
+        $scope.currentPage = page;
+    }
+    
+	$scope.result = membersWidgetService.CommunityMembers.get({id:$routeParams.id}, 
+	   function() {
+	       $scope.setMemberPage(1);
+	   } 
+	);
 	$scope.showMembers = true;
 	$scope.showAdmin = false;
 	$scope.getAllMembers = function() {
@@ -631,8 +647,7 @@ minibean.controller('CommunityPNController',function($scope, $routeParams, $http
     log("CommunityPNController starts");
 
     $scope.currentPage = 1;
-    $scope.itemsPerPage = 30;
-    
+    $scope.itemsPerPage = DefaultValues.DEFAULT_ITEMS_PER_PAGE;
     $scope.setPNPage = function(page) {
         var begin = ((page - 1) * $scope.itemsPerPage);
         var end = begin + $scope.itemsPerPage;
