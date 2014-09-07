@@ -7,6 +7,8 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
     
     log("BusinessCommunityPageController starts");
 
+    $scope.selectNavBar('HOME');
+
     $scope.selectedTab = 1;
     $scope.selectedSubTab = 1;
     var tab = $routeParams.tab;
@@ -50,7 +52,7 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
              templateUrl: 'change-profile-photo-modal.html',
              controller: PhotoModalController
         },function() {
-            $scope.coverImage = coverImage + "?q="+ Math.random();
+            $scope.coverImage = $scope.coverImage + "?q="+ Math.random();
         });
     }
     
@@ -133,7 +135,7 @@ minibean.controller('ApplicationController',
     $scope.selectNavBar = function(value) {
         $scope.selectedNavBar = value;
     }
-    $scope.selectNavBar('MAGAZINE');
+    $scope.selectNavBar('HOME');
     
     $scope.reloadPage = function() {
         $route.reload();
@@ -370,6 +372,8 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 minibean.controller('UserAboutController',function($routeParams, $scope, $http, userAboutService, locationService, profilePhotoModal){
 	log("UserAboutController starts");
 	
+	$scope.selectNavBar('HOME');
+	
 	var tab = $routeParams.tab;
 	
 	$scope.get_unread_msg_count();
@@ -395,12 +399,10 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
         $scope.selectedTab = 4;
     }
     
-	var profileImage = "/image/get-profile-image";
-	var coverImage = "/image/get-cover-image";
+	$scope.profileImage = "/image/get-profile-image";
+	$scope.coverImage = "/image/get-cover-image";
 	$scope.isEdit = true;
 	$scope.result = userAboutService.UserAbout.get();
-	$scope.profileImage = profileImage;
-	$scope.coverImage = coverImage;
 	
 	$scope.genders = DefaultValues.genders;
 	
@@ -424,7 +426,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 			 templateUrl: 'change-profile-photo-modal.html',
 			 controller: PhotoModalController
 		},function() {
-			$scope.profileImage = profileImage + "?q="+ Math.random();
+			$scope.profileImage = $scope.profileImage + "?q="+ Math.random();
 		});
 		PhotoModalController.isProfileOn = true;
 	}
@@ -435,7 +437,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 			 templateUrl: 'change-profile-photo-modal.html',
 			 controller: PhotoModalController
 		},function() {
-			$scope.coverImage = coverImage + "?q="+ Math.random();
+			$scope.coverImage = $scope.coverImage + "?q="+ Math.random();
 		});
 		PhotoModalController.isProfileOn = false;
 	}
@@ -590,8 +592,24 @@ minibean.controller('SuggestedFriendsUtilityController',function($scope, unFrien
 
 minibean.controller('CommunityMembersController',function($scope, $routeParams, membersWidgetService, $http){
     log("CommunityMembersController starts");
-
-	$scope.result = membersWidgetService.CommunityMembers.get({id:$routeParams.id});
+    
+    // paged filtered data
+    $scope.pagedMembers = [];
+    
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = DefaultValues.DEFAULT_MEMBERS_PER_PAGE;
+    $scope.setMemberPage = function(page) {
+        var begin = ((page - 1) * $scope.itemsPerPage);
+        var end = begin + $scope.itemsPerPage;
+        $scope.pagedMembers = $scope.result.members.slice(begin, end);
+        $scope.currentPage = page;
+    }
+    
+	$scope.result = membersWidgetService.CommunityMembers.get({id:$routeParams.id}, 
+	   function() {
+	       $scope.setMemberPage(1);
+	   } 
+	);
 	$scope.showMembers = true;
 	$scope.showAdmin = false;
 	$scope.getAllMembers = function() {
@@ -629,8 +647,7 @@ minibean.controller('CommunityPNController',function($scope, $routeParams, $http
     log("CommunityPNController starts");
 
     $scope.currentPage = 1;
-    $scope.itemsPerPage = 30;
-    
+    $scope.itemsPerPage = DefaultValues.DEFAULT_ITEMS_PER_PAGE;
     $scope.setPNPage = function(page) {
         var begin = ((page - 1) * $scope.itemsPerPage);
         var end = begin + $scope.itemsPerPage;
@@ -1241,16 +1258,6 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
         $scope.dataUrls.splice(index, 1);
     }
     
-    $scope.openGroupCoverPhotoModal = function(id) {
-        PhotoModalController.url = "image/upload-cover-photo-group/"+id;
-        profilePhotoModal.OpenModal({
-             templateUrl: 'change-profile-photo-modal.html',
-             controller: PhotoModalController
-        },function() {
-            $scope.coverImage = coverImage + "?q="+ Math.random();
-        });
-    }
-    
     $scope.bookmarkPost = function(post_id) {
         bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
             angular.forEach($scope.posts.posts, function(post, key){
@@ -1767,7 +1774,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
              templateUrl: 'change-profile-photo-modal.html',
              controller: PhotoModalController
         },function() {
-            $scope.coverImage = coverImage + "?q="+ Math.random();
+            $scope.coverImage = $scope.coverImage + "?q="+ Math.random();
         });
     }
     

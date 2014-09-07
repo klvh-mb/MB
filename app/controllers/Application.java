@@ -90,7 +90,11 @@ public class Application extends Controller {
 	//
 
 	public static boolean isMobileUser() {
-	    return "true".equalsIgnoreCase(session().get("mobile"));
+	    try {
+	        return "true".equalsIgnoreCase(session().get("mobile"));
+	    } catch (Exception e) {
+	        return false;
+	    }
 	}
 	
 	public static void setMobileUser() {

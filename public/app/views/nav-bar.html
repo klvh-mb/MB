@@ -1,10 +1,13 @@
 <div id="nav-bar">
     <div class="nav-menu">
-        <a class="nav-item" href="magazine#/" ng-class="{selected: selectedNavBar == 'MAGAZINE'}" ng-click="selectNavBar('MAGAZINE')">
+        <a class="nav-item" href="magazine#" ng-class="{selected: selectedNavBar == 'MAGAZINE'}" ng-click="selectNavBar('MAGAZINE')">
             小萌豆 Magazine
         </a>
         <a class="nav-item" href="magazine#/article/show/0" ng-class="{selected: selectedNavBar == 'ARTICLE'}" ng-click="selectNavBar('ARTICLE')">
             熱門文章
+        </a>
+        <a class="nav-item" href="my#" ng-class="{selected: selectedNavBar == 'HOME'}" ng-click="selectNavBar('HOME')">
+            我的小萌豆
         </a>
     </div>
 </div>

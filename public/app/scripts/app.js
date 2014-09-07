@@ -69,11 +69,11 @@ angular.module('minibean', [
         controller : 'PostLandingController'  
       })
       .when('/article/id/:id',{
-    	templateUrl: '/assets/app/views/articlePage.html',
+    	templateUrl: '/assets/app/views/magazine/articlePage.html',
     	controller : 'ShowArticleController'  
       })
       .when('/article/show/:catid',{
-    	templateUrl: '/assets/app/views/showArticlesPage.html',
+    	templateUrl: '/assets/app/views/magazine/showArticlesPage.html',
     	controller : 'ShowArticleControllerNew'  
       })
       .when('/message/:id',{

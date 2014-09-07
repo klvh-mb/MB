@@ -1,5 +1,5 @@
 <div id="header" class="header-wrapper no-glow navbar hidden-print navbar-default box main navbar-fixed-top" id="top-bar" role="navigation" style="top:0px; height: 42px;">
-    <a class="header-logo pull-left" href="magazine#/">
+    <a class="header-logo pull-left" href="my#">
         <img src="../assets/app/images/logo-1.png" />
     </a>
     <span ng-if="userInfo.isLoggedIn">
@@ -107,17 +107,15 @@
     </span>
     
     <div class="right-side">
-        <!--a class="header-main-text" href="magazine#/">
-            首頁
-        </a-->
         <span ng-if="userInfo.isLoggedIn">
-            <a class="header-main-text" ng-href="magazine#">
+            <!--a class="header-main-text" ng-href="magazine#">
                 首頁
             </a>
             <a class="header-main-text" ng-href="my#">
                 我的小萌豆
-            </a>
+            </a-->
             <a class="header-main-text" ng-href="my#/about/activities">
+                <img class="post-title-user-image" ng-src="/image/get-mini-image-by-id/{{userInfo.id}}">
                 {{userInfo.firstName}}
             </a>
             <a style="position:relative;top:-3px;" class="dropdown-toggle dropdown-hover colorChange" data-toggle="dropdown" href="">

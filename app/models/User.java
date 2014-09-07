@@ -72,6 +72,7 @@ import com.mnt.exception.SocialObjectNotJoinableException;
 import com.mnt.exception.SocialObjectNotLikableException;
 import com.mnt.exception.SocialObjectNotPostableException;
 
+import controllers.Application;
 import domain.CommentType;
 import domain.DefaultValues;
 import domain.PostType;
@@ -100,6 +101,8 @@ public class User extends SocialObject implements Subject, Socializable {
     // fb info
     
     public boolean fbLogin;
+    
+    public boolean mobileSignup;
     
     @OneToOne
     public FbUserInfo fbUserInfo;
@@ -891,6 +894,7 @@ public class User extends SocialObject implements Subject, Socializable {
         user.newUser = true;
         user.lastLogin = new Date();
         user.fbLogin = false;
+        user.mobileSignup = Application.isMobileUser();
         
         if (authUser instanceof EmailIdentity) {
             final EmailIdentity identity = (EmailIdentity) authUser;
