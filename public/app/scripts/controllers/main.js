@@ -3966,6 +3966,8 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $routeParams, $sce, searchFriendService, usSpinnerService, getMessageService, allConversationService, iconsService) {
     log("UserConversationController starts");
 
+    $scope.selectNavBar('HOME');
+
     $scope.emoticons = iconsService.getEmoticons.get();
 
     $scope.messageText = "";

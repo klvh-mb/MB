@@ -47,6 +47,9 @@ angular.module('minibean', [
       .when('/article/id/:id',{
         templateUrl: '/assets/app/views/magazine/articlePage.html',
         controller : 'ShowArticleController'  
+      })
+      .otherwise({
+          redirectTo: '/'
       });
   })
   .run(function(editableOptions) {

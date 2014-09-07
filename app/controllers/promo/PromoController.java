@@ -14,6 +14,7 @@ public class PromoController extends Controller {
 	@Transactional
 	public static Result index() {
         logger.underlyingLogger().info("STS PromoController index()");
-        return ok(views.html.promo.home.render());
+        //return ok(views.html.promo.home.render());
+        return redirect("/magazine");
     }
 }

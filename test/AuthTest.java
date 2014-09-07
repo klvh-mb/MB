@@ -139,7 +139,7 @@ public class AuthTest {
 								controllers.routes.ref.Application.doLoginForTest(),
 								fakeRequest().withFormUrlEncodedBody(data));
 						
-						assertThat(redirectLocation(result)).isEqualTo(routes.Application.home().url());
+						assertThat(redirectLocation(result)).isEqualTo(routes.Application.index().url());
 						
 					}
 				});
