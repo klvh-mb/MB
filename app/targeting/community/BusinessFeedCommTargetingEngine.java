@@ -60,7 +60,7 @@ public class BusinessFeedCommTargetingEngine {
                 distTracker.removeLatest(postPair.first);
             }
             else {
-                logger.underlyingLogger().info("[u="+userId+"] Business_NF_size="+nfPostIds.size());
+                logger.underlyingLogger().info("[u="+userId+"] Business NF_size="+nfPostIds.size());
                 break;
             }
         }

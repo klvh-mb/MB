@@ -132,7 +132,7 @@ public class NewsfeedCommTargetingEngine {
                     lastPost = postPair.second;
                 }
                 else {
-                    logger.underlyingLogger().info("[u="+userId+"] Nothing left in community post pool. NF_size="+nfPostIds.size());
+                    logger.underlyingLogger().info("[u="+userId+"] Social NF_size="+nfPostIds.size());
                     break;
                 }
             }
