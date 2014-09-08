@@ -211,6 +211,7 @@ GET		/unwant-ans/:post_id					controllers.CommunityController.unwantAnswerFromQu
 
 GET     /get-pn-communities                     controllers.PreNurseryController.getPNCommunities()
 GET		/getPNs/:id	                            controllers.PreNurseryController.getPNs(id:Long)
+GET     /pn-request-update/:name/:districtId    controllers.PreNurseryController.requestUpdate(name:String,districtId:Long)
 
 # indexing with elasic search
 GET		/searchForPosts/index/:query/:community_id/:offset	controllers.Application.searchForPosts(query: String, community_id: Long,offset:Long)

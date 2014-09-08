@@ -246,6 +246,13 @@ minibean.service('pnService',function($resource){
                 get: {method:'GET', params:{id:'@id'},isArray:true}
             }
     );
+    this.RequestUpdate = $resource(
+            '/pn-request-update/:name/:districtId',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{name:'@name',districtId:'@districtId'}}
+            }
+    );
 });
 
 minibean.service('unJoinedCommunityWidgetService',function($resource){

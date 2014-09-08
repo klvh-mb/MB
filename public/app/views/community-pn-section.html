@@ -36,7 +36,14 @@
                     <span>派表日期: {{pn.fds}}<span ng-show="!pn.fds">--</span></span>
                     <span>報名日期: {{pn.ads}}<span ng-show="!pn.ads">--</span></span>
                     <span>截止日期: {{pn.eds}}<span ng-show="!pn.eds">--</span></span>
-                    <span class="pull-right" ng-show="pn.fom">申請表格: <a href="{{pn.fom}}" target="_blank"><i class="glyphicon glyphicon-download-alt"></i></a></span>
+                    <div class="pull-right" style="margin:auto auto;">
+                        <span style="margin-right:5px;" ng-show="pn.fom">申請表格: <a href="{{pn.fom}}" target="_blank"><i class="glyphicon glyphicon-download-alt"></i></a></span>
+                        <span ng-show="userInfo.isLoggedIn" class="btn-like-wrapper" id="request_{{pn.id}}">
+                            <a class="btn-like" style="font-size:11px;font-weight:normal;margin:0;" href="" data-ng-click="requestUpdate(pn.id,pn.n,pn.disId)">要求日期更新 <i class="glyphicon glyphicon-flag"></i></a>
+                            <span ng-show="pn.ruc > 0"><b> · {{pn.ruc}}</b></span>
+                        </span>
+                        <span style="font-size:11px;font-weight:normal;margin:0;display:none;" id="thx_{{pn.id}}">多謝您的意見!</span>
+                    </div>
                 </div>
             </div>
         </li>

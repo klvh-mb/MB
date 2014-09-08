@@ -700,9 +700,15 @@ minibean.controller('CommunityPNController',function($scope, $routeParams, $http
             $scope.filteredOtherPNs = $filter('objFilter')($scope.pns, {"dis":district});
         }
         $scope.setPNPage(1);
-	};
+	}
 	
-	log("CommunityPNController completed");
+    $scope.requestUpdate = function(id, name, districtId) {
+        pnService.RequestUpdate.get({"name":name,"districtId":districtId});
+        $('#request_'+id).hide();
+        $('#thx_'+id).show();
+    }
+    
+    log("CommunityPNController completed");
 });
 
 minibean.controller('RecommendedCommunityWidgetController',function($scope, usSpinnerService, sendJoinRequest, unJoinedCommunityWidgetService, userInfoService, $http){
@@ -711,16 +717,16 @@ minibean.controller('RecommendedCommunityWidgetController',function($scope, usSp
 	$scope.result = unJoinedCommunityWidgetService.UserCommunitiesNot.get();
 	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.send_request = function(id) {
-		this.invite = sendJoinRequest.sendRequest.get({id:id},
-				function(data) {
-					angular.forEach($scope.result.communities, function(request, key){
-						if(request.id == id) {
-							request.isP = true;
-						}
-					});
-				}
-		);
-	}
+        this.invite = sendJoinRequest.sendRequest.get({id:id},
+			function(data) {
+                angular.forEach($scope.result.communities, function(request, key) {
+                    if(request.id == id) {
+                        request.isP = true;
+                    }
+                });
+            }
+        );
+    }
 	
 	log("RecommendedCommunityWidgetController completed");
 });
@@ -769,10 +775,10 @@ minibean.controller('CommunityWidgetController',function($scope, $routeParams, u
 	$scope.myCommunities = communityWidgetService.UserCommunities.get(
         function(data) {
             angular.forEach(data.communities, function(community, key) {
-            if (community.isO)
-                $scope.myAdminCommunities.push(community);
-            else
-                $scope.myJoinedCommunities.push(community);
+                if (community.isO)
+                    $scope.myAdminCommunities.push(community);
+                else
+                    $scope.myJoinedCommunities.push(community);
             })
         }
 	);
@@ -780,14 +786,14 @@ minibean.controller('CommunityWidgetController',function($scope, $routeParams, u
 	$scope.send_request = function(id) {
 		usSpinnerService.spin('loading...');
 		this.invite = sendJoinRequest.sendRequest.get({id:id},
-				function(data) {
-					angular.forEach($scope.result.communities, function(request, key){
-						if(request.id == id) {
-							request.isP = true;
-						}
-					});
-					usSpinnerService.stop('loading...');
-				}
+			function(data) {
+				angular.forEach($scope.result.communities, function(request, key){
+					if(request.id == id) {
+						request.isP = true;
+					}
+				});
+				usSpinnerService.stop('loading...');
+			}
 		);
 	}
 	

@@ -4,6 +4,7 @@ import common.cache.LocationCache;
 import common.utils.NanoSecondStopWatch;
 import models.Community;
 import models.Location;
+import models.PNRequestUpdate;
 import models.PreNursery;
 import models.TargetingSocialObject.TargetingType;
 import models.User;
@@ -86,4 +87,22 @@ public class PreNurseryController extends Controller {
         logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+id+"] getPNs. Took "+sw.getElapsedMS()+"ms");
 		return ok(Json.toJson(pnVMs));
 	}
+    
+    @Transactional
+    public static Result requestUpdate(String name, Long districtId) {
+        User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
+        PNRequestUpdate requestUpdate = PNRequestUpdate.getPNRequestUpdate(name, districtId);
+        if (requestUpdate == null) {
+            requestUpdate = new PNRequestUpdate(name, districtId);
+        } else {
+            requestUpdate.count++;
+        }
+        requestUpdate.save();
+        return ok();
+    }
 }
