@@ -1,7 +1,8 @@
 package controllers.magazine;
 
+import common.utils.UserAgentUtil;
+
 import controllers.Application;
-import models.User;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -18,8 +19,16 @@ public class MagazineController extends Controller {
     
 	@Transactional
 	public static Result index() {
-	    Application.setMobileUser("false");
         logger.underlyingLogger().info("STS MagazineController index()");
+
+        UserAgentUtil userAgentUtil = new UserAgentUtil(request());
+        boolean isMobile = userAgentUtil.isMobileUserAgent();
+        
+        Application.setMobileUser(isMobile? "true":"false");
+        
+        if (isMobile) {
+            return ok(views.html.mobile.magazine.home.render());
+        }
         return ok(views.html.magazine.home.render());
     }
 }
