@@ -9,19 +9,6 @@
 GET     /                           controllers.Application.index
 GET     /do-tracking                controllers.TrackingController.track
 
-# Promo
-GET     /promo                      controllers.promo.PromoController.index
-GET     /get-promo-pn-communities   controllers.promo.PromoPNController.getPNCommunities()
-GET     /get-promo-pns/:id          controllers.promo.PromoPNController.getPNs(id:Long)
-
-# Magazine
-GET     /magazine                   controllers.magazine.MagazineController.index
-
-# Mobile
-GET     /mobile                     controllers.Application.mobile
-GET     /mobile/login               controllers.Application.mobileLogin
-
-# Home page
 GET     /favicon.ico                controllers.Assets.at(path="/public", file="app/images/favicon-1.ico")
 GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
 GET     /privacy                    controllers.Application.privacy
@@ -29,7 +16,24 @@ GET     /privacy                    controllers.Application.privacy
 GET     /restricted                 controllers.Application.restricted
 GET     /profile                    controllers.Application.profile
 
+# Promo
+GET     /promo                      controllers.promo.PromoController.index
+GET     /get-promo-pn-communities   controllers.promo.PromoPNController.getPNCommunities()
+GET     /get-promo-pns/:id          controllers.promo.PromoPNController.getPNs(id:Long)
+
+# Mobile Magazine
+GET     /m-magazine                 controllers.magazine.MagazineController.mobile
+
+# Mobile Home
+GET     /m-my                       controllers.Application.mobile
+GET     /m-login                    controllers.Application.mobileLogin
+
+# Magazine
+GET     /magazine                   controllers.magazine.MagazineController.index
+
+# Home
 GET     /my                         controllers.Application.home
+
 GET     /login                      controllers.Application.login
 POST    /login                      controllers.Application.doLogin
 POST	/saveSignupInfo				controllers.Application.saveSignupInfo

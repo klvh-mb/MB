@@ -11,11 +11,11 @@
                     <li>
                         <a data-ng-show="!article.isBookmarked" class="post-favorite" href="" data-ng-click="bookmarkArticle(article.id)"></a> <!--data-toggle="tooltip" data-tooltip="收藏到'我的喜愛'"></a-->
                         <a data-ng-show="article.isBookmarked" class="post-favorited" href="" data-ng-click="unBookmarkArticle(article.id)"></a>
-                        <a href="/mobile#/article/show/{{article.ct.id}}">
+                        <a href="/m-my#/article/show/{{article.ct.id}}">
                             <img class="scCatMiniThumbnail" data-ng-src="{{article.ct.pictureName}}" />
                         </a>
                         <div style="width: 62%;">
-                            <a class="scCatTitle" href="/mobile#/article/show/0">所有文章</a> <span style="font-size:12px;">&gt;</span> <a class="scCatTitle" href="/mobile#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
+                            <a class="scCatTitle" href="/m-my#/article/show/0">所有文章</a> <span style="font-size:12px;">&gt;</span> <a class="scCatTitle" href="/m-my#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
                             <h6>
                                 <!--font>{{article.pd | date:'yyyy'}}</font>
                                 <font>{{article.pd | date:'MMM'}}</font-->
@@ -47,7 +47,7 @@
                 <span class="icon-box icon-box-brown icon-title-relatePost"></span><p>相關文章</p>
             </div>
                 <ul>
-                    <li data-ng-repeat="relatedArticle in relatedResult"><p><a href="/mobile#/article/id/{{relatedArticle.id}}" style="color: #324fe1;"><img ng-show="relatedArticle.img_url != 'No Image'"  data-ng-src="{{relatedArticle.img_url}}"/>{{relatedArticle.nm|limitTo:18}}</a></p></li>
+                    <li data-ng-repeat="relatedArticle in relatedResult"><p><a href="/m-my#/article/id/{{relatedArticle.id}}" style="color: #324fe1;"><img ng-show="relatedArticle.img_url != 'No Image'"  data-ng-src="{{relatedArticle.img_url}}"/>{{relatedArticle.nm|limitTo:18}}</a></p></li>
                 </ul>
         </div><!--Relate Post End -->
     </div>

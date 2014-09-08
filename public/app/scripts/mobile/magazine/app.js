@@ -23,40 +23,23 @@ angular.module('minibean', [
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: '/assets/app/views/magazine/home.html'
+        templateUrl: '/assets/app/views/mobile/magazine/home.html'
       })
       .when('/view', {
-        templateUrl: '/assets/app/views/magazine/home.html'
+        templateUrl: '/assets/app/views/mobile/magazine/home.html'
       })
       .when('/view/:cat', {
-        templateUrl: '/assets/app/views/magazine/home.html'
+        templateUrl: '/assets/app/views/mobile/magazine/home.html'
       })
-      .when('/business/community/:id',{
-        templateUrl: '/assets/app/views/business-community-page.html',
-        controller : 'BusinessCommunityPageController'  
-      })
-      .when('/business/community/:id/:tab',{
-        templateUrl: '/assets/app/views/business-community-page.html',
-        controller : 'BusinessCommunityPageController'  
-      })
-      .when('/business-post-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/business-post-landing.html',
-        controller : 'PostLandingController'  
-      })
-      .when('/article/show/:catid',{
-        templateUrl: '/assets/app/views/magazine/showArticlesPage.html',
-        controller : 'ShowArticleControllerNew'  
-      })
-      .when('/article/id/:id',{
-        templateUrl: '/assets/app/views/magazine/articlePage.html',
-        controller : 'ShowArticleController'  
+      .when('/error', {
+    	  templateUrl: '/assets/app/views/errorPage.html',
       })
       .otherwise({
           redirectTo: '/'
       });
   })
   .run(function(editableOptions) {
-    editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+  editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
   });
 
 //
@@ -66,7 +49,6 @@ angular.module('minibean', [
 var minibean = angular.module('minibean');
 
 var URL_IGNORE = [
-    "tracking",
     "template", 
     "assets", 
     "image", 
@@ -98,3 +80,12 @@ minibean.config(['$httpProvider', function($httpProvider) {
                }
            };
     });
+    
+//minibean.config(['$httpProvider', function($httpProvider) {
+//    if (!$httpProvider.defaults.headers.get) {
+//        $httpProvider.defaults.headers.get = {};    
+//    }
+//    $httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
+//    $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache'; 
+//    $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
+//}]);

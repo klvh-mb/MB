@@ -3,7 +3,7 @@
 	<div style="height:88%">
 	     <ul class="slider-menu" >
 	         <li data-ng-repeat="article in resultSlider.la" data-ng-mouseOver="changeInsideImage(article.id)">
-		         <a href="/mobile#/article/id/{{article.id}}">
+		         <a href="/m-my#/article/id/{{article.id}}">
 			         <p>
 			         	<font>
 			         		<font style="text-align: center;">{{article.nm|limitTo:12:false}}<span data-ng-show="article.nm.length > 12">...</span></font><br>
@@ -14,7 +14,7 @@
 	        </li>
 	     </ul>
 	     <div class="slider-photo">
-	       <a href="/mobile#/article/id/{{category_id}}">
+	       <a href="/m-my#/article/id/{{category_id}}">
     	       <span class="mask-blue">
     	           <p class="slider-title">
     	               {{title|limitTo:10:false}}
@@ -28,7 +28,7 @@
 	     </div>
 	     <ul class="slider-menu" >
 	         <li data-ng-repeat="article in resultSlider.ra" data-ng-mouseOver="changeInsideImage(article.id)">
-                <a href="/mobile#/article/id/{{article.id}}">
+                <a href="/m-my#/article/id/{{article.id}}">
                     <p>
                         <font>
                             <font style="text-align: center;">{{article.nm|limitTo:12:false}}<span data-ng-show="article.nm.length > 12">...</span></font><br>
@@ -39,6 +39,6 @@
              </li>
 	     </ul>
      </div>
-     <div style="height:12%" class="slider-category"><p><a href="/mobile#/article/show/0"><font>所有文章</font></a></p></div>
+     <div style="height:12%" class="slider-category"><p><a href="/m-my#/article/show/0"><font>所有文章</font></a></p></div>
 </div>
 </div>

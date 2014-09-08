@@ -65,7 +65,7 @@
                 <span class="btn-like-wrapper"><span ng-show="post.nov > 100 || userInfo.isAdmin" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.gif"/>{{post.nov}}</span></span>
             </span>
             <span class="pull-right">
-                <a href="" ng-click="displayLink('#/business-post-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i></a>
+                <a href="" ng-click="displayLink('/my#/business-post-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i></a>
                 <a ng-show="post.isO || userInfo.isSA" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個分享嗎？"><i class="glyphicon glyphicon-trash"></i></a>
             </span>
         </li>

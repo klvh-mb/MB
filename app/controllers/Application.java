@@ -80,7 +80,7 @@ public class Application extends Controller {
         setMobileUser(isMobile? "true":"false");
         
         if (isMobile) {
-            return redirect("/my");     // mobile has no magazine yet!
+            return redirect("/m-magazine");
         }
         return redirect("/magazine");
     }
@@ -121,7 +121,7 @@ public class Application extends Controller {
     public static Result mobileLogin() {
         final User localUser = getLocalUser(session());
         if(User.isLoggedIn(localUser)) {
-            return redirect("/mobile");
+            return redirect("/m-my");
         }
         return ok(views.html.mobile.login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM, isOverDailySignupThreshold()));
     }

@@ -69,17 +69,17 @@
         <div class="general-box">
             <ul class="allpost-wrapper" style="padding: 5px 10px 0px 10px;">
                 <li>
-                    <a href="/mobile#/article/id/{{article.id}}" target="_blank">
+                    <a href="/m-my#/article/id/{{article.id}}" target="_blank">
                         <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
                     </a>
                     <a data-ng-show="!article.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkArticle(article.id)"></a>
                     <a data-ng-show="article.isBookmarked" class="btn-like post-favorited" href="" data-ng-confirm-click="unBookmarkArticle(article.id)" data-ng-confirm-message="您確定移除這個喜愛嗎?"></a>
                     <div>
-                        <a href="/mobile#/article/id/{{article.id}}" target="_blank">
+                        <a href="/m-my#/article/id/{{article.id}}" target="_blank">
                             <h4 style="color: #324fe1;"><font><font>{{article.nm}}</font></font></h4>
                         </a>
                         <h6>
-                            <a class="tag" data-ng-href="/mobile#/article/show/{{article.ct.id}}">
+                            <a class="tag" data-ng-href="/m-my#/article/show/{{article.ct.id}}">
                                 <font><font>{{article.ct.name}}</font></font>
                             </a>
                             <font><font>{{article.pd | date:'yyyy'}}</font></font>
