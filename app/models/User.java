@@ -96,7 +96,7 @@ public class User extends SocialObject implements Subject, Socializable {
     public UserInfo userInfo;
     
     @OneToMany
-    public List<UserChild> children;
+    public List<UserChild> children = new ArrayList<UserChild>();
    
     // fb info
     
