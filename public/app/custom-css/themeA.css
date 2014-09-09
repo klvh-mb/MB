@@ -2549,9 +2549,11 @@ span.notif-count {
     color: #111111;
     background: #dff3f8;
     border-color: #93b9d8;
+    border-radius: 0px;
 }
 .alert.alert-warning {
     color: #111111;
     background-color: #fcf8e3;
     border-color: #faebcc;
+    border-radius: 0px;
 }

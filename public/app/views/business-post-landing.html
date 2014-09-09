@@ -71,6 +71,9 @@
                                 <input style="visibility:hidden;display:none;" id="comment-photo-id" type="file" name="comment-photo" ng-file-select="onCommentFileSelect($files)"/>
                             </form>
                         </li>
+                        <li ng-show="!userInfo.isLoggedIn">
+                            <div data-ng-include data-src="'/assets/app/views/magazine/promo-login-widget.html'"></div>
+                        </li>
                         <li style="height:25px;">
                             <span class="pull-left">
                                 <!--a data-ng-show="!post.isBookmarked" class="post-favorite" href="" data-ng-click="bookmarkPost(post.id)"></a>
@@ -86,6 +89,9 @@
                         </li>
                     </ul>
                 </div>
+            </div>
+            <div ng-show="!userInfo.isLoggedIn">
+                <div data-ng-include data-src="'/assets/app/views/magazine/promo-signup-widget.html'"></div>
             </div>
         </div>
     </div>

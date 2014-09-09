@@ -6,6 +6,12 @@
     background-attachment: fixed;
 }*/
 
+#promo-login a {
+    font-size: 15px;
+    font-weight: bold;
+    display: block;
+    text-align: center;
+}
 #promo-signup {
     padding: 10px;
 }
