@@ -558,15 +558,23 @@ public class UserController extends Controller {
 		List<ConversationVM> vms = new ArrayList<>();
 		List<Conversation> conversations =  localUser.findMyAllConversations();
 		if(conversations != null ){
+			
 			for(Conversation conversation: conversations) {
+				ConversationVM vm ;
 				User user;
 				if(conversation.user1 == localUser){
 					user = conversation.user2;
+					vm = new ConversationVM(conversation, user);
+					vm.hasMessage = true;
+					vms.add(vm);
 				} else { 
 					user = conversation.user1;
+					vm = new ConversationVM(conversation, user);
+					if(vm.lastMsg != null){
+						vm.hasMessage = true;
+						vms.add(vm);
+					}
 				}
-				ConversationVM vm = new ConversationVM(conversation, user);
-				vms.add(vm);
 			}
 		}
 		
@@ -642,7 +650,29 @@ public class UserController extends Controller {
         User user = User.findById(id);
         Conversation conversation = Conversation.startConversation(localUser, user);
         conversation.setUpdatedDate(new Date());
-        return getAllConversation();
+		List<ConversationVM> vms = new ArrayList<>();
+		List<Conversation> conversations =  localUser.findMyAllConversations();
+		if(conversations != null ){
+			for(Conversation conv: conversations) {
+				ConversationVM vm;
+				if(conv.user1 == localUser){
+					user = conv.user2;
+					vm = new ConversationVM(conv, user);
+					vm.hasMessage = true;
+				} else { 
+					user = conv.user1;
+					vm = new ConversationVM(conv, user);
+					vm.hasMessage = true;
+				}
+				if(conv == conversation){
+					vm.hasMessage = true;
+				}
+				 
+				vms.add(vm);
+			}
+		}
+		
+		return ok(Json.toJson(vms));
     }
 	
 	@Transactional

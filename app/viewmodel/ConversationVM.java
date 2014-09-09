@@ -16,7 +16,8 @@ public class ConversationVM {
 	@JsonProperty("isToday") public Boolean isToday;
 	@JsonProperty("lm") public String lastMsg;
 	@JsonProperty("isReaded") public Boolean isReaded = false;
-	@JsonProperty("mc") public Long msgCount;
+	@JsonProperty("mc") public Long msgCount = 0L;
+	@JsonProperty("hm") public Boolean hasMessage = false;
 	
 	public ConversationVM(Conversation conversation, User user) {
 		this.name = user.name;
