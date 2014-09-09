@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 
 import models.Location;
 import models.SecurityRole;
+import models.TermsAndConditions;
 import models.User;
 import models.UserChild;
 import models.UserInfo;
@@ -477,8 +478,16 @@ public class Application extends Controller {
 		}
 	}
 
+	@Transactional
 	public static Result privacy() {
-        return ok(views.html.privacy.render());
+		TermsAndConditions terms = TermsAndConditions.getTermsAndConditions();
+        return ok(views.html.privacy.render(terms.privacy));
+    }
+	
+	@Transactional
+	public static Result terms() {
+		TermsAndConditions tAndC = TermsAndConditions.getTermsAndConditions();
+        return ok(views.html.terms_and_conditions.render(tAndC.terms));
     }
 	
 	public static String formatTimestamp(final long t) {

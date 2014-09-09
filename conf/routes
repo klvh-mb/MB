@@ -32,6 +32,7 @@ GET     /m-login                    controllers.Application.mobileLogin
 GET     /magazine                   controllers.magazine.MagazineController.index
 
 # Home
+GET		/terms						controllers.Application.terms
 GET     /my                         controllers.Application.home
 
 GET     /login                      controllers.Application.login
