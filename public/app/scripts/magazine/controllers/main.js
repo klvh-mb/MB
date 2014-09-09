@@ -7,16 +7,17 @@ minibean.controller('MagazineNewsFeedController', function($scope, $timeout, $up
     
     log("MagazineNewsFeedController starts");
     
+    var cat = $routeParams.cat;
+    if (cat == undefined) {
+        cat = 0;
+    }
     $scope.selectNavBar('MAGAZINE');
+    $scope.selectNavSubBar(cat);
     
     $scope.newsFeeds = { posts: [] };
 
     var noMore = false;
     var offset = 0;
-    var cat = $routeParams.cat;
-    if (cat == undefined) {
-        cat = 0;
-    }
     $scope.nextNewsFeeds = function() {
         if ($scope.isBusy) return;
         if (noMore) return;

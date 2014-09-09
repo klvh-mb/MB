@@ -43,7 +43,7 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/business-post-landing.html',
         controller : 'PostLandingController'  
       })
-      .when('/article/show/:catid',{
+      .when('/article/show/:catId',{
         templateUrl: '/assets/app/views/magazine/showArticlesPage.html',
         controller : 'ShowArticleControllerNew'  
       })

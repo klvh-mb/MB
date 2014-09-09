@@ -1,55 +1,5 @@
 @charset "utf-8";
 
-body {
-font: 13px/1.25 "HelveticaNeue", "STHeitiTC-Light", Helvetica, Arial, sans-serif;
-/*font-size: 1.3rem;*/
-}
-* {
--webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-body, ul, fieldset, label {
-padding: 0;
-margin: 0;
-border: 0;
-}
-ol, ul, li {
-list-style: none;
-}
-button, label {
-cursor: pointer;
-}
-a:link, a:visited {
-color: #324fe1;
-text-decoration: none;
-}
-i {
-font-style: normal;
-}
-input, select, textarea {
--moz-box-sizing: border-box;
-box-sizing: border-box;
--webkit-transition: border linear .2s,box-shadow linear .2s;
--moz-transition: border linear .2s,box-shadow linear .2s;
--o-transition: border linear .2s,box-shadow linear .2s;
-transition: border linear .2s,box-shadow linear .2s;
-}
-label, input, select, textarea {
-display: inline-block;
-vertical-align: middle;
-padding: .3em;
-color: inherit;
-border-radius: 3px;
-margin: 5px 0;
-}
-input[type=text] {
-padding: .4em;
-}
-form {
-display: block;
-margin: 0em;
-padding: 0em;
-}
-
 /* yui scrollview -------------------
 ----------------------------------*/
 .yui3-skin-sam .yui3-scrollview {
@@ -300,14 +250,25 @@ vertical-align: top;
 display: inline-block;
 zoom: 1;
 line-height: 30px;
-color: #400090;
-border-bottom: 3px solid transparent;
-_border-bottom: 3px solid white;
+color: #111;
+border-bottom: 4px solid transparent;
+_border-bottom: 4px solid white;
 padding: 4px 2px 2px;
+}
+.SimpleTabs a:hover {
+color: #400090;
 }
 .SimpleTabs .Selected a {
 color: #111!important;
 border-color: #400090;
+}
+.SimpleTabs .Selected-green a {
+color: #111!important;
+border-color: #449d44;
+}
+.SimpleTabs .Selected-yellow a {
+color: #111!important;
+border-color: #FFB32D;
 }
 .tab-bar {
 border-bottom: 1px solid #DEDEDE;
@@ -559,7 +520,8 @@ visibility: hidden;
 /* Font -------------------
 ----------------------------------*/
 .Abu-C-p {
-color: #400090!important;
+/*color: #400090!important;*/
+color: #111;
 }
 .Abu-Bgc-p {
 background-color: #400090!important;

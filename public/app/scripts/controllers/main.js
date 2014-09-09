@@ -137,6 +137,11 @@ minibean.controller('ApplicationController',
     }
     $scope.selectNavBar('HOME');
     
+    $scope.selectNavSubBar = function(value) {
+        $scope.selectedNavSubBar = value;
+    }
+    $scope.selectNavSubBar(0);
+    
     $scope.reloadPage = function() {
         $route.reload();
     }
@@ -2522,48 +2527,6 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 	log("CommunityQnAController completed");
 });
 
-
-///////////////////////// Community QnA Page End ////////////////////////////////
-minibean.controller('CreateArticleController',function($scope,$http,usSpinnerService, articleCategoryService){
-    log("CreateArticleController starts");
-
-	$scope.article;
-	$scope.submitBtn = "Save";
-	
-	var range = [];
-	for(var i=0;i<100;i++) {
-		  range.push(i);
-	}
-	$scope.targetAge = range;
-	//Refer to http://www.tinymce.com/
-	$scope.tinymceOptions = {
-			selector: "textarea",
-		    plugins: [
-						"advlist autolink lists link image charmap print preview anchor",
-						"searchreplace visualblocks code fullscreen",
-						"insertdatetime media table contextmenu paste"
-		    ],
-		    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-	}
-	
-	$scope.select_category = function(id, name, pn) {
-		$scope.category_id = id;
-		$scope.category_picture = pn;
-		$scope.category_name = name;
-		$scope.formData.category_id= id;
-		$scope.isChosen = true;
-	}
-	$scope.submit = function() {
-		usSpinnerService.spin('loading...');
-		$http.post('/createArticle', $scope.formData).success(function(data){
-			$scope.submitBtn = "Complete";
-			usSpinnerService.stop('loading...');
-		});
-	}
-	
-	log("CreateArticleController completed");
-});
-
 minibean.controller('ArticleSliderController', function($scope, $modal, $routeParams, showImageService, usSpinnerService, allArticlesService){
     log("ArticleSliderController starts");
   
@@ -2641,17 +2604,20 @@ minibean.controller('ShowArticleController',function($scope, $modal, $routeParam
     log("ShowArticleController completed");
 });
 
-minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routeParams, bookmarkPostService, articleCategoryService, showImageService, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService) {
+minibean.controller('ShowArticleControllerNew',function($scope, $modal, $routeParams, bookmarkPostService, articleCategoryService, showImageService, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService) {
     log("ShowArticleControllerNew starts");
 
+    var catId = $routeParams.catId;
+    if (catId == undefined) {
+       catId == 0;
+    }
     $scope.selectNavBar('ARTICLE');
+    $scope.selectNavSubBar(catId);
 
-	$scope.result = [];
-	
 	$scope.hotArticles = allArticlesService.HotArticles.get();
 	$scope.recommendedArticles = allArticlesService.RecommendedArticles.get();
 	$scope.newArticles = allArticlesService.NewArticles.get();
-	
+
 	var offset = 0;
 	var noMore = false;
 	$scope.get_result = function(catId) {
@@ -2691,8 +2657,32 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
 			$scope.isBusy = false;
 			usSpinnerService.stop('loading...');
 	    });
-	    
-	 };
+    };
+    
+    $scope.result = [];
+    $scope.get_result(catId);
+    
+    $scope.next_result = function() {
+        if ($scope.isBusy) return;
+        if (noMore) return;
+        $scope.isBusy = true;
+        usSpinnerService.spin('loading...');
+        allArticlesService.ArticleCategorywise.get({id:catId, offset: offset},
+            function(data){
+                var posts = data;
+                if(posts.length == 0) {
+                    noMore = true;
+                }
+                
+                for (var i = 0; i < posts.length; i++) {
+                    $scope.result.push(posts[i]);
+                }
+                $scope.isBusy = false;
+                offset++;
+                usSpinnerService.stop('loading...');
+            }
+        );
+    }
 
     $scope.bookmarkArticle = function(article_id) {
         bookmarkPostService.bookmarkArticle.get({"article_id":article_id}, function(data) {
@@ -2714,36 +2704,6 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal,$routePar
     	});
     }
 	 
-	var catId = $routeParams.catid;
-	
-	if(catId == 0 || catId == undefined) {
-		$scope.get_result(catId);
-	}
-	else{
-		$scope.get_result(catId);
-	}
-	$scope.next_result = function() {
-		if ($scope.isBusy) return;
-		if (noMore) return;
-		$scope.isBusy = true;
-		usSpinnerService.spin('loading...');
-		allArticlesService.ArticleCategorywise.get({id:catId, offset: offset},
-			function(data){
-				var posts = data;
-				if(posts.length == 0) {
-					noMore = true;
-				}
-				
-				for (var i = 0; i < posts.length; i++) {
-					$scope.result.push(posts[i]);
-			    }
-			    $scope.isBusy = false;
-			    offset++;
-			    usSpinnerService.stop('loading...');
-			}
-		);
-	}
-	
 	log("ShowArticleControllerNew completed");
 });
 

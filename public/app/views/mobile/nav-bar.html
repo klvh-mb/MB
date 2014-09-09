@@ -1,0 +1,68 @@
+<!--div id="nav-bar">
+    <div class="nav-menu">
+        <a class="nav-item" href="m-magazine#" ng-class="{selected: selectedNavBar == 'MAGAZINE'}" ng-click="selectNavBar('MAGAZINE')">
+            小萌豆 Magazine
+        </a>
+        <a class="nav-item" href="m-magazine#/article/show/0" ng-class="{selected: selectedNavBar == 'ARTICLE'}" ng-click="selectNavBar('ARTICLE')">
+            熱門文章
+        </a>
+        <a class="nav-item" href="m-my#" ng-class="{selected: selectedNavBar == 'HOME'}" ng-click="selectNavBar('HOME')">
+            我的小萌豆
+        </a>
+    </div>
+</div>
+<div id="nav-subbar" ng-show="selectedNavBar == 'MAGAZINE'">
+    <div class="nav-menu">
+        <a class="nav-item nav-item-green" href="m-magazine#/">
+            最新動向
+        </a>
+        <a class="nav-item nav-item-green" href="m-magazine#/view/{{category.id}}" ng-repeat="category in communityCategories">
+            {{category.name}}
+        </a >
+    </div>
+</div>
+<div id="nav-subbar" ng-show="selectedNavBar == 'ARTICLE'">
+    <div class="nav-menu">
+        <a class="nav-item nav-item-yellow" style="cursor:pointer;" ng-href="m-magazine#/article/show/0">
+            所有文章
+        </a>
+        <a class="nav-item nav-item-yellow" style="cursor:pointer;" ng-href="m-magazine#/article/show/{{category.id}}" ng-repeat="category in articleCategories">
+            {{category.name}}
+        </a>
+    </div>
+</div-->
+
+<div id="container-hd-nav" class="Pos-f W-100 Z-10" ng-show="selectedNavBar == 'MAGAZINE'">
+    <div class="tab-bar NoTextDecoration Ov-h P-0 Whs-nw Abu-LightOverlay-90 W-100" style="margin-top:-8px;margin-bottom:8px;">
+        <div id="scrollview" class="yui3-widget yui3-scrollview yui3-scrollview-horiz">
+            <div id="stream-tabs-scrollview" class="yui3-widget yui3-scrollview yui3-scrollview-horiz yui3-scrollview-content" style="width:620px;-webkit-transform:matrix(1, 0, 0, 1, 175, 0);transform:translate(0px, 0px) translateZ(0px);">
+                <ul class="stream-tabs SimpleTabs static-list M-0 D-ib yui3-scrollview-content" style="transition: 0s; -webkit-transition: 0s; -webkit-transform: translate(0px, 0px);">
+                    <li class="Grid-U Px-8 Fz-m">
+                        <div ng-class="{'Selected-green': selectedNavSubBar == 0}">
+                            <a role="button" class="Px-2 Abu-C-p rapidnofollow rapid-noclick-resp" ng-click="selectNavSubBar(0);" href="m-magazine#/">最新動向</a>
+                        </div>
+                    </li>
+                    <li class="Grid-U Px-8 Fz-m" ng-repeat="category in communityCategories">
+                        <div ng-class="{'Selected-green': selectedNavSubBar == category.id}">
+                            <a role="button" class="Px-2 Abu-C-p rapidnofollow rapid-noclick-resp" ng-click="selectNavSubBar($index+1);" href="m-magazine#/view/{{category.id}}">{{category.name}}</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    YUI().use("event","node","scrollview-base","scrollview-paginator",function(Y){
+        var scrollViewTab = new Y.ScrollView({
+            id: 'scrollview',
+            srcNode: '#stream-tabs-scrollview',
+            flick: {
+                minDistance:100,
+                minVelocity:0.5
+            }
+        });
+        scrollViewTab.render(); 
+    });
+</script>

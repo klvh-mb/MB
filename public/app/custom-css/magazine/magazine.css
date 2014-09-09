@@ -51,29 +51,33 @@
 .nav-menu a.nav-item:hover {
     text-decoration: none;
 }
-.nav-menu .nav-item-purple {
-
-}
-.nav-menu a.nav-item-purple:hover {
+.nav-menu .selected-purple a {
+    color: #111;
+    border-bottom: 4px solid transparent;
     border-bottom-color: #4F27A5;
 }
-.nav-menu .nav-item-green {
-
+.nav-menu a.nav-item-purple:hover {
 }
-.nav-menu a.nav-item-green:hover {
+.nav-menu .selected-green a {
+    color: #111;
+    border-bottom: 4px solid transparent;
     border-bottom-color: #449d44;
 }
-.nav-menu .nav-item-blue {
-
+.nav-menu a.nav-item-green:hover {
 }
-.nav-menu a.nav-item-blue:hover {
+.nav-menu .selected-blue a {
+    color: #111;
+    border-bottom: 4px solid transparent;
     border-bottom-color: #428bca;
 }
-.nav-menu .nav-item-yellow {
-
+.nav-menu a.nav-item-blue:hover {
+}
+.nav-menu .selected-yellow a {
+    color: #111;
+    border-bottom: 4px solid transparent;
+    border-bottom-color: #FFB32D;
 }
 .nav-menu a.nav-item-yellow:hover {
-    border-bottom-color: #FFB32D;
 }
 
 /* specific styles */
@@ -102,8 +106,15 @@
     background-color: #7272F3;
 }
 #nav-subbar .nav-menu a.nav-item {
-    color: #161513;
+    color: #111;
 }
 #nav-subbar .nav-menu a.nav-item:hover {
+    color: #400090;
     background-color: transparent;
+}
+#nav-subbar .nav-menu .selected-purple a.nav-item:hover, 
+#nav-subbar .nav-menu .selected-green a.nav-item:hover,
+#nav-subbar .nav-menu .selected-blue a.nav-item:hover,
+#nav-subbar .nav-menu .selected-yellow a.nav-item:hover {
+    color: #111;
 }
