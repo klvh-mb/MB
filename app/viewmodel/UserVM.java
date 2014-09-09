@@ -2,6 +2,7 @@ package viewmodel;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import controllers.Application;
 import models.Location;
 import models.User;
 
@@ -22,6 +23,7 @@ public class UserVM {
     @JsonProperty("isBA") public boolean isBusinessAdmin = false;
     @JsonProperty("isCA") public boolean isCommunityAdmin = false;
     @JsonProperty("isAdmin") public boolean isAdmin = false;
+    @JsonProperty("isMobile") public boolean isMobile = false;
     
 	public UserVM(User user) {
 		this.firstName = user.firstName;
@@ -46,5 +48,6 @@ public class UserVM {
 	        this.isCommunityAdmin = user.isCommunityAdmin();
 	        this.isAdmin = this.isSuperAdmin || this.isBusinessAdmin || this.isCommunityAdmin;    
 		}
+		this.isMobile = Application.isMobileUser();
 	}
 }

@@ -31,6 +31,14 @@ angular.module('minibean', [
       .when('/view/:cat', {
         templateUrl: '/assets/app/views/mobile/magazine/home.html'
       })
+      .when('/article/show/:catId',{
+        templateUrl: '/assets/app/views/mobile/magazine/showArticlesPage.html',
+        controller : 'ShowArticleControllerNew'  
+      })
+      .when('/article/id/:id',{
+        templateUrl: '/assets/app/views/mobile/magazine/articlePage.html',
+        controller : 'ShowArticleController'  
+      })
       .when('/error', {
     	  templateUrl: '/assets/app/views/errorPage.html',
       })

@@ -28,12 +28,16 @@ minibean.controller('MagazineNewsFeedController', function($scope, $timeout, $up
                 if(posts.length == 0) {
                     noMore = true;
                 }
-                
                 for (var i = 0; i < posts.length; i++) {
                     $scope.newsFeeds.posts.push(posts[i]);
                 }
                 $scope.isBusy = false;
                 offset=offset + 1;
+                
+                // render mobile scroll nav bar
+                if ($scope.userInfo.isMobile) {
+                    $scope.renderNavSubBar();
+                }
             }
         );
     }

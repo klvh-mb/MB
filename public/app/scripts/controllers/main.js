@@ -146,6 +146,31 @@ minibean.controller('ApplicationController',
         $route.reload();
     }
     
+    // ideally should not define here, but need to call in 
+    // MagazineNewsFeedController and ShowArticleController
+    $scope.renderNavSubBar = function() {
+        YUI().use("event","node","scrollview-base","scrollview-paginator",function(Y){
+            var magazineNavSubBar = new Y.ScrollView({
+                id: 'scrollview',
+                srcNode: '#magazine-nav-subbar',
+                flick: {
+                    minDistance:100,
+                    minVelocity:0.5
+                }
+            });
+            magazineNavSubBar.render();
+            var articleNavSubBar = new Y.ScrollView({
+                id: 'scrollview',
+                srcNode: '#article-nav-subbar',
+                flick: {
+                    minDistance:100,
+                    minVelocity:0.5
+                }
+            });
+            articleNavSubBar.render();
+        });
+    }
+    
     $scope.applicationInfo = applicationInfoService.ApplicationInfo.get();
 	$scope.userInfo = userInfoService.UserInfo.get(
         function(data) {
@@ -2568,37 +2593,47 @@ minibean.controller('ShowArticleController',function($scope, $modal, $routeParam
     $scope.recommendedArticles = allArticlesService.RecommendedArticles.get();
     $scope.newArticles = allArticlesService.NewArticles.get();
     
-    $scope.article = articleService.ArticleInfo.get({id:$routeParams.id}, function(response) {
-        if(response[0] == 'NO_RESULT'){
-            $location.path('/article/show/0');
-        }
-        $scope.relatedResult = allRelatedArticlesService.getRelatedArticles.get({id:$routeParams.id, category_id:response.ct.id});
-    });
+    $scope.article = articleService.ArticleInfo.get({id:$routeParams.id}, 
+        function(response) {
+            if(response[0] == 'NO_RESULT'){
+                $location.path('/article/show/0');
+            }
+            $scope.relatedResult = allRelatedArticlesService.getRelatedArticles.get({id:$routeParams.id, category_id:response.ct.id});
+            
+            // render mobile scroll nav bar
+            if ($scope.userInfo.isMobile) {
+                $scope.renderNavSubBar();
+            }
+        });
     
     $scope.like_article = function(article_id) {
-        likeFrameworkService.hitLikeOnArticle.get({"article_id":article_id}, function(data) {
-            $scope.article.nol++;
-            $scope.article.isLike=true;
-        });
+        likeFrameworkService.hitLikeOnArticle.get({"article_id":article_id}, 
+            function(data) {
+                $scope.article.nol++;
+                $scope.article.isLike=true;
+            });
     }
 
     $scope.unlike_article = function(article_id) {
-        likeFrameworkService.hitUnlikeOnArticle.get({"article_id":article_id}, function(data) {
-            $scope.article.nol--;
-            $scope.article.isLike=false;
-        });
+        likeFrameworkService.hitUnlikeOnArticle.get({"article_id":article_id}, 
+            function(data) {
+                $scope.article.nol--;
+                $scope.article.isLike=false;
+            });
     }
     
     $scope.bookmarkArticle = function(article_id) {
-        bookmarkPostService.bookmarkArticle.get({"article_id":article_id}, function(data) {
-            $scope.article.isBookmarked = true;
-        });
+        bookmarkPostService.bookmarkArticle.get({"article_id":article_id}, 
+            function(data) {
+                $scope.article.isBookmarked = true;
+            });
     }
     
     $scope.unBookmarkArticle = function(article_id) {
-        bookmarkPostService.unbookmarkArticle.get({"article_id":article_id}, function(data) {
-            $scope.article.isBookmarked = false;
-        });
+        bookmarkPostService.unbookmarkArticle.get({"article_id":article_id}, 
+            function(data) {
+                $scope.article.isBookmarked = false;
+            });
     }
     
     log("ShowArticleController completed");
@@ -2623,10 +2658,11 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal, $routePa
 	$scope.get_result = function(catId) {
 		usSpinnerService.spin('loading...');
 		$scope.isBusy = true;
-		$scope.result = allArticlesService.ArticleCategorywise.get({id:catId, offset: offset}, function(data) {
-			var count = 1;
-			offset++;
-			angular.forEach($scope.result, function(element, key){
+		$scope.result = allArticlesService.ArticleCategorywise.get({id:catId, offset: offset}, 
+            function(data) {
+                var count = 1;
+                offset++;
+                angular.forEach($scope.result, function(element, key){
 					if(count == 1) {
 						$scope.desc = element.ds;
 						$scope.article1 = element;
@@ -2642,8 +2678,8 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal, $routePa
 				if ($scope.result.length == 0){
 					noMore = true;
 				}
-			$scope.categoryImage = $scope.result[0].category_url;
-			$scope.categoryName = $scope.result[0].ct.name;
+                $scope.categoryImage = $scope.result[0].category_url;
+                $scope.categoryName = $scope.result[0].ct.name;
 				if(catId == 0) {
 					$scope.allCategory = true;
 					$scope.oneCategory = false;
@@ -2653,10 +2689,15 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal, $routePa
 					$scope.allCategory = false;
 					$scope.oneCategory = true;
 				}
-			$scope.threeCategory = true;
-			$scope.isBusy = false;
-			usSpinnerService.stop('loading...');
-	    });
+                $scope.threeCategory = true;
+                $scope.isBusy = false;
+                usSpinnerService.stop('loading...');
+                
+                // render mobile scroll nav bar
+                if ($scope.userInfo.isMobile) {
+                    $scope.renderNavSubBar();
+                }
+            });
     };
     
     $scope.result = [];
