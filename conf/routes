@@ -228,3 +228,6 @@ GET		/subscribe/:id/:isSubscribe				controllers.UserController.subscribe(id: Lon
 #Report Generation
 
 POST	/generateReport							controllers.ReportObjectController.createReport()
+
+POST	/saveSettings							controllers.PrivacySettingsController.saveSettings
+GET	/getSettings							controllers.PrivacySettingsController.getSettings

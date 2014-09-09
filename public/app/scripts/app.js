@@ -80,6 +80,10 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/message.html',
     	controller : 'UserConversationController'  
       })
+      .when('/privacySettings',{
+    	templateUrl: '/assets/app/views/privacySettings.html',
+    	controller : 'PrivacySettingsController'  
+      })
       .when('/error', {
     	  templateUrl: '/assets/app/views/errorPage.html',
       })

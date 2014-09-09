@@ -5,6 +5,7 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import models.Location;
+import models.Privacy;
 import models.User;
 
 public class ProfileVM {
@@ -24,6 +25,10 @@ public class ProfileVM {
     @JsonProperty("l_f") public List<User> friends;
     @JsonProperty("isf") boolean isFriend;
     @JsonProperty("isP") boolean isFriendRequestPending;
+    @JsonProperty("isfV") boolean isFriendsVisibleToAll;
+    @JsonProperty("isaV") boolean isActivityVisibleToAll;
+    @JsonProperty("iscV") boolean isCommunityVisibleToAll;
+    @JsonProperty("isdV") boolean isDetailVisibleToAll;
     
     public static ProfileVM profile(User user, User localUser) {
         ProfileVM vm = new ProfileVM();
@@ -42,6 +47,35 @@ public class ProfileVM {
         vm.nofriends = user.getFriendsSize();
         vm.isFriend = user.isFriendOf(localUser);
         vm.isFriendRequestPending = user.isFriendRequestPendingFor(localUser);
+        Privacy privacy = Privacy.findByUserId(user.id);
+        if(privacy.showFriendListTo == 1) {
+        	vm.isFriendsVisibleToAll = true;
+        }
+        if(privacy.showFriendListTo == 2) 
+        {
+        	vm.isFriendsVisibleToAll = false;
+        }
+        if(privacy.showActivitiesTo == 1) {
+        	vm.isActivityVisibleToAll = true;
+        }
+        if(privacy.showActivitiesTo == 2) 
+        {
+        	vm.isActivityVisibleToAll = false;
+        }	
+        if(privacy.showJoinedcommunitiesTo == 1) {
+        	vm.isCommunityVisibleToAll = true;
+        }
+        if(privacy.showJoinedcommunitiesTo == 2) 
+        {
+        	vm.isCommunityVisibleToAll = false;
+        }
+        if(privacy.showDetailsTo == 1) {
+        	vm.isDetailVisibleToAll = true;
+        }
+        if(privacy.showDetailsTo == 2) 
+        {
+        	vm.isDetailVisibleToAll = false;
+        }
         vm.id = user.id;
         return vm;
     }

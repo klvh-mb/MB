@@ -6,8 +6,11 @@
           <div class="modal-body">
     
     			 <form novalidate class="simple-form">
-				      Category:<br /><select data-ng-model="report.category"
-									    ng-options="country.value as country.text for country in category">
+				      Category:<br /><select data-ng-model="report.category">
+									    <!-- ng-options="country.value as country.text for country in category" -->
+									    <option value="SPAM">SPAM</option>
+									    <option value="UNAUTHORIZED_AD">UNAUTHORIZED_AD</option>
+									    <option value="INAPPROPRIATE">INAPPROPRIATE</option>
 									</select></br>
 					  Comment:<br><textarea name="community_desc" id="community_desc" class="form-control" data-ng-model="report.comment"></textarea></br>		
 				     

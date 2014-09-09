@@ -121,7 +121,7 @@ minibean.controller('SearchController',function($scope, searchService){
 });
 
 minibean.controller('ApplicationController', 
-    function($scope, $location, $interval, $route, $window, 
+    function($scope, $location, $interval, $route, $window, $modal,
         applicationInfoService, announcementsService, userInfoService, userNotification, userSimpleNotifications, 
         acceptJoinRequestService, acceptFriendRequestService, userMessageNotifications, notificationMarkReadService, 
         communityCategoryService, articleCategoryService, usSpinnerService) {
@@ -4248,5 +4248,28 @@ minibean.controller('subscriptionController', function($scope,subscriptionServic
     
 });
 
+minibean.controller('PrivacySettingsController', function($scope, $http, getPrivacySettingsService) {
+	console.log('PrivacySettingsController');
+	$scope.isSaved = false;
+	$scope.formData = getPrivacySettingsService.getSettings.get();
+	console.log($scope.formData);
+	$scope.submit = function() {
+		$http.post('/saveSettings', $scope.formData).success(function(data){
+			console.log('success');
+			$scope.isSaved = true;
+			console.log($scope.formData);
+		});
+	};
+});
 
-
+minibean.service('getPrivacySettingsService',function($resource){
+    this.getSettings = $resource(
+            '/getSettings',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+       );     
+});
+    
+    
