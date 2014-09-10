@@ -75,7 +75,7 @@
                     </div>
 				</div>
                 
-                <div class="tab-content row" ng-if="selectedTab == 2" ng-if="userInfo.isLoggedIn">
+                <div class="tab-content row" ng-if="selectedTab == 2" ng-show="userInfo.isLoggedIn">
                     <div data-ng-controller="CommunityMembersController" data-ng-include data-src="'/assets/app/views/mobile/community-members-section.html'"></div>
                 </div>
                 
