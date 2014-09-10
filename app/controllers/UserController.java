@@ -637,7 +637,9 @@ public class UserController extends Controller {
 		vm.put("requestCount", unread_reqNotif_count);
 
         sw.stop();
-        logger.underlyingLogger().info("[u="+localUser.id+"] getHeaderBarMetadata. Took "+sw.getElapsedMS()+"ms");
+        if (sw.getElapsedMS() > 50) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getHeaderBarMetadata. Took "+sw.getElapsedMS()+"ms");
+        }
     	return ok(Json.toJson(vm));
     }
 	
