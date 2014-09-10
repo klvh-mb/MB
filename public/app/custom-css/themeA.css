@@ -45,6 +45,12 @@ div[class*="col-xs-"], div[class*="col-sm-"], div[class*="col-md-"], div[class*=
     vertical-align: text-bottom;
     color: #EE5C38;
 }
+.glyphicon-comment {
+    font-size: 20px;
+    color: #7CBCE7;
+    vertical-align: text-bottom;
+    margin-right: 5px;
+}
 .glyphicon-lock {
     font-size: 10px;
     margin-right: 2px;
