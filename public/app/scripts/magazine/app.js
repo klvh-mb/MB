@@ -31,6 +31,14 @@ angular.module('minibean', [
       .when('/view/:cat', {
         templateUrl: '/assets/app/views/magazine/home.html'
       })
+      .when('/article/show/:catId',{
+        templateUrl: '/assets/app/views/magazine/showArticlesPage.html',
+        controller : 'ShowArticleControllerNew'  
+      })
+      .when('/article/id/:id',{
+        templateUrl: '/assets/app/views/magazine/articlePage.html',
+        controller : 'ShowArticleController'  
+      })
       .when('/business/community/:id',{
         templateUrl: '/assets/app/views/business-community-page.html',
         controller : 'BusinessCommunityPageController'  
@@ -43,13 +51,8 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/business-post-landing.html',
         controller : 'PostLandingController'  
       })
-      .when('/article/show/:catId',{
-        templateUrl: '/assets/app/views/magazine/showArticlesPage.html',
-        controller : 'ShowArticleControllerNew'  
-      })
-      .when('/article/id/:id',{
-        templateUrl: '/assets/app/views/magazine/articlePage.html',
-        controller : 'ShowArticleController'  
+      .when('/error', {
+          templateUrl: '/assets/app/views/errorPage.html',
       })
       .otherwise({
           redirectTo: '/'

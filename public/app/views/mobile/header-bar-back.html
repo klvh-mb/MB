@@ -6,7 +6,15 @@
     <a class="header-logo pull-left" href="#">
         <img style="width: 42px !important;height: 42px !important;" src="../assets/app/images/logo-mB-1.png" />
     </a>
-    <ul class="header-notif-bar pull-right">
+    
+    <ul class="header-notif-bar pull-right" ng-if="!userInfo.isLoggedIn">
+        <li class="dropdown notif pull-left" style="margin-right:10px;">
+            <a class="header-main-text" ng-href="m-my#">
+                登入
+            </a>
+        </li>
+    </ul>
+    <ul class="header-notif-bar pull-right" ng-if="userInfo.isLoggedIn">
         <li class="dropdown notif pull-left">
             <a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
                 <img class="colorChange" src="../assets/app/images/general/icons/w_profile.png" data-ng-click="reset_fr_count()"/>

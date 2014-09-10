@@ -39,6 +39,18 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/mobile/magazine/articlePage.html',
         controller : 'ShowArticleController'  
       })
+      .when('/business/community/:id',{
+        templateUrl: '/assets/app/views/mobile/business-community-page.html',
+        controller : 'BusinessCommunityPageController'  
+      })
+      .when('/business/community/:id/:tab',{
+        templateUrl: '/assets/app/views/mobile/business-community-page.html',
+        controller : 'BusinessCommunityPageController'  
+      })
+      .when('/business-post-landing/id/:id/communityId/:communityId',{
+        templateUrl: '/assets/app/views/mobile/business-post-landing.html',
+        controller : 'PostLandingController'  
+      })
       .when('/error', {
     	  templateUrl: '/assets/app/views/errorPage.html',
       })

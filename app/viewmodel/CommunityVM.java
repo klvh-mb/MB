@@ -23,6 +23,7 @@ public class CommunityVM {
 	@JsonProperty("icon") public String icon;
 	@JsonProperty("dte") public Date createDate;
 	@JsonProperty("id") public long id;
+	@JsonProperty("oid") public long oid;
 	@JsonProperty("sys") public boolean system;
 	@JsonProperty("isM") public boolean isMember;
 	@JsonProperty("isP") public boolean isRequested;
@@ -45,6 +46,7 @@ public class CommunityVM {
 		vm.icon = c.icon;
 		vm.createDate = c.createDate;
 		vm.id = c.id;
+		vm.oid = c.owner.id;
 		vm.system = c.system;
 		vm.noOfMembers = memCount.intValue();
 		

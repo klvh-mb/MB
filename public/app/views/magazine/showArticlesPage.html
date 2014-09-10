@@ -63,15 +63,15 @@
                 <div infinite-scroll='next_result()' infinite-scroll-distance='1'>
 	                <div class="general-box">
 	                    <ul class="allpost-wrapper" style="padding: 5px 10px 0px 10px;">
-	                        <li data-ng-repeat="article in result" style="border:none;border-bottom: #bcbcbc thin solid;">
+	                        <li data-ng-repeat="article in result" style="border:none;border-bottom:#bcbcbc thin solid;">
 	                            <a href="#/article/id/{{article.id}}">
-	                                <img ng-show="article.img_url != 'No Image'"  data-ng-src="{{article.img_url}}">
+	                                <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
 	                            </a>
 	                            <a data-ng-show="!article.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkArticle(article.id)"></a> <!--data-toggle="tooltip" data-tooltip="收藏到'我的喜愛'"></a-->
                                 <a data-ng-show="article.isBookmarked" class="btn-like post-favorited" href="" data-ng-click="unBookmarkArticle(article.id)"></a>
                                 <div>
                                     <a href="#/article/id/{{article.id}}">
-                                        <h4 style="color: #324fe1;"><font><font>{{article.nm}}</font></font></h4>
+                                        <h4 style="color:#324fe1;"><font><font>{{article.nm}}</font></font></h4>
                                     </a>
                                     <h6>
                                         <a class="tag" data-ng-href="#/article/show/{{article.ct.id}}">

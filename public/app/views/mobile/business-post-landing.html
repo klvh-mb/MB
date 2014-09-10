@@ -56,8 +56,10 @@
                                 <button class="btn btn-primary ng-binding" ng-disabled="userComment.$pristine || (userComment.$dirty && !commentText.length)" type="submit" disabled="disabled" data-ng-click="comment_on_post(post.id, commentText); commentText=''">
                                     留言
                                 </button>
-                                <input style="visibility:hidden;display:none;" id="comment-photo-id" type="file" name="comment-photo" ng-file-select="onCommentFileSelect($files)"/>
                             </form>
+                        </li>
+                        <li ng-show="!userInfo.isLoggedIn">
+                            <div data-ng-include data-src="'/assets/app/views/magazine/promo-login-widget.html'"></div>
                         </li>
                         <li style="height:25px;">
                             <span class="pull-left">
@@ -68,7 +70,7 @@
                                 <span class="btn-like-wrapper"><span ng-show="post.nov > 100 || userInfo.isAdmin" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.gif"/>{{post.nov}}</span></span>
                             </span>
                             <span class="pull-right">
-                                <a href="" ng-click="displayLink('/#/business-post-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i>複製連結</a>
+                                <a href="" ng-click="displayLink('/magazine#/business-post-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i>複製連結</a>
                                 <a ng-show="post.isO || userInfo.isSA" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個分享嗎？"><i class="glyphicon glyphicon-trash"></i>刪除</a>
                             </span>
                         </li>
