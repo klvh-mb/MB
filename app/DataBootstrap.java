@@ -24,6 +24,7 @@ public class DataBootstrap {
     private static final play.api.Logger logger = play.api.Logger.apply(DataBootstrap.class);
     
     public static void bootstrap() {
+        bootstrapTermsAndConditions();
         bootstrapAnnouncement();
         bootstrapIcon();
         bootstrapEmoticon();
@@ -49,6 +50,145 @@ public class DataBootstrap {
         TodayWeatherInfo.clearInfo();
     }
     
+    private static void bootstrapTermsAndConditions() {
+        Query q = JPA.em().createQuery("Select count(tnc) from TermsAndConditions tnc");
+        Long count = (Long)q.getSingleResult();
+        if (count > 0) {
+            return;
+        }
+        
+        logger.underlyingLogger().info("bootstrapTermsAndConditions()");
+
+        TermsAndConditions tnc = new TermsAndConditions();
+        tnc.terms = 
+                "<p>miniBean網站為閣下提供最佳服務及尊重閣下的個人私隱。因此，本公司在搜集、維護及使用個人資料時，保證遵守香港法例第 486 章《個人資料（私隱）條例》的要求。</p>" + 
+                "<p>要求資料</p>" + 
+                "<p>miniBean網站有數處地方可能要求閣下提供個人資料，這些資料可能包括：</p>" + 
+                "<p>- 登入名稱及密碼</p>" + 
+                "<p>- 姓名</p>" + 
+                "<p>- 住址地區</p>" + 
+                "<p>- 性別</p>" + 
+                "<p>- 出生年份 </p>" + 
+                "<p>- 電郵地址</p>" + 
+                "<p>- 小孩子性別</p>" + 
+                "<p>- 小孩子出生日期</p>" + 
+                "<p>當登記成為會員或使用miniBean網站時，本公司可能要求閣下提供以上資料。閣下同意所提供給本公司的資料為正確、真實、有效和完整。</p>" + 
+                "<p>資料使用</p>" + 
+                "<p>若資料為不正確，不真實，無效或不完整，本公司有權利取消閣下用戶之註冊或使用網站之權利及服務。閣下知道及同意，你對所提供之資料的內容和準確性須負上所有責任。</p>" + 
+                "<p>本公司偶爾會使用閣下所提供的資料通知閣下miniBean網站的轉變、新設的服務，及與閣下息息相關的優惠。如不想取得這些資料，可於電郵 info&#64;minibean.com.hk 通知我們。 閣下知道、同意及授權所提供的資料可能供給、披露及供存取予以下人士或公司及作出以下用途：</p>" + 
+                "<p>- 本公司及 / 或本公司集團內的任何人士或公司；</p>" + 
+                "<p>- 須向本公司履行保密責任之任何人士或公司；</p>" + 
+                "<p>- 為上述目的或與上述目的有關而聘用之任何合約承包商、代理商、公司，或向本公司提供行政、電訊、電腦、付賬、專業服務或其他服務的公司；</p>" + 
+                "<p>- 分析、核實及檢查閣下的信用、付款及相關服務的狀況；</p>" + 
+                "<p>- 處理閣下要求的任何付款操作；</p>" + 
+                "<p>- 收取閣下賬戶與服務有關的未付金額；</p>" + 
+                "<p>- 與用戶有交往或計劃有交往之任何銀行或金融機構；或</p>" + 
+                "<p>- 任何獲本公司轉讓或計劃轉讓權益及/或責任之人士或公司，而此等權益及 / 或責任與用戶或與向閣下提供之產品或服務有關。</p>" + 
+                "<p>- 為向閣下提供購買之產品及服務，本公司需要向服務供應商或第三中介人提供用戶個人資料。如未能提供資料，本公司將不能有效地提供有關服務予閣下。</p>" + 
+                "<p>- 部份資料可能會透過'cookies'收集，閣下可自行更改瀏覽的設定而使cookies失效。</p>" + 
+                "<p>統計性資料</p>" + 
+                "<p>請注意本公司有可能向第三者提供本公司客戶的統計資料，但這些統計資料將不會提及任何個別客戶。</p>" + 
+                "<p>保護資料</p>" + 
+                "<p>為防止不授權登入、保持數據的安全性及確保資料得到正確的運用，本公司不論在實體、電子化及管理上皆制定了合適程序去保障及保護本公司所收集的資料的安全性。</p>" + 
+                "<p>連接到其他網站</p>" + 
+                "<p>閣下可從miniBean網站連接到其他網站，但請注意該等網站的私隱政策很可能與本公司的不同。本公司建議閣下在該等網站披露其個人資料前，先詳細閱讀其私隱政策。[在任何情況下，該等網站都不會與本公司分享用戶的個人資料。]</p>" + 
+                "<p>聊天室、交換電郵、告示板及網誌</p>" + 
+                "<p>請留意若閣下自願在聊天室、交換電郵、告示板及網誌上公開披露其個人資料，該等資料很可能被收集及被他人使用及可能導致閣下因公開資料而收到其他不必要的訊息，本公司毋須就以上情況負責。</p>" + 
+                "<p>登入/修改/更新個人資料</p>" + 
+                "<p>閣下可以隨時在「我的帳號」裏修改及更新你的個人資料。會員戶口是受到密碼保護的，因此只有該會員能登入及檢視其會員戶口資料。</p>" + 
+                "<p>通訊協定地址</p>" + 
+                "<p>為方便管理伺服器及系統，本公司會收集用戶的通訊協定地址。請注意在miniBean網站上的連接網站很可能會收集閣下的個人資料，本私隱政策並不包括該等網站對其資料的處理及政策。</p>" + 
+                "<p>私隱政策改動</p>" + 
+                "<p>若本私穩政策有任何改動，本公司會在這裏刊登更新的政策及有關條文，以便閣下能查閱有關政策。閣下繼續使用miniBean網站代表你接受所有已更改的條款。除非有更新聲明，本公司不會在閣下沒有機會拒絕或避免的情況下，把你的個人資料運用在新的用途上。</p>" + 
+                "<p>立法解除條款</p>" + 
+                "<p>在法律要求下，本公司或會披露閣下個人資料而該等行為是必需的。本公司確信資料公開能保障及維護本公司、用戶及他人的權利、財產及安全，並相信該等資料會依據正確法律程序處理。</p>" + 
+                "<p>電郵連接</p>" + 
+                "<p>閣下可以利用miniBean網站上提供的電郵連接，直接與本公司聯絡並提出問題及發表意見。本公司會閱讀所有訊息及盡量給予回覆。該等資料會用作回應用戶問題及意見，或將用戶意見存檔，以便改善本公司之服務，或評論及摒棄該等資料。本公司不會在沒有用戶的同意下向第三者披露你的個人資料。</p>" + 
+                "<p>聯絡我們</p>" + 
+                "<p>若用戶有任何有關安全與私隱的問題，請電郵至 info&#64;minibean.com.hk 與我們聯絡。</p>";
+        tnc.privacy = 
+                "<p>miniBean網站為閣下提供最佳服務及尊重閣下的個人私隱。因此，本公司在搜集、維護及使用個人資料時，保證遵守香港法例第 486 章《個人資料（私隱）條例》的要求。</p>" + 
+                "<p>要求資料</p>" + 
+                "<p>miniBean網站有數處地方可能要求閣下提供個人資料，這些資料可能包括：</p>" + 
+                "<p>- 登入名稱及密碼</p>" + 
+                "<p>- 姓名</p>" + 
+                "<p>- 住址地區</p>" + 
+                "<p>- 性別</p>" + 
+                "<p>- 出生年份 </p>" + 
+                "<p>- 電郵地址</p>" + 
+                "<p>- 小孩子性別</p>" + 
+                "<p>- 小孩子出生日期</p>" + 
+                "<p>當登記成為會員或使用miniBean網站時，本公司可能要求閣下提供以上資料。閣下同意所提供給本公司的資料為正確、真實、有效和完整。</p>" + 
+                "<p>資料使用</p>" + 
+                "<p>若資料為不正確，不真實，無效或不完整，本公司有權利取消閣下用戶之註冊或使用網站之權利及服務。閣下知道及同意，你對所提供之資料的內容和準確性須負上所有責任。</p>" + 
+                "<p>本公司偶爾會使用閣下所提供的資料通知閣下miniBean網站的轉變、新設的服務，及與閣下息息相關的優惠。如不想取得這些資料，可於電郵 info&#64;minibean.com.hk 通知我們。 閣下知道、同意及授權所提供的資料可能供給、披露及供存取予以下人士或公司及作出以下用途：</p>" + 
+                "<p>- 本公司及 / 或本公司集團內的任何人士或公司；</p>" + 
+                "<p>- 須向本公司履行保密責任之任何人士或公司；</p>" + 
+                "<p>- 為上述目的或與上述目的有關而聘用之任何合約承包商、代理商、公司，或向本公司提供行政、電訊、電腦、付賬、專業服務或其他服務的公司；</p>" + 
+                "<p>- 分析、核實及檢查閣下的信用、付款及相關服務的狀況；</p>" + 
+                "<p>- 處理閣下要求的任何付款操作；</p>" + 
+                "<p>- 收取閣下賬戶與服務有關的未付金額；</p>" + 
+                "<p>- 與用戶有交往或計劃有交往之任何銀行或金融機構；或</p>" + 
+                "<p>- 任何獲本公司轉讓或計劃轉讓權益及/或責任之人士或公司，而此等權益及 / 或責任與用戶或與向閣下提供之產品或服務有關。</p>" + 
+                "<p>- 為向閣下提供購買之產品及服務，本公司需要向服務供應商或第三中介人提供用戶個人資料。如未能提供資料，本公司將不能有效地提供有關服務予閣下。</p>" + 
+                "<p>- 部份資料可能會透過'cookies'收集，閣下可自行更改瀏覽的設定而使cookies失效。</p>" + 
+                "<p>統計性資料</p>" + 
+                "<p>請注意本公司有可能向第三者提供本公司客戶的統計資料，但這些統計資料將不會提及任何個別客戶。</p>" + 
+                "<p>保護資料</p>" + 
+                "<p>為防止不授權登入、保持數據的安全性及確保資料得到正確的運用，本公司不論在實體、電子化及管理上皆制定了合適程序去保障及保護本公司所收集的資料的安全性。</p>" + 
+                "<p>連接到其他網站</p>" + 
+                "<p>閣下可從miniBean網站連接到其他網站，但請注意該等網站的私隱政策很可能與本公司的不同。本公司建議閣下在該等網站披露其個人資料前，先詳細閱讀其私隱政策。[在任何情況下，該等網站都不會與本公司分享用戶的個人資料。]</p>" + 
+                "<p>聊天室、交換電郵、告示板及網誌</p>" + 
+                "<p>請留意若閣下自願在聊天室、交換電郵、告示板及網誌上公開披露其個人資料，該等資料很可能被收集及被他人使用及可能導致閣下因公開資料而收到其他不必要的訊息，本公司毋須就以上情況負責。</p>" + 
+                "<p>登入/修改/更新個人資料</p>" + 
+                "<p>閣下可以隨時在「我的帳號」裏修改及更新你的個人資料。會員戶口是受到密碼保護的，因此只有該會員能登入及檢視其會員戶口資料。</p>" + 
+                "<p>通訊協定地址</p>" + 
+                "<p>為方便管理伺服器及系統，本公司會收集用戶的通訊協定地址。請注意在miniBean網站上的連接網站很可能會收集閣下的個人資料，本私隱政策並不包括該等網站對其資料的處理及政策。</p>" + 
+                "<p>私隱政策改動</p>" + 
+                "<p>若本私穩政策有任何改動，本公司會在這裏刊登更新的政策及有關條文，以便閣下能查閱有關政策。閣下繼續使用miniBean網站代表你接受所有已更改的條款。除非有更新聲明，本公司不會在閣下沒有機會拒絕或避免的情況下，把你的個人資料運用在新的用途上。</p>" + 
+                "<p>立法解除條款</p>" + 
+                "<p>在法律要求下，本公司或會披露閣下個人資料而該等行為是必需的。本公司確信資料公開能保障及維護本公司、用戶及他人的權利、財產及安全，並相信該等資料會依據正確法律程序處理。</p>" + 
+                "<p>電郵連接</p>" + 
+                "<p>閣下可以利用miniBean網站上提供的電郵連接，直接與本公司聯絡並提出問題及發表意見。本公司會閱讀所有訊息及盡量給予回覆。該等資料會用作回應用戶問題及意見，或將用戶意見存檔，以便改善本公司之服務，或評論及摒棄該等資料。本公司不會在沒有用戶的同意下向第三者披露你的個人資料。</p>" + 
+                "<p>聯絡我們</p>" + 
+                "<p>若用戶有任何有關安全與私隱的問題，請電郵至 info&#64;minibean.com.hk 與我們聯絡。</p>";
+        tnc.save();
+    }
+
+    private static void bootstrapAnnouncement() {
+        Query q = JPA.em().createQuery("Select count(a) from Announcement a");
+        Long count = (Long)q.getSingleResult();
+        if (count > 0) {
+            return;
+        }
+        
+        logger.underlyingLogger().info("bootstrapAnnouncement()");
+        
+        // General
+        Announcement announcement = 
+                new Announcement(
+                        "歡迎來到 miniBean小萌豆！喺呢度您地會搵到最啱傾嘅媽媽爸爸社群。 請開心分享！", 
+                        new DateTime(2015,12,31,0,0).toDate());
+        announcement.save();
+        announcement = 
+                new Announcement(
+                        "我地有手機版啦！立即用手機登入 minibean.com.hk 試下啦", 
+                        new DateTime(2015,12,31,0,0).toDate());
+        announcement.save();
+        
+        // Top info
+        announcement = 
+                new Announcement(
+                        "小萌豆為所有龍媽媽蛇媽媽編制了2015-2016嘅幼兒班申請資訊。 請立即到 PN討論區 査看啦<br>" + 
+                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#/community/49/question'>港島PN討論區</a></span>" + 
+                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#/community/50/question'>九龍PN討論區</a></span>" + 
+                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#/community/51/question'>新界PN討論區</a></span>" +
+                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#/community/53/question'>離島PN討論區</a></span>",
+                        AnnouncementType.TOP_INFO, 
+                        new DateTime(2014,12,31,0,0).toDate());
+        announcement.save();
+    }
+
     private static void bootstrapEmoticon() {
         Query q = JPA.em().createQuery("Select count(i) from Emoticon i");
         Long count = (Long)q.getSingleResult();
@@ -105,40 +245,6 @@ public class DataBootstrap {
         emoticon.save();
 	}
 
-	private static void bootstrapAnnouncement() {
-        Query q = JPA.em().createQuery("Select count(a) from Announcement a");
-        Long count = (Long)q.getSingleResult();
-        if (count > 0) {
-            return;
-        }
-        
-        logger.underlyingLogger().info("bootstrapAnnouncement()");
-        
-        // General
-        Announcement announcement = 
-                new Announcement(
-                        "歡迎來到 miniBean小萌豆！喺呢度您地會搵到最啱傾嘅媽媽爸爸社群。 請開心分享！", 
-                        new DateTime(2015,12,31,0,0).toDate());
-        announcement.save();
-        announcement = 
-                new Announcement(
-                        "我地有手機版啦！立即用手機登入 minibean.com.hk 試下啦", 
-                        new DateTime(2015,12,31,0,0).toDate());
-        announcement.save();
-        
-        // Top info
-        announcement = 
-                new Announcement(
-                        "小萌豆為所有龍媽媽蛇媽媽編制了2015-2016嘅幼兒班申請資訊。 請立即到 PN討論區 査看啦<br>" + 
-                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#/community/49/question'>港島PN討論區</a></span>" + 
-                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#/community/50/question'>九龍PN討論區</a></span>" + 
-                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#/community/51/question'>新界PN討論區</a></span>" +
-                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#/community/53/question'>離島PN討論區</a></span>",
-                        AnnouncementType.TOP_INFO, 
-                        new DateTime(2014,12,31,0,0).toDate());
-        announcement.save();
-    }
-    
     private static void bootstrapIcon() {
         Query q = JPA.em().createQuery("Select count(i) from Icon i");
         Long count = (Long)q.getSingleResult();
