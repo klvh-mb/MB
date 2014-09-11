@@ -1500,6 +1500,9 @@ public class User extends SocialObject implements Subject, Socializable {
 
     public void setLastLogin(Date lastLogin) {
         this.lastLogin = lastLogin;
+        if (this.totalLogin == null) {
+            this.totalLogin = 1L;   // prev user, at least 1 login
+        }
         this.totalLogin++;
     }
 

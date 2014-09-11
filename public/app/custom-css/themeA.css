@@ -1269,14 +1269,14 @@ pre {
 
 /* Slider Start */
 #slider {
-    height: 240px;
+    height: 220px;
     margin-bottom: 5px;
 }
 .slider-menu {
     float: left;
     padding: 0;
     list-style: none;
-    width: 27%;
+    width: 25%;
     height: 100%;
 }
 .slider-menu li{
@@ -1334,7 +1334,7 @@ pre {
 .slider-photo {
     position: relative;
     float: left;
-    width: 46%;
+    width: 50%;
     height: 100%;
     overflow: hidden;
     border-left: #c8c8c8 solid thin;

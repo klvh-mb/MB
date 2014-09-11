@@ -3,10 +3,14 @@ package controllers;
 import static play.data.Form.form;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 import java.io.File;
 
 import javax.persistence.NoResultException;
@@ -125,13 +129,16 @@ public class ArticleController extends Controller {
         return getTargetedArticles(DefaultValues.FEATURED_ARTICLES_COUNT);
     }
 
-    public static List<ArticleVM> getUtilityArticles(List<Article> articles) {
+    public static List<ArticleVM> getNonBookmarkedArticles(List<Article> articles, int count) {
         final User localUser = Application.getLocalUser(session());
+        if (localUser.isLoggedIn()) {
+            articles.removeAll(localUser.getBookmarkedArticles(0, articles.size()));
+        }
+        
         List<ArticleVM> articleVMs = new ArrayList<>();
-        articles.removeAll(localUser.getBookmarkedArticles(0, articles.size()));
         int i = 0;
         for (Article article : articles) {
-            if (i == DefaultValues.ARTICLES_UTILITY_COUNT){
+            if (i == count){
                 break;
             }
             ArticleVM vm = new ArticleVM(article);
@@ -144,24 +151,27 @@ public class ArticleController extends Controller {
     @Transactional
     public static Result getHotArticles() {
         // TODO - Fix * 5 to give buffer to remove bookmarked articles
-        List<ArticleVM> articleVMs = getUtilityArticles(
-                Article.getMostViewsArticles(DefaultValues.ARTICLES_UTILITY_COUNT * 5));
+        List<ArticleVM> articleVMs = getNonBookmarkedArticles(
+                Article.getMostViewsArticles(DefaultValues.ARTICLES_UTILITY_COUNT * 5), 
+                DefaultValues.ARTICLES_UTILITY_COUNT);
         return ok(Json.toJson(articleVMs));
     }
     
     @Transactional
     public static Result getRecommendedArticles() {
         // TODO - Fix * 5 to give buffer to remove bookmarked articles
-        List<ArticleVM> articleVMs = getUtilityArticles(
-                Article.getMostLikesArticles(DefaultValues.ARTICLES_UTILITY_COUNT * 5));
+        List<ArticleVM> articleVMs = getNonBookmarkedArticles(
+                Article.getMostLikesArticles(DefaultValues.ARTICLES_UTILITY_COUNT * 5), 
+                DefaultValues.ARTICLES_UTILITY_COUNT);
         return ok(Json.toJson(articleVMs));
     }
 
     @Transactional
 	public static Result getNewArticles() {
 	    // TODO - Fix * 5 to give buffer to remove bookmarked articles
-        List<ArticleVM> articleVMs = getUtilityArticles(
-                Article.getArticles(DefaultValues.ARTICLES_UTILITY_COUNT * 5));
+        List<ArticleVM> articleVMs = getNonBookmarkedArticles(
+                Article.getArticles(DefaultValues.ARTICLES_UTILITY_COUNT * 5), 
+                DefaultValues.ARTICLES_UTILITY_COUNT);
         return ok(Json.toJson(articleVMs));
     }
 	
@@ -193,14 +203,34 @@ public class ArticleController extends Controller {
 		return ok(Json.toJson(articleVM));
 	}
 
+	@Transactional
+    public static List<Article> getFeaturedArticles(int count) {
+        Set<Article> articles = new HashSet<Article>();
+        articles.addAll(Article.getMostViewsArticles(DefaultValues.FEATURED_ARTICLES_COUNT));
+        articles.addAll(Article.getMostLikesArticles(DefaultValues.FEATURED_ARTICLES_COUNT));
+        articles.addAll(Article.getArticles(DefaultValues.FEATURED_ARTICLES_COUNT));
+        return new ArrayList<Article>(articles);
+    }
+    
     @Transactional
 	public static Result getTargetedArticles(int n) {
         final User localUser = Application.getLocalUser(session());
-
-		int i = 0;
-		List<Article> allArticles = ArticleTargetingEngine.getTargetedArticles(localUser, n);
+		
+		List<Article> allArticles = null;
+		if (localUser.isLoggedIn()) {
+		    allArticles = ArticleTargetingEngine.getTargetedArticles(localUser, n);    
+		} else {
+		    allArticles = getFeaturedArticles(n);
+		}
+		
+		// randomize the results
+		long seed = System.nanoTime();
+		Collections.shuffle(allArticles, new Random(seed));
+		
 		List<ArticleVM> leftArticles = new ArrayList<>();
 		List<ArticleVM> rightArticles = new ArrayList<>();
+		
+		int i = 0;
 		for (Article article:allArticles) {
             if (i == n) {
                 break;

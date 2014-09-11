@@ -19,6 +19,7 @@ import common.collection.Pair;
 import common.image.FaceFinder;
 import common.utils.ImageFileUtil;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.Play;
@@ -488,6 +489,15 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 
     public void setExcludeFromNewsfeed(boolean excludeFromNewsfeed) {
         this.excludeFromNewsfeed = excludeFromNewsfeed;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (o != null && o instanceof Community) {
+            final Community other = (Community) o;
+            return new EqualsBuilder().append(id, other.id).isEquals();
+        } 
+        return false;
     }
     
     @Override

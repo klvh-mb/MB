@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -205,9 +206,8 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 		q.setParameter(2, user.id);
 		q.setParameter(3, this.id);
 		q.setParameter(4, this.objectType);
-		SecondarySocialRelation sr = null;
 		try {
-			sr = (SecondarySocialRelation)q.getSingleResult();
+		    SecondarySocialRelation sr = (SecondarySocialRelation)q.getSingleResult();
 		}
 		catch(NoResultException nre) {
 			return false;
@@ -225,6 +225,15 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 		
 	}
 
+	@Override
+    public boolean equals(Object o) {
+        if (o != null && o instanceof Article) {
+            final Article other = (Article) o;
+            return new EqualsBuilder().append(id, other.id).isEquals();
+        } 
+        return false;
+    }
+	
     @Override
     public String toString() {
         return "Article{" +

@@ -2689,7 +2689,6 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal, $routePa
 					$scope.allCategory = false;
 					$scope.oneCategory = true;
 				}
-                $scope.threeCategory = true;
                 $scope.isBusy = false;
                 usSpinnerService.stop('loading...');
                 
