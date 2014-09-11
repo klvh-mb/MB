@@ -631,6 +631,10 @@ public class UserController extends Controller {
 	
     @Transactional
     public static Result startConversation(Long id1, Long id2) {
+        if (id1 == id2) {
+            logger.underlyingLogger().error(String.format("[u1=%d] [u2=%d] Same user. Will not start conversation", id1, id2));
+            return status(500);
+        }
         final User user1 = User.findById(id1);
         final User user2 = User.findById(id2);
         Conversation conversation = user1.findMyConversationsWith(user2);
@@ -644,6 +648,11 @@ public class UserController extends Controller {
         final User localUser = Application.getLocalUser(session());
         if (!localUser.isLoggedIn()) {
             logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
+        if (localUser.id == id) {
+            logger.underlyingLogger().error(String.format("[u1=%d] [u2=%d] Same user. Will not start conversation", localUser.id, id));
             return status(500);
         }
         

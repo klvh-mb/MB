@@ -12,6 +12,13 @@
 /*!
  * bootstrap
  */
+.bootbox-default-prompt .modal-dialog {
+    width: 350px;
+    margin: 100px auto;
+}
+.bootbox-default-prompt .modal-content {
+
+}
 #content {
     min-width: 280px;
     overflow: visible;

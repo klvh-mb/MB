@@ -3992,9 +3992,13 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 			}
 		});
 	} else {
-		$scope.conversations = allConversationService.startConversation.get({id: $routeParams.id} ,function(){
-			$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
-		});
+	   if ($scope.userInfo.id == $routeParams.id) {
+            prompt("不可發私人訊息給自己");
+        } else {
+    		$scope.conversations = allConversationService.startConversation.get({id: $routeParams.id} ,function(){
+    			$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
+    		});
+        }
 	}
 	
 	$scope.messages = [];
@@ -4049,6 +4053,10 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
     }
 	
 	$scope.startConversation = function(uid) {
+        if ($scope.userInfo.id == uid) {
+            prompt("不可發私人訊息給自己");
+            return;
+        }
 		$scope.receiverId = uid;
 		usSpinnerService.spin('loading...');
 		allConversationService.startConversation.get({id: uid},

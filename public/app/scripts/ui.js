@@ -127,6 +127,10 @@ var convertToLinks = function(text) {
 //
 
 var prompt = function(message, className) {
+    if (className == undefined) {
+        className = "bootbox-default-prompt";
+    }
+    
     bootbox.dialog({
         message: message,
         title: "",
