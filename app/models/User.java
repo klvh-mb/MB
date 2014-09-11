@@ -138,7 +138,10 @@ public class User extends SocialObject implements Subject, Socializable {
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonIgnore
     public Date lastLogin;
-       
+
+    @JsonIgnore
+    public Long totalLogin = 0L;
+    
     @ManyToMany
     public List<SecurityRole> roles;
 
@@ -893,6 +896,7 @@ public class User extends SocialObject implements Subject, Socializable {
         user.active = true;
         user.newUser = true;
         user.lastLogin = new Date();
+        user.totalLogin = 1L;
         user.fbLogin = false;
         user.mobileSignup = Application.isMobileUser();
         
@@ -1496,6 +1500,7 @@ public class User extends SocialObject implements Subject, Socializable {
 
     public void setLastLogin(Date lastLogin) {
         this.lastLogin = lastLogin;
+        this.totalLogin++;
     }
 
     public List<UserChild> getChildren() {
