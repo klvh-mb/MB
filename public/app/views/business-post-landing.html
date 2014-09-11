@@ -70,7 +70,7 @@
                             </a>
                             <form class="post-comment-box" name="userComment" method="post" action="">
                                 <label for="User Comment"></label>
-                                <textarea type="text" id="userCommentfield" name="userCommentfield" id="userCommentfield" class="general-textfield post-sharing-comment-textfield" placeholder="留言..." cols="70" data-ng-model="commentText" rows="1" style="height:60px;"></textarea>
+                                <textarea type="text" id="userCommentfield" name="userCommentfield" id="userCommentfield" class="general-textfield post-sharing-comment-textfield" placeholder="留言..." cols="70" data-ng-model="commentText" rows="1"></textarea>
                                 <button class="btn btn-primary ng-binding" ng-disabled="userComment.$pristine || (userComment.$dirty && !commentText.length)" type="submit" disabled="disabled" data-ng-click="comment_on_post(post.id, commentText); commentText=''">
                                     留言
                                 </button>
