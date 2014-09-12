@@ -169,7 +169,9 @@ body {
     border-bottom: 1px solid #BEBEBE;
 }
 .sidebar-nav .sliding-menu-item {
+    border-top: 1px solid #BEBEBE;
     border-bottom: none;
+    padding: 5px 0;
 }
 .sidebar-nav .sliding-menu-float-item {
     position: relative;
