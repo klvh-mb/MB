@@ -526,5 +526,18 @@ public class Application extends Controller {
 		}
     	return ok(Json.toJson(vm));
     }
-  
+
+	//
+	// Google SEO
+	//
+	
+	@Transactional
+	public static Result webmaster() {
+	    return ok(views.html.webmaster.render());
+	}
+
+	@Transactional
+	public static Result robots() {
+	    return ok();
+	}
 }

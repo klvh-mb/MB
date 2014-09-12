@@ -6,6 +6,10 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Google webmaster
+GET     /googlee42c6d2bf91e90b7.html    controllers.Application.webmaster
+GET     /robots.txt                 controllers.Application.robots
+
 GET     /                           controllers.Application.index
 GET     /do-tracking                controllers.TrackingController.track
 
