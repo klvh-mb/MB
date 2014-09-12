@@ -528,12 +528,17 @@ public class Application extends Controller {
     }
 
 	//
-	// Google SEO
+	// Webmaster
 	//
 	
 	@Transactional
-	public static Result webmaster() {
-	    return ok(views.html.webmaster.render());
+    public static Result bingWebmaster() {
+        return ok(views.html.bing_webmaster.render());
+    }
+	
+	@Transactional
+	public static Result googleWebmaster() {
+	    return ok(views.html.google_webmaster.render());
 	}
 
 	@Transactional

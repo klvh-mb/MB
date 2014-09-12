@@ -6,8 +6,11 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Google webmaster
-GET     /googlee42c6d2bf91e90b7.html    controllers.Application.webmaster
+# Bing Webmaster
+GET     /BingSiteAuth.xml           controllers.Application.bingWebmaster
+
+# Google Webmaster
+GET     /googlee42c6d2bf91e90b7.html    controllers.Application.googleWebmaster
 GET     /robots.txt                 controllers.Application.robots
 
 GET     /                           controllers.Application.index
