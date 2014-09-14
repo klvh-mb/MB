@@ -203,6 +203,19 @@ a:hover {
 a img:hover {
     opacity: .8;
 }
+input[type='text'], textarea {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+input[type='text']:hover, textarea:hover {
+    background-color: white;
+    border-color: #66afe9;
+}
+input[type='text']:focus, textarea:focus {
+    background-color: white;
+    border-color: #66afe9;
+}
 pre {
     font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif !important;
     display: text !important;
@@ -2555,6 +2568,10 @@ span.notif-count {
 #post-link {
     width: 85%;
     padding: 3px;
+}
+#article-link {
+    width: 65%;
+    padding: 5px;
 }
 #imageModal .modal-body img {
     max-width: 880px; 
