@@ -4,10 +4,8 @@ import static play.data.Form.form;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.io.File;
@@ -41,7 +39,7 @@ public class ArticleController extends Controller {
     private static final String STORAGE_PATH = Play.application().configuration().getString("storage.path"); 
 	
 	@Transactional
-	public static Result getAllArticleCategory() {
+	public static Result getAllArticleCategories() {
 		List<ArticleCategory> categories = ArticleCategory.getAllCategories();
 		
 		List<ArticleCategoryVM> articleCategoryVMs = new ArrayList<>();
@@ -64,33 +62,33 @@ public class ArticleController extends Controller {
 	}
 	
 	@Transactional
-	public static Result getArticlesCategorywise(Long cat_id, String offset) {
+	public static Result getArticlesCategorywise(Long catId, String offset) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
 		int start = Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
 		final User localUser = Application.getLocalUser(session());
 
-		List<Article> allArticles = Article.getArticlesByCategory(cat_id, start);
+		List<Article> allArticles = Article.getArticlesByCategory(catId, start);
 		List<ArticleVM> listOfArticles = new ArrayList<>();
 		for(Article article:allArticles) {
 			ArticleVM vm = new ArticleVM(article,localUser);
-			if(cat_id != 0){
-				ArticleCategory ac = ArticleCategory.getCategoryById(cat_id);
+			if(catId != 0){
+				ArticleCategory ac = ArticleCategory.getCategoryById(catId);
 				vm.category_url = ac.pictureName;
 			}
 			listOfArticles.add(vm);
 		}
 
         sw.stop();
-        logger.underlyingLogger().info("STS [u="+localUser.id+"] getArticlesCategorywise(cat="+cat_id+", off="+offset+"). Took "+sw.getElapsedMS()+"ms");
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] getArticlesCategorywise(cat="+catId+", off="+offset+"). Took "+sw.getElapsedMS()+"ms");
 		return ok(Json.toJson(listOfArticles));
 	}
 	
 	@Transactional
-	public static Result getRelatedArticles(long id, Long categoryId) {
+	public static Result getRelatedArticles(long id, Long catId) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
-		List<Article> allArticles = Article.relatedArticles(id, categoryId, DefaultValues.ARTICLES_RELATED_COUNT);
+		List<Article> allArticles = Article.relatedArticles(id, catId, DefaultValues.ARTICLES_RELATED_COUNT);
 		List<ArticleVM> listOfArticles = new ArrayList<>();
 		for(Article article:allArticles) {
 			ArticleVM vm = new ArticleVM(article);
@@ -99,15 +97,15 @@ public class ArticleController extends Controller {
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("getRelatedArticles(cat="+categoryId+"). Took "+sw.getElapsedMS()+"ms");
+            logger.underlyingLogger().debug("getRelatedArticles(cat="+catId+"). Took "+sw.getElapsedMS()+"ms");
         }
 
 		return ok(Json.toJson(listOfArticles));
 	}
 
     @Transactional
-    public static Result getSixArticles() {
-        return getTargetedArticles(DefaultValues.FEATURED_ARTICLES_COUNT);
+    public static Result getSixArticles(Long catId) {
+        return getTargetedArticles(catId, DefaultValues.FEATURED_ARTICLES_COUNT);
     }
 
     public static List<ArticleVM> getNonBookmarkedArticles(List<Article> articles, int count) {
@@ -130,71 +128,50 @@ public class ArticleController extends Controller {
     }
     
     @Transactional
-    public static Result getHotArticles() {
+    public static Result getHotArticles(long catId) {
         // TODO - Fix * 5 to give buffer to remove bookmarked articles
         List<ArticleVM> articleVMs = getNonBookmarkedArticles(
-                Article.getMostViewsArticles(DefaultValues.ARTICLES_UTILITY_COUNT * 5), 
+                Article.getMostViewsArticles(catId, DefaultValues.ARTICLES_UTILITY_COUNT * 5), 
                 DefaultValues.ARTICLES_UTILITY_COUNT);
         return ok(Json.toJson(articleVMs));
     }
     
     @Transactional
-    public static Result getRecommendedArticles() {
+    public static Result getRecommendedArticles(long catId) {
         // TODO - Fix * 5 to give buffer to remove bookmarked articles
         List<ArticleVM> articleVMs = getNonBookmarkedArticles(
-                Article.getMostLikesArticles(DefaultValues.ARTICLES_UTILITY_COUNT * 5), 
+                Article.getMostLikesArticles(catId, DefaultValues.ARTICLES_UTILITY_COUNT * 5), 
                 DefaultValues.ARTICLES_UTILITY_COUNT);
         return ok(Json.toJson(articleVMs));
     }
 
     @Transactional
-	public static Result getNewArticles() {
+	public static Result getNewArticles(long catId) {
 	    // TODO - Fix * 5 to give buffer to remove bookmarked articles
         List<ArticleVM> articleVMs = getNonBookmarkedArticles(
-                Article.getArticles(DefaultValues.ARTICLES_UTILITY_COUNT * 5), 
+                Article.getArticles(catId, DefaultValues.ARTICLES_UTILITY_COUNT * 5), 
                 DefaultValues.ARTICLES_UTILITY_COUNT);
         return ok(Json.toJson(articleVMs));
     }
 	
 	@Transactional
-	public static Result getArticles(int n) {
-		int i = 0;
-		List<Article> allArticles = Article.getArticles(n);
-		List<ArticleVM> leftArticles = new ArrayList<>();
-		List<ArticleVM> rightArticles = new ArrayList<>();
-		for (Article article:allArticles) {
-			if (i < n/2){
-				ArticleVM vm = new ArticleVM(article);
-				leftArticles.add(vm);
-			} else {
-				ArticleVM vm = new ArticleVM(article);
-				rightArticles.add(vm);
-			}
-			i++;
-		}
-		
-		SlidderArticleVM articleVM = new SlidderArticleVM(leftArticles, rightArticles);
-		return ok(Json.toJson(articleVM));
-	}
-
-	@Transactional
-    public static List<Article> getFeaturedArticles(int count) {
+    private static List<Article> getFeaturedArticles(Long catId, int count) {
         Set<Article> articles = new HashSet<Article>();
-        articles.addAll(Article.getMostViewsArticles(DefaultValues.FEATURED_ARTICLES_COUNT));
-        articles.addAll(Article.getMostLikesArticles(DefaultValues.FEATURED_ARTICLES_COUNT));
-        articles.addAll(Article.getArticles(DefaultValues.FEATURED_ARTICLES_COUNT));
+        articles.addAll(Article.getMostViewsArticles(catId, DefaultValues.FEATURED_ARTICLES_COUNT));
+        articles.addAll(Article.getMostLikesArticles(catId, DefaultValues.FEATURED_ARTICLES_COUNT));
+        articles.addAll(Article.getArticles(catId, DefaultValues.FEATURED_ARTICLES_COUNT));
         return new ArrayList<Article>(articles);
     }
     
     @Transactional
-	public static Result getTargetedArticles(int n) {
+	private static Result getTargetedArticles(Long catId, int n) {
         final User localUser = Application.getLocalUser(session());
 		
 		List<Article> allArticles = null;
 		if (localUser.isLoggedIn()) {
-		    allArticles = ArticleTargetingEngine.getTargetedArticles(localUser, n);    
+		    allArticles = ArticleTargetingEngine.getTargetedArticles(localUser, catId, n);    
 		} else {
-		    allArticles = getFeaturedArticles(n);
+		    allArticles = getFeaturedArticles(catId, n);
 		}
 		
 		// randomize the results
@@ -238,7 +215,7 @@ public class ArticleController extends Controller {
 		
 		DynamicForm form = form().bindFromRequest();
 		
-		Long postId = Long.parseLong(form.get("article_id"));
+		Long postId = Long.parseLong(form.get("articleId"));
 		String commentText = form.get("commentText");
 		
 		Article p = Article.findById(postId);
@@ -252,34 +229,12 @@ public class ArticleController extends Controller {
 		return ok(Json.toJson(p.id));
 	}
 	
-	@Transactional
-	public static Result getDescriptionOfArticle(Long art_id) {
-		Article article = Article.findById(art_id);
-		Map<String, String> description = new HashMap<>();
-		description.put("description", article.description);
-		return ok(Json.toJson(description));
-	}
-	
-	@Transactional
-    public static Result deleteArticle(Long art_id) {
-        final User localUser = Application.getLocalUser(session());
-        if (!localUser.isLoggedIn()) {
-            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
-            return status(500);
-        }
-        
-        Article article = Article.findById(art_id);
-        article.delete(localUser);
-        User.unBookmarkAllUsersOn(article.id, article.objectType);    // unbookmark for all users
-        return ok();
-    }
-	
     @Transactional
-    public static Result infoArticle(Long art_id) {
+    public static Result infoArticle(Long articleId) {
         final User localUser = Application.getLocalUser(session());
         Article article = null;
         try {
-            article = Article.findById(art_id);
+            article = Article.findById(articleId);
             article.noOfViews++;
         } catch(NoResultException e) {
             return ok("NO_RESULT");
@@ -290,55 +245,55 @@ public class ArticleController extends Controller {
     }
 	
 	@Transactional
-	public static Result onLike(Long article_id) throws SocialObjectNotLikableException {
+	public static Result onLike(Long articleId) throws SocialObjectNotLikableException {
 		User localUser = Application.getLocalUser(session());
 		if (!localUser.isLoggedIn()) {
             logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
             return status(500);
         }
 		
-		Article article = Article.findById(article_id);
+		Article article = Article.findById(articleId);
 		article.onLikedBy(localUser);
 		return ok();
 	}
 	
 	@Transactional
-	public static Result onUnlike(Long article_id) throws SocialObjectNotLikableException {
+	public static Result onUnlike(Long articleId) throws SocialObjectNotLikableException {
 		User localUser = Application.getLocalUser(session());
 		if (!localUser.isLoggedIn()) {
             logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
             return status(500);
         }
 		
-		Article article = Article.findById(article_id);
+		Article article = Article.findById(articleId);
 		article.onUnlikedBy(localUser);
-		localUser.doUnLike(article_id, article.objectType);
+		localUser.doUnLike(articleId, article.objectType);
 		return ok();
 	}
 	
 	@Transactional
-	public static Result onBookamrk(Long article_id) {
+	public static Result onBookamrk(Long articleId) {
 		User localUser = Application.getLocalUser(session());
 		if (!localUser.isLoggedIn()) {
             logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
             return status(500);
         }
 		
-		Article article = Article.findById(article_id);
+		Article article = Article.findById(articleId);
 		article.onBookmarkedBy(localUser);
 		return ok();
 	}
 	
 	@Transactional
-	public static Result onUnBookmark(Long article_id) {
+	public static Result onUnBookmark(Long articleId) {
 		User localUser = Application.getLocalUser(session());
 		if (!localUser.isLoggedIn()) {
             logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
             return status(500);
         }
 		
-		Article article = Article.findById(article_id);
-		localUser.unBookmarkOn(article_id, article.objectType);
+		Article article = Article.findById(articleId);
+		localUser.unBookmarkOn(articleId, article.objectType);
 		return ok();
 	}
 	

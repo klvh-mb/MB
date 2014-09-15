@@ -75,33 +75,39 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	}
 	
 	@Transactional
-	public static List<Article> relatedArticles(long id, long categoryId, int n) {
+	public static List<Article> relatedArticles(long id, long catId, int n) {
 		Query q = JPA.em().createQuery("Select a from Article a where id != ?1 AND a.category.id = ?2 and deleted = false order by publishedDate desc,id desc");
 		q.setParameter(1, id);
-		q.setParameter(2, categoryId);
+		q.setParameter(2, catId);
 		q.setMaxResults(n);
 		return (List<Article>)q.getResultList();
 	}
 	
 	@Transactional
-	public static List<Article> getArticles(int n) {
-		Query q = JPA.em().createQuery("Select a from Article a where deleted = false order by publishedDate desc,id desc");
+	public static List<Article> getArticles(long catId, int n) {
+		Query q = JPA.em().createQuery("Select a from Article a where " + 
+		        "category_id in (select c.id from ArticleCategory c where c.categoryGroup = ?1) and deleted = false order by publishedDate desc,id desc");
+		q.setParameter(1, ArticleCategory.getCategoryGroup(catId));
 		q.setFirstResult(0);
 		q.setMaxResults(n);
 		return (List<Article>)q.getResultList();
 	}
 
     @Transactional
-    public static List<Article> getMostViewsArticles(int n) {
-        Query q = JPA.em().createQuery("Select a from Article a where deleted = false order by noOfViews desc");
+    public static List<Article> getMostViewsArticles(long catId, int n) {
+        Query q = JPA.em().createQuery("Select a from Article a where " + 
+                "category_id in (select c.id from ArticleCategory c where c.categoryGroup = ?1) and deleted = false order by noOfViews desc");
+        q.setParameter(1, ArticleCategory.getCategoryGroup(catId));
         q.setFirstResult(0);
         q.setMaxResults(n);
         return (List<Article>)q.getResultList();
     }
        
     @Transactional
-    public static List<Article> getMostLikesArticles(int n) {
-    	Query q = JPA.em().createQuery("Select a from Article a where deleted = false order by noOfLikes desc");
+    public static List<Article> getMostLikesArticles(long catId, int n) {
+    	Query q = JPA.em().createQuery("Select a from Article a where " +
+    	        "category_id in (select c.id from ArticleCategory c where c.categoryGroup = ?1) and deleted = false order by noOfLikes desc");
+    	q.setParameter(1, ArticleCategory.getCategoryGroup(catId));
     	q.setFirstResult(0);
     	q.setMaxResults(n);
     	return (List<Article>)q.getResultList();

@@ -126,7 +126,7 @@ minibean.controller('ApplicationController',
     function($scope, $location, $interval, $route, $window, 
         applicationInfoService, announcementsService, userInfoService, userNotification, userSimpleNotifications, 
         acceptJoinRequestService, acceptFriendRequestService, userMessageNotifications, notificationMarkReadService, 
-        communityCategoryService, articleCategoryService, usSpinnerService) {
+        communityCategoryService, articleService, usSpinnerService) {
 
     log("ApplicationController starts");
 
@@ -187,19 +187,25 @@ minibean.controller('ApplicationController',
 	
 	$scope.hotArticleCategories = [];
 	$scope.soonMomsArticleCategories = [];
-	$scope.articleCategories = articleCategoryService.getAllArticleCategory.get(
+	$scope.articleCategories = articleService.AllArticleCategories.get(
         function(data) {
             angular.forEach(data, function(category, key){
-                if(category.gp == 'HOT') {
-                console.log('HOT - '+category.name);
+                if(category.gp == 'HOT_ARTICLES') {
                     $scope.hotArticleCategories.push(category);
-                } else if (category.gp == 'SOON_TO_BE_MOMS') {
-                console.log('SOON - '+category.name);
+                } else if (category.gp == 'SOON_TO_BE_MOMS_ARTICLES') {
                     $scope.soonMomsArticleCategories.push(category);
                 }
             });
         }
 	);
+	$scope.getArticleCategoryGroup = function(catId) {
+        for (var i = 0; i < $scope.articleCategories.length; i++) {
+            if (catId == $scope.articleCategories[i].id) {
+                return $scope.articleCategories[i].gp;
+            }
+        }
+        return 'HOT_ARTICLES';
+	}
 	
 	$scope.set_background_image = function() {
 		return { background: 'url(/image/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+') center center no-repeat'};
@@ -2567,14 +2573,15 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 	log("CommunityQnAController completed");
 });
 
-minibean.controller('ArticleSliderController', function($scope, $modal, $routeParams, showImageService, usSpinnerService, allArticlesService){
+minibean.controller('ArticleSliderController', function($scope, $modal, $routeParams, showImageService, usSpinnerService, articleService){
     log("ArticleSliderController starts");
   
-    $scope.resultSlider = allArticlesService.SixArticles.get({}, function() {
+    $scope.resultSlider = articleService.SixArticles.get({category_id:$routeParams.catId}, function() {
         $scope.image_source = $scope.resultSlider.la[0].img_url;
         $scope.description = $scope.resultSlider.la[0].lds;
         $scope.title = $scope.resultSlider.la[0].nm;
-        $scope.category_id = $scope.resultSlider.la[0].id;
+        $scope.article_id = $scope.resultSlider.la[0].id;
+        $scope.article_cat_id = $scope.resultSlider.la[0].ct.id;
     });
     
     $scope.changeInsideImage = function(article_id) {
@@ -2583,7 +2590,8 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
                 $scope.image_source = element.img_url;
                 $scope.description = element.lds;
                 $scope.title = element.nm;
-                $scope.category_id = element.id;
+                $scope.article_id = element.id;
+                $scope.article_cat_id = element.ct.id;
             }
         })
         angular.forEach($scope.resultSlider.ra, function(element, key){
@@ -2591,7 +2599,8 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
                 $scope.image_source = element.img_url;
                 $scope.description = element.lds;
                 $scope.title = element.nm;
-                $scope.category_id = element.id;
+                $scope.article_id = element.id;
+                $scope.article_cat_id = element.ct.id;
             }
         })
     };
@@ -2599,21 +2608,21 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
     log("ArticleSliderController completed");
 });
 
-minibean.controller('ShowArticleController',function($scope, $modal, $routeParams, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService, allArticlesService, allRelatedArticlesService){
-    log("ShowArticleController starts");
+minibean.controller('ArticlePageController',function($scope, $modal, $routeParams, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService){
+    log("ArticlePageController starts");
     
-    $scope.selectNavBar('ARTICLE');
+    $scope.selectNavBar($scope.getArticleCategoryGroup($routeParams.catId));
     
-    $scope.hotArticles = allArticlesService.HotArticles.get();
-    $scope.recommendedArticles = allArticlesService.RecommendedArticles.get();
-    $scope.newArticles = allArticlesService.NewArticles.get();
+    $scope.hotArticles = articleService.HotArticles.get({category_id:$routeParams.catId});
+    $scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:$routeParams.catId});
+    $scope.newArticles = articleService.NewArticles.get({category_id:$routeParams.catId});
     
     $scope.article = articleService.ArticleInfo.get({id:$routeParams.id}, 
         function(response) {
             if(response[0] == 'NO_RESULT'){
                 $location.path('/article/show/0');
             }
-            $scope.relatedResult = allRelatedArticlesService.getRelatedArticles.get({id:$routeParams.id, category_id:response.ct.id});
+            $scope.relatedResult = articleService.getRelatedArticles.get({id:$routeParams.id, category_id:response.ct.id});
             
             // render mobile scroll nav bar
             if ($scope.userInfo.isMobile) {
@@ -2651,29 +2660,29 @@ minibean.controller('ShowArticleController',function($scope, $modal, $routeParam
             });
     }
     
-    log("ShowArticleController completed");
+    log("ArticlePageController completed");
 });
 
-minibean.controller('ShowArticleControllerNew',function($scope, $modal, $routeParams, bookmarkPostService, articleCategoryService, showImageService, usSpinnerService, deleteArticleService, allArticlesService, getDescriptionService) {
-    log("ShowArticleControllerNew starts");
+minibean.controller('ShowArticlesController',function($scope, $modal, $routeParams, bookmarkPostService, showImageService, usSpinnerService, articleService) {
+    log("ShowArticlesController starts");
 
     var catId = $routeParams.catId;
     if (catId == undefined) {
        catId == 0;
     }
-    $scope.selectNavBar('ARTICLE');
+    $scope.selectNavBar($scope.getArticleCategoryGroup($routeParams.catId));
     $scope.selectNavSubBar(catId);
 
-	$scope.hotArticles = allArticlesService.HotArticles.get();
-	$scope.recommendedArticles = allArticlesService.RecommendedArticles.get();
-	$scope.newArticles = allArticlesService.NewArticles.get();
+	$scope.hotArticles = articleService.HotArticles.get({category_id:$routeParams.catId});
+	$scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:$routeParams.catId});
+	$scope.newArticles = articleService.NewArticles.get({category_id:$routeParams.catId});
 
 	var offset = 0;
 	var noMore = false;
 	$scope.get_result = function(catId) {
 		usSpinnerService.spin('loading...');
 		$scope.isBusy = true;
-		$scope.result = allArticlesService.ArticleCategorywise.get({id:catId, offset: offset}, 
+		$scope.result = articleService.ArticleCategorywise.get({category_id:catId, offset: offset}, 
             function(data) {
                 var count = 1;
                 offset++;
@@ -2722,7 +2731,7 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal, $routePa
         if (noMore) return;
         $scope.isBusy = true;
         usSpinnerService.spin('loading...');
-        allArticlesService.ArticleCategorywise.get({id:catId, offset: offset},
+        articleService.ArticleCategorywise.get({category_id:catId, offset: offset},
             function(data){
                 var posts = data;
                 if(posts.length == 0) {
@@ -2759,103 +2768,7 @@ minibean.controller('ShowArticleControllerNew',function($scope, $modal, $routePa
     	});
     }
 	 
-	log("ShowArticleControllerNew completed");
-});
-
-minibean.controller('EditArticleController',function($scope,$routeParams,$location, bookmarkPostService, likeFrameworkService, articleCommentsService, userInfoService, usSpinnerService, articleService, articleCategoryService,allRelatedArticlesService,$http){
-	log("EditArticleController starts");
-	
-	$scope.submitBtn = "Save";
-	$scope.userInfo = userInfoService.UserInfo.get();
-	
-	$scope.article = articleService.ArticleInfo.get({id:$routeParams.id}, function(response) {
-		if(response[0] == 'NO_RESULT'){
-			$location.path('/article/show/0');
-		}
-		$scope.relatedResult = allRelatedArticlesService.getRelatedArticles.get({id:$routeParams.id, category_id:response.ct.id});
-	});
-	
-    $scope.open = function(id) {
-        var modalInstance = $modal.open({
-            templateUrl: 'myModalContent.html',
-        });
-        var msg = getDescriptionService.GetDescription.get({id:id}, function(data) {
-            $('.modal-body').html(data.description);
-        });
-    };
-	
-	$scope.tinymceOptions = {
-			selector: "textarea",
-		    plugins: [
-		        "advlist autolink lists link image charmap print preview anchor",
-		        "searchreplace visualblocks code fullscreen",
-		        "insertdatetime media table contextmenu paste"
-		    ],
-		    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-	}
-	
-	$scope.select_category = function(id, name, pn) {
-		$scope.article.ct.id = id;
-		$scope.article.ct.name = name;
-		$scope.article.ct.pictureName = pn;
-		$scope.isChosen = true;
-	}
-	
-	$scope.updateArticleData = function(data) {
-		usSpinnerService.spin('loading...');
-		return $http.post('/editArticle', $scope.article).success(function(data){
-			$scope.submitBtn = "Complete";
-			usSpinnerService.stop('loading...');
-		});
-	}
-	
-    $scope.get_all_comments = function(id) {
-        $scope.article.cs = articleCommentsService.comments.get({id:id});
-    }
-	
-	$scope.comment_on_article = function(id, commentText) {
-		var data = {
-			"article_id" : id,
-			"commentText" : commentText
-		};
-		usSpinnerService.spin('loading...');
-		$http.post('/article/comment', data) 
-			.success(function(comment_id) {
-				$scope.article.n_c++;
-				var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName, 
-						"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" :$scope.article.n_c, "id" : comment_id};
-				$scope.article.cs.push(comment);
-				usSpinnerService.stop('loading...');	
-		});
-	};
-	
-    $scope.like_article = function(article_id) {
-        likeFrameworkService.hitLikeOnArticle.get({"article_id":article_id}, function(data) {
-            $scope.article.nol++;
-            $scope.article.isLike=true;
-        });
-    }
-
-    $scope.unlike_article = function(article_id) {
-        likeFrameworkService.hitUnlikeOnArticle.get({"article_id":article_id}, function(data) {
-            $scope.article.nol--;
-            $scope.article.isLike=false;
-        });
-    }
-	
-	$scope.bookmarkArticle = function(article_id) {
-		bookmarkPostService.bookmarkArticle.get({"article_id":article_id}, function(data) {
-			$scope.article.isBookmarked = true;
-		});
-	}
-	
-	$scope.unBookmarkArticle = function(article_id) {
-		bookmarkPostService.unbookmarkArticle.get({"article_id":article_id}, function(data) {
-			$scope.article.isBookmarked = false;
-		});
-	}
-	
-	log("EditArticleController completed");
+	log("ShowArticlesController completed");
 });
 
 minibean.controller('MyMagazineNewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, myMagazineNewsFeedService, iconsService) {

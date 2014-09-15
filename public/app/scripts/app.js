@@ -34,51 +34,51 @@ angular.module('minibean', [
       })
       .when('/profile/:id',{
     	templateUrl: '/assets/app/views/visit-profile.html',
-    	controller : 'ProfileController'  
+    	controller: 'ProfileController'  
       })
       .when('/community/:id',{
         templateUrl: '/assets/app/views/community-page.html',
-        controller : 'CommunityPageController'  
+        controller: 'CommunityPageController'  
       })
       .when('/community/:id/:tab',{
     	templateUrl: '/assets/app/views/community-page.html',
-    	controller : 'CommunityPageController'  
+    	controller: 'CommunityPageController'  
       })
       .when('/editCommunity/:id',{
         templateUrl: '/assets/app/views/edit-community.html',
-        controller : 'EditCommunityController'
+        controller: 'EditCommunityController'
       })
       .when('/post-landing/id/:id/communityId/:communityId',{
         templateUrl: '/assets/app/views/post-landing.html',
-        controller : 'PostLandingController'  
+        controller: 'PostLandingController'  
       })
       .when('/qna-landing/id/:id/communityId/:communityId',{
         templateUrl: '/assets/app/views/qna-landing.html',
-        controller : 'QnALandingController'  
+        controller: 'QnALandingController'  
       })
       .when('/business/community/:id',{
         templateUrl: '/assets/app/views/business-community-page.html',
-        controller : 'BusinessCommunityPageController'  
+        controller: 'BusinessCommunityPageController'  
       })
       .when('/business/community/:id/:tab',{
         templateUrl: '/assets/app/views/business-community-page.html',
-        controller : 'BusinessCommunityPageController'  
+        controller: 'BusinessCommunityPageController'  
       })
       .when('/business-post-landing/id/:id/communityId/:communityId',{
         templateUrl: '/assets/app/views/business-post-landing.html',
-        controller : 'PostLandingController'  
+        controller: 'PostLandingController'  
       })
-      .when('/article/id/:id',{
+      .when('/article/:id/:catId',{
     	templateUrl: '/assets/app/views/magazine/articlePage.html',
-    	controller : 'ShowArticleController'  
+    	controller: 'ArticlePageController'  
       })
       .when('/article/show/:catId',{
     	templateUrl: '/assets/app/views/magazine/showArticlesPage.html',
-    	controller : 'ShowArticleControllerNew'  
+    	controller: 'ShowArticlesController'  
       })
       .when('/message/:id',{
     	templateUrl: '/assets/app/views/message.html',
-    	controller : 'UserConversationController'  
+    	controller: 'UserConversationController'  
       })
       .when('/error', {
     	  templateUrl: '/assets/app/views/errorPage.html',

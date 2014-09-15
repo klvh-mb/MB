@@ -64,13 +64,13 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/mobile/business-post-landing.html',
         controller : 'PostLandingController'  
       })
-      .when('/article/id/:id',{
+      .when('/article/:id/:catId',{
     	templateUrl: '/assets/app/views/mobile/magazine/articlePage.html',
-    	controller : 'ShowArticleController'  
+    	controller : 'ArticlePageController'  
       })
       .when('/article/show/:catId',{
     	templateUrl: '/assets/app/views/mobile/magazine/showArticlesPage.html',
-    	controller : 'ShowArticleControllerNew'  
+    	controller : 'ShowArticlesController'  
       })
       .when('/error', {
     	  templateUrl: '/assets/app/views/errorPage.html',

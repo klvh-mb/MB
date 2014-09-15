@@ -48,9 +48,9 @@
             <div ng-show="oneCategory">
                 <div id="slider" class="general-box" style="height:100%;">
                     <div id="sta-con-slider">
-                        <div class="sta-con-mainslide"><p><a href="#/article/id/{{article1.id}}">{{article1.nm|limitTo:18}}</a><!--a title="summary" href="#/article/id/{{article1.id}}">{{article1.lds|limitTo:60}}...</a--></p><a href="#/article/id/{{article1.id}}"><img ng-show="article1.img_url != 'No Image'" data-ng-src="{{article1.img_url}}"></a><a href="#/article/id/{{article1.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
-                        <div class="sta-con-mainslide"><a title="subslide" href="#/article/id/{{article2.id}}">{{article2.nm|limitTo:18}}</a><a href="#/article/id/{{article2.id}}"><img ng-show="article2.img_url != 'No Image'" data-ng-src="{{article2.img_url}}"></a><a href="#/article/id/{{article2.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
-                        <div class="sta-con-mainslide"><a title="subslide" href="#/article/id/{{article3.id}}">{{article3.nm|limitTo:18}}</a><a href="#/article/id/{{article3.id}}"><img ng-show="article1.img_url != 'No Image'" data-ng-src="{{article3.img_url}}"></a><a href="#/article/id/{{article3.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+                        <div class="sta-con-mainslide"><p><a href="#/article/{{article1.id}}/{{article1.ct.id}}">{{article1.nm|limitTo:18}}</a><!--a title="summary" href="#/article/{{article1.id}}/{{article1.ct.id}}">{{article1.lds|limitTo:60}}...</a--></p><a href="#/article/{{article1.id}}/{{article1.ct.id}}"><img ng-show="article1.img_url != 'No Image'" data-ng-src="{{article1.img_url}}"></a><a href="#/article/{{article1.id}}/{{article1.ct.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+                        <div class="sta-con-mainslide"><a title="subslide" href="#/article/{{article2.id}}/{{article2.ct.id}}">{{article2.nm|limitTo:18}}</a><a href="#/article/{{article2.id}}/{{article2.ct.id}}"><img ng-show="article2.img_url != 'No Image'" data-ng-src="{{article2.img_url}}"></a><a href="#/article/{{article2.id}}/{{article2.ct.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+                        <div class="sta-con-mainslide"><a title="subslide" href="#/article/{{article3.id}}/{{article3.ct.id}}">{{article3.nm|limitTo:18}}</a><a href="#/article/{{article3.id}}/{{article3.ct.id}}"><img ng-show="article1.img_url != 'No Image'" data-ng-src="{{article3.img_url}}"></a><a href="#/article/{{article3.id}}/{{article3.ct.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
                     </div>
                 </div>
             </div>
@@ -70,24 +70,22 @@
 	                <div class="general-box">
 	                    <ul class="allpost-wrapper" style="padding: 5px 10px 0px 10px;">
 	                        <li data-ng-repeat="article in result" style="border:none;border-bottom:#bcbcbc thin solid;">
-	                            <a href="#/article/id/{{article.id}}">
+	                            <a href="#/article/{{article.id}}/{{article.ct.id}}">
 	                                <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
 	                            </a>
 	                            <a data-ng-show="!article.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkArticle(article.id)"></a> <!--data-toggle="tooltip" data-tooltip="收藏到'我的喜愛'"></a-->
                                 <a data-ng-show="article.isBookmarked" class="btn-like post-favorited" href="" data-ng-click="unBookmarkArticle(article.id)"></a>
                                 <div>
-                                    <a href="#/article/id/{{article.id}}">
+                                    <a href="#/article/{{article.id}}/{{article.ct.id}}">
                                         <h4 style="color:#324fe1;"><font><font>{{article.nm}}</font></font></h4>
                                     </a>
                                     <h6>
                                         <a class="tag" data-ng-href="#/article/show/{{article.ct.id}}">
                                             <font><font>{{article.ct.name}}</font></font>
                                         </a>
-                                        <!--font>{{article.pd | date:'yyyy'}}</font>
-                                        <font>{{article.pd | date:'MMM'}}</font-->
-                                        <font>{{article.pd | date:'M/dd/yyyy'}}</font>
-                                        <span ng-show="article.nov > 0" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.gif"/>{{article.nov}}</span>
-                                        <span ng-show="article.nol > 0" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>{{article.nol}}</span>
+                                        <font ng-show="userInfo.isAdmin">{{article.pd | date:'M/dd/yyyy'}}</font>
+                                        <span ng-show="article.nov > 20 || userInfo.isAdmin" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.gif"/>{{article.nov}}</span>
+                                        <span ng-show="article.nol > 0 || userInfo.isAdmin" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>{{article.nol}}</span>
                                     </h6>
                                     <p><font><font>{{article.lds|limitTo:85}}...</font></font></p>
                                 </div>

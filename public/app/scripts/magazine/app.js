@@ -33,11 +33,11 @@ angular.module('minibean', [
       })
       .when('/article/show/:catId',{
         templateUrl: '/assets/app/views/magazine/showArticlesPage.html',
-        controller : 'ShowArticleControllerNew'  
+        controller : 'ShowArticlesController'  
       })
-      .when('/article/id/:id',{
+      .when('/article/:id/:catId',{
         templateUrl: '/assets/app/views/magazine/articlePage.html',
-        controller : 'ShowArticleController'  
+        controller : 'ArticlePageController'  
       })
       .when('/business/community/:id',{
         templateUrl: '/assets/app/views/business-community-page.html',

@@ -42,7 +42,7 @@ public class ArticleTargetingEngine {
      * @param k
      * @return
      */
-    public static List<Article> getTargetedArticles(User user, int k) {
+    public static List<Article> getTargetedArticles(User user, long catId, int k) {
         if (!User.isLoggedIn(user)) {
             throw new IllegalArgumentException("user is not logged in");
         }

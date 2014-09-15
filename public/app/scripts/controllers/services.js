@@ -639,17 +639,14 @@ minibean.service('communityCategoryService',function($resource){
     );
 });
 
-minibean.service('articleCategoryService',function($resource){
-    this.getAllArticleCategory = $resource(
-            '/getAllArticleCategory',
+minibean.service('articleService',function($resource){
+    this.AllArticleCategories = $resource(
+            '/get-all-article-categories',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get' ,isArray:true}
             }
     );
-});
-
-minibean.service('allArticlesService',function($resource){
     this.AllArticles = $resource(
             '/get-all-Articles',
             {alt:'json',callback:'JSON_CALLBACK'},
@@ -658,53 +655,40 @@ minibean.service('allArticlesService',function($resource){
             }
     );
     this.NewArticles = $resource(
-            '/get-new-Articles',
+            '/get-new-Articles/:category_id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get' ,isArray:true}
             }
     );
     this.HotArticles = $resource(
-            '/get-hot-Articles',
+            '/get-hot-Articles/:category_id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get' ,isArray:true}
             }
     );
     this.RecommendedArticles = $resource(
-            '/get-recommended-Articles',
+            '/get-recommended-Articles/:category_id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get' ,isArray:true}
             }
     );  
     this.ArticleCategorywise = $resource(
-            '/get-Articles-Categorywise/:id/:offset',
+            '/get-Articles-Categorywise/:category_id/:offset',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get' ,isArray:true}
             }
     );
     this.SixArticles = $resource(
-            '/get-Six-Articles',
+            '/get-Six-Articles/:category_id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get'}
             }
     );
-});
-
-minibean.service('getDescriptionService',function($resource){
-    this.GetDescription = $resource(
-            '/getDescriptionOfArticle/:id',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get'}
-            }
-    );
-});
-
-minibean.service('allRelatedArticlesService',function($resource){
     this.getRelatedArticles = $resource(
             '/get-Related-Articles/:id/:category_id',
             {alt:'json',callback:'JSON_CALLBACK'},
@@ -712,11 +696,8 @@ minibean.service('allRelatedArticlesService',function($resource){
                 get: {method:'get',isArray:true}
             }
     );
-});
-
-minibean.service('deleteArticleService',function($resource){
-    this.DeleteArticle = $resource(
-            '/deleteArticle/:id',
+    this.ArticleInfo = $resource(
+            '/get-article-info/:id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get'}
@@ -728,16 +709,6 @@ minibean.service('showImageService',function($resource){
     this.getImage = $resource(
             '/get-image-url/:id',
             {alt:'json',callback:'JSON_CALLBACK', },
-            {
-                get: {method:'get'}
-            }
-    );
-});
-
-minibean.service('articleService',function($resource){
-    this.ArticleInfo = $resource(
-            '/article/:id',
-            {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get'}
             }

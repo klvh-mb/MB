@@ -28,6 +28,8 @@ public class ArticleCategory  {
 
 	private static String CATEGORY_PATH = Play.application().configuration().getString("storage.categoty.path");
 	
+	public static final ArticleCategoryGroup DEFAULT_CATEGORY_GROUP = ArticleCategoryGroup.HOT_ARTICLES;
+	        
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
 	
@@ -46,9 +48,9 @@ public class ArticleCategory  {
 	public boolean deleted = false;
 	
     public static enum ArticleCategoryGroup {
-        HOT, 
-        SOON_TO_BE_MOMS,
-        NEW_MOMS
+        HOT_ARTICLES, 
+        SOON_TO_BE_MOMS_ARTICLES,
+        NEW_MOMS_ARTICLES
     }
     
 	public ArticleCategory(){}
@@ -105,15 +107,20 @@ public class ArticleCategory  {
 		return ArticleCategoryCache.getAllCategories();
 	}
 
+	public static List<ArticleCategory> getCategories(ArticleCategoryGroup categoryGroup) {
+        return ArticleCategoryCache.getCategories(categoryGroup);
+    }
+	
 	public static ArticleCategory getCategoryById(long id) {
         ArticleCategory cat = ArticleCategoryCache.getCategoryById(id);
-        if (cat == null) {
-            throw new IllegalArgumentException("Invalid Article Category id: "+id);
-        }
 		return cat;
 	}
 	
-	public static List<ArticleCategory> getCategories(ArticleCategoryGroup categoryGroup) {
-		return ArticleCategoryCache.getCategories(categoryGroup);
+	public static ArticleCategoryGroup getCategoryGroup(long id) {
+	    ArticleCategory cat = ArticleCategoryCache.getCategoryById(id);
+	    if (cat == null) {
+	        return DEFAULT_CATEGORY_GROUP;
+	    }
+	    return cat.categoryGroup;
 	}
 }

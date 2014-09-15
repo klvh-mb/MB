@@ -2,7 +2,7 @@
 
 var minibean = angular.module('minibean');
 
-minibean.controller('SlidingMenuController', function($scope, $routeParams, $location, userInfoService, articleCategoryService){
+minibean.controller('SlidingMenuController', function($scope, $routeParams, $location, userInfoService, articleService){
     log("SlidingMenuController starts");
     
     //
@@ -36,7 +36,19 @@ minibean.controller('SlidingMenuController', function($scope, $routeParams, $loc
     // article categories
     //
     
-    $scope.articleCategories = articleCategoryService.getAllArticleCategory.get();
+    $scope.hotArticleCategories = [];
+    $scope.soonMomsArticleCategories = [];
+    $scope.articleCategories = articleService.AllArticleCategories.get(
+        function(data) {
+            angular.forEach(data, function(category, key){
+                if(category.gp == 'HOT_ARTICLES') {
+                    $scope.hotArticleCategories.push(category);
+                } else if (category.gp == 'SOON_TO_BE_MOMS_ARTICLES') {
+                    $scope.soonMomsArticleCategories.push(category);
+                }
+            });
+        }
+    );
     
     log("SlidingMenuController completed");
 });

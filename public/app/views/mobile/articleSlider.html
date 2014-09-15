@@ -3,7 +3,7 @@
 	<div style="height:88%">
 	     <ul class="slider-menu" >
 	         <li data-ng-repeat="article in resultSlider.la" data-ng-mouseOver="changeInsideImage(article.id)">
-		         <a href="/m-my#/article/id/{{article.id}}">
+		         <a href="#/article/{{article.id}}/{{article.ct.id}}">
 			         <p>
 			         	<font>
 			         		<font style="text-align: center;">{{article.nm|limitTo:12:false}}<span data-ng-show="article.nm.length > 12">...</span></font><br>
@@ -14,7 +14,7 @@
 	        </li>
 	     </ul>
 	     <div class="slider-photo">
-	       <a href="/m-my#/article/id/{{category_id}}">
+	       <a href="#/article/{{article_id}}/{{article_cat_id}}">
     	       <span class="mask-blue">
     	           <p class="slider-title">
     	               {{title|limitTo:10:false}}
@@ -28,7 +28,7 @@
 	     </div>
 	     <ul class="slider-menu" >
 	         <li data-ng-repeat="article in resultSlider.ra" data-ng-mouseOver="changeInsideImage(article.id)">
-                <a href="/m-my#/article/id/{{article.id}}">
+                <a href="/m-my#/article/{{article.id}}/{{article.ct.id}}">
                     <p>
                         <font>
                             <font style="text-align: center;">{{article.nm|limitTo:12:false}}<span data-ng-show="article.nm.length > 12">...</span></font><br>

@@ -48,19 +48,17 @@ POST    /saveSignupInfoFb           controllers.Application.saveSignupInfoFb
 GET     /get-application-info       controllers.Application.getApplicationInfo
 GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
 
-GET		/getAllArticleCategory		controllers.ArticleController.getAllArticleCategory
+GET		/get-all-article-categories		controllers.ArticleController.getAllArticleCategories
 GET     /get-all-Articles			controllers.ArticleController.getAllArticles
-GET     /get-Articles-Categorywise/:id/:offset		controllers.ArticleController.getArticlesCategorywise(id: Long, offset:String)
-GET     /get-Six-Articles           controllers.ArticleController.getSixArticles
-GET		/get-Related-Articles/:id/:category_id   controllers.ArticleController.getRelatedArticles(id :Long,category_id :Long)
-GET		/getDescriptionOfArticle/:id  	controllers.ArticleController.getDescriptionOfArticle(id :Long)
-GET		/deleteArticle/:id			controllers.ArticleController.deleteArticle(id :Long)
-GET		/article/:id				controllers.ArticleController.infoArticle(id :Long)
+GET     /get-Articles-Categorywise/:category_id/:offset		controllers.ArticleController.getArticlesCategorywise(category_id: Long, offset:String)
+GET     /get-Six-Articles/:category_id          controllers.ArticleController.getSixArticles(category_id: Long)
+GET		/get-Related-Articles/:id/:category_id  controllers.ArticleController.getRelatedArticles(id :Long,category_id :Long)
+GET		/get-article-info/:id		controllers.ArticleController.infoArticle(id :Long)
 GET     /like-article/:id			controllers.ArticleController.onLike(id : Long)
 GET     /unlike-article/:id			controllers.ArticleController.onUnlike(id : Long)
-GET     /get-new-Articles			controllers.ArticleController.getNewArticles
-GET     /get-hot-Articles			controllers.ArticleController.getHotArticles
-GET     /get-recommended-Articles   controllers.ArticleController.getRecommendedArticles
+GET     /get-new-Articles/:category_id			controllers.ArticleController.getNewArticles(category_id: Long)
+GET     /get-hot-Articles/:category_id			controllers.ArticleController.getHotArticles(category_id: Long)
+GET     /get-recommended-Articles/:category_id  controllers.ArticleController.getRecommendedArticles(category_id: Long)
 
 GET     /bookmark-article/:article_id				controllers.ArticleController.onBookamrk(article_id : Long)
 GET     /unbookmark-article/:article_id				controllers.ArticleController.onUnBookmark(article_id : Long)

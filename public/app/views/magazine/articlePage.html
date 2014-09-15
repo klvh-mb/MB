@@ -20,9 +20,7 @@
                                 <div style="margin-left:10px;width:60%;">
                                     <a class="scCatTitle" href="#/article/show/0">所有文章</a> <span style="font-size:12px;">&gt;</span> <a class="scCatTitle" href="#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
                                     <h6>
-                                        <!--font>{{article.pd | date:'yyyy'}}</font>
-                                        <font>{{article.pd | date:'MMM'}}</font-->
-                                        <font>{{article.pd | date:'M/dd/yyyy'}}</font>
+                                        <font ng-show="userInfo.isAdmin">{{article.pd | date:'M/dd/yyyy'}}</font>
                                     </h6>
                                 </div>
                             </li>
@@ -30,19 +28,19 @@
                                 <font class="scTitle">{{article.nm}}</font>
                             </li>
                             <li>
-                                <span class="btn-like-wrapper"><span ng-show="article.nov > 0" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.gif"/>{{article.nov}}</span></span>
+                                <span class="btn-like-wrapper"><span ng-show="article.nov > 20 || userInfo.isAdmin" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.gif"/>{{article.nov}}</span></span>
                                 <span data-ng-include data-src="'/assets/app/views/like-article.html'"></span>
                             </li>
                             <li><div style="font-size:16px; width:100%;" class="ng-binding" ng-bind-html="article.ds | to_trusted"></div></li>
                             <li>
-                                <span class="btn-like-wrapper"><span ng-show="article.nov > 0" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.gif"/>{{article.nov}}</span></span>
+                                <span class="btn-like-wrapper"><span ng-show="article.nov > 20 || userInfo.isAdmin" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.gif"/>{{article.nov}}</span></span>
                                 <span data-ng-include data-src="'/assets/app/views/like-article.html'"></span>
                             </li>
                             <li>
                                 <div style="margin:20px 0;font-size:16px;">
                                     <div class="padding10" style="border-top:1px solid #eee;"></div>
                                     分享連結: 
-                                    <input type='text' name='article-link' id='article-link' value='{{applicationInfo.baseUrl}}/magazine#/article/id/{{article.id}}'></input> 
+                                    <input type='text' name='article-link' id='article-link' value='{{applicationInfo.baseUrl}}/magazine#/article/{{article.id}}/{{article.ct.id}}'></input> 
                                     <a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink("article-link")'><i class='glyphicon glyphicon-link'></i></a>
                                 </div>
                             </li>
@@ -57,7 +55,7 @@
                     <span class="icon-box icon-box-brown icon-title-relatePost"></span><p>相關文章</p>
                 </div>
                 <ul>
-                    <li data-ng-repeat="relatedArticle in relatedResult"><p><a href="#/article/id/{{relatedArticle.id}}" style="color: #324fe1;"><img ng-show="relatedArticle.img_url != 'No Image'"  data-ng-src="{{relatedArticle.img_url}}"/>{{relatedArticle.nm|limitTo:18}}</a></p></li>
+                    <li data-ng-repeat="relatedArticle in relatedResult"><p><a href="#/article/{{relatedArticle.id}}/{{relatedArticle.ct.id}}" style="color: #324fe1;"><img ng-show="relatedArticle.img_url != 'No Image'"  data-ng-src="{{relatedArticle.img_url}}"/>{{relatedArticle.nm|limitTo:18}}</a></p></li>
                 </ul>
             </div><!--Relate Post End -->
         </div>
