@@ -6,9 +6,9 @@
         <a class="nav-item" href="magazine#/article/show/0" ng-class="{selected: selectedNavBar == 'HOT_ARTICLES'}" ng-click="selectNavBar('HOT_ARTICLES')">
             精選文章
         </a>
-        <!--a class="nav-item" href="magazine#/article/show/{{soonMomsArticleCategories[0].id}}" ng-class="{selected: selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'}" ng-click="selectNavBar('SOON_TO_BE_MOMS_ARTICLES')">
+        <a class="nav-item" href="magazine#/article/show/{{soonMomsArticleCategories[0].id}}" ng-class="{selected: selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'}" ng-click="selectNavBar('SOON_TO_BE_MOMS_ARTICLES')" ng-show="userInfo.isSA">
             孕媽媽每月新知
-        </a-->
+        </a>
         <a class="nav-item" href="my#" ng-class="{selected: selectedNavBar == 'HOME'}" ng-click="selectNavBar('HOME')">
             我的小萌豆
         </a>
@@ -42,9 +42,9 @@
         </span>
     </div>
 </div>
-<div id="nav-subbar" ng-show="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'">
+<div id="nav-subbar" ng-show="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES' && userInfo.isSA">
     <div class="nav-menu">
-        懷孕月份: 
+        <span style="font-weight:bold;margin-right:10px;">懷孕月份:</span> 
         <span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in soonMomsArticleCategories">
             <a class="nav-item nav-item-yellow" style="cursor:pointer;" ng-href="magazine#/article/show/{{category.id}}">
                 {{category.name}}

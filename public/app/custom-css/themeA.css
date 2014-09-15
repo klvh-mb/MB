@@ -1729,6 +1729,7 @@ pre {
     color: #008ee3;
     font-weight: bold;
     float: left;
+    margin-bottom: 5px;
 }
 .allpost-wrapper h6 p:before{
     content: " 日期: ";
