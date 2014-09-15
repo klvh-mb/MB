@@ -448,22 +448,25 @@ public class DataBootstrap {
 
         logger.underlyingLogger().info("bootstrapArticleCategory()");
         
-        final String[] cats = new String[] {
+        ArticleCategory category = null;
+        
+        String[] cats = new String[] {
                 "孕婦須知", "育兒通識", "親子活動", "教育與學校", "秀身扮靚", "有趣分享"
         };
 
-        ArticleCategory category = new ArticleCategory(cats[0], cats[0], "/assets/app/images/article/cat_1.jpg", 1);
-        category.save();
-        category = new ArticleCategory(cats[1], cats[1], "/assets/app/images/article/cat_2.jpg", 2);
-        category.save();
-        category = new ArticleCategory(cats[2], cats[2], "/assets/app/images/article/cat_3.jpg", 3);
-        category.save();
-        category = new ArticleCategory(cats[3], cats[3], "/assets/app/images/article/cat_4.jpg", 4);
-        category.save();
-        category = new ArticleCategory(cats[4], cats[4], "/assets/app/images/article/cat_5.jpg", 5);
-        category.save();
-        category = new ArticleCategory(cats[5], cats[5], "/assets/app/images/article/cat_6.jpg", 6);
-        category.save();
+        for (int i = 0; i < cats.length; i++) {
+            category = new ArticleCategory(cats[i], cats[i], "/assets/app/images/article/cat_" + (i+1) + ".jpg", ArticleCategory.ArticleCategoryGroup.HOT, i+1);
+            category.save();
+        }
+        
+        cats = new String[] {
+                "預備中", "1", "2", "3", "4", "5", "6", "7", "8", "9"
+        };
+
+        for (int i = 0; i < cats.length; i++) {
+            category = new ArticleCategory(cats[i], cats[i], "/assets/app/images/article/cat_1.jpg", ArticleCategory.ArticleCategoryGroup.SOON_TO_BE_MOMS, i+1);
+            category.save();
+        }
     }
 
     private static void bootstrapCommunityCategory() {

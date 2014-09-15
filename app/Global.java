@@ -9,7 +9,10 @@ import play.Play;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Call;
+import play.mvc.Http.RequestHeader;
 import play.mvc.Http.Session;
+import play.mvc.Result;
+import play.mvc.Results;
 import processor.FeedProcessor;
 
 import com.feth.play.module.pa.PlayAuthenticate;
@@ -25,7 +28,6 @@ public class Global extends GlobalSettings {
 
     // Configurations for bootstrap
     private static final String STARTUP_BOOTSTRAP_PROP = "startup.data.bootstrap";
-
 
 	@Transactional
 	public void onStart(Application app) {
@@ -134,4 +136,19 @@ public class Global extends GlobalSettings {
         // version upgrade if any
         SystemVersion.versionUpgradeIfAny();
 	}
+
+	@Override
+	public Result onBadRequest(RequestHeader request, String error) {
+	    return Results.badRequest(error);
+	}
+	
+	@Override
+    public Result onError(RequestHeader request, Throwable throwable) {
+        return Results.internalServerError(throwable.getMessage());
+    }
+	
+	@Override
+    public Result onHandlerNotFound(RequestHeader request) {
+        return Results.notFound(views.html.notFound404.render(request.path()));
+    }
 }

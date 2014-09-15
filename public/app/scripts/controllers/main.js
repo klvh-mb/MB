@@ -184,7 +184,22 @@ minibean.controller('ApplicationController',
 
     $scope.topAnnouncements = announcementsService.getTopAnnouncements.get();
 	$scope.communityCategories = communityCategoryService.getAllCommunityCategories.get();
-	$scope.articleCategories = articleCategoryService.getAllArticleCategory.get();
+	
+	$scope.hotArticleCategories = [];
+	$scope.soonMomsArticleCategories = [];
+	$scope.articleCategories = articleCategoryService.getAllArticleCategory.get(
+        function(data) {
+            angular.forEach(data, function(category, key){
+                if(category.gp == 'HOT') {
+                console.log('HOT - '+category.name);
+                    $scope.hotArticleCategories.push(category);
+                } else if (category.gp == 'SOON_TO_BE_MOMS') {
+                console.log('SOON - '+category.name);
+                    $scope.soonMomsArticleCategories.push(category);
+                }
+            });
+        }
+	);
 	
 	$scope.set_background_image = function() {
 		return { background: 'url(/image/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+') center center no-repeat'};

@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,19 +13,21 @@ import javax.persistence.Lob;
 import javax.persistence.Query;
 
 import common.cache.ArticleCategoryCache;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.Play;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
-/*
+/**
  * No UI Crud operation for this model. this Model will be populated by Admin directly in DB.
  */
 @Entity
 public class ArticleCategory  {
 
 	private static String CATEGORY_PATH = Play.application().configuration().getString("storage.categoty.path");
+	
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
 	
@@ -34,16 +38,26 @@ public class ArticleCategory  {
 	
 	public String pictureName;
 	
+	@Enumerated(EnumType.STRING)
+	public ArticleCategoryGroup categoryGroup;
+	
 	public int seq;
 	
 	public boolean deleted = false;
 	
+    public static enum ArticleCategoryGroup {
+        HOT, 
+        SOON_TO_BE_MOMS,
+        NEW_MOMS
+    }
+    
 	public ArticleCategory(){}
 	
-	public ArticleCategory(String name, String description, String pictureName, int seq){
+	public ArticleCategory(String name, String description, String pictureName, ArticleCategoryGroup categoryGroup, int seq){
 		this.name = name;
 		this.description = description;
 		this.pictureName = pictureName;
+		this.categoryGroup = categoryGroup;
 		this.seq = seq;
 	}
 	
@@ -82,13 +96,13 @@ public class ArticleCategory  {
      * Load from database. The rest should be from cache.
      * @return
      */
-    public static List<ArticleCategory> loadAllCategory() {
+    public static List<ArticleCategory> loadAllCategories() {
 		Query q = JPA.em().createQuery("Select a from ArticleCategory a where deleted = false order by seq");
 		return (List<ArticleCategory>)q.getResultList();
     }
 
-	public static List<ArticleCategory> getAllCategory() {
-		return ArticleCategoryCache.getAllCategory();
+	public static List<ArticleCategory> getAllCategories() {
+		return ArticleCategoryCache.getAllCategories();
 	}
 
 	public static ArticleCategory getCategoryById(long id) {
@@ -99,7 +113,7 @@ public class ArticleCategory  {
 		return cat;
 	}
 	
-	public static List<ArticleCategory> getCategories(int limit) {
-		return ArticleCategoryCache.getCategories(limit);
+	public static List<ArticleCategory> getCategories(ArticleCategoryGroup categoryGroup) {
+		return ArticleCategoryCache.getCategories(categoryGroup);
 	}
 }

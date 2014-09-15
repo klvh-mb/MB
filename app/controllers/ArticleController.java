@@ -4,7 +4,6 @@ import static play.data.Form.form;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -20,7 +19,6 @@ import models.Article;
 import models.ArticleCategory;
 import models.User;
 import play.data.DynamicForm;
-import play.data.Form;
 import play.Play;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -41,27 +39,10 @@ public class ArticleController extends Controller {
     private static play.api.Logger logger = play.api.Logger.apply(ArticleController.class);
 
     private static final String STORAGE_PATH = Play.application().configuration().getString("storage.path"); 
-    
-    private static final int NUM_CATEGORIES_HP = 6;
-
-	@Transactional
-	public static Result addArticle() {
-		Form<Article> articleForm = DynamicForm.form(Article.class).bindFromRequest();
-		DynamicForm form = DynamicForm.form().bindFromRequest();
-		
-		Long category_id = Long.parseLong(form.get("category_id"));
-		
-		ArticleCategory ac = ArticleCategory.getCategoryById(category_id);
-		Article article = articleForm.get();
-		article.category = ac;
-		article.publishedDate = new Date();
-		article.saveArticle();
-		return ok();
-	}
 	
 	@Transactional
 	public static Result getAllArticleCategory() {
-		List<ArticleCategory> categories = ArticleCategory.getAllCategory();
+		List<ArticleCategory> categories = ArticleCategory.getAllCategories();
 		
 		List<ArticleCategoryVM> articleCategoryVMs = new ArrayList<>();
 		for(ArticleCategory articleCategory : categories) {
@@ -192,14 +173,7 @@ public class ArticleController extends Controller {
 			i++;
 		}
 		
-		List<ArticleCategoryVM> categoryVMs = new ArrayList<>();
-		List<ArticleCategory> categories = ArticleCategory.getCategories(NUM_CATEGORIES_HP);
-		for(ArticleCategory ac : categories) {
-			ArticleCategoryVM vm = ArticleCategoryVM.articleCategoryVM(ac);
-			categoryVMs.add(vm);
-		}
-		
-		SlidderArticleVM articleVM = new SlidderArticleVM(leftArticles, rightArticles, categoryVMs);
+		SlidderArticleVM articleVM = new SlidderArticleVM(leftArticles, rightArticles);
 		return ok(Json.toJson(articleVM));
 	}
 
@@ -246,14 +220,7 @@ public class ArticleController extends Controller {
 			i++;
 		}
 
-		List<ArticleCategoryVM> categoryVMs = new ArrayList<>();
-		List<ArticleCategory> categories = ArticleCategory.getCategories(NUM_CATEGORIES_HP);
-		for(ArticleCategory ac : categories) {
-			ArticleCategoryVM vm = ArticleCategoryVM.articleCategoryVM(ac);
-			categoryVMs.add(vm);
-		}
-
-		SlidderArticleVM articleVM = new SlidderArticleVM(leftArticles, rightArticles, categoryVMs);
+		SlidderArticleVM articleVM = new SlidderArticleVM(leftArticles, rightArticles);
 		return ok(Json.toJson(articleVM));
 	}
 

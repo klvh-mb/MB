@@ -28,7 +28,7 @@
                             <a role="button" class="Px-2 Abu-C-p rapidnofollow rapid-noclick-resp" ng-click="selectNavSubBar(0);" href="m-magazine#/article/show/0">所有文章</a>
                         </div>
                     </li>
-                    <li class="Grid-U Px-8 Fz-m" ng-repeat="category in articleCategories">
+                    <li class="Grid-U Px-8 Fz-m" ng-repeat="category in hotArticleCategories">
                         <div ng-class="{'Selected-yellow': selectedNavSubBar == category.id}">
                             <a role="button" class="Px-2 Abu-C-p rapidnofollow rapid-noclick-resp" ng-click="selectNavSubBar($index+1);" href="m-magazine#/article/show/{{category.id}}">{{category.name}}</a>
                         </div>
