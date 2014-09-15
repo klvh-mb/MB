@@ -54,7 +54,7 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	
 	@Transactional
 	public static List<Article> getAllArticles() {
-		Query q = JPA.em().createQuery("Select a from Article a order where deleted = false by publishedDate desc,id desc");
+		Query q = JPA.em().createQuery("Select a from Article a order where a.deleted = false by publishedDate desc,id desc");
 		return (List<Article>)q.getResultList();
 	}
 	
@@ -62,9 +62,9 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	public static List<Article> getArticlesByCategory(Long id, int offset) {
 		Query q;
 		if (id == 0){
-			q = JPA.em().createQuery("Select a from Article a where deleted = false order by publishedDate desc,id desc");
+			q = JPA.em().createQuery("Select a from Article a where a.deleted = false order by publishedDate desc,id desc");
 		} else {
-			q = JPA.em().createQuery("Select a from Article a where category_id = ?1 and deleted = false order by publishedDate desc,id desc");
+			q = JPA.em().createQuery("Select a from Article a where a.category.id = ?1 and a.deleted = false order by publishedDate desc,id desc");
 			q.setParameter(1, id);
 		}
 		q.setFirstResult(offset);
@@ -76,7 +76,7 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	
 	@Transactional
 	public static List<Article> relatedArticles(long id, long catId, int n) {
-		Query q = JPA.em().createQuery("Select a from Article a where id != ?1 AND a.category.id = ?2 and deleted = false order by publishedDate desc,id desc");
+		Query q = JPA.em().createQuery("Select a from Article a where id != ?1 AND a.category.id = ?2 and a.deleted = false order by publishedDate desc,id desc");
 		q.setParameter(1, id);
 		q.setParameter(2, catId);
 		q.setMaxResults(n);
@@ -86,7 +86,7 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	@Transactional
 	public static List<Article> getArticles(long catId, int n) {
 		Query q = JPA.em().createQuery("Select a from Article a where " + 
-		        "category_id in (select c.id from ArticleCategory c where c.categoryGroup = ?1) and deleted = false order by publishedDate desc,id desc");
+		        "a.category.id in (select c.id from ArticleCategory c where c.categoryGroup = ?1) and a.deleted = false order by publishedDate desc,id desc");
 		q.setParameter(1, ArticleCategory.getCategoryGroup(catId));
 		q.setFirstResult(0);
 		q.setMaxResults(n);
@@ -96,7 +96,7 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
     @Transactional
     public static List<Article> getMostViewsArticles(long catId, int n) {
         Query q = JPA.em().createQuery("Select a from Article a where " + 
-                "category_id in (select c.id from ArticleCategory c where c.categoryGroup = ?1) and deleted = false order by noOfViews desc");
+                "a.category.id in (select c.id from ArticleCategory c where c.categoryGroup = ?1) and a.deleted = false order by noOfViews desc");
         q.setParameter(1, ArticleCategory.getCategoryGroup(catId));
         q.setFirstResult(0);
         q.setMaxResults(n);
@@ -106,7 +106,7 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
     @Transactional
     public static List<Article> getMostLikesArticles(long catId, int n) {
     	Query q = JPA.em().createQuery("Select a from Article a where " +
-    	        "category_id in (select c.id from ArticleCategory c where c.categoryGroup = ?1) and deleted = false order by noOfLikes desc");
+    	        "a.category.id in (select c.id from ArticleCategory c where c.categoryGroup = ?1) and a.deleted = false order by noOfLikes desc");
     	q.setParameter(1, ArticleCategory.getCategoryGroup(catId));
     	q.setFirstResult(0);
     	q.setMaxResults(n);
@@ -114,7 +114,7 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
     }
 	
 	public static Article findById(Long id) {
-		Query q = JPA.em().createQuery("SELECT a FROM Article a where id = ?1 and deleted = false");
+		Query q = JPA.em().createQuery("SELECT a FROM Article a where id = ?1 and a.deleted = false");
 		q.setParameter(1, id);
 		return (Article) q.getSingleResult();
 	}
@@ -243,7 +243,12 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
     @Override
     public String toString() {
         return "Article{" +
+                "id='" + id + '\'' +
                 "name='" + name + '\'' +
+                "views='" + noOfViews + '\'' +
+                "likes='" + noOfLikes + '\'' +
+                "published='" + publishedDate + '\'' +
+                "category='" + category.toString() + '\'' +
                 '}';
     }
 }

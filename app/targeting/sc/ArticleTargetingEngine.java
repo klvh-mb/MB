@@ -7,12 +7,12 @@ import common.utils.NanoSecondStopWatch;
 import common.utils.StringUtil;
 import domain.SocialObjectType;
 import models.*;
-
 import play.db.jpa.JPA;
 import targeting.Scorable;
 import targeting.ScoreSortedList;
 
 import javax.persistence.Query;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -61,9 +61,9 @@ public class ArticleTargetingEngine {
             TargetProfile profile = TargetProfile.fromUser(user);
             logger.underlyingLogger().info("[u="+user.getId()+"] getTargetedArticles query. "+profile);
 
-            List<Article> unRankedRes = query(user, profile, false, false);
+            List<Article> unRankedRes = query(user, profile, catId, false, false);
             if (unRankedRes.size() < k) {
-                unRankedRes = query(user, profile, true, true);
+                unRankedRes = query(user, profile, catId, true, true);
             }
 
             results = rankAndFunnel(profile, unRankedRes, k);
@@ -88,7 +88,7 @@ public class ArticleTargetingEngine {
         return results;
     }
 
-    static List<Article> query(User user, TargetProfile profile, boolean skipChildrenAge, boolean includeBookmarked) {
+    static List<Article> query(User user, TargetProfile profile, long catId, boolean skipChildrenAge, boolean includeBookmarked) {
         StringBuilder sb = new StringBuilder();
         sb.append("Select a from Article a ");
 
@@ -168,6 +168,10 @@ public class ArticleTargetingEngine {
             paramValues.add(SocialObjectType.ARTICLE);
         }
 
+        // category group
+        sb.append(whereDelim).append(andDelim).append("a.category.id in (select c.id from ArticleCategory c where c.categoryGroup = ?").append(paramCount++).append(") and a.deleted = false");
+        paramValues.add(ArticleCategory.getCategoryGroup(catId));
+        
         // exec query
         Query q = JPA.em().createQuery(sb.toString());
         for (int i = 1; i < paramCount; i++) {
@@ -183,7 +187,7 @@ public class ArticleTargetingEngine {
         }
 
         String idsForIn = StringUtil.collectionToString(scIds, ",");
-        Query query = JPA.em().createQuery("SELECT a from Article a where a.id in ("+idsForIn+") order by FIELD(a.id ,"+idsForIn+")");
+        Query query = JPA.em().createQuery("SELECT a from Article a where a.id in ("+idsForIn+") and a.deleted = false order by FIELD(a.id ,"+idsForIn+")");
         return (List<Article>)query.getResultList();
     }
 

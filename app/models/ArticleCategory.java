@@ -123,4 +123,12 @@ public class ArticleCategory  {
 	    }
 	    return cat.categoryGroup;
 	}
+	
+    @Override
+    public String toString() {
+        return "ArticleCategory{" +
+                "name='" + name + '\'' +
+                "categoryGroup='" + categoryGroup.name() + '\'' +
+                '}';
+    }
 }

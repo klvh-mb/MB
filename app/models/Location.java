@@ -242,7 +242,7 @@ public class Location  {
     }
     
     @Override
-    public  String toString() {
+    public String toString() {
         return "[" + locationCode + "|" + locationType + "|" + name + "|" + displayName + "]";
     }
     
