@@ -455,16 +455,16 @@ public class DataBootstrap {
         };
 
         for (int i = 0; i < cats.length; i++) {
-            category = new ArticleCategory(cats[i], cats[i], "/assets/app/images/article/cat_" + (i+1) + ".jpg", ArticleCategory.ArticleCategoryGroup.HOT, i+1);
+            category = new ArticleCategory(cats[i], cats[i], "/assets/app/images/article/cat_" + (i+1) + ".jpg", ArticleCategory.ArticleCategoryGroup.HOT_ARTICLES, i+1);
             category.save();
         }
         
         cats = new String[] {
-                "預備中", "1", "2", "3", "4", "5", "6", "7", "8", "9"
+                "預備中", "孕1月", "孕2月", "孕3月", "孕4月", "孕5月", "孕6月", "孕7月", "孕8月", "孕9月", "迎接寶寶"
         };
 
         for (int i = 0; i < cats.length; i++) {
-            category = new ArticleCategory(cats[i], cats[i], "/assets/app/images/article/cat_1.jpg", ArticleCategory.ArticleCategoryGroup.SOON_TO_BE_MOMS, i+1);
+            category = new ArticleCategory(cats[i], cats[i], "/assets/app/images/article/soon_moms.jpg", ArticleCategory.ArticleCategoryGroup.SOON_TO_BE_MOMS_ARTICLES, i+1);
             category.save();
         }
     }
