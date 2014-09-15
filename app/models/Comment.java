@@ -3,6 +3,7 @@ package models;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -128,4 +129,13 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
 			this.merge();
 		}
 	}
+
+    public Post getPost() {
+      	Query q = JPA.em().createNativeQuery("SELECT post_id FROM post_comment where comments_id = "+this.id);
+      	BigInteger integer = (BigInteger) q.getSingleResult();
+        Long id = integer.longValue();
+        Post post = Post.findById(id);
+        return post;
+
+    }
 }

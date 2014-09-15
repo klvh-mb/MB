@@ -11,11 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import common.utils.NanoSecondStopWatch;
-
 import org.apache.commons.lang.exception.ExceptionUtils;
 
-import common.utils.ImageFileUtil;
 import models.Community;
 import models.Conversation;
 import models.Emoticon;
@@ -26,6 +23,7 @@ import models.Post;
 import models.Resource;
 import models.User;
 import models.UserCommunityAffinity;
+
 import play.data.DynamicForm;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -45,8 +43,10 @@ import viewmodel.SocialObjectVM;
 import viewmodel.UserVM;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
-
 import common.model.TargetGender;
+import common.utils.ImageFileUtil;
+import common.utils.NanoSecondStopWatch;
+
 import domain.DefaultValues;
 
 public class UserController extends Controller {
@@ -242,9 +242,8 @@ public class UserController extends Controller {
 		final User localUser = Application.getLocalUser(session());
 
 		List<CommunityPostVM> posts = new ArrayList<>();
-		List<Post> newsFeeds = user.getUserNewsfeeds(
-		        Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
-		
+
+        List<Post> newsFeeds = user.getUserNewsfeeds(Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 		if(newsFeeds != null ){
 			for(Post p : newsFeeds) {
 				CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser);
@@ -315,21 +314,7 @@ public class UserController extends Controller {
 		}
 		return ok(Json.toJson(socialVMs));
 	}
-	
 
-    @Transactional
-    public static Result getAllFriendRequests() {
-    	final User localUser = Application.getLocalUser(session());
-    	
-    	List<Notification> friendRequests = localUser.getAllFriendRequestNotification();
-    	
-    	List<FriendWidgetChildVM> requests = new ArrayList<>();
-    	for(Notification n : friendRequests) {
-    		requests.add(new FriendWidgetChildVM(n.socialAction.actor, n.socialAction.getActorObject().name,n.id));
-    	}
-    	return ok(Json.toJson(requests));
-    }
-    
     @Transactional
     public static Result acceptFriendRequest(Long id, Long notify_id) {
     	final User localUser = Application.getLocalUser(session());
@@ -346,23 +331,11 @@ public class UserController extends Controller {
 			e.printStackTrace();
 		}
     	Notification notification = Notification.findById(notify_id);
-    	notification.readed = true;
+    	notification.status = 3;
     	notification.merge();
     	return ok();
     }
-    
-    @Transactional
-    public static Result getAllJoinRequests() {
-    	final User localUser = Application.getLocalUser(session());
-    	
-    	List<Notification> joinRequests = localUser.getAllJoinRequestNotification();
-    	List<NotificationVM> requests = new ArrayList<>();
-    	for(Notification n : joinRequests) {
-    		requests.add(new NotificationVM(n));
-    	}
-    	return ok(Json.toJson(requests));
-    }
-    
+
     @Transactional
     public static Result acceptJoinRequest(Long member_id,Long group_id,Long notify_id) {
     	final User localUser = Application.getLocalUser(session());
@@ -381,7 +354,7 @@ public class UserController extends Controller {
 			e.printStackTrace();
 		}
     	Notification notification = Notification.findById(notify_id);
-    	notification.readed = true;
+    	notification.status = 3;
     	notification.merge();
     	return ok();
     }
@@ -404,15 +377,21 @@ public class UserController extends Controller {
 		}
     	
     	Notification notification = Notification.findById(notify_id);
-    	notification.readed = true;
+    	notification.status = 3;
     	notification.merge();
     	return ok();
     }
     
     @Transactional
-    public static Result markNotificationAsRead (Long id) {
+    public static Result markNotificationAsRead (String ids) {
+    	Notification.markAsRead(ids);
+    	return ok();
+    }
+    
+    @Transactional
+    public static Result ignoreNotification (Long id) {
     	Notification notification=Notification.findById(id);
-    	notification.markNotificationRead();
+    	notification.changeStatus(2);
     	return ok();
     }
     
@@ -737,6 +716,49 @@ public class UserController extends Controller {
 		vm.put("count", localUser.getUnreadMsgCount());
 		return ok(Json.toJson(vm));
 	}
+	
+	@Transactional
+    public static Result getHeaderBarMetadata() {
+		NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+		final User localUser = Application.getLocalUser(session());
+		List<Notification> batchupNotif = localUser.getAllNotification();
+		int unread_allNotif_count = 0;
+		int unread_reqNotif_count = 0;
+    	List<NotificationVM> notif = new ArrayList<>();
+    	for(Notification n : batchupNotif) {
+    		if(n.status == 0){
+    			unread_allNotif_count++;
+    		}
+    		notif.add(new NotificationVM(n));
+    	}
+		
+    	
+    	List<Notification> requestNotif = localUser.getAllRequestNotification();
+    	List<NotificationVM> requests = new ArrayList<>();
+    	for(Notification n : requestNotif) {
+    		if(n.status == 0){
+    			unread_reqNotif_count++;
+    		}
+    		requests.add(new NotificationVM(n));
+    	}
+    	
+    	
+		Map<String, Object> vm = new HashMap<>();
+		
+		vm.put("messageCount", localUser.getUnreadMsgCount());
+		vm.put("requestNotif", requests);
+		vm.put("allNotif", notif);
+		vm.put("name", localUser.firstName);
+		vm.put("notifyCount", unread_allNotif_count);
+		vm.put("requestCount", unread_reqNotif_count);
+
+        sw.stop();
+        if (sw.getElapsedMS() > 50) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getHeaderBarMetadata. Took "+sw.getElapsedMS()+"ms");
+        }
+    	return ok(Json.toJson(vm));
+    }
 	
 	@Transactional
 	public static Result getMessageImageByID(Long id) {

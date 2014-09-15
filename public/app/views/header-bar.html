@@ -6,59 +6,52 @@
         <ul class="header-notif-bar pull-left">
             <li class="dropdown notif pull-left" >
                 <a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
-                    <img class="colorChange" src="../assets/app/images/general/icons/w_profile.png" data-ng-click="reset_fr_count()"/>
-                    <span class="notif-count pull-right" data-ng-show="isFRreaded == true && friend_requests.length > 0">{{friend_requests.length}}</span>
+                    <img class="colorChange" src="../assets/app/images/general/icons/w_profile.png" data-ng-click="mark_requests_read()"/>
+                    <span class="notif-count pull-right" data-ng-show="unread_request_count > 0">{{unread_request_count}}</span>
                 </a>
-                <ul class="dropdown-menu chat media-list" data-ng-show="friend_requests.length > 0" style="top: 28px !important;" >
-                    <li class="media" data-ng-repeat="friend in friend_requests">
-                        <a class="pull-left" ng-href="my#/profile/{{friend.id}}"><img class="media-object thumb" data-ng-src="/image/get-mini-image-by-id/{{friend.id}}" alt="50x50" width="50"></a>
-                        <div class="media-body" data-ng-init="friend.isLoadingEnable = false">
-                            
-                            <button data-ng-show="friend.isFriendAccepted == false && friend.isLoadingEnable == false" data-ng-init="friend.isFriendAccepted = false"
-                                 data-ng-click="accept_friend_request(friend.id, friend.nid)" class="btn btn-xs btn-success pull-right">accept</button>
-                            <label class="label label-default pull-right" data-ng-show="friend.isFriendAccepted == true">Friends</label>
-                            
-                            <span class="label label-primary pull-right" data-ng-show="friend.isLoadingEnable == true">Loading...</span>
-                            
-                            <a href="my#/profile/{{friend.id}}" style="margin-right: 0px !important;"><h5 class="media-heading">{{friend.dn}}</h5></a>
+                <ul class="dropdown-menu chat media-list" data-ng-show="request_notif.length > 0" style="top: 28px !important;" >
+                    <li data-ng-class="request.sta == 0 ? 'unread':'read'" class="media" data-ng-repeat="request in request_notif" ng-switch="request.tp">
+
+                        <a class="pull-left" ng-href="{{request.url.onClick}}" style="height: 50px;">
+                            <img class="media-object thumb" data-ng-src="{{request.url.photo}}" style="height: 50px; width: 50px;">
+                        </a>
+                        <div class="media-body">
+                            <p class="margin-none">{{request.msg}}</p>
+                        </div>
+                        <div class="media-body" data-ng-init="request.isLoadingEnable = false">
+
+                            <button ng-switch-when="COMM_JOIN_REQUEST"  data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
+                                data-ng-click="accept_join_request(request.url.actor, request.url.target, request.nid);$event.stopPropagation();"
+                                class="btn btn-xs btn-success pull-right a_{{request.nid}}">接受</button>
+
+                            <button ng-switch-when="COMM_INVITE_REQUEST" data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
+                                data-ng-click="accept_invite_request(request.url.actor, request.url.target, request.nid);$event.stopPropagation();"
+                                class="btn btn-xs btn-success pull-right a_{{request.nid}}">接受</button>
+
+                            <button ng-switch-when="FRD_REQUEST" data-ng-init="friend.isFriendAccepted = false"
+                                data-ng-click="accept_friend_request(request.url.actor, request.nid);$event.stopPropagation();"
+                                class="btn btn-xs btn-success pull-right a_{{request.nid}}">接受</button>
+
+                           <button data-ng-hide="request.tp == 'COMM_JOIN_APPROVED' || request.tp == 'FRD_ACCEPTED'" style="margin-right: 15px;"
+                                data-ng-click="ignoreIt(request.nid);$event.stopPropagation();"
+                                class="btn btn-xs btn-success pull-right ignore">不理</button>
                         </div>
                     </li>
                 </ul>
             </li>
             <li class="dropdown notif pull-left">
                 <a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
-                    <img class="colorChange" src="../assets/app/images/general/icons/w_notification.png" data-ng-click="reset_notify_count()"/>
-                    <span class="notif-count pull-right" data-ng-show="isNOreaded == true && join_requests.length > 0">{{join_requests.length}}</span>
+                    <img class="colorChange" src="../assets/app/images/general/icons/w_notification.png" data-ng-click="mark_notif_read();"/>
+                    <span class="notif-count pull-right" data-ng-show="isNOreaded == true && unread_notify_count > 0">{{unread_notify_count}}</span>
                 </a>
-                <ul class="dropdown-menu chat media-list" data-ng-show="join_requests.length > 0" style="top: 28px !important;">
-                    <li class="media" data-ng-repeat="request in join_requests" ng-switch="request.tp">
-                        
-                        <a ng-switch-when="COMMUNITY_JOIN_REQUEST" class="pull-left" ng-href="my#/profile/{{request.id}}"><img class="media-object thumb" data-ng-src="/image/get-mini-image-by-id/{{request.id}}" alt="50x50" width="50"></a>
-                        
-                        <a ng-switch-when="COMMUNITY_INVITE_REQUEST" class="pull-left" ng-href="my#/community/{{request.id}}/question"><img class="media-object thumb" data-ng-src="/image/get-mini-cover-community-image-by-id/{{request.mm}}" alt="50x50" width="50"></a>
-                        
-                        <div class="media-body" data-ng-init="request.isLoadingEnable = false">
-                            
-                            <button ng-switch-when="COMMUNITY_JOIN_REQUEST"  data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
-                                data-ng-click="accept_join_request(request.id, request.mm, request.nid);$event.stopPropagation();" 
-                                class="btn btn-xs btn-success pull-right a_{{request.id}}_{{request.mm}}">accept</button>
-                            
-                            <button ng-switch-when="COMMUNITY_INVITE_REQUEST" data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
-                                data-ng-click="accept_invite_request(request.id, request.mm, request.nid);$event.stopPropagation();" 
-                                class="btn btn-xs btn-success pull-right a_{{request.id}}_{{request.mm}}">accept</button>
-                            
-                            <button ng-switch-when="COMMUNITY_JOIN_APPROVED" style="margin-right: 0px !important;" 
-                                data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
-                                data-ng-click="mark_as_read(request.nid);$event.stopPropagation();"
-                                class="btn btn-xs btn-success pull-right a_{{request.id}}_{{request.mm}}">mark as read</button>
-                            
-                            <span class="label label-primary pull-right" data-ng-show="request.isRequestAccepted == true">member</span>
-                            
-                            <a ng-switch-when="COMMUNITY_JOIN_REQUEST" style="margin-right: 0px !important;" ng-href="my#/profile/{{request.id}}"><h5 class="media-heading">{{request.dn}}</h5></a>
-                            
-                            <a ng-switch-when="COMMUNITY_INVITE_REQUEST" style="margin-right: 0px !important;" ng-href="my#/community/{{request.id}}/question"><h5 class="media-heading">{{request.cn}}</h5></a>
-                            
+                <ul class="dropdown-menu chat media-list" data-ng-show="batchup_notif.length > 0" style="top: 28px !important;overflow-y: scroll;max-height: 285px;">
+                    <li data-ng-class="request.sta == 0 ? 'unread':'read' " class="media" data-ng-repeat="request in batchup_notif" >
+                        <a class="pull-left" data-ng-href="{{request.url.onClick}}" style="height: 50px;">
+                            <img class="media-object thumb" data-ng-src="{{request.url.photo}}"  style="height: 50px; width: 50px;">
+                        </a>
+                        <div class="media-body">
                             <p class="margin-none">{{request.msg}}</p>
+                            <span class="post-date" am-time-ago="request.upd"></span>
                         </div>
                     </li>
                 </ul>
@@ -66,7 +59,7 @@
             <li class="dropdown notif pull-left">
                 <a href="my#/message/0">
                     <img class="colorChange" src="../assets/app/images/general/icons/w_message.png"/>
-                    <span class="notif-count pull-right" data-ng-show="unread_msg_count.count > 0">{{unread_msg_count.count}}</span>
+                    <span class="notif-count pull-right" data-ng-show="unread_msg_count > 0">{{unread_msg_count}}</span>
                 </a>
             </li>
         </ul>
@@ -139,3 +132,12 @@
     </div>
 </div>
 <div id="main-top"/>
+<style>
+.read{
+	background-color: #ffffff;
+}
+
+.unread{
+	background-color: #e7ebf3;
+}
+</style>

@@ -39,7 +39,6 @@ import common.utils.StringUtil;
 import models.Community.CommunityType;
 import models.Notification.NotificationType;
 import models.SocialRelation.Action;
-import models.SocialRelation.ActionType;
 import models.TargetingSocialObject.TargetingType;
 import models.TokenAction.Type;
 
@@ -48,6 +47,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
+import org.joda.time.DateTime;
 import play.Play;
 import play.data.format.Formats;
 import play.db.jpa.JPA;
@@ -259,7 +259,7 @@ public class User extends SocialObject implements Subject, Socializable {
     }
     
     public void markNotificationRead(Notification notification) {
-        notification.markNotificationRead();
+        notification.changeStatus(1);
     }
 
     @Override
@@ -1152,27 +1152,47 @@ public class User extends SocialObject implements Subject, Socializable {
     }
     
     @JsonIgnore
-    public List<Notification> getAllFriendRequestNotification() {
+    public List<Notification> getAllRequestNotification() {
         
         Query q = JPA.em().createQuery(
-                "SELECT n from Notification n where recipetent = ?1 and socialAction.actionType = ?2 and readed = ?3 ");
+                "SELECT n from Notification n where recipient = ?1 and ( " +
+                "( notificationType in (?2,?3,?5) and n.status in(?6,?8) ) or " +
+                "( notificationType in (?4,?7) and CREATED_DATE > ?9)" +
+                ") ORDER BY CREATED_DATE desc ");
         q.setParameter(1, this.id);
-        q.setParameter(2, ActionType.FRIEND_REQUESTED);
-        q.setParameter(3, false);
+        q.setParameter(2, NotificationType.COMM_JOIN_REQUEST);
+        q.setParameter(3, NotificationType.COMM_INVITE_REQUEST);
+        q.setParameter(4, NotificationType.COMM_JOIN_APPROVED);
+        q.setParameter(5, NotificationType.FRD_REQUEST);
+        q.setParameter(7, NotificationType.FRD_ACCEPTED);
+        q.setParameter(6, 0);
+        q.setParameter(8, 1);
+        // subtract 7 days
+        DateTime sevenDaysBefore = (new DateTime()).minusDays(7);
+        q.setParameter(9, sevenDaysBefore.toDate());
+
         List<Notification> notifications = q.getResultList();
         return notifications;
     }
     
+ 
     @JsonIgnore
-    public List<Notification> getAllJoinRequestNotification() {
+    public List<Notification> getAllNotification() {
         
         Query q = JPA.em().createQuery(
-                "SELECT n from Notification n where recipetent = ?1 and notificationType in (?2,?3,?4) and readed = ?5 ");
+                "SELECT n from Notification n where recipient = ?1 and notificationType in (?2,?3,?4,?6,?7,?8) and" +
+                " CREATED_DATE > ?5 ORDER BY UPDATED_DATE desc");
         q.setParameter(1, this.id);
-        q.setParameter(2, NotificationType.COMMUNITY_JOIN_REQUEST);
-        q.setParameter(3, NotificationType.COMMUNITY_INVITE_REQUEST);
-        q.setParameter(4, NotificationType.COMMUNITY_JOIN_APPROVED);
-        q.setParameter(5, false);
+        q.setParameter(2, NotificationType.COMMENT);
+        q.setParameter(3, NotificationType.ANSWERED);
+        q.setParameter(4, NotificationType.LIKED);
+        q.setParameter(6, NotificationType.POSTED);
+        q.setParameter(7, NotificationType.QUESTIONED);
+        q.setParameter(8, NotificationType.WANTED_ANS);
+        // subtract 7 days
+        DateTime sevenDaysBefore = (new DateTime()).minusDays(7);
+        q.setParameter(5, sevenDaysBefore.toDate());
+
         List<Notification> notifications = q.getResultList();
         return notifications;
     }
@@ -1220,8 +1240,8 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(4, SocialRelation.Action.FRIEND);
         
         SocialRelation sr= (SocialRelation) query.getSingleResult();
-        query = JPA.em().createQuery("DELETE  Notification n where socialAction =?1");
-        query.setParameter(1, sr);
+        query = JPA.em().createQuery("DELETE  Notification n where socialActionID =?1");
+        query.setParameter(1, sr.id);
         query.executeUpdate();
 
         // delete SocialRelation
@@ -1303,8 +1323,8 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(4, SocialRelation.Action.MEMBER);
         
         SocialRelation sr= (SocialRelation) query.getSingleResult();
-        query = JPA.em().createQuery("DELETE Notification n where socialAction =?1");
-        query.setParameter(1, sr);
+        query = JPA.em().createQuery("DELETE Notification n where socialActionID =?1");
+        query.setParameter(1, sr.id);
         query.executeUpdate();
 
         // delete SocialRelation
@@ -1420,8 +1440,7 @@ public class User extends SocialObject implements Subject, Socializable {
                 query.setMaxResults(limit);
                 return (List<Post>)query.getResultList();
     }
-    
-    
+
     @JsonIgnore
     public List<Post> getUserNewsfeedsComments(int offset, int limit) {
         Query query = JPA.em().createQuery(
@@ -1629,8 +1648,6 @@ public class User extends SocialObject implements Subject, Socializable {
                 "Select count(c) from Conversation c where ( c.user1.id = ?1 and (c.user1_time < c.conv_time or c.user1_time is null)) or (c.user2.id = ?1 and (user2_time < c.conv_time or c.user2_time is null ))");
         q.setParameter(1, this.id);
         Long ret = (Long) q.getSingleResult();
-
-        logger.underlyingLogger().info("[u="+id+"] getUnreadMsgCount=" + ret);
         return ret;
     }
     
