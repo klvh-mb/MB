@@ -147,7 +147,7 @@ minibean.controller('ApplicationController',
     }
     
     // ideally should not define here, but need to call in 
-    // MagazineNewsFeedController and ShowArticleController
+    // MagazineNewsFeedController and ShowArticlesController
     $scope.renderNavSubBar = function() {
         YUI().use("event","node","scrollview-base","scrollview-paginator",function(Y){
             var magazineNavSubBar = new Y.ScrollView({

@@ -59,13 +59,15 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	}
 	
 	@Transactional
-	public static List<Article> getArticlesByCategory(Long id, int offset) {
+	public static List<Article> getArticlesByCategory(Long catId, int offset) {
 		Query q;
-		if (id == 0){
-			q = JPA.em().createQuery("Select a from Article a where a.deleted = false order by publishedDate desc,id desc");
+		if (catId == 0){
+			q = JPA.em().createQuery("Select a from Article a where " + 
+			        "a.category.id in (select c.id from ArticleCategory c where c.categoryGroup = ?1) and a.deleted = false order by publishedDate desc,id desc");
+			q.setParameter(1, ArticleCategory.getCategoryGroup(catId));
 		} else {
 			q = JPA.em().createQuery("Select a from Article a where a.category.id = ?1 and a.deleted = false order by publishedDate desc,id desc");
-			q.setParameter(1, id);
+			q.setParameter(1, catId);
 		}
 		q.setFirstResult(offset);
 		q.setMaxResults(DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
