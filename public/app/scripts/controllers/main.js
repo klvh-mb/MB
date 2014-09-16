@@ -1099,7 +1099,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     
     log("PostLandingController starts");
 
-	scope.get_header_metaData();
+	$scope.get_header_metaData();
 	
     $scope.$on('$viewContentLoaded', function() {
         usSpinnerService.spin('loading...');
