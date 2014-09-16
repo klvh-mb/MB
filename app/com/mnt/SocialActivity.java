@@ -24,6 +24,8 @@ public class SocialActivity {
     private static final String MY_PREFIX = "/my#";
     private static final String MAGAZINE_PREFIX = "/magazine#";
 
+    //////////////////////////////////////////////////
+    // Url Helpers
     private static String resolveCommunityLandingUrl(Long commId, Community.CommunityType type) {
         boolean isBizCommunity = type != null && type == Community.CommunityType.BUSINESS;
         if (isBizCommunity) {
@@ -42,6 +44,15 @@ public class SocialActivity {
         }
     }
 
+    private static String resolveQnALandingUrl(Long postId, Long commId, Community.CommunityType type) {
+        boolean isBizCommunity = type != null && type == Community.CommunityType.BUSINESS;
+        if (isBizCommunity) {
+            return MAGAZINE_PREFIX+"/business-post-landing/id/"+postId+"/communityId/"+commId;
+        } else {
+            return MY_PREFIX +"/qna-landing/id/"+postId+"/communityId/"+commId;
+        }
+    }
+
     private static String resolveCommunityLandingUrl(Long commId) {
         Community.CommunityType type = Community.getCommunityTypeById(commId);
         return resolveCommunityLandingUrl(commId, type);
@@ -50,6 +61,8 @@ public class SocialActivity {
     private static boolean isBusinessCommunity(Community community) {
         return community != null && community.communityType == Community.CommunityType.BUSINESS;
     }
+    //////////////////////////////////////////////////
+
 
     /**
      * Handle SocialRelation
@@ -227,7 +240,7 @@ public class SocialActivity {
 
                     if (frdIds.size() > 0) {
                         String commLandingUrl = resolveCommunityLandingUrl(community.id, community.communityType);
-                        String postLandingUrl = resolvePostLandingUrl(post.id, community.id, community.communityType);
+                        String qnaLandingUrl = resolveQnALandingUrl(post.id, community.id, community.communityType);
 
                         List<User> frdMembers = community.getMembersIn(frdIds);
                         for(User user : frdMembers){
@@ -242,7 +255,7 @@ public class SocialActivity {
                                 notification.notificationType = NotificationType.QUESTIONED;
                                 notification.recipient = user.id;
                                 jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
-                                jsonMap.put("onClick", postLandingUrl);
+                                jsonMap.put("onClick", qnaLandingUrl);
                                 notification.URLs = Json.stringify(Json.toJson(jsonMap));
                                 notification.count++;
                                 notification.status = 0;
@@ -273,9 +286,10 @@ public class SocialActivity {
                             return;
                         }
 
+                        String landingUrl = resolveQnALandingUrl(post.id, post.community.id, post.community.communityType);
+
                         Notification notification =
                                 Notification.getNotification(owner_id, NotificationType.WANTED_ANS, socialAction.target, SocialObjectType.QUESTION);
-
                         if(notification == null){
                             notification = new Notification();
                             notification.target = socialAction.target;              // post id
@@ -286,7 +300,7 @@ public class SocialActivity {
                             notification.socialActionID = socialAction.target;
                             notification.addToList(User.findById(socialAction.actor));
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
-                            jsonMap.put("onClick", MY_PREFIX +"/qna-landing/id/"+post.id+"/communityId/"+post.community.id);
+                            jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
                             notification.message = socialAction.actorname+" 把你的發問推上。";
                             notification.status = 0;
@@ -294,7 +308,7 @@ public class SocialActivity {
                             notification.save();
                         } else {
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
-                            jsonMap.put("onClick", MY_PREFIX +"/qna-landing/id/"+post.id+"/communityId/"+post.community.id);
+                            jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
                             notification.count++;
                             notification.addToList(User.findById(socialAction.actor));
@@ -471,9 +485,11 @@ public class SocialActivity {
                     if(User.findById(socialAction.actor).id == post.owner.id){
                         return;
                     }
+
+                    String landingUrl = resolveQnALandingUrl(post.id, post.community.id, post.community.communityType);
+
                     Notification notification =
                             Notification.getNotification(owner_id, NotificationType.ANSWERED, socialAction.target, SocialObjectType.POST);
-
                     if(notification == null){
                         notification = new Notification();
                         notification.target = socialAction.target;          // post id
@@ -482,7 +498,7 @@ public class SocialActivity {
                         notification.recipient = owner_id;
                         notification.count = 1L;
                         jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
-                        jsonMap.put("onClick", MY_PREFIX +"/qna-landing/id/"+post.id+"/communityId/"+post.community.id);
+                        jsonMap.put("onClick", landingUrl);
                         notification.URLs = Json.stringify(Json.toJson(jsonMap));
                         notification.socialActionID = socialAction.target;
                         notification.addToList(User.findById(socialAction.actor));
@@ -494,7 +510,7 @@ public class SocialActivity {
                         notification.count++;
                         notification.addToList(User.findById(socialAction.actor));
                         jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
-                        jsonMap.put("onClick", MY_PREFIX +"/qna-landing/id/"+post.id+"/communityId/"+post.community.id);
+                        jsonMap.put("onClick", landingUrl);
                         notification.URLs = Json.stringify(Json.toJson(jsonMap));
                         notification.message = notification.usersName+" 回應了你的發問。";
                         notification.status = 0;

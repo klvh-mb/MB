@@ -1,3 +1,4 @@
+<!-- Top Header Bar -->
 <div id="header" class="header-wrapper no-glow navbar hidden-print navbar-default box main navbar-fixed-top" id="top-bar" role="navigation" style="top:0px; height: 42px;">
     <a class="header-logo pull-left" href="my#">
         <img src="../assets/app/images/logo-1.png" />
@@ -16,7 +17,7 @@
                             <img class="media-object thumb" data-ng-src="{{request.url.photo}}" style="height: 50px; width: 50px;">
                         </a>
                         <div class="media-body">
-                            <p class="margin-none">{{request.msg}}</p>
+                            <p class="margin-none"><a data-ng-href="{{request.url.onClick}}">{{request.msg}}</a></p>
                         </div>
                         <div class="media-body" data-ng-init="request.isLoadingEnable = false">
 
@@ -50,7 +51,7 @@
                             <img class="media-object thumb" data-ng-src="{{request.url.photo}}"  style="height: 50px; width: 50px;">
                         </a>
                         <div class="media-body">
-                            <p class="margin-none">{{request.msg}}</p>
+                            <p class="margin-none"><a data-ng-href="{{request.url.onClick}}">{{request.msg}}</a></p>
                             <span class="post-date" am-time-ago="request.upd"></span>
                         </div>
                     </li>
