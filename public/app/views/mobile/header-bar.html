@@ -27,7 +27,9 @@
             <ul class="dropdown-menu chat media-list" data-ng-show="request_notif.length > 0" style="top: 28px !important;" >
                 <li data-ng-class="request.sta == 0 ? 'unread':'read'" class="media" data-ng-repeat="request in request_notif" ng-switch="request.tp">
                     <a class="pull-left" ng-href="{{request.url.onClick}}" style="height: 50px;">
-                        <img class="media-object thumb" data-ng-src="{{request.url.photo}}" style="height: 50px; width: 50px;">
+                        <img ng-switch-when="COMM_JOIN_APPROVED" class="media-object thumb" data-ng-src="{{request.url.photo}}" style="height: 35px; width: 50px;">
+                        <img ng-switch-when="COMM_INVITE_REQUEST" class="media-object thumb" data-ng-src="{{request.url.photo}}" style="height: 35px; width: 50px;">
+                        <img ng-switch-default class="media-object thumb" data-ng-src="{{request.url.photo}}" style="height: 50px; width: 50px;">
                     </a>
                     <div class="media-body">
                         <p class="margin-none"><a data-ng-href="{{request.url.onClick}}">{{request.msg}}</a></p>
