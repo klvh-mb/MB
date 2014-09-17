@@ -654,63 +654,63 @@ public class DataBootstrap {
         // Zodiac communities
         
         // rat
-        name = "鼠年媽媽會♥2008";
-        desc = "鼠年媽媽會♥2008";
+        name = "2008鼠年媽媽會♥";
+        desc = "2008鼠年媽媽會♥";
         createZodiacCommunity(name, desc, 2008);
         
         // ox
-        name = "牛年媽媽會♥2009";
-        desc = "牛年媽媽會♥2009";
+        name = "2009牛年媽媽會♥";
+        desc = "2009牛年媽媽會♥";
         createZodiacCommunity(name, desc, 2009);
 
         // tiger
-        name = "虎年媽媽會♥2010";
-        desc = "虎年媽媽會♥2010";
+        name = "2010虎年媽媽會♥";
+        desc = "2010虎年媽媽會♥";
         createZodiacCommunity(name, desc, 2010);
         
         // rabbit
-        name = "兔年媽媽會♥2011";
-        desc = "兔年媽媽會♥2011";
+        name = "2011兔年媽媽會♥";
+        desc = "2011兔年媽媽會♥";
         createZodiacCommunity(name, desc, 2011);
         
         // dragon
-        name = "龍年媽媽會♥2012";
-        desc = "龍年媽媽會♥2012";
+        name = "2012龍年媽媽會♥";
+        desc = "2012龍年媽媽會♥";
         createZodiacCommunity(name, desc, 2012);
         
         // snake
-        name = "蛇年媽媽會♥2013";
-        desc = "蛇年媽媽會♥2013";
+        name = "2013蛇年媽媽會♥";
+        desc = "2013蛇年媽媽會♥";
         createZodiacCommunity(name, desc, 2013);
 
         // horse
-        name = "馬年媽媽會♥2014";
-        desc = "馬年媽媽會♥2014";
+        name = "2014馬年媽媽會♥";
+        desc = "2014馬年媽媽會♥";
         createZodiacCommunity(name, desc, 2014);
         
         // goat
-        name = "羊年媽媽會♥2015";
-        desc = "羊年媽媽會♥2015";
+        name = "2015羊年媽媽會♥";
+        desc = "2015羊年媽媽會♥";
         createZodiacCommunity(name, desc, 2015);
         
         // monkey
-        name = "猴年媽媽會♥2016";
-        desc = "猴年媽媽會♥2016";
+        name = "2016猴年媽媽會♥";
+        desc = "2016猴年媽媽會♥";
         createZodiacCommunity(name, desc, 2016);
         
         // rooster
-        name = "鷄年媽媽會♥2017";
-        desc = "鷄年媽媽會♥2017";
+        name = "2017鷄年媽媽會♥";
+        desc = "2017鷄年媽媽會♥";
         createZodiacCommunity(name, desc, 2017);
 
         // dog
-        name = "狗年媽媽會♥2018";
-        desc = "狗年媽媽會♥2018";
+        name = "2018狗年媽媽會♥";
+        desc = "2018狗年媽媽會♥";
         createZodiacCommunity(name, desc, 2018);
         
         // pig
-        name = "猪年媽媽會♥2019";
-        desc = "猪年媽媽會♥2019";
+        name = "2019猪年媽媽會♥";
+        desc = "2019猪年媽媽會♥";
         createZodiacCommunity(name, desc, 2019);
         
         // District communities
@@ -775,7 +775,7 @@ public class DataBootstrap {
         return community;
     }
     
-    private static Community createZodiacCommunity(String name, String desc, int year) {
+    private static void createZodiacCommunity(String name, String desc, int year) {
         Community community = null;
         TargetYear targetYear = TargetYear.valueOf(new DateTime(year, 4, 1, 0, 0)); // april must be in the zodiac year already
         String zodiac = targetYear.getZodiac().name();
@@ -786,15 +786,38 @@ public class DataBootstrap {
                     "/assets/app/images/general/icons/zodiac/" + zodiac.toLowerCase() + ".png");
             community.system = true;
             community.targetingType = TargetingType.ZODIAC_YEAR;
+            community.targetingInfo = targetingInfo;        // e.g. RAT
+            //community.setCoverPhoto(file);
+        } catch (Exception e) {
+            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+        }
+        
+        for (int i = 1; i <= 12; i++) {
+            createZodiacMonthCommunity(year, i);
+        }
+    }
+    
+    private static void createZodiacMonthCommunity(int year, int month) {
+        String name = year + "年" + month + "月媽媽會♥";
+        String desc = name;
+        Community community = null;
+        TargetYear targetYear = TargetYear.valueOf(new DateTime(year, month, 1, 0, 0));
+        String zodiac = targetYear.getZodiac().name();
+        String targetingInfo = year + "_" + month;      // e.g. 2013_8
+        try {
+            community = Application.getSuperAdmin().createCommunity(
+                    name, desc, CommunityType.OPEN, 
+                    "/assets/app/images/general/icons/zodiac/" + zodiac.toLowerCase() + ".png");
+            community.system = true;
+            community.targetingType = TargetingType.ZODIAC_YEAR_MONTH;
             community.targetingInfo = targetingInfo;
             //community.setCoverPhoto(file);
         } catch (Exception e) {
             logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         }
-        return community;
     }
     
-    private static Community createLocationCommunity(String name, String desc, Location location) {
+    private static void createLocationCommunity(String name, String desc, Location location) {
         Community community = null;
         String targetingInfo = location.id.toString();
         try {
@@ -808,7 +831,6 @@ public class DataBootstrap {
         } catch (Exception e) {
             logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
         }
-        return community;
     }
 
     private static Community createPNCommunity(String name, String desc, Location region) {

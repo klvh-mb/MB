@@ -300,7 +300,7 @@ public class UserController extends Controller {
 		List<User> users = localUser.searchLike(query);
 		List<SocialObjectVM> socialVMs = new ArrayList<>();
 		for(User user : users) {
-		    if (user.isSuperAdmin()) {
+		    if (user.system) {
 		        continue;
 		    }
 		    
