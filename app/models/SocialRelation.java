@@ -110,12 +110,12 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 		ADDED,
 		REQUEST,
 		FRIEND,
-		
 		MESSAGE_SEND,
 		MEMBER,
 		POSTED_QUESTION,
 		POSTED_ANSWER,
-		ANSWERED;
+		ANSWERED,
+        POSTED;
 	}
 
 	public SocialRelation(){}
@@ -206,7 +206,7 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	
 	@Override
 	public void delete() {
-	    Notification notification = Notification.findBySocialAction(this);
+	    Notification notification = Notification.findBySocialActionID(this.id);
         if (notification != null)
             notification.delete();
         super.delete();

@@ -13,6 +13,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.Transient;
 
+import com.mnt.SocialActivity;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
 import play.db.jpa.JPA;
@@ -173,7 +174,7 @@ public class PrimarySocialRelation extends domain.Entity implements Serializable
 	
 	@Override
 	public void postSave() {
-		
+	    SocialActivity.handle(this);
 	}
 	
 	public <T> T getTargetObject(Class<T> claszz){

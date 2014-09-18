@@ -96,7 +96,8 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
 
 minibean.controller('AnnouncementsWidgetController',function($scope, $http, announcementsService) {
     log("AnnouncementsWidgetController starts");
-    
+
+    $scope.get_header_metaData();
     $scope.announcements = announcementsService.getGeneralAnnouncements.get();
     
     log("AnnouncementsWidgetController completed");
@@ -124,8 +125,8 @@ minibean.controller('SearchController',function($scope, searchService){
 
 minibean.controller('ApplicationController', 
     function($scope, $location, $interval, $route, $window, 
-        applicationInfoService, announcementsService, userInfoService, userNotification, userSimpleNotifications, 
-        acceptJoinRequestService, acceptFriendRequestService, userMessageNotifications, notificationMarkReadService, 
+        applicationInfoService, announcementsService, headerBarMetadataService, userInfoService,
+        acceptJoinRequestService, acceptFriendRequestService, notificationMarkReadService,
         communityCategoryService, articleService, usSpinnerService) {
 
     log("ApplicationController starts");
@@ -175,9 +176,7 @@ minibean.controller('ApplicationController',
 	$scope.userInfo = userInfoService.UserInfo.get(
         function(data) {
             if (data.isLoggedIn) {
-                $scope.friend_requests = userNotification.getAllFriendRequests.get();
-                $scope.join_requests = userSimpleNotifications.getAllJoinRequests.get();
-	       }
+	        }
 	   }
 	);
 	$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
@@ -210,84 +209,113 @@ minibean.controller('ApplicationController',
 	$scope.set_background_image = function() {
 		return { background: 'url(/image/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+') center center no-repeat'};
 	} 
-	
+
+    $scope.unread_msg_count = 0;
+    $scope.get_header_metaData = function() {
+        if (window.isBrowserTabActive == false) {
+            return;
+        }
+        headerBarMetadataService.headerBardata.get(function(data) {
+            $scope.unread_msg_count = data.messageCount;
+            $scope.request_notif = data.requestNotif;
+            $scope.batchup_notif = data.allNotif;
+            $scope.username = data.name;
+            $scope.unread_notify_count = data.notifyCount;
+            $scope.unread_request_count = data.requestCount;
+        });
+    };
+
+    // refresh header meta data every X secs
+    // To stop - $interval.cancel(stopHeaderMetaData);
+    var stopHeaderMetaData = $interval($scope.get_header_metaData, 3000);
+
 	$scope.isFRreaded = true;
     $scope.isNOreaded = true;
-	$scope.unread_msg_count = 0;
-	$scope.get_unread_msg_count = function() {
-        $scope.unread_msg_count = userMessageNotifications.getUnreadMsgCount.get();
-    }
-                
+
 	$scope.accept_friend_request = function(id, notify_id) {
-		angular.forEach($scope.friend_requests, function(request, key){
-			if(request.id == id) {
-				request.isLoadingEnable = true;
-			}
-		});
-		
+        var spinner = new Spinner().spin();
+        $(".a_" + notify_id).append(spinner.el);
+
 		this.acceptFriendRequest = acceptFriendRequestService.acceptFriendRequest.get({id:id, notify_id:notify_id}, 
-				//success
 				function() {
-					angular.forEach($scope.friend_requests, function(request, key){
-						if(request.id == id) {
-							$scope.friend_requests.splice($scope.friend_requests.indexOf(request),1);
-						}
-					});
+                    $(".a_" + notify_id).html("friend");
+                    $(".a_" + notify_id).removeClass("btn-success");
+                    $(".a_" + notify_id).addClass("btn-default");
+                    $(".a_" + notify_id).attr("disabled", true);
+                    $(".ignore").hide()
+                    spinner.stop();
 				}
 		);
 	};
-	$scope.accept_join_request = function(member_id,group_id, notification_id) {
-		//log(notification_id);
+	$scope.accept_join_request = function(member_id,group_id, notify_id) {
+		console.log(notify_id);
 		var spinner = new Spinner().spin();
 		
-		$(".a_" + member_id + "_" + group_id).append(spinner.el);    
+		$(".a_" + notify_id).append(spinner.el);
 		this.accept_join_request = acceptJoinRequestService.acceptJoinRequest.get({"member_id":member_id, "group_id":group_id, "notify_id":notification_id},
 			function() {
-				$(".a_" + member_id + "_" + group_id).html("member");
-				$(".a_" + member_id + "_" + group_id).removeClass("btn-success");
-				$(".a_" + member_id + "_" + group_id).addClass("btn-default");
-				$(".a_" + member_id + "_" + group_id).attr("disabled", true)
+                $(".a_" + notify_id).html("member");
+                $(".a_" + notify_id).removeClass("btn-success");
+                $(".a_" + notify_id).addClass("btn-default");
+                $(".a_" + notify_id).attr("disabled", true);
+                $(".ignore").hide()
+
 				spinner.stop();
-				
-				angular.forEach($scope.join_requests, function(request, key){
-					if(request.id == member_id) {
-						$scope.join_requests.splice($scope.join_requests.indexOf(request),1);
-					}
-				});
 			}
 		);
 	}
 	
-	$scope.accept_invite_request = function(member_id,group_id, notification_id) {
+	$scope.accept_invite_request = function(member_id,group_id, notify_id) {
 		
 		var spinner = new Spinner().spin();
 		
-		$(".a_" + member_id + "_" + group_id).append(spinner.el);    
-		this.accept_invite_request = acceptJoinRequestService.acceptInviteRequest.get({"member_id":member_id, "group_id":group_id, "notify_id":notification_id},
+        $(".a_" + notify_id).append(spinner.el);
+		this.accept_invite_request = acceptJoinRequestService.acceptInviteRequest.get({"member_id":member_id, "group_id":group_id, "notify_id":notify_id},
 			function() {
-				$(".a_" + member_id + "_" + group_id).html("member");
-				$(".a_" + member_id + "_" + group_id).removeClass("btn-success");
-				$(".a_" + member_id + "_" + group_id).addClass("btn-default");
-				$(".a_" + member_id + "_" + group_id).attr("disabled", true)
+                $(".a_" + notify_id).html("member");
+                $(".a_" + notify_id).removeClass("btn-success");
+                $(".a_" + notify_id).addClass("btn-default");
+                $(".a_" + notify_id).attr("disabled", true);
+                $(".ignore").hide()
 				spinner.stop();
-				
-				angular.forEach($scope.join_requests, function(request, key){
-					if(request.id == member_id) {
-						$scope.join_requests.splice($scope.join_requests.indexOf(request),1);
-					}
-				});
 			}
 		);
 	}
-	
-	$scope.mark_as_read = function(notification_id) {
-		notificationMarkReadService.markAsRead.get({"notify_id":notification_id});
+
+    $scope.ignoreIt = function(notify_id) {
+        notificationMarkReadService.ignoreIt.get({"notify_id":notify_id}, function() {
+            angular.forEach($scope.request_notif, function(request, key){
+                if(request.nid == notify_id) {
+                    $scope.friend_requests.splice($scope.friend_requests.indexOf(request),1);
+                }
+            });
+        });
 	}
 
-	$scope.reset_fr_count = function() {
-		$scope.isFRreaded = false;
-	}
-	
+    $scope.mark_notif_read = function() {
+        var data = null;
+        angular.forEach($scope.batchup_notif, function(request, key){
+            if(data == null){
+                data = request.nid;
+            } else {
+                data = data + "," + request.nid;
+            }
+        });
+        notificationMarkReadService.markAsRead.get({"notify_ids":data});
+    }
+
+    $scope.mark_requests_read = function() {
+        var data = null;
+        angular.forEach($scope.request_notif, function(request, key){
+            if(data == null){
+                data = request.nid;
+            } else {
+                data = data + "," + request.nid;
+            }
+        });
+        notificationMarkReadService.markAsRead.get({"notify_ids":data});
+    }
+
 	$scope.reset_notify_count = function() {
 		$scope.isNOreaded = false;
 	}
@@ -416,7 +444,9 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 		}).success(function(data, status, headers, config) {
 			usSpinnerService.stop('loading..');
 			profilePhotoModal.CloseModal();
-		});
+		}).error(function(data, status, headers, config) {
+            alert("Unable to Proceed");
+        });
 	} // End of start
 }
 
@@ -424,12 +454,11 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 	log("UserAboutController starts");
 	
 	$scope.selectNavBar('HOME');
-	
+
+    $scope.get_header_metaData();
 	var tab = $routeParams.tab;
 	
-	$scope.get_unread_msg_count();
-
-    $scope.selectedSubTab = 1;	
+    $scope.selectedSubTab = 1;
 	if (tab == 'activities' || tab == undefined) {
 		$scope.selectedTab = 1;
 	}
@@ -502,11 +531,12 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 
 minibean.controller('EditCommunityController',function($scope,$q, $location,$routeParams, $http, usSpinnerService, iconsService, editCommunityPageService, $upload, profilePhotoModal){
     log("EditCommunityController starts");
-    
+
+    $scope.get_header_metaData();
+
 	$scope.submitBtn = "儲存";
 	$scope.community = editCommunityPageService.EditCommunityPage.get({id:$routeParams.id}, 
 			function(response) {
-				
 			},
 			function(rejection) {
 				if(rejection.status === 500) {
@@ -917,14 +947,13 @@ minibean.controller('CommunityWidgetByUserController',function($scope, $routePar
 
 minibean.controller('ProfileController',function($scope, $routeParams, $location, profileService, friendsService, sendInvitation, unFriendService){
 	log("ProfileController starts");
+    $scope.get_header_metaData();
 	
 	$scope.$watch($routeParams.id, function (navigateTo) {
 		if( $routeParams.id  == $scope.userInfo.id){
 			 $location.path("about/activities");
 		}
 	});
-	
-	$scope.get_unread_msg_count();
 	
 	$scope.isLoadingEnabled = false;
 	$scope.selectedTab = 1;
@@ -995,7 +1024,9 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 						post.cs.push(comment);
 				}
 				usSpinnerService.stop('loading...');	
-			});
+			}).error(function(data, status, headers, config) {
+                alert("Unable to Proceed");
+            });
 		});
 	};
 	
@@ -1102,7 +1133,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     
     log("PostLandingController starts");
 
-	$scope.get_unread_msg_count();
+	$scope.get_header_metaData();
 	
     $scope.$on('$viewContentLoaded', function() {
         usSpinnerService.spin('loading...');
@@ -1237,9 +1268,13 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                                             }
                                         });
                                     }
+                                }).error(function(data, status, headers, config) {
+                                    alert("Unable to Proceed");
                                 });
                         }
                     }
+            }).error(function(data, status, headers, config) {
+                alert("Unable to Proceed");
             });
             usSpinnerService.stop('loading...');    
         });
@@ -1301,9 +1336,12 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                                 post.imgs.push(data);
                             }
                         });
+                    }).error(function(data, status, headers, config) {
+                        alert("Unable to Proceed");
                     });
-                    
                 }
+        }).error(function(data, status, headers, config) {
+            alert("Unable to Proceed");
         });
     };
 
@@ -1444,7 +1482,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
 
     log("QnALandingController starts");
 
-    $scope.get_unread_msg_count();
+    $scope.get_header_metaData();
 
     $scope.$on('$viewContentLoaded', function() {
         usSpinnerService.spin('loading...');
@@ -1589,8 +1627,12 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                                 post.imgs.push(data);
                             }
                         });
+                    }).error(function(data, status, headers, config) {
+                            alert("Unable to Proceed");
                     });
                 }
+        }).error(function(data, status, headers, config) {
+            alert("Unable to Proceed");
         });
     };
     
@@ -1794,6 +1836,8 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
         communityPageService, communityJoinService, userInfoService, searchMembersService, $upload, $timeout, usSpinnerService){
     
     log("CommunityPageController starts");
+
+    $scope.get_header_metaData();
 
     $scope.selectedTab = 1;
     $scope.selectedSubTab = 1;
@@ -2800,9 +2844,7 @@ minibean.controller('MyMagazineNewsFeedController', function($scope, postManagem
             })
         });
     }
-    
-    $scope.get_unread_msg_count();
-    
+
     $scope.bookmarkPost = function(post_id) {
         bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
             angular.forEach($scope.newsFeeds.posts, function(post, key){
@@ -2945,9 +2987,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
             })
         });
     }
-    
-	$scope.get_unread_msg_count();
-	
+
 	/*
 	$scope.emoticons = iconsService.getEmoticons.get();
 

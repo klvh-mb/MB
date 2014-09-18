@@ -139,7 +139,6 @@ public class Post extends SocialObject implements Likeable, Commentable {
     @Override
     public void save() {
         super.save();
-        recordPost(owner);
         this.socialUpdatedDate = new Date();
 
         // push to / remove from community
@@ -147,8 +146,10 @@ public class Post extends SocialObject implements Likeable, Commentable {
             FeedProcessor.pushToCommunity(this);
             
             if (this.postType == PostType.SIMPLE) {
+                recordPost(owner);
                 owner.postsCount++;
             } else if (this.postType == PostType.QUESTION) {
+                recordQnA(owner);
                 owner.questionsCount++;
             }
         } else {

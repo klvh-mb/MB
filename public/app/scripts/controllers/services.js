@@ -2,6 +2,16 @@
 
 var minibean = angular.module('minibean');
 
+minibean.service('headerBarMetadataService',function($resource){
+	this.headerBardata = $resource(
+			'/get-headerBar-data',
+	        {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET'}
+            }
+ 	);
+});
+
 minibean.service('announcementsService',function($resource) {
     this.getGeneralAnnouncements = $resource(
             '/get-general-announcements',
@@ -119,16 +129,6 @@ minibean.service('userInfoService',function($resource){
     );
 });
 
-minibean.service('userNotification',function($resource){
-    this.getAllFriendRequests = $resource(
-            '/get-friend-requests',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'GET', isArray:true}
-            }
-    );
-});
-
 minibean.service('acceptFriendRequestService',function($resource){
     this.acceptFriendRequest = $resource(
             '/accept-friend-request?friend_id=:id&notify_id=:notify_id',
@@ -138,27 +138,6 @@ minibean.service('acceptFriendRequestService',function($resource){
             }
     );
 });
-
-minibean.service('userSimpleNotifications',function($resource){
-    this.getAllJoinRequests = $resource(
-            '/get-join-requests',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'GET', isArray:true}
-            }
-    );
-});
-
-minibean.service('userMessageNotifications',function($resource){
-    this.getUnreadMsgCount = $resource(
-            '/get-unread-msg-count',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'GET'}
-            }
-    );
-});
-
 
 minibean.service('acceptJoinRequestService',function($resource){
     this.acceptJoinRequest = $resource(
@@ -180,7 +159,15 @@ minibean.service('acceptJoinRequestService',function($resource){
 
 minibean.service('notificationMarkReadService',function($resource){
     this.markAsRead = $resource(
-            '/mark-as-read/:notify_id',
+            '/mark-as-read/:notify_ids',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET', params:{notify_ids:'@notify_ids'}, isArray:true}
+            }
+    );
+
+    this.ignoreIt = $resource(
+            '/ignore-it/:notify_id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'GET', params:{member_id:'@member_id',group_id:'@group_id',notify_id:'@notify_id'}, isArray:true}

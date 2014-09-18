@@ -1,6 +1,9 @@
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
+import akka.actor.ActorSystem;
 import common.cache.FriendCache;
+import models.Notification;
 import models.SecurityRole;
 import models.SystemVersion;
 import play.Application;
@@ -8,6 +11,7 @@ import play.GlobalSettings;
 import play.Play;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+import play.libs.Akka;
 import play.mvc.Call;
 import play.mvc.Http.RequestHeader;
 import play.mvc.Http.Session;
@@ -21,6 +25,7 @@ import com.feth.play.module.pa.exceptions.AccessDeniedException;
 import com.feth.play.module.pa.exceptions.AuthException;
 
 import controllers.routes;
+import scala.concurrent.duration.Duration;
 import targeting.community.NewsfeedCommTargetingEngine;
 
 public class Global extends GlobalSettings {
@@ -29,8 +34,28 @@ public class Global extends GlobalSettings {
     // Configurations for bootstrap
     private static final String STARTUP_BOOTSTRAP_PROP = "startup.data.bootstrap";
 
-	@Transactional
+
 	public void onStart(Application app) {
+		
+		ActorSystem  actorSystem1 = Akka.system();
+        actorSystem1.scheduler().schedule(
+                Duration.create(0, TimeUnit.MILLISECONDS),
+                Duration.create(24, TimeUnit.HOURS),
+                new Runnable() {
+                    public void run() {
+                        try {
+                    	   JPA.withTransaction(new play.libs.F.Callback0() {
+	           					public void invoke() {
+                                       Notification.purgeNotification();
+	                    		}
+                    		});
+                        } catch (Exception e) {
+                            logger.underlyingLogger().error("Error in purgeNotification", e);
+                        }
+                    }
+                }, actorSystem1.dispatcher()
+        );
+		
 	    PlayAuthenticate.setResolver(new Resolver() {
 
             @Override

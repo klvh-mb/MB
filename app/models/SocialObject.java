@@ -158,6 +158,7 @@ public abstract class SocialObject extends domain.Entity implements
         // use existing join request to capture MEMBER relationship
         request.action = SocialRelation.Action.MEMBER;
         request.actionType = SocialRelation.ActionType.GRANT;
+        request.save();
 
         // save community affinity
         UserCommunityAffinity.onJoinedCommunity(user.id, this.id);
@@ -250,15 +251,13 @@ public abstract class SocialObject extends domain.Entity implements
 	protected void recordCommentOnArticle(SocialObject user) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.COMMENTED;
-		 JPA.em().persist(this);
-		  JPA.em().flush();
-		  postSave();
+		action.save();
 	}
 	
 	protected void recordAnswerOnCommunityPost(SocialObject user) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.ANSWERED;
-		action.save();
+        action.save();
 	}
 
 	protected void recordAddedPhoto(SocialObject user) {
