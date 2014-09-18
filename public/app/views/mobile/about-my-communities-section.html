@@ -24,7 +24,7 @@
     <div class="padding5"></div>
 
     <div class="communityCard" ng-repeat="community in myAdminCommunities | filter:query">
-        <a href="/m-my#/community/{{community.id}}/question" class="d-s ob">
+        <a href="/m-my#/community/{{community.id}}" class="d-s ob">
             <div class="communityImageBox">
                 <img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{community.dn}}" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{community.id}}" alt="..." width="70px" height="70px">
             </div>
@@ -32,7 +32,7 @@
         <div class="communityTagBox">
             <img src="{{community.gi}}">
             <p>
-                <a href="/m-my#/community/{{community.id}}/question"><b><font>{{community.dn}}</font></b></a><br>
+                <a href="/m-my#/community/{{community.id}}"><b><font>{{community.dn}}</font></b></a><br>
                 <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
                 <span class="community-attribute">
                     <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
@@ -57,7 +57,7 @@
     <div class="padding5"></div>
 
     <div class="communityCard" ng-repeat="community in myAdminBusinessCommunities | filter:query">
-        <a href="/m-my#/business/community/{{community.id}}/question" class="d-s ob">
+        <a href="/m-my#/business/community/{{community.id}}" class="d-s ob">
             <div class="communityImageBox">
                 <img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{community.dn}}" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{community.id}}" alt="..." width="70px" height="70px">
             </div>
@@ -65,7 +65,7 @@
         <div class="communityTagBox">
             <img src="{{community.gi}}">
             <p>
-                <a href="/m-my#/business/community/{{community.id}}/question"><b><font>{{community.dn}}</font></b></a><br>
+                <a href="/m-my#/business/community/{{community.id}}"><b><font>{{community.dn}}</font></b></a><br>
                 <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
                 <span class="community-attribute">
                     <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
@@ -90,7 +90,7 @@
     <div class="padding5"></div>
 
     <div class="communityCard" ng-repeat="community in myJoinedCommunities | filter:query">
-        <a href="/m-my#/community/{{community.id}}/question" class="d-s ob">
+        <a href="/m-my#/community/{{community.id}}" class="d-s ob">
             <div class="communityImageBox">
                 <img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{community.dn}}" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{community.id}}" alt="..." width="70px" height="70px">
             </div>
@@ -98,7 +98,7 @@
         <div class="communityTagBox">
             <img src="{{community.gi}}">
             <p>
-                <a href="/m-my#/community/{{community.id}}/question"><b><font>{{community.dn}}</font></b></a><br>
+                <a href="/m-my#/community/{{community.id}}"><b><font>{{community.dn}}</font></b></a><br>
                 <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
                 <span class="community-attribute">
                     <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
@@ -120,7 +120,7 @@
     <div class="padding5"></div>
 
     <div class="communityCard" ng-repeat="community in myLikedBusinessCommunities | filter:query">
-        <a href="/m-my#/business/community/{{community.id}}/question" class="d-s ob">
+        <a href="/m-my#/business/community/{{community.id}}" class="d-s ob">
             <div class="communityImageBox">
                 <img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{community.dn}}" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{community.id}}" alt="..." width="70px" height="70px">
             </div>
@@ -128,7 +128,7 @@
         <div class="communityTagBox">
             <img src="{{community.gi}}">
             <p>
-                <a href="/m-my#/business/community/{{community.id}}/question"><b><font>{{community.dn}}</font></b></a><br>
+                <a href="/m-my#/business/community/{{community.id}}"><b><font>{{community.dn}}</font></b></a><br>
                 <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
                 <span class="community-attribute">
                     <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
