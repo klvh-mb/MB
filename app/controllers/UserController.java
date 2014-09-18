@@ -695,7 +695,7 @@ public class UserController extends Controller {
 		List<User> users = localUser.searchUserFriends(query);
 		List<SocialObjectVM> socialVMs = new ArrayList<>();
 		for(User user : users) {
-		    if (user.isSuperAdmin()) {
+		    if (user.system) {
 		        continue;
 		    }
 		    
