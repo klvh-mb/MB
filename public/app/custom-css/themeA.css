@@ -266,6 +266,9 @@ pre {
     height: auto;
     margin-right: 6px;
 }
+#myShortcuts .con-title a {
+    font-size: 14px;
+}
 #hotTopic {
     width:100%; 
     height:auto;
@@ -554,7 +557,7 @@ pre {
 #back-to-top {
     background-color: black;
     opacity: 0.3;
-    border-radius: 5px;
+    border-radius: 20px;
     width: 45px;
     position: fixed;
     bottom: 20px;
@@ -566,7 +569,7 @@ pre {
     display: block;
     width: 100%;
     height: 100%;
-    padding: 5px 10px;
+    padding: 7px 10px;
 }
 #back-to-top a:hover {
     text-decoration: none;
@@ -894,11 +897,12 @@ pre {
     height: 40px;
     padding: 7px;
     font-weight: bold;
+    font-size: 17px;
 }
 .con-title a {
     color: #383838;
     line-height: 14pt;
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 700;
 }
 .con-title a:hover{
@@ -2044,7 +2048,7 @@ pre {
 }
 .memberCard, .friendCard {
     -webkit-border-radius: 3px;
-    border-radius: 3px;
+    border-radius: 10px;
     -webkit-box-shadow: 1px 2px 0 rgba(0,0,0,.05);
     box-shadow: 1px 2px 0 rgba(0,0,0,.05);
     background-color: #fff;
@@ -2071,8 +2075,8 @@ pre {
 .memberImageBox img, .friendImageBox img {
     vertical-align: top;
     vertical-align: baseline;
-    -webkit-border-radius: 3px 0 3px 0;
-    border-radius: 3px 0 3px 0;
+    -webkit-border-radius: 10px 0 0 10px;
+    border-radius: 10px 0 0 10px;
     display: inline-block;
 }
 .memberImageStar, .friendImageStar {
@@ -2129,8 +2133,8 @@ pre {
     font-weight: bold;
 }
 .communityCard {
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
     -webkit-box-shadow: 1px 2px 0 rgba(0,0,0,.05);
     box-shadow: 1px 2px 0 rgba(0,0,0,.05);
     background-color: #fff;
@@ -2156,8 +2160,8 @@ pre {
 .communityImageBox img {
     vertical-align: top;
     vertical-align: baseline;
-    -webkit-border-radius: 3px 0 3px 0;
-    border-radius: 3px 0 3px 0;
+    -webkit-border-radius: 10px 10px 0 0;
+    border-radius: 10px 10px 0 0;
     display: inline-block;
     width: 100%;
     height: 100%;
@@ -2174,7 +2178,7 @@ pre {
 .communityTagBox {
     position: relative;
     display: inline-block;
-    height: auto;
+    height: 80px;
     width: 100%;
     padding: 0px 5px;
 }

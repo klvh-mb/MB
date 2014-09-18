@@ -12,7 +12,7 @@
 .pin-brick #wall-main .general-box {
     margin-bottom: 10px;
     /*box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);*/
-    border-radius: 0px;
+    border-radius: 10px;
 }
 .pin-brick .post-comment-box .post-sharing-comment-textfield {
     width: 60%;
