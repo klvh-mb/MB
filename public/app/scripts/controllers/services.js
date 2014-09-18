@@ -347,16 +347,6 @@ minibean.service('communityWidgetByUserService',function($resource){
     );
 });
 
-minibean.service('allCommunityWidgetByUserService',function($resource){
-    this.UserAllCommunities = $resource(
-            '/get-user-all-communities/:id',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get'}
-            }
-    );
-});
-
 minibean.service('profileService',function($resource){
     this.Profile = $resource(
             '/profile/:id',

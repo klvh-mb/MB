@@ -23,7 +23,7 @@
     </div>
     <div class="padding5"></div>
 
-    <div class="communityCard" ng-repeat="community in myAdminCommunities | filter:query" ng-show="community.isO">
+    <div class="communityCard" ng-repeat="community in myAdminCommunities | filter:query">
         <a href="/m-my#/community/{{community.id}}/question" class="d-s ob">
             <div class="communityImageBox">
                 <img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{community.dn}}" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{community.id}}" alt="..." width="70px" height="70px">
@@ -46,6 +46,39 @@
     <div class="padding5"></div>
 </div>
 
+<!-- My admin pages -->
+<div ng-show="myAdminBusinessCommunities.length > 0">
+    <div class="general-box">
+        <div class="section-title">
+            <!--span class="section-icon icon-title-community"></span-->
+            <span>我管理的專頁</span>
+        </div>
+    </div>
+    <div class="padding5"></div>
+
+    <div class="communityCard" ng-repeat="community in myAdminBusinessCommunities | filter:query">
+        <a href="/m-my#/business/community/{{community.id}}/question" class="d-s ob">
+            <div class="communityImageBox">
+                <img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{community.dn}}" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{community.id}}" alt="..." width="70px" height="70px">
+            </div>
+        </a>
+        <div class="communityTagBox">
+            <img src="{{community.gi}}">
+            <p>
+                <a href="/m-my#/business/community/{{community.id}}/question"><b><font>{{community.dn}}</font></b></a><br>
+                <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
+                <span class="community-attribute">
+                    <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
+                </span>
+            </p>
+            <!--a ng-show="community.isO" data-ng-href="/m-my#/editCommunity/{{community.id}}" style="position:relative;right:15px;margin-bottom:10px;" class="btn-general pull-right">
+                <i class="fa fa-fw fa-edit"></i> 編輯專頁
+            </a-->
+        </div>
+    </div>
+    <div class="padding5"></div>
+</div>
+
 <!-- My communities -->
 <div ng-show="myJoinedCommunities.length > 0">
     <div class="general-box">
@@ -56,7 +89,7 @@
     </div>
     <div class="padding5"></div>
 
-    <div class="communityCard" ng-repeat="community in myJoinedCommunities | filter:query" ng-show="!community.isO">
+    <div class="communityCard" ng-repeat="community in myJoinedCommunities | filter:query">
         <a href="/m-my#/community/{{community.id}}/question" class="d-s ob">
             <div class="communityImageBox">
                 <img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{community.dn}}" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{community.id}}" alt="..." width="70px" height="70px">
@@ -66,6 +99,36 @@
             <img src="{{community.gi}}">
             <p>
                 <a href="/m-my#/community/{{community.id}}/question"><b><font>{{community.dn}}</font></b></a><br>
+                <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
+                <span class="community-attribute">
+                    <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
+                </span>
+            </p>
+        </div>
+    </div>
+    <div class="padding5"></div>
+</div>
+
+<!-- My pages -->
+<div ng-show="myLikedBusinessCommunities.length > 0">
+    <div class="general-box">
+        <div class="section-title">
+            <!--span class="section-icon icon-title-community"></span-->
+            <span>我喜愛的專頁</span>
+        </div>
+    </div>
+    <div class="padding5"></div>
+
+    <div class="communityCard" ng-repeat="community in myLikedBusinessCommunities | filter:query">
+        <a href="/m-my#/business/community/{{community.id}}/question" class="d-s ob">
+            <div class="communityImageBox">
+                <img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{community.dn}}" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{community.id}}" alt="..." width="70px" height="70px">
+            </div>
+        </a>
+        <div class="communityTagBox">
+            <img src="{{community.gi}}">
+            <p>
+                <a href="/m-my#/business/community/{{community.id}}/question"><b><font>{{community.dn}}</font></b></a><br>
                 <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
                 <span class="community-attribute">
                     <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>

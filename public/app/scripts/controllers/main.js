@@ -613,7 +613,6 @@ minibean.controller('SuggestedFriendsUtilityController',function($scope, unFrien
 
 	$scope.result = friendsService.SuggestedFriends.get();
 	$scope.isLoadingEnabled = false;
-	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.send_invite = function(id) {
 		$scope.isLoadingEnabled = true;
 		this.invite = sendInvitation.inviteFriend.get({id:id}, function(data) {
@@ -766,7 +765,6 @@ minibean.controller('RecommendedCommunityWidgetController',function($scope, usSp
     log("RecommendedCommunityWidgetController starts");
 
 	$scope.result = unJoinedCommunityWidgetService.UserCommunitiesNot.get();
-	$scope.userInfo = userInfoService.UserInfo.get();
 	$scope.send_request = function(id) {
         this.invite = sendJoinRequest.sendRequest.get({id:id},
 			function(data) {
@@ -785,7 +783,6 @@ minibean.controller('RecommendedCommunityWidgetController',function($scope, usSp
 minibean.controller('MyFriendsUtilityController',function($scope, userInfoService, friendsService, $http){
     log("MyFriendsUtilityController starts");
 
-    $scope.userInfo = userInfoService.UserInfo.get();
     $scope.result = friendsService.MyFriendsForUtility.get();
     
     log("MyFriendsUtilityController completed");
@@ -794,7 +791,6 @@ minibean.controller('MyFriendsUtilityController',function($scope, userInfoServic
 minibean.controller('UserFriendsUtilityController',function($scope, $routeParams, userInfoService, friendsService, $http){
     log("UserFriendsUtilityController starts");
 
-    $scope.userInfo = userInfoService.UserInfo.get();
     $scope.result = friendsService.UserFriendsForUtility.get({id:$routeParams.id});
     
     log("UserFriendsUtilityController completed");
@@ -819,17 +815,26 @@ minibean.controller('UserFriendsController',function($scope, $routeParams, frien
 minibean.controller('CommunityWidgetController',function($scope, $routeParams, usSpinnerService, communityWidgetService, sendJoinRequest, $http, userInfoService){
 	log("CommunityWidgetController starts");
 	
-	$scope.userInfo = userInfoService.UserInfo.get();
-	
 	$scope.myAdminCommunities = [];
+	$scope.myAdminBusinessCommunities = [];
     $scope.myJoinedCommunities = [];
+    $scope.myLikedBusinessCommunities = [];
 	$scope.myCommunities = communityWidgetService.UserCommunities.get(
         function(data) {
             angular.forEach(data.communities, function(community, key) {
-                if (community.isO)
-                    $scope.myAdminCommunities.push(community);
-                else
-                    $scope.myJoinedCommunities.push(community);
+                if (community.isO) {
+                    if (community.tp == 'BUSINESS') {
+                        $scope.myAdminBusinessCommunities.push(community);
+                    } else {
+                        $scope.myAdminCommunities.push(community);
+                    }
+                } else {
+                    if (community.tp == 'BUSINESS') {
+                        $scope.myLikedBusinessCommunities.push(community);
+                    } else {
+                        $scope.myJoinedCommunities.push(community);
+                    }
+                }
             })
         }
 	);
@@ -876,20 +881,30 @@ minibean.controller('UserCommunityWidgetController',function($scope, communityWi
 	log("UserCommunityWidgetController completed");
 });
 
-minibean.controller('CommunityWidgetByUserIDController',function($scope, $routeParams, usSpinnerService, sendJoinRequest, communityJoinService, allCommunityWidgetByUserService, communityWidgetByUserService , $http, userInfoService){
-    log("CommunityWidgetByUserIDController starts");
+minibean.controller('CommunityWidgetByUserController',function($scope, $routeParams, usSpinnerService, sendJoinRequest, communityJoinService, communityWidgetByUserService , $http, userInfoService){
+    log("CommunityWidgetByUserController starts");
 
-	$scope.userInfo = userInfoService.UserInfo.get();
-	$scope.result = communityWidgetByUserService.UserCommunities.get({id:$routeParams.id});
-	$scope.allResult = allCommunityWidgetByUserService.UserAllCommunities.get({id:$routeParams.id});
-	
+    $scope.userJoinedCommunities = [];
+    $scope.userLikedBusinessCommunities = [];
+    $scope.userCommunitiesResult = communityWidgetByUserService.UserCommunities.get({id:$routeParams.id}, 
+        function(data) {
+            angular.forEach(data.communities, function(community, key) {
+                if (community.tp == 'BUSINESS') {
+                    $scope.userLikedBusinessCommunities.push(community);
+                } else {
+                    $scope.userJoinedCommunities.push(community);
+                }
+            })
+        }
+    );
+    
 	$scope.send_request = function(id) {
 		usSpinnerService.spin('loading...');
 		this.invite = sendJoinRequest.sendRequest.get({id:id},
 				function(data) {
-					angular.forEach($scope.allResult.communities, function(request, key){
-						if(request.id == id) {
-							request.isP = true;
+					angular.forEach($scope.userCommunitiesResult.communities, function(community, key){
+						if(community.id == id) {
+							community.isP = true;
 						}
 					});
 					usSpinnerService.stop('loading...');
@@ -897,7 +912,7 @@ minibean.controller('CommunityWidgetByUserIDController',function($scope, $routeP
 		);
 	}
 	
-	log("CommunityWidgetByUserIDController completed");
+	log("CommunityWidgetByUserController completed");
 });
 
 minibean.controller('ProfileController',function($scope, $routeParams, $location, profileService, friendsService, sendInvitation, unFriendService){
@@ -945,7 +960,7 @@ minibean.controller('ProfileController',function($scope, $routeParams, $location
         $scope.img_id = imageId;
     }
     
-    log("CommunityWidgetByUserIDController completed");
+    log("ProfileController completed");
 });
 
 minibean.controller('SearchPageController', function($scope, $routeParams, likeFrameworkService, communityPageService, $http, communitySearchPageService, usSpinnerService){

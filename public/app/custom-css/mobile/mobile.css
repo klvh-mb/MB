@@ -92,6 +92,14 @@ body {
     padding: 0px 5px;
     background-color: #826EEE;
 }
+.wall-title a {
+    color: white;
+    font-weight: normal;
+    margin-right: 0px;
+    position: relative;
+    line-height: 28px;
+    display: inline-block;
+}
 #wall-main .general-box {
     margin-bottom: 12px;
 }
@@ -223,7 +231,7 @@ body {
     font-weight: bold;
     position: relative;
     top: -10px;
-    left: 75px;
+    left: 65px;
     width: 180px;
 }
 .myCommunity-info li {
@@ -406,6 +414,10 @@ span.notif-count {
 }
 
 /* profile */
+#profile-header {
+    background-color: white;
+    margin: -8px -12px 0 -12px;
+}
 #profile-banner, #community-banner {
     width: 100%;
     height: 160px;
@@ -419,6 +431,7 @@ span.notif-count {
     width: 100px;
     height: 100px;
     top: -80px;
+    margin-left: 5px;
 }
 #profile-header #profile-user-name {
     width: 65%;
@@ -433,10 +446,14 @@ span.notif-count {
 }
 #profile-header-menu #menu-title {
     position: relative;
-    left: 110px;
+    left: 115px;
 }
 
 /* community */
+#community-header {
+    background-color: white;
+    margin: -8px -12px 0 -12px;
+}
 .community-action-menu {
 
 }

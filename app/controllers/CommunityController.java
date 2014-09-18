@@ -237,28 +237,8 @@ public class CommunityController extends Controller{
     }
     
     @Transactional
-    public static Result getCommunitiesOfUser(Long id) {
-        logger.underlyingLogger().debug("getCommunitiesOfUser");
-        final User user = User.findById(id);
-        final User localUser = Application.getLocalUser(session());
-        int count=0;
-        List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
-        List<Community> joinedCommunities = user.getListOfJoinedCommunities();
-        for(Community community : joinedCommunities) {
-            CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community, localUser);
-            communityList.add(vm);
-            ++count;
-            if(count == DefaultValues.DEFAULT_UTILITY_COUNT) {
-                break;
-            }
-        }
-        CommunitiesParentVM communitiesVM = new CommunitiesParentVM(joinedCommunities.size(), communityList);
-        return ok(Json.toJson(communitiesVM));
-    }
-    
-    @Transactional
-    public static Result getAllCommunitiesOfUser(Long id) {
-        logger.underlyingLogger().debug("getAllCommunitiesOfUser");
+    public static Result getUserCommunities(Long id) {
+        logger.underlyingLogger().debug("getUserCommunities");
         final User user = User.findById(id);
         final User localUser = Application.getLocalUser(session());
         List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
