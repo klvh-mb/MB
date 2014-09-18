@@ -254,7 +254,6 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		return null;
 	}
 	
-	
 	public String getPhotoProfileURL() {
 		Resource resource = getPhotoProfile();
 		if (resource == null) {
@@ -262,7 +261,6 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		}
 		return resource.getPath();
 	}
-	
 
 	private void ensureAlbumPhotoProfileExist() {
 		if (this.albumPhotoProfile == null) {
@@ -281,7 +279,6 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		//}
 		//return null;
 	}
-
 	
 	public static Community findById(Long id) {
 	    try {
@@ -325,9 +322,8 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		return result;
     }
 
-
 	public static List<Community> findByTargetingType(TargetingSocialObject.TargetingType targetingType) {
-        Query q = JPA.em().createQuery("SELECT c FROM Community c where system = ?1 and targetingType = ?2 and excludeFromTargeting = false and deleted = false");
+        Query q = JPA.em().createQuery("SELECT c FROM Community c where system = ?1 and targetingType = ?2 and deleted = false");
         q.setParameter(1, true);
         q.setParameter(2, targetingType);
         try {

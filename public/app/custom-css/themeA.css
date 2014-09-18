@@ -235,7 +235,7 @@ pre {
  * theme
  */
 #weather {
-    top: 10px;
+    top: 7px;
 }
 #announce {
     width:100%; 
@@ -1103,7 +1103,7 @@ pre {
     float: left;
     width: 25px;
     height: auto;
-    border-radius: 0px;
+    border-radius: 5px;
 }
 .right-side {
     position: absolute;
@@ -1145,7 +1145,7 @@ pre {
     z-index: -5;
     box-shadow: 0 0 5px white;
     border: 3px solid white;
-    border-radius: 5px;
+    border-radius: 10px;
     width: 70px;
     height: 70px;
 }
@@ -1963,7 +1963,7 @@ pre {
     top: -120px;
     width: 150px;
     height: 150px;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 #profile-header #profile-user-name {
     width: 65%;
@@ -2178,7 +2178,8 @@ pre {
 .communityTagBox {
     position: relative;
     display: inline-block;
-    height: 80px;
+    min-height: 80px;
+    height: auto;
     width: 100%;
     padding: 0px 5px;
 }
@@ -2222,7 +2223,7 @@ pre {
 .wall-title {
     font-size: 14px;
     padding: 2px;
-    background-color:#826EEE;
+    background-color: #927FF8;
     width: 100%;
     height: 35px;
 }
@@ -2258,7 +2259,7 @@ pre {
 .widget-thumbnail img[tag="user-picture-img"] {
     z-index: -5;
     border: 1px solid #4440AC;
-    border-radius: 3px;
+    border-radius: 10px;
     width: 86px;
     height: 86px;
     vertical-align: baseline;

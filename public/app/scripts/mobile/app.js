@@ -25,7 +25,7 @@ angular.module('minibean', [
       .when('/', {
         templateUrl: '/assets/app/views/mobile/home.html'
       })
-      .when('/magazine', {
+      .when('/my-magazine', {
         templateUrl: '/assets/app/views/mobile/my-magazine.html'
       })
       .when('/about/:tab',{
@@ -35,6 +35,9 @@ angular.module('minibean', [
       .when('/profile/:id',{
     	templateUrl: '/assets/app/views/mobile/visit-profile.html',
     	controller : 'ProfileController'  
+      })
+      .when('/communities-discover',{
+        templateUrl: '/assets/app/views/mobile/communities-discover-page.html',
       })
       .when('/community/:id',{
         templateUrl: '/assets/app/views/mobile/community-page.html',
