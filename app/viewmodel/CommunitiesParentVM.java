@@ -10,5 +10,6 @@ public class CommunitiesParentVM {
 	public CommunitiesParentVM(int sn, List<CommunitiesWidgetChildVM> communities) {
 		this.sn = sn; 
 		this.communities = communities;
+		this.isMore = (sn > communities.size());
 	}
 }

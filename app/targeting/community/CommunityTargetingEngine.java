@@ -92,7 +92,7 @@ public class CommunityTargetingEngine {
     }
     
     private static void assign(Community community, User user) {
-        if (community != null && !user.isMemberOf(community)) {
+        if (community != null && !community.excludeFromTargeting && !user.isMemberOf(community)) {
             try {
                 community.onJoinRequest(user);
                 log(community);

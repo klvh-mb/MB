@@ -138,7 +138,7 @@
     float: left;
     width: 40px;
     height: 40px;
-    border-radius: 3px;
+    border-radius: 5px;
 }
 .post-title-user-name {
     font-weight: bold;
@@ -193,7 +193,7 @@
     padding: 10px;
 }
 .post-body-image img {
-    border-radius: 5px;
+    border-radius: 10px;
     vertical-align: top;
     margin: 2px 0px;
 }
@@ -239,7 +239,7 @@
     float: left;
     width: 30px;
     height: 30px;
-    border-radius: 3px;
+    border-radius: 5px;
     margin-top: 2px;
 }
 .post-sharing-comments .post-comment-box {

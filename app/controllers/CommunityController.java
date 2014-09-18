@@ -16,11 +16,13 @@ import common.utils.NanoSecondStopWatch;
 import models.Comment;
 import models.Community;
 import models.Community.CommunityType;
+import models.TargetingSocialObject.TargetingType;
 import models.CommunityCategory;
 import models.Emoticon;
 import models.Icon;
 import models.Post;
 import models.Resource;
+import models.TargetingSocialObject;
 import models.User;
 import models.UserCommunityAffinity;
 import play.data.DynamicForm;
@@ -57,12 +59,70 @@ import domain.SocialObjectType;
 public class CommunityController extends Controller{
     private static play.api.Logger logger = play.api.Logger.apply(CommunityController.class);
 
+    @Transactional
+    public static Result getZodiacYearCommunities() {
+        List<CommunitiesWidgetChildVM> vms = 
+                getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.ZODIAC_YEAR);
+        CommunitiesParentVM communitiesVM = new CommunitiesParentVM(vms.size(), vms);
+        return ok(Json.toJson(communitiesVM));
+    }
+
+    @Transactional
+    public static Result getZodiacYearMonthCommunities() {
+        List<CommunitiesWidgetChildVM> vms = 
+                getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.ZODIAC_YEAR_MONTH);
+        CommunitiesParentVM communitiesVM = new CommunitiesParentVM(vms.size(), vms);
+        return ok(Json.toJson(communitiesVM));
+    }
+    
+    @Transactional
+    public static Result getDistrictCommunities() {
+        List<CommunitiesWidgetChildVM> vms = 
+                getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.LOCATION_DISTRICT);
+        CommunitiesParentVM communitiesVM = new CommunitiesParentVM(vms.size(), vms);
+        return ok(Json.toJson(communitiesVM));
+    }
+    
+    @Transactional
+    public static Result getOtherCommunities() {
+        List<CommunitiesWidgetChildVM> vms = 
+                getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.SOON_MOMS_DADS);
+        vms.addAll( 
+                getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.NEW_MOMS_DADS));
+        vms.addAll( 
+                getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.ALL_MOMS_DADS));
+        vms.addAll( 
+                getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.PRE_NURSERY));
+        CommunitiesParentVM communitiesVM = new CommunitiesParentVM(vms.size(), vms);
+        return ok(Json.toJson(communitiesVM));
+    }
+    
+    @Transactional
+    public static List<CommunitiesWidgetChildVM> getCommunitiesByTargetingType(TargetingType targetingType) {
+    
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        final User localUser = Application.getLocalUser(session());
+        List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
+
+        List<Community> communities = Community.findByTargetingType(targetingType);
+        for(Community community : communities) {
+            communityList.add(new CommunitiesWidgetChildVM(community, localUser));
+        }
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug(String.format("[u=%d][targetingType=%s] getCommunitiesByTargetingType. Took"+sw.getElapsedMS()+"ms", localUser.id, targetingType.name()));
+        }
+        return communityList;
+    }
+    
     /**
      * Invoked by suggested communities widget
      * @return
      */
     @Transactional
-    public static Result getUserUnJoinCommunity() {
+    public static Result getUserUnJoinedCommunities() {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         final User localUser = Application.getLocalUser(session());
@@ -83,7 +143,7 @@ public class CommunityController extends Controller{
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"] getUserUnJoinCommunity. Took "+sw.getElapsedMS()+"ms");
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getUserUnJoinedCommunities. Took "+sw.getElapsedMS()+"ms");
         }
         return ok(Json.toJson(communitiesVM));
     }

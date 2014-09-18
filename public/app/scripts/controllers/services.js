@@ -243,8 +243,8 @@ minibean.service('pnService',function($resource){
 });
 
 minibean.service('unJoinedCommunityWidgetService',function($resource){
-    this.UserCommunitiesNot = $resource(
-            '/get-not-join-community',
+    this.UnJoinedCommunities = $resource(
+            '/get-unjoined-communities',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get'}
@@ -314,8 +314,39 @@ minibean.service('sendJoinRequest',function($resource){
     );
 });
 
+minibean.service('communitiesDiscoverService',function($resource){
+    this.ZodiacYearCommunities = $resource(
+            '/get-zodiac-year-communities',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
+    this.ZodiacYearMonthCommunities = $resource(
+            '/get-zodiac-year-month-communities',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
+    this.DistrictCommunities = $resource(
+            '/get-district-communities',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
+    this.OtherCommunities = $resource(
+            '/get-other-communities',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
+});
+
 minibean.service('communityWidgetService',function($resource){
-    this.UserCommunities = $resource(
+    this.MyCommunities = $resource(
             '/get-my-communities',
             {alt:'json',callback:'JSON_CALLBACK'},
             {

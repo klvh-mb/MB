@@ -2,8 +2,8 @@
 
 var minibean = angular.module('minibean');
 
-minibean.controller('BusinessCommunityPageController', function($scope, $routeParams, $http, profilePhotoModal, iconsService,
-        communityPageService, communityJoinService, userInfoService, searchMembersService, $upload, $timeout, usSpinnerService){
+minibean.controller('BusinessCommunityPageController', function($scope, $routeParams, profilePhotoModal, iconsService,
+        communityPageService, communityJoinService, searchMembersService, usSpinnerService){
     
     log("BusinessCommunityPageController starts");
 
@@ -794,7 +794,7 @@ minibean.controller('CommunityPNController',function($scope, $routeParams, $http
 minibean.controller('RecommendedCommunityWidgetController',function($scope, usSpinnerService, sendJoinRequest, unJoinedCommunityWidgetService, userInfoService, $http){
     log("RecommendedCommunityWidgetController starts");
 
-	$scope.result = unJoinedCommunityWidgetService.UserCommunitiesNot.get();
+	$scope.result = unJoinedCommunityWidgetService.UnJoinedCommunities.get();
 	$scope.send_request = function(id) {
         this.invite = sendJoinRequest.sendRequest.get({id:id},
 			function(data) {
@@ -842,14 +842,94 @@ minibean.controller('UserFriendsController',function($scope, $routeParams, frien
     log("UserFriendsController completed");
 });
 
-minibean.controller('CommunityWidgetController',function($scope, $routeParams, usSpinnerService, communityWidgetService, sendJoinRequest, $http, userInfoService){
+minibean.controller('CommunitiesDiscoverController',function($scope, $routeParams, usSpinnerService, communitiesDiscoverService, sendJoinRequest){
+    log("CommunitiesDiscoverController starts");
+    
+    $scope.communities = [];
+    $scope.zodiacYearCommunities = [];
+    $scope.zodiacYearMonthCommunities = [];
+    $scope.districtCommunities = [];
+    $scope.otherCommunities = [];
+
+    $scope.setSelectedSubTab = function (tab) {
+        if ($scope.selectedSubTab == tab)
+            return;
+            
+        $scope.selectedSubTab = tab;
+        
+        if (tab == 1) {
+            if ($scope.zodiacYearCommunities.length == 0) {
+                communitiesDiscoverService.ZodiacYearCommunities.get(
+                    function(data) {
+                        $scope.zodiacYearCommunities = data.communities;
+                        $scope.communities = $scope.zodiacYearCommunities;
+                    }
+                );
+            } else {
+                $scope.communities = $scope.zodiacYearCommunities;
+            } 
+        } else if (tab == 2) {
+            if ($scope.zodiacYearMonthCommunities.length == 0) {
+                communitiesDiscoverService.ZodiacYearMonthCommunities.get(
+                    function(data) {
+                        $scope.zodiacYearMonthCommunities = data.communities;
+                        $scope.communities = $scope.zodiacYearMonthCommunities;
+                    }
+                );    
+            } else {
+                $scope.communities = $scope.zodiacYearMonthCommunities;
+            }
+        } else if (tab == 3) {
+            if ($scope.districtCommunities.length == 0) {
+                communitiesDiscoverService.DistrictCommunities.get(
+                    function(data) {
+                        $scope.districtCommunities = data.communities;
+                        $scope.communities = $scope.districtCommunities;
+                    }
+                );
+            } else {
+                $scope.communities = $scope.districtCommunities;
+            }
+        } else if (tab == 4) {
+            if ($scope.otherCommunities.length == 0) {
+                communitiesDiscoverService.OtherCommunities.get(
+                    function(data) {
+                        $scope.otherCommunities = data.communities;
+                        $scope.communities = $scope.otherCommunities;
+                    }
+                );    
+            } else {
+                $scope.communities = $scope.otherCommunities;
+            }
+        }
+    }
+    $scope.setSelectedSubTab(1);
+    
+    $scope.send_request = function(id) {
+        usSpinnerService.spin('loading...');
+        this.invite = sendJoinRequest.sendRequest.get({id:id},
+            function(data) {
+                angular.forEach($scope.result.communities, function(request, key){
+                    if(request.id == id) {
+                        request.isP = true;
+                    }
+                });
+                usSpinnerService.stop('loading...');
+            }
+        );
+    }
+    
+    log("CommunitiesDiscoverController completed");
+});
+
+minibean.controller('CommunityWidgetController',function($scope, $routeParams, usSpinnerService, communityWidgetService, sendJoinRequest){
 	log("CommunityWidgetController starts");
 	
 	$scope.myAdminCommunities = [];
 	$scope.myAdminBusinessCommunities = [];
     $scope.myJoinedCommunities = [];
     $scope.myLikedBusinessCommunities = [];
-	$scope.myCommunities = communityWidgetService.UserCommunities.get(
+	$scope.myCommunities = communityWidgetService.MyCommunities.get(
         function(data) {
             angular.forEach(data.communities, function(community, key) {
                 if (community.isO) {
@@ -892,7 +972,7 @@ minibean.controller('UserCommunityWidgetController',function($scope, communityWi
 	$scope.sysCommunities = [];
 	$scope.myCommunities = [];
 	$scope.myBusinessCommunities = [];
-	$scope.result = communityWidgetService.UserCommunities.get({}, 
+	$scope.result = communityWidgetService.MyCommunities.get({}, 
         	function(data) {
                 angular.forEach($scope.result.communities, function(request, key){
                     if (request.sys) {
@@ -911,7 +991,7 @@ minibean.controller('UserCommunityWidgetController',function($scope, communityWi
 	log("UserCommunityWidgetController completed");
 });
 
-minibean.controller('CommunityWidgetByUserController',function($scope, $routeParams, usSpinnerService, sendJoinRequest, communityJoinService, communityWidgetByUserService , $http, userInfoService){
+minibean.controller('CommunityWidgetByUserController',function($scope, $routeParams, usSpinnerService, sendJoinRequest, communityJoinService, communityWidgetByUserService){
     log("CommunityWidgetByUserController starts");
 
     $scope.userJoinedCommunities = [];
@@ -1832,8 +1912,8 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     log("QnALandingController completed");
 });
 
-minibean.controller('CommunityPageController', function($scope, $routeParams, $http, profilePhotoModal, iconsService,
-        communityPageService, communityJoinService, userInfoService, searchMembersService, $upload, $timeout, usSpinnerService){
+minibean.controller('CommunityPageController', function($scope, $routeParams, profilePhotoModal, iconsService,
+        communityPageService, communityJoinService, searchMembersService, usSpinnerService){
     
     log("CommunityPageController starts");
 
@@ -1934,7 +2014,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $h
 });
 
 minibean.controller('CommunityPostController', function($scope, $routeParams, $http, profilePhotoModal, iconsService,
-		allCommentsService, communityPageService, postManagementService, likeFrameworkService, bookmarkPostService, communityJoinService, userInfoService, $upload, $timeout, usSpinnerService){
+		allCommentsService, communityPageService, postManagementService, likeFrameworkService, bookmarkPostService, communityJoinService, $upload, $timeout, usSpinnerService){
 	
 	log("CommunityPostController starts");
 	
@@ -3343,7 +3423,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 	log("NewsFeedController completed");
 });
 
-minibean.controller('UserNewsFeedController', function($scope, $routeParams, $timeout, $upload, postManagementService, bookmarkPostService, likeFrameworkService, userInfoService, $http, allCommentsService, usSpinnerService, userNewsFeedService) {
+minibean.controller('UserNewsFeedController', function($scope, $routeParams, $timeout, $upload, postManagementService, bookmarkPostService, likeFrameworkService, $http, allCommentsService, usSpinnerService, userNewsFeedService) {
 	log("UserNewsFeedController starts");
 	
 	$scope.newsFeeds = { posts: [] };
@@ -3678,11 +3758,11 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 	var noMoreP = false;
 	var offsetP = 0;
 	
-	$scope.setSelectedSubTab = function (iTab) {
-        if ($scope.selectedSubTab == iTab)
+	$scope.setSelectedSubTab = function (tab) {
+        if ($scope.selectedSubTab == tab)
             return;
             
-		$scope.selectedSubTab = iTab;
+		$scope.selectedSubTab = tab;
 		$scope.newsFeeds = { posts: [] };
 		$scope.isBusyP = false;
 		$scope.isBusyC = false;
