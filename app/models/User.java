@@ -245,6 +245,8 @@ public class User extends SocialObject implements Subject, Socializable {
         Pair<Boolean, Boolean> memStatus = ((Community) target).getMemberStatusForUser(this.id);
         if (!memStatus.first && !memStatus.second) {
             target.onJoinRequest(this);
+        } else {
+            logger.underlyingLogger().warn(String.format("[u=%d][c=%d] User already a member of community", this.id, ((Community) target).id));
         }
     }
 

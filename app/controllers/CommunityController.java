@@ -566,13 +566,13 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result joinToCommunity(Long id) {
-        logger.underlyingLogger().debug("joinToCommunity");
-        
         final User localUser = Application.getLocalUser(session());
         if (!localUser.isLoggedIn()) {
             logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
             return status(500);
         }
+        
+        logger.underlyingLogger().debug(String.format("[u=%d][c=%d] joinToCommunity", localUser.id, id));
         
         Community community = Community.findById(id);
         try {
@@ -594,7 +594,7 @@ public class CommunityController extends Controller{
         Community community = Community.findById(community_id);
 
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+community.id+"] leaveThisCommunity");
+            logger.underlyingLogger().debug(String.format("[u=%d] [c=%d] leaveThisCommunity", localUser.id, community.id));
         }
 
         localUser.leaveCommunity(community);
