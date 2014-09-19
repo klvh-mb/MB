@@ -250,14 +250,13 @@ minibean.controller('ApplicationController',
 		var spinner = new Spinner().spin();
 		
 		$(".a_" + notify_id).append(spinner.el);
-		this.accept_join_request = acceptJoinRequestService.acceptJoinRequest.get({"member_id":member_id, "group_id":group_id, "notify_id":notification_id},
+		this.accept_join_request = acceptJoinRequestService.acceptJoinRequest.get({"member_id":member_id, "group_id":group_id, "notify_id":notify_id},
 			function() {
                 $(".a_" + notify_id).html("member");
                 $(".a_" + notify_id).removeClass("btn-success");
                 $(".a_" + notify_id).addClass("btn-default");
                 $(".a_" + notify_id).attr("disabled", true);
                 $(".ignore").hide()
-
 				spinner.stop();
 			}
 		);

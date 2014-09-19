@@ -1,5 +1,5 @@
 <div id="content-uploader" class="general-box tab-content" >
-    <ul ng-show="community.isM == true || community.isO == true" style="padding:5px;">
+    <ul ng-show="community.typ == 'OPEN' || (community.isM == true || community.isO == true)" style="padding:5px;">
         <li>
             <form id="content-upload-wrapper" name="qnaUpload" class="no-margin no-padding" method="post" action="" >
                 <textarea cols="45" rows="1" class="post-input-title general-input-box form-control" placeholder="問題 / 分享⋯⋯" data-ng-model="questionTitle" ng-required></textarea>

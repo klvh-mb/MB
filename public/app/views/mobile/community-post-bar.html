@@ -1,5 +1,5 @@
 <div id="content-uploader" class="general-box tab-content">
-    <ul ng-show="community.isM == true || community.isO == true" style="padding:5px;">
+    <ul ng-show="community.typ == 'OPEN' || (community.isM == true || community.isO == true)" style="padding:5px;">
         <li>
             <form id="content-upload-wrapper" name="postUpload" class="no-margin no-padding" method="post" action="" >
                 <textarea cols="45" rows="2" name="content-upload-input" id="content-upload-input" class="post-input-body inputBoxFocus form-control" placeholder="開心分享!" data-ng-model="postText"></textarea>

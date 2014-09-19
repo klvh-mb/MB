@@ -876,10 +876,10 @@ public class CommunityController extends Controller{
 
         List<CommunityPostVM> posts = new ArrayList<>();
         if (newsFeeds != null) {
-            final boolean isMember = true;    // must be member of community for social NF entries
+            final boolean isCommentable = true;    // must be open for social NF entries
 
             for (Post p : newsFeeds) {
-                CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser, isMember);
+                CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser, isCommentable);
                 posts.add(post);
             }
         }

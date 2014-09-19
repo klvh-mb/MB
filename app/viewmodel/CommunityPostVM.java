@@ -43,10 +43,11 @@ public class CommunityPostVM {
     private static final int COMMENT_PREVIEW_COUNT = 3;
 
 	public static CommunityPostVM communityPostVM(Post post, User user) {
-        return communityPostVM(post, user, user.isMemberOf(post.community.id));
+        final boolean isCommentable = true;     // open for comment
+        return communityPostVM(post, user, isCommentable);
     }
 
-    public static CommunityPostVM communityPostVM(Post post, User user, boolean isCommMember) {
+    public static CommunityPostVM communityPostVM(Post post, User user, boolean isCommentable) {
 		CommunityPostVM postVM = new CommunityPostVM();
 		postVM.postId = post.id;
 		postVM.ownerId = post.owner.id;
@@ -67,7 +68,7 @@ public class CommunityPostVM {
         postVM.noOfWantAnswers = post.noWantAns;
 		postVM.expanded = false;
 		postVM.isBookmarked = User.isLoggedIn(user) ? post.isBookmarkedBy(user):false;
-		postVM.isCommentable = isCommMember;
+		postVM.isCommentable = isCommentable;
 		postVM.isOwner = post.owner.id == user.id;
 
 		if(post.folder != null && !CollectionUtils.isEmpty(post.folder.resources)) {
