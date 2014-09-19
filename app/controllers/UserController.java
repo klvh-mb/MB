@@ -701,7 +701,6 @@ public class UserController extends Controller {
         try {
             File fileTo = ImageFileUtil.copyImageFileToTemp(file, fileName);
             Long id = Message.findById(Long.valueOf(messageId)).addPrivatePhoto(fileTo,localUser).id;
-            System.out.println("id :: "+id);
             return ok(id.toString());
         } catch (IOException e) {
             logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));

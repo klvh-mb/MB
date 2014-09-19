@@ -14,11 +14,9 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
     var tab = $routeParams.tab;
     if(tab == 'sharing'){
         $scope.selectedSubTab = 1;
-    }
-    if(tab == 'question'){
+    } else if(tab == 'question'){
         $scope.selectedSubTab = 2;
-    }
-    if(tab == 'members'){
+    } else if(tab == 'members'){
         $scope.selectedTab = 2;
     }
     
@@ -859,10 +857,12 @@ minibean.controller('CommunitiesDiscoverController',function($scope, $routeParam
         
         if (tab == 1) {
             if ($scope.zodiacYearCommunities.length == 0) {
+                usSpinnerService.spin('loading...');
                 communitiesDiscoverService.ZodiacYearCommunities.get(
                     function(data) {
                         $scope.zodiacYearCommunities = data.communities;
                         $scope.communities = $scope.zodiacYearCommunities;
+                        usSpinnerService.stop('loading...');
                     }
                 );
             } else {
@@ -870,10 +870,12 @@ minibean.controller('CommunitiesDiscoverController',function($scope, $routeParam
             } 
         } else if (tab == 2) {
             if ($scope.zodiacYearMonthCommunities.length == 0) {
+                usSpinnerService.spin('loading...');
                 communitiesDiscoverService.ZodiacYearMonthCommunities.get(
                     function(data) {
                         $scope.zodiacYearMonthCommunities = data.communities;
                         $scope.communities = $scope.zodiacYearMonthCommunities;
+                        usSpinnerService.stop('loading...');
                     }
                 );    
             } else {
@@ -881,10 +883,12 @@ minibean.controller('CommunitiesDiscoverController',function($scope, $routeParam
             }
         } else if (tab == 3) {
             if ($scope.districtCommunities.length == 0) {
+                usSpinnerService.spin('loading...');
                 communitiesDiscoverService.DistrictCommunities.get(
                     function(data) {
                         $scope.districtCommunities = data.communities;
                         $scope.communities = $scope.districtCommunities;
+                        usSpinnerService.stop('loading...');
                     }
                 );
             } else {
@@ -892,10 +896,12 @@ minibean.controller('CommunitiesDiscoverController',function($scope, $routeParam
             }
         } else if (tab == 4) {
             if ($scope.otherCommunities.length == 0) {
+                usSpinnerService.spin('loading...');
                 communitiesDiscoverService.OtherCommunities.get(
                     function(data) {
                         $scope.otherCommunities = data.communities;
                         $scope.communities = $scope.otherCommunities;
+                        usSpinnerService.stop('loading...');
                     }
                 );    
             } else {
@@ -1924,14 +1930,11 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, pr
     var tab = $routeParams.tab;
     if(tab == 'question'){
         $scope.selectedSubTab = 1;
-    }
-    if(tab == 'sharing'){
+    } else if(tab == 'sharing'){
         $scope.selectedSubTab = 2;
-    }
-    if(tab == 'members'){
+    } else if(tab == 'members'){
         $scope.selectedTab = 2;
-    }
-    if(tab == 'details'){
+    } else if(tab == 'details'){
         $scope.selectedTab = 3;
     }
     

@@ -71,29 +71,8 @@
 
     			<div id="wall">
     				<div class="tab-content" ng-show="selectedTab == 1">
-    					<!--div class="general-box tab-box" style="margin:-1px">
-    						<div class="wall-title">
-                                <span style="margin-left:10px;"/>
-    							<span>
-                                    <a ng-click="selectedSubTab = 1; searchQuery = '';" ng-class="{activeTabUnderlined: selectedSubTab == 2}">
-                                        <span class="post-wall-icon">♥</span><font style="color: white;">分享</font>
-                                    </a>
-                                </span>
-    							<div style="margin-left:5px;border-color:white;vertical-align:text-bottom;" class="divider-cus"></div>
-                                <span>
-                                    <a ng-click="selectedSubTab = 2; searchQuery = '';" ng-class="{activeTabUnderlined: selectedSubTab == 1}">
-                                        <span class="post-wall-icon">?</span><font style="color: white;">問題</font>
-                                    </a>
-                                </span>    							
-    						</div>
-    					</div-->
-    					<!-- Community Tabs End -->
-    					
     					<div class="tab-content" ng-if="selectedSubTab == 1" id="post" ng-controller="CommunityPostController">
                             <div data-ng-include data-src="'/assets/app/views/business-community-post-bar.html'"></div>
-                        </div>
-    					<div class="tab-content" ng-if="selectedSubTab == 2" id="qnapost" ng-controller="CommunityQnAController">
-                            <div data-ng-include data-src="'/assets/app/views/community-qna-bar.html'"></div>
                         </div>
     				</div>
                     

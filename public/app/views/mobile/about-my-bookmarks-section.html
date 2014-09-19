@@ -3,15 +3,15 @@
         <!--span class="wall-icon icon-title-community"></span-->
         <span style="margin-left:15px;">
             <a ng-click="selectedSubTab = 1;" ng-class="{activeTabUnderlined: selectedSubTab == 1}">
-                <font style="color: white;">問題 ({{bookmarkSummary.qc}})</font>
+                <font style="color: white;">話題 ({{bookmarkSummary.qc}})</font>
             </a>
         </span>
-        <!--span class="wall-icon icon-title-friendwall"></span-->
+        <!--span class="wall-icon icon-title-friendwall"></span>
         <span style="margin-left:15px;">
             <a ng-click="selectedSubTab = 2;" ng-class="{activeTabUnderlined: selectedSubTab == 2}">
                 <font style="color: white;">分享 ({{bookmarkSummary.pc}})</font>
             </a>
-        </span>
+        </span-->
         <span style="margin-left:15px;">
             <a ng-click="selectedSubTab = 3;" ng-class="{activeTabUnderlined: selectedSubTab == 3}">
                 <font style="color: white;">文章 ({{bookmarkSummary.ac}})</font>
@@ -26,7 +26,7 @@
     <div class="general-box" ng-show="bookmarkSummary.qc == 0 && (bookmarkSummary.pc > 0 || bookmarkSummary.ac > 0)">
         <div class="section-title">
             <div>
-                您尚未有喜愛的問題
+                您尚未有喜愛的話題
             </div>
         </div>
     </div>
@@ -97,12 +97,12 @@
 <div class="general-box" ng-show="bookmarkSummary.qc == 0 && bookmarkSummary.pc == 0 && bookmarkSummary.ac == 0">
     <div class="section-title">
         <div>
-            您尚未有喜愛的問題,分享或文章
+            您尚未有喜愛的話題文章
         </div>
         <div>
-            請立即點一下問題,分享或文章右方的
+            請立即點一下話題或文章右方的
             <img style="width:15px;vertical-align:text-top;" data-ng-src="/assets/app/images/general/icons/message_favorited.png"/>
-            來喜愛吧!
+            來收藏到'我的喜愛'
         </div>
     </div>
 </div>

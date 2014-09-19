@@ -812,7 +812,7 @@ public class CommunityController extends Controller{
         
         SocialObjectVM object;
         for(User user : nonMembers) {
-            if (user.isSuperAdmin()) {
+            if (user.system) {
                 continue;
             }
             
@@ -828,8 +828,9 @@ public class CommunityController extends Controller{
 
         Community community = Community.findById(community_id);
         User invitee = User.findById(user_id);
-        if (invitee.isSuperAdmin()) {
-            return status(505, "Cannot send invitation to super admin.");
+        if (invitee.system) {
+            logger.underlyingLogger().info("[c="+community_id+"][recv="+user_id+"] Cannot send invitation to system users");
+            return status(505, "Cannot send invitation to system users");
         }
         
         try {

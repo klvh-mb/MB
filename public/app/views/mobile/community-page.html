@@ -64,16 +64,16 @@
                             <!--span class="wall-icon icon-title-community"></span-->
                             <span>
                                 <a ng-click="selectedSubTab = 1; searchQuery = '';" ng-class="{activeTabUnderlined: selectedSubTab == 1}">
-                                    <span class="post-wall-icon">?</span><font style="color: white;">問題</font>
+                                    <span class="post-wall-icon">?</span><font style="color: white;">話題</font>
                                 </a>
                             </span>
-                            <div style="margin-left:5px;border-color:white;vertical-align:text-bottom;" class="divider-cus"></div>
-                            <!--span class="wall-icon icon-title-friendwall"></span-->
+                            <!--div style="margin-left:5px;border-color:white;vertical-align:text-bottom;" class="divider-cus"></div>
+                            <span class="wall-icon icon-title-friendwall"></span>
                             <span>
                                 <a ng-click="selectedSubTab = 2; searchQuery = '';" ng-class="{activeTabUnderlined: selectedSubTab == 2}">
                                     <span class="post-wall-icon">♥</span><font style="color: white;">分享</font>
                                 </a>
-                            </span>
+                            </span-->
                             <!--a ng-click="selectedSubTab = 3;" id="contentSearchwrapper" class="pull-right ng-pristine ng-valid">
                                 <div class="basic-search-wrapper">
                                     <div class="input-group innerB basic-search">
@@ -108,7 +108,7 @@
                             <a style="margin:0 8px 8px 0" ng-show="!community.isO && community.isM == false && community.isP == false" class="btn-general pull-right" data-ng-click="send_join(community.id)">+ <i class="fa fa-user"></i> 加入社群</a>
                         </div>
                         <div>
-                            發問與分享只供會員查看
+                            話題只供會員查看
                         </div>
                     </div>
                 </div>

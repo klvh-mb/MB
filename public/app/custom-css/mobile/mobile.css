@@ -5,7 +5,7 @@ body {
     margin: 0;
     padding: 0;
     background-image: none;
-    background-color: #F1F1F1;
+    background-color: #F0F0F0;
 }
 .caret {
     border-top: 7px solid;
@@ -476,8 +476,8 @@ span.notif-count {
 }
 .communityCard {
     width: 45%;
-    margin-left: 15px;
-    margin-right: 0px;
+    margin-left: 7px;
+    margin-right: 7px;
 }
 .communityTagBox p {
     width: 70%;

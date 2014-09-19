@@ -1,10 +1,11 @@
 <div class="post-card">
     <ul title="qna">
         <li class="post-intro post-qna-line">
-            <span class="post-qna-tag pull-left" style="margin-right:5px;">?</span>
-            <span class="post-intro-share">發問</span>
+            <!--span class="post-new-tag pull-left" style="margin-right:5px;">New</span>
+            <span class="post-qna-tag pull-left" style="margin-right:5px;">?</span-->
+            <span class="post-intro-share">發佈</span>
             <span class="post-intro-share" ng-show="!isCommunityPage">於 </span>
-            <a data-ng-href="/m-my#/community/{{post.cid}}/question" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
+            <a data-ng-href="/m-my#/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
             <span class="post-intro-divider"></span>
             <span class="post-qna-answer-count">回覆: {{post.n_c}}</span>
             <!--span class="post-intro-divider"></span>
@@ -18,7 +19,7 @@
             </button>
             <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
                 <li role="presentation"><a role="menuitem" href="" ng-click="displayLink('/my#/post-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i>複製連結</a></li>
-                <li role="presentation" ng-show="post.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個發問嗎？"><i class="glyphicon glyphicon-trash"></i>刪除發問</a></li>
+                <li role="presentation" ng-show="post.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個話題嗎？"><i class="glyphicon glyphicon-trash"></i>刪除話題</a></li>
             </ul>
         </li>
     </ul>

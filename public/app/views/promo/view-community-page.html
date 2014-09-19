@@ -29,16 +29,16 @@
                     <!--span class="wall-icon icon-title-community"></span-->
                     <span>
                         <a ng-click="selectedSubTab = 1;" ng-class="{activeTabUnderlined: selectedSubTab == 1}">
-                            <span class="post-wall-icon">?</span><font style="color: white;">問題</font>
+                            <span class="post-wall-icon">?</span><font style="color: white;">話題</font>
                         </a>
                     </span>
                     <div style="margin-left:5px;border-color:white;vertical-align:text-bottom;" class="divider-cus"></div>
-                    <!--span class="wall-icon icon-title-friendwall"></span-->
+                    <!--span class="wall-icon icon-title-friendwall"></span>
                     <span>
                         <a ng-click="selectedSubTab = 2;" ng-class="{activeTabUnderlined: selectedSubTab == 2}">
                             <span class="post-wall-icon">♥</span><font style="color: white;">分享</font>
                         </a>
-                    </span>
+                    </span-->
                 </div>
             </div>
             <!-- Community Tabs End -->
@@ -46,9 +46,9 @@
             <div class="tab-content" ng-if="selectedSubTab == 1" id="qnapost" ng-controller="ViewCommunityQnAController">
                 <div data-ng-include data-src="'/assets/app/views/promo/view-community-qna-bar.html'"></div>
             </div>
-            <div class="tab-content" ng-if="selectedSubTab == 2" id="post" ng-controller="ViewCommunityPostController">
+            <!--div class="tab-content" ng-if="selectedSubTab == 2" id="post" ng-controller="ViewCommunityPostController">
                 <div data-ng-include data-src="'/assets/app/views/promo/view-community-post-bar.html'"></div>
-            </div>
+            </div-->
         </div>
         
         <div class="padding20"></div>

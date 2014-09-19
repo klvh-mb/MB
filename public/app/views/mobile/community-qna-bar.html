@@ -2,7 +2,7 @@
     <ul ng-show="community.isM == true || community.isO == true" style="padding:5px;">
         <li>
             <form id="content-upload-wrapper" name="qnaUpload" class="no-margin no-padding" method="post" action="" >
-                <textarea cols="45" rows="1" class="post-input-title general-input-box form-control" placeholder="問個問題⋯⋯" data-ng-model="questionTitle" ng-required></textarea>
+                <textarea cols="45" rows="1" class="post-input-title general-input-box form-control" placeholder="問題 / 分享⋯⋯" data-ng-model="questionTitle" ng-required></textarea>
                 <textarea cols="45" rows="2" name="content-upload-input" id="content-upload-input" class="post-input-body general-input-box form-control" placeholder="加些詳情" data-ng-model="questionText" ng-required></textarea>
 				<div style="background-color: white;" ng-show="QnASelectedFiles != null">
 					<img class="post-photo-preview" ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
@@ -16,7 +16,7 @@
                     </a>
                     <button class="btn btn-primary ng-binding" ng-disabled="qnaUpload.$pristine || (qnaUpload.$dirty && (!questionText.length || !questionTitle.length))" type="submit" disabled="disabled" 
                             data-ng-mousedown="ask_question_community(community.id, questionTitle, questionText); questionTitle=''; questionText='';">
-                        發問
+                        發出
                     </button>
                 </div>
             </form>
@@ -38,16 +38,10 @@
 <div class="general-box" ng-show="QnAs.posts.length == 0">
     <div class="section-title">
         <div>
-            尚未有問題
+            尚未有話題
         </div>
         <div>
-            來發問第一個問題吧!
-        </div>
-    </div>
-    <div class="section-title" ng-show="community.posts.length > 0">
-        <div>
-            或立即査看分享
-            <!--a ng-click="selectedSubTab = 2;">査看分享</a-->
+            發表第一個話題吧!
         </div>
     </div>
 </div>

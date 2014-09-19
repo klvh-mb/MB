@@ -1,14 +1,3 @@
-<!--div style="margin-top:10px;margin-bottom:10px;" class="general-box">
-    <div class="section-title">
-        <div ng-show="QnAs.posts.length == 0">
-            尚未有問題
-        </div>
-        <div>
-            立即登記成為 miniBean小萌豆 會員來發問問題吧!
-        </div>
-    </div>
-</div-->
-
 <div infinite-scroll='nextPosts()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>	
     <div data-ng-repeat="post in QnAs.posts">
         <div id="wall-main">

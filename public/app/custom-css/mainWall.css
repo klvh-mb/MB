@@ -1,6 +1,6 @@
 /* Content Uploader Start */
 #content-uploader {
-    border-radius: 0px 0px 4px 4px;
+    border-radius: 0px 0px 10px 10px;
     margin-bottom: 10px;
 }
 #content-uploader ul {
@@ -30,6 +30,7 @@
 }
 #wall-main .general-box {
     margin-bottom: 10px;
+    box-shadow: 0 0 3px #D3D5F3;
 }
 .post-input-title, .post-input-body {
     resize: none;
@@ -335,6 +336,21 @@
     border: 1px solid white;
     line-height: 1.4;
     margin-right: 3px;
+}
+.post-new-tag {
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 15px;
+    width: auto;
+    height: 22px;
+    text-align: center;
+    vertical-align: middle;
+    display: inline-block;
+    padding: 0 5px;
+}
+.post-new-tag {
+    color: #D451DA;
+    border: 2px solid #D451DA;
 }
 .post-qna-tag, .post-sharing-tag {
     font-size: 13px;
