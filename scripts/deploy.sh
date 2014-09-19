@@ -51,8 +51,8 @@ unzip $UPGRADE_VERSION.zip
 rm -rf $UPGRADE_VERSION.zip
 
 # remove all version directories except most recent four
-ls -lrt | grep parent-social | grep -v zip | head -n -4 | while read f; do
-  rm -f "$f"
+ls -rt | grep parent-social | grep -v zip | head -n -4 | while read f; do
+  rm -rf "$f"
 done
 
 
