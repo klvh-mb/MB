@@ -4,7 +4,7 @@
             <span class="post-sharing-tag pull-left" style="margin-right:5px;">♥</span>
             <span class="post-intro-share">分享</span>
             <span class="post-intro-share" ng-show="!isCommunityPage">於 </span>
-            <a data-ng-href="/m-my#/community/{{post.cid}}/sharing" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
+            <a data-ng-href="/m-my#/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
             <span class="post-intro-divider" ng-show="post.n_c > 0"></span>
             <span class="post-qna-answer-count" ng-show="post.n_c > 0">最新留言: 
                 <span class="post-date" am-time-ago="post.ut"></span>

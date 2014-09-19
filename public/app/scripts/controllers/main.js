@@ -1931,7 +1931,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, pr
     if(tab == 'question'){
         $scope.selectedSubTab = 1;
     } else if(tab == 'sharing'){
-        $scope.selectedSubTab = 2;
+        $scope.selectedSubTab = 1;      // sharing tab now removed
     } else if(tab == 'members'){
         $scope.selectedTab = 2;
     } else if(tab == 'details'){

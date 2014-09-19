@@ -4,7 +4,7 @@
 	<div class="row" id="wall-main" data-ng-repeat="post in community.searchPosts">
 		<div class="general-box">
 			<ul>
-				<li><img class="wall-userpic" data-ng-src="/image/get-thumbnail-image-by-id/{{post.oid}}"/><p class="wall-user-actState" style="position: relative;"><a data-ng-href="my#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="my#/community/{{post.cid}}/sharing" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span><span class="sharing-tag pull-right">Ã¥Ë†â€ Ã¤ÂºÂ«</span><a class="post-favorite" href="#"></a></p>
+				<li><img class="wall-userpic" data-ng-src="/image/get-thumbnail-image-by-id/{{post.oid}}"/><p class="wall-user-actState" style="position: relative;"><a data-ng-href="my#/profile/{{post.oid}}" style="color: #428bca !important;">{{post.p}}</a><span class="wall-user-actState-from"></span><a data-ng-href="my#/community/{{post.cid}}" style="color: #428bca !important;">{{post.cn}}</a><span class="wall-user-actState-share"></span><span class="sharing-tag pull-right">Ã¥Ë†â€ Ã¤ÂºÂ«</span><a class="post-favorite" href="#"></a></p>
 	            <span class="wall-user-actState-date" am-time-ago="post.t"></span></li>
 	            <li><p ng-bind-html="post.pt | to_trusted | highlight: highlightText" class="wall-user-post-text"></p></li>
 	            <li><div data-ng-show="post.hasImage" class="wall-user-post-image">
