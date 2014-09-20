@@ -914,7 +914,7 @@ minibean.controller('CommunitiesDiscoverController',function($scope, $routeParam
         usSpinnerService.spin('loading...');
         this.invite = sendJoinRequest.sendRequest.get({id:id},
             function(data) {
-                angular.forEach($scope.result.communities, function(request, key){
+                angular.forEach($scope.communities, function(request, key){
                     if(request.id == id) {
                         request.isP = true;
                     }

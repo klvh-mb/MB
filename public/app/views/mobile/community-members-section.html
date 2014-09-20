@@ -1,6 +1,6 @@
 <div class="btn-group" dropdown style="margin-top: 2%;margin-left: 10px;">
 	<button type="button" id="membersDropdownBtn" class="btn btn-primary dropdown-toggle" ng-show="showMembers && community.typ != 'BUSINESS'">
-        成員 ({{result.sn}}) <span class="caret"></span>
+        關注 ({{result.sn}}) <span class="caret"></span>
     </button>
     <button type="button" id="membersDropdownBtn" class="btn btn-primary dropdown-toggle" ng-show="showMembers && community.typ == 'BUSINESS'">
         喜愛 ({{result.sn}}) <span class="caret"></span>
@@ -9,12 +9,12 @@
     	管理員 <span class="caret"></span>
     </button>
     <ul id="membersDropdown" class="dropdown-menu" role="menu">
-    	<li data-ng-click="getAllMembers()" style="cursor:pointer;" ng-show="community.typ != 'BUSINESS'">成員 ({{result.sn}})</li>
+    	<li data-ng-click="getAllMembers()" style="cursor:pointer;" ng-show="community.typ != 'BUSINESS'">關注 ({{result.sn}})</li>
         <li data-ng-click="getAllMembers()" style="cursor:pointer;" ng-show="community.typ == 'BUSINESS'">喜愛 ({{result.sn}})</li>
         <li data-ng-click="getAdmin()" style="cursor:pointer;">管理員 </li>
     </ul>
 </div>
-<!--a id="membersSearchwrapper" class="pull-right" style="margin-right: 9%;">
+<!--a id="membersSearchwrapper" class="pull-right" style="margin-right:10%;">
 	<div class="basic-search-wrapper">
 		<div class="input-group innerB basic-search">
     		<input type="text" class="form-control" ng-model="query" placeholder="搜尋">

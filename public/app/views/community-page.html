@@ -48,7 +48,7 @@
     						</div>
     						<div class="divider-cus"></div>
     						<div ng-class="{activeTabBold: selectedTab == 2}">
-    							<a ng-click="selectedTab = 2;">成員</a>
+    							<a ng-click="selectedTab = 2;">正在關注</a>
     						</div>
     						<div class="dropdown pull-right">
                                 <a id="community-settings-dropdown" class="toolsbox toolsbox-single dropdown-toggle" data-toggle="dropdown"><span class="icon-title-contentSetup"></span></a>
@@ -60,7 +60,7 @@
                                     </li>
                                     <!--li ng-show="community.isO"><a data-ng-href="my#/editCommunity/{{community.id}}">編輯社群</a></li-->
                                     <li class="dropdown-divider" role="presentation"></li>
-                                    <li ng-show="!community.isO && community.isM == true"><a data-ng-confirm-click="leave_community(community.id)" data-ng-confirm-message="您確定退出 '{{community.n}}' 嗎?">退出社群</a></li>
+                                    <li ng-show="!community.isO && community.isM == true"><a data-ng-confirm-click="leave_community(community.id)" data-ng-confirm-message="您確定取消關注 '{{community.n}}' 嗎?">取消關注</a></li>
                                     <!--li><a data-ng-click="">檢舉社群</a></li-->
                                 </ul> 
                             </div>
@@ -141,14 +141,14 @@
     		
     		<div class="col-md-4 col-sm-4 col-xs-4" style="width:300px;">
     			<div class="row">
-    				<a style="margin:0 8px 8px 0" ng-show="!community.isO && community.isM == false && community.isP == false" class="btn-general pull-right" data-ng-click="send_join(community.id)">+ <i class="fa fa-user"></i> 加入社群</a>
+    				<a style="margin:0 8px 8px 0" ng-show="!community.isO && community.isM == false && community.isP == false" class="btn-general pull-right" data-ng-click="send_join(community.id)">+ <i class="fa fa-user"></i> 關注社群</a>
                     <a style="margin:0 8px 8px 0" ng-show="!community.isO && community.isP == true" class="btn-general pull-right" disabled="disabled"">已送出加入邀請</a>
     			</div>
     			<div id="about" class="general-box">
     				<div class="con-title">
     					<span class="icon-box icon-box-blueLight icon-title-profile-about"></span>關於
     					<div class="pull-right">
-    						<a ng-click="selectedTab = 2;">{{community.nom}}位成員</a>
+    						<a ng-click="selectedTab = 2;">{{community.nom}}個關注</a>
     						<p data-ng-show="community.typ == 'CLOSE'" class="small"><span class="glyphicon glyphicon-lock"></span>不公開的社群</p>
     						<p data-ng-show="community.typ == 'OPEN'" class="small">公開的社群</p>
     					</div>
@@ -166,7 +166,7 @@
     								name="commun-add-member-wrapper" method="post" action="">
     								<label for="Add Member"></label> 
     								<input type="text" name="add-member-field" id="add-member-field" class="general-textfield general-input-box" data-ng-model="searchQuery1"
-    									data-ng-keyup="search_unjoined_users(community.id, searchQuery1)" placeholder="+ 邀請新成員" />
+    									data-ng-keyup="search_unjoined_users(community.id, searchQuery1)" placeholder="+ 推薦給媽媽" />
     								<div>
     									<div class="row">
     										<ul class="col-lg-12 col-md-11 col-sd-11 dropdown-menu chat media-list hide"

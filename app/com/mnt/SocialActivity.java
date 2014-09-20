@@ -159,7 +159,7 @@ public class SocialActivity {
                     notification.URLs = Json.stringify(Json.toJson(jsonMap));
                     notification.recipient = socialAction.actor;
                     notification.notificationType = NotificationType.COMM_INVITE_REQUEST;
-                    notification.message = "你被邀請成為「"+socialAction.targetname+"」社群的成員。";
+                    notification.message = "有人推薦「"+socialAction.targetname+"」社群給您。";
                     notification.save();
                 }
 				break;

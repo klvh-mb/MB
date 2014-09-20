@@ -18,7 +18,7 @@
     <div class="general-box">
         <div class="section-title">
             <!--span class="section-icon icon-title-community"></span-->
-            <span>加入的社群</span>
+            <span>關注的社群</span>
         </div>
     </div>
     <div class="padding5"></div>
@@ -33,16 +33,16 @@
             <img src="{{community.gi}}">
             <p>
                 <a href="my#/community/{{community.id}}"><b><font>{{community.dn}}</font></b></a><br>
-                <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
+                <span class="community-member-counter"><font>{{community.mm}}個關注</font></span>
                 <span class="community-attribute">
                     <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
                 </span>
             </p>
             <a ng-show="!community.isM && !community.isP" data-ng-click="send_request(community.id)" style="position:relative;right:5px;margin-bottom:5px;" class="btn-general pull-right">
-                + <i class="fa fa-user"></i> 加入
+                + <i class="fa fa-user"></i> 關注
             </a>
             <a ng-show="!community.isM && community.isP" disabled="disabled" style="position:relative;right:15px;margin-bottom:10px;" class="btn-general pull-right">
-                已加入
+                正在關注
             </a>
         </div>
     </div>
@@ -69,7 +69,7 @@
             <img src="{{community.gi}}">
             <p>
                 <a href="my#/business/community/{{community.id}}"><b><font>{{community.dn}}</font></b></a><br>
-                <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
+                <span class="community-member-counter"><font>{{community.mm}}位喜愛</font></span>
                 <span class="community-attribute">
                     <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
                 </span>

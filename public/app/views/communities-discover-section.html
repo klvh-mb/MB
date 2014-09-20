@@ -1,24 +1,20 @@
 <div class="general-box tab-box" style="margin:-1px">
     <div class="wall-title">
-        <!--span class="wall-icon icon-title-community"></span-->
         <span style="margin-left:15px;">
             <a data-ng-click="setSelectedSubTab(1)" ng-class="{activeTabUnderlined: selectedSubTab == 1}">
                 <font style="color: white;">年份</font>
             </a>
         </span>
-        <!--span class="wall-icon icon-title-friendwall"></span-->
         <span style="margin-left:15px;">
             <a data-ng-click="setSelectedSubTab(2)" ng-class="{activeTabUnderlined: selectedSubTab == 2}">
                 <font style="color: white;">年月份</font>
             </a>
         </span>
-        <!--span class="wall-icon icon-title-friendwall"></span-->
         <span style="margin-left:15px;">
             <a data-ng-click="setSelectedSubTab(3)" ng-class="{activeTabUnderlined: selectedSubTab == 3}">
                 <font style="color: white;">地區</font>
             </a>
         </span>
-        <!--span class="wall-icon icon-title-friendwall"></span-->
         <span style="margin-left:15px;">
             <a data-ng-click="setSelectedSubTab(4)" ng-class="{activeTabUnderlined: selectedSubTab == 4}">
                 <font style="color: white;">其他</font>
@@ -27,7 +23,7 @@
     </div>
 </div>
 
-<a id="membersSearchwrapper" class="pull-right" style="margin-right: 9%;">
+<a id="membersSearchwrapper" class="pull-right" style="margin-right:10%;" ng-show="selectedSubTab == 2">
     <div class="basic-search-wrapper">
         <div class="input-group innerB basic-search">
             <input type="text" class="form-control" ng-model="query" placeholder="搜尋社群">
@@ -39,7 +35,8 @@
         </div>
     </div>
 </a>
-<div style="padding:30px;"></div>
+<div style="padding:30px;" ng-show="selectedSubTab == 2"></div>
+<div style="padding:10px;" ng-show="selectedSubTab != 2"></div>
 
 <div ng-show="communities.length > 0">
     <div class="communityCard" ng-repeat="community in communities | filter:query">
@@ -52,16 +49,16 @@
             <img src="{{community.gi}}">
             <p>
                 <a href="my#/community/{{community.id}}"><b><font>{{community.dn}}</font></b></a><br>
-                <span class="community-member-counter"><font>{{community.mm}}位成員</font></span>
+                <span class="community-member-counter"><font>{{community.mm}}個關注</font></span>
                 <span class="community-attribute">
                     <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
                 </span>
             </p>
             <a ng-show="!community.isM && !community.isP" data-ng-click="send_request(community.id)" style="position:relative;right:5px;margin-bottom:5px;" class="btn-general pull-right">
-                + <i class="fa fa-user"></i> 加入
+                + <i class="fa fa-user"></i> 關注
             </a>
-            <a ng-show="!community.isM && community.isP" disabled="disabled" style="position:relative;right:15px;margin-bottom:10px;" class="btn-general pull-right">
-                已加入
+            <a ng-show="community.isM || community.isP" disabled="disabled" style="position:relative;right:15px;margin-bottom:10px;" class="btn-general pull-right">
+                正在關注
             </a>
         </div>
     </div>
