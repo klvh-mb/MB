@@ -91,6 +91,8 @@ public class CommunityController extends Controller{
                 getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.NEW_MOMS_DADS));
         vms.addAll( 
                 getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.ALL_MOMS_DADS));
+        vms.addAll(
+                getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.PUBLIC));
         vms.addAll( 
                 getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.PRE_NURSERY));
         CommunitiesParentVM communitiesVM = new CommunitiesParentVM(vms.size(), vms);
