@@ -32,6 +32,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import security.CommunityPermission;
 import targeting.community.BusinessFeedCommTargetingEngine;
 import targeting.community.NewsfeedCommTargetingEngine;
 import viewmodel.CommunitiesParentVM;
@@ -568,7 +569,7 @@ public class CommunityController extends Controller{
         Long communityId = Long.parseLong(form.get("community_id"));
 
         Community c = Community.findById(communityId);
-        if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
+        if (CommunityPermission.canPostOnCommunity(localUser, c)) {
             String postText = Emoticon.replace(form.get("postText"));
             boolean withPhotos = Boolean.parseBoolean(form.get("withPhotos"));
 
@@ -702,7 +703,7 @@ public class CommunityController extends Controller{
         String questionText = Emoticon.replace(form.get("questionText"));
 
         Community c = Community.findById(communityId);
-        if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
+        if (CommunityPermission.canPostOnCommunity(localUser, c)) {
             String withPhotos = form.get("withPhotos");
             
             Post p = (Post) c.onPost(localUser, questionTitle, questionText, PostType.QUESTION);

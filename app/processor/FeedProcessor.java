@@ -8,6 +8,8 @@ import javax.persistence.Query;
 
 import common.cache.JedisCache;
 import common.utils.NanoSecondStopWatch;
+import domain.PostType;
+import models.Community;
 import models.Post;
 import models.User;
 import play.db.jpa.JPA;
@@ -242,7 +244,7 @@ public class FeedProcessor {
 						public void invoke() throws Throwable {
                             NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
-                            final List<Object[]> commEntries = JPA.em().createNativeQuery("SELECT id, deleted, excludeFromNewsfeed from Community").getResultList();
+                            final List<Object[]> commEntries = JPA.em().createNativeQuery("SELECT id, deleted, excludeFromNewsfeed, communityType from Community").getResultList();
 
                             logger.underlyingLogger().info("bootstrapCommunityLevelFeed - start. Total communities: "+commEntries.size());
 
@@ -257,6 +259,7 @@ public class FeedProcessor {
                                         BigInteger communityId = (BigInteger) commEntry[0];
                                         Boolean deleted = (Boolean) commEntry[1];
                                         Boolean excludeFromNewsfeed = (Boolean) commEntry[2];   // community level exclude NF
+                                        Integer commTypeInt = (Integer) commEntry[3];
 
                                         // purge old queue from Redis
                                         j.del(COMMUNITY+communityId.longValue());
@@ -266,8 +269,15 @@ public class FeedProcessor {
                                         } else if (excludeFromNewsfeed) {
                                             numExcludeNF++;
                                         } else {
+                                            String queryStr;
                                             // create queue and populate posts (un-deleted) if active
-                                            Query simpleQuery = JPA.em().createQuery("SELECT p from Post p where p.community.id = ?1 and p.deleted = 0 order by p.socialUpdatedDate desc");
+                                            if (commTypeInt != null && Community.CommunityType.BUSINESS.ordinal() == commTypeInt) {
+                                                queryStr = "SELECT p from Post p where p.community.id=?1 and p.deleted=0 order by p.socialUpdatedDate desc";
+                                            } else {
+                                                int quesType = PostType.QUESTION.ordinal();
+                                                queryStr = "SELECT p from Post p where p.community.id=?1 and p.deleted=0 and p.postType="+quesType+" order by p.socialUpdatedDate desc";
+                                            }
+                                            Query simpleQuery = JPA.em().createQuery(queryStr);
                                             simpleQuery.setParameter(1, communityId.longValue());
                                             simpleQuery.setFirstResult(0);
                                             simpleQuery.setMaxResults(MAX_COMM_QUEUE_LENGTH);
