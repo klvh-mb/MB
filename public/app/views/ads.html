@@ -1,0 +1,77 @@
+<header>
+	<div data-ng-include style="width:100%;height:50px;" data-src="'/assets/app/views/header-bar.html'"></div>
+	<div data-ng-include data-src="'/assets/app/views/nav-bar.html'"></div>
+</header>
+
+<div class="themeA-container" >
+	<div id="content">
+		<div class="row">
+		    <!--div class="col-lg-1 col-md-1 col-xs-1" style="width:2%;"></div-->
+			<div class="col-md-2 col-sm-2 col-xs-2" style="width:20%;">
+                <div id="main-uphoto" data-ng-style="set_background_image()">
+                    <img src="/assets/app/images/general/gradient_black_30.png" alt="gradient-black">
+                    <a title="user-picture" href="#/about/activities"><img src="/image/get-thumbnail-image-by-id/{{userInfo.id}}" alt="user-picture"></a>
+                    <a href="#/about/activities" class="userName">{{userInfo.firstName}}</a>
+                </div>
+                <div ng-controller="AnnouncementsWidgetController" ng-show="announcements.length > 0">
+                    <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/widgets/announcements-widget.html'"></div>
+                </div>
+                <div>
+                    <div data-ng-include data-src="'/assets/app/views/my-shortcuts.html'"></div>
+                </div>
+                <div data-ng-controller="UserCommunityWidgetController" data-ng-show="result.communities.length > 0">
+                    <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/widgets/my-communities-widget.html'"></div>
+                </div>
+            </div>
+             
+    		<div class="col-md-6 col-sm-6 col-xs-6" style="width:48%;">
+                <div ng-show="topAnnouncements.length > 0">
+                    <div data-ng-include data-src="'/assets/app/views/top-announcements.html'"></div>
+                </div>
+    		
+	            <div id="wall">
+	                <div ng-controller="NewsFeedController" data-ng-include data-src="'/assets/app/views/home-news-feed-section.html'"></div>
+	            </div>
+            </div>
+	        
+    		<div class="col-md-4 col-sm-4 col-xs-4" style="width:300px;">
+	            <div ng-controller="TodayWeatherInfoController">
+                    <div data-ng-include data-src="'/assets/app/views/utilities/todayWeatherInfoUtility.html'"></div>
+                </div>
+                <div>
+                    <div data-ng-include data-src="'/assets/app/views/utilities/communitiesDiscoverUtility.html'"></div>
+                </div>
+				<div ng-controller="PNCommunitiesUtilityController" data-ng-show="pnCommunities.length > 0 && userTargetProfile.pn">
+                    <div data-ng-include data-src="'/assets/app/views/utilities/pnCommunitiesUtility.html'"></div>
+                </div>
+  				<div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.communities.length > 0">
+                    <div data-ng-include data-src="'/assets/app/views/utilities/yourFriendsCommunitiesUtility.html'"></div>
+				</div>
+                <!--div ng-controller="SuggestedFriendsUtilityController" data-ng-show="result.friends.length > 0">
+					<div data-ng-include data-src="'/assets/app/views/utilities/suggestedFriendsUtility.html'"></div>
+				</div-->
+                <div ng-controller="MyFriendsUtilityController" data-ng-show="result.friends.length > 0">
+                    <div data-ng-include data-src="'/assets/app/views/utilities/friendsUtility.html'"></div>
+                </div>
+                <div>
+                    <div data-ng-include data-src="'/assets/app/views/utilities/feedbackCommunityUtility.html'"></div>
+                </div>
+                <div>
+                    <script language='JavaScript' type='text/javascript'>if (!window.af) var af = (function() {return {getcookie:function(n){var m=n+'=';var ca=document.cookie.split(';');for(var i=0;i < ca.length;i++) {var c=ca[i];while (c.charAt(0)==' ') c = c.substring(1,c.length);if (c.indexOf(m) == 0) return c.substring(m.length,c.length);}return null;},existcookie:function(n){var m=af.getcookie(n);if (m!=null&&m!=''){return true;}else{return false;}}};})(); if(af.existcookie('__AF')){afid = af.getcookie('__AF'); } else {afid = 0; } randomstr = new String (Math.random()); randomstr = randomstr.substring(2,8); document.write("<" + "script language='JavaScript' type='text/javascript' src='"); document.write("http://servedby.adsfactor.net/adj.php?ts=" + randomstr + "&amp;sid=336814706671&amp;afid=" + afid);if(document.af_used){document.write("&amp;ex=" + document.af_used);} if(window.location.href){document.write("&amp;location=" + encodeURIComponent(escape(window.location.href)));} if(document.referrer){document.write("&amp;referer=" + encodeURIComponent(escape(document.referrer)));} document.write("'><" + "/script>");</script><noscript><a href='http://servedby.adsfactor.net/adc.php?sid=336814706671' ><img src='http://servedby.adsfactor.net/adv.php?sid=336814706671' border='0'></a></noscript>
+                </div>
+            </div>
+	    </div>
+    </div>
+</div>
+
+<div data-ng-include data-src="'/assets/app/views/showImageModal.html'"></div>
+
+<div data-ng-include data-src="'/assets/app/views/createCommunityModal.html'"></div>
+
+<div id="back-to-top" style="z-index:1000">
+    <a data-ng-click="gotoTop()"><span class="icon-title-arrow-up"></span>Top</a>
+</div>
+
+<script>
+    ga_send_pv();
+</script>

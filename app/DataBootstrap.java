@@ -355,6 +355,8 @@ public class DataBootstrap {
         icon.save();
         
         // Community icons
+        icon = new Icon("feedback", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/feedback.png");
+        icon.save();
         icon = new Icon("bean_orange", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/bean_orange.png");
         icon.save();
         icon = new Icon("bean_blue", IconType.COMMUNITY_GENERAL, "/assets/app/images/general/icons/community/bean_blue.png");
@@ -606,16 +608,16 @@ public class DataBootstrap {
         // Targeting community
         
         // SOON_MOMS_DADS
-        name = "準媽媽準爸爸♥";
-        desc = "準媽媽準爸爸♥";
+        name = "孕媽媽♥";
+        desc = "孕媽媽♥";
         createTargetingCommunity(name, desc, 
                 "/assets/app/images/general/icons/community/boy.png",
                 TargetingType.SOON_MOMS_DADS,
                 "SOON_MOMS_DADS");
         
         // NEW_MOMS_DADS
-        name = "新手媽媽爸爸♥";
-        desc = "新手媽媽爸爸♥";
+        name = "新手媽媽♥";
+        desc = "新手媽媽♥";
         createTargetingCommunity(name, desc, 
                 "/assets/app/images/general/icons/community/boy.png",
                 TargetingType.NEW_MOMS_DADS,
@@ -628,6 +630,13 @@ public class DataBootstrap {
                 "/assets/app/images/general/icons/community/stroller.png",
                 TargetingType.ALL_MOMS_DADS,
                 "BABY_FRIENDLY_PLACES");
+        
+        name = "小萌豆分享區♥";
+        desc = "小萌豆分享區♥";
+        createTargetingCommunity(name, desc, 
+                "/assets/app/images/general/icons/community/beans.png",
+                TargetingType.ALL_MOMS_DADS,
+                "MINIBEAN_SHARING");
         
         // PUBLIC
         name = "小寶寶去旅行♥";
@@ -746,10 +755,10 @@ public class DataBootstrap {
         try {
             community = Application.getSuperAdmin().createCommunity(
                     name, desc, CommunityType.OPEN, 
-                    "/assets/app/images/general/icons/community/beans.png");
+                    "/assets/app/images/general/icons/community/feedback.png");
             community.system = true;
             community.excludeFromNewsfeed = true;
-            community.targetingType = TargetingType.ALL_MOMS_DADS;
+            community.targetingType = TargetingType.PUBLIC;
             community.targetingInfo = "FEEDBACK";
             //community.setCoverPhoto(new File(Resource.STORAGE_PATH + "/default/beans_cover.jpg"));
         } catch (Exception e) {

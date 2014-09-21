@@ -2,6 +2,16 @@
 
 var minibean = angular.module('minibean');
 
+minibean.directive('adsFactor', function() {
+    return {
+        restrict: 'A',
+        templateUrl: 'assets/app/scripts/adsfactor.js',
+        controller: function(){
+            //console.log('---> test adsfactor');
+        }
+    };
+});
+
 /**
  * e.g.
  * <input ng:model="filter.firstName"/>

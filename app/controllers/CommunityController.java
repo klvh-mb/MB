@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.joda.time.DateTime;
 
 import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
@@ -72,6 +73,21 @@ public class CommunityController extends Controller{
     public static Result getZodiacYearMonthCommunities() {
         List<CommunitiesWidgetChildVM> vms = 
                 getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.ZODIAC_YEAR_MONTH);
+        
+        List<CommunitiesWidgetChildVM> result = new ArrayList<CommunitiesWidgetChildVM>();
+        DateTime maxYearMonth = new DateTime().plusMonths(10);
+        for (CommunitiesWidgetChildVM vm : vms) {
+            try {
+                int year = Integer.parseInt(vm.targetingInfo.substring(0, 4));  // e.g. 2013_08
+                int month = Integer.parseInt(vm.targetingInfo.substring(5));
+                if (new DateTime(year, month, 1, 0, 0, 0).isBefore(maxYearMonth)) {
+                    result.add(vm);
+                }
+            } catch (NumberFormatException e) {
+                logger.underlyingLogger().error(String.format("[c=%d] targetingInfo not integer year", vm.id));
+            }
+        }
+        
         CommunitiesParentVM communitiesVM = new CommunitiesParentVM(vms.size(), vms);
         return ok(Json.toJson(communitiesVM));
     }

@@ -84,8 +84,12 @@ angular.module('minibean', [
     	controller: 'UserConversationController'  
       })
       .when('/error', {
-    	  templateUrl: '/assets/app/views/errorPage.html',
+    	templateUrl: '/assets/app/views/errorPage.html',
       })
+      .when('/test-ads', {
+        templateUrl: '/assets/app/views/ads.html'
+      })
+      
       .otherwise({
           redirectTo: '/'
       });

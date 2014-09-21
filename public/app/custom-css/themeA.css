@@ -342,6 +342,16 @@ pre {
     top: 100%;
     left: 0px;
 }
+.btn-general-flat {
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    display: inline-block;
+    padding: 3px;
+    background-color: #FF96BC;
+    border: 0px #C8C8C8 solid;
+    border-radius: 3px;
+}
 .btn-general {
     font-size: 12px;
     color: black;

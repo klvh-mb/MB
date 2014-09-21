@@ -95,7 +95,6 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
 minibean.controller('AnnouncementsWidgetController',function($scope, $http, announcementsService) {
     log("AnnouncementsWidgetController starts");
 
-    $scope.get_header_metaData();
     $scope.announcements = announcementsService.getGeneralAnnouncements.get();
     
     log("AnnouncementsWidgetController completed");
@@ -222,10 +221,11 @@ minibean.controller('ApplicationController',
             $scope.unread_request_count = data.requestCount;
         });
     };
+    $scope.get_header_metaData();
 
-    // refresh header meta data every X secs
+    // refresh header meta data every X ms
     // To stop - $interval.cancel(stopHeaderMetaData);
-    var stopHeaderMetaData = $interval($scope.get_header_metaData, 3000);
+    var stopHeaderMetaData = $interval($scope.get_header_metaData, 300000);
 
 	$scope.isFRreaded = true;
     $scope.isNOreaded = true;
@@ -450,9 +450,10 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 minibean.controller('UserAboutController',function($routeParams, $scope, $http, userAboutService, locationService, profilePhotoModal){
 	log("UserAboutController starts");
 	
+	$scope.get_header_metaData();
+	
 	$scope.selectNavBar('HOME');
-
-    $scope.get_header_metaData();
+    
 	var tab = $routeParams.tab;
 	
     $scope.selectedSubTab = 1;
@@ -1032,6 +1033,7 @@ minibean.controller('CommunityWidgetByUserController',function($scope, $routePar
 
 minibean.controller('ProfileController',function($scope, $routeParams, $location, profileService, friendsService, sendInvitation, unFriendService){
 	log("ProfileController starts");
+    
     $scope.get_header_metaData();
 	
 	$scope.$watch($routeParams.id, function (navigateTo) {
@@ -2752,6 +2754,8 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
 minibean.controller('ArticlePageController',function($scope, $modal, $routeParams, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService){
     log("ArticlePageController starts");
     
+    $scope.get_header_metaData();
+    
     $scope.selectNavBar($scope.getArticleCategoryGroup($routeParams.catId));
     
     $scope.hotArticles = articleService.HotArticles.get({category_id:$routeParams.catId});
@@ -2806,6 +2810,8 @@ minibean.controller('ArticlePageController',function($scope, $modal, $routeParam
 
 minibean.controller('ShowArticlesController',function($scope, $modal, $routeParams, bookmarkPostService, showImageService, usSpinnerService, articleService) {
     log("ShowArticlesController starts");
+
+    $scope.get_header_metaData();
 
     var catId = $routeParams.catId;
     if (catId == undefined) {
