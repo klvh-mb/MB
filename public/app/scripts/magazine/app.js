@@ -54,6 +54,9 @@ angular.module('minibean', [
       .when('/error', {
           templateUrl: '/assets/app/views/errorPage.html',
       })
+      .when('/test-ads', {
+        templateUrl: '/assets/app/views/magazine/ads.html'
+      })
       .otherwise({
           redirectTo: '/'
       });

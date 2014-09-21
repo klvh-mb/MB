@@ -88,7 +88,7 @@ public class CommunityController extends Controller{
             }
         }
         
-        CommunitiesParentVM communitiesVM = new CommunitiesParentVM(vms.size(), vms);
+        CommunitiesParentVM communitiesVM = new CommunitiesParentVM(result.size(), result);
         return ok(Json.toJson(communitiesVM));
     }
     
