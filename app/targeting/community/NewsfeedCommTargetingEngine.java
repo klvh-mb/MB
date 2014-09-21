@@ -32,6 +32,65 @@ public class NewsfeedCommTargetingEngine {
      * @param userId
      */
     public static void indexCommNewsfeedForUser(Long userId) {
+        // purely by last updated time (for the bootstrap phase)
+        indexCommNewsfeedForUserByTime(userId);
+    }
+
+    /**
+     * @param userId
+     */
+    private static void indexCommNewsfeedForUserByTime(Long userId) {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        // Get targeted distribution
+        DistributionResult distributionResult = NewsfeedCommWeightDistributor.process(userId, NEWSFEED_FULLLENGTH);
+
+        PostDistributionTracker distTracker = new PostDistributionTracker();
+        RatioCalculator ratioCalculator = new RatioCalculator();
+
+        for (Long commId : distributionResult.getCommunityIds()) {
+            // targeted count
+            int commCount = distributionResult.getEntriesCount(commId);
+            // real posts
+            LinkedList<Tuple> commPosts = FeedProcessor.getCommunityMostRecentPosts(commId, commCount);
+
+            if (commPosts.size() > 0) {
+                distTracker.addCommunity(commId, commPosts);  // pass real posts to distribution tracker
+                ratioCalculator.addInput(commId, commCount);  // use target count to compute ratio
+            }
+        }
+
+        ratioCalculator.calculate();
+
+        logger.underlyingLogger().info("[u="+userId+"] Normalized ratio: "+ratioCalculator.getRatioMap());
+
+
+        final List<String> nfPostIds = new ArrayList<>();
+
+        while (nfPostIds.size() < NEWSFEED_FULLLENGTH) {
+            Pair<Long, Tuple> postPair = distTracker.peekLatest(null);
+
+            if (postPair != null) {
+                nfPostIds.add(postPair.second.getElement());
+                distTracker.removeLatest(postPair.first);
+            }
+            else {
+                logger.underlyingLogger().info("[u="+userId+"] Social NF_size="+nfPostIds.size());
+                break;
+            }
+        }
+
+        // Refresh with result
+        FeedProcessor.refreshUserCommunityFeed(userId, nfPostIds);
+
+        sw.stop();
+        logger.underlyingLogger().info("[u="+userId+"] indexCommNewsfeedForUser - end. Took "+sw.getElapsedMS()+"ms");
+    }
+
+    /**
+     * @param userId
+     */
+    private static void indexCommNewsfeedForUserByAffinity(Long userId) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         // Get targeted distribution
