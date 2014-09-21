@@ -50,7 +50,7 @@ public class NewsfeedCommTargetingEngine {
 
         for (Long commId : distributionResult.getCommunityIds()) {
             // targeted count
-            int commCount = distributionResult.getEntriesCount(commId);
+            int commCount = NEWSFEED_FULLLENGTH / 2;
             // real posts
             LinkedList<Tuple> commPosts = FeedProcessor.getCommunityMostRecentPosts(commId, commCount);
 
