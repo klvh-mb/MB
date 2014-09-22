@@ -14,6 +14,9 @@
     			<div>
                     <div data-ng-include data-src="'/assets/app/views/widgets/my-shortcuts-widget.html'"></div>
                 </div>
+                <div>
+                    <div data-ng-include data-src="'/assets/app/views/utilities/communitiesDiscoverUtility.html'"></div>
+                </div>
     			<div data-ng-controller="UserCommunityWidgetController" data-ng-show="result.communities.length > 0">
                     <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/widgets/my-communities-widget.html'"></div>
                 </div>
@@ -191,9 +194,6 @@
     					</ul>
     				</div>
     			</div>
-    			<div>
-                    <div data-ng-include data-src="'/assets/app/views/utilities/communitiesDiscoverUtility.html'"></div>
-                </div>
     			<div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.communities.length > 0">
     				<div data-ng-include data-src="'/assets/app/views/utilities/yourFriendsCommunitiesUtility.html'"></div>
     			</div>

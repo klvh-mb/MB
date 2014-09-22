@@ -334,7 +334,8 @@ pre {
     min-width: 120px;
     position: absolute;
     top: 100%;
-    left: 0px;
+    left: auto;
+    right: 0;
 }
 .btn-general-flat {
     font-size: 12px;
@@ -843,7 +844,7 @@ pre {
 #announce .content-wrapper {
 }
 #announce ul {
-    color: #7E1E00;
+    color: #F13434;
     padding: 0;
     margin: 0;
 }
@@ -903,7 +904,7 @@ pre {
     padding: 7px;
     font-weight: normal;
     font-size: 17px;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,rgba(255, 255, 255, 1) 47%,rgba(255, 240, 240, 1) 100%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,rgba(255, 249, 249, 1) 47%,rgba(255, 229, 229, 1) 100%);
 }
 .con-title a {
     color: #0C0C0C;
@@ -2267,7 +2268,7 @@ pre {
 }
 .widget-thumbnail img[tag="user-picture-img"] {
     z-index: -5;
-    border: 1px solid #4440AC;
+    border: 1px solid #FFDDED;
     border-radius: 10px;
     width: 86px;
     height: 86px;
@@ -2602,7 +2603,7 @@ span.notif-count {
     color: #111111;
     background: #dff3f8;
     border-color: #93b9d8;
-    border-radius: 0px;
+    border-radius: 10px;
 }
 .alert.alert-warning {
     color: #111111;
