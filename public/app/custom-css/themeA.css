@@ -234,13 +234,6 @@ pre {
 /*!
  * theme
  */
-#weather {
-    top: 7px;
-}
-#announce {
-    width:100%; 
-    height:auto;
-}
 #forum {
     width:100%; 
     height:auto;
@@ -902,18 +895,18 @@ pre {
     /*text-decoration: none;*/
 }
 .con-title {
-    border-bottom: solid 1px #C8C8C8;
+    border-bottom: solid 1px #FFC8C8;
     width: 100%;
     height: 40px;
     padding: 7px;
-    font-weight: bold;
+    font-weight: normal;
     font-size: 17px;
 }
 .con-title a {
-    color: #383838;
+    color: #0C0C0C;
     line-height: 14pt;
     font-size: 17px;
-    font-weight: 700;
+    font-weight: normal;
 }
 .con-title a:hover{
     color: #77737E;
@@ -2272,8 +2265,8 @@ pre {
 }
 .scCatName {
     padding-left: 10px;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 17px;
+    font-weight: normal;
 }
 .scCatTitle {
     font-size: 15px;
