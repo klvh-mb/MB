@@ -112,7 +112,7 @@ public class Application extends Controller {
         
         final User localUser = getLocalUser(session());
         if(!User.isLoggedIn(localUser)) {
-            return mobileLogin();
+            return login();
         }
 
         return home(localUser);
@@ -173,7 +173,6 @@ public class Application extends Controller {
 	    
         final User localUser = getLocalUser(session());
 		if(!User.isLoggedIn(localUser)) {
-			//return ok(views.html.magazine.home.render());
 		    return login();
 		}
 

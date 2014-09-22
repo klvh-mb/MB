@@ -480,7 +480,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 	$scope.profileImage = "/image/get-profile-image";
 	$scope.coverImage = "/image/get-cover-image";
 	$scope.isEdit = true;
-	$scope.result = userAboutService.UserAbout.get();
+	$scope.userAbout = userAboutService.UserAbout.get();
 	
 	$scope.genders = DefaultValues.genders;
 	
