@@ -6,6 +6,9 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Test Adsfactor
+GET     /test-ads                   controllers.Application.ads
+
 # Bing Webmaster
 GET     /BingSiteAuth.xml           controllers.Application.bingWebmaster
 

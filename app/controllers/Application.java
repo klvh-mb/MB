@@ -557,4 +557,12 @@ public class Application extends Controller {
 	public static Result googleWebmaster() {
 	    return ok(views.html.google_webmaster.render());
 	}
+	
+	//
+	// Test Ads
+	//
+	@Transactional
+    public static Result ads() {
+        return ok(views.html.ads.render());
+    }
 }
