@@ -244,9 +244,7 @@ public class Application extends Controller {
         }
         
         if (User.isDisplayNameExists(parentDisplayName)) {
-            flash("error", "\""+parentDisplayName+"\" 已被選用。請選擇另一個顯示名稱重試");
-            return fb? badRequest(views.html.signup_info_fb.render(localUser)):
-                badRequest(views.html.signup_info.render(localUser));
+            return handleSaveSignupInfoError("\""+parentDisplayName+"\" 已被選用。請選擇另一個顯示名稱重試", fb);
         }
         
         localUser.displayName = parentDisplayName;
@@ -257,8 +255,8 @@ public class Application extends Controller {
         userInfo.location = parentLocation;
         userInfo.parentType = parentType;
         
-        if (parentBirthYear == null || parentLocation == null || parentType == null){
-        	return ok(views.html.signup_info.render(localUser));
+        if (parentBirthYear == null || parentLocation == null || parentType == null) {
+        	return handleSaveSignupInfoError("請填寫您的生日，地區，媽媽身份", fb);
         }
         
         if (ParentType.MOM.equals(parentType) || ParentType.SOON_MOM.equals(parentType)) {
@@ -278,9 +276,7 @@ public class Application extends Controller {
         for (int i = 1; i <= maxChildren; i++) {
             String genderStr = form.get("bb_gender" + i);
             if (genderStr == null) {
-                flash("error", "請選擇寶寶性別");
-                return fb? badRequest(views.html.signup_info_fb.render(localUser)):
-                    badRequest(views.html.signup_info.render(localUser));
+                return handleSaveSignupInfoError("請選擇寶寶性別", fb);
             }
             
             TargetGender bbGender = TargetGender.valueOf(form.get("bb_gender" + i));
@@ -289,9 +285,7 @@ public class Application extends Controller {
             String bbBirthDay = form.get("bb_birth_day" + i);
             
             if (!DateTimeUtil.isDateOfBirthValid(bbBirthYear, bbBirthMonth, bbBirthDay)) {
-                flash("error", "寶寶生日日期格式不正確。請重試");
-                return fb? badRequest(views.html.signup_info_fb.render(localUser)):
-                    badRequest(views.html.signup_info.render(localUser));
+                return handleSaveSignupInfoError("寶寶生日日期格式不正確。請重試", fb);
             }
             
             UserChild userChild = new UserChild();
@@ -307,6 +301,19 @@ public class Application extends Controller {
         return redirect("/my");
 	}
 	
+	private static Result handleSaveSignupInfoError(String error, boolean fb) {
+        final User localUser = getLocalUser(session());
+        if (isMobileUser()) {
+            flash("error", error);
+            return fb? badRequest(views.html.mobile.signup_info_fb.render(localUser)):
+                badRequest(views.html.mobile.signup_info.render(localUser));
+        } else {
+            flash("error", error);
+            return fb? badRequest(views.html.signup_info_fb.render(localUser)):
+                badRequest(views.html.signup_info.render(localUser));
+        }
+    }
+	   
 	public static User getLocalUser(final Session session) {
 		final AuthUser currentAuthUser = PlayAuthenticate.getUser(session);
 		if (currentAuthUser == null) {

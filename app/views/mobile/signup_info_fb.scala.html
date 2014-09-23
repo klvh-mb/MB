@@ -84,11 +84,29 @@
                                     <tr>
                                         <td colspan="2">
                                             <div class="signup-info-header">
-                                                請給我們多一點關於您的資訊，以便我們提供最相關和最新的內容給您!
+                                                請給我們一分鐘來完成登記，您所提供的資料是以便我們能把您加入到最相關的社群
+                                            </div>
+                                            <div class="signup-info-header-tips">
+                                                孕媽媽♥ / 九龍PN討論區2015-16 / 蛇年媽媽會♥2013 / 九龍城區媽媽會♥... 還有更多!
                                             </div>
                                         </td>
                                     </tr>
                                     <tr class="padding10"><td></td></tr>
+                                    @if(flash.get("error")) {
+                                    <tr><td colspan="2">
+                                    <div style="width: 100%;text-align: left;margin-bottom: 5px;">
+                                        <i class="glyphicon glyphicon-exclamation-sign"></i>
+                                        <span class="text-danger">@flash.get("error")</span>
+                                    </div>
+                                    </td></tr>
+                                    }
+                                    <tr>
+                                        <td style="width:120px;">您的顯示名稱:</td>
+                                        <td>
+                                            <div><input type="text" name="parent_displayname" id="parent_displayname" required="required" placeholder="暱稱" value="" style="padding:0 5px;"></input></div>
+                                            <div style="color:red;font-size:12px;margin-top:5px;max-width:280px;">註: 其他用戶只會看到您的顯示名稱，請選用一個您喜愛的暱稱。您之前填寫的姓名和電郵絶對不會對外顯示。</div>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td style="min-width:80px;">您的出生年份:</td>
                                         <td>
