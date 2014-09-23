@@ -908,15 +908,21 @@ public class User extends SocialObject implements Subject, Socializable {
             user.emailValidated = false;
         }
 
+        /* 
+         * User name inherited from SocialObject and it's being used 
+         * in many places. No longer valid as we only shows user display name
+         * now. User name will be set to display name during signup info step.
+         * See Application.doSaveSignupInfo 
+         * 
         if (authUser instanceof NameIdentity) {
             final NameIdentity identity = (NameIdentity) authUser;
             final String name = identity.getName();
             if (name != null) {
                 user.name = name;
-                user.displayName = name;
             }
         }
-
+         */
+        
         if (authUser instanceof FirstLastNameIdentity) {
             final FirstLastNameIdentity identity = (FirstLastNameIdentity) authUser;
             final String firstName = identity.getFirstName();
@@ -1080,6 +1086,26 @@ public class User extends SocialObject implements Subject, Socializable {
         return false;
     }
     
+    @Transactional
+    public static boolean isDisplayNameExists(String displayName) {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        Query q = JPA.em().createQuery(
+                "SELECT count(u) FROM User u where " +  
+                        "system = false and deleted = false and " + 
+                        "displayName = ?1");
+        q.setParameter(1, displayName);
+        Long count = (Long)q.getSingleResult();
+        if (count > 0) {
+            logger.underlyingLogger().error("[displayName="+displayName+"][count="+count+"] already exists");
+        }
+        boolean exists = count > 0;
+        
+        sw.stop();
+        logger.underlyingLogger().info("isDisplayNameExists="+exists+". Took "+sw.getElapsedMS()+"ms");
+        return exists;
+    }
+
     @Transactional
     public static Long getTodaySignupCount() {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();

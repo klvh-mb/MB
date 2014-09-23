@@ -12,7 +12,7 @@
 }
 .utility-box {
     position: relative;
-    float: left;
+    /*float: left;*/
     width: 100%;
     height: auto;
     /*box-shadow: 0px 0px 1px #FF7474;*/
@@ -111,6 +111,7 @@
     height:52px;
     overflow: visible;
     border: 1px solid #FFC8C8;
+    margin-bottom: 18px;
 }
 #announce {
     width:100%; 

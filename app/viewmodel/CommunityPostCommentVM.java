@@ -12,8 +12,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class CommunityPostCommentVM {
 	@JsonProperty("id") public Long commentId;
 	@JsonProperty("oid") public Long ownerId;
-	@JsonProperty("on") public String name;
-	@JsonProperty("cd") public Long creationDate;
+	@JsonProperty("on") public String postedBy;
+	@JsonProperty("cd") public Long postedOn;
 	@JsonProperty("hasImage") public boolean hasImage = false;
 	@JsonProperty("imgs") public Long[] images;
 	@JsonProperty("d") public String commentText;
@@ -26,8 +26,8 @@ public class CommunityPostCommentVM {
 		CommunityPostCommentVM postCommentVM = new CommunityPostCommentVM();
 		postCommentVM.commentId = comment.id;
 		postCommentVM.ownerId = comment.owner.id;
-		postCommentVM.name = comment.owner.name;
-		postCommentVM.creationDate = comment.getCreatedDate().getTime();
+		postCommentVM.postedBy = comment.owner.displayName;
+		postCommentVM.postedOn = comment.getCreatedDate().getTime();
 		postCommentVM.commentText = comment.body;
 		postCommentVM.noOfLikes = comment.noOfLikes;
 		postCommentVM.isOwner = comment.owner.id == user.id;

@@ -85,7 +85,7 @@ public class SocialActivity {
                     notification.URLs = Json.stringify(Json.toJson(jsonMap));
                     notification.recipient = socialAction.actor;
                     notification.notificationType = NotificationType.COMM_JOIN_APPROVED;
-                    notification.message = "你已成為「"+socialAction.getTargetObject().name+"」的成員。";
+                    notification.message = "你正在關注「"+socialAction.getTargetObject().name+"」。";
                     notification.status = 0;
                     notification.save();
                 }

@@ -44,7 +44,7 @@
     <!-- Post Body Ends -->
     <ul class="post-qna-answers">
         <li>
-            <span class="post-qna-answer-count" ng-show="post.n_c == 0"><b>尚未有回覆</b></span>
+            <span class="post-qna-answer-count" ng-show="post.n_c == 0">尚未有回覆</span>
             <span class="post-qna-answer-count" ng-show="post.n_c > 0 && post.n_c <= 3"><b>{{post.n_c}}個回覆</b></span>
             <span class="post-qna-answer-count" ng-show="post.n_c > 3  && post.ep"><b>共{{post.n_c}}個回覆</b></span>
             <a href="" ng-show="post.n_c > 3 && !post.ep" data-ng-click="get_all_comments(post.id)"><b>共{{post.n_c}}個回覆</b></a>

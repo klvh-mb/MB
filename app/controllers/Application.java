@@ -186,9 +186,9 @@ public class Application extends Controller {
 	 */
 	public static Result home(User user) {
 	    if (isMobileUser()) {
-            logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.name+"] Login - mobile");
+            logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] Login - mobile");
         } else {
-            logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.name+"] Login - PC");
+            logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] Login - PC");
         }
 	    
 		if (User.isLoggedIn(user) && user.userInfo == null) {
@@ -203,7 +203,7 @@ public class Application extends Controller {
 		}
 		
 	    if (user.isNewUser()) {
-            logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.name+"] Signup completed - "+(isMobileUser()?"mobile":"PC"));
+            logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] Signup completed - "+(isMobileUser()?"mobile":"PC"));
 
 	        CommunityTargetingEngine.assignSystemCommunitiesToUser(user);
 	        
@@ -220,15 +220,21 @@ public class Application extends Controller {
 	
 	@Transactional
     public static Result saveSignupInfoFb() {
-	    return saveSignupInfo();
+	    return doSaveSignupInfo(true);
 	}
 	
 	@Transactional
 	public static Result saveSignupInfo() {
+	    return doSaveSignupInfo(false);
+	}
+	
+	@Transactional
+    public static Result doSaveSignupInfo(boolean fb) {
 		final User localUser = getLocalUser(session());
 		
 		// UserInfo
         DynamicForm form = DynamicForm.form().bindFromRequest();
+        String parentDisplayName = form.get("parent_displayname").trim();
         String parentBirthYear = form.get("parent_birth_year");
         Location parentLocation = Location.getLocationById(Integer.valueOf(form.get("parent_location")));
         ParentType parentType = ParentType.valueOf(form.get("parent_type"));
@@ -237,8 +243,14 @@ public class Application extends Controller {
             numChildren = 0;
         }
         
-        if (parentBirthYear == null)
-            throw new RuntimeException("Parent UserInfo must be filled out");
+        if (User.isDisplayNameExists(parentDisplayName)) {
+            flash("error", "\""+parentDisplayName+"\" 已被選用。請選擇另一個顯示名稱重試");
+            return fb? badRequest(views.html.signup_info_fb.render(localUser)):
+                badRequest(views.html.signup_info.render(localUser));
+        }
+        
+        localUser.displayName = parentDisplayName;
+        localUser.name = parentDisplayName;
         
         UserInfo userInfo = new UserInfo();
         userInfo.birthYear = parentBirthYear;
@@ -265,16 +277,22 @@ public class Application extends Controller {
         int maxChildren = (numChildren > 5)? 5 : numChildren;
         for (int i = 1; i <= maxChildren; i++) {
             String genderStr = form.get("bb_gender" + i);
-            if (genderStr == null)
-                throw new RuntimeException("Please select a gender for child " + i);
+            if (genderStr == null) {
+                flash("error", "請選擇寶寶性別");
+                return fb? badRequest(views.html.signup_info_fb.render(localUser)):
+                    badRequest(views.html.signup_info.render(localUser));
+            }
             
             TargetGender bbGender = TargetGender.valueOf(form.get("bb_gender" + i));
             String bbBirthYear = form.get("bb_birth_year" + i);
             String bbBirthMonth = form.get("bb_birth_month" + i);
             String bbBirthDay = form.get("bb_birth_day" + i);
             
-            if (!DateTimeUtil.isDateOfBirthValid(bbBirthYear, bbBirthMonth, bbBirthDay)) 
-                throw new RuntimeException("Please check child birthday for child " + i);
+            if (!DateTimeUtil.isDateOfBirthValid(bbBirthYear, bbBirthMonth, bbBirthDay)) {
+                flash("error", "寶寶生日日期格式不正確。請重試");
+                return fb? badRequest(views.html.signup_info_fb.render(localUser)):
+                    badRequest(views.html.signup_info.render(localUser));
+            }
             
             UserChild userChild = new UserChild();
             userChild.gender = bbGender;

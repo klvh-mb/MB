@@ -46,7 +46,7 @@
 .post-input-title {
     border-radius: 0px;
     padding: 5px 2px 2px 6px;
-    font-weight: bold;
+    font-weight: normal;
     font-size: 17px;
     height: 32px !important;
     line-height: 1.2;
@@ -162,7 +162,7 @@
     padding-top: 5px;
 }
 .post-qna-body, .post-qna-answer-body {
-    padding-left: 50px;
+    padding-left: 40px;
 }
 .post-qna-body-title {
     padding-bottom: 10px;
@@ -205,7 +205,7 @@
     background-color: #f5f5ff;
     padding: 0px !important;
     margin: 0px !important;
-    font-size: 15px;
+    font-size: 14px;
 }
 .post-qna-answers li {
     padding: 7px 10px;

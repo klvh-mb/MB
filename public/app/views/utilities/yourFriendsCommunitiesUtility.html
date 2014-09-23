@@ -1,7 +1,6 @@
 <div id="newCommunity" class="general-box utility-box">
     <div class="con-title">
         <span class="icon-box icon-box-green icon-title-newcommunity"></span>
-        <!--您朋友關注的社群-->
         社群推介
     </div>
     <ul class="newCommunity-info">
@@ -14,7 +13,9 @@
                     <!--font data-ng-show="community.tp=='OPEN'">   ·   公開的社群</font--><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開的社群</font>
                 </span>
             </p>
-            <span data-ng-show="community.isP" class="check-mark"><i class="fa fa-check-square fa-2x"></i></span>
+            <span ng-show="community.isM || community.isP" style="position:relative;right:20px;margin-top:5px;" class="btn-general-flat pull-right">
+                正在關注
+            </span>
             <a ng-show="!community.isP" class="btn-general" data-ng-click="send_request(community.id)">+ <i class="fa fa-user"></i> 關注</a>
         </li>
     </ul>

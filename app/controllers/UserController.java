@@ -202,6 +202,7 @@ public class UserController extends Controller {
 	public static Result updateUserProfileData() {
 		// UserInfo
         DynamicForm form = DynamicForm.form().bindFromRequest();
+        String displayName = form.get("displayName");
         String firstName = form.get("firstName");
         String lastName = form.get("lastName");
         String birthYear = form.get("userInfo.birthYear");
@@ -221,10 +222,10 @@ public class UserController extends Controller {
             return status(500);
         }
         
+        localUser.displayName = displayName;
+        localUser.name = displayName;
         localUser.firstName = firstName;
         localUser.lastName = lastName;
-        localUser.displayName = firstName + " " + lastName;
-        localUser.name = localUser.displayName;
         localUser.userInfo.birthYear = birthYear;
         localUser.userInfo.location = location;
         localUser.userInfo.gender = gender;

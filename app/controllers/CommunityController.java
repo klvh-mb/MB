@@ -835,7 +835,7 @@ public class CommunityController extends Controller{
                 continue;
             }
             
-            object = new SocialObjectVM(user.id.toString(), user.name, "");
+            object = new SocialObjectVM(user.id.toString(), user.displayName, "");
             objectVMs.add(object);
         }
         return ok(Json.toJson(objectVMs));
@@ -884,7 +884,7 @@ public class CommunityController extends Controller{
 
         // reloading newsfeed
         if(offset == 0) {
-            logger.underlyingLogger().info("STS [u="+localUser.id+"][name="+localUser.name+"] Reloading social newsfeed");
+            logger.underlyingLogger().info("STS [u="+localUser.id+"][name="+localUser.displayName+"] Reloading social newsfeed");
             // Re-index user's community feed
             NewsfeedCommTargetingEngine.indexCommNewsfeedForUser(localUser.getId());
     	}
@@ -921,7 +921,7 @@ public class CommunityController extends Controller{
 
         // reloading business feed
         if(offset == 0) {
-            logger.underlyingLogger().info("STS [u="+localUser.id+"][name="+localUser.name+"][cat="+communityCategoryId+"] Reloading business newsfeed");
+            logger.underlyingLogger().info("STS [u="+localUser.id+"][name="+localUser.displayName+"][cat="+communityCategoryId+"] Reloading business newsfeed");
             // Re-index user's biz feed
             BusinessFeedCommTargetingEngine.indexBusinessNewsfeedForUser(localUser.getId(), communityCategoryId);
     	}

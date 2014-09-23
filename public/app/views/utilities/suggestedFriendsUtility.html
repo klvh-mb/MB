@@ -18,8 +18,8 @@
                 </div>
             </div>
             <div style="margin-top:5px;">
-                <a ng-show="friend.isf==false && friend.isP == false && isLoadingEnabled==false" class="btn-general" data-ng-click="send_invite(friend.id)">+ <i class="fa fa-user"></i> 加為朋友</a></li>
-                <a ng-show="friend.isP == true && isLoadingEnabled==false" class="btn-general" disabled="disabled">已送出交友邀請</a></li>
+                <a ng-show="friend.isf==false && friend.isP == false && isLoadingEnabled==false" class="btn-general" data-ng-click="send_invite(friend.id)">+ <i class="fa fa-user"></i> 加為朋友</a>
+                <span ng-show="friend.isP == true && isLoadingEnabled==false" class="btn-general-flat" disabled="disabled">已送出交友邀請</span>
             </div>
         </div>
     </div>

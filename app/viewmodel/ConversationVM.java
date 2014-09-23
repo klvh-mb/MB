@@ -20,7 +20,7 @@ public class ConversationVM {
 	@JsonProperty("hm") public Boolean hasMessage = false;
 	
 	public ConversationVM(Conversation conversation, User user) {
-		this.name = user.name;
+		this.name = user.displayName;
 		this.userID = user.id;
 		this.id = conversation.id;
 		this.lastMessageDate = conversation.getUpdatedDate();

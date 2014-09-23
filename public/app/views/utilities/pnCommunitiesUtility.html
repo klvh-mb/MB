@@ -10,7 +10,9 @@
                 <a href="my#/community/{{community.id}}"><font style="color: #428bca;">{{community.dn}}</font></a><br>
                 <span class="community-member-counter"><font>{{community.mm}}個關注</font></span>
             </p>
-            <span data-ng-show="community.isP" class="check-mark"><i class="fa fa-check-square fa-2x"></i></span>
+            <span ng-show="community.isM || community.isP" style="position:relative;right:20px;margin-top:5px;" class="btn-general-flat pull-right">
+                正在關注
+            </span>
             <a ng-show="!community.isP" class="btn-general" data-ng-click="send_request(community.id)">+ <i class="fa fa-user"></i> 關注</a>
         </li>
     </ul>

@@ -51,7 +51,7 @@ public class CommunityPostVM {
 		CommunityPostVM postVM = new CommunityPostVM();
 		postVM.postId = post.id;
 		postVM.ownerId = post.owner.id;
-		postVM.postedBy = post.owner.name;
+		postVM.postedBy = post.owner.displayName;
 		postVM.postedOn = post.getCreatedDate().getTime();
 		postVM.updatedOn = post.getSocialUpdatedDate().getTime();
 		postVM.postedTitle = post.title;

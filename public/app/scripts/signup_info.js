@@ -36,6 +36,11 @@ $(document).ready(function() {
     $("#signup-info-wrapper").validate({
         //debug : true,
         rules : {
+            parent_displayname : {
+                required : true,
+                minlength : 3,
+                maxlength : 15
+            },
             parent_birth_year : {
                 required : true
             },
@@ -157,6 +162,11 @@ $(document).ready(function() {
             }
         },
         messages : {
+            parent_displayname : {
+                required : "請填寫您的顯示名稱",
+                minlength : "顯示名稱最小3個字",
+                maxlength : "顯示名稱最多15個字"
+            },
             parent_birth_year : {
                 required : "請選擇您的出生年份"
             },

@@ -236,7 +236,7 @@ minibean.controller('ApplicationController',
 
 		this.acceptFriendRequest = acceptFriendRequestService.acceptFriendRequest.get({id:id, notify_id:notify_id}, 
 				function() {
-                    $(".a_" + notify_id).html("friend");
+                    $(".a_" + notify_id).html("已成為朋友");
                     $(".a_" + notify_id).removeClass("btn-success");
                     $(".a_" + notify_id).addClass("btn-default");
                     $(".a_" + notify_id).attr("disabled", true);
@@ -252,7 +252,7 @@ minibean.controller('ApplicationController',
 		$(".a_" + notify_id).append(spinner.el);
 		this.accept_join_request = acceptJoinRequestService.acceptJoinRequest.get({"member_id":member_id, "group_id":group_id, "notify_id":notify_id},
 			function() {
-                $(".a_" + notify_id).html("member");
+                $(".a_" + notify_id).html("已加入");
                 $(".a_" + notify_id).removeClass("btn-success");
                 $(".a_" + notify_id).addClass("btn-default");
                 $(".a_" + notify_id).attr("disabled", true);
@@ -269,7 +269,7 @@ minibean.controller('ApplicationController',
         $(".a_" + notify_id).append(spinner.el);
 		this.accept_invite_request = acceptJoinRequestService.acceptInviteRequest.get({"member_id":member_id, "group_id":group_id, "notify_id":notify_id},
 			function() {
-                $(".a_" + notify_id).html("member");
+                $(".a_" + notify_id).html("正在關注");
                 $(".a_" + notify_id).removeClass("btn-success");
                 $(".a_" + notify_id).addClass("btn-default");
                 $(".a_" + notify_id).attr("disabled", true);

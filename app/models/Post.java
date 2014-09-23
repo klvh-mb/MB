@@ -286,7 +286,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
         postIndex.community_id = this.community.id;
         postIndex.owner_id = this.owner.id;
         postIndex.description = this.body;
-        postIndex.postedBy = (this.owner.name != null) ?  this.owner.name : "No Name";
+        postIndex.postedBy = (this.owner.displayName != null) ?  this.owner.displayName : "NA";
         postIndex.postedOn = this.getCreatedDate();
     
         if(withPhotos){

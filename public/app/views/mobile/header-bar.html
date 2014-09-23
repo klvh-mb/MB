@@ -36,6 +36,10 @@
                     </div>
                     <div class="media-body" data-ng-init="request.isLoadingEnable = false">
 
+                        <button data-ng-hide="request.tp == 'COMM_JOIN_APPROVED' || request.tp == 'FRD_ACCEPTED'" style="margin-left:10px;"
+                            data-ng-click="ignoreIt(request.nid);$event.stopPropagation();"
+                            class="btn btn-xs btn-default pull-right ignore">略過</button>
+                                
                         <button ng-switch-when="COMM_JOIN_REQUEST"  data-ng-show="request.isRequestAccepted == false && request.isLoadingEnable == false" data-ng-init="request.isRequestAccepted = false"
                             data-ng-click="accept_join_request(request.url.actor, request.url.target, request.nid);$event.stopPropagation();"
                             class="btn btn-xs btn-success pull-right a_{{request.nid}}">接受</button>
@@ -47,10 +51,6 @@
                         <button ng-switch-when="FRD_REQUEST" data-ng-init="friend.isFriendAccepted = false"
                             data-ng-click="accept_friend_request(request.url.actor, request.nid);$event.stopPropagation();"
                             class="btn btn-xs btn-success pull-right a_{{request.nid}}">接受</button>
-
-                       <button data-ng-hide="request.tp == 'COMM_JOIN_APPROVED' || request.tp == 'FRD_ACCEPTED'" style="margin-right: 15px;"
-                            data-ng-click="ignoreIt(request.nid);$event.stopPropagation();"
-                            class="btn btn-xs btn-success pull-right ignore">不理</button>
                     </div>
                 </li>
             </ul>
