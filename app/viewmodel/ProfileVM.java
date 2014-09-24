@@ -10,8 +10,6 @@ import models.User;
 public class ProfileVM {
 	
     @JsonProperty("dn")	 public String displayName;
-    @JsonProperty("ln")  public String lastName;
-    @JsonProperty("fn")  public String firstName;
     @JsonProperty("yr") public String birthYear;
     @JsonProperty("gd")  public String gender;
     @JsonProperty("a")   public String aboutMe;
@@ -28,8 +26,6 @@ public class ProfileVM {
     public static ProfileVM profile(User user, User localUser) {
         ProfileVM vm = new ProfileVM();
         vm.displayName = user.displayName;
-        vm.lastName = user.lastName;
-        vm.firstName = user.firstName;
         if(user.userInfo != null) {
         	vm.birthYear = user.userInfo.birthYear;
 			if(user.userInfo.gender != null) {
