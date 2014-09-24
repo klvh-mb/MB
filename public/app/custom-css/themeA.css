@@ -1591,6 +1591,10 @@ pre {
     vertical-align: middle;
     border: gray thin solid;
 }*/
+#about .about-edit ul {
+    padding: 5px 10px;
+    font-size: 15px;
+}
 /* About End */
 
 /* Profile About Start */

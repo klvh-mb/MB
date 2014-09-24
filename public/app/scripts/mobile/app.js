@@ -34,7 +34,7 @@ angular.module('minibean', [
       })
       .when('/profile/:id',{
     	templateUrl: '/assets/app/views/mobile/visit-profile.html',
-    	controller : 'ProfileController'  
+    	controller : 'UserProfileController'  
       })
       .when('/communities-discover',{
         templateUrl: '/assets/app/views/mobile/communities-discover-page.html',

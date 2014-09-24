@@ -461,25 +461,24 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 		$scope.selectedTab = 1;
 	}
 	
-	if (tab == 'communities' ) {
+	if (tab == 'communities') {
 		$scope.selectedTab = 2;
 	}
 	
-	if (tab == 'myCommunities' ) {
+	if (tab == 'myCommunities') {
 		$scope.selectedTab = 2;
 	}
 	
-	if (tab == 'friends' ) {
+	if (tab == 'friends') {
         $scope.selectedTab = 3;
     }
     
-    if (tab == 'bookmarks' ) {
+    if (tab == 'bookmarks') {
         $scope.selectedTab = 4;
     }
     
 	$scope.profileImage = "/image/get-profile-image";
 	$scope.coverImage = "/image/get-cover-image";
-	$scope.isEdit = true;
 	$scope.userAbout = userAboutService.UserAbout.get();
 	
 	$scope.genders = DefaultValues.genders;
@@ -1031,13 +1030,13 @@ minibean.controller('CommunityWidgetByUserController',function($scope, $routePar
 	log("CommunityWidgetByUserController completed");
 });
 
-minibean.controller('ProfileController',function($scope, $routeParams, $location, profileService, friendsService, sendInvitation, unFriendService){
-	log("ProfileController starts");
+minibean.controller('UserProfileController',function($scope, $routeParams, $location, profileService, friendsService, sendInvitation, unFriendService){
+	log("UserProfileController starts");
     
     $scope.get_header_metaData();
 	
 	$scope.$watch($routeParams.id, function (navigateTo) {
-		if( $routeParams.id  == $scope.userInfo.id){
+		if($routeParams.id  == $scope.userInfo.id){
 			 $location.path("about/activities");
 		}
 	});
@@ -1076,7 +1075,7 @@ minibean.controller('ProfileController',function($scope, $routeParams, $location
         $scope.img_id = imageId;
     }
     
-    log("ProfileController completed");
+    log("UserProfileController completed");
 });
 
 minibean.controller('SearchPageController', function($scope, $routeParams, likeFrameworkService, communityPageService, $http, communitySearchPageService, usSpinnerService){

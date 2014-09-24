@@ -199,6 +199,10 @@ public class CommunityController extends Controller{
 
         final User localUser = Application.getLocalUser(session());
         final Community community = Community.findById(id);
+        if (community == null) {
+            logger.underlyingLogger().warn(String.format("[c=%d] Community not exist", id));
+            return status(500);
+        }
 
         //if(localUser.isMemberOf(community) || community.owner.id == localUser.id || community.communityType.toString().equals("OPEN") && localUser.isMemberOf(community) == false || community.communityType.toString().equals("CLOSE") && localUser.isMemberOf(community) == true){
         if(community.objectType == SocialObjectType.COMMUNITY) {
@@ -211,9 +215,8 @@ public class CommunityController extends Controller{
             sw.stop();
             logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+id+"] getCommunityInfoById. Took "+sw.getElapsedMS()+"ms");
             return ok(Json.toJson(communityVM));
-        } else {
-            return ok();
         }
+        return ok();
     }
     
     @Transactional
