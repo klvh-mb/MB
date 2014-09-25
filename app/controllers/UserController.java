@@ -22,8 +22,10 @@ import models.Notification;
 import models.Post;
 import models.Resource;
 import models.User;
+import models.UserChild;
 import models.UserCommunityAffinity;
-
+import models.UserInfo;
+import models.UserInfo.ParentType;
 import play.data.DynamicForm;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -43,10 +45,11 @@ import viewmodel.SocialObjectVM;
 import viewmodel.UserVM;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
+
 import common.model.TargetGender;
+import common.utils.DateTimeUtil;
 import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
-
 import domain.DefaultValues;
 
 public class UserController extends Controller {
@@ -200,39 +203,118 @@ public class UserController extends Controller {
 
 	@Transactional
 	public static Result updateUserProfileData() {
-		// UserInfo
-        DynamicForm form = DynamicForm.form().bindFromRequest();
-        String displayName = form.get("displayName");
-        String firstName = form.get("firstName");
-        String lastName = form.get("lastName");
-        String birthYear = form.get("userInfo.birthYear");
-        Location location = null;
-        try {
-            location = Location.getLocationById(Integer.valueOf(form.get("userInfo.location")));
-        } catch (Exception e) { }
-        TargetGender gender = null;
-        try {
-            gender = TargetGender.valueOfInt(Integer.valueOf(form.get("userInfo.gender")));
-        } catch (Exception e) { }
-        String aboutMe = Emoticon.replace(form.get("userInfo.aboutMe"));
-        
-        final User localUser = Application.getLocalUser(session());
-        if (!localUser.isLoggedIn()) {
-            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
-            return status(500);
+	    final User localUser = Application.getLocalUser(session());
+	    
+	    logger.underlyingLogger().info(String.format("[u=%d] updateUserProfileData", localUser.id));
+	    
+	    // Basic info
+	    DynamicForm form = DynamicForm.form().bindFromRequest();
+	    String parentDisplayName = form.get("parent_displayname").trim();
+	    String parentFirstName = form.get("parent_firstname").trim();
+	    String parentLastName = form.get("parent_lastname").trim();
+	    String parentAboutMe = form.get("parent_aboutme").trim();
+	    if (parentDisplayName == null || parentFirstName == null || parentLastName == null) {
+	        logger.underlyingLogger().error(String.format(
+	                "[u=%d][displayname=%s][firstname=%s][lastname=%s] displayname, firstname or lastname missing", 
+	                localUser.id, parentDisplayName, parentFirstName, parentLastName));
+            return status(500, "請填寫您的姓名");
+        }
+	    
+	    if (!localUser.displayName.equals(parentDisplayName) && 
+                User.isDisplayNameExists(parentDisplayName)) {
+            logger.underlyingLogger().error(String.format(
+                    "[u=%d][displayname=%s] displayname already exists", localUser.id, parentDisplayName));
+            return status(500, "\""+parentDisplayName+"\" 已被選用。請選擇另一個顯示名稱重試");
         }
         
-        localUser.displayName = displayName;
-        localUser.name = displayName;
-        localUser.firstName = firstName;
-        localUser.lastName = lastName;
-        localUser.userInfo.birthYear = birthYear;
-        localUser.userInfo.location = location;
-        localUser.userInfo.gender = gender;
-        localUser.userInfo.aboutMe = aboutMe;
-        localUser.merge();
+		// UserInfo
+        String parentBirthYear = form.get("parent_birth_year");
+        Location parentLocation = Location.getLocationById(Integer.valueOf(form.get("parent_location")));
         
-		return ok("true");
+        if (parentBirthYear == null || parentLocation == null) {
+            logger.underlyingLogger().error(String.format(
+                    "[u=%d][birthYear=%s][location=%s] birthYear or location missing", localUser.id, parentBirthYear, parentLocation.displayName));
+            return status(500, "請填寫您的生日，地區");
+        }
+        
+        localUser.displayName = parentDisplayName;
+        localUser.name = parentDisplayName;
+        localUser.firstName = parentFirstName;
+        localUser.lastName = parentLastName;
+        
+        localUser.userInfo.birthYear = parentBirthYear;
+        localUser.userInfo.location = parentLocation;
+        localUser.userInfo.aboutMe = parentAboutMe;
+        localUser.userInfo.save();
+        localUser.save();
+        
+        /*
+        ParentType parentType = ParentType.valueOf(form.get("parent_type"));
+        int numChildren = Integer.valueOf(form.get("num_children"));
+        if (ParentType.NA.equals(parentType)) {
+            numChildren = 0;
+        }
+        
+        if (parentBirthYear == null || parentLocation == null || parentType == null) {
+            return status(500, "請填寫您的生日，地區，媽媽身份");
+        }
+        
+        localUser.displayName = parentDisplayName;
+        localUser.name = parentDisplayName;
+        localUser.firstName = parentFirstName;
+        localUser.lastName = parentLastName;
+        
+        UserInfo userInfo = new UserInfo();
+        userInfo.birthYear = parentBirthYear;
+        userInfo.location = parentLocation;
+        userInfo.parentType = parentType;
+        userInfo.aboutMe = parentAboutMe;
+        
+        if (ParentType.MOM.equals(parentType) || ParentType.SOON_MOM.equals(parentType)) {
+            userInfo.gender = TargetGender.Female;
+        } else if (ParentType.DAD.equals(parentType) || ParentType.SOON_DAD.equals(parentType)) {
+            userInfo.gender = TargetGender.Male;
+        } else {
+            userInfo.gender = TargetGender.Female;   // default
+        }
+        userInfo.numChildren = numChildren;
+        
+        localUser.userInfo = userInfo;
+        localUser.userInfo.save();
+        
+        // UseChild
+        int maxChildren = (numChildren > 5)? 5 : numChildren;
+        for (int i = 1; i <= maxChildren; i++) {
+            String genderStr = form.get("bb_gender" + i);
+            if (genderStr == null) {
+                return status(500, "請選擇寶寶性別");
+            }
+            
+            TargetGender bbGender = TargetGender.valueOf(form.get("bb_gender" + i));
+            String bbBirthYear = form.get("bb_birth_year" + i);
+            String bbBirthMonth = form.get("bb_birth_month" + i);
+            String bbBirthDay = form.get("bb_birth_day" + i);
+            
+            if (bbBirthDay == null) {
+                bbBirthDay = "";
+            }
+            
+            if (!DateTimeUtil.isDateOfBirthValid(bbBirthYear, bbBirthMonth, bbBirthDay)) {
+                return status(500, "寶寶生日日期格式不正確。請重試");
+            }
+            
+            UserChild userChild = new UserChild();
+            userChild.gender = bbGender;
+            userChild.birthYear = bbBirthYear;
+            userChild.birthMonth = bbBirthMonth;
+            userChild.birthDay = bbBirthDay;
+            
+            userChild.save();
+            localUser.children.add(userChild);
+        }
+        */
+        
+        return ok();
 	}
 	
 	@Transactional
@@ -743,13 +825,12 @@ public class UserController extends Controller {
     		requests.add(new NotificationVM(n));
     	}
     	
-    	
 		Map<String, Object> vm = new HashMap<>();
 		
 		vm.put("messageCount", localUser.getUnreadMsgCount());
 		vm.put("requestNotif", requests);
 		vm.put("allNotif", notif);
-		vm.put("name", localUser.firstName);
+		vm.put("name", localUser.displayName);
 		vm.put("notifyCount", unread_allNotif_count);
 		vm.put("requestCount", unread_reqNotif_count);
 

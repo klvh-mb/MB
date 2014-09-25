@@ -105,9 +105,11 @@ public class User extends SocialObject implements Subject, Socializable {
     public boolean mobileSignup;
     
     @OneToOne
+    @JsonIgnore
     public FbUserInfo fbUserInfo;
     
     @OneToMany
+    @JsonIgnore
     public List<FbUserFriend> fbUserFriends;
     
     // stats
@@ -143,6 +145,7 @@ public class User extends SocialObject implements Subject, Socializable {
     public Long totalLogin = 0L;
     
     @ManyToMany
+    @JsonIgnore
     public List<SecurityRole> roles;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -172,6 +175,7 @@ public class User extends SocialObject implements Subject, Socializable {
     public List<Folder> folders;
 
     @OneToMany(cascade = CascadeType.REMOVE)
+    @JsonIgnore
     public List<Album> album;
 
     @OneToMany

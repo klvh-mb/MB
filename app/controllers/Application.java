@@ -246,6 +246,9 @@ public class Application extends Controller {
         if (User.isDisplayNameExists(parentDisplayName)) {
             return handleSaveSignupInfoError("\""+parentDisplayName+"\" 已被選用。請選擇另一個顯示名稱重試", fb);
         }
+        if (parentBirthYear == null || parentLocation == null || parentType == null) {
+            return handleSaveSignupInfoError("請填寫您的生日，地區，媽媽身份", fb);
+        }
         
         localUser.displayName = parentDisplayName;
         localUser.name = parentDisplayName;
@@ -254,10 +257,6 @@ public class Application extends Controller {
         userInfo.birthYear = parentBirthYear;
         userInfo.location = parentLocation;
         userInfo.parentType = parentType;
-        
-        if (parentBirthYear == null || parentLocation == null || parentType == null) {
-        	return handleSaveSignupInfoError("請填寫您的生日，地區，媽媽身份", fb);
-        }
         
         if (ParentType.MOM.equals(parentType) || ParentType.SOON_MOM.equals(parentType)) {
             userInfo.gender = TargetGender.Female;
@@ -283,6 +282,10 @@ public class Application extends Controller {
             String bbBirthYear = form.get("bb_birth_year" + i);
             String bbBirthMonth = form.get("bb_birth_month" + i);
             String bbBirthDay = form.get("bb_birth_day" + i);
+            
+            if (bbBirthDay == null) {
+                bbBirthDay = "";
+            }
             
             if (!DateTimeUtil.isDateOfBirthValid(bbBirthYear, bbBirthMonth, bbBirthDay)) {
                 return handleSaveSignupInfoError("寶寶生日日期格式不正確。請重試", fb);
