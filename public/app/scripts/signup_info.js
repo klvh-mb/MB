@@ -37,14 +37,18 @@ $(document).ready(function() {
         //debug : true,
         rules : {
             parent_firstname : {
-                required : true
+                required : true,
+                minlength : 2,
+                maxlength : 15
             },
             parent_lastname : {
-                required : true
+                required : true,
+                minlength : 2,
+                maxlength : 15
             },
             parent_displayname : {
                 required : true,
-                minlength : 3,
+                minlength : 2,
                 maxlength : 15
             },
             parent_birth_year : {
@@ -169,14 +173,18 @@ $(document).ready(function() {
         },
         messages : {
             parent_firstname : {
-                required : "請填寫您的名字"
+                required : "請填寫您的名字",
+                minlength : "名字最小2個字",
+                maxlength : "名字最多15個字"
             },
             parent_lastname : {
-                required : "請填寫您的姓氏"
+                required : "請填寫您的姓氏",
+                minlength : "姓氏最小2個字",
+                maxlength : "姓氏最多15個字"
             },
             parent_displayname : {
                 required : "請填寫您的顯示名稱",
-                minlength : "顯示名稱最小3個字",
+                minlength : "顯示名稱最小2個字",
                 maxlength : "顯示名稱最多15個字"
             },
             parent_birth_year : {

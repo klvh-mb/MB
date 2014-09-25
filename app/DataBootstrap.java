@@ -481,7 +481,7 @@ public class DataBootstrap {
         logger.underlyingLogger().info("bootstrapCommunityCategory()");
 
         final String[] cats = new String[] {
-                "熱門產品", "親子好去處", "優惠券", "送給您的小萌豆"
+                "嬰兒產品", "用家推薦", "優惠券", "送給您的小萌豆"
         };
 
         for (int i = 0; i < cats.length; i++) {
