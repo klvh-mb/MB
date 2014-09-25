@@ -12,7 +12,7 @@
                     <li id="profile-header-menu">
                         <div><img src="{{profileImage}}" alt="profile-pic" /><a ng-click="openProfilePhotoModal()"><span class="icon-box-2 icon-title-edit-photo"></span><span class="icon-box-2 icon-box-black-op05"></span></a></div>
                         
-                        <p id="profile-user-name">{{userAbout.displayName}}</p>
+                        <p id="profile-user-name">{{userInfo.displayName}}</p>
                         <div id="menu-title">
                         	<a ng-click="selectedTab = 1;" ng-class="{activeTabBold: selectedTab == 1}">最新發佈</a>
 							<div class="divider-cus"></div>
@@ -50,9 +50,9 @@
                     <div class="con-title">
                         <span class="icon-box icon-box-blueLight icon-title-profile-about"></span>關於
                         <div style="float:right">
-                            <button type="button" class="btn btn-default" ng-click="profile_data.$show()" ng-show="!profile_data.$visible">
+                            <!--button type="button" class="btn btn-default" ng-click="profile_data.$show()" ng-show="!profile_data.$visible">
                                 <span class="glyphicon glyphicon-pencil"></span>
-                            </button>
+                            </button-->
                         </div>
                     </div>
                     <div class="row">

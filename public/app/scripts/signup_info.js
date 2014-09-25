@@ -33,9 +33,15 @@ $(document).ready(function() {
     this.onChangeParentType();
   
     // validations
-    $("#signup-info-wrapper").validate({
+    $("#signup-info").validate({
         //debug : true,
         rules : {
+            parent_firstname : {
+                required : true
+            },
+            parent_lastname : {
+                required : true
+            },
             parent_displayname : {
                 required : true,
                 minlength : 3,
@@ -162,6 +168,12 @@ $(document).ready(function() {
             }
         },
         messages : {
+            parent_firstname : {
+                required : "請填寫您的名字"
+            },
+            parent_lastname : {
+                required : "請填寫您的姓氏"
+            },
             parent_displayname : {
                 required : "請填寫您的顯示名稱",
                 minlength : "顯示名稱最小3個字",

@@ -1,0 +1,89 @@
+<header>
+    <div data-ng-include style="width: 100%;height: 50px;" data-src="'/assets/app/views/header-bar.html'"></div>
+    <div data-ng-include data-src="'/assets/app/views/nav-bar.html'"></div>
+</header>
+<div class="themeA-container">
+    <div class="row">
+        <div class="col-lg-1 col-md-1 col-xs-1" style="width:5%;"></div>
+        <div class="col-md-6 col-sm-6 col-xs-6" style="width:48%;">
+            <div id="profile-header">
+                <ul>
+                    <li><div><img id="profile-banner" src="{{coverImage}}" /><a ng-click="openCoverPhotoModal()"><span class="icon-box-2 icon-title-edit-photo"></span><span class="icon-box-2 icon-box-black-op05"></span></a></div></li>
+                    <li id="profile-header-menu">
+                        <div><img src="{{profileImage}}" alt="profile-pic" /><a ng-click="openProfilePhotoModal()"><span class="icon-box-2 icon-title-edit-photo"></span><span class="icon-box-2 icon-box-black-op05"></span></a></div>
+                        
+                        <p id="profile-user-name">{{userInfo.displayName}}</p>
+                        <div id="menu-title" style="font-size:17px;margin-left:15px;">
+                        	<!--span ng-show="selectedTab == 1;">個人資料</span-->
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div ng-show="selectedTab == 1" id="wall" style="height: auto !important;"  ng-controller="UserNewsFeedController" >
+                <div data-ng-include data-src="'/assets/app/views/about-me-edit-section.html'"></div>
+            </div>
+			 
+            <!--Wall End -->
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4" style="width:300px;">
+            <div id="about" class="general-box">
+                <div class="con-title">
+                    更改個人資料與設定
+                </div>
+                <div class="about-edit">
+                    <ul>
+                        <li>
+                            <a ng-click="selectedTab = 1;" ng-class="{activeTabBold: selectedTab == 1}">
+                                <span style="width:22px;height:22px;" class="icon-box icon-box-blueLight icon-title-profile-about"></span>個人資料
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="padding20"></div>
+
+<script type="text/ng-template" id="change-profile-photo-modal.html">
+    <div class="modal-header">
+        <button type="button" ng-click="close()" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">更換封面相片</h4>
+    </div>
+    <div class="modal-body">
+        <input type="file" ng-file-select="onFileSelect($files)" >
+        <div ng-file-drop="onFileSelect($files)" class="drop-box" ng-show="dropSupported">相片放到這裡</div>
+        <div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 相片拖放工能不支援!</div>
+        <br/><br/>
+        <div ng-show="selectedFiles != null">
+            <div class="sel-file" ng-repeat="f in selectedFiles">
+                <button class="button" ng-click="start($index)" ng-show="progress[$index] < 0">開始</button>
+                <button class="button" ng-click="abort($index)" ng-show="hasUploader($index) && progress[$index] < 100">終止</button>
+                {{f.name}} - size: {{f.size}}B - type: {{f.type}}
+            </div>
+        </div>
+        <div class="response" ng-show="uploadResult.length > 0">
+            <ul>
+                <li ng-repeat="result in uploadResult">
+                    <ul>
+                        <li ng-repeat="item in result.result">
+                            <div data-ng-show="item.name">檔案名稱: {{item.name}}</div>
+                            <div data-ng-show="item.fieldName">名稱: {{item.fieldName}}</div>
+                            <div data-ng-show="item.size">size: {{item.size}}</div>
+                            <div data-ng-show="item.value">value: {{item.value}}</div>
+                        </li>
+                    </ul>
+                    <div data-ng-show="result.requestHeaders" class="reqh">request headers: {{result.requestHeaders}}</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="modal-footer">
+		<span us-spinner spinner-key="loading.." ></span>
+	</div>
+</script>
+
+<script>
+    ga_send_pv();
+</script>

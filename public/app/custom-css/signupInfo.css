@@ -30,7 +30,7 @@ ul, li {
 }
 .signup-info-sub-table tr td:first-child {
     text-align: right;
-    width: 120px;
+    width: 100px;
 }
 .signup-info-table {
     width: 550px;

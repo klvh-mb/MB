@@ -216,9 +216,9 @@ minibean.controller('ApplicationController',
             $scope.unread_msg_count = data.messageCount;
             $scope.request_notif = data.requestNotif;
             $scope.batchup_notif = data.allNotif;
-            $scope.username = data.name;
             $scope.unread_notify_count = data.notifyCount;
             $scope.unread_request_count = data.requestCount;
+            $scope.userInfo.displayName = data.name;
         });
     };
     $scope.get_header_metaData();
@@ -442,12 +442,12 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 			usSpinnerService.stop('loading..');
 			profilePhotoModal.CloseModal();
 		}).error(function(data, status, headers, config) {
-            alert("Unable to Proceed");
+            prompt("請重試");
         });
 	} // End of start
 }
 
-minibean.controller('UserAboutController',function($routeParams, $scope, $http, userAboutService, locationService, profilePhotoModal){
+minibean.controller('UserAboutController',function($routeParams, $scope, $http, userAboutService, locationService, profilePhotoModal, usSpinnerService) {
 	log("UserAboutController starts");
 	
 	$scope.get_header_metaData();
@@ -482,17 +482,29 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 	$scope.userAbout = userAboutService.UserAbout.get();
 	
 	$scope.genders = DefaultValues.genders;
-	
-	$scope.years = DefaultValues.years;
-    
+	$scope.parentBirthYears = DefaultValues.parentBirthYears;
+	$scope.childBirthYears = DefaultValues.childBirthYears;
     $scope.locations = locationService.getAllDistricts.get();
     
-	$scope.updateUserDisplayName = function(data) {
-		return $http.post('/updateUserDisplayName', {"displayName" : data});
-	}
-	
-	$scope.updateUserProfileData = function(data) {
-		return $http.post('/updateUserProfileData', $scope.result);
+	$scope.updateUserProfileData = function() {
+        if ($("#signup-info").valid()) {
+            var formData = {
+                parent_firstname : $scope.userAbout.firstName,
+                parent_lastname  : $scope.userAbout.lastName,
+                parent_displayname : $scope.userAbout.displayName,
+                parent_aboutme : $scope.userAbout.userInfo.aboutMe,
+                parent_birth_year : $scope.userAbout.userInfo.birthYear,
+                parent_location : $scope.userAbout.userInfo.location.id
+            };
+           
+    		return $http.post('/updateUserProfileData', formData).success(function(data){
+                $("#submitBtn").text("完成");
+                $scope.get_header_metaData();
+                usSpinnerService.stop('loading...');
+            }).error(function(data, status, headers, config) {
+                prompt(data);
+            });
+        }
 	}
 	
 	$scope.isProfileOn = true; 
@@ -612,7 +624,7 @@ minibean.controller('CreateCommunityController',function($scope, $location, $htt
 			    });
 		    })
 		    .error(function () {
-		        log('error');
+		        prompt("建立社群失敗。請重試");
 		    });
 	}
 	
@@ -1111,7 +1123,7 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 				}
 				usSpinnerService.stop('loading...');	
 			}).error(function(data, status, headers, config) {
-                alert("Unable to Proceed");
+                prompt("回覆失敗。請重試");
             });
 		});
 	};
@@ -1355,12 +1367,12 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                                         });
                                     }
                                 }).error(function(data, status, headers, config) {
-                                    alert("Unable to Proceed");
+                                    prompt("回載圖片失敗。請重試");
                                 });
                         }
                     }
             }).error(function(data, status, headers, config) {
-                alert("Unable to Proceed");
+                prompt("回覆失敗。請重試");
             });
             usSpinnerService.stop('loading...');    
         });
@@ -1423,11 +1435,11 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                             }
                         });
                     }).error(function(data, status, headers, config) {
-                        alert("Unable to Proceed");
+                        prompt("上載圖片失敗。請重試");
                     });
                 }
         }).error(function(data, status, headers, config) {
-            alert("Unable to Proceed");
+            prompt("發佈失敗。請重試");
         });
     };
 
@@ -1674,7 +1686,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                 "withPhotos" : $scope.QnASelectedFiles.length != 0
             };
         
-        $http.post('/communityQnA/question/post', data)// first create post with question text.
+        $http.post('/communityQnA/question/post', data) // first create post with question text.
             .success(function(post_id) {
                 usSpinnerService.stop('loading...');
                 $('.postBox').val('');
@@ -1688,7 +1700,6 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                 
                 $scope.QnASelectedFiles = [];
                 $scope.dataUrls = [];
-                
                 
                 // when post is done in BE then do photo upload
                 for(var i=0 ; i<$scope.tempSelectedFiles.length ; i++) {
@@ -1714,11 +1725,11 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                             }
                         });
                     }).error(function(data, status, headers, config) {
-                            alert("Unable to Proceed");
+                            prompt("上載圖片失敗。請重試");
                     });
                 }
         }).error(function(data, status, headers, config) {
-            alert("Unable to Proceed");
+            prompt("發佈失敗。請重試");
         });
     };
     

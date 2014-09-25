@@ -25,7 +25,7 @@ var DefaultValues = new function() {
                        {value: 'Female', text: '女'}
                    ];
      
-    this.years = [
+    this.parentBirthYears = [
                        {value: '1998', text: '1998'},
                        {value: '1997', text: '1997'},
                        {value: '1996', text: '1996'},
@@ -63,9 +63,30 @@ var DefaultValues = new function() {
                        {value: '1964', text: '1964'},
                        {value: '<1964', text: '1964之前'}
                   ];
+                  
+    this.childBirthYears = [
+                       {value: '2015', text: '2015'},
+                       {value: '2014', text: '2014'},
+                       {value: '2013', text: '2013'},
+                       {value: '2012', text: '2012'},
+                       {value: '2011', text: '2011'},
+                       {value: '2010', text: '2010'},
+                       {value: '2009', text: '2009'},
+                       {value: '2008', text: '2008'},
+                       {value: '2007', text: '2007'},
+                       {value: '2006', text: '2006'},
+                       {value: '2005', text: '2005'},
+                       {value: '2004', text: '2004'},
+                       {value: '2003', text: '2003'},
+                       {value: '2002', text: '2002'},
+                       {value: '2001', text: '2001'},
+                       {value: '2000', text: '2000'},
+                       {value: '<2000', text: '2000之前'}
+                  ];
                    
     this.communityType = [
                            {value: 'OPEN', text: 'Open'},
-                           {value: 'CLOSE', text: 'Close'}
+                           {value: 'CLOSE', text: 'Close'},
+                           {value: 'BUSINESS', text: 'Business'}
                          ];
 };

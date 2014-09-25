@@ -1,0 +1,338 @@
+<div id="message-box" class="general-box">
+    <div class="con-title">個人資料</div>
+    <div style="padding:10px 10px;">
+        <form id="signup-info" name="signup-info" method="post" action="">
+            <table class="signup-info-table" style="width:100%;">
+                <tbody>
+                    <tr ng-show="userInfo.isFbLogin">
+                        <td style="width:120px;">您的登入方式:</td>
+                        <td>
+                            <img style="width:25px;height:auto;" src="/assets/app/images/login/Facebook_icon_2013.svg"></img>
+                        </td>
+                    </tr>
+                    <tr ng-show="!userInfo.isFbLogin">
+                        <td style="width:120px;">您的登入方式:</td>
+                        <td>
+                            <img style="width:25px;height:auto;" src="/assets/app/images/mobile/logo-mB-1.png"></img>
+                        </td>
+                    </tr>
+                    <tr ng-show="!userInfo.isFbLogin">
+                        <td style="width:120px;">您的登入電郵:</td>
+                        <td>
+                            {{userInfo.email}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:120px;">您的顯示名稱:</td>
+                        <td>
+                            <div><input type="text" name="parent_displayname" id="parent_displayname" required="required" placeholder="暱稱" ng-model="userAbout.displayName" style="padding:3px 10px;"></input></div>
+                            <div style="color:red;font-size:12px;margin-top:5px;max-width:250px;">註: 其他用戶只會看到您的顯示名稱，請選用一個您喜愛的暱稱。您的姓名，電郵或任何其他資料絶對不會對外顯示。</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:120px;">個人簡介:</td>
+                        <td>
+                            <textarea cols="25" rows="4" name="parent_aboutme" id="parent_aboutme" class="general-input-box" style="resize:none;width:70%;" placeholder="" ng-model="userAbout.userInfo.aboutMe" ng-required></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:120px;">姓名:</td>
+                        <td>
+                            <input type="text" name="parent_lastname" id="parent_lastname" required="required" placeholder="姓" ng-model="userAbout.lastName" style="padding:3px 10px;width:25%"></input>
+                            <input type="text" name="parent_firstname" id="parent_firstname" required="required" placeholder="名" ng-model="userAbout.firstName" style="padding:3px 10px;width:45%"></input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:120px;">您的出生年份:</td>
+                        <td>
+                            <div>
+                                <span>
+                                    <select id="parent_birth_year" name="parent_birth_year" ng-model="userAbout.userInfo.birthYear" ng-options="y.value as y.text for y in parentBirthYears" required rel="popover"></select>
+                                </span> 
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>您居住的地區:</td>
+                        <td>
+                            <div>
+                                <span>
+                                    <select id="parent_location" name="parent_location" ng-model="userAbout.userInfo.location.id" ng-options="l.id as l.displayName for l in locations" required rel="popover"></select>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <!--tr>
+                        <td>您現在是:</td>
+                        <td>
+                            <div></div>
+                            <div>
+                                <span>
+                                    <input type="radio" name="parent_type" value="MOM" id="mom" ng-model="userAbout.userInfo.parentType">
+                                    <label for="parent_type">媽媽</label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="parent_type" value="DAD" id="dad" ng-model="userAbout.userInfo.parentType">
+                                    <label for="parent_type">爸爸</label>
+                                </span>
+                                <span id="parent_type-error-holder"></span>
+                            </div>
+                            <div>
+                                <span>
+                                    <input type="radio" name="parent_type" value="SOON_MOM" id="mom_soon_to_be" ng-model="userAbout.userInfo.parentType">
+                                    <label for="parent_type">準媽媽</label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="parent_type" value="SOON_DAD" id="dad_soon_to_be" ng-model="userAbout.userInfo.parentType">
+                                    <label for="parent_type">準爸爸</label>
+                                </span>
+                            </div>
+                            <div>
+                                <span>
+                                    <input type="radio" name="parent_type" value="NA" id="parent_na" ng-model="userAbout.userInfo.parentType">
+                                    <label for="parent_type">沒有小寶寶</label>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr id="num_children_row">
+                        <td></td>
+                        <td>
+                        您有
+                        <span>
+                            <select name="num_children" id="num_children" ng-model="userAbout.userInfo.numChildren">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="9999">多於5</option>
+                            </select>
+                        </span> 
+                        個小寶寶
+                        </td>
+                    </tr>
+                    <tr id="child1_row">
+                        <td></td>
+                        <td>
+                            <table class="signup-info-sub-table">
+                                <tr>
+                                    <td style="text-align:right">1) 小寶寶是:</td>
+                                    <td>
+                                        <div>
+                                            <span>
+                                                <input type="radio" name="bb_gender1" value="Male" id="bb_boy1" ng-model="userAbout.children[0].gender">
+                                                <label for="bb_gender1">BB仔</label>
+                                            </span>
+                                            <span>
+                                                <input type="radio" name="bb_gender1" value="Female" id="bb_gal1" ng-model="userAbout.children[0].gender">
+                                                <label for="bb_gender1">BB女</label>
+                                            </span>
+                                            <span id="bb_gender1-error-holder"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right">生日:</td>
+                                    <td>
+                                        <div>
+                                            <select name="bb_birth_year1" id="bb_birth_year1" ng-model="userAbout.children[0].birthYear" ng-options="y.value as y.text for y in childBirthYears">
+                                                <option value="" selected="1">年</option>
+                                            </select>
+                                            <select name="bb_birth_month1" id="bb_birth_month1" ng-model="userAbout.children[0].birthMonth">
+                                                <option value="" selected="1">月</option><option value="1">一月</option><option value="2">二月</option><option value="3">三月</option><option value="4">四月</option><option value="5">五月</option><option value="6">六月</option><option value="7">七月</option><option value="8">八月</option><option value="9">九月</option><option value="10">十月</option><option value="11">十一月</option><option value="12">十二月</option>
+                                            </select>
+                                            <select name="bb_birth_day1" id="bb_birth_day1" ng-model="userAbout.children[0].birthDay">
+                                                <option value="" selected="1">日</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
+                                            </select>
+                                        </div>
+                                        <span id="bb_birth_year1-error-holder"></span>
+                                        <span id="bb_birth_month1-error-holder"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr id="child2_row">
+                        <td></td>
+                        <td>
+                            <table class="signup-info-sub-table">
+                                <tr>
+                                    <td style="text-align:right">2) 小寶寶是:</td>
+                                    <td>
+                                        <div>
+                                            <span>
+                                                <input type="radio" name="bb_gender2" value="Male" id="bb_boy2" ng-model="userAbout.children[1].gender">
+                                                <label for="bb_gender2">BB仔</label>
+                                            </span>
+                                            <span>
+                                                <input type="radio" name="bb_gender2" value="Female" id="bb_gal2" ng-model="userAbout.children[1].gender">
+                                                <label for="bb_gender2">BB女</label>
+                                            </span>
+                                            <span id="bb_gender2-error-holder"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right">生日:</td>
+                                    <td>
+                                        <div>
+                                            <select name="bb_birth_year2" id="bb_birth_year2" ng-model="userAbout.children[1].birthYear" ng-options="y.value as y.text for y in childBirthYears">
+                                                <option value="" selected="1">年</option>
+                                            </select>
+                                            <select name="bb_birth_month2" id="bb_birth_month2" ng-model="userAbout.children[1].birthMonth">
+                                                <option value="" selected="1">月</option><option value="1">一月</option><option value="2">二月</option><option value="3">三月</option><option value="4">四月</option><option value="5">五月</option><option value="6">六月</option><option value="7">七月</option><option value="8">八月</option><option value="9">九月</option><option value="10">十月</option><option value="11">十一月</option><option value="12">十二月</option>
+                                            </select>
+                                            <select name="bb_birth_day2" id="bb_birth_day2" ng-model="userAbout.children[1].birthDay">
+                                                <option value="" selected="1">日</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
+                                            </select>
+                                        </div>
+                                        <span id="bb_birth_year2-error-holder"></span>
+                                        <span id="bb_birth_month2-error-holder"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr id="child3_row">
+                        <td></td>
+                        <td>
+                            <table class="signup-info-sub-table">
+                                <tr>
+                                    <td style="text-align:right">3) 小寶寶是:</td>
+                                    <td>
+                                        <div>
+                                            <span>
+                                                <input type="radio" name="bb_gender3" value="Male" id="bb_boy3" ng-model="userAbout.children[2].gender">
+                                                <label for="bb_gender3">BB仔</label>
+                                            </span>
+                                            <span>
+                                                <input type="radio" name="bb_gender3" value="Female" id="bb_gal3" ng-model="userAbout.children[2].gender">
+                                                <label for="bb_gender3">BB女</label>
+                                            </span>
+                                            <span id="bb_gender3-error-holder"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right">生日:</td>
+                                    <td>
+                                        <div>
+                                            <select name="bb_birth_year3" id="bb_birth_year3" ng-model="userAbout.children[2].birthYear" ng-options="y.value as y.text for y in childBirthYears">
+                                                <option value="" selected="1">年</option>
+                                            </select>
+                                            <select name="bb_birth_month3" id="bb_birth_month3" ng-model="userAbout.children[2].birthMonth">
+                                                <option value="" selected="1">月</option><option value="1">一月</option><option value="2">二月</option><option value="3">三月</option><option value="4">四月</option><option value="5">五月</option><option value="6">六月</option><option value="7">七月</option><option value="8">八月</option><option value="9">九月</option><option value="10">十月</option><option value="11">十一月</option><option value="12">十二月</option>
+                                            </select>
+                                            <select name="bb_birth_day3" id="bb_birth_day3" ng-model="userAbout.children[2].birthDay">
+                                                <option value="" selected="1">日</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
+                                            </select>
+                                        </div>
+                                        <span id="bb_birth_year3-error-holder"></span>
+                                        <span id="bb_birth_month3-error-holder"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr id="child4_row">
+                        <td></td>
+                        <td>
+                            <table class="signup-info-sub-table">
+                                <tr>
+                                    <td style="text-align:right">4) 小寶寶是:</td>
+                                    <td>
+                                        <div>
+                                            <span>
+                                                <input type="radio" name="bb_gender4" value="Male" id="bb_boy4" ng-model="userAbout.children[3].gender">
+                                                <label for="bb_gender4">BB仔</label>
+                                            </span>
+                                            <span>
+                                                <input type="radio" name="bb_gender4" value="Female" id="bb_gal4" ng-model="userAbout.children[3].gender">
+                                                <label for="bb_gender4">BB女</label>
+                                            </span>
+                                            <span id="bb_gender4-error-holder"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right">生日:</td>
+                                    <td>
+                                        <div>
+                                            <select name="bb_birth_year4" id="bb_birth_year4" ng-model="userAbout.children[3].birthYear" ng-options="y.value as y.text for y in childBirthYears">
+                                                <option value="" selected="1">年</option>
+                                            </select>
+                                            <select name="bb_birth_month4" id="bb_birth_month4" ng-model="userAbout.children[3].birthMonth">
+                                                <option value="" selected="1">月</option><option value="1">一月</option><option value="2">二月</option><option value="3">三月</option><option value="4">四月</option><option value="5">五月</option><option value="6">六月</option><option value="7">七月</option><option value="8">八月</option><option value="9">九月</option><option value="10">十月</option><option value="11">十一月</option><option value="12">十二月</option>
+                                            </select>
+                                            <select name="bb_birth_day4" id="bb_birth_day4" ng-model="userAbout.children[3].birthDay">
+                                                <option value="" selected="1">日</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
+                                            </select>
+                                        </div>
+                                        <span id="bb_birth_year4-error-holder"></span>
+                                        <span id="bb_birth_month4-error-holder"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr id="child5_row">
+                        <td></td>
+                        <td>
+                            <table class="signup-info-sub-table">
+                                <tr>
+                                    <td style="text-align:right">5) 小寶寶是:</td>
+                                    <td>
+                                        <div>
+                                            <span>
+                                                <input type="radio" name="bb_gender5" value="Male" id="bb_boy5" ng-model="userAbout.children[4].gender">
+                                                <label for="bb_gender5">BB仔</label>
+                                            </span>
+                                            <span>
+                                                <input type="radio" name="bb_gender5" value="Female" id="bb_gal5" ng-model="userAbout.children[4].gender">
+                                                <label for="bb_gender5">BB女</label>
+                                            </span>
+                                            <span id="bb_gender5-error-holder"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:right">生日:</td>
+                                    <td>
+                                        <div>
+                                            <select name="bb_birth_year5" id="bb_birth_year5" ng-model="userAbout.children[4].birthYear" ng-options="y.value as y.text for y in childBirthYears">
+                                                <option value="" selected="1">年</option>
+                                            </select>
+                                            <select name="bb_birth_month5" id="bb_birth_month5" ng-model="userAbout.children[4].birthMonth">
+                                                <option value="" selected="1">月</option><option value="1">一月</option><option value="2">二月</option><option value="3">三月</option><option value="4">四月</option><option value="5">五月</option><option value="6">六月</option><option value="7">七月</option><option value="8">八月</option><option value="9">九月</option><option value="10">十月</option><option value="11">十一月</option><option value="12">十二月</option>
+                                            </select>
+                                            <select name="bb_birth_day5" id="bb_birth_day5" ng-model="userAbout.children[4].birthDay">
+                                                <option value="" selected="1">日</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
+                                            </select>
+                                        </div>
+                                        <span id="bb_birth_year5-error-holder"></span>
+                                        <span id="bb_birth_month5-error-holder"></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr-->
+                    <tr class="padding10"><td></td></tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button id="submitBtn" class="btn btn-primary ng-binding pull-right" ng-disabled="signup-info.$pristine" type="submit" disabled="disabled" data-ng-click="updateUserProfileData();">
+                                儲存更新
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>              
+</div>
+
+<link rel="stylesheet" href="../assets/app/custom-css/login.css">
+<link rel="stylesheet" href="../assets/app/custom-css/signupInfo.css">
+<script type="text/javascript" src="../assets/app/scripts/signup_info.js"></script>
