@@ -1,18 +1,18 @@
 <div id="container-hd-nav" class="Pos-f W-100 Z-10" ng-show="selectedNavBar == 'MAGAZINE'">
     <div class="tab-bar NoTextDecoration Ov-h P-0 Whs-nw Abu-LightOverlay-90 W-100" style="margin-top:-8px;margin-bottom:8px;">
         <div id="scrollview" class="yui3-widget yui3-scrollview yui3-scrollview-horiz">
-            <div id="magazine-nav-subbar" class="yui3-widget yui3-scrollview yui3-scrollview-horiz yui3-scrollview-content" style="width:80px;-webkit-transform:matrix(1, 0, 0, 1, 175, 0);transform:translate(0px, 0px) translateZ(0px);">
+            <div id="magazine-nav-subbar" class="yui3-widget yui3-scrollview yui3-scrollview-horiz yui3-scrollview-content" style="width:280px;-webkit-transform:matrix(1, 0, 0, 1, 175, 0);transform:translate(0px, 0px) translateZ(0px);">
                 <ul class="stream-tabs SimpleTabs static-list M-0 D-ib yui3-scrollview-content" style="transition: 0s; -webkit-transition: 0s; -webkit-transform: translate(0px, 0px);">
                     <li class="Grid-U Px-8 Fz-m">
                         <div ng-class="{'Selected-green': selectedNavSubBar == 0}">
                             <a role="button" class="Px-2 Abu-C-p rapidnofollow rapid-noclick-resp" ng-click="selectNavSubBar(0);" href="m-magazine#/">最新動向</a>
                         </div>
                     </li>
-                    <!--li class="Grid-U Px-8 Fz-m" ng-repeat="category in communityCategories">
+                    <li class="Grid-U Px-8 Fz-m" ng-repeat="category in communityCategories">
                         <div ng-class="{'Selected-green': selectedNavSubBar == category.id}">
                             <a role="button" class="Px-2 Abu-C-p rapidnofollow rapid-noclick-resp" ng-click="selectNavSubBar($index+1);" href="m-magazine#/view/{{category.id}}">{{category.name}}</a>
                         </div>
-                    </li-->
+                    </li>
                 </ul>
             </div>
         </div>

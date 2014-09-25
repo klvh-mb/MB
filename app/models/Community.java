@@ -327,7 +327,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
     public static List<Long> findBusinessCommIdsByCategory(Long commCategoryId) {
         Query q = JPA.em().createNativeQuery("SELECT c.id FROM Community c where c.communityType = ?1 and c.deleted = false "+
                 "and c.id in (select Community_id from Community_CommunityCategory where communityCategories_id = ?2)");
-        q.setParameter(1, CommunityType.BUSINESS.name());
+        q.setParameter(1, CommunityType.BUSINESS.ordinal());
         q.setParameter(2, commCategoryId.longValue());
 
         final List<Long> result = new ArrayList<>();
