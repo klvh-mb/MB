@@ -28,6 +28,13 @@
 		    </div>
      	</div>
 	</div>
+	<div class="general-box" ng-show="newsFeeds.posts.length == 0 && !isBusyP">
+        <div class="section-title">
+            <div>
+                尚未有話題
+            </div>
+        </div>
+    </div>
 	<span ng-show="isBusyP" spinner-start-active="1" us-spinner="{top:'inherit'}"></span>
 </div>
 
@@ -42,5 +49,12 @@
 		    </div>
      	</div>
 	</div>
+	<div class="general-box" ng-show="newsFeeds.posts.length == 0 && !isBusyC">
+        <div class="section-title">
+            <div>
+                尚未有回覆
+            </div>
+        </div>
+    </div>
 	<span ng-show="isBusyC" spinner-start-active="1" us-spinner="{top:'inherit'}"></span>
 </div>

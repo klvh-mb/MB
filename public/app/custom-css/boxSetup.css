@@ -87,7 +87,8 @@
 }
 .toolsbox-single {
     border: #bcbcbc solid thin;
-    border-radius: 3px; 
+    border-radius: 3px;
+    font-size: 13px; 
 }
 .subtoolsbox {
     background-color: white;

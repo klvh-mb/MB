@@ -209,16 +209,23 @@ public class UserController extends Controller {
 	    
 	    // Basic info
 	    DynamicForm form = DynamicForm.form().bindFromRequest();
-	    String parentDisplayName = form.get("parent_displayname").trim();
-	    String parentFirstName = form.get("parent_firstname").trim();
-	    String parentLastName = form.get("parent_lastname").trim();
-	    String parentAboutMe = form.get("parent_aboutme").trim();
+	    String parentDisplayName = form.get("parent_displayname");
+	    String parentFirstName = form.get("parent_firstname");
+	    String parentLastName = form.get("parent_lastname");
+	    String parentAboutMe = form.get("parent_aboutme");
 	    if (parentDisplayName == null || parentFirstName == null || parentLastName == null) {
 	        logger.underlyingLogger().error(String.format(
 	                "[u=%d][displayname=%s][firstname=%s][lastname=%s] displayname, firstname or lastname missing", 
 	                localUser.id, parentDisplayName, parentFirstName, parentLastName));
-            return status(500, "請填寫您的姓名");
+            return status(500, "請填寫您的顯示名稱與姓名");
         }
+	    
+	    parentDisplayName = parentDisplayName.trim();
+	    parentFirstName = parentFirstName.trim();
+	    parentLastName = parentLastName.trim();
+	    if (parentAboutMe != null) {
+	        parentAboutMe = parentAboutMe.trim();
+	    }
 	    
 	    if (!localUser.displayName.equals(parentDisplayName) && 
                 User.isDisplayNameExists(parentDisplayName)) {
