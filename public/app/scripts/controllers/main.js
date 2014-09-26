@@ -921,7 +921,7 @@ minibean.controller('CommunitiesDiscoverController',function($scope, $routeParam
             }
         }
     }
-    $scope.setSelectedSubTab(1);
+    $scope.setSelectedSubTab(4);
     
     $scope.send_request = function(id) {
         usSpinnerService.spin('loading...');

@@ -54,14 +54,17 @@
 			 
             <!--Wall End -->
         </div>
-        <div class="col-md-4 col-sm-4 col-xs-4" style="width:300px;">
-	        <div class="row" >
+        <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
+	        <div class="row">
 				<a style="margin:0 8px 8px 0;font-size:14px;" ng-show="profile.isf == true && isLoadingEnabled == false" class="btn-general pull-right" data-ng-href="my#/message/{{profile.id}}">
 				    <img style="width:28px;" src="/assets/app/images/general/icons/chat-pink.png"></img> 私人訊息
                 </a>
 	        </div>
             <div id="about" class="general-box">
                 <div data-ng-include data-src="'/assets/app/views/profile-about-section.html'"></div>
+            </div>
+            <div style="margin-bottom:5px;">
+                <script adSid="336814706671" ads-factor language='JavaScript' type="text/javascript"></script>
             </div>
             <div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.communities.length > 0">
                 <div data-ng-include data-src="'/assets/app/views/utilities/yourFriendsCommunitiesUtility.html'"></div>

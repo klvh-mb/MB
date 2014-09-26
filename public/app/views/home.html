@@ -15,7 +15,7 @@
                     <div data-ng-include data-src="'/assets/app/views/widgets/my-shortcuts-widget.html'"></div>
                 </div>
                 <div>
-                    <div data-ng-include data-src="'/assets/app/views/utilities/communitiesDiscoverUtility.html'"></div>
+                    <div data-ng-include data-src="'/assets/app/views/widgets/communities-discover-widget.html'"></div>
                 </div>
                 <div data-ng-controller="UserCommunityWidgetController" data-ng-show="result.communities.length > 0">
                     <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/widgets/my-communities-widget.html'"></div>
@@ -26,18 +26,21 @@
                 <div ng-show="topAnnouncements.length > 0">
                     <div data-ng-include data-src="'/assets/app/views/top-announcements.html'"></div>
                 </div>
-    		
+                
 	            <div id="wall">
 	                <div ng-controller="NewsFeedController" data-ng-include data-src="'/assets/app/views/home-news-feed-section.html'"></div>
 	            </div>
             </div>
 	        
-    		<div class="col-md-4 col-sm-4 col-xs-4" style="width:300px;">
+    		<div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
 	            <div ng-controller="TodayWeatherInfoController">
                     <div data-ng-include data-src="'/assets/app/views/utilities/todayWeatherInfoUtility.html'"></div>
                 </div>
                 <div ng-controller="AnnouncementsWidgetController" ng-show="announcements.length > 0">
                     <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/widgets/announcements-widget.html'"></div>
+                </div>
+                <div style="margin-bottom:5px;">
+                    <script adSid="336814706671" ads-factor language='JavaScript' type="text/javascript"></script>
                 </div>
 				<div ng-controller="PNCommunitiesUtilityController" data-ng-show="pnCommunities.length > 0 && userTargetProfile.pn">
                     <div data-ng-include data-src="'/assets/app/views/utilities/pnCommunitiesUtility.html'"></div>
@@ -45,16 +48,12 @@
   				<div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.communities.length > 0">
                     <div data-ng-include data-src="'/assets/app/views/utilities/yourFriendsCommunitiesUtility.html'"></div>
 				</div>
-                <!--div ng-controller="SuggestedFriendsUtilityController" data-ng-show="result.friends.length > 0">
-					<div data-ng-include data-src="'/assets/app/views/utilities/suggestedFriendsUtility.html'"></div>
-				</div-->
                 <div ng-controller="MyFriendsUtilityController" data-ng-show="result.friends.length > 0">
                     <div data-ng-include data-src="'/assets/app/views/utilities/friendsUtility.html'"></div>
                 </div>
                 <div>
                     <div data-ng-include data-src="'/assets/app/views/utilities/feedbackCommunityUtility.html'"></div>
                 </div>
-                <script adSid="336814706671" ad-factor language='JavaScript' type="text/javascript"></script>
             </div>
 	    </div>
     </div>

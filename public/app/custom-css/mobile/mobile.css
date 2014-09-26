@@ -1,7 +1,7 @@
-/* main */
 body {
-    font-family: 新細明體,Arial,Helvetica,serif,'lucida grande',tahoma,verdana;
+    font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
     font-size: 13px;
+    color: #333;
     margin: 0;
     padding: 0;
     background-image: none;
@@ -545,6 +545,9 @@ span.notif-count {
 .allpost-wrapper a.tag {
     font-weight: normal;
 }
+#relatePost li {
+    width: 25%;
+}
 
 /* masonry */
 .pin-brick { 
@@ -570,6 +573,7 @@ span.notif-count {
 }
 
 /*  */
+
 
 /*  */
 

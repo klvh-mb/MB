@@ -13,14 +13,14 @@
     text-align: center;
 }
 #promo-signup {
-    padding: 10px;
+    padding: 5px 20px;
 }
 #promo-signup .promo-signup-text {
     font-size: 14px;
     font-weight: normal;
 }
 #promo-signup .promo-signup-fb {
-    margin: 15px 0px;
+    margin: 10px 0px;
     text-align: center;
 }
 #promo-signup .promo-signup-fb h5 {
@@ -38,7 +38,7 @@
 #promo-signup .promo-signup-native {
     font-size: 14px;
     text-align: center;
-    margin: 10px 0px;
+    margin: 5px 0px;
 }
 
 #nav-bar, #nav-subbar {
