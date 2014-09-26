@@ -486,6 +486,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 	$scope.childBirthYears = DefaultValues.childBirthYears;
     $scope.locations = locationService.getAllDistricts.get();
     
+    $scope.saved = false;
 	$scope.updateUserProfileData = function() {
         if ($("#signup-info").valid()) {
             var formData = {
@@ -498,7 +499,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
             };
            
     		return $http.post('/updateUserProfileData', formData).success(function(data){
-                $("#submitBtn").text("完成");
+                $scope.saved = true;
                 $scope.get_header_metaData();
                 usSpinnerService.stop('loading...');
             }).error(function(data, status, headers, config) {

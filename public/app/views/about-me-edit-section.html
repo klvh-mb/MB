@@ -4,6 +4,13 @@
         <form id="signup-info" name="signup-info" method="post" action="">
             <table class="signup-info-table" style="width:100%;">
                 <tbody>
+                    <tr ng-show="saved">
+                        <td colspan=2>
+                            <div class="alert alert-success" role="alert">
+                                你的個人資料己儲存，謝謝。 <a href="my#/about"><b>返回您的主頁</b></a>
+                            </div>
+                        </td>
+                    </tr>
                     <tr ng-show="userInfo.isFbLogin">
                         <td style="width:120px;">您的登入方式:</td>
                         <td>
@@ -321,12 +328,17 @@
                     <tr class="padding10"><td></td></tr>
                     <tr>
                         <td></td>
-                        <td>
+                        <td ng-show="!saved">
                             <button id="submitBtn" class="btn btn-primary ng-binding pull-right" ng-disabled="signup-info.$pristine" type="submit" disabled="disabled" data-ng-click="updateUserProfileData();">
                                 儲存更新
                             </button>
                             <button id="cancelBtn" class="btn btn-default ng-binding pull-right" style="margin-right:7px;">
                                 <a href="my#/about">取消</a>
+                            </button>
+                        </td>
+                        <td ng-show="saved">
+                            <button class="btn btn-default ng-binding pull-right" style="margin-right:7px;">
+                                <a href="my#/about">返回您的主頁</a>
                             </button>
                         </td>
                     </tr>

@@ -2619,15 +2619,20 @@ span.notif-count {
     padding: 5px 15px;
     margin-bottom: 7px;
 }
-.alert.alert-info {
+.alert.alert-success, .alert.alert-info, .alert.alert-warning {
     color: #111111;
-    background: #dff3f8;
-    border-color: #93b9d8;
     border-radius: 10px;
 }
+.alert.alert-success {
+    border-color: #8bbf61;
+    background: #D4F1BC;
+    padding: 10px;
+}
+.alert.alert-info {
+    background: #dff3f8;
+    border-color: #93b9d8;
+}
 .alert.alert-warning {
-    color: #111111;
     background-color: #fcf8e3;
     border-color: #faebcc;
-    border-radius: 0px;
 }
