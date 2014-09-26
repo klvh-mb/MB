@@ -56,7 +56,7 @@
 }
 .post-input-body {
     font-weight: normal;
-    font-size: 15px;
+    font-size: 14px;
     height: 50px !important;
 }
 .post-input-body:focus {
@@ -143,7 +143,7 @@
 }
 .post-title-user-name {
     font-weight: bold;
-    font-size: 13px;
+    font-size: 12px;
 }
 .post-date {
     color: #77737E;
@@ -184,7 +184,7 @@
     margin: 0;
     color: #141823;
     line-height: 1.3;
-    font-size: 15px;
+    font-size: 14px;
     white-space: pre-wrap;
 }
 .post-sharing-body-text {

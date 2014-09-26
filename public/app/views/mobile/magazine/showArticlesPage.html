@@ -34,30 +34,32 @@
         <!--Slider End -->
         <div id="wall">
             <div infinite-scroll='next_result()' infinite-scroll-distance='1'>
-                <div class="general-box">
-                    <ul class="allpost-wrapper" style="padding:5px 10px 0px 10px;">
-                        <li data-ng-repeat="article in result" style="border:none;border-bottom:#bcbcbc thin solid;min-height:80px;">
-                            <a href="#/article/{{article.id}}/{{article.ct.id}}">
-                                <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
-                            </a>
-                            <a data-ng-show="!article.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkArticle(article.id)"></a> <!--data-toggle="tooltip" data-tooltip="收藏到'我的喜愛'"></a-->
-                            <a data-ng-show="article.isBookmarked" class="btn-like post-favorited" href="" data-ng-click="unBookmarkArticle(article.id)"></a>
-                            <div>
+                <div data-ng-repeat="article in result">
+                    <div class="general-box">
+                        <ul class="allpost-wrapper">
+                            <li>
                                 <a href="#/article/{{article.id}}/{{article.ct.id}}">
-                                    <h4 style="color:#324fe1;"><font><font>{{article.nm}}</font></font></h4>
+                                    <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
                                 </a>
-                                <h6>
-                                    <a class="tag" data-ng-href="#/article/show/{{article.ct.id}}">
-                                        <font><font>{{article.ct.name}}</font></font>
+                                <a data-ng-show="!article.isBookmarked" class="btn-like post-favorite" href="" data-ng-click="bookmarkArticle(article.id)"></a> <!--data-toggle="tooltip" data-tooltip="收藏到'我的喜愛'"></a-->
+                                <a data-ng-show="article.isBookmarked" class="btn-like post-favorited" href="" data-ng-click="unBookmarkArticle(article.id)"></a>
+                                <div>
+                                    <a href="#/article/{{article.id}}/{{article.ct.id}}">
+                                        <h4 style="color:#324fe1;"><font><font>{{article.nm}}</font></font></h4>
                                     </a>
-                                    <font ng-show="userInfo.isAdmin">{{article.pd | date:'M/dd/yyyy'}}</font>
-                                    <span ng-show="article.nov > 20 || userInfo.isAdmin" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.gif"/>{{article.nov}}</span>
-                                    <span ng-show="article.nol > 0 || userInfo.isAdmin" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>{{article.nol}}</span>
-                                </h6>
-                                <p><font><font>{{article.lds|limitTo:45}}...</font></font></p>
-                            </div>
-                        </li>
-                    </ul>
+                                    <h6>
+                                        <a class="tag" data-ng-href="#/article/show/{{article.ct.id}}">
+                                            <font><font>{{article.ct.name}}</font></font>
+                                        </a>
+                                        <font ng-show="userInfo.isAdmin">{{article.pd | date:'M/dd/yyyy'}}</font>
+                                        <span ng-show="article.nov > 20 || userInfo.isAdmin" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.gif"/>{{article.nov}}</span>
+                                        <span ng-show="article.nol > 0 || userInfo.isAdmin" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>{{article.nol}}</span>
+                                    </h6>
+                                    <p><font><font>{{article.lds|limitTo:50}}...</font></font></p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

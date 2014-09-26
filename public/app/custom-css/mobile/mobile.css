@@ -515,17 +515,18 @@ span.notif-count {
     font-size: 15px;
     font-weight: normal;
 }
+.allpost-wrapper li {
+    min-height: 80px;
+}
 .allpost-wrapper li a img:first-child {
     float: left;
-    width: 80px;
-    height: 60px;
+    width: 100px;
+    height: 80px;
     margin-right: 5px;
     margin-bottom: 5px;
 }
 .allpost-wrapper div {
-    overflow: visible;
-    width: 98%;
-    padding: 0 7px;
+    padding: 0 10px;
 }
 .allpost-wrapper p {
     width: 100%;
@@ -534,6 +535,7 @@ span.notif-count {
     margin-top: 7px;
     margin-bottom: 3px;
     line-height: 1.35;
+    font-size: 12px;
 }
 .allpost-wrapper h4 {
     font-size: 15px;

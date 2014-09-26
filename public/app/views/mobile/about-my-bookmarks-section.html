@@ -67,7 +67,7 @@
     <!-- Tips End -->
     <div data-ng-repeat="article in articles.article">
         <div class="general-box">
-            <ul class="allpost-wrapper" style="padding: 5px 10px 0px 10px;">
+            <ul class="allpost-wrapper">
                 <li>
                     <a href="#/article/{{article.id}}/{{article.ct.id}}">
                         <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
@@ -86,7 +86,7 @@
                             <span ng-show="article.nov > 20 || userInfo.isAdmin" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.gif"/>{{article.nov}}</span>
                             <span ng-show="article.nol > 0 || userInfo.isAdmin" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>{{article.nol}}</span>
                         </h6>
-                        <p><font><font>{{article.lds|limitTo:80}}...</font></font></p>
+                        <p><font><font>{{article.lds|limitTo:50}}...</font></font></p>
                     </div>
                 </li>
             </ul>

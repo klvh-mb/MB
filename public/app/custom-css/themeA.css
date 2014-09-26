@@ -3,6 +3,7 @@
  */
 body {
     font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
+    font-size: 13px;
     margin: 0;
     padding: 0;
     background-image: url(../images/general/main_bg.jpg);
@@ -264,7 +265,7 @@ a:focus {
     margin-right: 6px;
 }
 #myShortcuts .con-title a {
-    font-size: 14px;
+    font-size: 13px;
 }
 #hotTopic {
     width:100%; 
@@ -1304,7 +1305,7 @@ a:focus {
 /* Slider Start */
 #slider {
     height: 220px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 .slider-menu {
     float: left;
@@ -1645,12 +1646,12 @@ a:focus {
     list-style: none;
 }
 .static-content-wrapper li {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 .static-content-wrapper div {
     font-size: small;
     clear: right;
-    width: 72%;
+    width: 65%;
     height: 68px;
     overflow: hidden;
 }
@@ -1729,11 +1730,14 @@ a:focus {
 /*All Post Start*/
 .allpost-wrapper {
     position: relative;
+    padding: 5px 15px;
+    margin-bottom: 0px;
 }
 .allpost-wrapper li {
     display: block;
-    padding: 12px 0 8px 0;
+    padding: 20px 0 15px 0;
     border-top: #bcbcbc thin solid;
+    min-height: 175px;
 }
 /*.allpost-wrapper li:hover > div h4, 
 .allpost-wrapper li:hover > div h6+p{
@@ -1744,12 +1748,12 @@ a:focus {
 }
 .allpost-wrapper img {
     float: left;
-    width: 165px;
-    height: 125px;
+    width: 185px;
+    height: 138px;
 }
 .allpost-wrapper div {
     overflow: hidden;
-    padding: 0 7px;
+    padding: 0 15px;
 }
 .allpost-wrapper h4 {
     font-weight: bold;
@@ -1787,6 +1791,7 @@ a:focus {
     margin-top: 10px;
     margin-bottom: 5px;
     line-height: 1.35;
+    font-size: 13px;
 }
 /*All Post End*/
 
@@ -2067,7 +2072,7 @@ a:focus {
     /*background-position: 0 2px;*/
     position: absolute;
     right: 0;
-    top: 0;
+    top: 5px;
 }
 .post-favorite:after {
     background-image: url(../images/general/icons/message_favorite.png);
