@@ -1,5 +1,5 @@
 body {
-    font-family: Arial,Helvetica,serif,'lucida grande',tahoma,verdana;
+    font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
     font-size: 13px;
     color: #333;
     margin: 0;
@@ -39,7 +39,7 @@ input[type='text']:focus, textarea:focus {
     border-color: #66afe9;
 }
 pre {
-    font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif !important;
+    font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
     display: text !important;
     padding: 0px !important;
     margin: 0 0 0px !important;
