@@ -2,55 +2,43 @@
 
 var minibean = angular.module('minibean');
 
-minibean.directive('adsFactor', function() {
-    return {
-        restrict: 'A',
-        templateUrl: 'assets/app/scripts/adsfactor.js',
-        controller: function(){
-            //console.log('---> test adsfactor');
-        }
-    };
-});
-
-minibean.directive('adFactor', function($window, $compile) {
+minibean.directive('adsFactor', function($window, $compile) {
     return {
         restrict: 'A',
         template: '',
-        link: function postLink(scope, element, iAttrs) {
-              var afid;
-              if(af.existcookie('__AF')){
-                     afid = af.getcookie('__AF');
-               } else {
-                     afid = 0;
-               }
-              document.write = function(node){
-                $(element).after(node)
+        link: 
+            function postLink(scope, element, iAttrs) {
+                var afid;
+                if(af.existcookie('__AF')){
+                    afid = af.getcookie('__AF');
+                } else {
+                    afid = 0;
+                }
+                document.write = function(node){
+                    $(element).after(node)
+                }
+                // temp turn off ads
+                //$(createAdFactorScript(afid,iAttrs.adsid)).insertAfter($(element));
             }
-             
-               $(createAdFactorScript(afid,iAttrs.adsid)).insertAfter($(element));
-        }
     };
     function createAdFactorScript(afid,sid) {
-       var randomstr = new String (Math.random());
-              randomstr = randomstr.substring(2,8);
-              var script = ("<" + "script language='JavaScript' type='text/javascript' src='");
-           script = script + ("http://servedby.adsfactor.net/adj.php?ts=" + randomstr + "&amp;sid="+sid+"&amp;afid=" + afid);
-              if(document.af_used) {
-                     script = script + ("&amp;ex=" + document.af_used);
-              }
-              if(window.location.href) {
-                     script = script + ("&amp;location=" + encodeURIComponent(escape(window.location.href)));
-              }
-              if(document.referrer) {
-                     script = script + ("&amp;referer=" + encodeURIComponent(escape(document.referrer)));
-              }
-              script = script + ("'><" + "/script>");
-              return script;
-        
+        var randomstr = new String (Math.random());
+        randomstr = randomstr.substring(2,8);
+        var script = ("<" + "script language='JavaScript' type='text/javascript' src='");
+        script = script + ("http://servedby.adsfactor.net/adj.php?ts=" + randomstr + "&amp;sid="+sid+"&amp;afid=" + afid);
+        if(document.af_used) {
+            script = script + ("&amp;ex=" + document.af_used);
+        }
+        if(window.location.href) {
+            script = script + ("&amp;location=" + encodeURIComponent(escape(window.location.href)));
+        }
+        if(document.referrer) {
+            script = script + ("&amp;referer=" + encodeURIComponent(escape(document.referrer)));
+        }
+        script = script + ("'><" + "/script>");
+        return script;
     }
 });
-
-
 
 /**
  * e.g.

@@ -53,7 +53,7 @@
     </ul>
     <!-- Post Body Ends -->
     <ul class="post-qna-answers">
-        <li>
+        <li ng-show="post.n_c > 3">
             <span class="post-qna-answer-count" ng-show="post.n_c == 0">尚未有回覆</span>
             <span class="post-qna-answer-count" ng-show="post.n_c > 0 && post.n_c <= 3">{{post.n_c}}個回覆</span>
             <span class="post-qna-answer-count" ng-show="post.n_c > 3  && post.ep">共{{post.n_c}}個回覆</span>

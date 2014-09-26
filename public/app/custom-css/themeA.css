@@ -1,9 +1,7 @@
-/*!
- * override
- */
 body {
     font-family: 新細明體,Arial,Helvetica,serif,'lucida grande',tahoma,verdana;
     font-size: 13px;
+    color: #333;
     margin: 0;
     padding: 0;
     background-image: url(../images/general/main_bg.jpg);
@@ -14,6 +12,7 @@ ul {
     padding: 0;
 }
 a {
+  color: #428bca;
   text-decoration: none;
   cursor: pointer;
 }
@@ -139,6 +138,7 @@ div[class*="col-xs-"], div[class*="col-sm-"], div[class*="col-md-"], div[class*=
 }
 .btn {
     padding: 3px 8px;
+    font-weight: normal;
 }
 .modal-title {
     font-size: 15px !important;
@@ -622,6 +622,7 @@ a:focus {
     padding: 4px 12px;
     border-radius: 15px;
     line-height: 1.2 !important;
+    margin: 0;
 }
 .main-search i {
     color: #3C31B4;
@@ -918,7 +919,7 @@ a:focus {
     background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,rgba(255, 237, 237, 1) 47%,rgba(255, 195, 195, 1) 100%);
 }
 .con-title a {
-    color: #0C0C0C;
+    color: #050505;
     line-height: 14pt;
     font-size: 17px;
     font-weight: normal;

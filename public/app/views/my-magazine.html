@@ -24,9 +24,12 @@
 	            </div>
             </div>
 	        
-    		<div class="col-md-4 col-sm-4 col-xs-4 " style="width:300px;">
+    		<div class="col-md-4 col-sm-4 col-xs-4 " style="width:310px;">
 	            <div ng-controller="TodayWeatherInfoController">
                     <div data-ng-include data-src="'/assets/app/views/utilities/todayWeatherInfoUtility.html'"></div>
+                </div>
+                <div style="margin-bottom:5px;">
+                    <script adSid="336814706671" ads-factor language='JavaScript' type="text/javascript"></script>
                 </div>
 				<div ng-controller="PNCommunitiesUtilityController" data-ng-show="pnCommunities.length > 0 && userTargetProfile.pn">
                     <div data-ng-include data-src="'/assets/app/views/utilities/pnCommunitiesUtility.html'"></div>
@@ -34,9 +37,6 @@
   				<div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.communities.length > 0">
                     <div data-ng-include data-src="'/assets/app/views/utilities/yourFriendsCommunitiesUtility.html'"></div>
 				</div>
-                <!--div ng-controller="SuggestedFriendsUtilityController" data-ng-show="result.friends.length > 0">
-					<div data-ng-include data-src="'/assets/app/views/utilities/suggestedFriendsUtility.html'"></div>
-				</div-->
                 <div ng-controller="MyFriendsUtilityController" data-ng-show="result.friends.length > 0">
                     <div data-ng-include data-src="'/assets/app/views/utilities/friendsUtility.html'"></div>
                 </div>

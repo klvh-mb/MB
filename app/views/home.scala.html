@@ -60,37 +60,6 @@
     	<script src="@routes.Assets.at("app/scripts/lib/jquery.visible.min.js")"></script>
     	<script src="@routes.Assets.at("app/scripts/lib/bootbox-4.2.0.min.js")"></script>
     	
-    	<script>
-             
-        if (!window.af)
-        	var af = (
-            	function() {
-                	return {
-                    	getcookie:function(n){
-                        	var m=n+'=';
-                        	var ca=document.cookie.split(';');
-                        	for(var i=0;i < ca.length;i++) {
-                        		var c=ca[i];
-                        		while (c.charAt(0)==' ')
-                        			c = c.substring(1,c.length);
-                        		if (c.indexOf(m) == 0)
-                        			return c.substring(m.length,c.length);
-                        	}
-                        	return null;
-                    	},
-                    	existcookie:function(n){
-                    		var m=af.getcookie(n);
-                    		if (m!=null&&m!=''){
-                    			return true;
-                    		}else{
-                    			return false;
-                    		}
-                    	}
-                	};
-            	})();
-    </script>
- 
-    	
     	<!-- <script>var App = {};</script>
     	<script data-id="App.Scripts">
     		App.Scripts = {
@@ -152,6 +121,7 @@
     		//});
     	</script> -->
     	
+    	<script type="text/javascript" src="@routes.Assets.at("app/scripts/ads-init.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("app/scripts/app.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("app/scripts/directives.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("app/scripts/default-values.js")"></script>
@@ -159,10 +129,10 @@
         <script type="text/javascript" src="@routes.Assets.at("app/scripts/tracking.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("app/scripts/controllers/services.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("app/scripts/controllers/main.js")"></script>
+        <link rel="stylesheet" href="../assets/app/custom-css/bootstrap.css">
         <link rel="stylesheet" href="../assets/app/custom-css/icon.css">
         <link rel="stylesheet" href="../assets/app/custom-css/boxSetup.css">
         <link rel="stylesheet" href="../assets/app/custom-css/textfield.css">
-    	<link rel="stylesheet" href="../assets/app/custom-css/bootstrap.css">
     	<link rel="stylesheet" href="../assets/app/custom-css/mainWall.css">
     	<link rel="stylesheet" href="../assets/app/custom-css/community.css">
     	<link rel="stylesheet" href="../assets/app/custom-css/message.css">
