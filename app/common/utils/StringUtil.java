@@ -13,6 +13,11 @@ import java.util.zip.GZIPOutputStream;
  */
 public class StringUtil {
 
+    /**
+     * @param collection
+     * @param separator
+     * @return
+     */
     public static String collectionToString(Collection collection, String separator) {
         if (collection == null || collection.size() == 0) {
             return "";
@@ -26,11 +31,30 @@ public class StringUtil {
         return sb.toString();
     }
 
+    /**
+     * @param text
+     * @return
+     */
     public static String removeNonDigits(String text) {
         if (text == null) {
             return null;
         }
         return text.replaceAll("[^0-9]", "");
+    }
+
+    /**
+     * @param text
+     * @param numChars
+     * @return
+     */
+    public static String truncateWithDots(String text, int numChars) {
+        if (text == null) {
+            return null;
+        }
+        if (text.length() <= numChars) {
+            return text;
+        }
+        return text.substring(0, numChars)+"...";
     }
 
     public static String compress(String in) {

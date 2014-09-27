@@ -20,8 +20,8 @@
     </ul>
     <ul class="header-notif-bar pull-right" ng-if="userInfo.isLoggedIn">
         <li class="dropdown notif pull-left">
-            <a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
-                <img class="colorChange" src="../assets/app/images/general/icons/w_profile.png" data-ng-click="mark_requests_read()"/>
+            <a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown" data-ng-click="mark_requests_read()">
+                <img class="colorChange" src="../assets/app/images/general/icons/w_profile.png" />
                 <span class="notif-count pull-right" data-ng-show="unread_request_count > 0">{{unread_request_count}}</span>
             </a>
             <ul class="dropdown-menu chat media-list" data-ng-show="request_notif.length > 0" style="top: 28px !important;" >
@@ -56,8 +56,8 @@
             </ul>
         </li>
         <li class="dropdown notif pull-left">
-            <a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown">
-                <img class="colorChange" src="../assets/app/images/general/icons/w_notification.png" data-ng-click="mark_notif_read();"/>
+            <a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown" data-ng-click="mark_notif_read();">
+                <img class="colorChange" src="../assets/app/images/general/icons/w_notification.png" />
                 <span class="notif-count pull-right" data-ng-show="isNOreaded == true && unread_notify_count > 0">{{unread_notify_count}}</span>
             </a>
             <ul class="dropdown-menu chat media-list" data-ng-show="batchup_notif.length > 0" style="top: 28px !important;overflow-y: scroll;max-height: 285px;">

@@ -231,7 +231,7 @@ minibean.controller('ApplicationController',
 
     // refresh header meta data every X ms
     // To stop - $interval.cancel(stopHeaderMetaData);
-    var stopHeaderMetaData = $interval($scope.get_header_metaData, 300000);
+    var stopHeaderMetaData = $interval($scope.get_header_metaData, 180000);
 
 	$scope.isFRreaded = true;
     $scope.isNOreaded = true;
@@ -3080,7 +3080,8 @@ minibean.controller('MyMagazineNewsFeedController', function($scope, postManagem
 
 minibean.controller('NewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, newsFeedService, iconsService) {
 	log("NewsFeedController starts");
-	
+
+    $scope.get_header_metaData();
 	$scope.newsFeeds = { posts: [] };
 	
 	$scope.deletePost = function(postId) {
