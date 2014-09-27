@@ -1,6 +1,7 @@
 package models;
 
 import common.utils.NanoSecondStopWatch;
+import common.utils.StringUtil;
 import indexing.CommentIndex;
 import indexing.PostIndex;
 
@@ -35,8 +36,6 @@ import domain.SocialObjectType;
 public class Post extends SocialObject implements Likeable, Commentable {
     private static final play.api.Logger logger = play.api.Logger.apply(Post.class);
 
-    public Post() {}
-    
     public String title;
        
     @Required
@@ -61,7 +60,27 @@ public class Post extends SocialObject implements Likeable, Commentable {
     public int noOfViews = 0;
 
 	public Date socialUpdatedDate = new Date();
-    
+
+    public Post() {}
+
+    /**
+     * Ctor
+     * @param actor
+     * @param title
+     * @param post
+     * @param community
+     */
+    public Post(User actor, String title, String post, Community community) {
+        this.owner = actor;
+        this.title = title;
+        this.body = post;
+        this.community = community;
+    }
+
+    public Post(User actor, String post, Community community) {
+        this(actor, null, post, community);
+    }
+
     @Override
     public void onLikedBy(User user) {
         if (logger.underlyingLogger().isDebugEnabled()) {
@@ -123,19 +142,6 @@ public class Post extends SocialObject implements Likeable, Commentable {
         UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
     }
 
-
-
-    public Post(User actor, String title, String post, Community community) {
-        this.owner = actor;
-        this.title = title;
-        this.body = post;
-        this.community = community;
-    }
-       
-    public Post(User actor, String post, Community community) {
-        this(actor, null, post, community);
-    }
-    
     @Override
     public void save() {
         super.save();
@@ -189,39 +195,38 @@ public class Post extends SocialObject implements Likeable, Commentable {
         // update last socialUpdatedDate in Post
         this.socialUpdatedDate = new Date();
 
+        // create Comment object
         Comment comment = new Comment(this, user, body);
-        
-        if (comments == null) {
-            comments = new HashSet<Comment>();
-        }
-        if (type == CommentType.ANSWER) {
-            comment.commentType = type;
-            recordAnswerOnCommunityPost(user);
-            // update affinity
-            UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
-            // push to community
-            FeedProcessor.pushToCommunity(this);
-        }
-        if (type == CommentType.SIMPLE) {
-            comment.commentType = type;
-            recordCommentOnCommunityPost(user);
-            // update affinity
-            UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
-            // push to community
-            FeedProcessor.pushToCommunity(this);
-        }
+        comment.commentType = type;
         if(this.objectType == SocialObjectType.POST) {
             comment.objectType = SocialObjectType.COMMENT;
         }
         if(this.objectType == SocialObjectType.QUESTION) {
             comment.objectType = SocialObjectType.ANSWER;
         }
-        
         comment.save();
+
+        // merge into Post
+        if (comments == null) {
+            comments = new HashSet<Comment>();
+        }
         this.comments.add(comment);
-        JPA.em().merge(this);
-        
         this.noOfComments++;
+        JPA.em().merge(this);
+
+        // record for notifications
+        if (type == CommentType.ANSWER) {
+            recordAnswerOnCommunityPost(user, comment);
+        }
+        if (type == CommentType.SIMPLE) {
+            recordCommentOnCommunityPost(user, comment);
+        }
+
+        // update affinity
+        UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
+        // push to community
+        FeedProcessor.pushToCommunity(this);
+
         if (type == CommentType.SIMPLE) {
             user.commentsCount++;
         } else if (type == CommentType.ANSWER) {
@@ -336,6 +341,14 @@ public class Post extends SocialObject implements Likeable, Commentable {
         if (this.folder == null) {
             this.folder = Folder.createAlbum(this.owner, "post-ps", "", true);
             this.merge();
+        }
+    }
+
+    public String getShortenedTitle() {
+        if (title == null || title.startsWith("http")) {
+            return "";
+        } else {
+            return StringUtil.truncateWithDots(title, 12);
         }
     }
 

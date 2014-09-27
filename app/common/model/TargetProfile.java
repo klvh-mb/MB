@@ -19,7 +19,8 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class TargetProfile {
-    
+    private static final play.api.Logger logger = play.api.Logger.apply(TargetProfile.class);
+
     // parent
     private TargetGender parentGender;
     private Location location;
@@ -40,8 +41,10 @@ public class TargetProfile {
         List<TargetYear> childYears = new ArrayList<TargetYear>();
         List<DateTime> childBirthDates = new ArrayList<DateTime>();
         
-        if (user.userInfo == null)
+        if (user.userInfo == null) {
+            logger.underlyingLogger().warn("[u="+user.id+"] UserInfo is null");
             return null;
+        }
         
         // parent
         profile.parentGender = user.userInfo.gender;

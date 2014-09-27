@@ -138,17 +138,6 @@ public class SocialActivity {
                 }
 				break;
 
-//			case RELATIONSHIP_REQUESTED: {
-//				Notification notification = new Notification();
-//				notification.socialActionID = socialAction.id;
-//				notification.recipient = socialAction.target;
-//				notification.message = socialAction.actorname
-//						+ " wants to add you in " + socialAction.action
-//						+ " list. ";
-//				notification.save();
-//			}
-//				break;
-				
                 case INVITE_REQUESTED: {
                     Long commId = socialAction.target;
 
@@ -191,6 +180,7 @@ public class SocialActivity {
                     if (frdIds.size() > 0) {
                         String commLandingUrl = resolveCommunityLandingUrl(community.id, community.communityType);
                         String postLandingUrl = resolvePostLandingUrl(post.id, community.id, community.communityType);
+                        String msgEnd = " 在「"+community.name+"」發佈了分享。";
 
                         List<User> frdMembers = community.getMembersIn(frdIds);
                         for(User user : frdMembers) {
@@ -198,6 +188,8 @@ public class SocialActivity {
                                     Notification.getNotification(user.id, NotificationType.POSTED, community.id, SocialObjectType.COMMUNITY);
 
                             if(notification == null){
+                                String msg = socialAction.actorname + msgEnd;
+
                                 notification = new Notification();
                                 notification.notificationType = NotificationType.POSTED;
                                 notification.target = community.id;
@@ -210,17 +202,19 @@ public class SocialActivity {
                                 notification.URLs = Json.stringify(Json.toJson(jsonMap));
                                 notification.addToList(User.findById(socialAction.actor));  // post owner
                                 notification.status = 0;
-                                notification.message = socialAction.actorname+" 在「"+community.name+"」裏分享。";
+                                notification.message = msg;
                                 notification.setUpdatedDate(new Date());
                                 notification.save();
                             } else {
+                                String msg = notification.usersName + msgEnd;
+
                                 jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                                 jsonMap.put("onClick", commLandingUrl);
                                 notification.URLs = Json.stringify(Json.toJson(jsonMap));
                                 notification.count++;
                                 notification.status = 0;
                                 notification.addToList(User.findById(socialAction.actor));
-                                notification.message = notification.usersName+" 在「"+community.name+"」裏分享。";
+                                notification.message = msg;
                                 notification.merge();
                             }
                         }
@@ -241,6 +235,7 @@ public class SocialActivity {
                     if (frdIds.size() > 0) {
                         String commLandingUrl = resolveCommunityLandingUrl(community.id, community.communityType);
                         String qnaLandingUrl = resolveQnALandingUrl(post.id, community.id, community.communityType);
+                        String msgEnd = " 在「"+community.name+"」發佈了新話題。";
 
                         List<User> frdMembers = community.getMembersIn(frdIds);
                         for(User user : frdMembers){
@@ -248,6 +243,9 @@ public class SocialActivity {
                                     Notification.getNotification(user.id, NotificationType.QUESTIONED, community.id, SocialObjectType.COMMUNITY);
 
                             if(notification == null){
+                                String shortTitle = post.getShortenedTitle();
+                                String msg = socialAction.actorname + msgEnd + ((shortTitle.length() == 0) ? "" : "\""+shortTitle+"\"");
+
                                 notification = new Notification();
                                 notification.addToList(User.findById(socialAction.actor));
                                 notification.target = community.id;
@@ -260,17 +258,19 @@ public class SocialActivity {
                                 notification.count++;
                                 notification.status = 0;
                                 notification.socialActionID = community.id;
-                                notification.message = socialAction.actorname+" 在「"+community.name+"」裏發佈了新話題。";
+                                notification.message = msg;
                                 notification.setUpdatedDate(new Date());
                                 notification.save();
                             } else {
+                                String msg = notification.usersName + msgEnd;
+
                                 jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                                 jsonMap.put("onClick", commLandingUrl);
                                 notification.URLs = Json.stringify(Json.toJson(jsonMap));
                                 notification.count++;
                                 notification.status = 0;
                                 notification.addToList(User.findById(socialAction.actor));
-                                notification.message = notification.usersName+" 在「"+community.name+"」裏發佈了新話題。";
+                                notification.message = msg;
                                 notification.merge();
                             }
                         }
@@ -288,9 +288,14 @@ public class SocialActivity {
 
                         String landingUrl = resolveQnALandingUrl(post.id, post.community.id, post.community.communityType);
 
+                        String shortTitle = post.getShortenedTitle();
+                        String msgEd = " 把你的話題推上。"+((shortTitle.length() == 0) ? "" : "\""+shortTitle+"\"");
+
                         Notification notification =
                                 Notification.getNotification(owner_id, NotificationType.WANTED_ANS, socialAction.target, SocialObjectType.QUESTION);
                         if(notification == null){
+                            String msg = socialAction.actorname + msgEd;
+
                             notification = new Notification();
                             notification.target = socialAction.target;              // post id
                             notification.targetType = SocialObjectType.QUESTION;
@@ -302,17 +307,19 @@ public class SocialActivity {
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                             jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
-                            notification.message = socialAction.actorname+" 把你的話題推上。";
+                            notification.message = msg;
                             notification.status = 0;
                             notification.setUpdatedDate(new Date());
                             notification.save();
                         } else {
+                            String msg = notification.usersName + msgEd;
+
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                             jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
                             notification.count++;
                             notification.addToList(User.findById(socialAction.actor));
-                            notification.message = notification.usersName+" 把你的話題推上。";
+                            notification.message = msg;
                             notification.status = 0;
                             notification.merge();
                         }
@@ -321,6 +328,7 @@ public class SocialActivity {
                 break;
 
                 case LIKED: {
+                    // Liked POST
                     if(socialAction.targetType == SocialObjectType.POST){
                         Post post = Post.findById(socialAction.target);
                         long owner_id = post.owner.id;
@@ -329,10 +337,13 @@ public class SocialActivity {
                         }
 
                         String landingUrl = resolvePostLandingUrl(post.id, post.community.id, post.community.communityType);
+                        String msgEnd = " 對你的分享讚好。";
 
                         Notification notification =
                                 Notification.getNotification(owner_id, NotificationType.LIKED, socialAction.target, SocialObjectType.POST);
                         if(notification == null){
+                            String msg = socialAction.actorname + msgEnd;
+
                             notification = new Notification();
                             notification.target = socialAction.target;          // post id
                             notification.targetType = SocialObjectType.POST;
@@ -344,21 +355,24 @@ public class SocialActivity {
                             jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
                             notification.addToList(User.findById(socialAction.actor));
-                            notification.message = socialAction.actorname+" 對你的分享讚好。";
+                            notification.message = msg;
                             notification.status = 0;
                             notification.setUpdatedDate(new Date());
                             notification.save();
                         } else {
+                            String msg = notification.usersName + msgEnd;
+
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                             jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
                             notification.count++;
                             notification.addToList(User.findById(socialAction.actor));
-                            notification.message = notification.usersName+" 對你的分享讚好。";
+                            notification.message = msg;
                             notification.status = 0;
                             notification.merge();
                         }
                     }
+                    // Liked COMMENT
                     else if(socialAction.targetType == SocialObjectType.COMMENT){
                         Comment comment = Comment.findById(socialAction.target);
                         long owner_id = comment.owner.id;
@@ -368,10 +382,13 @@ public class SocialActivity {
 
                         Post post = comment.getPost();
                         String landingUrl = resolvePostLandingUrl(post.id, post.community.id, post.community.communityType);
+                        String msgEnd = " 對你的留言讚好。";
 
                         Notification notification =
                                 Notification.getNotification(owner_id, NotificationType.LIKED, socialAction.target, SocialObjectType.COMMENT);
                         if(notification == null){
+                            String msg = socialAction.actorname + msgEnd;
+
                             notification = new Notification();
                             notification.target = socialAction.target;
                             notification.targetType = SocialObjectType.COMMENT;
@@ -384,21 +401,24 @@ public class SocialActivity {
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
                             notification.addToList(User.findById(socialAction.actor));
                             notification.status = 0;
-                            notification.message = socialAction.actorname+" 對你的留言讚好。";
+                            notification.message = msg;
                             notification.setUpdatedDate(new Date());
                             notification.save();
                         } else {
+                            String msg = notification.usersName + msgEnd;
+
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                             jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
                             notification.count++;
                             notification.addToList(User.findById(socialAction.actor));
-                            notification.message = notification.usersName+" 對你的留言讚好。";
+                            notification.message = msg;
                             notification.status = 0;
                             notification.merge();
                         }
 
                     }
+                    // Liked ANSWER
                     else if(socialAction.targetType == SocialObjectType.ANSWER){
                         Comment comment = Comment.findById(socialAction.target);
                         long owner_id = comment.owner.id;
@@ -406,10 +426,16 @@ public class SocialActivity {
                             return;
                         }
 
+                        String landingUrl = MY_PREFIX +"/qna-landing/id/"+comment.getPost().id+"/communityId/"+comment.getPost().community.id;
+
+                        String shortBody = comment.getShortenedBody();
+                        String msgEnd = " 覺得你的回覆有用。"+((shortBody.length() >= 0) ? "\""+shortBody+"\"" : "");
+
                         Notification notification =
                                 Notification.getNotification(owner_id, NotificationType.LIKED, socialAction.target, SocialObjectType.ANSWER);
-
                         if(notification == null){
+                            String msg = socialAction.actorname + msgEnd;
+
                             notification = new Notification();
                             notification.target = socialAction.target;
                             notification.targetType = SocialObjectType.ANSWER;
@@ -418,20 +444,22 @@ public class SocialActivity {
                             notification.count++;
                             notification.socialActionID = comment.getPost().id;
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
-                            jsonMap.put("onClick", MY_PREFIX +"/qna-landing/id/"+comment.getPost().id+"/communityId/"+comment.getPost().community.id);
+                            jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
                             notification.addToList(User.findById(socialAction.actor));
                             notification.status = 0;
-                            notification.message = socialAction.actorname+" 覺得你的回覆有用。";
+                            notification.message = msg;
                             notification.setUpdatedDate(new Date());
                             notification.save();
                         } else {
+                            String msg = notification.usersName + msgEnd;
+
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
-                            jsonMap.put("onClick", MY_PREFIX +"/qna-landing/id/"+comment.getPost().id+"/communityId/"+comment.getPost().community.id);
+                            jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
                             notification.count++;
                             notification.addToList(User.findById(socialAction.actor));
-                            notification.message = notification.usersName+" 覺得你的回覆有用。";
+                            notification.message = msg;
                             notification.status = 0;
                             notification.merge();
                         }
@@ -440,7 +468,8 @@ public class SocialActivity {
 				break;
 
                 case COMMENTED: {
-                    Post post = Post.findById(socialAction.target);
+                    Comment comment= Comment.findById(socialAction.target);
+                    Post post = comment.getPost();
                     long owner_id = post.owner.id;
                     if(User.findById(socialAction.actor).id == post.owner.id){
                         return;
@@ -448,39 +477,47 @@ public class SocialActivity {
 
                     String landingUrl = resolvePostLandingUrl(post.id, post.community.id, post.community.communityType);
 
+                    String shortBody = comment.getShortenedBody();
+                    String msgEnd = " 在你的分享留言。";
+
                     Notification notification =
-                            Notification.getNotification(owner_id, NotificationType.COMMENT, socialAction.target, SocialObjectType.POST);
+                            Notification.getNotification(owner_id, NotificationType.COMMENT, post.id, SocialObjectType.POST);
                     if(notification == null){
+                        String msg = socialAction.actorname + msgEnd + ((shortBody.length() >= 0) ? "\""+shortBody+"\"" : "");
+
                         notification = new Notification();
-                        notification.target = socialAction.target;
+                        notification.target = post.id;
                         notification.targetType = SocialObjectType.POST;
                         notification.notificationType = NotificationType.COMMENT;
                         notification.recipient = owner_id;
                         notification.count = 1L;
-                        notification.socialActionID = socialAction.target;
+                        notification.socialActionID = post.id;
                         jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                         jsonMap.put("onClick", landingUrl);
                         notification.URLs = Json.stringify(Json.toJson(jsonMap));
                         notification.addToList(User.findById(socialAction.actor));
-                        notification.message = socialAction.actorname+" 在你的分享留言。";
+                        notification.message = msg;
                         notification.status = 0;
                         notification.setUpdatedDate(new Date());
                         notification.save();
                     } else {
+                        String msg = notification.usersName + msgEnd;
+
                         notification.count++;
                         notification.addToList(User.findById(socialAction.actor));
                         jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                         jsonMap.put("onClick", landingUrl);
                         notification.URLs = Json.stringify(Json.toJson(jsonMap));
                         notification.status = 0;
-                        notification.message = notification.usersName+" 在你的分享留言。";
+                        notification.message = msg;
                         notification.merge();
                     }
                 }
 				break;
 
                 case ANSWERED: {
-                    Post post = Post.findById(socialAction.target);
+                    Comment comment= Comment.findById(socialAction.target);
+                    Post post = comment.getPost();
                     long owner_id = post.owner.id;
                     if(User.findById(socialAction.actor).id == post.owner.id){
                         return;
@@ -488,11 +525,17 @@ public class SocialActivity {
 
                     String landingUrl = resolveQnALandingUrl(post.id, post.community.id, post.community.communityType);
 
+                    String shortTitle = post.getShortenedTitle();
+                    String shortBody = comment.getShortenedBody();
+                    String msgEnd = " 回應了你的話題\""+shortTitle+"\"。";
+
                     Notification notification =
-                            Notification.getNotification(owner_id, NotificationType.ANSWERED, socialAction.target, SocialObjectType.POST);
+                            Notification.getNotification(owner_id, NotificationType.ANSWERED, post.id, SocialObjectType.POST);
                     if(notification == null){
+                        String msg = socialAction.actorname + msgEnd +((shortBody.length() >= 0) ? "\""+shortBody+"\"" : "");
+
                         notification = new Notification();
-                        notification.target = socialAction.target;          // post id
+                        notification.target = post.id;
                         notification.targetType = SocialObjectType.POST;
                         notification.notificationType = NotificationType.ANSWERED;
                         notification.recipient = owner_id;
@@ -500,19 +543,21 @@ public class SocialActivity {
                         jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                         jsonMap.put("onClick", landingUrl);
                         notification.URLs = Json.stringify(Json.toJson(jsonMap));
-                        notification.socialActionID = socialAction.target;
+                        notification.socialActionID = post.id;
                         notification.addToList(User.findById(socialAction.actor));
-                        notification.message = socialAction.actorname+" 回應了你的話題。";
+                        notification.message = msg;
                         notification.status = 0;
                         notification.setUpdatedDate(new Date());
                         notification.save();
                     } else {
+                        String msg = notification.usersName + msgEnd;
+
                         notification.count++;
                         notification.addToList(User.findById(socialAction.actor));
                         jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                         jsonMap.put("onClick", landingUrl);
                         notification.URLs = Json.stringify(Json.toJson(jsonMap));
-                        notification.message = notification.usersName+" 回應了你的話題。";
+                        notification.message = msg;
                         notification.status = 0;
                         notification.merge();
                     }

@@ -242,20 +242,21 @@ public abstract class SocialObject extends domain.Entity implements
 		action.save();
 	}
 
-	protected void recordCommentOnCommunityPost(SocialObject user) {
+    @Deprecated
+    protected void recordCommentOnArticle(SocialObject user) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.COMMENTED;
 		action.save();
 	}
-	
-	protected void recordCommentOnArticle(SocialObject user) {
-		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
+
+	protected void recordCommentOnCommunityPost(SocialObject user, Comment comment) {
+		PrimarySocialRelation action = new PrimarySocialRelation(user, comment);
 		action.action = PrimarySocialRelation.Action.COMMENTED;
 		action.save();
 	}
-	
-	protected void recordAnswerOnCommunityPost(SocialObject user) {
-		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
+
+	protected void recordAnswerOnCommunityPost(SocialObject user, Comment answer) {
+		PrimarySocialRelation action = new PrimarySocialRelation(user, answer);
 		action.action = PrimarySocialRelation.Action.ANSWERED;
         action.save();
 	}

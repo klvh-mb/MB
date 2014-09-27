@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import common.utils.StringUtil;
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 import domain.CommentType;
@@ -135,6 +136,13 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
         Long id = integer.longValue();
         Post post = Post.findById(id);
         return post;
+    }
 
+    public String getShortenedBody() {
+        if (body == null || body.startsWith("http")) {
+            return "";
+        } else {
+            return StringUtil.truncateWithDots(body, 12);
+        }
     }
 }
