@@ -70,13 +70,15 @@
             <span style="margin-left:5px;"/>
             <span class="post-date" am-time-ago="comment.cd"></span>
             <div class="post-qna-answer-body">
-                <div class="post-qna-answer-body-text" ng-bind-html="comment.d | to_trusted"></div>
+                <div>
+                    <span class="post-qna-answer-body-text" ng-bind-html="comment.d | to_trusted"></span>
+                    <span data-ng-include data-src="'/assets/app/views/like-answer.html'"></span>
+                </div>
                 <div data-ng-show="comment.hasImage" class="post-body-image">
                     <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in comment.imgs" href="">
                         <img data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
                     </a>
                 </div>
-                <span data-ng-include data-src="'/assets/app/views/like-answer.html'"></span>
             </div>
         </li>
         <!-- Post Answer box -->
