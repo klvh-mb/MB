@@ -209,6 +209,10 @@ minibean.controller('ApplicationController',
 
     $scope.unread_msg_count = 0;
     $scope.get_header_metaData = function() {
+        if (!$scope.userInfo.isLoggedIn) {
+            //log('get_header_metaData ignored for no login');
+            return;
+        }
         if (window.isBrowserTabActive == false) {
             return;
         }
