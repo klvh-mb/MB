@@ -958,7 +958,7 @@ a:focus {
     padding: 3px;
 }
 .mayKnowFD-name {
-    font-size: 11px !important;
+    font-size: 12px !important;
     color: #565656 !important;
 }
 .mayKnowFD-wrapper {
@@ -1019,14 +1019,14 @@ a:focus {
 
 /* Community Start */
 .community-attribute {
-    font-size: 11px !important;
+    font-size: 12px !important;
     color: #a0a0a0 !important;
 }
 .community-attribute .glyphicon-lock {
     font-size: 9px;
 }
 .community-member-counter {
-    font-size: 11px !important;
+    font-size: 12px !important;
     color: #565656 !important;
 }
 /* Community End */
@@ -1069,7 +1069,7 @@ a:focus {
     font-weight: bold;
 }
 .competition-wrapper p{
-    font-size: 11px;
+    font-size: 12px;
     color: #8b8b8b;
 }
 /* Competition End */
@@ -2164,7 +2164,7 @@ a:focus {
 .memberType, .friendType {
     color: #737373;
     display: block;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: bold;
 }
 .communityCard {
@@ -2406,7 +2406,7 @@ span.notif-count {
     border: 1px solid #fff;
     border-radius: 25px;
     color: white;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: bold;
     margin: 0px;
     position: absolute;

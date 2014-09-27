@@ -1,5 +1,6 @@
 var DefaultValues = new function() {
 
+    this.COMMENTS_PREVIEW_COUNT = 2;
     this.DEFAULT_ITEMS_PER_PAGE = 30;
     this.DEFAULT_MEMBERS_PER_PAGE = 30;
     this.DEFAULT_INFINITE_SCROLL_COUNT = 7;

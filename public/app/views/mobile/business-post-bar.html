@@ -19,11 +19,11 @@
             <a data-ng-href="#/business/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
             <span class="post-date" am-time-ago="post.t"></span>
         </li>
-        <li ng-show="post.n_c > 2 && !post.ep">
-            <span class="post-qna-answer-count" ng-show="post.n_c > 0 && post.n_c <= 2"><b>{{post.n_c}}個留言</b></span>
-            <a href="#/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}" ng-show="post.n_c > 2"><b>共{{post.n_c}}個留言</b></a>
+        <li ng-show="post.n_c > commentsPreviewNum && !post.ep">
+            <span class="post-qna-answer-count" ng-show="post.n_c > 0 && post.n_c <= commentsPreviewNum"><b>{{post.n_c}}個留言</b></span>
+            <a href="#/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}" ng-show="post.n_c > commentsPreviewNum"><b>共{{post.n_c}}個留言</b></a>
         </li>
-        <li data-ng-repeat="comment in post.cs" ng-if="$index < 2">
+        <li data-ng-repeat="comment in post.cs">
             <a data-ng-href="m-my#/profile/{{comment.oid}}">
                 <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
             </a>

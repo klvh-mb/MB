@@ -8,6 +8,8 @@ import models.*;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import domain.DefaultValues;
 import processor.PrimarySocialRelationManager;
 import static processor.PrimarySocialRelationManager.PrimarySocialResult;
 
@@ -38,9 +40,6 @@ public class CommunityPostVM {
 	@JsonProperty("isLike") public boolean isLike = false;
     @JsonProperty("isWtAns") public boolean isWantAnswer = false;
 	@JsonProperty("isBookmarked") public boolean isBookmarked = false;
-
-
-    private static final int COMMENT_PREVIEW_COUNT = 3;
 
 	public static CommunityPostVM communityPostVM(Post post, User user) {
         final boolean isCommentable = true;     // open for comment
@@ -82,7 +81,7 @@ public class CommunityPostVM {
 
         // fetch preview comments
 		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
-		List<Comment> comments = post.getCommentsOfPost(COMMENT_PREVIEW_COUNT);
+		List<Comment> comments = post.getCommentsOfPost(DefaultValues.COMMENTS_PREVIEW_COUNT);
 
         List<Long> likeCheckIds = new ArrayList<>();
         likeCheckIds.add(post.id);

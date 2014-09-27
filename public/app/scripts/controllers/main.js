@@ -128,6 +128,8 @@ minibean.controller('ApplicationController',
 
     log("ApplicationController starts");
 
+    $scope.commentsPreviewNum = DefaultValues.COMMENTS_PREVIEW_COUNT;
+    
     window.isBrowserTabActive = true;
     
     $scope.selectNavBar = function(value) {

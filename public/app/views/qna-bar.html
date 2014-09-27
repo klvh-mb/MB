@@ -53,12 +53,12 @@
     </ul>
     <!-- Post Body Ends -->
     <ul class="post-qna-answers">
-        <li ng-show="post.n_c > 3">
+        <li ng-show="post.n_c > commentsPreviewNum">
             <span class="post-qna-answer-count" ng-show="post.n_c == 0">尚未有回覆</span>
-            <span class="post-qna-answer-count" ng-show="post.n_c > 0 && post.n_c <= 3">{{post.n_c}}個回覆</span>
-            <span class="post-qna-answer-count" ng-show="post.n_c > 3  && post.ep">共{{post.n_c}}個回覆</span>
-            <a href="" ng-show="post.n_c > 3 && !post.ep" data-ng-click="get_all_comments(post.id)">共{{post.n_c}}個回覆</a>
-            <a class="pull-right" href="" ng-show="post.n_c > 3 && !post.ep" data-ng-click="get_all_comments(post.id)">查看所有回覆</a>
+            <span class="post-qna-answer-count" ng-show="post.n_c > 0 && post.n_c <= commentsPreviewNum">{{post.n_c}}個回覆</span>
+            <span class="post-qna-answer-count" ng-show="post.n_c > commentsPreviewNum  && post.ep">共{{post.n_c}}個回覆</span>
+            <a href="" ng-show="post.n_c > commentsPreviewNum && !post.ep" data-ng-click="get_all_comments(post.id)">共{{post.n_c}}個回覆</a>
+            <a class="pull-right" href="" ng-show="post.n_c > commentsPreviewNum && !post.ep" data-ng-click="get_all_comments(post.id)">查看所有回覆</a>
         </li>
         <li data-ng-repeat="comment in post.cs" ng-class-odd="'post-qna-answer-odd'" ng-class-even="'post-qna-answer-even'">
             <a data-ng-href="my#/profile/{{comment.oid}}">
