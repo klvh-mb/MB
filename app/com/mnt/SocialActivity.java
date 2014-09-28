@@ -211,7 +211,6 @@ public class SocialActivity {
                                 jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                                 jsonMap.put("onClick", commLandingUrl);
                                 notification.URLs = Json.stringify(Json.toJson(jsonMap));
-                                notification.count++;
                                 notification.status = 0;
                                 notification.addToList(User.findById(socialAction.actor));
                                 notification.message = msg;
@@ -267,7 +266,6 @@ public class SocialActivity {
                                 jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                                 jsonMap.put("onClick", commLandingUrl);
                                 notification.URLs = Json.stringify(Json.toJson(jsonMap));
-                                notification.count++;
                                 notification.status = 0;
                                 notification.addToList(User.findById(socialAction.actor));
                                 notification.message = msg;
@@ -317,7 +315,6 @@ public class SocialActivity {
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                             jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
-                            notification.count++;
                             notification.addToList(User.findById(socialAction.actor));
                             notification.message = msg;
                             notification.status = 0;
@@ -365,7 +362,6 @@ public class SocialActivity {
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                             jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
-                            notification.count++;
                             notification.addToList(User.findById(socialAction.actor));
                             notification.message = msg;
                             notification.status = 0;
@@ -410,7 +406,6 @@ public class SocialActivity {
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                             jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
-                            notification.count++;
                             notification.addToList(User.findById(socialAction.actor));
                             notification.message = msg;
                             notification.status = 0;
@@ -457,7 +452,6 @@ public class SocialActivity {
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                             jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
-                            notification.count++;
                             notification.addToList(User.findById(socialAction.actor));
                             notification.message = msg;
                             notification.status = 0;
@@ -503,7 +497,6 @@ public class SocialActivity {
                     } else {
                         String msg = notification.usersName + msgEnd;
 
-                        notification.count++;
                         notification.addToList(User.findById(socialAction.actor));
                         jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                         jsonMap.put("onClick", landingUrl);
@@ -552,7 +545,6 @@ public class SocialActivity {
                     } else {
                         String msg = notification.usersName + msgEnd;
 
-                        notification.count++;
                         notification.addToList(User.findById(socialAction.actor));
                         jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                         jsonMap.put("onClick", landingUrl);

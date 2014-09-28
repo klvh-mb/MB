@@ -89,20 +89,28 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 	}
 
 	public void addToList(User addUser) {
-		if(this.usersName == null){
-            this.usersName = addUser.displayName;
+        String addUserName = addUser.displayName;
+        if (addUserName == null) {
+            addUserName = "User";
+        }
+
+		if(this.usersName == null) {
+            this.usersName = addUserName;
+            this.count++;
 		}
         else {
-			if(this.usersName.toLowerCase().contains(addUser.displayName.toLowerCase())){
+			if(this.usersName.toLowerCase().contains(addUserName.toLowerCase())){
 				return;
 			}
 
-			if(count >= 3){
-                int lastDelimIdx = this.usersName.lastIndexOf(",");
+            this.count++;
+
+            int lastDelimIdx = this.usersName != null ? this.usersName.lastIndexOf(",") : -1;
+			if(count >= 3 && lastDelimIdx != -1){
                 long othersCount = count - 2;
-				this.usersName = addUser.displayName+", "+this.usersName.substring(0,lastDelimIdx)+" 與另外 "+othersCount+"人都";
+				this.usersName = addUserName+", "+this.usersName.substring(0,lastDelimIdx)+" 與另外 "+othersCount+"人都";
 			} else {
-				this.usersName = addUser.displayName+", "+this.usersName;
+				this.usersName = addUserName+", "+this.usersName;
             }
 		}
 	}
