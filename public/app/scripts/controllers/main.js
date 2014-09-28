@@ -504,13 +504,14 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
                 parent_location : $scope.userAbout.userInfo.location.id
             };
            
-    		return $http.post('/updateUserProfileData', formData).success(function(data){
-                $scope.saved = true;
-                $scope.get_header_metaData();
-                usSpinnerService.stop('loading...');
-            }).error(function(data, status, headers, config) {
-                prompt(data);
-            });
+    		return $http.post('/updateUserProfileData', formData)
+                .success(function(data){
+                    $scope.saved = true;
+                    $scope.get_header_metaData();
+                    usSpinnerService.stop('loading...');
+                }).error(function(data, status, headers, config) {
+                    prompt(data);
+                });
         }
 	}
 	
@@ -575,10 +576,11 @@ minibean.controller('EditCommunityController',function($scope,$q, $location,$rou
 	
 	$scope.updateGroupProfileData = function(data) {
 		usSpinnerService.spin('loading...');
-		return $http.post('/updateGroupProfileData', $scope.community).success(function(data){
-			$scope.submitBtn = "完成";
-			usSpinnerService.stop('loading...');
-		});
+		return $http.post('/updateGroupProfileData', $scope.community)
+            .success(function(data){
+    			$scope.submitBtn = "完成";
+    			usSpinnerService.stop('loading...');
+    		});
 	}
 
 	$scope.openGroupCoverPhotoModal = function(id) {
@@ -1127,13 +1129,13 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 						var comment = {"oid" : $scope.userInfo.id, "commentText" : commentText, "on" : $scope.userInfo.displayName,
 								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
 						post.cs.push(comment);
-				}
-				usSpinnerService.stop('loading...');	
-			}).error(function(data, status, headers, config) {
+        			}
+                });	
+    		}).error(function(data, status, headers, config) {
                 prompt("回覆失敗。請重試");
             });
-		});
-	};
+            usSpinnerService.stop('loading...');
+	}
 	
 	$scope.$watch('search_trigger', function(query) {
 	       if(query != undefined) {
@@ -1332,58 +1334,58 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                 
                 $scope.commentText = "";
                 angular.forEach($scope.posts.posts, function(post, key){
-                        if(post.id == data.post_id) {
-                            post.n_c++;
-                            post.ut = new Date();
-                            var comment = {"oid" : $scope.posts.lu, "d" : commentText, "on" : $scope.posts.lun,
-                                    "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
-                            post.cs.push(comment);
-                            
-                            if($scope.commentSelectedFiles.length == 0) {
-                                return;
-                            }
-                            
-                            $scope.commentSelectedFiles = [];
-                            $scope.commentDataUrls = [];
-                            
-                            // when post is done in BE then do photo upload
-                            //log($scope.commentTempSelectedFiles.length);
-                            for(var i=0 ; i<$scope.commentTempSelectedFiles.length ; i++) {
-                                usSpinnerService.spin('loading...');
-                                $upload.upload({
-                                    url : '/image/uploadCommentPhoto',
-                                    method: $scope.httpMethod,
-                                    data : {
-                                        commentId : comment_id
-                                    },
-                                    file: $scope.commentTempSelectedFiles[i],
-                                    fileFormDataName: 'comment-photo'
-                                }).success(function(data, status, headers, config) {
-                                    $scope.commentTempSelectedFiles.length = 0;
-                                    if(post.id == post_data.post_id) {
-                                        angular.forEach(post.cs, function(cmt, key){
-                                            if(cmt.id == comment_id) {
-                                                cmt.hasImage = true;
-                                                if(cmt.imgs) {
-                                                    
-                                                } else {
-                                                    cmt.imgs = [];
-                                                }
-                                                cmt.imgs.push(data);
+                    if(post.id == data.post_id) {
+                        post.n_c++;
+                        post.ut = new Date();
+                        var comment = {"oid" : $scope.posts.lu, "d" : commentText, "on" : $scope.posts.lun,
+                                "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+                        post.cs.push(comment);
+                        
+                        if($scope.commentSelectedFiles.length == 0) {
+                            return;
+                        }
+                        
+                        $scope.commentSelectedFiles = [];
+                        $scope.commentDataUrls = [];
+                        
+                        // when post is done in BE then do photo upload
+                        //log($scope.commentTempSelectedFiles.length);
+                        for(var i=0 ; i<$scope.commentTempSelectedFiles.length ; i++) {
+                            usSpinnerService.spin('loading...');
+                            $upload.upload({
+                                url : '/image/uploadCommentPhoto',
+                                method: $scope.httpMethod,
+                                data : {
+                                    commentId : comment_id
+                                },
+                                file: $scope.commentTempSelectedFiles[i],
+                                fileFormDataName: 'comment-photo'
+                            }).success(function(data, status, headers, config) {
+                                $scope.commentTempSelectedFiles.length = 0;
+                                if(post.id == post_data.post_id) {
+                                    angular.forEach(post.cs, function(cmt, key){
+                                        if(cmt.id == comment_id) {
+                                            cmt.hasImage = true;
+                                            if(cmt.imgs) {
+                                                
+                                            } else {
+                                                cmt.imgs = [];
                                             }
-                                        });
-                                    }
-                                }).error(function(data, status, headers, config) {
-                                    prompt("回載圖片失敗。請重試");
-                                });
+                                            cmt.imgs.push(data);
+                                        }
+                                    });
+                                }
+                            }).error(function(data, status, headers, config) {
+                                prompt("回載圖片失敗。請重試");
+                            });
                         }
                     }
+                });
             }).error(function(data, status, headers, config) {
                 prompt("回覆失敗。請重試");
             });
             usSpinnerService.stop('loading...');    
-        });
-    };
+    }
     
     $scope.remove_image_from_comment = function(index) {
         $scope.commentSelectedFiles.splice(index, 1);
@@ -1402,7 +1404,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
         
         $scope.postText="";
         
-        $http.post('/community/post', data)// first create post with post text.
+        $http.post('/community/post', data) // first create post with post text.
             .success(function(post_id) {
                 usSpinnerService.stop('loading...');
                 $('.postBox').val('');
@@ -1420,7 +1422,6 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                 
                 // when post is done in BE then do photo upload
                 for(var i=0 ; i<$scope.tempSelectedFiles.length ; i++) {
-                    usSpinnerService.spin('loading...');
                     $upload.upload({
                         url : '/image/uploadPostPhoto',
                         method: $scope.httpMethod,
@@ -1445,10 +1446,11 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                         prompt("上載圖片失敗。請重試");
                     });
                 }
-        }).error(function(data, status, headers, config) {
-            prompt("發佈失敗。請重試");
-        });
-    };
+            }).error(function(data, status, headers, config) {
+                prompt("發佈失敗。請重試");
+            });
+            usSpinnerService.spin('loading...');
+    }
 
     $scope.send_join = function(id) {
         usSpinnerService.spin('loading...');
@@ -1687,11 +1689,11 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
 
         usSpinnerService.spin('loading...');
         var data = {
-                "community_id" : id,
-                "questionTitle" : questionTitle,
-                "questionText" : questionText,
-                "withPhotos" : $scope.QnASelectedFiles.length != 0
-            };
+            "community_id" : id,
+            "questionTitle" : questionTitle,
+            "questionText" : questionText,
+            "withPhotos" : $scope.QnASelectedFiles.length != 0
+        };
         
         $http.post('/communityQnA/question/post', data) // first create post with question text.
             .success(function(post_id) {
@@ -1720,7 +1722,6 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                         file: $scope.tempSelectedFiles[i],
                         fileFormDataName: 'post-photo'
                     }).success(function(data, status, headers, config) {
-                        usSpinnerService.stop('loading...');
                         angular.forEach($scope.QnAs.posts, function(post, key){
                             if(post.id == post_id) {
                                 post.hasImage = true;
@@ -1732,19 +1733,20 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                             }
                         });
                     }).error(function(data, status, headers, config) {
-                            prompt("上載圖片失敗。請重試");
+                        prompt("上載圖片失敗。請重試");
                     });
                 }
-        }).error(function(data, status, headers, config) {
-            prompt("發佈失敗。請重試");
-        });
-    };
+            }).error(function(data, status, headers, config) {
+                prompt("發佈失敗。請重試");
+            });
+            usSpinnerService.stop('loading...');
+    }
     
     $scope.remove_image_from_qna_comment = function(index) {
         $scope.qnaCommentSelectedFiles.splice(index, 1);
         $scope.qnaTempCommentSelectedFiles.splice(index, 1);
         $scope.qnaCommentDataUrls.splice(index, 1);
-    };
+    }
     
     $scope.answer_to_question = function(question_post_id, answerText) {
         // first convert to links
@@ -1775,7 +1777,6 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                         $scope.qnaCommentSelectedFiles = [];
                         $scope.qnaCommentDataUrls = [];
                         
-                    
                         // when post is done in BE then do photo upload
                         //log($scope.qnaTempCommentSelectedFiles.length);
                         for(var i=0 ; i<$scope.qnaTempCommentSelectedFiles.length ; i++) {
@@ -1804,12 +1805,11 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                                     });
                                 }
                             });
+                        }
                     }
-                }
-            
-                usSpinnerService.stop('loading...');
+                    usSpinnerService.stop('loading...');
+                });
             });
-        });
     }
     
     $scope.onQnAFileSelect = function($files) {
@@ -2143,54 +2143,54 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 				
 				$scope.commentText = "";
 				angular.forEach($scope.posts.posts, function(post, key){
-						if(post.id == data.post_id) {
-							post.n_c++;
-							post.ut = new Date();
-							var comment = {"oid" : $scope.posts.lu, "d" : commentText, "on" : $scope.posts.lun,
-									"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
-							post.cs.push(comment);
-							
-							if($scope.commentSelectedFiles.length == 0) {
-								return;
-							}
-							
-							$scope.commentSelectedFiles = [];
-							$scope.commentDataUrls = [];
-							
-							// when post is done in BE then do photo upload
-							//log($scope.commentTempSelectedFiles.length);
-							for(var i=0 ; i<$scope.commentTempSelectedFiles.length ; i++) {
-								usSpinnerService.spin('loading...');
-								$upload.upload({
-									url : '/image/uploadCommentPhoto',
-									method: $scope.httpMethod,
-									data : {
-										commentId : comment_id
-									},
-									file: $scope.commentTempSelectedFiles[i],
-									fileFormDataName: 'comment-photo'
-								}).success(function(data, status, headers, config) {
-									$scope.commentTempSelectedFiles.length = 0;
-									if(post.id == post_data.post_id) {
-										angular.forEach(post.cs, function(cmt, key){
-											if(cmt.id == comment_id) {
-												cmt.hasImage = true;
-												if(cmt.imgs) {
-													
-												} else {
-													cmt.imgs = [];
-												}
-												cmt.imgs.push(data);
+					if(post.id == data.post_id) {
+						post.n_c++;
+						post.ut = new Date();
+						var comment = {"oid" : $scope.posts.lu, "d" : commentText, "on" : $scope.posts.lun,
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+						post.cs.push(comment);
+						
+						if($scope.commentSelectedFiles.length == 0) {
+							return;
+						}
+						
+						$scope.commentSelectedFiles = [];
+						$scope.commentDataUrls = [];
+						
+						// when post is done in BE then do photo upload
+						//log($scope.commentTempSelectedFiles.length);
+						for(var i=0 ; i<$scope.commentTempSelectedFiles.length ; i++) {
+							usSpinnerService.spin('loading...');
+							$upload.upload({
+								url : '/image/uploadCommentPhoto',
+								method: $scope.httpMethod,
+								data : {
+									commentId : comment_id
+								},
+								file: $scope.commentTempSelectedFiles[i],
+								fileFormDataName: 'comment-photo'
+							}).success(function(data, status, headers, config) {
+								$scope.commentTempSelectedFiles.length = 0;
+								if(post.id == post_data.post_id) {
+									angular.forEach(post.cs, function(cmt, key){
+										if(cmt.id == comment_id) {
+											cmt.hasImage = true;
+											if(cmt.imgs) {
+												
+											} else {
+												cmt.imgs = [];
 											}
-										});
-									}
-								});
+											cmt.imgs.push(data);
+										}
+									});
+								}
+							});
 						}
 					}
-			});
-			usSpinnerService.stop('loading...');	
-		});
-	};
+                });
+                usSpinnerService.stop('loading...');	
+            });
+	}
 	
 	$scope.remove_image_from_comment = function(index) {
 		$scope.commentSelectedFiles.splice(index, 1);
@@ -2211,7 +2211,7 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 		
 		$scope.postText="";
 		
-		$http.post('/community/post', data)// first create post with post text.
+		$http.post('/community/post', data) // first create post with post text.
 			.success(function(post_id) {
 				usSpinnerService.stop('loading...');
 				$('.postBox').val('');
@@ -2248,13 +2248,12 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 									post.imgs = [];
 								}
 								post.imgs.push(data);
-							}
-						});
-					});
-					
-				}
-		});
-	};
+                            }
+                        });
+                    });
+                }
+            });
+	}
 
 	$scope.remove_image = function(index) {
 		$scope.selectedFiles.splice(index, 1);
@@ -2485,13 +2484,13 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 
 		usSpinnerService.spin('loading...');
 		var data = {
-				"community_id" : id,
-				"questionTitle" : questionTitle,
-				"questionText" : questionText,
-				"withPhotos" : $scope.QnASelectedFiles.length != 0
-			};
+			"community_id" : id,
+			"questionTitle" : questionTitle,
+			"questionText" : questionText,
+			"withPhotos" : $scope.QnASelectedFiles.length != 0
+		};
 		
-		$http.post('/communityQnA/question/post', data)// first create post with question text.
+		$http.post('/communityQnA/question/post', data) // first create post with question text.
 			.success(function(post_id) {
 				usSpinnerService.stop('loading...');
 				$('.postBox').val('');
@@ -2505,7 +2504,6 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 				
 				$scope.QnASelectedFiles = [];
 				$scope.dataUrls = [];
-				
 				
 				// when post is done in BE then do photo upload
 				for(var i=0 ; i<$scope.tempSelectedFiles.length ; i++) {
@@ -2531,18 +2529,15 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 							}
 						});
 					});
-					
 				}
-				
-				
-		});
-	};
+            });
+	}
 	
 	$scope.remove_image_from_qna_comment = function(index) {
 		$scope.qnaCommentSelectedFiles.splice(index, 1);
 		$scope.qnaTempCommentSelectedFiles.splice(index, 1);
 		$scope.qnaCommentDataUrls.splice(index, 1);
-	};
+	}
 	
 	$scope.answer_to_question = function(question_post_id, answerText) {
 		// first convert to links
@@ -2601,12 +2596,11 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 									});
 								}
 							});
-					}
-				}
-			
-				usSpinnerService.stop('loading...');
-			});
-		});
+					   }
+				    }
+				    usSpinnerService.stop('loading...');
+                });
+            });
 	}
 	
 	$scope.onQnAFileSelect = function($files) {
@@ -3166,12 +3160,12 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 									});
 								}
 							});
-					}
-				}
-			});
-			usSpinnerService.stop('loading...');	
-		});
-	};
+                        }
+                    }
+                });
+                usSpinnerService.stop('loading...');	
+            });
+	}
 	
 	$scope.bookmarkPost = function(post_id) {
 		bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
@@ -3391,19 +3385,18 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 									});
 								}
 							});
-					}
-				}
-			
-				usSpinnerService.stop('loading...');
-			});
-		});
-	};
+    					}
+    				}
+    				usSpinnerService.stop('loading...');
+    			});
+            });
+	}
 	
 	$scope.remove_image_from_qna_comment = function(index) {
 		$scope.qnaCommentSelectedFiles.splice(index, 1);
 		$scope.qnaTempCommentSelectedFiles.splice(index, 1);
 		$scope.qnaCommentDataUrls.splice(index, 1);
-	};
+	}
 	
 	/** images **/
 	
@@ -3524,17 +3517,17 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 									});
 								}
 							});
-					}
-				}
-				usSpinnerService.stop('loading...');	
-			});
-		});
-	};
+    					}
+    				}
+    				usSpinnerService.stop('loading...');	
+    			});
+    		});
+	}
 	
 	$scope.qnaCommentPhoto = function(post_id) {
 		$("#qna-comment-photo-id").click();
 		$scope.commentedOnPost = post_id ;
-	};
+	}
 	
 	$scope.qnaCommentSelectedFiles = [];
 	$scope.qnaTempCommentSelectedFiles = [];
@@ -3622,19 +3615,19 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 									});
 								}
 							});
-					}
-				}
-			
-				usSpinnerService.stop('loading...');
-			});
-		});
-	};
+    					}
+    				}
+    				usSpinnerService.stop('loading...');
+    			});
+    		});
+	}
 	
 	$scope.remove_image_from_qna_comment = function(index) {
 		$scope.qnaCommentSelectedFiles.splice(index, 1);
 		$scope.qnaTempCommentSelectedFiles.splice(index, 1);
 		$scope.qnaCommentDataUrls.splice(index, 1);
-	};
+	}
+	
 	/**images **/
 	
 	$scope.commentPhoto = function(post_id) {
@@ -3895,11 +3888,11 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName,
 								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
 						post.cs.push(comment);
-				}
-				usSpinnerService.stop('loading...');	
-			});
-		});
-	};
+    				}
+    				usSpinnerService.stop('loading...');	
+    			});
+    		});
+	}
 	
 	$scope.answer_to_question = $scope.comment_on_post;
 	
@@ -4271,8 +4264,8 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
             	    });
             	    $scope.remove_image(0);
                 });
-		});
-	};
+            });
+	}
 	
 	$scope.currentHeader = "";
 	$scope.createDateHeader = function(msgDate) {
