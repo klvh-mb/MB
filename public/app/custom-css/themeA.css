@@ -52,6 +52,30 @@ pre {
     border: 0px solid #ccc !important;
     border-radius: 0px !important;
 }
+.tour-tour {
+    box-shadow: 5px 15px 20px rgba(0, 0, 0, .5);
+    border-radius: 35px;
+    padding: 10px 20px 15px 20px;
+    border: 5px solid #FFCDCD;
+}
+.tour-tour .popover-title {
+    background: #FFEFEF;
+    border-radius: 10px;
+    border: 0px solid #FFCDCD;
+}
+.tour-tour.right .arrow {
+    border-right-color: #FFCDCD;
+    top: 50%;
+    left: -13px;
+}
+.tour-tour.right > .arrow:after {
+    border-right-color: white;
+    border-left-width: 15px;
+    margin-top: -13px;
+    bottom: -10px;
+    left: -10px;
+    content: " ";
+}
 
 /*!
  * TEMP

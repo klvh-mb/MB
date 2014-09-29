@@ -128,6 +128,13 @@ minibean.controller('ApplicationController',
 
     log("ApplicationController starts");
 
+    //$scope.homeTour = homeTour;
+    //$scope.homeTour.init();
+    //$scope.profileTour = profileTour;
+    //$scope.profileTour.init();
+    //$scope.gamificationTour = gamificationTour;
+    //$scope.gamificationTour.init();
+    
     $scope.commentsPreviewNum = DefaultValues.COMMENTS_PREVIEW_COUNT;
     
     window.isBrowserTabActive = true;
@@ -174,7 +181,8 @@ minibean.controller('ApplicationController',
     $scope.applicationInfo = applicationInfoService.ApplicationInfo.get();
 	$scope.userInfo = userInfoService.UserInfo.get(
         function(data) {
-            if (data.isLoggedIn) {
+            if (data.isLoggedIn && !data.newUser) {
+                //$scope.homeTour.restart(true);
 	        }
 	   }
 	);

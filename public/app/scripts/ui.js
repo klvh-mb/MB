@@ -1,32 +1,65 @@
 
-window.isBrowserTabActive = false;
+//
+// New user tour
+//
 
-$(window).focus(function () {
-    window.isBrowserTabActive = true; 
-}); 
+var homeTour = new Tour({
+  steps: [
+  {
+    element: "#my-newsfeed",
+    title: "我的社群動向",
+    content: "我的社群動向"
+  },
+  {
+    element: "#my-bookmarks",
+    title: "我的喜愛",
+    content: "我的喜愛"
+  },
+  {
+    element: "#discover-communities",
+    title: "尋找並關注更多親子社群",
+    content: "尋找並關注更多親子社群"
+  },
+  {
+    element: "#my-communities",
+    title: "我關注的社群",
+    content: "我關注的社群"
+  }
+]});
 
-$(window).blur(function () {
-    window.isBrowserTabActive = false; 
-});
+/*
+var profileTour = new Tour({
+  steps: [
+  {
+    element: "#my-profile",
+    title: "Profile",
+    content: "Profile"
+  },
+  {
+    element: "#my-profile2",
+    title: "Profile2",
+    content: "Profile2"
+  }
+]});
 
-$(window).on("blur focus", function(e) {
-    var prevType = $(this).data("prevType"); // getting identifier to check by
-    if (prevType != e.type) {   //  reduce double fire issues by checking identifier
-        switch (e.type) {
-            case "blur":
-                window.isBrowserTabActive = false; 
-                break;
-            case "focus":
-                window.isBrowserTabActive = true; 
-                break;
-        }
-    }
-    $(this).data("prevType", e.type); // reset identifier
-})
+var gamificationTour = new Tour({
+  steps: [
+  {
+    element: "#my-game",
+    title: "Game",
+    content: "Game"
+  },
+  {
+    element: "#my-game2",
+    title: "Game2",
+    content: "Game2"
+  }
+]});
+*/
 
 //
-// Flag to check if browser tab is active
-// To control $interval
+// Hooks to detect browser activeness 
+// for header meta refresh
 //
 
 window.isBrowserTabActive = false;

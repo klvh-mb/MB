@@ -25,6 +25,7 @@ public class UserVM {
     @JsonProperty("isAdmin") public boolean isAdmin = false;
     @JsonProperty("isMobile") public boolean isMobile = false;
     @JsonProperty("isFbLogin") public boolean isFbLogin = false;
+    @JsonProperty("newUser") public boolean newUser = false;
     
 	public UserVM(User user) {
 		this.firstName = user.firstName;
@@ -51,5 +52,6 @@ public class UserVM {
 		}
 		this.isMobile = Application.isMobileUser();
 		this.isFbLogin = user.fbLogin;
+		this.newUser = user.newUser;
 	}
 }
