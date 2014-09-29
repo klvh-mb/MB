@@ -6,7 +6,6 @@ import javax.xml.bind.JAXBException;
 
 import models.Icon;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.joda.time.DateTime;
 
 import com.github.fedy2.weather.YahooWeatherService;
@@ -35,25 +34,19 @@ public class WeatherUtil {
     
     public static final String HONG_KONG_WOEID = "24865698";
     
-    public static void fillInfo(TodayWeatherInfo info) {
+    public static void fillInfo(TodayWeatherInfo info) throws JAXBException, IOException {
         YahooWeatherService service;
-        try {
-            service = new YahooWeatherService();
-            Channel channel = service.getForecast(HONG_KONG_WOEID, DegreeUnit.CELSIUS);
-            Condition condition = channel.getItem().getCondition();
-            info.setTitle(channel.getTitle());
-            info.setDescription(channel.getDescription());
-            info.setCondition(condition.getText());
-            info.setConditionCode(condition.getCode());
-            info.setIcon(getIcon(condition.getCode(), new DateTime(condition.getDate())));
-            info.setLocation(channel.getLocation().getCity());
-            info.setTemperature(condition.getTemp());
-            info.setUpdatedTime(new DateTime(condition.getDate()));
-        } catch (JAXBException e) {
-            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
-        } catch (IOException e) {
-            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
-        }
+        service = new YahooWeatherService();
+        Channel channel = service.getForecast(HONG_KONG_WOEID, DegreeUnit.CELSIUS);
+        Condition condition = channel.getItem().getCondition();
+        info.setTitle(channel.getTitle());
+        info.setDescription(channel.getDescription());
+        info.setCondition(condition.getText());
+        info.setConditionCode(condition.getCode());
+        info.setIcon(getIcon(condition.getCode(), new DateTime(condition.getDate())));
+        info.setLocation(channel.getLocation().getCity());
+        info.setTemperature(condition.getTemp());
+        info.setUpdatedTime(new DateTime(condition.getDate()));
     }
     
     public static String getIcon(int conditionCode, DateTime updatedTime) {

@@ -1,7 +1,11 @@
 package common.model;
 
+import java.io.IOException;
 import java.io.Serializable;
 
+import javax.xml.bind.JAXBException;
+
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.joda.time.DateTime;
 
 import common.cache.JedisCache;
@@ -38,9 +42,19 @@ public class TodayWeatherInfo implements Serializable {
         TodayWeatherInfo info = 
                 (TodayWeatherInfo)JedisCache.cache().getObj(JedisCache.TODAY_WEATHER_KEY, TodayWeatherInfo.class);
         if (info == null) {
+            int refreshSecs = 60;   // retry after 60 secs if failed to get weather info 
             info = new TodayWeatherInfo();
-            fillInfo(info);
-            JedisCache.cache().putObj(JedisCache.TODAY_WEATHER_KEY, info, TodayWeatherInfo.REFRESH_SECS);
+            try {
+                fillInfo(info);
+                refreshSecs = TodayWeatherInfo.REFRESH_SECS;    // got weather info
+            } catch (JAXBException e) {
+                logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+            } catch (IOException e) {
+                logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+            } catch (RuntimeException e) {
+                logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+            }
+            JedisCache.cache().putObj(JedisCache.TODAY_WEATHER_KEY, info, refreshSecs);
         }
         return info;
     }
@@ -49,7 +63,7 @@ public class TodayWeatherInfo implements Serializable {
         JedisCache.cache().remove(JedisCache.TODAY_WEATHER_KEY);
     }
     
-    private static TodayWeatherInfo fillInfo(TodayWeatherInfo info) {
+    private static TodayWeatherInfo fillInfo(TodayWeatherInfo info) throws JAXBException, IOException {
         WeatherUtil.fillInfo(info);
         
         DateTime now = new DateTime();
