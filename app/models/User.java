@@ -1466,8 +1466,9 @@ public class User extends SocialObject implements Subject, Socializable {
     @JsonIgnore
     public List<Post> getUserNewsfeeds(int offset, int limit) {
         Query query = JPA.em().createQuery(
-                "SELECT p from Post p where p.owner = ?1 and p.deleted = false order by p.socialUpdatedDate desc");
+                "SELECT p from Post p where p.owner = ?1 and p.postType = ?2 and p.deleted = false order by p.socialUpdatedDate desc");
         query.setParameter(1, this);
+        query.setParameter(2, PostType.QUESTION);
         query.setFirstResult(offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
         query.setMaxResults(limit);
         return (List<Post>)query.getResultList();
@@ -1478,8 +1479,9 @@ public class User extends SocialObject implements Subject, Socializable {
         Query query = JPA.em().createQuery(
                 "SELECT p from Post p where p.id in "+
                 "(select c.socialObject from Comment c where c.owner = ?1 and c.deleted = false) "+
-                "and p.deleted = false order by p.socialUpdatedDate desc");
+                "and p.postType = ?2 and p.deleted = false order by p.socialUpdatedDate desc");
         query.setParameter(1, this);
+        query.setParameter(2, PostType.QUESTION);
         query.setFirstResult(offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
         query.setMaxResults(limit);
         return (List<Post>)query.getResultList();
