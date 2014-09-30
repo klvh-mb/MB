@@ -8,6 +8,7 @@
 
 # Test Adsfactor
 GET     /test-ads                   controllers.Application.ads
+GET     /test-ng-ads                controllers.Application.ngAds
 
 # Bing Webmaster
 GET     /BingSiteAuth.xml           controllers.Application.bingWebmaster
@@ -166,6 +167,7 @@ GET		/un-friend					controllers.FriendsController.doUnFriend(id: Long)
 GET     /get-zodiac-year-communities            controllers.CommunityController.getZodiacYearCommunities
 GET     /get-zodiac-year-month-communities      controllers.CommunityController.getZodiacYearMonthCommunities
 GET     /get-district-communities               controllers.CommunityController.getDistrictCommunities
+GET     /get-topic-communities                  controllers.CommunityController.getTopicCommunities
 GET     /get-other-communities                  controllers.CommunityController.getOtherCommunities
 GET     /get-all-community-categories           controllers.CommunityController.getAllCommunityCategories
 GET		/get-unjoined-communities			    controllers.CommunityController.getUserUnJoinedCommunities

@@ -101,7 +101,7 @@ public class CommunityController extends Controller{
     }
     
     @Transactional
-    public static Result getOtherCommunities() {
+    public static Result getTopicCommunities() {
         List<CommunitiesWidgetChildVM> vms = 
                 getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.SOON_MOMS_DADS);
         vms.addAll( 
@@ -112,6 +112,14 @@ public class CommunityController extends Controller{
                 getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.PUBLIC));
         vms.addAll( 
                 getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.PRE_NURSERY));
+        CommunitiesParentVM communitiesVM = new CommunitiesParentVM(vms.size(), vms);
+        return ok(Json.toJson(communitiesVM));
+    }
+    
+    @Transactional
+    public static Result getOtherCommunities() {
+        List<CommunitiesWidgetChildVM> vms = 
+                getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.OTHER);
         CommunitiesParentVM communitiesVM = new CommunitiesParentVM(vms.size(), vms);
         return ok(Json.toJson(communitiesVM));
     }

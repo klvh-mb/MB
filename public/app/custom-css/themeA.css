@@ -880,7 +880,7 @@ a:focus {
 #announce .content-wrapper {
 }
 #announce ul {
-    color: #F13434;
+    color: #FF3434;
     padding: 0;
     margin: 0;
 }
@@ -927,7 +927,7 @@ a:focus {
     color: #77737E;
     font-size: small;
 }
-.content-wrapper a:hover{
+.content-wrapper a:hover {
     color: #4440AC;
     /*background-color: #E5E5E5;*/
     /*text-decoration: none;*/
@@ -943,13 +943,13 @@ a:focus {
     background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,rgba(255, 237, 237, 1) 47%,rgba(255, 195, 195, 1) 100%);
 }
 .con-title a {
-    color: #050505;
+    color: #6B1A1A;
     line-height: 14pt;
     font-size: 17px;
     font-weight: normal;
 }
 .con-title a:hover{
-    color: #77737E;
+    color: #FF3434;
 }
 .tag{
     margin-right: 5px;
@@ -1026,11 +1026,14 @@ a:focus {
     float: left;
     margin-right: 5px;
 }
-.newCommunity-info a, .myCommunity-info img {
+.newCommunity-info a, .myCommunity-info a {
+    color: #3691E0;
     font-weight: normal;
-    font-size: normal;
     position: relative;
     top: 0;
+}
+.newCommunity-info a:hover, .myCommunity-info a:hover {
+    color: #FF3434;
 }
 .newCommunity-info .btn-general, .myCommunity-info .btn-general {
     position: relative;

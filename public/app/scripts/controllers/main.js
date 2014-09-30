@@ -128,12 +128,23 @@ minibean.controller('ApplicationController',
 
     log("ApplicationController starts");
 
-    //$scope.homeTour = homeTour;
-    //$scope.homeTour.init();
+    $scope.homeTour = homeTour;
+    $scope.homeTour.init();
+    $scope.startHomeTour = function() {
+        $scope.homeTour.restart(true);
+    }
+    
     //$scope.profileTour = profileTour;
     //$scope.profileTour.init();
+    //$scope.startProfileTour = function() {
+    //    $scope.profileTour.restart(true);
+    //}
+    
     //$scope.gamificationTour = gamificationTour;
     //$scope.gamificationTour.init();
+    //$scope.startGamificationTour = function() {
+    //    $scope.gamificationTour.restart(true);
+    //}
     
     $scope.commentsPreviewNum = DefaultValues.COMMENTS_PREVIEW_COUNT;
     
@@ -182,7 +193,7 @@ minibean.controller('ApplicationController',
 	$scope.userInfo = userInfoService.UserInfo.get(
         function(data) {
             if (data.isLoggedIn && !data.newUser) {
-                //$scope.homeTour.restart(true);
+                
 	        }
 	   }
 	);
@@ -872,6 +883,7 @@ minibean.controller('CommunitiesDiscoverController',function($scope, $routeParam
     log("CommunitiesDiscoverController starts");
     
     $scope.communities = [];
+    $scope.topicCommunities = [];
     $scope.zodiacYearCommunities = [];
     $scope.zodiacYearMonthCommunities = [];
     $scope.districtCommunities = [];
@@ -923,6 +935,19 @@ minibean.controller('CommunitiesDiscoverController',function($scope, $routeParam
                 $scope.communities = $scope.districtCommunities;
             }
         } else if (tab == 4) {
+            if ($scope.topicCommunities.length == 0) {
+                usSpinnerService.spin('loading...');
+                communitiesDiscoverService.TopicCommunities.get(
+                    function(data) {
+                        $scope.topicCommunities = data.communities;
+                        $scope.communities = $scope.topicCommunities;
+                        usSpinnerService.stop('loading...');
+                    }
+                );    
+            } else {
+                $scope.communities = $scope.topicCommunities;
+            }
+        } else if (tab == 5) {
             if ($scope.otherCommunities.length == 0) {
                 usSpinnerService.spin('loading...');
                 communitiesDiscoverService.OtherCommunities.get(

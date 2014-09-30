@@ -646,12 +646,12 @@ public class DataBootstrap {
                 TargetingType.PUBLIC,
                 "PETS");
         
-        name = "安全知多D♥";
-        desc = "安全知多D♥";
+        name = "單親媽媽♥";
+        desc = "單親媽媽♥";
         createTargetingCommunity(name, desc, 
-                "/assets/app/images/general/icons/community/helmet.png",
+                "/assets/app/images/general/icons/community/mom.png",
                 TargetingType.PUBLIC,
-                "BABY_SAFETY");
+                "SINGLE_MOMS");
         
         // Zodiac communities
         
@@ -751,7 +751,7 @@ public class DataBootstrap {
                     "/assets/app/images/general/icons/community/feedback.png");
             community.system = true;
             community.excludeFromNewsfeed = true;
-            community.targetingType = TargetingType.PUBLIC;
+            community.targetingType = TargetingType.OTHER;
             community.targetingInfo = "FEEDBACK";
             //community.setCoverPhoto(new File(Resource.STORAGE_PATH + "/default/beans_cover.jpg"));
         } catch (Exception e) {

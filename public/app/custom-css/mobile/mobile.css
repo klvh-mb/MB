@@ -395,12 +395,10 @@ span.notif-count {
 .post-qna-body-text, .post-qna-answer-body-text {
     padding: 0px 0px 5px 0px;
     line-height: 1.2;
-    font-size: 14px;
 }
 .post-sharing-body-text {
     padding: 5px 0px 5px 0px;
     line-height: 1.2;
-    font-size: 14px;
 }
 .post-favorite:after, .post-favorited:after {
     text-indent: 23px;

@@ -336,6 +336,13 @@ minibean.service('communitiesDiscoverService',function($resource){
                 get: {method:'get'}
             }
     );
+    this.TopicCommunities = $resource(
+            '/get-topic-communities',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
     this.OtherCommunities = $resource(
             '/get-other-communities',
             {alt:'json',callback:'JSON_CALLBACK'},

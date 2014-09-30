@@ -191,6 +191,9 @@ public class Application extends Controller {
             logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] Login - PC");
         }
 	    
+	    // reset last login time
+	    user.setLastLogin(new Date());
+	    
 		if (User.isLoggedIn(user) && user.userInfo == null) {
 		    if (user.fbLogin) {
 		        return isMobileUser()? 
@@ -207,14 +210,9 @@ public class Application extends Controller {
 
 	        CommunityTargetingEngine.assignSystemCommunitiesToUser(user);
 	        
-	        // TODO - keith
-	        // return welcome page
-	        
 	        user.setNewUser(false);
+	        return redirect("/my#/communities-discover");
 	    }
-
-        // reset last login time
-        user.setLastLogin(new Date());
 	    return isMobileUser()? ok(views.html.mobile.home.render()) : ok(views.html.home.render());
 	}
 	
@@ -574,5 +572,10 @@ public class Application extends Controller {
 	@Transactional
     public static Result ads() {
         return ok(views.html.ads.render());
+    }
+	
+	@Transactional
+    public static Result ngAds() {
+        return ok(views.html.ng_ads.render());
     }
 }
