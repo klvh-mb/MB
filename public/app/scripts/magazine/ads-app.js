@@ -23,36 +23,10 @@ angular.module('minibean', [
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: '/assets/app/views/magazine/home.html'
+        templateUrl: '/assets/app/views/magazine/ads.html'
       })
-      .when('/view', {
-        templateUrl: '/assets/app/views/magazine/home.html'
-      })
-      .when('/view/:cat', {
-        templateUrl: '/assets/app/views/magazine/home.html'
-      })
-      .when('/article/show/:catId',{
-        templateUrl: '/assets/app/views/magazine/showArticlesPage.html',
-        controller : 'ShowArticlesController'  
-      })
-      .when('/article/:id/:catId',{
-        templateUrl: '/assets/app/views/magazine/articlePage.html',
-        controller : 'ArticlePageController'  
-      })
-      .when('/business/community/:id',{
-        templateUrl: '/assets/app/views/business-community-page.html',
-        controller : 'BusinessCommunityPageController'  
-      })
-      .when('/business/community/:id/:tab',{
-        templateUrl: '/assets/app/views/business-community-page.html',
-        controller : 'BusinessCommunityPageController'  
-      })
-      .when('/business-post-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/business-post-landing.html',
-        controller : 'PostLandingController'  
-      })
-      .when('/error', {
-          templateUrl: '/assets/app/views/errorPage.html',
+      .when('/ads', {
+        templateUrl: '/assets/app/views/magazine/ads.html'
       })
       .otherwise({
           redirectTo: '/'

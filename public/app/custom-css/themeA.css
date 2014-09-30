@@ -164,9 +164,6 @@ div[class*="col-xs-"], div[class*="col-sm-"], div[class*="col-md-"], div[class*=
     padding: 3px 8px;
     font-weight: normal;
 }
-.modal-title {
-    font-size: 15px !important;
-}
 .navbar img {
     width: 20px;
     height: auto;
@@ -2493,31 +2490,49 @@ span.notif-count {
     padding: 0 0 0 18px;
     vertical-align: middle; 
 }
-.modal-content {
+.modal-dialog {
+}
+.modal-dialog .modal-header {
+    height: 35px !important;
+    border-radius: 0px !important;
+    background-color: rgb(253, 239, 255) !important;
+    background-image: linear-gradient(to bottom, rgb(253, 239, 255), rgb(220, 146, 235)) !important;
+}
+.modal-dialog .modal-header .modal-title {
+    font-size: 15px !important;
+    line-height: 30px !important;
+    height: 35px !important;
+}
+.modal-dialog .modal-content {
     overflow-x: scroll !important;
     overflow-y: scroll !important;
-    border-radius: 3px;
+    border-width: 0px;
+    border-radius: 10px;
     top: 35px;
+    max-width: 880px;
+    max-height: 620px;
 }
-.modal-content input[type='text'], .modal-content textarea {
+.modal-dialog .modal-content .modal-body {
+    padding: 0px;
+}
+.modal-dialog .modal-content input[type='text'], .modal-content textarea {
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 3px;
 }
-.modal-content input[type='text']:hover, .modal-content textarea:hover {
+.modal-dialog .modal-content input[type='text']:hover, .modal-content textarea:hover {
     background-color: white;
     border-color: #66afe9;
 }
-.modal-content input[type='text']:focus, .modal-content textarea:focus {
+.modal-dialog .modal-content input[type='text']:focus, .modal-content textarea:focus {
     background-color: white;
     border-color: #66afe9;
 }
-.modal-header {
-    height: 30px;
-    border-radius: 3px !important;
-    border-color: white !important;
-    background-color: white !important;
-    background-image: linear-gradient(to bottom, white, white) !important;
+#imageModal .modal-body img {
+    max-width: 880px; 
+    max-height: 620px;
+    width: 100%;
+    height: auto;
 }
 .btn-primary .caret {
     border-top-color: black;
@@ -2638,10 +2653,6 @@ span.notif-count {
 #article-link {
     width: 65%;
     padding: 5px;
-}
-#imageModal .modal-body img {
-    max-width: 880px; 
-    max-height: 620px;
 }
 .alert {
     padding: 5px 15px;
