@@ -16,23 +16,32 @@ import java.util.concurrent.ThreadLocalRandom;
  * To change this template use File | Settings | File Templates.
  */
 public class ArticleScorer {
+    private static final play.api.Logger logger = play.api.Logger.apply(ArticleScorer.class);
 
     private static final int DISTRICT_POINTS = 100;
-    private static final int PARENT_GENDER_POINTS = 85;
+    private static final int PARENT_GENDER_POINTS = 80;
     private static final int CHILDREN_GENDER_POINTS = 70;
     private static final int LIKES_POINTS = 50;
-    private static final int PUB_DATE_POINTS = 50;
-    private static final int RANDOM_POINTS = 30;        // adding in randomness
+    private static final int PUB_DATE_POINTS = 100;
+    private static final int RANDOM_POINTS = 40;        // adding in randomness
 
 
     public static List<Scorable<Article>> markScores(TargetProfile profile, List<Article> articles) {
         List<Scorable<Article>> results = new ArrayList<>();
 
-        // get max likes count
+        long nowMs = System.currentTimeMillis();
+
+        // get max count
         int maxLikes = 0;
+        long maxTime = 0;
         for (Article article : articles) {
             if (article.noOfLikes > maxLikes) {
                 maxLikes = article.noOfLikes;
+            }
+
+            long diffMs = nowMs - article.publishedDate.getTime();
+            if (diffMs > maxTime) {
+                maxTime = diffMs;
             }
         }
 
@@ -52,9 +61,8 @@ public class ArticleScorer {
 
             score += ((double)article.noOfLikes/(double) maxLikes) * LIKES_POINTS;
 
-            long nowMs = System.currentTimeMillis();
             long diffMs = nowMs - article.publishedDate.getTime();
-            double timePercent = (1d - ((double) diffMs / (double) nowMs));
+            double timePercent = (1d - ((double) diffMs / (double) maxTime));
             score += timePercent * PUB_DATE_POINTS;
 
             double randomPercent = ThreadLocalRandom.current().nextDouble(0, 1d);
