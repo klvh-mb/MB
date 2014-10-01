@@ -22,6 +22,9 @@ import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import targeting.Scorable;
+import targeting.ScoreSortedList;
+import targeting.sc.ArticleScorer;
 import targeting.sc.ArticleTargetingEngine;
 import viewmodel.ArticleCategoryVM;
 import viewmodel.ArticleVM;
@@ -130,18 +133,38 @@ public class ArticleController extends Controller {
     @Transactional
     public static Result getHotArticles(long catId) {
         // TODO - Fix * 5 to give buffer to remove bookmarked articles
-        List<ArticleVM> articleVMs = getNonBookmarkedArticles(
-                Article.getMostViewsArticles(catId, DefaultValues.ARTICLES_UTILITY_COUNT * 5), 
-                DefaultValues.ARTICLES_UTILITY_COUNT);
+        int k = DefaultValues.ARTICLES_UTILITY_COUNT * 5;
+
+        List<Article> mostViewed = Article.getMostViewsArticles(catId, k);
+
+        List<Scorable<Article>> scoredRes = ArticleScorer.markScoresByViewsTime(mostViewed);
+        ScoreSortedList<Article> scoreSortedList = new ScoreSortedList<>(scoredRes);
+
+        mostViewed.clear();
+        for (Scorable<Article> scorable : scoreSortedList.greatestOf(k)) {
+            mostViewed.add(scorable.getObject());
+        }
+
+        List<ArticleVM> articleVMs = getNonBookmarkedArticles(mostViewed, DefaultValues.ARTICLES_UTILITY_COUNT);
         return ok(Json.toJson(articleVMs));
     }
     
     @Transactional
     public static Result getRecommendedArticles(long catId) {
         // TODO - Fix * 5 to give buffer to remove bookmarked articles
-        List<ArticleVM> articleVMs = getNonBookmarkedArticles(
-                Article.getMostLikesArticles(catId, DefaultValues.ARTICLES_UTILITY_COUNT * 5), 
-                DefaultValues.ARTICLES_UTILITY_COUNT);
+        int k = DefaultValues.ARTICLES_UTILITY_COUNT * 5;
+
+        List<Article> mostViewed = Article.getMostLikesArticles(catId, k);
+
+        List<Scorable<Article>> scoredRes = ArticleScorer.markScoresByLikesTime(mostViewed);
+        ScoreSortedList<Article> scoreSortedList = new ScoreSortedList<>(scoredRes);
+
+        mostViewed.clear();
+        for (Scorable<Article> scorable : scoreSortedList.greatestOf(k)) {
+            mostViewed.add(scorable.getObject());
+        }
+
+        List<ArticleVM> articleVMs = getNonBookmarkedArticles(mostViewed, DefaultValues.ARTICLES_UTILITY_COUNT);
         return ok(Json.toJson(articleVMs));
     }
 
