@@ -570,10 +570,11 @@ span.notif-count {
     padding: 5px 15px 10px 0;
 }
 
-/*  */
+/* Site tour */
 .tour-tour {
     width: 100%;
     max-width: 100%;
+    margin-top: 5px;
 }
 .tour-tour.right .arrow, .tour-tour.right .arrow:after {
     border: 0px;

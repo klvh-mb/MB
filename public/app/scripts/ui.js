@@ -46,7 +46,7 @@ var homeTour = new Tour({
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_4.png\">" + 
         "我的個人主頁",
     content: 
-        "您可以在這裏查看您所發佈或回覆的話題。還有管理您關注的社群，朋友和喜愛的話題或文章"
+        "您可以查看您所發佈或回覆的話題。還可以管理您關注的社群，朋友和喜愛的話題或文章"
   },
   {
     element: "#my-bookmarks",
@@ -88,7 +88,7 @@ var mHomeTour = new Tour({
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_2.png\">" + 
         "我關注的社群",
     content: 
-        "您正在關注的社群會在這裏出現，方便隨時瀏覽或討論"
+        "您正在關注的社群會收藏到左方的選項表中，方便隨時瀏覽或討論"
   },
   {
     element: "#message-board",
@@ -104,7 +104,7 @@ var mHomeTour = new Tour({
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_4.png\">" + 
         "我的個人主頁",
     content: 
-        "您可以在這裏查看您所發佈或回覆的話題。還有管理您關注的社群，朋友和喜愛的話題或文章"
+        "您可以查看您所發佈或回覆的話題。還可以管理您關注的社群，朋友和喜愛的話題或文章"
   },
   {
     element: "#message-board",
