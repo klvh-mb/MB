@@ -21,11 +21,9 @@ import models.Message;
 import models.Notification;
 import models.Post;
 import models.Resource;
+import models.SiteTour;
 import models.User;
-import models.UserChild;
 import models.UserCommunityAffinity;
-import models.UserInfo;
-import models.UserInfo.ParentType;
 import play.data.DynamicForm;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -36,7 +34,6 @@ import viewmodel.BookmarkSummaryVM;
 import viewmodel.CommunityPostVM;
 import viewmodel.ConversationVM;
 import viewmodel.EmoticonVM;
-import viewmodel.FriendWidgetChildVM;
 import viewmodel.MessageVM;
 import viewmodel.NewsFeedVM;
 import viewmodel.NotificationVM;
@@ -46,14 +43,25 @@ import viewmodel.UserVM;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
 
-import common.model.TargetGender;
-import common.utils.DateTimeUtil;
 import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
 import domain.DefaultValues;
 
 public class UserController extends Controller {
     private static final play.api.Logger logger = play.api.Logger.apply(UserController.class);
+    
+    @Transactional
+    public static Result completeHomeTour() {
+        final User localUser = Application.getLocalUser(session());
+        SiteTour tour = SiteTour.getSiteTour(localUser.id, SiteTour.TourType.HOME);
+        if (tour == null) {
+            tour = new SiteTour(localUser.id, SiteTour.TourType.HOME);
+            tour.complete();
+            tour.save();
+        }
+        logger.underlyingLogger().error(String.format("[u=%d] User completed home tour", localUser.id));
+        return ok();
+    }
     
     @Transactional(readOnly=true)
     public static Result isNewsfeedEnabledForCommunity(Long communityId) {

@@ -2,33 +2,79 @@
 //
 // New user tour
 //
-
+var homeTourCompleted = false;
 var homeTour = new Tour({
+  container: "body",
+  template: "<div class='popover tour'>" + 
+    "<div class='arrow'></div>" + 
+      "<h3 class='popover-title'></h3>" + 
+      "<div class='popover-content'></div>" + 
+      "<div class='popover-navigation'>" + 
+        "<button class='btn btn-default' data-role='prev'>« 上一步</button>" + 
+        "<span data-role='separator'></span>" + 
+        "<button class='btn btn-default' data-role='next'>下一步 »</button>" + 
+        "<button class='btn btn-default pull-right' data-role='end' onclick='homeTourCompleted=true;'>完成!</button>" + 
+      "</div>" + 
+    "</div>", 
   steps: [
   {
-    element: "#my-newsfeed",
-    title: "我的社群動向",
-    content: "我的社群動向"
-  },
-  {
-    element: "#my-bookmarks",
-    title: "我的喜愛",
-    content: "我的喜愛"
-  },
-  {
     element: "#discover-communities",
-    title: "尋找並關注更多親子社群",
-    content: "尋找並關注更多親子社群"
+    title: 
+        "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_1.png\">" +
+        "親子社群",
+    content: 
+        "尋找並關注更多親子社群。有不同主題，年份，地區社群讓媽媽分享心得"
   },
   {
     element: "#my-communities",
-    title: "我關注的社群",
-    content: "我關注的社群"
+    title: 
+        "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_2.png\">" + 
+        "我關注的社群",
+    content: 
+        "您正在關注的社群會在這裏出現，方便隨時瀏覽或討論"
+  },
+  {
+    element: "#my-newsfeed",
+    title: 
+        "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_3.png\">" + 
+        "我的社群動向",
+    content: 
+        "讓您預覽您正在關注的社群中最新，最熱門話題。輕易知道所有關注社群的最新動向"
+  },
+  {
+    element: "#main-uphoto",
+    title: 
+        "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_4.png\">" + 
+        "我的個人主頁",
+    content: 
+        "您可以在這裏查看您所發佈或回覆的話題。還有管理您關注的社群，朋友和喜愛的話題或文章"
+  },
+  {
+    element: "#my-bookmarks",
+    title: 
+        "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_5.png\">" +
+        "我的喜愛",
+    content: 
+        "在任何您有興趣的話題或文章，您可以按右方的" + 
+        "<img style=\"width:18px;height:auto;margin:0 3px 3px 3px;\" src=\"/assets/app/images/general/icons/message_favorited.png\">" + 
+        "收藏到我的喜愛，方便査看"
   }
 ]});
 
 /*
 var profileTour = new Tour({
+  container: "body",
+  template: "<div class='popover tour'>" + 
+    "<div class='arrow'></div>" + 
+      "<h3 class='popover-title'></h3>" + 
+      "<div class='popover-content'></div>" + 
+      "<div class='popover-navigation'>" + 
+        "<button class='btn btn-default' data-role='prev'>« 上一步</button>" + 
+        "<span data-role='separator'></span>" + 
+        "<button class='btn btn-default' data-role='next'>下一步 »</button>" + 
+        "<button class='btn btn-default pull-right' data-role='end'>完成!</button>" + 
+      "</div>" + 
+    "</div>", 
   steps: [
   {
     element: "#my-profile",
@@ -43,6 +89,18 @@ var profileTour = new Tour({
 ]});
 
 var gamificationTour = new Tour({
+  container: "body",
+  template: "<div class='popover tour'>" + 
+    "<div class='arrow'></div>" + 
+      "<h3 class='popover-title'></h3>" + 
+      "<div class='popover-content'></div>" + 
+      "<div class='popover-navigation'>" + 
+        "<button class='btn btn-default' data-role='prev'>« 上一步</button>" + 
+        "<span data-role='separator'></span>" + 
+        "<button class='btn btn-default' data-role='next'>下一步 »</button>" + 
+        "<button class='btn btn-default pull-right' data-role='end'>完成!</button>" + 
+      "</div>" + 
+    "</div>", 
   steps: [
   {
     element: "#my-game",

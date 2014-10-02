@@ -127,6 +127,13 @@ minibean.service('userInfoService',function($resource){
                 get: {method:'GET'}
             }
     );
+    this.CompleteHomeTour = $resource(
+            '/complete-home-tour',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET'}
+            }
+    );
 });
 
 minibean.service('acceptFriendRequestService',function($resource){

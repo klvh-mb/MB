@@ -1,9 +1,12 @@
 package viewmodel;
 
+import java.util.List;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import controllers.Application;
 import models.Location;
+import models.SiteTour;
 import models.User;
 
 public class UserVM {
@@ -25,7 +28,7 @@ public class UserVM {
     @JsonProperty("isAdmin") public boolean isAdmin = false;
     @JsonProperty("isMobile") public boolean isMobile = false;
     @JsonProperty("isFbLogin") public boolean isFbLogin = false;
-    @JsonProperty("newUser") public boolean newUser = false;
+    @JsonProperty("isHomeTourCompleted") public boolean isHomeTourCompleted = false;
     
 	public UserVM(User user) {
 		this.firstName = user.firstName;
@@ -52,6 +55,14 @@ public class UserVM {
 		}
 		this.isMobile = Application.isMobileUser();
 		this.isFbLogin = user.fbLogin;
-		this.newUser = user.newUser;
+		
+		List<SiteTour> tours = SiteTour.getSiteTours(user.id);
+		if (tours != null) {
+    		for (SiteTour tour : tours) {
+    		    if (SiteTour.TourType.HOME.equals(tour.tourType)) {
+    		        this.isHomeTourCompleted = true;        
+    		    }
+    		}
+		}
 	}
 }

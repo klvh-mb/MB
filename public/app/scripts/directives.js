@@ -17,11 +17,10 @@ minibean.directive('adsFactorTest', function($window, $compile) {
                 document.write = function(node){
                     $(element).after(node)
                 }
-                // temp turn off ads
-                $(createAdFactorScript(afid,iAttrs.adsid)).insertAfter($(element));
+                $(createAdsFactorScript(afid,iAttrs.adsid)).insertAfter($(element));
             }
     };
-    function createAdFactorScript(afid,sid) {
+    function createAdsFactorScript(afid,sid) {
         var randomstr = new String (Math.random());
         randomstr = randomstr.substring(2,8);
         var script = ("<" + "script language='JavaScript' type='text/javascript' src='");
@@ -57,10 +56,10 @@ minibean.directive('adsFactor', function($window, $compile) {
                     $(element).after(node)
                 }
                 // temp turn off ads
-                //$(createAdFactorScript(afid,iAttrs.adsid)).insertAfter($(element));
+                //$(createAdsFactorScript(afid,iAttrs.adsid)).insertAfter($(element));
             }
     };
-    function createAdFactorScript(afid,sid) {
+    function createAdsFactorScript(afid,sid) {
         var randomstr = new String (Math.random());
         randomstr = randomstr.substring(2,8);
         var script = ("<" + "script language='JavaScript' type='text/javascript' src='");

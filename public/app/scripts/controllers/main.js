@@ -128,10 +128,24 @@ minibean.controller('ApplicationController',
 
     log("ApplicationController starts");
 
+    $scope.$on('$viewContentLoaded', $scope.init);
+    
+    $scope.init = function() {
+        $scope.homeTour.init();
+        $scope.homeTour.restart();
+    }
+    
     $scope.homeTour = homeTour;
-    $scope.homeTour.init();
     $scope.startHomeTour = function() {
-        $scope.homeTour.restart(true);
+        $scope.homeTour.init();
+        $scope.homeTour.restart();
+        $scope.completeHomeTour();
+    }
+    $scope.completeHomeTour = function() {
+        userInfoService.CompleteHomeTour.get(
+            function(data) {
+                //$scope.userInfo.isHomeTourCompleted = true;
+            });
     }
     
     //$scope.profileTour = profileTour;
@@ -192,10 +206,10 @@ minibean.controller('ApplicationController',
     $scope.applicationInfo = applicationInfoService.ApplicationInfo.get();
 	$scope.userInfo = userInfoService.UserInfo.get(
         function(data) {
-            if (data.isLoggedIn && !data.newUser) {
+            if (data.isLoggedIn) {
                 
 	        }
-	   }
+        }
 	);
 	$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
 
