@@ -2,9 +2,31 @@
 	<div data-ng-include style="width:100%;height:50px;" data-src="'/assets/app/views/mobile/header-bar.html'"></div>
 </header>
 
-<div class="themeA-container" >
+<div id="discover-communities" class="themeA-container">
 	<div id="content">
 		<div class="row">
+            <div id="message-board" class="alert alert-info" ng-show="!userInfo.isHomeTourCompleted">
+                <div style="font-size:16px;">
+                    <img style="width:32px;" src="/assets/app/images/general/icons/pink_heart.png"></img>
+                    歡迎來到小萌豆！
+                </div>
+                <div style="margin:5px 25px 0 25px;">
+                    請進入並關注您有興趣的社群，立即討論或瀏覽最新話題<br/> 
+                    請給我們兩分鐘，了解更多。
+                    <a class="btn btn-general" href="" ng-click="startMobileHomeTour();">
+                         看看小貼士
+                    </a>
+                </div>
+            </div>
+                
+    		<div id="message-board" class="alert alert-info" ng-show="userInfo.isHomeTourCompleted">
+                <!--img style="width:32px;" src="/assets/app/images/general/icons/pink_heart.png"></img-->
+                <img style="width:25px;" src="/assets/app/images/general/icons/ranking/rank_1.png">
+                請進入您有興趣的社群，討論或瀏覽最新話題<br/>
+                <img style="width:25px;" src="/assets/app/images/general/icons/ranking/rank_2.png">
+                關注您有興趣的社群，社群的話題會出現到&quot;我的社群動向&quot;中<br/>
+            </div>
+                
             <div id="wall">
                 <div ng-controller="CommunitiesDiscoverController" data-ng-include style="width:100%;" data-src="'/assets/app/views/communities-discover-section.html'"></div>
             </div>

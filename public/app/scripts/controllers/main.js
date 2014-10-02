@@ -135,30 +135,28 @@ minibean.controller('ApplicationController',
         $scope.homeTour.restart();
     }
     
+    // PC home tour
     $scope.homeTour = homeTour;
     $scope.startHomeTour = function() {
         $scope.homeTour.init();
         $scope.homeTour.restart();
         $scope.completeHomeTour();
     }
+    
+    // Mobile home tour
+    $scope.mHomeTour = mHomeTour;
+    $scope.startMobileHomeTour = function() {
+        $scope.mHomeTour.init();
+        $scope.mHomeTour.restart();
+        $scope.completeHomeTour();
+    }
+
     $scope.completeHomeTour = function() {
         userInfoService.CompleteHomeTour.get(
             function(data) {
                 //$scope.userInfo.isHomeTourCompleted = true;
             });
     }
-    
-    //$scope.profileTour = profileTour;
-    //$scope.profileTour.init();
-    //$scope.startProfileTour = function() {
-    //    $scope.profileTour.restart(true);
-    //}
-    
-    //$scope.gamificationTour = gamificationTour;
-    //$scope.gamificationTour.init();
-    //$scope.startGamificationTour = function() {
-    //    $scope.gamificationTour.restart(true);
-    //}
     
     $scope.commentsPreviewNum = DefaultValues.COMMENTS_PREVIEW_COUNT;
     

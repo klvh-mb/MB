@@ -1,12 +1,9 @@
 package viewmodel;
 
-import java.util.List;
-
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import controllers.Application;
 import models.Location;
-import models.SiteTour;
 import models.User;
 
 public class UserVM {
@@ -55,14 +52,6 @@ public class UserVM {
 		}
 		this.isMobile = Application.isMobileUser();
 		this.isFbLogin = user.fbLogin;
-		
-		List<SiteTour> tours = SiteTour.getSiteTours(user.id);
-		if (tours != null) {
-    		for (SiteTour tour : tours) {
-    		    if (SiteTour.TourType.HOME.equals(tour.tourType)) {
-    		        this.isHomeTourCompleted = true;        
-    		    }
-    		}
-		}
+		this.isHomeTourCompleted = user.isHomeTourCompleted();
 	}
 }

@@ -46,8 +46,8 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-
 import org.joda.time.DateTime;
+
 import play.Play;
 import play.data.format.Formats;
 import play.db.jpa.JPA;
@@ -1578,7 +1578,19 @@ public class User extends SocialObject implements Subject, Socializable {
         this.emailValidated = emailValidated;
     }
 
-   public boolean isNewUser() {
+    public boolean isHomeTourCompleted() {
+        List<SiteTour> tours = SiteTour.getSiteTours(id);
+        if (tours != null) {
+            for (SiteTour tour : tours) {
+                if (SiteTour.TourType.HOME.equals(tour.tourType)) {
+                    return true;        
+                }
+            }
+        }
+        return false;
+    }
+    
+    public boolean isNewUser() {
         return newUser;
     }
 

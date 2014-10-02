@@ -571,7 +571,13 @@ span.notif-count {
 }
 
 /*  */
-
+.tour-tour {
+    width: 100%;
+    max-width: 100%;
+}
+.tour-tour.right .arrow, .tour-tour.right .arrow:after {
+    border: 0px;
+}
 
 /*  */
 
