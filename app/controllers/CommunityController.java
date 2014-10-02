@@ -1208,9 +1208,21 @@ public class CommunityController extends Controller{
     }
     
     @Transactional
-    public static Result getAllCommunityCategories() {
-        List<CommunityCategory> categories = CommunityCategory.getAllCategories();
+    public static Result getAllBusinessCommunityCategories() {
+        List<CommunityCategory> categories = CommunityCategory.getAllBusinessCategories();
         
+        List<CommunityCategoryVM> communityCategoryVMs = new ArrayList<>();
+        for(CommunityCategory communityCategory : categories) {
+            CommunityCategoryVM vm = CommunityCategoryVM.communityCategoryVM(communityCategory);
+            communityCategoryVMs.add(vm);
+        }
+        return ok(Json.toJson(communityCategoryVMs));
+    }
+
+    @Transactional
+    public static Result getAllSocialCommunityCategories() {
+        List<CommunityCategory> categories = CommunityCategory.getAllSocialCategories();
+
         List<CommunityCategoryVM> communityCategoryVMs = new ArrayList<>();
         for(CommunityCategory communityCategory : categories) {
             CommunityCategoryVM vm = CommunityCategoryVM.communityCategoryVM(communityCategory);

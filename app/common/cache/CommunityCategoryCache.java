@@ -13,13 +13,19 @@ import models.CommunityCategory;
 public class CommunityCategoryCache {
     // Permanent cache loaded up on system startup.
 
-    private static List<CommunityCategory> categoryList;
+    private static List<CommunityCategory> bizCatList;
+    private static List<CommunityCategory> socialCatList;
 
     static {
-        categoryList = CommunityCategory.loadAllCategories();
+        bizCatList = CommunityCategory.loadAllBusinessCategories();
+        socialCatList = CommunityCategory.loadAllSocialCategories();
     }
 
-    public static List<CommunityCategory> getAllCategories() {
-		return categoryList;
+    public static List<CommunityCategory> getAllBusinessCategories() {
+		return bizCatList;
+	}
+
+    public static List<CommunityCategory> getAllSocialCategories() {
+		return socialCatList;
 	}
 }

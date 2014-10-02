@@ -646,7 +646,14 @@ minibean.service('allAnswersService',function($resource){
 
 minibean.service('communityCategoryService',function($resource){
     this.getAllCommunityCategories = $resource(
-            '/get-all-community-categories',
+            '/get-all-business-community-categories',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get' ,isArray:true}
+            }
+    );
+    this.getAllSocialCommunityCategories = $resource(
+            '/get-all-social-community-categories',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get' ,isArray:true}

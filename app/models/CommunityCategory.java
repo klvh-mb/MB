@@ -18,16 +18,27 @@ import common.cache.CommunityCategoryCache;
 @Entity
 public class CommunityCategory {
 
+    public static enum CategoryType {
+		BUSINESS,
+        SOCIAL
+	}
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
+
+    @Enumerated(EnumType.ORDINAL)
+	public CategoryType categoryType = CategoryType.BUSINESS;
 
 	public String name;
 
 	public int seq;
 
 	public boolean deleted = false;
-	
+
+    /**
+     * Ctor
+     */
     public CommunityCategory() { }
 
     public CommunityCategory(String name, int seq) {
@@ -55,13 +66,26 @@ public class CommunityCategory {
     public void refresh() {
         JPA.em().refresh(this);
     }
-    
-    public static List<CommunityCategory> loadAllCategories() {
-        Query q = JPA.em().createQuery("Select c from CommunityCategory c where deleted = false order by seq");
+
+    // For cache load
+    public static List<CommunityCategory> loadAllBusinessCategories() {
+        Query q = JPA.em().createQuery("Select c from CommunityCategory c where categoryType = ?1 and deleted = false order by seq");
+        q.setParameter(1, CategoryType.BUSINESS);
         return (List<CommunityCategory>)q.getResultList();
     }
-    
-    public static List<CommunityCategory> getAllCategories() {
-        return CommunityCategoryCache.getAllCategories();
+
+    public static List<CommunityCategory> loadAllSocialCategories() {
+        Query q = JPA.em().createQuery("Select c from CommunityCategory c where categoryType = ?1 and deleted = false order by seq");
+        q.setParameter(1, CategoryType.SOCIAL);
+        return (List<CommunityCategory>)q.getResultList();
+    }
+
+    // For controllers
+    public static List<CommunityCategory> getAllBusinessCategories() {
+        return CommunityCategoryCache.getAllBusinessCategories();
+    }
+
+    public static List<CommunityCategory> getAllSocialCategories() {
+        return CommunityCategoryCache.getAllSocialCategories();
     }
 }
