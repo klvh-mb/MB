@@ -81,9 +81,9 @@ public class Application extends Controller {
         setMobileUser(isMobile? "true":"false");
         
         if (isMobile) {
-            return redirect("/m-magazine");
+            return redirect("/m-my");
         }
-        return redirect("/magazine");
+        return redirect("/my");
     }
 	
 	//

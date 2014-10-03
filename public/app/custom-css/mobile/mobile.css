@@ -574,7 +574,7 @@ span.notif-count {
 .tour-tour {
     width: 100%;
     max-width: 100%;
-    margin-top: 5px;
+    margin-top: 0px;
 }
 .tour-tour.right .arrow, .tour-tour.right .arrow:after {
     border: 0px;

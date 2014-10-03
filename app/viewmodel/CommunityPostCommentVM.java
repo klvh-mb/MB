@@ -18,11 +18,12 @@ public class CommunityPostCommentVM {
 	@JsonProperty("imgs") public Long[] images;
 	@JsonProperty("d") public String commentText;
 	@JsonProperty("nol") public int noOfLikes;
+	@JsonProperty("n") public int number;
 	
 	@JsonProperty("isO") public boolean isOwner = false;
 	@JsonProperty("isLike") public boolean isLike = false;     // filled outside
 	
-	public static CommunityPostCommentVM communityPostCommentVM(Comment comment, User user) {
+	public static CommunityPostCommentVM communityPostCommentVM(Comment comment, User user, int number) {
 		CommunityPostCommentVM postCommentVM = new CommunityPostCommentVM();
 		postCommentVM.commentId = comment.id;
 		postCommentVM.ownerId = comment.owner.id;
@@ -30,6 +31,7 @@ public class CommunityPostCommentVM {
 		postCommentVM.postedOn = comment.getCreatedDate().getTime();
 		postCommentVM.commentText = comment.body;
 		postCommentVM.noOfLikes = comment.noOfLikes;
+		postCommentVM.number = number;
 		postCommentVM.isOwner = comment.owner.id == user.id;
 		
 		List<Resource> resources = null;

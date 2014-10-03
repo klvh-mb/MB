@@ -91,10 +91,10 @@ public class CommunityPostVM {
         
         if (User.isLoggedIn(user)){
             Set<PrimarySocialResult> srByUser = PrimarySocialRelationManager.getSocialRelationBy(user, likeCheckIds);
-    
+
     		for(int i = comments.size() - 1; i >= 0 ; i--) {
     			Comment comment = comments.get(i);
-    			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, user);
+    			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, user, post.noOfComments - i);
     			commentVM.isLike = srByUser.contains(new PrimarySocialResult(comment.id, comment.objectType, PrimarySocialRelation.Action.LIKED));
     			commentsToShow.add(commentVM);
     		}
@@ -104,7 +104,7 @@ public class CommunityPostVM {
         } else {
             for(int i = comments.size() - 1; i >= 0 ; i--) {
                 Comment comment = comments.get(i);
-                CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, user);
+                CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, user, post.noOfComments - i);
                 commentVM.isLike = false;
                 commentsToShow.add(commentVM);
             }

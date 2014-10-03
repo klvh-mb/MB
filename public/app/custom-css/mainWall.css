@@ -155,8 +155,17 @@
 }
 .post-time {
     color: #77737E;
-    font-size: small;
+    font-size: 12px;
     margin-right: 5px;
+}
+.post-number {
+    color: #77737E;
+    font-size: 12px;
+    border: 1px solid #E7D5FD;
+    border-radius: 3px;
+    border-radius: 5px;
+    padding: 1px 2px;
+    margin-left: 7px;
 }
 .post-qna-body {
     padding-top: 0px;
@@ -166,6 +175,7 @@
 }
 .post-qna-body, .post-qna-answer-body {
     padding-left: 40px;
+    margin-top: 2px;
 }
 .post-qna-body-title {
     padding-bottom: 10px;

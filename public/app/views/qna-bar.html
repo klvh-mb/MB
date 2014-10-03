@@ -64,11 +64,14 @@
             <a data-ng-href="my#/profile/{{comment.oid}}">
                 <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
             </a>
-            <span class="post-title-user-name">
-                <a data-ng-href="my#/profile/{{comment.oid}}">{{comment.on}}</a>
-            </span>
-            <span style="margin-left:5px;"/>
-            <span class="post-date" am-time-ago="comment.cd"></span>
+            <div>
+                <span class="post-title-user-name">
+                    <a data-ng-href="my#/profile/{{comment.oid}}">{{comment.on}}</a>
+                </span>
+                <span style="margin-left:5px;"/>
+                <span class="post-date" am-time-ago="comment.cd"></span>
+                <span class="post-number">#{{comment.n}}</span>
+            </div>
             <div class="post-qna-answer-body">
                 <div>
                     <span class="post-qna-answer-body-text" ng-bind-html="comment.d | to_trusted"></span>
