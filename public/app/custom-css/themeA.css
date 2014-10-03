@@ -12,7 +12,7 @@ ul {
     padding: 0;
 }
 a {
-  color: #428bca;
+  color: #3691E0;
   text-decoration: none;
   cursor: pointer;
 }
@@ -167,11 +167,11 @@ div[class*="col-xs-"], div[class*="col-sm-"], div[class*="col-md-"], div[class*=
     color: red;
 }
 .glyphicon-check {
-    color: #428bca;
+    color: #3691E0;
     font-size: 14px;
 }
 .glyphicon-unchecked {
-    color: #428bca;
+    color: #3691E0;
     font-size: 14px;
 }
 .glyphicon-map-marker {
@@ -246,12 +246,12 @@ div[class*="col-xs-"], div[class*="col-sm-"], div[class*="col-md-"], div[class*=
 }
 a:hover,
 a:focus {
-  color: #428bca;
+  color: #3691E0;
   text-decoration: underline;
 }
 .btn-link:hover,
 .btn-link:focus {
-  color: #428bca;
+  color: #3691E0;
   text-decoration: underline;
   background-color: transparent;
 }
@@ -899,7 +899,6 @@ a:focus {
 #announce .content-wrapper {
 }
 #announce ul {
-    color: #FF3434;
     padding: 0;
     margin: 0;
 }
@@ -929,7 +928,6 @@ a:focus {
     margin-bottom: 0;
 }
 .content-wrapper ul {
-    color: #77737E;
     font-size: small;
     width: 100%;
     height: 100%;
@@ -968,7 +966,7 @@ a:focus {
     font-weight: normal;
 }
 .con-title a:hover{
-    color: #FF3434;
+
 }
 .tag{
     margin-right: 5px;
@@ -1052,7 +1050,7 @@ a:focus {
     top: 0;
 }
 .newCommunity-info a:hover, .myCommunity-info a:hover {
-    color: #FF3434;
+
 }
 .newCommunity-info .btn-general, .myCommunity-info .btn-general {
     position: relative;
@@ -2714,8 +2712,10 @@ span.notif-count {
     box-shadow: 0px 1px 10px rgba(162, 6, 43, 0.5);
     font-size: 14px;
 }
-#message-board a, #message-board a:hover {
-    color: #FF3434;
+#message-board a {
+}
+#message-board a:hover {
+
 }
 #message-board .btn-general {
     border-width: 2px;
