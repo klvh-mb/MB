@@ -351,7 +351,7 @@ public class CommunityController extends Controller{
         List<Comment> comments = post.getCommentsOfPost();
         for (int i = 0; i < comments.size(); i++) {
             Comment comment = comments.get(i);
-            CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, localUser, i);
+            CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, localUser, i+1);
             commentsToShow.add(commentVM);
         }
 
@@ -372,7 +372,7 @@ public class CommunityController extends Controller{
         List<Comment> comments = post.getCommentsOfPost();
         for (int i = 0; i < comments.size(); i++) {
             Comment comment = comments.get(i);
-            CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, localUser, i);
+            CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, localUser, i+1);
             commentsToShow.add(commentVM);
         }
 
