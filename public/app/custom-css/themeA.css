@@ -52,6 +52,13 @@ pre {
     border: 0px solid #ccc !important;
     border-radius: 0px !important;
 }
+#announce .tour-btn {
+    font-size: 13px;
+    padding: 2px 5px;
+}
+#announce .tour-btn img {
+    vertical-align: text-bottom;
+}
 .tour-tour {
     box-shadow: 5px 15px 20px rgba(0, 0, 0, .5);
     border-radius: 35px;
@@ -2715,4 +2722,13 @@ span.notif-count {
     font-weight: bold;
     font-size: 14px;
     padding: 3px 7px;
+}
+.ads-factor-1x1 {
+
+}
+.ads-factor-300x250 {
+    margin-bottom: 5px;
+}
+.ads-factor-728x90 {
+
 }

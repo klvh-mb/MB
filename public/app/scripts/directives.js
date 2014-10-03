@@ -56,7 +56,7 @@ minibean.directive('adsFactor', function($window, $compile) {
                     $(element).after(node)
                 }
                 // temp turn off ads
-                //$(createAdsFactorScript(afid,iAttrs.adsid)).insertAfter($(element));
+                $(createAdsFactorScript(afid,iAttrs.adsid)).insertAfter($(element));
             }
     };
     function createAdsFactorScript(afid,sid) {

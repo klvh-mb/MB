@@ -17,7 +17,7 @@
                     <div data-ng-include data-src="'/assets/app/views/top-announcements.html'"></div>
                 </div-->
                 <!--div ng-controller="AnnouncementsWidgetController" ng-show="announcements.length > 0">
-                    <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/widgets/announcements-widget.html'"></div>
+                    <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/utilities/announcementsUtility.html'"></div>
                 </div-->
                 <div ng-controller="TodayWeatherInfoController">
                     <div data-ng-include data-src="'/assets/app/views/utilities/todayWeatherInfoUtility.html'"></div>
@@ -25,8 +25,10 @@
                 <div ng-show="!userInfo.isLoggedIn">
                     <div data-ng-include data-src="'/assets/app/views/magazine/promo-signup-widget.html'"></div>
                 </div>
-                <div style="margin-bottom:5px;">
+                <div class="ads-factor-300x250">
                     <script adSid="336814706671" ads-factor-test language='JavaScript' type="text/javascript"></script>
+                </div>
+                <div class="ads-factor-1x1">
                     <script adSid="337876666690" ads-factor-test language='JavaScript' type="text/javascript"></script>
                 </div>
                 <div>

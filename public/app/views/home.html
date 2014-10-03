@@ -23,7 +23,22 @@
             </div>
              
     		<div class="col-md-6 col-sm-6 col-xs-6" style="width:48%;">
-                <div ng-show="topAnnouncements.length > 0">
+                <div id="message-board" class="alert alert-info" ng-show="!userInfo.isHomeTourCompleted">
+                    <div style="font-size:16px;">
+                        <img style="width:32px;" src="/assets/app/images/general/icons/pink_heart.png"></img>
+                        歡迎來到小萌豆！
+                    </div>
+                    <div style="margin:5px 25px 0 25px;">
+                        請進入並關注您有興趣的社群，立即討論或瀏覽最新話題<br/> 
+                        請給我們兩分鐘，了解更多。
+                        <a class="btn btn-general" href="" ng-click="startHomeTour();">
+                            <img style="width:12px;" src="/assets/app/images/general/icons/pink_question_mark.gif"></img>
+                            看看小貼士
+                        </a>
+                    </div>
+                </div>
+                
+                <div ng-show="topAnnouncements.length > 0 && userInfo.isHomeTourCompleted">
                     <div data-ng-include data-src="'/assets/app/views/top-announcements.html'"></div>
                 </div>
                 
@@ -37,10 +52,13 @@
                     <div data-ng-include data-src="'/assets/app/views/utilities/todayWeatherInfoUtility.html'"></div>
                 </div>
                 <div ng-controller="AnnouncementsWidgetController" ng-show="announcements.length > 0">
-                    <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/widgets/announcements-widget.html'"></div>
+                    <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/utilities/announcementsUtility.html'"></div>
                 </div>
-                <div style="margin-bottom:5px;">
-                    <script adSid="336814706671" ads-factor language='JavaScript' type="text/javascript"></script>
+                <div class="ads-factor-1x1">
+                    <script adSid="510902096674" ads-factor language='JavaScript' type="text/javascript"></script>
+                </div>
+                <div class="ads-factor-300x250">
+                    <script adSid="550424006675" ads-factor language='JavaScript' type="text/javascript"></script>
                 </div>
 				<div ng-controller="PNCommunitiesUtilityController" data-ng-show="pnCommunities.length > 0 && userTargetProfile.pn">
                     <div data-ng-include data-src="'/assets/app/views/utilities/pnCommunitiesUtility.html'"></div>

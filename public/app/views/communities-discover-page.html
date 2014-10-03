@@ -31,8 +31,9 @@
                     <div style="margin:5px 25px 0 25px;">
                         請進入並關注您有興趣的社群，立即討論或瀏覽最新話題<br/> 
                         請給我們兩分鐘，了解更多。
-                        <a class="btn btn-general" href="" ng-click="startHomeTour();">
-                             看看小貼士
+                        <a class="btn btn-general tour-btn" href="" ng-click="startHomeTour();">
+                            <img style="width:12px;" src="/assets/app/images/general/icons/pink_question_mark.gif"></img>
+                            看看小貼士
                         </a>
                     </div>
                 </div>
@@ -54,8 +55,11 @@
 	            <div ng-controller="TodayWeatherInfoController">
                     <div data-ng-include data-src="'/assets/app/views/utilities/todayWeatherInfoUtility.html'"></div>
                 </div>
-                <div style="margin-bottom:5px;">
-                    <script adSid="336814706671" ads-factor language='JavaScript' type="text/javascript"></script>
+                <div class="ads-factor-1x1">
+                    <script adSid="376893136692" ads-factor language='JavaScript' type="text/javascript"></script>
+                </div>
+                <div class="ads-factor-300x250">
+                    <script adSid="894219356670" ads-factor language='JavaScript' type="text/javascript"></script>
                 </div>
 				<div ng-controller="PNCommunitiesUtilityController" data-ng-show="pnCommunities.length > 0 && userTargetProfile.pn">
                     <div data-ng-include data-src="'/assets/app/views/utilities/pnCommunitiesUtility.html'"></div>

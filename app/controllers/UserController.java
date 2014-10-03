@@ -58,8 +58,8 @@ public class UserController extends Controller {
             tour = new SiteTour(localUser.id, SiteTour.TourType.HOME);
             tour.complete();
             tour.save();
+            logger.underlyingLogger().debug(String.format("[u=%d] User completed home tour", localUser.id));
         }
-        logger.underlyingLogger().error(String.format("[u=%d] User completed home tour", localUser.id));
         return ok();
     }
     

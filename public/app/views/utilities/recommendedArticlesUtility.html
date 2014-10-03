@@ -1,0 +1,23 @@
+<div id="recommendedPost" class="general-box utility-box">
+    <div class="con-title">
+        <span class="icon-box icon-box-orange icon-title-hotforum"></span>推介文章
+    </div>
+    <div class="static-content-wrapper" >
+        <ul>
+            <li data-ng-repeat="article in recommendedArticles">
+                <a href="#/article/{{article.id}}/{{article.ct.id}}">
+                    <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}" style="width:80px;height:60px;">
+                </a>
+                <div class="pull-right">
+                    <a href="#/article/{{article.id}}/{{article.ct.id}}" style="font-size:15px;color:#324fe1;line-height:1.2;">
+                        <font>{{article.nm|limitTo:30}}</font>
+                    </a>
+                    <span style="margin-left:10px;" ng-show="article.nol > 0" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.gif"/>{{article.nol}}</span>
+                    <!--p>
+                        <font>{{article.lds|limitTo:25}}...</font>
+                    </p-->
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
