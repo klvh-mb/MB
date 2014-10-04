@@ -220,7 +220,7 @@
     font-weight: normal;
 }
 .post-qna-answers {
-    background-color: #f5f5ff;
+    background-color: #f8f5ff;
     padding: 0px !important;
     margin: 0px !important;
 }
@@ -230,11 +230,11 @@
     line-height: 1.3;
 }
 .post-qna-answers li.post-qna-answer-odd {
-    background-color: #F5F5FF;
+    background-color: #f8f5ff;
     border-top: 1px solid #DADADA;
 }
 .post-qna-answers li.post-qna-answer-even {
-    background-color: #F9F9FF;
+    background-color: #FBF9FF;
     border-top: 1px solid #DADADA;
 }
 .post-sharing-comment-count {
@@ -270,10 +270,10 @@
     vertical-align: middle;
 }
 .post-comment-box .post-qna-reply-textfield {
-    width: 340px;
+    width: 320px;
 }
 .post-comment-box .post-sharing-comment-textfield {
-    width: 345px;
+    width: 325px;
 }
 .post-comment-box .post-qna-reply-textfield:focus {
     border: thin solid #a37cde !important;

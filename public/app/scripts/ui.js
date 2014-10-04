@@ -175,11 +175,11 @@ $(window).scroll(function() {
     //console.log("main-app scroll");
     if ($('#main-top').length > 0 && $('#main-top').visible(true)) {
         //console.log("header no glow");
-        $('#header').removeClass('header-glow');
+        $('#header-backdrop').removeClass('header-glow');
         toggleToNotVisible = true;
     } else if (toggleToNotVisible) {
         //console.log("header glow");
-        $('#header').addClass('header-glow');
+        $('#header-backdrop').addClass('header-glow');
         toggleToNotVisible = false;
     }
 });

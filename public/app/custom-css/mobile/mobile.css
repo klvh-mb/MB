@@ -37,7 +37,7 @@ body {
     font-size: 22px;
 }
 .bootbox .modal-dialog {
-    margin-left: 25px;
+    margin: auto auto;
 }
 .sliding-menu-logout {
     font-size: 18px;
@@ -90,7 +90,7 @@ body {
     height: 32px;
     font-size: 14px;
     padding: 0px 5px;
-    background-color: #826EEE;
+    background-color: #B381FF;
 }
 .wall-title a {
     color: white;
@@ -265,6 +265,9 @@ body {
 }
 #header {
     position: fixed;
+    width: 100%;
+    height: 42px;
+    min-height: 42px;
 }
 #header .dropdown-menu {
     top: 100%;
@@ -302,6 +305,9 @@ body {
     text-align: center;
     position: absolute;
     top: 0px;
+}
+.header-logo img {
+    margin-left: 25px;
 }
 .header-notif-bar {
     margin-left: 15px;
