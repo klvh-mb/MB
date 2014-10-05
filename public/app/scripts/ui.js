@@ -170,17 +170,30 @@ var log = function(str) {
 //
 
 var toggleToNotVisible = true;
+var mainLogoNotVisible = true;
 
 $(window).scroll(function() {
-    //console.log("main-app scroll");
     if ($('#main-top').length > 0 && $('#main-top').visible(true)) {
         //console.log("header no glow");
         $('#header-backdrop').removeClass('header-glow');
         toggleToNotVisible = true;
+        
+        // show main logo
+        $('#main-logo').slideDown(300,'swing');
     } else if (toggleToNotVisible) {
         //console.log("header glow");
         $('#header-backdrop').addClass('header-glow');
         toggleToNotVisible = false;
+    }
+    
+    if ($('#header-menu').length > 0 && $('#header-menu').visible(true)) {
+        mainLogoNotVisible = true;
+    } else if (mainLogoNotVisible) {
+        // hide main logo
+        $('#header-logo').hide();
+        $('#header-logo').show(500);
+        $('#main-logo').slideUp(300,'swing');
+        mainLogoNotVisible = false;
     }
 });
 
