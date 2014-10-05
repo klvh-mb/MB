@@ -1,13 +1,25 @@
 <div id="header-menu" class="row">
-    <div class="col-md-3 col-sm-3 col-xs-3" id="main-logo"><a href="my#"><img style="width:165px;" src="/assets/app/images/logo-2.png" /></a></div>
+    <div class="col-md-3 col-sm-3 col-xs-3" id="main-logo"><a href="/"><img style="width:165px;" src="/assets/app/images/logo-2.png" /></a></div>
     <div id="main-menu">
         <ul>
-            <!--li class="col-md-1 col-sm-1 col-xs-1"><a href="#"><img src="/assets/app/images/frontpage/icon_mainMenu_home.png"/></a></li-->
-            <li class="col-md-1 col-sm-1 col-xs-1"><a href="my#"><img src="/assets/app/images/frontpage/icon_mainMenu_myMiniBean.png"/></a></li>
-            <li class="col-md-1 col-sm-1 col-xs-1"><a href="magazine#/article/show/0"><img src="/assets/app/images/frontpage/icon_mainMenu_article.png"/></a></li>
-            <li class="col-md-1 col-sm-1 col-xs-1"><a href="magazine#/article/show/{{soonMomsArticleCategories[0].id}}"><img src="/assets/app/images/frontpage/icon_mainMenu_libuary.png"/></a></li>
-            <li class="col-md-1 col-sm-1 col-xs-1"><a href="magazine#"><img src="/assets/app/images/frontpage/icon_mainMenu_magazine.png"/></a></li>
-            <!--li class="col-md-1 col-sm-1 col-xs-1"><a href="#"><img src="/assets/app/images/frontpage/icon_mainMenu_tools.png"/></a></li-->
+            <!--li class="col-md-1 col-sm-1 col-xs-1">
+                <a href="#"><img src="/assets/app/images/frontpage/icon_mainMenu_home.png"/></a>
+            </li-->
+            <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'HOT_ARTICLES'}" ng-click="selectNavBar('HOT_ARTICLES')">
+                <a href="magazine#/article/show/0"><img src="/assets/app/images/frontpage/icon_mainMenu_article.png"/></a>
+            </li>
+            <!--li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'}" ng-click="selectNavBar('SOON_TO_BE_MOMS_ARTICLES')" ng-show="userInfo.isSA">
+                <a href="magazine#/article/show/{{soonMomsArticleCategories[0].id}}"><img src="/assets/app/images/frontpage/icon_mainMenu_libuary.png"/></a>
+            </li-->
+            <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'MAGAZINE'}" ng-click="selectNavBar('MAGAZINE')">
+                <a href="magazine#"><img src="/assets/app/images/frontpage/icon_mainMenu_magazine.png"/></a>
+            </li>
+            <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'HOME'}" ng-click="selectNavBar('HOME')">
+                <a href="my#"><img src="/assets/app/images/frontpage/icon_mainMenu_myMiniBean.png"/></a>
+            </li>
+            <!--li class="col-md-1 col-sm-1 col-xs-1">
+                <a href="#"><img src="/assets/app/images/frontpage/icon_mainMenu_tools.png"/></a>
+            </li-->
             <li class="col-md-3 col-sm-3 col-xs-3"></li>
         </ul>
     </div>
@@ -29,6 +41,7 @@
         </a>
     </div>
 </div-->
+
 <div id="nav-subbar" ng-show="selectedNavBar == 'MAGAZINE'">
     <div class="nav-menu">
         <span ng-class="{'selected-green': selectedNavSubBar == 0}">
