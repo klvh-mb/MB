@@ -956,7 +956,7 @@ a:focus {
     height: 40px;
     padding: 7px;
     font-weight: normal;
-    font-size: 17px;
+    font-size: 16px;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,rgba(255, 237, 237, 1) 47%,rgba(255, 195, 195, 1) 100%);
 }
 .con-title a {
