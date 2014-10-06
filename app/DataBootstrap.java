@@ -617,30 +617,30 @@ public class DataBootstrap {
                 "NEW_MOMS_DADS");
         
         // ALL_MOMS_DADS
-        name = "親子好去處♥";
-        desc = "親子好去處♥";
+        name = "親子去處♥";
+        desc = "親子去處♥";
         createTargetingCommunity(name, desc, 
                 "/assets/app/images/general/icons/community/stroller.png",
                 TargetingType.ALL_MOMS_DADS,
                 "BABY_FRIENDLY_PLACES");
         
-        name = "小萌豆分享區♥";
-        desc = "小萌豆分享區♥";
+        name = "閒聊專區♥";
+        desc = "閒聊專區♥";
         createTargetingCommunity(name, desc, 
                 "/assets/app/images/general/icons/community/beans.png",
                 TargetingType.ALL_MOMS_DADS,
                 "MINIBEAN_SHARING");
         
         // PUBLIC
-        name = "小寶寶去旅行♥";
-        desc = "小寶寶去旅行♥";
+        name = "親子旅遊♥";
+        desc = "親子旅遊♥";
         createTargetingCommunity(name, desc, 
                 "/assets/app/images/general/icons/community/plane.png",
                 TargetingType.PUBLIC,
                 "TRAVEL");
         
-        name = "寵物好朋友♥";
-        desc = "寵物好朋友♥";
+        name = "寵物朋友♥";
+        desc = "寵物朋友♥";
         createTargetingCommunity(name, desc, 
                 "/assets/app/images/general/icons/community/cat.png",
                 TargetingType.PUBLIC,

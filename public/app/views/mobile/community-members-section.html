@@ -32,7 +32,7 @@
 <div class="memberCard" ng-repeat="member in pagedMembers | filter:query " ng-show="showMembers">
  	<a href="m-my#/profile/{{member.id}}" class="d-s ob">
     	<div class="memberImageBox">
-        	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{member.dn}}" data-ng-src="/image/get-thumbnail-image-by-id/{{member.id}}" alt="..." width="70px" height="70px">
+        	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{member.dn}}" data-ng-src="/image/get-thumbnail-image-by-id/{{member.id}}" alt="...">
         	<img class="memberImageStar" ng-show="member.isAdmin" data-ng-src="/assets/app/images/general/icons/star.png"/>
         </div>
 	</a>
@@ -48,7 +48,7 @@
 <div class="memberCard" ng-repeat="member in result.members | filter:query " ng-show="showAdmin && member.isAdmin">
  	<a href="m-my#/profile/{{member.id}}" class="d-s ob">
     	<div class="memberImageBox">
-        	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{member.dn}}" data-ng-src="/image/get-thumbnail-image-by-id/{{member.id}}" alt="..." width="70px" height="70px">
+        	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{member.dn}}" data-ng-src="/image/get-thumbnail-image-by-id/{{member.id}}" alt="...">
         	<img class="memberImageStar" ng-show="member.isAdmin" data-ng-src="/assets/app/images/general/icons/star.png"/>
         </div>
 	</a>
