@@ -377,6 +377,12 @@ a:focus {
     width: 32px;
     height: 25px;
 }
+.header-notif-bar .read {
+    background-color: #ffffff;
+}
+.header-notif-bar .unread {
+    background-color: #F4EDFF;
+}
 #header .dropdown-menu {
     min-width: 120px;
     position: absolute;
@@ -2183,7 +2189,7 @@ a:focus {
     overflow: hidden;
 }
 .memberTagBox {
-    max-width: 80px;
+    max-width: 78px;
 }
 .friendTagBox {
     max-width: 170px;
@@ -2191,7 +2197,7 @@ a:focus {
 .memberTag, .friendTag {
     display: table-cell;
     height: 64px;
-    padding-left: 10px;
+    padding-left: 5px;
     vertical-align: middle;
 }
 .memberTagRef, .friendTagRef {
