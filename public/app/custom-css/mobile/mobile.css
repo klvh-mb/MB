@@ -263,13 +263,13 @@ body {
     float: left;
     position: relative;
 }
-#header {
+#header, #header-backdrop {
     position: fixed;
     width: 100%;
     height: 42px;
     min-height: 42px;
 }
-#header .dropdown-menu {
+#header .dropdown-menu, #header-backdrop .dropdown-menu {
     top: 100%;
     left: -250px;
 }
@@ -299,14 +299,14 @@ body {
 #header-sliding-menu-toggle .icon-bar {
     
 }
-#header-logo {
+#header-logo-mobile {
     margin: 0px;
     width: 70%;
     text-align: center;
     position: absolute;
     top: 0px;
 }
-#header-logo img {
+#header-logo-mobile img {
     margin-left: 25px;
 }
 .header-notif-bar {

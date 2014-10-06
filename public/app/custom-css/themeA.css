@@ -359,14 +359,14 @@ a:focus {
     position: relative;
     padding: 20px;
 }
-#header-logo {
+#header-logo, #header-logo-mobile {
     margin-left: 70px;
     margin-bottom: 0%;
     float: left;
     top: -10px;
     position: relative;
 }
-#header-logo img {
+#header-logo img, #header-logo-mobile img {
     width: 148px !important;
     height: 45px !important;
 }
