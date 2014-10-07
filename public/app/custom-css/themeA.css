@@ -1199,7 +1199,7 @@ a:focus {
     position: relative;
     overflow: hidden;
     margin-bottom: 10px;
-    border-radius: 3px;
+    border-radius: 10px;
 }
 #main-uphoto a[title="user-picture"] {
     position: relative;
@@ -1501,6 +1501,7 @@ a:focus {
 /* Community Page Header Start */
 #community-header {
     background-color: white;
+    border-radius: 10px 10px 0 0;
 }
 
 #community-header ul {
@@ -1581,7 +1582,7 @@ a:focus {
 #community-banner {
     width: 100%;
     height: 240px;
-    border-radius: 5px 5px 0 0;
+    border-radius: 10px 10px 0 0;
 }
 #community-banner-edit {
     height: 20px;
@@ -2021,6 +2022,7 @@ a:focus {
 #profile-header {
     background-color: white;
     margin-bottom: 10px;
+    border-radius: 10px 10px 0 0;
 }
 #profile-header ul {
     padding: 0;
@@ -2107,7 +2109,7 @@ a:focus {
 #profile-banner {
     width: 100%;
     height: 240px;
-    border-radius: 5px 5px 0 0;
+    border-radius: 10px 10px 0 0;
 }
 /* Profile page Header End */
 .post-favorite, .post-favorited { 
