@@ -571,7 +571,7 @@ public class Application extends Controller {
 	//
 	@Transactional
     public static Result ads() {
-        return ok(views.html.ads.render());
+        return ok(views.html.ads_mock.render());
     }
 	
 	@Transactional
