@@ -249,142 +249,6 @@
     </div>
 </div>
 <div id="main-top" class="ng-scope"></div>
-<style class="ng-scope">
-.read{
-    background-color: #ffffff;
-}
-
-.unread{
-    background-color: #e7ebf3;
-}
-</style>
-</div>
-    <!-- ngInclude:  --><div data-ng-include="" data-src="'/assets/app/views/nav-bar.html'" class="ng-scope"><div id="nav-bar" class="ng-scope">
-    <div class="nav-menu">
-        <a class="nav-item" href="magazine#" ng-class="{selected: selectedNavBar == 'MAGAZINE'}" ng-click="selectNavBar('MAGAZINE')">
-            小萌豆 Magazine
-        </a>
-        <a class="nav-item" href="magazine#/article/show/0" ng-class="{selected: selectedNavBar == 'HOT_ARTICLES'}" ng-click="selectNavBar('HOT_ARTICLES')">
-            精選文章
-        </a>
-        <a class="nav-item" href="magazine#/article/show/7" ng-class="{selected: selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'}" ng-click="selectNavBar('SOON_TO_BE_MOMS_ARTICLES')" ng-show="userInfo.isSA">
-            孕媽媽每月新知
-        </a>
-        <a class="nav-item selected" href="my#" ng-class="{selected: selectedNavBar == 'HOME'}" ng-click="selectNavBar('HOME')">
-            我的小萌豆
-        </a>
-    </div>
-</div>
-<div id="nav-subbar" ng-show="selectedNavBar == 'MAGAZINE'" class="ng-scope ng-hide">
-    <div class="nav-menu">
-        <span ng-class="{'selected-green': selectedNavSubBar == 0}" class="selected-green">
-            <a class="nav-item nav-item-green" href="magazine#/">
-                最新動向
-            </a>
-        </span>
-        <!-- ngRepeat: category in communityCategories --><span ng-class="{'selected-green': selectedNavSubBar == category.id}" ng-repeat="category in communityCategories" class="ng-scope">
-            <a class="nav-item nav-item-green ng-binding" href="magazine#/view/1">
-                熱門產品
-            </a>
-        </span><!-- end ngRepeat: category in communityCategories --><span ng-class="{'selected-green': selectedNavSubBar == category.id}" ng-repeat="category in communityCategories" class="ng-scope">
-            <a class="nav-item nav-item-green ng-binding" href="magazine#/view/2">
-                親子好去處
-            </a>
-        </span><!-- end ngRepeat: category in communityCategories --><span ng-class="{'selected-green': selectedNavSubBar == category.id}" ng-repeat="category in communityCategories" class="ng-scope">
-            <a class="nav-item nav-item-green ng-binding" href="magazine#/view/3">
-                優惠券
-            </a>
-        </span><!-- end ngRepeat: category in communityCategories --><span ng-class="{'selected-green': selectedNavSubBar == category.id}" ng-repeat="category in communityCategories" class="ng-scope">
-            <a class="nav-item nav-item-green ng-binding" href="magazine#/view/4">
-                送給您的小萌豆
-            </a>
-        </span><!-- end ngRepeat: category in communityCategories -->
-    </div>
-</div>
-<div id="nav-subbar" ng-show="selectedNavBar == 'HOT_ARTICLES'" class="ng-scope ng-hide">
-    <div class="nav-menu">
-        <span ng-class="{'selected-yellow': selectedNavSubBar == 0}" class="selected-yellow">
-            <a class="nav-item nav-item-yellow" style="cursor:pointer;" ng-href="magazine#/article/show/0" href="magazine#/article/show/0">
-                所有文章
-            </a>
-        </span>
-        <!-- ngRepeat: category in hotArticleCategories --><span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in hotArticleCategories" class="ng-scope">
-            <a class="nav-item nav-item-yellow ng-binding" style="cursor:pointer;" ng-href="magazine#/article/show/1" href="magazine#/article/show/1">
-                孕婦須知
-            </a>
-        </span><!-- end ngRepeat: category in hotArticleCategories --><span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in hotArticleCategories" class="ng-scope">
-            <a class="nav-item nav-item-yellow ng-binding" style="cursor:pointer;" ng-href="magazine#/article/show/2" href="magazine#/article/show/2">
-                育兒通識
-            </a>
-        </span><!-- end ngRepeat: category in hotArticleCategories --><span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in hotArticleCategories" class="ng-scope">
-            <a class="nav-item nav-item-yellow ng-binding" style="cursor:pointer;" ng-href="magazine#/article/show/3" href="magazine#/article/show/3">
-                親子活動
-            </a>
-        </span><!-- end ngRepeat: category in hotArticleCategories --><span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in hotArticleCategories" class="ng-scope">
-            <a class="nav-item nav-item-yellow ng-binding" style="cursor:pointer;" ng-href="magazine#/article/show/4" href="magazine#/article/show/4">
-                教育與學校
-            </a>
-        </span><!-- end ngRepeat: category in hotArticleCategories --><span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in hotArticleCategories" class="ng-scope">
-            <a class="nav-item nav-item-yellow ng-binding" style="cursor:pointer;" ng-href="magazine#/article/show/5" href="magazine#/article/show/5">
-                秀身扮靚
-            </a>
-        </span><!-- end ngRepeat: category in hotArticleCategories --><span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in hotArticleCategories" class="ng-scope">
-            <a class="nav-item nav-item-yellow ng-binding" style="cursor:pointer;" ng-href="magazine#/article/show/6" href="magazine#/article/show/6">
-                有趣分享
-            </a>
-        </span><!-- end ngRepeat: category in hotArticleCategories -->
-    </div>
-</div>
-<div id="nav-subbar" ng-show="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES' &amp;&amp; userInfo.isSA" class="ng-scope ng-hide">
-    <div class="nav-menu">
-        <span style="font-weight:bold;margin-right:10px;">懷孕月份:</span> 
-        <!-- ngRepeat: category in soonMomsArticleCategories --><span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in soonMomsArticleCategories" class="ng-scope">
-            <a class="nav-item nav-item-yellow ng-binding" style="cursor:pointer;" ng-href="magazine#/article/show/7" href="magazine#/article/show/7">
-                準備中
-            </a>
-        </span><!-- end ngRepeat: category in soonMomsArticleCategories --><span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in soonMomsArticleCategories" class="ng-scope">
-            <a class="nav-item nav-item-yellow ng-binding" style="cursor:pointer;" ng-href="magazine#/article/show/8" href="magazine#/article/show/8">
-                孕1月
-            </a>
-        </span><!-- end ngRepeat: category in soonMomsArticleCategories --><span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in soonMomsArticleCategories" class="ng-scope">
-            <a class="nav-item nav-item-yellow ng-binding" style="cursor:pointer;" ng-href="magazine#/article/show/9" href="magazine#/article/show/9">
-                孕2月
-            </a>
-        </span><!-- end ngRepeat: category in soonMomsArticleCategories --><span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in soonMomsArticleCategories" class="ng-scope">
-            <a class="nav-item nav-item-yellow ng-binding" style="cursor:pointer;" ng-href="magazine#/article/show/10" href="magazine#/article/show/10">
-                孕3月
-            </a>
-        </span><!-- end ngRepeat: category in soonMomsArticleCategories --><span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in soonMomsArticleCategories" class="ng-scope">
-            <a class="nav-item nav-item-yellow ng-binding" style="cursor:pointer;" ng-href="magazine#/article/show/11" href="magazine#/article/show/11">
-                孕4月
-            </a>
-        </span><!-- end ngRepeat: category in soonMomsArticleCategories --><span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in soonMomsArticleCategories" class="ng-scope">
-            <a class="nav-item nav-item-yellow ng-binding" style="cursor:pointer;" ng-href="magazine#/article/show/12" href="magazine#/article/show/12">
-                孕5月
-            </a>
-        </span><!-- end ngRepeat: category in soonMomsArticleCategories --><span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in soonMomsArticleCategories" class="ng-scope">
-            <a class="nav-item nav-item-yellow ng-binding" style="cursor:pointer;" ng-href="magazine#/article/show/13" href="magazine#/article/show/13">
-                孕6月
-            </a>
-        </span><!-- end ngRepeat: category in soonMomsArticleCategories --><span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in soonMomsArticleCategories" class="ng-scope">
-            <a class="nav-item nav-item-yellow ng-binding" style="cursor:pointer;" ng-href="magazine#/article/show/14" href="magazine#/article/show/14">
-                孕7月
-            </a>
-        </span><!-- end ngRepeat: category in soonMomsArticleCategories --><span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in soonMomsArticleCategories" class="ng-scope">
-            <a class="nav-item nav-item-yellow ng-binding" style="cursor:pointer;" ng-href="magazine#/article/show/15" href="magazine#/article/show/15">
-                孕8月
-            </a>
-        </span><!-- end ngRepeat: category in soonMomsArticleCategories --><span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in soonMomsArticleCategories" class="ng-scope">
-            <a class="nav-item nav-item-yellow ng-binding" style="cursor:pointer;" ng-href="magazine#/article/show/16" href="magazine#/article/show/16">
-                孕9月
-            </a>
-        </span><!-- end ngRepeat: category in soonMomsArticleCategories --><span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in soonMomsArticleCategories" class="ng-scope">
-            <a class="nav-item nav-item-yellow ng-binding" style="cursor:pointer;" ng-href="magazine#/article/show/17" href="magazine#/article/show/17">
-                迎接小寶寶
-            </a>
-        </span><!-- end ngRepeat: category in soonMomsArticleCategories -->
-    </div>
-</div></div>
 </header>
 
 <div class="themeA-container ng-scope">
@@ -572,7 +436,49 @@
         <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
             <div style="margin-bottom:5px;">
                 <script language='JavaScript' type='text/javascript'>if (!window.af) var af = (function() {return {getcookie:function(n){var m=n+'=';var ca=document.cookie.split(';');for(var i=0;i < ca.length;i++) {var c=ca[i];while (c.charAt(0)==' ') c = c.substring(1,c.length);if (c.indexOf(m) == 0) return c.substring(m.length,c.length);}return null;},existcookie:function(n){var m=af.getcookie(n);if (m!=null&&m!=''){return true;}else{return false;}}};})(); if(af.existcookie('__AF')){afid = af.getcookie('__AF'); } else {afid = 0; } randomstr = new String (Math.random()); randomstr = randomstr.substring(2,8); document.write("<" + "script language='JavaScript' type='text/javascript' src='"); document.write("http://servedby.adsfactor.net/adj.php?ts=" + randomstr + "&amp;sid=336814706671&amp;afid=" + afid);if(document.af_used){document.write("&amp;ex=" + document.af_used);} if(window.location.href){document.write("&amp;location=" + encodeURIComponent(escape(window.location.href)));} if(document.referrer){document.write("&amp;referer=" + encodeURIComponent(escape(document.referrer)));} document.write("'><" + "/script>");</script><noscript><a href='http://servedby.adsfactor.net/adc.php?sid=336814706671' ><img src='http://servedby.adsfactor.net/adv.php?sid=336814706671' border='0'></a></noscript>
-                <script language='JavaScript' type='text/javascript'>if (!window.af) var af = (function() {return {getcookie:function(n){var m=n+'=';var ca=document.cookie.split(';');for(var i=0;i < ca.length;i++) {var c=ca[i];while (c.charAt(0)==' ') c = c.substring(1,c.length);if (c.indexOf(m) == 0) return c.substring(m.length,c.length);}return null;},existcookie:function(n){var m=af.getcookie(n);if (m!=null&&m!=''){return true;}else{return false;}}};})(); if(af.existcookie('__AF')){afid = af.getcookie('__AF'); } else {afid = 0; } randomstr = new String (Math.random()); randomstr = randomstr.substring(2,8); document.write("<" + "script language='JavaScript' type='text/javascript' src='"); document.write("http://servedby.adsfactor.net/adj.php?ts=" + randomstr + "&amp;sid=337876666690&amp;afid=" + afid);if(document.af_used){document.write("&amp;ex=" + document.af_used);} if(window.location.href){document.write("&amp;location=" + encodeURIComponent(escape(window.location.href)));} if(document.referrer){document.write("&amp;referer=" + encodeURIComponent(escape(document.referrer)));} document.write("'><" + "/script>");</script><noscript><a href='http://servedby.adsfactor.net/adc.php?sid=337876666690' ><img src='http://servedby.adsfactor.net/adv.php?sid=337876666690' border='0'></a></noscript>
+            </div>
+            
+            <div id="announce" class="general-box widget-box ng-scope">
+                <div class="con-title">
+                    <span class="icon-box icon-box-red icon-title-announce"></span>通知大家
+                    <span class="pull-right">
+                        <a class="btn btn-general tour-btn" href="" ng-click="startHomeTour();">
+                            <img style="width:10px;" src="/assets/app/images/general/icons/pink_question_mark.gif">
+                            小貼士
+                        </a>
+                    </span>
+                </div>
+                <div class="content-wrapper">
+                    <ul>
+                        <!-- ngRepeat: announcement in announcements --><li data-ng-repeat="announcement in announcements" ng-switch="" on="announcement.url" ng-class-odd="'announcement-general-odd'" ng-class-even="'announcement-general-even'" class="ng-scope announcement-general-odd">
+                            <!-- ngSwitchWhen: url.length > 0 -->
+                            <!-- ngSwitchDefault:  --><span ng-switch-default="" class="ng-scope">
+                                <span><!-- ngIf: announcement.ic.length > 0 --><span ng-bind-html="announcement.t | to_trusted" class="ng-binding">歡迎來到 miniBean小萌豆！喺呢度您地會搵到最啱傾嘅媽媽爸爸社群。 請開心分享！</span></span>
+                            </span>
+                        </li><!-- end ngRepeat: announcement in announcements --><li data-ng-repeat="announcement in announcements" ng-switch="" on="announcement.url" ng-class-odd="'announcement-general-odd'" ng-class-even="'announcement-general-even'" class="ng-scope announcement-general-even">
+                            <!-- ngSwitchWhen: url.length > 0 -->
+                            <!-- ngSwitchDefault:  --><span ng-switch-default="" class="ng-scope">
+                                <span><!-- ngIf: announcement.ic.length > 0 --><span ng-bind-html="announcement.t | to_trusted" class="ng-binding">我地有手機版啦！立即用手機登入 minibean.com.hk 試下啦</span></span>
+                            </span>
+                        </li><!-- end ngRepeat: announcement in announcements -->
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-bottom:5px;">
+                <script language='JavaScript' type='text/javascript'>if (!window.af) var af = (function() {return {getcookie:function(n){var m=n+'=';var ca=document.cookie.split(';');for(var i=0;i < ca.length;i++) {var c=ca[i];while (c.charAt(0)==' ') c = c.substring(1,c.length);if (c.indexOf(m) == 0) return c.substring(m.length,c.length);}return null;},existcookie:function(n){var m=af.getcookie(n);if (m!=null&&m!=''){return true;}else{return false;}}};})(); if(af.existcookie('__AF')){afid = af.getcookie('__AF'); } else {afid = 0; } randomstr = new String (Math.random()); randomstr = randomstr.substring(2,8); document.write("<" + "script language='JavaScript' type='text/javascript' src='"); document.write("http://servedby.adsfactor.net/adj.php?ts=" + randomstr + "&amp;sid=550424006675&amp;afid=" + afid);if(document.af_used){document.write("&amp;ex=" + document.af_used);} if(window.location.href){document.write("&amp;location=" + encodeURIComponent(escape(window.location.href)));} if(document.referrer){document.write("&amp;referer=" + encodeURIComponent(escape(document.referrer)));} document.write("'><" + "/script>");</script><noscript><a href='http://servedby.adsfactor.net/adc.php?sid=550424006675' ><img src='http://servedby.adsfactor.net/adv.php?sid=550424006675' border='0'></a></noscript>
+            </div>
+            
+            <div id="newCommunity" class="general-box utility-box ng-scope">
+                <ul class="newCommunity-info">
+                    <li>
+                        <a href="my#/community/35"><img style="margin-left:5px;width:35px;" src="/assets/app/images/general/icons/community/feedback.png"></a>
+                        <p style="margin:0;width:75%;">
+                            <a href="my#/community/35">miniBean小萌豆意見區</a><br>
+                            <span class="community-member-counter"><font class="ng-binding">請給我們一些意見吧</font></span>
+                        </p>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
