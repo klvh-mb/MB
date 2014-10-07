@@ -2749,7 +2749,8 @@ span.notif-count {
 
 }
 .ads-factor-300x250 {
-    /*margin-bottom: 5px;*/
+    /*margin-top: -15px;*/
+    margin-bottom: 5px;
 }
 .ads-factor-728x90 {
 
