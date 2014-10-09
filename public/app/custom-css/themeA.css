@@ -625,7 +625,7 @@ a:focus {
     border-radius: 20px;
     width: 45px;
     position: fixed;
-    bottom: 20px;
+    bottom: 80px;
     right: 5%;
 }
 #back-to-top a {

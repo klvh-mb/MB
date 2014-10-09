@@ -570,10 +570,15 @@ public class Application extends Controller {
 	// Test Ads
 	//
 	@Transactional
-    public static Result ads() {
+    public static Result adsMock() {
         return ok(views.html.ads_mock.render());
     }
 	
+	@Transactional
+    public static Result adsPlain() {
+        return ok(views.html.ads_plain.render());
+    }
+    
 	@Transactional
     public static Result ngAds() {
         return ok(views.html.ng_ads.render());
