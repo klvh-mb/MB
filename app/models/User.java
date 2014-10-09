@@ -1077,6 +1077,9 @@ public class User extends SocialObject implements Subject, Socializable {
                 return true;
             }
         }
+        if (isSuperAdmin()) {
+            return true;
+        }
         return false;
     }
     
@@ -1086,6 +1089,22 @@ public class User extends SocialObject implements Subject, Socializable {
             if (SecurityRole.RoleType.COMMUNITY_ADMIN.name().equals(role.roleName)) {
                 return true;
             }
+        }
+        if (isSuperAdmin()) {
+            return true;
+        }
+        return false;
+    }
+    
+    @Transactional
+    public boolean isEditor() {
+        for (SecurityRole role : roles) {
+            if (SecurityRole.RoleType.EDITOR.name().equals(role.roleName)) {
+                return true;
+            }
+        }
+        if (isSuperAdmin()) {
+            return true;
         }
         return false;
     }

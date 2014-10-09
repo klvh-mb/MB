@@ -34,7 +34,8 @@ public class SecurityRole extends domain.Entity implements Role {
 	    USER,
 	    SUPER_ADMIN,
 	    BUSINESS_ADMIN,
-	    COMMUNITY_ADMIN
+	    COMMUNITY_ADMIN,
+	    EDITOR
 	}
 	
 	@Override
