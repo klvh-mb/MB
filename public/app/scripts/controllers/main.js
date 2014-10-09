@@ -189,6 +189,7 @@ minibean.controller('ApplicationController',
                 }
             });
             magazineNavSubBar.render();
+            
             var articleNavSubBar = new Y.ScrollView({
                 id: 'scrollview',
                 srcNode: '#article-nav-subbar',
@@ -198,6 +199,16 @@ minibean.controller('ApplicationController',
                 }
             });
             articleNavSubBar.render();
+            
+            var knowledgeNavSubBar = new Y.ScrollView({
+                id: 'scrollview',
+                srcNode: '#knowledge-nav-subbar',
+                flick: {
+                    minDistance:100,
+                    minVelocity:0.5
+                }
+            });
+            knowledgeNavSubBar.render();
         });
     }
     
