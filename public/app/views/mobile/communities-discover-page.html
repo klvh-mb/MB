@@ -5,31 +5,34 @@
 <div id="discover-communities" class="themeA-container">
 	<div id="content">
 		<div class="row">
-            <div id="message-board" class="alert alert-info" ng-show="!userInfo.isHomeTourCompleted">
-                <div style="font-size:16px;">
-                    <img style="width:32px;" src="/assets/app/images/general/icons/pink_heart.png"></img>
-                    歡迎來到小萌豆！
+            <div id="message-board" class="alert alert-info">
+                <div ng-show="!userInfo.isHomeTourCompleted">
+                    <div style="font-size:16px;">
+                        <img style="width:32px;" src="/assets/app/images/general/icons/pink_heart.png"></img>
+                        歡迎來到小萌豆！
+                    </div>
+                    <div style="margin:5px 25px 0 25px;">
+                        請進入並關注您有興趣的社群，立即討論或瀏覽最新話題<br/> 
+                        您可在左方的選項表中尋找相關功具<br/>
+                        請給我們兩分鐘，了解更多。
+                        <a class="btn btn-general tour-btn" href="" ng-click="startMobileHomeTour();">
+                            <img style="width:10px;" src="/assets/app/images/general/icons/pink_question_mark.gif"></img>
+                            看看小貼士
+                        </a>
+                    </div>
                 </div>
-                <div style="margin:5px 25px 0 25px;">
-                    請進入並關注您有興趣的社群，立即討論或瀏覽最新話題<br/> 
-                    您可在左方的選項表中尋找相關功具<br/>
-                    請給我們兩分鐘，了解更多。
-                    <a class="btn btn-general" href="" ng-click="startMobileHomeTour();">
-                         看看小貼士
+                
+                <div ng-show="userInfo.isHomeTourCompleted">
+                    <!--img style="width:32px;" src="/assets/app/images/general/icons/pink_heart.png"></img-->
+                    <img style="width:25px;" src="/assets/app/images/general/icons/ranking/rank_1.png">
+                    請進入您有興趣的社群，瀏覽最新話題<br/>
+                    <img style="width:25px;" src="/assets/app/images/general/icons/ranking/rank_2.png">
+                    關注您有興趣的社群，社群的話題會出現到&quot;我的社群動向&quot;中
+                    <a class="btn btn-general tour-btn" href="" ng-click="startMobileHomeTour();">
+                        <img style="width:10px;" src="/assets/app/images/general/icons/pink_question_mark.gif"></img>
+                        小貼士
                     </a>
                 </div>
-            </div>
-                
-    		<div id="message-board" class="alert alert-info" ng-show="userInfo.isHomeTourCompleted">
-                <!--img style="width:32px;" src="/assets/app/images/general/icons/pink_heart.png"></img-->
-                <img style="width:25px;" src="/assets/app/images/general/icons/ranking/rank_1.png">
-                請進入您有興趣的社群，瀏覽最新話題<br/>
-                <img style="width:25px;" src="/assets/app/images/general/icons/ranking/rank_2.png">
-                關注您有興趣的社群，社群的話題會出現到&quot;我的社群動向&quot;中
-                <a style="margin-left:70%;" class="btn btn-general tour-btn" href="" ng-click="startMobileHomeTour();">
-                    <img style="width:10px;" src="/assets/app/images/general/icons/pink_question_mark.gif"></img>
-                    小貼士
-                </a>
             </div>
                 
             <div id="wall">

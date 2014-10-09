@@ -128,13 +128,6 @@ minibean.controller('ApplicationController',
 
     log("ApplicationController starts");
 
-    $scope.$on('$viewContentLoaded', $scope.init);
-    
-    $scope.init = function() {
-        $scope.homeTour.init();
-        $scope.homeTour.restart();
-    }
-    
     // PC home tour
     $scope.homeTour = homeTour;
     $scope.startHomeTour = function() {
