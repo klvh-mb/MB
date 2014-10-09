@@ -7,8 +7,9 @@
 # ~~~~
 
 # Test Adsfactor
-GET     /test-ads                   controllers.Application.ads
-GET     /test-ng-ads                controllers.Application.ngAds
+GET     /ads-mock                   controllers.Application.adsMock
+GET     /ads-plain                  controllers.Application.adsPlain
+GET     /ng-ads                     controllers.Application.ngAds
 
 # Bing Webmaster
 GET     /BingSiteAuth.xml           controllers.Application.bingWebmaster
