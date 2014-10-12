@@ -64,7 +64,7 @@
                             </span>
                         </li>
                         <!-- Post Comment box -->
-                        <li ng-show="post.isC || (community.isM || community.isO)">
+                        <li ng-show="userInfo.isLoggedIn && post.isC">
                             <a data-ng-href="my#/profile/{{userInfo.id}}">
                                 <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
                             </a>
