@@ -341,6 +341,18 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		return result;
     }
 
+    public static List<Community> findCommunitiesByCategory(Long commCategoryId) {
+        Query q = JPA.em().createNativeQuery("SELECT c.* FROM Community c where c.deleted = false "+
+                "and c.id in (select Community_id from Community_CommunityCategory where communityCategories_id = ?1)");
+        q.setParameter(1, commCategoryId.longValue());
+
+        try {
+            return (List<Community>)q.getResultList();
+        } catch (NoResultException e) {
+        }
+        return null;
+    }
+
     public static CommunityType getCommunityTypeById(Long commId) {
         Query q = JPA.em().createNativeQuery("SELECT c.communityType FROM Community c where c.id = ?1");
         q.setParameter(1, commId.longValue());
