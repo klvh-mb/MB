@@ -2761,6 +2761,8 @@ span.notif-count {
     font-size: 13px;
 }
 #communities-index .con-title {
+    background-image: url(../images/general/box_header_pink.gif);
+    background-repeat: no-repeat;
     padding: 5px 15px;
     height: 30px;
 }
