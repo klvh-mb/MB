@@ -22,39 +22,27 @@
             </div>
              
     		<div class="col-md-6 col-sm-6 col-xs-6" style="width:480px;">
-                <div ng-show="!userInfo.isHomeTourCompleted">
-                    <div id="message-board" class="alert alert-info">
-                        <div style="font-size:16px;">
-                            <img style="width:32px;" src="/assets/app/images/general/icons/pink_heart.png"></img>
-                            歡迎來到小萌豆！
-                        </div>
-                        <div style="margin:5px 25px 0 25px;">
-                            請進入並關注您有興趣的社群，立即討論或瀏覽最新話題<br/> 
-                            請給我們兩分鐘，了解更多。
-                            <a class="btn btn-general tour-btn" href="" ng-click="startHomeTour();">
-                                <img style="width:12px;" src="/assets/app/images/general/icons/pink_question_mark.gif"></img>
-                                看看小貼士
-                            </a>
-                        </div>
+                <div id="message-board" class="alert alert-info" ng-show="!userInfo.isHomeTourCompleted">
+                    <div style="font-size:16px;">
+                        <img style="width:32px;" src="/assets/app/images/general/icons/pink_heart.png"></img>
+                        歡迎來到小萌豆！
                     </div>
-                </div>
-                
-                <div ng-show="userInfo.isHomeTourCompleted">
-                    <div id="message-board" class="alert alert-info">
-                        <!--img style="width:32px;" src="/assets/app/images/general/icons/pink_heart.png"></img-->
-                        <img style="width:25px;" src="/assets/app/images/general/icons/ranking/rank_1.png">
-                        請進入您有興趣的社群，瀏覽最新話題<br/>
-                        <img style="width:25px;" src="/assets/app/images/general/icons/ranking/rank_2.png">
-                        關注您有興趣的社群，社群的話題會出現到&quot;我的社群動向&quot;中
-                        <a style="margin-left:80%;" class="btn btn-general tour-btn" href="" ng-click="startHomeTour();">
-                            <img style="width:10px;" src="/assets/app/images/general/icons/pink_question_mark.gif"></img>
-                            小貼士
+                    <div style="margin:5px 25px 0 25px;">
+                        請進入並關注您有興趣的社群，立即討論或瀏覽最新話題<br/> 
+                        請給我們兩分鐘，了解更多。
+                        <a class="btn btn-general" href="" ng-click="startHomeTour();">
+                            <img style="width:12px;" src="/assets/app/images/general/icons/pink_question_mark.gif"></img>
+                            看看小貼士
                         </a>
                     </div>
                 </div>
                 
+                <div ng-show="topAnnouncements.length > 0 && userInfo.isHomeTourCompleted">
+                    <div data-ng-include data-src="'/assets/app/views/top-announcements.html'"></div>
+                </div>
+                
 	            <div id="wall">
-	                <div ng-controller="CommunitiesDiscoverController" data-ng-include data-src="'/assets/app/views/communities-discover-section.html'"></div>
+	                <div ng-controller="NewsFeedController" data-ng-include data-src="'/assets/app/views/home-news-feed-section.html'"></div>
 	            </div>
             </div>
 	        
@@ -62,11 +50,14 @@
 	            <div ng-controller="TodayWeatherInfoController">
                     <div data-ng-include data-src="'/assets/app/views/utilities/todayWeatherInfoUtility.html'"></div>
                 </div>
+                <div ng-controller="AnnouncementsWidgetController" ng-show="announcements.length > 0">
+                    <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/utilities/announcementsUtility.html'"></div>
+                </div>
                 <div class="ads-factor-1x1">
-                    <script adSize="11" adSid="376893136692" ads-factor language='JavaScript' type="text/javascript"></script>
+                    <script adSize="11" adSid="510902096674" ads-factor language='JavaScript' type="text/javascript"></script>
                 </div>
                 <div class="ads-factor-300x250">
-                    <script adSize="300250" adSid="894219356670" ads-factor language='JavaScript' type="text/javascript"></script>
+                    <script adSize="300250" adSid="550424006675" ads-factor language='JavaScript' type="text/javascript"></script>
                 </div>
 				<div ng-controller="PNCommunitiesUtilityController" data-ng-show="pnCommunities.length > 0 && userTargetProfile.pn">
                     <div data-ng-include data-src="'/assets/app/views/utilities/pnCommunitiesUtility.html'"></div>

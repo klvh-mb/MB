@@ -1,12 +1,12 @@
 <header>
-	<div data-ng-include style="width:100%;" data-src="'/assets/app/views/header-bar.html'"></div>
+    <div data-ng-include style="width:100%;" data-src="'/assets/app/views/header-bar.html'"></div>
 </header>
 
 <div class="themeA-container">
     <div data-ng-include data-src="'/assets/app/views/nav-bar.html'"></div>
-	<div id="content">
-		<div class="row">
-			<div class="col-md-2 col-sm-2 col-xs-2" style="width:230px;">
+    <div id="content">
+        <div class="row">
+            <div class="col-md-2 col-sm-2 col-xs-2" style="width:230px;">
                 <div>
                     <div data-ng-include data-src="'/assets/app/views/widgets/my-profile-widget.html'"></div>
                 </div>
@@ -21,50 +21,56 @@
                 </div>
             </div>
              
-    		<div class="col-md-6 col-sm-6 col-xs-6" style="width:480px;">
-                <div id="message-board" class="alert alert-info" ng-show="!userInfo.isHomeTourCompleted">
-                    <div style="font-size:16px;">
-                        <img style="width:32px;" src="/assets/app/images/general/icons/pink_heart.png"></img>
-                        歡迎來到小萌豆！
+            <div class="col-md-6 col-sm-6 col-xs-6" style="width:480px;">
+                <div ng-show="!userInfo.isHomeTourCompleted">
+                    <div id="message-board" class="alert alert-info">
+                        <div style="font-size:16px;">
+                            <img style="width:32px;" src="/assets/app/images/general/icons/pink_heart.png"></img>
+                            歡迎來到小萌豆！
+                        </div>
+                        <div style="margin:5px 25px 0 25px;">
+                            請進入並關注您有興趣的社群，立即討論或瀏覽最新話題<br/> 
+                            請給我們兩分鐘，了解更多。
+                            <a class="btn btn-general" href="" ng-click="startHomeTour();">
+                                <img style="width:12px;" src="/assets/app/images/general/icons/pink_question_mark.gif"></img>
+                                看看小貼士
+                            </a>
+                        </div>
                     </div>
-                    <div style="margin:5px 25px 0 25px;">
-                        請進入並關注您有興趣的社群，立即討論或瀏覽最新話題<br/> 
-                        請給我們兩分鐘，了解更多。
-                        <a class="btn btn-general" href="" ng-click="startHomeTour();">
-                            <img style="width:12px;" src="/assets/app/images/general/icons/pink_question_mark.gif"></img>
-                            看看小貼士
-                        </a>
+                </div>
+                <div ng-show="userInfo.isHomeTourCompleted">
+                    <div ng-show="topAnnouncements.length > 0">
+                        <div data-ng-include data-src="'/assets/app/views/widgets/top-announcements-widget.html'"></div>
+                    </div>
+                    <div>
+                        <div data-ng-include data-src="'/assets/app/views/widgets/communities-index-widget.html'"></div>
                     </div>
                 </div>
                 
-                <div ng-show="topAnnouncements.length > 0 && userInfo.isHomeTourCompleted">
-                    <div data-ng-include data-src="'/assets/app/views/top-announcements.html'"></div>
+                <div id="wall">
+                    <div ng-controller="NewsFeedController" data-ng-include data-src="'/assets/app/views/home-news-feed-section.html'"></div>
                 </div>
-                
-	            <div id="wall">
-	                <div ng-controller="NewsFeedController" data-ng-include data-src="'/assets/app/views/home-news-feed-section.html'"></div>
-	            </div>
             </div>
-	        
-    		<div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
-	            <div ng-controller="TodayWeatherInfoController">
+            
+            <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
+                <div ng-controller="TodayWeatherInfoController">
                     <div data-ng-include data-src="'/assets/app/views/utilities/todayWeatherInfoUtility.html'"></div>
                 </div>
                 <div ng-controller="AnnouncementsWidgetController" ng-show="announcements.length > 0">
                     <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/utilities/announcementsUtility.html'"></div>
                 </div>
                 <div class="ads-factor-1x1">
-                    <script adSid="510902096674" ads-factor language='JavaScript' type="text/javascript"></script>
+                    <script adSize="11" adSid="510902096674" ads-factor language='JavaScript' type="text/javascript"></script>
                 </div>
                 <div class="ads-factor-300x250">
-                    <script adSid="550424006675" ads-factor language='JavaScript' type="text/javascript"></script>
+                    <script adSize="300250" adSid="550424006675" ads-factor language='JavaScript' type="text/javascript"></script>
                 </div>
-				<div ng-controller="PNCommunitiesUtilityController" data-ng-show="pnCommunities.length > 0 && userTargetProfile.pn">
+                <div ng-controller="PNCommunitiesUtilityController" data-ng-show="pnCommunities.length > 0 && userTargetProfile.pn">
                     <div data-ng-include data-src="'/assets/app/views/utilities/pnCommunitiesUtility.html'"></div>
                 </div>
-  				<div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.communities.length > 0">
+                <div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.communities.length > 0">
                     <div data-ng-include data-src="'/assets/app/views/utilities/yourFriendsCommunitiesUtility.html'"></div>
-				</div>
+                </div>
                 <div ng-controller="MyFriendsUtilityController" data-ng-show="result.friends.length > 0">
                     <div data-ng-include data-src="'/assets/app/views/utilities/friendsUtility.html'"></div>
                 </div>
@@ -72,7 +78,7 @@
                     <div data-ng-include data-src="'/assets/app/views/utilities/feedbackCommunityUtility.html'"></div>
                 </div>
             </div>
-	    </div>
+        </div>
     </div>
 </div>
 

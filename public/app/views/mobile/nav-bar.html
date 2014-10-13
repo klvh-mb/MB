@@ -8,7 +8,7 @@
                             <a role="button" class="Px-2 Abu-C-p rapidnofollow rapid-noclick-resp" ng-click="selectNavSubBar(0);" href="m-magazine#/">最新動向</a>
                         </div>
                     </li>
-                    <li class="Grid-U Px-8 Fz-m" ng-repeat="category in communityCategories">
+                    <li class="Grid-U Px-8 Fz-m" ng-repeat="category in businessCommunityCategories">
                         <div ng-class="{'Selected-green': selectedNavSubBar == category.id}">
                             <a role="button" class="Px-2 Abu-C-p rapidnofollow rapid-noclick-resp" ng-click="selectNavSubBar($index+1);" href="m-magazine#/view/{{category.id}}">{{category.name}}</a>
                         </div>

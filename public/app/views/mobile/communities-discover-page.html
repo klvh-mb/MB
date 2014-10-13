@@ -5,8 +5,8 @@
 <div id="discover-communities" class="themeA-container">
 	<div id="content">
 		<div class="row">
-            <div id="message-board" class="alert alert-info">
-                <div ng-show="!userInfo.isHomeTourCompleted">
+            <div ng-show="!userInfo.isHomeTourCompleted">
+                <div id="message-board" class="alert alert-info">
                     <div style="font-size:16px;">
                         <img style="width:32px;" src="/assets/app/images/general/icons/pink_heart.png"></img>
                         歡迎來到小萌豆！
@@ -21,8 +21,11 @@
                         </a>
                     </div>
                 </div>
-                
-                <div ng-show="userInfo.isHomeTourCompleted">
+            </div>
+            
+            <div ng-show="userInfo.isHomeTourCompleted">
+                <div id="site-tour-anchor"></div>
+                <div id="message-board" class="alert alert-info">
                     <!--img style="width:32px;" src="/assets/app/images/general/icons/pink_heart.png"></img-->
                     <img style="width:25px;" src="/assets/app/images/general/icons/ranking/rank_1.png">
                     請進入您有興趣的社群，瀏覽最新話題<br/>

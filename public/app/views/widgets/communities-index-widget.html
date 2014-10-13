@@ -1,0 +1,18 @@
+<div id="communities-index" class="general-box widget-box">
+    <div class="con-title">
+        <a id="my-communities" href="my#/communities-discover" class="text-muted">
+            熱門社群
+        </a>
+    </div>
+    <div class="content">
+        <ul class="newCommunity-info" ng-repeat="communityCategoryMap in socialCommunityCategoriesMap">
+            <li class="category-name">{{communityCategoryMap.name}}</li>
+            <li ng-repeat="community in communityCategoryMap.communities">
+                <a href="my#/community/{{community.id}}"><img src="{{community.gi}}"></a>
+                <a href="my#/community/{{community.id}}">{{community.dn|characters:20:true}}</a>
+                <!--span class="community-member-counter"><font>{{community.mm}}個關注</font></span>
+                <span class="community-attribute"></span-->
+            </li>
+        </ul>
+    </div>    
+</div>

@@ -587,10 +587,6 @@ span.notif-count {
 }
 
 /*  */
-
-
-
-
-
-
-
+#communities-index ul {
+    width: 50%;
+}

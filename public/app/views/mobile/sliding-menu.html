@@ -18,37 +18,20 @@
         <li>
             <ul class="sliding-menu-single-item">
                 <li>
-                    <a href="m-magazine#/" class="text-muted">
-                        <i class="glyphicon glyphicon-film"></i>小萌豆 Magazine
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <div class="sliding-menu-subcats-mag">
-                <ul>
-                    <li class="sliding-menu-float-item"><a href="m-magazine#/" style="cursor: pointer;"><font style="font-size:15px;vertical-align:middle;">最新動向</font></a></li>
-                    <li class="sliding-menu-float-item" data-ng-repeat="category in communityCategories"><a data-ng-href="m-magazine#/view/{{category.id}}" style="cursor: pointer;" id="categoryselect"><font style="font-size:15px;vertical-align:middle;">{{category.name}}</font></a></li>
-                </ul>
-            </div>
-        </li>
-        <li>
-            <ul class="sliding-menu-single-item">
-                <li>
                     <a href="m-magazine#/article/show/0" class="text-muted">
                         <i class="glyphicon glyphicon-bookmark"></i>精選文章
                     </a>
                 </li>
             </ul>
         </li>
-        <li>
+        <!--li>
             <div class="sliding-menu-subcats-article">
                 <ul>
                     <li class="sliding-menu-float-item"><a href="m-magazine#/article/show/0" style="cursor: pointer;"><font style="font-size:15px;vertical-align:middle;">所有文章</font></a></li>
                     <li class="sliding-menu-float-item" data-ng-repeat="category in hotArticleCategories"><a data-ng-href="m-magazine#/article/show/{{category.id}}" style="cursor: pointer;" id="categoryselect"><font style="font-size:15px;vertical-align:middle;">{{category.name}}</font></a></li>
                 </ul>
             </div>
-        </li>
+        </li-->
         <li ng-show="userInfo.isE">
             <ul class="sliding-menu-single-item">
                 <li>
@@ -58,21 +41,30 @@
                 </li>
             </ul>
         </li>
-        <li ng-show="userInfo.isSA">
+        <!--li ng-show="userInfo.isE">
             <div class="sliding-menu-subcats-article">
                 <ul>
                     <li class="sliding-menu-float-item" data-ng-repeat="category in soonMomsArticleCategories"><a data-ng-href="m-magazine#/article/show/{{category.id}}" style="cursor: pointer;" id="categoryselect"><font style="font-size:15px;vertical-align:middle;">{{category.name}}</font></a></li>
                 </ul>
             </div>
-        </li>
-        <li ng-show="userInfo.isLoggedIn">
-            <ul class="sliding-menu-single-item myCommunity-info">
+        </li-->
+        <li>
+            <ul class="sliding-menu-single-item">
                 <li>
-                    <a href="m-my#/communities-discover"><img src="/assets/app/images/general/icons/community/beans.png"></a>
-                    <p><a href="m-my#/communities-discover"><b class="ng-binding">親子社群</b></a></p>
+                    <a href="m-magazine#/" class="text-muted">
+                        <i class="glyphicon glyphicon-film"></i>小萌豆 Magazine
+                    </a>
                 </li>
             </ul>
         </li>
+        <!--li>
+            <div class="sliding-menu-subcats-mag">
+                <ul>
+                    <li class="sliding-menu-float-item"><a href="m-magazine#/" style="cursor: pointer;"><font style="font-size:15px;vertical-align:middle;">最新動向</font></a></li>
+                    <li class="sliding-menu-float-item" data-ng-repeat="category in businessCommunityCategories"><a data-ng-href="m-magazine#/view/{{category.id}}" style="cursor: pointer;" id="categoryselect"><font style="font-size:15px;vertical-align:middle;">{{category.name}}</font></a></li>
+                </ul>
+            </div>
+        </li-->
         <li ng-show="userInfo.isLoggedIn">
             <ul class="sliding-menu-item">
                 <!--div style="margin:5px 0;"-->
@@ -91,6 +83,14 @@
                         <i class="glyphicon glyphicon-film"></i>我的 Magazine
                     </a>
                 </div-->
+            </ul>
+        </li>
+        <li ng-show="userInfo.isLoggedIn">
+            <ul class="sliding-menu-single-item myCommunity-info">
+                <li>
+                    <a href="m-my#/communities-discover"><img src="/assets/app/images/general/icons/community/beans.png"></a>
+                    <p><a href="m-my#/communities-discover">親子社群</a></p>
+                </li>
             </ul>
         </li>
         <li ng-show="userInfo.isLoggedIn">

@@ -216,7 +216,8 @@ minibean.controller('ApplicationController',
 	$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
 
     $scope.topAnnouncements = announcementsService.getTopAnnouncements.get();
-	$scope.communityCategories = communityCategoryService.getAllCommunityCategories.get();
+	$scope.businessCommunityCategories = communityCategoryService.getAllBusinessCommunityCategories.get();
+	$scope.socialCommunityCategoriesMap = communityCategoryService.getSocialCommunityCategoriesMap.get();
 	
 	$scope.hotArticleCategories = [];
 	$scope.soonMomsArticleCategories = [];

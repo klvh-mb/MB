@@ -1,0 +1,23 @@
+<div id="message-board" class="alert alert-info">
+    <div ng-repeat="announcement in topAnnouncements">
+        <div ng-if="announcement.ty == 'TOP_INFO'" ng-switch on="announcement.url">
+            <span ng-switch-when="url.length > 0">
+                <a href="{{announcement.url}}"><img src="{{announcement.ic}}" ng-if="announcement.ic.length > 0">{{announcement.t}}</a>
+            </span>
+            <span ng-switch-default>
+                <span><img src="{{announcement.ic}}" ng-if="announcement.ic.length > 0"><span ng-bind-html="announcement.t | to_trusted"></span></span>
+            </span>
+        </div>
+    </div>
+    
+    <div ng-repeat="announcement in topAnnouncements">
+        <div ng-if="announcement.ty == 'TOP_ALERT'" ng-switch on="announcement.url">
+            <span ng-switch-when="url.length > 0">
+                <a href="{{announcement.url}}"><img src="{{announcement.ic}}" ng-if="announcement.ic.length > 0">{{announcement.t}}</a>
+            </span>
+            <span ng-switch-default>
+                <span><img src="{{announcement.ic}}" ng-if="announcement.ic.length > 0"><span ng-bind-html="announcement.t | to_trusted"></span></span>
+            </span>
+        </div>
+    </div>
+</div>

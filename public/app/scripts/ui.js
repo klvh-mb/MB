@@ -75,7 +75,7 @@ var mHomeTour = new Tour({
     "</div>", 
   steps: [
   {
-    element: "#message-board",
+    element: "#site-tour-anchor",
     title: 
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_1.png\">" +
         "親子社群",
@@ -83,7 +83,7 @@ var mHomeTour = new Tour({
         "尋找並關注更多親子社群。有不同主題，年份，地區社群讓媽媽分享心得"
   },
   {
-    element: "#message-board",
+    element: "#site-tour-anchor",
     title: 
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_2.png\">" + 
         "我關注的社群",
@@ -91,7 +91,7 @@ var mHomeTour = new Tour({
         "您正在關注的社群會收藏到左方的選項表中，方便隨時瀏覽或討論"
   },
   {
-    element: "#message-board",
+    element: "#site-tour-anchor",
     title: 
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_3.png\">" + 
         "我的社群動向",
@@ -99,7 +99,7 @@ var mHomeTour = new Tour({
         "讓您預覽您正在關注的社群中最新，最熱門話題。輕易知道所有關注社群的最新動向"
   },
   {
-    element: "#message-board",
+    element: "#site-tour-anchor",
     title: 
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_4.png\">" + 
         "我的個人主頁",
@@ -107,7 +107,7 @@ var mHomeTour = new Tour({
         "您可以查看您所發佈或回覆的話題。還可以管理您關注的社群，朋友和喜愛的話題或文章"
   },
   {
-    element: "#message-board",
+    element: "#site-tour-anchor",
     title: 
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_5.png\">" +
         "我的喜愛",
