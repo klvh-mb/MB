@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import common.cache.CommunityCategoryCache;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.joda.time.DateTime;
 
@@ -1236,15 +1237,8 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getSocialCommunityCategoriesMap() {
-        List<CommunityCategory> categories = CommunityCategory.getAllSocialCategories();
-
-        List<CommunityCategoryMapVM> communityCategoryMapVMs = new ArrayList<>();
-        for(CommunityCategory category : categories) {
-            CommunityCategoryMapVM vm = 
-                    CommunityCategoryMapVM.communityCategoryMapVM(
-                            category, Community.findByCategory(category));
-            communityCategoryMapVMs.add(vm);
-        }
+        List<CommunityCategoryMapVM> communityCategoryMapVMs =
+                CommunityCategoryCache.getSocialCommCategoryMapVMs();
         return ok(Json.toJson(communityCategoryMapVMs));
     }
 }
