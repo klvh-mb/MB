@@ -29,21 +29,27 @@ window.registeredAds = {};
 window.registeredAds[300250] = []; // Here you need to define AdsFactor size
 window.registeredAds[72890] = [];
 window.registeredAds[11] = [];
-    document.write = function(node) {
-        if(typeof node !== 'undefined') {
-              var n = $(node)[2].innerHTML.lastIndexOf("swfobject.embedSWF");
-              var d = $(node)[2].innerHTML.slice(n,100000000);
-              var data = d.split("/");
-              var chk = data[5].split("_");
-              if(typeof chk[1] !== 'undefined') {
-                     var elem = registeredAds[chk[1]].pop();
-                     if(typeof elem !== 'undefined') {
-                            $(elem).after(node);
-                     }
-              }
-       }
+document.write = function(node) {
+    if(typeof node !== 'undefined') {
+        var n = $(node)[2].innerHTML.lastIndexOf("swfobject.embedSWF");
+        if(n == -1){
+            var elem = registeredAds[11].pop();
+            if(typeof elem !== 'undefined') {
+                $(elem).after(node);
+            }
+        } else {
+            var d = $(node)[2].innerHTML.slice(n,100000000);
+            var data = d.split("/");
+            var chk =data[5].split("_");
+            if(typeof chk[1] !== 'undefined') {
+                var elem = registeredAds[chk[1]].pop();
+                if(typeof elem !== 'undefined') {
+                    $(elem).after(node);
+                }
+            }
+        }
     }
-
+}
 
 var MB_MAG_1x1                  = 337876666690;
 var MB_MAG_300x250              = 336814706671;
