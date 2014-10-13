@@ -18,7 +18,8 @@
                                     <img class="scCatMiniThumbnail" data-ng-src="{{article.ct.pictureName}}" />
                                 </a>
                                 <div style="margin-left:10px;width:60%;">
-                                    <a class="scCatTitle" href="#/article/show/0">所有文章</a> <span style="font-size:12px;">&gt;</span> <a class="scCatTitle" href="#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
+                                    <!--a class="scCatTitle" href="#/article/show/0">所有文章</a> <span style="font-size:12px;">&gt;</span--> 
+                                    <a class="scCatTitle" href="#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
                                     <h6>
                                         <font ng-show="userInfo.isE">{{article.pd | date:'M/dd/yyyy'}}</font>
                                     </h6>
@@ -64,10 +65,10 @@
                 <div data-ng-include data-src="'/assets/app/views/utilities/hotArticlesUtility.html'"></div>
             </div>
             <div class="ads-factor-1x1">
-                <script adSid="985037346676" ads-factor language='JavaScript' type="text/javascript"></script>
+                <script adSize="11" adSid="985037346676" ads-factor language='JavaScript' type="text/javascript"></script>
             </div>
             <div class="ads-factor-300x250">
-                <script adSid="244781106677" ads-factor language='JavaScript' type="text/javascript"></script>
+                <script adSize="300250" adSid="244781106677" ads-factor language='JavaScript' type="text/javascript"></script>
             </div>
             <div>
                 <div data-ng-include data-src="'/assets/app/views/utilities/newArticlesUtility.html'"></div>

@@ -27,14 +27,14 @@ if (!window.af) {
 
 window.registeredAds = {};
 window.registeredAds[300250] = []; // Here you need to define AdsFactor size
-window.registeredAds[72820] = [];
+window.registeredAds[72890] = [];
 window.registeredAds[11] = [];
     document.write = function(node) {
         if(typeof node !== 'undefined') {
               var n = $(node)[2].innerHTML.lastIndexOf("swfobject.embedSWF");
               var d = $(node)[2].innerHTML.slice(n,100000000);
               var data = d.split("/");
-              var chk =data[5].split("_");
+              var chk = data[5].split("_");
               if(typeof chk[1] !== 'undefined') {
                      var elem = registeredAds[chk[1]].pop();
                      if(typeof elem !== 'undefined') {

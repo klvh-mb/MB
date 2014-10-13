@@ -14,7 +14,7 @@ minibean.directive('adsFactorTest', function($window, $compile) {
                 } else {
                     afid = 0;
                 }
-                registeredAds[iAttrs.adsize].push(element);.
+                registeredAds[iAttrs.adsize].push(element);
                 $(createAdsFactorScript(afid,iAttrs.adsid)).insertAfter($(element));
             }
     };
@@ -50,7 +50,7 @@ minibean.directive('adsFactor', function($window, $compile) {
                 } else {
                     afid = 0;
                 }
-                registeredAds[iAttrs.adsize].push(element);.
+                registeredAds[iAttrs.adsize].push(element);
                 // temp turn off ads
                 $(createAdsFactorScript(afid,iAttrs.adsid)).insertAfter($(element));
             }

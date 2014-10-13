@@ -45,11 +45,11 @@
                                 <a data-ng-show="article.isBookmarked" class="btn-like post-favorited" href="" data-ng-click="unBookmarkArticle(article.id)"></a>
                                 <div>
                                     <a href="#/article/{{article.id}}/{{article.ct.id}}">
-                                        <h4 style="color:#324fe1;"><font><font>{{article.nm}}</font></font></h4>
+                                        <h4 style="color:#324fe1;">{{article.nm}}</h4>
                                     </a>
                                     <h6>
                                         <a class="tag" data-ng-href="#/article/show/{{article.ct.id}}">
-                                            <font><font>{{article.ct.name}}</font></font>
+                                            {{article.ct.name}}
                                         </a>
                                         <font ng-show="userInfo.isE">{{article.pd | date:'M/dd/yyyy'}}</font>
                                         <span ng-show="article.nov > 20 || userInfo.isE" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.gif"/>{{article.nov}}</span>

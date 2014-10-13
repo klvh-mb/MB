@@ -54,10 +54,10 @@
                     <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/utilities/announcementsUtility.html'"></div>
                 </div>
                 <div class="ads-factor-1x1">
-                    <script adSid="510902096674" ads-factor language='JavaScript' type="text/javascript"></script>
+                    <script adSize="11" adSid="510902096674" ads-factor language='JavaScript' type="text/javascript"></script>
                 </div>
                 <div class="ads-factor-300x250">
-                    <script adSid="550424006675" ads-factor language='JavaScript' type="text/javascript"></script>
+                    <script adSize="300250" adSid="550424006675" ads-factor language='JavaScript' type="text/javascript"></script>
                 </div>
 				<div ng-controller="PNCommunitiesUtilityController" data-ng-show="pnCommunities.length > 0 && userTargetProfile.pn">
                     <div data-ng-include data-src="'/assets/app/views/utilities/pnCommunitiesUtility.html'"></div>

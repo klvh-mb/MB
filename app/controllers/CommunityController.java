@@ -38,6 +38,7 @@ import targeting.community.BusinessFeedCommTargetingEngine;
 import targeting.community.NewsfeedCommTargetingEngine;
 import viewmodel.CommunitiesParentVM;
 import viewmodel.CommunitiesWidgetChildVM;
+import viewmodel.CommunityCategoryMapVM;
 import viewmodel.CommunityCategoryVM;
 import viewmodel.CommunityPostCommentVM;
 import viewmodel.CommunityPostVM;
@@ -1231,5 +1232,19 @@ public class CommunityController extends Controller{
             communityCategoryVMs.add(vm);
         }
         return ok(Json.toJson(communityCategoryVMs));
+    }
+    
+    @Transactional
+    public static Result getSocialCommunityCategoriesMap() {
+        List<CommunityCategory> categories = CommunityCategory.getAllSocialCategories();
+
+        List<CommunityCategoryMapVM> communityCategoryMapVMs = new ArrayList<>();
+        for(CommunityCategory category : categories) {
+            CommunityCategoryMapVM vm = 
+                    CommunityCategoryMapVM.communityCategoryMapVM(
+                            category, Community.findByCategory(category));
+            communityCategoryMapVMs.add(vm);
+        }
+        return ok(Json.toJson(communityCategoryMapVMs));
     }
 }

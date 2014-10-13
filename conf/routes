@@ -173,6 +173,7 @@ GET     /get-topic-communities                  controllers.CommunityController.
 GET     /get-other-communities                  controllers.CommunityController.getOtherCommunities
 GET     /get-all-business-community-categories  controllers.CommunityController.getAllBusinessCommunityCategories
 GET     /get-all-social-community-categories    controllers.CommunityController.getAllSocialCommunityCategories
+GET     /get-social-community-categories-map    controllers.CommunityController.getSocialCommunityCategoriesMap
 GET		/get-unjoined-communities			    controllers.CommunityController.getUserUnJoinedCommunities
 GET		/get-my-communities			            controllers.CommunityController.getMyCommunities
 GET		/get-user-communities/:id		        controllers.CommunityController.getUserCommunities(id :Long)

@@ -14,13 +14,13 @@
             
             <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
                 <!--div ng-show="topAnnouncements.length > 0">
-                    <div data-ng-include data-src="'/assets/app/views/top-announcements.html'"></div>
+                    <div data-ng-include data-src="'/assets/app/views/widgets/top-announcements-widget.html'"></div>
                 </div-->
                 <div ng-controller="AnnouncementsWidgetController" ng-show="announcements.length > 0">
                     <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/utilities/announcementsUtility.html'"></div>
                 </div>
                 <div class="ads-factor-300x250">
-                    <script adSid="337876666690" ads-factor-test language='JavaScript' type="text/javascript"></script>
+                    <script adSize="300250" adSid="337876666690" ads-factor-test language='JavaScript' type="text/javascript"></script>
                 </div>
                 <div ng-controller="TodayWeatherInfoController">
                     <div data-ng-include data-src="'/assets/app/views/utilities/todayWeatherInfoUtility.html'"></div>
@@ -29,7 +29,7 @@
                     <div data-ng-include data-src="'/assets/app/views/magazine/promo-signup-widget.html'"></div>
                 </div>
                 <div class="ads-factor-300x250">
-                    <!--script adSid="550424006675" ads-factor-test language='JavaScript' type="text/javascript"></script-->
+                    <!--script adSize="300250" adSid="550424006675" ads-factor-test language='JavaScript' type="text/javascript"></script-->
                 </div>
                 <div>
                     <div data-ng-include data-src="'/assets/app/views/utilities/feedbackCommunityUtility.html'"></div>

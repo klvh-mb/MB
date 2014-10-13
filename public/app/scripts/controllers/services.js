@@ -652,18 +652,25 @@ minibean.service('allAnswersService',function($resource){
 });
 
 minibean.service('communityCategoryService',function($resource){
-    this.getAllCommunityCategories = $resource(
+    this.getAllBusinessCommunityCategories = $resource(
             '/get-all-business-community-categories',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'get' ,isArray:true}
+                get: {method:'get',isArray:true}
             }
     );
     this.getAllSocialCommunityCategories = $resource(
             '/get-all-social-community-categories',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'get' ,isArray:true}
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.getSocialCommunityCategoriesMap = $resource(
+            '/get-social-community-categories-map',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
             }
     );
 });

@@ -376,6 +376,18 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
         return null;
 	}
 	
+	public static List<Community> findByCategory(CommunityCategory category) {
+        Query q = JPA.em().createNativeQuery("SELECT * FROM Community c where c.deleted = false" + 
+                " and c.id in (select cc.Community_id from Community_CommunityCategory cc where cc.communityCategories_id = ?1)", 
+                Community.class);
+        q.setParameter(1, category.id);
+        try {
+            return (List<Community>)q.getResultList();
+        } catch (NoResultException e) {
+        }
+        return null;
+    }
+	
 	public static File getDefaultThumbnailCoverPhoto() throws FileNotFoundException {
 		return new File(STORAGE_COMMUNITY_COVER_THUMBNAIL_NOIMAGE);
 	}

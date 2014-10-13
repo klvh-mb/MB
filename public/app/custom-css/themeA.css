@@ -912,7 +912,7 @@ a:focus {
     padding: 5px 0px;
     margin: 0;
     line-height: 1.35;
-    border-top: 1px dotted #ccc;
+    border-top: 1px dotted #FCC9CB;
 }
 #announce li:first-child {
     border-top: none;
@@ -1048,6 +1048,7 @@ a:focus {
     height: auto;
     float: left;
     margin-right: 5px;
+    border-radius: 10px;
 }
 .newCommunity-info a, .myCommunity-info a {
     color: #3691E0;
@@ -2748,6 +2749,41 @@ span.notif-count {
     font-weight: bold;
     font-size: 14px;
     padding: 3px 7px;
+}
+#communities-index {
+    /*background: #FFF7F7;*/
+    border-color: #FCC9CB;
+    border-radius: 15px;
+    border-width: 3px;
+    /*padding: 10px 15px;*/
+    margin: 5px 0 15px 0;
+    box-shadow: 0px 1px 10px rgba(162, 6, 43, 0.5);
+    font-size: 13px;
+}
+#communities-index .con-title {
+    padding: 5px 15px;
+    height: 30px;
+}
+#communities-index .newCommunity-info img {
+    width: 18px;
+    border-radius: 5px;
+    margin-right: 3px;
+}
+#communities-index ul {
+    display: inline-block;
+    width: 25%;
+    height: auto;
+    vertical-align: text-top;
+    margin: 0;
+}
+#communities-index .category-name {
+    font-size: 14px;
+    margin: 0px 5px 5px 5px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #FCC9CB;
+}
+#communities-index .content {
+    margin: 5px 0;
 }
 .ads-factor-1x1 {
 
