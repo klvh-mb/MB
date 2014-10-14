@@ -16,6 +16,19 @@ public class CommunityCategoryMapVM {
 	@JsonProperty("communities") public List<CommunitiesWidgetChildVM> communityVMs;
 	
 	public static CommunityCategoryMapVM communityCategoryMapVM(
+            CommunityCategory communityCategory, List<Community> communities) {
+        
+        CommunityCategoryMapVM communityCategoryMapVM = new CommunityCategoryMapVM();
+        communityCategoryMapVM.id = communityCategory.id;
+        communityCategoryMapVM.name = communityCategory.name;
+        communityCategoryMapVM.communityVMs = new ArrayList<>();
+        for (Community community : communities) {
+            communityCategoryMapVM.communityVMs.add(new CommunitiesWidgetChildVM(community));
+        }
+        return communityCategoryMapVM;
+    }
+	   
+	public static CommunityCategoryMapVM communityCategoryMapVM(
 	        CommunityCategory communityCategory, List<Community> communities, User user) {
 	    
 	    CommunityCategoryMapVM communityCategoryMapVM = new CommunityCategoryMapVM();
@@ -28,7 +41,7 @@ public class CommunityCategoryMapVM {
 		return communityCategoryMapVM;
 	}
 	
-	public static CommunityCategoryMapVM communityCategoryMapVM(List<CommunitiesWidgetChildVM> vms, User user) {
+	public static CommunityCategoryMapVM communityCategoryMapVM(List<CommunitiesWidgetChildVM> vms) {
         CommunityCategoryMapVM communityCategoryMapVM = new CommunityCategoryMapVM();
         communityCategoryMapVM.id = -1;
         communityCategoryMapVM.name = "其他";

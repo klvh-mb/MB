@@ -3,7 +3,7 @@
     padding: 0;
 }
 #message-content {
-    background-color: #F6F5FA;
+    background-color: #FFFDFD;
     display: inline-block;
     width: 65%;
     border-left: #bcbcbc thin solid;
@@ -18,7 +18,8 @@
     color: black;
     font-weight: bold;
     border-bottom: thin #bcbcbc solid;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,rgba(249, 245, 255, 1) 47%,rgba(236, 218, 255, 1) 100%);
+    /*background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,rgba(249, 245, 255, 1) 47%,rgba(236, 218, 255, 1) 100%);*/
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,rgba(255, 237, 237, 1) 47%,rgba(255, 195, 195, 1) 100%);
 }
 #message-search {
     padding: 10px;
@@ -54,7 +55,7 @@
     background-color: #e7ebf3;
 }
 .message-list-active {
-    background-color: #646cb3;
+    background-color: #F5A0A0;
     color: white;
 }
 .message-list-active p {
@@ -81,7 +82,7 @@
     display: block;
 }
 #message-list li:hover > div > a.message-notice {
-    color: #7287b9;
+    color: #F5A0A0;
 }
 #message-list img+div {
     padding: 0 10px;
@@ -143,7 +144,7 @@
     top: 35px;
     text-align: right;
     width: 80px;
-    color: #7287b9;
+    color: #F5A0A0;
     font-weight: bold;
 }
 .message-notice:after {
@@ -310,14 +311,14 @@
     display: inline-block;
     vertical-align: text-top;
     position: relative;
-    border: 1px solid #E0E0E0;
+    border: 1px solid #ECE9E9;
     border-radius: 5px;
     box-shadow: inset 0 3px 3px rgba(255,255,255,.4),0 1px 1px rgba(0,0,0,.05);
 }
 .message-user .message-body {
     right: 65px;
     float: right;
-    background-color: #e6f2fa;
+    background-color: #FFEDED;
 }
 .message-replier .message-body {
     margin-left: 13px;
@@ -347,7 +348,7 @@
 .message-user .message-body:after {
     left: 100%;
     border-color: rgba(255, 255, 255, 0);
-    border-left-color: #e6f2fa;
+    border-left-color: #FFEDED;
     border-width: 7px;
     top: 25px;
 }
@@ -357,13 +358,14 @@
 }
 .message-replier .message-body:after {
     border-color: rgba(255, 255, 255, 0);
-    border-right-color: #ffffff;
+    border-right-color: #ECE9E9;
     border-width: 6px;
     top: 25px;
 }
 .message-entry {
     border-top: white thin solid;
-    background-color: #EBE6FA;
+    /*background-color: #EBE6FA;*/
+    background-color: #FFEDED;
     width: 100%;
     position: relative;
     height: 150px;
