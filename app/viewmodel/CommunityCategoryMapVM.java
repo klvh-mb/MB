@@ -21,7 +21,7 @@ public class CommunityCategoryMapVM {
 	    CommunityCategoryMapVM communityCategoryMapVM = new CommunityCategoryMapVM();
 	    communityCategoryMapVM.id = communityCategory.id;
 	    communityCategoryMapVM.name = communityCategory.name;
-	    communityCategoryMapVM.communityVMs = new ArrayList<CommunitiesWidgetChildVM>();
+	    communityCategoryMapVM.communityVMs = new ArrayList<>();
 	    for (Community community : communities) {
 	        communityCategoryMapVM.communityVMs.add(new CommunitiesWidgetChildVM(community, user));
 	    }

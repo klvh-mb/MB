@@ -1,8 +1,11 @@
 package common.cache;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import models.Community;
 import models.CommunityCategory;
+import viewmodel.CommunityCategoryMapVM;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,11 +19,27 @@ public class CommunityCategoryCache {
     private static List<CommunityCategory> bizCatList;
     private static List<CommunityCategory> socialCatList;
 
+    private static List<CommunityCategoryMapVM> socialCommCategoryMapVMs = new ArrayList<>();
+
     static {
         bizCatList = CommunityCategory.loadAllBusinessCategories();
         socialCatList = CommunityCategory.loadAllSocialCategories();
+        loadSocialCommCategoryMapVMs();
     }
 
+    private static void loadSocialCommCategoryMapVMs() {
+        List<CommunityCategory> socialCats = getAllSocialCategories();
+
+        for(CommunityCategory socialCat : socialCats) {
+            CommunityCategoryMapVM vm =
+                    CommunityCategoryMapVM.communityCategoryMapVM(
+                            socialCat, Community.findByCategory(socialCat));
+            socialCommCategoryMapVMs.add(vm);
+        }
+    }
+
+
+    //////////////// Cache Getters ////////////////
     public static List<CommunityCategory> getAllBusinessCategories() {
 		return bizCatList;
 	}
@@ -28,4 +47,8 @@ public class CommunityCategoryCache {
     public static List<CommunityCategory> getAllSocialCategories() {
 		return socialCatList;
 	}
+
+    public static List<CommunityCategoryMapVM> getSocialCommCategoryMapVMs() {
+        return socialCommCategoryMapVMs;
+    }
 }
