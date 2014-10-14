@@ -30,23 +30,54 @@ window.registeredAds[300250] = []; // Here you need to define AdsFactor size
 window.registeredAds[72890] = [];
 window.registeredAds[11] = [];
 document.write = function(node) {
+    console.log('AD RESPONSE: '+node);
     if(typeof node !== 'undefined') {
         var n = $(node)[2].innerHTML.lastIndexOf("swfobject.embedSWF");
         if(n == -1){
-            var elem = registeredAds[11].pop();
+            // 1x1 or static
+            var n1x1 = node.lastIndexOf("1x1");
+            var n300x250 = node.lastIndexOf("300x250");
+            var n728x90 = node.lastIndexOf("728x90");
+            
+            var elem;
+            if (n1x1 != -1) {
+                elem = registeredAds[11].pop();
+            } else if (n300x250 != -1) {
+                elem = registeredAds[300250].pop();
+            } else if (n728x90 != -1) {
+                elem = registeredAds[72890].pop();
+            }
+            
             if(typeof elem !== 'undefined') {
                 $(elem).after(node);
             }
         } else {
+            // flash
+            var n300x250 = node.lastIndexOf("300250");
+            var n728x90 = node.lastIndexOf("72890");
+            
+            var elem;
+            if (n300x250 != -1) {
+                elem = registeredAds[300250].pop();
+            } else if (n728x90 != -1) {
+                elem = registeredAds[72890].pop();
+            }
+            
+            if(typeof elem !== 'undefined') {
+                $(elem).after(node);
+            }
+            
+            /*
             var d = $(node)[2].innerHTML.slice(n,100000000);
             var data = d.split("/");
-            var chk =data[5].split("_");
+            var chk = data[5].split("_");
             if(typeof chk[1] !== 'undefined') {
                 var elem = registeredAds[chk[1]].pop();
                 if(typeof elem !== 'undefined') {
                     $(elem).after(node);
                 }
             }
+            */
         }
     }
 }

@@ -667,10 +667,10 @@ minibean.service('communityCategoryService',function($resource){
             }
     );
     this.getSocialCommunityCategoriesMap = $resource(
-            '/get-social-community-categories-map',
+            '/get-social-community-categories-map?indexOnly=:indexOnly',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'get',isArray:true}
+                get: {method:'get',params:{indexOnly:'@indexOnly'},isArray:true}
             }
     );
 });
@@ -680,42 +680,42 @@ minibean.service('articleService',function($resource){
             '/get-all-article-categories',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'get' ,isArray:true}
+                get: {method:'get',isArray:true}
             }
     );
     this.AllArticles = $resource(
             '/get-all-Articles',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'get' ,isArray:true}
+                get: {method:'get',isArray:true}
             }
     );
     this.NewArticles = $resource(
             '/get-new-Articles/:category_id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'get' ,isArray:true}
+                get: {method:'get',isArray:true}
             }
     );
     this.HotArticles = $resource(
             '/get-hot-Articles/:category_id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'get' ,isArray:true}
+                get: {method:'get',isArray:true}
             }
     );
     this.RecommendedArticles = $resource(
             '/get-recommended-Articles/:category_id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'get' ,isArray:true}
+                get: {method:'get',isArray:true}
             }
     );  
     this.ArticleCategorywise = $resource(
             '/get-Articles-Categorywise/:category_id/:offset',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'get' ,isArray:true}
+                get: {method:'get',isArray:true}
             }
     );
     this.SixArticles = $resource(

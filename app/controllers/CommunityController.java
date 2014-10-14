@@ -1235,16 +1235,26 @@ public class CommunityController extends Controller{
     }
     
     @Transactional
-    public static Result getSocialCommunityCategoriesMap() {
+    public static Result getSocialCommunityCategoriesMap(boolean indexOnly) {
+        final User localUser = Application.getLocalUser(session());
         List<CommunityCategory> categories = CommunityCategory.getAllSocialCategories();
-
         List<CommunityCategoryMapVM> communityCategoryMapVMs = new ArrayList<>();
         for(CommunityCategory category : categories) {
             CommunityCategoryMapVM vm = 
                     CommunityCategoryMapVM.communityCategoryMapVM(
-                            category, Community.findByCategory(category));
+                            category, Community.findByCategory(category), localUser);
             communityCategoryMapVMs.add(vm);
         }
+        
+        // get other topic comms
+        if (!indexOnly) {
+            List<CommunitiesWidgetChildVM> vms = 
+                    getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.PRE_NURSERY);
+            CommunityCategoryMapVM vm = 
+                    CommunityCategoryMapVM.communityCategoryMapVM(vms, localUser);
+            communityCategoryMapVMs.add(vm);
+        }
+        
         return ok(Json.toJson(communityCategoryMapVMs));
     }
 }

@@ -2272,7 +2272,7 @@ a:focus {
 .communityTagBox {
     position: relative;
     display: inline-block;
-    min-height: 80px;
+    min-height: 75px;
     height: auto;
     width: 100%;
     padding: 0px 5px;
@@ -2761,22 +2761,10 @@ span.notif-count {
     font-size: 13px;
 }
 #communities-index .con-title {
-    background-image: url(../images/general/box_header_pink.gif);
+    background-image: url(../images/general/box_header_pink.png);
     background-repeat: no-repeat;
     padding: 5px 15px;
     height: 30px;
-}
-#communities-index .newCommunity-info img {
-    width: 18px;
-    border-radius: 5px;
-    margin-right: 3px;
-}
-#communities-index ul {
-    display: inline-block;
-    width: 25%;
-    height: auto;
-    vertical-align: text-top;
-    margin: 0;
 }
 #communities-index .category-name {
     font-size: 14px;
@@ -2786,6 +2774,34 @@ span.notif-count {
 }
 #communities-index .content {
     margin: 5px 0;
+}
+#communities-index ul {
+    display: inline-block;
+    width: 25%;
+    height: auto;
+    vertical-align: text-top;
+    margin: 0;
+}
+#communities-index ul li {
+    line-height: 1.55;
+}
+#communities-index ul li img {
+    width: 18px;
+    border-radius: 5px;
+    margin-right: 3px;
+}
+#communities-discover-section #communities-index {
+    border-width: 3px;
+    box-shadow: none;
+    margin: 0;
+    padding: 5px;
+}
+#communities-discover-section #communities-index .communityTagBox p {
+    width: 72%;
+}
+#communities-discover-section #communities-index .category-name {
+    margin: 5px 10px 12px 10px;
+    font-size: 15px;
 }
 .ads-factor-1x1 {
 
