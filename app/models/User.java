@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.persistence.CascadeType;
@@ -78,6 +79,7 @@ import domain.DefaultValues;
 import domain.PostType;
 import domain.SocialObjectType;
 import domain.Socializable;
+import email.EDMUtility;
 
 @Entity
 public class User extends SocialObject implements Subject, Socializable {
@@ -705,6 +707,7 @@ public class User extends SocialObject implements Subject, Socializable {
     private void ensureAlbumPhotoProfileExist() {
 
         if (this.albumPhotoProfile == null) {
+        	GameAccount.setPointsForPhotoProfile(this);
             this.albumPhotoProfile = createAlbum("profile", "", true);
             this.merge();
         }
@@ -1724,4 +1727,15 @@ public class User extends SocialObject implements Subject, Socializable {
         noLoginUser.id = -1L;
         return noLoginUser;
     }
+
+	public void sendInvitation(String email) {
+		GameAccountReferal referal = new GameAccountReferal();
+		referal.sender_user_id = this.id;
+		String promoCode = UUID.randomUUID().toString();
+		referal.promoCode = promoCode;
+		referal.auditFields.setCreatedDate(new Date());
+		referal.save();
+		EDMUtility edmUtility = new EDMUtility();
+		edmUtility.sendMailToUser(email,promoCode);
+	}
 }

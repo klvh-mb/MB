@@ -85,6 +85,7 @@ public abstract class SocialObject extends domain.Entity implements
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.LIKED;
 		action.validateUniquenessAndCreate();
+		GameAccountStatistics.recordLike(user.id);
 	}
 
     protected final void recordWantAnswer(User user) {
@@ -234,12 +235,14 @@ public abstract class SocialObject extends domain.Entity implements
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.POSTED;
 		action.save();
+		GameAccountStatistics.recordPost(user.id);
 	}
 
 	protected void recordQnA(SocialObject user) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.POSTED_QUESTION;
 		action.save();
+		GameAccountStatistics.recordPost(user.id);
 	}
 
     @Deprecated
@@ -253,12 +256,14 @@ public abstract class SocialObject extends domain.Entity implements
 		PrimarySocialRelation action = new PrimarySocialRelation(user, comment);
 		action.action = PrimarySocialRelation.Action.COMMENTED;
 		action.save();
+		GameAccountStatistics.recordComment(user.id);
 	}
 
 	protected void recordAnswerOnCommunityPost(SocialObject user, Comment answer) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, answer);
 		action.action = PrimarySocialRelation.Action.ANSWERED;
         action.save();
+        GameAccountStatistics.recordComment(user.id);
 	}
 
 	protected void recordAddedPhoto(SocialObject user) {

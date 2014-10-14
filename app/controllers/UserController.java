@@ -42,10 +42,11 @@ import viewmodel.SocialObjectVM;
 import viewmodel.UserVM;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
-
 import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
+
 import domain.DefaultValues;
+import email.EDMUtility;
 
 public class UserController extends Controller {
     private static final play.api.Logger logger = play.api.Logger.apply(UserController.class);
@@ -867,4 +868,11 @@ public class UserController extends Controller {
         response().setHeader("Cache-Control", "max-age=604800");
         return ok(Resource.findById(id).getRealFile());
     }
+    
+    @Transactional
+    public static Result inviteByEmail(String email) {
+		final User localUser = Application.getLocalUser(session());
+		localUser.sendInvitation(email);
+		return ok();
+	}
 }

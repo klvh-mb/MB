@@ -3,6 +3,7 @@ import java.util.concurrent.TimeUnit;
 
 import akka.actor.ActorSystem;
 import common.cache.FriendCache;
+import models.GameAccountTransaction;
 import models.Notification;
 import models.SecurityRole;
 import models.SystemVersion;
@@ -47,6 +48,7 @@ public class Global extends GlobalSettings {
                     	   JPA.withTransaction(new play.libs.F.Callback0() {
 	           					public void invoke() {
                                        Notification.purgeNotification();
+                                       GameAccountTransaction.recordPointsAtEndOfDay();
 	                    		}
                     		});
                         } catch (Exception e) {

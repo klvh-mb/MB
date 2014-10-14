@@ -25,6 +25,13 @@ public class DefaultValues {
     public static int CHILD_YEAR_MIN_AGE = -1;
     public static int CHILD_YEAR_MAX_AGE = 14;
     
+    public static int POINTS_SIGNUP = 20;
+    public static int POINTS_UPLOAD_PROFILE_PHOTO = 10;
+    public static int POINTS_POSTS = 5;
+    public static int POINTS_POST_DELETE = 1;
+    public static int POINTS_COMMENT = 5;
+    public static int POINTS_LIKES = 5;
+    
     static {
         init();
     }

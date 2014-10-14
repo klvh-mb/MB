@@ -175,6 +175,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
             comment.deletedBy = deletedBy;
         }
         this.deleted = true;
+        GameAccount.setPointsForPostDelete(deletedBy);
         this.deletedBy = deletedBy;
         save();
     }

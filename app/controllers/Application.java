@@ -43,6 +43,8 @@ import viewmodel.ApplicationInfoVM;
 import viewmodel.PostIndexVM;
 import viewmodel.TodayWeatherInfoVM;
 import viewmodel.UserTargetProfileVM;
+import be.objectify.deadbolt.java.actions.Group;
+import be.objectify.deadbolt.java.actions.Restrict;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
@@ -178,6 +180,22 @@ public class Application extends Controller {
 
 		return home(localUser);
 	}
+	
+	@Transactional
+	public static Result homeWithPromoCode(String promoCode) {
+		session().put("PROMO_CODE", promoCode);
+	    UserAgentUtil userAgentUtil = new UserAgentUtil(request());
+	    boolean isMobile = userAgentUtil.isMobileUserAgent();
+	    
+	    setMobileUser(isMobile? "true":"false");
+	    
+        final User localUser = getLocalUser(session());
+		if(!User.isLoggedIn(localUser)) {
+		    return login();
+		}
+
+		return home(localUser);
+	}
 
 	/**
 	 * 1. if user login first time
@@ -207,6 +225,7 @@ public class Application extends Controller {
 		
 	    if (user.isNewUser()) {
             logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] Signup completed - "+(isMobileUser()?"mobile":"PC"));
+            GameAccount.setPointsForSignUp(user);
 
 	        CommunityTargetingEngine.assignSystemCommunitiesToUser(user);
 	        
@@ -458,11 +477,14 @@ public class Application extends Controller {
 			            badRequest(views.html.signup.render(filledForm));
 		} else {
 			// Everything was filled
+			Result result = UsernamePasswordAuthProvider.handleSignup(ctx());
 		    String email = filledForm.get().email;
 		    session().put(SIGNUP_EMAIL, email);
-
+		    
+		    GameAccountReferal.setUser(User.findByEmail(email).id,session().get("PROMO_CODE"));
+		    
             logger.underlyingLogger().info("STS [email="+email+"] Native signup submitted");
-			return UsernamePasswordAuthProvider.handleSignup(ctx());
+			return result;
 		}
 	}
 	
