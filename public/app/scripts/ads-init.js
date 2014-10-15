@@ -32,39 +32,28 @@ window.registeredAds[11] = [];
 document.write = function(node) {
     console.log('AD RESPONSE: '+node);
     if(typeof node !== 'undefined') {
+        var elem;
+        if (is300x250(node)) {
+            elem = registeredAds[300250].pop();
+            console.error('poped 300x250');
+        } else if (is728x90(node)) {
+            elem = registeredAds[72890].pop();
+            console.error('poped 728x90');
+        } else if (is1x1(node)) {
+            elem = registeredAds[11].pop();
+            console.error('poped 1x1');
+        } else {
+            console.error('NOT AN AD ?! no pop');
+        }
+        
+        if(typeof elem !== 'undefined') {
+            $(elem).after(node);
+            console.error('added after '+elem);
+        }
+        
+        /*
         var n = $(node)[2].innerHTML.lastIndexOf("swfobject.embedSWF");
         if(n == -1){
-            // 1x1 or static
-            var elem;
-            if (is1x1(node)) {
-                elem = registeredAds[11].pop();
-            } else if (is300x250(node)) {
-                elem = registeredAds[300250].pop();
-            } else if (is728x90(node)) {
-                elem = registeredAds[72890].pop();
-            } else {
-                console.error('NOT AN AD ?!');
-            }
-            
-            if(typeof elem !== 'undefined') {
-                $(elem).after(node);
-            }
-        } else {
-            // flash
-            var elem;
-            if (is300x250(node)) {
-                elem = registeredAds[300250].pop();
-            } else if (is728x90(node)) {
-                elem = registeredAds[72890].pop();
-            } else {
-                console.error('NOT AN AD ?!');
-            }
-            
-            if(typeof elem !== 'undefined') {
-                $(elem).after(node);
-            }
-            
-            /*
             var d = $(node)[2].innerHTML.slice(n,100000000);
             var data = d.split("/");
             var chk = data[5].split("_");
@@ -74,8 +63,8 @@ document.write = function(node) {
                     $(elem).after(node);
                 }
             }
-            */
         }
+        */
     }
 }
 
@@ -84,6 +73,9 @@ var is1x1 = function(node) {
         return true;
     }
     if (node.lastIndexOf("width=\"1\"") != -1 && node.lastIndexOf("height=\"1\"") != -1) {
+        return true;
+    }
+    if (node.lastIndexOf("width=1") != -1 && node.lastIndexOf("height=1") != -1) {
         return true;
     }
     if (node.lastIndexOf("1x1") != -1) {
@@ -99,6 +91,9 @@ var is300x250 = function(node) {
     if (node.lastIndexOf("\"300\"") != -1 && node.lastIndexOf("\"250\"") != -1) {
         return true;
     }
+    if (node.lastIndexOf("width=300") != -1 && node.lastIndexOf("height=250") != -1) {
+        return true;
+    }
     if (node.lastIndexOf("300x250") != -1) {
         return true;
     }
@@ -110,6 +105,9 @@ var is728x90 = function(node) {
         return true;
     }
     if (node.lastIndexOf("\"728\"") != -1 && node.lastIndexOf("\"90\"") != -1) {
+        return true;
+    }
+    if (node.lastIndexOf("width=728") != -1 && node.lastIndexOf("height=90") != -1) {
         return true;
     }
     if (node.lastIndexOf("728x90") != -1) {
