@@ -244,10 +244,23 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 	}
 
 	public Long getMessageCount(User user) {
-		 Query q = JPA.em().createQuery("Select count(c) from Conversation c where c.id = ?2 and ( c.user1.id = ?1 and (c.user1_time < c.conv_time or c.user1_time is null)) or (c.user2.id = ?1 and (user2_time < c.conv_time or c.user2_time is null ))");
-	        q.setParameter(1, user.id);
-	        q.setParameter(2, this.id);
-	        Long ret = (Long) q.getSingleResult();
-	        return ret;
+		Query q = JPA.em().createQuery("Select count(c) from Message c where c.conversation = ?2 and c.date > ?1");
+		q.setParameter(2, this);
+		if(this.user1 == user){
+        	if(this.user2_archive_time == null){
+        		q.setParameter(1, new Date(0));
+        	} else {
+        		q.setParameter(1, this.user2_archive_time);
+        	}
+        } else {
+        	if(this.user1_archive_time == null){
+        		q.setParameter(1, new Date(0));
+        	} else {
+        		q.setParameter(1, this.user1_archive_time);
+        	}
+        }
+        
+        Long ret = (Long) q.getSingleResult();
+        return ret;
 	}
 }
