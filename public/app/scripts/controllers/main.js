@@ -4227,7 +4227,7 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
             function(data){
                 $scope.loadMore = true;
                 $scope.messages = data.message;
-                $scope.unread_msg_count.count = data.counter;
+                $scope.unread_msg_count = data.counter;
                 usSpinnerService.stop('loading...');
                 if($scope.messages.length < DefaultValues.CONVERSATION_MESSAGE_COUNT){
                     $scope.loadMore = false;
@@ -4257,7 +4257,7 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
                 var objDiv = document.getElementById('message-area');
                 var height = objDiv.scrollHeight;
                 var messages = data.message;
-                $scope.unread_msg_count.count = data.counter;
+                $scope.unread_msg_count = data.counter;
                 for (var i = 0; i < messages.length; i++) {
                     $scope.messages.push(messages[i]);
                 }
