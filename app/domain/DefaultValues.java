@@ -18,12 +18,14 @@ public class DefaultValues {
     public static Map<String, String> PARENT_BIRTH_YEARS = new LinkedHashMap<String, String>();
     public static Map<String, String> CHILD_BIRTH_YEARS = new LinkedHashMap<String, String>();
     
-    public static DateTime NOW = new DateTime();
-    
     public static int PARENT_YEAR_MIN_AGE = 16;
     public static int PARENT_YEAR_MAX_AGE = 50;
     public static int CHILD_YEAR_MIN_AGE = -1;
     public static int CHILD_YEAR_MAX_AGE = 14;
+
+    public static int MAX_ARTICLES_COUNT = 200;
+    
+    private static DateTime NOW = new DateTime();
     
     static {
         init();

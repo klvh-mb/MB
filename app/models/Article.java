@@ -55,6 +55,7 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	@Transactional
 	public static List<Article> getAllArticles() {
 		Query q = JPA.em().createQuery("Select a from Article a order where a.deleted = false by publishedDate desc,id desc");
+		q.setMaxResults(DefaultValues.MAX_ARTICLES_COUNT);
 		return (List<Article>)q.getResultList();
 	}
 	
