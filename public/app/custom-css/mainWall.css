@@ -47,12 +47,12 @@
     border-radius: 0px;
     padding: 5px 2px 2px 6px;
     font-weight: normal;
-    font-size: 17px;
+    font-size: 15px;
     height: 32px !important;
     line-height: 1.2;
 }
 .post-input-title:focus {
-    height: 50px !important;
+    /*height: 50px !important;*/
 }
 .post-input-body {
     font-weight: normal;
@@ -60,7 +60,7 @@
     height: 50px !important;
 }
 .post-input-body:focus {
-    height: 80px !important;
+    /*height: 80px !important;*/
 }
 .post-card {
     padding: 0px;

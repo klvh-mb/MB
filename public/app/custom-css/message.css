@@ -3,7 +3,7 @@
     padding: 0;
 }
 #message-content {
-    background-color: #FFFDFD;
+    background-color: #FAFCFF;
     display: inline-block;
     width: 65%;
     border-left: #bcbcbc thin solid;
@@ -14,12 +14,11 @@
 }
 #message-box div.con-title {
     padding: 8px;
-    border-bottom: none;
     color: black;
     font-weight: bold;
-    border-bottom: thin #bcbcbc solid;
-    /*background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,rgba(249, 245, 255, 1) 47%,rgba(236, 218, 255, 1) 100%);*/
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,rgba(255, 237, 237, 1) 47%,rgba(255, 195, 195, 1) 100%);
+    border-radius: 0;
+    border-bottom: 1px solid #9E9E9E;
+    background: linear-gradient(to bottom, rgba(234, 240, 255, 1) 0%,rgba(212, 216, 250, 1) 47%,rgba(185, 195, 240, 1) 100%);
 }
 #message-search {
     padding: 10px;
@@ -55,7 +54,7 @@
     background-color: #e7ebf3;
 }
 .message-list-active {
-    background-color: #F5A0A0;
+    background-color: #9CAAE4;
     color: white;
 }
 .message-list-active p {
@@ -73,16 +72,16 @@
     cursor: pointer;
 }
 #message-list li:hover > div > h5 {
-    color: black;
+    /*color: black;*/
 }
 #message-list li:hover > div > p {
-    color: gray;
+    /*color: gray;*/
 }
 #message-list li:hover > div > .message-del-icon {
     display: block;
 }
 #message-list li:hover > div > a.message-notice {
-    color: #F5A0A0;
+    /*color: #496AAF;*/
 }
 #message-list img+div {
     padding: 0 10px;
@@ -144,7 +143,7 @@
     top: 35px;
     text-align: right;
     width: 80px;
-    color: #F5A0A0;
+    color: #496AAF;
     font-weight: bold;
 }
 .message-notice:after {
@@ -249,8 +248,8 @@
     opacity: 0.8;
 }
 .message-timestamp {
-    color: gray;
-    font-size: 10px;
+    color: #616161;
+    font-size: 11px;
     opacity: 0.8;
     display: block;
     margin-top: 5px;
@@ -307,7 +306,7 @@
 .message-user .message-body, .message-replier .message-body {
     max-width: 350px;
     padding: 7px 15px;
-    background-color: white;
+    background-color: #eeeeee;
     display: inline-block;
     vertical-align: text-top;
     position: relative;
@@ -318,7 +317,7 @@
 .message-user .message-body {
     right: 65px;
     float: right;
-    background-color: #FFEDED;
+    background-color: #B0CFF7;
 }
 .message-replier .message-body {
     margin-left: 13px;
@@ -348,7 +347,7 @@
 .message-user .message-body:after {
     left: 100%;
     border-color: rgba(255, 255, 255, 0);
-    border-left-color: #FFEDED;
+    border-left-color: #B0CFF7;
     border-width: 7px;
     top: 25px;
 }
@@ -364,8 +363,7 @@
 }
 .message-entry {
     border-top: white thin solid;
-    /*background-color: #EBE6FA;*/
-    background-color: #FFEDED;
+    background-color: #DDE9FA;
     width: 100%;
     position: relative;
     height: 150px;
