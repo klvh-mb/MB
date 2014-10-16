@@ -875,4 +875,17 @@ public class UserController extends Controller {
 		localUser.sendInvitation(email);
 		return ok();
 	}
+    
+    @Transactional
+    public static Result getReferalCodeForEmail(String email) {
+		final User localUser = Application.getLocalUser(session());
+		return ok("Referal code for "+email+" :"+localUser.getReferalCode(email));
+	}
+    
+    @Transactional
+    public static Result requestToRedemption(Long id, Long points) {
+		final User localUser = User.findById(id);
+		localUser.requestToRedemption(points);
+		return ok();
+	}
 }

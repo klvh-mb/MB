@@ -89,9 +89,24 @@ public class GameAccountStatistics  extends domain.Entity {
 		
 	}
 	
+	public static void recordDeletePost(long userID) {
+		GameAccountStatistics statistics = GameAccountStatistics.getGameAccountStatistics(userID);
+		statistics.num_new_posts --;
+		statistics.merge();
+		
+	}
+	
 	public static void recordComment(long userID) {
 		GameAccountStatistics statistics = GameAccountStatistics.getGameAccountStatistics(userID);
 		statistics.num_new_comments ++;
+		statistics.merge();
+		GameAccountTransaction.recordPointsAtEndOfDay();
+		
+	}
+	
+	public static void recordDeleteComment(long userID) {
+		GameAccountStatistics statistics = GameAccountStatistics.getGameAccountStatistics(userID);
+		statistics.num_new_comments--;
 		statistics.merge();
 		GameAccountTransaction.recordPointsAtEndOfDay();
 		

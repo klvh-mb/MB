@@ -38,6 +38,7 @@ import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
 import common.utils.StringUtil;
 import models.Community.CommunityType;
+import models.GameRedemption.Redemption_state;
 import models.Notification.NotificationType;
 import models.SocialRelation.Action;
 import models.TargetingSocialObject.TargetingType;
@@ -1320,7 +1321,7 @@ public class User extends SocialObject implements Subject, Socializable {
         PrimarySocialRelation sr= (PrimarySocialRelation) query.getSingleResult();
         
         sr.delete();
-        
+        GameAccountStatistics.recordunLike(this.id);
         return 1;
     }
 
@@ -1728,7 +1729,7 @@ public class User extends SocialObject implements Subject, Socializable {
         return noLoginUser;
     }
 
-	public void sendInvitation(String email) {
+	public String sendInvitation(String email) {
 		GameAccountReferal referal = new GameAccountReferal();
 		referal.sender_user_id = this.id;
 		String promoCode = UUID.randomUUID().toString();
@@ -1737,5 +1738,27 @@ public class User extends SocialObject implements Subject, Socializable {
 		referal.save();
 		EDMUtility edmUtility = new EDMUtility();
 		edmUtility.sendMailToUser(email,promoCode);
+		return promoCode;
+	}
+	
+	public String getReferalCode(String email) {
+		GameAccountReferal referal = new GameAccountReferal();
+		referal.sender_user_id = this.id;
+		String promoCode = UUID.randomUUID().toString();
+		referal.promoCode = promoCode;
+		referal.auditFields.setCreatedDate(new Date());
+		referal.save();
+		return promoCode;
+	}
+
+	public void requestToRedemption(Long points) {
+		GameRedemption redemption = new GameRedemption();
+		redemption.redemption_state = Redemption_state.InProgress;
+		redemption.redemption_points = points;
+		redemption.user_id = this.id;
+		redemption.date = new Date();
+		redemption.save();
+		//EDMUtility edmUtility = new EDMUtility();
+		//edmUtility.requestRedemptionMail(this);
 	}
 }

@@ -1,5 +1,7 @@
 package models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -110,14 +112,6 @@ public class GameAccount  extends domain.Entity {
 		GameAccountTransaction.recordPoints(user.id, account, DefaultValues.POINTS_UPLOAD_PROFILE_PHOTO, Transaction_type.SystemCredit);
 	}
 	
-	public static void setPointsForPostDelete(User user) {
-		GameAccount account = GameAccount.findByUserId(user.id);
-		account.auditFields.setUpdatedDate(new Date());
-		account.total_points = account.total_points - DefaultValues.POINTS_POST_DELETE;
-		account.merge();
-		GameAccountTransaction.recordPoints(user.id, account, DefaultValues.POINTS_POST_DELETE, Transaction_type.SystemCredit);
-	}
-
 	public static void setPointsForPost() {
 		List<Long> users = GameAccountStatistics.getUsersForPostPoints();
 		for(Long user : users){
@@ -151,5 +145,19 @@ public class GameAccount  extends domain.Entity {
 			GameAccountTransaction.recordPoints(user, account, DefaultValues.POINTS_LIKES, Transaction_type.SystemCredit);
 		}
 		
+	}
+
+	public static void purging() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date today = null;
+		try {
+			today = dateFormat.parse(dateFormat.format(new Date().getTime()-30*24*60*60*1000));
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        Query q = JPA.em().createQuery("DELETE FROM GameAccountStatistics where activity_date = ?1");
+        q.setParameter(1, today);
+        q.executeUpdate();
 	}
 }

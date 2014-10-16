@@ -244,4 +244,6 @@ GET		/image/article/:year/:month/:date/:name			controllers.ArticleController.get
 
 
 
-GET		/invite-by-mail/:mail		controllers.UserController.inviteByEmail(mail: String)
+GET		/invite-by-mail/:mail					controllers.UserController.inviteByEmail(mail: String)
+GET		/referalCode-mail/:mail					controllers.UserController.getReferalCodeForEmail(mail: String)
+GET     /request-redemption/:id/:points			controllers.UserController.requestToRedemption(id: Long,points: Long)

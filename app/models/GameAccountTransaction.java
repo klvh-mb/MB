@@ -91,6 +91,7 @@ public class GameAccountTransaction  extends domain.Entity {
 		GameAccount.setPointsForPost();
 		GameAccount.setPointsForComment();
 		GameAccount.setPointsForLike();
+		GameAccount.purging();
 	}
 
 }
