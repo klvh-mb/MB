@@ -25,6 +25,7 @@ if (!window.af) {
     })();
 }
 
+window.defaultRegisteredAd;
 window.registeredAds = {};
 window.registeredAds[300250] = []; // Here you need to define AdsFactor size
 window.registeredAds[72890] = [];
@@ -34,21 +35,28 @@ document.write = function(node) {
     if(typeof node !== 'undefined') {
         var elem;
         if (is300x250(node)) {
-            elem = registeredAds[300250][0];        //elem = registeredAds[300250].pop();
-            console.error('AD: poped 300x250 - '+elem);
+            elem = registeredAds[300250].pop();
+            console.log('AD: poped 300x250 - '+elem);
         } else if (is728x90(node)) {
-            elem = registeredAds[72890][0];         //elem = registeredAds[72890].pop();
-            console.error('AD: poped 728x90 - '+elem);
+            elem = registeredAds[72890].pop();
+            console.log('AD: poped 728x90 - '+elem);
         } else if (is1x1(node)) {
-            elem = registeredAds[11][0];            //elem = registeredAds[11].pop();
-            console.error('AD: poped 1x1 - '+elem);
-        } else {
-            elem = getDefaultRegisteredAd();
+            elem = registeredAds[11].pop();
+            console.log('AD: poped 1x1 - '+elem);
+        }
+        
+        if(typeof elem === 'undefined') {
+            elem = defaultRegisteredAd;
+            console.log('AD: poped default - '+elem);
         }
         
         if(typeof elem !== 'undefined') {
             $(elem).after(node);
-            console.error('AD: added after '+elem);
+            console.log('AD: added after '+elem);
+            if (!isDefer(node)) {
+                defaultRegisteredAd = elem;
+                console.log('AD: set default');
+            }
         }
     }
 }
@@ -72,19 +80,25 @@ document.write = function(node) {
 }
 */
 
+/*
 var getDefaultRegisteredAd = function() {
     var elem;
     if (typeof registeredAds[300250][0] !== 'undefined') {
         elem = registeredAds[300250][0];
-        console.error('AD: poped default 300x250 - '+elem);
+        console.log('AD: poped default 300x250 - '+elem);
     } else if (typeof registeredAds[72890][0] !== 'undefined') {
         elem = registeredAds[72890][0];
-        console.error('AD: poped default 728x90 - '+elem);
+        console.log('AD: poped default 728x90 - '+elem);
     } else if (typeof registeredAds[11][0] !== 'undefined') {
         elem = registeredAds[11][0];
-        console.error('AD: poped default 1x1 - '+elem);
+        console.log('AD: poped default 1x1 - '+elem);
     }
     return elem;
+}
+*/
+
+var isDefer = function(node) {
+    return node.lastIndexOf("defer") != -1;
 }
 
 var is1x1 = function(node) {
