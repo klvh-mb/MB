@@ -34,24 +34,28 @@ document.write = function(node) {
     if(typeof node !== 'undefined') {
         var elem;
         if (is300x250(node)) {
-            elem = registeredAds[300250].pop();
-            console.error('poped 300x250');
+            elem = registeredAds[300250][0];        //elem = registeredAds[300250].pop();
+            console.error('AD: poped 300x250 - '+elem);
         } else if (is728x90(node)) {
-            elem = registeredAds[72890].pop();
-            console.error('poped 728x90');
+            elem = registeredAds[72890][0];         //elem = registeredAds[72890].pop();
+            console.error('AD: poped 728x90 - '+elem);
         } else if (is1x1(node)) {
-            elem = registeredAds[11].pop();
-            console.error('poped 1x1');
+            elem = registeredAds[11][0];            //elem = registeredAds[11].pop();
+            console.error('AD: poped 1x1 - '+elem);
         } else {
-            console.error('NOT AN AD ?! no pop');
+            elem = getDefaultRegisteredAd();
         }
         
         if(typeof elem !== 'undefined') {
             $(elem).after(node);
-            console.error('added after '+elem);
+            console.error('AD: added after '+elem);
         }
-        
-        /*
+    }
+}
+
+/*
+document.write = function(node) {
+    if(typeof node !== 'undefined') {
         var n = $(node)[2].innerHTML.lastIndexOf("swfobject.embedSWF");
         if(n == -1){
             var d = $(node)[2].innerHTML.slice(n,100000000);
@@ -64,8 +68,23 @@ document.write = function(node) {
                 }
             }
         }
-        */
     }
+}
+*/
+
+var getDefaultRegisteredAd = function() {
+    var elem;
+    if (typeof registeredAds[300250][0] !== 'undefined') {
+        elem = registeredAds[300250][0];
+        console.error('AD: poped default 300x250 - '+elem);
+    } else if (typeof registeredAds[72890][0] !== 'undefined') {
+        elem = registeredAds[72890][0];
+        console.error('AD: poped default 728x90 - '+elem);
+    } else if (typeof registeredAds[11][0] !== 'undefined') {
+        elem = registeredAds[11][0];
+        console.error('AD: poped default 1x1 - '+elem);
+    }
+    return elem;
 }
 
 var is1x1 = function(node) {
