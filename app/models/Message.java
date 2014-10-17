@@ -17,7 +17,7 @@ import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 
 @Entity
-public class Message  extends SocialObject implements Comparable<Message> {
+public class Message extends SocialObject implements Comparable<Message> {
 	/*
 	@Id
 	public Long id;*/
