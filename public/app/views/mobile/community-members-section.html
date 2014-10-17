@@ -28,7 +28,7 @@
 </a-->
 <div class="padding10"></div>
 
-<pagination style="width:100%;margin: 0px 0px 10px 20px;" direction-links="false" ng-show="result.members.length > itemsPerPage && showMembers" total-items="result.members.length" page="currentPage" on-select-page="setMemberPage(page)" items-per-page="itemsPerPage"></pagination>
+<pagination style="margin: 0px 0px 10px 20px;" direction-links="false" ng-show="result.members.length > itemsPerPage && showMembers" total-items="result.members.length" page="currentPage" on-select-page="setMemberPage(page)" items-per-page="itemsPerPage"></pagination>
 <div class="memberCard" ng-repeat="member in pagedMembers | filter:query " ng-show="showMembers">
  	<a href="m-my#/profile/{{member.id}}" class="d-s ob">
     	<div class="memberImageBox">
@@ -43,7 +43,7 @@
         </div>
     </div>
 </div>
-<pagination style="width:100%;margin: 0px 0px 10px 20px;" direction-links="false" ng-show="result.members.length > itemsPerPage && showMembers" total-items="result.members.length" page="currentPage" on-select-page="setMemberPage(page)" items-per-page="itemsPerPage"></pagination>
+<pagination style="margin: 0px 0px 10px 20px;" direction-links="false" ng-show="result.members.length > itemsPerPage && showMembers" total-items="result.members.length" page="currentPage" on-select-page="setMemberPage(page)" items-per-page="itemsPerPage"></pagination>
 
 <div class="memberCard" ng-repeat="member in result.members | filter:query " ng-show="showAdmin && member.isAdmin">
  	<a href="m-my#/profile/{{member.id}}" class="d-s ob">

@@ -14,8 +14,11 @@ minibean.directive('adsFactor', function($window, $compile) {
                 } else {
                     afid = 0;
                 }
-                // first clear ads
+                // first clear ads and reset
                 $("div[id^=af_]").remove();
+                if (typeof defaultRegisteredAd !== 'undefined') {
+                    defaultRegisteredAd = undefined;
+                }
                 registeredAds[iAttrs.adsize].push(element);
                 $(createAdsFactorScript(afid,iAttrs.adsid,iAttrs.adsize)).insertAfter($(element));
             }

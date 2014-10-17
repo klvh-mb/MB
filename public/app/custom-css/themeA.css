@@ -2729,6 +2729,19 @@ span.notif-count {
     background-color: #fcf8e3;
     border-color: #faebcc;
 }
+.info-section {
+    width: 100%;
+    height: auto;
+    padding: 7px 15px;
+    background-color: #ffffff;
+    color: #404040;
+    border-radius: 10px;
+    border: 2px solid #bbbbbb;
+    margin-bottom: 10px;
+    overflow: hidden;
+    font-size: 15px;
+    font-weight: bold;
+}
 #message-board.alert-info {
     background: #FFF7F7;
     border-color: #FCC9CB;

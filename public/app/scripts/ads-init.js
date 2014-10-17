@@ -46,13 +46,15 @@ document.write = function(node) {
         }
         
         if(typeof elem === 'undefined') {
-            elem = defaultRegisteredAd;
+            elem = getDefaultRegisteredAd();
             console.log('AD: poped default - '+elem);
         }
         
         if(typeof elem !== 'undefined') {
             $(elem).after(node);
             console.log('AD: added after '+elem);
+            
+            // as long as not defer async request, set latest elem as default
             if (!isDefer(node)) {
                 defaultRegisteredAd = elem;
                 console.log('AD: set default');
@@ -80,22 +82,25 @@ document.write = function(node) {
 }
 */
 
-/*
 var getDefaultRegisteredAd = function() {
     var elem;
-    if (typeof registeredAds[300250][0] !== 'undefined') {
-        elem = registeredAds[300250][0];
+    if (typeof defaultRegisteredAd !== 'undefined') {
+        elem = defaultRegisteredAd;
+    } else if (registeredAds[300250].length > 0) {
+        var lastIndex = registeredAds[300250].length-1;
+        elem = registeredAds[300250][lastIndex];
         console.log('AD: poped default 300x250 - '+elem);
-    } else if (typeof registeredAds[72890][0] !== 'undefined') {
-        elem = registeredAds[72890][0];
+    } else if (registeredAds[72890].length > 0) {
+        var lastIndex = registeredAds[72890].length-1;
+        elem = registeredAds[72890][lastIndex];
         console.log('AD: poped default 728x90 - '+elem);
-    } else if (typeof registeredAds[11][0] !== 'undefined') {
-        elem = registeredAds[11][0];
+    } else if (registeredAds[11].length > 0) {
+        var lastIndex = registeredAds[11].length-1;
+        elem = registeredAds[11][lastIndex];
         console.log('AD: poped default 1x1 - '+elem);
     }
     return elem;
 }
-*/
 
 var isDefer = function(node) {
     return node.lastIndexOf("defer") != -1;
