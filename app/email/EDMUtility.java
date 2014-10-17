@@ -3,6 +3,7 @@ package email;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import models.User;
 import play.Configuration;
 import play.Logger;
 import akka.actor.Cancellable;
@@ -36,6 +37,26 @@ public class EDMUtility {
 		Body body =  new Body(text, html);
 		
 		sendMail("miniBean Invitation", body, email);
+	}
+	
+	public void requestRedemptionMail(User user) {
+
+		//final boolean isSecure = getConfiguration().getBoolean(SETTING_KEY_VERIFICATION_LINK_SECURE);
+	    //final String url = routes.Signup.verify(token).absoluteURL(ctx.request(), isSecure);
+        
+		System.out.println("User ::: "+SETTING_KEY_MAIL);
+		
+		final String text = getEmailTemplate(
+				"views.html.account.email.redemption_mail",
+				user.name);
+		
+		final String html = getEmailTemplate(
+				"views.html.account.email.redemption_mail",
+				user.name);
+
+		Body body =  new Body(text, html);
+		
+		sendMail("request For redemption", body, "minibean.dev@gmail.com");
 	}
 
 	protected Cancellable sendMail(final String subject, final Body body,
@@ -82,6 +103,42 @@ public class EDMUtility {
 				String url = controllers.Application.APPLICATION_BASE_URL +"/my/promoCode/"+ promoCode;
 				htmlRender = cls.getMethod("render", String.class, String.class);
 				ret = htmlRender.invoke(null,  email ,url)
+						.toString();
+
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+		return ret;
+	}
+	
+	protected String getEmailTemplate(final String template, final String name) {
+		Class<?> cls = null;
+		String ret = null;
+		try {
+			cls = Class.forName(template);
+		} catch (ClassNotFoundException e) {
+			Logger.warn("Template: '"
+					+ template
+					+ "' was not found! Trying to use English fallback template instead.");
+		}
+		if (cls == null) {
+			try {
+				cls = Class.forName(template);
+			} catch (ClassNotFoundException e) {
+				Logger.error("Fallback template: '" + template 
+						+ "' was not found either!");
+			}
+		}
+		if (cls != null) {
+			Method htmlRender = null;
+			try {
+				htmlRender = cls.getMethod("render",String.class);
+				ret = htmlRender.invoke(null, name)
 						.toString();
 
 			} catch (NoSuchMethodException e) {

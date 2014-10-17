@@ -1758,7 +1758,7 @@ public class User extends SocialObject implements Subject, Socializable {
 		redemption.user_id = this.id;
 		redemption.date = new Date();
 		redemption.save();
-		//EDMUtility edmUtility = new EDMUtility();
-		//edmUtility.requestRedemptionMail(this);
+		EDMUtility edmUtility = new EDMUtility();
+		edmUtility.requestRedemptionMail(this);
 	}
 }
