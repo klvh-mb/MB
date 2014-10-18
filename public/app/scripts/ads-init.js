@@ -183,7 +183,7 @@ var MB_BCOMM_LANDING_300x250    = 382773116687;
 var MB_BCOMM_LANDING_728x90     = 619687626807;
 var MB_OTHER_1x1                = 887185786688;     // profile
 var MB_OTHER_300x250            = 263403256689;     // profile
-var MB_OTHER_728x90             = 477069296823;     // message
+var MB_OTHER_728x90             = 477069296823;     // profile, message
 
 var MB_COMM_P1_1x1              = 940313186737;
 var MB_COMM_P1_300x250          = 995251896691;

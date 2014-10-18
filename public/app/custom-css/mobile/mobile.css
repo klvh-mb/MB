@@ -95,7 +95,7 @@ body {
 .wall-title a {
     color: white;
     font-weight: normal;
-    margin-right: 0px;
+    margin: 0 5px;
     position: relative;
     line-height: 28px;
     display: inline-block;
@@ -589,4 +589,17 @@ span.notif-count {
 /*  */
 #communities-index ul {
     width: 50%;
+}
+
+.ads-factor-1x1 {
+}
+.ads-factor-300x250 {
+    margin: 0px auto 10px auto;
+    vertical-align: middle;
+    text-align: center;
+}
+.ads-factor-728x90 {
+    margin: 0px -10px 10px -10px;
+    vertical-align: middle;
+    text-align: center;
 }

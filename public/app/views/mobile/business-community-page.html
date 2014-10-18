@@ -49,6 +49,12 @@
 			<!--Community Header End -->
 			<div id="wall">
 				<div class="tab-content" ng-show="selectedTab == 1">
+				    <div class="ads-factor-728x90">
+                        <script adSize="72890" adSid="565242836806" ads-factor language='JavaScript' type="text/javascript"></script>
+                    </div>
+    				<div class="info-section" ng-if="userInfo.isLoggedIn && community.isO">
+                        您是管理員
+                    </div>
 					<div class="tab-content" ng-if="selectedSubTab == 1" id="post" ng-controller="CommunityPostController">
                         <div data-ng-include data-src="'/assets/app/views/mobile/business-community-post-bar.html'"></div>
                     </div>
