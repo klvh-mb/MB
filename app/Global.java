@@ -48,7 +48,10 @@ public class Global extends GlobalSettings {
                     	   JPA.withTransaction(new play.libs.F.Callback0() {
 	           					public void invoke() {
                                        Notification.purgeNotification();
-                                       GameAccountTransaction.recordPointsAtEndOfDay();
+                                       if(Play.application().configuration().getString("gamification.active").equalsIgnoreCase("true")){
+                                    	   GameAccountTransaction.recordPointsAtEndOfDay();
+                                    	   System.out.println("Is Active @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  "+Play.application().configuration().getString("gamification.active"));
+                                       }
 	                    		}
                     		});
                         } catch (Exception e) {

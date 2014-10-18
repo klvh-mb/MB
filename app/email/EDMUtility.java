@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import models.User;
 import play.Configuration;
 import play.Logger;
+import play.Play;
 import akka.actor.Cancellable;
 
 import com.feth.play.module.mail.Mailer;
@@ -44,8 +45,6 @@ public class EDMUtility {
 		//final boolean isSecure = getConfiguration().getBoolean(SETTING_KEY_VERIFICATION_LINK_SECURE);
 	    //final String url = routes.Signup.verify(token).absoluteURL(ctx.request(), isSecure);
         
-		System.out.println("User ::: "+SETTING_KEY_MAIL);
-		
 		final String text = getEmailTemplate(
 				"views.html.account.email.redemption_mail",
 				user.name);
@@ -56,7 +55,7 @@ public class EDMUtility {
 
 		Body body =  new Body(text, html);
 		
-		sendMail("request For redemption", body, "minibean.dev@gmail.com");
+		sendMail("request For redemption", body, Play.application().configuration().getString("smtp.user"));
 	}
 
 	protected Cancellable sendMail(final String subject, final Body body,
