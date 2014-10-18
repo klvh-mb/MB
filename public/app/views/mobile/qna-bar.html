@@ -48,6 +48,8 @@
                     <img data-ng-src="/image/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
                 </a>
             </div>
+            <span data-ng-include data-src="'/assets/app/views/like-post.html'"></span>            
+            <span style="padding: 0 5px;">|</span>
             <span data-ng-include data-src="'/assets/app/views/want-answer.html'"></span>
          </li>
     </ul>

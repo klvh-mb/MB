@@ -319,16 +319,17 @@
 }
 .btn-like-wrapper {
     position: relative;
+    font-size: 12px;
 }
 .btn-like-wrapper span, .btn-like-wrapper div {
     color: #77737E;
     font-weight: normal;
 }
 .btn-like-wrapper span img {
-    width: 22px;
-    height: 16px;
+    width: 14px;
+    height: auto;
     vertical-align: text-bottom;
-    padding: 0 3px 0 3px;
+    margin: 0 3px 0 0;
     display: inline-block;
 }
 a.btn-like, a.btn-like:hover {
