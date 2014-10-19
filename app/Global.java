@@ -142,8 +142,8 @@ public class Global extends GlobalSettings {
             }
         );
 
-        // schedule to index tag words daily at 3:30am HKT
-        JobScheduler.getInstance().schedule("purgeNotification", "0 30 3 ? * *",
+        // schedule to index tag words daily at 3:15am HKT
+        JobScheduler.getInstance().schedule("indexTagWords", "0 15 3 ? * *",
             new Runnable() {
                 public void run() {
                     try {
@@ -153,7 +153,7 @@ public class Global extends GlobalSettings {
                             }
                         });
                     } catch (Exception e) {
-                        logger.underlyingLogger().error("Error in purgeNotification", e);
+                        logger.underlyingLogger().error("Error in indexTagWords", e);
                     }
                 }
             }
