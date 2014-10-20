@@ -149,6 +149,26 @@ body {
     -o-transition: none;
     transition: none;
 }
+.sidebar-nav li.sliding-main-nav {
+    text-indent:0;
+    background-color: #C8ADEC;
+    border-top: 2px solid #C8ADEC;
+    border-bottom: 2px solid #C8ADEC;
+}
+.sidebar-nav li.sliding-menu-main-item {
+    display: inline-block;
+    width: 49%;
+    padding-left: 10px;
+    background: linear-gradient(to bottom, rgba(200,173,236,1) 24%,rgba(139,95,209,1) 100%);
+    /*border-left: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    border-radius: 10px 0 0 10px;*/
+}
+.sidebar-nav li.sliding-menu-main-item img {
+    position: relative;
+    width: 65px;
+    height: auto;
+}
 .sidebar-nav li {
     display: block;
     margin: 0;

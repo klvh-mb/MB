@@ -22,8 +22,14 @@
                                     <img class="scCatMiniThumbnail" data-ng-src="{{article.ct.pictureName}}" />
                                 </a>
                                 <div style="margin-left:10px;width:60%;">
-                                    <!--a class="scCatTitle" href="#/article/show/0">所有文章</a> <span style="font-size:12px;">&gt;</span--> 
-                                    <a class="scCatTitle" href="#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
+                                    <a href="#/article/show/0" ng-show="selectedNavBar == 'HOT_ARTICLES'">
+                                        <img style="width:auto;height:26px;" data-ng-src="/assets/app/images/general/titles/hot_articles.png">
+                                    </a>
+                                    <a href="#/article/show/{{soonMomsArticleCategories[0].id}}" ng-show="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'">
+                                        <img style="width:auto;height:26px;" data-ng-src="/assets/app/images/general/titles/preg_month.png">
+                                    </a> 
+                                    <span style="font-size:12px;">&gt;</span> 
+                                    <a class="scCatName" href="#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
                                     <h6>
                                         <font ng-show="userInfo.isE">{{article.pd | date:'M/dd/yyyy'}}</font>
                                     </h6>

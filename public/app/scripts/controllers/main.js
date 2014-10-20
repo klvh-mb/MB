@@ -2880,6 +2880,9 @@ minibean.controller('ShowArticlesController',function($scope, $modal, $routePara
 
     $scope.get_header_metaData();
 
+    console.log($routeParams.catId);
+    $scope.selectNavBar($scope.getArticleCategoryGroup($routeParams.catId));
+
     var catId = $routeParams.catId;
     if (catId == undefined) {
        catId == 0;
