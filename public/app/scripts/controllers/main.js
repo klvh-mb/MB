@@ -2871,7 +2871,7 @@ minibean.controller('ArticlePageController',function($scope, $modal, $routeParam
                 $scope.article.isBookmarked = false;
             });
     }
-    
+     
     log("ArticlePageController completed");
 });
 
@@ -2880,19 +2880,18 @@ minibean.controller('ShowArticlesController',function($scope, $modal, $routePara
 
     $scope.get_header_metaData();
 
-    console.log($routeParams.catId);
-    $scope.selectNavBar($scope.getArticleCategoryGroup($routeParams.catId));
-
     var catId = $routeParams.catId;
     if (catId == undefined) {
        catId == 0;
     }
-    $scope.selectNavBar($scope.getArticleCategoryGroup($routeParams.catId));
+    console.log(catId);
+    console.log($scope.getArticleCategoryGroup(catId));
+    $scope.selectNavBar($scope.getArticleCategoryGroup(catId));
     $scope.selectNavSubBar(catId);
 
-	$scope.hotArticles = articleService.HotArticles.get({category_id:$routeParams.catId});
-	$scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:$routeParams.catId});
-	$scope.newArticles = articleService.NewArticles.get({category_id:$routeParams.catId});
+	$scope.hotArticles = articleService.HotArticles.get({category_id:catId});
+	$scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:catId});
+	$scope.newArticles = articleService.NewArticles.get({category_id:catId});
 
 	var offset = 0;
 	var noMore = false;
