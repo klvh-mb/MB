@@ -599,7 +599,9 @@ span.notif-count {
     text-align: center;
 }
 .ads-factor-728x90 {
-    margin: 0px -10px 10px -10px;
+    /*margin: 0px -10px 10px -10px;*/
     vertical-align: middle;
     text-align: center;
+    width: 100%;
+    overflow: hidden;
 }

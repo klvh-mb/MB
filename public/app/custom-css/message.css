@@ -376,7 +376,6 @@
 }
 .message-entry form textarea {
     border: #bcbcbc thin solid;
-    border-left: none;
     resize: none;
     position: relative;
     top: 15px;
@@ -395,8 +394,8 @@
     background-color: white;
 }
 .message-entry form div img {
-    width: 80px;
-    height: auto;
+    max-width: 80px;
+    max-height: 80px;
     margin: 0px;
     border-radius: 0px;
 }

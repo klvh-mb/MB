@@ -6,35 +6,7 @@
     <div data-ng-include data-src="'/assets/app/views/nav-bar.html'"></div>
     <div class="row">
         <div class="col-md-2 col-sm-2 col-xs-2" style="width:230px;">
-            <div id="all-post-thumbnail" class="general-box" ng-show="oneCategory">
-                <ul>
-                    <li><div><font class="scCatName">{{categoryName}}</font></div></li>
-                    <li>
-                        <img data-ng-src="{{categoryImage}}">
-                    </li>
-                </ul>
-            </div>
-			<div id="all-post-thumbnail" class="general-box" ng-show="allCategory">
-				<ul>
-				    <li><div><font class="scCatName">所有文章</font></div></li>
-                    <li data-ng-repeat="category in hotArticleCategories" ng-show="$index < 4" style="width:50%;">
-                        <img data-ng-src="{{category.pn}}" style="width:100%; height:82px">
-                    </li>
-                </ul>
-			</div>
-            <!--All Post Thumbnail End -->
-            <!--div id="postCategory" class="general-box">
-                <div class="con-title">
-                    <span class="icon-box icon-box-blueDark icon-title-postCat"></span><font><font>Category</font></font>
-                </div>
-                <div class="content-wrapper">
-                    <ul>
-                        <li><a href="#/article/show/0" style="cursor: pointer;"><font><font style="font-size:15px;vertical-align:middle;">所有文章</font></font></a></li>
-                        <li data-ng-repeat="category in hotArticleCategories"><a data-ng-href="#/article/show/{{category.id}}" style="cursor: pointer;" id="categoryselect"><font><font style="font-size:15px;vertical-align:middle;">{{category.name}}</font></font></a></li>
-                    </ul>
-                </div>
-            </div-->
-            <!--Post Category End -->
+            <div data-ng-include data-src="'/assets/app/views/widgets/article-categories-index-widget.html'"></div>
             <div ng-show="!userInfo.isLoggedIn">
                 <div data-ng-include data-src="'/assets/app/views/magazine/promo-signup-widget.html'"></div>
             </div>

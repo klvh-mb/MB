@@ -8,7 +8,7 @@
             <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'HOT_ARTICLES'}" ng-click="selectNavBar('HOT_ARTICLES')">
                 <a href="magazine#/article/show/0"><img src="/assets/app/images/frontpage/icon_mainMenu_article.png"/></a>
             </li>
-            <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'}" ng-click="selectNavBar('SOON_TO_BE_MOMS_ARTICLES')" ng-show="userInfo.isE">
+            <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'}" ng-click="selectNavBar('SOON_TO_BE_MOMS_ARTICLES')">
                 <a href="magazine#/article/show/{{soonMomsArticleCategories[0].id}}"><img src="/assets/app/images/frontpage/icon_mainMenu_libuary.png"/></a>
             </li>
             <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'MAGAZINE'}" ng-click="selectNavBar('MAGAZINE')">
@@ -25,23 +25,6 @@
     </div>
 </div>
 
-<!--div id="nav-bar">
-    <div class="nav-menu">
-        <a class="nav-item" href="magazine#" ng-class="{selected: selectedNavBar == 'MAGAZINE'}" ng-click="selectNavBar('MAGAZINE')">
-            小萌豆 Magazine
-        </a>
-        <a class="nav-item" href="magazine#/article/show/0" ng-class="{selected: selectedNavBar == 'HOT_ARTICLES'}" ng-click="selectNavBar('HOT_ARTICLES')">
-            精選文章
-        </a>
-        <a class="nav-item" href="magazine#/article/show/{{soonMomsArticleCategories[0].id}}" ng-class="{selected: selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'}" ng-click="selectNavBar('SOON_TO_BE_MOMS_ARTICLES')" ng-show="userInfo.isE">
-            孕媽媽每月新知
-        </a>
-        <a class="nav-item" href="my#" ng-class="{selected: selectedNavBar == 'HOME'}" ng-click="selectNavBar('HOME')">
-            小萌豆社群
-        </a>
-    </div>
-</div-->
-
 <div id="nav-subbar" ng-show="selectedNavBar == 'MAGAZINE'">
     <div class="nav-menu">
         <span ng-class="{'selected-green': selectedNavSubBar == 0}">
@@ -56,7 +39,7 @@
         </span>
     </div>
 </div>
-<div id="nav-subbar" ng-show="selectedNavBar == 'HOT_ARTICLES'">
+<!--div id="nav-subbar" ng-show="selectedNavBar == 'HOT_ARTICLES'">
     <div class="nav-menu">
         <span ng-class="{'selected-yellow': selectedNavSubBar == 0}">
             <a class="nav-item nav-item-yellow" style="cursor:pointer;" ng-href="magazine#/article/show/0">
@@ -70,7 +53,7 @@
         </span>
     </div>
 </div>
-<div id="nav-subbar" ng-show="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES' && userInfo.isE">
+<div id="nav-subbar" ng-show="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'">
     <div class="nav-menu">
         <span style="font-weight:bold;margin-right:10px;">懷孕月份:</span> 
         <span ng-class="{'selected-yellow': selectedNavSubBar == category.id}" ng-repeat="category in soonMomsArticleCategories">
@@ -79,4 +62,4 @@
             </a>
         </span>
     </div>
-</div>
+</div-->

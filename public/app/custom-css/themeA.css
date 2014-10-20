@@ -1872,15 +1872,6 @@ a:focus {
     white-space: nowrap;
     width: 100%;
 }
-#all-post-thumbnail span {
-    width: 65px;
-    height: 65px;
-    background-color: black;
-    opacity: 0.5;
-    display: block;
-    position: absolute;
-    display: none;
-}
 #all-post-thumbnail a:hover > span{
     display: inline-block;
 }
@@ -2366,6 +2357,8 @@ a:focus {
 .scCatTitle {
     font-size: 15px;
     font-weight: bold;
+    border-bottom: 1px solid #CACACA;
+    padding: 5px 10px;
 }
 .scCatMiniThumbnail {
     width: 80px;
