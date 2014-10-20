@@ -1,9 +1,8 @@
 package domain;
 
-public enum  SocialObjectType {
+public enum SocialObjectType {
      USER,
      COMMUNITY,
-     COMMUNITY_QnA,
      POST,
      FORUM,
      FORUM_POST,
@@ -13,7 +12,6 @@ public enum  SocialObjectType {
      COMMENT_PHOTO,
      PRIVATE_PHOTO,
      ALBUMN,
-     VEDIO,
      CONTEST,
      MESSAGE, 
      FOLDER, 
@@ -21,7 +19,6 @@ public enum  SocialObjectType {
      QUESTION,
      ARTICLE,
      COMMENT,
-     ANSWER;
-     
-     
+     ANSWER,
+     TAGWORD
 }

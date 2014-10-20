@@ -5,9 +5,12 @@ import javax.persistence.Query;
 
 import models.*;
 import models.Announcement.AnnouncementType;
+import models.Article;
+import models.ArticleCategory;
 import models.Community.CommunityType;
 import models.Icon.IconType;
 import models.Location.LocationCode;
+import models.TagWord;
 import models.TargetingSocialObject.TargetingType;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -34,6 +37,7 @@ public class DataBootstrap {
         bootstrapLocation();
         bootstrapCommunity();
         bootstrapPNCommunity();
+        bootstrapTagWords();
 
         // clear cache
         clearCache();
@@ -741,6 +745,22 @@ public class DataBootstrap {
             String desc = region.displayName + "PreNursery討論區 2015-2016";
             createPNCommunity(name, desc, region);
         }
+    }
+
+    private static void bootstrapTagWords() {
+        // TODO: to refine the number or tag words!
+        Query q = JPA.em().createQuery("Select count(t) from TagWord t");
+        Long count = (Long)q.getSingleResult();
+        if (count > 0) {
+            return;
+        }
+
+        TagWord tagWord = new TagWord();
+        tagWord.tagCategory = TagWord.TagCategory.ARTICLE;
+        tagWord.tagCategoryId = ArticleCategory.ArticleCategoryGroup.SOON_TO_BE_MOMS_ARTICLES.name();
+        tagWord.displayWord = "爸爸";
+        tagWord.matchingWords = "爸爸,父親,老公";
+        tagWord.save();
     }
 
     private static Community createFeedbackCommunity(String name, String desc) {
