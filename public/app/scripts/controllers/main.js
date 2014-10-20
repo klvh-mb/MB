@@ -230,6 +230,7 @@ minibean.controller('ApplicationController',
                     $scope.soonMomsArticleCategories.push(category);
                 }
             });
+            $scope.selectNavBar($scope.getArticleCategoryGroup($scope.selectedNavSubBar));
         }
 	);
 	$scope.getArticleCategoryGroup = function(catId) {
@@ -288,7 +289,6 @@ minibean.controller('ApplicationController',
 		);
 	};
 	$scope.accept_join_request = function(member_id,group_id, notify_id) {
-		console.log(notify_id);
 		var spinner = new Spinner().spin();
 		
 		$(".a_" + notify_id).append(spinner.el);
@@ -2824,6 +2824,7 @@ minibean.controller('ArticlePageController',function($scope, $modal, $routeParam
     $scope.get_header_metaData();
     
     $scope.selectNavBar($scope.getArticleCategoryGroup($routeParams.catId));
+    $scope.selectNavSubBar($routeParams.catId);
     
     $scope.hotArticles = articleService.HotArticles.get({category_id:$routeParams.catId});
     $scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:$routeParams.catId});
@@ -2884,8 +2885,6 @@ minibean.controller('ShowArticlesController',function($scope, $modal, $routePara
     if (catId == undefined) {
        catId == 0;
     }
-    console.log(catId);
-    console.log($scope.getArticleCategoryGroup(catId));
     $scope.selectNavBar($scope.getArticleCategoryGroup(catId));
     $scope.selectNavSubBar(catId);
 
