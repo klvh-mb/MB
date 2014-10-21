@@ -183,7 +183,7 @@ var MB_BCOMM_LANDING_300x250    = 382773116687;
 var MB_BCOMM_LANDING_728x90     = 619687626807;
 var MB_OTHER_1x1                = 887185786688;     // profile
 var MB_OTHER_300x250            = 263403256689;     // profile
-var MB_OTHER_728x90             = 477069296823;     // profile, message
+var MB_OTHER_728x90             = 477069296823;     // message, mobile
 
 var MB_COMM_P1_1x1              = 940313186737;
 var MB_COMM_P1_300x250          = 995251896691;
@@ -193,7 +193,7 @@ var MB_COMM_LANDING_P1_300x250  = 772388026700;     // comm discovery
 var MB_COMM_LANDING_P1_728x90   = 415742666810;
 var MB_COMM_P2_1x1              = 376893136692;
 var MB_COMM_P2_300x250          = 894219356670;
-var MB_COMM_P2_728x90           = 136559036816;
+var MB_COMM_P2_728x90           = 136559036816;     
 var MB_COMM_LANDING_P2_1x1      = 633668986701;
 var MB_COMM_LANDING_P2_300x250  = 602161336702;
 var MB_COMM_LANDING_P2_728x90   = 435015746811;
