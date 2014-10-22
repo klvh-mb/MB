@@ -1,7 +1,9 @@
 <div id="weather" class="general-box">
     <div class="weather-wrapper">
         <img ng-src="{{todayWeatherInfo.icon}}">
-        <span>{{todayWeatherInfo.today}}   {{todayWeatherInfo.dow}}</span>
-        <p>{{todayWeatherInfo.temp}}&deg;C</p>
+        <span>
+            <font style="font-size:16px;margin-right:10px;">{{todayWeatherInfo.temp}}&deg;C</font> 
+            {{todayWeatherInfo.today}}   {{todayWeatherInfo.dow}}
+        </span>
     </div>
 </div>

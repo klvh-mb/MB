@@ -1334,23 +1334,21 @@ a:focus {
 }
 .weather-wrapper img {
     position: relative;
-    top: -18px;
+    top: -15px;
     left: 10px;
     float: left;
-    width: 80px;
-    height: 65px;
+    width: auto;
+    height: 50px;
 }
 .weather-wrapper p, .weather-wrapper span {
     display: block;
     position: relative;
-    left: -10px;
+    top: 7px;
+    left: -25px;
     text-align: center;
 }
-.weather-wrapper p {
-    font-size: 20px;
-}
 .weather-wrapper span {
-    font-size: 16px;
+    font-size: 14px;
 }
 .weather-wrapper a {
     color: black;
