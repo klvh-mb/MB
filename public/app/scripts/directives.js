@@ -14,15 +14,18 @@ minibean.directive('adsFactor', function($window, $compile) {
                 } else {
                     afid = 0;
                 }
-                // first clear ads and reset
-                $("div[id^=af_]").remove();
-                if (typeof defaultRegisteredAd !== 'undefined') {
-                    defaultRegisteredAd = undefined;
-                }
+                resetAds(iAttrs.adsize);     // first clear ads and reset
                 registeredAds[iAttrs.adsize].push(element);
                 $(createAdsFactorScript(afid,iAttrs.adsid,iAttrs.adsize)).insertAfter($(element));
             }
     };
+    function resetAds(adsize) {
+        $("div[id^=af_]").remove();         // remove all floating ads
+        registeredAds[adsize] = [];  // LIMITIONS: only 1 ad per ad size per page
+        if (typeof defaultRegisteredAd !== 'undefined') {
+            defaultRegisteredAd = undefined;
+        }
+    }
     function createAdsFactorScript(afid,sid,adsize) {
         var randomstr = new String (Math.random());
         randomstr = randomstr.substring(2,8);

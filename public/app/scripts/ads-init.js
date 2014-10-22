@@ -35,13 +35,13 @@ document.write = function(node) {
     if(typeof node !== 'undefined') {
         var elem;
         if (is300x250(node)) {
-            elem = registeredAds[300250].pop();
+            elem = registeredAds[300250][0]         // .pop();
             console.log('AD: poped 300x250 - '+elem);
         } else if (is728x90(node)) {
-            elem = registeredAds[72890].pop();
+            elem = registeredAds[72890][0]          // .pop();
             console.log('AD: poped 728x90 - '+elem);
         } else if (is1x1(node)) {
-            elem = registeredAds[11].pop();
+            elem = registeredAds[11][0]             // .pop();
             console.log('AD: poped 1x1 - '+elem);
         }
         
