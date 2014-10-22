@@ -11,8 +11,7 @@ minibean.controller('MagazineNewsFeedController', function($scope, $timeout, $up
     if (cat == undefined) {
         cat = 0;
     }
-    $scope.selectNavBar('MAGAZINE');
-    $scope.selectNavSubBar(cat);
+    $scope.selectNavBar('MAGAZINE', cat);
     
     $scope.newsFeeds = { posts: [] };
 

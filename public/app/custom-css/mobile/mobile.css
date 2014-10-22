@@ -152,18 +152,20 @@ body {
 .sidebar-nav li.sliding-main-nav {
     text-indent:0;
     background-color: #C8ADEC;
-    border-top: 2px solid #C8ADEC;
-    border-bottom: 2px solid #C8ADEC;
+    /*border-top: 2px solid #C8ADEC;
+    border-bottom: 2px solid #C8ADEC;*/
+    padding: 1%;
 }
 .sidebar-nav li.sliding-menu-main-item {
     display: inline-block;
     width: 49%;
-    background: linear-gradient(to bottom, rgba(189, 153, 237, 1) 24%,rgba(152, 116, 210, 1) 100%);
-    /*background: linear-gradient(to bottom, rgba(200,173,236,1) 24%,rgba(139,95,209,1) 100%);
+    /*background: linear-gradient(to bottom,rgba(200,173,236,1) 24%,rgba(139,95,209,1) 100%);
     border-left: 2px solid #ffffff;
     border-bottom: 2px solid #ffffff;
     border-radius: 10px 0 0 10px;*/
-    border-radius: 3px;
+    background: linear-gradient(to bottom,rgba(152, 116, 210, 1) 24%,rgba(179, 141, 229, 1) 100%);
+    border-radius: 5px;
+    margin-bottom: 1%;
 }
 .sidebar-nav li.sliding-menu-main-item a {
     padding-left: 10px;
@@ -557,6 +559,7 @@ span.notif-count {
     height: 80px;
     margin-right: 5px;
     margin-bottom: 5px;
+    border-radius: 10px;
 }
 .allpost-wrapper div {
     padding: 0 10px;

@@ -7,7 +7,7 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
     
     log("BusinessCommunityPageController starts");
 
-    $scope.selectNavBar('HOME');
+    $scope.selectNavBar('HOME', -1);
 
     $scope.selectedTab = 1;
     $scope.selectedSubTab = 1;
@@ -155,15 +155,11 @@ minibean.controller('ApplicationController',
     
     window.isBrowserTabActive = true;
     
-    $scope.selectNavBar = function(value) {
-        $scope.selectedNavBar = value;
+    $scope.selectNavBar = function(navBar, subBar) {
+        $scope.selectedNavBar = navBar;
+        $scope.selectedNavSubBar = subBar;
     }
-    $scope.selectNavBar('HOME');
-    
-    $scope.selectNavSubBar = function(value) {
-        $scope.selectedNavSubBar = value;
-    }
-    $scope.selectNavSubBar(0);
+    $scope.selectNavBar('HOME', -1);
     
     $scope.reloadPage = function() {
         $route.reload();
@@ -230,7 +226,10 @@ minibean.controller('ApplicationController',
                     $scope.soonMomsArticleCategories.push(category);
                 }
             });
-            $scope.selectNavBar($scope.getArticleCategoryGroup($scope.selectedNavSubBar));
+            // articles cat
+            if ($scope.selectedNavSubBar != -1) {
+                $scope.selectNavBar($scope.getArticleCategoryGroup($scope.selectedNavSubBar), $scope.selectedNavSubBar);
+            }
         }
 	);
 	$scope.getArticleCategoryGroup = function(catId) {
@@ -494,7 +493,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 	
 	$scope.get_header_metaData();
 	
-	$scope.selectNavBar('HOME');
+	$scope.selectNavBar('HOME', -1);
     
 	var tab = $routeParams.tab;
 	
@@ -2823,8 +2822,7 @@ minibean.controller('ArticlePageController',function($scope, $modal, $routeParam
     
     $scope.get_header_metaData();
     
-    $scope.selectNavBar($scope.getArticleCategoryGroup($routeParams.catId));
-    $scope.selectNavSubBar($routeParams.catId);
+    $scope.selectNavBar($scope.getArticleCategoryGroup($routeParams.catId), $routeParams.catId);
     
     $scope.hotArticles = articleService.HotArticles.get({category_id:$routeParams.catId});
     $scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:$routeParams.catId});
@@ -2885,8 +2883,7 @@ minibean.controller('ShowArticlesController',function($scope, $modal, $routePara
     if (catId == undefined) {
        catId == 0;
     }
-    $scope.selectNavBar($scope.getArticleCategoryGroup(catId));
-    $scope.selectNavSubBar(catId);
+    $scope.selectNavBar($scope.getArticleCategoryGroup(catId), catId);
 
 	$scope.hotArticles = articleService.HotArticles.get({category_id:catId});
 	$scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:catId});
@@ -4111,7 +4108,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $routeParams, $sce, searchFriendService, usSpinnerService, getMessageService, allConversationService, iconsService) {
     log("UserConversationController starts");
 
-    $scope.selectNavBar('HOME');
+    $scope.selectNavBar('HOME', -1);
 
     $scope.emoticons = iconsService.getEmoticons.get();
 
