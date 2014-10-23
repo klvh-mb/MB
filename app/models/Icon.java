@@ -18,6 +18,12 @@ import common.cache.IconCache;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
+/**
+ * insert into icon (iconType,name,url) values ('GAME_LEVEL','1','/assets/app/images/game/levels/l_1.jpg');
+ * 
+ * @author keithlei
+ *
+ */
 @Entity
 public class Icon {
     @Id
@@ -36,7 +42,8 @@ public class Icon {
     
     public static enum IconType {
         COMMUNITY_GENERAL, 
-        WEATHER                 // condition.code is stored in name
+        WEATHER,                 // condition.code is stored in name
+        GAME_LEVEL
     }
     
     public Icon(){}
@@ -62,6 +69,17 @@ public class Icon {
         return (List<Icon>)q.getResultList();
     }
 
+    public static Icon loadGameLevelIcon(int level) {
+        Query q = JPA.em().createQuery("Select i from Icon i where name = ?1 and iconType = ?2");
+        q.setParameter(1, String.valueOf(level));
+        q.setParameter(2, IconType.GAME_LEVEL);
+        try {
+            return (Icon)q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
     public static Icon loadWeatherIcon(int conditionCode) {
         Query q = JPA.em().createQuery("Select i from Icon i where name = ?1 and iconType = ?2");
         q.setParameter(1, String.valueOf(conditionCode));
@@ -79,6 +97,10 @@ public class Icon {
     
     public static Icon getWeatherIcon(int conditionCode) {
         return IconCache.getWeatherIcon(conditionCode);
+    }
+    
+    public static Icon getGameLevelIcon(int level) {
+        return IconCache.getGameLevelIcon(level);
     }
     
     public String getName() {

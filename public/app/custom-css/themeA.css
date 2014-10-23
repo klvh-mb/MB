@@ -1194,13 +1194,19 @@ a:focus {
 /* Header End */
 
 /* User Profile Picture Start */
+#game-info {
+    padding: 5px 10px;
+}
+#game-info img {
+    width: 18px;
+    height: auto;
+}
 #main-uphoto {
     width: 100%;
     height: 95px;
     position: relative;
     overflow: hidden;
-    margin-bottom: 10px;
-    border-radius: 10px;
+    border-radius: 10px 10px 0 0;
 }
 #main-uphoto a[title="user-picture"] {
     position: relative;
@@ -2107,11 +2113,13 @@ a:focus {
 .post-favorite, .post-favorited { 
     width: 18px;
     height: 18px;
+    color: transparent;
     position: absolute;
     right: -8px;
     top: 5px;
     text-align: right;
-    color: transparent;
+    /*position: relative;
+    float: right;*/
 }
 .post-favorite:hover, .post-favorited:hover {
     color: transparent;

@@ -3,6 +3,7 @@ package viewmodel;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import controllers.Application;
+import models.Icon;
 import models.Location;
 import models.User;
 
@@ -27,6 +28,11 @@ public class UserVM {
     @JsonProperty("isMobile") public boolean isMobile = false;
     @JsonProperty("isFbLogin") public boolean isFbLogin = false;
     @JsonProperty("isHomeTourCompleted") public boolean isHomeTourCompleted = false;
+    
+    // game stats
+    @JsonProperty("gameLevel") public int gameLevel = 8;
+    @JsonProperty("gameLevelIcon") public String gameLevelIcon = Icon.getGameLevelIcon(gameLevel).url;
+    @JsonProperty("gamePoints") public int gamePoints = 100;
     
 	public UserVM(User user) {
 		this.firstName = user.firstName;
