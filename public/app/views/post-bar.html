@@ -26,9 +26,7 @@
             </a>
             <div class="post-title-user-name">
                 <a data-ng-href="my#/profile/{{post.oid}}">{{post.p}}</a>
-                <a data-ng-show="!post.isBookmarked" class="post-favorite" href="" data-ng-click="bookmarkPost(post.id)"></a>
-                <a data-ng-show="post.isBookmarked && !isMyBookmarksPage" class="post-favorited" href="" data-ng-click="unBookmarkPost(post.id)"></a>
-                <a data-ng-show="post.isBookmarked && isMyBookmarksPage" class="post-favorited" href="" data-ng-confirm-click="unBookmarkPost(post.id)" data-ng-confirm-message="您確定移除這個喜愛嗎?"></a>
+                <span ng-init="confirm = isMyBookmarksPage" data-ng-include data-src="'/assets/app/views/bookmark-post.html'"></span>
             </div>
             <span class="post-date" am-time-ago="post.t"></span>
         </li>

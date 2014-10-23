@@ -4,7 +4,7 @@
             <span class="post-sharing-tag pull-left" style="margin-right:5px;">♥</span>
             <span class="post-intro-share">分享</span>
             <span class="post-intro-share" ng-show="!isCommunityPage">於 </span>
-            <a data-ng-href="/m-my#/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
+            <a data-ng-href="m-my#/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
             <span class="post-intro-divider" ng-show="post.n_c > 0"></span>
             <span class="post-qna-answer-count" ng-show="post.n_c > 0">最新留言: 
                 <span class="post-date" am-time-ago="post.ut"></span>
@@ -21,14 +21,12 @@
     <!-- Post Intro Ends -->
     <ul>
         <li class="post-sharing-body-top">
-            <a data-ng-href="/m-my#/profile/{{post.oid}}">
+            <a data-ng-href="m-my#/profile/{{post.oid}}">
                 <img class="post-title-user-image" data-ng-src="/image/get-mini-image-by-id/{{post.oid}}"/>
             </a>
             <div class="post-title-user-name">
-                <a data-ng-href="/m-my#/profile/{{post.oid}}">{{post.p}}</a>
-                <a data-ng-show="!post.isBookmarked" class="post-favorite" href="" data-ng-click="bookmarkPost(post.id)"></a>
-                <a data-ng-show="post.isBookmarked && !isMyBookmarksPage" class="post-favorited" href="" data-ng-click="unBookmarkPost(post.id)"></a>
-                <a data-ng-show="post.isBookmarked && isMyBookmarksPage" class="post-favorited" href="" data-ng-confirm-click="unBookmarkPost(post.id)" data-ng-confirm-message="您確定移除這個喜愛嗎?"></a>
+                <a data-ng-href="m-my#/profile/{{post.oid}}">{{post.p}}</a>
+                <span ng-init="confirm = isMyBookmarksPage" data-ng-include data-src="'/assets/app/views/bookmark-post.html'"></span>
             </div>
             <span class="post-date" am-time-ago="post.t"></span>
         </li>
@@ -50,12 +48,12 @@
             <a class="pull-right" href="" data-ng-click="get_all_comments(post.id)">查看所有留言</a>
         </li>
         <li data-ng-repeat="comment in post.cs">
-            <a data-ng-href="/m-my#/profile/{{comment.oid}}">
+            <a data-ng-href="m-my#/profile/{{comment.oid}}">
                 <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
             </a>
             <span class="post-sharing-comment-body">
                 <span class="post-title-user-name">
-                    <a data-ng-href="/m-my#/profile/{{comment.oid}}">{{comment.on}}</a>
+                    <a data-ng-href="m-my#/profile/{{comment.oid}}">{{comment.on}}</a>
                 </span>
                 <span class="post-sharing-comment-body-text" ng-bind-html="comment.d | to_trusted"></span>
                 <!--<span class="post-sharing-comment-body-text">{{comment.d}}</span>-->
@@ -73,7 +71,7 @@
     	</li>
     	<!-- Post Comment box-->
         <li ng-show="post.isC || (community.isM || community.isO)">
-            <!--a data-ng-href="/m-my#/profile/{{userInfo.id}}">
+            <!--a data-ng-href="m-my#/profile/{{userInfo.id}}">
                 <img style="margin-top:5px;" class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
             </a-->
             <form class="post-comment-box" name="userComment" method="post" action="">
