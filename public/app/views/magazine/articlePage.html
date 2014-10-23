@@ -70,6 +70,9 @@
             </div><!--Relate Post End -->
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
+            <div ng-show="!userInfo.isLoggedIn">
+                <div data-ng-include data-src="'/assets/app/views/magazine/promo-signup-widget.html'"></div>
+            </div>
             <div>
                 <div data-ng-include data-src="'/assets/app/views/utilities/hotArticlesUtility.html'"></div>
             </div>
@@ -82,7 +85,7 @@
             <div>
                 <div data-ng-include data-src="'/assets/app/views/utilities/recommendedArticlesUtility.html'"></div>
             </div>
-            <div class="ads-factor-1x1">
+            <div class="ads-factor-1x1" ng-if="userInfo.isLoggedIn">
                 <script adSize="11" adSid="691373536678" ads-factor language='JavaScript' type="text/javascript"></script>
             </div>
         </div>
