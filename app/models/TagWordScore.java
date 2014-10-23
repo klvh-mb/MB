@@ -1,5 +1,6 @@
 package models;
 
+import common.utils.StringUtil;
 import domain.*;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
@@ -58,5 +59,19 @@ public class TagWordScore extends domain.Entity {
         q.setParameter(1, tagWordId);
         q.setParameter(2, socialObjectType);
         return (Long) q.getSingleResult();
+    }
+
+    public static List<Article> getArticlesByTagWord(Long tagWordId, int offset) {
+        Query q = JPA.em().createQuery("select ts.socialObjectId from TagWordScore ts where ts.tagWordId=?1 and ts.socialObjectType = ?2 order by ts.score desc");
+        q.setParameter(1, tagWordId);
+        q.setParameter(2, SocialObjectType.ARTICLE);
+		q.setFirstResult(offset);
+		q.setMaxResults(DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+
+        List<Long> articleIds = (List<Long>)q.getResultList();
+
+        String idsForIn = StringUtil.collectionToString(articleIds, ",");
+        q = JPA.em().createQuery("SELECT a from Article a where a.id in ("+idsForIn+") order by FIELD(a.id ,"+idsForIn+")");
+		return (List<Article>)q.getResultList();
     }
 }

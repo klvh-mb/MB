@@ -755,12 +755,26 @@ public class DataBootstrap {
             return;
         }
 
-        TagWord tagWord = new TagWord();
-        tagWord.tagCategory = TagWord.TagCategory.ARTICLE;
-        tagWord.tagCategoryId = ArticleCategory.ArticleCategoryGroup.SOON_TO_BE_MOMS_ARTICLES.name();
-        tagWord.displayWord = "爸爸";
-        tagWord.matchingWords = "爸爸,父親,老公";
-        tagWord.save();
+        String soonMomsCatId = ArticleCategory.ArticleCategoryGroup.SOON_TO_BE_MOMS_ARTICLES.name();
+
+
+        createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "造人", "造人");
+        createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "早產", "早產");
+        createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "官外孕", "官外孕");
+        createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "分娩", "分娩,產程,陣痛");
+        createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "水腫", "水腫");
+        createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "胎教", "胎教");
+        createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "爸爸", "爸爸,父親,老公");
+        createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "營養", "營養,碘,飲食,鈣,鋅,蛋白質");
+        createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "皮膚", "皮膚");
+        createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "旅行", "旅行,旅遊,坐飛機");
+        createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "黃疸", "黃疸");
+        createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "掃風", "掃風");
+        createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "坐月", "坐月,陪月,薑醋");
+        createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "母乳", "母乳,人奶,上奶,奶泵");
+        createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "奶粉", "奶粉");
+        createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "雙胞胎", "雙胞胎,龍鳳胎");
+        createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "臍帶血", "臍帶血");
     }
 
     private static Community createFeedbackCommunity(String name, String desc) {
@@ -869,5 +883,17 @@ public class DataBootstrap {
             logger.underlyingLogger().error("Error in createPNCommunity", e);
         }
         return community;
+    }
+
+    private static TagWord createTagWord(TagWord.TagCategory tagCategory, String tagCategoryId,
+                                         String displayWord, String matchingWords) {
+        TagWord tagWord = new TagWord();
+        tagWord.tagCategory = tagCategory;
+        tagWord.tagCategoryId = tagCategoryId;
+        tagWord.displayWord = displayWord;
+        tagWord.matchingWords = matchingWords;
+        tagWord.save();
+
+        return tagWord;
     }
 }

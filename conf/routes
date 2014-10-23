@@ -56,6 +56,7 @@ GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
 GET		/get-all-article-categories		controllers.ArticleController.getAllArticleCategories
 GET     /get-all-Articles			controllers.ArticleController.getAllArticles
 GET     /get-Articles-Categorywise/:category_id/:offset		controllers.ArticleController.getArticlesCategorywise(category_id: Long, offset:String)
+GET     /get-Articles-TagWise/:tagword_id/:offset           controllers.ArticleController.getArticlesTagwise(tagword_id: Long, offset:String)
 GET     /get-Six-Articles/:category_id          controllers.ArticleController.getSixArticles(category_id: Long)
 GET		/get-Related-Articles/:id/:category_id  controllers.ArticleController.getRelatedArticles(id :Long,category_id :Long)
 GET		/get-article-info/:id		controllers.ArticleController.infoArticle(id :Long)
@@ -68,6 +69,8 @@ GET     /get-recommended-Articles/:category_id  controllers.ArticleController.ge
 GET     /bookmark-article/:article_id				controllers.ArticleController.onBookamrk(article_id : Long)
 GET     /unbookmark-article/:article_id				controllers.ArticleController.onUnBookmark(article_id : Long)
 GET     /get-bookmark-article/:offset				controllers.ArticleController.getBookmarkedArticles(offset:Integer)
+
+GET     /get-soon-moms-tagwords		controllers.TagWordController.getSoonToBeMomTagWords
 
 GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
 GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
