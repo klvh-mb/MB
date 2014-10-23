@@ -16,11 +16,13 @@ public class IconCache {
     private static List<Emoticon> emoticons;
     private static List<Icon> communityIcons;
     private static Map<Integer, Icon> weatherIconsMap;
+    private static Map<Integer, Icon> gameLevelIconsMap;
 
     static {
         emoticons = Emoticon.loadEmoticons();
         communityIcons = Icon.loadCommunityIcons();
         weatherIconsMap = new HashMap<Integer, Icon>();
+        gameLevelIconsMap = new HashMap<Integer, Icon>();
     }
 
     public static List<Emoticon> getEmoticons() {
@@ -37,6 +39,15 @@ public class IconCache {
         }
         Icon icon = Icon.loadWeatherIcon(conditionCode);
         weatherIconsMap.put(conditionCode, icon);
+        return icon;
+    }
+    
+    public static Icon getGameLevelIcon(int level) {
+        if (gameLevelIconsMap.containsKey(level)) {
+            return gameLevelIconsMap.get(level);
+        }
+        Icon icon = Icon.loadGameLevelIcon(level);
+        gameLevelIconsMap.put(level, icon);
         return icon;
     }
 }
