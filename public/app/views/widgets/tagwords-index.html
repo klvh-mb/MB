@@ -1,24 +1,20 @@
 <div id="tagword-list" class="featured-box" style="margin:0px;">
+    <div class="featured-box-header">
+        熱門知識
+    </div>
     <ul>
-        <li class="featured-box-header">
-            <div>
-                熱門知識
-            </div>
-        </li>
-        <li style="padding:5px 10px 20px 10px;font-size:15px;">
-            <div ng-repeat="tagword in tagwords">
-                <a ng-href="magazine#/article/show/{{tagword.id}}">
-                    {{tagword.nm}}
-                    <span class="tagword-stats pull-right">
-                        <span ng-show="userInfo.isE">
-                            {{tagword.noc}}<img data-ng-src="/assets/app/images/general/icons/view.png"/>
-                        </span>
-                        <span>
-                            {{tagword.nos}}<img data-ng-src="/assets/app/images/general/icons/i-article.png"/>
-                        </span>
+        <li ng-repeat="tagword in tagwords" ng-class-odd="'tagword-odd'" ng-class-even="'tagword-even'">
+            <a ng-href="magazine#/article/show/{{tagword.id}}">
+                {{tagword.nm}}
+                <span class="tagword-stats pull-right">
+                    <span ng-show="userInfo.isE">
+                        {{tagword.noc}}<img data-ng-src="/assets/app/images/general/icons/view.png"/>
                     </span>
-                </a>
-            </div>
+                    <span>
+                        {{tagword.nos}}<img data-ng-src="/assets/app/images/general/icons/i-article.png"/>
+                    </span>
+                </span>
+            </a>
         </li>
     </ul>
 </div>

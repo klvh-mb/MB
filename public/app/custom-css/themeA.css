@@ -2813,7 +2813,7 @@ span.notif-count {
     font-weight: bold;
 }
 #tagword-list {
-    
+
 }
 #tagword-list a {
 
@@ -2821,8 +2821,13 @@ span.notif-count {
 #tagword-list a:hover {
     text-decoration: none;
 }
-#tagword-list div {
-    margin: 3px;
+#tagword-list ul {
+    padding: 5px 5px 20px 5px;
+    font-size: 14px;
+}
+#tagword-list li {
+    margin: 0 5px;
+    padding: 2px 5px;
 }
 #tagword-list .tagword-stats {
     margin-left: 10px;
@@ -2833,12 +2838,19 @@ span.notif-count {
     text-align: end;
     color: #9D9D9D;
     font-size: 12px;
+    vertical-align: text-bottom;
 }
 #tagword-list .tagword-stats img {
     width: 14px;
     height: auto;
     margin: 0 0 2px 4px;
     vertical-align: middle;
+}
+#tagword-list .tagword-odd {
+    background-color: white;   
+}
+#tagword-list .tagword-even {
+    background-color: #F0F9FF;
 }
 .featured-box {
     background: url(../images/general/featured_box.png) center center no-repeat;
