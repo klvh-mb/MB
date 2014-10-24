@@ -7,13 +7,11 @@
     <div id="user-info" ng-show="!hideStats && userInfo.isSA">
         <div id="game-info">
             <span class="pull-right">
-                <a class="btn btn-general btn-sign-in" href="my#/bpoints" ng-show="!userInfo.isSignedInForToday">
-                    <!--img style="width:10px;" src="/assets/app/images/general/icons/pink_question_mark.gif"></img-->
-                    每日簽到
+                <a class="btn btn-sign-in" href="my#/bpoints" ng-show="!userInfo.isSignedInForToday">
+                    <img style="height:22px;width:auto;" src="/assets/app/images/game/sign_in.png"></img>
                 </a>
-                <a class="btn btn-general btn-signed-in" href="" ng-show="userInfo.isSignedInForToday">
-                    <!--img style="width:10px;" src="/assets/app/images/general/icons/pink_question_mark.gif"></img-->
-                    已簽到
+                <a class="btn btn-signed-in" href="my#/bpoints" ng-show="userInfo.isSignedInForToday">
+                    <img style="height:22px;width:auto;" src="/assets/app/images/game/signed_in.png"></img>
                 </a>
             </span>
             <div>

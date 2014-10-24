@@ -1,9 +1,26 @@
+.btn-sign-in, .btn-signed-in {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+.btn-signed-in {
+    opacity: 1;
+}
+.btn-signed-in:hover, .btn-signed-in img:hover {
+    color: black;
+    cursor: default;
+    opacity: 1;
+}
 #game-info {
     padding: 5px 10px;
+}
+#game-info div {
+    margin: 3px 0;
 }
 #game-info img {
     width: 18px;
     height: auto;
+    margin-bottom: 2px;
 }
 #game-info .points {
     margin: 0px 3px;
