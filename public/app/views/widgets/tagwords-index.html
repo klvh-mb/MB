@@ -1,14 +1,22 @@
-<div id="nav-subbar" style="margin:0px;">
-    <ul class="nav-menu">
-        <li>
-            <div class="scCatTitle">
-                <img style="width:auto;height:26px;" data-ng-src="/assets/app/images/general/titles/preg_month.png">
+<div id="tagword-list" class="featured-box" style="margin:0px;">
+    <ul>
+        <li class="featured-box-header">
+            <div>
+                熱門知識
             </div>
         </li>
-        <li style="padding:5px 15px;font-size:15px;">
-            <div ng-class="{'selected-yellow': selectedNavSubBar == tagword.id}" style="width:100%;display:inline-block;" ng-repeat="tagword in tagwords">
-                <a class="nav-item nav-item-yellow" style="padding:5px 5px 2px 5px;" ng-href="magazine#/article/show/{{tagword.id}}">
+        <li style="padding:5px 10px 20px 10px;font-size:15px;">
+            <div ng-repeat="tagword in tagwords">
+                <a ng-href="magazine#/article/show/{{tagword.id}}">
                     {{tagword.nm}}
+                    <span class="tagword-stats pull-right">
+                        <span ng-show="userInfo.isE">
+                            {{tagword.noc}}<img data-ng-src="/assets/app/images/general/icons/view.png"/>
+                        </span>
+                        <span>
+                            {{tagword.nos}}<img data-ng-src="/assets/app/images/general/icons/i-article.png"/>
+                        </span>
+                    </span>
                 </a>
             </div>
         </li>

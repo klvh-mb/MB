@@ -1,6 +1,6 @@
-<div class="general-box top-box" ng-if="selectedNavBar == 'HOT_ARTICLES'">
+<div ng-if="selectedNavBar == 'HOT_ARTICLES'">
     <div ng-init="tagwords = hotArticlesTagwords" data-ng-include data-src="'/assets/app/views/widgets/tagwords-index.html'"></div>
 </div>
-<div class="general-box top-box" ng-if="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'">
+<div ng-if="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'">
     <div ng-init="tagwords = soonMomsTagwords" data-ng-include data-src="'/assets/app/views/widgets/tagwords-index.html'"></div>
 </div>
