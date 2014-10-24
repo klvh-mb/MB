@@ -31,33 +31,33 @@ window.registeredAds[300250] = []; // Here you need to define AdsFactor size
 window.registeredAds[72890] = [];
 window.registeredAds[11] = [];
 document.write = function(node) {
-    console.log('AD RESPONSE: '+node);
+    //console.log('AD RESPONSE: '+node);
     if(typeof node !== 'undefined') {
         var elem;
         if (is300x250(node)) {
             elem = registeredAds[300250][0]         // .pop();
-            console.log('AD: poped 300x250 - '+elem);
+            //console.log('AD: poped 300x250 - '+elem);
         } else if (is728x90(node)) {
             elem = registeredAds[72890][0]          // .pop();
-            console.log('AD: poped 728x90 - '+elem);
+            //console.log('AD: poped 728x90 - '+elem);
         } else if (is1x1(node)) {
             elem = registeredAds[11][0]             // .pop();
-            console.log('AD: poped 1x1 - '+elem);
+            //console.log('AD: poped 1x1 - '+elem);
         }
         
         if(typeof elem === 'undefined') {
             elem = getDefaultRegisteredAd();
-            console.log('AD: poped default - '+elem);
+            //console.log('AD: poped default - '+elem);
         }
         
         if(typeof elem !== 'undefined') {
             $(elem).after(node);
-            console.log('AD: added after '+elem);
+            //console.log('AD: added after '+elem);
             
             // as long as not defer async request, set latest elem as default
             if (!isDefer(node)) {
                 defaultRegisteredAd = elem;
-                console.log('AD: set default');
+                //console.log('AD: set default');
             }
         }
     }
@@ -89,15 +89,15 @@ var getDefaultRegisteredAd = function() {
     } else if (registeredAds[300250].length > 0) {
         var lastIndex = registeredAds[300250].length-1;
         elem = registeredAds[300250][lastIndex];
-        console.log('AD: poped default 300x250 - '+elem);
+        //console.log('AD: poped default 300x250 - '+elem);
     } else if (registeredAds[72890].length > 0) {
         var lastIndex = registeredAds[72890].length-1;
         elem = registeredAds[72890][lastIndex];
-        console.log('AD: poped default 728x90 - '+elem);
+        //console.log('AD: poped default 728x90 - '+elem);
     } else if (registeredAds[11].length > 0) {
         var lastIndex = registeredAds[11].length-1;
         elem = registeredAds[11][lastIndex];
-        console.log('AD: poped default 1x1 - '+elem);
+        //console.log('AD: poped default 1x1 - '+elem);
     }
     return elem;
 }

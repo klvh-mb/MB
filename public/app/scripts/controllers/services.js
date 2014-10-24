@@ -685,6 +685,23 @@ minibean.service('communityCategoryService',function($resource){
     );
 });
 
+minibean.service('tagwordService',function($resource){
+    this.HotArticlesTagwords = $resource(
+            '/get-hot-articles-tagwords',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.SoonMomsTagwords = $resource(
+            '/get-soon-moms-tagwords',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+});
+    
 minibean.service('articleService',function($resource){
     this.AllArticleCategories = $resource(
             '/get-all-article-categories',

@@ -2887,7 +2887,7 @@ minibean.controller('ArticlePageController',function($scope, $modal, $routeParam
     log("ArticlePageController completed");
 });
 
-minibean.controller('ShowArticlesController',function($scope, $modal, $routeParams, bookmarkPostService, showImageService, usSpinnerService, articleService) {
+minibean.controller('ShowArticlesController',function($scope, $modal, $routeParams, articleService, tagwordService, bookmarkPostService, showImageService, usSpinnerService) {
     log("ShowArticlesController starts");
 
     $scope.get_header_metaData();
@@ -2898,6 +2898,11 @@ minibean.controller('ShowArticlesController',function($scope, $modal, $routePara
     }
     $scope.selectNavBar($scope.getArticleCategoryGroup(catId), catId);
 
+    // tag words
+    $scope.hotArticlesTagwords = tagwordService.HotArticlesTagwords.get();
+    $scope.soonMomsTagwords = tagwordService.SoonMomsTagwords.get();
+    
+    // utilities
 	$scope.hotArticles = articleService.HotArticles.get({category_id:catId});
 	$scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:catId});
 	$scope.newArticles = articleService.NewArticles.get({category_id:catId});

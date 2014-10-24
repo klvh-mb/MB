@@ -485,6 +485,9 @@ span.notif-count {
 }
 
 /* community */
+#communities-index ul {
+    width: 50%;
+}
 #community-header {
     background-color: white;
     margin: -8px -12px 0 -12px;
@@ -623,9 +626,10 @@ span.notif-count {
     border: 0px;
 }
 
-/*  */
-#communities-index ul {
-    width: 50%;
+/* Game */
+#game-info div {
+    margin: 3px 0;
+    line-height: 20px;
 }
 
 .ads-factor-1x1 {
