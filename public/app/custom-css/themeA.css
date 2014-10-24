@@ -1794,7 +1794,7 @@ a:focus {
 .allpost-wrapper li {
     display: block;
     padding: 20px 0 15px 0;
-    border-top: #bcbcbc thin solid;
+    border-top: #D8D8D8 thin solid;
     min-height: 175px;
 }
 /*.allpost-wrapper li:hover > div h4, 

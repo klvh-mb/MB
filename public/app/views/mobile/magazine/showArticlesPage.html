@@ -41,31 +41,29 @@
                 <script adSize="72890" adSid="477069296823" ads-factor language='JavaScript' type="text/javascript"></script>
             </div>
             <div infinite-scroll='next_result()' infinite-scroll-distance='1'>
-                <div data-ng-repeat="article in result">
-                    <div class="general-box">
-                        <ul class="allpost-wrapper">
-                            <li>
+                <div class="general-box">
+                    <ul class="allpost-wrapper">
+                        <li data-ng-repeat="article in result">>
+                            <a href="#/article/{{article.id}}/{{article.ct.id}}">
+                                <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
+                            </a>
+                            <span data-ng-include data-src="'/assets/app/views/bookmark-article.html'"></span>
+                            <div>
                                 <a href="#/article/{{article.id}}/{{article.ct.id}}">
-                                    <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
+                                    <h4 style="color:#324fe1;">{{article.nm}}</h4>
                                 </a>
-                                <span data-ng-include data-src="'/assets/app/views/bookmark-article.html'"></span>
-                                <div>
-                                    <a href="#/article/{{article.id}}/{{article.ct.id}}">
-                                        <h4 style="color:#324fe1;">{{article.nm}}</h4>
+                                <h6>
+                                    <a class="tag" data-ng-href="#/article/show/{{article.ct.id}}">
+                                        {{article.ct.name}}
                                     </a>
-                                    <h6>
-                                        <a class="tag" data-ng-href="#/article/show/{{article.ct.id}}">
-                                            {{article.ct.name}}
-                                        </a>
-                                        <font ng-show="userInfo.isE">{{article.pd | date:'M/dd/yyyy'}}</font>
-                                        <span ng-show="article.nov > 20 || userInfo.isE" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.png"/>{{article.nov}}</span>
-                                        <span ng-show="article.nol > 0 || userInfo.isE" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{article.nol}}</span>
-                                    </h6>
-                                    <p><font><font>{{article.lds|limitTo:50}}...</font></font></p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                                    <font ng-show="userInfo.isE">{{article.pd | date:'M/dd/yyyy'}}</font>
+                                    <span ng-show="article.nov > 20 || userInfo.isE" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.png"/>{{article.nov}}</span>
+                                    <span ng-show="article.nol > 0 || userInfo.isE" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{article.nol}}</span>
+                                </h6>
+                                <p><font><font>{{article.lds|limitTo:50}}...</font></font></p>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
