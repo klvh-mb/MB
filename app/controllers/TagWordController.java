@@ -1,6 +1,6 @@
 package controllers;
 
-import models.ArticleCategory;
+import common.cache.TagWordCache;
 import models.TagWord;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -22,8 +22,7 @@ public class TagWordController extends Controller {
 
     @Transactional
 	public static Result getSoonToBeMomTagWords() {
-        List<TagWord> tagWords = TagWord.getTagWordsByCategory(TagWord.TagCategory.ARTICLE,
-                ArticleCategory.ArticleCategoryGroup.SOON_TO_BE_MOMS_ARTICLES.name());
+        List<TagWord> tagWords = TagWordCache.getSoonToBeMomTagWords();
 
 		List<TagWordVM> tagWordVMs = new ArrayList<>();
 		for(TagWord tagWord : tagWords) {
@@ -32,4 +31,9 @@ public class TagWordController extends Controller {
 		}
 		return ok(Json.toJson(tagWordVMs));
 	}
+
+    @Transactional
+	public static Result getHotArticlesTagWords() {
+        return ok();
+    }
 }

@@ -1,6 +1,8 @@
+import java.io.File;
 import java.util.Arrays;
 
 import common.cache.FriendCache;
+import common.schedule.CommandChecker;
 import common.schedule.JobScheduler;
 import models.Notification;
 import models.SecurityRole;
@@ -150,6 +152,23 @@ public class Global extends GlobalSettings {
                        JPA.withTransaction(new play.libs.F.Callback0() {
                             public void invoke() {
                                    TaggingEngine.indexTagWords();
+                            }
+                        });
+                    } catch (Exception e) {
+                        logger.underlyingLogger().error("Error in indexTagWords", e);
+                    }
+                }
+            }
+        );
+
+        // schedule to check command every 60s.
+        JobScheduler.getInstance().schedule("commandCheck", 60000,
+            new Runnable() {
+                public void run() {
+                    try {
+                       JPA.withTransaction(new play.libs.F.Callback0() {
+                            public void invoke() {
+                                CommandChecker.checkCommandFiles();
                             }
                         });
                     } catch (Exception e) {

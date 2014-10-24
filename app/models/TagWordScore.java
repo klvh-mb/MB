@@ -3,7 +3,6 @@ package models;
 import common.utils.StringUtil;
 import domain.*;
 import play.db.jpa.JPA;
-import play.db.jpa.Transactional;
 
 import javax.persistence.*;
 import javax.persistence.Entity;

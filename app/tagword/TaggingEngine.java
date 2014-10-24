@@ -1,5 +1,6 @@
 package tagword;
 
+import common.cache.TagWordCache;
 import domain.SocialObjectType;
 import models.Article;
 import models.ArticleCategory;
@@ -63,6 +64,9 @@ public class TaggingEngine {
 
             logger.underlyingLogger().info("Indexed articles for tagword["+tagWord.id+"]. count="+articleScores.size());
         }
+
+        // refresh cache
+        TagWordCache.refresh();
 	}
 
 

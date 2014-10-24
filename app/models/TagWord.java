@@ -45,10 +45,18 @@ public class TagWord extends TargetingSocialObject {
         this.objectType = SocialObjectType.TAGWORD;
 	}
 
-    @Transactional
     public static List<TagWord> getTagWordsByCategory(TagCategory tagCategory, String tagCategoryId) {
         Query q = JPA.em().createQuery("Select t from TagWord t where " +
                 "t.tagCategory = ?1 and t.tagCategoryId = ?2 and t.deleted = false");
+		q.setParameter(1, tagCategory);
+        q.setParameter(2, tagCategoryId);
+
+		return (List<TagWord>)q.getResultList();
+    }
+
+    public static List<TagWord> getTagWordsByCategoryByCount(TagCategory tagCategory, String tagCategoryId) {
+        Query q = JPA.em().createQuery("Select t from TagWord t where " +
+                "t.tagCategory = ?1 and t.tagCategoryId = ?2 and t.deleted = false order by t.socialObjectCount desc");
 		q.setParameter(1, tagCategory);
         q.setParameter(2, tagCategoryId);
 

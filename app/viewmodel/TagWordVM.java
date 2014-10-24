@@ -1,10 +1,7 @@
 package viewmodel;
 
-import models.ArticleCategory;
 import models.TagWord;
 import org.codehaus.jackson.annotate.JsonProperty;
-
-import java.util.Date;
 
 /**
  * Created by IntelliJ IDEA.

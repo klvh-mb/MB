@@ -27,6 +27,25 @@ public class JobScheduler {
 
     /**
      * @param schedulerId
+     * @param intervalMs
+     * @param jobTask
+     */
+    public void schedule(String schedulerId, long intervalMs, Runnable jobTask) {
+        ActorSystem actorSystem = Akka.system();
+        try {
+            FiniteDuration initialDelay = Duration.create(0, TimeUnit.MILLISECONDS);
+            FiniteDuration interval = Duration.create(intervalMs, TimeUnit.MILLISECONDS);
+
+            actorSystem.scheduler().schedule(
+                    initialDelay, interval,
+                    jobTask, actorSystem.dispatcher());
+        } catch (Exception e) {
+            logger.underlyingLogger().error("Error in schedule", e);
+        }
+    }
+
+    /**
+     * @param schedulerId
      * @param cronExpression
      * @param jobTask
      */
