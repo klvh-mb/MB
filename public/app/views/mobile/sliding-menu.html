@@ -25,10 +25,13 @@
             </div>
         </li>
         <li ng-show="userInfo.isLoggedIn">
-            <div id="main-uphoto" data-ng-style="set_background_image()">
+            <!--div id="main-uphoto" data-ng-style="set_background_image()">
                 <img src="/assets/app/images/mobile/general/gradient_black_30.png" alt="gradient-black">
                 <a title="user-picture" href="m-my#/about/activities"><img src="/image/get-mini-image-by-id/{{userInfo.id}}" alt="user-picture"></a>
                 <a href="m-my#/about/activities" class="userName">{{userInfo.displayName}}</a>
+            </div-->
+            <div data-ng-controller="GameController">
+                <div data-ng-include data-src="'/assets/app/views/widgets/my-profile-widget.html'"></div>
             </div>
         </li>
         <li ng-show="userInfo.isLoggedIn">

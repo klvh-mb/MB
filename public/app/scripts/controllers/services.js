@@ -40,6 +40,16 @@ minibean.service('todayWeatherInfoService',function($resource) {
     );
 });
 
+minibean.service('gameService',function($resource) {
+    this.signInForToday = $resource(
+            '/sign-in-for-today',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
+});
+
 minibean.service('locationService',function($resource){
     this.getAllDistricts = $resource(
             '/get-all-districts',

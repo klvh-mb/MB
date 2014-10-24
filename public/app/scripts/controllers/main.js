@@ -108,6 +108,19 @@ minibean.controller('TodayWeatherInfoController',function($scope, $http, todayWe
     log("TodayWeatherInfoController completed");
 });
 
+minibean.controller('GameController',function($scope, $http, gameService) {
+    log("GameController starts");
+
+    $scope.signInForToday = function() {
+        gameService.signInForToday.get({}, 
+            function(data) {
+                $scope.userInfo.isSignedInForToday = true;
+            });
+    }
+    
+    log("GameController completed");
+});
+
 minibean.controller('SearchController',function($scope, searchService){
     log("SearchController starts");
 

@@ -91,6 +91,14 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/message.html',
     	controller: 'UserConversationController'  
       })
+      .when('/bpoints',{
+        templateUrl: '/assets/app/views/bpoints.html',
+        controller: 'GameController'
+      })
+      .when('/bpoints/rules',{
+        templateUrl: '/assets/app/views/bpoints-rules.html',
+        controller: 'GameController'
+      })
       .when('/error', {
     	templateUrl: '/assets/app/views/errorPage.html',
       })

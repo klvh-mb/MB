@@ -5,14 +5,14 @@
 <div class="themeA-container">
     <div data-ng-include data-src="'/assets/app/views/nav-bar.html'"></div>
     <div class="row">
-        <div class="col-md-2 col-sm-2 col-xs-2" style="width:230px;">
+        <div class="col-md-2 col-sm-2 col-xs-2" style="width:200px;">
             <div data-ng-include data-src="'/assets/app/views/widgets/article-categories-index-widget.html'"></div>
             <div ng-show="!userInfo.isLoggedIn">
                 <div data-ng-include data-src="'/assets/app/views/magazine/promo-signup-widget.html'"></div>
             </div>
         </div>
         
-        <div class="col-md-6 col-sm-6 col-xs-6" style="width:480px;">
+        <div class="col-md-6 col-sm-6 col-xs-6" style="width:510px;">
             <div ng-show="allCategory">
                 <div ng-controller="ArticleSliderController" data-ng-include data-src="'/assets/app/views/articleSlider.html'"></div>
             </div>

@@ -4,9 +4,27 @@
         <a title="user-picture" href="#/about/activities"><img src="/image/get-thumbnail-image-by-id/{{userInfo.id}}" alt="user-picture"></a>
         <a href="#/about/activities" class="userName">{{userInfo.displayName|limitTo:10}}<span ng-show="userInfo.displayName.length > 10">...</span></a>
     </div>
-    <div id="user-info" ng-show="userInfo.isSA">
+    <div id="user-info" ng-show="!hideStats && userInfo.isSA">
         <div id="game-info">
-            豆豆級別: L{{userInfo.gameLevel}} <img src="{{userInfo.gameLevelIcon}}">
+            <span class="pull-right">
+                <a class="btn btn-general btn-sign-in" href="my#/bpoints" ng-show="!userInfo.isSignedInForToday">
+                    <!--img style="width:10px;" src="/assets/app/images/general/icons/pink_question_mark.gif"></img-->
+                    每日簽到
+                </a>
+                <a class="btn btn-general btn-signed-in" href="" ng-show="userInfo.isSignedInForToday">
+                    <!--img style="width:10px;" src="/assets/app/images/general/icons/pink_question_mark.gif"></img-->
+                    已簽到
+                </a>
+            </span>
+            <div>
+                級別: <span class="points">L{{userInfo.gameLevel}} <img src="{{userInfo.gameLevelIcon}}"></span>
+            </div>
+            <div>
+                小豆豆總值: <span class="points">{{userInfo.gameTotalPoints}}</span>
+            </div>
+            <div>
+                小豆豆可兌換值: <span class="points">{{userInfo.gameRedeemablePoints}}</span>
+            </div>
         </div>
     </div>
 </div>

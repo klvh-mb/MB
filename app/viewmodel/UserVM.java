@@ -30,9 +30,11 @@ public class UserVM {
     @JsonProperty("isHomeTourCompleted") public boolean isHomeTourCompleted = false;
     
     // game stats
-    @JsonProperty("gameLevel") public int gameLevel = 8;
+    @JsonProperty("gameLevel") public int gameLevel = 9;
     @JsonProperty("gameLevelIcon") public String gameLevelIcon = Icon.getGameLevelIcon(gameLevel).url;
-    @JsonProperty("gamePoints") public int gamePoints = 100;
+    @JsonProperty("gameTotalPoints") public int gameTotalPoints = 100;
+    @JsonProperty("gameRedeemablePoints") public int gameRedeemablePoints = 89;
+    @JsonProperty("isSignedInToday") public boolean isSignedInToday = false;
     
 	public UserVM(User user) {
 		this.firstName = user.firstName;

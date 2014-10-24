@@ -214,6 +214,11 @@ body {
     margin-right: 0px;
     border-bottom: none;
 }
+.sidebar-nav .general-box {
+    border: none;
+    border-radius: 0;
+    margin-bottom: 0;
+}
 #page-content-wrapper {
     width: 100%;
     padding: 0px;
