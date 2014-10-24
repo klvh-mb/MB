@@ -6,10 +6,17 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
 # Test Adsfactor
 GET     /ads-mock                   controllers.Application.adsMock
 GET     /ads-plain                  controllers.Application.adsPlain
 GET     /ng-ads                     controllers.Application.ngAds
+
+# For Testing ONLY
+POST    /signupTest                 controllers.Application.doSignupForTest
+POST    /loginTest                  controllers.Application.doLoginForTest
 
 # Bing Webmaster
 GET     /BingSiteAuth.xml           controllers.Application.bingWebmaster
@@ -48,29 +55,29 @@ GET     /my                         controllers.Application.home
 
 GET     /login                      controllers.Application.login
 POST    /login                      controllers.Application.doLogin
-POST	/saveSignupInfo				controllers.Application.saveSignupInfo
+POST    /saveSignupInfo             controllers.Application.saveSignupInfo
 POST    /saveSignupInfoFb           controllers.Application.saveSignupInfoFb
 GET     /get-application-info       controllers.Application.getApplicationInfo
 GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
 
-GET		/get-all-article-categories		controllers.ArticleController.getAllArticleCategories
-GET     /get-all-Articles			controllers.ArticleController.getAllArticles
-GET     /get-Articles-Categorywise/:category_id/:offset		controllers.ArticleController.getArticlesCategorywise(category_id: Long, offset:String)
+GET     /get-all-article-categories     controllers.ArticleController.getAllArticleCategories
+GET     /get-all-Articles           controllers.ArticleController.getAllArticles
+GET     /get-Articles-Categorywise/:category_id/:offset     controllers.ArticleController.getArticlesCategorywise(category_id: Long, offset:String)
 GET     /get-Articles-TagWise/:tagword_id/:offset           controllers.ArticleController.getArticlesTagwise(tagword_id: Long, offset:String)
 GET     /get-Six-Articles/:category_id          controllers.ArticleController.getSixArticles(category_id: Long)
-GET		/get-Related-Articles/:id/:category_id  controllers.ArticleController.getRelatedArticles(id :Long,category_id :Long)
-GET		/get-article-info/:id		controllers.ArticleController.infoArticle(id :Long)
-GET     /like-article/:id			controllers.ArticleController.onLike(id : Long)
-GET     /unlike-article/:id			controllers.ArticleController.onUnlike(id : Long)
-GET     /get-new-Articles/:category_id			controllers.ArticleController.getNewArticles(category_id: Long)
-GET     /get-hot-Articles/:category_id			controllers.ArticleController.getHotArticles(category_id: Long)
+GET     /get-Related-Articles/:id/:category_id  controllers.ArticleController.getRelatedArticles(id :Long,category_id :Long)
+GET     /get-article-info/:id       controllers.ArticleController.infoArticle(id :Long)
+GET     /like-article/:id           controllers.ArticleController.onLike(id : Long)
+GET     /unlike-article/:id         controllers.ArticleController.onUnlike(id : Long)
+GET     /get-new-Articles/:category_id          controllers.ArticleController.getNewArticles(category_id: Long)
+GET     /get-hot-Articles/:category_id          controllers.ArticleController.getHotArticles(category_id: Long)
 GET     /get-recommended-Articles/:category_id  controllers.ArticleController.getRecommendedArticles(category_id: Long)
 
-GET     /bookmark-article/:article_id				controllers.ArticleController.onBookamrk(article_id : Long)
-GET     /unbookmark-article/:article_id				controllers.ArticleController.onUnBookmark(article_id : Long)
-GET     /get-bookmark-article/:offset				controllers.ArticleController.getBookmarkedArticles(offset:Integer)
+GET     /bookmark-article/:article_id               controllers.ArticleController.onBookamrk(article_id : Long)
+GET     /unbookmark-article/:article_id             controllers.ArticleController.onUnBookmark(article_id : Long)
+GET     /get-bookmark-article/:offset               controllers.ArticleController.getBookmarkedArticles(offset:Integer)
 
-GET     /get-soon-moms-tagwords		controllers.TagWordController.getSoonToBeMomTagWords
+GET     /get-soon-moms-tagwords     controllers.TagWordController.getSoonToBeMomTagWords
 
 GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
 GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
@@ -106,69 +113,65 @@ POST    /login/password/forgot      controllers.Signup.doForgotPassword
 GET     /get-general-announcements  controllers.AnnouncementController.getGeneralAnnouncements
 GET     /get-top-announcements      controllers.AnnouncementController.getTopAnnouncements
 
-# Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
-
-#For Testing ONLY
-POST    /signupTest                 controllers.Application.doSignupForTest
-POST    /loginTest                  controllers.Application.doLoginForTest
-
-#User Info Service
-GET		/get-user-info				controllers.UserController.getUserInfo
+# Game
+GET     /sign-in-for-today          controllers.GameController.signInForToday
+ 
+# User Info Service
+GET     /get-user-info              controllers.UserController.getUserInfo
 GET     /complete-home-tour         controllers.UserController.completeHomeTour
-GET		/about-user					controllers.UserController.aboutUser
-POST	/updateUserProfileData		controllers.UserController.updateUserProfileData
-POST	/image/upload-profile-photo		controllers.UserController.uploadProfilePhoto
-POST	/image/upload-cover-photo		    controllers.UserController.uploadCoverPhoto
+GET     /about-user                 controllers.UserController.aboutUser
+POST    /updateUserProfileData      controllers.UserController.updateUserProfileData
+POST    /image/upload-profile-photo     controllers.UserController.uploadProfilePhoto
+POST    /image/upload-cover-photo           controllers.UserController.uploadCoverPhoto
 GET     /get-all-districts            controllers.Application.getAllDistricts
 
-GET		/image/get-profile-image			controllers.UserController.getProfileImage
-GET 	/get-user-newsfeeds-posts/:offset/:id 		controllers.UserController.getUserNewsfeeds(offset : String, id : Long)
-GET 	/get-user-newsfeeds-comment/:offset/:id 		controllers.UserController.getUserNewsfeedsComments(offset : String, id : Long)
-GET		/image/get-cover-image			controllers.UserController.getCoverImage
-GET		/user-search				controllers.UserController.searchSocialObjects(query: String)
-GET		/accept-friend-request		controllers.UserController.acceptFriendRequest(friend_id :Long, notify_id: Long)
-GET		/accept-join-request/:member_id/:community_id/:notify_id		controllers.UserController.acceptJoinRequest(member_id :Long, community_id :Long, notify_id: Long)
-GET		/accept-invite-request/:member_id/:community_id/:notify_id		controllers.UserController.acceptInviteRequest(member_id :Long, community_id :Long, notify_id: Long)
-GET		/mark-as-read/:ids						controllers.UserController.markNotificationAsRead(ids:String)
-GET		/ignore-it/:id						controllers.UserController.ignoreNotification(id:Long)
+GET     /image/get-profile-image            controllers.UserController.getProfileImage
+GET     /get-user-newsfeeds-posts/:offset/:id       controllers.UserController.getUserNewsfeeds(offset : String, id : Long)
+GET     /get-user-newsfeeds-comment/:offset/:id         controllers.UserController.getUserNewsfeedsComments(offset : String, id : Long)
+GET     /image/get-cover-image          controllers.UserController.getCoverImage
+GET     /user-search                controllers.UserController.searchSocialObjects(query: String)
+GET     /accept-friend-request      controllers.UserController.acceptFriendRequest(friend_id :Long, notify_id: Long)
+GET     /accept-join-request/:member_id/:community_id/:notify_id        controllers.UserController.acceptJoinRequest(member_id :Long, community_id :Long, notify_id: Long)
+GET     /accept-invite-request/:member_id/:community_id/:notify_id      controllers.UserController.acceptInviteRequest(member_id :Long, community_id :Long, notify_id: Long)
+GET     /mark-as-read/:ids                      controllers.UserController.markNotificationAsRead(ids:String)
+GET     /ignore-it/:id                      controllers.UserController.ignoreNotification(id:Long)
 GET     /get-bookmark-summary                       controllers.UserController.getBookmarkSummary()
 GET     /is-newsfeed-enabled-for-community/:community_id            controllers.UserController.isNewsfeedEnabledForCommunity(community_id : Long)
 GET     /toggle-newsfeed-enabled-for-community/:community_id        controllers.UserController.toggleNewsfeedEnabledForCommunity(community_id : Long)
-GET		/get-headerBar-data			controllers.UserController.getHeaderBarMetadata()
+GET     /get-headerBar-data         controllers.UserController.getHeaderBarMetadata()
 
 GET     /profile/:id                controllers.UserController.getProfile(id :Long)
-GET		/image/get-profile-image-by-id/:id		controllers.UserController.getProfileImageByID(id :Long)
-GET		/image/get-cover-image-by-id/:id		controllers.UserController.getCoverImageByID(id :Long)
-GET		/image/get-mini-image-by-id/:id		controllers.UserController.getMiniVersionImageByID(id :Long)
-GET		/image/get-comment-mini-image-by-id/:id		controllers.UserController.getMiniCommentVersionImageByID(id :Long)
-GET		/image/get-thumbnail-image-by-id/:id		controllers.UserController.getThumbnailVersionImageByID(id :Long)
-GET		/image/get-thumbnail-cover-image-by-id/:id		controllers.UserController.getThumbnailCoverImageByID(id :Long)
-GET		/image/get-original-image-by-id/:id		controllers.UserController.getOriginalImageByID(id :Long)
+GET     /image/get-profile-image-by-id/:id      controllers.UserController.getProfileImageByID(id :Long)
+GET     /image/get-cover-image-by-id/:id        controllers.UserController.getCoverImageByID(id :Long)
+GET     /image/get-mini-image-by-id/:id     controllers.UserController.getMiniVersionImageByID(id :Long)
+GET     /image/get-comment-mini-image-by-id/:id     controllers.UserController.getMiniCommentVersionImageByID(id :Long)
+GET     /image/get-thumbnail-image-by-id/:id        controllers.UserController.getThumbnailVersionImageByID(id :Long)
+GET     /image/get-thumbnail-cover-image-by-id/:id      controllers.UserController.getThumbnailCoverImageByID(id :Long)
+GET     /image/get-original-image-by-id/:id     controllers.UserController.getOriginalImageByID(id :Long)
 
-#Conversation
-GET		/get-all-Conversation		controllers.UserController.getAllConversation()
-GET		/get-messages/:id/:offset	controllers.UserController.getMessages(id: String, offset: String)
-GET		/start-Conversation/:id		controllers.UserController.startConversation(id: Long)
-GET		/delete-Conversation/:id	controllers.UserController.deleteConversation(id: Long)
-POST	/Message/sendMsg			controllers.UserController.sendMessage()
-POST	/image/sendMessagePhoto     controllers.UserController.sendPhotoInMessage()
-GET		/user-friend-search			controllers.UserController.searchUserFriends(query: String)
-GET		/image/get-message-image-by-id/:id		controllers.UserController.getMessageImageByID(id :Long)
-GET		/get-unread-msg-count		controllers.UserController.getUnreadMsgCount()
-GET		/image/get-original-private-image-by-id/:id		controllers.UserController.getOriginalPrivateImageByID(id :Long)
+# Conversation
+GET     /get-all-Conversation       controllers.UserController.getAllConversation()
+GET     /get-messages/:id/:offset   controllers.UserController.getMessages(id: String, offset: String)
+GET     /start-Conversation/:id     controllers.UserController.startConversation(id: Long)
+GET     /delete-Conversation/:id    controllers.UserController.deleteConversation(id: Long)
+POST    /Message/sendMsg            controllers.UserController.sendMessage()
+POST    /image/sendMessagePhoto     controllers.UserController.sendPhotoInMessage()
+GET     /user-friend-search         controllers.UserController.searchUserFriends(query: String)
+GET     /image/get-message-image-by-id/:id      controllers.UserController.getMessageImageByID(id :Long)
+GET     /get-unread-msg-count       controllers.UserController.getUnreadMsgCount()
+GET     /image/get-original-private-image-by-id/:id     controllers.UserController.getOriginalPrivateImageByID(id :Long)
 GET     /image/getEmoticons         controllers.UserController.getEmoticons()
 
-#Friends
+# Friends
 GET     /get-suggested-friends      controllers.FriendsController.getSuggestedFriends
-GET		/get-my-friends-for-utility	controllers.FriendsController.getMyFriendsForUtiltiy
-GET 	/get-user-friends-for-utility/:id       controllers.FriendsController.getUserFriendsForUtiltiy(id: Long)
-GET		/get-all-my-friends		    controllers.FriendsController.getAllMyFriends
+GET     /get-my-friends-for-utility controllers.FriendsController.getMyFriendsForUtiltiy
+GET     /get-user-friends-for-utility/:id       controllers.FriendsController.getUserFriendsForUtiltiy(id: Long)
+GET     /get-all-my-friends         controllers.FriendsController.getAllMyFriends
 GET     /get-all-user-friends/:id   controllers.FriendsController.getAllUserFriends(id: Long)
-GET		/send-invite				controllers.FriendsController.sendInvitation(id: String)
-GET		/un-friend					controllers.FriendsController.doUnFriend(id: Long)
+GET     /send-invite                controllers.FriendsController.sendInvitation(id: String)
+GET     /un-friend                  controllers.FriendsController.doUnFriend(id: Long)
 
-#Community
+# Community
 GET     /get-zodiac-year-communities            controllers.CommunityController.getZodiacYearCommunities
 GET     /get-zodiac-year-month-communities      controllers.CommunityController.getZodiacYearMonthCommunities
 GET     /get-district-communities               controllers.CommunityController.getDistrictCommunities
@@ -177,69 +180,69 @@ GET     /get-other-communities                  controllers.CommunityController.
 GET     /get-all-business-community-categories  controllers.CommunityController.getAllBusinessCommunityCategories
 GET     /get-all-social-community-categories    controllers.CommunityController.getAllSocialCommunityCategories
 GET     /get-social-community-categories-map    controllers.CommunityController.getSocialCommunityCategoriesMap(indexOnly:Boolean)
-GET		/get-unjoined-communities			    controllers.CommunityController.getUserUnJoinedCommunities
-GET		/get-my-communities			            controllers.CommunityController.getMyCommunities
-GET		/get-user-communities/:id		        controllers.CommunityController.getUserCommunities(id :Long)
-GET		/send-request							controllers.CommunityController.sendJoinRequest(id: String)
-GET		/image/get-cover-community-image-by-id/:id	controllers.CommunityController.getFullCoverCommunityImageById(id :Long)
+GET     /get-unjoined-communities               controllers.CommunityController.getUserUnJoinedCommunities
+GET     /get-my-communities                     controllers.CommunityController.getMyCommunities
+GET     /get-user-communities/:id               controllers.CommunityController.getUserCommunities(id :Long)
+GET     /send-request                           controllers.CommunityController.sendJoinRequest(id: String)
+GET     /image/get-cover-community-image-by-id/:id  controllers.CommunityController.getFullCoverCommunityImageById(id :Long)
 GET     /image/get-thumbnail-cover-community-image-by-id/:id      controllers.CommunityController.getThumbnailCoverCommunityImageById(id :Long)
 GET     /get-mini-cover-community-image-by-id/:id           controllers.CommunityController.getMiniCoverCommunityImageById(id :Long)
-GET		/community/:id							controllers.CommunityController.getCommunityInfoById(id :Long)
-GET		/editCommunity/:id						controllers.CommunityController.getEditCommunityInfo(id :Long)
-GET		/community/join/:id						controllers.CommunityController.joinToCommunity(id : Long)
-GET		/community/leave/:id					controllers.CommunityController.leaveThisCommunity(id : Long)
-GET		/get-community-members/:id				controllers.CommunityController.getCommunityMembers(id : Long)
-GET 	/image/get-post-image-by-id/:id				controllers.CommunityController.getPostImageById(id : Long)
-GET		/image/get-original-post-image-by-id/:id			controllers.CommunityController.getOriginalPostImageByID(id : Long)
-GET		/comments/:id							controllers.CommunityController.getAllComments(id : Long)
-GET		/answers/:id							controllers.CommunityController.getAllAnswers(id : Long)
-GET		/posts									controllers.CommunityController.getNextPosts(id: String,offset: String,time:String)
-GET		/questions								controllers.CommunityController.getNextQnAs(id: String,offset: String,time:String)
+GET     /community/:id                          controllers.CommunityController.getCommunityInfoById(id :Long)
+GET     /editCommunity/:id                      controllers.CommunityController.getEditCommunityInfo(id :Long)
+GET     /community/join/:id                     controllers.CommunityController.joinToCommunity(id : Long)
+GET     /community/leave/:id                    controllers.CommunityController.leaveThisCommunity(id : Long)
+GET     /get-community-members/:id              controllers.CommunityController.getCommunityMembers(id : Long)
+GET     /image/get-post-image-by-id/:id             controllers.CommunityController.getPostImageById(id : Long)
+GET     /image/get-original-post-image-by-id/:id            controllers.CommunityController.getOriginalPostImageByID(id : Long)
+GET     /comments/:id                           controllers.CommunityController.getAllComments(id : Long)
+GET     /answers/:id                            controllers.CommunityController.getAllAnswers(id : Long)
+GET     /posts                                  controllers.CommunityController.getNextPosts(id: String,offset: String,time:String)
+GET     /questions                              controllers.CommunityController.getNextQnAs(id: String,offset: String,time:String)
 GET     /community/posts/:id                    controllers.CommunityController.getAllPostsOfCommunity(id : Long)
-POST	/community/post							controllers.CommunityController.postOnCommunity()
+POST    /community/post                         controllers.CommunityController.postOnCommunity()
 POST    /community/post/comment                 controllers.CommunityController.commentOnCommunityPost()
 GET     /delete-post/:postId                    controllers.CommunityController.deletePost(postId : Long)
 GET     /delete-comment/:commentId              controllers.CommunityController.deleteComment(commentId : Long)
-POST	/createCommunity						controllers.CommunityController.createCommunity()
-POST	/image/upload-cover-photo-group/:id		controllers.CommunityController.uploadCoverPhoto(id : Long)
-POST	/updateCommunityProfileData				controllers.CommunityController.updateCommunityProfileData
-GET		/communityQnA/questions/:id				controllers.CommunityController.getAllQuestionsOfCommunity(id : Long)
-POST	/communityQnA/question/post				controllers.CommunityController.postQuestionOnCommunity()
-POST	/communityQnA/question/answer			controllers.CommunityController.answerToQuestionOnQnACommunity()
-POST	/image/uploadPostPhoto					controllers.CommunityController.uploadPhotoOfPost()
-GET		/image/getCommunityIcons				controllers.CommunityController.getCommunityIcons()
-GET		/getAllUnjoinedMembers/:id/:query		controllers.CommunityController.getAllUnjoinedUsers(id : Long, query: String)
-GET		/inviteToCommunity/:community_id/:user_id   controllers.CommunityController.sendInviteToJoinCommunity(community_id : Long, user_id: Long)
-POST	/image/uploadCommentPhoto               controllers.CommunityController.uploadCommentPhoto()
-POST	/image/uploadQnACommentPhoto			controllers.CommunityController.uploadQnACommentPhoto()	
-GET		/image/get-comment-image-by-id/:id		controllers.CommunityController.getCommentImageById(id : Long)
+POST    /createCommunity                        controllers.CommunityController.createCommunity()
+POST    /image/upload-cover-photo-group/:id     controllers.CommunityController.uploadCoverPhoto(id : Long)
+POST    /updateCommunityProfileData             controllers.CommunityController.updateCommunityProfileData
+GET     /communityQnA/questions/:id             controllers.CommunityController.getAllQuestionsOfCommunity(id : Long)
+POST    /communityQnA/question/post             controllers.CommunityController.postQuestionOnCommunity()
+POST    /communityQnA/question/answer           controllers.CommunityController.answerToQuestionOnQnACommunity()
+POST    /image/uploadPostPhoto                  controllers.CommunityController.uploadPhotoOfPost()
+GET     /image/getCommunityIcons                controllers.CommunityController.getCommunityIcons()
+GET     /getAllUnjoinedMembers/:id/:query       controllers.CommunityController.getAllUnjoinedUsers(id : Long, query: String)
+GET     /inviteToCommunity/:community_id/:user_id   controllers.CommunityController.sendInviteToJoinCommunity(community_id : Long, user_id: Long)
+POST    /image/uploadCommentPhoto               controllers.CommunityController.uploadCommentPhoto()
+POST    /image/uploadQnACommentPhoto            controllers.CommunityController.uploadQnACommentPhoto() 
+GET     /image/get-comment-image-by-id/:id      controllers.CommunityController.getCommentImageById(id : Long)
 GET     /post-landing/:id/:communityId          controllers.CommunityController.postLanding(id:Long, communityId:Long)
 GET     /qna-landing/:id/:communityId           controllers.CommunityController.qnaLanding(id:Long, communityId:Long)
 
-GET		/get-bookmark-post/:offset				controllers.CommunityController.getBookmarkedPosts(offset:Integer)
-GET		/unbookmark-post/:post_id				controllers.CommunityController.doUnBookmark(post_id : Long)
-GET		/bookmark-post/:post_id					controllers.CommunityController.doBookmark(post_id : Long)
+GET     /get-bookmark-post/:offset              controllers.CommunityController.getBookmarkedPosts(offset:Integer)
+GET     /unbookmark-post/:post_id               controllers.CommunityController.doUnBookmark(post_id : Long)
+GET     /bookmark-post/:post_id                 controllers.CommunityController.doBookmark(post_id : Long)
 
-GET		/get-my-updates/:timestamp				controllers.CommunityController.getMyUpdates(timestamp:Long)
-GET		/get-my-live-updates/:timestamp			controllers.CommunityController.getMyLiveUpdates(timestamp:Long)
-GET		/get-next-news-feeds/:timestamp			controllers.CommunityController.getNextNewsFeeds(timestamp:Long)	
-GET		/get-newsfeeds/:offset					controllers.CommunityController.getNewsfeeds(offset:Integer)
-GET		/get-businessfeeds/:offset/:commCatId   controllers.CommunityController.getBusinessfeedsByCategory(offset:Integer, commCatId:Long)
+GET     /get-my-updates/:timestamp              controllers.CommunityController.getMyUpdates(timestamp:Long)
+GET     /get-my-live-updates/:timestamp         controllers.CommunityController.getMyLiveUpdates(timestamp:Long)
+GET     /get-next-news-feeds/:timestamp         controllers.CommunityController.getNextNewsFeeds(timestamp:Long)    
+GET     /get-newsfeeds/:offset                  controllers.CommunityController.getNewsfeeds(offset:Integer)
+GET     /get-businessfeeds/:offset/:commCatId   controllers.CommunityController.getBusinessfeedsByCategory(offset:Integer, commCatId:Long)
 
-GET		/like-post/:post_id						controllers.CommunityController.likeThePost(post_id:Long)
-GET		/unlike-post/:post_id					controllers.CommunityController.unlikeThePost(post_id:Long)
-GET		/like-comment/:comment_id				controllers.CommunityController.likeTheComment(comment_id:Long)
-GET		/unlike-comment/:comment_id				controllers.CommunityController.unlikeTheComment(comment_id:Long)
-GET		/want-ans/:post_id						controllers.CommunityController.wantAnswerFromQuestion(post_id:Long)
-GET		/unwant-ans/:post_id					controllers.CommunityController.unwantAnswerFromQuestion(post_id:Long)
+GET     /like-post/:post_id                     controllers.CommunityController.likeThePost(post_id:Long)
+GET     /unlike-post/:post_id                   controllers.CommunityController.unlikeThePost(post_id:Long)
+GET     /like-comment/:comment_id               controllers.CommunityController.likeTheComment(comment_id:Long)
+GET     /unlike-comment/:comment_id             controllers.CommunityController.unlikeTheComment(comment_id:Long)
+GET     /want-ans/:post_id                      controllers.CommunityController.wantAnswerFromQuestion(post_id:Long)
+GET     /unwant-ans/:post_id                    controllers.CommunityController.unwantAnswerFromQuestion(post_id:Long)
 
 GET     /get-pn-communities                     controllers.PreNurseryController.getPNCommunities()
-GET		/getPNs/:id	                            controllers.PreNurseryController.getPNs(id:Long)
+GET     /getPNs/:id                             controllers.PreNurseryController.getPNs(id:Long)
 GET     /pn-request-update/:name/:districtId    controllers.PreNurseryController.requestUpdate(name:String,districtId:Long)
 
 # indexing with elasic search
-GET		/searchForPosts/index/:query/:community_id/:offset	controllers.Application.searchForPosts(query: String, community_id: Long,offset:Long)
+GET     /searchForPosts/index/:query/:community_id/:offset  controllers.Application.searchForPosts(query: String, community_id: Long,offset:Long)
 
 GET     /get-today-weather-info                 controllers.Application.getTodayWeatherInfo()
 
-GET		/image/article/:year/:month/:date/:name			controllers.ArticleController.getImage(year :Long, month :Long, date :Long, name : String)
+GET     /image/article/:year/:month/:date/:name         controllers.ArticleController.getImage(year :Long, month :Long, date :Long, name : String)
