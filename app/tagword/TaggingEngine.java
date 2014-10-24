@@ -28,10 +28,10 @@ public class TaggingEngine {
                 TagWord.TagCategory.ARTICLE,
                 ArticleCategory.ArticleCategoryGroup.SOON_TO_BE_MOMS_ARTICLES.name());
 
-        final Map<Long, Integer> articleScores = new HashMap<>();
-
         for (TagWord tagWord : soonMomTagWords) {
             String[] keywords = tagWord.matchingWords.split(",");
+
+            final Map<Long, Integer> articleScores = new HashMap<>();
 
             for (String keyword : keywords) {
                 keyword = keyword.trim();
@@ -61,7 +61,7 @@ public class TaggingEngine {
             }
             tagWord.updateSocialObjectCount(SocialObjectType.ARTICLE);
 
-            logger.underlyingLogger().info("Indexed articles for tagword["+tagWord.displayWord+"]. count="+articleScores.size());
+            logger.underlyingLogger().info("Indexed articles for tagword["+tagWord.id+"]. count="+articleScores.size());
         }
 	}
 
@@ -73,7 +73,7 @@ public class TaggingEngine {
 		        "where a.category.id in (select c.id from ArticleCategory c where c.categoryGroup = ?1) "+
                 "and a.deleted = false "+
                 "and (a.name like '%"+keyword+"%' or a.description like '%"+keyword+"%') "+
-                "and a.id not in (select ts.socialObjectId from TagWordScore ts where ts.tagWordId.id = ?2 and ts.socialObjectType = ?3)");
+                "and a.id not in (select ts.socialObjectId from TagWordScore ts where ts.tagWordId = ?2 and ts.socialObjectType = ?3)");
 		q.setParameter(1, categoryGroup);
         q.setParameter(2, tagWord.id);
         q.setParameter(3, SocialObjectType.ARTICLE);

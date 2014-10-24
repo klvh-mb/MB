@@ -34,6 +34,8 @@ public class TagWord extends TargetingSocialObject {
 
     public int socialObjectCount;
 
+    public int noClicks;
+
     // Note: Targeting attributes from TargetingSocialObject
 
     /**

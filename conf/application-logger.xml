@@ -31,6 +31,7 @@
   <logger name="providers" level="DEBUG" />
   <logger name="security" level="DEBUG" />
   <logger name="service" level="DEBUG" />
+  <logger name="tagword" level="DEBUG" />
   <logger name="targeting" level="DEBUG" />
 
   <root level="INFO">

@@ -15,6 +15,7 @@ import javax.persistence.NoResultException;
 import common.utils.NanoSecondStopWatch;
 import models.Article;
 import models.ArticleCategory;
+import models.TagWordScore;
 import models.User;
 import play.data.DynamicForm;
 import play.Play;
@@ -84,6 +85,25 @@ public class ArticleController extends Controller {
 
         sw.stop();
         logger.underlyingLogger().info("STS [u="+localUser.id+"] getArticlesCategorywise(cat="+catId+", off="+offset+"). Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(listOfArticles));
+	}
+
+    @Transactional
+	public static Result getArticlesTagwise(Long tagWordId, String offset) {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+		int start = Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
+		final User localUser = Application.getLocalUser(session());
+
+		List<Article> articles = TagWordScore.getArticlesByTagWord(tagWordId, start);
+		List<ArticleVM> listOfArticles = new ArrayList<>();
+		for(Article article : articles) {
+			ArticleVM vm = new ArticleVM(article,localUser);
+			listOfArticles.add(vm);
+		}
+
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] getArticlesTagwise(tagWordId="+tagWordId+", off="+offset+"). Took "+sw.getElapsedMS()+"ms");
 		return ok(Json.toJson(listOfArticles));
 	}
 	

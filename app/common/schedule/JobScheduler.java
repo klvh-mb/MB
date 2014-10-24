@@ -1,15 +1,12 @@
 package common.schedule;
 
 import akka.actor.ActorSystem;
-import akka.actor.Cancellable;
 import play.libs.Akka;
 import play.libs.Time;
 import scala.concurrent.duration.Duration;
 import scala.concurrent.duration.FiniteDuration;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -67,12 +64,18 @@ public class JobScheduler {
 
         @Override
         public void run() {
-            logger.underlyingLogger().info("JobScheduler - Running "+schedulerId);
+            logger.underlyingLogger().info("JobScheduler - Running "+schedulerId+" ["+cronExpression+"]");
 
             try {
                 jobTask.run();
             } catch (Exception e) {
                 logger.underlyingLogger().error("Error in "+schedulerId, e);
+            }
+
+            // Add a 1.5 sec delay before the next schedule.
+            try {
+                Thread.sleep(1500);
+            } catch (Exception e) {
             }
 
             //Schedule for next time
