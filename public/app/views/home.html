@@ -22,23 +22,7 @@
             </div>
              
             <div class="col-md-6 col-sm-6 col-xs-6" style="width:480px;">
-                <div ng-show="!userInfo.isHomeTourCompleted">
-                    <div id="message-board" class="alert alert-info">
-                        <div style="font-size:16px;">
-                            <img style="width:32px;" src="/assets/app/images/general/icons/pink_heart.png"></img>
-                            歡迎來到小萌豆！
-                        </div>
-                        <div style="margin:5px 25px 0 25px;">
-                            請進入並關注您有興趣的社群，立即討論或瀏覽最新話題<br/> 
-                            請給我們兩分鐘，了解更多。
-                            <a class="btn btn-general" href="" ng-click="startHomeTour();">
-                                <img style="width:12px;" src="/assets/app/images/general/icons/pink_question_mark.gif"></img>
-                                看看小貼士
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div ng-show="userInfo.isHomeTourCompleted">
+                <div>
                     <div ng-show="topAnnouncements.length > 0">
                         <div data-ng-include data-src="'/assets/app/views/widgets/top-announcements-widget.html'"></div>
                     </div>
@@ -73,6 +57,9 @@
                 </div>
                 <div>
                     <div data-ng-include data-src="'/assets/app/views/utilities/feedbackCommunityUtility.html'"></div>
+                </div>
+                <div>
+                    <div data-ng-include data-src="'/assets/app/views/utilities/fb-likebox-widget.html'"></div>
                 </div>
                 <div class="ads-factor-1x1">
                     <script adSize="11" adSid="510902096674" ads-factor language='JavaScript' type="text/javascript"></script>

@@ -558,6 +558,9 @@ span.notif-count {
     font-size: 15px;
     font-weight: normal;
 }
+.article-detail-wrapper {
+    padding: 10px 15px;
+}
 .allpost-wrapper li {
     min-height: 80px;
 }

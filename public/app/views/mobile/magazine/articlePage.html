@@ -9,52 +9,50 @@
             <div data-ng-include data-src="'/assets/app/views/magazine/promo-signup-widget.html'"></div>
         </div>
         <div id="wall">
-            <div class="general-box">
-                <div>
-                    <ul class="post-detail-wrapper">
-                        <li>
-                            <span data-ng-include data-src="'/assets/app/views/bookmark-article.html'"></span>
-                            <a href="#/article/show/{{article.ct.id}}">
-                                <img class="scCatMiniThumbnail" data-ng-src="{{article.ct.pictureName}}" />
+            <div class="general-box article-box-main">
+                <ul class="article-detail-wrapper">
+                    <li>
+                        <span data-ng-include data-src="'/assets/app/views/bookmark-article.html'"></span>
+                        <a href="#/article/show/{{article.ct.id}}">
+                            <img class="scCatMiniThumbnail" data-ng-src="{{article.ct.pictureName}}" />
+                        </a>
+                        <div style="margin-left:5px;width:62%;">
+                            <a href="#/article/show/0" ng-show="selectedNavBar == 'HOT_ARTICLES'">
+                                <img style="width:auto;height:26px;" data-ng-src="/assets/app/images/general/titles/hot_articles.png">
                             </a>
-                            <div style="margin-left:5px;width:62%;">
-                                <a href="#/article/show/0" ng-show="selectedNavBar == 'HOT_ARTICLES'">
-                                    <img style="width:auto;height:26px;" data-ng-src="/assets/app/images/general/titles/hot_articles.png">
-                                </a>
-                                <a href="#/article/show/{{soonMomsArticleCategories[0].id}}" ng-show="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'">
-                                    <img style="width:auto;height:26px;" data-ng-src="/assets/app/images/general/titles/preg_month.png">
-                                </a>
-                                <span style="font-size:12px;">&gt;</span>
-                                <div>
-                                    <a class="scCatName" href="#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
-                                </div>
-                                <h6>
-                                    <font ng-show="userInfo.isE">{{article.pd | date:'M/dd/yyyy'}}</font>
-                                </h6>
+                            <a href="#/article/show/{{soonMomsArticleCategories[0].id}}" ng-show="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'">
+                                <img style="width:auto;height:26px;" data-ng-src="/assets/app/images/general/titles/preg_month.png">
+                            </a>
+                            <span style="font-size:12px;">&gt;</span>
+                            <div>
+                                <a class="scCatName" href="#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
                             </div>
-                        </li>
-                        <li>
-                            <font class="scTitle">{{article.nm}}</font>
-                        </li>
-                        <li>
-                            <span class="btn-like-wrapper"><span ng-show="article.nov > 20 || userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{article.nov}}</span></span>
-                            <span data-ng-include data-src="'/assets/app/views/like-article.html'"></span>
-                        </li>
-                        <li><div style="font-size:16px; width:100%;" class="ng-binding" ng-bind-html="article.ds | to_trusted"></div></li>
-                        <li>
-                            <span class="btn-like-wrapper"><span ng-show="article.nov > 20 || userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{article.nov}}</span></span>
-                            <span data-ng-include data-src="'/assets/app/views/like-article.html'"></span>
-                        </li>
-                        <li>
-                            <div style="margin:20px 0;font-size:16px;">
-                                <div class="padding10" style="border-top:1px solid #eee;"></div>
-                                分享連結: 
-                                <input type='text' name='article-link' id='article-link' value='{{applicationInfo.baseUrl}}/magazine#/article/{{article.id}}/{{article.ct.id}}'></input> 
-                                <a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink("article-link")'><i class='glyphicon glyphicon-link'></i></a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                            <h6>
+                                <font ng-show="userInfo.isE">{{article.pd | date:'M/dd/yyyy'}}</font>
+                            </h6>
+                        </div>
+                    </li>
+                    <li>
+                        <font class="scTitle">{{article.nm}}</font>
+                    </li>
+                    <li>
+                        <span class="btn-like-wrapper"><span ng-show="article.nov > 20 || userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{article.nov}}</span></span>
+                        <span data-ng-include data-src="'/assets/app/views/like-article.html'"></span>
+                    </li>
+                    <li><div style="font-size:16px; width:100%;" class="ng-binding" ng-bind-html="article.ds | to_trusted"></div></li>
+                    <li>
+                        <span class="btn-like-wrapper"><span ng-show="article.nov > 20 || userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{article.nov}}</span></span>
+                        <span data-ng-include data-src="'/assets/app/views/like-article.html'"></span>
+                    </li>
+                    <li>
+                        <div style="margin:20px 0;font-size:16px;">
+                            <div class="padding10" style="border-top:1px solid #eee;"></div>
+                            分享連結: 
+                            <input type='text' name='article-link' id='article-link' value='{{applicationInfo.baseUrl}}/magazine#/article/{{article.id}}/{{article.ct.id}}'></input> 
+                            <a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink("article-link")'><i class='glyphicon glyphicon-link'></i></a>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div><!--Post Detail End -->
         
@@ -72,9 +70,6 @@
             </div>
             <div>
                 <div data-ng-include data-src="'/assets/app/views/utilities/hotArticlesUtility.html'"></div>
-            </div>
-            <div>
-                <div data-ng-include data-src="'/assets/app/views/utilities/newArticlesUtility.html'"></div>
             </div>
             <div>
                 <div data-ng-include data-src="'/assets/app/views/utilities/recommendedArticlesUtility.html'"></div>

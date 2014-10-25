@@ -4,11 +4,11 @@
         <img src="/assets/app/images/frontpage/article_title_recommend.png">
         <!--a class="pull-right" href="#">更多</a-->
     </div>
-    <div class="static-content-wrapper" >
+    <div class="static-content-wrapper">
         <ul>
             <li data-ng-repeat="article in recommendedArticles">
                 <a href="#/article/{{article.id}}/{{article.ct.id}}">
-                    <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}" style="width:80px;height:60px;">
+                    <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
                 </a>
                 <div class="pull-right">
                     <a href="#/article/{{article.id}}/{{article.ct.id}}" style="font-size:15px;color:#324fe1;line-height:1.2;">

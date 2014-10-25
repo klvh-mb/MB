@@ -14,7 +14,7 @@ public interface ImageDimensions {
     public static final int PROFILE_MINI_COMMENT = 32 * 2;
 
     public static final int COVERPHOTO_FULL_WIDTH = 580;
-    public static final int COVERPHOTO_THUMBNAIL_WIDTH = 250;
+    public static final int COVERPHOTO_THUMBNAIL_WIDTH = 320;
     public static final int COVERPHOTO_MINI_WIDTH = 120;
 
     public static final int LIGHTBOX_WIDTH_PX = (int) (880 * 1.3d);
