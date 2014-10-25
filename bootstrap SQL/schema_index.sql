@@ -59,6 +59,9 @@ CREATE INDEX article_idx_views ON article (noOfViews);
 CREATE INDEX article_idx_likes ON article (noOfLikes);
 
 
+-- TagWord
+CREATE INDEX tagwordscore_idx_twid_score ON TagWordScore (tagWordId, score);
+
 
 -- PreNursery
 CREATE INDEX prenursery_idx_region_dist ON prenursery (regionId, districtId);
