@@ -150,6 +150,7 @@ public class UserController extends Controller {
 		    logger.underlyingLogger().error("Error in uploadProfilePhoto", e);
 			return status(500);
 		}
+	    completeHomeTour();
 		return ok();
 	}
 	
@@ -174,6 +175,7 @@ public class UserController extends Controller {
 		    logger.underlyingLogger().error("Error in uploadCoverPhoto", e);
 			return status(500);
 		}
+	    completeHomeTour();
 		return ok();
 	}
 	

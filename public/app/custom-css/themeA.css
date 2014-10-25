@@ -1696,6 +1696,8 @@ a:focus {
     height: 100%;
 }
 .static-content-wrapper img {
+    width: 115px;
+    height: 85px;
     border-radius: 5px;
     margin-top: 3px;
 }
@@ -1709,7 +1711,7 @@ a:focus {
 .static-content-wrapper div {
     font-size: small;
     clear: right;
-    width: 65%;
+    width: 55%;
     height: 68px;
     overflow: hidden;
 }
@@ -1905,58 +1907,61 @@ a:focus {
 /*All Post Thumbnail End*/
 
 /*Post Detail Start*/
-.post-detail-wrapper {
-    padding: 5px 10px;
+.article-box-main {
+    box-shadow: 0px 1px 3px rgba(136, 136, 136, 0.5);
 }
-.post-detail-wrapper li {
+.article-detail-wrapper {
+    padding: 20px 25px;
+}
+.article-detail-wrapper li {
     clear: both;
     padding-top: 10px;
 }
-.post-detail-wrapper li:first-child > a > img {
+.article-detail-wrapper li:first-child > a > img {
     float: left;
 }
-.post-detail-wrapper div {
+.article-detail-wrapper div {
     float: left;
     padding-left: 3px;
     position: relative;
     width: 98%;
 }
-.post-detail-wrapper h3 {
+.article-detail-wrapper h3 {
     margin: 0;
     font-weight: bold;
 }
-.post-detail-wrapper h6 {
+.article-detail-wrapper h6 {
     /*float: right;*/
 }
-.post-detail-wrapper h6 p:before{
+.article-detail-wrapper h6 p:before{
     content: " 日期: ";
 }
-.post-detail-wrapper h6 span[title=year]:after {
+.article-detail-wrapper h6 span[title=year]:after {
     content: " 年 ";
 }
-.post-detail-wrapper h6 span[title=month]:after {
+.article-detail-wrapper h6 span[title=month]:after {
     content: " 月 ";
 }
-.post-detail-wrapper h6 span[title=day]:after {
+.article-detail-wrapper h6 span[title=day]:after {
     content: " 日 ";
 }
-.post-detail-wrapper .post-like-num:before {
+.article-detail-wrapper .post-like-num:before {
     content: '有 ';
 }
-.post-detail-wrapper .post-like-num:after {
+.article-detail-wrapper .post-like-num:after {
     content: ' 人都讚好 ';
 }
-.post-detail-wrapper .post-like-num {
+.article-detail-wrapper .post-like-num {
     display: inline-block;
 }
-.post-detail-wrapper .post-like-num+a {
+.article-detail-wrapper .post-like-num+a {
     padding: 0 15px;
 }
-.post-detail-wrapper li img {
+.article-detail-wrapper li img {
     /*display: block;*/
     max-width: 98%;
 }
-.post-detail-wrapper p {
+.article-detail-wrapper p {
     padding-top: 10px;
     white-space: pre-line;
 }
@@ -2099,7 +2104,7 @@ a:focus {
 }
 #profile-banner {
     width: 100%;
-    height: 240px;
+    height: 205px;
     border-radius: 10px 10px 0 0;
 }
 /* Profile page Header End */
@@ -2870,6 +2875,15 @@ span.notif-count {
     font-size: 16px;
     font-weight: bold;
     text-align: center;
+}
+.fb-box {
+    margin: 15px 0px;
+}
+.fb-box h2 {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+    margin: 0;
 }
 .ads-factor-1x1 {
 }
