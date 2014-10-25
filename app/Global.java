@@ -161,8 +161,8 @@ public class Global extends GlobalSettings {
             }
         );
 
-        // schedule to check command every 60s.
-        JobScheduler.getInstance().schedule("commandCheck", 60000,
+        // schedule to check command every 2 min.
+        JobScheduler.getInstance().schedule("commandCheck", 120000,
             new Runnable() {
                 public void run() {
                     try {
