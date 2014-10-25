@@ -16,6 +16,7 @@ public class TagWordCache {
     // Permanent cache loaded up on system startup.
 
     private static List<TagWord> soonMomsTagWords = Collections.EMPTY_LIST;
+    private static List<TagWord> hotArticlesTagWords = Collections.EMPTY_LIST;
 
     static {
         refresh();
@@ -27,6 +28,8 @@ public class TagWordCache {
     public static void refresh() {
         soonMomsTagWords = TagWord.getTagWordsByCategoryByCount(TagWord.TagCategory.ARTICLE,
                     ArticleCategory.ArticleCategoryGroup.SOON_TO_BE_MOMS_ARTICLES.name());
+        hotArticlesTagWords = TagWord.getTagWordsByCategoryByCount(TagWord.TagCategory.ARTICLE,
+                    ArticleCategory.ArticleCategoryGroup.HOT_ARTICLES.name());
     }
 
     /**
@@ -36,4 +39,13 @@ public class TagWordCache {
     public static List<TagWord> getSoonToBeMomTagWords() {
         return soonMomsTagWords;
     }
+
+    /**
+     * Getter for hot articles.
+     * @return
+     */
+    public static List<TagWord> getHotArticlesTagWords() {
+        return hotArticlesTagWords;
+    }
+
 }

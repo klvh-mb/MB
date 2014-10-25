@@ -25,11 +25,18 @@ public class TaggingEngine {
 
     @Transactional
 	public static void indexTagWords() {
-        final List<TagWord> soonMomTagWords = TagWord.getTagWordsByCategory(
-                TagWord.TagCategory.ARTICLE,
-                ArticleCategory.ArticleCategoryGroup.SOON_TO_BE_MOMS_ARTICLES.name());
+        indexTagWordsForArticleCategory(ArticleCategory.ArticleCategoryGroup.SOON_TO_BE_MOMS_ARTICLES);
+        indexTagWordsForArticleCategory(ArticleCategory.ArticleCategoryGroup.HOT_ARTICLES);
 
-        for (TagWord tagWord : soonMomTagWords) {
+        // refresh cache
+        TagWordCache.refresh();
+	}
+
+    private static void indexTagWordsForArticleCategory(ArticleCategory.ArticleCategoryGroup categoryGroup) {
+        final List<TagWord> tagWords =
+                TagWord.getTagWordsByCategory(TagWord.TagCategory.ARTICLE, categoryGroup.name());
+
+        for (TagWord tagWord : tagWords) {
             String[] keywords = tagWord.matchingWords.split(",");
 
             final Map<Long, Integer> articleScores = new HashMap<>();
@@ -38,8 +45,7 @@ public class TaggingEngine {
                 keyword = keyword.trim();
 
                 List<Article> unscoredArticles =
-                        getArticlesWithKeyword(tagWord, keyword,
-                                ArticleCategory.ArticleCategoryGroup.SOON_TO_BE_MOMS_ARTICLES);
+                        getArticlesWithKeyword(tagWord, keyword, categoryGroup);
 
                 for (Article article : unscoredArticles) {
                     int kwScore = ArticleTaggingScorer.computeScore(keyword, article);
@@ -62,12 +68,9 @@ public class TaggingEngine {
             }
             tagWord.updateSocialObjectCount(SocialObjectType.ARTICLE);
 
-            logger.underlyingLogger().info("Indexed articles for tagword["+tagWord.id+"]. count="+articleScores.size());
+            logger.underlyingLogger().info("Indexed articles on tagword["+categoryGroup.name()+"]["+tagWord.id+"]. count="+articleScores.size());
         }
-
-        // refresh cache
-        TagWordCache.refresh();
-	}
+    }
 
 
     private static List<Article> getArticlesWithKeyword(TagWord tagWord,
