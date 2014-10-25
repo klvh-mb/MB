@@ -778,7 +778,6 @@ public class DataBootstrap {
         q.setParameter(1, hotArticlesCatId);
         count = (Long)q.getSingleResult();
         if (count == 0) {
-            createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "造人", "造人");
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "爸爸", "爸爸,父親,老公");
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "營養", "營養,碘,飲食,鈣,鋅,蛋白質");
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "旅行", "旅行,旅遊,坐飛機");
