@@ -56,7 +56,7 @@ public class TagWord extends TargetingSocialObject {
 
     public static List<TagWord> getTagWordsByCategoryByCount(TagCategory tagCategory, String tagCategoryId) {
         Query q = JPA.em().createQuery("Select t from TagWord t where " +
-                "t.tagCategory = ?1 and t.tagCategoryId = ?2 and t.deleted = false order by t.socialObjectCount desc");
+                "t.tagCategory = ?1 and t.tagCategoryId = ?2 and t.socialObjectCount > 0 and t.deleted = false order by t.socialObjectCount desc");
 		q.setParameter(1, tagCategory);
         q.setParameter(2, tagCategoryId);
 

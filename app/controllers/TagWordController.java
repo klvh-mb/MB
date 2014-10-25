@@ -34,6 +34,13 @@ public class TagWordController extends Controller {
 
     @Transactional
 	public static Result getHotArticlesTagWords() {
-        return ok();
+        List<TagWord> tagWords = TagWordCache.getHotArticlesTagWords();
+
+		List<TagWordVM> tagWordVMs = new ArrayList<>();
+		for(TagWord tagWord : tagWords) {
+			TagWordVM vm = TagWordVM.toTagWordVM(tagWord);
+			tagWordVMs.add(vm);
+		}
+		return ok(Json.toJson(tagWordVMs));
     }
 }
