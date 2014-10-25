@@ -1196,7 +1196,7 @@ a:focus {
 /* User Profile Picture Start */
 #main-uphoto {
     width: 100%;
-    height: 95px;
+    height: 90px;
     position: relative;
     overflow: hidden;
     border-radius: 10px 10px 0 0;
@@ -1204,7 +1204,7 @@ a:focus {
 #main-uphoto a[title="user-picture"] {
     position: relative;
     left: 5%;
-    top: 13%;
+    top: 12%;
 }
 #main-uphoto img[alt="user-picture-bg"] {
     width: 100%;
@@ -1911,7 +1911,7 @@ a:focus {
     box-shadow: 0px 1px 3px rgba(136, 136, 136, 0.5);
 }
 .article-detail-wrapper {
-    padding: 20px 25px;
+    padding: 20px 35px;
 }
 .article-detail-wrapper li {
     clear: both;
@@ -1964,6 +1964,7 @@ a:focus {
 .article-detail-wrapper p {
     padding-top: 10px;
     white-space: pre-line;
+    line-height: 1.4;
 }
 /*Post Detail End*/
 
