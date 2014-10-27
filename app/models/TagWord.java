@@ -68,4 +68,11 @@ public class TagWord extends TargetingSocialObject {
         socialObjectCount = TagWordScore.getSocialObjectCount(id, socialObjectType).intValue();
         save();
     }
+
+    @Transactional
+    public static void incrementNoClicks(Long tagWordId) {
+        Query query = JPA.em().createQuery("update TagWord t set t.noClicks = (t.noClicks+1) where t.id = ?1");
+        query.setParameter(1, tagWordId);
+        query.executeUpdate();
+    }
 }

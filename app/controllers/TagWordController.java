@@ -24,7 +24,7 @@ public class TagWordController extends Controller {
 	public static Result getSoonToBeMomTagWords() {
         List<TagWord> tagWords = TagWordCache.getSoonToBeMomTagWords();
 
-		List<TagWordVM> tagWordVMs = new ArrayList<>();
+		List<TagWordVM> tagWordVMs = new ArrayList<>(tagWords.size());
 		for(TagWord tagWord : tagWords) {
 			TagWordVM vm = TagWordVM.toTagWordVM(tagWord);
 			tagWordVMs.add(vm);
@@ -36,11 +36,17 @@ public class TagWordController extends Controller {
 	public static Result getHotArticlesTagWords() {
         List<TagWord> tagWords = TagWordCache.getHotArticlesTagWords();
 
-		List<TagWordVM> tagWordVMs = new ArrayList<>();
+		List<TagWordVM> tagWordVMs = new ArrayList<>(tagWords.size());
 		for(TagWord tagWord : tagWords) {
 			TagWordVM vm = TagWordVM.toTagWordVM(tagWord);
 			tagWordVMs.add(vm);
 		}
 		return ok(Json.toJson(tagWordVMs));
+    }
+
+    @Transactional
+	public static Result onClick(Long tagWordId) {
+        TagWord.incrementNoClicks(tagWordId);
+        return ok();
     }
 }

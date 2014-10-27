@@ -77,8 +77,9 @@ GET     /bookmark-article/:article_id               controllers.ArticleControlle
 GET     /unbookmark-article/:article_id             controllers.ArticleController.onUnBookmark(article_id : Long)
 GET     /get-bookmark-article/:offset               controllers.ArticleController.getBookmarkedArticles(offset:Integer)
 
-GET     /get-hot-articles-tagwords     controllers.TagWordController.getHotArticlesTagWords
+GET     /get-hot-articles-tagwords  controllers.TagWordController.getHotArticlesTagWords
 GET     /get-soon-moms-tagwords     controllers.TagWordController.getSoonToBeMomTagWords
+GET     /click-tagword/:id          controllers.TagWordController.onClick(id : Long)
 
 GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
 GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
