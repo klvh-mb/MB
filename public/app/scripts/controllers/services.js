@@ -700,6 +700,13 @@ minibean.service('tagwordService',function($resource){
                 get: {method:'get',isArray:true}
             }
     );
+    this.ClickTagword = $resource(
+            '/click-tagword/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{id:'@id'}}
+            }
+    );
 });
     
 minibean.service('articleService',function($resource){

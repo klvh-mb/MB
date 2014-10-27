@@ -3013,6 +3013,7 @@ minibean.controller('ShowArticlesController',function($scope, $modal, $routePara
 		usSpinnerService.spin('loading...');
 		$scope.isBusy = true;
 		if (tagwordRequest) {
+            tagwordService.ClickTagword.get({id:tagwordId});
             $scope.result = articleService.ArticlesByTagword.get({tagword_id:tagwordId, offset: $scope.articlesScrollOffset}, 
                 function(data) {
                     postGetResults(data);
