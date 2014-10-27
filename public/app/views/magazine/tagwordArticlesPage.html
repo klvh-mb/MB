@@ -7,9 +7,7 @@
     <div class="row">
         <div class="col-md-2 col-sm-2 col-xs-2" style="width:210px;">
             <div data-ng-include data-src="'/assets/app/views/widgets/article-categories-index-widget.html'"></div>
-            <div ng-show="userInfo.isSA">
-                <div data-ng-include data-src="'/assets/app/views/widgets/tagwords-index-widget.html'"></div>
-            </div>
+            <div data-ng-include data-src="'/assets/app/views/widgets/tagwords-index-widget.html'"></div>
             <div ng-show="!userInfo.isLoggedIn">
                 <div data-ng-include data-src="'/assets/app/views/magazine/promo-signup-widget.html'"></div>
             </div>
@@ -19,6 +17,21 @@
             <div id="wall">
                 <div infinite-scroll='next_result()' infinite-scroll-distance='1'>
                     <div class="general-box">
+                        <div class="tagword-results-header">
+                            <div><h2>"{{tagword.nm}}"</h2></div>
+                            <div>
+                                <span class="tagword-stats" ng-show="userInfo.isE">
+                                    <img data-ng-src="/assets/app/images/general/icons/view.png"/>
+                                    <h4>{{tagword.noc}}</h4> 人查看 
+                                </span>
+                            </div>
+                            <div>
+                                <span class="tagword-stats">
+                                    <img data-ng-src="/assets/app/images/general/icons/i-article.png"/>
+                                    <h4>{{tagword.nos}}</h4> 篇關於 <h4>"{{tagword.nm}}"</h4> 的文章
+                                </span>
+                            </div>
+                        </div>
 	                    <ul class="allpost-wrapper">
                             <li data-ng-repeat="article in result">
 	                            <a href="#/article/{{article.id}}/{{article.ct.id}}">

@@ -2814,7 +2814,8 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
 
     $scope.resultSlider = articleService.SixArticles.get({category_id:$routeParams.catId}, function() {
         $scope.changeSliderImage($scope.resultSlider.la[0].id);
-        $interval($scope.autoRollSlider, 100, 1);    // init auto roll 
+        $interval($scope.autoRollSlider, 10, 1);    // init auto roll
+        $interval($scope.autoRollSlider, DefaultValues.AUTO_SCROLL_INTERVAL/3, 1);   // first roll  
         $scope.resumeSliderRoll();   
     });
     
@@ -2855,7 +2856,7 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
             return;
         }
         $scope.initAutoRollState();
-        $scope.stopSliderRollTimer = $interval($scope.autoRollSlider, AUTO_SCROLL_INTERVAL);
+        $scope.stopSliderRollTimer = $interval($scope.autoRollSlider, DefaultValues.AUTO_SCROLL_INTERVAL);
         //log('start article auto roll timer');
     }
     
@@ -2864,7 +2865,6 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
         $scope.stopSliderRoll();
     });
     
-    var AUTO_SCROLL_INTERVAL = 5000;
     var left = true;
     var index = 0;
     var leftCount;
@@ -2965,10 +2965,10 @@ minibean.controller('ShowArticlesController',function($scope, $modal, $routePara
 
     $scope.get_header_metaData();
 
-    var tagword = false;
+    var tagwordRequest = false;
     if ($routeParams.tagwordId != undefined) {
         var tagwordId = $routeParams.tagwordId; 
-        tagword = true;
+        tagwordRequest = true;
         $scope.selectNavBar($routeParams.catGroup, -1);
     } else {
         var catId = $routeParams.catId;
@@ -2979,11 +2979,29 @@ minibean.controller('ShowArticlesController',function($scope, $modal, $routePara
     }
 
     // tag words
-    $scope.hotArticlesTagwords = tagwordService.HotArticlesTagwords.get();
-    $scope.soonMomsTagwords = tagwordService.SoonMomsTagwords.get();
+    $scope.hotArticlesTagwords = tagwordService.HotArticlesTagwords.get({}, 
+        function(data) {
+            if (tagwordRequest && $routeParams.catGroup == 'HOT_ARTICLES') {
+                angular.forEach(data, function(tagword, key){
+                    if(tagword.id == tagwordId) {
+                        $scope.tagword = tagword;
+                    }
+                })
+            }
+        });
+    $scope.soonMomsTagwords = tagwordService.SoonMomsTagwords.get({}, 
+        function(data) {
+            if (tagwordRequest && $routeParams.catGroup == 'SOON_TO_BE_MOMS_ARTICLES') {
+                angular.forEach(data, function(tagword, key){
+                    if(tagword.id == tagwordId) {
+                        $scope.tagword = tagword;
+                    }
+                })
+            }
+        });
     
     // utilities
-    if (!tagword) {
+    if (!tagwordRequest) {
     	$scope.hotArticles = articleService.HotArticles.get({category_id:catId});
     	$scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:catId});
     	$scope.newArticles = articleService.NewArticles.get({category_id:catId});
@@ -2994,7 +3012,7 @@ minibean.controller('ShowArticlesController',function($scope, $modal, $routePara
 	$scope.get_result = function() {
 		usSpinnerService.spin('loading...');
 		$scope.isBusy = true;
-		if (tagword) {
+		if (tagwordRequest) {
             $scope.result = articleService.ArticlesByTagword.get({tagword_id:tagwordId, offset: $scope.articlesScrollOffset}, 
                 function(data) {
                     postGetResults(data);
@@ -3017,7 +3035,7 @@ minibean.controller('ShowArticlesController',function($scope, $modal, $routePara
         if (noMore) return;
         $scope.isBusy = true;
         usSpinnerService.spin('loading...');
-        if (tagword) {
+        if (tagwordRequest) {
             articleService.ArticlesByTagword.get({tagword_id:tagwordId, offset: $scope.articlesScrollOffset},
                 function(data){
                     postNextResults(data);

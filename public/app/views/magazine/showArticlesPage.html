@@ -7,9 +7,7 @@
     <div class="row">
         <div class="col-md-2 col-sm-2 col-xs-2" style="width:210px;">
             <div data-ng-include data-src="'/assets/app/views/widgets/article-categories-index-widget.html'"></div>
-            <div ng-show="userInfo.isSA">
-                <div data-ng-include data-src="'/assets/app/views/widgets/tagwords-index-widget.html'"></div>
-            </div>
+            <div data-ng-include data-src="'/assets/app/views/widgets/tagwords-index-widget.html'"></div>
             <div ng-show="!userInfo.isLoggedIn">
                 <div data-ng-include data-src="'/assets/app/views/magazine/promo-signup-widget.html'"></div>
             </div>

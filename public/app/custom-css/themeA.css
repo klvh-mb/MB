@@ -2767,7 +2767,7 @@ span.notif-count {
     border-color: #FCC9CB;
     border-radius: 15px;
     border-width: 3px;
-    margin: 5px 0 15px 0;
+    margin: 0px 0 15px 0;
     box-shadow: 0px 1px 10px rgba(162, 6, 43, 0.5);
 }
 #communities-index {
@@ -2817,6 +2817,51 @@ span.notif-count {
     margin: 5px 10px 12px 10px;
     font-size: 16px;
     font-weight: bold;
+}
+.tagword-results-header {
+    padding: 10px;
+    margin: 0;
+    font-size: 15px;
+    color: black;
+    border-bottom: 1px dashed #2EAB66;
+}
+.tagword-results-header h1,h2,h3,h4 {
+    margin: 0;
+    font-weight: bold;
+    color: #556fb5;
+    display: inline-block; */
+}
+.tagword-results-header h1 {
+    font-size: 24px;
+}
+.tagword-results-header h2 {
+    font-size: 20px;
+}
+.tagword-results-header h3 {
+    font-size: 17px;
+}
+.tagword-results-header h4 {
+    font-size: 15px;
+}
+.tagword-results-header div {
+    margin: 5px 0px;
+}
+.tagword-results-header .tagword-stats {
+    margin: 0px;
+}
+.tagword-results-header .tagword-stats span {
+    min-width: 35px;
+    display: inline-block;
+    text-align: end;
+    color: #9D9D9D;
+    font-size: 14px;
+    vertical-align: text-bottom;
+}
+.tagword-results-header .tagword-stats img {
+    width: 18px;
+    height: auto;
+    margin: 2px 4px;
+    vertical-align: bottom;
 }
 #tagword-list {
 
