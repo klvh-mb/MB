@@ -1,6 +1,6 @@
 <div ng-if="selectedNavBar == 'HOT_ARTICLES' && hotArticlesTagwords.length > 0">
-    <div ng-init="tagwords = hotArticlesTagwords" data-ng-include data-src="'/assets/app/views/widgets/tagwords-index.html'"></div>
+    <div ng-init="catGroup = selectedNavBar;tagwords = hotArticlesTagwords" data-ng-include data-src="'/assets/app/views/widgets/tagwords-index.html'"></div>
 </div>
 <div ng-if="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES' && soonMomsTagwords.length > 0">
-    <div ng-init="tagwords = soonMomsTagwords" data-ng-include data-src="'/assets/app/views/widgets/tagwords-index.html'"></div>
+    <div ng-init="catGroup = selectedNavBar;tagwords = soonMomsTagwords" data-ng-include data-src="'/assets/app/views/widgets/tagwords-index.html'"></div>
 </div>

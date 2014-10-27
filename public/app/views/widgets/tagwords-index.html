@@ -4,7 +4,7 @@
     </div>
     <ul>
         <li ng-repeat="tagword in tagwords" ng-class-odd="'tagword-odd'" ng-class-even="'tagword-even'">
-            <a ng-href="magazine#/article/tagword/{{tagword.id}}/SOON_TO_BE_MOMS_ARTICLES">
+            <a ng-href="magazine#/article/tagword/{{tagword.id}}/{{catGroup}}">
                 {{tagword.nm}}
                 <span class="tagword-stats pull-right">
                     <span ng-show="userInfo.isE">
