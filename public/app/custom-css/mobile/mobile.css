@@ -70,6 +70,21 @@ body {
 .sidebar-nav .sliding-menu-subcats-article {
     border: 2px solid #ECD3C7;
 }
+.sidebar-nav #fb-btn-set {
+    margin-top: 5px;
+    text-align: right;
+}
+.sidebar-nav #fb-btn-set a {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url(../../images/login/fb_link_btn.png) center center no-repeat;
+}
+.sidebar-nav #fb-btn-set a:hover {
+    width: 20px;
+    height: 20px;
+    background: url(../../images/login/fb_link_btn.png) center center no-repeat;
+}
 .container-fluid {
     padding-right: 0px;
     padding-left: 0px;

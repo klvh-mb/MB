@@ -35,6 +35,10 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/magazine/showArticlesPage.html',
         controller : 'ShowArticlesController'  
       })
+      .when('/article/tagword/:tagwordId/:catGroup',{
+        templateUrl: '/assets/app/views/magazine/tagwordArticlesPage.html',
+        controller : 'ShowArticlesController'  
+      })
       .when('/article/:id/:catId',{
         templateUrl: '/assets/app/views/magazine/articlePage.html',
         controller : 'ArticlePageController'  

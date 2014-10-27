@@ -218,7 +218,7 @@ minibean.controller('ApplicationController',
 	$scope.userInfo = userInfoService.UserInfo.get(
         function(data) {
             if (data.isLoggedIn) {
-                
+                $scope.get_header_metaData();
 	        }
         }
 	);
@@ -255,7 +255,10 @@ minibean.controller('ApplicationController',
 	}
 	
 	$scope.set_background_image = function() {
-		return { background: 'url(/image/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+') center center no-repeat'};
+		return { 
+            background: 'url(/image/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+') center center no-repeat', 
+            backgroundSize: '100% auto' 
+        };
 	} 
 
     $scope.unread_msg_count = 0;
@@ -276,7 +279,6 @@ minibean.controller('ApplicationController',
             $scope.userInfo.displayName = data.name;
         });
     };
-    $scope.get_header_metaData();
 
     // refresh header meta data every X ms
     // To stop - $interval.cancel(stopHeaderMetaData);
@@ -344,6 +346,12 @@ minibean.controller('ApplicationController',
 	}
 
     $scope.mark_notif_read = function() {
+        if ($scope.batchup_notif == undefined || 
+            $scope.batchup_notif == null || 
+            $scope.batchup_notif.length == 0) {
+            return;
+        }
+        
         var data = null;
         angular.forEach($scope.batchup_notif, function(request, key){
             if(data == null){
@@ -356,6 +364,12 @@ minibean.controller('ApplicationController',
     }
 
     $scope.mark_requests_read = function() {
+        if ($scope.request_notif == undefined || 
+            $scope.request_notif == null || 
+            $scope.request_notif.length == 0) {
+            return;
+        }
+
         var data = null;
         angular.forEach($scope.request_notif, function(request, key){
             if(data == null){
@@ -2795,18 +2809,16 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 	log("CommunityQnAController completed");
 });
 
-minibean.controller('ArticleSliderController', function($scope, $modal, $routeParams, showImageService, usSpinnerService, articleService){
+minibean.controller('ArticleSliderController', function($scope, $modal, $routeParams, $interval, showImageService, usSpinnerService, articleService){
     log("ArticleSliderController starts");
-  
+
     $scope.resultSlider = articleService.SixArticles.get({category_id:$routeParams.catId}, function() {
-        $scope.image_source = $scope.resultSlider.la[0].img_url;
-        $scope.description = $scope.resultSlider.la[0].lds;
-        $scope.title = $scope.resultSlider.la[0].nm;
-        $scope.article_id = $scope.resultSlider.la[0].id;
-        $scope.article_cat_id = $scope.resultSlider.la[0].ct.id;
+        $scope.changeSliderImage($scope.resultSlider.la[0].id);
+        $interval($scope.autoRollSlider, 100, 1);    // init auto roll 
+        $scope.resumeSliderRoll();   
     });
     
-    $scope.changeInsideImage = function(article_id) {
+    $scope.changeSliderImage = function(article_id) {
         angular.forEach($scope.resultSlider.la, function(element, key){
             if(element.id == article_id) {
                 $scope.image_source = element.img_url;
@@ -2815,6 +2827,7 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
                 $scope.article_id = element.id;
                 $scope.article_cat_id = element.ct.id;
             }
+            $('#slider_item_'+element.id).removeClass('hovered');
         })
         angular.forEach($scope.resultSlider.ra, function(element, key){
             if(element.id == article_id) {
@@ -2824,9 +2837,69 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
                 $scope.article_id = element.id;
                 $scope.article_cat_id = element.ct.id;
             }
+            $('#slider_item_'+element.id).removeClass('hovered');
         })
+        $('#slider_item_'+article_id).addClass('hovered');
     };
     
+    $scope.stopSliderRoll = function() {
+        if (angular.isDefined($scope.stopSliderRollTimer)) {
+            $interval.cancel($scope.stopSliderRollTimer);
+            $scope.stopSliderRollTimer = undefined;
+            //log('stop article auto roll timer');
+        }
+    }
+    
+    $scope.resumeSliderRoll = function() {
+        if (angular.isDefined($scope.stopSliderRollTimer)) {
+            return;
+        }
+        $scope.initAutoRollState();
+        $scope.stopSliderRollTimer = $interval($scope.autoRollSlider, AUTO_SCROLL_INTERVAL);
+        //log('start article auto roll timer');
+    }
+    
+    $scope.$on('$destroy', function() {
+        // avoid duplicate timer start
+        $scope.stopSliderRoll();
+    });
+    
+    var AUTO_SCROLL_INTERVAL = 5000;
+    var left = true;
+    var index = 0;
+    var leftCount;
+    var rightCount;
+    $scope.initAutoRollState = function() {
+        leftCount = $scope.resultSlider.la.length;
+        rightCount = $scope.resultSlider.ra.length;
+    }
+    
+    $scope.autoRollSlider = function() {
+        var article_id = $scope.resultSlider.la[index].id;
+        if (!left) {
+            article_id = $scope.resultSlider.ra[index].id;
+        }
+        $scope.changeSliderImage(article_id);
+
+        // switch side
+        if (left) {
+            if (index == leftCount - 1) {
+                left = !left;
+                index = 0;
+            } else {
+                index++;
+            }
+        } else {
+            if (index == rightCount - 1) {
+                left = !left;
+                index = 0;
+            } else {
+                index++;
+            }
+        }
+        //log(left+":"+index);
+    }
+  
     log("ArticleSliderController completed");
 });
 
@@ -2892,92 +2965,124 @@ minibean.controller('ShowArticlesController',function($scope, $modal, $routePara
 
     $scope.get_header_metaData();
 
-    var catId = $routeParams.catId;
-    if (catId == undefined) {
-       catId == 0;
+    var tagword = false;
+    if ($routeParams.tagwordId != undefined) {
+        var tagwordId = $routeParams.tagwordId; 
+        tagword = true;
+        $scope.selectNavBar($routeParams.catGroup, -1);
+    } else {
+        var catId = $routeParams.catId;
+        if (catId == undefined) {
+           catId == 0;
+        }
+        $scope.selectNavBar($scope.getArticleCategoryGroup(catId), catId);
     }
-    $scope.selectNavBar($scope.getArticleCategoryGroup(catId), catId);
 
     // tag words
     $scope.hotArticlesTagwords = tagwordService.HotArticlesTagwords.get();
     $scope.soonMomsTagwords = tagwordService.SoonMomsTagwords.get();
     
     // utilities
-	$scope.hotArticles = articleService.HotArticles.get({category_id:catId});
-	$scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:catId});
-	$scope.newArticles = articleService.NewArticles.get({category_id:catId});
-
-	var offset = 0;
+    if (!tagword) {
+    	$scope.hotArticles = articleService.HotArticles.get({category_id:catId});
+    	$scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:catId});
+    	$scope.newArticles = articleService.NewArticles.get({category_id:catId});
+    }
+    
+	$scope.articlesScrollOffset = 0;
 	var noMore = false;
-	$scope.get_result = function(catId) {
+	$scope.get_result = function() {
 		usSpinnerService.spin('loading...');
 		$scope.isBusy = true;
-		$scope.result = articleService.ArticleCategorywise.get({category_id:catId, offset: offset}, 
-            function(data) {
-                var count = 1;
-                offset++;
-                angular.forEach($scope.result, function(element, key){
-					if(count == 1) {
-						$scope.desc = element.ds;
-						$scope.article1 = element;
-					}
-					if(count == 2) {
-						$scope.article2 = element;
-					}
-					if(count == 3) {
-						$scope.article3 = element;
-					}
-					count++;
-				})
-				if ($scope.result.length == 0){
-					noMore = true;
-				}
-                $scope.categoryImage = $scope.result[0].category_url;
-                $scope.categoryName = $scope.result[0].ct.name;
-				if(catId == 0) {
-					$scope.allCategory = true;
-					$scope.oneCategory = false;
-				}
-				else
-				{
-					$scope.allCategory = false;
-					$scope.oneCategory = true;
-				}
-                $scope.isBusy = false;
-                usSpinnerService.stop('loading...');
-                
-                // render mobile scroll nav bar
-                if ($scope.userInfo.isMobile) {
-                    $scope.renderNavSubBar();
-                }
-            });
+		if (tagword) {
+            $scope.result = articleService.ArticlesByTagword.get({tagword_id:tagwordId, offset: $scope.articlesScrollOffset}, 
+                function(data) {
+                    postGetResults(data);
+                    usSpinnerService.stop('loading...');
+                });
+        } else {
+            $scope.result = articleService.ArticleCategorywise.get({category_id:catId, offset: $scope.articlesScrollOffset}, 
+                function(data) {
+                    postGetResults(data);
+                    usSpinnerService.stop('loading...');
+                });
+        }
     };
     
     $scope.result = [];
-    $scope.get_result(catId);
+    $scope.get_result();
     
     $scope.next_result = function() {
         if ($scope.isBusy) return;
         if (noMore) return;
         $scope.isBusy = true;
         usSpinnerService.spin('loading...');
-        articleService.ArticleCategorywise.get({category_id:catId, offset: offset},
-            function(data){
-                var posts = data;
-                if(posts.length == 0) {
-                    noMore = true;
-                }
-                
-                for (var i = 0; i < posts.length; i++) {
-                    $scope.result.push(posts[i]);
-                }
-                $scope.isBusy = false;
-                offset++;
-                usSpinnerService.stop('loading...');
-            }
-        );
+        if (tagword) {
+            articleService.ArticlesByTagword.get({tagword_id:tagwordId, offset: $scope.articlesScrollOffset},
+                function(data){
+                    postNextResults(data);
+                    usSpinnerService.stop('loading...');
+                });
+        } else {
+            articleService.ArticleCategorywise.get({category_id:catId, offset: $scope.articlesScrollOffset},
+                function(data){
+                    postNextResults(data);
+                    usSpinnerService.stop('loading...');
+                });
+        }
     }
 
+    var postGetResults = function(data) {
+        var count = 1;
+        $scope.articlesScrollOffset++;
+        angular.forEach($scope.result, function(element, key){
+            if(count == 1) {
+                $scope.desc = element.ds;
+                $scope.article1 = element;
+            }
+            if(count == 2) {
+                $scope.article2 = element;
+            }
+            if(count == 3) {
+                $scope.article3 = element;
+            }
+            count++;
+        })
+        if ($scope.result.length == 0) {
+            noMore = true;
+        }
+        $scope.categoryImage = $scope.result[0].category_url;
+        $scope.categoryName = $scope.result[0].ct.name;
+        if(catId == 0) {
+            $scope.allCategory = true;
+            $scope.oneCategory = false;
+        }
+        else
+        {
+            $scope.allCategory = false;
+            $scope.oneCategory = true;
+        }
+        $scope.isBusy = false;
+        
+        // render mobile scroll nav bar
+        if ($scope.userInfo.isMobile) {
+            $scope.renderNavSubBar();
+        }
+    }
+    
+    var postNextResults = function(data) {
+        var posts = data;
+        if(posts.length == 0) {
+            noMore = true;
+        }
+        
+        for (var i = 0; i < posts.length; i++) {
+            $scope.result.push(posts[i]);
+        }
+        $scope.isBusy = false;
+        $scope.articlesScrollOffset++;
+    }
+    
     $scope.bookmarkArticle = function(article_id) {
         bookmarkPostService.bookmarkArticle.get({"article_id":article_id}, function(data) {
             angular.forEach($scope.result, function(article, key){

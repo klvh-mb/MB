@@ -745,6 +745,13 @@ minibean.service('articleService',function($resource){
                 get: {method:'get',isArray:true}
             }
     );
+    this.ArticlesByTagword = $resource(
+            '/get-Articles-TagWise/:tagword_id/:offset',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
     this.SixArticles = $resource(
             '/get-Six-Articles/:category_id',
             {alt:'json',callback:'JSON_CALLBACK'},

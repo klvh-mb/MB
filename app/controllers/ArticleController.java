@@ -66,10 +66,10 @@ public class ArticleController extends Controller {
 	}
 	
 	@Transactional
-	public static Result getArticlesCategorywise(Long catId, String offset) {
+	public static Result getArticlesCategorywise(Long catId, Integer offset) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
-		int start = Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
+		int start = offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
 		final User localUser = Application.getLocalUser(session());
 
 		List<Article> allArticles = Article.getArticlesByCategory(catId, start);
@@ -89,10 +89,10 @@ public class ArticleController extends Controller {
 	}
 
     @Transactional
-	public static Result getArticlesTagwise(Long tagWordId, String offset) {
+	public static Result getArticlesTagwise(Long tagWordId, Integer offset) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
-		int start = Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
+		int start = offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
 		final User localUser = Application.getLocalUser(session());
 
 		List<Article> articles = TagWordScore.getArticlesByTagWord(tagWordId, start);

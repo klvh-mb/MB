@@ -1,5 +1,6 @@
 var DefaultValues = new function() {
 
+    this.ARTICLE_SLIDER_COUNT = 6;
     this.COMMENTS_PREVIEW_COUNT = 2;
     this.DEFAULT_ITEMS_PER_PAGE = 30;
     this.DEFAULT_MEMBERS_PER_PAGE = 30;

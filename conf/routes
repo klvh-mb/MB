@@ -62,8 +62,8 @@ GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
 
 GET     /get-all-article-categories     controllers.ArticleController.getAllArticleCategories
 GET     /get-all-Articles           controllers.ArticleController.getAllArticles
-GET     /get-Articles-Categorywise/:category_id/:offset     controllers.ArticleController.getArticlesCategorywise(category_id: Long, offset:String)
-GET     /get-Articles-TagWise/:tagword_id/:offset           controllers.ArticleController.getArticlesTagwise(tagword_id: Long, offset:String)
+GET     /get-Articles-Categorywise/:category_id/:offset     controllers.ArticleController.getArticlesCategorywise(category_id: Long, offset:Integer)
+GET     /get-Articles-TagWise/:tagword_id/:offset           controllers.ArticleController.getArticlesTagwise(tagword_id: Long, offset:Integer)
 GET     /get-Six-Articles/:category_id          controllers.ArticleController.getSixArticles(category_id: Long)
 GET     /get-Related-Articles/:id/:category_id  controllers.ArticleController.getRelatedArticles(id :Long,category_id :Long)
 GET     /get-article-info/:id       controllers.ArticleController.infoArticle(id :Long)

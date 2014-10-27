@@ -55,7 +55,13 @@
                 </ul>
             </div>
         </div><!--Post Detail End -->
-        
+
+        <div>
+            <div data-ng-include data-src="'/assets/app/views/utilities/hotArticlesUtility.html'"></div>
+        </div>
+        <div>
+            <div data-ng-include data-src="'/assets/app/views/utilities/recommendedArticlesUtility.html'"></div>
+        </div>        
         <div id="relatePost" class="general-box">
             <div class="con-title">
                 <span class="icon-box icon-box-brown icon-title-relatePost"></span><p>相關文章</p>
@@ -63,17 +69,9 @@
             <ul>
                 <li data-ng-repeat="relatedArticle in relatedResult"><p><a href="#/article/{{relatedArticle.id}}/{{relatedArticle.ct.id}}" style="color: #324fe1;"><img ng-show="relatedArticle.img_url != 'No Image'"  data-ng-src="{{relatedArticle.img_url}}"/>{{relatedArticle.nm|limitTo:18}}</a></p></li>
             </ul>
-        </div><!--Relate Post End -->
-        <div>
-            <div class="ads-factor-728x90">
-                <script adSize="72890" adSid="477069296823" ads-factor language='JavaScript' type="text/javascript"></script>
-            </div>
-            <div>
-                <div data-ng-include data-src="'/assets/app/views/utilities/hotArticlesUtility.html'"></div>
-            </div>
-            <div>
-                <div data-ng-include data-src="'/assets/app/views/utilities/recommendedArticlesUtility.html'"></div>
-            </div>
+        </div>
+        <div class="ads-factor-728x90">
+            <script adSize="72890" adSid="477069296823" ads-factor language='JavaScript' type="text/javascript"></script>
         </div>
     </div>
 </div>

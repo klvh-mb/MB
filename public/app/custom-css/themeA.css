@@ -1389,7 +1389,7 @@ a:focus {
 .slider-menu li:first-child {
     height: 34%;
 }
-.slider-menu li:hover {
+.slider-menu li:hover, .slider-menu li.hovered {
     background: rgb(255,255,255); /* Old browsers */
     background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
@@ -1414,10 +1414,10 @@ a:focus {
 .slider-menu a:hover {
     color: #4440AC;
 }
-.slider-menu li:hover > a p img.slider-arrow-left{
+.slider-menu li:hover > a p img.slider-arrow-left, .slider-menu li.hovered > a p img.slider-arrow-left {
     display: block;
 }
-.slider-menu li:hover > a p img.slider-arrow-right{
+.slider-menu li:hover > a p img.slider-arrow-right, .slider-menu li.hovered > a p img.slider-arrow-right {
     display: block;
 }
 .slider-menu-last p{
@@ -2885,6 +2885,34 @@ span.notif-count {
     font-weight: bold;
     padding: 10px;
     margin: 0;
+}
+#fb-btn-set {
+    margin-top: 28px;
+}
+#fb-btn-set a.fb-link-btn {
+    height: 20px;
+}
+.fb-link-btn {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    margin-right: 5px;
+    vertical-align: top;
+    width: 20px;
+    height: 20px;
+    background: url(../images/login/fb_link_btn.png) center center no-repeat;
+}
+.fb-link-btn span {
+    display: none;
+}
+.fb-like-btn {
+    border: 0;
+    overflow: hidden;
+    width: 100px;
+    height: 30px;
+    vertical-align: top;
+    font-size: 14px;
+    line-height: 14px;
 }
 .ads-factor-1x1 {
 }

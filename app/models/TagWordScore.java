@@ -6,6 +6,10 @@ import play.db.jpa.JPA;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+
+import org.apache.commons.lang.StringUtils;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -70,6 +74,9 @@ public class TagWordScore extends domain.Entity {
         List<Long> articleIds = (List<Long>)q.getResultList();
 
         String idsForIn = StringUtil.collectionToString(articleIds, ",");
+        if (StringUtils.isEmpty(idsForIn)) {
+            return new ArrayList<>();
+        }
         q = JPA.em().createQuery("SELECT a from Article a where a.id in ("+idsForIn+") order by FIELD(a.id ,"+idsForIn+")");
 		return (List<Article>)q.getResultList();
     }

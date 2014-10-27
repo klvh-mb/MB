@@ -1,10 +1,10 @@
 <div id="slider" class="general-box">
      <ul class="slider-menu" >
-         <li data-ng-repeat="article in resultSlider.la" data-ng-mouseOver="changeInsideImage(article.id)">
+         <li id="slider_item_{{article.id}}" ng-repeat="article in resultSlider.la" ng-mouseOver="stopSliderRoll();changeSliderImage(article.id)" ng-mouseLeave="resumeSliderRoll()">
 	         <a href="#/article/{{article.id}}/{{article.ct.id}}">
 		         <p>
 		         	<font>
-		         		<font style="text-align: center;">{{article.nm|limitTo:20:false}}<span data-ng-show="article.nm.length > 20">...</span></font><br>
+		         		<font style="text-align: center;">{{article.nm|limitTo:20:false}}<span ng-show="article.nm.length > 20">...</span></font><br>
 		         	</font>
 		         	<img class="slider-arrow-left" src="../assets/app/images/general/sliderArrow_right.png">
 	         	</p>
@@ -21,20 +21,20 @@
 	               {{description|limitTo:28:false}}...
 	           </p>
 	       </span>
-           <img ng-show="image_source != 'No Image'" style="width: 100% !important;" data-ng-src="{{image_source}}">
+           <img ng-show="image_source != 'No Image'" style="width: 100% !important;" ng-src="{{image_source}}">
        </a>
      </div>
      <ul class="slider-menu" >
-         <li data-ng-repeat="article in resultSlider.ra" data-ng-mouseOver="changeInsideImage(article.id)">
+         <li id="slider_item_{{article.id}}" ng-repeat="article in resultSlider.ra" ng-mouseOver="stopSliderRoll();changeSliderImage(article.id)" ng-mouseLeave="resumeSliderRoll()">
             <a href="#/article/{{article.id}}/{{article.ct.id}}">
                 <p>
                     <font>
-                        <font style="text-align: center;">{{article.nm|limitTo:20:false}}<span data-ng-show="article.nm.length > 20">...</span></font><br>
+                        <font style="text-align: center;">{{article.nm|limitTo:20:false}}<span ng-show="article.nm.length > 20">...</span></font><br>
                     </font>
                     <img class="slider-arrow-right" src="../assets/app/images/general/sliderArrow_left.png">
                 </p>
             </a>
          </li>
      </ul>
-     <!--div style="height:12%" class="slider-category"><p><a data-ng-repeat="category in resultSlider.ct" data-ng-href="#/article/show/{{category.id}}"><font>{{category.name}} </font></a><a href="#/article/show/0" class="pull-right"><font>所有文章</font></a></p></div-->
+     <!--div style="height:12%" class="slider-category"><p><a ng-repeat="category in resultSlider.ct" ng-href="#/article/show/{{category.id}}"><font>{{category.name}} </font></a><a href="#/article/show/0" class="pull-right"><font>所有文章</font></a></p></div-->
 </div>
