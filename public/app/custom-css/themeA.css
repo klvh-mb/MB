@@ -478,10 +478,9 @@ a:focus {
 .themeA-container{
     margin-left: auto;
     margin-right: auto;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 0 15px 100px 15px;
     width: 1050px;
-    min-height: 100px;
+    min-height: 200px;
     position: relative;
     /* top: 55px; */
     background-color: #F0F0F0;
@@ -1131,6 +1130,58 @@ a:focus {
     color: #8b8b8b;
 }
 /* Competition End */
+
+/* MacGyver Affix */
+#left-sidebar.affix-top {
+    margin-right: 10px;
+    width: 200px;
+    position: static;
+}
+#left-sidebar.affix {
+    margin-right: 10px;
+    width: 200px;
+    position: fixed;
+    top: 52px;
+}
+#left-sidebar.affix-bottom {
+    margin-right: 10px;
+    width: 200px;
+    position: absolute;
+    /*top: auto;
+    bottom: 0px;*/ 
+}
+#right-sidebar.affix-top {
+    margin-left: 0px;
+    width: 300px;
+    position: static;
+}
+#right-sidebar.affix {
+    margin-left: 0px;
+    width: 300px;
+    position: fixed;
+    top: 52px;
+}
+#right-sidebar.affix-bottom {
+    margin-left: 0px;
+    width: 300px;
+    position: absolute;
+    /*top: auto;
+    bottom: 0px;*/ 
+}
+
+/* UI Scrollfix Affix */
+#left-sidebar.ui-scrollfix {
+    position: fixed;
+    top: 52px;
+    margin-right: 10px;
+    width: 200px;
+}
+#right-sidebar.ui-scrollfix {
+    position: fixed;
+    top: 52px;
+    margin-right: 0px;
+    width: 300px;
+}
 
 /* Header Start */
 .header-glow {
