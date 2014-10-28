@@ -1,0 +1,5 @@
+insert into TagWord (deleted, system, UPDATED_DATE, tagCategory, tagCategoryId, displayWord, matchingWords, deleted) values (0, 0, CURDATE(), 0, 'HOT_ARTICLES', '寵物', '寵物');
+insert into TagWord (deleted, system, UPDATED_DATE, tagCategory, tagCategoryId, displayWord, matchingWords, deleted) values (0, 0, CURDATE(), 0, 'HOT_ARTICLES', '食譜', '食譜,菜單,餐單');
+insert into TagWord (deleted, system, UPDATED_DATE, tagCategory, tagCategoryId, displayWord, matchingWords, deleted) values (0, 0, CURDATE(), 0, 'HOT_ARTICLES', '閱讀', '閱讀,圖書,看書,故事書');
+insert into TagWord (deleted, system, UPDATED_DATE, tagCategory, tagCategoryId, displayWord, matchingWords, deleted) values (0, 0, CURDATE(), 0, 'HOT_ARTICLES', '尿片', '尿布,尿褲,尿片');
+insert into TagWord (deleted, system, UPDATED_DATE, tagCategory, tagCategoryId, displayWord, matchingWords, deleted) values (0, 0, CURDATE(), 0, 'HOT_ARTICLES', '攝影', '攝影,拍攝,相機,閃光燈');

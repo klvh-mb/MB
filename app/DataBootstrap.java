@@ -754,7 +754,7 @@ public class DataBootstrap {
         q.setParameter(1, soonMomsCatId);
         Long count = (Long)q.getSingleResult();
         if (count == 0) {
-            createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "造人", "造人");
+            createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "造人", "造人,生B");
             createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "早產", "早產");
             createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "官外孕", "官外孕");
             createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "分娩", "分娩,產程,陣痛");
@@ -784,6 +784,10 @@ public class DataBootstrap {
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "母乳", "母乳,人奶,上奶,奶泵");
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "奶粉", "奶粉");
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "雙胞胎", "雙胞胎,龍鳳胎");
+            createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "寵物", "寵物");
+            createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "食譜", "食譜,菜單,餐單");
+            createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "尿片", "尿布,尿褲,尿片");
+            createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "攝影", "攝影,拍攝,相機,閃光燈");
         }
     }
 
