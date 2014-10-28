@@ -2937,16 +2937,18 @@ span.notif-count {
     vertical-align: bottom;
 }
 #tagword-list {
-
+    margin: 0px;
+    margin-bottom: 10px;
 }
 #tagword-list a {
-
+    
 }
 #tagword-list a:hover {
     text-decoration: none;
 }
 #tagword-list ul {
     padding: 5px 5px 20px 5px;
+    margin: 0px;
     font-size: 14px;
 }
 #tagword-list li {
@@ -2971,10 +2973,18 @@ span.notif-count {
     vertical-align: middle;
 }
 #tagword-list .tagword-odd {
-    background-color: white;   
+    background-color: white;
 }
 #tagword-list .tagword-even {
     background-color: #F0F9FF;
+}
+#tagword-list .text-more {
+    padding: 5px 20px 0 0;
+}
+#tagword-list .text-more a {
+    color: #3465A5;
+    font-size: 13px;
+    font-weight: bold;
 }
 .featured-box {
     background: url(../images/general/featured_box.png) center center no-repeat;
@@ -2990,6 +3000,12 @@ span.notif-count {
     margin: 0px;
     padding: 5px 0 1px 0;
     border-radius: 10px;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+.featured-box .featured-box-header a {
     color: #FFF;
     font-size: 16px;
     font-weight: bold;

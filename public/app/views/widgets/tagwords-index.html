@@ -1,4 +1,4 @@
-<div id="tagword-list" class="featured-box" style="margin:0px;">
+<div id="tagword-list" class="featured-box" ng-if="!collapsible">
     <div class="featured-box-header">
         熱門知識
     </div>
@@ -18,3 +18,51 @@
         </li>
     </ul>
 </div>
+
+<div id="tagword-list" class="featured-box" ng-if="collapsible">
+    <div class="featured-box-header">
+        <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
+            熱門知識
+        </a>
+    </div>
+    <div>
+        <ul style="padding-bottom:30px;margin-bottom:0;">
+            <li ng-repeat="tagword in tagwords" ng-class-odd="'tagword-odd'" ng-class-even="'tagword-even'" ng-if="$index < defaultCollapseCount">
+                <a ng-href="magazine#/article/tagword/{{tagword.id}}/{{catGroup}}">
+                    {{tagword.nm}}
+                    <span class="tagword-stats pull-right">
+                        <!--span ng-show="userInfo.isE">
+                            {{tagword.noc}}<img data-ng-src="/assets/app/images/general/icons/view.png"/>
+                        </span-->
+                        <span>
+                            {{tagword.nos}}<img data-ng-src="/assets/app/images/general/icons/i-article.png"/>
+                        </span>
+                    </span>
+                </a>
+            </li>
+            <div class="text-more pull-right" ng-show="tagwords.length > defaultCollapseCount">
+                <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
+                    更多 >>
+                </a>
+            </div>
+        </ul>
+    </div>
+    <div id="collapseOne" class="collapse" ng-show="tagwords.length > defaultCollapseCount">
+        <ul>
+            <li ng-repeat="tagword in tagwords" ng-class-odd="'tagword-odd'" ng-class-even="'tagword-even'" ng-if="$index >= defaultCollapseCount">
+                <a ng-href="magazine#/article/tagword/{{tagword.id}}/{{catGroup}}">
+                    {{tagword.nm}}
+                    <span class="tagword-stats pull-right">
+                        <!--span ng-show="userInfo.isE">
+                            {{tagword.noc}}<img data-ng-src="/assets/app/images/general/icons/view.png"/>
+                        </span-->
+                        <span>
+                            {{tagword.nos}}<img data-ng-src="/assets/app/images/general/icons/i-article.png"/>
+                        </span>
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+

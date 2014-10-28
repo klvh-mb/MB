@@ -2965,6 +2965,8 @@ minibean.controller('ShowArticlesController',function($scope, $modal, $routePara
 
     $scope.get_header_metaData();
 
+    $scope.defaultCollapseCount = DefaultValues.TAGWORD_LIST_COLLAPSE_COUNT;
+    
     var tagwordRequest = false;
     if ($routeParams.tagwordId != undefined) {
         var tagwordId = $routeParams.tagwordId; 
