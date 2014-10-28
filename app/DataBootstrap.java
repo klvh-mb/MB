@@ -784,6 +784,10 @@ public class DataBootstrap {
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "母乳", "母乳,人奶,上奶,奶泵");
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "奶粉", "奶粉");
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "雙胞胎", "雙胞胎,龍鳳胎");
+            createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "寵物", "寵物");
+            createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "食譜", "食譜,菜單,餐單");
+            createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "尿片", "尿布,尿褲,尿片");
+            createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "攝影", "攝影,拍攝,相機,閃光燈");
         }
     }
 
