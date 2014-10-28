@@ -4,8 +4,8 @@ body {
     color: #333;
     margin: 0;
     padding: 0;
-    background-image: url(../images/general/mb_bg.jpg);
-    background-attachment: fixed;
+    background: url(../images/general/mb_bg.jpg) repeat-x center top fixed;
+    height: 100%;
 }
 ul {
     list-style: none;
@@ -481,11 +481,12 @@ a:focus {
     padding-left: 15px;
     padding-right: 15px;
     width: 1050px;
-    min-height: 700px;
+    min-height: 100px;
     position: relative;
     /* top: 55px; */
-    background-image: url(../images/general/main_bg.jpg);
-    background-attachment: fixed;
+    background-color: #F0F0F0;
+    /*background-image: url(../images/general/main_bg.jpg);
+    background-attachment: fixed;*/
     -webkit-box-shadow: 0px 0px 7px 2px rgba(130, 130, 130, 0.5);
     -moz-box-shadow: 0px 0px 7px 2px rgba(130, 130, 130, 0.5);
     box-shadow: 0px 0px 7px 2px rgba(130, 130, 130, 0.5);
@@ -1366,10 +1367,6 @@ a:focus {
 /* Weather End */
 
 /* Slider Start */
-#slider {
-    height: 220px;
-    margin-bottom: 10px;
-}
 .slider-menu {
     float: left;
     padding: 0;
@@ -1923,10 +1920,10 @@ a:focus {
     color: #556fb5;
 }
 .article-detail-wrapper h1, .article-detail-wrapper h2, .article-detail-wrapper h3 {
-    font-size: 22px;
+    font-size: 20px;
 }
 .article-detail-wrapper h4 {
-    font-size: 18px;
+    font-size: 17px;
 }
 .article-detail-wrapper li {
     clear: both;

@@ -30,7 +30,9 @@
 }
 #wall-main .general-box {
     margin-bottom: 10px;
-    box-shadow: 0 0 3px #D3D5F3;
+    /*box-shadow: 0 0 3px #D3D5F3;*/
+    box-shadow: none;
+    border: 1px solid #C0C2DD;
 }
 .post-input-title, .post-input-body {
     resize: none;
