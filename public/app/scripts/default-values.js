@@ -1,6 +1,6 @@
 var DefaultValues = new function() {
 
-    this.TAGWORD_LIST_COLLAPSE_COUNT = 6;
+    this.TAGWORD_LIST_COLLAPSE_COUNT = 4;
     this.AUTO_SCROLL_INTERVAL = 6000;
     this.ARTICLE_SLIDER_COUNT = 6;
     this.COMMENTS_PREVIEW_COUNT = 2;
