@@ -94,11 +94,11 @@ body {
 .themeA-container {
     margin-left: auto;
     margin-right: auto;
-    padding-left: 12px;
-    padding-right: 12px;
+    padding: 10px 12px 100px 12px;
     width: 100%;
     position: relative;
     /* top: 55px; */
+    margin-top: -10px;
 }
 .wall-title {
     width: 100%;
@@ -547,6 +547,12 @@ span.notif-count {
 }
 
 /* articles */
+#tagword-list li {
+    margin: 0 5px;
+    padding: 2px 2px;
+    width: 30%;
+    display: inline-block;
+}
 #sta-con-slider {
     width: 100%;
     height: 180px;
