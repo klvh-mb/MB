@@ -754,7 +754,7 @@ public class DataBootstrap {
         q.setParameter(1, soonMomsCatId);
         Long count = (Long)q.getSingleResult();
         if (count == 0) {
-            createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "造人", "造人");
+            createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "造人", "造人,生B");
             createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "早產", "早產");
             createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "官外孕", "官外孕");
             createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "分娩", "分娩,產程,陣痛");
