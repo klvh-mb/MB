@@ -62,20 +62,28 @@
 	            <div ng-controller="TodayWeatherInfoController">
                     <div data-ng-include data-src="'/assets/app/views/utilities/todayWeatherInfoUtility.html'"></div>
                 </div>
-                <div class="ads-factor-300x250">
-                    <script adSize="300250" adSid="772388026700" ads-factor language='JavaScript' type="text/javascript"></script>
+                <div ng-controller="AnnouncementsWidgetController" ng-show="announcements.length > 0">
+                    <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/utilities/announcementsUtility.html'"></div>
+                </div>
+                <div ng-controller="MyFriendsUtilityController" data-ng-show="result.friends.length > 0">
+                    <div data-ng-include data-src="'/assets/app/views/utilities/friendsUtility.html'"></div>
                 </div>
 				<div ng-controller="PNCommunitiesUtilityController" data-ng-show="pnCommunities.length > 0 && userTargetProfile.pn">
                     <div data-ng-include data-src="'/assets/app/views/utilities/pnCommunitiesUtility.html'"></div>
                 </div>
-  				<div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.communities.length > 0">
+  				<!--div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.communities.length > 0">
                     <div data-ng-include data-src="'/assets/app/views/utilities/yourFriendsCommunitiesUtility.html'"></div>
-				</div>
-                <div ng-controller="MyFriendsUtilityController" data-ng-show="result.friends.length > 0">
-                    <div data-ng-include data-src="'/assets/app/views/utilities/friendsUtility.html'"></div>
+				</div-->
+				<div class="ads-factor-300x250">
+                    <script adSize="300250" adSid="772388026700" ads-factor language='JavaScript' type="text/javascript"></script>
                 </div>
-                <div>
-                    <div data-ng-include data-src="'/assets/app/views/utilities/feedbackCommunityUtility.html'"></div>
+                <div id="right-sidebar" ui-scrollfix="+{{rightSidebarTop}}">
+                    <div>
+                        <div data-ng-include data-src="'/assets/app/views/widgets/fb-likebox-widget.html'"></div>
+                    </div>
+                    <div>
+                        <div data-ng-include data-src="'/assets/app/views/utilities/feedbackCommunityUtility.html'"></div>
+                    </div>
                 </div>
                 <div class="ads-factor-1x1">
                     <script adSize="11" adSid="469337956699" ads-factor language='JavaScript' type="text/javascript"></script>

@@ -19,7 +19,7 @@ angular.module('minibean', [
   'ngSanitize',
   'angularMoment',
   'wu.masonry',
-  'Mac'
+  'ui.utils'
 ])
   .config(function ($routeProvider) {
     $routeProvider
