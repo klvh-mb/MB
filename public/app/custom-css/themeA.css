@@ -2351,7 +2351,8 @@ a:focus {
     width: 100%;
     height: auto;
     padding: 7px 15px;
-    background-color: #F5F5F5;
+    /*background-color: #F5F5F5;*/
+    background-color: white;
     color: #404040;
 }
 .section-title span {
