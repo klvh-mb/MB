@@ -278,6 +278,9 @@ minibean.controller('ApplicationController',
 
     $scope.unread_msg_count = 0;
     $scope.get_header_metaData = function() {
+        // get sidebars offset
+        $interval($scope.getSidebarsTop, 2000, 1);
+        
         if (!$scope.userInfo.isLoggedIn) {
             //log('get_header_metaData ignored for no login');
             return;
@@ -293,9 +296,6 @@ minibean.controller('ApplicationController',
             $scope.unread_request_count = data.requestCount;
             $scope.userInfo.displayName = data.name;
         });
-        
-        // get sidebars offset
-        $interval($scope.getSidebarsTop, 2000, 1);
     };
 
     // refresh header meta data every X ms
