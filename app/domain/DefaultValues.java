@@ -31,6 +31,7 @@ public class DefaultValues {
     public static int POINTS_POST_DELETE = 1;
     public static int POINTS_COMMENT = 5;
     public static int POINTS_LIKES = 5;
+    public static int POINTS_REFERRAL_SIGNUP = 20;
     
     static {
         init();

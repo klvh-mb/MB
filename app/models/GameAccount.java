@@ -33,8 +33,10 @@ import domain.Likeable;
 import domain.SocialObjectType;
 
 @Entity
-public class GameAccount  extends domain.Entity {
+public class GameAccount extends domain.Entity {
     private static final play.api.Logger logger = play.api.Logger.apply(GameAccount.class);
+
+    private static final int MAX_REFERRAL_WITH_POINTS = 20;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -98,12 +100,12 @@ public class GameAccount  extends domain.Entity {
 
 	private static void setPointsForReferalSignUp(Long sender_user_id) {
 		GameAccount account = GameAccount.findByUserId(sender_user_id);
-		account.auditFields.setUpdatedDate(new Date());
-		if(account.number_of_referral_signups >= 20){
-			return;
-		}
-		account.number_of_referral_signups++;
-		account.total_points = account.total_points + DefaultValues.POINTS_SIGNUP;
+
+        if (account.number_of_referral_signups < MAX_REFERRAL_WITH_POINTS) {
+		    account.total_points += DefaultValues.POINTS_REFERRAL_SIGNUP;
+        }
+        account.number_of_referral_signups++;
+        account.auditFields.setUpdatedDate(new Date());
 		account.merge();
 	}
 
