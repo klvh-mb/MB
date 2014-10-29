@@ -23,7 +23,7 @@
 <!-- Bookmark Tabs End -->
 
 <div ng-show="selectedSubTab == 1" infinite-scroll='nextPosts()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>
-    <div class="general-box" ng-show="bookmarkSummary.qc == 0 && (bookmarkSummary.pc > 0 || bookmarkSummary.ac > 0)">
+    <div class="general-box widget-box" ng-show="bookmarkSummary.qc == 0 && (bookmarkSummary.pc > 0 || bookmarkSummary.ac > 0)">
         <div class="section-title">
             <div>
                 您尚未有喜愛的話題
@@ -40,7 +40,7 @@
 	</div>
 </div>
 <div ng-show="selectedSubTab == 2" infinite-scroll='nextPosts()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>
-    <div class="general-box" ng-show="bookmarkSummary.pc == 0 && (bookmarkSummary.qc > 0 || bookmarkSummary.ac > 0)">
+    <div class="general-box widget-box" ng-show="bookmarkSummary.pc == 0 && (bookmarkSummary.qc > 0 || bookmarkSummary.ac > 0)">
         <div class="section-title">
             <div>
                 您尚未有喜愛的分享
@@ -57,7 +57,7 @@
 	</div>
 </div>
 <div ng-show="selectedSubTab == 3" infinite-scroll='nextArticles()' infinite-scroll-disabled='isBusyA' infinite-scroll-distance='1'>
-    <div class="general-box" ng-show="bookmarkSummary.ac == 0 && (bookmarkSummary.qc > 0 || bookmarkSummary.pc > 0)">
+    <div class="general-box widget-box" ng-show="bookmarkSummary.ac == 0 && (bookmarkSummary.qc > 0 || bookmarkSummary.pc > 0)">
         <div class="section-title">
             <div>
                 您尚未有喜愛的文章
@@ -93,7 +93,7 @@
     </div>
 </div>
 
-<div class="general-box" ng-show="bookmarkSummary.qc == 0 && bookmarkSummary.pc == 0 && bookmarkSummary.ac == 0">
+<div class="general-box widget-box" ng-show="bookmarkSummary.qc == 0 && bookmarkSummary.pc == 0 && bookmarkSummary.ac == 0">
     <div class="section-title">
         <div>
             您尚未有喜愛的話題或文章

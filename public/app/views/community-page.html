@@ -112,7 +112,7 @@
 						<div data-ng-include data-src="'/assets/app/views/community-search-bar.html'"></div>
 					</div-->
 				</div>
-				<div class="general-box" ng-show="!community.isO && !community.isM && !community.isP && community.typ == 'CLOSE'">
+				<div class="general-box widget-box" ng-show="!community.isO && !community.isM && !community.isP && community.typ == 'CLOSE'">
                     <div class="section-title">
                         <div>
                             這個是<!--span class="community-attribute glyphicon glyphicon-lock"></span-->不公開的社群
@@ -195,18 +195,20 @@
 					</ul>
 				</div>
 			</div>
+			<!--div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.communities.length > 0">
+				<div data-ng-include data-src="'/assets/app/views/utilities/yourFriendsCommunitiesUtility.html'"></div>
+			</div-->
 			<div class="ads-factor-300x250">
                 <script adSize="300250" adSid="586656756681" ads-factor language='JavaScript' type="text/javascript"></script>
             </div>
-			<div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.communities.length > 0">
-				<div data-ng-include data-src="'/assets/app/views/utilities/yourFriendsCommunitiesUtility.html'"></div>
-			</div>
-			<div ng-controller="PNCommunitiesUtilityController" data-ng-show="pnCommunities.length > 0 && userTargetProfile.pn">
-                <div data-ng-include data-src="'/assets/app/views/utilities/pnCommunitiesUtility.html'"></div>
-            </div>
+            <div id="right-sidebar" ui-scrollfix="+{{rightSidebarTop}}">
+                <div>
+                    <div data-ng-include data-src="'/assets/app/views/widgets/fb-likebox-widget.html'"></div>
+                </div>
+                <div>
+                    <div data-ng-include data-src="'/assets/app/views/utilities/feedbackCommunityUtility.html'"></div>
+                </div>
             <div>
-                <div data-ng-include data-src="'/assets/app/views/utilities/feedbackCommunityUtility.html'"></div>
-            </div>
             <div class="ads-factor-1x1">
                 <script adSize="11" adSid="512344316680" ads-factor language='JavaScript' type="text/javascript"></script>
             </div>

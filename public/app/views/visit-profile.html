@@ -32,27 +32,27 @@
                 </ul>
             </div>
             
-            <div ng-show="selectedTab == 1" id="wall" style="height: auto !important;" ng-controller="UserNewsFeedController" >
-                <div ng-show="profile.isf==true" data-ng-include data-src="'/assets/app/views/about-news-feed-section.html'"></div>
-                <div ng-show="profile.isf==false" class="general-box" style="background-color:#F5F5F5;">
-                    <div class="section-title">
-                        <div>
-                            想看 {{profile.dn}} 的發佈,加 {{profile.dn}} 為朋友吧!
-                            <!--a style="margin:0 5px 5px 0;position:relative;top:-5px;" ng-show="profile.isf == false && profile.isP == false && isLoadingEnabled == false" class="btn-general pull-right" data-ng-click="send_invite(profile.id)">+ <i class="fa fa-user"></i> 加為朋友</a-->
+            <div id="wall">
+                <div ng-show="selectedTab == 1" ng-controller="UserNewsFeedController" >
+                    <div ng-show="profile.isf==true" data-ng-include data-src="'/assets/app/views/about-news-feed-section.html'"></div>
+                    <div ng-show="profile.isf==false" class="general-box widget-box" style="background-color:#F5F5F5;">
+                        <div class="section-title">
+                            <div>
+                                想看 {{profile.dn}} 的發佈,加 {{profile.dn}} 為朋友吧!
+                                <!--a style="margin:0 5px 5px 0;position:relative;top:-5px;" ng-show="profile.isf == false && profile.isP == false && isLoadingEnabled == false" class="btn-general pull-right" data-ng-click="send_invite(profile.id)">+ <i class="fa fa-user"></i> 加為朋友</a-->
+                            </div>
                         </div>
                     </div>
-                </div>
+    			 </div>
+    			 
+    			 <div ng-if="selectedTab == 2" ng-controller="CommunityWidgetByUserController">
+    			 	<div data-ng-include data-src="'/assets/app/views/profile-all-communities-section.html'"></div>
+    			 </div>
+    			 
+    			 <div ng-if="selectedTab == 3" ng-controller="UserFriendsController">
+    			 	<div data-ng-include data-src="'/assets/app/views/profile-all-friends-section.html'"></div>
+    			 </div>
 			 </div>
-			 
-			 <div ng-if="selectedTab == 2" ng-controller="CommunityWidgetByUserController">
-			 	<div data-ng-include style="width:100%;height:50px;" data-src="'/assets/app/views/profile-all-communities-section.html'"></div>
-			 </div>
-			 
-			 <div ng-if="selectedTab == 3" ng-controller="UserFriendsController">
-			 	<div data-ng-include style="width:100%;height:50px;" data-src="'/assets/app/views/profile-all-friends-section.html'"></div>
-			 </div>
-			 
-            <!--Wall End -->
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
 	        <div class="row">
@@ -63,14 +63,11 @@
             <div id="about" class="general-box">
                 <div data-ng-include data-src="'/assets/app/views/profile-about-section.html'"></div>
             </div>
-            <div class="ads-factor-300x250">
-                <script adSize="300250" adSid="263403256689" ads-factor language='JavaScript' type="text/javascript"></script>
-            </div>
-            <div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.communities.length > 0">
-                <div data-ng-include data-src="'/assets/app/views/utilities/yourFriendsCommunitiesUtility.html'"></div>
-            </div>
             <div ng-controller="UserFriendsUtilityController" data-ng-show="result.friends.length > 0">
                 <div data-ng-include data-src="'/assets/app/views/utilities/friendsUtility.html'"></div>
+            </div>
+            <div class="ads-factor-300x250">
+                <script adSize="300250" adSid="263403256689" ads-factor language='JavaScript' type="text/javascript"></script>
             </div>
             <div class="ads-factor-1x1">
                 <script adSize="11" adSid="887185786688" ads-factor language='JavaScript' type="text/javascript"></script>

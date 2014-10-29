@@ -111,6 +111,8 @@ minibean.controller('TodayWeatherInfoController',function($scope, $http, todayWe
 minibean.controller('GameController',function($scope, $http, gameService) {
     log("GameController starts");
 
+    $scope.get_header_metaData();
+
     $scope.signInForToday = function() {
         gameService.signInForToday.get({}, 
             function(data) {
@@ -141,6 +143,19 @@ minibean.controller('ApplicationController',
 
     log("ApplicationController starts");
 
+    // For fix sidebar
+    $scope.leftSidebarTop = 0;
+    $scope.rightSidebarTop = 0;
+    $scope.getSidebarsTop = function() {
+        if ($('#left-sidebar').length) {
+            $scope.leftSidebarTop = $('#left-sidebar').offset().top - 52;
+        }
+        if ($('#right-sidebar').length) {
+            $scope.rightSidebarTop = $('#right-sidebar').offset().top - 52;
+        }
+        log('left sidebar top:'+$scope.leftSidebarTop+' | right sidebar top:'+$scope.rightSidebarTop);
+    }
+    
     // PC home tour
     $scope.homeTour = homeTour;
     $scope.startHomeTour = function() {
@@ -263,6 +278,9 @@ minibean.controller('ApplicationController',
 
     $scope.unread_msg_count = 0;
     $scope.get_header_metaData = function() {
+        // get sidebars offset
+        $interval($scope.getSidebarsTop, 2000, 1);
+        
         if (!$scope.userInfo.isLoggedIn) {
             //log('get_header_metaData ignored for no login');
             return;
@@ -924,6 +942,8 @@ minibean.controller('UserFriendsController',function($scope, $routeParams, frien
 
 minibean.controller('CommunitiesDiscoverController',function($scope, $routeParams, usSpinnerService, communitiesDiscoverService, communityCategoryService, sendJoinRequest){
     log("CommunitiesDiscoverController starts");
+    
+    $scope.get_header_metaData();
     
     $scope.communities = [];
     $scope.topicCommunityCategoriesMap = [];

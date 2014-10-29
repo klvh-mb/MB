@@ -75,7 +75,7 @@
             <div>
                 <div data-ng-include data-src="'/assets/app/views/widgets/fb-likebox-widget.html'"></div>
             </div>
-            <div id="right-sidebar" mac-affix mac-affix-top="1100" mac-affix-bottom="0">
+            <div id="right-sidebar" ui-scrollfix="+{{rightSidebarTop}}">
                 <div ng-show="!userInfo.isLoggedIn">
                     <div data-ng-include data-src="'/assets/app/views/magazine/promo-signup-widget.html'"></div>
                 </div>
