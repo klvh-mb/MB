@@ -60,7 +60,7 @@ public class GameAccount  extends domain.Entity {
 	
 	public Boolean has_upload_profile_pic = true;
 	
-	public Long number_of_referral_signups;
+	public Long number_of_referral_signups = 0L;
 	
 	public GameAccount() {}
 	
@@ -99,6 +99,10 @@ public class GameAccount  extends domain.Entity {
 	private static void setPointsForReferalSignUp(Long sender_user_id) {
 		GameAccount account = GameAccount.findByUserId(sender_user_id);
 		account.auditFields.setUpdatedDate(new Date());
+		if(account.number_of_referral_signups >= 20){
+			return;
+		}
+		account.number_of_referral_signups++;
 		account.total_points = account.total_points + DefaultValues.POINTS_SIGNUP;
 		account.merge();
 	}
