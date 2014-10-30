@@ -15,6 +15,7 @@
             <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
                 <li role="presentation"><a role="menuitem" href="" ng-click="displayLink('/my#/post-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i>複製連結</a></li>
                 <li role="presentation" ng-show="post.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個分享嗎？"><i class="glyphicon glyphicon-trash"></i>刪除分享</a></li>
+                <li role="presentation" ng-show="!post.isO || userInfo.isSA"><a ng-click="openReportObjectModal(post.id,'POST')"><span style="float:right;" class="glyphicon glyphicon-warning-sign">舉報這個分享</span></a></li>
             </ul>
         </li>
     </ul>

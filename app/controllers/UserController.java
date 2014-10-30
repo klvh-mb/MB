@@ -22,6 +22,7 @@ import models.Notification;
 import models.Post;
 import models.Resource;
 import models.SiteTour;
+import models.Subscription;
 import models.User;
 import models.UserCommunityAffinity;
 import play.data.DynamicForm;
@@ -39,6 +40,7 @@ import viewmodel.NewsFeedVM;
 import viewmodel.NotificationVM;
 import viewmodel.ProfileVM;
 import viewmodel.SocialObjectVM;
+import viewmodel.SubscriptionVM;
 import viewmodel.UserVM;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
@@ -868,5 +870,28 @@ public class UserController extends Controller {
     public static Result getOriginalPrivateImageByID(Long id) {
         response().setHeader("Cache-Control", "max-age=604800");
         return ok(Resource.findById(id).getRealFile());
+    }
+    
+    @Transactional
+    public static Result getAllSubscriptions() {
+        User localUser = Application.getLocalUser(session());
+        List<Subscription> allSubscription = Subscription.getAllSubscription();
+        List<SubscriptionVM> subscriptionVMs = new ArrayList<>();
+        for(Subscription subscription : allSubscription) {
+            subscriptionVMs.add(new SubscriptionVM(subscription,localUser));
+        }
+        return ok(Json.toJson(subscriptionVMs));
+    }
+    
+    @Transactional
+    public static Result subscribe(Long id, Boolean isSub) {
+        System.out.println(id+"      "+isSub);
+        User localUser = Application.getLocalUser(session());
+        if(isSub){
+            localUser.setSubscribtion(id);
+        } else {
+            localUser.setUnsubscribtion(id);
+        }
+        return ok();
     }
 }

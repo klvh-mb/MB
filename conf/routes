@@ -59,8 +59,8 @@ POST    /saveSignupInfo             controllers.Application.saveSignupInfo
 POST    /saveSignupInfoFb           controllers.Application.saveSignupInfoFb
 GET     /get-application-info       controllers.Application.getApplicationInfo
 GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
-
-GET     /get-all-article-categories     controllers.ArticleController.getAllArticleCategories
+GET     /get-today-weather-info     controllers.Application.getTodayWeatherInfo()
+GET     /get-all-article-categories controllers.ArticleController.getAllArticleCategories
 GET     /get-all-Articles           controllers.ArticleController.getAllArticles
 GET     /get-Articles-Categorywise/:category_id/:offset     controllers.ArticleController.getArticlesCategorywise(category_id: Long, offset:Integer)
 GET     /get-Articles-TagWise/:tagword_id/:offset           controllers.ArticleController.getArticlesTagwise(tagword_id: Long, offset:Integer)
@@ -72,6 +72,7 @@ GET     /unlike-article/:id         controllers.ArticleController.onUnlike(id : 
 GET     /get-new-Articles/:category_id          controllers.ArticleController.getNewArticles(category_id: Long)
 GET     /get-hot-Articles/:category_id          controllers.ArticleController.getHotArticles(category_id: Long)
 GET     /get-recommended-Articles/:category_id  controllers.ArticleController.getRecommendedArticles(category_id: Long)
+GET     /image/article/:year/:month/:date/:name         controllers.ArticleController.getImage(year :Long, month :Long, date :Long, name : String)
 
 GET     /bookmark-article/:article_id               controllers.ArticleController.onBookamrk(article_id : Long)
 GET     /unbookmark-article/:article_id             controllers.ArticleController.onUnBookmark(article_id : Long)
@@ -245,6 +246,12 @@ GET     /pn-request-update/:name/:districtId    controllers.PreNurseryController
 # indexing with elasic search
 GET     /searchForPosts/index/:query/:community_id/:offset  controllers.Application.searchForPosts(query: String, community_id: Long,offset:Long)
 
-GET     /get-today-weather-info                 controllers.Application.getTodayWeatherInfo()
+#Subscription
+GET     /get-all-subscriptions                  controllers.UserController.getAllSubscriptions()
+GET     /subscribe/:id/:isSubscribed            controllers.UserController.subscribe(id:Long,isSubscribed:Boolean)
 
-GET     /image/article/:year/:month/:date/:name         controllers.ArticleController.getImage(year :Long, month :Long, date :Long, name : String)
+#Report Generation
+POST    /generateReport                         controllers.ReportObjectController.createReport()
+
+POST    /save-settings                          controllers.PrivacySettingsController.saveSettings
+GET     /get-settings                           controllers.PrivacySettingsController.getSettings

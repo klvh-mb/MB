@@ -136,7 +136,7 @@ minibean.controller('SearchController',function($scope, searchService){
 });
 
 minibean.controller('ApplicationController', 
-    function($scope, $location, $interval, $route, $window, 
+    function($scope, $location, $interval, $route, $window, $modal,  
         applicationInfoService, announcementsService, headerBarMetadataService, userInfoService,
         acceptJoinRequestService, acceptFriendRequestService, notificationMarkReadService,
         communityCategoryService, articleService, usSpinnerService) {
@@ -452,8 +452,45 @@ minibean.controller('ApplicationController',
         $window.scrollTo($window.pageXOffset, 0);
     };
     
+    $scope.openReportObjectModal = function (id, objectType) {
+        var modalInstance = $modal.open({
+            templateUrl: '/assets/app/views/reportObject.html',
+            controller: ReportObjectModalController,
+            resolve: {
+            objectType: function () {
+                return objectType;
+              },
+              id: function () {
+                  return id;
+              }
+            }
+          });
+         modalInstance.result.then(function (selectedItem) {
+              $scope.selected = selectedItem;
+            }, function () {
+        });
+    }
+    
     log("ApplicationController completed");
 });
+
+var ReportObjectModalController = function ($scope, $modalInstance, objectType, id, usSpinnerService, $http) {
+    $scope.objectType = objectType;
+    $scope.category = DefaultValues.reportCategoryType;
+    $scope.submitBtn = "ok";
+    $scope.update = function (report) {
+        report.socialObjectID = id;
+        report.objectType = objectType;
+        $scope.submitBtn = "done";
+        usSpinnerService.spin('loading...');
+        log(report);
+        $http.post('/generateReport', report).success(
+            function(data){
+                $scope.submitBtn = "Complete";
+                usSpinnerService.stop('loading...');
+            });
+    };
+};
 
 // TODO: I dont like way i am defining PhotoModalController
 var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePhotoModal, usSpinnerService) {
@@ -532,6 +569,35 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
         });
 	} // End of start
 }
+
+minibean.controller('PrivacySettingsController', function($scope, $http, privacySettingsService) {
+    log('PrivacySettingsController starts');
+    
+    $scope.isSaved = false;
+    $scope.formData = privacySettingsService.settings.get();
+    console.log($scope.formData);
+    $scope.submit = function() {
+        $http.post('/save-settings', $scope.formData).success(function(data){
+            log('success save-privacy-settings');
+            $scope.isSaved = true;
+            log($scope.formData);
+        });
+    };
+    
+    log('PrivacySettingsController completed');
+});
+
+minibean.controller('SubscriptionController', function($scope, subscriptionService) {
+    log('SubscriptionController starts');
+
+    $scope.subscriptions = subscriptionService.allsubscriptions.get();
+    $scope.subscribe = function(sub,isSubscribe) {
+        sub.isSub = isSubscribe;
+        subscriptionService.subscribe.get({id: sub.id,isSubscribe: isSubscribe})
+    }
+    
+    log('SubscriptionController completed');
+});
 
 minibean.controller('UserAboutController',function($routeParams, $scope, $http, userAboutService, locationService, profilePhotoModal, usSpinnerService) {
 	log("UserAboutController starts");
@@ -2829,7 +2895,7 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 	log("CommunityQnAController completed");
 });
 
-minibean.controller('ArticleSliderController', function($scope, $modal, $routeParams, $interval, showImageService, usSpinnerService, articleService){
+minibean.controller('ArticleSliderController', function($scope, $routeParams, $interval, showImageService, usSpinnerService, articleService){
     log("ArticleSliderController starts");
 
     $scope.resultSlider = articleService.SixArticles.get({category_id:$routeParams.catId}, function() {
@@ -2923,7 +2989,7 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
     log("ArticleSliderController completed");
 });
 
-minibean.controller('ArticlePageController',function($scope, $modal, $routeParams, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService){
+minibean.controller('ArticlePageController',function($scope, $routeParams, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService){
     log("ArticlePageController starts");
     
     $scope.get_header_metaData();
@@ -2980,7 +3046,7 @@ minibean.controller('ArticlePageController',function($scope, $modal, $routeParam
     log("ArticlePageController completed");
 });
 
-minibean.controller('ShowArticlesController',function($scope, $modal, $routeParams, articleService, tagwordService, bookmarkPostService, showImageService, usSpinnerService) {
+minibean.controller('ShowArticlesController',function($scope, $routeParams, articleService, tagwordService, bookmarkPostService, showImageService, usSpinnerService) {
     log("ShowArticlesController starts");
 
     $scope.get_header_metaData();

@@ -100,6 +100,10 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/bpoints-rules.html',
         controller: 'GameController'
       })
+      .when('/privacy-settings',{
+        templateUrl: '/assets/app/views/privacy-settings.html',
+        controller : 'PrivacySettingsController'  
+      })
       .when('/error', {
     	templateUrl: '/assets/app/views/errorPage.html',
       })
