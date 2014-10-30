@@ -125,7 +125,8 @@
             </a>
             <ul class="dropdown-menu">
                 <!--li><a ng-href="my#/">設定</a></li-->
-<li><a href="#/privacySettings">Privacy Settings</a></li>
+				<li><a data-toggle="modal" data-target="#subscription">Subscription</a></li>
+				<li><a href="#/privacySettings">Privacy Settings</a></li>
                 <li><a href="/logout">登出</a></li>
                 <li class="dropdown-divider" role="presentation"></li>
                 <!--li><a ng-href="">回報問題</a></li-->
@@ -141,4 +142,32 @@
         </span>
     </div>
 </div>
+
+<div class="modal fade lightbox" id="subscription" data-backdrop="false" ng-controller="subscriptionController">
+  <div class="modal-dialog">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Subscription</h4>
+      </div>
+      <div class="modal-body">
+      <ul>
+	      <li ng-repeat="sub in subscriptions" style="margin:10px; color:chocolate;">
+	      		<div class="col-md-6 col-sm-6 col-xs-6">
+					{{sub.nm}}	      
+				</div>
+				<div class="btn-group">
+			        <label class="btn btn-primary" ng-class="{active:sub.isSub==true}" ng-click="subscribe(sub,true)" btn-radio="'Left'">Subscribe</label>
+			        <label class="btn btn-primary" ng-class="{active:sub.isSub==false}" ng-click="subscribe(sub,false)" btn-radio="'Right'">Unsubscribe</label>
+			    </div>
+				
+	      </li>
+      
+      </ul>
+      	
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="main-top"/>
