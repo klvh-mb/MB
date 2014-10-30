@@ -14,9 +14,9 @@ public class ReportObjectController extends Controller {
     public static Result createReport() {
         final User localUser = Application.getLocalUser(session());
         DynamicForm form = DynamicForm.form().bindFromRequest();
-        ReportedObject reportedObject = new ReportedObject(form,localUser.id);
+        ReportedObject reportedObject = new ReportedObject(form, localUser.id);
         logger.underlyingLogger().info(String.format("[u=%d] User reported [%d|%s|%s=%d]", 
-                localUser.id, reportedObject.id, reportedObject.category.name(), reportedObject.objectType.name(), reportedObject.socialObjectID));
+                localUser.id, reportedObject.id, reportedObject.reportType.name(), reportedObject.objectType.name(), reportedObject.socialObjectID));
         return ok();
     }
 }

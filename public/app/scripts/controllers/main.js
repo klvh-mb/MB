@@ -454,7 +454,7 @@ minibean.controller('ApplicationController',
     
     $scope.openReportObjectModal = function (id, objectType) {
         var modalInstance = $modal.open({
-            templateUrl: '/assets/app/views/reportObject.html',
+            templateUrl: '/assets/app/views/report-object.html',
             controller: ReportObjectModalController,
             resolve: {
             objectType: function () {
@@ -484,7 +484,7 @@ var ReportObjectModalController = function ($scope, $modalInstance, objectType, 
         $scope.submitBtn = "done";
         usSpinnerService.spin('loading...');
         log(report);
-        $http.post('/generateReport', report).success(
+        $http.post('/send-report', report).success(
             function(data){
                 $scope.submitBtn = "Complete";
                 usSpinnerService.stop('loading...');

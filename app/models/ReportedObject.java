@@ -27,13 +27,13 @@ public class ReportedObject {
         this();
         String socialObjectID = form.get("socialObjectID");
         String objectType = form.get("objectType");
-        String category = form.get("category");
+        String reportType = form.get("reportType");
         String comment = form.get("comment");
         
         this.socialObjectID = Long.parseLong(socialObjectID);
         this.Comment = comment;
         this.setObjectType(objectType);
-        this.setCategory(category);
+        this.setReportType(reportType);
         this.reportedBy = userID;
         this.save();
     }
@@ -49,14 +49,14 @@ public class ReportedObject {
 
     public String Comment;
     
-    public enum categoryType{
+    public enum ReportType{
         SPAM,
-        UNATHORIZED_AD,
+        UNAUTHORIZED_AD,
         INAPPROPRIATE;
     }
     
     @Enumerated(EnumType.STRING)
-    public categoryType category;
+    public ReportType reportType;
     
     public Long reportedBy;
     
@@ -111,22 +111,12 @@ public class ReportedObject {
         Comment = comment;
     }
 
-    public categoryType getCategory() {
-        return category;
+    public ReportType getReportType() {
+        return reportType;
     }
 
-    public void setCategory(String category) {
-        switch(category){
-        case "INAPPROPRIATE":
-            this.category = categoryType.INAPPROPRIATE;
-            break;
-        case "SPAM":
-            this.category = categoryType.SPAM;
-            break;
-        case "UNATHORIZED_AD":
-            this.category = categoryType.UNATHORIZED_AD;
-            break;
-        }
+    public void setReportType(String reportType) {
+        this.reportType = ReportType.valueOf(reportType);
     }
 
     public Date getReportedDate() {

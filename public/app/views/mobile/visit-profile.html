@@ -16,18 +16,24 @@
                         <p id="profile-user-name">{{profile.dn}}</p>
                         <div id="menu-title">
                         	<a ng-click="selectedTab = 1;" ng-class="{activeTabBold: selectedTab == 1}">最新發佈</a>
-							<div class="divider-cus"></div>
-							<a ng-click="selectedTab = 2;" ng-class="{activeTabBold: selectedTab == 2}">社群</a>
-							<div class="divider-cus"></div>
-							<a ng-click="selectedTab = 3;" ng-class="{activeTabBold: selectedTab == 3}">朋友</a>
+							<div class="divider-cus" ng-show="profile.iscV || profile.isf"></div>
+							<a ng-click="selectedTab = 2;" ng-class="{activeTabBold: selectedTab == 2}" ng-show="profile.iscV || profile.isf">社群</a>
+							<div class="divider-cus" ng-show="profile.isfV || profile.isf"></div>
+							<a ng-click="selectedTab = 3;" ng-class="{activeTabBold: selectedTab == 3}" ng-show="profile.isfV || profile.isf">朋友</a>
                         </div>
                         <div class="pull-right">
-                            <!--a style="margin:5px 0" ng-show="profile.isf == true && isLoadingEnabled == false" class="btn-general pull-right" data-ng-href="my#/message/{{profile.id}}">私人訊息</a-->
+                            <!--a style="margin:5px 0" ng-show="profile.isf && isLoadingEnabled" class="btn-general pull-right" data-ng-href="my#/message/{{profile.id}}">私人訊息</a-->
                             <!--a style="margin:5px 0" class="btn-general pull-right" data-ng-href="my#/message/{{profile.id}}">私人訊息</a-->
-                            <a ng-click="openReportObjectModal(profile.id,'USER')"><span style="float:right; margin-top: 5px; margin-right: 5px" class="glyphicon glyphicon-warning-sign">舉報</span></a>
+                            <a style="margin:5px 0" class="btn-general pull-right" ng-click="openReportObjectModal(profile.id,'USER')"><i class="glyphicon glyphicon-warning-sign"></i>舉報</a>
                         </div>
                     </li>
                 </ul>
+            </div>
+            
+            <div class="community-action-menu row">
+                <a style="margin:5px 0;padding:3px;" ng-show="profile.isf && !isLoadingEnabled" class="toolsbox-single pull-right" data-ng-confirm-click="un_friend(profile.id)" data-ng-confirm-message="您確定移除 '{{profile.dn}}' 為朋友嗎?">移除朋友</a>
+                <a style="margin:5px 0;" ng-show="!profile.isf && !profile.isP && !isLoadingEnabled" class="btn-general pull-right" data-ng-click="send_invite(profile.id)">+ <i class="fa fa-user"></i> 加為朋友</a>
+                <span style="margin:5px 0;" ng-show="profile.isP && !isLoadingEnabled" class="btn-general-flat pull-right" disabled="disabled">已送出交友邀請</span>
             </div>
             
             <div class="ads-factor-728x90">
@@ -35,29 +41,21 @@
             </div>
                 
             <div ng-show="selectedTab == 1" id="wall" style="height: auto !important;" ng-controller="UserNewsFeedController" >
-                <div ng-show="profile.isaV" data-ng-include style="width:100%;" data-src="'/assets/app/views/mobile/about-news-feed-section.html'"></div>
-                <div ng-show="!profile.isaV" class="general-box widget-box" style="background-color:#F5F5F5;">
+                <div ng-show="profile.isaV || profile.isf" data-ng-include style="width:100%;" data-src="'/assets/app/views/mobile/about-news-feed-section.html'"></div>
+                <div ng-show="!profile.isaV && !profile.isf" class="general-box widget-box">
                     <div class="section-title">
-                        <div>
-                            {{profile.dn}} 的發佈設定為不公開
+                        <div style="position:relative;top:3px;">
+                            {{profile.dn}} 的發佈設定為只供朋友查看
                         </div>
                     </div>
                 </div>
-                <!--div ng-show="!profile.isf" class="general-box widget-box" style="background-color:#F5F5F5;">
-                    <div class="section-title">
-                        <div style="position:relative;top:3px;">
-                            想看 {{profile.dn}} 的發佈,加 {{profile.dn}} 為朋友吧!
-                            <a style="margin:0 5px 15px 0;position:relative;top:5px;" ng-show="!profile.isf && !profile.isP && !isLoadingEnabled" class="btn-general pull-right" data-ng-click="send_invite(profile.id)">+ <i class="fa fa-user"></i> 加為朋友</a>
-                        </div>
-                    </div>
-                </div-->
 			 </div>
 			 
-			 <div ng-if="selectedTab == 2" ng-controller="CommunityWidgetByUserController" ng-show="profile.iscV">
+			 <div ng-if="selectedTab == 2" ng-controller="CommunityWidgetByUserController">
 			 	<div data-ng-include data-src="'/assets/app/views/mobile/profile-all-communities-section.html'"></div>
 			 </div>
 			 
-			 <div ng-if="selectedTab == 3" ng-controller="UserFriendsController" ng-show="profile.isfV">
+			 <div ng-if="selectedTab == 3" ng-controller="UserFriendsController">
 			 	<div data-ng-include data-src="'/assets/app/views/mobile/profile-all-friends-section.html'"></div>
 			 </div>
         </div>

@@ -135,7 +135,7 @@ pre {
 div[class*="col-xs-"], div[class*="col-sm-"], div[class*="col-md-"], div[class*="col-lg-"] {
     padding: 0 5px !important;
 }
-.glyphicon-trash, .glyphicon-share {
+.glyphicon-trash, .glyphicon-share, .glyphicon-warning-sign {
     margin-right: 4px;
     font-size: 12px;
     vertical-align: text-top;
