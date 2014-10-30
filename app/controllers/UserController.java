@@ -885,13 +885,13 @@ public class UserController extends Controller {
     
     @Transactional
     public static Result subscribe(Long id, Boolean isSub) {
-        System.out.println(id+"      "+isSub);
         User localUser = Application.getLocalUser(session());
         if(isSub){
-            localUser.setSubscribtion(id);
+            localUser.setSubscription(id);
         } else {
-            localUser.setUnsubscribtion(id);
+            localUser.removeSubscription(id);
         }
+        logger.underlyingLogger().debug("[u=%d] User subscription [%d|%b]", localUser.id, id, isSub);
         return ok();
     }
 }
