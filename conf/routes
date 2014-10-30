@@ -251,7 +251,7 @@ GET     /get-all-subscriptions                  controllers.UserController.getAl
 GET     /subscribe/:id/:isSubscribed            controllers.UserController.subscribe(id:Long,isSubscribed:Boolean)
 
 #Report Generation
-POST    /send-report                         controllers.ReportObjectController.createReport()
+POST    /send-report                            controllers.ReportObjectController.createReport()
 
 POST    /save-settings                          controllers.PrivacySettingsController.saveSettings
 GET     /get-settings                           controllers.PrivacySettingsController.getSettings

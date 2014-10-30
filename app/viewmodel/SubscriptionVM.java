@@ -8,7 +8,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class SubscriptionVM {
     @JsonProperty("id") public long id;
     @JsonProperty("nm") public String name;
-    @JsonProperty("isSub") public boolean isSubscription = false;
+    @JsonProperty("isSub") public boolean isSubscribed = false;
     
     public SubscriptionVM() {
     }   
@@ -16,6 +16,6 @@ public class SubscriptionVM {
     public SubscriptionVM(Subscription subscription,User user) {
         this.id = subscription.id;
         this.name = subscription.name;
-        this.isSubscription = user.isSubscribedBy(subscription);
+        this.isSubscribed = user.isSubscribedBy(subscription);
     }   
 }

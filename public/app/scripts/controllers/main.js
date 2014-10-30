@@ -591,9 +591,11 @@ minibean.controller('SubscriptionController', function($scope, subscriptionServi
     log('SubscriptionController starts');
 
     $scope.subscriptions = subscriptionService.allsubscriptions.get();
-    $scope.subscribe = function(sub,isSubscribe) {
-        sub.isSub = isSubscribe;
-        subscriptionService.subscribe.get({id: sub.id,isSubscribe: isSubscribe})
+    $scope.subscribe = function(sub,isSubscribed) {
+        if (sub.isSub != isSubscribed) {
+            sub.isSub = isSubscribed;
+            subscriptionService.subscribe.get({id:sub.id,isSubscribed:isSubscribed})
+        }
     }
     
     log('SubscriptionController completed');

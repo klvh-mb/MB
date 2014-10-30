@@ -891,7 +891,7 @@ public class UserController extends Controller {
         } else {
             localUser.removeSubscription(id);
         }
-        logger.underlyingLogger().debug("[u=%d] User subscription [%d|%b]", localUser.id, id, isSub);
+        logger.underlyingLogger().debug(String.format("[u=%d] User subscription [%d|%b]", localUser.id, id, isSub));
         return ok();
     }
 }

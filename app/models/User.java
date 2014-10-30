@@ -1730,8 +1730,10 @@ public class User extends SocialObject implements Subject, Socializable {
 
     public void setSubscription(Long subId) {
         Subscription subscription = Subscription.findById(subId);
-        this.subscriptions.add(subscription);
-        JPA.em().merge(this);
+        if(!this.isSubscribedBy(subscription)){
+            this.subscriptions.add(subscription);
+            JPA.em().merge(this);
+        }
     }
     
     public void removeSubscription(Long subId) {
