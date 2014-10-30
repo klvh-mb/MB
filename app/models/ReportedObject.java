@@ -19,6 +19,28 @@ import domain.SocialObjectType;
 @Entity
 public class ReportedObject {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Long id;
+    
+    @Enumerated(EnumType.STRING)
+    public SocialObjectType objectType;
+    
+    public Long socialObjectID;
+
+    public String comment;
+    
+    public enum ReportType{
+        SPAM,
+        UNAUTHORIZED_AD,
+        INAPPROPRIATE;
+    }
+    
+    @Enumerated(EnumType.STRING)
+    public ReportType reportType;
+    
+    public Long reportedBy;
+    
     public ReportedObject() {
         this.reportedDate = new Date();
     }
@@ -31,34 +53,12 @@ public class ReportedObject {
         String comment = form.get("comment");
         
         this.socialObjectID = Long.parseLong(socialObjectID);
-        this.Comment = comment;
+        this.comment = comment;
         this.setObjectType(objectType);
         this.setReportType(reportType);
         this.reportedBy = userID;
         this.save();
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
-    
-    @Enumerated(EnumType.STRING)
-    public SocialObjectType objectType;
-    
-    public Long socialObjectID;
-
-    public String Comment;
-    
-    public enum ReportType{
-        SPAM,
-        UNAUTHORIZED_AD,
-        INAPPROPRIATE;
-    }
-    
-    @Enumerated(EnumType.STRING)
-    public ReportType reportType;
-    
-    public Long reportedBy;
     
     public Long getId() {
         return id;
@@ -104,11 +104,11 @@ public class ReportedObject {
     }
 
     public String getComment() {
-        return Comment;
+        return comment;
     }
 
     public void setComment(String comment) {
-        Comment = comment;
+        this.comment = comment;
     }
 
     public ReportType getReportType() {
