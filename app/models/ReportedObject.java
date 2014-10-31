@@ -33,7 +33,8 @@ public class ReportedObject {
     public enum ReportType{
         SPAM,
         UNAUTHORIZED_AD,
-        INAPPROPRIATE;
+        INAPPROPRIATE,
+        COMPROMISED;
     }
     
     @Enumerated(EnumType.STRING)

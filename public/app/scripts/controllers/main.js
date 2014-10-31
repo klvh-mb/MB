@@ -196,13 +196,14 @@ minibean.controller('ApplicationController',
     // ideally should not define here, but need to call in 
     // MagazineNewsFeedController and ShowArticlesController
     $scope.renderNavSubBar = function() {
-        YUI().use("event","node","scrollview-base","scrollview-paginator",function(Y){
+        YUI().use("event","node","scrollview-base",function(Y){
             var magazineNavSubBar = new Y.ScrollView({
                 id: 'scrollview',
                 srcNode: '#magazine-nav-subbar',
                 flick: {
-                    minDistance:100,
-                    minVelocity:0.5
+                    minDistance:10,
+                    minVelocity:0.3,
+                    axis: "x"
                 }
             });
             magazineNavSubBar.render();
@@ -211,8 +212,9 @@ minibean.controller('ApplicationController',
                 id: 'scrollview',
                 srcNode: '#article-nav-subbar',
                 flick: {
-                    minDistance:100,
-                    minVelocity:0.5
+                    minDistance:10,
+                    minVelocity:0.3,
+                    axis: "x"
                 }
             });
             articleNavSubBar.render();
@@ -221,8 +223,9 @@ minibean.controller('ApplicationController',
                 id: 'scrollview',
                 srcNode: '#knowledge-nav-subbar',
                 flick: {
-                    minDistance:100,
-                    minVelocity:0.5
+                    minDistance:10,
+                    minVelocity:0.3,
+                    axis: "x"
                 }
             });
             knowledgeNavSubBar.render();
@@ -457,18 +460,20 @@ minibean.controller('ApplicationController',
             templateUrl: '/assets/app/views/report-object.html',
             controller: ReportObjectModalController,
             resolve: {
-            objectType: function () {
-                return objectType;
-              },
-              id: function () {
-                  return id;
-              }
+                objectType: function () {
+                        return objectType;
+                    },
+                id: function () {
+                        return id;
+                    }
             }
-          });
-         modalInstance.result.then(function (selectedItem) {
-              $scope.selected = selectedItem;
-            }, function () {
         });
+        modalInstance.result.then(
+            function(selectedItem) {
+                $scope.selected = selectedItem;
+            }, 
+            function () {
+            });
     }
     
     log("ApplicationController completed");
@@ -476,7 +481,7 @@ minibean.controller('ApplicationController',
 
 var ReportObjectModalController = function ($scope, $modalInstance, objectType, id, usSpinnerService, $http) {
     $scope.objectType = objectType;
-    $scope.category = DefaultValues.reportCategoryType;
+    $scope.reportType = DefaultValues.DEFAULT_REPORT_TYPE;
     $scope.submitBtn = "ok";
     $scope.update = function (report) {
         report.socialObjectID = id;

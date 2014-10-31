@@ -1,18 +1,49 @@
-<div class="modal-dialog">
+<div ng-show="objectType=='USER'">
     <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-fw fa-group"></i> Report </h4>
+        <h4 class="modal-title" id="myModalLabel"><i class="glyphicon glyphicon-warning-sign"></i>舉報帳戶</h4>
     </div>
     <div class="modal-body">
         <form novalidate class="simple-form">
-            Report Type:<br/>
-            <select data-ng-model="report.reportType">
-                <option value="SPAM">SPAM</option>
-                <option value="UNAUTHORIZED_AD">UNAUTHORIZED_AD</option>
-                <option value="INAPPROPRIATE">INAPPROPRIATE</option>
+            問題是:<br/>
+            <select data-ng-model="report.reportType" >
+                <option value="UNAUTHORIZED_AD">這個帳戶所發佈全是廣吿</option>
+                <option value="SPAM">這是垃圾訊息帳戶</option>
+                <option value="INAPPROPRIATE">這個帳戶很令人困擾</option>
+                <option value="COMPROMISED">這個帳戶可能遭到盜用</option>
             </select><br/>
-            Comment:<br/>
+            <div class="padding5"></div>
+            注:<br/>
             <textarea name="community_desc" id="community_desc" class="form-control" data-ng-model="report.comment"></textarea><br/>     
             <button class="btn btn-primary ng-binding" ng-click="update(report)">{{submitBtn}}</button>
         </form>
     </div>
 </div>
+
+<div ng-show="objectType=='QUESTION' || objectType=='ANSWER' || objectType=='POST' || objectType=='COMMENT'">
+    <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel"><i class="glyphicon glyphicon-warning-sign"></i>舉報發佈</h4>
+    </div>
+    <div class="modal-body">
+        <form novalidate class="simple-form">
+            問題是:<br/>
+            <select data-ng-model="report.reportType">
+                <option value="UNAUTHORIZED_AD">這是不合適的廣吿</option>
+                <option value="SPAM">這是垃圾訊息</option>
+                <option value="INAPPROPRIATE">這個發佈很令人不悦</option>
+                <option value="COMPROMISED">這個帳戶可能遭到盜用</option>
+            </select><br/>
+            <div class="padding5"></div>
+            注:<br/>
+            <textarea name="community_desc" id="community_desc" class="form-control" data-ng-model="report.comment"></textarea><br/>     
+            <button class="btn btn-primary ng-binding" ng-click="update(report)">{{submitBtn}}</button>
+        </form>
+    </div>
+</div>
+
+<style>
+.modal-dialog {
+    width: 450px;
+    margin:0px auto;
+    top: 50px;
+}
+</style>
