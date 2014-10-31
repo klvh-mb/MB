@@ -67,11 +67,13 @@ public class UserController extends Controller {
     public static Result isNewsfeedEnabledForCommunity(Long communityId) {
         final User localUser = Application.getLocalUser(session());
         
-        UserCommunityAffinity affinity = UserCommunityAffinity.findByUserCommunity(localUser.id, communityId);
-        if (affinity == null)
-            return status(500);
-
         Map<String, Boolean> map = new HashMap<>();
+        UserCommunityAffinity affinity = UserCommunityAffinity.findByUserCommunity(localUser.id, communityId);
+        if (affinity == null) {
+            map.put("newsfeedEnabled", false);
+            return ok(Json.toJson(map));
+        }
+
         map.put("newsfeedEnabled", affinity.isNewsfeedEnabled());
         return ok(Json.toJson(map));
     }
@@ -85,8 +87,10 @@ public class UserController extends Controller {
         }
 
         UserCommunityAffinity affinity = UserCommunityAffinity.findByUserCommunity(localUser.id, communityId);
-        if (affinity == null)
-            return status(500);
+        if (affinity == null) {
+            // if no affinity previously, treat as disabled and toggle it on now
+            UserCommunityAffinity.onJoinedCommunity(localUser.id, communityId);
+        }
 
         boolean target = !affinity.isNewsfeedEnabled();
         if (logger.underlyingLogger().isDebugEnabled()) {
