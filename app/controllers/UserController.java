@@ -88,10 +88,15 @@ public class UserController extends Controller {
             return status(500);
         }
 
+        Map<String, Boolean> map = new HashMap<>();
         UserCommunityAffinity affinity = UserCommunityAffinity.findByUserCommunity(localUser.id, communityId);
         if (affinity == null) {
             // if no affinity previously, treat as disabled and toggle it on now
             UserCommunityAffinity.onJoinedCommunity(localUser.id, communityId);
+            affinity = UserCommunityAffinity.findByUserCommunity(localUser.id, communityId);
+            if (logger.underlyingLogger().isDebugEnabled()) {
+                logger.underlyingLogger().debug("[c="+communityId+",u="+localUser.id+"] toggleNewsfeedEnabledForCommunity created affinity");
+            }
         }
 
         boolean target = !affinity.isNewsfeedEnabled();
@@ -101,7 +106,6 @@ public class UserController extends Controller {
 
         affinity.setNewsfeedEnabled(target);
 
-        Map<String, Boolean> map = new HashMap<>();
         map.put("newsfeedEnabled", target);
         return ok(Json.toJson(map));
     }

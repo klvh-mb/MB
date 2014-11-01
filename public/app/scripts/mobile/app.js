@@ -117,7 +117,7 @@ minibean.config(['$httpProvider', function($httpProvider) {
                         if (!containsUrlIgnore) {
                             var separator = config.url.indexOf('?') === -1 ? '?' : '&';
                             config.url = config.url+separator+'noCache=' + new Date().getTime();
-                            console.log(config.method + " " + config.url);
+                            //console.log(config.method + " " + config.url);
                         }
                     }
                     return config;
