@@ -31,7 +31,7 @@ case "$?" in
  NOTICE=/tmp/watchdog_$NAME1.txt
  echo -e "To: $TO1\nFrom: $TO1\nSubject: MB PROD Alert - $NAME1 was not running as of `$DATE`" > $NOTICE
  $MAIL $TO1 < $NOTICE
- echo "-e To: $TO2\nFrom: $TO2\nSubject: MB PROD Alert - $NAME1 was not running as of `$DATE`" > $NOTICE
+ echo -e "To: $TO2\nFrom: $TO2\nSubject: MB PROD Alert - $NAME1 was not running as of `$DATE`" > $NOTICE
  $MAIL $TO2 < $NOTICE
  # $RM -f $NOTICE
  ;;
@@ -44,7 +44,7 @@ case "$?" in
  NOTICE=/tmp/watchdog_$NAME2.txt
  echo -e "To: $TO1\nFrom: $TO1\nSubject: MB PROD Alert - $NAME2 was not running as of `$DATE`" > $NOTICE
  $MAIL $TO1 < $NOTICE
- echo "-e To: $TO2\nFrom: $TO2\nSubject: MB PROD Alert - $NAME2 was not running as of `$DATE`" > $NOTICE
+ echo -e "To: $TO2\nFrom: $TO2\nSubject: MB PROD Alert - $NAME2 was not running as of `$DATE`" > $NOTICE
  $MAIL $TO2 < $NOTICE
  # $RM -f $NOTICE
  ;;

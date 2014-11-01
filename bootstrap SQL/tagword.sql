@@ -1,5 +1,23 @@
-insert into TagWord (deleted, system, UPDATED_DATE, tagCategory, tagCategoryId, displayWord, matchingWords, deleted) values (0, 0, CURDATE(), 0, 'HOT_ARTICLES', '寵物', '寵物');
-insert into TagWord (deleted, system, UPDATED_DATE, tagCategory, tagCategoryId, displayWord, matchingWords, deleted) values (0, 0, CURDATE(), 0, 'HOT_ARTICLES', '食譜', '食譜,菜單,餐單');
-insert into TagWord (deleted, system, UPDATED_DATE, tagCategory, tagCategoryId, displayWord, matchingWords, deleted) values (0, 0, CURDATE(), 0, 'HOT_ARTICLES', '閱讀', '閱讀,圖書,看書,故事書');
-insert into TagWord (deleted, system, UPDATED_DATE, tagCategory, tagCategoryId, displayWord, matchingWords, deleted) values (0, 0, CURDATE(), 0, 'HOT_ARTICLES', '尿片', '尿布,尿褲,尿片');
-insert into TagWord (deleted, system, UPDATED_DATE, tagCategory, tagCategoryId, displayWord, matchingWords, deleted) values (0, 0, CURDATE(), 0, 'HOT_ARTICLES', '攝影', '攝影,拍攝,相機,閃光燈');
+insert into TagWord (deleted,system,excludeFromTargeting,UPDATED_DATE,socialObjectCount,noClicks, tagCategory, tagCategoryId, displayWord, matchingWords)
+values (0,0,0,CURDATE(),0,0, 0, 'HOT_ARTICLES', '寵物', '寵物');
+
+insert into TagWord (deleted,system,excludeFromTargeting,UPDATED_DATE,socialObjectCount,noClicks, tagCategory, tagCategoryId, displayWord, matchingWords)
+values (0,0,0,CURDATE(),0,0, 0, 'HOT_ARTICLES', '食譜', '食譜,菜單,餐單');
+
+insert into TagWord (deleted,system,excludeFromTargeting,UPDATED_DATE,socialObjectCount,noClicks, tagCategory, tagCategoryId, displayWord, matchingWords)
+values (0,0,0,CURDATE(),0,0, 0, 'HOT_ARTICLES', '閱讀', '閱讀,圖書,看書,故事書,繪本');
+
+insert into TagWord (deleted,system,excludeFromTargeting,UPDATED_DATE,socialObjectCount,noClicks, tagCategory, tagCategoryId, displayWord, matchingWords)
+values (0,0,0,CURDATE(),0,0, 0, 'HOT_ARTICLES', '尿片', '尿布,尿褲,尿片');
+
+insert into TagWord (deleted,system,excludeFromTargeting,UPDATED_DATE,socialObjectCount,noClicks, tagCategory, tagCategoryId, displayWord, matchingWords)
+values (0,0,0,CURDATE(),0,0, 0, 'HOT_ARTICLES', '攝影', '攝影,拍攝,相機,閃光燈');
+
+insert into TagWord (deleted,system,excludeFromTargeting,UPDATED_DATE,socialObjectCount,noClicks, tagCategory, tagCategoryId, displayWord, matchingWords)
+values (0,0,0,CURDATE(),0,0, 0, 'HOT_ARTICLES', '學說話', '學說話,學會說話,不會說話,說話能力');
+
+insert into TagWord (deleted,system,excludeFromTargeting,UPDATED_DATE,socialObjectCount,noClicks, tagCategory, tagCategoryId, displayWord, matchingWords)
+values (0,0,0,CURDATE(),0,0, 0, 'HOT_ARTICLES', '瘦身', '瘦身,瘦腿,減肥');
+
+update TagWord set matchingWords = '閱讀,圖書,看書,故事書,繪本' where displayWord = '閱讀';
+update TagWord set matchingWords = '雙胞胎,龍鳳胎,孖仔,孖女' where displayWord = '雙胞胎';
