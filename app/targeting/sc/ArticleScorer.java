@@ -22,7 +22,7 @@ public class ArticleScorer {
     private static final int PARENT_GENDER_POINTS = 80;
     private static final int CHILDREN_GENDER_POINTS = 70;
     private static final int LIKES_POINTS = 50;
-    private static final int PUB_DATE_POINTS = 100;
+    private static final int PUB_DATE_POINTS = 120;
     private static final int RANDOM_POINTS = 40;        // adding in randomness
 
 
