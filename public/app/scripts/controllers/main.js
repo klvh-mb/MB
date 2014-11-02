@@ -279,7 +279,7 @@ minibean.controller('ApplicationController',
     $scope.unread_msg_count = 0;
     $scope.get_header_metaData = function() {
         // get sidebars offset
-        $interval($scope.getSidebarsTop, 2000, 1);
+        $interval($scope.getSidebarsTop, 1000, 1);
         
         if (!$scope.userInfo.isLoggedIn) {
             //log('get_header_metaData ignored for no login');

@@ -31,7 +31,7 @@ window.registeredAds[300250] = []; // Here you need to define AdsFactor size
 window.registeredAds[72890] = [];
 window.registeredAds[11] = [];
 document.write = function(node) {
-    //console.log('AD RESPONSE: '+node);
+    console.log('AD RESPONSE: '+node);
     if(typeof node !== 'undefined') {
         var elem;
         if (is300x250(node)) {
@@ -47,7 +47,7 @@ document.write = function(node) {
         
         if(typeof elem === 'undefined') {
             elem = getDefaultRegisteredAd();
-            //console.log('AD: poped default - '+elem);
+            console.log('AD: poped default - '+elem);
         }
         
         if(typeof elem !== 'undefined') {
@@ -55,10 +55,10 @@ document.write = function(node) {
             //console.log('AD: added after '+elem);
             
             // as long as not defer async request, set latest elem as default
-            if (!isDefer(node)) {
-                defaultRegisteredAd = elem;
-                //console.log('AD: set default');
-            }
+            //if (!isDefer(node)) {
+            //    defaultRegisteredAd = elem;
+            //    console.log('AD: set default');
+            //}
         }
     }
 }
@@ -86,18 +86,19 @@ var getDefaultRegisteredAd = function() {
     var elem;
     if (typeof defaultRegisteredAd !== 'undefined') {
         elem = defaultRegisteredAd;
-    } else if (registeredAds[300250].length > 0) {
-        var lastIndex = registeredAds[300250].length-1;
-        elem = registeredAds[300250][lastIndex];
-        //console.log('AD: poped default 300x250 - '+elem);
-    } else if (registeredAds[72890].length > 0) {
-        var lastIndex = registeredAds[72890].length-1;
-        elem = registeredAds[72890][lastIndex];
-        //console.log('AD: poped default 728x90 - '+elem);
+        console.error('AD: set default already - '+elem);
     } else if (registeredAds[11].length > 0) {
         var lastIndex = registeredAds[11].length-1;
         elem = registeredAds[11][lastIndex];
-        //console.log('AD: poped default 1x1 - '+elem);
+        console.error('AD: set default 1x1 - '+elem);
+    } else if (registeredAds[300250].length > 0) {
+        var lastIndex = registeredAds[300250].length-1;
+        elem = registeredAds[300250][lastIndex];
+        console.error('AD: set default 300x250 - '+elem);
+    } else if (registeredAds[72890].length > 0) {
+        var lastIndex = registeredAds[72890].length-1;
+        elem = registeredAds[72890][lastIndex];
+        console.error('AD: set default 728x90 - '+elem);
     }
     return elem;
 }
@@ -123,6 +124,9 @@ var is1x1 = function(node) {
 }
 
 var is300x250 = function(node) {
+    if (node.lastIndexOf("300px") != -1 && node.lastIndexOf("250px") != -1) {
+        return true;
+    }
     if (node.lastIndexOf("'300'") != -1 && node.lastIndexOf("'250'") != -1) {
         return true;
     }
@@ -139,6 +143,9 @@ var is300x250 = function(node) {
 }
 
 var is728x90 = function(node) {
+    if (node.lastIndexOf("728px") != -1 && node.lastIndexOf("90px") != -1) {
+        return true;
+    }
     if (node.lastIndexOf("'728'") != -1 && node.lastIndexOf("'90'") != -1) {
         return true;
     }
