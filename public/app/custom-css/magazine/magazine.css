@@ -56,13 +56,6 @@
 .nav-menu a.nav-item:hover {
     text-decoration: none;
 }
-.nav-menu .selected-purple a {
-    color: #111;
-    border-bottom: 4px solid transparent;
-    border-bottom-color: #4F27A5;
-}
-.nav-menu a.nav-item-purple:hover {
-}
 .nav-menu .selected-green a {
     color: #111;
     border-bottom: 4px solid transparent;
@@ -70,19 +63,16 @@
 }
 .nav-menu a.nav-item-green:hover {
 }
-.nav-menu .selected-blue a {
-    color: #111;
-    border-bottom: 4px solid transparent;
-    border-bottom-color: #428bca;
-}
-.nav-menu a.nav-item-blue:hover {
-}
 .nav-menu .selected-yellow a {
     color: #111;
     border-bottom: 4px solid transparent;
     border-bottom-color: #FFB32D;
 }
-.nav-menu a.nav-item-yellow:hover {
+.nav-menu .selected-item a {
+    color: white !important;
+    background-color: #AFCCF9;
+    border-radius: 20px;
+    font-weight: bold;
 }
 
 /* specific styles */
@@ -111,11 +101,12 @@
     background-color: #7272F3;
 }
 #nav-subbar .nav-menu a.nav-item {
-    color: #111;
+    color: #333;
+    margin: 2px 0;
 }
 #nav-subbar .nav-menu a.nav-item:hover {
-    color: #400090;
-    background-color: transparent;
+    /*color: #400090;
+    background-color: transparent;*/
 }
 #nav-subbar .nav-menu .selected-purple a.nav-item:hover, 
 #nav-subbar .nav-menu .selected-green a.nav-item:hover,

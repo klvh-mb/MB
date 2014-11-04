@@ -2428,7 +2428,7 @@ a:focus {
 .scCatTitle {
     font-size: 15px;
     font-weight: bold;
-    border-bottom: 1px solid #CACACA;
+    border-bottom: 1px solid #FCC9CB;
     padding: 5px 10px;
 }
 .scCatMiniThumbnail {
@@ -2832,8 +2832,51 @@ span.notif-count {
     border-color: #FCC9CB;
     border-radius: 15px;
     border-width: 3px;
+    font-size: 15px;
     margin: 0px 0 15px 0;
     box-shadow: 0px 1px 10px rgba(162, 6, 43, 0.5);
+}
+.top-box .index-title {
+    border-bottom: 2px solid #FCC9CB;
+    padding: 5px 10px;
+}
+.article-index-box {
+    border-color: #93C0ED;
+    box-shadow: 0px 1px 10px rgba(87, 101, 171, 0.5);
+}
+.article-index-box .index-title {
+    border-bottom: 2px solid #93C0ED;
+    padding: 5px 20px;
+}
+.knowledge-index-box {
+    border-color: #FCC9CB;
+    box-shadow: 0px 1px 10px rgba(162, 6, 43, 0.5);
+}
+.knowledge-index-box .index-title {
+    border-bottom: 2px solid #FCC9CB;
+    padding: 5px 20px;
+}
+.knowledge-index-box .left-group {
+    background: #FFF4F4;
+    border-bottom: 1px solid #ffffff;
+    color: #DD6868;
+    padding: 7px 10px;
+    font-weight: bold;
+    text-align: center;
+}
+.knowledge-index-box td {
+    text-align: center;
+    border-bottom: 1px solid #E4F0FC;
+}
+.knowledge-index-box td a {
+    color: #333;
+    padding: 3px 10px;
+}
+.knowledge-index-box .selected-item a {
+    background-color: #FFC2C4;
+    color: white;
+    border-radius: 15px;
+    font-weight: bold;
 }
 #communities-index {
     margin: 5px 0 15px 0;

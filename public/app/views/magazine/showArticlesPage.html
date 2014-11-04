@@ -6,24 +6,31 @@
     <div data-ng-include data-src="'/assets/app/views/nav-bar.html'"></div>
     <div class="row">
         <div class="col-md-2 col-sm-2 col-xs-2" style="width:210px;">
-            <div data-ng-include data-src="'/assets/app/views/widgets/article-categories-index-widget.html'"></div>
+            <div ng-if="selectedNavBar == 'HOT_ARTICLES'">
+                <div data-ng-include data-src="'/assets/app/views/widgets/article-categories-index-widget.html'"></div>
+            </div>
             <div id="left-sidebar" ui-scrollfix="+{{leftSidebarTop}}">
                 <div data-ng-include data-src="'/assets/app/views/widgets/tagwords-index-widget.html'"></div>
             </div>
         </div>
         
         <div class="col-md-6 col-sm-6 col-xs-6" style="width:500px;">
-            <div ng-if="allCategory">
-                <div ng-controller="ArticleSliderController" data-ng-include data-src="'/assets/app/views/articleSlider.html'"></div>
-            </div>
-            <div ng-if="oneCategory">
-                <div id="slider" class="general-box" style="height:100%;">
-                    <div id="sta-con-slider">
-                        <div class="sta-con-mainslide"><p><a href="#/article/{{article1.id}}/{{article1.ct.id}}">{{article1.nm|limitTo:18}}</a><!--a title="summary" href="#/article/{{article1.id}}/{{article1.ct.id}}">{{article1.lds|limitTo:60}}...</a--></p><a href="#/article/{{article1.id}}/{{article1.ct.id}}"><img ng-show="article1.img_url != 'No Image'" data-ng-src="{{article1.img_url}}"></a><a href="#/article/{{article1.id}}/{{article1.ct.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
-                        <div class="sta-con-mainslide"><a title="subslide" href="#/article/{{article2.id}}/{{article2.ct.id}}">{{article2.nm|limitTo:18}}</a><a href="#/article/{{article2.id}}/{{article2.ct.id}}"><img ng-show="article2.img_url != 'No Image'" data-ng-src="{{article2.img_url}}"></a><a href="#/article/{{article2.id}}/{{article2.ct.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
-                        <div class="sta-con-mainslide"><a title="subslide" href="#/article/{{article3.id}}/{{article3.ct.id}}">{{article3.nm|limitTo:18}}</a><a href="#/article/{{article3.id}}/{{article3.ct.id}}"><img ng-show="article1.img_url != 'No Image'" data-ng-src="{{article3.img_url}}"></a><a href="#/article/{{article3.id}}/{{article3.ct.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+            <div ng-if="selectedNavBar == 'HOT_ARTICLES'">
+                <div ng-if="allCategory">
+                    <div ng-controller="ArticleSliderController" data-ng-include data-src="'/assets/app/views/articleSlider.html'"></div>
+                </div>
+                <div ng-if="oneCategory">
+                    <div id="slider" class="general-box" style="height:100%;">
+                        <div id="sta-con-slider">
+                            <div class="sta-con-mainslide"><p><a href="#/article/{{article1.id}}/{{article1.ct.id}}">{{article1.nm|limitTo:18}}</a><!--a title="summary" href="#/article/{{article1.id}}/{{article1.ct.id}}">{{article1.lds|limitTo:60}}...</a--></p><a href="#/article/{{article1.id}}/{{article1.ct.id}}"><img ng-show="article1.img_url != 'No Image'" data-ng-src="{{article1.img_url}}"></a><a href="#/article/{{article1.id}}/{{article1.ct.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+                            <div class="sta-con-mainslide"><a title="subslide" href="#/article/{{article2.id}}/{{article2.ct.id}}">{{article2.nm|limitTo:18}}</a><a href="#/article/{{article2.id}}/{{article2.ct.id}}"><img ng-show="article2.img_url != 'No Image'" data-ng-src="{{article2.img_url}}"></a><a href="#/article/{{article2.id}}/{{article2.ct.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+                            <div class="sta-con-mainslide"><a title="subslide" href="#/article/{{article3.id}}/{{article3.ct.id}}">{{article3.nm|limitTo:18}}</a><a href="#/article/{{article3.id}}/{{article3.ct.id}}"><img ng-show="article1.img_url != 'No Image'" data-ng-src="{{article3.img_url}}"></a><a href="#/article/{{article3.id}}/{{article3.ct.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div ng-if="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'">
+                <div data-ng-include data-src="'/assets/app/views/widgets/knowledge-categories-index-widget.html'"></div>
             </div>
             <!--Slider End -->
             <div id="wall">

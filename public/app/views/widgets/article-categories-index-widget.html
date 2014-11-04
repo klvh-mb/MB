@@ -1,37 +1,19 @@
-<div class="general-box top-box" ng-show="selectedNavBar == 'HOT_ARTICLES'">
+<div class="general-box top-box article-index-box">
     <div id="nav-subbar" style="margin:0px;">
         <ul class="nav-menu">
             <li>
-                <div class="scCatTitle">
+                <div class="index-title">
                     <img style="width:auto;height:26px;" data-ng-src="/assets/app/images/general/titles/hot_articles.png">
                 </div>
             </li>
             <li style="padding:5px 15px;font-size:15px;">
-                <div ng-class="{'selected-yellow': selectedNavSubBar == 0}" style="width:100%;display:inline-block;">
-                    <a class="nav-item nav-item-yellow" style="padding:5px 5px 2px 5px;" ng-href="magazine#/article/show/0">
+                <div ng-class="{'selected-item': selectedNavSubBar == 0}" style="width:100%;display:inline-block;">
+                    <a class="nav-item" ng-href="magazine#/article/show/0">
                         所有文章
                     </a>
                 </div>
-                <div ng-class="{'selected-yellow': selectedNavSubBar == category.id}" style="width:100%;display:inline-block;" ng-repeat="category in hotArticleCategories">
-                    <a class="nav-item nav-item-yellow" style="padding:5px 5px 2px 5px;" ng-href="magazine#/article/show/{{category.id}}">
-                        {{category.name}}
-                    </a>
-                </div>
-            </li>
-        </ul>
-    </div>
-</div>
-<div class="general-box top-box" ng-show="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'">
-    <div id="nav-subbar" style="margin:0px;">
-        <ul class="nav-menu">
-            <li>
-                <div class="scCatTitle">
-                    <img style="width:auto;height:26px;" data-ng-src="/assets/app/images/general/titles/preg_month.png">
-                </div>
-            </li>
-            <li style="padding:5px 15px;font-size:15px;">
-                <div ng-class="{'selected-yellow': selectedNavSubBar == category.id}" style="width:100%;display:inline-block;" ng-repeat="category in soonMomsArticleCategories">
-                    <a class="nav-item nav-item-yellow" style="padding:5px 5px 2px 5px;" ng-href="magazine#/article/show/{{category.id}}">
+                <div ng-class="{'selected-item': selectedNavSubBar == category.id}" style="width:100%;display:inline-block;" ng-repeat="category in hotArticleCategories">
+                    <a class="nav-item" ng-href="magazine#/article/show/{{category.id}}">
                         {{category.name}}
                     </a>
                 </div>
