@@ -771,6 +771,8 @@ public class DataBootstrap {
             createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "奶粉", "奶粉");
             createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "雙胞胎", "雙胞胎,龍鳳胎,孖仔,孖女");
             createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "臍帶血", "臍帶血");
+            createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "改名", "改名");
+            createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "孕婦裝", "孕婦裝,大肚婆衫,孕婦褲,連身裙,孕期內衣");
         }
 
         String hotArticlesCatId = ArticleCategory.ArticleCategoryGroup.HOT_ARTICLES.name();
