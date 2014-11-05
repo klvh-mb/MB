@@ -6,7 +6,6 @@
     <div data-ng-include data-src="'/assets/app/views/nav-bar.html'"></div>
     <div class="row">
         <div class="col-md-2 col-sm-2 col-xs-2" style="width:210px;">
-            <div data-ng-include data-src="'/assets/app/views/widgets/article-categories-index-widget.html'"></div>
             <div id="left-sidebar" ui-scrollfix="+{{leftSidebarTop}}">
                 <div data-ng-include data-src="'/assets/app/views/widgets/tagwords-index-widget.html'"></div>
             </div>
@@ -16,6 +15,14 @@
             <div id="wall">
                 <div infinite-scroll='next_result()' infinite-scroll-distance='1'>
                     <div class="general-box">
+                        <div style="padding:5px 10px;font-weight:bold;">
+                            <div ng-show="selectedNavBar == 'HOT_ARTICLES'" ng-click="selectNavBar('HOT_ARTICLES')">
+                                <a href="magazine#/article/show/0">&lt;&lt; 返回文章</a>
+                            </div>
+                            <div ng-show="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'" ng-click="selectNavBar('SOON_TO_BE_MOMS_ARTICLES')">
+                                <a href="magazine#/article/show/{{soonMomsArticleCategories[0].id}}">&lt;&lt; 返回知識庫</a>
+                            </div>
+                        </div>
                         <div class="tagword-results-header">
                             <div>
                                 <h2>"{{tagword.nm}}"</h2>
@@ -64,13 +71,13 @@
         </div>
         
         <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
+            <div ng-show="!userInfo.isLoggedIn">
+                <div data-ng-include data-src="'/assets/app/views/magazine/promo-signup-widget.html'"></div>
+            </div>
             <div class="ads-factor-300x250">
                 <script adSize="300250" adSid="244781106677" ads-factor language='JavaScript' type="text/javascript"></script>
             </div>
             <div id="right-sidebar" ui-scrollfix="+{{rightSidebarTop}}">
-                <div ng-show="!userInfo.isLoggedIn">
-                    <div data-ng-include data-src="'/assets/app/views/magazine/promo-signup-widget.html'"></div>
-                </div>
                 <div>
                     <div data-ng-include data-src="'/assets/app/views/widgets/fb-likebox-widget.html'"></div>
                 </div>

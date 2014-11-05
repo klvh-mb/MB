@@ -193,9 +193,42 @@ minibean.controller('ApplicationController',
         $route.reload();
     }
     
+    $scope.renderNavSlider = function() {
+        var opts = {
+            controlNavigation:'thumbnails',
+            imageScaleMode: 'fill',
+            arrowsNav: false,
+            arrowsNavHideOnTouch: true,
+            fullscreen: false,
+            loop: false,
+            thumbs: {
+              firstMargin: false,
+              paddingBottom: 0
+            },
+            usePreloader: false,
+            thumbsFirstMargin: false,
+            autoScaleSlider: false, 
+            autoHeight: false,
+            keyboardNavEnabled: true,
+            navigateByClick: true,
+            fadeinLoadedSlide: true,
+        };
+        var navSlider = $('#nav-slider').royalSlider(opts);
+    }
+    
+    $scope.adjustNavSlider = function() {
+        // NOTE: this must exist to calculate the correct slider scrolling width!!! 
+        // OK to set to auto after slider init
+        $('.rsThumb').css('width','auto');
+    }
+    
     // ideally should not define here, but need to call in 
     // MagazineNewsFeedController and ShowArticlesController
     $scope.renderNavSubBar = function() {
+        $scope.renderNavSlider();
+        $interval($scope.adjustNavSlider, 100, 1);
+        
+        /*
         YUI().use("event","node","scrollview-base","scrollview-paginator",function(Y){
             var magazineNavSubBar = new Y.ScrollView({
                 id: 'scrollview',
@@ -227,6 +260,7 @@ minibean.controller('ApplicationController',
             });
             knowledgeNavSubBar.render();
         });
+        */
     }
     
     $scope.applicationInfo = applicationInfoService.ApplicationInfo.get();

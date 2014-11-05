@@ -66,6 +66,9 @@
             </div><!--Relate Post End -->
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
+            <div ng-show="!userInfo.isLoggedIn">
+                <div data-ng-include data-src="'/assets/app/views/magazine/promo-signup-widget.html'"></div>
+            </div>
             <div>
                 <div data-ng-include data-src="'/assets/app/views/utilities/hotArticlesUtility.html'"></div>
             </div>
@@ -73,9 +76,6 @@
                 <script adSize="300250" adSid="247130236679" ads-factor language='JavaScript' type="text/javascript"></script>
             </div>
             <div id="right-sidebar" ui-scrollfix="+{{rightSidebarTop}}">
-                <div ng-show="!userInfo.isLoggedIn">
-                    <div data-ng-include data-src="'/assets/app/views/magazine/promo-signup-widget.html'"></div>
-                </div>
                 <div>
                     <div data-ng-include data-src="'/assets/app/views/utilities/recommendedArticlesUtility.html'"></div>
                 </div>
