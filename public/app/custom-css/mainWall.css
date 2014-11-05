@@ -319,6 +319,9 @@
     height: 20px;
     text-indent: -999px;
 }
+.post-view-all-link {
+    color: #E01717
+}
 .btn-like-wrapper {
     position: relative;
     font-size: 12px;
