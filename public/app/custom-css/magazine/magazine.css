@@ -54,7 +54,6 @@
     display: inline-block;
 }
 .nav-menu a.nav-item:hover {
-    text-decoration: none;
 }
 .nav-menu .selected-green a {
     color: #111;

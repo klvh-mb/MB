@@ -1,6 +1,9 @@
 package viewmodel;
 
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.joda.time.DateTimeUtils;
+
+import common.utils.DateTimeUtil;
 
 import controllers.Application;
 import models.Icon;
@@ -13,6 +16,7 @@ public class UserVM {
     @JsonProperty("lastName") public String lastName;
     @JsonProperty("displayName") public String displayName;
     @JsonProperty("email") public String email;
+    @JsonProperty("lastLogin") public String lastLogin;
     @JsonProperty("birthYear") public String birthYear;
     @JsonProperty("gender") public String gender;
     @JsonProperty("aboutMe") public String aboutMe;
@@ -41,6 +45,7 @@ public class UserVM {
 		this.lastName = user.lastName;
 		this.displayName = user.displayName;
 		this.email = user.email;
+		this.lastLogin = user.lastLogin.toString();
 		if(user.userInfo != null) {
 			this.birthYear = user.userInfo.birthYear;
 			if(user.userInfo.gender != null) {

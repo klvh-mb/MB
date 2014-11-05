@@ -10,13 +10,16 @@ import models.User;
 public class ProfileVM {
 	
     @JsonProperty("dn")	 public String displayName;
-    @JsonProperty("yr") public String birthYear;
+    @JsonProperty("yr")  public String birthYear;
     @JsonProperty("gd")  public String gender;
     @JsonProperty("a")   public String aboutMe;
     @JsonProperty("loc") public Location location;
     @JsonProperty("n_f") public long nofriends;
     @JsonProperty("n_p") public long photos;
-    @JsonProperty("id")   public long id;
+    @JsonProperty("id")  public long id;
+    
+    @JsonProperty("em")  public String email;
+    @JsonProperty("ll")  public String lastLogin;
     
     @JsonProperty("n_c") public long nocommunities;
     @JsonProperty("l_f") public List<User> friends;
@@ -34,6 +37,8 @@ public class ProfileVM {
 			vm.aboutMe = user.userInfo.aboutMe;
 			vm.location = user.userInfo.location;
 		}
+        vm.email = user.email;
+        vm.lastLogin = user.lastLogin.toString();
         //vm.friends = user.getFriends();
         vm.nofriends = user.getFriendsSize();
         vm.isFriend = user.isFriendOf(localUser);
