@@ -1,7 +1,5 @@
 package models;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -9,28 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import models.GameAccountTransaction.Transaction_type;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
-import play.data.format.Formats;
 import play.db.jpa.JPA;
-import play.db.jpa.Transactional;
 
-import com.mnt.exception.SocialObjectNotLikableException;
-
-import domain.Commentable;
 import domain.DefaultValues;
-import domain.Likeable;
-import domain.SocialObjectType;
 
 @Entity
 public class GameAccount extends domain.Entity {
@@ -75,6 +59,7 @@ public class GameAccount extends domain.Entity {
 	    	GameAccount account = new GameAccount();
 	    	account.User_id = id;
 	    	account.save();
+            logger.underlyingLogger().info("[u="+id+"] Created new GameAccount");
 	        return account;
 	    } 
 	}
@@ -123,9 +108,9 @@ public class GameAccount extends domain.Entity {
 		for(Long user : users){
 			GameAccount account = GameAccount.findByUserId(user);
 			account.auditFields.setUpdatedDate(new Date());
-			account.total_points = account.total_points + DefaultValues.POINTS_POSTS;
+			account.total_points = account.total_points + DefaultValues.POINTS_POST;
 			account.merge();
-			GameAccountTransaction.recordPoints(user, account, DefaultValues.POINTS_POSTS, Transaction_type.SystemCredit);
+			GameAccountTransaction.recordPoints(user, account, DefaultValues.POINTS_POST, Transaction_type.SystemCredit);
 		}
 	}
 
@@ -146,24 +131,14 @@ public class GameAccount extends domain.Entity {
 		for(Long user : users){
 			GameAccount account = GameAccount.findByUserId(user);
 			account.auditFields.setUpdatedDate(new Date());
-			account.total_points = account.total_points + DefaultValues.POINTS_LIKES;
+			account.total_points = account.total_points + DefaultValues.POINTS_LIKE;
 			account.merge();
-			GameAccountTransaction.recordPoints(user, account, DefaultValues.POINTS_LIKES, Transaction_type.SystemCredit);
+			GameAccountTransaction.recordPoints(user, account, DefaultValues.POINTS_LIKE, Transaction_type.SystemCredit);
 		}
 		
 	}
 
-	public static void purging() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date today = null;
-		try {
-			today = dateFormat.parse(dateFormat.format(new Date().getTime()-30*24*60*60*1000));
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        Query q = JPA.em().createQuery("DELETE FROM GameAccountStatistics where activity_date = ?1");
-        q.setParameter(1, today);
-        q.executeUpdate();
+	public static void purge() {
+		GameAccountStatistics.purge();
 	}
 }

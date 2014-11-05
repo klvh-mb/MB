@@ -12,11 +12,15 @@ import javax.persistence.Id;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import domain.DefaultValues;
+import org.elasticsearch.common.joda.time.LocalDate;
 import play.db.jpa.JPA;
 
 @Entity
 public class GameAccountStatistics  extends domain.Entity {
     private static final play.api.Logger logger = play.api.Logger.apply(GameAccountStatistics.class);
+
+    private static final int NUM_DAYS_TO_KEEP = 30;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,16 +50,10 @@ public class GameAccountStatistics  extends domain.Entity {
 	    } 
 	}
 
+    // Get, create if not found
 	private static GameAccountStatistics getGameAccountStatistics(long userID) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date today = null;
+        Date today = (new LocalDate()).toDate();        // today without time
 		try {
-			today = dateFormat.parse(dateFormat.format(new Date()));
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try { 
 	        Query q = JPA.em().createQuery("SELECT u FROM GameAccountStatistics u where user_id = ?1 and activity_date =?2");
 	        q.setParameter(1, userID);
 	        q.setParameter(2, today);
@@ -71,59 +69,47 @@ public class GameAccountStatistics  extends domain.Entity {
 	
 	public static void recordLike(long userID) {
 		GameAccountStatistics statistics = GameAccountStatistics.getGameAccountStatistics(userID);
-		statistics.num_likes ++;
+		statistics.num_likes++;
 		statistics.merge();
 	}
 	
 	public static void recordunLike(long userID) {
 		GameAccountStatistics statistics = GameAccountStatistics.getGameAccountStatistics(userID);
-		if(statistics.num_likes > 0)
-		statistics.num_likes --;
-		statistics.merge();
+		if(statistics.num_likes > 0) {
+		    statistics.num_likes--;
+            statistics.merge();
+        }
 	}
 
 	public static void recordPost(long userID) {
 		GameAccountStatistics statistics = GameAccountStatistics.getGameAccountStatistics(userID);
-		statistics.num_new_posts ++;
+		statistics.num_new_posts++;
 		statistics.merge();
-		
 	}
 	
 	public static void recordDeletePost(long userID) {
 		GameAccountStatistics statistics = GameAccountStatistics.getGameAccountStatistics(userID);
-		statistics.num_new_posts --;
+		statistics.num_new_posts--;
 		statistics.merge();
-		
 	}
 	
 	public static void recordComment(long userID) {
 		GameAccountStatistics statistics = GameAccountStatistics.getGameAccountStatistics(userID);
-		statistics.num_new_comments ++;
+		statistics.num_new_comments++;
 		statistics.merge();
-		GameAccountTransaction.recordPointsAtEndOfDay();
-		
 	}
 	
 	public static void recordDeleteComment(long userID) {
 		GameAccountStatistics statistics = GameAccountStatistics.getGameAccountStatistics(userID);
 		statistics.num_new_comments--;
 		statistics.merge();
-		GameAccountTransaction.recordPointsAtEndOfDay();
-		
 	}
 
 	public static List<Long> getUsersForPostPoints() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date today = null;
+        Date eodDate = (new LocalDate()).minusDays(1).toDate();
 		try {
-			today = dateFormat.parse(dateFormat.format(new Date().getTime()-24*60*60*1000));
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try { 
 	        Query q = JPA.em().createQuery("SELECT u.user_id FROM GameAccountStatistics u where activity_date = ?1 and num_new_posts > ?2");
-	        q.setParameter(1, today);
+	        q.setParameter(1, eodDate);
 	        q.setParameter(2, 4L);
 	        List<Long> list = q.getResultList();
 	        return list;
@@ -172,6 +158,15 @@ public class GameAccountStatistics  extends domain.Entity {
 	    }
 	}
 
-	 
+    /**
+     * Purge
+     */
+    public static void purge() {
+        Date purgeDate = (new LocalDate()).minusDays(NUM_DAYS_TO_KEEP).toDate();
+        logger.underlyingLogger().info("Purging GameAccountStatistics before "+purgeDate);
 
+        Query q = JPA.em().createQuery("DELETE FROM GameAccountStatistics where activity_date < ?1");
+        q.setParameter(1, purgeDate);
+        q.executeUpdate();
+	}
 }
