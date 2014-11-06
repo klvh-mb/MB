@@ -193,7 +193,13 @@ minibean.controller('ApplicationController',
         $route.reload();
     }
     
-    $scope.renderNavSlider = function() {
+    $scope.adjustNavSlider = function() {
+        $('.rsThumb').css('width','auto');
+    }
+    
+    // ideally should not define here, but need to call in 
+    // MagazineNewsFeedController and ShowArticlesController
+    $scope.renderNavSubBar = function() {
         var opts = {
             controlNavigation:'thumbnails',
             imageScaleMode: 'fill',
@@ -214,53 +220,10 @@ minibean.controller('ApplicationController',
             fadeinLoadedSlide: true,
         };
         var navSlider = $('#nav-slider').royalSlider(opts);
-    }
-    
-    $scope.adjustNavSlider = function() {
+        
         // NOTE: this must exist to calculate the correct slider scrolling width!!! 
         // OK to set to auto after slider init
-        $('.rsThumb').css('width','auto');
-    }
-    
-    // ideally should not define here, but need to call in 
-    // MagazineNewsFeedController and ShowArticlesController
-    $scope.renderNavSubBar = function() {
-        $scope.renderNavSlider();
         $interval($scope.adjustNavSlider, 100, 1);
-        
-        /*
-        YUI().use("event","node","scrollview-base","scrollview-paginator",function(Y){
-            var magazineNavSubBar = new Y.ScrollView({
-                id: 'scrollview',
-                srcNode: '#magazine-nav-subbar',
-                flick: {
-                    minDistance:100,
-                    minVelocity:0.5
-                }
-            });
-            magazineNavSubBar.render();
-            
-            var articleNavSubBar = new Y.ScrollView({
-                id: 'scrollview',
-                srcNode: '#article-nav-subbar',
-                flick: {
-                    minDistance:100,
-                    minVelocity:0.5
-                }
-            });
-            articleNavSubBar.render();
-            
-            var knowledgeNavSubBar = new Y.ScrollView({
-                id: 'scrollview',
-                srcNode: '#knowledge-nav-subbar',
-                flick: {
-                    minDistance:100,
-                    minVelocity:0.5
-                }
-            });
-            knowledgeNavSubBar.render();
-        });
-        */
     }
     
     $scope.applicationInfo = applicationInfoService.ApplicationInfo.get();

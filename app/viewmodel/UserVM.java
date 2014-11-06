@@ -1,9 +1,6 @@
 package viewmodel;
 
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.joda.time.DateTimeUtils;
-
-import common.utils.DateTimeUtil;
 
 import controllers.Application;
 import models.Icon;
@@ -16,7 +13,6 @@ public class UserVM {
     @JsonProperty("lastName") public String lastName;
     @JsonProperty("displayName") public String displayName;
     @JsonProperty("email") public String email;
-    @JsonProperty("lastLogin") public String lastLogin;
     @JsonProperty("birthYear") public String birthYear;
     @JsonProperty("gender") public String gender;
     @JsonProperty("aboutMe") public String aboutMe;
@@ -41,32 +37,33 @@ public class UserVM {
     @JsonProperty("isSignedInToday") public boolean isSignedInToday = false;
     
 	public UserVM(User user) {
-		this.firstName = user.firstName;
-		this.lastName = user.lastName;
-		this.displayName = user.displayName;
-		this.email = user.email;
-		this.lastLogin = user.lastLogin.toString();
-		if(user.userInfo != null) {
-			this.birthYear = user.userInfo.birthYear;
-			if(user.userInfo.gender != null) {
-				this.gender = user.userInfo.gender.name();
-			}
-			this.aboutMe = user.userInfo.aboutMe;
-			this.location = user.userInfo.location;
-		}
-		this.id = user.id;
-		this.noOfFriends = user.getFriendsSize();
-		this.noOfGroups = user.getListOfJoinedCommunityIds().size();
-		this.isLoggedIn = user.isLoggedIn();
-		if (this.isLoggedIn) {
+	    this.isMobile = Application.isMobileUser();
+	    this.id = user.id;
+	    this.isLoggedIn = user.isLoggedIn();
+	    if (user.isLoggedIn()) {
+    		this.firstName = user.firstName;
+    		this.lastName = user.lastName;
+    		this.displayName = user.displayName;
+    		this.email = user.email;
+    		if(user.userInfo != null) {
+    			this.birthYear = user.userInfo.birthYear;
+    			if(user.userInfo.gender != null) {
+    				this.gender = user.userInfo.gender.name();
+    			}
+    			this.aboutMe = user.userInfo.aboutMe;
+    			this.location = user.userInfo.location;
+    		}
+
+    		this.noOfFriends = user.getFriendsSize();
+    		this.noOfGroups = user.getListOfJoinedCommunityIds().size();
+    		this.isFbLogin = user.fbLogin;
+    		this.isHomeTourCompleted = user.isHomeTourCompleted();
+    		
 		    this.isSuperAdmin = user.isSuperAdmin();
 	        this.isBusinessAdmin = user.isBusinessAdmin();
 	        this.isCommunityAdmin = user.isCommunityAdmin();
 	        this.isEditor = user.isEditor();
 	        this.isAdmin = this.isSuperAdmin || this.isBusinessAdmin || this.isCommunityAdmin;    
-		}
-		this.isMobile = Application.isMobileUser();
-		this.isFbLogin = user.fbLogin;
-		this.isHomeTourCompleted = user.isHomeTourCompleted();
+	    }
 	}
 }
