@@ -48,6 +48,15 @@ ul, li {
     padding-right: 15px;
     vertical-align: top;
 }
+.signup-info-table tr td .title {
+    margin-bottom: 5px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #2EAB66;
+    font-weight: bold;
+}
+.signup-info-table tr td input[type='radio'] {
+    margin: 0 10px;
+}
 .signup-info-header {
     margin: 3px 0;
     font-size: 14px;

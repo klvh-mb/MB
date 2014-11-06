@@ -14,7 +14,7 @@ minibean.service('headerBarMetadataService',function($resource){
 
 minibean.service('privacySettingsService',function($resource){
     this.settings = $resource(
-            '/get-settings',
+            '/get-privacy-settings',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get'}

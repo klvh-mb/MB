@@ -575,19 +575,22 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 	} // End of start
 }
 
-minibean.controller('PrivacySettingsController', function($scope, $http, privacySettingsService) {
+minibean.controller('PrivacySettingsController', function($scope, $http, privacySettingsService, usSpinnerService) {
     log('PrivacySettingsController starts');
     
-    $scope.isSaved = false;
     $scope.formData = privacySettingsService.settings.get();
-    console.log($scope.formData);
-    $scope.submit = function() {
-        $http.post('/save-settings', $scope.formData).success(function(data){
-            log('success save-privacy-settings');
-            $scope.isSaved = true;
-            log($scope.formData);
-        });
-    };
+    $scope.privacySettingsSaved = false;
+    $scope.updateUserPrivacySettings = function() {
+        usSpinnerService.spin('loading...');
+        return $http.post('/save-privacy-settings', $scope.formData)
+            .success(function(data){
+                $scope.privacySettingsSaved = true;
+                $scope.get_header_metaData();
+                usSpinnerService.stop('loading...');
+            }).error(function(data, status, headers, config) {
+                prompt(data);
+            });
+    }
     
     log('PrivacySettingsController completed');
 });
@@ -645,7 +648,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 	$scope.childBirthYears = DefaultValues.childBirthYears;
     $scope.locations = locationService.getAllDistricts.get();
     
-    $scope.saved = false;
+    $scope.profileDataSaved = false;
 	$scope.updateUserProfileData = function() {
         if ($("#signup-info").valid()) {
             var formData = {
@@ -656,10 +659,11 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
                 parent_birth_year : $scope.userAbout.userInfo.birthYear,
                 parent_location : $scope.userAbout.userInfo.location.id
             };
-           
+
+            usSpinnerService.spin('loading...');
     		return $http.post('/updateUserProfileData', formData)
                 .success(function(data){
-                    $scope.saved = true;
+                    $scope.profileDataSaved = true;
                     $scope.get_header_metaData();
                     usSpinnerService.stop('loading...');
                 }).error(function(data, status, headers, config) {

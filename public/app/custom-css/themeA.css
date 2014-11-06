@@ -1708,9 +1708,12 @@ a:focus {
     vertical-align: middle;
     border: gray thin solid;
 }*/
-#about .about-edit ul {
+#about #about-edit-list ul {
     padding: 5px 10px;
     font-size: 15px;
+}
+#about #about-edit-list li {
+    margin: 5px;
 }
 /* About End */
 

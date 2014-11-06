@@ -253,5 +253,5 @@ GET     /subscribe/:id/:isSubscribed            controllers.UserController.subsc
 #Report Generation
 POST    /send-report                            controllers.ReportObjectController.createReport()
 
-POST    /save-settings                          controllers.PrivacySettingsController.saveSettings
-GET     /get-settings                           controllers.PrivacySettingsController.getSettings
+POST    /save-privacy-settings                  controllers.PrivacySettingsController.saveSettings
+GET     /get-privacy-settings                   controllers.PrivacySettingsController.getSettings
