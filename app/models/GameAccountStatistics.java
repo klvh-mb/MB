@@ -1,7 +1,6 @@
 package models;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import domain.DefaultValues;
 import org.elasticsearch.common.joda.time.LocalDate;
 import play.db.jpa.JPA;
 
@@ -105,58 +103,20 @@ public class GameAccountStatistics  extends domain.Entity {
 		statistics.merge();
 	}
 
-	public static List<Long> getUsersForPostPoints() {
-        Date eodDate = (new LocalDate()).minusDays(1).toDate();
+    /**
+     * @param numDaysBefore
+     * @return
+     */
+    public static List<GameAccountStatistics> getAccountStatisticsWithActivity(int numDaysBefore) {
+        Date eodDate = (new LocalDate()).minusDays(numDaysBefore).toDate();
 		try {
-	        Query q = JPA.em().createQuery("SELECT u.user_id FROM GameAccountStatistics u where activity_date = ?1 and num_new_posts > ?2");
+	        Query q = JPA.em().createQuery("SELECT u FROM GameAccountStatistics u where u.activity_date = ?1");
 	        q.setParameter(1, eodDate);
-	        q.setParameter(2, 4L);
-	        List<Long> list = q.getResultList();
-	        return list;
+	        return (List<GameAccountStatistics>) q.getResultList();
 	    } catch (NoResultException e) {
-	    	return null;
+	    	return Collections.EMPTY_LIST;
 	    }
-	}
-	
-	public static List<Long> getUsersForCommentPoints() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date today = null;
-		try {
-			today = dateFormat.parse(dateFormat.format(new Date().getTime()-24*60*60*1000));
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try { 
-	        Query q = JPA.em().createQuery("SELECT u.user_id FROM GameAccountStatistics u where activity_date =?1 and num_new_comments > ?2");
-	        q.setParameter(1, today);
-	        q.setParameter(2, 4L);
-	        List<Long> list = q.getResultList();
-	        return list;
-	    } catch (NoResultException e) {
-	    	return null;
-	    }
-	}
-	
-	public static List<Long> getUsersForLikePoints() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date today = null;
-		try {
-			today = dateFormat.parse(dateFormat.format(new Date().getTime()-24*60*60*1000));
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try { 
-	        Query q = JPA.em().createQuery("SELECT u.user_id FROM GameAccountStatistics u where activity_date =?1 and num_likes > ?2");
-	        q.setParameter(1, today);
-	        q.setParameter(2, 4L);
-	        List<Long> list = q.getResultList();
-	        return list;
-	    } catch (NoResultException e) {
-	    	return null;
-	    }
-	}
+    }
 
     /**
      * Purge

@@ -11,7 +11,6 @@ import play.Application;
 import play.GlobalSettings;
 import play.Play;
 import play.db.jpa.JPA;
-import play.db.jpa.Transactional;
 import play.libs.Akka;
 import play.mvc.Call;
 import play.mvc.Http.RequestHeader;
@@ -49,7 +48,7 @@ public class Global extends GlobalSettings {
 	           					public void invoke() {
                                        Notification.purgeNotification();
                                        if(Play.application().configuration().getString("gamification.active").equalsIgnoreCase("true")){
-                                    	   GameAccountTransaction.recordPointsAtEndOfDay();
+                                    	   GameAccountTransaction.performEndOfDayTasks();
                                     	   System.out.println("Is Active @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  "+Play.application().configuration().getString("gamification.active"));
                                        }
 	                    		}

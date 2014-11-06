@@ -1,7 +1,6 @@
 package models;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,9 +46,13 @@ public class GameAccount extends domain.Entity {
 	public Boolean has_upload_profile_pic = true;
 	
 	public Long number_of_referral_signups = 0L;
-	
+
+    /**
+     * Ctor
+     */
 	public GameAccount() {}
-	
+
+
 	public static GameAccount findByUserId(Long id) {
 	    try { 
 	        Query q = JPA.em().createQuery("SELECT u FROM GameAccount u where user_id = ?1");
@@ -70,9 +73,9 @@ public class GameAccount extends domain.Entity {
 		account.auditFields.setCreatedDate(new Date());
 		account.auditFields.setUpdatedDate(new Date());
 		account.User_id = user.id;
-		account.total_points = account.total_points + DefaultValues.POINTS_SIGNUP;
+		account.total_points += DefaultValues.POINTS_SIGNUP;
 		account.save();
-		GameAccountTransaction.recordPoints(user.id, account, DefaultValues.POINTS_SIGNUP, Transaction_type.SystemCredit);
+		GameAccountTransaction.recordPoints(user.id, DefaultValues.POINTS_SIGNUP, Transaction_type.SystemCredit, account.total_points);
 		checkForReferal(user.id);
 	}
 
@@ -98,47 +101,8 @@ public class GameAccount extends domain.Entity {
 		GameAccount account = GameAccount.findByUserId(user.id);
 		account.auditFields.setUpdatedDate(new Date());
 		account.has_upload_profile_pic = true;
-		account.total_points = account.total_points + DefaultValues.POINTS_UPLOAD_PROFILE_PHOTO;
+		account.total_points += DefaultValues.POINTS_UPLOAD_PROFILE_PHOTO;
 		account.merge();
-		GameAccountTransaction.recordPoints(user.id, account, DefaultValues.POINTS_UPLOAD_PROFILE_PHOTO, Transaction_type.SystemCredit);
-	}
-	
-	public static void setPointsForPost() {
-		List<Long> users = GameAccountStatistics.getUsersForPostPoints();
-		for(Long user : users){
-			GameAccount account = GameAccount.findByUserId(user);
-			account.auditFields.setUpdatedDate(new Date());
-			account.total_points = account.total_points + DefaultValues.POINTS_POST;
-			account.merge();
-			GameAccountTransaction.recordPoints(user, account, DefaultValues.POINTS_POST, Transaction_type.SystemCredit);
-		}
-	}
-
-	public static void setPointsForComment() {
-		List<Long> users = GameAccountStatistics.getUsersForCommentPoints();
-		for(Long user : users){
-			GameAccount account = GameAccount.findByUserId(user);
-			account.auditFields.setUpdatedDate(new Date());
-			account.total_points = account.total_points + DefaultValues.POINTS_COMMENT;
-			account.merge();
-			GameAccountTransaction.recordPoints(user, account, DefaultValues.POINTS_COMMENT, Transaction_type.SystemCredit);
-		}
-		
-	}
-
-	public static void setPointsForLike() {
-		List<Long> users = GameAccountStatistics.getUsersForCommentPoints();
-		for(Long user : users){
-			GameAccount account = GameAccount.findByUserId(user);
-			account.auditFields.setUpdatedDate(new Date());
-			account.total_points = account.total_points + DefaultValues.POINTS_LIKE;
-			account.merge();
-			GameAccountTransaction.recordPoints(user, account, DefaultValues.POINTS_LIKE, Transaction_type.SystemCredit);
-		}
-		
-	}
-
-	public static void purge() {
-		GameAccountStatistics.purge();
+		GameAccountTransaction.recordPoints(user.id, DefaultValues.POINTS_UPLOAD_PROFILE_PHOTO, Transaction_type.SystemCredit, account.total_points);
 	}
 }
