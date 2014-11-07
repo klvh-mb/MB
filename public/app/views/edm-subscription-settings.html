@@ -12,8 +12,8 @@
                             {{sub.nm}}        
                         </div>
                         <div class="btn-group">
-                            <label class="btn btn-primary" ng-class="{active:sub.isSub==true}" ng-click="subscribe(sub,true)" btn-radio="'Left'">Subscribe</label>
-                            <label class="btn btn-primary" ng-class="{active:sub.isSub==false}" ng-click="subscribe(sub,false)" btn-radio="'Right'">Unsubscribe</label>
+                            <label class="btn btn-primary" ng-class="{active:sub.isUnsub==false}" ng-click="subscribe(sub,false)" btn-radio="'Left'">Subscribe</label>
+                            <label class="btn btn-primary" ng-class="{active:sub.isUnsub==true}" ng-click="subscribe(sub,true)" btn-radio="'Right'">Unsubscribe</label>
                         </div>
                     </li>
                 </ul>

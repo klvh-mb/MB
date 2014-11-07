@@ -881,7 +881,7 @@ public class UserController extends Controller {
     }
     
     @Transactional
-    public static Result getAllSubscriptions() {
+    public static Result getAllUnsubscriptions() {
         User localUser = Application.getLocalUser(session());
         List<Subscription> allSubscription = Subscription.getAllSubscription();
         List<SubscriptionVM> subscriptionVMs = new ArrayList<>();
@@ -892,12 +892,12 @@ public class UserController extends Controller {
     }
     
     @Transactional
-    public static Result subscribe(Long id, Boolean isSub) {
+    public static Result unSubscribe(Long id, Boolean isSub) {
         User localUser = Application.getLocalUser(session());
         if(isSub){
-            localUser.setSubscription(id);
+            localUser.setUnsubscription(id);
         } else {
-            localUser.removeSubscription(id);
+            localUser.removeUnsubscription(id);
         }
         logger.underlyingLogger().debug(String.format("[u=%d] User subscription [%d|%b]", localUser.id, id, isSub));
         return ok();

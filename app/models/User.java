@@ -183,7 +183,7 @@ public class User extends SocialObject implements Subject, Socializable {
     public List<Conversation> conversation = new ArrayList<Conversation>();
 
     @ManyToMany
-    public List<Subscription> subscriptions;
+    public List<Subscription> unSubscriptions;
     
     @Override
     @JsonIgnore
@@ -1728,23 +1728,25 @@ public class User extends SocialObject implements Subject, Socializable {
         return noLoginUser;
     }
 
-    public void setSubscription(Long subId) {
+    @Transactional
+    public void setUnsubscription(Long subId) {
         Subscription subscription = Subscription.findById(subId);
-        if(!this.isSubscribedBy(subscription)){
-            this.subscriptions.add(subscription);
-            JPA.em().merge(this);
+        if(!this.isUnsubscribedBy(subscription)){
+            this.unSubscriptions.add(subscription);
+            this.merge();
         }
     }
     
-    public void removeSubscription(Long subId) {
+    @Transactional
+    public void removeUnsubscription(Long subId) {
         Subscription subscription = Subscription.findById(subId);
-        if(this.isSubscribedBy(subscription)){
-            this.subscriptions.remove(subscription);
-            JPA.em().merge(this);
+        if(this.isUnsubscribedBy(subscription)){
+            this.unSubscriptions.remove(subscription);
+            this.merge();
         }
     }
     
-    public boolean isSubscribedBy(Subscription subscription) {
-        return this.subscriptions.contains(subscription);
+    public boolean isUnsubscribedBy(Subscription subscription) {
+        return this.unSubscriptions.contains(subscription);
     }
 }

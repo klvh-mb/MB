@@ -24,14 +24,14 @@ minibean.service('privacySettingsService',function($resource){
 
 minibean.service('subscriptionService',function($resource){
     this.allsubscriptions = $resource(
-            '/get-all-subscriptions',
+            '/get-all-unSubscriptions',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get',isArray:true}
             }
     );
-    this.subscribe = $resource(
-            '/subscribe/:id/:isSubscribed',
+    this.unsubscribe = $resource(
+            '/unSubscribe/:id/:isSubscribed',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get'}
