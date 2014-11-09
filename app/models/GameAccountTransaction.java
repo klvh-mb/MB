@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import domain.DefaultValues;
+import domain.GamificationConstants;
 import play.db.jpa.JPA;
 
 @Entity
@@ -80,25 +80,25 @@ public class GameAccountTransaction  extends domain.Entity {
      * EOD Tasks
      */
 	public static void performEndOfDayTasks() {
-        final int numDaysBefore = 1;
+        final int numDaysBefore = 2;
 
         // EOD accounting
-        List<GameAccountStatistics> stats = GameAccountStatistics.getAccountStatisticsWithActivity(numDaysBefore);
-        logger.underlyingLogger().info("performEndOfDayTasks on " + stats.size() + " game accounts");
+        List<GameAccountStatistics> stats = GameAccountStatistics.getPendingStatisticsWithActivity(numDaysBefore);
+        logger.underlyingLogger().info("Gamification - Begin EOD accounting on pending accounts: "+stats.size());
 
         for (GameAccountStatistics stat : stats) {
             GameAccount account = GameAccount.findByUserId(stat.user_id);
             if (account != null) {
-                long numPostCredit = Math.min(stat.num_new_posts, DefaultValues.POINTS_POST_LIMIT);
-                long numCommentCredit = Math.min(stat.num_new_comments, DefaultValues.POINTS_COMMENT_LIMIT);
-                long numLikeCredit = Math.min(stat.num_likes, DefaultValues.POINTS_LIKE_LIMIT);
+                long numPostCredit = Math.min(stat.num_new_posts, GamificationConstants.LIMIT_POST);
+                long numCommentCredit = Math.min(stat.num_new_comments, GamificationConstants.LIMIT_COMMENT);
+                long numLikeCredit = Math.min(stat.num_likes, GamificationConstants.LIMIT_LIKE);
 
                 boolean toCredit = (numPostCredit + numCommentCredit + numLikeCredit) > 0;
 
                 if (toCredit) {
-                    long pointsPostCredit = numPostCredit * DefaultValues.POINTS_POST;
-                    long pointsCommentCredit = numCommentCredit * DefaultValues.POINTS_COMMENT;
-                    long pointsLikeCredit = numLikeCredit * DefaultValues.POINTS_LIKE;
+                    long pointsPostCredit = numPostCredit * GamificationConstants.POINTS_POST;
+                    long pointsCommentCredit = numCommentCredit * GamificationConstants.POINTS_COMMENT;
+                    long pointsLikeCredit = numLikeCredit * GamificationConstants.POINTS_LIKE;
                     long totalCredit = 0;
 
                     if (pointsPostCredit > 0) {
@@ -120,16 +120,21 @@ public class GameAccountTransaction  extends domain.Entity {
                     account.auditFields.setUpdatedDate(new Date());
                     account.merge();
 
-                    logger.underlyingLogger().info("[u="+stat.user_id+"] Total points credited: "+totalCredit);
+                    logger.underlyingLogger().info("[u="+stat.user_id+"] Gamification - Total points credited: "+totalCredit);
                 }
                 else {
-                    logger.underlyingLogger().info("[u="+stat.user_id+"] Nothing to credit for");
+                    logger.underlyingLogger().info("[u="+stat.user_id+"] Gamification - Nothing to credit for");
                 }
             }
             else {
-                logger.underlyingLogger().error("[u="+stat.user_id+"] Corrupted State. Missing GameAccount");
+                logger.underlyingLogger().error("[u="+stat.user_id+"] Gamification - Corrupted State. Missing GameAccount");
             }
+
+            stat.accounted_for = true;
+            stat.save();
         }
+
+        logger.underlyingLogger().info("Gamification - Done EOD accounting on pending accounts: "+stats.size());
 
         // purge old entries
 		GameAccountStatistics.purge();

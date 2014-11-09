@@ -9,41 +9,34 @@ import javax.persistence.Id;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import domain.GamificationConstants;
 import models.GameAccountTransaction.Transaction_type;
 
 import play.db.jpa.JPA;
-
-import domain.DefaultValues;
 
 @Entity
 public class GameAccount extends domain.Entity {
     private static final play.api.Logger logger = play.api.Logger.apply(GameAccount.class);
 
-    private static final int MAX_REFERRAL_WITH_POINTS = 20;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
 	
-	public Long User_id;
+	public Long user_id;
 	
-	public Long total_points = 0L;
-	
+	public Long total_points = 0L;      // all-time earned points
+
+    // Redemption
 	public Long redeemed_points;	
-	 
 	public Date last_redemption_time;
-	
-	public Date previous_day_accumulated_points;
-	
+
+    // Contact information
 	public String address_1;
-	
 	public String address_2;
-	
 	public String city;
-	
 	public Long phone;
 	
-	public Boolean has_upload_profile_pic = true;
+	public Boolean has_upload_profile_pic = false;
 	
 	public Long number_of_referral_signups = 0L;
 
@@ -60,27 +53,31 @@ public class GameAccount extends domain.Entity {
 	        return (GameAccount) q.getSingleResult();
 	    } catch (NoResultException e) {
 	    	GameAccount account = new GameAccount();
-	    	account.User_id = id;
+	    	account.user_id = id;
 	    	account.save();
-            logger.underlyingLogger().info("[u="+id+"] Created new GameAccount");
+            logger.underlyingLogger().info("[u="+id+"] Gamification - Created new GameAccount");
 	        return account;
 	    } 
 	}
 
-	 
+    /**
+     * Sign up.
+     * @param user
+     */
 	public static void setPointsForSignUp(User user) {
 		GameAccount account = new GameAccount();
 		account.auditFields.setCreatedDate(new Date());
 		account.auditFields.setUpdatedDate(new Date());
-		account.User_id = user.id;
-		account.total_points += DefaultValues.POINTS_SIGNUP;
+		account.user_id = user.id;
+		account.total_points += GamificationConstants.POINTS_SIGNUP;
 		account.save();
-		GameAccountTransaction.recordPoints(user.id, DefaultValues.POINTS_SIGNUP, Transaction_type.SystemCredit, account.total_points);
-		checkForReferal(user.id);
+		GameAccountTransaction.recordPoints(user.id, GamificationConstants.POINTS_SIGNUP, Transaction_type.SystemCredit, account.total_points);
+
+        checkForReferral(user.id);
 	}
 
-	private static void checkForReferal(Long id) {
-		GameAccountReferal referal = GameAccountReferal.findByInviteUserId(id);
+	private static void checkForReferral(Long id) {
+		GameAccountReferral referal = GameAccountReferral.findByInviteUserId(id);
 		if(referal == null)
 			return;
 		setPointsForReferalSignUp(referal.getSender_user_id());
@@ -89,20 +86,29 @@ public class GameAccount extends domain.Entity {
 	private static void setPointsForReferalSignUp(Long sender_user_id) {
 		GameAccount account = GameAccount.findByUserId(sender_user_id);
 
-        if (account.number_of_referral_signups < MAX_REFERRAL_WITH_POINTS) {
-		    account.total_points += DefaultValues.POINTS_REFERRAL_SIGNUP;
+        if (account.number_of_referral_signups < GamificationConstants.LIMIT_REFERRAL_SIGNUP) {
+		    account.total_points += GamificationConstants.POINTS_REFERRAL_SIGNUP;
         }
         account.number_of_referral_signups++;
         account.auditFields.setUpdatedDate(new Date());
 		account.merge();
 	}
 
+    /**
+     * Profile picture upload.
+     * @param user
+     */
 	public static void setPointsForPhotoProfile(User user) {
 		GameAccount account = GameAccount.findByUserId(user.id);
-		account.auditFields.setUpdatedDate(new Date());
-		account.has_upload_profile_pic = true;
-		account.total_points += DefaultValues.POINTS_UPLOAD_PROFILE_PHOTO;
-		account.merge();
-		GameAccountTransaction.recordPoints(user.id, DefaultValues.POINTS_UPLOAD_PROFILE_PHOTO, Transaction_type.SystemCredit, account.total_points);
+
+        if (!account.has_upload_profile_pic) {
+            logger.underlyingLogger().info("[u="+user.id+"] Gamification - Crediting profile picture upload");
+
+            account.auditFields.setUpdatedDate(new Date());
+            account.has_upload_profile_pic = true;
+            account.total_points += GamificationConstants.POINTS_UPLOAD_PROFILE_PHOTO;
+            account.merge();
+            GameAccountTransaction.recordPoints(user.id, GamificationConstants.POINTS_UPLOAD_PROFILE_PHOTO, Transaction_type.SystemCredit, account.total_points);
+        }
 	}
 }

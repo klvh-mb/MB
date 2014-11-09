@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import models.GameAccount;
-import models.GameAccountReferal;
+import models.GameAccountReferral;
 import models.Location;
 import models.SecurityRole;
 import models.TermsAndConditions;
@@ -45,8 +45,6 @@ import viewmodel.ApplicationInfoVM;
 import viewmodel.PostIndexVM;
 import viewmodel.TodayWeatherInfoVM;
 import viewmodel.UserTargetProfileVM;
-import be.objectify.deadbolt.java.actions.Group;
-import be.objectify.deadbolt.java.actions.Restrict;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
@@ -483,7 +481,7 @@ public class Application extends Controller {
 		    String email = filledForm.get().email;
 		    session().put(SIGNUP_EMAIL, email);
 		    
-		    GameAccountReferal.setUser(User.findByEmail(email).id,session().get("PROMO_CODE"));
+		    GameAccountReferral.setUser(User.findByEmail(email).id, session().get("PROMO_CODE"));
 		    
             logger.underlyingLogger().info("STS [email="+email+"] Native signup submitted");
 			return result;

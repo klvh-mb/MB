@@ -66,7 +66,6 @@ import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.feth.play.module.pa.user.EmailIdentity;
 import com.feth.play.module.pa.user.FirstLastNameIdentity;
-import com.feth.play.module.pa.user.NameIdentity;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.mnt.exception.SocialObjectNotCommentableException;
@@ -627,6 +626,10 @@ public class User extends SocialObject implements Subject, Socializable {
                 SocialObjectType.PROFILE_PHOTO);
         this.albumPhotoProfile.setHighPriorityFile(newPhoto);
         newPhoto.save();
+
+        // credit points if first time
+        GameAccount.setPointsForPhotoProfile(this);
+
         return newPhoto;
     }
     
@@ -706,9 +709,7 @@ public class User extends SocialObject implements Subject, Socializable {
      * ensure the existence of the system folder: albumPhotoProfile
      */
     private void ensureAlbumPhotoProfileExist() {
-
         if (this.albumPhotoProfile == null) {
-        	GameAccount.setPointsForPhotoProfile(this);
             this.albumPhotoProfile = createAlbum("profile", "", true);
             this.merge();
         }
@@ -1730,19 +1731,20 @@ public class User extends SocialObject implements Subject, Socializable {
     }
 
 	public String sendInvitation(String email) {
-		GameAccountReferal referal = new GameAccountReferal();
-		referal.sender_user_id = this.id;
+		GameAccountReferral referral = new GameAccountReferral();
+		referral.sender_user_id = this.id;
 		String promoCode = UUID.randomUUID().toString();
-		referal.promoCode = promoCode;
-		referal.auditFields.setCreatedDate(new Date());
-		referal.save();
+		referral.promoCode = promoCode;
+		referral.auditFields.setCreatedDate(new Date());
+		referral.save();
+
 		EDMUtility edmUtility = new EDMUtility();
 		edmUtility.sendMailToUser(email,promoCode);
 		return promoCode;
 	}
 	
 	public String getReferalCode(String email) {
-		GameAccountReferal referal = new GameAccountReferal();
+		GameAccountReferral referal = new GameAccountReferral();
 		referal.sender_user_id = this.id;
 		String promoCode = UUID.randomUUID().toString();
 		referal.promoCode = promoCode;

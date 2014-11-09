@@ -47,6 +47,7 @@ public class Global extends GlobalSettings {
                     	   JPA.withTransaction(new play.libs.F.Callback0() {
 	           					public void invoke() {
                                        Notification.purgeNotification();
+
                                        if(Play.application().configuration().getString("gamification.active").equalsIgnoreCase("true")){
                                     	   GameAccountTransaction.performEndOfDayTasks();
                                     	   System.out.println("Is Active @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  "+Play.application().configuration().getString("gamification.active"));

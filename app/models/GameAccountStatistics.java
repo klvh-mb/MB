@@ -34,8 +34,13 @@ public class GameAccountStatistics  extends domain.Entity {
 	
 	public Long num_new_comments = 0L;	
 	
-	public Long num_likes = 0L;	
-	 
+	public Long num_likes = 0L;
+
+    public boolean accounted_for = false;
+
+    /**
+     * Ctor
+     */
 	public GameAccountStatistics() {}
 	
 	public static GameAccountStatistics findByUserId(Long id) {
@@ -107,10 +112,10 @@ public class GameAccountStatistics  extends domain.Entity {
      * @param numDaysBefore
      * @return
      */
-    public static List<GameAccountStatistics> getAccountStatisticsWithActivity(int numDaysBefore) {
+    public static List<GameAccountStatistics> getPendingStatisticsWithActivity(int numDaysBefore) {
         Date eodDate = (new LocalDate()).minusDays(numDaysBefore).toDate();
 		try {
-	        Query q = JPA.em().createQuery("SELECT u FROM GameAccountStatistics u where u.activity_date = ?1");
+	        Query q = JPA.em().createQuery("SELECT u FROM GameAccountStatistics u where u.activity_date = ?1 and u.accounted_for = false");
 	        q.setParameter(1, eodDate);
 	        return (List<GameAccountStatistics>) q.getResultList();
 	    } catch (NoResultException e) {
