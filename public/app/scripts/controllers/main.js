@@ -2920,12 +2920,36 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
     log("ArticleSliderController completed");
 });
 
-minibean.controller('ArticlePageController',function($scope, $modal, $routeParams, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService){
+minibean.controller('ArticlePageController',function($scope, $modal, $routeParams, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService, tagwordService){
     log("ArticlePageController starts");
     
     $scope.get_header_metaData();
     
     $scope.selectNavBar($scope.getArticleCategoryGroup($routeParams.catId), $routeParams.catId);
+    
+    $scope.defaultCollapseCount = DefaultValues.TAGWORD_LIST_COLLAPSE_COUNT;
+    
+    // tag words
+    $scope.hotArticlesTagwords = tagwordService.HotArticlesTagwords.get({}, 
+        function(data) {
+            if (tagwordRequest && $routeParams.catGroup == 'HOT_ARTICLES') {
+                angular.forEach(data, function(tagword, key){
+                    if(tagword.id == tagwordId) {
+                        $scope.tagword = tagword;
+                    }
+                })
+            }
+        });
+    $scope.soonMomsTagwords = tagwordService.SoonMomsTagwords.get({}, 
+        function(data) {
+            if (tagwordRequest && $routeParams.catGroup == 'SOON_TO_BE_MOMS_ARTICLES') {
+                angular.forEach(data, function(tagword, key){
+                    if(tagword.id == tagwordId) {
+                        $scope.tagword = tagword;
+                    }
+                })
+            }
+        });
     
     $scope.hotArticles = articleService.HotArticles.get({category_id:$routeParams.catId});
     $scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:$routeParams.catId});
