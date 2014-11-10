@@ -141,7 +141,7 @@ public class CommunityController extends Controller{
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug(String.format("[u=%d][targetingType=%s] getCommunitiesByTargetingType. Took"+sw.getElapsedMS()+"ms", localUser.id, targetingType.name()));
+            logger.underlyingLogger().debug(String.format("[u=%d][targetingType=%s] getCommunitiesByTargetingType. Took "+sw.getElapsedMS()+"ms", localUser.id, targetingType.name()));
         }
         return communityList;
     }

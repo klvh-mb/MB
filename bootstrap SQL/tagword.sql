@@ -28,3 +28,6 @@ values (0,0,0,CURDATE(),0,0, 0, 'SOON_TO_BE_MOMS_ARTICLES', '改名', '改名');
 
 insert into TagWord (deleted,system,excludeFromTargeting,UPDATED_DATE,socialObjectCount,noClicks, tagCategory, tagCategoryId, displayWord, matchingWords)
 values (0,0,0,CURDATE(),0,0, 0, 'SOON_TO_BE_MOMS_ARTICLES', '孕婦裝', '孕婦裝,大肚婆衫,孕婦褲,連身裙,孕期內衣');
+
+
+update TagWord set matchingWords = '寵物,拳師犬,狗狗' where displayWord = '寵物';
