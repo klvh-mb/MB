@@ -1960,7 +1960,7 @@ a:focus {
 }
 /*All Post Thumbnail End*/
 
-/*Post Detail Start*/
+/*Article Page Start*/
 .article-box-main {
     box-shadow: 0px 1px 3px rgba(136, 136, 136, 0.5);
 }
@@ -2029,7 +2029,69 @@ a:focus {
     white-space: pre-line;
     line-height: 1.4;
 }
-/*Post Detail End*/
+/*Article Page End*/
+
+/*Campaign Page Start*/
+.campaign-box-main {
+    box-shadow: 0px 1px 3px rgba(136, 136, 136, 0.5);
+}
+.campaign-detail-wrapper {
+    padding: 20px 35px;
+}
+.campaign-detail-wrapper .campaign-title {
+    font-size: 24px;
+    font-weight: bold;
+    display: block;
+    color: #FFFFFF;
+    background: #FD7310;
+    margin: 0 -35px;
+    padding: 10px 35px;
+    border-radius: 0px;
+}
+.campaign-detail-wrapper .campaign-details {
+    margin: 10px 0;
+}
+.campaign-detail-wrapper .campaign-details li {
+    width: 48%;
+    display: inline-block;
+    font-size: 15px;
+    vertical-align: top;
+}
+.campaign-detail-wrapper .campaign-details table td {
+    padding: 3px;
+}
+.campaign-detail-wrapper li {
+    clear: both;
+    padding-top: 10px;
+}
+.campaign-detail-wrapper li:first-child > a > img {
+    float: left;
+}
+.campaign-detail-wrapper div {
+    float: left;
+    padding-left: 3px;
+    position: relative;
+    width: 98%;
+}
+.campaign-detail-wrapper .post-like-num:after {
+    content: ' 人都讚好 ';
+}
+.campaign-detail-wrapper .post-like-num {
+    display: inline-block;
+}
+.campaign-detail-wrapper .post-like-num+a {
+    padding: 0 15px;
+}
+.campaign-detail-wrapper li img {
+    /*display: block;*/
+    max-width: 98%;
+}
+.campaign-detail-wrapper p {
+    padding-top: 10px;
+    white-space: pre-line;
+    line-height: 1.4;
+}
+/*Campaign Page End*/
 
 /*Related Post Start*/
 #relatePost {
@@ -2769,7 +2831,7 @@ span.notif-count {
     width: 85%;
     padding: 3px;
 }
-#article-link {
+#article-link, #campaign-link {
     width: 65%;
     padding: 5px;
 }
