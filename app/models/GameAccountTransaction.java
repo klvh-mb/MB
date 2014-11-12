@@ -17,7 +17,7 @@ import play.db.jpa.JPA;
 public class GameAccountTransaction  extends domain.Entity {
     private static final play.api.Logger logger = play.api.Logger.apply(GameAccountTransaction.class);
 
-    public static enum Transaction_type{
+    public static enum TransactionType {
 		SystemCredit,
 		Redemption,
 		Bonus,
@@ -37,7 +37,7 @@ public class GameAccountTransaction  extends domain.Entity {
 	
 	public Long new_Total_Points;
 	
-	public Transaction_type transaction_type;
+	public TransactionType transaction_type;
 
     /**
      * Ctor
@@ -66,7 +66,7 @@ public class GameAccountTransaction  extends domain.Entity {
 	}
 
 	 
-	public static void recordPoints(long userID, long transactedPoints, Transaction_type type, long newTotalPoints) {
+	public static void recordPoints(long userID, long transactedPoints, TransactionType type, long newTotalPoints) {
 		GameAccountTransaction transaction = new GameAccountTransaction();
 		transaction.user_id = userID;
 		transaction.transacted_time = new Date();
@@ -96,27 +96,33 @@ public class GameAccountTransaction  extends domain.Entity {
                 boolean toCredit = (numPostCredit + numCommentCredit + numLikeCredit) > 0;
 
                 if (toCredit) {
+                    long totalCredit = 0;
                     long pointsPostCredit = numPostCredit * GamificationConstants.POINTS_POST;
                     long pointsCommentCredit = numCommentCredit * GamificationConstants.POINTS_COMMENT;
                     long pointsLikeCredit = numLikeCredit * GamificationConstants.POINTS_LIKE;
-                    long totalCredit = 0;
+
+                    long pointsPostActivity = stat.num_new_posts * GamificationConstants.POINTS_POST;
+                    long pointsCommentActivity = stat.num_new_comments * GamificationConstants.POINTS_COMMENT;
+                    long pointsLikeActivity = stat.num_likes * GamificationConstants.POINTS_LIKE;
 
                     if (pointsPostCredit > 0) {
                         totalCredit += pointsPostCredit;
-                        account.total_points += pointsPostCredit;
-                        GameAccountTransaction.recordPoints(stat.user_id, pointsPostCredit, Transaction_type.SystemCredit, account.total_points);
+                        account.addPointsGameOnly(pointsPostCredit);
+                        account.addPointsActivityOnly(pointsPostActivity);
+                        GameAccountTransaction.recordPoints(stat.user_id, pointsPostCredit, TransactionType.SystemCredit, account.getGamePoints());
                     }
                     if (pointsCommentCredit > 0) {
                         totalCredit += pointsCommentCredit;
-                        account.total_points += pointsCommentCredit;
-                        GameAccountTransaction.recordPoints(stat.user_id, pointsCommentCredit, Transaction_type.SystemCredit, account.total_points);
+                        account.addPointsGameOnly(pointsCommentCredit);
+                        account.addPointsActivityOnly(pointsCommentActivity);
+                        GameAccountTransaction.recordPoints(stat.user_id, pointsCommentCredit, TransactionType.SystemCredit, account.getGamePoints());
                     }
                     if (pointsLikeCredit > 0) {
                         totalCredit += pointsLikeCredit;
-                        account.total_points += pointsLikeCredit;
-                        GameAccountTransaction.recordPoints(stat.user_id, pointsLikeCredit, Transaction_type.SystemCredit, account.total_points);
+                        account.addPointsGameOnly(pointsLikeCredit);
+                        account.addPointsActivityOnly(pointsLikeActivity);
+                        GameAccountTransaction.recordPoints(stat.user_id, pointsLikeCredit, TransactionType.SystemCredit, account.getGamePoints());
                     }
-
                     account.auditFields.setUpdatedDate(new Date());
                     account.merge();
 

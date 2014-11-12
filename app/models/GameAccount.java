@@ -10,7 +10,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import domain.GamificationConstants;
-import models.GameAccountTransaction.Transaction_type;
+import models.GameAccountTransaction.TransactionType;
 
 import play.db.jpa.JPA;
 
@@ -24,10 +24,11 @@ public class GameAccount extends domain.Entity {
 	
 	public Long user_id;
 	
-	public Long total_points = 0L;      // all-time earned points
+	private Long game_points = 0L;      // total capped points redeemable
+    private Long activity_points = 0L;  // total points from activity
 
     // Redemption
-	public Long redeemed_points;	
+	public Long redeemed_points;
 	public Date last_redemption_time;
 
     // Contact information
@@ -54,6 +55,7 @@ public class GameAccount extends domain.Entity {
 	    } catch (NoResultException e) {
 	    	GameAccount account = new GameAccount();
 	    	account.user_id = id;
+            account.setCreatedDate(new Date());
 	    	account.save();
             logger.underlyingLogger().info("[u="+id+"] Gamification - Created new GameAccount");
 	        return account;
@@ -65,13 +67,12 @@ public class GameAccount extends domain.Entity {
      * @param user
      */
 	public static void setPointsForSignUp(User user) {
-		GameAccount account = new GameAccount();
-		account.auditFields.setCreatedDate(new Date());
-		account.auditFields.setUpdatedDate(new Date());
-		account.user_id = user.id;
-		account.total_points += GamificationConstants.POINTS_SIGNUP;
+        GameAccount account = GameAccount.findByUserId(user.id);
+
+		account.addPointsAcross(GamificationConstants.POINTS_SIGNUP);
+        account.auditFields.setUpdatedDate(new Date());
 		account.save();
-		GameAccountTransaction.recordPoints(user.id, GamificationConstants.POINTS_SIGNUP, Transaction_type.SystemCredit, account.total_points);
+		GameAccountTransaction.recordPoints(user.id, GamificationConstants.POINTS_SIGNUP, TransactionType.SystemCredit, account.getGamePoints());
 
         checkForReferral(user.id);
 	}
@@ -83,11 +84,12 @@ public class GameAccount extends domain.Entity {
 		setPointsForReferalSignUp(referal.getSender_user_id());
 	}
 
-	private static void setPointsForReferalSignUp(Long sender_user_id) {
-		GameAccount account = GameAccount.findByUserId(sender_user_id);
+	private static void setPointsForReferalSignUp(Long senderUserId) {
+		GameAccount account = GameAccount.findByUserId(senderUserId);
 
         if (account.number_of_referral_signups < GamificationConstants.LIMIT_REFERRAL_SIGNUP) {
-		    account.total_points += GamificationConstants.POINTS_REFERRAL_SIGNUP;
+		    account.addPointsAcross(GamificationConstants.POINTS_REFERRAL_SIGNUP);
+            GameAccountTransaction.recordPoints(senderUserId, GamificationConstants.POINTS_REFERRAL_SIGNUP, TransactionType.SystemCredit, account.getGamePoints());
         }
         account.number_of_referral_signups++;
         account.auditFields.setUpdatedDate(new Date());
@@ -104,11 +106,33 @@ public class GameAccount extends domain.Entity {
         if (!account.has_upload_profile_pic) {
             logger.underlyingLogger().info("[u="+user.id+"] Gamification - Crediting profile picture upload");
 
-            account.auditFields.setUpdatedDate(new Date());
+            account.addPointsAcross(GamificationConstants.POINTS_UPLOAD_PROFILE_PHOTO);
             account.has_upload_profile_pic = true;
-            account.total_points += GamificationConstants.POINTS_UPLOAD_PROFILE_PHOTO;
+            account.auditFields.setUpdatedDate(new Date());
             account.merge();
-            GameAccountTransaction.recordPoints(user.id, GamificationConstants.POINTS_UPLOAD_PROFILE_PHOTO, Transaction_type.SystemCredit, account.total_points);
+            GameAccountTransaction.recordPoints(user.id, GamificationConstants.POINTS_UPLOAD_PROFILE_PHOTO, TransactionType.SystemCredit, account.getGamePoints());
         }
 	}
+
+
+    public void addPointsAcross(long newPoints) {
+        game_points += newPoints;
+        activity_points += newPoints;
+    }
+
+    public void addPointsActivityOnly(long newPoints) {
+        activity_points += newPoints;
+    }
+
+    public void addPointsGameOnly(long newPoints) {
+        game_points += newPoints;
+    }
+
+    public Long getGamePoints() {
+        return game_points;
+    }
+
+    public Long getActivityPoints() {
+        return activity_points;
+    }
 }
