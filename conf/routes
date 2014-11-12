@@ -60,8 +60,11 @@ POST    /saveSignupInfoFb           controllers.Application.saveSignupInfoFb
 GET     /get-application-info       controllers.Application.getApplicationInfo
 GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
 
+GET     /get-campaign-info/:id      controllers.CampaignController.infoCampaign(id :Long)
+GET     /like-campaign/:id          controllers.CampaignController.onLike(id : Long)
+GET     /unlike-campaign/:id        controllers.CampaignController.onUnlike(id : Long)
+
 GET     /get-all-article-categories     controllers.ArticleController.getAllArticleCategories
-GET     /get-all-Articles           controllers.ArticleController.getAllArticles
 GET     /get-Articles-Categorywise/:category_id/:offset     controllers.ArticleController.getArticlesCategorywise(category_id: Long, offset:Integer)
 GET     /get-Articles-TagWise/:tagword_id/:offset           controllers.ArticleController.getArticlesTagwise(tagword_id: Long, offset:Integer)
 GET     /get-Six-Articles/:category_id          controllers.ArticleController.getSixArticles(category_id: Long)

@@ -44,19 +44,12 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	@ManyToOne
 	public ArticleCategory category;
 	
-	public Article(String name, String description, Boolean isFeatured, Integer targetAge, ArticleCategory category) {
+	public Article(String name, String description, Integer targetAge, ArticleCategory category) {
 		this.name = name;
 		this.description = description;
 		this.category = category;
 		this.publishedDate = new Date();
 		this.objectType = SocialObjectType.ARTICLE;
-	}
-	
-	@Transactional
-	public static List<Article> getAllArticles() {
-		Query q = JPA.em().createQuery("Select a from Article a order where a.deleted = false by publishedDate desc,id desc");
-		q.setMaxResults(DefaultValues.MAX_ARTICLES_COUNT);
-		return (List<Article>)q.getResultList();
 	}
 	
 	@Transactional
@@ -122,17 +115,14 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 		return (Article) q.getSingleResult();
 	}
 	
-	public static void delete(Long id, User deletedBy) {
-	    Article article = Article.findById(id);
-	    article.deleted = true;
-	    article.deletedBy = deletedBy;
-	    article.save();
-	}
-	
 	public String getShortDescription(String description) {
 		Document document = Jsoup.parse(description);
-		document.select("img").remove();
-		return document.toString();
+	 	document.select("img").remove();
+	 	String desc = document.toString();
+	 	if (desc.length() > DefaultValues.MAX_PREVIEW_CHARS) {
+	 	    return desc.substring(0, DefaultValues.MAX_PREVIEW_CHARS);
+	 	}
+	 	return desc;
 	}
 	
 	public String getLinesFromDescription(String description) {
@@ -158,22 +148,6 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 		return "No Image";
 	}
 
-	public void updateById()
-	{
-		this.merge();
-	}
-	
-	public void saveArticle()
-	{
-		this.save();
-	}
-
-    public void delete(User deletedBy) {
-        this.deleted = true;
-        this.deletedBy = deletedBy;
-        save();
-    }
-	   
 	@Override
 	public void onLikedBy(User user) {
 		recordLike(user);

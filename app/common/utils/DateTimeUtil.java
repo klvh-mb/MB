@@ -1,5 +1,8 @@
 package common.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.IllegalFieldValueException;
@@ -7,6 +10,8 @@ import org.joda.time.IllegalFieldValueException;
 public class DateTimeUtil {
     
     private static DateTime TODAY;
+    
+    private static SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy HH:mm");
     
     public static DateTime getToday() {
         DateTime now = DateTime.now();
@@ -62,5 +67,9 @@ public class DateTimeUtil {
         }
         
         return new DateTime(y, m ,d, 12, 0);
+    }
+    
+    public static String toString(Date date) {
+        return formatter.format(date);
     }
 }

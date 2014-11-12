@@ -2920,6 +2920,35 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
     log("ArticleSliderController completed");
 });
 
+minibean.controller('CampaignPageController',function($scope, $modal, $routeParams, likeFrameworkService, campaignService, usSpinnerService){
+    log("CampaignPageController starts");
+
+    $scope.campaign = campaignService.campaignInfo.get({id:$routeParams.id}, 
+        function(response) {
+            if(response[0] == 'NO_RESULT'){
+                $location.path('/campaign/show');
+            }
+        });
+    
+    $scope.like_campaign = function(campaign_id) {
+        likeFrameworkService.hitLikeOnCampaign.get({"campaign_id":campaign_id}, 
+            function(data) {
+                $scope.campaign.nol++;
+                $scope.campaign.isLike=true;
+            });
+    }
+
+    $scope.unlike_campaign = function(campaign_id) {
+        likeFrameworkService.hitUnlikeOnCampaign.get({"campaign_id":campaign_id}, 
+            function(data) {
+                $scope.campaign.nol--;
+                $scope.campaign.isLike=false;
+            });
+    }
+    
+    log("CampaignController completed");
+});
+
 minibean.controller('ArticlePageController',function($scope, $modal, $routeParams, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService, tagwordService){
     log("ArticlePageController starts");
     

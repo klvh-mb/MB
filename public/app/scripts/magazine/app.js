@@ -44,6 +44,10 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/magazine/articlePage.html',
         controller : 'ArticlePageController'  
       })
+      .when('/campaign/:id',{
+        templateUrl: '/assets/app/views/magazine/campaign-page.html',
+        controller : 'CampaignPageController'  
+      })
       .when('/business/community/:id',{
         templateUrl: '/assets/app/views/business-community-page.html',
         controller : 'BusinessCommunityPageController'  

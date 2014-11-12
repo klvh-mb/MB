@@ -1,0 +1,21 @@
+<style>
+.btn-like-wrapper span img {
+    width: 16px !important;
+}
+.btn-like-wrapper span, .btn-like-wrapper div {
+    font-size: 14px !important;
+}
+a.btn-like, a.btn-like, a.btn-like, a.btn-like:hover {
+    font-size: 15px !important;
+}
+</style>
+
+<span ng-show="userInfo.isLoggedIn" class="btn-like-wrapper">
+    <a style="font-size:15px;" data-ng-show="!campaign.isLike" class="btn-like" href="" data-ng-click="like_campaign(campaign.id)">讚好活動</a> 
+    <a data-ng-show="campaign.isLike" class="btn-like" href="" data-ng-click="unlike_campaign(campaign.id)">取消讚好</a>
+    <span> · <img data-ng-src="/assets/app/images/general/icons/liked_1.png"/></span><span ng-show="campaign.nol > 0"><b>{{campaign.nol}}</b></span>
+    <!--span ng-show="campaign.isLike">你讚好這活動</span-->
+</span>
+<span ng-show="!userInfo.isLoggedIn" class="btn-like-wrapper">
+    <span ng-show="campaign.nol > 0"><b><img data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{campaign.nol}}</b></span>
+</span>

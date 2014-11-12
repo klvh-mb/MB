@@ -1,0 +1,95 @@
+<header>
+    <div data-ng-include style="width:100%;" data-src="'/assets/app/views/header-bar.html'"></div>
+</header>
+
+<div class="themeA-container">
+    <div data-ng-include data-src="'/assets/app/views/nav-bar.html'"></div>
+    <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-6" style="width:710px;">
+            <div id="wall">
+                <div class="general-box campaign-box-main">
+                    <ul class="campaign-detail-wrapper">
+                        <!--li>
+                            <a href="#/campaign/show">
+                                <img class="scCatMiniThumbnail" data-ng-src="{{campaign.ct.pictureName}}" />
+                            </a>
+                            <div style="margin-left:10px;width:60%;">
+                                <a href="#/campaign/show">
+                                    <img style="width:auto;height:26px;" data-ng-src="/assets/app/images/general/titles/hot_articles.png">
+                                </a>
+                                <span style="font-size:12px;">&gt;</span> 
+                                <h6>
+                                    <font ng-show="userInfo.isE">{{campaign.sd | date:'M/dd/yyyy'}}</font>
+                                </h6>
+                            </div>
+                        </li-->
+                        <li>
+                            <font class="campaign-title">{{campaign.nm}}</font>
+                        </li>
+                        <li>
+                            <ul class="campaign-details">
+                                <li>
+                                    <img src="http://www.baby-kingdom.com/data/attachment/forum/201411/10/100857pstppxpehczzpvt4.jpg" onclick="zoom(this, 'data/attachment/forum/201411/10/100857pstppxpehczzpvt4.jpg')" width="300" id="img_0.5283597274683416">
+                                </li>
+                                <li style="margin:10px;">
+                                    <table>
+                                        <tr>
+                                            <td>開始時間:</td><td>{{campaign.sd | date:'M/dd/yyyy hh:mm a'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>報名截止:</td><td>{{campaign.ed | date:'M/dd/yyyy hh:mm a'}}</td>
+                                        </tr>
+                                    </table>
+                                    <div style="padding:10px;">
+                                        <a class="btn btn-sign-in" href="" ng-click="">
+                                            <img style="height:30px;width:auto;" src="/assets/app/images/general/btn_campaign_join.png">
+                                        </a>
+                                    </div>
+                                    <div style="padding-top:20px;">
+                                        <span class="btn-like-wrapper"><span ng-show="campaign.nov > 20 || userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{campaign.nov}}</span></span>
+                                        <span data-ng-include data-src="'/assets/app/views/like-campaign.html'"></span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><div style="font-size:16px;width:100%;" class="ng-binding" ng-bind-html="campaign.ds | to_trusted"></div></li>
+                        <li>
+                            <span class="btn-like-wrapper"><span ng-show="campaign.nov > 20 || userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{campaign.nov}}</span></span>
+                            <span data-ng-include data-src="'/assets/app/views/like-campaign.html'"></span>
+                        </li>
+                        <li>
+                            <div style="margin:20px 0;font-size:16px;">
+                                <div class="padding10" style="border-top:1px solid #eee;"></div>
+                                分享連結: 
+                                <input type='text' name='campaign-link' id='campaign-link' value='{{applicationInfo.baseUrl}}/magazine#/campaign/{{campaign.id}}'></input> 
+                                <a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink("campaign-link")'><i class='glyphicon glyphicon-link'></i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
+            <div ng-show="!userInfo.isLoggedIn">
+                <div data-ng-include data-src="'/assets/app/views/magazine/promo-signup-widget.html'"></div>
+            </div>
+            <div>
+                <div data-ng-include data-src="'/assets/app/views/widgets/fb-likebox-widget.html'"></div>
+            </div>
+            <div class="ads-factor-300x250">
+                <script adSize="300250" adSid="247130236679" ads-factor language='JavaScript' type="text/javascript"></script>
+            </div>
+            <div class="ads-factor-1x1" ng-if="userInfo.isLoggedIn">
+                <script adSize="11" adSid="691373536678" ads-factor language='JavaScript' type="text/javascript"></script>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="back-to-top" style="z-index:1000">
+    <a data-ng-click="gotoTop()"><span class="icon-title-arrow-up"></span>Top</a>
+</div>
+
+<script>
+    ga_send_pv();
+</script>

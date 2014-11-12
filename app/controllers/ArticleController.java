@@ -12,13 +12,13 @@ import java.io.File;
 
 import javax.persistence.NoResultException;
 
+import common.utils.ImageUploadUtil;
 import common.utils.NanoSecondStopWatch;
 import models.Article;
 import models.ArticleCategory;
 import models.TagWordScore;
 import models.User;
 import play.data.DynamicForm;
-import play.Play;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -40,8 +40,8 @@ import domain.DefaultValues;
 public class ArticleController extends Controller {
     private static play.api.Logger logger = play.api.Logger.apply(ArticleController.class);
 
-    private static final String STORAGE_PATH = Play.application().configuration().getString("storage.path"); 
-	
+    private static final ImageUploadUtil imageUploadUtil = new ImageUploadUtil("article");
+    
 	@Transactional
 	public static Result getAllArticleCategories() {
 		List<ArticleCategory> categories = ArticleCategory.getAllCategories();
@@ -52,17 +52,6 @@ public class ArticleController extends Controller {
 			articleCategoryVMs.add(vm);
 		}
 		return ok(Json.toJson(articleCategoryVMs));
-	}
-	
-	@Transactional
-	public static Result getAllArticles() {
-		List<Article> allArticles = Article.getAllArticles();
-		List<ArticleVM> listOfArticles = new ArrayList<>();
-		for(Article article:allArticles) {
-			ArticleVM vm = new ArticleVM(article);
-			listOfArticles.add(vm);
-		}
-		return ok(Json.toJson(listOfArticles));
 	}
 	
 	@Transactional
@@ -364,13 +353,9 @@ public class ArticleController extends Controller {
 	@Transactional
     public static Result getImage(Long year, Long month, Long date, String name) {
 	    response().setHeader("Cache-Control", "max-age=604800");
-        String path = getImageUrl(year, month, date, name);
+        String path = imageUploadUtil.getImagePath(year, month, date, name);
 
         logger.underlyingLogger().debug("getImage. path="+path);
         return ok(new File(path));
-    }
-    
-    public static String getImageUrl(Long year, Long month, Long date, String name) {
-        return STORAGE_PATH + "/article/" + year + "/" + month + "/" + date + "/" + name;
     }
 }

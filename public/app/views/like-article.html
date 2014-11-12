@@ -13,8 +13,8 @@ a.btn-like, a.btn-like, a.btn-like, a.btn-like:hover {
 <span ng-show="userInfo.isLoggedIn" class="btn-like-wrapper">
     <a style="font-size:15px;" data-ng-show="!article.isLike" class="btn-like" href="" data-ng-click="like_article(article.id)">讚好文章</a> 
     <a data-ng-show="article.isLike" class="btn-like" href="" data-ng-click="unlike_article(article.id)">取消讚好</a>
-    <span ng-show="article.nol > 0"><b> · <img style="width:" data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{article.nol}}</b></span>
-    <span ng-show="article.isLike">你讚好這文章</span>
+    <span> · <img data-ng-src="/assets/app/images/general/icons/liked_1.png"/></span><span ng-show="article.nol > 0"><b>{{article.nol}}</b></span>
+    <!--span ng-show="article.isLike">你讚好這文章</span-->
 </span>
 <span ng-show="!userInfo.isLoggedIn" class="btn-like-wrapper">
     <span ng-show="article.nol > 0"><b><img data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{article.nol}}</b></span>

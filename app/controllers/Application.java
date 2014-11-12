@@ -327,6 +327,14 @@ public class Application extends Controller {
 		return localUser;
 	}
 
+    public static String getLocalUserName() {
+        final User user = getLocalUser(session());
+        if (user != null) {
+            return user.name;
+        }
+        return "";
+    }
+	        
 	@Restrict(@Group(SecurityRole.USER))
     public static Result restricted() {
         final User localUser = getLocalUser(session());
