@@ -28,6 +28,8 @@ public class Campaign extends SocialObject implements Commentable, Likeable {
 
 	public Campaign() {}
 
+	public String image;
+	
 	@Lob
 	public String description;
 	

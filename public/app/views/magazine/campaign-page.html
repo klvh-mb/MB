@@ -8,45 +8,51 @@
         <div class="col-md-6 col-sm-6 col-xs-6" style="width:710px;">
             <div id="wall">
                 <div class="general-box campaign-box-main">
-                    <ul class="campaign-detail-wrapper">
-                        <!--li>
-                            <a href="#/campaign/show">
-                                <img class="scCatMiniThumbnail" data-ng-src="{{campaign.ct.pictureName}}" />
-                            </a>
-                            <div style="margin-left:10px;width:60%;">
-                                <a href="#/campaign/show">
-                                    <img style="width:auto;height:26px;" data-ng-src="/assets/app/images/general/titles/hot_articles.png">
-                                </a>
-                                <span style="font-size:12px;">&gt;</span> 
-                                <h6>
-                                    <font ng-show="userInfo.isE">{{campaign.sd | date:'M/dd/yyyy'}}</font>
-                                </h6>
-                            </div>
-                        </li-->
-                        <li>
+                    <div class="campaign-sticker">
+                        <a href="#/campaign/show">
+                            <img style="height:50px;" src="/assets/app/images/general/campaign_sticker.png" />
+                        </a>
+                    </div>
+                    <ul class="campaign-detail-wrapper" ng-if="campaign.id == null || campaign.cs == 'NEW'">
+                        <li style="font-size:20px;">
+                            對不起~ 尋找不到此活動。 請確定連結正確無誤。
+                        </li>
+                    </ul>
+                    <ul class="campaign-detail-wrapper" ng-if="campaign.id != null && campaign.cs != 'NEW'">
+                        <li ng-if="campaign.ac">
                             <font class="campaign-title">{{campaign.nm}}</font>
+                        </li>
+                        <li ng-if="!campaign.ac">
+                            <font class="campaign-title-ended">【活動結束】{{campaign.nm}}</font>
+                        </li>
+                        
+                        <li ng-if="campaign.cs == 'ANNOUNCED'">
+                            恭喜各得獎者
                         </li>
                         <li>
                             <ul class="campaign-details">
                                 <li>
-                                    <img src="http://www.baby-kingdom.com/data/attachment/forum/201411/10/100857pstppxpehczzpvt4.jpg" onclick="zoom(this, 'data/attachment/forum/201411/10/100857pstppxpehczzpvt4.jpg')" width="300" id="img_0.5283597274683416">
+                                    <img ng-src="{{campaign.im}}">
                                 </li>
                                 <li style="margin:10px;">
                                     <table>
                                         <tr>
-                                            <td>開始時間:</td><td>{{campaign.sd | date:'M/dd/yyyy hh:mm a'}}</td>
+                                            <td>開始時間:</td><td><b>{{campaign.sd | date:'M/dd/yyyy hh:mm a'}}</b></td>
                                         </tr>
                                         <tr>
-                                            <td>報名截止:</td><td>{{campaign.ed | date:'M/dd/yyyy hh:mm a'}}</td>
+                                            <td>報名截止:</td><td><b>{{campaign.ed | date:'M/dd/yyyy hh:mm a'}}</b></td>
                                         </tr>
                                     </table>
                                     <div style="padding:10px;">
-                                        <a class="btn btn-sign-in" href="" ng-click="">
+                                        <a class="btn" href="" ng-click="joinCampaign()" ng-if="campaign.cs == 'STARTED'">
                                             <img style="height:30px;width:auto;" src="/assets/app/images/general/btn_campaign_join.png">
                                         </a>
+                                        <span ng-if="campaign.cs == 'ENDED'">
+                                            <img style="height:30px;width:auto;" src="/assets/app/images/general/btn_campaign_ended.png">
+                                        </span>
                                     </div>
                                     <div style="padding-top:20px;">
-                                        <span class="btn-like-wrapper"><span ng-show="campaign.nov > 20 || userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{campaign.nov}}</span></span>
+                                        <span class="btn-like-wrapper"><span ng-show="userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{campaign.nov}}</span></span>
                                         <span data-ng-include data-src="'/assets/app/views/like-campaign.html'"></span>
                                     </div>
                                 </li>
@@ -54,7 +60,7 @@
                         </li>
                         <li><div style="font-size:16px;width:100%;" class="ng-binding" ng-bind-html="campaign.ds | to_trusted"></div></li>
                         <li>
-                            <span class="btn-like-wrapper"><span ng-show="campaign.nov > 20 || userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{campaign.nov}}</span></span>
+                            <span class="btn-like-wrapper"><span ng-show="userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{campaign.nov}}</span></span>
                             <span data-ng-include data-src="'/assets/app/views/like-campaign.html'"></span>
                         </li>
                         <li>
@@ -66,6 +72,7 @@
                             </div>
                         </li>
                     </ul>
+                    <div><img style="margin-top:10px;" src="/assets/app/images/general/campaign_footer.png" /></div>
                 </div>
             </div>
         </div>

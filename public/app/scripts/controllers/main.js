@@ -2924,11 +2924,15 @@ minibean.controller('CampaignPageController',function($scope, $modal, $routePara
     log("CampaignPageController starts");
 
     $scope.campaign = campaignService.campaignInfo.get({id:$routeParams.id}, 
-        function(response) {
-            if(response[0] == 'NO_RESULT'){
+        function(data) {
+            if(data[0] == 'NO_RESULT'){
                 $location.path('/campaign/show');
             }
         });
+    
+    $scope.joinCampaign = function() {
+        alert('join');
+    }
     
     $scope.like_campaign = function(campaign_id) {
         likeFrameworkService.hitLikeOnCampaign.get({"campaign_id":campaign_id}, 
