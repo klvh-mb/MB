@@ -20,6 +20,7 @@ public class ProfileVM {
     
     @JsonProperty("em")  public String email;
     @JsonProperty("ll")  public String lastLogin;
+    @JsonProperty("fb")  public boolean isFbLogin;
     
     @JsonProperty("n_c") public long nocommunities;
     @JsonProperty("l_f") public List<User> friends;
@@ -39,6 +40,7 @@ public class ProfileVM {
 		}
         vm.email = user.email;
         vm.lastLogin = user.lastLogin.toString();
+        vm.isFbLogin = user.fbLogin;
         //vm.friends = user.getFriends();
         vm.nofriends = user.getFriendsSize();
         vm.isFriend = user.isFriendOf(localUser);

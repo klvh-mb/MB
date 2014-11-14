@@ -31,7 +31,7 @@
                                 <h2>"{{tagword.nm}}"</h2>
                             </div>
                             <!--div>
-                                <span class="tagword-stats" ng-show="userInfo.isE">
+                                <span class="tagword-stats admin-visible-field" ng-show="userInfo.isE">
                                     <img data-ng-src="/assets/app/images/general/icons/view.png"/>
                                     <h4>{{tagword.noc}}</h4> 人查看 
                                 </span>
@@ -59,7 +59,7 @@
                                         <a class="tag" data-ng-href="#/article/show/{{article.ct.id}}">
                                             <font><font>{{article.ct.name}}</font></font>
                                         </a>
-                                        <font ng-show="userInfo.isE">{{article.pd | date:'M/dd/yyyy'}}</font>
+                                        <font class="admin-visible-field" ng-show="userInfo.isE">{{article.pd | date:'M/dd/yyyy'}}</font>
                                         <span ng-show="article.nov > 20 || userInfo.isE" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.png"/>{{article.nov}}</span>
                                         <span ng-show="article.nol > 0 || userInfo.isE" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{article.nol}}</span>
                                     </h6>

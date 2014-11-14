@@ -13,12 +13,12 @@
                             <img style="height:50px;" src="/assets/app/images/general/campaign_sticker.png" />
                         </a>
                     </div>
-                    <ul class="campaign-detail-wrapper" ng-if="campaign.id == null || campaign.cs == 'NEW'">
+                    <ul class="campaign-detail-wrapper" ng-if="!showCampaign">
                         <li style="font-size:20px;">
                             對不起~ 尋找不到此活動。 請確定連結正確無誤。
                         </li>
                     </ul>
-                    <ul class="campaign-detail-wrapper" ng-if="campaign.id != null && campaign.cs != 'NEW'">
+                    <ul class="campaign-detail-wrapper" ng-if="showCampaign">
                         <li ng-if="campaign.ac">
                             <font class="campaign-title">{{campaign.nm}}</font>
                         </li>
@@ -41,6 +41,9 @@
                                         </tr>
                                         <tr>
                                             <td>報名截止:</td><td><b>{{campaign.ed | date:'M/dd/yyyy hh:mm a'}}</b></td>
+                                        </tr>
+                                        <tr class="admin-visible-field" ng-if="userInfo.isE">
+                                            <td>State:</td><td><b>{{campaign.cs}}</b></td>
                                         </tr>
                                     </table>
                                     <div style="padding:10px;">
@@ -69,7 +72,7 @@
                                         </span>
                                     </div>
                                     <div style="padding-top:20px;">
-                                        <span class="btn-like-wrapper"><span ng-show="userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{campaign.nov}}</span></span>
+                                        <span class="btn-like-wrapper admin-visible-field"><span ng-show="userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{campaign.nov}}</span></span>
                                         <span data-ng-include data-src="'/assets/app/views/like-campaign.html'"></span>
                                     </div>
                                 </li>
@@ -78,7 +81,7 @@
                         <li><div style="font-size:16px;width:100%;" class="ng-binding" ng-bind-html="campaign.ds | to_trusted"></div></li>
                         <li>
                             <div style="margin-top:50px">
-                                <span class="btn-like-wrapper"><span ng-show="userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{campaign.nov}}</span></span>
+                                <span class="btn-like-wrapper admin-visible-field"><span ng-show="userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{campaign.nov}}</span></span>
                                 <span data-ng-include data-src="'/assets/app/views/like-campaign.html'"></span>
                             </div>
                         </li>

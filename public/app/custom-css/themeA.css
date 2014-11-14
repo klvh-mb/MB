@@ -52,6 +52,17 @@ pre {
     border: 0px solid #ccc !important;
     border-radius: 0px !important;
 }
+.admin-visible-field, 
+.admin-visible-field span, 
+.admin-visible-field div,
+.admin-visible-field input,
+.admin-visible-field a,
+.admin-visible-field img,
+.admin-visible-field td,
+.admin-visible-field li {
+    color: #038100 !important;
+    font-style: italic;
+}
 #announce .tour-btn {
     font-size: 13px;
     padding: 2px 5px;
@@ -304,9 +315,10 @@ a:focus {
     background: none;
 }
 #myShortcuts .con-title img {
-    width: 28px;
-    height: auto;
-    margin-right: 6px;
+    width: auto;
+    height: 22px;
+    margin: 0 8px 0 3px;
+    vertical-align: bottom;
 }
 #myShortcuts .con-title a {
     font-size: 13px;

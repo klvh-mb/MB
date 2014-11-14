@@ -45,7 +45,9 @@ public class CampaignVM {
 	    }
 		this.campaignType = campaign.campaignType.name();
 		this.campaignState = campaign.campaignState.name();
-		if ((campaign.campaignState == CampaignState.PUBLISHED || campaign.campaignState == CampaignState.STARTED) && 
+		if ((campaign.campaignState == CampaignState.NEW || 
+		        campaign.campaignState == CampaignState.PUBLISHED || 
+		        campaign.campaignState == CampaignState.STARTED) && 
 		        campaign.endDate.before(new Date())) {
 		    this.isActive = true;
 		}

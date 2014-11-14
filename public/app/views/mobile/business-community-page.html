@@ -27,7 +27,7 @@
 						</div>
 						<div class="divider-cus"></div>
 						<div ng-class="{activeTabBold: selectedTab == 2}" ng-show="userInfo.isLoggedIn">
-							<a ng-click="selectedTab = 2;">喜愛</a>
+							<a ng-click="selectedTab = 2;">關注</a>
 						</div>
 						<div class="dropdown pull-right">
                             <a id="community-settings-dropdown" class="toolsbox toolsbox-single dropdown-toggle" data-toggle="dropdown"><span class="icon-title-contentSetup"></span></a>
@@ -39,7 +39,7 @@
                                 </li>
                                 <!--li ng-show="community.isO"><a data-ng-href="my#/editCommunity/{{community.id}}">編輯專頁</a></li-->
                                 <li class="dropdown-divider" role="presentation"></li>
-                                <li ng-show="!community.isO && community.isM == true"><a data-ng-confirm-click="leave_community(community.id)" data-ng-confirm-message="您確定取消喜愛專頁 '{{community.n}}' 嗎?">取消喜愛專頁</a></li>
+                                <li ng-show="!community.isO && community.isM == true"><a data-ng-confirm-click="leave_community(community.id)" data-ng-confirm-message="您確定取消關注這個專頁 '{{community.n}}' 嗎?">取消關注專頁</a></li>
                                 <!--li><a data-ng-click="">檢舉專頁</a></li-->
                             </ul> 
                         </div>

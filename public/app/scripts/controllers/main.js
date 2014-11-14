@@ -2923,10 +2923,15 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
 minibean.controller('CampaignPageController',function($scope, $route, $location, $http, $modal, $routeParams, likeFrameworkService, campaignService, usSpinnerService){
     log("CampaignPageController starts");
 
+    $scope.showCampaign = true;
+
     $scope.campaign = campaignService.campaignInfo.get({id:$routeParams.id}, 
         function(data) {
             if(data[0] == 'NO_RESULT'){
                 $location.path('/campaign/show');
+            }
+            if ($scope.campaign.id == null || ($scope.campaign.cs == 'NEW' && !$scope.userInfo.isE)) {
+                $scope.showCampaign = false;
             }
         });
     
