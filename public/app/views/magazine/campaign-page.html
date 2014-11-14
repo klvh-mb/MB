@@ -44,9 +44,26 @@
                                         </tr>
                                     </table>
                                     <div style="padding:10px;">
-                                        <a class="btn" href="" ng-click="joinCampaign()" ng-if="campaign.cs == 'STARTED'">
-                                            <img style="height:30px;width:auto;" src="/assets/app/images/general/btn_campaign_join.png">
-                                        </a>
+                                        <span ng-if="campaign.cs == 'STARTED'">
+                                            <span ng-if="userInfo.isLoggedIn">
+                                                <span ng-if="!campaign.isJoined">
+                                                    <a href="" ng-click="popupJoinCampaignModal(campaign.id)" data-toggle="modal" data-target="#joinCampaignModal" ng-if="!campaign.isJoined">
+                                                        <img style="height:30px;width:auto;" src="/assets/app/images/general/btn_campaign_join.png">
+                                                    </a>
+                                                </span>
+                                                <span ng-if="campaign.isJoined">
+                                                    <a href="" ng-click="popupWithdrawCampaignModal(campaign.id)" data-toggle="modal" data-target="#withdrawCampaignModal" ng-if="campaign.isJoined">
+                                                        <img style="height:30px;width:auto;" src="/assets/app/images/general/btn_campaign_withdraw.png">
+                                                    </a>
+                                                    <div class="campaign-join-confirm">你的報名已發出!</div>
+                                                </span>
+                                            </span>
+                                            <span ng-if="!userInfo.isLoggedIn">
+                                                <a href="" ng-click="popupLoginModal()">
+                                                    <img style="height:30px;width:auto;" src="/assets/app/images/general/btn_campaign_join.png">
+                                                </a>
+                                            </span>
+                                        </span>
                                         <span ng-if="campaign.cs == 'ENDED'">
                                             <img style="height:30px;width:auto;" src="/assets/app/images/general/btn_campaign_ended.png">
                                         </span>
@@ -60,8 +77,10 @@
                         </li>
                         <li><div style="font-size:16px;width:100%;" class="ng-binding" ng-bind-html="campaign.ds | to_trusted"></div></li>
                         <li>
-                            <span class="btn-like-wrapper"><span ng-show="userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{campaign.nov}}</span></span>
-                            <span data-ng-include data-src="'/assets/app/views/like-campaign.html'"></span>
+                            <div style="margin-top:50px">
+                                <span class="btn-like-wrapper"><span ng-show="userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{campaign.nov}}</span></span>
+                                <span data-ng-include data-src="'/assets/app/views/like-campaign.html'"></span>
+                            </div>
                         </li>
                         <li>
                             <div style="margin:20px 0;font-size:16px;">
@@ -89,6 +108,77 @@
             <div class="ads-factor-1x1" ng-if="userInfo.isLoggedIn">
                 <script adSize="11" adSid="691373536678" ads-factor language='JavaScript' type="text/javascript"></script>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Join Campaign Modal -->
+<div class="modal fade lightbox" id="joinCampaignModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">我要參加</h4>
+            </div>
+            <form method="post" ng-submit="joinCampaign(campaign.id)">
+                <div class="modal-body">
+                    <input type="hidden" name="campaignId" class="form-control" data-ng-model="formData.campaignId">
+                    <table>
+                        <tr>
+                            <td><label for="name" class="control-label">真實姓名: </label></td>
+                            <td><input type="text" name="name" class="form-control" data-ng-model="formData.name" required maxlength="50"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="mobileNumber" class="control-label">手提電話: </label></td>
+                            <td><input type="text" name="mobileNumber" class="form-control" data-ng-model="formData.mobileNumber" required maxlength="15"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="email" class="control-label">電郵: </label></td>
+                            <td><input type="email" name="email" class="form-control" data-ng-model="formData.email" required maxlength="50"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <div class="has-error pull-left">
+                        <span class="help-block with-errors" ng-show="errorCampaignNotExist">
+                            <i class="glyphicon glyphicon-exclamation-sign" style="margin-right:5px;vertical-align:text-top;"></i>
+                            <b>沒有此活動</b>
+                        </span>
+                        <span class="help-block with-errors" ng-show="errorJoinedAlready">
+                            <i class="glyphicon glyphicon-exclamation-sign" style="margin-right:5px;vertical-align:text-top;"></i>
+                            <b>你之前已參加活動，活動只可參加一次</b>
+                        </span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">報名</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Join Campaign Modal -->
+<div class="modal fade lightbox" id="withdrawCampaignModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">取消參加</h4>
+            </div>
+            <form method="post" ng-submit="withdrawCampaign(campaign.id)">
+                <div class="modal-body">
+                    <input type="hidden" name="campaignId" class="form-control" data-ng-model="formData.campaignId">
+                    你確定要取消參加此活動嗎？
+                </div>
+                <div class="modal-footer">
+                    <div class="has-error pull-left">
+                        <span class="help-block with-errors" ng-show="errorCampaignNotExist">
+                            <i class="glyphicon glyphicon-exclamation-sign" style="margin-right:5px;vertical-align:text-top;"></i>
+                            <b>沒有此活動</b>
+                        </span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">取消參加此活動</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

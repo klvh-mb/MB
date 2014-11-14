@@ -88,7 +88,11 @@ public class Campaign extends SocialObject implements Commentable, Likeable {
 	public static Campaign findById(Long id) {
 		Query q = JPA.em().createQuery("SELECT c FROM Campaign c where id = ?1 and c.deleted = false");
 		q.setParameter(1, id);
-		return (Campaign) q.getSingleResult();
+		try {
+		    return (Campaign) q.getSingleResult();
+		} catch(NoResultException e) {
+            return null;
+        }
 	}
 	
 	@Override

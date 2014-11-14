@@ -2920,7 +2920,7 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
     log("ArticleSliderController completed");
 });
 
-minibean.controller('CampaignPageController',function($scope, $modal, $routeParams, likeFrameworkService, campaignService, usSpinnerService){
+minibean.controller('CampaignPageController',function($scope, $route, $location, $http, $modal, $routeParams, likeFrameworkService, campaignService, usSpinnerService){
     log("CampaignPageController starts");
 
     $scope.campaign = campaignService.campaignInfo.get({id:$routeParams.id}, 
@@ -2930,8 +2930,75 @@ minibean.controller('CampaignPageController',function($scope, $modal, $routePara
             }
         });
     
-    $scope.joinCampaign = function() {
-        alert('join');
+    $scope.popupLoginModal = function() {
+        bootbox.dialog({
+            message: 
+                "<div style='margin:0 20px;'>" + 
+                "<div style='height:25px;'>你並未登入。請先登入再參加活動" +
+                "<a style='float:right;' onclick='window.location=\"\/my#\/login\"'><b>會員登入</b></a></div>" +
+                "<div style='height:25px;'>如未有帳戶，請登記再重試~" +
+                "<a style='float:right;' onclick='window.location=\"\/my#\/signup\"'><b>立即註冊!</b></a></div>" +
+                "</div>",
+            title: "參加活動",
+            className: "campaign-login-modal",
+        });
+    }
+    
+    $scope.popupJoinCampaignModal = function(campaignId) {
+        translateValidationMessages();
+    }
+    
+    $scope.popupWithdrawCampaignModal = function(campaignId) {
+        translateValidationMessages();
+    }
+    
+    $scope.joinCampaign = function(campaignId) {
+        $scope.formData.campaignId = campaignId;
+
+        $scope.errorCampaignNotExist = false;        
+        $scope.errorJoinedAlready = false;
+        usSpinnerService.spin('loading...');
+        return $http.post('/join-campaign', $scope.formData).success(function(data){
+            usSpinnerService.stop('loading...');
+            $('#joinCampaignModal').modal('hide');
+            $scope.campaign.isJoined = true;
+        }).error(function(data, status, headers, config) {
+            if(status == 599){
+                usSpinnerService.stop('loading...');
+                window.location = '/my#/login';
+            } else if(status == 500){
+                usSpinnerService.stop('loading...');
+                $scope.errorCampaignNotExist = true;
+                //alert("沒有此活動");
+            } else if(status == 501){
+                usSpinnerService.stop('loading...');
+                $scope.errorJoinedAlready = true;
+                //alert("你之前已加活動。活動只可參加一次。");
+            }
+        });
+    }
+    
+     $scope.withdrawCampaign = function(campaignId) {
+        var formData = {
+            "campaignId" : campaignId
+        };
+
+        $scope.errorCampaignNotExist = false;        
+        usSpinnerService.spin('loading...');
+        return $http.post('/withdraw-campaign', formData).success(function(data){
+            usSpinnerService.stop('loading...');
+            $('#withdrawCampaignModal').modal('hide');
+            $scope.campaign.isJoined = false;
+        }).error(function(data, status, headers, config) {
+            if(status == 599){
+                usSpinnerService.stop('loading...');
+                window.location = '/my#/login';
+            } else if(status == 500){
+                usSpinnerService.stop('loading...');
+                $scope.errorCampaignNotExist = true;
+                //alert("沒有此活動");
+            }
+        });
     }
     
     $scope.like_campaign = function(campaign_id) {

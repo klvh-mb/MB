@@ -3,8 +3,10 @@ package viewmodel;
 import java.util.Date;
 
 import models.Campaign;
+import models.CampaignActionsUser;
 import models.User;
 import models.Campaign.CampaignState;
+import models.Campaign.CampaignType;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -25,7 +27,8 @@ public class CampaignVM {
 	@JsonProperty("ed") public String endDate;
 	@JsonProperty("nol") public int noOfLikes;
     @JsonProperty("nov") public int noOfViews;
-    @JsonProperty("isLike") public boolean isLike = false;  
+    @JsonProperty("isJoined") public boolean isJoined = false;
+    @JsonProperty("isLike") public boolean isLike = false;
 
 	public CampaignVM(Campaign campaign) {
 	    this(campaign, false);
@@ -55,6 +58,17 @@ public class CampaignVM {
 
     public CampaignVM(Campaign campaign, User user) {
         this(campaign);
+        
+        if (CampaignType.ACTIONS == campaign.campaignType) {
+            this.isJoined = CampaignActionsUser.isJoinedCampaign(user.id, campaign.id);
+        } else if (CampaignType.QUESTIONS == campaign.campaignType) {
+            // TODO
+        } else if (CampaignType.VOTING == campaign.campaignType) {
+            // TODO
+        } else if (CampaignType.PHOTO_CONTEST == campaign.campaignType) {
+            // TODO
+        }
+        
         try {
             this.isLike = campaign.isLikedBy(user);
         } catch (SocialObjectNotLikableException e) {

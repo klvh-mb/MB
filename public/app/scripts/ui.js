@@ -284,3 +284,26 @@ var prompt = function(message, className) {
         }
     });
 }
+
+//
+// Translate validation messages
+//
+var translateValidationMessages = function() {
+    var elements = document.getElementsByTagName("INPUT");
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].oninvalid = function(e) {
+            e.target.setCustomValidity("");
+            e.target.checkValidity();
+            e.target.setCustomValidity(__Msg(e.target.validationMessage));
+        };
+    }
+}
+
+// translate messages
+function __Msg(str){
+    if (str.indexOf("fill out this field") != -1)
+        return "請填寫此欄。";
+    else if (str.indexOf("email address") != -1)
+        return "請填寫電郵。";
+    return str; // skip not translated messages
+}

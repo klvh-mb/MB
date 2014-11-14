@@ -118,7 +118,8 @@ pre {
     margin: 100px auto;
 }
 .bootbox-default-prompt .modal-content {
-
+    border-color: #FCC9CB;
+    border-width: 3px;
 }
 #content {
     min-width: 280px;
@@ -2032,6 +2033,27 @@ a:focus {
 /*Article Page End*/
 
 /*Campaign Page Start*/
+.campaign-login-modal {
+    top: 150px;
+}
+.campaign-login-modal .modal-dialog {
+    width: 350px;
+    transition: none !important;
+    transform: none !important;
+}
+#joinCampaignModal.lightbox, #withdrawCampaignModal.lightbox {
+    background: rgba(0, 0, 0, 0.5);
+}
+#joinCampaignModal .modal-dialog, #withdrawCampaignModal .modal-dialog {
+    width: 400px;
+    margin: 200px auto;
+}
+#joinCampaignModal .modal-dialog td, #withdrawCampaignModal .modal-dialog td {
+    padding: 5px;
+}
+#joinCampaignModal .modal-dialog input, #withdrawCampaignModal .modal-dialog input {
+    border-radius: 25px;
+}
 .campaign-box-main {
     border-color: #FAAF78;
     border-width: 3px;
@@ -2073,6 +2095,12 @@ a:focus {
 }
 .campaign-detail-wrapper .campaign-details table td {
     padding: 3px;
+}
+.campaign-detail-wrapper .campaign-join-confirm {
+    margin: 10px 0;
+    color: #FD7310;
+    font-weight: bold;
+    font-size: 14px;
 }
 .campaign-detail-wrapper li {
     clear: both;
@@ -2672,12 +2700,17 @@ span.notif-count {
 }
 .modal-dialog {
 }
+.modal-dialog .modal-footer {
+    border-color: #FCC9CB;
+    background-image: linear-gradient(to bottom, #FDF2F2, #FDF5F5);
+    background-color: #FDF2F2;
+}
 .modal-dialog .modal-header {
     height: 35px !important;
     border-radius: 0px !important;
-    /*background-color: rgb(253, 239, 255) !important;*/
-    /*background-image: linear-gradient(to bottom, rgb(255, 255, 255), rgb(248, 213, 255)) !important;*/
-    border-bottom: 1px solid #A8A8A8;
+    border-color: #FCC9CB;
+    background-image: linear-gradient(to bottom, #FDF2F2, #FDF5F5);
+    background-color: #FDF2F2;
 }
 .modal-dialog .modal-header .modal-title {
     font-size: 15px !important;
@@ -2687,8 +2720,9 @@ span.notif-count {
 .modal-dialog .modal-content {
     overflow-x: scroll !important;
     overflow-y: scroll !important;
-    border-width: 0px;
-    border-radius: 10px;
+    border-color: #FCC9CB;
+    border-width: 3px;
+    border-radius: 15px;
     top: 35px;
     max-width: 880px;
     max-height: 620px;
@@ -2696,16 +2730,22 @@ span.notif-count {
 .modal-dialog .modal-content .modal-body {
     padding: 10px;
 }
-.modal-dialog .modal-content input[type='text'], .modal-content textarea {
+.modal-dialog .modal-content input[type='text'],
+.modal-dialog .modal-content input[type='email'], 
+.modal-content textarea {
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 3px;
 }
-.modal-dialog .modal-content input[type='text']:hover, .modal-content textarea:hover {
+.modal-dialog .modal-content input[type='text']:hover,  
+.modal-dialog .modal-content input[type='email']:hover, 
+.modal-content textarea:hover {
     background-color: white;
     border-color: #66afe9;
 }
-.modal-dialog .modal-content input[type='text']:focus, .modal-content textarea:focus {
+.modal-dialog .modal-content input[type='text']:focus,
+.modal-dialog .modal-content input[type='email']:focus, 
+.modal-content textarea:focus {
     background-color: white;
     border-color: #66afe9;
 }

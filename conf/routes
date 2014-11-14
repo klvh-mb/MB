@@ -63,6 +63,8 @@ GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
 GET     /get-campaign-info/:id      controllers.CampaignController.infoCampaign(id :Long)
 GET     /like-campaign/:id          controllers.CampaignController.onLike(id : Long)
 GET     /unlike-campaign/:id        controllers.CampaignController.onUnlike(id : Long)
+POST    /join-campaign              controllers.CampaignController.joinCampaign
+POST    /withdraw-campaign          controllers.CampaignController.withdrawCampaign
 
 GET     /get-all-article-categories     controllers.ArticleController.getAllArticleCategories
 GET     /get-Articles-Categorywise/:category_id/:offset     controllers.ArticleController.getArticlesCategorywise(category_id: Long, offset:Integer)
