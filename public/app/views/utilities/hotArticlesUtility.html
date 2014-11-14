@@ -11,7 +11,7 @@
                     <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
                 </a>
                 <div class="pull-right">
-                    <a href="#/article/{{article.id}}/{{article.ct.id}}" style="font-size:15px;color:#324fe1;line-height:1.2;">
+                    <a href="#/article/{{article.id}}/{{article.ct.id}}">
                         <font>{{article.nm|limitTo:30}}</font>
                     </a>
                     <span ng-show="article.nov > 0" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.png"/>{{article.nov}}</span>

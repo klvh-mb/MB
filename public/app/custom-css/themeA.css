@@ -1763,23 +1763,29 @@ a:focus {
     height: 100%;
 }
 .static-content-wrapper img {
-    width: 115px;
-    height: 85px;
+    width: 80px;
+    height: 60px;
     border-radius: 5px;
-    margin-top: 3px;
 }
 .static-content-wrapper ul {
+    margin: 0;
     padding: 0;
     list-style: none;
 }
 .static-content-wrapper li {
-    margin-bottom: 15px;
+    padding: 7px 0;
+    border-bottom: 1px dashed #eee;
+}
+.static-content-wrapper li a {
+    font-size: 14px;
+    color:#324fe1;
+    line-height:1.2;
 }
 .static-content-wrapper div {
     font-size: small;
     clear: right;
-    width: 55%;
-    height: 85px;
+    width: 185px;
+    /*height: 85px;*/
     overflow: hidden;
 }
 /*Static Content Page General Box End*/
@@ -2793,6 +2799,7 @@ span.notif-count {
     float: none; 
     margin-right: 5px;
     vertical-align: text-bottom; 
+    border-radius: 0px;
 }
 .check-mark {
     color: #30AD25 !important;
