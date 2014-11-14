@@ -1773,7 +1773,7 @@ a:focus {
     list-style: none;
 }
 .static-content-wrapper li {
-    padding: 7px 0;
+    padding: 8px 0;
     border-bottom: 1px dashed #eee;
 }
 .static-content-wrapper li a {
@@ -1781,12 +1781,11 @@ a:focus {
     color:#324fe1;
     line-height:1.2;
 }
-.static-content-wrapper div {
-    font-size: small;
-    clear: right;
-    width: 185px;
-    /*height: 85px;*/
+.static-content-wrapper .article-summary {
+    display: inline-block;
+    position: absolute;
     overflow: hidden;
+    padding: 0 10px;
 }
 /*Static Content Page General Box End*/
 
