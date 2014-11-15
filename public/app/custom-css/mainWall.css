@@ -18,6 +18,7 @@
 }
 #content-upload-wrapper {
     /*border-top: #c8c8c8 thin solid;*/
+    overflow: hidden;
 }
 #content-upload-input { 
     margin: 0 0 0 0;

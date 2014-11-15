@@ -2077,7 +2077,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, pr
             $scope.newsfeedEnabled = data.newsfeedEnabled; 
         });
     }
-    
+    $scope.emoticons = iconsService.getEmoticons.get();
     $scope.showImage = function(imageId) {
         $scope.img_id = imageId;
     }
@@ -2577,6 +2577,17 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 		}
 	}
 	
+	$scope.questionText;
+	
+	 $scope.select_emoticon = function(code) {
+	    	if($scope.questionText == undefined){
+	    		$scope.questionText = code;
+	    	}else{
+	    		$scope.questionText += code;
+	    	}
+	    	$("#content-upload-input").focus();
+	    }
+	
 	$scope.ask_question_community = function(id, questionTitle, questionText) {
         // first convert to links
         questionText = convertText(questionText);
@@ -2590,11 +2601,11 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 		};
 		
 		$http.post('/communityQnA/question/post', data) // first create post with question text.
-			.success(function(post_id) {
+			.success(function(data) {
 				usSpinnerService.stop('loading...');
 				$('.postBox').val('');
-				var post = {"oid" : $scope.QnAs.lu, "ptl" : questionTitle, "pt" : questionText, "cn" : $scope.community.n, 
-						"isLike" : false, "nol" : 0, "p" : $scope.QnAs.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
+				var post = {"oid" : $scope.QnAs.lu, "ptl" : questionTitle, "pt" : data.text, "cn" : $scope.community.n, 
+						"isLike" : false, "nol" : 0, "p" : $scope.QnAs.lun, "t" : new Date(), "n_c" : 0, "id" : data.id, "cs": []};
 				$scope.QnAs.posts.unshift(post);
 				
 				if($scope.QnASelectedFiles.length == 0) {

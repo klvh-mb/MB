@@ -746,8 +746,11 @@ public class CommunityController extends Controller{
 
             sw.stop();
             logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"] postQuestionOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
+            Map<String,String> map = new HashMap<>();
+            map.put("id",p.id+"" );
+            map.put("text", p.body);
 
-            return ok(Json.toJson(p.id));
+            return ok(Json.toJson(map));
         }
         return ok("You are not member of this community");
     }
