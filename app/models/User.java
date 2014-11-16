@@ -1730,29 +1730,6 @@ public class User extends SocialObject implements Subject, Socializable {
         return noLoginUser;
     }
 
-	public String sendInvitation(String email) {
-		GameAccountReferral referral = new GameAccountReferral();
-		referral.sender_user_id = this.id;
-		String promoCode = UUID.randomUUID().toString();
-		referral.promoCode = promoCode;
-		referral.auditFields.setCreatedDate(new Date());
-		referral.save();
-
-		EDMUtility edmUtility = new EDMUtility();
-		edmUtility.sendMailToUser(email,promoCode);
-		return promoCode;
-	}
-	
-	public String getReferalCode(String email) {
-		GameAccountReferral referal = new GameAccountReferral();
-		referal.sender_user_id = this.id;
-		String promoCode = UUID.randomUUID().toString();
-		referal.promoCode = promoCode;
-		referal.auditFields.setCreatedDate(new Date());
-		referal.save();
-		return promoCode;
-	}
-
 	public void requestToRedemption(Long points) {
 		GameRedemption redemption = new GameRedemption();
 		redemption.redemption_state = Redemption_state.InProgress;

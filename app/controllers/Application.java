@@ -72,6 +72,7 @@ public class Application extends Controller {
             Play.application().configuration().getInt("signup.daily.limit", 1000);
     
     public static final String SIGNUP_EMAIL = "signup_email";
+    public static final String SESSION_PROMOCODE = "PROMO_CODE";
     public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";
 
@@ -183,7 +184,9 @@ public class Application extends Controller {
 	
 	@Transactional
 	public static Result homeWithPromoCode(String promoCode) {
-		session().put("PROMO_CODE", promoCode);
+		// put into http session
+        session().put(SESSION_PROMOCODE, promoCode);
+
 	    UserAgentUtil userAgentUtil = new UserAgentUtil(request());
 	    boolean isMobile = userAgentUtil.isMobileUserAgent();
 	    
@@ -225,7 +228,9 @@ public class Application extends Controller {
 		
 	    if (user.isNewUser()) {
             logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] Signup completed - "+(isMobileUser()?"mobile":"PC"));
-            GameAccount.setPointsForSignUp(user);
+
+            String promoCode = session().get(SESSION_PROMOCODE);
+            GameAccount.setPointsForSignUp(user, promoCode);
 
 	        CommunityTargetingEngine.assignSystemCommunitiesToUser(user);
 	        
@@ -480,8 +485,12 @@ public class Application extends Controller {
 			Result result = UsernamePasswordAuthProvider.handleSignup(ctx());
 		    String email = filledForm.get().email;
 		    session().put(SIGNUP_EMAIL, email);
-		    
-		    GameAccountReferral.setUser(User.findByEmail(email).id, session().get("PROMO_CODE"));
+
+            // check if this native signup was from a referral promo code
+            String promoCode = session().get(SESSION_PROMOCODE);
+            if (promoCode != null) {
+                GameAccountReferral.addReferralRecord(email, promoCode);
+            }
 		    
             logger.underlyingLogger().info("STS [email="+email+"] Native signup submitted");
 			return result;

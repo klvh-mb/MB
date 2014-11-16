@@ -11,11 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
-
 import models.Community;
 import models.Conversation;
 import models.Emoticon;
+import models.GameAccount;
 import models.Location;
 import models.Message;
 import models.Notification;
@@ -24,6 +23,8 @@ import models.Resource;
 import models.SiteTour;
 import models.User;
 import models.UserCommunityAffinity;
+import org.apache.commons.lang.exception.ExceptionUtils;
+
 import play.data.DynamicForm;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -46,7 +47,6 @@ import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
 
 import domain.DefaultValues;
-import email.EDMUtility;
 
 public class UserController extends Controller {
     private static final play.api.Logger logger = play.api.Logger.apply(UserController.class);
@@ -872,16 +872,22 @@ public class UserController extends Controller {
     @Transactional
     public static Result inviteByEmail(String email) {
 		final User localUser = Application.getLocalUser(session());
-		localUser.sendInvitation(email);
+
+        if (localUser.isLoggedIn()) {
+            GameAccount gameAccount = GameAccount.findByUserId(localUser.id);
+            gameAccount.sendInvitation(email);
+        } else {
+            logger.underlyingLogger().info("Not signed in. Skipped signup invitation to: "+email);
+        }
 		return ok();
 	}
-    
-    @Transactional
-    public static Result getReferalCodeForEmail(String email) {
-		final User localUser = Application.getLocalUser(session());
-		return ok("Referal code for "+email+" :"+localUser.getReferalCode(email));
-	}
-    
+
+    /**
+     * TODO: Redemption flow TBD
+     * @param id
+     * @param points
+     * @return
+     */
     @Transactional
     public static Result requestToRedemption(Long id, Long points) {
 		final User localUser = User.findById(id);

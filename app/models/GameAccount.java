@@ -9,7 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import common.utils.ShortCodeGenerator;
 import domain.GamificationConstants;
+import email.EDMUtility;
 import models.GameAccountTransaction.TransactionType;
 
 import play.db.jpa.JPA;
@@ -23,7 +25,7 @@ public class GameAccount extends domain.Entity {
 	public Long id;
 	
 	public Long user_id;
-	
+
 	private Long game_points = 0L;      // total capped points redeemable
     private Long activity_points = 0L;  // total points from activity
 
@@ -38,7 +40,8 @@ public class GameAccount extends domain.Entity {
 	public Long phone;
 	
 	public Boolean has_upload_profile_pic = false;
-	
+
+    public String promoCode;
 	public Long number_of_referral_signups = 0L;
 
     /**
@@ -46,27 +49,65 @@ public class GameAccount extends domain.Entity {
      */
 	public GameAccount() {}
 
-
+    /**
+     * Look up. Create if not exists.
+     * @param id
+     * @return
+     */
 	public static GameAccount findByUserId(Long id) {
 	    try { 
 	        Query q = JPA.em().createQuery("SELECT u FROM GameAccount u where user_id = ?1");
 	        q.setParameter(1, id);
 	        return (GameAccount) q.getSingleResult();
 	    } catch (NoResultException e) {
-	    	GameAccount account = new GameAccount();
-	    	account.user_id = id;
-            account.setCreatedDate(new Date());
-	    	account.save();
-            logger.underlyingLogger().info("[u="+id+"] Gamification - Created new GameAccount");
-	        return account;
+	        return createNewAccount(id);
 	    } 
 	}
+
+    private static GameAccount createNewAccount(Long userId) {
+        boolean uniquePromoCodeFound = false;
+        String tmpPromoCode = null;
+
+        while (!uniquePromoCodeFound) {
+            tmpPromoCode = ShortCodeGenerator.genPromoCode();
+            try {
+                Query q = JPA.em().createQuery("SELECT u FROM GameAccount u where promoCode = ?1");
+                q.setParameter(1, tmpPromoCode);
+                q.getSingleResult();
+            } catch (NoResultException e) {
+                uniquePromoCodeFound = true;
+            }
+        }
+
+        GameAccount account = new GameAccount();
+        account.user_id = userId;
+        account.promoCode = tmpPromoCode;
+        account.setCreatedDate(new Date());
+        account.save();
+
+        logger.underlyingLogger().info("[u="+userId+"] Gamification - New GameAccount. promoCode="+tmpPromoCode);
+        return account;
+    }
+
+    /**
+     * @param promoCode
+     * @return
+     */
+    public static GameAccount findByPromoCode(String promoCode) {
+	    try {
+	        Query q = JPA.em().createQuery("SELECT u FROM GameAccount u where promoCode = ?1");
+	        q.setParameter(1, promoCode);
+	        return (GameAccount) q.getSingleResult();
+	    } catch (NoResultException e) {
+	        return null;
+	    }
+    }
 
     /**
      * Sign up.
      * @param user
      */
-	public static void setPointsForSignUp(User user) {
+	public static void setPointsForSignUp(User user, String promoCode) {
         GameAccount account = GameAccount.findByUserId(user.id);
 
 		account.addPointsAcross(GamificationConstants.POINTS_SIGNUP);
@@ -74,27 +115,43 @@ public class GameAccount extends domain.Entity {
 		account.save();
 		GameAccountTransaction.recordPoints(user.id, GamificationConstants.POINTS_SIGNUP, TransactionType.SystemCredit, account.getGamePoints());
 
-        checkForReferral(user.id);
+        logger.underlyingLogger().info("[u="+user.id+"] Gamification - Credited signup");
+
+        accountForSignupReferral(user.email, promoCode);
 	}
 
-	private static void checkForReferral(Long id) {
-		GameAccountReferral referal = GameAccountReferral.findByInviteUserId(id);
-		if(referal == null)
-			return;
-		setPointsForReferalSignUp(referal.getSender_user_id());
-	}
+    // check if this signup came from a referral.
+	private static void accountForSignupReferral(String email, String promoCode) {
+        GameAccount referrerAccount = null;
 
-	private static void setPointsForReferalSignUp(Long senderUserId) {
-		GameAccount account = GameAccount.findByUserId(senderUserId);
-
-        if (account.number_of_referral_signups < GamificationConstants.LIMIT_REFERRAL_SIGNUP) {
-		    account.addPointsAcross(GamificationConstants.POINTS_REFERRAL_SIGNUP);
-            GameAccountTransaction.recordPoints(senderUserId, GamificationConstants.POINTS_REFERRAL_SIGNUP, TransactionType.SystemCredit, account.getGamePoints());
+        if (promoCode != null) {
+            referrerAccount = findByPromoCode(promoCode);
         }
-        account.number_of_referral_signups++;
-        account.auditFields.setUpdatedDate(new Date());
-		account.merge();
-	}
+        else {
+            GameAccountReferral referral = GameAccountReferral.findBySignupEmail(email);
+            if (referral != null) {
+                referrerAccount = findByPromoCode(referral.getPromoCode());
+            }
+        }
+
+        if (referrerAccount != null) {
+            if (referrerAccount.number_of_referral_signups < GamificationConstants.LIMIT_REFERRAL_SIGNUP) {
+                long referrerId = referrerAccount.user_id;
+                long numReferralsNow = referrerAccount.number_of_referral_signups + 1;
+
+                referrerAccount.addPointsAcross(GamificationConstants.POINTS_REFERRAL_SIGNUP);
+                GameAccountTransaction.recordPoints(referrerId,
+                        GamificationConstants.POINTS_REFERRAL_SIGNUP,
+                        TransactionType.SystemCredit,
+                        referrerAccount.getGamePoints());
+
+                logger.underlyingLogger().info("[u="+referrerId+"] Gamification - Credited referral. Num referrals = "+numReferralsNow);
+            }
+            referrerAccount.number_of_referral_signups++;
+            referrerAccount.auditFields.setUpdatedDate(new Date());
+            referrerAccount.merge();
+        }
+    }
 
     /**
      * Profile picture upload.
@@ -114,6 +171,15 @@ public class GameAccount extends domain.Entity {
         }
 	}
 
+    /**
+     * @param email
+     */
+    public void sendInvitation(String email) {
+		EDMUtility edmUtility = new EDMUtility();
+		edmUtility.sendMailToUser(email, this.promoCode);
+
+        logger.underlyingLogger().info("[u="+user_id+"] Promocode="+promoCode+". Sent signup invitation to: "+email);
+    }
 
     public void addPointsAcross(long newPoints) {
         game_points += newPoints;
