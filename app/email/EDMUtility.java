@@ -24,9 +24,7 @@ public class EDMUtility {
 
 		//final boolean isSecure = getConfiguration().getBoolean(SETTING_KEY_VERIFICATION_LINK_SECURE);
 	    //final String url = routes.Signup.verify(token).absoluteURL(ctx.request(), isSecure);
-        
-		System.out.println("User ::: "+email);
-		
+
 		final String text = getEmailTemplate(
 				"views.html.account.email.invitation_mail",
 				email,promoCode);
