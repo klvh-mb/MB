@@ -16,6 +16,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import models.Community;
 import models.Conversation;
 import models.Emoticon;
+import models.GameAccount;
 import models.Location;
 import models.Message;
 import models.Notification;
@@ -876,4 +877,30 @@ public class UserController extends Controller {
         response().setHeader("Cache-Control", "max-age=604800");
         return ok(Resource.findById(id).getRealFile());
     }
+
+    @Transactional
+    public static Result inviteByEmail(String email) {
+		final User localUser = Application.getLocalUser(session());
+
+        if (localUser.isLoggedIn()) {
+            GameAccount gameAccount = GameAccount.findByUserId(localUser.id);
+            gameAccount.sendInvitation(email);
+        } else {
+            logger.underlyingLogger().info("Not signed in. Skipped signup invitation to: "+email);
+        }
+		return ok();
+	}
+
+    /**
+     * TODO: Redemption flow TBD
+     * @param id
+     * @param points
+     * @return
+     */
+    @Transactional
+    public static Result requestToRedemption(Long id, Long points) {
+		final User localUser = User.findById(id);
+		localUser.requestToRedemption(points);
+		return ok();
+	}
 }

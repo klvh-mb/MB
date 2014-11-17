@@ -1,5 +1,6 @@
 package common.schedule;
 
+import models.GameAccountTransaction;
 import tagword.TaggingEngine;
 
 import java.io.*;
@@ -22,15 +23,28 @@ public class CommandChecker {
 
                 String strLine;
                 while ((strLine = br.readLine()) != null)   {
-                    if (strLine.startsWith("indexTagWords")) {
-                        TaggingEngine.indexTagWords();
-                    }
+                    performCommand(strLine);
                 }
 
                 in.close();
             } catch (Exception e) {
-                logger.underlyingLogger().error("", e);
+                logger.underlyingLogger().error("Error in performCommand", e);
             }
+        }
+    }
+
+    private static void performCommand(String commandLine) {
+        String[] tokens = commandLine.split("\\s");
+
+        if (commandLine.startsWith("indexTagWords")) {
+            TaggingEngine.indexTagWords();
+        }
+        else if (commandLine.startsWith("gamificationEOD")) {
+            Integer daysBefore = null;
+            if (tokens.length > 1) {
+                daysBefore = Integer.valueOf(tokens[1]);
+            }
+            GameAccountTransaction.performEndOfDayTasks(daysBefore);
         }
     }
 }

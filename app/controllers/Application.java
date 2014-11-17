@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 
+import models.GameAccount;
+import models.GameAccountReferral;
 import models.Location;
 import models.SecurityRole;
 import models.TermsAndConditions;
@@ -70,6 +72,7 @@ public class Application extends Controller {
             Play.application().configuration().getInt("signup.daily.limit", 1000);
     
     public static final String SIGNUP_EMAIL = "signup_email";
+    public static final String SESSION_PROMOCODE = "PROMO_CODE";
     public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";
 
@@ -163,7 +166,25 @@ public class Application extends Controller {
     public static boolean isOverDailySignupLimit() {
         return User.getTodaySignupCount() >= SIGNUP_DAILY_LIMIT;
     }
-	    
+
+    @Transactional
+	public static Result homeWithPromoCode(String promoCode) {
+		// put into http session
+        session().put(SESSION_PROMOCODE, promoCode);
+
+	    UserAgentUtil userAgentUtil = new UserAgentUtil(request());
+	    boolean isMobile = userAgentUtil.isMobileUserAgent();
+
+	    setMobileUser(isMobile? "true":"false");
+
+        final User localUser = getLocalUser(session());
+		if(!User.isLoggedIn(localUser)) {
+		    return login();
+		}
+
+		return home(localUser);
+	}
+
 	@Transactional
 	public static Result home() {
 	    UserAgentUtil userAgentUtil = new UserAgentUtil(request());
@@ -207,6 +228,9 @@ public class Application extends Controller {
 		
 	    if (user.isNewUser()) {
             logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] Signup completed - "+(isMobileUser()?"mobile":"PC"));
+
+            String promoCode = session().get(SESSION_PROMOCODE);
+            GameAccount.setPointsForSignUp(user, promoCode);
 
 	        CommunityTargetingEngine.assignSystemCommunitiesToUser(user);
 	        
@@ -460,6 +484,12 @@ public class Application extends Controller {
 			// Everything was filled
 		    String email = filledForm.get().email;
 		    session().put(SIGNUP_EMAIL, email);
+
+            // check if this native signup was from a referral promo code
+            String promoCode = session().get(SESSION_PROMOCODE);
+            if (promoCode != null) {
+                GameAccountReferral.addReferralRecord(email, promoCode);
+            }
 
             logger.underlyingLogger().info("STS [email="+email+"] Native signup submitted");
 			return UsernamePasswordAuthProvider.handleSignup(ctx());

@@ -52,6 +52,7 @@ GET     /magazine                   controllers.magazine.MagazineController.inde
 
 # Home
 GET     /my                         controllers.Application.home
+GET     /my/promoCode/:promoCode    controllers.Application.homeWithPromoCode(promoCode: String)
 
 GET     /login                      controllers.Application.login
 POST    /login                      controllers.Application.doLogin
@@ -248,3 +249,7 @@ GET     /searchForPosts/index/:query/:community_id/:offset  controllers.Applicat
 GET     /get-today-weather-info                 controllers.Application.getTodayWeatherInfo()
 
 GET     /image/article/:year/:month/:date/:name         controllers.ArticleController.getImage(year :Long, month :Long, date :Long, name : String)
+
+# Gamification
+GET		/invite-by-mail/:mail					controllers.UserController.inviteByEmail(mail: String)
+GET     /request-redemption/:id/:points			controllers.UserController.requestToRedemption(id: Long,points: Long)

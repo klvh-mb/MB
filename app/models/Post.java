@@ -177,6 +177,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
         this.deleted = true;
         this.deletedBy = deletedBy;
         save();
+        GameAccountStatistics.recordDeletePost(deletedBy.id);
     }
     
     public static Post findById(Long id) {

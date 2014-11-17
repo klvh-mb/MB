@@ -1,9 +1,9 @@
-import java.io.File;
 import java.util.Arrays;
 
 import common.cache.FriendCache;
 import common.schedule.CommandChecker;
 import common.schedule.JobScheduler;
+import models.GameAccountTransaction;
 import models.Notification;
 import models.SecurityRole;
 import models.SystemVersion;
@@ -126,7 +126,27 @@ public class Global extends GlobalSettings {
         logger.underlyingLogger().info("NewsFeed fullLength: "+ NewsfeedCommTargetingEngine.NEWSFEED_FULLLENGTH);
 	}
 
+    /**
+     * scheduleJobs
+     */
     private void scheduleJobs() {
+        // schedule Gamification EOD accounting daily at 12:10am HKT
+        JobScheduler.getInstance().schedule("gamificationEOD", "0 10 0 ? * *",
+            new Runnable() {
+                public void run() {
+                    try {
+                       JPA.withTransaction(new play.libs.F.Callback0() {
+                            public void invoke() {
+                                GameAccountTransaction.performEndOfDayTasks(1);
+                            }
+                        });
+                    } catch (Exception e) {
+                        logger.underlyingLogger().error("Error in gamificationEOD", e);
+                    }
+                }
+            }
+        );
+
         // schedule to purge notifications daily at 3:00am HKT
         JobScheduler.getInstance().schedule("purgeNotification", "0 00 3 ? * *",
             new Runnable() {
