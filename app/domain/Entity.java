@@ -6,8 +6,12 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Embedded;
 import javax.persistence.MappedSuperclass;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
+import controllers.Application;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+import play.mvc.Controller;
 
 @MappedSuperclass
 public class Entity
@@ -41,40 +45,43 @@ public class Entity
     this.auditFields.setUpdatedDate(updatedDate);
   }
   
+  @JsonIgnore
   public Date getCreatedDate() {
-	  return this.auditFields.getCreatedDate();
+      return this.auditFields.getCreatedDate();
   }
   
+  @JsonIgnore
   public Date getUpdatedDate() {
-	  return this.auditFields.getUpdatedDate();
+      return this.auditFields.getUpdatedDate();
   }
   
   @Transactional
   public void save() {
-	  JPA.em().persist(this);
-	  JPA.em().flush();
-	  postSave();
+      JPA.em().persist(this);
+      JPA.em().flush();
+      setCreatedBy(Application.getLocalUserName());
+      setCreatedDate(new Date());
+      postSave();
   }
   
   @Transactional
   public void delete() {
-	  JPA.em().remove(this);
-	  
+      JPA.em().remove(this);
   }
   
   @Transactional
   public void merge() {
-	  JPA.em().merge(this);
-	  
+      setUpdatedBy(Application.getLocalUserName());
+      setUpdatedDate(new Date());
+      JPA.em().merge(this);
   }
+  
   @Transactional
   public void refresh() {
-	  JPA.em().refresh(this);
-	  
+      JPA.em().refresh(this);
   }
   
   public void postSave() {
-	  
+      
   }
-  
 }

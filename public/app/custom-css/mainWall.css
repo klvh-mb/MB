@@ -18,6 +18,7 @@
 }
 #content-upload-wrapper {
     /*border-top: #c8c8c8 thin solid;*/
+    overflow: hidden;
 }
 #content-upload-input { 
     margin: 0 0 0 0;
@@ -142,13 +143,15 @@
     width: 28px;
     height: 28px;
     border-radius: 5px;
+    border: 1px solid #E9ECFC;
 }
 .post-title-user-name {
     font-weight: normal;
     font-size: 12px;
 }
 .post-title-user-name a {
-    
+    color: #6BA8DB;
+    font-weight: bold;
 }
 .post-date {
     color: #77737E;
@@ -184,14 +187,18 @@
     margin-right: 20px;
 }
 .post-qna-body-title a, .post-qna-body-title a:hover {
-    color: #006CE0;
+    color: #0521AB;
     line-height: 1.2;
     font-size: 18px;
     font-weight: normal;
     white-space: pre-wrap;
 }
-.post-qna-body-title:hover {
-    color: #4440AC;
+.post-qna-body-title a div {
+    /*background-color: #FDF7F7;*/
+    border-radius: 5px;
+    padding: 5px;
+    border-left: 3px solid #E5E2E2;
+    padding-left: 10px;
 }
 .post-qna-body-text, .post-qna-answer-body-text, .post-sharing-body-text {
     /*padding: 5px 0px 10px 0px;*/
@@ -257,6 +264,7 @@
     width: 28px;
     height: 28px;
     border-radius: 5px;
+    border: 1px solid #E9ECFC;
     margin-top: 2px;
 }
 .post-sharing-comments .post-comment-box {
@@ -318,6 +326,12 @@
     width: 20px;
     height: 20px;
     text-indent: -999px;
+}
+a.post-view-all-link {
+    color: #BD6C6C
+}
+a.post-view-all-link:hover {
+    color: #E01717
 }
 .btn-like-wrapper {
     position: relative;

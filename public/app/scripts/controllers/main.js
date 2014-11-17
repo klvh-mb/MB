@@ -193,40 +193,37 @@ minibean.controller('ApplicationController',
         $route.reload();
     }
     
+    $scope.adjustNavSlider = function() {
+        $('.rsThumb').css('width','auto');
+    }
+    
     // ideally should not define here, but need to call in 
     // MagazineNewsFeedController and ShowArticlesController
     $scope.renderNavSubBar = function() {
-        YUI().use("event","node","scrollview-base","scrollview-paginator",function(Y){
-            var magazineNavSubBar = new Y.ScrollView({
-                id: 'scrollview',
-                srcNode: '#magazine-nav-subbar',
-                flick: {
-                    minDistance:100,
-                    minVelocity:0.5
-                }
-            });
-            magazineNavSubBar.render();
-            
-            var articleNavSubBar = new Y.ScrollView({
-                id: 'scrollview',
-                srcNode: '#article-nav-subbar',
-                flick: {
-                    minDistance:100,
-                    minVelocity:0.5
-                }
-            });
-            articleNavSubBar.render();
-            
-            var knowledgeNavSubBar = new Y.ScrollView({
-                id: 'scrollview',
-                srcNode: '#knowledge-nav-subbar',
-                flick: {
-                    minDistance:100,
-                    minVelocity:0.5
-                }
-            });
-            knowledgeNavSubBar.render();
-        });
+        var opts = {
+            controlNavigation:'thumbnails',
+            imageScaleMode: 'fill',
+            arrowsNav: false,
+            arrowsNavHideOnTouch: true,
+            fullscreen: false,
+            loop: false,
+            thumbs: {
+              firstMargin: false,
+              paddingBottom: 0
+            },
+            usePreloader: false,
+            thumbsFirstMargin: false,
+            autoScaleSlider: false, 
+            autoHeight: false,
+            keyboardNavEnabled: true,
+            navigateByClick: true,
+            fadeinLoadedSlide: true,
+        };
+        var navSlider = $('#nav-slider').royalSlider(opts);
+        
+        // NOTE: this must exist to calculate the correct slider scrolling width!!! 
+        // OK to set to auto after slider init
+        $interval($scope.adjustNavSlider, 100, 1);
     }
     
     $scope.applicationInfo = applicationInfoService.ApplicationInfo.get();
@@ -2080,7 +2077,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, pr
             $scope.newsfeedEnabled = data.newsfeedEnabled; 
         });
     }
-    
+    $scope.emoticons = iconsService.getEmoticons.get();
     $scope.showImage = function(imageId) {
         $scope.img_id = imageId;
     }
@@ -2580,6 +2577,17 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 		}
 	}
 	
+	$scope.questionText;
+	
+	 $scope.select_emoticon = function(code) {
+	    	if($scope.questionText == undefined){
+	    		$scope.questionText = code;
+	    	}else{
+	    		$scope.questionText += code;
+	    	}
+	    	$("#content-upload-input").focus();
+	    }
+	
 	$scope.ask_question_community = function(id, questionTitle, questionText) {
         // first convert to links
         questionText = convertText(questionText);
@@ -2593,11 +2601,11 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 		};
 		
 		$http.post('/communityQnA/question/post', data) // first create post with question text.
-			.success(function(post_id) {
+			.success(function(data) {
 				usSpinnerService.stop('loading...');
 				$('.postBox').val('');
-				var post = {"oid" : $scope.QnAs.lu, "ptl" : questionTitle, "pt" : questionText, "cn" : $scope.community.n, 
-						"isLike" : false, "nol" : 0, "p" : $scope.QnAs.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
+				var post = {"oid" : $scope.QnAs.lu, "ptl" : questionTitle, "pt" : data.text, "cn" : $scope.community.n, 
+						"isLike" : false, "nol" : 0, "p" : $scope.QnAs.lun, "t" : new Date(), "n_c" : 0, "id" : data.id, "cs": []};
 				$scope.QnAs.posts.unshift(post);
 				
 				if($scope.QnASelectedFiles.length == 0) {
@@ -2923,12 +2931,141 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
     log("ArticleSliderController completed");
 });
 
-minibean.controller('ArticlePageController',function($scope, $modal, $routeParams, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService){
+minibean.controller('CampaignPageController',function($scope, $route, $location, $http, $modal, $routeParams, likeFrameworkService, campaignService, usSpinnerService){
+    log("CampaignPageController starts");
+
+    $scope.showCampaign = true;
+
+    $scope.campaign = campaignService.campaignInfo.get({id:$routeParams.id}, 
+        function(data) {
+            if(data[0] == 'NO_RESULT'){
+                $location.path('/campaign/show');
+            }
+            if ($scope.campaign.id == null || ($scope.campaign.cs == 'NEW' && !$scope.userInfo.isE)) {
+                $scope.showCampaign = false;
+            }
+        });
+    
+    $scope.popupLoginModal = function() {
+        bootbox.dialog({
+            message: 
+                "<div style='margin:0 20px;'>" + 
+                "<div style='height:25px;'>你並未登入。請先登入再參加活動" +
+                "<a style='float:right;' onclick='window.location=\"\/my#\/login\"'><b>會員登入</b></a></div>" +
+                "<div style='height:25px;'>如未有帳戶，請登記再重試~" +
+                "<a style='float:right;' onclick='window.location=\"\/my#\/signup\"'><b>立即註冊!</b></a></div>" +
+                "</div>",
+            title: "參加活動",
+            className: "campaign-login-modal",
+        });
+    }
+    
+    $scope.popupJoinCampaignModal = function(campaignId) {
+        translateValidationMessages();
+    }
+    
+    $scope.popupWithdrawCampaignModal = function(campaignId) {
+        translateValidationMessages();
+    }
+    
+    $scope.joinCampaign = function(campaignId) {
+        $scope.formData.campaignId = campaignId;
+
+        $scope.errorCampaignNotExist = false;        
+        $scope.errorJoinedAlready = false;
+        usSpinnerService.spin('loading...');
+        return $http.post('/join-campaign', $scope.formData).success(function(data){
+            usSpinnerService.stop('loading...');
+            $('#joinCampaignModal').modal('hide');
+            $scope.campaign.isJoined = true;
+        }).error(function(data, status, headers, config) {
+            if(status == 599){
+                usSpinnerService.stop('loading...');
+                window.location = '/my#/login';
+            } else if(status == 500){
+                usSpinnerService.stop('loading...');
+                $scope.errorCampaignNotExist = true;
+                //alert("沒有此活動");
+            } else if(status == 501){
+                usSpinnerService.stop('loading...');
+                $scope.errorJoinedAlready = true;
+                //alert("你之前已加活動。活動只可參加一次。");
+            }
+        });
+    }
+    
+     $scope.withdrawCampaign = function(campaignId) {
+        var formData = {
+            "campaignId" : campaignId
+        };
+
+        $scope.errorCampaignNotExist = false;        
+        usSpinnerService.spin('loading...');
+        return $http.post('/withdraw-campaign', formData).success(function(data){
+            usSpinnerService.stop('loading...');
+            $('#withdrawCampaignModal').modal('hide');
+            $scope.campaign.isJoined = false;
+        }).error(function(data, status, headers, config) {
+            if(status == 599){
+                usSpinnerService.stop('loading...');
+                window.location = '/my#/login';
+            } else if(status == 500){
+                usSpinnerService.stop('loading...');
+                $scope.errorCampaignNotExist = true;
+                //alert("沒有此活動");
+            }
+        });
+    }
+    
+    $scope.like_campaign = function(campaign_id) {
+        likeFrameworkService.hitLikeOnCampaign.get({"campaign_id":campaign_id}, 
+            function(data) {
+                $scope.campaign.nol++;
+                $scope.campaign.isLike=true;
+            });
+    }
+
+    $scope.unlike_campaign = function(campaign_id) {
+        likeFrameworkService.hitUnlikeOnCampaign.get({"campaign_id":campaign_id}, 
+            function(data) {
+                $scope.campaign.nol--;
+                $scope.campaign.isLike=false;
+            });
+    }
+    
+    log("CampaignController completed");
+});
+
+minibean.controller('ArticlePageController',function($scope, $modal, $routeParams, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService, tagwordService){
     log("ArticlePageController starts");
     
     $scope.get_header_metaData();
     
     $scope.selectNavBar($scope.getArticleCategoryGroup($routeParams.catId), $routeParams.catId);
+    
+    $scope.defaultCollapseCount = DefaultValues.TAGWORD_LIST_COLLAPSE_COUNT;
+    
+    // tag words
+    $scope.hotArticlesTagwords = tagwordService.HotArticlesTagwords.get({}, 
+        function(data) {
+            if (tagwordRequest && $routeParams.catGroup == 'HOT_ARTICLES') {
+                angular.forEach(data, function(tagword, key){
+                    if(tagword.id == tagwordId) {
+                        $scope.tagword = tagword;
+                    }
+                })
+            }
+        });
+    $scope.soonMomsTagwords = tagwordService.SoonMomsTagwords.get({}, 
+        function(data) {
+            if (tagwordRequest && $routeParams.catGroup == 'SOON_TO_BE_MOMS_ARTICLES') {
+                angular.forEach(data, function(tagword, key){
+                    if(tagword.id == tagwordId) {
+                        $scope.tagword = tagword;
+                    }
+                })
+            }
+        });
     
     $scope.hotArticles = articleService.HotArticles.get({category_id:$routeParams.catId});
     $scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:$routeParams.catId});

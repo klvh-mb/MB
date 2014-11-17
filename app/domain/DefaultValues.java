@@ -11,7 +11,7 @@ public class DefaultValues {
     public static int DEFAULT_UTILITY_COUNT = 5;
     public static int DEFAULT_INFINITE_SCROLL_COUNT = 7;
     public static int FEATURED_ARTICLES_COUNT = 6;
-    public static int ARTICLES_UTILITY_COUNT = 3;
+    public static int ARTICLES_UTILITY_COUNT = 5;
     public static int ARTICLES_RELATED_COUNT = 10;
     public static int FRIENDS_UTILITY_COUNT = 9;
     
@@ -23,7 +23,10 @@ public class DefaultValues {
     public static int CHILD_YEAR_MIN_AGE = -1;
     public static int CHILD_YEAR_MAX_AGE = 14;
 
-    public static int MAX_ARTICLES_COUNT = 200;
+    public static int MAX_ARTICLES_COUNT = 100;
+    public static int MAX_CAMPAIGN_COUNT = 100;
+    
+    public static int MAX_PREVIEW_CHARS = 200;
     
     private static DateTime NOW = new DateTime();
     

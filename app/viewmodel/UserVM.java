@@ -37,31 +37,33 @@ public class UserVM {
     @JsonProperty("isSignedInToday") public boolean isSignedInToday = false;
     
 	public UserVM(User user) {
-		this.firstName = user.firstName;
-		this.lastName = user.lastName;
-		this.displayName = user.displayName;
-		this.email = user.email;
-		if(user.userInfo != null) {
-			this.birthYear = user.userInfo.birthYear;
-			if(user.userInfo.gender != null) {
-				this.gender = user.userInfo.gender.name();
-			}
-			this.aboutMe = user.userInfo.aboutMe;
-			this.location = user.userInfo.location;
-		}
-		this.id = user.id;
-		this.noOfFriends = user.getFriendsSize();
-		this.noOfGroups = user.getListOfJoinedCommunityIds().size();
-		this.isLoggedIn = user.isLoggedIn();
-		if (this.isLoggedIn) {
+	    this.isMobile = Application.isMobileUser();
+	    this.id = user.id;
+	    this.isLoggedIn = user.isLoggedIn();
+	    if (user.isLoggedIn()) {
+    		this.firstName = user.firstName;
+    		this.lastName = user.lastName;
+    		this.displayName = user.displayName;
+    		this.email = user.email;
+    		if(user.userInfo != null) {
+    			this.birthYear = user.userInfo.birthYear;
+    			if(user.userInfo.gender != null) {
+    				this.gender = user.userInfo.gender.name();
+    			}
+    			this.aboutMe = user.userInfo.aboutMe;
+    			this.location = user.userInfo.location;
+    		}
+
+    		this.noOfFriends = user.getFriendsSize();
+    		this.noOfGroups = user.getListOfJoinedCommunityIds().size();
+    		this.isFbLogin = user.fbLogin;
+    		this.isHomeTourCompleted = user.isHomeTourCompleted();
+    		
 		    this.isSuperAdmin = user.isSuperAdmin();
 	        this.isBusinessAdmin = user.isBusinessAdmin();
 	        this.isCommunityAdmin = user.isCommunityAdmin();
 	        this.isEditor = user.isEditor();
 	        this.isAdmin = this.isSuperAdmin || this.isBusinessAdmin || this.isCommunityAdmin;    
-		}
-		this.isMobile = Application.isMobileUser();
-		this.isFbLogin = user.fbLogin;
-		this.isHomeTourCompleted = user.isHomeTourCompleted();
+	    }
 	}
 }

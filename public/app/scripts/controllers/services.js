@@ -632,6 +632,22 @@ minibean.service('likeFrameworkService', function($resource) {
                 get: {method:'get', params:{article_id:'@article_id'}}
             }
     );
+    
+    this.hitLikeOnCampaign = $resource(
+            '/like-campaign/:campaign_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{campaign_id:'@campaign_id'}}
+            }
+    );
+    
+    this.hitUnlikeOnCampaign = $resource(
+            '/unlike-campaign/:campaign_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{campaign_id:'@campaign_id'}}
+            }
+    );
 });
 
 minibean.service('communityQnAPageService',function($resource){
@@ -709,16 +725,19 @@ minibean.service('tagwordService',function($resource){
     );
 });
     
+minibean.service('campaignService',function($resource){
+    this.campaignInfo = $resource(
+            '/get-campaign-info/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
+});
+
 minibean.service('articleService',function($resource){
     this.AllArticleCategories = $resource(
             '/get-all-article-categories',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get',isArray:true}
-            }
-    );
-    this.AllArticles = $resource(
-            '/get-all-Articles',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get',isArray:true}

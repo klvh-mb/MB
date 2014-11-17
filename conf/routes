@@ -61,8 +61,13 @@ POST    /saveSignupInfoFb           controllers.Application.saveSignupInfoFb
 GET     /get-application-info       controllers.Application.getApplicationInfo
 GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
 
+GET     /get-campaign-info/:id      controllers.CampaignController.infoCampaign(id :Long)
+GET     /like-campaign/:id          controllers.CampaignController.onLike(id : Long)
+GET     /unlike-campaign/:id        controllers.CampaignController.onUnlike(id : Long)
+POST    /join-campaign              controllers.CampaignController.joinCampaign
+POST    /withdraw-campaign          controllers.CampaignController.withdrawCampaign
+
 GET     /get-all-article-categories     controllers.ArticleController.getAllArticleCategories
-GET     /get-all-Articles           controllers.ArticleController.getAllArticles
 GET     /get-Articles-Categorywise/:category_id/:offset     controllers.ArticleController.getArticlesCategorywise(category_id: Long, offset:Integer)
 GET     /get-Articles-TagWise/:tagword_id/:offset           controllers.ArticleController.getArticlesTagwise(tagword_id: Long, offset:Integer)
 GET     /get-Six-Articles/:category_id          controllers.ArticleController.getSixArticles(category_id: Long)
@@ -248,7 +253,8 @@ GET     /searchForPosts/index/:query/:community_id/:offset  controllers.Applicat
 
 GET     /get-today-weather-info                 controllers.Application.getTodayWeatherInfo()
 
-GET     /image/article/:year/:month/:date/:name         controllers.ArticleController.getImage(year :Long, month :Long, date :Long, name : String)
+GET     /image/article/:year/:month/:date/:name     controllers.ArticleController.getImage(year :Long, month :Long, date :Long, name : String)
+GET     /image/campaign/:year/:month/:date/:name    controllers.CampaignController.getImage(year :Long, month :Long, date :Long, name : String)
 
 # Gamification
 GET		/invite-by-mail/:mail					controllers.UserController.inviteByEmail(mail: String)

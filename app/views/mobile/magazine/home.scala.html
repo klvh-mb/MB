@@ -14,7 +14,8 @@
       	
       	<link rel="stylesheet" href="@routes.Assets.at("app/bower_components/angular-xeditable/dist/css/xeditable.css")">
       	<link rel="stylesheet" href="@routes.Assets.at("app/bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css")"/>
-      	<link rel="stylesheet" href="@routes.Assets.at("app/bower_components/yui/yui3/css/smartphone.css")" />
+      	<!--link rel="stylesheet" href="@routes.Assets.at("app/bower_components/yui/yui3/css/smartphone.css")" /-->
+      	<link rel="stylesheet" href="@routes.Assets.at("app/bower_components/royal-slider/rs-9.5.4/royalslider/royalslider.css")" />
       	
       	<link rel="stylesheet" href="@routes.Assets.at("app/scripts/lib/sidr/css/jquery.sidr.light.css")">
       	<link rel="stylesheet" href="@routes.Assets.at("app/custom-css/mobile/simple-sidebar-2.css")">
@@ -23,7 +24,6 @@
       	<link rel="shortcut icon" type="image/png" href="@routes.Assets.at("app/images/favicon-1.ico")">
     </head>
     <body id="main-app" class="menu-right-hidden" ng-app="minibean" ng-controller="ApplicationController">
-        <span us-spinner spinner-key="loading..." ></span>
         <div id="wrapper">
             <!-- Sliding menu -->
             <div ng-controller="SlidingMenuController" data-ng-include data-src="'/assets/app/views/mobile/sliding-menu.html'"></div>
@@ -73,8 +73,9 @@
     	<script src="@routes.Assets.at("app/scripts/lib/jquery.visible.min.js")"></script>
     	<script src="@routes.Assets.at("app/scripts/lib/sidr/jquery.sidr.min.js")"></script>
     	<script src="@routes.Assets.at("app/scripts/lib/bootbox-4.2.0.min.js")"></script>
-    	<script src="@routes.Assets.at("app/bower_components/yui/yui3/js/yui-min.js")"></script>
-    	
+    	<!--script src="@routes.Assets.at("app/bower_components/yui/yui3/js/yui-min.js")"></script-->
+        <script src="@routes.Assets.at("app/bower_components/royal-slider/rs-9.5.4/royalslider/jquery.royalslider.min.js")"></script>
+        
     	<script type="text/javascript" src="@routes.Assets.at("app/scripts/ads-init.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("app/scripts/mobile/magazine/app.js")"></script>
         <script type="text/javascript" src="@routes.Assets.at("app/scripts/directives.js")"></script>

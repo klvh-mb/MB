@@ -52,6 +52,17 @@ pre {
     border: 0px solid #ccc !important;
     border-radius: 0px !important;
 }
+.admin-visible-field, 
+.admin-visible-field span, 
+.admin-visible-field div,
+.admin-visible-field input,
+.admin-visible-field a,
+.admin-visible-field img,
+.admin-visible-field td,
+.admin-visible-field li {
+    color: #038100 !important;
+    font-style: italic;
+}
 #announce .tour-btn {
     font-size: 13px;
     padding: 2px 5px;
@@ -118,7 +129,8 @@ pre {
     margin: 100px auto;
 }
 .bootbox-default-prompt .modal-content {
-
+    border-color: #FCC9CB;
+    border-width: 3px;
 }
 #content {
     min-width: 280px;
@@ -303,9 +315,10 @@ a:focus {
     background: none;
 }
 #myShortcuts .con-title img {
-    width: 28px;
-    height: auto;
-    margin-right: 6px;
+    width: auto;
+    height: 22px;
+    margin: 0 8px 0 3px;
+    vertical-align: bottom;
 }
 #myShortcuts .con-title a {
     font-size: 13px;
@@ -1750,24 +1763,29 @@ a:focus {
     height: 100%;
 }
 .static-content-wrapper img {
-    width: 115px;
-    height: 85px;
+    width: 80px;
+    height: 60px;
     border-radius: 5px;
-    margin-top: 3px;
 }
 .static-content-wrapper ul {
+    margin: 0;
     padding: 0;
     list-style: none;
 }
 .static-content-wrapper li {
-    margin-bottom: 15px;
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
 }
-.static-content-wrapper div {
-    font-size: small;
-    clear: right;
-    width: 55%;
-    height: 85px;
+.static-content-wrapper li a {
+    font-size: 14px;
+    color:#324fe1;
+    line-height:1.2;
+}
+.static-content-wrapper .article-summary {
+    display: inline-block;
+    position: absolute;
     overflow: hidden;
+    padding: 0 10px;
 }
 /*Static Content Page General Box End*/
 
@@ -1960,7 +1978,7 @@ a:focus {
 }
 /*All Post Thumbnail End*/
 
-/*Post Detail Start*/
+/*Article Page Start*/
 .article-box-main {
     box-shadow: 0px 1px 3px rgba(136, 136, 136, 0.5);
 }
@@ -2029,7 +2047,110 @@ a:focus {
     white-space: pre-line;
     line-height: 1.4;
 }
-/*Post Detail End*/
+/*Article Page End*/
+
+/*Campaign Page Start*/
+.campaign-login-modal {
+    top: 150px;
+}
+.campaign-login-modal .modal-dialog {
+    width: 350px;
+    transition: none !important;
+    transform: none !important;
+}
+#joinCampaignModal.lightbox, #withdrawCampaignModal.lightbox {
+    background: rgba(0, 0, 0, 0.5);
+}
+#joinCampaignModal .modal-dialog, #withdrawCampaignModal .modal-dialog {
+    width: 400px;
+    margin: 200px auto;
+}
+#joinCampaignModal .modal-dialog td, #withdrawCampaignModal .modal-dialog td {
+    padding: 5px;
+}
+#joinCampaignModal .modal-dialog input, #withdrawCampaignModal .modal-dialog input {
+    border-radius: 25px;
+}
+.campaign-box-main {
+    border-color: #FAAF78;
+    border-width: 3px;
+    box-shadow: 0px 1px 5px rgba(242, 203, 150, 0.8);
+}
+.campaign-box-main .campaign-sticker {
+    text-align: center;
+}
+.campaign-detail-wrapper {
+    padding: 10px 35px 20px 35px;
+}
+.campaign-detail-wrapper .campaign-title, .campaign-detail-wrapper .campaign-title-ended {
+    font-size: 24px;
+    font-weight: bold;
+    display: block;
+    color: #FFFFFF;
+    margin: 0 -35px;
+    padding: 10px 35px;
+    border-radius: 0px;
+}
+.campaign-detail-wrapper .campaign-title {
+    background: #FD7310;
+}
+.campaign-detail-wrapper .campaign-title-ended {
+    background: #969AAE;
+}
+.campaign-detail-wrapper .campaign-details {
+    margin: 10px 0;
+}
+.campaign-detail-wrapper .campaign-details li {
+    width: 48%;
+    display: inline-block;
+    font-size: 15px;
+    vertical-align: top;
+}
+.campaign-detail-wrapper .campaign-details li img {
+    width: 100%;
+    height: auto;
+}
+.campaign-detail-wrapper .campaign-details table td {
+    padding: 3px;
+}
+.campaign-detail-wrapper .campaign-join-confirm {
+    margin: 10px 0;
+    color: #FD7310;
+    font-weight: bold;
+    font-size: 14px;
+}
+.campaign-detail-wrapper li {
+    clear: both;
+    padding-top: 10px;
+}
+.campaign-detail-wrapper li:first-child > a > img {
+    float: left;
+}
+.campaign-detail-wrapper div {
+    float: left;
+    padding-left: 3px;
+    position: relative;
+    width: 98%;
+}
+.campaign-detail-wrapper .post-like-num:after {
+    content: ' 人都讚好 ';
+}
+.campaign-detail-wrapper .post-like-num {
+    display: inline-block;
+}
+.campaign-detail-wrapper .post-like-num+a {
+    padding: 0 15px;
+}
+.campaign-detail-wrapper li img {
+    /*display: block;*/
+    max-width: 98%;
+}
+.campaign-detail-wrapper p {
+    padding-top: 10px;
+    white-space: pre-line;
+    line-height: 1.4;
+}
+/*Campaign Page End*/
 
 /*Related Post Start*/
 #relatePost {
@@ -2428,7 +2549,7 @@ a:focus {
 .scCatTitle {
     font-size: 15px;
     font-weight: bold;
-    border-bottom: 1px solid #CACACA;
+    border-bottom: 1px solid #FCC9CB;
     padding: 5px 10px;
 }
 .scCatMiniThumbnail {
@@ -2596,12 +2717,17 @@ span.notif-count {
 }
 .modal-dialog {
 }
+.modal-dialog .modal-footer {
+    border-color: #FCC9CB;
+    background-image: linear-gradient(to bottom, #FDF2F2, #FDF5F5);
+    background-color: #FDF2F2;
+}
 .modal-dialog .modal-header {
     height: 35px !important;
     border-radius: 0px !important;
-    /*background-color: rgb(253, 239, 255) !important;*/
-    /*background-image: linear-gradient(to bottom, rgb(255, 255, 255), rgb(248, 213, 255)) !important;*/
-    border-bottom: 1px solid #A8A8A8;
+    border-color: #FCC9CB;
+    background-image: linear-gradient(to bottom, #FDF2F2, #FDF5F5);
+    background-color: #FDF2F2;
 }
 .modal-dialog .modal-header .modal-title {
     font-size: 15px !important;
@@ -2611,8 +2737,9 @@ span.notif-count {
 .modal-dialog .modal-content {
     overflow-x: scroll !important;
     overflow-y: scroll !important;
-    border-width: 0px;
-    border-radius: 10px;
+    border-color: #FCC9CB;
+    border-width: 3px;
+    border-radius: 15px;
     top: 35px;
     max-width: 880px;
     max-height: 620px;
@@ -2620,16 +2747,22 @@ span.notif-count {
 .modal-dialog .modal-content .modal-body {
     padding: 10px;
 }
-.modal-dialog .modal-content input[type='text'], .modal-content textarea {
+.modal-dialog .modal-content input[type='text'],
+.modal-dialog .modal-content input[type='email'], 
+.modal-content textarea {
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 3px;
 }
-.modal-dialog .modal-content input[type='text']:hover, .modal-content textarea:hover {
+.modal-dialog .modal-content input[type='text']:hover,  
+.modal-dialog .modal-content input[type='email']:hover, 
+.modal-content textarea:hover {
     background-color: white;
     border-color: #66afe9;
 }
-.modal-dialog .modal-content input[type='text']:focus, .modal-content textarea:focus {
+.modal-dialog .modal-content input[type='text']:focus,
+.modal-dialog .modal-content input[type='email']:focus, 
+.modal-content textarea:focus {
     background-color: white;
     border-color: #66afe9;
 }
@@ -2665,6 +2798,7 @@ span.notif-count {
     float: none; 
     margin-right: 5px;
     vertical-align: text-bottom; 
+    border-radius: 0px;
 }
 .check-mark {
     color: #30AD25 !important;
@@ -2769,7 +2903,7 @@ span.notif-count {
     width: 85%;
     padding: 3px;
 }
-#article-link {
+#article-link, #campaign-link {
     width: 65%;
     padding: 5px;
 }
@@ -2832,8 +2966,51 @@ span.notif-count {
     border-color: #FCC9CB;
     border-radius: 15px;
     border-width: 3px;
+    font-size: 15px;
     margin: 0px 0 15px 0;
     box-shadow: 0px 1px 10px rgba(162, 6, 43, 0.5);
+}
+.top-box .index-title {
+    border-bottom: 2px solid #FCC9CB;
+    padding: 5px 10px;
+}
+.article-index-box {
+    border-color: #93C0ED;
+    box-shadow: 0px 1px 3px rgba(87, 101, 171, 0.5);
+}
+.article-index-box .index-title {
+    border-bottom: 2px solid #93C0ED;
+    padding: 5px 20px;
+}
+.knowledge-index-box {
+    border-color: #FCC9CB;
+    box-shadow: 0px 1px 3px rgba(162, 6, 43, 0.5);
+}
+.knowledge-index-box .index-title {
+    border-bottom: 2px solid #FCC9CB;
+    padding: 5px 20px;
+}
+.knowledge-index-box .left-group {
+    background: #FFF4F4;
+    border-bottom: 1px solid #ffffff;
+    color: #DD6868;
+    padding: 7px 10px;
+    font-weight: bold;
+    text-align: center;
+}
+.knowledge-index-box td {
+    text-align: center;
+    border-bottom: 1px solid #E4F0FC;
+}
+.knowledge-index-box td a {
+    color: #333;
+    padding: 3px 10px;
+}
+.knowledge-index-box .selected-item a {
+    background-color: #FFC2C4;
+    color: white;
+    border-radius: 15px;
+    font-weight: bold;
 }
 #communities-index {
     margin: 5px 0 15px 0;
@@ -3055,9 +3232,11 @@ span.notif-count {
     margin: 0px auto 10px auto;
     vertical-align: middle;
     text-align: center;
+    overflow: hidden;
 }
 .ads-factor-728x90 {
     margin: 0px auto 10px auto;
     vertical-align: middle;
     text-align: center;
+    overflow: hidden;
 }
