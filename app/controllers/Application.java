@@ -63,6 +63,9 @@ import domain.DefaultValues;
 public class Application extends Controller {
     private static final play.api.Logger logger = play.api.Logger.apply(Application.class);
 
+    public static final String APPLICATION_ENV = 
+            Play.application().configuration().getString("application.env", "dev");
+    
     public static final String APPLICATION_BASE_URL = 
             Play.application().configuration().getString("application.baseUrl");
     

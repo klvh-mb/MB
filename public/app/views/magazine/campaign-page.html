@@ -7,6 +7,19 @@
     <div class="row">
         <div class="col-md-6 col-sm-6 col-xs-6" style="width:710px;">
             <div id="wall">
+                <div class="campaign-winners-wrapper" ng-if="campaign.cs == 'ANNOUNCED' || campaign.cs == 'CLOSED'">
+                    <div class="campaign-winners-header"><img src="/assets/app/images/general/campaign_winners_greeting.png" /></div>
+                    <div class="campaign-winners-list" ng-if="campaign.at == 'WINNERS'">
+                        <ul>
+                            <li ng-repeat="winner in announcedWinners">
+                                {{winner.name}}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="campaign-winners-announcement" ng-if="campaign.an.length > 0">
+                        <div style="font-size:16px;width:100%;" class="ng-binding" ng-bind-html="campaign.an | to_trusted"></div>
+                    </div>
+                </div>
                 <div class="general-box campaign-box-main">
                     <div class="campaign-sticker">
                         <a href="#/campaign/show">
@@ -25,10 +38,6 @@
                         <li ng-if="!campaign.ac">
                             <font class="campaign-title-ended">【活動結束】{{campaign.nm}}</font>
                         </li>
-                        
-                        <li ng-if="campaign.cs == 'ANNOUNCED'">
-                            恭喜各得獎者
-                        </li>
                         <li>
                             <ul class="campaign-details">
                                 <li>
@@ -42,12 +51,9 @@
                                         <tr>
                                             <td>報名截止:</td><td><b>{{campaign.ed | date:'M/dd/yyyy hh:mm a'}}</b></td>
                                         </tr>
-                                        <tr class="admin-visible-field" ng-if="userInfo.isE">
-                                            <td>State:</td><td><b>{{campaign.cs}}</b></td>
-                                        </tr>
                                     </table>
                                     <div style="padding:10px;">
-                                        <span ng-if="campaign.cs == 'STARTED'">
+                                        <span ng-if="campaign.ac && campaign.cs == 'STARTED'">
                                             <span ng-if="userInfo.isLoggedIn">
                                                 <span ng-if="!campaign.isJoined">
                                                     <a href="" ng-click="popupJoinCampaignModal(campaign.id)" data-toggle="modal" data-target="#joinCampaignModal" ng-if="!campaign.isJoined">
@@ -67,13 +73,24 @@
                                                 </a>
                                             </span>
                                         </span>
-                                        <span ng-if="campaign.cs == 'ENDED'">
+                                        <span ng-if="!campaign.ac">
                                             <img style="height:30px;width:auto;" src="/assets/app/images/general/btn_campaign_ended.png">
                                         </span>
                                     </div>
                                     <div style="padding-top:20px;">
-                                        <span class="btn-like-wrapper admin-visible-field"><span ng-show="userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{campaign.nov}}</span></span>
                                         <span data-ng-include data-src="'/assets/app/views/like-campaign.html'"></span>
+                                    </div>
+                                    <div class="admin-visible-field" ng-if="userInfo.isE">
+                                        <div class="padding20"></div>
+                                        <div>
+                                            <span>State: <b>{{campaign.cs}}</b></span>
+                                        </div>
+                                        <div>
+                                            <span>Joined Users: <b>{{campaign.uc}}</b></span>
+                                        </div>
+                                        <div>
+                                            <span class="btn-like-wrapper"><span class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{campaign.nov}}</span></span>
+                                        </div>
                                     </div>
                                 </li>
                             </ul>
@@ -81,7 +98,6 @@
                         <li><div style="font-size:16px;width:100%;" class="ng-binding" ng-bind-html="campaign.ds | to_trusted"></div></li>
                         <li>
                             <div style="margin-top:50px">
-                                <span class="btn-like-wrapper admin-visible-field"><span ng-show="userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{campaign.nov}}</span></span>
                                 <span data-ng-include data-src="'/assets/app/views/like-campaign.html'"></span>
                             </div>
                         </li>
@@ -94,7 +110,7 @@
                             </div>
                         </li>
                     </ul>
-                    <div><img style="margin-top:10px;" src="/assets/app/images/general/campaign_footer.png" /></div>
+                    <div class="general-box-footer"><img style="margin-top:10px;" src="/assets/app/images/general/campaign_footer.png" /></div>
                 </div>
             </div>
         </div>
@@ -159,7 +175,7 @@
     </div>
 </div>
 
-<!-- Join Campaign Modal -->
+<!-- Withdraw Campaign Modal -->
 <div class="modal fade lightbox" id="withdrawCampaignModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog">
         <div class="modal-content">

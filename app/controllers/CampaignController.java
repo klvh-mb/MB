@@ -4,15 +4,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.NoResultException;
-
 import com.mnt.exception.SocialObjectNotLikableException;
 
 import common.utils.ImageUploadUtil;
 import models.Campaign;
 import models.Campaign.CampaignType;
-import models.CampaignActionsMeta;
 import models.CampaignActionsUser;
+import models.CampaignWinner;
+import models.CampaignWinner.WinnerState;
 import models.User;
 import play.data.DynamicForm;
 import play.db.jpa.Transactional;
@@ -21,11 +20,47 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import viewmodel.CampaignUserJoinStatusVM;
 import viewmodel.CampaignVM;
+import viewmodel.CampaignWinnerVM;
 
 public class CampaignController extends Controller {
     private static play.api.Logger logger = play.api.Logger.apply(CampaignController.class);
 
     private static final ImageUploadUtil imageUploadUtil = new ImageUploadUtil("campaign");
+    
+    public static Long getJoinedUsersCount(Long campaignId) {
+        Campaign campaign = Campaign.findById(campaignId);
+        if (campaign == null) {
+            return -1L;
+        }
+        
+        Long count = -1L;
+        if (CampaignType.ACTIONS == campaign.campaignType) {
+            count = CampaignActionsUser.getJoinedUsersCount(campaignId);
+        } else if (CampaignType.QUESTIONS == campaign.campaignType) {
+            // TODO
+        } else if (CampaignType.VOTING == campaign.campaignType) {
+            // TODO
+        } else if (CampaignType.PHOTO_CONTEST == campaign.campaignType) {
+            // TODO
+        }
+        
+        return count;
+    }
+    
+    @Transactional
+    public static Result getCampaignAnnouncedWinners(Long campaignId) {
+        List<CampaignWinner> winners = CampaignWinner.getWinners(campaignId);
+        List<CampaignWinnerVM> vms = new ArrayList<>();
+        for (CampaignWinner winner : winners) {
+            if (WinnerState.ANNOUNCED.equals(winner.winnerState) || 
+                    WinnerState.ACCEPTED.equals(winner.winnerState) || 
+                    WinnerState.DELIVERED.equals(winner.winnerState)) {
+                CampaignWinnerVM vm = new CampaignWinnerVM(winner);
+                vms.add(vm);
+            }
+        }
+        return ok(Json.toJson(vms));
+    }
     
     @Transactional
     public static Result getAllCampaigns() {

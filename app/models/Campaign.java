@@ -64,7 +64,18 @@ public class Campaign extends SocialObject implements Commentable, Likeable {
         VOTING,
         PHOTO_CONTEST
     }
+    
+    @Lob
+    public String announcement;
 	
+    @Enumerated(EnumType.STRING)
+    public AnnouncementType announcementType;
+    
+    public static enum AnnouncementType {
+        WINNERS,
+        CUSTOM
+    }
+    
 	public Campaign(String name, String description, CampaignType campaignType, Date startDate, Date endDate) {
 		this.name = name;
 		this.description = description;
@@ -86,7 +97,7 @@ public class Campaign extends SocialObject implements Commentable, Likeable {
 	}
 	
 	public static Campaign findById(Long id) {
-		Query q = JPA.em().createQuery("SELECT c FROM Campaign c where id = ?1 and c.deleted = false");
+		Query q = JPA.em().createQuery("SELECT c FROM Campaign c where c.id = ?1 and c.deleted = false");
 		q.setParameter(1, id);
 		try {
 		    return (Campaign) q.getSingleResult();

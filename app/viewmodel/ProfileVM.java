@@ -18,14 +18,23 @@ public class ProfileVM {
     @JsonProperty("n_p") public long photos;
     @JsonProperty("id")  public long id;
     
-    @JsonProperty("em")  public String email;
-    @JsonProperty("ll")  public String lastLogin;
-    @JsonProperty("fb")  public boolean isFbLogin;
-    
     @JsonProperty("n_c") public long nocommunities;
     @JsonProperty("l_f") public List<User> friends;
     @JsonProperty("isf") boolean isFriend;
     @JsonProperty("isP") boolean isFriendRequestPending;
+    
+    // admin readonly fields
+    @JsonProperty("mb")  public boolean mobileSignup;
+    @JsonProperty("fb")  public boolean fbLogin;
+    @JsonProperty("vl")  public boolean emailValidated;
+    @JsonProperty("em")  public String email;
+    @JsonProperty("sd")  public String signupDate;
+    @JsonProperty("ll")  public String lastLogin;
+    @JsonProperty("tl")  public long totalLogin;
+    @JsonProperty("qc")  public long questionsCount;
+    @JsonProperty("ac")  public long answersCounts;
+    @JsonProperty("lc")  public long likesCount;
+    @JsonProperty("wc")  public long wantAnsCount;
     
     public static ProfileVM profile(User user, User localUser) {
         ProfileVM vm = new ProfileVM();
@@ -38,14 +47,26 @@ public class ProfileVM {
 			vm.aboutMe = user.userInfo.aboutMe;
 			vm.location = user.userInfo.location;
 		}
-        vm.email = user.email;
-        vm.lastLogin = user.lastLogin.toString();
-        vm.isFbLogin = user.fbLogin;
+        
         //vm.friends = user.getFriends();
         vm.nofriends = user.getFriendsSize();
         vm.isFriend = user.isFriendOf(localUser);
         vm.isFriendRequestPending = user.isFriendRequestPendingFor(localUser);
         vm.id = user.id;
+
+        // admin readonly fields
+        vm.mobileSignup = user.mobileSignup;
+        vm.fbLogin = user.fbLogin;
+        vm.emailValidated = user.emailValidated;
+        vm.email = user.email;
+        vm.signupDate = user.getCreatedDate().toString();
+        vm.lastLogin = user.lastLogin.toString();
+        vm.totalLogin = user.totalLogin;
+        vm.questionsCount = user.questionsCount;
+        vm.answersCounts = user.answersCount;
+        vm.likesCount = user.likesCount;
+        vm.wantAnsCount = user.wantAnsCount;
+        
         return vm;
     }
 }

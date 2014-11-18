@@ -4,10 +4,14 @@
     border-color: #e5e6e9 #dfe0e4 #d0d1d5;
     background-color: white;
     margin-bottom: 10px;
-    overflow: visible;
+    overflow: hidden;
     -webkit-box-shadow: 0px 0px 3px 0px rgba(130, 130, 130, 0.5);
     -moz-box-shadow: 0px 0px 3px 0px rgba(130, 130, 130, 0.5);
     box-shadow: 0px 0px 3px 0px rgba(130, 130, 130, 0.5);
+}
+.general-box-footer {
+}
+.general-box-footer img {
 }
 .widget-box {
     border: 1px solid #FDB2B2;

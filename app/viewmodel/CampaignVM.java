@@ -13,6 +13,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import com.mnt.exception.SocialObjectNotLikableException;
 
 import common.utils.DateTimeUtil;
+import controllers.CampaignController;
 import domain.DefaultValues;
 
 public class CampaignVM {
@@ -22,14 +23,19 @@ public class CampaignVM {
 	@JsonProperty("ds") public String description;
 	@JsonProperty("ct") public String campaignType;
 	@JsonProperty("cs") public String campaignState;
-	@JsonProperty("ac") public boolean isActive = false;
 	@JsonProperty("sd") public String startDate;
 	@JsonProperty("ed") public String endDate;
+	@JsonProperty("at") public String announcementType;
+	@JsonProperty("an") public String announcement;
+	
+	@JsonProperty("ac") public boolean isActive = false;
 	@JsonProperty("nol") public int noOfLikes;
     @JsonProperty("nov") public int noOfViews;
     @JsonProperty("isJoined") public boolean isJoined = false;
     @JsonProperty("isLike") public boolean isLike = false;
 
+    @JsonProperty("uc") public Long joinedUsersCount = -1L;
+    
 	public CampaignVM(Campaign campaign) {
 	    this(campaign, false);
 	}
@@ -48,11 +54,13 @@ public class CampaignVM {
 		if ((campaign.campaignState == CampaignState.NEW || 
 		        campaign.campaignState == CampaignState.PUBLISHED || 
 		        campaign.campaignState == CampaignState.STARTED) && 
-		        campaign.endDate.before(new Date())) {
+		        campaign.endDate.after(new Date())) {
 		    this.isActive = true;
 		}
 		this.startDate = DateTimeUtil.toString(campaign.startDate);
 		this.endDate = DateTimeUtil.toString(campaign.endDate);
+		this.announcementType = campaign.announcementType.name();
+		this.announcement = campaign.announcement;
 		
 		this.noOfLikes = campaign.noOfLikes;
 		this.noOfViews = campaign.noOfViews;
@@ -75,6 +83,10 @@ public class CampaignVM {
             this.isLike = campaign.isLikedBy(user);
         } catch (SocialObjectNotLikableException e) {
             ;
+        }
+        
+        if (user.isEditor()) {
+            this.joinedUsersCount = CampaignController.getJoinedUsersCount(campaign.id);
         }
     }
 }

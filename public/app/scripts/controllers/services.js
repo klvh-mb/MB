@@ -733,6 +733,13 @@ minibean.service('campaignService',function($resource){
                 get: {method:'get'}
             }
     );
+    this.campaignAnnouncedWinners = $resource(
+            '/get-campaign-announced-winners/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
 });
 
 minibean.service('articleService',function($resource){

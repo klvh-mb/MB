@@ -2,9 +2,11 @@
 #content-uploader {
     border-radius: 0px 0px 10px 10px;
     margin-bottom: 10px;
+    overflow: visible;
 }
 #content-uploader ul {
     list-style: none;
+    margin-bottom: 0;
 }
 #content-uploader li a {
     display: inline-block;

@@ -675,6 +675,9 @@ span.notif-count {
     font-size: 15px;
     font-weight: normal;
 }
+.scTitle {
+    font-size: 28px;
+}
 .article-detail-wrapper {
     padding: 10px 15px;
 }
@@ -746,12 +749,28 @@ span.notif-count {
     border: 0px;
 }
 
+/* Campaign */
+.campaign-detail-wrapper {
+    padding: 10px 15px 20px 15px;
+}
+.campaign-detail-wrapper .campaign-title, .campaign-detail-wrapper .campaign-title-ended {
+    font-size: 20px;
+}
+.campaign-detail-wrapper .campaign-details li {
+    width: auto;
+}
+#joinCampaignModal .modal-dialog, #withdrawCampaignModal .modal-dialog {
+    width: 100%;
+    margin: 100px auto;
+}
+
 /* Game */
 #game-info div {
     margin: 3px 0;
     line-height: 20px;
 }
 
+/* ads */
 .ads-factor-1x1 {
 }
 .ads-factor-300x250 {

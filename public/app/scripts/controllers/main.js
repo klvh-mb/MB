@@ -2,7 +2,7 @@
 
 var minibean = angular.module('minibean');
 
-minibean.controller('BusinessCommunityPageController', function($scope, $routeParams, profilePhotoModal, iconsService,
+minibean.controller('BusinessCommunityPageController', function($scope, $routeParams, profilePhotoModal,
         communityPageService, communityJoinService, searchMembersService, usSpinnerService){
     
     log("BusinessCommunityPageController starts");
@@ -87,8 +87,6 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
         });
     }
     
-    //$scope.icons = iconsService.getCommunityIcons.get();
-    
     log("BusinessCommunityPageController completed");
 });
 
@@ -139,7 +137,7 @@ minibean.controller('ApplicationController',
     function($scope, $location, $interval, $route, $window, 
         applicationInfoService, announcementsService, headerBarMetadataService, userInfoService,
         acceptJoinRequestService, acceptFriendRequestService, notificationMarkReadService,
-        communityCategoryService, articleService, usSpinnerService) {
+        communityCategoryService, articleService, iconsService, usSpinnerService) {
 
     log("ApplicationController starts");
 
@@ -235,6 +233,8 @@ minibean.controller('ApplicationController',
         }
 	);
 	$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
+
+    $scope.emoticons = iconsService.getEmoticons.get();
 
     $scope.topAnnouncements = announcementsService.getTopAnnouncements.get();
 	$scope.businessCommunityCategories = communityCategoryService.getAllBusinessCommunityCategories.get();
@@ -2035,7 +2035,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     log("QnALandingController completed");
 });
 
-minibean.controller('CommunityPageController', function($scope, $routeParams, profilePhotoModal, iconsService,
+minibean.controller('CommunityPageController', function($scope, $routeParams, profilePhotoModal,
         communityPageService, communityJoinService, searchMembersService, usSpinnerService){
     
     log("CommunityPageController starts");
@@ -2077,7 +2077,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, pr
             $scope.newsfeedEnabled = data.newsfeedEnabled; 
         });
     }
-    $scope.emoticons = iconsService.getEmoticons.get();
+    
     $scope.showImage = function(imageId) {
         $scope.img_id = imageId;
     }
@@ -2128,12 +2128,10 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, pr
         });
     }
     
-    //$scope.icons = iconsService.getCommunityIcons.get();
-    
     log("CommunityPageController completed");
 });
 
-minibean.controller('CommunityPostController', function($scope, $routeParams, $http, profilePhotoModal, iconsService,
+minibean.controller('CommunityPostController', function($scope, $routeParams, $http, profilePhotoModal,
 		allCommentsService, communityPageService, postManagementService, likeFrameworkService, bookmarkPostService, communityJoinService, $upload, $timeout, usSpinnerService){
 	
 	log("CommunityPostController starts");
@@ -2577,17 +2575,18 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 		}
 	}
 	
-	$scope.questionText;
+	$scope.questionText = ""; 
 	
-	 $scope.select_emoticon = function(code) {
-	    	if($scope.questionText == undefined){
-	    		$scope.questionText = code;
-	    	}else{
-	    		$scope.questionText += code;
-	    	}
-	    	$("#content-upload-input").focus();
-	    }
-	
+    $scope.select_emoticon = function(code) {
+        if($scope.questionText == undefined){
+            $scope.questionText = code;
+        }else{
+            $scope.questionText += code;
+        }
+        //$("#content-upload-input").val($("#message-inputfield").val() + code);
+        $("#content-upload-input").focus();
+    }
+    
 	$scope.ask_question_community = function(id, questionTitle, questionText) {
         // first convert to links
         questionText = convertText(questionText);
@@ -2936,6 +2935,8 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
 
     $scope.showCampaign = true;
 
+    $scope.announcedWinners = [];
+    
     $scope.campaign = campaignService.campaignInfo.get({id:$routeParams.id}, 
         function(data) {
             if(data[0] == 'NO_RESULT'){
@@ -2943,6 +2944,9 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
             }
             if ($scope.campaign.id == null || ($scope.campaign.cs == 'NEW' && !$scope.userInfo.isE)) {
                 $scope.showCampaign = false;
+            }
+            if ($scope.campaign.cs == 'ANNOUNCED' || $scope.campaign.cs == 'CLOSED') {
+                $scope.announcedWinners = campaignService.campaignAnnouncedWinners.get({id:$routeParams.id});
             }
         });
     
@@ -3284,7 +3288,7 @@ minibean.controller('ShowArticlesController',function($scope, $modal, $routePara
 	log("ShowArticlesController completed");
 });
 
-minibean.controller('MyMagazineNewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, myMagazineNewsFeedService, iconsService) {
+minibean.controller('MyMagazineNewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, myMagazineNewsFeedService) {
     log("MyMagazineNewsFeedController starts");
     
     $scope.newsFeeds = { posts: [] };
@@ -3427,7 +3431,7 @@ minibean.controller('MyMagazineNewsFeedController', function($scope, postManagem
     log("MyMagazineNewsFeedController completed");
 });
 
-minibean.controller('NewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, newsFeedService, iconsService) {
+minibean.controller('NewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, newsFeedService) {
 	log("NewsFeedController starts");
 
     $scope.get_header_metaData();
@@ -3444,8 +3448,6 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
     }
 
 	/*
-	$scope.emoticons = iconsService.getEmoticons.get();
-
     $scope.commentText = "";
 
     $scope.select_emoticon = function(code) {
@@ -4406,12 +4408,10 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 	log("MyBookmarkController completed");
 });
 
-minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $routeParams, $sce, searchFriendService, usSpinnerService, getMessageService, allConversationService, iconsService) {
+minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $routeParams, $sce, searchFriendService, usSpinnerService, getMessageService, allConversationService) {
     log("UserConversationController starts");
 
     $scope.selectNavBar('HOME', -1);
-
-    $scope.emoticons = iconsService.getEmoticons.get();
 
     $scope.messageText = "";
 

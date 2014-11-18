@@ -26,6 +26,8 @@ public class CampaignActionsUser extends domain.Entity {
 	
 	public Boolean withdraw = false;
 	
+	public CampaignActionsUser() {}
+	
 	public CampaignActionsUser(Long campaignId, Long userId) {
 	    this.campaignId = campaignId;
 	    this.userId = userId;
@@ -54,4 +56,12 @@ public class CampaignActionsUser extends domain.Entity {
         q.setParameter(2, campaignId);
         q.executeUpdate();
 	}
+	
+    @Transactional
+    public static Long getJoinedUsersCount(Long campaignId) {
+        Query q = JPA.em().createQuery("Select count(u) from CampaignActionsUser u where campaignId = ?1 and withdraw = false");
+        q.setParameter(1, campaignId);
+        Long count = (Long)q.getSingleResult();
+        return count;
+    }
 }

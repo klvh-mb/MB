@@ -11,7 +11,7 @@ public class DefaultValues {
     public static int DEFAULT_UTILITY_COUNT = 5;
     public static int DEFAULT_INFINITE_SCROLL_COUNT = 7;
     public static int FEATURED_ARTICLES_COUNT = 6;
-    public static int ARTICLES_UTILITY_COUNT = 5;
+    public static int ARTICLES_UTILITY_COUNT = 4;
     public static int ARTICLES_RELATED_COUNT = 10;
     public static int FRIENDS_UTILITY_COUNT = 9;
     
