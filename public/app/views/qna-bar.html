@@ -91,17 +91,17 @@
             </a>
             <form class="post-comment-box" name="userComment" method="post" action="">
                 <label for="User Comment"></label>
-                <textarea type="text" name="userCommentfield" id="userCommentfield" class="general-textfield post-qna-reply-textfield" placeholder="回覆..." cols="70" data-ng-model="commentText" rows="1"></textarea>
-                <!--a class="dropdown-toggle dropdown-hover colorChange post-emoticon-dropdown" data-toggle="dropdown" href="#">
+                <textarea type="text" style="width: 294px;"id="ta{{$index}}" name="userCommentfield" id="userCommentfield" class="general-textfield post-qna-reply-textfield" placeholder="å›žè¦†..." cols="70" data-ng-model="commentText" rows="1"></textarea>
+                <a class="dropdown-toggle dropdown-hover colorChange post-emoticon-dropdown" data-toggle="dropdown" href="#">
                     <img src="../assets/app/images/emoticons/smile.png" />
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right icon-dropdown post-emoticon-dropdown-menu">
                     <li data-ng-repeat="emoticon in emoticons">
-                        <a href="" data-ng-click="select_emoticon(emoticon.code)">
+                        <a href="" data-ng-click="select_emoticon_comment(emoticon.code,$parent.$index)">
                             <img class="emoticon" data-ng-src="{{emoticon.url}}"/>
                         </a>
                     </li>
-                </ul-->
+                </ul>
                 <a class="post-photo-icon" data-ng-hide="qnaCommentSelectedFiles.length >= 3 && commentedOnPost == post.id" id="upload">
                     <i class="icon-photo-camera-fill" data-ng-click="qnaCommentPhoto(post.id)"></i>
                 </a>

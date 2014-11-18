@@ -785,7 +785,10 @@ public class CommunityController extends Controller{
                 sw.stop();
                 logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"][p="+postId+"] answerToQuestionOnQnACommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
 
-                return ok(Json.toJson(comment.id));
+                Map<String, String> map = new HashMap<>();
+                map.put("id", comment.id+"");
+                map.put("text", comment.body);
+                return ok(Json.toJson(map));
             } catch (SocialObjectNotCommentableException e) {
                 logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
             }

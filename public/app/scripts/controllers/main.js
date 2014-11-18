@@ -2575,16 +2575,24 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 		}
 	}
 	
-	$scope.questionText = ""; 
-	
     $scope.select_emoticon = function(code) {
-        if($scope.questionText == undefined){
-            $scope.questionText = code;
+        if($("#content-upload-input").val()){
+        	$("#content-upload-input").val($("#content-upload-input").val() + code);
         }else{
-            $scope.questionText += code;
+        	$("#content-upload-input").val(code);
         }
         //$("#content-upload-input").val($("#message-inputfield").val() + code);
         $("#content-upload-input").focus();
+    }
+    
+    $scope.select_emoticon_comment = function(code,index) {
+        if($("#ta"+index).val()){
+        	$("#ta"+index).val($("#ta"+index).val() + code);
+        }else{
+        	$("#ta"+index).val(code);
+        }
+        //$("#content-upload-input").val($("#message-inputfield").val() + code);
+        //$("#ta"+index).focus();
     }
     
 	$scope.ask_question_community = function(id, questionTitle, questionText) {
@@ -2660,14 +2668,14 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 		
 		var post_data = data;
 		$http.post('/communityQnA/question/answer', data) 
-			.success(function(answer_id) {
+			.success(function(responce) {
 				$('.commentBox').val('');
 				angular.forEach($scope.QnAs.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
 						post.ut = new Date();
-						var answer = {"oid" : $scope.QnAs.lu, "d" : answerText, "on" : $scope.QnAs.lun, 
-								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
+						var answer = {"oid" : $scope.QnAs.lu, "d" : responce.text, "on" : $scope.QnAs.lun, 
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : responce.id};
                         post.cs.push(answer);
 					  
 						if($scope.qnaCommentSelectedFiles.length == 0) {
