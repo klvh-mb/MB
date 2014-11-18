@@ -87,14 +87,14 @@ var getDefaultRegisteredAd = function() {
     if (typeof defaultRegisteredAd !== 'undefined') {
         elem = defaultRegisteredAd;
         //console.error('AD: set default already - '+elem);
-    } else if (registeredAds[11].length > 0) {
-        var lastIndex = registeredAds[11].length-1;
-        elem = registeredAds[11][lastIndex];
-        //console.error('AD: set default 1x1 - '+elem);
     } else if (registeredAds[300250].length > 0) {
         var lastIndex = registeredAds[300250].length-1;
         elem = registeredAds[300250][lastIndex];
         //console.error('AD: set default 300x250 - '+elem);
+    } else if (registeredAds[11].length > 0) {
+        var lastIndex = registeredAds[11].length-1;
+        elem = registeredAds[11][lastIndex];
+        //console.error('AD: set default 1x1 - '+elem);
     } else if (registeredAds[72890].length > 0) {
         var lastIndex = registeredAds[72890].length-1;
         elem = registeredAds[72890][lastIndex];
