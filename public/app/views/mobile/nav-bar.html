@@ -1,15 +1,15 @@
 <div id="nav-holder" ng-if="selectedNavBar == 'HOT_ARTICLES'">
     <div id="nav-slider" class="royalSlider rsDefaultInv">
         <div class="rsContent">
-            <span class="rsTmb example-link"><img ng-src="/assets/app/images/general/titles/hot_articles.png"></span>
+            <span class="rsTmb nav-link"><img ng-src="/assets/app/images/general/titles/hot_articles.png"></span>
         </div>
         <div class="rsContent">
-            <a class="rsTmb example-link" ng-class="{'selected-nav-item-lightblue': selectedNavSubBar == 0}" ng-click="selectNavBar('HOT_ARTICLES')" href="m-magazine#/article/show/0">
+            <a class="rsTmb nav-link" ng-class="{'selected-nav-item-lightblue': selectedNavSubBar == 0}" ng-click="selectNavBar('HOT_ARTICLES')" href="m-magazine#/article/show/0">
                 所有文章
             </a>
         </div>
         <div class="rsContent" ng-repeat="category in hotArticleCategories">
-            <a class="rsTmb example-link" ng-class="{'selected-nav-item-lightblue': selectedNavSubBar == category.id}" ng-click="selectNavBar('HOT_ARTICLES')" href="m-magazine#/article/show/{{category.id}}">
+            <a class="rsTmb nav-link" ng-class="{'selected-nav-item-lightblue': selectedNavSubBar == category.id}" ng-click="selectNavBar('HOT_ARTICLES')" href="m-magazine#/article/show/{{category.id}}">
                 {{category.name}}
             </a>
         </div>
@@ -19,10 +19,10 @@
 <div id="nav-holder" ng-if="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'">
     <div id="nav-slider" class="royalSlider rsDefaultInv">
         <div class="rsContent">
-            <span class="rsTmb example-link"><img ng-src="/assets/app/images/general/titles/preg_month.png"></span>
+            <span class="rsTmb nav-link"><img ng-src="/assets/app/images/general/titles/preg_month.png"></span>
         </div>
         <div class="rsContent" ng-repeat="category in soonMomsArticleCategories">
-            <a class="rsTmb example-link" ng-class="{'selected-nav-item-pink': selectedNavSubBar == category.id}" ng-click="selectNavBar('SOON_TO_BE_MOMS_ARTICLES')" href="m-magazine#/article/show/{{category.id}}">
+            <a class="rsTmb nav-link" ng-class="{'selected-nav-item-pink': selectedNavSubBar == category.id}" ng-click="selectNavBar('SOON_TO_BE_MOMS_ARTICLES')" href="m-magazine#/article/show/{{category.id}}">
                 {{category.name}}
             </a>
         </div>
@@ -32,12 +32,12 @@
 <div id="nav-holder" ng-if="selectedNavBar == 'MAGAZINE'">
     <div id="nav-slider" class="royalSlider rsDefaultInv">
         <div class="rsContent">
-            <a class="rsTmb example-link" ng-class="{'selected-nav-item-green': selectedNavSubBar == 0}" ng-click="selectNavBar('MAGAZINE')" href="m-magazine#/">
+            <a class="rsTmb nav-link" ng-class="{'selected-nav-item-green': selectedNavSubBar == 0}" ng-click="selectNavBar('MAGAZINE')" href="m-magazine#/">
                 最新動向
             </a>
         </div>
         <div class="rsContent" ng-repeat="category in businessCommunityCategories">
-            <a class="rsTmb example-link" ng-class="{'selected-nav-item-green': selectedNavSubBar == category.id}" ng-click="selectNavBar('MAGAZINE')" href="m-magazine#/view/{{category.id}}">
+            <a class="rsTmb nav-link" ng-class="{'selected-nav-item-green': selectedNavSubBar == category.id}" ng-click="selectNavBar('MAGAZINE')" href="m-magazine#/view/{{category.id}}">
                 {{category.name}}
             </a>
         </div>
