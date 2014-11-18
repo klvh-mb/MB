@@ -445,6 +445,18 @@ span.notif-count {
 #nav-slider .selected-nav-item-green {
     border-bottom: 4px solid #239915;
 }
+#nav-slider .selected-nav-item-lightblue {
+    color: white !important;
+    background-color: #AFCCF9;
+    border-radius: 20px;
+    font-weight: bold;
+}
+#nav-slider .selected-nav-item-pink {
+    color: white !important;
+    background-color: #FFC2C4;
+    border-radius: 20px;
+    font-weight: bold;
+}
 #nav-slider .rsThumbsArrow {
     height: 36px;
     width: 30px;
@@ -554,6 +566,15 @@ span.notif-count {
 }
 
 /* profile */
+#about .con-title {
+    border-radius: 10px;
+    border-bottom: none;
+}
+#about #collapseOne {
+    height: auto;
+    border-top: #764193 thin solid;
+    margin: 0px;
+}
 #profile-header {
     background-color: white;
     margin: -8px -12px 0 -12px;

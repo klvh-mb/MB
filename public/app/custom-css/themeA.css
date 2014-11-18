@@ -3190,7 +3190,7 @@ span.notif-count {
 #tagword-list .text-more {
     padding: 5px 20px 0 0;
 }
-#tagword-list .text-more a {
+.text-more a {
     color: #BD6C6C;
     font-size: 13px;
     font-weight: bold;

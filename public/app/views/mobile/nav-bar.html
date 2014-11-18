@@ -4,12 +4,12 @@
             <span class="rsTmb example-link"><img ng-src="/assets/app/images/general/titles/hot_articles.png"></span>
         </div>
         <div class="rsContent">
-            <a class="rsTmb example-link" ng-class="{'selected-nav-item-yellow': selectedNavSubBar == 0}" ng-click="selectNavBar('HOT_ARTICLES')" href="m-magazine#/article/show/0">
+            <a class="rsTmb example-link" ng-class="{'selected-nav-item-lightblue': selectedNavSubBar == 0}" ng-click="selectNavBar('HOT_ARTICLES')" href="m-magazine#/article/show/0">
                 所有文章
             </a>
         </div>
         <div class="rsContent" ng-repeat="category in hotArticleCategories">
-            <a class="rsTmb example-link" ng-class="{'selected-nav-item-yellow': selectedNavSubBar == category.id}" ng-click="selectNavBar('HOT_ARTICLES')" href="m-magazine#/article/show/{{category.id}}">
+            <a class="rsTmb example-link" ng-class="{'selected-nav-item-lightblue': selectedNavSubBar == category.id}" ng-click="selectNavBar('HOT_ARTICLES')" href="m-magazine#/article/show/{{category.id}}">
                 {{category.name}}
             </a>
         </div>
@@ -22,7 +22,7 @@
             <span class="rsTmb example-link"><img ng-src="/assets/app/images/general/titles/preg_month.png"></span>
         </div>
         <div class="rsContent" ng-repeat="category in soonMomsArticleCategories">
-            <a class="rsTmb example-link" ng-class="{'selected-nav-item-yellow': selectedNavSubBar == category.id}" ng-click="selectNavBar('SOON_TO_BE_MOMS_ARTICLES')" href="m-magazine#/article/show/{{category.id}}">
+            <a class="rsTmb example-link" ng-class="{'selected-nav-item-pink': selectedNavSubBar == category.id}" ng-click="selectNavBar('SOON_TO_BE_MOMS_ARTICLES')" href="m-magazine#/article/show/{{category.id}}">
                 {{category.name}}
             </a>
         </div>
