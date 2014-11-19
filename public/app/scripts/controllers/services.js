@@ -859,7 +859,7 @@ minibean.service('userNewsFeedService',function($resource){
     );
     
     this.NewsFeedsComments = $resource(
-            '/get-user-newsfeeds-comment/:offset/:id',
+            '/get-user-newsfeeds-comments/:offset/:id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'GET', params:{offset:'@offset',id:'@id'}}

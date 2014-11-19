@@ -346,9 +346,12 @@ public class UserController extends Controller {
 	public static Result getUserNewsfeeds(String offset, Long id) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
-		final User user = User.findById(id);
 		final User localUser = Application.getLocalUser(session());
-
+		if (id == -1L) {
+            id = localUser.id;
+        }
+		final User user = User.findById(id);
+		
 		List<CommunityPostVM> posts = new ArrayList<>();
 
         List<Post> newsFeeds = user.getUserNewsfeeds(Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
@@ -373,8 +376,11 @@ public class UserController extends Controller {
 	public static Result getUserNewsfeedsComments(String offset, Long id) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
-		final User user = User.findById(id);
-		final User localUser = Application.getLocalUser(session());
+        final User localUser = Application.getLocalUser(session());
+        if (id == -1L) {
+            id = localUser.id;
+        }
+        final User user = User.findById(id);
 		
 		List<CommunityPostVM> posts = new ArrayList<>();
 		List<Post> newsFeeds =  user.getUserNewsfeedsComments(Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);

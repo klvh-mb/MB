@@ -4027,6 +4027,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 			})
 		});
 	}
+	
 	var noMoreC = false;
 	var offsetC = 0;
 	var noMoreP = false;
@@ -4046,14 +4047,13 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 		offsetP = 0;
 	}
 	
-	var id = $scope.userInfo.id;
+    var id = -1;    // my profile newsfeed
+    if($routeParams.id != undefined){
+        id = $routeParams.id;
+    }
 	
 	// nextNewsFeeds section starts
 	$scope.nextNewsFeeds = function() {
-		if($routeParams.id != undefined){
-			id = $routeParams.id;
-		}
-		
 		if ($scope.isBusyP) return;
 		if (noMoreP) return;
 		$scope.isBusyP = true;
