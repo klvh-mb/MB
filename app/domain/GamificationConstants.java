@@ -14,6 +14,7 @@ public interface GamificationConstants {
     public static final int POINTS_SIGNUP = 20;
     public static final int POINTS_REFERRAL_SIGNUP = 20;
     public static final int POINTS_UPLOAD_PROFILE_PHOTO = 10;
+    public static final int POINTS_SIGNIN = 10;
     public static final int POINTS_POST = 5;
     public static final int POINTS_POST_DELETE = 1;
     public static final int POINTS_COMMENT = 5;

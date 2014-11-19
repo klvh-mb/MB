@@ -159,6 +159,25 @@ public class GameAccount extends domain.Entity {
     }
 
     /**
+     * Signin.
+     * @param user
+     */
+	public static void setPointsForSignin(User user) {
+        logger.underlyingLogger().info("[u="+user.id+"] Gamification - Crediting signin");
+
+        GameAccount account = GameAccount.findByUserId(user.id);
+        account.addPointsAcross(GamificationConstants.POINTS_SIGNIN);
+        account.auditFields.setUpdatedDate(new Date());
+        account.merge();
+
+        GameAccountTransaction.recordPoints(user.id,
+                GamificationConstants.POINTS_SIGNIN,
+                TransactionType.SystemCredit,
+                GameAccountTransaction.TRANS_DESC_SIGNIN,
+                account.getGamePoints());
+	}
+
+    /**
      * Profile picture upload.
      * @param user
      */

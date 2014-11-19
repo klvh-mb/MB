@@ -122,9 +122,6 @@ POST    /login/password/forgot      controllers.Signup.doForgotPassword
 GET     /get-general-announcements  controllers.AnnouncementController.getGeneralAnnouncements
 GET     /get-top-announcements      controllers.AnnouncementController.getTopAnnouncements
 
-# Game
-GET     /sign-in-for-today          controllers.GameController.signInForToday
- 
 # User Info Service
 GET     /get-user-info              controllers.UserController.getUserInfo
 GET     /complete-home-tour         controllers.UserController.completeHomeTour
@@ -259,5 +256,7 @@ GET     /image/article/:year/:month/:date/:name     controllers.ArticleControlle
 GET     /image/campaign/:year/:month/:date/:name    controllers.CampaignController.getImage(year :Long, month :Long, date :Long, name : String)
 
 # Gamification
+GET     /sign-in-for-today                      controllers.GameController.signInForToday()
+GET		/get-gameaccount					    controllers.GameController.getGameAccount()
 GET		/invite-by-mail/:mail					controllers.UserController.inviteByEmail(mail: String)
 GET     /request-redemption/:id/:points			controllers.UserController.requestToRedemption(id: Long,points: Long)

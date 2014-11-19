@@ -69,7 +69,14 @@ public class GameAccountStatistics  extends domain.Entity {
 	    	return statistics;
 	    } 
 	}
-	
+
+    public static GameAccountStatistics recordSignin(long userID) {
+		GameAccountStatistics statistics = GameAccountStatistics.getGameAccountStatistics(userID);
+		statistics.num_sign_in++;
+		statistics.merge();
+        return statistics;
+	}
+
 	public static void recordLike(long userID) {
 		GameAccountStatistics statistics = GameAccountStatistics.getGameAccountStatistics(userID);
 		statistics.num_likes++;

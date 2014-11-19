@@ -20,6 +20,7 @@ public class GameAccountTransaction  extends domain.Entity {
     public static final String TRANS_DESC_SIGNUP = "miniBean account signup";
     public static final String TRANS_DESC_REFERRAL = "miniBean signup referral";
     public static final String TRANS_DESC_PROFILEPIC = "Profile picture upload";
+    public static final String TRANS_DESC_SIGNIN = "Daily signin";
     public static final String TRANS_DESC_POSTS = "New posts";
     public static final String TRANS_DESC_COMMENTS = "Post comments";
     public static final String TRANS_DESC_LIKES = "Likes";
