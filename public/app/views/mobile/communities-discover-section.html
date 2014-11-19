@@ -43,9 +43,9 @@
     <span ng-switch="selectedSubTab">
         <span ng-switch-when="4">
             <div id="communities-index" class="general-box widget-box top-box">
-                <div ng-repeat="communityCategoryMap in socialCommunityCategoriesMap">
+                <div ng-repeat="communityCategoryMap in ::socialCommunityCategoriesMap">
                     <div class="category-name">{{communityCategoryMap.name}}</div>
-                    <div class="communityCard" ng-repeat="community in communityCategoryMap.communities">
+                    <div class="communityCard" ng-repeat="community in ::communityCategoryMap.communities">
                         <a href="my#/community/{{community.id}}" class="d-s ob">
                             <div class="communityImageBox">
                                 <img class="img-clean" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{community.id}}" alt="...">
@@ -75,7 +75,7 @@
         <span ng-switch-default>
             <div id="communities-index" class="general-box widget-box top-box">
                 <div class="padding5"></div>
-                <div class="communityCard" ng-repeat="community in communities | filter:query">
+                <div class="communityCard" ng-repeat="community in ::communities | filter:query">
                     <a href="my#/community/{{community.id}}" class="d-s ob">
                         <div class="communityImageBox">
                             <img class="img-clean" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{community.id}}" alt="...">

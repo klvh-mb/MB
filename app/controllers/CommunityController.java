@@ -747,17 +747,17 @@ public class CommunityController extends Controller{
         String questionTitle = Emoticon.replace(form.get("questionTitle"));
         String questionText = Emoticon.replace(form.get("questionText"));
         int shortBodyCount = questionText.length();
-        if(questionText.length() >= 300){
-	        String shortdesc = questionText.substring(300);
+        if(questionText.length() >= DefaultValues.POST_SHORT_COUNT){
+	        String shortdesc = questionText.substring(DefaultValues.POST_SHORT_COUNT);
 	        
-	        if(shortdesc.lastIndexOf("<img") == -1){
-	        	shortBodyCount = 300;
+	        if (shortdesc.lastIndexOf("<img") == -1){
+	        	shortBodyCount = DefaultValues.POST_SHORT_COUNT;
 	        } else {
 	        	if(shortdesc.lastIndexOf("<img") < shortdesc.lastIndexOf("/>")){
-	        		shortBodyCount = 300;
-		        }else{
+	        		shortBodyCount = DefaultValues.POST_SHORT_COUNT;
+		        } else {
 		        	shortdesc.substring(shortdesc.lastIndexOf("<img")-1);
-		        	shortBodyCount = shortdesc.length();// dont include emotion icon at all. // so it will be some how less then 300
+		        	shortBodyCount = shortdesc.length();     // dont include emoticon if chopped off
 		        }
 	        }
         } else {

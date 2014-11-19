@@ -47,7 +47,7 @@
                 <div infinite-scroll='next_result()' infinite-scroll-distance='1'>
                     <div class="general-box">
 	                    <ul class="allpost-wrapper">
-                            <li data-ng-repeat="article in result">
+                            <li data-ng-repeat="article in ::result">
 	                            <a href="#/article/{{article.id}}/{{article.ct.id}}">
 	                                <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
 	                            </a>

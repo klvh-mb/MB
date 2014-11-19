@@ -8,7 +8,7 @@
         </div>
     </div>
     <ul class="myCommunity-info">
-        <li ng-repeat="community in myCommunities">
+        <li ng-repeat="community in ::myCommunities">
             <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
             <a href="my#/community/{{community.id}}"><img src="{{community.gi}}"></a>
             <p>
@@ -20,7 +20,7 @@
                 </span>
             </p>
         </li>
-        <li ng-repeat="community in sysCommunities" ng-if="community.tinfo != 'FEEDBACK'">
+        <li ng-repeat="community in ::sysCommunities" ng-if="community.tinfo != 'FEEDBACK'">
             <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
             <a href="my#/community/{{community.id}}"><img src="{{community.gi}}"></a>
             <p>
@@ -43,7 +43,7 @@
         </div>
     </div>
     <ul class="myCommunity-info">
-        <li ng-repeat="community in myBusinessCommunities">
+        <li ng-repeat="community in ::myBusinessCommunities">
             <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
             <a href="my#/business/community/{{community.id}}"><img src="{{community.gi}}"></a>
             <p>

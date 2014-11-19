@@ -41,6 +41,7 @@
         </li>
        	<li class="post-qna-body">
             <div class="post-qna-body-text" ng-bind-html="post.pt | to_trusted | highlight: highlightText"></div>
+            <span data-ng-show="post.showM" class="pull-right"><a href="" data-ng-click="showMore(post.id)"><b>查看更多</b></a></span>
             <div data-ng-show="post.hasImage" class="post-body-image">
                 <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
                     <img data-ng-src="/image/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
@@ -49,7 +50,6 @@
             <span data-ng-include data-src="'/assets/app/views/like-post.html'"></span>            
             <span style="padding: 0 5px;color: #77737E;">|</span>
             <span data-ng-include data-src="'/assets/app/views/want-answer.html'"></span>
-            <a href=""><span data-ng-show="post.showM" data-ng-click="showMore(post.id)"> ShowMore</span></a>
          </li>
     </ul>
     <!-- Post Body Ends -->

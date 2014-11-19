@@ -213,7 +213,7 @@ POST    /createCommunity                        controllers.CommunityController.
 POST    /image/upload-cover-photo-group/:id     controllers.CommunityController.uploadCoverPhoto(id : Long)
 POST    /updateCommunityProfileData             controllers.CommunityController.updateCommunityProfileData
 GET     /communityQnA/questions/:id             controllers.CommunityController.getAllQuestionsOfCommunity(id : Long)
-GET		/communityQnA/questions/body/:id		controllers.CommunityController.getAllPostBody(id : Long)
+GET     /communityQnA/questions/body/:id		controllers.CommunityController.getAllPostBody(id : Long)
 POST    /communityQnA/question/post             controllers.CommunityController.postQuestionOnCommunity()
 POST    /communityQnA/question/answer           controllers.CommunityController.answerToQuestionOnQnACommunity()
 POST    /image/uploadPostPhoto                  controllers.CommunityController.uploadPhotoOfPost()

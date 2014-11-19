@@ -169,11 +169,13 @@ var log = function(str) {
 // header bottom glow
 //
 
+var headerBarExists = $('#main-top').length > 0;
+var headerMenuExists = $('#header-menu').length > 0;
 var toggleToNotVisible = true;
 var mainLogoNotVisible = true;
 
 $(window).scroll(function() {
-    if ($('#main-top').length > 0 && $('#main-top').visible(true)) {
+    if ($('#main-top').visible(true)) {
         //console.log("header no glow");
         $('#header-backdrop').removeClass('header-glow');
         toggleToNotVisible = true;
@@ -186,10 +188,11 @@ $(window).scroll(function() {
         toggleToNotVisible = false;
     }
     
-    if ($('#header-menu').length > 0 && $('#header-menu').visible(true)) {
+    if ($('#header-menu').visible(true)) {
+        //console.log("show logo");
         mainLogoNotVisible = true;
     } else if (mainLogoNotVisible) {
-        // hide main logo
+        //console.log("hide logo");
         $('#header-logo').hide();
         $('#header-logo').show(500);
         $('#main-logo').slideUp(300,'swing');

@@ -6,7 +6,7 @@
     </div>
     <div class="static-content-wrapper">
         <ul>
-            <li data-ng-repeat="article in newArticles">
+            <li data-ng-repeat="article in ::newArticles">
                 <a href="#/article/{{article.id}}/{{article.ct.id}}">
                     <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
                 </a>
