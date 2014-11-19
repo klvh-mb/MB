@@ -517,16 +517,16 @@ span.notif-count {
     font-size: 15px;
 }
 .post-comment-box .post-qna-reply-textfield {
-    width: 60%;
+    width: 58%;
 }
 .post-comment-box .post-qna-reply-textfield:focus {
-    width: 60%;
+    width: 58%;
 }
 .post-comment-box .post-sharing-comment-textfield {
-    width: 60%;
+    width: 58%;
 }
 .post-comment-box .post-sharing-comment-textfield:focus {
-    width: 60%;
+    width: 58%;
 }
 .post-qna-body-title {
     padding-bottom: 10px;

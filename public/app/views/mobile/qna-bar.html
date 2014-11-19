@@ -85,17 +85,27 @@
             </div>
         </li>
         <!-- Post Answer box-->
-        <li ng-show="post.isC == true || (community.isM || community.isO)">
+        <li ng-show="(post.isC == true || (community.isM || community.isO)) && !isMyBookmarksPage">
             <!--a data-ng-href="/m-my#/profile/{{userInfo.id}}">
                 <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
             </a-->
             <form class="post-comment-box" name="userComment" method="post" action="">
                 <label for="User Comment"></label>
-                <textarea type="text" name="userCommentfield" class="general-textfield post-qna-reply-textfield" id="userCommentfield" placeholder="回覆..." cols="70" data-ng-model="commentText" rows="1"></textarea>
+                <textarea type="text" id="userCommentfield_{{$index}}" name="userCommentfield" data-ng-model="commentText" class="general-textfield post-qna-reply-textfield" placeholder="回覆..." cols="70" rows="1"></textarea>
+                <a class="dropdown-toggle dropdown-hover colorChange post-emoticon-dropdown" data-toggle="dropdown" href="#">
+                    <img src="../assets/app/images/emoticons/smile.png" />
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right icon-dropdown post-emoticon-dropdown-menu">
+                    <li data-ng-repeat="emoticon in emoticons">
+                        <a href="" data-ng-click="select_emoticon_comment(emoticon.code,$parent.$index)">
+                            <img class="emoticon" data-ng-src="{{emoticon.url}}"/>
+                        </a>
+                    </li>
+                </ul>
                 <a class="post-photo-icon" data-ng-hide="qnaCommentSelectedFiles.length >= 3 && commentedOnPost == post.id" id="upload">
                     <i class="icon-photo-camera-fill" data-ng-click="qnaCommentPhoto(post.id)"></i>
                 </a>
-                <button class="btn btn-primary ng-binding" ng-disabled="userComment.$pristine || (userComment.$dirty && !commentText.length)" type="submit" disabled="disabled" data-ng-click="answer_to_question(post.id, commentText); commentText=''">
+                <button class="btn btn-primary ng-binding" ng-disabled="userComment.$pristine || (userComment.$dirty && !commentText.length)" type="submit" disabled="disabled" data-ng-click="answer_to_question(post.id, commentText);commentText='';">
                     回覆
                 </button>
                 <input style="visibility:hidden;width:0px;height:0px;" id="qna-comment-photo-id" type="file" name="comment-photo" ng-file-select="onQnACommentFileSelect($files)"/>

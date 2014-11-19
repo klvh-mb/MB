@@ -578,7 +578,11 @@ public class CommunityController extends Controller{
                 sw.stop();
                 logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"][p="+postId+"] commentOnCommunityPost - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
 
-                return ok(Json.toJson(comment.id));
+                Map<String, String> map = new HashMap<>();
+                map.put("id", comment.id.toString());
+                map.put("text", comment.body);
+                
+                return ok(Json.toJson(map));
             } catch (SocialObjectNotCommentableException e) {
                 logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
             }
@@ -746,8 +750,9 @@ public class CommunityController extends Controller{
 
             sw.stop();
             logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"] postQuestionOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
+            
             Map<String,String> map = new HashMap<>();
-            map.put("id",p.id+"" );
+            map.put("id", p.id.toString());
             map.put("text", p.body);
 
             return ok(Json.toJson(map));
@@ -771,7 +776,7 @@ public class CommunityController extends Controller{
         
         Post p = Post.findById(postId);
         Community c = p.community;
-        if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
+        if(CommunityPermission.canPostOnCommunity(localUser, c)){
             try {
                 Comment comment = (Comment) p.onComment(localUser, answerText, CommentType.ANSWER);
 
@@ -786,8 +791,9 @@ public class CommunityController extends Controller{
                 logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"][p="+postId+"] answerToQuestionOnQnACommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
 
                 Map<String, String> map = new HashMap<>();
-                map.put("id", comment.id+"");
+                map.put("id", comment.id.toString());
                 map.put("text", comment.body);
+                
                 return ok(Json.toJson(map));
             } catch (SocialObjectNotCommentableException e) {
                 logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));

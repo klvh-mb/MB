@@ -1207,35 +1207,6 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 		usSpinnerService.stop('loading...');
 	});
 	
-	$scope.comment_on_post = function(id, commentText) {
-        // first convert to links
-        commentText = convertText(commentText);
-
-		var data = {
-			"post_id" : id,
-			"commentText" : commentText
-		};
-		usSpinnerService.spin('loading...');
-		$http.post('/community/post/comment', data) 
-			.success(function(comment_id) {
-				$('.commentBox').val('');
-				
-				$scope.commentText = "";
-				angular.forEach($scope.community.searchPosts, function(post, key){
-					if(post.id == data.post_id) {
-						post.n_c++;
-						post.ut = new Date();
-						var comment = {"oid" : $scope.userInfo.id, "commentText" : commentText, "on" : $scope.userInfo.displayName,
-								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
-						post.cs.push(comment);
-        			}
-                });	
-    		}).error(function(data, status, headers, config) {
-                prompt("回覆失敗。請重試");
-            });
-            usSpinnerService.stop('loading...');
-	}
-	
 	$scope.$watch('search_trigger', function(query) {
 	       if(query != undefined) {
 	    	   $scope.search_and_highlight(query);
@@ -1278,58 +1249,6 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 			$scope.highlightText = query;
 		});
 	};
-	
-	$scope.like_post = function(post_id) {
-		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.community.searchPosts, function(post, key){
-				if(post.id == post_id) {
-					post.isLike=true;
-					post.nol++;
-				}
-			})
-		});
-	}
-	
-	$scope.unlike_post = function(post_id) {
-		likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.community.searchPosts, function(post, key){
-				if(post.id == post_id) {
-					post.nol--;
-					post.isLike=false;
-				}
-			})
-		});
-	}
-	
-	$scope.like_comment = function(post_id,comment_id) {
-		likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.community.searchPosts, function(post, key){
-				if(post.id == post_id) {
-					angular.forEach(post.cs, function(comment, key){
-						if(comment.id == comment_id) {
-							comment.nol++;
-							comment.isLike=true;
-						}
-					})
-				}
-			})
-		});
-	}
-	
-	$scope.unlike_comment = function(post_id,comment_id) {
-		likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.community.searchPosts, function(post, key){
-				if(post.id == post_id) {
-					angular.forEach(post.cs, function(comment, key){
-						if(comment.id == comment_id) {
-							comment.nol--;
-							comment.isLike=false;
-						}
-					})
-				}
-			})
-		});
-	}
 	
 	log("SearchPageController completed");
 });
@@ -1416,6 +1335,16 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
         }
     }
     
+    $scope.select_emoticon_comment = function(code, index) {
+        if($("#userCommentfield_"+index).val()){
+            $("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
+        }else{
+            $("#userCommentfield_"+index).val(code + " ");
+        }
+        $("#userCommentfield_"+index).focus();
+        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
+    }
+    
     $scope.comment_on_post = function(id, commentText) {
         // first convert to links
         commentText = convertText(commentText);
@@ -1426,18 +1355,16 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
             "withPhotos" : $scope.commentSelectedFiles.length != 0
         };
         var post_data = data;
+        
         usSpinnerService.spin('loading...');
         $http.post('/community/post/comment', data) 
-            .success(function(comment_id) {
-                $('.commentBox').val('');
-                
-                $scope.commentText = "";
+            .success(function(response) {
                 angular.forEach($scope.posts.posts, function(post, key){
                     if(post.id == data.post_id) {
                         post.n_c++;
                         post.ut = new Date();
-                        var comment = {"oid" : $scope.posts.lu, "d" : commentText, "on" : $scope.posts.lun,
-                                "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+                        var comment = {"oid" : $scope.posts.lu, "d" : response.text, "on" : $scope.posts.lun,
+                                "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
                         post.cs.push(comment);
                         
                         if($scope.commentSelectedFiles.length == 0) {
@@ -1455,7 +1382,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                                 url : '/image/uploadCommentPhoto',
                                 method: $scope.httpMethod,
                                 data : {
-                                    commentId : comment_id
+                                    commentId : response.id
                                 },
                                 file: $scope.commentTempSelectedFiles[i],
                                 fileFormDataName: 'comment-photo'
@@ -1463,7 +1390,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                                 $scope.commentTempSelectedFiles.length = 0;
                                 if(post.id == post_data.post_id) {
                                     angular.forEach(post.cs, function(cmt, key){
-                                        if(cmt.id == comment_id) {
+                                        if(cmt.id == response.id) {
                                             cmt.hasImage = true;
                                             if(cmt.imgs) {
                                                 
@@ -1748,7 +1675,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     $scope.dataUrls = [];
     $scope.tempSelectedFiles = [];
     
-    $scope.commentPhoto = function(post_id) {
+    $scope.qnaCommentPhoto = function(post_id) {
         $("#qna-comment-photo-id").click();
         $scope.commentedOnPost = post_id ;
     };
@@ -1782,69 +1709,20 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
         }
     }
     
-    $scope.ask_question_community = function(id, questionTitle, questionText) {
-        // first convert to links
-        questionText = convertText(questionText);
-
-        usSpinnerService.spin('loading...');
-        var data = {
-            "community_id" : id,
-            "questionTitle" : questionTitle,
-            "questionText" : questionText,
-            "withPhotos" : $scope.QnASelectedFiles.length != 0
-        };
-        
-        $http.post('/communityQnA/question/post', data) // first create post with question text.
-            .success(function(post_id) {
-                usSpinnerService.stop('loading...');
-                $('.postBox').val('');
-                var post = {"oid" : $scope.QnAs.lu, "ptl" : questionTitle, "pt" : questionText, "cn" : $scope.community.n, 
-                        "isLike" : false, "nol" : 0, "p" : $scope.QnAs.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
-                $scope.QnAs.posts.unshift(post);
-                
-                if($scope.QnASelectedFiles.length == 0) {
-                    return;
-                }
-                
-                $scope.QnASelectedFiles = [];
-                $scope.dataUrls = [];
-                
-                // when post is done in BE then do photo upload
-                for(var i=0 ; i<$scope.tempSelectedFiles.length ; i++) {
-                    usSpinnerService.spin('loading...');
-                    $upload.upload({
-                        url : '/image/uploadPostPhoto',
-                        method: $scope.httpMethod,
-                        data : {
-                            postId : post_id
-                        },
-                        file: $scope.tempSelectedFiles[i],
-                        fileFormDataName: 'post-photo'
-                    }).success(function(data, status, headers, config) {
-                        angular.forEach($scope.QnAs.posts, function(post, key){
-                            if(post.id == post_id) {
-                                post.hasImage = true;
-                                if(post.imgs) { 
-                                } else {
-                                    post.imgs = [];
-                                }
-                                post.imgs.push(data);
-                            }
-                        });
-                    }).error(function(data, status, headers, config) {
-                        prompt("上載圖片失敗。請重試");
-                    });
-                }
-            }).error(function(data, status, headers, config) {
-                prompt("發佈失敗。請重試");
-            });
-            usSpinnerService.stop('loading...');
-    }
-    
     $scope.remove_image_from_qna_comment = function(index) {
         $scope.qnaCommentSelectedFiles.splice(index, 1);
         $scope.qnaTempCommentSelectedFiles.splice(index, 1);
         $scope.qnaCommentDataUrls.splice(index, 1);
+    }
+    
+    $scope.select_emoticon_comment = function(code, index) {
+        if($("#userCommentfield_"+index).val()){
+            $("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
+        }else{
+            $("#userCommentfield_"+index).val(code + " ");
+        }
+        $("#userCommentfield_"+index).focus();
+        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
     }
     
     $scope.answer_to_question = function(question_post_id, answerText) {
@@ -1856,17 +1734,17 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
             "answerText" : answerText,
             "withPhotos" : $scope.qnaCommentSelectedFiles.length != 0
         };
-        
         var post_data = data;
+        
+        usSpinnerService.spin('loading...');
         $http.post('/communityQnA/question/answer', data) 
-            .success(function(answer_id) {
-                $('.commentBox').val('');
+            .success(function(response) {
                 angular.forEach($scope.QnAs.posts, function(post, key){
                     if(post.id == data.post_id) {
                         post.n_c++;
                         post.ut = new Date();
-                        var answer = {"oid" : $scope.QnAs.lu, "d" : answerText, "on" : $scope.QnAs.lun, 
-                                "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
+                        var answer = {"oid" : $scope.QnAs.lu, "d" : response.text, "on" : $scope.QnAs.lun, 
+                                "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
                         post.cs.push(answer);
                     
                         if($scope.qnaCommentSelectedFiles.length == 0) {
@@ -1884,7 +1762,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                                 url : '/image/uploadQnACommentPhoto',
                                 method: $scope.httpMethod,
                                 data : {
-                                    commentId : answer_id
+                                    commentId : response.id
                                 },
                                 file: $scope.qnaTempCommentSelectedFiles[i],
                                 fileFormDataName: 'comment-photo'
@@ -1892,7 +1770,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                                 $scope.qnaTempCommentSelectedFiles.length = 0;
                                 if(post.id == post_data.post_id) {
                                     angular.forEach(post.cs, function(cmt, key){
-                                        if(cmt.id == answer_id) {
+                                        if(cmt.id == response.id) {
                                             cmt.hasImage = true;
                                             if(cmt.imgs) {
                                                 
@@ -2223,6 +2101,16 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 		}
 	}
 	
+	$scope.select_emoticon_comment = function(code, index) {
+        if($("#userCommentfield_"+index).val()){
+            $("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
+        }else{
+            $("#userCommentfield_"+index).val(code + " ");
+        }
+        $("#userCommentfield_"+index).focus();
+        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
+    }
+    
 	$scope.comment_on_post = function(id, commentText) {
         // first convert to links
         commentText = convertText(commentText);
@@ -2233,18 +2121,16 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 			"withPhotos" : $scope.commentSelectedFiles.length != 0
 		};
 		var post_data = data;
+		
 		usSpinnerService.spin('loading...');
 		$http.post('/community/post/comment', data) 
-			.success(function(comment_id) {
-				$('.commentBox').val('');
-				
-				$scope.commentText = "";
+			.success(function(response) {
 				angular.forEach($scope.posts.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
 						post.ut = new Date();
-						var comment = {"oid" : $scope.posts.lu, "d" : commentText, "on" : $scope.posts.lun,
-								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+						var comment = {"oid" : $scope.posts.lu, "d" : response.text, "on" : $scope.posts.lun,
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
 						post.cs.push(comment);
 						
 						if($scope.commentSelectedFiles.length == 0) {
@@ -2262,7 +2148,7 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 								url : '/image/uploadCommentPhoto',
 								method: $scope.httpMethod,
 								data : {
-									commentId : comment_id
+									commentId : response.id
 								},
 								file: $scope.commentTempSelectedFiles[i],
 								fileFormDataName: 'comment-photo'
@@ -2270,7 +2156,7 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 								$scope.commentTempSelectedFiles.length = 0;
 								if(post.id == post_data.post_id) {
 									angular.forEach(post.cs, function(cmt, key){
-										if(cmt.id == comment_id) {
+										if(cmt.id == response.id) {
 											cmt.hasImage = true;
 											if(cmt.imgs) {
 												
@@ -2577,29 +2463,28 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 	
     $scope.select_emoticon = function(code) {
         if($("#content-upload-input").val()){
-        	$("#content-upload-input").val($("#content-upload-input").val() + code);
+        	$("#content-upload-input").val($("#content-upload-input").val() + " " + code + " ");
         }else{
-        	$("#content-upload-input").val(code);
+        	$("#content-upload-input").val(code + " ");
         }
-        //$("#content-upload-input").val($("#message-inputfield").val() + code);
         $("#content-upload-input").focus();
+        $("#content-upload-input").trigger('input');    // need this to populate jquery val update to ng-model
     }
     
-    $scope.select_emoticon_comment = function(code,index) {
-        if($("#ta"+index).val()){
-        	$("#ta"+index).val($("#ta"+index).val() + code);
+    $scope.select_emoticon_comment = function(code, index) {
+        if($("#userCommentfield_"+index).val()){
+        	$("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
         }else{
-        	$("#ta"+index).val(code);
+        	$("#userCommentfield_"+index).val(code + " ");
         }
-        //$("#content-upload-input").val($("#message-inputfield").val() + code);
-        //$("#ta"+index).focus();
+        $("#userCommentfield_"+index).focus();
+        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
     }
     
 	$scope.ask_question_community = function(id, questionTitle, questionText) {
         // first convert to links
         questionText = convertText(questionText);
 
-		usSpinnerService.spin('loading...');
 		var data = {
 			"community_id" : id,
 			"questionTitle" : questionTitle,
@@ -2607,12 +2492,13 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 			"withPhotos" : $scope.QnASelectedFiles.length != 0
 		};
 		
+		usSpinnerService.spin('loading...');
 		$http.post('/communityQnA/question/post', data) // first create post with question text.
-			.success(function(data) {
+			.success(function(response) {
 				usSpinnerService.stop('loading...');
 				$('.postBox').val('');
-				var post = {"oid" : $scope.QnAs.lu, "ptl" : questionTitle, "pt" : data.text, "cn" : $scope.community.n, 
-						"isLike" : false, "nol" : 0, "p" : $scope.QnAs.lun, "t" : new Date(), "n_c" : 0, "id" : data.id, "cs": []};
+				var post = {"oid" : $scope.QnAs.lu, "ptl" : questionTitle, "pt" : response.text, "cn" : $scope.community.n, 
+						"isLike" : false, "nol" : 0, "p" : $scope.QnAs.lun, "t" : new Date(), "n_c" : 0, "id" : response.id, "cs": []};
 				$scope.QnAs.posts.unshift(post);
 				
 				if($scope.QnASelectedFiles.length == 0) {
@@ -2629,14 +2515,14 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 						url : '/image/uploadPostPhoto',
 						method: $scope.httpMethod,
 						data : {
-							postId : post_id
+							postId : response.id
 						},
 						file: $scope.tempSelectedFiles[i],
 						fileFormDataName: 'post-photo'
 					}).success(function(data, status, headers, config) {
 						usSpinnerService.stop('loading...');
 						angular.forEach($scope.QnAs.posts, function(post, key){
-							if(post.id == post_id) {
+							if(post.id == response.id) {
 								post.hasImage = true;
 								if(post.imgs) { 
 								} else {
@@ -2655,7 +2541,7 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 		$scope.qnaTempCommentSelectedFiles.splice(index, 1);
 		$scope.qnaCommentDataUrls.splice(index, 1);
 	}
-	
+    
 	$scope.answer_to_question = function(question_post_id, answerText) {
 		// first convert to links
         answerText = convertText(answerText);
@@ -2665,17 +2551,17 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 			"answerText" : answerText,
 			"withPhotos" : $scope.qnaCommentSelectedFiles.length != 0
 		};
-		
 		var post_data = data;
+		
+		usSpinnerService.spin('loading...');
 		$http.post('/communityQnA/question/answer', data) 
-			.success(function(responce) {
-				$('.commentBox').val('');
+			.success(function(response) {
 				angular.forEach($scope.QnAs.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
 						post.ut = new Date();
-						var answer = {"oid" : $scope.QnAs.lu, "d" : responce.text, "on" : $scope.QnAs.lun, 
-								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : responce.id};
+						var answer = {"oid" : $scope.QnAs.lu, "d" : response.text, "on" : $scope.QnAs.lun, 
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
                         post.cs.push(answer);
 					  
 						if($scope.qnaCommentSelectedFiles.length == 0) {
@@ -2693,7 +2579,7 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 								url : '/image/uploadQnACommentPhoto',
 								method: $scope.httpMethod,
 								data : {
-									commentId : answer_id
+									commentId : response.id
 								},
 								file: $scope.qnaTempCommentSelectedFiles[i],
 								fileFormDataName: 'comment-photo'
@@ -2701,7 +2587,7 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 								$scope.qnaTempCommentSelectedFiles.length = 0;
 								if(post.id == post_data.post_id) {
 									angular.forEach(post.cs, function(cmt, key){
-										if(cmt.id == answer_id) {
+										if(cmt.id == response.id) {
 											cmt.hasImage = true;
 											if(cmt.imgs) {
 												
@@ -3455,15 +3341,15 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
         });
     }
 
-	/*
-    $scope.commentText = "";
-
-    $scope.select_emoticon = function(code) {
-        $scope.commentText += code;
-        //$("#message-inputfield").val($("#message-inputfield").val() + code);
-        //$("#message-inputfield").focus();
+    $scope.select_emoticon_comment = function(code, index) {
+        if($("#userCommentfield_"+index).val()){
+            $("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
+        }else{
+            $("#userCommentfield_"+index).val(code + " ");
+        }
+        $("#userCommentfield_"+index).focus();
+        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
     }
-    */
     
 	$scope.comment_on_post = function(id, commentText) {
         // first convert to links
@@ -3478,16 +3364,13 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 		
 		usSpinnerService.spin('loading...');
 		$http.post('/community/post/comment', data) 
-			.success(function(comment_id) {
-				$('.commentBox').val('');
-				
-				$scope.commentText = "";
+			.success(function(response) {
 				angular.forEach($scope.newsFeeds.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
 						post.ut = new Date();
-						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName,
-								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+						var comment = {"oid" : $scope.userInfo.id, "d" : response.text, "on" : $scope.userInfo.displayName,
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
 						post.cs.push(comment);
 						
 						if($scope.commentSelectedFiles.length == 0) {
@@ -3505,7 +3388,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 								url : '/image/uploadCommentPhoto',
 								method: $scope.httpMethod,
 								data : {
-									commentId : comment_id
+									commentId : response.id
 								},
 								file: $scope.commentTempSelectedFiles[i],
 								fileFormDataName: 'comment-photo'
@@ -3513,7 +3396,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 								$scope.commentTempSelectedFiles.length = 0;
 								if(post.id == post_data.post_id) {
 									angular.forEach(post.cs, function(cmt, key){
-										if(cmt.id == comment_id) {
+										if(cmt.id == response.id) {
 											cmt.hasImage = true;
 											if(cmt.imgs) {
 												
@@ -3657,7 +3540,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 		);
 	}
 
-	/***QnA Community ***/
+	/*** QnA Community ***/
 	
 	$scope.qnaCommentPhoto = function(post_id) {
 		$("#qna-comment-photo-id").click();
@@ -3692,7 +3575,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 			}
 		}
 	};
-	
+    
 	$scope.answer_to_question = function(question_post_id, answerText) {
 		// first convert to links
         answerText = convertText(answerText);
@@ -3702,17 +3585,17 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 			"answerText" : answerText,
 			"withPhotos" : $scope.qnaCommentSelectedFiles.length != 0
 		};
-		
 		var post_data = data;
+		
+		usSpinnerService.spin('loading...');
 		$http.post('/communityQnA/question/answer', data) 
-			.success(function(answer_id) {
-				$('.commentBox').val('');
+			.success(function(response) {
 				angular.forEach($scope.newsFeeds.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
 						post.ut = new Date();
-						var answer = {"oid" : $scope.userInfo.id, "d" : answerText, "on" : $scope.userInfo.displayName, 
-								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
+						var answer = {"oid" : $scope.userInfo.id, "d" : response.text, "on" : $scope.userInfo.displayName, 
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
 						post.cs.push(answer);
                         
 						if($scope.qnaCommentSelectedFiles.length == 0) {
@@ -3730,7 +3613,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 								url : '/image/uploadQnACommentPhoto',
 								method: $scope.httpMethod,
 								data : {
-									commentId : answer_id
+									commentId : response.id
 								},
 								file: $scope.qnaTempCommentSelectedFiles[i],
 								fileFormDataName: 'comment-photo'
@@ -3738,7 +3621,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 								$scope.qnaTempCommentSelectedFiles.length = 0;
 								if(post.id == post_data.post_id) {
 									angular.forEach(post.cs, function(cmt, key){
-										if(cmt.id == answer_id) {
+										if(cmt.id == response.id) {
 											cmt.hasImage = true;
 											if(cmt.imgs) {
 												
@@ -3822,6 +3705,16 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
         });
     }
     
+    $scope.select_emoticon_comment = function(code, index) {
+        if($("#userCommentfield_"+index).val()){
+            $("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
+        }else{
+            $("#userCommentfield_"+index).val(code + " ");
+        }
+        $("#userCommentfield_"+index).focus();
+        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
+    }
+    
 	$scope.comment_on_post = function(id, commentText) {
         // first convert to links
         commentText = convertText(commentText);
@@ -3835,16 +3728,13 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 		
 		usSpinnerService.spin('loading...');
 		$http.post('/community/post/comment', data) 
-			.success(function(comment_id) {
-				$('.commentBox').val('');
-				
-				$scope.commentText = "";
+			.success(function(response) {
 				angular.forEach($scope.newsFeeds.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
 						post.ut = new Date();
-						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName,
-								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+						var comment = {"oid" : $scope.userInfo.id, "d" : response.text, "on" : $scope.userInfo.displayName,
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
 						post.cs.push(comment);
 						
 						if($scope.commentSelectedFiles.length == 0) {
@@ -3862,7 +3752,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 								url : '/image/uploadCommentPhoto',
 								method: $scope.httpMethod,
 								data : {
-									commentId : comment_id
+									commentId : response.id
 								},
 								file: $scope.commentTempSelectedFiles[i],
 								fileFormDataName: 'comment-photo'
@@ -3870,7 +3760,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 								$scope.commentTempSelectedFiles.length = 0;
 								if(post.id == post_data.post_id) {
 									angular.forEach(post.cs, function(cmt, key){
-										if(cmt.id == comment_id) {
+										if(cmt.id == response.id) {
 											cmt.hasImage = true;
 											if(cmt.imgs) {
 												
@@ -3932,17 +3822,17 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 			"answerText" : answerText,
 			"withPhotos" : $scope.qnaCommentSelectedFiles.length != 0
 		};
-		
 		var post_data = data;
+		
+		usSpinnerService.spin('loading...');
 		$http.post('/communityQnA/question/answer', data) 
-			.success(function(answer_id) {
-				$('.commentBox').val('');
+			.success(function(response) {
 				angular.forEach($scope.newsFeeds.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
 						post.ut = new Date();
-						var answer = {"oid" : $scope.userInfo.id, "d" : answerText, "on" : $scope.userInfo.displayName, 
-								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
+						var answer = {"oid" : $scope.userInfo.id, "d" : response.text, "on" : $scope.userInfo.displayName, 
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
                         post.cs.push(answer);
                         
 						if($scope.qnaCommentSelectedFiles.length == 0) {
@@ -3960,7 +3850,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 								url : '/image/uploadQnACommentPhoto',
 								method: $scope.httpMethod,
 								data : {
-									commentId : answer_id
+									commentId : response.id
 								},
 								file: $scope.qnaTempCommentSelectedFiles[i],
 								fileFormDataName: 'comment-photo'
@@ -3968,7 +3858,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 								$scope.qnaTempCommentSelectedFiles.length = 0;
 								if(post.id == post_data.post_id) {
 									angular.forEach(post.cs, function(cmt, key){
-										if(cmt.id == answer_id) {
+										if(cmt.id == response.id) {
 											cmt.hasImage = true;
 											if(cmt.imgs) {
 												
@@ -4232,6 +4122,16 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
         });
     }
     
+    $scope.select_emoticon_comment = function(code, index) {
+        if($("#userCommentfield_bm_"+index).val()){
+            $("#userCommentfield_bm_"+index).val($("#userCommentfield_bm_"+index).val() + " " + code + " ");
+        }else{
+            $("#userCommentfield_bm_"+index).val(code + " ");
+        }
+        $("#userCommentfield_bm_"+index).focus();
+        $("#userCommentfield_bm_"+index).trigger('input');    // need this to populate jquery val update to ng-model
+    }
+    
 	$scope.comment_on_post = function(id, commentText) {
         // first convert to links
         commentText = convertText(commentText);
@@ -4240,18 +4140,16 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 			"post_id" : id,
 			"commentText" : commentText
 		};
+		
 		usSpinnerService.spin('loading...');
 		$http.post('/community/post/comment', data) 
-			.success(function(comment_id) {
-				$('.commentBox').val('');
-				
-				$scope.commentText = "";
+			.success(function(response) {
 				angular.forEach($scope.posts.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
 						post.ut = new Date();
-						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName,
-								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+						var comment = {"oid" : $scope.userInfo.id, "d" : response.text, "on" : $scope.userInfo.displayName,
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
 						post.cs.push(comment);
     				}
     				usSpinnerService.stop('loading...');	
@@ -4424,9 +4322,10 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
     $scope.messageText = "";
 
     $scope.select_emoticon = function(code) {
-        $scope.messageText += code;
-        //$("#message-inputfield").val($("#message-inputfield").val() + code);
+        $scope.messageText += " " + code + " ";
+        //$("#message-inputfield").val($("#message-inputfield").val() + " " + code + " ");
         $("#message-inputfield").focus();
+        $("#message-inputfield").trigger('input');    // need this to populate jquery val update to ng-model
     }
     
 	if($routeParams.id == 0){

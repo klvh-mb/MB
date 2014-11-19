@@ -282,10 +282,10 @@
     vertical-align: middle;
 }
 .post-comment-box .post-qna-reply-textfield {
-    width: 320px;
+    width: 300px;
 }
 .post-comment-box .post-sharing-comment-textfield {
-    width: 325px;
+    width: 300px;
 }
 .post-comment-box .post-qna-reply-textfield:focus {
     border: thin solid #a37cde !important;
