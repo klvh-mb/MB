@@ -7,6 +7,9 @@ import org.joda.time.DateTime;
 
 public class DefaultValues {
 
+    public static int POST_SHORT_COUNT = 300;
+    public static int COMMENT_SHORT_COUNT = 200;
+    
     public static int COMMENTS_PREVIEW_COUNT = 2;
     public static int DEFAULT_UTILITY_COUNT = 5;
     public static int DEFAULT_INFINITE_SCROLL_COUNT = 7;
