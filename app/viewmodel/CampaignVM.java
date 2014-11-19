@@ -85,7 +85,7 @@ public class CampaignVM {
             ;
         }
         
-        if (user.isEditor()) {
+        if (user.isLoggedIn() && user.isEditor()) {
             this.joinedUsersCount = CampaignController.getJoinedUsersCount(campaign.id);
         }
     }
