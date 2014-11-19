@@ -36,6 +36,7 @@ public class CommunityPostVM {
 	@JsonProperty("ep") public boolean expanded;
 	
 	@JsonProperty("isO") public boolean isOwner = false;
+	@JsonProperty("showM") public boolean showMore = false;
 	@JsonProperty("isC") public boolean isCommentable = false;
 	@JsonProperty("isLike") public boolean isLike = false;
     @JsonProperty("isWtAns") public boolean isWantAnswer = false;
@@ -54,7 +55,12 @@ public class CommunityPostVM {
 		postVM.postedOn = post.getCreatedDate().getTime();
 		postVM.updatedOn = post.getSocialUpdatedDate().getTime();
 		postVM.postedTitle = post.title;
-		postVM.postedText = post.body;
+		if(post.shortBodyCount > 0){
+			postVM.showMore= true; 
+			postVM.postedText = post.body.substring(0,post.shortBodyCount);
+		} else {
+			postVM.postedText = post.body;
+		}
 		postVM.noOfComments = post.noOfComments;
 		postVM.postType = post.postType.name();
         postVM.communityType = post.community.communityType.name();

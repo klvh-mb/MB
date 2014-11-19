@@ -58,6 +58,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
     public int noOfLikes = 0;
     public int noWantAns = 0;
     public int noOfViews = 0;
+    public int shortBodyCount = 0;
 
 	public Date socialUpdatedDate = new Date();
 

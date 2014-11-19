@@ -424,6 +424,16 @@ public class CommunityController extends Controller{
     }
     
     @Transactional
+    public static Result getAllPostBody(Long id) {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+        Map<String, String> map = new HashMap<>();
+        map.put("body", Post.findById(id).body);
+        return ok(Json.toJson(map));
+    }
+    
+    
+    
+    @Transactional
     public static Result getNextQnAs(String id,String offset,String time) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
@@ -736,12 +746,31 @@ public class CommunityController extends Controller{
         Long communityId = Long.parseLong(form.get("community_id"));
         String questionTitle = Emoticon.replace(form.get("questionTitle"));
         String questionText = Emoticon.replace(form.get("questionText"));
+        int shortBodyCount = questionText.length();
+        if(questionText.length() >= 300){
+	        String shortdesc = questionText.substring(300);
+	        
+	        if(shortdesc.lastIndexOf("<img") == -1){
+	        	shortBodyCount = 300;
+	        } else {
+	        	if(shortdesc.lastIndexOf("<img") < shortdesc.lastIndexOf("/>")){
+	        		shortBodyCount = 300;
+		        }else{
+		        	shortdesc.substring(shortdesc.lastIndexOf("<img")-1);
+		        	shortBodyCount = shortdesc.length();// dont include emotion icon at all. // so it will be some how less then 300
+		        }
+	        }
+        } else {
+        	shortBodyCount = 0;
+        }
 
         Community c = Community.findById(communityId);
         if (CommunityPermission.canPostOnCommunity(localUser, c)) {
             String withPhotos = form.get("withPhotos");
             
             Post p = (Post) c.onPost(localUser, questionTitle, questionText, PostType.QUESTION);
+            p.shortBodyCount = shortBodyCount;
+            p.merge();
             if(Boolean.parseBoolean(withPhotos)) {
                 p.ensureAlbumExist();
             }
@@ -753,7 +782,15 @@ public class CommunityController extends Controller{
             
             Map<String,String> map = new HashMap<>();
             map.put("id", p.id.toString());
-            map.put("text", p.body);
+           
+            if(p.shortBodyCount>0){
+            	map.put("text", p.body.substring(0,p.shortBodyCount));
+            	map.put("showM", "true");
+            }else{
+            	map.put("text", p.body);
+            	map.put("showM", "false");
+            }
+            
 
             return ok(Json.toJson(map));
         }
