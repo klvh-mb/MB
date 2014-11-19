@@ -483,6 +483,7 @@ var ReportObjectModalController = function ($scope, $modalInstance, objectType, 
     $scope.objectType = objectType;
     $scope.reportType = DefaultValues.DEFAULT_REPORT_TYPE;
     $scope.submitBtn = "ok";
+    $scope.complete = false; 
     $scope.update = function (report) {
         report.socialObjectID = id;
         report.objectType = objectType;
@@ -493,7 +494,11 @@ var ReportObjectModalController = function ($scope, $modalInstance, objectType, 
             function(data){
                 $scope.submitBtn = "Complete";
                 usSpinnerService.stop('loading...');
+                $scope.complete = true;
             });
+    };
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
     };
 };
 
