@@ -2367,6 +2367,18 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
         usSpinnerService.stop('loading...');
     });
 	
+    $scope.showMore = function(id){
+    	communityQnAPageService.getFullBody.get({id:id},function(data){
+    		angular.forEach($scope.QnAs.posts, function(post, key){
+                if(post.id == id) {
+                	console.log(post);
+                    post.pt = data.body;
+                    post.showM = false;
+                }
+            })
+    	})
+    }
+    
     $scope.nextPosts = function() {
         //log("===> nextPosts:isBusy="+$scope.isBusy+"|offsetq="+offsetq+"|time="+time+"|firstBatchLoaded="+firstBatchLoaded+"|noMore="+noMore);
         if ($scope.isBusy) return;
@@ -2498,7 +2510,7 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 				usSpinnerService.stop('loading...');
 				$('.postBox').val('');
 				var post = {"oid" : $scope.QnAs.lu, "ptl" : questionTitle, "pt" : response.text, "cn" : $scope.community.n, 
-						"isLike" : false, "nol" : 0, "p" : $scope.QnAs.lun, "t" : new Date(), "n_c" : 0, "id" : response.id, "cs": []};
+						"isLike" : false, "showM": (response.showM == 'true'), "nol" : 0, "p" : $scope.QnAs.lun, "t" : new Date(), "n_c" : 0, "id" : response.id, "cs": []};
 				$scope.QnAs.posts.unshift(post);
 				
 				if($scope.QnASelectedFiles.length == 0) {

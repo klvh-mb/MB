@@ -658,6 +658,13 @@ minibean.service('communityQnAPageService',function($resource){
                 get: {method:'get', params:{id:'@id'}}
             }
     );
+    this.getFullBody = $resource(
+            '/communityQnA/questions/body/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{id:'@id'}}
+            }
+    );
     this.GetQnAs = $resource(
             '/questions?id=:id&offset=:offset&time=:time',
             {alt:'json',callback:'JSON_CALLBACK'},
