@@ -30,11 +30,11 @@ public class ProfileVM {
     @JsonProperty("em")  public String email;
     @JsonProperty("sd")  public String signupDate;
     @JsonProperty("ll")  public String lastLogin;
-    @JsonProperty("tl")  public long totalLogin;
-    @JsonProperty("qc")  public long questionsCount;
-    @JsonProperty("ac")  public long answersCounts;
-    @JsonProperty("lc")  public long likesCount;
-    @JsonProperty("wc")  public long wantAnsCount;
+    @JsonProperty("tl")  public Long totalLogin;
+    @JsonProperty("qc")  public Long questionsCount;
+    @JsonProperty("ac")  public Long answersCounts;
+    @JsonProperty("lc")  public Long likesCount;
+    @JsonProperty("wc")  public Long wantAnsCount;
     
     public static ProfileVM profile(User user, User localUser) {
         ProfileVM vm = new ProfileVM();
@@ -55,17 +55,19 @@ public class ProfileVM {
         vm.id = user.id;
 
         // admin readonly fields
-        vm.mobileSignup = user.mobileSignup;
-        vm.fbLogin = user.fbLogin;
-        vm.emailValidated = user.emailValidated;
-        vm.email = user.email;
-        vm.signupDate = user.getCreatedDate().toString();
-        vm.lastLogin = user.lastLogin.toString();
-        vm.totalLogin = user.totalLogin;
-        vm.questionsCount = user.questionsCount;
-        vm.answersCounts = user.answersCount;
-        vm.likesCount = user.likesCount;
-        vm.wantAnsCount = user.wantAnsCount;
+        if (localUser.isSuperAdmin()) {
+            vm.mobileSignup = user.mobileSignup;
+            vm.fbLogin = user.fbLogin;
+            vm.emailValidated = user.emailValidated;
+            vm.email = user.email;
+            vm.signupDate = user.getCreatedDate().toString();
+            vm.lastLogin = user.lastLogin.toString();
+            vm.totalLogin = user.totalLogin;
+            vm.questionsCount = user.questionsCount;
+            vm.answersCounts = user.answersCount;
+            vm.likesCount = user.likesCount;
+            vm.wantAnsCount = user.wantAnsCount;
+        }
         
         return vm;
     }

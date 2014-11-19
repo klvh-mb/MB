@@ -114,17 +114,17 @@ public class User extends SocialObject implements Subject, Socializable {
     
     // stats
     
-    public int questionsCount = 0;
+    public Long questionsCount = 0L;
     
-    public int answersCount = 0;
+    public Long answersCount = 0L;
     
-    public int postsCount = 0;
+    public Long postsCount = 0L;
     
-    public int commentsCount = 0;
+    public Long commentsCount = 0L;
     
-    public int likesCount = 0;
+    public Long likesCount = 0L;
 
-    public int wantAnsCount = 0;
+    public Long wantAnsCount = 0L;
     
     // system
     
