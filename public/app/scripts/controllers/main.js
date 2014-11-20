@@ -158,7 +158,7 @@ minibean.controller('ApplicationController',
         if ($('#right-sidebar').length) {
             $scope.rightSidebarTop = $('#right-sidebar').offset().top - 52;
         }
-        log('left sidebar top:'+$scope.leftSidebarTop+' | right sidebar top:'+$scope.rightSidebarTop);
+        //log('left sidebar top:'+$scope.leftSidebarTop+' | right sidebar top:'+$scope.rightSidebarTop);
     }
     
     // PC home tour
@@ -587,12 +587,12 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
                 parent_birth_year : $scope.userAbout.userInfo.birthYear,
                 parent_location : $scope.userAbout.userInfo.location.id
             };
-           
+
+            usSpinnerService.spin('loading...');
     		return $http.post('/updateUserProfileData', formData)
                 .success(function(data){
-                alert('1');
                     $scope.saved = true;
-                    //$scope.get_header_metaData();
+                    $scope.get_header_metaData();
                     usSpinnerService.stop('loading...');
                 }).error(function(data, status, headers, config) {
                     prompt(data);
@@ -2379,7 +2379,6 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
     	communityQnAPageService.getFullBody.get({id:id},function(data){
     		angular.forEach($scope.QnAs.posts, function(post, key){
                 if(post.id == id) {
-                	console.log(post);
                     post.pt = data.body;
                     post.showM = false;
                 }
