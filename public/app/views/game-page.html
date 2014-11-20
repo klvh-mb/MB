@@ -24,9 +24,10 @@
                 <div class="game-details">
                     <div>
                         活力級別: <span class="points">L{{userInfo.gameLevel || '--'}} <img src="{{userInfo.gameLevelIcon}}"></span>
+                        <span style="font-size:12px;color:#666;">( 活力總值: {{gameAccount.acpt || '--'}} )</span>
                     </div>
                     <div>
-                        活力指數: <span class="points">{{gameAccount.acpt || '--'}}</span>                
+                                        
                     </div>
                     <div>
                         小豆豆總值: <span class="points">{{gameAccount.gmpt || '--'}}</span>

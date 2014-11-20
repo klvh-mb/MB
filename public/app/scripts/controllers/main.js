@@ -106,7 +106,7 @@ minibean.controller('TodayWeatherInfoController',function($scope, $http, todayWe
     log("TodayWeatherInfoController completed");
 });
 
-minibean.controller('GameController',function($scope, $http, gameService, usSpinnerService) {
+minibean.controller('GameController',function($scope, $http, $interval, $location, gameService, usSpinnerService) {
     log("GameController starts");
 
     $scope.get_header_metaData();
@@ -118,7 +118,8 @@ minibean.controller('GameController',function($scope, $http, gameService, usSpin
         return $http.post('/sign-in-for-today', formData)
             .success(function(data){
                 $scope.userInfo.enableSignInForToday = false;
-                prompt("<div><b>每日簽到 +5小豆豆!</b></div>", "bootbox-default-prompt game-bootbox-prompt", 2000);
+                prompt("<div><b>每日簽到 +5小豆豆!</b></div>", "bootbox-default-prompt game-bootbox-prompt", 1800);
+                $interval($scope.reloadPage, 2000, 1);
                 usSpinnerService.stop('loading...');
             });
     }
