@@ -261,16 +261,12 @@ var convertToLinks = function(text) {
 // bootbox
 //
 
-var prompt = function(message, className) {
-    if (className == undefined) {
+var prompt = function(message, className, timeout) {
+    if (className == undefined || className.length == 0) {
         className = "bootbox-default-prompt";
     }
     
-    bootbox.dialog({
-        message: message,
-        title: "",
-        className: className,
-        buttons: {
+    var buttons = {
             /*main: {
                 label: "Copy",
                 className: "btn-default",
@@ -284,7 +280,21 @@ var prompt = function(message, className) {
                 callback: function() {
                 }
             }
-        }
+        };
+    
+    
+    if (timeout != undefined && timeout > 0) {
+        window.setTimeout(function(){
+            bootbox.hideAll();
+        }, timeout);
+        buttons = {};
+    }
+    
+    bootbox.dialog({
+        message: message,
+        title: "",
+        className: className,
+        buttons: buttons
     });
 }
 

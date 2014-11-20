@@ -256,7 +256,7 @@ GET     /image/article/:year/:month/:date/:name     controllers.ArticleControlle
 GET     /image/campaign/:year/:month/:date/:name    controllers.CampaignController.getImage(year :Long, month :Long, date :Long, name : String)
 
 # Gamification
-GET     /sign-in-for-today                      controllers.GameController.signInForToday()
+POST    /sign-in-for-today                      controllers.GameController.signInForToday()
 GET		/get-gameaccount					    controllers.GameController.getGameAccount()
 GET		/invite-by-mail/:mail					controllers.UserController.inviteByEmail(mail: String)
 GET     /request-redemption/:id/:points			controllers.UserController.requestToRedemption(id: Long,points: Long)

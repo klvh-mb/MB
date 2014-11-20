@@ -200,7 +200,7 @@ public class ArticleController extends Controller {
         final User localUser = Application.getLocalUser(session());
 		
 		List<Article> allArticles = null;
-		if (localUser.isLoggedIn()) {
+		if (localUser.isLoggedIn() && localUser.userInfo != null) {
 		    allArticles = ArticleTargetingEngine.getTargetedArticles(localUser, catId, n);    
 		} else {
 		    allArticles = getFeaturedArticles(catId, n);

@@ -117,7 +117,7 @@ public class UserController extends Controller {
         return ok(Json.toJson(summary));
     }
     
-	@Transactional(readOnly=true)
+	@Transactional
 	public static Result getUserInfo() {
 	    NanoSecondStopWatch sw = new NanoSecondStopWatch();
 	    

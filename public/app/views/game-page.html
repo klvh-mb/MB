@@ -10,11 +10,11 @@
             <div id="game-box" class="box-a">
                 <h4>每日簽到</h4>
                 <div class="sign-in">
-                    立即簽到累積小豆豆! 
-                    <a class="btn btn-general btn-sign-in" href="" ng-show="!userInfo.isSignedInForToday" ng-click="signInForToday();">
+                    <span style="margin-right:10px;">立即簽到累積小豆豆!</span> 
+                    <a class="btn btn-general btn-sign-in" href="" ng-show="userInfo.enableSignInForToday" ng-click="signInForToday();">
                         <img style="height:28px;width:auto;" src="/assets/app/images/game/sign_in.png"></img>
                     </a>
-                    <a class="btn btn-general btn-signed-in" href="" ng-show="userInfo.isSignedInForToday">
+                    <a class="btn btn-general btn-signed-in" href="" ng-show="!userInfo.enableSignInForToday">
                         <img style="height:28px;width:auto;" src="/assets/app/images/game/signed_in.png"></img>
                     </a>
                 </div>
@@ -23,24 +23,26 @@
                 <h4>我的小豆豆</h4>
                 <div class="game-details">
                     <div>
-                        級別: <span class="points">L{{userInfo.gameLevel}} <img src="{{userInfo.gameLevelIcon}}"></span>
+                        活力級別: <span class="points">L{{userInfo.gameLevel || '--'}} <img src="{{userInfo.gameLevelIcon}}"></span>
                     </div>
                     <div>
-                        小豆豆總值: <span class="points">{{userInfo.gameTotalPoints}}</span>
+                        活力指數: <span class="points">{{gameAccount.acpt || '--'}}</span>                
                     </div>
                     <div>
-                        小豆豆可兌換值: <span class="points">{{userInfo.gameRedeemablePoints}}</span>
+                        小豆豆總值: <span class="points">{{gameAccount.gmpt || '--'}}</span>
+                    </div>
+                    <div>
+                        小豆豆可兌換值: <span class="points">{{userInfo.rdpt || '--'}}</span>
                     </div>
                 </div>
                 <div class="padding10"></div>
                 
                 <h4>小豆豆記錄表</h4>
                 <ul class="record">
-                    <li>2014-10-23 13:59 发表帖子获得香蕉1个</li>
-                    <li>2014-09-23 00:11 上传照片获得草莓0.02个</li>
-                    <li>2014-09-23 00:11 上传照片获得草莓0.02个</li>
-                    <li>2014-09-14 17:57 上传照片获得草莓0.02个</li>
-                    <li>2014-09-14 17:57 上传照片获得草莓0.02个</li>
+                    <li>2014-11-03 08:07 每日簽到獲得2個小豆豆</li>
+                    <li>2014-10-23 13:59 發佈新話題獲得2個小豆豆</li>
+                    <li>2014-09-23 00:11 上載個人頭像照片獲得5個小豆豆</li>
+                    <li>2014-09-14 17:57 回覆話題獲得1個小豆豆</li>
                 </ul>
                 
                 <div><img src="/assets/app/images/frontpage/topic_footer_a.jpg" /></div>
@@ -50,9 +52,6 @@
             <div data-ng-controller="GameController">
                 <div ng-init="hideStats = true" data-ng-include data-src="'/assets/app/views/widgets/my-profile-widget.html'"></div>
             </div>
-            <div>
-                <div data-ng-include data-src="'/assets/app/views/profile-about-section.html'"></div>
-            </div>
             <div class="ads-factor-300x250">
                 <script adSize="300250" adSid="842233366698" ads-factor language='JavaScript' type="text/javascript"></script>
             </div>
@@ -61,7 +60,7 @@
             </div>
         </div>
     </div>
-    <div class="ads-factor-728x90">
+    <div class="ads-factor-728x90" style="margin-top:20px;">
         <script adSize="72890" adSid="684802916819" ads-factor language='JavaScript' type="text/javascript"></script>
     </div>
 </div>

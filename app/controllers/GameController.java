@@ -24,7 +24,7 @@ public class GameController extends Controller {
 
         if (currUser.isLoggedIn()) {
             GameAccount gameAccount = GameAccount.findByUserId(currUser.id);
-            GameAccountStatistics stat = GameAccountStatistics.findByUserId(currUser.id);
+            GameAccountStatistics stat = GameAccountStatistics.getGameAccountStatistics(currUser.id);
 
             GameAccountVM vm = new GameAccountVM(gameAccount, stat);
 
@@ -38,6 +38,21 @@ public class GameController extends Controller {
         }
     }
 
+    @Transactional
+    public static boolean enableSignInForToday() {
+        final User currUser = Application.getLocalUser(session());
+
+        if (currUser.isLoggedIn()) {
+            GameAccountStatistics stat = GameAccountStatistics.getGameAccountStatistics(currUser.getId());
+            if (stat == null) {
+                return true;    // no stat today, not signed in yet
+            }
+            return stat.num_sign_in < 1;
+        }
+
+        return false;
+    }
+    
     @Transactional
     public static Result signInForToday() {
         final User currUser = Application.getLocalUser(session());

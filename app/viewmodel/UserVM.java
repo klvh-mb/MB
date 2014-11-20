@@ -3,6 +3,7 @@ package viewmodel;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import controllers.Application;
+import controllers.GameController;
 import models.Icon;
 import models.Location;
 import models.User;
@@ -34,7 +35,7 @@ public class UserVM {
     @JsonProperty("gameLevelIcon") public String gameLevelIcon = Icon.getGameLevelIcon(gameLevel).url;
     @JsonProperty("gameTotalPoints") public int gameTotalPoints = 100;
     @JsonProperty("gameRedeemablePoints") public int gameRedeemablePoints = 89;
-    @JsonProperty("isSignedInToday") public boolean isSignedInToday = false;
+    @JsonProperty("enableSignInForToday") public boolean enableSignInForToday = false;
     
 	public UserVM(User user) {
 	    this.isMobile = Application.isMobileUser();
@@ -52,18 +53,20 @@ public class UserVM {
     			}
     			this.aboutMe = user.userInfo.aboutMe;
     			this.location = user.userInfo.location;
-    		}
 
-    		this.noOfFriends = user.getFriendsSize();
-    		this.noOfGroups = user.getListOfJoinedCommunityIds().size();
-    		this.isFbLogin = user.fbLogin;
-    		this.isHomeTourCompleted = user.isHomeTourCompleted();
-    		
-		    this.isSuperAdmin = user.isSuperAdmin();
-	        this.isBusinessAdmin = user.isBusinessAdmin();
-	        this.isCommunityAdmin = user.isCommunityAdmin();
-	        this.isEditor = user.isEditor();
-	        this.isAdmin = this.isSuperAdmin || this.isBusinessAdmin || this.isCommunityAdmin;    
+        		this.noOfFriends = user.getFriendsSize();
+        		this.noOfGroups = user.getListOfJoinedCommunityIds().size();
+        		this.isFbLogin = user.fbLogin;
+        		this.isHomeTourCompleted = user.isHomeTourCompleted();
+        		
+        		this.enableSignInForToday = GameController.enableSignInForToday();
+        		
+    		    this.isSuperAdmin = user.isSuperAdmin();
+    	        this.isBusinessAdmin = user.isBusinessAdmin();
+    	        this.isCommunityAdmin = user.isCommunityAdmin();
+    	        this.isEditor = user.isEditor();
+    	        this.isAdmin = this.isSuperAdmin || this.isBusinessAdmin || this.isCommunityAdmin;
+    		}
 	    }
 	}
 }

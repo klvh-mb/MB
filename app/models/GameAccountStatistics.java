@@ -54,7 +54,7 @@ public class GameAccountStatistics  extends domain.Entity {
 	}
 
     // Get, create if not found
-	private static GameAccountStatistics getGameAccountStatistics(long userID) {
+	public static GameAccountStatistics getGameAccountStatistics(long userID) {
         Date today = (new LocalDate()).toDate();        // today without time
 		try {
 	        Query q = JPA.em().createQuery("SELECT u FROM GameAccountStatistics u where user_id = ?1 and activity_date =?2");

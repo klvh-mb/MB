@@ -48,6 +48,13 @@ minibean.service('gameService',function($resource) {
                 get: {method:'get'}
             }
     );
+    this.gameAccount = $resource(
+            '/get-gameaccount',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
 });
 
 minibean.service('locationService',function($resource){

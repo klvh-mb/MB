@@ -106,17 +106,24 @@ minibean.controller('TodayWeatherInfoController',function($scope, $http, todayWe
     log("TodayWeatherInfoController completed");
 });
 
-minibean.controller('GameController',function($scope, $http, gameService) {
+minibean.controller('GameController',function($scope, $http, gameService, usSpinnerService) {
     log("GameController starts");
 
     $scope.get_header_metaData();
-
+    
     $scope.signInForToday = function() {
-        gameService.signInForToday.get({}, 
-            function(data) {
-                $scope.userInfo.isSignedInForToday = true;
+        var formData = {
+        };
+        usSpinnerService.spin('loading...');
+        return $http.post('/sign-in-for-today', formData)
+            .success(function(data){
+                $scope.userInfo.enableSignInForToday = false;
+                prompt("<div><b>每日簽到 +5小豆豆!</b></div>", "bootbox-default-prompt game-bootbox-prompt", 2000);
+                usSpinnerService.stop('loading...');
             });
     }
+    
+    $scope.gameAccount = gameService.gameAccount.get();
     
     log("GameController completed");
 });
@@ -583,8 +590,9 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
            
     		return $http.post('/updateUserProfileData', formData)
                 .success(function(data){
+                alert('1');
                     $scope.saved = true;
-                    $scope.get_header_metaData();
+                    //$scope.get_header_metaData();
                     usSpinnerService.stop('loading...');
                 }).error(function(data, status, headers, config) {
                     prompt(data);
@@ -2956,26 +2964,8 @@ minibean.controller('ArticlePageController',function($scope, $modal, $routeParam
     $scope.defaultCollapseCount = DefaultValues.TAGWORD_LIST_COLLAPSE_COUNT;
     
     // tag words
-    $scope.hotArticlesTagwords = tagwordService.HotArticlesTagwords.get({}, 
-        function(data) {
-            if (tagwordRequest && $routeParams.catGroup == 'HOT_ARTICLES') {
-                angular.forEach(data, function(tagword, key){
-                    if(tagword.id == tagwordId) {
-                        $scope.tagword = tagword;
-                    }
-                })
-            }
-        });
-    $scope.soonMomsTagwords = tagwordService.SoonMomsTagwords.get({}, 
-        function(data) {
-            if (tagwordRequest && $routeParams.catGroup == 'SOON_TO_BE_MOMS_ARTICLES') {
-                angular.forEach(data, function(tagword, key){
-                    if(tagword.id == tagwordId) {
-                        $scope.tagword = tagword;
-                    }
-                })
-            }
-        });
+    $scope.hotArticlesTagwords = tagwordService.HotArticlesTagwords.get();
+    $scope.soonMomsTagwords = tagwordService.SoonMomsTagwords.get();
     
     $scope.hotArticles = articleService.HotArticles.get({category_id:$routeParams.catId});
     $scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:$routeParams.catId});

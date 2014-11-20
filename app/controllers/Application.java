@@ -149,11 +149,11 @@ public class Application extends Controller {
 	@Transactional
     public static Result getUserTargetProfile() {
 	    final User localUser = getLocalUser(session());
-	    if (!localUser.isLoggedIn()) {
-	        return ok();
+	    if (localUser.isLoggedIn() && localUser.userInfo != null) {
+	        TargetProfile targetProfile = TargetProfile.fromUser(localUser);
+	        return ok(Json.toJson(new UserTargetProfileVM(targetProfile)));
 	    }
-	    TargetProfile targetProfile = TargetProfile.fromUser(localUser);
-        return ok(Json.toJson(new UserTargetProfileVM(targetProfile)));
+	    return ok();	    
     }
     
 	@Transactional

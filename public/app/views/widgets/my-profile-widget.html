@@ -7,21 +7,27 @@
     <div id="user-info" ng-show="!hideStats && userInfo.isSA">
         <div id="game-info">
             <span class="pull-right">
-                <a class="btn btn-sign-in" href="my#/bpoints" ng-show="!userInfo.isSignedInForToday">
+                <a class="btn btn-sign-in" href="my#/game" ng-show="userInfo.enableSignInForToday">
                     <img style="height:22px;width:auto;" src="/assets/app/images/game/sign_in.png"></img>
                 </a>
-                <a class="btn btn-signed-in" href="my#/bpoints" ng-show="userInfo.isSignedInForToday">
+                <a class="btn btn-signed-in" href="my#/game" ng-show="!userInfo.enableSignInForToday">
                     <img style="height:22px;width:auto;" src="/assets/app/images/game/signed_in.png"></img>
                 </a>
             </span>
             <div>
-                級別: <span class="points">L{{userInfo.gameLevel}} <img src="{{userInfo.gameLevelIcon}}"></span>
+                <a class="" href="my#/game">
+                活力級別: <span class="points">L{{userInfo.gameLevel || '--'}} <img src="{{userInfo.gameLevelIcon}}"></span>
+                </a>
             </div>
             <div>
-                小豆豆總值: <span class="points">{{userInfo.gameTotalPoints}}</span>
+                <a class="" href="my#/game">
+                小豆豆總值: <span class="points">{{gameAccount.gmpt || '--'}}</span>
+                </a>
             </div>
             <div>
-                小豆豆可兌換值: <span class="points">{{userInfo.gameRedeemablePoints}}</span>
+                <a class="" href="my#/game">
+                小豆豆可兌換值: <span class="points">{{userInfo.rdpt || '--'}}</span>
+                </a>
             </div>
         </div>
     </div>
