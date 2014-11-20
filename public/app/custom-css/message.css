@@ -188,16 +188,16 @@
     left: 10px;
 }
 #message-content .post-comment-box ul.dropdown-menu {
-    top: 15px;
-    right: 10px;
+    top: 5px;
+    right: 50px;
     left: auto;
-    width: 180px;
+    width: 210px;
     height: auto;
     padding: 5px;
 }
 #message-content .post-comment-box ul.dropdown-menu li {
     padding: 0px;
-    margin: 3px;
+    margin: 5px;
     width: 18px;
     height: 18px;
 }

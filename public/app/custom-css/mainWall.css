@@ -282,10 +282,10 @@
     vertical-align: middle;
 }
 .post-comment-box .post-qna-reply-textfield {
-    width: 300px;
+    width: 280px;
 }
 .post-comment-box .post-sharing-comment-textfield {
-    width: 300px;
+    width: 280px;
 }
 .post-comment-box .post-qna-reply-textfield:focus {
     border: thin solid #a37cde !important;
@@ -299,13 +299,14 @@
     padding: 3px 7px;
     font-size: 13px;
     background-color: #5482C7;
+    margin: 0 3px;
 }
 .post-photo-icon {
     color: #5482C7;
     font-size: 23px;
     top: 8px;
     position: relative;
-    margin-left: 3px;
+    margin-left: 5px;
 }
 .post-photo-icon:hover, .post-photo-icon:focus {
     text-decoration: none;
@@ -409,7 +410,7 @@ a.btn-like, a.btn-like:hover {
     border-bottom: 1px solid #F3B6CE;
 }
 .post-card a.post-emoticon-dropdown {
-    margin-left: 3px;
+    margin-left: 5px;
 }
 .post-card a.post-emoticon-dropdown:hover {
     text-decoration: none;
@@ -418,16 +419,16 @@ a.btn-like, a.btn-like:hover {
     width: 18px;
 } 
 .post-card ul.post-emoticon-dropdown-menu {
-    top: -80px;
-    right: 80px;
+    top: -95px;
+    right: 50px;
     left: auto;
-    width: 180px;
+    width: 210px;
     height: auto;
     padding: 5px;
 }
 .post-card ul.post-emoticon-dropdown-menu li {
     padding: 0px;
-    margin: 3px;
+    margin: 5px;
     width: 18px;
     height: 18px;
 }

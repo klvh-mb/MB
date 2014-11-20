@@ -5,8 +5,6 @@ var minibean = angular.module('minibean');
 minibean.controller('BusinessCommunityPageController', function($scope, $routeParams, profilePhotoModal,
         communityPageService, communityJoinService, searchMembersService, usSpinnerService){
     
-    log("BusinessCommunityPageController starts");
-
     $scope.selectNavBar('HOME', -1);
 
     $scope.selectedTab = 1;
@@ -86,28 +84,21 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
             $scope.community.isM = false;
         });
     }
-    
-    log("BusinessCommunityPageController completed");
 });
 
 minibean.controller('AnnouncementsWidgetController',function($scope, $http, announcementsService) {
-    log("AnnouncementsWidgetController starts");
 
     $scope.announcements = announcementsService.getGeneralAnnouncements.get();
-    
-    log("AnnouncementsWidgetController completed");
+
 });
 
 minibean.controller('TodayWeatherInfoController',function($scope, $http, todayWeatherInfoService) {
-    log("TodayWeatherInfoController starts");
     
     $scope.todayWeatherInfo = todayWeatherInfoService.getTodayWeatherInfo.get();
     
-    log("TodayWeatherInfoController completed");
 });
 
 minibean.controller('GameController',function($scope, $http, $interval, $location, gameService, usSpinnerService) {
-    log("GameController starts");
 
     $scope.get_header_metaData();
     
@@ -125,20 +116,15 @@ minibean.controller('GameController',function($scope, $http, $interval, $locatio
     }
     
     $scope.gameAccount = gameService.gameAccount.get();
-    
-    log("GameController completed");
 });
 
 minibean.controller('SearchController',function($scope, searchService){
-    log("SearchController starts");
 
 	$scope.search_result = function(query) {
 		if(query != undefined) {
 			this.result = searchService.userSearch.get({q:query});
 		}
-	}
-	
-	log("SearchController completed");
+	}	
 });
 
 minibean.controller('ApplicationController', 
@@ -146,8 +132,6 @@ minibean.controller('ApplicationController',
         applicationInfoService, announcementsService, headerBarMetadataService, userInfoService,
         acceptJoinRequestService, acceptFriendRequestService, notificationMarkReadService,
         communityCategoryService, articleService, iconsService, usSpinnerService) {
-
-    log("ApplicationController starts");
 
     // For fix sidebar
     $scope.leftSidebarTop = 0;
@@ -455,9 +439,7 @@ minibean.controller('ApplicationController',
         // set the location.hash to the id of
         // the element you wish to scroll to
         $window.scrollTo($window.pageXOffset, 0);
-    };
-    
-    log("ApplicationController completed");
+    };    
 });
 
 // TODO: I dont like way i am defining PhotoModalController
@@ -539,7 +521,6 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 }
 
 minibean.controller('UserAboutController',function($routeParams, $scope, $http, userAboutService, locationService, profilePhotoModal, usSpinnerService) {
-	log("UserAboutController starts");
 	
 	$scope.get_header_metaData();
 	
@@ -629,11 +610,9 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
         $scope.img_id = imageId;
     }
     
-    log("UserAboutController completed");
 });
 
 minibean.controller('EditCommunityController',function($scope,$q, $location,$routeParams, $http, usSpinnerService, iconsService, editCommunityPageService, $upload, profilePhotoModal){
-    log("EditCommunityController starts");
 
     $scope.get_header_metaData();
 
@@ -679,11 +658,9 @@ minibean.controller('EditCommunityController',function($scope,$q, $location,$rou
 		});
 	}
 	
-	log("EditCommunityController completed");
 });
 
 minibean.controller('CreateCommunityController',function($scope, $location, $http, $upload, $validator, iconsService, usSpinnerService){
-	log("CreateCommunityController starts");
 	
 	$scope.formData = {};
 	$scope.selectedFiles =[];
@@ -737,13 +714,11 @@ minibean.controller('CreateCommunityController',function($scope, $location, $htt
 		$scope.formData.photo = 'cover-photo';
 	}
 	
-	log("CreateCommunityController completed");
 });
 
 ///////////////////////// Suggested Friends Widget Service Start //////////////////////////////////
 
 minibean.controller('SuggestedFriendsUtilityController',function($scope, unFriendService, usSpinnerService, sendInvitation, friendsService, userInfoService, $http){
-    log("SuggestedFriendsUtilityController starts");
 
 	$scope.result = friendsService.SuggestedFriends.get();
 	$scope.isLoadingEnabled = false;
@@ -771,11 +746,9 @@ minibean.controller('SuggestedFriendsUtilityController',function($scope, unFrien
 		});
 	}
 	
-	log("SuggestedFriendsUtilityController completed");
 });
 
 minibean.controller('CommunityMembersController',function($scope, $routeParams, membersWidgetService, $http){
-    log("CommunityMembersController starts");
     
     // paged filtered data
     $scope.pagedMembers = [];
@@ -805,11 +778,9 @@ minibean.controller('CommunityMembersController',function($scope, $routeParams, 
 		$scope.showAdmin = true;
 	}
 	
-	log("CommunityMembersController completed");
 });
 
 minibean.controller('PNCommunitiesUtilityController', function($scope, $routeParams, pnService, sendJoinRequest, $http){
-    log("PNCommunitiesUtilityController starts");
 
     $scope.pnCommunities = pnService.PNCommunities.get();
     $scope.send_request = function(id) {
@@ -824,11 +795,9 @@ minibean.controller('PNCommunitiesUtilityController', function($scope, $routePar
         );
     }
     
-    log("PNCommunitiesUtilityController completed");
 });
 
 minibean.controller('CommunityPNController',function($scope, $routeParams, $http, $filter, pnService) {
-    log("CommunityPNController starts");
 
     $scope.currentPage = 1;
     $scope.itemsPerPage = DefaultValues.DEFAULT_ITEMS_PER_PAGE;
@@ -892,11 +861,9 @@ minibean.controller('CommunityPNController',function($scope, $routeParams, $http
         $('#thx_'+id).show();
     }
     
-    log("CommunityPNController completed");
 });
 
 minibean.controller('RecommendedCommunityWidgetController',function($scope, usSpinnerService, sendJoinRequest, unJoinedCommunityWidgetService, userInfoService, $http){
-    log("RecommendedCommunityWidgetController starts");
 
 	$scope.result = unJoinedCommunityWidgetService.UnJoinedCommunities.get();
 	$scope.send_request = function(id) {
@@ -911,43 +878,33 @@ minibean.controller('RecommendedCommunityWidgetController',function($scope, usSp
         );
     }
 	
-	log("RecommendedCommunityWidgetController completed");
 });
 
 minibean.controller('MyFriendsUtilityController',function($scope, userInfoService, friendsService, $http){
-    log("MyFriendsUtilityController starts");
 
     $scope.result = friendsService.MyFriendsForUtility.get();
     
-    log("MyFriendsUtilityController completed");
 });
 
 minibean.controller('UserFriendsUtilityController',function($scope, $routeParams, userInfoService, friendsService, $http){
-    log("UserFriendsUtilityController starts");
 
     $scope.result = friendsService.UserFriendsForUtility.get({id:$routeParams.id});
     
-    log("UserFriendsUtilityController completed");
 });
 
 minibean.controller('MyFriendsController',function($scope, friendsService, $http){
-    log("MyFriendsController starts");
 
 	$scope.result = friendsService.MyFriends.get();
 	
-	log("MyFriendsController completed");
 });
 
 minibean.controller('UserFriendsController',function($scope, $routeParams, friendsService, $http){
-    log("UserFriendsController starts");
 
     $scope.result = friendsService.UserFriends.get({id:$routeParams.id});
     
-    log("UserFriendsController completed");
 });
 
 minibean.controller('CommunitiesDiscoverController',function($scope, $routeParams, usSpinnerService, communitiesDiscoverService, communityCategoryService, sendJoinRequest){
-    log("CommunitiesDiscoverController starts");
     
     $scope.get_header_metaData();
     
@@ -1053,11 +1010,9 @@ minibean.controller('CommunitiesDiscoverController',function($scope, $routeParam
         );
     }
     
-    log("CommunitiesDiscoverController completed");
 });
 
 minibean.controller('CommunityWidgetController',function($scope, $routeParams, usSpinnerService, communityWidgetService, sendJoinRequest){
-	log("CommunityWidgetController starts");
 	
 	$scope.myAdminCommunities = [];
 	$scope.myAdminBusinessCommunities = [];
@@ -1097,11 +1052,9 @@ minibean.controller('CommunityWidgetController',function($scope, $routeParams, u
 		);
 	}
 	
-	log("CommunityWidgetController completed");
 });
 
 minibean.controller('UserCommunityWidgetController',function($scope, communityWidgetService){
-	log("UserCommunityWidgetController starts");
 	
 	$scope.sysCommunities = [];
 	$scope.myCommunities = [];
@@ -1122,11 +1075,9 @@ minibean.controller('UserCommunityWidgetController',function($scope, communityWi
 
 	$scope.selectedTab = 1;
 	
-	log("UserCommunityWidgetController completed");
 });
 
 minibean.controller('CommunityWidgetByUserController',function($scope, $routeParams, usSpinnerService, sendJoinRequest, communityJoinService, communityWidgetByUserService){
-    log("CommunityWidgetByUserController starts");
 
     $scope.userJoinedCommunities = [];
     $scope.userLikedBusinessCommunities = [];
@@ -1156,11 +1107,9 @@ minibean.controller('CommunityWidgetByUserController',function($scope, $routePar
 		);
 	}
 	
-	log("CommunityWidgetByUserController completed");
 });
 
 minibean.controller('UserProfileController',function($scope, $routeParams, $location, profileService, friendsService, sendInvitation, unFriendService){
-	log("UserProfileController starts");
     
     $scope.get_header_metaData();
 	
@@ -1204,11 +1153,9 @@ minibean.controller('UserProfileController',function($scope, $routeParams, $loca
         $scope.img_id = imageId;
     }
     
-    log("UserProfileController completed");
 });
 
 minibean.controller('SearchPageController', function($scope, $routeParams, likeFrameworkService, communityPageService, $http, communitySearchPageService, usSpinnerService){
-    log("SearchPageController starts");
 
 	$scope.highlightText="";
 	$scope.highlightQuery = "";
@@ -1259,14 +1206,11 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 		});
 	};
 	
-	log("SearchPageController completed");
 });
 
 minibean.controller('PostLandingController', function($scope, $routeParams, $http, $timeout, $upload, $validator, 
     postLandingService, communityPageService, allCommentsService, showImageService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
     
-    log("PostLandingController starts");
-
 	$scope.get_header_metaData();
 	
     $scope.$on('$viewContentLoaded', function() {
@@ -1616,13 +1560,10 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
         }
     }
     
-    log("PostLandingController completed");
 });
     
 minibean.controller('QnALandingController', function($scope, $routeParams, $http, $timeout, $upload, $validator, 
     qnaLandingService, communityPageService, allAnswersService, showImageService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
-
-    log("QnALandingController starts");
 
     $scope.get_header_metaData();
 
@@ -1919,14 +1860,11 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
         });
     }
     
-    log("QnALandingController completed");
 });
 
 minibean.controller('CommunityPageController', function($scope, $routeParams, profilePhotoModal,
         communityPageService, communityJoinService, searchMembersService, usSpinnerService){
     
-    log("CommunityPageController starts");
-
     $scope.get_header_metaData();
 
     $scope.selectedTab = 1;
@@ -2015,13 +1953,10 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, pr
         });
     }
     
-    log("CommunityPageController completed");
 });
 
 minibean.controller('CommunityPostController', function($scope, $routeParams, $http, profilePhotoModal,
 		allCommentsService, communityPageService, postManagementService, likeFrameworkService, bookmarkPostService, communityJoinService, $upload, $timeout, usSpinnerService){
-	
-	log("CommunityPostController starts");
 	
     var firstBatchLoaded = false;
     var offset = 0;
@@ -2359,11 +2294,9 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 		}
 	}
 	
-	log("CommunityPostController completed");
 });
 
 minibean.controller('CommunityQnAController',function($scope, postManagementService, bookmarkPostService, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
-    log("CommunityQnAController starts");
 
     var firstBatchLoaded = false;
     var offsetq = 0;
@@ -2747,11 +2680,9 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 		});
 	}
 	
-	log("CommunityQnAController completed");
 });
 
 minibean.controller('ArticleSliderController', function($scope, $modal, $routeParams, $interval, showImageService, usSpinnerService, articleService){
-    log("ArticleSliderController starts");
 
     $scope.resultSlider = articleService.SixArticles.get({category_id:$routeParams.catId}, function() {
         $scope.changeSliderImage($scope.resultSlider.la[0].id);
@@ -2841,11 +2772,9 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
         //log(left+":"+index);
     }
   
-    log("ArticleSliderController completed");
 });
 
 minibean.controller('CampaignPageController',function($scope, $route, $location, $http, $modal, $routeParams, likeFrameworkService, campaignService, usSpinnerService){
-    log("CampaignPageController starts");
 
     $scope.showCampaign = true;
 
@@ -2951,11 +2880,9 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
             });
     }
     
-    log("CampaignController completed");
 });
 
 minibean.controller('ArticlePageController',function($scope, $modal, $routeParams, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService, tagwordService){
-    log("ArticlePageController starts");
     
     $scope.get_header_metaData();
     
@@ -3014,11 +2941,9 @@ minibean.controller('ArticlePageController',function($scope, $modal, $routeParam
             });
     }
      
-    log("ArticlePageController completed");
 });
 
 minibean.controller('ShowArticlesController',function($scope, $modal, $routeParams, articleService, tagwordService, bookmarkPostService, showImageService, usSpinnerService) {
-    log("ShowArticlesController starts");
 
     $scope.get_header_metaData();
 
@@ -3181,11 +3106,9 @@ minibean.controller('ShowArticlesController',function($scope, $modal, $routePara
     	});
     }
 	 
-	log("ShowArticlesController completed");
 });
 
 minibean.controller('MyMagazineNewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, myMagazineNewsFeedService) {
-    log("MyMagazineNewsFeedController starts");
     
     $scope.newsFeeds = { posts: [] };
     
@@ -3324,11 +3247,9 @@ minibean.controller('MyMagazineNewsFeedController', function($scope, postManagem
         );
     }
 
-    log("MyMagazineNewsFeedController completed");
 });
 
 minibean.controller('NewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, newsFeedService) {
-	log("NewsFeedController starts");
 
     $scope.get_header_metaData();
 	$scope.newsFeeds = { posts: [] };
@@ -3689,11 +3610,9 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 		$scope.commentDataUrls.splice(index, 1);
 	}
 	
-	log("NewsFeedController completed");
 });
 
 minibean.controller('UserNewsFeedController', function($scope, $routeParams, $timeout, $upload, postManagementService, bookmarkPostService, likeFrameworkService, $http, allCommentsService, usSpinnerService, userNewsFeedService) {
-	log("UserNewsFeedController starts");
 	
 	$scope.newsFeeds = { posts: [] };
 	
@@ -4100,11 +4019,9 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 		);
 	}
 	
-	log("UserNewsFeedController completed");
 });
 
 minibean.controller('MyBookmarkController', function($scope, bookmarkPostService, likeFrameworkService, postManagementService, $http, allCommentsService, usSpinnerService, bookmarkService) {
-    log("MyBookmarkController starts");
     
     $scope.bookmarkSummary = bookmarkService.bookmarkSummary.get();
     
@@ -4313,11 +4230,9 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
     		});
 	}
 	
-	log("MyBookmarkController completed");
 });
 
 minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $routeParams, $sce, searchFriendService, usSpinnerService, getMessageService, allConversationService) {
-    log("UserConversationController starts");
 
     $scope.selectNavBar('HOME', -1);
 
@@ -4539,5 +4454,4 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 	    return showHeader;
 	}
 	
-	log("UserConversationController completed");
 });
