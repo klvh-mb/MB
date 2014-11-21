@@ -258,5 +258,6 @@ GET     /image/campaign/:year/:month/:date/:name    controllers.CampaignControll
 # Gamification
 POST    /sign-in-for-today                      controllers.GameController.signInForToday()
 GET		/get-gameaccount					    controllers.GameController.getGameAccount()
+GET     /get-transactions/:offset               controllers.GameController.getGameTransactions(offset : String)
 GET		/invite-by-mail/:mail					controllers.UserController.inviteByEmail(mail: String)
 GET     /request-redemption/:id/:points			controllers.UserController.requestToRedemption(id: Long,points: Long)

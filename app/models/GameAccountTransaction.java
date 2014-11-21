@@ -7,30 +7,29 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import domain.GamificationConstants;
 import play.db.jpa.JPA;
+import play.db.jpa.Transactional;
 
 @Entity
 public class GameAccountTransaction  extends domain.Entity {
     private static final play.api.Logger logger = play.api.Logger.apply(GameAccountTransaction.class);
 
-    public static final String TRANS_DESC_SIGNUP = "miniBean account signup";
-    public static final String TRANS_DESC_REFERRAL = "miniBean signup referral";
-    public static final String TRANS_DESC_PROFILEPIC = "Profile picture upload";
-    public static final String TRANS_DESC_SIGNIN = "Daily signin";
-    public static final String TRANS_DESC_POSTS = "New posts";
-    public static final String TRANS_DESC_COMMENTS = "Post comments";
-    public static final String TRANS_DESC_LIKES = "Likes";
+    public static final String TRANS_DESC_SIGNUP = "新會員奬賞";
+    public static final String TRANS_DESC_REFERRAL = "介紹成為新會員";
+    public static final String TRANS_DESC_PROFILEPIC = "上載個人頭像照片";
+    public static final String TRANS_DESC_SIGNIN = "每日簽到";
+    public static final String TRANS_DESC_POSTS = "發佈新話題";
+    public static final String TRANS_DESC_COMMENTS = "回覆話題";
+    public static final String TRANS_DESC_LIKES = "讚好";
 
     public static enum TransactionType {
 		SystemCredit,
 		Redemption,
 		Bonus,
-		Penalty,
-		End_of_day
+		Penalty
 	}
     
 	@Id
@@ -54,18 +53,24 @@ public class GameAccountTransaction  extends domain.Entity {
      */
 	public GameAccountTransaction() {}
 
+    @Transactional(readOnly = true)
+	public static List<GameAccountTransaction> getTransactions(Long userId, int offset, int pageSize) {
+        Query q = JPA.em().createQuery("SELECT u FROM GameAccountTransaction u where userId = ?1 order by transactedTime desc");
+        q.setParameter(1, userId);
 
-	public static GameAccountTransaction findByUserId(Long userId) {
-	    try { 
-	        Query q = JPA.em().createQuery("SELECT u FROM GameAccountTransaction u where userId = ?1");
-	        q.setParameter(1, userId);
-	        return (GameAccountTransaction) q.getSingleResult();
-	    } catch (NoResultException e) {
-	        return null;
-	    } 
+        q.setFirstResult(offset);
+        q.setMaxResults(pageSize);
+        return (List<GameAccountTransaction>) q.getResultList();
 	}
 
-	 
+    /**
+     * @param userId
+     * @param transactedPoints
+     * @param type
+     * @param desc
+     * @param newTotalPoints
+     */
+    @Transactional
 	public static void recordPoints(long userId, long transactedPoints, TransactionType type, String desc,
                                     long newTotalPoints) {
 		GameAccountTransaction transaction = new GameAccountTransaction();
@@ -81,6 +86,7 @@ public class GameAccountTransaction  extends domain.Entity {
     /**
      * EOD Tasks
      */
+    @Transactional
 	public static void performEndOfDayTasks(Integer daysBefore) {
         final int numDaysBefore = (daysBefore == null) ? 1 : daysBefore;
 

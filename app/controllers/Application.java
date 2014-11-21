@@ -355,7 +355,13 @@ public class Application extends Controller {
 	}
 
     public static String getLocalUserName() {
-        final User user = getLocalUser(session());
+        User user = null;
+        try {
+            user = getLocalUser(session());
+        } catch (Exception e) {
+            // ignore
+        }
+
         if (user != null) {
             return user.name;
         }
