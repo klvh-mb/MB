@@ -243,15 +243,19 @@ GET     /get-pn-communities                     controllers.PreNurseryController
 GET     /getPNs/:id                             controllers.PreNurseryController.getPNs(id:Long)
 GET     /pn-request-update/:name/:districtId    controllers.PreNurseryController.requestUpdate(name:String,districtId:Long)
 
-# indexing with elasic search
-GET     /searchForPosts/index/:query/:community_id/:offset  controllers.Application.searchForPosts(query: String, community_id: Long,offset:Long)
+# Edm settings
+GET     /get-all-unsubscriptions                controllers.UserController.getAllUnsubscriptions()
+GET     /subscribe/:id/:isSub                   controllers.UserController.subscribe(id:Long,isSub:Boolean)
 
-#Subscription
-GET     /get-all-subscriptions                  controllers.UserController.getAllSubscriptions()
-GET     /subscribe/:id/:isSubscribed            controllers.UserController.subscribe(id:Long,isSubscribed:Boolean)
+POST    /save-edm-settings                      controllers.UserSettingsController.saveEdmSettings
+GET     /get-edm-settings                       controllers.UserSettingsController.getEdmSettings
 
-#Report Generation
+# Privacy settings
+POST    /save-privacy-settings                  controllers.UserSettingsController.savePrivacySettings
+GET     /get-privacy-settings                   controllers.UserSettingsController.getPrivacySettings
+
+# Report Generation
 POST    /send-report                            controllers.ReportObjectController.createReport()
 
-POST    /save-privacy-settings                  controllers.PrivacySettingsController.saveSettings
-GET     /get-privacy-settings                   controllers.PrivacySettingsController.getSettings
+# Indexing with elasic search
+GET     /searchForPosts/index/:query/:community_id/:offset  controllers.Application.searchForPosts(query: String, community_id: Long,offset:Long)

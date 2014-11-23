@@ -1,7 +1,7 @@
 <div id="message-box" class="general-box">
     <div class="con-title">私隱設定</div>
     <div style="padding:10px 10px;">
-        <form id="signup-info" name="signup-info" method="post" ng-submit="updateUserPrivacySettings()">
+        <form id="signup-info" name="signup-info" method="post" ng-submit="updatePrivacySettings()">
             <table class="signup-info-table" style="width:100%;">
                 <tbody>
                     <tr ng-show="privacySettingsSaved">
@@ -20,29 +20,29 @@
                     <tr>
                         <td style="width:150px;">我的發佈、回覆</td>
                         <td>
-                            <div><input type="radio" name="activity" value="1" data-ng-model="formData.activity">所有人</div>
-                            <div><input type="radio" name="activity" value="2" data-ng-model="formData.activity">我的朋友</div>
+                            <div><input type="radio" name="activity" value="1" data-ng-model="privacyFormData.activity">所有人</div>
+                            <div><input type="radio" name="activity" value="2" data-ng-model="privacyFormData.activity">我的朋友</div>
                         </td>
                     </tr>
                     <tr>
                         <td>我關注的社群</td>
                         <td>
-                            <div><input type="radio" name="joinedCommunity" value="1" data-ng-model="formData.joinedCommunity">所有人</div>
-                            <div><input type="radio" name="joinedCommunity" value="2" data-ng-model="formData.joinedCommunity">我的朋友</div>
+                            <div><input type="radio" name="joinedCommunity" value="1" data-ng-model="privacyFormData.joinedCommunity">所有人</div>
+                            <div><input type="radio" name="joinedCommunity" value="2" data-ng-model="privacyFormData.joinedCommunity">我的朋友</div>
                         </td>
                     </tr>
                     <tr>
                         <td>我的朋友</td>
                         <td>
-                            <div><input type="radio" name="friendList" value="1" data-ng-model="formData.friendList">所有人</div>
-                            <div><input type="radio" name="friendList" value="2" data-ng-model="formData.friendList">我的朋友</div>
+                            <div><input type="radio" name="friendList" value="1" data-ng-model="privacyFormData.friendList">所有人</div>
+                            <div><input type="radio" name="friendList" value="2" data-ng-model="privacyFormData.friendList">我的朋友</div>
                         </td>
                     </tr>
                     <!--tr>
                         <td>Show My Details To</td>
                         <td>
-                            <div><input type="radio" name="detail" value="1" data-ng-model="formData.detail">所有人</div>
-                            <div><input type="radio" name="detail" value="2" data-ng-model="formData.detail">我的朋友</div>
+                            <div><input type="radio" name="detail" value="1" data-ng-model="privacyFormData.detail">所有人</div>
+                            <div><input type="radio" name="detail" value="2" data-ng-model="privacyFormData.detail">我的朋友</div>
                         </td>
                     </tr-->
             
@@ -51,7 +51,7 @@
                         <td></td>
                         <td ng-show="!privacySettingsSaved">
                             <input class="btn btn-primary ng-binding pull-right" type="submit" name="Save" value="儲存更新">
-                            <!--button id="submitBtn" class="btn btn-primary ng-binding pull-right" ng-disabled="signup-info.$pristine" type="submit" disabled="disabled" data-ng-click="updateUserPrivacySettings();">
+                            <!--button id="submitBtn" class="btn btn-primary ng-binding pull-right" ng-disabled="signup-info.$pristine" type="submit" disabled="disabled" data-ng-click="updatePrivacySettings();">
                                 儲存更新
                             </button-->
                             <button id="cancelBtn" class="btn btn-default ng-binding pull-right" style="margin-right:7px;">

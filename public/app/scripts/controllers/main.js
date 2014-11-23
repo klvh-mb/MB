@@ -580,14 +580,14 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 	} // End of start
 }
 
-minibean.controller('PrivacySettingsController', function($scope, $http, privacySettingsService, usSpinnerService) {
+minibean.controller('PrivacySettingsController', function($scope, $http, userSettingsService, usSpinnerService) {
     log('PrivacySettingsController starts');
     
-    $scope.formData = privacySettingsService.settings.get();
+    $scope.privacyFormData = userSettingsService.privacySettings.get();
     $scope.privacySettingsSaved = false;
-    $scope.updateUserPrivacySettings = function() {
+    $scope.updatePrivacySettings = function() {
         usSpinnerService.spin('loading...');
-        return $http.post('/save-privacy-settings', $scope.formData)
+        return $http.post('/save-privacy-settings', $scope.privacyFormData)
             .success(function(data){
                 $scope.privacySettingsSaved = true;
                 $scope.get_header_metaData();
@@ -600,14 +600,34 @@ minibean.controller('PrivacySettingsController', function($scope, $http, privacy
     log('PrivacySettingsController completed');
 });
 
+minibean.controller('EdmSettingsController', function($scope, $http, userSettingsService, usSpinnerService) {
+    log('EdmSettingsController starts');
+    
+    $scope.edmFormData = userSettingsService.edmSettings.get();
+    $scope.edmSettingsSaved = false;
+    $scope.updateEdmSettings = function() {
+        usSpinnerService.spin('loading...');
+        return $http.post('/save-edm-settings', $scope.edmFormData)
+            .success(function(data){
+                $scope.edmSettingsSaved = true;
+                $scope.get_header_metaData();
+                usSpinnerService.stop('loading...');
+            }).error(function(data, status, headers, config) {
+                prompt(data);
+            });
+    }
+    
+    log('EdmSettingsController completed');
+});
+
 minibean.controller('SubscriptionController', function($scope, subscriptionService) {
     log('SubscriptionController starts');
 
-    $scope.subscriptions = subscriptionService.allsubscriptions.get();
-    $scope.subscribe = function(sub,isSubscribed) {
-        if (sub.isUnsub != isSubscribed) {
-            sub.isUnsub = isSubscribed;
-            subscriptionService.unsubscribe.get({id:sub.id,isSubscribed:isSubscribed})
+    $scope.unsubscriptions = subscriptionService.allUnsubscriptions.get();
+    $scope.subscribe = function(subscription,isSub) {
+        if (subscription.isUnsub != isSub) {
+            subscription.isUnsub = isSub;
+            subscriptionService.unsubscribe.get({id:subscription.id, isSub:isSub})
         }
     }
     

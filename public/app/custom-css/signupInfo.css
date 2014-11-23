@@ -54,7 +54,8 @@ ul, li {
     border-bottom: 1px dashed #2EAB66;
     font-weight: bold;
 }
-.signup-info-table tr td input[type='radio'] {
+.signup-info-table tr td input[type='radio'],
+.signup-info-table tr td input[type='checkbox'] {
     margin: 0 10px;
 }
 .signup-info-header {

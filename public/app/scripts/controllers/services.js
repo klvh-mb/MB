@@ -12,26 +12,33 @@ minibean.service('headerBarMetadataService',function($resource){
  	);
 });
 
-minibean.service('privacySettingsService',function($resource){
-    this.settings = $resource(
+minibean.service('userSettingsService',function($resource){
+    this.privacySettings = $resource(
             '/get-privacy-settings',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get'}
             }
-    );     
+    );
+    this.edmSettings = $resource(
+            '/get-edm-settings',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );    
 });
 
 minibean.service('subscriptionService',function($resource){
-    this.allsubscriptions = $resource(
-            '/get-all-unSubscriptions',
+    this.allUnsubscriptions = $resource(
+            '/get-all-unsubscriptions',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get',isArray:true}
             }
     );
     this.unsubscribe = $resource(
-            '/unSubscribe/:id/:isSubscribed',
+            '/unsubscribe/:id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get'}
