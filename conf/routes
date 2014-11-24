@@ -213,7 +213,7 @@ POST    /createCommunity                        controllers.CommunityController.
 POST    /image/upload-cover-photo-group/:id     controllers.CommunityController.uploadCoverPhoto(id : Long)
 POST    /updateCommunityProfileData             controllers.CommunityController.updateCommunityProfileData
 GET     /communityQnA/questions/:id             controllers.CommunityController.getAllQuestionsOfCommunity(id : Long)
-GET     /communityQnA/questions/body/:id		controllers.CommunityController.getAllPostBody(id : Long)
+GET     /communityQnA/questions/body/:id        controllers.CommunityController.getAllPostBody(id : Long)
 POST    /communityQnA/question/post             controllers.CommunityController.postQuestionOnCommunity()
 POST    /communityQnA/question/answer           controllers.CommunityController.answerToQuestionOnQnACommunity()
 POST    /image/uploadPostPhoto                  controllers.CommunityController.uploadPhotoOfPost()
@@ -247,6 +247,17 @@ GET     /get-pn-communities                     controllers.PreNurseryController
 GET     /getPNs/:id                             controllers.PreNurseryController.getPNs(id:Long)
 GET     /pn-request-update/:name/:districtId    controllers.PreNurseryController.requestUpdate(name:String,districtId:Long)
 
+# Edm settings
+POST    /save-edm-settings                      controllers.UserSettingsController.saveEdmSettings
+GET     /get-edm-settings                       controllers.UserSettingsController.getEdmSettings
+
+# Privacy settings
+POST    /save-privacy-settings                  controllers.UserSettingsController.savePrivacySettings
+GET     /get-privacy-settings                   controllers.UserSettingsController.getPrivacySettings
+
+# Report Generation
+POST    /send-report                            controllers.ReportObjectController.createReport()
+
 # indexing with elasic search
 GET     /searchForPosts/index/:query/:community_id/:offset  controllers.Application.searchForPosts(query: String, community_id: Long,offset:Long)
 
@@ -257,7 +268,7 @@ GET     /image/campaign/:year/:month/:date/:name    controllers.CampaignControll
 
 # Gamification
 POST    /sign-in-for-today                      controllers.GameController.signInForToday()
-GET		/get-gameaccount					    controllers.GameController.getGameAccount()
+GET     /get-gameaccount                        controllers.GameController.getGameAccount()
 GET     /get-transactions/:offset               controllers.GameController.getGameTransactions(offset : String)
-GET		/invite-by-mail/:mail					controllers.UserController.inviteByEmail(mail: String)
-GET     /request-redemption/:id/:points			controllers.UserController.requestToRedemption(id: Long,points: Long)
+GET     /invite-by-mail/:mail                   controllers.UserController.inviteByEmail(mail: String)
+GET     /request-redemption/:id/:points         controllers.UserController.requestToRedemption(id: Long,points: Long)

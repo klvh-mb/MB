@@ -1,0 +1,50 @@
+<div id="message-box" class="general-box">
+    <div class="con-title">電郵通知</div>
+    <div style="padding:10px 10px;">
+        <form id="signup-info" name="signup-info" method="post" ng-submit="updateEdmSettings()">
+            <table class="signup-info-table" style="width:100%;">
+                <tbody>
+                    <tr ng-show="edmSettingsSaved">
+                        <td colspan=2>
+                            <div class="alert alert-success" role="alert">
+                                你的電郵通知設定己儲存，謝謝。 <a href="my#/about"><b>返回您的主頁</b></a>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td colspan="2">
+                            <div class="title">給我發電子郵件</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div><input type="checkbox" name="generalInfoEdm" value="" data-ng-model="edmFormData.generalInfoEdm">有關小萌豆miniBean任何資訊和功能的更新消息</div>
+                            <div><input type="checkbox" name="communityInfoEdm" value="" data-ng-model="edmFormData.communityInfoEdm">小萌豆miniBean媽媽社群的資訊和推廌</div>
+                            <div><input type="checkbox" name="promoEdm" value="" data-ng-model="edmFormData.promoEdm">小萌豆miniBean的推廣資訊與活動</div>
+                            <div><input type="checkbox" name="adsEdm" value="" data-ng-model="edmFormData.adsEdm">夥伴產品與其他第三方推廣服務上的新聞</div>
+                        </td>
+                    </tr>
+            
+                    <tr class="padding10"><td></td></tr>
+                    <tr>
+                        <td ng-show="!edmSettingsSaved">
+                            <input class="btn btn-primary ng-binding pull-right" type="submit" name="Save" value="儲存更新">
+                            <!--button id="submitBtn" class="btn btn-primary ng-binding pull-right" ng-disabled="signup-info.$pristine" type="submit" disabled="disabled" data-ng-click="updateUserEdmSettings();">
+                                儲存更新
+                            </button-->
+                            <button id="cancelBtn" class="btn btn-default ng-binding pull-right" style="margin-right:7px;">
+                                <a href="my#/about">取消</a>
+                            </button>
+                        </td>
+                        <td ng-show="edmSettingsSaved">
+                            <button class="btn btn-default ng-binding pull-right" style="margin-right:7px;">
+                                <a href="my#/about">返回您的主頁</a>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>        
+</div>

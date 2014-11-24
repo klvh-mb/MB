@@ -128,7 +128,7 @@ minibean.controller('SearchController',function($scope, searchService){
 });
 
 minibean.controller('ApplicationController', 
-    function($scope, $location, $interval, $route, $window, 
+    function($scope, $location, $interval, $route, $window, $modal,  
         applicationInfoService, announcementsService, headerBarMetadataService, userInfoService,
         acceptJoinRequestService, acceptFriendRequestService, notificationMarkReadService,
         communityCategoryService, articleService, iconsService, usSpinnerService) {
@@ -439,8 +439,52 @@ minibean.controller('ApplicationController',
         // set the location.hash to the id of
         // the element you wish to scroll to
         $window.scrollTo($window.pageXOffset, 0);
-    };    
+    };
+    
+    $scope.openReportObjectModal = function (id, objectType) {
+        var modalInstance = $modal.open({
+            templateUrl: '/assets/app/views/report-object.html',
+            controller: ReportObjectModalController,
+            resolve: {
+                objectType: function () {
+                    return objectType;
+                },
+                id: function () {
+                    return id;
+                }
+            }
+        });
+        modalInstance.result.then(
+            function(selectedItem) {
+                $scope.selected = selectedItem;
+            }, 
+            function () {
+            });
+    }
 });
+
+var ReportObjectModalController = function ($scope, $modalInstance, objectType, id, usSpinnerService, $http) {
+    $scope.objectType = objectType;
+    $scope.reportType = DefaultValues.DEFAULT_REPORT_TYPE;
+    $scope.submitBtn = "ok";
+    $scope.complete = false; 
+    $scope.update = function (report) {
+        report.socialObjectID = id;
+        report.objectType = objectType;
+        $scope.submitBtn = "done";
+        usSpinnerService.spin('loading...');
+        log(report);
+        $http.post('/send-report', report).success(
+            function(data){
+                $scope.submitBtn = "Complete";
+                usSpinnerService.stop('loading...');
+                $scope.complete = true;
+            });
+    };
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+};
 
 // TODO: I dont like way i am defining PhotoModalController
 var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePhotoModal, usSpinnerService) {
@@ -520,6 +564,60 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 	} // End of start
 }
 
+minibean.controller('PrivacySettingsController', function($scope, $http, userSettingsService, usSpinnerService) {
+    log('PrivacySettingsController starts');
+    
+    $scope.privacyFormData = userSettingsService.privacySettings.get();
+    $scope.privacySettingsSaved = false;
+    $scope.updatePrivacySettings = function() {
+        usSpinnerService.spin('loading...');
+        return $http.post('/save-privacy-settings', $scope.privacyFormData)
+            .success(function(data){
+                $scope.privacySettingsSaved = true;
+                $scope.get_header_metaData();
+                usSpinnerService.stop('loading...');
+            }).error(function(data, status, headers, config) {
+                prompt(data);
+            });
+    }
+    
+    log('PrivacySettingsController completed');
+});
+
+minibean.controller('EdmSettingsController', function($scope, $http, userSettingsService, usSpinnerService) {
+    log('EdmSettingsController starts');
+    
+    $scope.edmFormData = userSettingsService.edmSettings.get();
+    $scope.edmSettingsSaved = false;
+    $scope.updateEdmSettings = function() {
+        usSpinnerService.spin('loading...');
+        return $http.post('/save-edm-settings', $scope.edmFormData)
+            .success(function(data){
+                $scope.edmSettingsSaved = true;
+                $scope.get_header_metaData();
+                usSpinnerService.stop('loading...');
+            }).error(function(data, status, headers, config) {
+                prompt(data);
+            });
+    }
+    
+    log('EdmSettingsController completed');
+});
+
+minibean.controller('SubscriptionController', function($scope, subscriptionService) {
+    log('SubscriptionController starts');
+
+    $scope.unsubscriptions = subscriptionService.allUnsubscriptions.get();
+    $scope.subscribe = function(subscription,isSub) {
+        if (subscription.isUnsub != isSub) {
+            subscription.isUnsub = isSub;
+            subscriptionService.unsubscribe.get({id:subscription.id, isSub:isSub})
+        }
+    }
+    
+    log('SubscriptionController completed');
+});
+
 minibean.controller('UserAboutController',function($routeParams, $scope, $http, userAboutService, locationService, profilePhotoModal, usSpinnerService) {
 	
 	$scope.get_header_metaData();
@@ -558,7 +656,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 	$scope.childBirthYears = DefaultValues.childBirthYears;
     $scope.locations = locationService.getAllDistricts.get();
     
-    $scope.saved = false;
+    $scope.profileDataSaved = false;
 	$scope.updateUserProfileData = function() {
         if ($("#signup-info").valid()) {
             var formData = {
@@ -573,7 +671,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
             usSpinnerService.spin('loading...');
     		return $http.post('/updateUserProfileData', formData)
                 .success(function(data){
-                    $scope.saved = true;
+                    $scope.profileDataSaved = true;
                     $scope.get_header_metaData();
                     usSpinnerService.stop('loading...');
                 }).error(function(data, status, headers, config) {
@@ -2682,7 +2780,7 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 	
 });
 
-minibean.controller('ArticleSliderController', function($scope, $modal, $routeParams, $interval, showImageService, usSpinnerService, articleService){
+minibean.controller('ArticleSliderController', function($scope, $routeParams, $interval, showImageService, usSpinnerService, articleService){
 
     $scope.resultSlider = articleService.SixArticles.get({category_id:$routeParams.catId}, function() {
         $scope.changeSliderImage($scope.resultSlider.la[0].id);
@@ -2774,7 +2872,7 @@ minibean.controller('ArticleSliderController', function($scope, $modal, $routePa
   
 });
 
-minibean.controller('CampaignPageController',function($scope, $route, $location, $http, $modal, $routeParams, likeFrameworkService, campaignService, usSpinnerService){
+minibean.controller('CampaignPageController',function($scope, $route, $location, $http, $routeParams, likeFrameworkService, campaignService, usSpinnerService){
 
     $scope.showCampaign = true;
 
@@ -2882,7 +2980,7 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
     
 });
 
-minibean.controller('ArticlePageController',function($scope, $modal, $routeParams, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService, tagwordService){
+minibean.controller('ArticlePageController',function($scope, $routeParams, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService, tagwordService){
     
     $scope.get_header_metaData();
     
@@ -2943,7 +3041,7 @@ minibean.controller('ArticlePageController',function($scope, $modal, $routeParam
      
 });
 
-minibean.controller('ShowArticlesController',function($scope, $modal, $routeParams, articleService, tagwordService, bookmarkPostService, showImageService, usSpinnerService) {
+minibean.controller('ShowArticlesController',function($scope, $routeParams, articleService, tagwordService, bookmarkPostService, showImageService, usSpinnerService) {
 
     $scope.get_header_metaData();
 

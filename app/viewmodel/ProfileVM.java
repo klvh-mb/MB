@@ -5,6 +5,7 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import models.Location;
+import models.PrivacySettings;
 import models.User;
 
 public class ProfileVM {
@@ -23,6 +24,11 @@ public class ProfileVM {
     @JsonProperty("isf") boolean isFriend;
     @JsonProperty("isP") boolean isFriendRequestPending;
     
+    @JsonProperty("isfV") boolean isFriendsVisibleToAll = true;
+    @JsonProperty("isaV") boolean isActivityVisibleToAll = true;
+    @JsonProperty("iscV") boolean isCommunityVisibleToAll = true;
+    @JsonProperty("isdV") boolean isDetailVisibleToAll = true;
+
     // admin readonly fields
     @JsonProperty("mb")  public boolean mobileSignup;
     @JsonProperty("fb")  public boolean fbLogin;
@@ -52,6 +58,35 @@ public class ProfileVM {
         vm.nofriends = user.getFriendsSize();
         vm.isFriend = user.isFriendOf(localUser);
         vm.isFriendRequestPending = user.isFriendRequestPendingFor(localUser);
+        
+        PrivacySettings settings = PrivacySettings.findByUserId(user.id);
+        if (settings != null) {
+            if(settings.showFriendListTo == 1) {
+                vm.isFriendsVisibleToAll = true;
+            }
+            if(settings.showFriendListTo == 2) {
+                vm.isFriendsVisibleToAll = false;
+            }
+            if(settings.showActivitiesTo == 1) {
+                vm.isActivityVisibleToAll = true;
+            }
+            if(settings.showActivitiesTo == 2) {
+                vm.isActivityVisibleToAll = false;
+            }   
+            if(settings.showJoinedcommunitiesTo == 1) {
+                vm.isCommunityVisibleToAll = true;
+            }
+            if(settings.showJoinedcommunitiesTo == 2) {
+                vm.isCommunityVisibleToAll = false;
+            }
+            if(settings.showDetailsTo == 1) {
+                vm.isDetailVisibleToAll = true;
+            }
+            if(settings.showDetailsTo == 2) {
+                vm.isDetailVisibleToAll = false;
+            }
+        }
+        
         vm.id = user.id;
 
         // admin readonly fields

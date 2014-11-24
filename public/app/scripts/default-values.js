@@ -7,9 +7,11 @@ var DefaultValues = new function() {
     this.DEFAULT_ITEMS_PER_PAGE = 30;
     this.DEFAULT_MEMBERS_PER_PAGE = 30;
     this.DEFAULT_INFINITE_SCROLL_COUNT = 7;
-    this.VIEW_ALL_SHOW = 2;
+    this.VIEW_ALL_SHOW = 2; 
     this.POST_PHOTO_UPLOAD = 3;
     this.CONVERSATION_MESSAGE_COUNT = 20;
+    
+    this.DEFAULT_REPORT_TYPE = "SPAM";
     
     this.tagColors = [
                         '#6D63DB',

@@ -4,7 +4,7 @@
         <form id="signup-info" name="signup-info" method="post" action="">
             <table class="signup-info-table" style="width:100%;">
                 <tbody>
-                    <tr ng-show="saved">
+                    <tr ng-show="profileDataSaved">
                         <td colspan=2>
                             <div class="alert alert-success" role="alert">
                                 你的個人資料己儲存，謝謝。 <a href="my#/about"><b>返回我的主頁</b></a>
@@ -24,33 +24,33 @@
                         </td>
                     </tr>
                     <tr ng-show="!userInfo.isFbLogin">
-                        <td style="width:120px;">登入電郵:</td>
+                        <td>登入電郵:</td>
                         <td>
                             {{userInfo.email}}
                         </td>
                     </tr>
                     <tr>
-                        <td style="width:120px;">顯示名稱:</td>
+                        <td>顯示名稱:</td>
                         <td>
                             <div><input type="text" name="parent_displayname" id="parent_displayname" required="required" placeholder="暱稱" ng-model="userAbout.displayName" style="padding:3px 10px;"></input></div>
                             <div style="color:red;font-size:12px;margin-top:5px;max-width:250px;">註: 其他用戶只會看到您的顯示名稱，請選用一個您喜愛的暱稱。您的姓名，電郵或任何其他資料絶對不會對外顯示。</div>
                         </td>
                     </tr>
                     <tr>
-                        <td style="width:120px;">個人簡介:</td>
+                        <td>個人簡介:</td>
                         <td>
                             <textarea cols="25" rows="4" name="parent_aboutme" id="parent_aboutme" class="general-input-box" style="resize:none;width:70%;" placeholder="" ng-model="userAbout.userInfo.aboutMe" ng-required></textarea>
                         </td>
                     </tr>
                     <tr>
-                        <td style="width:120px;">姓名:</td>
+                        <td>姓名:</td>
                         <td>
                             <input type="text" name="parent_lastname" id="parent_lastname" required="required" placeholder="姓" ng-model="userAbout.lastName" style="padding:3px 10px;width:25%"></input>
                             <input type="text" name="parent_firstname" id="parent_firstname" required="required" placeholder="名" ng-model="userAbout.firstName" style="padding:3px 10px;width:45%"></input>
                         </td>
                     </tr>
                     <tr>
-                        <td style="width:120px;">出生年份:</td>
+                        <td>出生年份:</td>
                         <td>
                             <div>
                                 <span>
@@ -328,7 +328,7 @@
                     <tr class="padding10"><td></td></tr>
                     <tr>
                         <td></td>
-                        <td ng-show="!saved">
+                        <td ng-show="!profileDataSaved">
                             <button id="submitBtn" class="btn btn-primary ng-binding pull-right" ng-disabled="signup-info.$pristine" type="submit" disabled="disabled" data-ng-click="updateUserProfileData();">
                                 儲存更新
                             </button>
@@ -336,7 +336,7 @@
                                 <a href="my#/about">取消</a>
                             </button>
                         </td>
-                        <td ng-show="saved">
+                        <td ng-show="profileDataSaved">
                             <button class="btn btn-default ng-binding pull-right" style="margin-right:7px;">
                                 <a href="my#/about">返回我的主頁</a>
                             </button>
@@ -347,7 +347,3 @@
         </form>
     </div>              
 </div>
-
-<link rel="stylesheet" href="../assets/app/custom-css/login.css">
-<link rel="stylesheet" href="../assets/app/custom-css/signupInfo.css">
-<script type="text/javascript" src="../assets/app/scripts/signup_info.js"></script>

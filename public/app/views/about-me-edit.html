@@ -21,22 +21,39 @@
                 </ul>
             </div>
             
-            <div ng-show="selectedTab == 1" id="wall" style="height: auto !important;"  ng-controller="UserNewsFeedController" >
-                <div data-ng-include data-src="'/assets/app/views/about-me-edit-section.html'"></div>
+            <div id="wall">
+                <div ng-show="selectedTab == 1">
+                    <div data-ng-include data-src="'/assets/app/views/about-me-edit-info-section.html'"></div>
+                </div>
+                <div ng-show="selectedTab == 2">
+                    <div data-ng-include ng-controller="PrivacySettingsController" data-src="'/assets/app/views/about-me-edit-privacy-section.html'"></div>
+                </div>
+                <div ng-show="selectedTab == 3">
+                    <div data-ng-include ng-controller="EdmSettingsController" data-src="'/assets/app/views/about-me-edit-edm-section.html'"></div>
+                </div>
             </div>
 			 
-            <!--Wall End -->
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
             <div id="about" class="general-box">
                 <div class="con-title">
-                    個人資料與設定
+                    <span style="width:22px;height:22px;" class="icon-box icon-box-blueLight icon-title-profile-about"></span>設定
                 </div>
-                <div class="about-edit">
+                <div id="about-edit-list">
                     <ul>
                         <li>
                             <a ng-click="selectedTab = 1;" ng-class="{activeTabBold: selectedTab == 1}">
-                                <span style="width:22px;height:22px;" class="icon-box icon-box-blueLight icon-title-profile-about"></span>個人資料
+                                個人資料
+                            </a>
+                        </li>
+                        <li>
+                            <a ng-click="selectedTab = 2;" ng-class="{activeTabBold: selectedTab == 2}">
+                                私隱設定
+                            </a>
+                        </li>
+                        <li>
+                            <a ng-click="selectedTab = 3;" ng-class="{activeTabBold: selectedTab == 3}">
+                               電郵通知
                             </a>
                         </li>
                     </ul>
@@ -90,6 +107,10 @@
 		<span us-spinner spinner-key="loading.." ></span>
 	</div>
 </script>
+
+<link rel="stylesheet" href="../assets/app/custom-css/login.css">
+<link rel="stylesheet" href="../assets/app/custom-css/signupInfo.css">
+<script type="text/javascript" src="../assets/app/scripts/signup_info.js"></script>
 
 <script>
     ga_send_pv();

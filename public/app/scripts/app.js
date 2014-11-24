@@ -40,6 +40,10 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/about-me-edit.html',
         controller: 'UserAboutController'
       })
+      .when('/about-edit',{
+        templateUrl: '/assets/app/views/about-me-edit.html',
+        controller: 'UserAboutController'
+      })
       .when('/profile/:id',{
     	templateUrl: '/assets/app/views/visit-profile.html',
     	controller: 'UserProfileController'  

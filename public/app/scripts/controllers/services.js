@@ -12,6 +12,40 @@ minibean.service('headerBarMetadataService',function($resource){
  	);
 });
 
+minibean.service('userSettingsService',function($resource){
+    this.privacySettings = $resource(
+            '/get-privacy-settings',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
+    this.edmSettings = $resource(
+            '/get-edm-settings',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );    
+});
+
+minibean.service('subscriptionService',function($resource){
+    this.allUnsubscriptions = $resource(
+            '/get-all-unsubscriptions',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.unsubscribe = $resource(
+            '/unsubscribe/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
+});
+
 minibean.service('announcementsService',function($resource) {
     this.getGeneralAnnouncements = $resource(
             '/get-general-announcements',

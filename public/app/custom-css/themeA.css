@@ -147,7 +147,7 @@ pre {
 div[class*="col-xs-"], div[class*="col-sm-"], div[class*="col-md-"], div[class*="col-lg-"] {
     padding: 0 5px !important;
 }
-.glyphicon-trash, .glyphicon-share {
+.glyphicon-trash, .glyphicon-share, .glyphicon-warning-sign {
     margin-right: 4px;
     font-size: 12px;
     vertical-align: text-top;
@@ -1721,9 +1721,12 @@ a:focus {
     vertical-align: middle;
     border: gray thin solid;
 }*/
-#about .about-edit ul {
+#about #about-edit-list ul {
     padding: 5px 10px;
     font-size: 15px;
+}
+#about #about-edit-list li {
+    margin: 5px;
 }
 /* About End */
 
@@ -2796,6 +2799,10 @@ span.notif-count {
 .modal-content textarea:focus {
     background-color: white;
     border-color: #66afe9;
+}
+.modal-dialog .modal-content input[type='checkbox'], 
+.modal-dialog .modal-content input[type='radio'] {
+    margin-right: 5px;
 }
 #imageModal .modal-dialog .modal-content {
     top: 50px;
