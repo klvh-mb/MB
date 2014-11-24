@@ -1,7 +1,7 @@
 <div>
     <div class="sliding-menu-small-title">我關注的社群</div>
     <ul class="myCommunity-info">
-        <li ng-repeat="community in myCommunities">
+        <li ng-repeat="community in ::myCommunities">
             <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
             <a href="m-my#/community/{{community.id}}"><img src="{{community.gi}}"></a>
             <p>
@@ -12,7 +12,7 @@
                 </span>
             </p>
         </li>
-        <li ng-repeat="community in sysCommunities" ng-if="community.tinfo != 'FEEDBACK'">
+        <li ng-repeat="community in ::sysCommunities" ng-if="community.tinfo != 'FEEDBACK'">
             <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
             <a href="m-my#/community/{{community.id}}"><img src="{{community.gi}}"></a>
             <p>
@@ -26,14 +26,14 @@
     </ul>
 </div>
 <div ng-show="myBusinessCommunities.length > 0">
-    <div class="sliding-menu-small-title">我喜愛的專頁</div>
+    <div class="sliding-menu-small-title">我關注的專頁</div>
     <ul class="myCommunity-info">
-        <li ng-repeat="community in myBusinessCommunities">
+        <li ng-repeat="community in ::myBusinessCommunities">
             <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
             <a href="m-my#/business/community/{{community.id}}"><img src="{{community.gi}}"></a>
             <p>
                 <a href="m-my#/business/community/{{community.id}}"><b>{{community.dn|characters:20:true}}</b></a>
-                <span class="community-member-counter"><font>{{community.mm}}個喜愛</font></span>
+                <span class="community-member-counter"><font>{{community.mm}}個關注</font></span>
             </p>
         </li>
     </ul>

@@ -5,7 +5,6 @@ angular.module('minibean', [
   'ngResource',
   'ngRoute',
   'xeditable',
-  'ngAnimate',
   'ui.bootstrap',
   'ui.bootstrap.tpls',
   'angularFileUpload',
@@ -28,9 +27,13 @@ angular.module('minibean', [
       .when('/my-magazine', {
         templateUrl: '/assets/app/views/mobile/my-magazine.html'
       })
-      .when('/about/:tab',{
+      .when('/about',{
     	templateUrl: '/assets/app/views/mobile/about-me.html',
     	controller: 'UserAboutController'
+      })
+      .when('/about/:tab',{
+        templateUrl: '/assets/app/views/mobile/about-me.html',
+        controller: 'UserAboutController'
       })
       .when('/profile/:id',{
     	templateUrl: '/assets/app/views/mobile/visit-profile.html',

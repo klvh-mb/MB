@@ -82,6 +82,13 @@ minibean.service('gameService',function($resource) {
                 get: {method:'get'}
             }
     );
+    this.gameAccount = $resource(
+            '/get-gameaccount',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
 });
 
 minibean.service('locationService',function($resource){
@@ -666,11 +673,34 @@ minibean.service('likeFrameworkService', function($resource) {
                 get: {method:'get', params:{article_id:'@article_id'}}
             }
     );
+    
+    this.hitLikeOnCampaign = $resource(
+            '/like-campaign/:campaign_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{campaign_id:'@campaign_id'}}
+            }
+    );
+    
+    this.hitUnlikeOnCampaign = $resource(
+            '/unlike-campaign/:campaign_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{campaign_id:'@campaign_id'}}
+            }
+    );
 });
 
 minibean.service('communityQnAPageService',function($resource){
     this.QnAs = $resource(
             '/communityQnA/questions/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{id:'@id'}}
+            }
+    );
+    this.getFullBody = $resource(
+            '/communityQnA/questions/body/:id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get', params:{id:'@id'}}
@@ -743,16 +773,26 @@ minibean.service('tagwordService',function($resource){
     );
 });
     
-minibean.service('articleService',function($resource){
-    this.AllArticleCategories = $resource(
-            '/get-all-article-categories',
+minibean.service('campaignService',function($resource){
+    this.campaignInfo = $resource(
+            '/get-campaign-info/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
+    this.campaignAnnouncedWinners = $resource(
+            '/get-campaign-announced-winners/:id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get',isArray:true}
             }
     );
-    this.AllArticles = $resource(
-            '/get-all-Articles',
+});
+
+minibean.service('articleService',function($resource){
+    this.AllArticleCategories = $resource(
+            '/get-all-article-categories',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get',isArray:true}
@@ -867,7 +907,7 @@ minibean.service('userNewsFeedService',function($resource){
     );
     
     this.NewsFeedsComments = $resource(
-            '/get-user-newsfeeds-comment/:offset/:id',
+            '/get-user-newsfeeds-comments/:offset/:id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'GET', params:{offset:'@offset',id:'@id'}}

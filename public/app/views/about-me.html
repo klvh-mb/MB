@@ -22,14 +22,14 @@
     							<div class="divider-cus"></div>
     							<a ng-click="selectedTab = 3;" ng-class="{activeTabBold: selectedTab == 3}">朋友</a>
     							<div class="divider-cus"></div>
-    							<a ng-click="selectedTab = 4;" ng-class="{activeTabBold: selectedTab == 4}">喜愛</a>
+    							<a ng-click="selectedTab = 4;" ng-class="{activeTabBold: selectedTab == 4}">收藏</a>
                             </div>
                         </li>
                     </ul>
                 </div>
                 
                 <div id="wall">
-                    <div ng-show="selectedTab == 1" ng-controller="UserNewsFeedController" >
+                    <div ng-show="selectedTab == 1" ng-controller="UserNewsFeedController">
                         <div data-ng-include data-src="'/assets/app/views/about-news-feed-section.html'"></div>
                     </div>
         			 
@@ -41,109 +41,65 @@
                         <div data-ng-include data-src="'/assets/app/views/about-my-friends-section.html'"></div>
                     </div>
         			 
-                    <div ng-if="selectedTab == 4" ng-controller="MyBookmarkController" >
+                    <div ng-if="selectedTab == 4" ng-controller="MyBookmarkController">
                         <div data-ng-include data-src="'/assets/app/views/about-my-bookmarks-section.html'"></div>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
                 <div id="about" class="general-box">
-                    <form role="form" editable-form name="profile_data" onaftersave="updateUserProfileData($data)">
-                        <div class="con-title">
-                            <span class="icon-box icon-box-blueLight icon-title-profile-about"></span>關於您
-                            <div style="float:right">
-                                <a class="btn btn-default" href="my#/about-edit"><span class="glyphicon glyphicon-pencil"></span> 編輯個人資料</a>
-                                <!--button type="button" class="btn btn-default" ng-click="profile_data.$show()" ng-show="!profile_data.$visible">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </button-->
-                            </div>
+                    <div class="con-title">
+                        <span class="icon-box icon-box-blueLight icon-title-profile-about"></span>關於
+                        <div style="float:right">
+                            <a class="btn btn-default" href="my#/about-edit"><span class="glyphicon glyphicon-pencil"></span> 編輯個人資料</a>
+                            <!--button type="button" class="btn btn-default" ng-click="profile_data.$show()" ng-show="!profile_data.$visible">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button-->
                         </div>
-                        <div class="row">
-                            <div style="padding: 13px;">
-                                <div class="col-md-12" ng-show="profile_data.$visible">
-                                    <div class="row">
-        			              	</div>
+                    </div>
+                    <div class="row">
+                        <ul style="padding:15px;">
+                            <li>
+                                <div style="width:30%;display:inline-block;">
+                                   <label>顯示名稱: </label>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row form-group">
-                                        	<div class="col-md-6">
-                                            	<label>First Name: </label>
-                                            </div>
-                                            
-                                            <div class="col-md-6">
-                                            	<span editable-text="userAbout.firstName" >{{ userAbout.firstName || '' }}</span>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                       		   <label>Last Name: </label>
-                                       	    </div>
-                                       	    <div class="col-md-6">
-                                                <span editable-text="userAbout.lastName">{{ userAbout.lastName || '' }}</span>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Gender: </label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <span editable-select="userAbout.userInfo.gender" e-name="gender" e-ng-options="g.value as g.text for g in genders">
-                                                    {{ (genders | filter:{value: userAbout.userInfo.gender})[0].text || '' }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                          	<div class="col-md-6">
-                                           	    <label>Year of Birth:</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                        	    <!--span editable-bsdate="userAbout.date_of_birth" e-datepicker-popup="dd-MMMM-yyyy">{{userAbout.date_of_birth | date:'dd/MM/yyyy' || '' }}</span-->
-                                          	    <span editable-select="userAbout.userInfo.birthYear" e-name="birth_year" e-ng-options="y.value as y.text for y in years">
-                                                    {{ (years | filter:{value: userAbout.userInfo.birthYear})[0].text || '' }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>Location: </label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <span editable-select="userAbout.userInfo.location" e-name="location" e-ng-options="l.id as l.displayName for l in locations">
-                                                    {{ (locations | filter:{id: userAbout.userInfo.location.id})[0].displayName || '' }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="row">
-        				                    <div class="col-md-12">
-        				                   	    <label>About Me: </label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <span editable-textarea="userAbout.userInfo.aboutMe" e-rows="7" e-cols="40">
-                                                    <pre>{{ userAbout.userInfo.aboutMe || 'no description' }}</pre>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <span>{{userAbout.displayName || '' }}</span>
+                            </li>
+                            <li>
+                                <div style="width:30%;display:inline-block;">
+                                   <label>姓名: </label>
                                 </div>
-                                <div class="buttons">
-                                    <span ng-show="profile_data.$visible">
-                                        <button type="submit" class="btn btn-primary" ng-disabled="profile_data.$waiting">
-                                            <span class="glyphicon glyphicon-ok"></span>
-                                        </button>
-                                        <button type="button" class="btn btn-default" ng-disabled="profile_data.$waiting" ng-click="profile_data.$cancel()">
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                        </button>
-                                    </span>
+                                <span>{{ userAbout.lastName || '' }} {{ userAbout.firstName || '' }}</span>
+                            </li>
+                            <!--li>
+                                <div style="width:30%;display:inline-block;">
+                                    <label>姓別: </label>
                                 </div>
-                            </div>
-                        </div>
-                        <!--About End -->
-                    </form>
+                                <span>{{userAbout.userInfo.gender || '' }}</span>
+                            </li-->
+                            <li>
+                              	<div style="width:30%;display:inline-block;">
+                               	    <label>出生年份:</label>
+                                </div>
+                              	<span>{{userAbout.userInfo.birthYear || '' }}</span>
+                            </li>
+                            <li>
+                                <div style="width:30%;display:inline-block;">
+                                    <label>地區: </label>
+                                </div>
+                                <span>{{userAbout.userInfo.location.displayName || '' }}</span>
+                            </li>
+                            <li>
+			                    <div style="width:30%;display:inline-block;">
+			                   	    <label>關於我: </label>
+                                </div>
+                                <div style="margin-left:20px;">
+                                    <pre>{{ userAbout.userInfo.aboutMe || '' }}</pre>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--About End -->
                 </div>
                 <div ng-controller="MyFriendsUtilityController" data-ng-show="result.friends.length > 0">
                     <div data-ng-include data-src="'/assets/app/views/utilities/friendsUtility.html'"></div>

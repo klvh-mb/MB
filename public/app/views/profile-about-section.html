@@ -1,57 +1,37 @@
-<div class="con-title">
-    <span class="icon-box icon-box-blueLight icon-title-profile-about"></span>關於
-    <div style="float:right"></div>
+<div class="general-box admin-visible-field" ng-if="userInfo.isSA">
+    <div style="margin:5px 10px;">mobileSignup: {{profile.mb}}</div>
+    <div style="margin:5px 10px;">fbLogin: {{profile.fb}}</div>
+    <div style="margin:5px 10px;">emailValidated: {{profile.vl}}</div>
+    <div style="margin:5px 10px;">email: {{profile.em}}</div>
+    <div style="margin:5px 10px;">signupDate: {{profile.sd}}</div>
+    <div style="margin:5px 10px;">lastLogin: {{profile.ll}}</div>
+    <div style="margin:5px 10px;">totalLogin: {{profile.tl}}</div>
+    <div style="margin:5px 10px;">questionsCount: {{profile.qc}}</div>
+    <div style="margin:5px 10px;">answersCounts: {{profile.ac}}</div>
+    <div style="margin:5px 10px;">likesCount: {{profile.lc}}</div>
+    <div style="margin:5px 10px;">wantAnsCount: {{profile.wc}}</div>
 </div>
-<div class="row">
-    <div style="padding: 13px;">
-        <div class="col-md-12" ng-show="profile_data.$visible">
-            <div class="row"></div>
-		</div>
-        <div class="row">
-            <div class="col-md-12">
-                <!--div class="row form-group">
-                    <div class="col-md-6">
-                        <label>Name: </label>
-                    </div>
-                    <div class="col-md-6">
-                        <span>{{profile.dn}}</span>
-                    </div>
-                </div-->
-              
-                <!--div class="row">
-                    <div class="col-md-6">
-                    	<label>職業: </label>
-                    </div>
-                    
-                    <div class="col-md-6">
-                    	<span e-name="parentType">{{ profile.pt || '' }}</span>	
-                    </div>
-                </div-->
-              
-                <div class="row">
-                    <div class="col-md-6">
-                    	<label>地區: </label>
-                    </div>
-                    <div class="col-md-6">
-                    	<span >{{ profile.loc.displayName || '' }}</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-12">
-                        <label>關於我: </label>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <span ><pre>{{ profile.a || '' }}</pre></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
+<div id="about" class="general-box">
+    <div class="con-title">
+        <span class="icon-box icon-box-blueLight icon-title-profile-about"></span>關於
     </div>
-</div><!--About End -->
+    <div class="row">
+        <ul style="padding:15px;">
+            <li>
+                <div style="width:30%;display:inline-block;">
+                	<label>地區: </label>
+                </div>
+                <span>{{ profile.loc.displayName || '' }}</span>
+            </li>
+            <li>
+                <div style="width:30%;display:inline-block;">
+                    <label>關於我: </label>
+                </div>
+                <div style="margin-left:20px;">
+                    <pre>{{ profile.a || '' }}</pre>
+                </div>
+            </li>
+        </div>
+    </div>
+</div>

@@ -2,11 +2,9 @@
 
 var minibean = angular.module('minibean');
 
-minibean.controller('BusinessCommunityPageController', function($scope, $routeParams, profilePhotoModal, iconsService,
+minibean.controller('BusinessCommunityPageController', function($scope, $routeParams, profilePhotoModal,
         communityPageService, communityJoinService, searchMembersService, usSpinnerService){
     
-    log("BusinessCommunityPageController starts");
-
     $scope.selectNavBar('HOME', -1);
 
     $scope.selectedTab = 1;
@@ -86,62 +84,54 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
             $scope.community.isM = false;
         });
     }
-    
-    //$scope.icons = iconsService.getCommunityIcons.get();
-    
-    log("BusinessCommunityPageController completed");
 });
 
 minibean.controller('AnnouncementsWidgetController',function($scope, $http, announcementsService) {
-    log("AnnouncementsWidgetController starts");
 
     $scope.announcements = announcementsService.getGeneralAnnouncements.get();
-    
-    log("AnnouncementsWidgetController completed");
+
 });
 
 minibean.controller('TodayWeatherInfoController',function($scope, $http, todayWeatherInfoService) {
-    log("TodayWeatherInfoController starts");
     
     $scope.todayWeatherInfo = todayWeatherInfoService.getTodayWeatherInfo.get();
     
-    log("TodayWeatherInfoController completed");
 });
 
-minibean.controller('GameController',function($scope, $http, gameService) {
-    log("GameController starts");
+minibean.controller('GameController',function($scope, $http, $interval, $location, gameService, usSpinnerService) {
 
     $scope.get_header_metaData();
-
+    
     $scope.signInForToday = function() {
-        gameService.signInForToday.get({}, 
-            function(data) {
-                $scope.userInfo.isSignedInForToday = true;
+        var formData = {
+        };
+        usSpinnerService.spin('loading...');
+        return $http.post('/sign-in-for-today', formData)
+            .success(function(data){
+                $scope.userInfo.enableSignInForToday = false;
+                prompt("<div><b>每日簽到 +5小豆豆!</b></div>", "bootbox-default-prompt game-bootbox-prompt", 1800);
+                $interval($scope.reloadPage, 2000, 1);
+                usSpinnerService.stop('loading...');
             });
     }
     
-    log("GameController completed");
+    $scope.gameAccount = gameService.gameAccount.get();
 });
 
 minibean.controller('SearchController',function($scope, searchService){
-    log("SearchController starts");
 
 	$scope.search_result = function(query) {
 		if(query != undefined) {
 			this.result = searchService.userSearch.get({q:query});
 		}
-	}
-	
-	log("SearchController completed");
+	}	
 });
 
 minibean.controller('ApplicationController', 
     function($scope, $location, $interval, $route, $window, $modal,  
         applicationInfoService, announcementsService, headerBarMetadataService, userInfoService,
         acceptJoinRequestService, acceptFriendRequestService, notificationMarkReadService,
-        communityCategoryService, articleService, usSpinnerService) {
-
-    log("ApplicationController starts");
+        communityCategoryService, articleService, iconsService, usSpinnerService) {
 
     // For fix sidebar
     $scope.leftSidebarTop = 0;
@@ -153,7 +143,7 @@ minibean.controller('ApplicationController',
         if ($('#right-sidebar').length) {
             $scope.rightSidebarTop = $('#right-sidebar').offset().top - 52;
         }
-        log('left sidebar top:'+$scope.leftSidebarTop+' | right sidebar top:'+$scope.rightSidebarTop);
+        //log('left sidebar top:'+$scope.leftSidebarTop+' | right sidebar top:'+$scope.rightSidebarTop);
     }
     
     // PC home tour
@@ -193,43 +183,37 @@ minibean.controller('ApplicationController',
         $route.reload();
     }
     
+    $scope.adjustNavSlider = function() {
+        $('.rsThumb').css('width','auto');
+    }
+    
     // ideally should not define here, but need to call in 
     // MagazineNewsFeedController and ShowArticlesController
     $scope.renderNavSubBar = function() {
-        YUI().use("event","node","scrollview-base",function(Y){
-            var magazineNavSubBar = new Y.ScrollView({
-                id: 'scrollview',
-                srcNode: '#magazine-nav-subbar',
-                flick: {
-                    minDistance:10,
-                    minVelocity:0.3,
-                    axis: "x"
-                }
-            });
-            magazineNavSubBar.render();
-            
-            var articleNavSubBar = new Y.ScrollView({
-                id: 'scrollview',
-                srcNode: '#article-nav-subbar',
-                flick: {
-                    minDistance:10,
-                    minVelocity:0.3,
-                    axis: "x"
-                }
-            });
-            articleNavSubBar.render();
-            
-            var knowledgeNavSubBar = new Y.ScrollView({
-                id: 'scrollview',
-                srcNode: '#knowledge-nav-subbar',
-                flick: {
-                    minDistance:10,
-                    minVelocity:0.3,
-                    axis: "x"
-                }
-            });
-            knowledgeNavSubBar.render();
-        });
+        var opts = {
+            controlNavigation:'thumbnails',
+            imageScaleMode: 'fill',
+            arrowsNav: false,
+            arrowsNavHideOnTouch: true,
+            fullscreen: false,
+            loop: false,
+            thumbs: {
+              firstMargin: false,
+              paddingBottom: 0
+            },
+            usePreloader: false,
+            thumbsFirstMargin: false,
+            autoScaleSlider: false, 
+            autoHeight: false,
+            keyboardNavEnabled: true,
+            navigateByClick: true,
+            fadeinLoadedSlide: true,
+        };
+        var navSlider = $('#nav-slider').royalSlider(opts);
+        
+        // NOTE: this must exist to calculate the correct slider scrolling width!!! 
+        // OK to set to auto after slider init
+        $interval($scope.adjustNavSlider, 100, 1);
     }
     
     $scope.applicationInfo = applicationInfoService.ApplicationInfo.get();
@@ -241,6 +225,8 @@ minibean.controller('ApplicationController',
         }
 	);
 	$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
+
+    $scope.emoticons = iconsService.getEmoticons.get();
 
     $scope.topAnnouncements = announcementsService.getTopAnnouncements.get();
 	$scope.businessCommunityCategories = communityCategoryService.getAllBusinessCommunityCategories.get();
@@ -461,11 +447,11 @@ minibean.controller('ApplicationController',
             controller: ReportObjectModalController,
             resolve: {
                 objectType: function () {
-                        return objectType;
-                    },
+                    return objectType;
+                },
                 id: function () {
-                        return id;
-                    }
+                    return id;
+                }
             }
         });
         modalInstance.result.then(
@@ -475,8 +461,6 @@ minibean.controller('ApplicationController',
             function () {
             });
     }
-    
-    log("ApplicationController completed");
 });
 
 var ReportObjectModalController = function ($scope, $modalInstance, objectType, id, usSpinnerService, $http) {
@@ -635,7 +619,6 @@ minibean.controller('SubscriptionController', function($scope, subscriptionServi
 });
 
 minibean.controller('UserAboutController',function($routeParams, $scope, $http, userAboutService, locationService, profilePhotoModal, usSpinnerService) {
-	log("UserAboutController starts");
 	
 	$scope.get_header_metaData();
 	
@@ -725,11 +708,9 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
         $scope.img_id = imageId;
     }
     
-    log("UserAboutController completed");
 });
 
 minibean.controller('EditCommunityController',function($scope,$q, $location,$routeParams, $http, usSpinnerService, iconsService, editCommunityPageService, $upload, profilePhotoModal){
-    log("EditCommunityController starts");
 
     $scope.get_header_metaData();
 
@@ -775,11 +756,9 @@ minibean.controller('EditCommunityController',function($scope,$q, $location,$rou
 		});
 	}
 	
-	log("EditCommunityController completed");
 });
 
 minibean.controller('CreateCommunityController',function($scope, $location, $http, $upload, $validator, iconsService, usSpinnerService){
-	log("CreateCommunityController starts");
 	
 	$scope.formData = {};
 	$scope.selectedFiles =[];
@@ -833,13 +812,11 @@ minibean.controller('CreateCommunityController',function($scope, $location, $htt
 		$scope.formData.photo = 'cover-photo';
 	}
 	
-	log("CreateCommunityController completed");
 });
 
 ///////////////////////// Suggested Friends Widget Service Start //////////////////////////////////
 
 minibean.controller('SuggestedFriendsUtilityController',function($scope, unFriendService, usSpinnerService, sendInvitation, friendsService, userInfoService, $http){
-    log("SuggestedFriendsUtilityController starts");
 
 	$scope.result = friendsService.SuggestedFriends.get();
 	$scope.isLoadingEnabled = false;
@@ -867,11 +844,9 @@ minibean.controller('SuggestedFriendsUtilityController',function($scope, unFrien
 		});
 	}
 	
-	log("SuggestedFriendsUtilityController completed");
 });
 
 minibean.controller('CommunityMembersController',function($scope, $routeParams, membersWidgetService, $http){
-    log("CommunityMembersController starts");
     
     // paged filtered data
     $scope.pagedMembers = [];
@@ -901,11 +876,9 @@ minibean.controller('CommunityMembersController',function($scope, $routeParams, 
 		$scope.showAdmin = true;
 	}
 	
-	log("CommunityMembersController completed");
 });
 
 minibean.controller('PNCommunitiesUtilityController', function($scope, $routeParams, pnService, sendJoinRequest, $http){
-    log("PNCommunitiesUtilityController starts");
 
     $scope.pnCommunities = pnService.PNCommunities.get();
     $scope.send_request = function(id) {
@@ -920,11 +893,9 @@ minibean.controller('PNCommunitiesUtilityController', function($scope, $routePar
         );
     }
     
-    log("PNCommunitiesUtilityController completed");
 });
 
 minibean.controller('CommunityPNController',function($scope, $routeParams, $http, $filter, pnService) {
-    log("CommunityPNController starts");
 
     $scope.currentPage = 1;
     $scope.itemsPerPage = DefaultValues.DEFAULT_ITEMS_PER_PAGE;
@@ -988,11 +959,9 @@ minibean.controller('CommunityPNController',function($scope, $routeParams, $http
         $('#thx_'+id).show();
     }
     
-    log("CommunityPNController completed");
 });
 
 minibean.controller('RecommendedCommunityWidgetController',function($scope, usSpinnerService, sendJoinRequest, unJoinedCommunityWidgetService, userInfoService, $http){
-    log("RecommendedCommunityWidgetController starts");
 
 	$scope.result = unJoinedCommunityWidgetService.UnJoinedCommunities.get();
 	$scope.send_request = function(id) {
@@ -1007,43 +976,33 @@ minibean.controller('RecommendedCommunityWidgetController',function($scope, usSp
         );
     }
 	
-	log("RecommendedCommunityWidgetController completed");
 });
 
 minibean.controller('MyFriendsUtilityController',function($scope, userInfoService, friendsService, $http){
-    log("MyFriendsUtilityController starts");
 
     $scope.result = friendsService.MyFriendsForUtility.get();
     
-    log("MyFriendsUtilityController completed");
 });
 
 minibean.controller('UserFriendsUtilityController',function($scope, $routeParams, userInfoService, friendsService, $http){
-    log("UserFriendsUtilityController starts");
 
     $scope.result = friendsService.UserFriendsForUtility.get({id:$routeParams.id});
     
-    log("UserFriendsUtilityController completed");
 });
 
 minibean.controller('MyFriendsController',function($scope, friendsService, $http){
-    log("MyFriendsController starts");
 
 	$scope.result = friendsService.MyFriends.get();
 	
-	log("MyFriendsController completed");
 });
 
 minibean.controller('UserFriendsController',function($scope, $routeParams, friendsService, $http){
-    log("UserFriendsController starts");
 
     $scope.result = friendsService.UserFriends.get({id:$routeParams.id});
     
-    log("UserFriendsController completed");
 });
 
 minibean.controller('CommunitiesDiscoverController',function($scope, $routeParams, usSpinnerService, communitiesDiscoverService, communityCategoryService, sendJoinRequest){
-    log("CommunitiesDiscoverController starts");
     
     $scope.get_header_metaData();
     
@@ -1149,11 +1108,9 @@ minibean.controller('CommunitiesDiscoverController',function($scope, $routeParam
         );
     }
     
-    log("CommunitiesDiscoverController completed");
 });
 
 minibean.controller('CommunityWidgetController',function($scope, $routeParams, usSpinnerService, communityWidgetService, sendJoinRequest){
-	log("CommunityWidgetController starts");
 	
 	$scope.myAdminCommunities = [];
 	$scope.myAdminBusinessCommunities = [];
@@ -1193,11 +1150,9 @@ minibean.controller('CommunityWidgetController',function($scope, $routeParams, u
 		);
 	}
 	
-	log("CommunityWidgetController completed");
 });
 
 minibean.controller('UserCommunityWidgetController',function($scope, communityWidgetService){
-	log("UserCommunityWidgetController starts");
 	
 	$scope.sysCommunities = [];
 	$scope.myCommunities = [];
@@ -1218,11 +1173,9 @@ minibean.controller('UserCommunityWidgetController',function($scope, communityWi
 
 	$scope.selectedTab = 1;
 	
-	log("UserCommunityWidgetController completed");
 });
 
 minibean.controller('CommunityWidgetByUserController',function($scope, $routeParams, usSpinnerService, sendJoinRequest, communityJoinService, communityWidgetByUserService){
-    log("CommunityWidgetByUserController starts");
 
     $scope.userJoinedCommunities = [];
     $scope.userLikedBusinessCommunities = [];
@@ -1252,11 +1205,9 @@ minibean.controller('CommunityWidgetByUserController',function($scope, $routePar
 		);
 	}
 	
-	log("CommunityWidgetByUserController completed");
 });
 
 minibean.controller('UserProfileController',function($scope, $routeParams, $location, profileService, friendsService, sendInvitation, unFriendService){
-	log("UserProfileController starts");
     
     $scope.get_header_metaData();
 	
@@ -1300,46 +1251,15 @@ minibean.controller('UserProfileController',function($scope, $routeParams, $loca
         $scope.img_id = imageId;
     }
     
-    log("UserProfileController completed");
 });
 
 minibean.controller('SearchPageController', function($scope, $routeParams, likeFrameworkService, communityPageService, $http, communitySearchPageService, usSpinnerService){
-    log("SearchPageController starts");
 
 	$scope.highlightText="";
 	$scope.highlightQuery = "";
 	$scope.community = communityPageService.Community.get({id:$routeParams.id}, function(){
 		usSpinnerService.stop('loading...');
 	});
-	
-	$scope.comment_on_post = function(id, commentText) {
-        // first convert to links
-        commentText = convertText(commentText);
-
-		var data = {
-			"post_id" : id,
-			"commentText" : commentText
-		};
-		usSpinnerService.spin('loading...');
-		$http.post('/community/post/comment', data) 
-			.success(function(comment_id) {
-				$('.commentBox').val('');
-				
-				$scope.commentText = "";
-				angular.forEach($scope.community.searchPosts, function(post, key){
-					if(post.id == data.post_id) {
-						post.n_c++;
-						post.ut = new Date();
-						var comment = {"oid" : $scope.userInfo.id, "commentText" : commentText, "on" : $scope.userInfo.displayName,
-								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
-						post.cs.push(comment);
-        			}
-                });	
-    		}).error(function(data, status, headers, config) {
-                prompt("回覆失敗。請重試");
-            });
-            usSpinnerService.stop('loading...');
-	}
 	
 	$scope.$watch('search_trigger', function(query) {
 	       if(query != undefined) {
@@ -1384,66 +1304,11 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 		});
 	};
 	
-	$scope.like_post = function(post_id) {
-		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.community.searchPosts, function(post, key){
-				if(post.id == post_id) {
-					post.isLike=true;
-					post.nol++;
-				}
-			})
-		});
-	}
-	
-	$scope.unlike_post = function(post_id) {
-		likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.community.searchPosts, function(post, key){
-				if(post.id == post_id) {
-					post.nol--;
-					post.isLike=false;
-				}
-			})
-		});
-	}
-	
-	$scope.like_comment = function(post_id,comment_id) {
-		likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.community.searchPosts, function(post, key){
-				if(post.id == post_id) {
-					angular.forEach(post.cs, function(comment, key){
-						if(comment.id == comment_id) {
-							comment.nol++;
-							comment.isLike=true;
-						}
-					})
-				}
-			})
-		});
-	}
-	
-	$scope.unlike_comment = function(post_id,comment_id) {
-		likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.community.searchPosts, function(post, key){
-				if(post.id == post_id) {
-					angular.forEach(post.cs, function(comment, key){
-						if(comment.id == comment_id) {
-							comment.nol--;
-							comment.isLike=false;
-						}
-					})
-				}
-			})
-		});
-	}
-	
-	log("SearchPageController completed");
 });
 
 minibean.controller('PostLandingController', function($scope, $routeParams, $http, $timeout, $upload, $validator, 
     postLandingService, communityPageService, allCommentsService, showImageService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
     
-    log("PostLandingController starts");
-
 	$scope.get_header_metaData();
 	
     $scope.$on('$viewContentLoaded', function() {
@@ -1521,6 +1386,16 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
         }
     }
     
+    $scope.select_emoticon_comment = function(code, index) {
+        if($("#userCommentfield_"+index).val()){
+            $("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
+        }else{
+            $("#userCommentfield_"+index).val(code + " ");
+        }
+        $("#userCommentfield_"+index).focus();
+        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
+    }
+    
     $scope.comment_on_post = function(id, commentText) {
         // first convert to links
         commentText = convertText(commentText);
@@ -1531,18 +1406,16 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
             "withPhotos" : $scope.commentSelectedFiles.length != 0
         };
         var post_data = data;
+        
         usSpinnerService.spin('loading...');
         $http.post('/community/post/comment', data) 
-            .success(function(comment_id) {
-                $('.commentBox').val('');
-                
-                $scope.commentText = "";
+            .success(function(response) {
                 angular.forEach($scope.posts.posts, function(post, key){
                     if(post.id == data.post_id) {
                         post.n_c++;
                         post.ut = new Date();
-                        var comment = {"oid" : $scope.posts.lu, "d" : commentText, "on" : $scope.posts.lun,
-                                "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+                        var comment = {"oid" : $scope.posts.lu, "d" : response.text, "on" : $scope.posts.lun,
+                                "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
                         post.cs.push(comment);
                         
                         if($scope.commentSelectedFiles.length == 0) {
@@ -1560,7 +1433,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                                 url : '/image/uploadCommentPhoto',
                                 method: $scope.httpMethod,
                                 data : {
-                                    commentId : comment_id
+                                    commentId : response.id
                                 },
                                 file: $scope.commentTempSelectedFiles[i],
                                 fileFormDataName: 'comment-photo'
@@ -1568,7 +1441,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
                                 $scope.commentTempSelectedFiles.length = 0;
                                 if(post.id == post_data.post_id) {
                                     angular.forEach(post.cs, function(cmt, key){
-                                        if(cmt.id == comment_id) {
+                                        if(cmt.id == response.id) {
                                             cmt.hasImage = true;
                                             if(cmt.imgs) {
                                                 
@@ -1785,13 +1658,10 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
         }
     }
     
-    log("PostLandingController completed");
 });
     
 minibean.controller('QnALandingController', function($scope, $routeParams, $http, $timeout, $upload, $validator, 
     qnaLandingService, communityPageService, allAnswersService, showImageService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
-
-    log("QnALandingController starts");
 
     $scope.get_header_metaData();
 
@@ -1853,7 +1723,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     $scope.dataUrls = [];
     $scope.tempSelectedFiles = [];
     
-    $scope.commentPhoto = function(post_id) {
+    $scope.qnaCommentPhoto = function(post_id) {
         $("#qna-comment-photo-id").click();
         $scope.commentedOnPost = post_id ;
     };
@@ -1887,69 +1757,20 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
         }
     }
     
-    $scope.ask_question_community = function(id, questionTitle, questionText) {
-        // first convert to links
-        questionText = convertText(questionText);
-
-        usSpinnerService.spin('loading...');
-        var data = {
-            "community_id" : id,
-            "questionTitle" : questionTitle,
-            "questionText" : questionText,
-            "withPhotos" : $scope.QnASelectedFiles.length != 0
-        };
-        
-        $http.post('/communityQnA/question/post', data) // first create post with question text.
-            .success(function(post_id) {
-                usSpinnerService.stop('loading...');
-                $('.postBox').val('');
-                var post = {"oid" : $scope.QnAs.lu, "ptl" : questionTitle, "pt" : questionText, "cn" : $scope.community.n, 
-                        "isLike" : false, "nol" : 0, "p" : $scope.QnAs.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
-                $scope.QnAs.posts.unshift(post);
-                
-                if($scope.QnASelectedFiles.length == 0) {
-                    return;
-                }
-                
-                $scope.QnASelectedFiles = [];
-                $scope.dataUrls = [];
-                
-                // when post is done in BE then do photo upload
-                for(var i=0 ; i<$scope.tempSelectedFiles.length ; i++) {
-                    usSpinnerService.spin('loading...');
-                    $upload.upload({
-                        url : '/image/uploadPostPhoto',
-                        method: $scope.httpMethod,
-                        data : {
-                            postId : post_id
-                        },
-                        file: $scope.tempSelectedFiles[i],
-                        fileFormDataName: 'post-photo'
-                    }).success(function(data, status, headers, config) {
-                        angular.forEach($scope.QnAs.posts, function(post, key){
-                            if(post.id == post_id) {
-                                post.hasImage = true;
-                                if(post.imgs) { 
-                                } else {
-                                    post.imgs = [];
-                                }
-                                post.imgs.push(data);
-                            }
-                        });
-                    }).error(function(data, status, headers, config) {
-                        prompt("上載圖片失敗。請重試");
-                    });
-                }
-            }).error(function(data, status, headers, config) {
-                prompt("發佈失敗。請重試");
-            });
-            usSpinnerService.stop('loading...');
-    }
-    
     $scope.remove_image_from_qna_comment = function(index) {
         $scope.qnaCommentSelectedFiles.splice(index, 1);
         $scope.qnaTempCommentSelectedFiles.splice(index, 1);
         $scope.qnaCommentDataUrls.splice(index, 1);
+    }
+    
+    $scope.select_emoticon_comment = function(code, index) {
+        if($("#userCommentfield_"+index).val()){
+            $("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
+        }else{
+            $("#userCommentfield_"+index).val(code + " ");
+        }
+        $("#userCommentfield_"+index).focus();
+        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
     }
     
     $scope.answer_to_question = function(question_post_id, answerText) {
@@ -1961,17 +1782,17 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
             "answerText" : answerText,
             "withPhotos" : $scope.qnaCommentSelectedFiles.length != 0
         };
-        
         var post_data = data;
+        
+        usSpinnerService.spin('loading...');
         $http.post('/communityQnA/question/answer', data) 
-            .success(function(answer_id) {
-                $('.commentBox').val('');
+            .success(function(response) {
                 angular.forEach($scope.QnAs.posts, function(post, key){
                     if(post.id == data.post_id) {
                         post.n_c++;
                         post.ut = new Date();
-                        var answer = {"oid" : $scope.QnAs.lu, "d" : answerText, "on" : $scope.QnAs.lun, 
-                                "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
+                        var answer = {"oid" : $scope.QnAs.lu, "d" : response.text, "on" : $scope.QnAs.lun, 
+                                "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
                         post.cs.push(answer);
                     
                         if($scope.qnaCommentSelectedFiles.length == 0) {
@@ -1989,7 +1810,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                                 url : '/image/uploadQnACommentPhoto',
                                 method: $scope.httpMethod,
                                 data : {
-                                    commentId : answer_id
+                                    commentId : response.id
                                 },
                                 file: $scope.qnaTempCommentSelectedFiles[i],
                                 fileFormDataName: 'comment-photo'
@@ -1997,7 +1818,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                                 $scope.qnaTempCommentSelectedFiles.length = 0;
                                 if(post.id == post_data.post_id) {
                                     angular.forEach(post.cs, function(cmt, key){
-                                        if(cmt.id == answer_id) {
+                                        if(cmt.id == response.id) {
                                             cmt.hasImage = true;
                                             if(cmt.imgs) {
                                                 
@@ -2137,14 +1958,11 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
         });
     }
     
-    log("QnALandingController completed");
 });
 
-minibean.controller('CommunityPageController', function($scope, $routeParams, profilePhotoModal, iconsService,
+minibean.controller('CommunityPageController', function($scope, $routeParams, profilePhotoModal,
         communityPageService, communityJoinService, searchMembersService, usSpinnerService){
     
-    log("CommunityPageController starts");
-
     $scope.get_header_metaData();
 
     $scope.selectedTab = 1;
@@ -2233,15 +2051,10 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, pr
         });
     }
     
-    //$scope.icons = iconsService.getCommunityIcons.get();
-    
-    log("CommunityPageController completed");
 });
 
-minibean.controller('CommunityPostController', function($scope, $routeParams, $http, profilePhotoModal, iconsService,
+minibean.controller('CommunityPostController', function($scope, $routeParams, $http, profilePhotoModal,
 		allCommentsService, communityPageService, postManagementService, likeFrameworkService, bookmarkPostService, communityJoinService, $upload, $timeout, usSpinnerService){
-	
-	log("CommunityPostController starts");
 	
     var firstBatchLoaded = false;
     var offset = 0;
@@ -2330,6 +2143,16 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 		}
 	}
 	
+	$scope.select_emoticon_comment = function(code, index) {
+        if($("#userCommentfield_"+index).val()){
+            $("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
+        }else{
+            $("#userCommentfield_"+index).val(code + " ");
+        }
+        $("#userCommentfield_"+index).focus();
+        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
+    }
+    
 	$scope.comment_on_post = function(id, commentText) {
         // first convert to links
         commentText = convertText(commentText);
@@ -2340,18 +2163,16 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 			"withPhotos" : $scope.commentSelectedFiles.length != 0
 		};
 		var post_data = data;
+		
 		usSpinnerService.spin('loading...');
 		$http.post('/community/post/comment', data) 
-			.success(function(comment_id) {
-				$('.commentBox').val('');
-				
-				$scope.commentText = "";
+			.success(function(response) {
 				angular.forEach($scope.posts.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
 						post.ut = new Date();
-						var comment = {"oid" : $scope.posts.lu, "d" : commentText, "on" : $scope.posts.lun,
-								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+						var comment = {"oid" : $scope.posts.lu, "d" : response.text, "on" : $scope.posts.lun,
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
 						post.cs.push(comment);
 						
 						if($scope.commentSelectedFiles.length == 0) {
@@ -2369,7 +2190,7 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 								url : '/image/uploadCommentPhoto',
 								method: $scope.httpMethod,
 								data : {
-									commentId : comment_id
+									commentId : response.id
 								},
 								file: $scope.commentTempSelectedFiles[i],
 								fileFormDataName: 'comment-photo'
@@ -2377,7 +2198,7 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 								$scope.commentTempSelectedFiles.length = 0;
 								if(post.id == post_data.post_id) {
 									angular.forEach(post.cs, function(cmt, key){
-										if(cmt.id == comment_id) {
+										if(cmt.id == response.id) {
 											cmt.hasImage = true;
 											if(cmt.imgs) {
 												
@@ -2571,11 +2392,9 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 		}
 	}
 	
-	log("CommunityPostController completed");
 });
 
 minibean.controller('CommunityQnAController',function($scope, postManagementService, bookmarkPostService, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
-    log("CommunityQnAController starts");
 
     var firstBatchLoaded = false;
     var offsetq = 0;
@@ -2588,6 +2407,17 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
         usSpinnerService.stop('loading...');
     });
 	
+    $scope.showMore = function(id){
+    	communityQnAPageService.getFullBody.get({id:id},function(data){
+    		angular.forEach($scope.QnAs.posts, function(post, key){
+                if(post.id == id) {
+                    post.pt = data.body;
+                    post.showM = false;
+                }
+            })
+    	})
+    }
+    
     $scope.nextPosts = function() {
         //log("===> nextPosts:isBusy="+$scope.isBusy+"|offsetq="+offsetq+"|time="+time+"|firstBatchLoaded="+firstBatchLoaded+"|noMore="+noMore);
         if ($scope.isBusy) return;
@@ -2682,11 +2512,30 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 		}
 	}
 	
+    $scope.select_emoticon = function(code) {
+        if($("#content-upload-input").val()){
+        	$("#content-upload-input").val($("#content-upload-input").val() + " " + code + " ");
+        }else{
+        	$("#content-upload-input").val(code + " ");
+        }
+        $("#content-upload-input").focus();
+        $("#content-upload-input").trigger('input');    // need this to populate jquery val update to ng-model
+    }
+    
+    $scope.select_emoticon_comment = function(code, index) {
+        if($("#userCommentfield_"+index).val()){
+        	$("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
+        }else{
+        	$("#userCommentfield_"+index).val(code + " ");
+        }
+        $("#userCommentfield_"+index).focus();
+        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
+    }
+    
 	$scope.ask_question_community = function(id, questionTitle, questionText) {
         // first convert to links
         questionText = convertText(questionText);
 
-		usSpinnerService.spin('loading...');
 		var data = {
 			"community_id" : id,
 			"questionTitle" : questionTitle,
@@ -2694,12 +2543,13 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 			"withPhotos" : $scope.QnASelectedFiles.length != 0
 		};
 		
+		usSpinnerService.spin('loading...');
 		$http.post('/communityQnA/question/post', data) // first create post with question text.
-			.success(function(post_id) {
+			.success(function(response) {
 				usSpinnerService.stop('loading...');
 				$('.postBox').val('');
-				var post = {"oid" : $scope.QnAs.lu, "ptl" : questionTitle, "pt" : questionText, "cn" : $scope.community.n, 
-						"isLike" : false, "nol" : 0, "p" : $scope.QnAs.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
+				var post = {"oid" : $scope.QnAs.lu, "ptl" : questionTitle, "pt" : response.text, "cn" : $scope.community.n, 
+						"isLike" : false, "showM": (response.showM == 'true'), "nol" : 0, "p" : $scope.QnAs.lun, "t" : new Date(), "n_c" : 0, "id" : response.id, "cs": []};
 				$scope.QnAs.posts.unshift(post);
 				
 				if($scope.QnASelectedFiles.length == 0) {
@@ -2716,14 +2566,14 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 						url : '/image/uploadPostPhoto',
 						method: $scope.httpMethod,
 						data : {
-							postId : post_id
+							postId : response.id
 						},
 						file: $scope.tempSelectedFiles[i],
 						fileFormDataName: 'post-photo'
 					}).success(function(data, status, headers, config) {
 						usSpinnerService.stop('loading...');
 						angular.forEach($scope.QnAs.posts, function(post, key){
-							if(post.id == post_id) {
+							if(post.id == response.id) {
 								post.hasImage = true;
 								if(post.imgs) { 
 								} else {
@@ -2742,7 +2592,7 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 		$scope.qnaTempCommentSelectedFiles.splice(index, 1);
 		$scope.qnaCommentDataUrls.splice(index, 1);
 	}
-	
+    
 	$scope.answer_to_question = function(question_post_id, answerText) {
 		// first convert to links
         answerText = convertText(answerText);
@@ -2752,17 +2602,17 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 			"answerText" : answerText,
 			"withPhotos" : $scope.qnaCommentSelectedFiles.length != 0
 		};
-		
 		var post_data = data;
+		
+		usSpinnerService.spin('loading...');
 		$http.post('/communityQnA/question/answer', data) 
-			.success(function(answer_id) {
-				$('.commentBox').val('');
+			.success(function(response) {
 				angular.forEach($scope.QnAs.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
 						post.ut = new Date();
-						var answer = {"oid" : $scope.QnAs.lu, "d" : answerText, "on" : $scope.QnAs.lun, 
-								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
+						var answer = {"oid" : $scope.QnAs.lu, "d" : response.text, "on" : $scope.QnAs.lun, 
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
                         post.cs.push(answer);
 					  
 						if($scope.qnaCommentSelectedFiles.length == 0) {
@@ -2780,7 +2630,7 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 								url : '/image/uploadQnACommentPhoto',
 								method: $scope.httpMethod,
 								data : {
-									commentId : answer_id
+									commentId : response.id
 								},
 								file: $scope.qnaTempCommentSelectedFiles[i],
 								fileFormDataName: 'comment-photo'
@@ -2788,7 +2638,7 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 								$scope.qnaTempCommentSelectedFiles.length = 0;
 								if(post.id == post_data.post_id) {
 									angular.forEach(post.cs, function(cmt, key){
-										if(cmt.id == answer_id) {
+										if(cmt.id == response.id) {
 											cmt.hasImage = true;
 											if(cmt.imgs) {
 												
@@ -2928,11 +2778,9 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 		});
 	}
 	
-	log("CommunityQnAController completed");
 });
 
 minibean.controller('ArticleSliderController', function($scope, $routeParams, $interval, showImageService, usSpinnerService, articleService){
-    log("ArticleSliderController starts");
 
     $scope.resultSlider = articleService.SixArticles.get({category_id:$routeParams.catId}, function() {
         $scope.changeSliderImage($scope.resultSlider.la[0].id);
@@ -3022,15 +2870,127 @@ minibean.controller('ArticleSliderController', function($scope, $routeParams, $i
         //log(left+":"+index);
     }
   
-    log("ArticleSliderController completed");
 });
 
-minibean.controller('ArticlePageController',function($scope, $routeParams, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService){
-    log("ArticlePageController starts");
+minibean.controller('CampaignPageController',function($scope, $route, $location, $http, $routeParams, likeFrameworkService, campaignService, usSpinnerService){
+
+    $scope.showCampaign = true;
+
+    $scope.announcedWinners = [];
+    
+    $scope.campaign = campaignService.campaignInfo.get({id:$routeParams.id}, 
+        function(data) {
+            if(data[0] == 'NO_RESULT'){
+                $location.path('/campaign/show');
+            }
+            if ($scope.campaign.id == null || ($scope.campaign.cs == 'NEW' && !$scope.userInfo.isE)) {
+                $scope.showCampaign = false;
+            }
+            if ($scope.campaign.cs == 'ANNOUNCED' || $scope.campaign.cs == 'CLOSED') {
+                $scope.announcedWinners = campaignService.campaignAnnouncedWinners.get({id:$routeParams.id});
+            }
+        });
+    
+    $scope.popupLoginModal = function() {
+        bootbox.dialog({
+            message: 
+                "<div style='margin:0 20px;'>" + 
+                "<div style='height:25px;'>你並未登入。請先登入再參加活動" +
+                "<a style='float:right;' onclick='window.location=\"\/my#\/login\"'><b>會員登入</b></a></div>" +
+                "<div style='height:25px;'>如未有帳戶，請登記再重試~" +
+                "<a style='float:right;' onclick='window.location=\"\/my#\/signup\"'><b>立即註冊!</b></a></div>" +
+                "</div>",
+            title: "參加活動",
+            className: "campaign-login-modal",
+        });
+    }
+    
+    $scope.popupJoinCampaignModal = function(campaignId) {
+        translateValidationMessages();
+    }
+    
+    $scope.popupWithdrawCampaignModal = function(campaignId) {
+        translateValidationMessages();
+    }
+    
+    $scope.joinCampaign = function(campaignId) {
+        $scope.formData.campaignId = campaignId;
+
+        $scope.errorCampaignNotExist = false;        
+        $scope.errorJoinedAlready = false;
+        usSpinnerService.spin('loading...');
+        return $http.post('/join-campaign', $scope.formData).success(function(data){
+            usSpinnerService.stop('loading...');
+            $('#joinCampaignModal').modal('hide');
+            $scope.campaign.isJoined = true;
+        }).error(function(data, status, headers, config) {
+            if(status == 599){
+                usSpinnerService.stop('loading...');
+                window.location = '/my#/login';
+            } else if(status == 500){
+                usSpinnerService.stop('loading...');
+                $scope.errorCampaignNotExist = true;
+                //alert("沒有此活動");
+            } else if(status == 501){
+                usSpinnerService.stop('loading...');
+                $scope.errorJoinedAlready = true;
+                //alert("你之前已加活動。活動只可參加一次。");
+            }
+        });
+    }
+    
+     $scope.withdrawCampaign = function(campaignId) {
+        var formData = {
+            "campaignId" : campaignId
+        };
+
+        $scope.errorCampaignNotExist = false;        
+        usSpinnerService.spin('loading...');
+        return $http.post('/withdraw-campaign', formData).success(function(data){
+            usSpinnerService.stop('loading...');
+            $('#withdrawCampaignModal').modal('hide');
+            $scope.campaign.isJoined = false;
+        }).error(function(data, status, headers, config) {
+            if(status == 599){
+                usSpinnerService.stop('loading...');
+                window.location = '/my#/login';
+            } else if(status == 500){
+                usSpinnerService.stop('loading...');
+                $scope.errorCampaignNotExist = true;
+                //alert("沒有此活動");
+            }
+        });
+    }
+    
+    $scope.like_campaign = function(campaign_id) {
+        likeFrameworkService.hitLikeOnCampaign.get({"campaign_id":campaign_id}, 
+            function(data) {
+                $scope.campaign.nol++;
+                $scope.campaign.isLike=true;
+            });
+    }
+
+    $scope.unlike_campaign = function(campaign_id) {
+        likeFrameworkService.hitUnlikeOnCampaign.get({"campaign_id":campaign_id}, 
+            function(data) {
+                $scope.campaign.nol--;
+                $scope.campaign.isLike=false;
+            });
+    }
+    
+});
+
+minibean.controller('ArticlePageController',function($scope, $routeParams, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService, tagwordService){
     
     $scope.get_header_metaData();
     
     $scope.selectNavBar($scope.getArticleCategoryGroup($routeParams.catId), $routeParams.catId);
+    
+    $scope.defaultCollapseCount = DefaultValues.TAGWORD_LIST_COLLAPSE_COUNT;
+    
+    // tag words
+    $scope.hotArticlesTagwords = tagwordService.HotArticlesTagwords.get();
+    $scope.soonMomsTagwords = tagwordService.SoonMomsTagwords.get();
     
     $scope.hotArticles = articleService.HotArticles.get({category_id:$routeParams.catId});
     $scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:$routeParams.catId});
@@ -3079,11 +3039,9 @@ minibean.controller('ArticlePageController',function($scope, $routeParams, bookm
             });
     }
      
-    log("ArticlePageController completed");
 });
 
 minibean.controller('ShowArticlesController',function($scope, $routeParams, articleService, tagwordService, bookmarkPostService, showImageService, usSpinnerService) {
-    log("ShowArticlesController starts");
 
     $scope.get_header_metaData();
 
@@ -3246,11 +3204,9 @@ minibean.controller('ShowArticlesController',function($scope, $routeParams, arti
     	});
     }
 	 
-	log("ShowArticlesController completed");
 });
 
-minibean.controller('MyMagazineNewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, myMagazineNewsFeedService, iconsService) {
-    log("MyMagazineNewsFeedController starts");
+minibean.controller('MyMagazineNewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, myMagazineNewsFeedService) {
     
     $scope.newsFeeds = { posts: [] };
     
@@ -3389,11 +3345,9 @@ minibean.controller('MyMagazineNewsFeedController', function($scope, postManagem
         );
     }
 
-    log("MyMagazineNewsFeedController completed");
 });
 
-minibean.controller('NewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, newsFeedService, iconsService) {
-	log("NewsFeedController starts");
+minibean.controller('NewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, newsFeedService) {
 
     $scope.get_header_metaData();
 	$scope.newsFeeds = { posts: [] };
@@ -3408,17 +3362,15 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
         });
     }
 
-	/*
-	$scope.emoticons = iconsService.getEmoticons.get();
-
-    $scope.commentText = "";
-
-    $scope.select_emoticon = function(code) {
-        $scope.commentText += code;
-        //$("#message-inputfield").val($("#message-inputfield").val() + code);
-        //$("#message-inputfield").focus();
+    $scope.select_emoticon_comment = function(code, index) {
+        if($("#userCommentfield_"+index).val()){
+            $("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
+        }else{
+            $("#userCommentfield_"+index).val(code + " ");
+        }
+        $("#userCommentfield_"+index).focus();
+        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
     }
-    */
     
 	$scope.comment_on_post = function(id, commentText) {
         // first convert to links
@@ -3433,16 +3385,13 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 		
 		usSpinnerService.spin('loading...');
 		$http.post('/community/post/comment', data) 
-			.success(function(comment_id) {
-				$('.commentBox').val('');
-				
-				$scope.commentText = "";
+			.success(function(response) {
 				angular.forEach($scope.newsFeeds.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
 						post.ut = new Date();
-						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName,
-								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+						var comment = {"oid" : $scope.userInfo.id, "d" : response.text, "on" : $scope.userInfo.displayName,
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
 						post.cs.push(comment);
 						
 						if($scope.commentSelectedFiles.length == 0) {
@@ -3460,7 +3409,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 								url : '/image/uploadCommentPhoto',
 								method: $scope.httpMethod,
 								data : {
-									commentId : comment_id
+									commentId : response.id
 								},
 								file: $scope.commentTempSelectedFiles[i],
 								fileFormDataName: 'comment-photo'
@@ -3468,7 +3417,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 								$scope.commentTempSelectedFiles.length = 0;
 								if(post.id == post_data.post_id) {
 									angular.forEach(post.cs, function(cmt, key){
-										if(cmt.id == comment_id) {
+										if(cmt.id == response.id) {
 											cmt.hasImage = true;
 											if(cmt.imgs) {
 												
@@ -3612,7 +3561,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 		);
 	}
 
-	/***QnA Community ***/
+	/*** QnA Community ***/
 	
 	$scope.qnaCommentPhoto = function(post_id) {
 		$("#qna-comment-photo-id").click();
@@ -3647,7 +3596,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 			}
 		}
 	};
-	
+    
 	$scope.answer_to_question = function(question_post_id, answerText) {
 		// first convert to links
         answerText = convertText(answerText);
@@ -3657,17 +3606,17 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 			"answerText" : answerText,
 			"withPhotos" : $scope.qnaCommentSelectedFiles.length != 0
 		};
-		
 		var post_data = data;
+		
+		usSpinnerService.spin('loading...');
 		$http.post('/communityQnA/question/answer', data) 
-			.success(function(answer_id) {
-				$('.commentBox').val('');
+			.success(function(response) {
 				angular.forEach($scope.newsFeeds.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
 						post.ut = new Date();
-						var answer = {"oid" : $scope.userInfo.id, "d" : answerText, "on" : $scope.userInfo.displayName, 
-								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
+						var answer = {"oid" : $scope.userInfo.id, "d" : response.text, "on" : $scope.userInfo.displayName, 
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
 						post.cs.push(answer);
                         
 						if($scope.qnaCommentSelectedFiles.length == 0) {
@@ -3685,7 +3634,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 								url : '/image/uploadQnACommentPhoto',
 								method: $scope.httpMethod,
 								data : {
-									commentId : answer_id
+									commentId : response.id
 								},
 								file: $scope.qnaTempCommentSelectedFiles[i],
 								fileFormDataName: 'comment-photo'
@@ -3693,7 +3642,7 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 								$scope.qnaTempCommentSelectedFiles.length = 0;
 								if(post.id == post_data.post_id) {
 									angular.forEach(post.cs, function(cmt, key){
-										if(cmt.id == answer_id) {
+										if(cmt.id == response.id) {
 											cmt.hasImage = true;
 											if(cmt.imgs) {
 												
@@ -3759,11 +3708,9 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 		$scope.commentDataUrls.splice(index, 1);
 	}
 	
-	log("NewsFeedController completed");
 });
 
 minibean.controller('UserNewsFeedController', function($scope, $routeParams, $timeout, $upload, postManagementService, bookmarkPostService, likeFrameworkService, $http, allCommentsService, usSpinnerService, userNewsFeedService) {
-	log("UserNewsFeedController starts");
 	
 	$scope.newsFeeds = { posts: [] };
 	
@@ -3775,6 +3722,16 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
                 }
             })
         });
+    }
+    
+    $scope.select_emoticon_comment = function(code, index) {
+        if($("#userCommentfield_"+index).val()){
+            $("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
+        }else{
+            $("#userCommentfield_"+index).val(code + " ");
+        }
+        $("#userCommentfield_"+index).focus();
+        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
     }
     
 	$scope.comment_on_post = function(id, commentText) {
@@ -3790,16 +3747,13 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 		
 		usSpinnerService.spin('loading...');
 		$http.post('/community/post/comment', data) 
-			.success(function(comment_id) {
-				$('.commentBox').val('');
-				
-				$scope.commentText = "";
+			.success(function(response) {
 				angular.forEach($scope.newsFeeds.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
 						post.ut = new Date();
-						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName,
-								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+						var comment = {"oid" : $scope.userInfo.id, "d" : response.text, "on" : $scope.userInfo.displayName,
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
 						post.cs.push(comment);
 						
 						if($scope.commentSelectedFiles.length == 0) {
@@ -3817,7 +3771,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 								url : '/image/uploadCommentPhoto',
 								method: $scope.httpMethod,
 								data : {
-									commentId : comment_id
+									commentId : response.id
 								},
 								file: $scope.commentTempSelectedFiles[i],
 								fileFormDataName: 'comment-photo'
@@ -3825,7 +3779,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 								$scope.commentTempSelectedFiles.length = 0;
 								if(post.id == post_data.post_id) {
 									angular.forEach(post.cs, function(cmt, key){
-										if(cmt.id == comment_id) {
+										if(cmt.id == response.id) {
 											cmt.hasImage = true;
 											if(cmt.imgs) {
 												
@@ -3887,17 +3841,17 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 			"answerText" : answerText,
 			"withPhotos" : $scope.qnaCommentSelectedFiles.length != 0
 		};
-		
 		var post_data = data;
+		
+		usSpinnerService.spin('loading...');
 		$http.post('/communityQnA/question/answer', data) 
-			.success(function(answer_id) {
-				$('.commentBox').val('');
+			.success(function(response) {
 				angular.forEach($scope.newsFeeds.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
 						post.ut = new Date();
-						var answer = {"oid" : $scope.userInfo.id, "d" : answerText, "on" : $scope.userInfo.displayName, 
-								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : answer_id};
+						var answer = {"oid" : $scope.userInfo.id, "d" : response.text, "on" : $scope.userInfo.displayName, 
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
                         post.cs.push(answer);
                         
 						if($scope.qnaCommentSelectedFiles.length == 0) {
@@ -3915,7 +3869,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 								url : '/image/uploadQnACommentPhoto',
 								method: $scope.httpMethod,
 								data : {
-									commentId : answer_id
+									commentId : response.id
 								},
 								file: $scope.qnaTempCommentSelectedFiles[i],
 								fileFormDataName: 'comment-photo'
@@ -3923,7 +3877,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 								$scope.qnaTempCommentSelectedFiles.length = 0;
 								if(post.id == post_data.post_id) {
 									angular.forEach(post.cs, function(cmt, key){
-										if(cmt.id == answer_id) {
+										if(cmt.id == response.id) {
 											cmt.hasImage = true;
 											if(cmt.imgs) {
 												
@@ -4092,6 +4046,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 			})
 		});
 	}
+	
 	var noMoreC = false;
 	var offsetC = 0;
 	var noMoreP = false;
@@ -4111,14 +4066,13 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 		offsetP = 0;
 	}
 	
-	var id = $scope.userInfo.id;
+    var id = -1;    // my profile newsfeed
+    if($routeParams.id != undefined){
+        id = $routeParams.id;
+    }
 	
 	// nextNewsFeeds section starts
 	$scope.nextNewsFeeds = function() {
-		if($routeParams.id != undefined){
-			id = $routeParams.id;
-		}
-		
 		if ($scope.isBusyP) return;
 		if (noMoreP) return;
 		$scope.isBusyP = true;
@@ -4163,11 +4117,9 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 		);
 	}
 	
-	log("UserNewsFeedController completed");
 });
 
 minibean.controller('MyBookmarkController', function($scope, bookmarkPostService, likeFrameworkService, postManagementService, $http, allCommentsService, usSpinnerService, bookmarkService) {
-    log("MyBookmarkController starts");
     
     $scope.bookmarkSummary = bookmarkService.bookmarkSummary.get();
     
@@ -4187,6 +4139,16 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
         });
     }
     
+    $scope.select_emoticon_comment = function(code, index) {
+        if($("#userCommentfield_bm_"+index).val()){
+            $("#userCommentfield_bm_"+index).val($("#userCommentfield_bm_"+index).val() + " " + code + " ");
+        }else{
+            $("#userCommentfield_bm_"+index).val(code + " ");
+        }
+        $("#userCommentfield_bm_"+index).focus();
+        $("#userCommentfield_bm_"+index).trigger('input');    // need this to populate jquery val update to ng-model
+    }
+    
 	$scope.comment_on_post = function(id, commentText) {
         // first convert to links
         commentText = convertText(commentText);
@@ -4195,18 +4157,16 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 			"post_id" : id,
 			"commentText" : commentText
 		};
+		
 		usSpinnerService.spin('loading...');
 		$http.post('/community/post/comment', data) 
-			.success(function(comment_id) {
-				$('.commentBox').val('');
-				
-				$scope.commentText = "";
+			.success(function(response) {
 				angular.forEach($scope.posts.posts, function(post, key){
 					if(post.id == data.post_id) {
 						post.n_c++;
 						post.ut = new Date();
-						var comment = {"oid" : $scope.userInfo.id, "d" : commentText, "on" : $scope.userInfo.displayName,
-								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+						var comment = {"oid" : $scope.userInfo.id, "d" : response.text, "on" : $scope.userInfo.displayName,
+								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
 						post.cs.push(comment);
     				}
     				usSpinnerService.stop('loading...');	
@@ -4368,22 +4328,19 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
     		});
 	}
 	
-	log("MyBookmarkController completed");
 });
 
-minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $routeParams, $sce, searchFriendService, usSpinnerService, getMessageService, allConversationService, iconsService) {
-    log("UserConversationController starts");
+minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $routeParams, $sce, searchFriendService, usSpinnerService, getMessageService, allConversationService) {
 
     $scope.selectNavBar('HOME', -1);
-
-    $scope.emoticons = iconsService.getEmoticons.get();
 
     $scope.messageText = "";
 
     $scope.select_emoticon = function(code) {
-        $scope.messageText += code;
-        //$("#message-inputfield").val($("#message-inputfield").val() + code);
+        $scope.messageText += " " + code + " ";
+        //$("#message-inputfield").val($("#message-inputfield").val() + " " + code + " ");
         $("#message-inputfield").focus();
+        $("#message-inputfield").trigger('input');    // need this to populate jquery val update to ng-model
     }
     
 	if($routeParams.id == 0){
@@ -4595,5 +4552,4 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 	    return showHeader;
 	}
 	
-	log("UserConversationController completed");
 });

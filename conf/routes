@@ -52,6 +52,7 @@ GET     /magazine                   controllers.magazine.MagazineController.inde
 
 # Home
 GET     /my                         controllers.Application.home
+GET     /my/promoCode/:promoCode    controllers.Application.homeWithPromoCode(promoCode: String)
 
 GET     /login                      controllers.Application.login
 POST    /login                      controllers.Application.doLogin
@@ -59,9 +60,15 @@ POST    /saveSignupInfo             controllers.Application.saveSignupInfo
 POST    /saveSignupInfoFb           controllers.Application.saveSignupInfoFb
 GET     /get-application-info       controllers.Application.getApplicationInfo
 GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
-GET     /get-today-weather-info     controllers.Application.getTodayWeatherInfo()
-GET     /get-all-article-categories controllers.ArticleController.getAllArticleCategories
-GET     /get-all-Articles           controllers.ArticleController.getAllArticles
+
+GET     /get-campaign-info/:id      controllers.CampaignController.infoCampaign(id :Long)
+GET     /get-campaign-announced-winners/:id      controllers.CampaignController.getCampaignAnnouncedWinners(id :Long)
+GET     /like-campaign/:id          controllers.CampaignController.onLike(id : Long)
+GET     /unlike-campaign/:id        controllers.CampaignController.onUnlike(id : Long)
+POST    /join-campaign              controllers.CampaignController.joinCampaign
+POST    /withdraw-campaign          controllers.CampaignController.withdrawCampaign
+
+GET     /get-all-article-categories     controllers.ArticleController.getAllArticleCategories
 GET     /get-Articles-Categorywise/:category_id/:offset     controllers.ArticleController.getArticlesCategorywise(category_id: Long, offset:Integer)
 GET     /get-Articles-TagWise/:tagword_id/:offset           controllers.ArticleController.getArticlesTagwise(tagword_id: Long, offset:Integer)
 GET     /get-Six-Articles/:category_id          controllers.ArticleController.getSixArticles(category_id: Long)
@@ -72,7 +79,6 @@ GET     /unlike-article/:id         controllers.ArticleController.onUnlike(id : 
 GET     /get-new-Articles/:category_id          controllers.ArticleController.getNewArticles(category_id: Long)
 GET     /get-hot-Articles/:category_id          controllers.ArticleController.getHotArticles(category_id: Long)
 GET     /get-recommended-Articles/:category_id  controllers.ArticleController.getRecommendedArticles(category_id: Long)
-GET     /image/article/:year/:month/:date/:name         controllers.ArticleController.getImage(year :Long, month :Long, date :Long, name : String)
 
 GET     /bookmark-article/:article_id               controllers.ArticleController.onBookamrk(article_id : Long)
 GET     /unbookmark-article/:article_id             controllers.ArticleController.onUnBookmark(article_id : Long)
@@ -116,9 +122,6 @@ POST    /login/password/forgot      controllers.Signup.doForgotPassword
 GET     /get-general-announcements  controllers.AnnouncementController.getGeneralAnnouncements
 GET     /get-top-announcements      controllers.AnnouncementController.getTopAnnouncements
 
-# Game
-GET     /sign-in-for-today          controllers.GameController.signInForToday
- 
 # User Info Service
 GET     /get-user-info              controllers.UserController.getUserInfo
 GET     /complete-home-tour         controllers.UserController.completeHomeTour
@@ -130,7 +133,7 @@ GET     /get-all-districts            controllers.Application.getAllDistricts
 
 GET     /image/get-profile-image            controllers.UserController.getProfileImage
 GET     /get-user-newsfeeds-posts/:offset/:id       controllers.UserController.getUserNewsfeeds(offset : String, id : Long)
-GET     /get-user-newsfeeds-comment/:offset/:id         controllers.UserController.getUserNewsfeedsComments(offset : String, id : Long)
+GET     /get-user-newsfeeds-comments/:offset/:id    controllers.UserController.getUserNewsfeedsComments(offset : String, id : Long)
 GET     /image/get-cover-image          controllers.UserController.getCoverImage
 GET     /user-search                controllers.UserController.searchSocialObjects(query: String)
 GET     /accept-friend-request      controllers.UserController.acceptFriendRequest(friend_id :Long, notify_id: Long)
@@ -210,6 +213,7 @@ POST    /createCommunity                        controllers.CommunityController.
 POST    /image/upload-cover-photo-group/:id     controllers.CommunityController.uploadCoverPhoto(id : Long)
 POST    /updateCommunityProfileData             controllers.CommunityController.updateCommunityProfileData
 GET     /communityQnA/questions/:id             controllers.CommunityController.getAllQuestionsOfCommunity(id : Long)
+GET     /communityQnA/questions/body/:id        controllers.CommunityController.getAllPostBody(id : Long)
 POST    /communityQnA/question/post             controllers.CommunityController.postQuestionOnCommunity()
 POST    /communityQnA/question/answer           controllers.CommunityController.answerToQuestionOnQnACommunity()
 POST    /image/uploadPostPhoto                  controllers.CommunityController.uploadPhotoOfPost()
@@ -254,5 +258,17 @@ GET     /get-privacy-settings                   controllers.UserSettingsControll
 # Report Generation
 POST    /send-report                            controllers.ReportObjectController.createReport()
 
-# Indexing with elasic search
+# indexing with elasic search
 GET     /searchForPosts/index/:query/:community_id/:offset  controllers.Application.searchForPosts(query: String, community_id: Long,offset:Long)
+
+GET     /get-today-weather-info                 controllers.Application.getTodayWeatherInfo()
+
+GET     /image/article/:year/:month/:date/:name     controllers.ArticleController.getImage(year :Long, month :Long, date :Long, name : String)
+GET     /image/campaign/:year/:month/:date/:name    controllers.CampaignController.getImage(year :Long, month :Long, date :Long, name : String)
+
+# Gamification
+POST    /sign-in-for-today                      controllers.GameController.signInForToday()
+GET     /get-gameaccount                        controllers.GameController.getGameAccount()
+GET     /get-transactions/:offset               controllers.GameController.getGameTransactions(offset : String)
+GET     /invite-by-mail/:mail                   controllers.UserController.inviteByEmail(mail: String)
+GET     /request-redemption/:id/:points         controllers.UserController.requestToRedemption(id: Long,points: Long)

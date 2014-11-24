@@ -97,8 +97,8 @@ body {
     padding: 10px 12px 100px 12px;
     width: 100%;
     position: relative;
-    /* top: 55px; */
-    margin-top: -10px;
+    box-shadow: none;
+    top: 40px;
 }
 .wall-title {
     width: 100%;
@@ -378,6 +378,108 @@ span.notif-count {
     font-size: 12px;
 }
 
+/* header nav slider */
+#nav-slider {
+  font-weight: normal;
+  font-size: 15px;
+  width: 100%;
+  height: 40px;
+  margin-bottom: 20px;
+  top: 42px;
+}
+#nav-slider .rsThumbsHor {
+  width: 100%;
+  height: 40px;
+  padding: 0;
+}
+.rsDefaultInv,
+.rsDefaultInv .rsOverflow,
+.rsDefaultInv .rsSlide,
+.rsDefaultInv .rsVideoFrameHolder,
+.rsDefaultInv .rsThumbs {
+  background: #FFF;
+}
+.rsDefaultInv .rsThumb.rsNavSelected {
+}
+#nav-slider .nav-link {
+  padding: 7px 10px;
+  color: #111;
+  text-decoration: none;
+}
+#nav-slider > .rsContent {
+  height: auto;
+}
+.royalSlider {
+}
+.royalSlider > .rsContent h1,
+.royalSlider > .rsContent h2,
+.royalSlider > .rsContent img,
+.royalSlider > .rsContent .nav-link {
+  display: none;
+}
+#nav-slider .nav-link:hover {
+  text-decoration: none;
+}
+.rsWebkit3d .nav-link {
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+}
+#nav-slider .rsThumb {
+  width: 100px;     // NOTE: this must exist to calculate the correct slider scrolling width!!! OK to set to auto after slider init
+  height: 40px;
+  cursor: pointer;
+  padding: 10px 0px;
+  text-align: center;
+}
+#nav-slider .rsTmb {
+  text-align: center;
+}
+#nav-slider .rsTmb img {
+    height: 24px;
+    width: auto;
+    margin-top: -2px;
+}
+#nav-slider .selected-nav-item-yellow {
+    border-bottom: 4px solid #FFB32D;
+}
+#nav-slider .selected-nav-item-green {
+    border-bottom: 4px solid #239915;
+}
+#nav-slider .selected-nav-item-lightblue {
+    color: white !important;
+    background-color: #AFCCF9;
+    border-radius: 20px;
+    font-weight: bold;
+}
+#nav-slider .selected-nav-item-pink {
+    color: white !important;
+    background-color: #FFC2C4;
+    border-radius: 20px;
+    font-weight: bold;
+}
+#nav-slider .rsThumbsArrow {
+    height: 36px;
+    width: 30px;
+    position: absolute;
+    display: block;
+    cursor: pointer;
+    z-index: 21;    
+}
+#nav-slider .rsThumbsArrowLeft { position:fixed;  left:0; }
+#nav-slider .rsThumbsArrowRight { position:fixed; right:0; }
+#nav-slider .rsThumbsArrowIcn {
+    height: 36px;
+    width: 30px;
+    position: absolute; 
+    display: block;
+    cursor: pointer;
+    background: url(../../images/mobile/general/nav_overlay.png);  
+}
+#nav-slider .rsThumbsArrowLeft .rsThumbsArrowIcn { left:0; background-position:top; }
+#nav-slider .rsThumbsArrowRight .rsThumbsArrowIcn { right:0; background-position:bottom; }
+#nav-slider .rsThumbsArrowDisabled { display: none !important; }
+
+
 /* post */
 .post-copy-link-modal {
     top: 0px;
@@ -415,16 +517,16 @@ span.notif-count {
     font-size: 15px;
 }
 .post-comment-box .post-qna-reply-textfield {
-    width: 60%;
+    width: 58%;
 }
 .post-comment-box .post-qna-reply-textfield:focus {
-    width: 60%;
+    width: 58%;
 }
 .post-comment-box .post-sharing-comment-textfield {
-    width: 60%;
+    width: 58%;
 }
 .post-comment-box .post-sharing-comment-textfield:focus {
-    width: 60%;
+    width: 58%;
 }
 .post-qna-body-title {
     padding-bottom: 10px;
@@ -464,6 +566,15 @@ span.notif-count {
 }
 
 /* profile */
+#about .con-title {
+    border-radius: 10px;
+    border-bottom: none;
+}
+#about #collapseOne {
+    height: auto;
+    border-top: #764193 thin solid;
+    margin: 0px;
+}
 #profile-header {
     background-color: white;
     margin: -8px -12px 0 -12px;
@@ -585,6 +696,9 @@ span.notif-count {
     font-size: 15px;
     font-weight: normal;
 }
+.scTitle {
+    font-size: 28px;
+}
 .article-detail-wrapper {
     padding: 10px 15px;
 }
@@ -656,21 +770,39 @@ span.notif-count {
     border: 0px;
 }
 
+/* Campaign */
+.campaign-detail-wrapper {
+    padding: 10px 15px 20px 15px;
+}
+.campaign-detail-wrapper .campaign-title, .campaign-detail-wrapper .campaign-title-ended {
+    font-size: 20px;
+}
+.campaign-detail-wrapper .campaign-details li {
+    width: auto;
+}
+#joinCampaignModal .modal-dialog, #withdrawCampaignModal .modal-dialog {
+    width: 100%;
+    margin: 100px auto;
+}
+
 /* Game */
 #game-info div {
     margin: 3px 0;
     line-height: 20px;
 }
 
+/* ads */
 .ads-factor-1x1 {
 }
 .ads-factor-300x250 {
     margin: 0px auto 10px auto;
     vertical-align: middle;
     text-align: center;
+    width: 100%;
+    overflow: hidden;
 }
 .ads-factor-728x90 {
-    /*margin: 0px -10px 10px -10px;*/
+    margin: 0px auto 10px auto;
     vertical-align: middle;
     text-align: center;
     width: 100%;

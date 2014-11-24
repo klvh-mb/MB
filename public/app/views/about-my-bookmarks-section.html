@@ -26,7 +26,7 @@
     <div class="general-box widget-box" ng-show="bookmarkSummary.qc == 0 && (bookmarkSummary.pc > 0 || bookmarkSummary.ac > 0)">
         <div class="section-title">
             <div>
-                您尚未有喜愛的話題
+                您尚未有收藏的話題
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
     <div class="general-box widget-box" ng-show="bookmarkSummary.pc == 0 && (bookmarkSummary.qc > 0 || bookmarkSummary.ac > 0)">
         <div class="section-title">
             <div>
-                您尚未有喜愛的分享
+                您尚未有收藏的分享
             </div>
         </div>
     </div>
@@ -60,7 +60,7 @@
     <div class="general-box widget-box" ng-show="bookmarkSummary.ac == 0 && (bookmarkSummary.qc > 0 || bookmarkSummary.pc > 0)">
         <div class="section-title">
             <div>
-                您尚未有喜愛的文章
+                您尚未有收藏的文章
             </div>
         </div>
     </div>
@@ -81,7 +81,7 @@
                             <a class="tag" data-ng-href="my#/article/show/{{article.ct.id}}">
                                 <font><font>{{article.ct.name}}</font></font>
                             </a>
-                            <font ng-show="userInfo.isE">{{article.pd | date:'M/dd/yyyy'}}</font>
+                            <font class="admin-visible-field" ng-show="userInfo.isE">{{article.pd | date:'M/dd/yyyy'}}</font>
                             <span ng-show="article.nov > 20 || userInfo.isE" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.png"/>{{article.nov}}</span>
                             <span ng-show="article.nol > 0 || userInfo.isE" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{article.nol}}</span>
                         </h6>
@@ -96,12 +96,12 @@
 <div class="general-box widget-box" ng-show="bookmarkSummary.qc == 0 && bookmarkSummary.pc == 0 && bookmarkSummary.ac == 0">
     <div class="section-title">
         <div>
-            您尚未有喜愛的話題或文章
+            您尚未有收藏的話題或文章
         </div>
         <div>
             請立即點一下話題或文章右方的
             <img style="width:15px;vertical-align:text-top;" data-ng-src="/assets/app/images/general/icons/message_favorited.png"/>
-            來收藏到'我的喜愛'
+            加到'我的收藏'
         </div>
     </div>
 </div>

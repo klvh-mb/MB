@@ -91,9 +91,9 @@ public class JobScheduler {
                 logger.underlyingLogger().error("Error in "+schedulerId, e);
             }
 
-            // Add a 1.5 sec delay before the next schedule.
+            // Add a 5 sec delay before the next schedule.
             try {
-                Thread.sleep(1500);
+                Thread.sleep(5000);
             } catch (Exception e) {
             }
 

@@ -769,8 +769,10 @@ public class DataBootstrap {
             createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "坐月", "坐月,陪月,薑醋");
             createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "母乳", "母乳,人奶,上奶,奶泵");
             createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "奶粉", "奶粉");
-            createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "雙胞胎", "雙胞胎,龍鳳胎");
+            createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "雙胞胎", "雙胞胎,龍鳳胎,孖仔,孖女");
             createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "臍帶血", "臍帶血");
+            createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "改名", "改名");
+            createTagWord(TagWord.TagCategory.ARTICLE, soonMomsCatId, "孕婦裝", "孕婦裝,大肚婆衫,孕婦褲,連身裙,孕期內衣");
         }
 
         String hotArticlesCatId = ArticleCategory.ArticleCategoryGroup.HOT_ARTICLES.name();
@@ -783,11 +785,14 @@ public class DataBootstrap {
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "旅行", "旅行,旅遊,坐飛機");
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "母乳", "母乳,人奶,上奶,奶泵");
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "奶粉", "奶粉");
-            createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "雙胞胎", "雙胞胎,龍鳳胎");
-            createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "寵物", "寵物");
+            createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "雙胞胎", "雙胞胎,龍鳳胎,孖仔,孖女");
+            createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "寵物", "寵物,拳師犬,狗狗");
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "食譜", "食譜,菜單,餐單");
+            createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "閱讀", "閱讀,圖書,看書,故事書,繪本");
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "尿片", "尿布,尿褲,尿片");
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "攝影", "攝影,拍攝,相機,閃光燈");
+            createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "學說話", "學說話,學會說話,不會說話,說話能力");
+            createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "瘦身", "瘦身,瘦腿,減肥");
         }
     }
 

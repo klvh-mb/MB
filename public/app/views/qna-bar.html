@@ -42,6 +42,7 @@
         </li>
        	<li class="post-qna-body">
             <div class="post-qna-body-text" ng-bind-html="post.pt | to_trusted | highlight: highlightText"></div>
+            <span data-ng-show="post.showM" class="pull-right"><a href="" data-ng-click="showMore(post.id)"><b>查看更多</b></a></span>
             <div data-ng-show="post.hasImage" class="post-body-image">
                 <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
                     <img data-ng-src="/image/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
@@ -58,8 +59,8 @@
             <span class="post-qna-answer-count" ng-show="post.n_c == 0">尚未有回覆</span>
             <span class="post-qna-answer-count" ng-show="post.n_c > 0 && post.n_c <= commentsPreviewNum">{{post.n_c}}個回覆</span>
             <span class="post-qna-answer-count" ng-show="post.n_c > commentsPreviewNum  && post.ep">共{{post.n_c}}個回覆</span>
-            <a href="" ng-show="post.n_c > commentsPreviewNum && !post.ep" data-ng-click="get_all_comments(post.id)">共{{post.n_c}}個回覆</a>
-            <a class="pull-right" href="" ng-show="post.n_c > commentsPreviewNum && !post.ep" data-ng-click="get_all_comments(post.id)">查看所有回覆</a>
+            <a class="post-view-all-link"href="" ng-show="post.n_c > commentsPreviewNum && !post.ep" data-ng-click="get_all_comments(post.id)">共{{post.n_c}}個回覆</a>
+            <a class="post-view-all-link pull-right" href="" ng-show="post.n_c > commentsPreviewNum && !post.ep" data-ng-click="get_all_comments(post.id)">查看所有回覆</a>
         </li>
         <li data-ng-repeat="comment in post.cs" ng-class-odd="'post-qna-answer-odd'" ng-class-even="'post-qna-answer-even'">
             <a data-ng-href="my#/profile/{{comment.oid}}">
@@ -86,27 +87,27 @@
             </div>
         </li>
         <!-- Post Answer box -->
-        <li ng-show="post.isC == true || (community.isM || community.isO)">
+        <li ng-show="(post.isC == true || (community.isM || community.isO)) && !isMyBookmarksPage">
             <a data-ng-href="my#/profile/{{userInfo.id}}">
                 <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
             </a>
             <form class="post-comment-box" name="userComment" method="post" action="">
                 <label for="User Comment"></label>
-                <textarea type="text" name="userCommentfield" id="userCommentfield" class="general-textfield post-qna-reply-textfield" placeholder="回覆..." cols="70" data-ng-model="commentText" rows="1"></textarea>
-                <!--a class="dropdown-toggle dropdown-hover colorChange post-emoticon-dropdown" data-toggle="dropdown" href="#">
+                <textarea type="text" id="userCommentfield_{{$index}}" name="userCommentfield" data-ng-model="commentText" class="general-textfield post-qna-reply-textfield" placeholder="回覆..." cols="70" rows="1"></textarea>
+                <a class="dropdown-toggle dropdown-hover colorChange post-emoticon-dropdown" data-toggle="dropdown" href="#">
                     <img src="../assets/app/images/emoticons/smile.png" />
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right icon-dropdown post-emoticon-dropdown-menu">
                     <li data-ng-repeat="emoticon in emoticons">
-                        <a href="" data-ng-click="select_emoticon(emoticon.code)">
+                        <a href="" data-ng-click="select_emoticon_comment(emoticon.code,$parent.$index)">
                             <img class="emoticon" data-ng-src="{{emoticon.url}}"/>
                         </a>
                     </li>
-                </ul-->
+                </ul>
                 <a class="post-photo-icon" data-ng-hide="qnaCommentSelectedFiles.length >= 3 && commentedOnPost == post.id" id="upload">
                     <i class="icon-photo-camera-fill" data-ng-click="qnaCommentPhoto(post.id)"></i>
                 </a>
-                <button class="btn btn-primary ng-binding" ng-disabled="userComment.$pristine || (userComment.$dirty && !commentText.length)" type="submit" disabled="disabled" data-ng-click="answer_to_question(post.id, commentText); commentText=''">
+                <button class="btn btn-primary ng-binding" ng-disabled="userComment.$pristine || (userComment.$dirty && !commentText.length)" type="submit" disabled="disabled" data-ng-click="answer_to_question(post.id, commentText);commentText='';">
                     回覆
                 </button>
                 <input style="visibility:hidden;display:none;" id="qna-comment-photo-id" type="file" name="comment-photo" ng-file-select="onQnACommentFileSelect($files)"/>

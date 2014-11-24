@@ -16,6 +16,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import models.Community;
 import models.Conversation;
 import models.Emoticon;
+import models.GameAccount;
 import models.Location;
 import models.Message;
 import models.Notification;
@@ -90,8 +91,7 @@ public class UserController extends Controller {
         UserCommunityAffinity affinity = UserCommunityAffinity.findByUserCommunity(localUser.id, communityId);
         if (affinity == null) {
             // if no affinity previously, treat as disabled and toggle it on now
-            UserCommunityAffinity.onJoinedCommunity(localUser.id, communityId);
-            affinity = UserCommunityAffinity.findByUserCommunity(localUser.id, communityId);
+            affinity = UserCommunityAffinity.onJoinedCommunity(localUser.id, communityId);
             if (logger.underlyingLogger().isDebugEnabled()) {
                 logger.underlyingLogger().debug("[c="+communityId+",u="+localUser.id+"] toggleNewsfeedEnabledForCommunity created affinity");
             }
@@ -117,7 +117,7 @@ public class UserController extends Controller {
         return ok(Json.toJson(summary));
     }
     
-	@Transactional(readOnly=true)
+	@Transactional
 	public static Result getUserInfo() {
 	    NanoSecondStopWatch sw = new NanoSecondStopWatch();
 	    
@@ -346,9 +346,12 @@ public class UserController extends Controller {
 	public static Result getUserNewsfeeds(String offset, Long id) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
-		final User user = User.findById(id);
 		final User localUser = Application.getLocalUser(session());
-
+		if (id == -1L) {
+            id = localUser.id;
+        }
+		final User user = User.findById(id);
+		
 		List<CommunityPostVM> posts = new ArrayList<>();
 
         List<Post> newsFeeds = user.getUserNewsfeeds(Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
@@ -373,8 +376,11 @@ public class UserController extends Controller {
 	public static Result getUserNewsfeedsComments(String offset, Long id) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
-		final User user = User.findById(id);
-		final User localUser = Application.getLocalUser(session());
+        final User localUser = Application.getLocalUser(session());
+        if (id == -1L) {
+            id = localUser.id;
+        }
+        final User user = User.findById(id);
 		
 		List<CommunityPostVM> posts = new ArrayList<>();
 		List<Post> newsFeeds =  user.getUserNewsfeedsComments(Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
@@ -877,4 +883,30 @@ public class UserController extends Controller {
         response().setHeader("Cache-Control", "max-age=604800");
         return ok(Resource.findById(id).getRealFile());
     }
+
+    @Transactional
+    public static Result inviteByEmail(String email) {
+		final User localUser = Application.getLocalUser(session());
+
+        if (localUser.isLoggedIn()) {
+            GameAccount gameAccount = GameAccount.findByUserId(localUser.id);
+            gameAccount.sendInvitation(email);
+        } else {
+            logger.underlyingLogger().info("Not signed in. Skipped signup invitation to: "+email);
+        }
+		return ok();
+	}
+
+    /**
+     * TODO: Redemption flow TBD
+     * @param id
+     * @param points
+     * @return
+     */
+    @Transactional
+    public static Result requestToRedemption(Long id, Long points) {
+		final User localUser = User.findById(id);
+		localUser.requestToRedemption(points);
+		return ok();
+	}
 }

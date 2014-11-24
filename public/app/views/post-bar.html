@@ -45,8 +45,8 @@
     <ul class="post-sharing-comments">
         <li ng-show="post.n_c > commentsPreviewNum && !post.ep">
             <span class="post-qna-answer-count" ng-show="post.n_c > 0 && post.n_c <= commentsPreviewNum">{{post.n_c}}個留言</span>
-            <a href="" ng-show="post.n_c > commentsPreviewNum" data-ng-click="get_all_comments(post.id)">共{{post.n_c}}個留言</a>
-            <a class="pull-right" href="" data-ng-click="get_all_comments(post.id)">查看所有留言</a>
+            <a class="post-view-all-link" href="" ng-show="post.n_c > commentsPreviewNum" data-ng-click="get_all_comments(post.id)">共{{post.n_c}}個留言</a>
+            <a class="post-view-all-link pull-right" href="" data-ng-click="get_all_comments(post.id)">查看所有留言</a>
         </li>
         <li data-ng-repeat="comment in post.cs">
             <a data-ng-href="my#/profile/{{comment.oid}}">
@@ -77,7 +77,7 @@
             </a>
             <form class="post-comment-box" name="userComment" method="post" action="">
                 <label for="User Comment"></label>
-                <textarea type="text" id="userCommentfield" name="userCommentfield" id="userCommentfield" class="general-textfield post-sharing-comment-textfield" placeholder="留言..." cols="70" data-ng-model="commentText" rows="1"></textarea>
+                <textarea type="text" id="userCommentfield" name="userCommentfield" class="general-textfield post-sharing-comment-textfield" placeholder="留言..." cols="70" data-ng-model="commentText" rows="1"></textarea>
                 <!--a class="dropdown-toggle dropdown-hover colorChange post-emoticon-dropdown" data-toggle="dropdown" href="#">
                     <img src="../assets/app/images/emoticons/smile.png" />
                 </a>

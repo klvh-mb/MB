@@ -23,7 +23,7 @@ ul, li {
     position: relative;
 }
 .login-logo img {
-    width: 215px !important;
+    width: auto !important;
     height: 65px !important;
 }
 #login-header {

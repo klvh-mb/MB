@@ -58,12 +58,20 @@ public class UserCommunityAffinity extends domain.Entity {
     }
 
     @Transactional
-    public static void onJoinedCommunity(Long userId, Long communityId) {
+    public static UserCommunityAffinity onJoinedCommunity(Long userId, Long communityId) {
         try {
-            UserCommunityAffinity affinity = new UserCommunityAffinity(userId, communityId);
-            affinity.save();
+            synchronized (UserCommunityAffinity.class) {
+                UserCommunityAffinity affinity = findByUserCommunity(userId, communityId);
+                if (affinity == null) {
+                    affinity = new UserCommunityAffinity(userId, communityId);
+                }
+                affinity.lastJoined = new Date();       // update the join time
+                affinity.save();
+                return affinity;
+            }
         } catch (Exception e) {
             logger.underlyingLogger().error("Error in onJoinedCommunity(u="+userId+",c="+communityId+")", e);
+            return null;
         }
     }
 
@@ -120,20 +128,23 @@ public class UserCommunityAffinity extends domain.Entity {
         return (List<UserCommunityAffinity>) q.getResultList();
     }
 
+    /**
+     * Find by user id and community id.
+     * @param userId
+     * @param communityId
+     * @return
+     */
     public static UserCommunityAffinity findByUserCommunity(Long userId, Long communityId) {
-        CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-        CriteriaQuery<UserCommunityAffinity> q = cb.createQuery(UserCommunityAffinity.class);
-        Root<UserCommunityAffinity> c = q.from(UserCommunityAffinity.class);
-        q.select(c);
-        q.where(cb.and(cb.equal(c.get("userId"), userId), cb.equal(c.get("communityId"), communityId)));
-        try {
-            return JPA.em().createQuery(q).getSingleResult();
-        } catch (NoResultException e) {
-            //logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+        Query q = JPA.em().createQuery("select u from UserCommunityAffinity u "+
+                "where u.userId = ?1 and u.communityId = ?2");
+        q.setParameter(1, userId);
+        q.setParameter(2, communityId);
+
+        List<UserCommunityAffinity> results = (List<UserCommunityAffinity>) q.getResultList();
+        if (results == null || results.size() == 0) {
             return null;
-        } catch (NonUniqueResultException ne) {
-            //logger.underlyingLogger().error(ExceptionUtils.getStackTrace(ne));
-            return null;
+        } else {
+            return results.get(0);
         }
     }
     

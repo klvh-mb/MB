@@ -7,30 +7,30 @@
                     <tr ng-show="profileDataSaved">
                         <td colspan=2>
                             <div class="alert alert-success" role="alert">
-                                你的個人資料己儲存，謝謝。 <a href="my#/about"><b>返回您的主頁</b></a>
+                                你的個人資料己儲存，謝謝。 <a href="my#/about"><b>返回我的主頁</b></a>
                             </div>
                         </td>
                     </tr>
                     <tr ng-show="userInfo.isFbLogin">
-                        <td style="width:120px;">您的登入方式:</td>
+                        <td style="width:120px;">我的登入方式:</td>
                         <td>
                             <img style="width:25px;height:auto;" src="/assets/app/images/login/Facebook_icon_2013.jpg"></img>
                         </td>
                     </tr>
                     <tr ng-show="!userInfo.isFbLogin">
-                        <td>您的登入方式:</td>
+                        <td style="width:120px;">我的登入方式:</td>
                         <td>
                             <img style="width:25px;height:auto;" src="/assets/app/images/mobile/logo-mB-1.png"></img>
                         </td>
                     </tr>
                     <tr ng-show="!userInfo.isFbLogin">
-                        <td>您的登入電郵:</td>
+                        <td>登入電郵:</td>
                         <td>
                             {{userInfo.email}}
                         </td>
                     </tr>
                     <tr>
-                        <td>您的顯示名稱:</td>
+                        <td>顯示名稱:</td>
                         <td>
                             <div><input type="text" name="parent_displayname" id="parent_displayname" required="required" placeholder="暱稱" ng-model="userAbout.displayName" style="padding:3px 10px;"></input></div>
                             <div style="color:red;font-size:12px;margin-top:5px;max-width:250px;">註: 其他用戶只會看到您的顯示名稱，請選用一個您喜愛的暱稱。您的姓名，電郵或任何其他資料絶對不會對外顯示。</div>
@@ -50,7 +50,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>您的出生年份:</td>
+                        <td>出生年份:</td>
                         <td>
                             <div>
                                 <span>
@@ -60,7 +60,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>您居住的地區:</td>
+                        <td>地區:</td>
                         <td>
                             <div>
                                 <span>
@@ -70,7 +70,7 @@
                         </td>
                     </tr>
                     <!--tr>
-                        <td>您現在是:</td>
+                        <td>我現在是:</td>
                         <td>
                             <div></div>
                             <div>
@@ -105,7 +105,7 @@
                     <tr id="num_children_row">
                         <td></td>
                         <td>
-                        您有
+                        我有
                         <span>
                             <select name="num_children" id="num_children" ng-model="userAbout.userInfo.numChildren">
                                 <option value="0">0</option>
@@ -338,7 +338,7 @@
                         </td>
                         <td ng-show="profileDataSaved">
                             <button class="btn btn-default ng-binding pull-right" style="margin-right:7px;">
-                                <a href="my#/about">返回您的主頁</a>
+                                <a href="my#/about">返回我的主頁</a>
                             </button>
                         </td>
                     </tr>

@@ -6,12 +6,12 @@
     </div>
     <div class="static-content-wrapper">
         <ul>
-            <li data-ng-repeat="article in recommendedArticles">
+            <li data-ng-repeat="article in ::recommendedArticles">
                 <a href="#/article/{{article.id}}/{{article.ct.id}}">
                     <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
                 </a>
-                <div class="pull-right">
-                    <a href="#/article/{{article.id}}/{{article.ct.id}}" style="font-size:15px;color:#324fe1;line-height:1.2;">
+                <div class="article-summary pull-right">
+                    <a href="#/article/{{article.id}}/{{article.ct.id}}">
                         <font>{{article.nm|limitTo:30}}</font>
                     </a>
                     <span style="margin-left:10px;" ng-show="article.nol > 0" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{article.nol}}</span>

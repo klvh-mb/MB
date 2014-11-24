@@ -141,7 +141,7 @@ public class CommunityController extends Controller{
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug(String.format("[u=%d][targetingType=%s] getCommunitiesByTargetingType. Took"+sw.getElapsedMS()+"ms", localUser.id, targetingType.name()));
+            logger.underlyingLogger().debug(String.format("[u=%d][targetingType=%s] getCommunitiesByTargetingType. Took "+sw.getElapsedMS()+"ms", localUser.id, targetingType.name()));
         }
         return communityList;
     }
@@ -424,6 +424,16 @@ public class CommunityController extends Controller{
     }
     
     @Transactional
+    public static Result getAllPostBody(Long id) {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+        Map<String, String> map = new HashMap<>();
+        map.put("body", Post.findById(id).body);
+        return ok(Json.toJson(map));
+    }
+    
+    
+    
+    @Transactional
     public static Result getNextQnAs(String id,String offset,String time) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
@@ -578,7 +588,11 @@ public class CommunityController extends Controller{
                 sw.stop();
                 logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"][p="+postId+"] commentOnCommunityPost - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
 
-                return ok(Json.toJson(comment.id));
+                Map<String, String> map = new HashMap<>();
+                map.put("id", comment.id.toString());
+                map.put("text", comment.body);
+                
+                return ok(Json.toJson(map));
             } catch (SocialObjectNotCommentableException e) {
                 logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
             }
@@ -732,12 +746,31 @@ public class CommunityController extends Controller{
         Long communityId = Long.parseLong(form.get("community_id"));
         String questionTitle = Emoticon.replace(form.get("questionTitle"));
         String questionText = Emoticon.replace(form.get("questionText"));
+        int shortBodyCount = questionText.length();
+        if(questionText.length() >= DefaultValues.POST_SHORT_COUNT){
+	        String shortdesc = questionText.substring(DefaultValues.POST_SHORT_COUNT);
+	        
+	        if (shortdesc.lastIndexOf("<img") == -1){
+	        	shortBodyCount = DefaultValues.POST_SHORT_COUNT;
+	        } else {
+	        	if(shortdesc.lastIndexOf("<img") < shortdesc.lastIndexOf("/>")){
+	        		shortBodyCount = DefaultValues.POST_SHORT_COUNT;
+		        } else {
+		        	shortdesc.substring(shortdesc.lastIndexOf("<img")-1);
+		        	shortBodyCount = shortdesc.length();     // dont include emoticon if chopped off
+		        }
+	        }
+        } else {
+        	shortBodyCount = 0;
+        }
 
         Community c = Community.findById(communityId);
         if (CommunityPermission.canPostOnCommunity(localUser, c)) {
             String withPhotos = form.get("withPhotos");
             
             Post p = (Post) c.onPost(localUser, questionTitle, questionText, PostType.QUESTION);
+            p.shortBodyCount = shortBodyCount;
+            p.merge();
             if(Boolean.parseBoolean(withPhotos)) {
                 p.ensureAlbumExist();
             }
@@ -746,8 +779,20 @@ public class CommunityController extends Controller{
 
             sw.stop();
             logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"] postQuestionOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
+            
+            Map<String,String> map = new HashMap<>();
+            map.put("id", p.id.toString());
+           
+            if(p.shortBodyCount>0){
+            	map.put("text", p.body.substring(0,p.shortBodyCount));
+            	map.put("showM", "true");
+            }else{
+            	map.put("text", p.body);
+            	map.put("showM", "false");
+            }
+            
 
-            return ok(Json.toJson(p.id));
+            return ok(Json.toJson(map));
         }
         return ok("You are not member of this community");
     }
@@ -768,7 +813,7 @@ public class CommunityController extends Controller{
         
         Post p = Post.findById(postId);
         Community c = p.community;
-        if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
+        if(CommunityPermission.canPostOnCommunity(localUser, c)){
             try {
                 Comment comment = (Comment) p.onComment(localUser, answerText, CommentType.ANSWER);
 
@@ -782,7 +827,11 @@ public class CommunityController extends Controller{
                 sw.stop();
                 logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"][p="+postId+"] answerToQuestionOnQnACommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
 
-                return ok(Json.toJson(comment.id));
+                Map<String, String> map = new HashMap<>();
+                map.put("id", comment.id.toString());
+                map.put("text", comment.body);
+                
+                return ok(Json.toJson(map));
             } catch (SocialObjectNotCommentableException e) {
                 logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
             }

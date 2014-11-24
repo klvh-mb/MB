@@ -49,8 +49,7 @@ public class ArticleVM {
 			this.isLike = article.isLikedBy(user);
 			this.isBookmarked = article.isBookmarkedBy(user);
 		} catch (SocialObjectNotLikableException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			;
 		}
 	}
 }

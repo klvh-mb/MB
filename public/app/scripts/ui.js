@@ -46,17 +46,17 @@ var homeTour = new Tour({
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_4.png\">" + 
         "我的個人主頁",
     content: 
-        "您可以查看您所發佈或回覆的話題。還可以管理您關注的社群，朋友和喜愛的話題或文章"
+        "您可以查看您所發佈或回覆的話題。還可以管理您關注的社群，朋友和收藏的話題或文章"
   },
   {
     element: "#my-bookmarks",
     title: 
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_5.png\">" +
-        "我的喜愛",
+        "我的收藏",
     content: 
         "在任何您有興趣的話題或文章，您可以按右方的" + 
         "<img style=\"width:18px;height:auto;margin:0 3px 3px 3px;\" src=\"/assets/app/images/general/icons/message_favorited.png\">" + 
-        "收藏到我的喜愛，方便査看"
+        "加到我的收藏，方便査看"
   }
 ]});
 
@@ -104,17 +104,17 @@ var mHomeTour = new Tour({
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_4.png\">" + 
         "我的個人主頁",
     content: 
-        "您可以查看您所發佈或回覆的話題。還可以管理您關注的社群，朋友和喜愛的話題或文章"
+        "您可以查看您所發佈或回覆的話題。還可以管理您關注的社群，朋友和收藏的話題或文章"
   },
   {
     element: "#site-tour-anchor",
     title: 
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_5.png\">" +
-        "我的喜愛",
+        "我的收藏",
     content: 
         "在任何您有興趣的話題或文章，您可以按右方的" + 
         "<img style=\"width:18px;height:auto;margin:0 3px 3px 3px;\" src=\"/assets/app/images/general/icons/message_favorited.png\">" + 
-        "收藏到我的喜愛，方便査看"
+        "加到我的收藏，方便査看"
   }
 ]});
 
@@ -169,11 +169,13 @@ var log = function(str) {
 // header bottom glow
 //
 
+var headerBarExists = $('#main-top').length > 0;
+var headerMenuExists = $('#header-menu').length > 0;
 var toggleToNotVisible = true;
 var mainLogoNotVisible = true;
 
 $(window).scroll(function() {
-    if ($('#main-top').length > 0 && $('#main-top').visible(true)) {
+    if ($('#main-top').visible(true)) {
         //console.log("header no glow");
         $('#header-backdrop').removeClass('header-glow');
         toggleToNotVisible = true;
@@ -186,10 +188,11 @@ $(window).scroll(function() {
         toggleToNotVisible = false;
     }
     
-    if ($('#header-menu').length > 0 && $('#header-menu').visible(true)) {
+    if ($('#header-menu').visible(true)) {
+        //console.log("show logo");
         mainLogoNotVisible = true;
     } else if (mainLogoNotVisible) {
-        // hide main logo
+        //console.log("hide logo");
         $('#header-logo').hide();
         $('#header-logo').show(500);
         $('#main-logo').slideUp(300,'swing');
@@ -258,16 +261,12 @@ var convertToLinks = function(text) {
 // bootbox
 //
 
-var prompt = function(message, className) {
-    if (className == undefined) {
+var prompt = function(message, className, timeout) {
+    if (className == undefined || className.length == 0) {
         className = "bootbox-default-prompt";
     }
     
-    bootbox.dialog({
-        message: message,
-        title: "",
-        className: className,
-        buttons: {
+    var buttons = {
             /*main: {
                 label: "Copy",
                 className: "btn-default",
@@ -281,6 +280,43 @@ var prompt = function(message, className) {
                 callback: function() {
                 }
             }
-        }
+        };
+    
+    
+    if (timeout != undefined && timeout > 0) {
+        window.setTimeout(function(){
+            bootbox.hideAll();
+        }, timeout);
+        buttons = {};
+    }
+    
+    bootbox.dialog({
+        message: message,
+        title: "",
+        className: className,
+        buttons: buttons
     });
+}
+
+//
+// Translate validation messages
+//
+var translateValidationMessages = function() {
+    var elements = document.getElementsByTagName("INPUT");
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].oninvalid = function(e) {
+            e.target.setCustomValidity("");
+            e.target.checkValidity();
+            e.target.setCustomValidity(__Msg(e.target.validationMessage));
+        };
+    }
+}
+
+// translate messages
+function __Msg(str){
+    if (str.indexOf("fill out this field") != -1)
+        return "請填寫此欄。";
+    else if (str.indexOf("email address") != -1)
+        return "請填寫電郵。";
+    return str; // skip not translated messages
 }

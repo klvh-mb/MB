@@ -58,25 +58,25 @@ public class TagWordScore extends domain.Entity {
 
     public static Long getSocialObjectCount(Long tagWordId,
                                            SocialObjectType socialObjectType) {
-        Query q = JPA.em().createQuery("Select count(ts.id) from TagWordScore ts where ts.tagWordId=?1 and ts.socialObjectType = ?2");
+        Query q = JPA.em().createQuery("Select count(distinct ts.socialObjectId) from TagWordScore ts where ts.tagWordId=?1 and ts.socialObjectType = ?2");
         q.setParameter(1, tagWordId);
         q.setParameter(2, socialObjectType);
         return (Long) q.getSingleResult();
     }
 
     public static List<Article> getArticlesByTagWord(Long tagWordId, int offset) {
-        Query q = JPA.em().createQuery("select ts.socialObjectId from TagWordScore ts where ts.tagWordId=?1 and ts.socialObjectType = ?2 order by ts.score desc");
+        Query q = JPA.em().createQuery("select distinct ts.socialObjectId from TagWordScore ts where ts.tagWordId=?1 and ts.socialObjectType = ?2 order by ts.score desc");
         q.setParameter(1, tagWordId);
         q.setParameter(2, SocialObjectType.ARTICLE);
 		q.setFirstResult(offset);
 		q.setMaxResults(DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 
         List<Long> articleIds = (List<Long>)q.getResultList();
-
-        String idsForIn = StringUtil.collectionToString(articleIds, ",");
-        if (StringUtils.isEmpty(idsForIn)) {
+        if (articleIds.size() == 0) {
             return new ArrayList<>();
         }
+
+        String idsForIn = StringUtil.collectionToString(articleIds, ",");
         q = JPA.em().createQuery("SELECT a from Article a where a.id in ("+idsForIn+") order by FIELD(a.id ,"+idsForIn+")");
 		return (List<Article>)q.getResultList();
     }

@@ -4,7 +4,7 @@
 	         <a href="#/article/{{article.id}}/{{article.ct.id}}">
 		         <p>
 		         	<font>
-		         		<font style="text-align: center;">{{article.nm|limitTo:20:false}}<span ng-show="article.nm.length > 20">...</span></font><br>
+		         		<font style="text-align: center;">{{article.nm|limitTo:15:false}}<span ng-show="article.nm.length > 15">...</span></font><br>
 		         	</font>
 		         	<img class="slider-arrow-left" src="../assets/app/images/general/sliderArrow_right.png">
 	         	</p>
@@ -29,7 +29,7 @@
             <a href="#/article/{{article.id}}/{{article.ct.id}}">
                 <p>
                     <font>
-                        <font style="text-align: center;">{{article.nm|limitTo:20:false}}<span ng-show="article.nm.length > 20">...</span></font><br>
+                        <font style="text-align: center;">{{article.nm|limitTo:15:false}}<span ng-show="article.nm.length > 15">...</span></font><br>
                     </font>
                     <img class="slider-arrow-right" src="../assets/app/images/general/sliderArrow_left.png">
                 </p>

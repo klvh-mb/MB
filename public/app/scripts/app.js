@@ -5,7 +5,6 @@ angular.module('minibean', [
   'ngResource',
   'ngRoute',
   'xeditable',
-  'ngAnimate',
   'ui.bootstrap',
   'ui.bootstrap.tpls',
   'angularFileUpload',
@@ -96,12 +95,12 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/message.html',
     	controller: 'UserConversationController'  
       })
-      .when('/bpoints',{
-        templateUrl: '/assets/app/views/bpoints.html',
+      .when('/game',{
+        templateUrl: '/assets/app/views/game-page.html',
         controller: 'GameController'
       })
-      .when('/bpoints/rules',{
-        templateUrl: '/assets/app/views/bpoints-rules.html',
+      .when('/game/rules',{
+        templateUrl: '/assets/app/views/game-rules.html',
         controller: 'GameController'
       })
       .when('/error', {

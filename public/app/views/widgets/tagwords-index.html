@@ -3,7 +3,7 @@
         熱門知識
     </div>
     <ul>
-        <li ng-repeat="tagword in tagwords" ng-class-odd="'tagword-odd'" ng-class-even="'tagword-even'">
+        <li ng-repeat="tagword in ::tagwords" ng-class-odd="'tagword-odd'" ng-class-even="'tagword-even'">
             <a ng-href="magazine#/article/tagword/{{tagword.id}}/{{catGroup}}">
                 {{tagword.nm}}
                 <span class="tagword-stats pull-right">
@@ -27,7 +27,7 @@
     </div>
     <div>
         <ul style="padding-bottom:30px;margin-bottom:0;">
-            <li ng-repeat="tagword in tagwords" ng-class-odd="'tagword-odd'" ng-class-even="'tagword-even'" ng-if="$index < defaultCollapseCount">
+            <li ng-repeat="tagword in ::tagwords" ng-class-odd="'tagword-odd'" ng-class-even="'tagword-even'" ng-if="$index < defaultCollapseCount">
                 <a ng-href="magazine#/article/tagword/{{tagword.id}}/{{catGroup}}">
                     {{tagword.nm}}
                     <span class="tagword-stats pull-right">
@@ -49,7 +49,7 @@
     </div>
     <div id="collapseOne" class="collapse" ng-show="tagwords.length > defaultCollapseCount">
         <ul>
-            <li ng-repeat="tagword in tagwords" ng-class-odd="'tagword-odd'" ng-class-even="'tagword-even'" ng-if="$index >= defaultCollapseCount">
+            <li ng-repeat="tagword in ::tagwords" ng-class-odd="'tagword-odd'" ng-class-even="'tagword-even'" ng-if="$index >= defaultCollapseCount">
                 <a ng-href="magazine#/article/tagword/{{tagword.id}}/{{catGroup}}">
                     {{tagword.nm}}
                     <span class="tagword-stats pull-right">

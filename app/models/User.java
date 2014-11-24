@@ -36,6 +36,7 @@ import common.utils.DateTimeUtil;
 import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
 import common.utils.StringUtil;
+import email.EDMUtility;
 import models.Community.CommunityType;
 import models.Notification.NotificationType;
 import models.SocialRelation.Action;
@@ -113,17 +114,17 @@ public class User extends SocialObject implements Subject, Socializable {
     
     // stats
     
-    public int questionsCount = 0;
+    public Long questionsCount = 0L;
     
-    public int answersCount = 0;
+    public Long answersCount = 0L;
     
-    public int postsCount = 0;
+    public Long postsCount = 0L;
     
-    public int commentsCount = 0;
+    public Long commentsCount = 0L;
     
-    public int likesCount = 0;
+    public Long likesCount = 0L;
 
-    public int wantAnsCount = 0;
+    public Long wantAnsCount = 0L;
     
     // system
     
@@ -623,6 +624,10 @@ public class User extends SocialObject implements Subject, Socializable {
                 SocialObjectType.PROFILE_PHOTO);
         this.albumPhotoProfile.setHighPriorityFile(newPhoto);
         newPhoto.save();
+
+        // credit points if first time
+        GameAccount.setPointsForPhotoProfile(this);
+
         return newPhoto;
     }
     
@@ -702,7 +707,6 @@ public class User extends SocialObject implements Subject, Socializable {
      * ensure the existence of the system folder: albumPhotoProfile
      */
     private void ensureAlbumPhotoProfileExist() {
-
         if (this.albumPhotoProfile == null) {
             this.albumPhotoProfile = createAlbum("profile", "", true);
             this.merge();
@@ -1304,7 +1308,6 @@ public class User extends SocialObject implements Subject, Socializable {
     }
     
     public int doUnLike(Long id, SocialObjectType type) {
-        
         Query query = JPA.em().createQuery(
                 "SELECT sr FROM PrimarySocialRelation sr where sr.targetType = ?4 and sr.action = ?3 and " + 
                 "(sr.target = ?1 and sr.actor = ?2)", PrimarySocialRelation.class);
@@ -1316,7 +1319,8 @@ public class User extends SocialObject implements Subject, Socializable {
         PrimarySocialRelation sr= (PrimarySocialRelation) query.getSingleResult();
         
         sr.delete();
-        
+
+        GameAccountStatistics.recordunLike(this.id);
         return 1;
     }
 
@@ -1723,4 +1727,15 @@ public class User extends SocialObject implements Subject, Socializable {
         noLoginUser.id = -1L;
         return noLoginUser;
     }
+
+    public void requestToRedemption(Long points) {
+		GameRedemption redemption = new GameRedemption();
+		redemption.redemption_state = GameRedemption.Redemption_state.InProgress;
+		redemption.redemption_points = points;
+		redemption.user_id = this.id;
+		redemption.date = new Date();
+		redemption.save();
+		EDMUtility edmUtility = new EDMUtility();
+		edmUtility.requestRedemptionMail(this);
+	}
 }

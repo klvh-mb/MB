@@ -3,6 +3,7 @@ package viewmodel;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import controllers.Application;
+import controllers.GameController;
 import models.Icon;
 import models.Location;
 import models.User;
@@ -34,34 +35,38 @@ public class UserVM {
     @JsonProperty("gameLevelIcon") public String gameLevelIcon = Icon.getGameLevelIcon(gameLevel).url;
     @JsonProperty("gameTotalPoints") public int gameTotalPoints = 100;
     @JsonProperty("gameRedeemablePoints") public int gameRedeemablePoints = 89;
-    @JsonProperty("isSignedInToday") public boolean isSignedInToday = false;
+    @JsonProperty("enableSignInForToday") public boolean enableSignInForToday = false;
     
 	public UserVM(User user) {
-		this.firstName = user.firstName;
-		this.lastName = user.lastName;
-		this.displayName = user.displayName;
-		this.email = user.email;
-		if(user.userInfo != null) {
-			this.birthYear = user.userInfo.birthYear;
-			if(user.userInfo.gender != null) {
-				this.gender = user.userInfo.gender.name();
-			}
-			this.aboutMe = user.userInfo.aboutMe;
-			this.location = user.userInfo.location;
-		}
-		this.id = user.id;
-		this.noOfFriends = user.getFriendsSize();
-		this.noOfGroups = user.getListOfJoinedCommunityIds().size();
-		this.isLoggedIn = user.isLoggedIn();
-		if (this.isLoggedIn) {
-		    this.isSuperAdmin = user.isSuperAdmin();
-	        this.isBusinessAdmin = user.isBusinessAdmin();
-	        this.isCommunityAdmin = user.isCommunityAdmin();
-	        this.isEditor = user.isEditor();
-	        this.isAdmin = this.isSuperAdmin || this.isBusinessAdmin || this.isCommunityAdmin;    
-		}
-		this.isMobile = Application.isMobileUser();
-		this.isFbLogin = user.fbLogin;
-		this.isHomeTourCompleted = user.isHomeTourCompleted();
+	    this.isMobile = Application.isMobileUser();
+	    this.id = user.id;
+	    this.isLoggedIn = user.isLoggedIn();
+	    if (user.isLoggedIn()) {
+    		this.firstName = user.firstName;
+    		this.lastName = user.lastName;
+    		this.displayName = user.displayName;
+    		this.email = user.email;
+    		if(user.userInfo != null) {
+    			this.birthYear = user.userInfo.birthYear;
+    			if(user.userInfo.gender != null) {
+    				this.gender = user.userInfo.gender.name();
+    			}
+    			this.aboutMe = user.userInfo.aboutMe;
+    			this.location = user.userInfo.location;
+
+        		this.noOfFriends = user.getFriendsSize();
+        		this.noOfGroups = user.getListOfJoinedCommunityIds().size();
+        		this.isFbLogin = user.fbLogin;
+        		this.isHomeTourCompleted = user.isHomeTourCompleted();
+        		
+        		this.enableSignInForToday = GameController.enableSignInForToday();
+        		
+    		    this.isSuperAdmin = user.isSuperAdmin();
+    	        this.isBusinessAdmin = user.isBusinessAdmin();
+    	        this.isCommunityAdmin = user.isCommunityAdmin();
+    	        this.isEditor = user.isEditor();
+    	        this.isAdmin = this.isSuperAdmin || this.isBusinessAdmin || this.isCommunityAdmin;
+    		}
+	    }
 	}
 }
