@@ -116,6 +116,8 @@ minibean.controller('GameController',function($scope, $http, $interval, $locatio
     }
     
     $scope.gameAccount = gameService.gameAccount.get();
+    
+    $scope.gameTransactions = gameService.gameTransactions.get({offset:0});
 });
 
 minibean.controller('SearchController',function($scope, searchService){

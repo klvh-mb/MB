@@ -4,7 +4,7 @@
         <a title="user-picture" href="my#/about/activities"><img src="/image/get-thumbnail-image-by-id/{{userInfo.id}}" alt="user-picture"></a>
         <a href="my#/about/activities" class="userName">{{userInfo.displayName|limitTo:10}}<span ng-show="userInfo.displayName.length > 10">...</span></a>
     </div>
-    <div id="user-info" ng-show="!hideStats">
+    <div id="user-info" ng-show="!hideStats && userInfo.isSA">
         <div id="game-info">
             <span class="pull-right">
                 <a class="btn btn-sign-in" href="my#/game" ng-show="userInfo.enableSignInForToday">
@@ -21,14 +21,14 @@
             </div>
             <div>
                 <a class="" href="my#/game">
-                小豆豆總值: <span class="points">{{gameAccount.gmpt || '--'}}</span>
+                小豆豆總數: <span class="points">{{gameAccount.gmpt || '--'}}</span>
                 </a>
             </div>
-            <div>
+            <!--div>
                 <a class="" href="my#/game">
-                小豆豆可兌換值: <span class="points">{{userInfo.rdpt || '--'}}</span>
+                小豆豆已兌換數: <span class="points">{{userInfo.rdpt || '--'}}</span>
                 </a>
-            </div>
+            </div-->
         </div>
     </div>
 </div>

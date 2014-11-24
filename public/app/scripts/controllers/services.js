@@ -72,6 +72,13 @@ minibean.service('gameService',function($resource) {
                 get: {method:'get'}
             }
     );
+    this.gameTransactions = $resource(
+            '/get-transactions/:offset',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',params:{offset:'@offset'},isArray:true}
+            }
+    );
 });
 
 minibean.service('locationService',function($resource){

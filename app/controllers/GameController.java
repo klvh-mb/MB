@@ -10,7 +10,9 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import viewmodel.GameAccountVM;
+import viewmodel.GameTransactionVM;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +21,7 @@ import java.util.List;
 public class GameController extends Controller {
     private static final play.api.Logger logger = play.api.Logger.apply(GameController.class);
 
-    private static final int TRANSACTION_PAGESIZE = 10;
+    private static final int TRANSACTION_PAGESIZE = 30;
 
     @Transactional
     public static Result getGameAccount() {
@@ -52,13 +54,16 @@ public class GameController extends Controller {
         if (currUser.isLoggedIn()) {
             int offsetInt = Integer.parseInt(offset);
 
-            List<GameAccountTransaction> trans =
+            List<GameAccountTransaction> transactions =
                     GameAccountTransaction.getTransactions(currUser.id, offsetInt, TRANSACTION_PAGESIZE);
-            // TODO
-
+            List<GameTransactionVM> vms = new ArrayList<GameTransactionVM>();
+            for (GameAccountTransaction transaction : transactions) {
+                vms.add(new GameTransactionVM(transaction));
+            }
+            
             sw.stop();
             logger.underlyingLogger().info("[u="+currUser.id+"] getGameTransactions(offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
-            return ok();
+            return ok(Json.toJson(vms));
         }
         else {
             logger.underlyingLogger().info("User is not logged in, no game transactions returning");
