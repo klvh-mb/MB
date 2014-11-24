@@ -5,7 +5,7 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import models.Location;
-import models.Privacy;
+import models.PrivacySettings;
 import models.User;
 
 public class ProfileVM {
@@ -45,30 +45,30 @@ public class ProfileVM {
         vm.isFriend = user.isFriendOf(localUser);
         vm.isFriendRequestPending = user.isFriendRequestPendingFor(localUser);
         
-        Privacy privacy = Privacy.findByUserId(user.id);
-        if (privacy != null) {
-            if(privacy.showFriendListTo == 1) {
+        PrivacySettings settings = PrivacySettings.findByUserId(user.id);
+        if (settings != null) {
+            if(settings.showFriendListTo == 1) {
                 vm.isFriendsVisibleToAll = true;
             }
-            if(privacy.showFriendListTo == 2) {
+            if(settings.showFriendListTo == 2) {
                 vm.isFriendsVisibleToAll = false;
             }
-            if(privacy.showActivitiesTo == 1) {
+            if(settings.showActivitiesTo == 1) {
                 vm.isActivityVisibleToAll = true;
             }
-            if(privacy.showActivitiesTo == 2) {
+            if(settings.showActivitiesTo == 2) {
                 vm.isActivityVisibleToAll = false;
             }   
-            if(privacy.showJoinedcommunitiesTo == 1) {
+            if(settings.showJoinedcommunitiesTo == 1) {
                 vm.isCommunityVisibleToAll = true;
             }
-            if(privacy.showJoinedcommunitiesTo == 2) {
+            if(settings.showJoinedcommunitiesTo == 2) {
                 vm.isCommunityVisibleToAll = false;
             }
-            if(privacy.showDetailsTo == 1) {
+            if(settings.showDetailsTo == 1) {
                 vm.isDetailVisibleToAll = true;
             }
-            if(privacy.showDetailsTo == 2) {
+            if(settings.showDetailsTo == 2) {
                 vm.isDetailVisibleToAll = false;
             }
         }

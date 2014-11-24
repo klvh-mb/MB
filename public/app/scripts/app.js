@@ -104,14 +104,6 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/bpoints-rules.html',
         controller: 'GameController'
       })
-      .when('/edm-settings',{
-        templateUrl: '/assets/app/views/edm-settings.html',
-        controller : 'EdmSettingsController'  
-      })
-      .when('/privacy-settings',{
-        templateUrl: '/assets/app/views/privacy-settings.html',
-        controller : 'PrivacySettingsController'  
-      })
       .when('/error', {
     	templateUrl: '/assets/app/views/errorPage.html',
       })
