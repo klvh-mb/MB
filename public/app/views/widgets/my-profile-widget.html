@@ -4,7 +4,7 @@
         <a title="user-picture" href="my#/about/activities"><img src="/image/get-thumbnail-image-by-id/{{userInfo.id}}" alt="user-picture"></a>
         <a href="my#/about/activities" class="userName">{{userInfo.displayName|limitTo:10}}<span ng-show="userInfo.displayName.length > 10">...</span></a>
     </div>
-    <div id="user-info" ng-show="!hideStats && userInfo.isSA">
+    <div id="user-info" ng-show="!hideStats">
         <div id="game-info">
             <span class="pull-right">
                 <a class="btn btn-sign-in" href="my#/game" ng-show="userInfo.enableSignInForToday">

@@ -7,8 +7,11 @@ import org.joda.time.DateTime;
 
 public class DefaultValues {
 
-    public static int POST_SHORT_COUNT = 300;
-    public static int COMMENT_SHORT_COUNT = 200;
+    public static int POST_PREVIEW_CHARS = 300;
+    public static int COMMENT_PREVIEW_CHARS = 200;
+    public static int DEFAULT_PREVIEW_CHARS = 200;
+    
+    public static int ZODIAC_COMMUNITY_MIN_YEAR = 2010;
     
     public static int COMMENTS_PREVIEW_COUNT = 2;
     public static int DEFAULT_UTILITY_COUNT = 5;
@@ -29,16 +32,12 @@ public class DefaultValues {
     public static int MAX_ARTICLES_COUNT = 100;
     public static int MAX_CAMPAIGN_COUNT = 100;
     
-    public static int MAX_PREVIEW_CHARS = 200;
-    
-    private static DateTime NOW = new DateTime();
-    
     static {
         init();
     }
     
     private static void init() {
-        int year = NOW.getYear();
+        int year = new DateTime().getYear();
         
         // parent age range
         for (int i = PARENT_YEAR_MIN_AGE; i <= PARENT_YEAR_MAX_AGE; i++) {

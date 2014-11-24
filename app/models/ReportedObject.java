@@ -28,7 +28,7 @@ public class ReportedObject {
     
     public Long socialObjectID;
 
-    public String comment;
+    public String description;
     
     public enum ReportType{
         SPAM,
@@ -51,10 +51,10 @@ public class ReportedObject {
         String socialObjectID = form.get("socialObjectID");
         String objectType = form.get("objectType");
         String reportType = form.get("reportType");
-        String comment = form.get("comment");
+        String description = form.get("description");
         
         this.socialObjectID = Long.parseLong(socialObjectID);
-        this.comment = comment;
+        this.description = description;
         this.setObjectType(objectType);
         this.setReportType(reportType);
         this.reportedBy = userID;
@@ -104,12 +104,12 @@ public class ReportedObject {
         this.socialObjectID = socialObjectID;
     }
 
-    public String getComment() {
-        return comment;
+    public String getDescription() {
+        return description;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public ReportType getReportType() {

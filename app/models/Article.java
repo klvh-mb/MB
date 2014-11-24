@@ -38,7 +38,6 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
     
 	public int noOfViews = 0;
 	
-	@Formats.DateTime(pattern = "yyyy-MM-dd")
 	public Date publishedDate;
 
 	@ManyToOne
@@ -119,8 +118,8 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 		Document document = Jsoup.parse(description);
 	 	document.select("img").remove();
 	 	String desc = document.toString();
-	 	if (desc.length() > DefaultValues.MAX_PREVIEW_CHARS) {
-	 	    return desc.substring(0, DefaultValues.MAX_PREVIEW_CHARS);
+	 	if (desc.length() > DefaultValues.DEFAULT_PREVIEW_CHARS) {
+	 	    return desc.substring(0, DefaultValues.DEFAULT_PREVIEW_CHARS);
 	 	}
 	 	return desc;
 	}

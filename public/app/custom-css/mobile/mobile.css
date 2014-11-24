@@ -591,8 +591,7 @@ span.notif-count {
 #profile-header-menu img[alt="profile-pic"] {
     width: 100px;
     height: 100px;
-    top: -80px;
-    margin-left: 5px;
+    top: -72px;
 }
 #profile-header #profile-user-name {
     width: 65%;
@@ -602,12 +601,12 @@ span.notif-count {
     font-size: 26px;
 }
 #profile-header-menu {
-    padding: 7px 10px;
+    padding: 10px 15px;
     position: relative;
 }
 #profile-header-menu #menu-title {
     position: relative;
-    left: 115px;
+    left: 110px;
 }
 
 /* community */
@@ -618,15 +617,16 @@ span.notif-count {
     background-color: white;
     margin: -8px -12px 0 -12px;
 }
-.community-action-menu {
-
-}
 .community-action-menu .btn-general {
     font-size: 14px;
     width: 130px;
     margin: 0 8px 8px 0;
     padding: 7px;
     text-align: center;
+}
+.community-action-menu .btn-general, 
+.community-action-menu .btn-general-flat {
+    margin-bottom: 10px;
 }
 #community-header #community-header-name {
     font-size: 22px;

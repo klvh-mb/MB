@@ -1,48 +1,59 @@
-<div ng-show="objectType=='USER'">
-    <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel"><i class="glyphicon glyphicon-warning-sign"></i>舉報帳戶<a href=""><i ng-click="cancel()" style="margin-top:10px;" class="glyphicon glyphicon-remove pull-right"></i></a></h4>
+<div class="report-object-modal">
+    <div ng-show="objectType=='USER'">
+        <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel"><i class="glyphicon glyphicon-warning-sign"></i>舉報帳戶<a href=""><i ng-click="cancel()" style="margin-top:10px;" class="glyphicon glyphicon-remove pull-right"></i></a></h4>
+        </div>
+        <div class="modal-body">
+            <form novalidate class="simple-form">
+                <div>
+                    <b>問題是什麼?</b>
+                    <span ng-show="errorSelect"> 
+                        <i class="glyphicon glyphicon-exclamation-sign"></i>
+                        <span class="text-danger">請選項重試</span>
+                    </span>
+                </div>
+                <input type="radio" data-ng-model="report.reportType" value="UNAUTHORIZED_AD">這個帳戶所發佈全是廣吿<br/>
+                <input type="radio" data-ng-model="report.reportType" value="SPAM">這是垃圾訊息帳戶<br/>
+                <input type="radio" data-ng-model="report.reportType" value="INAPPROPRIATE">這個帳戶很令人困擾<br/>
+                <input type="radio" data-ng-model="report.reportType" value="COMPROMISED">這個帳戶可能遭到盜用<br/>
+                <div class="padding5"></div>
+                注:
+                <textarea name="community_desc" id="community_desc" class="form-control" data-ng-model="report.description"></textarea>
+                <button class="report-btn btn btn-primary ng-binding pull-right" data-ng-click="submitReport(report)">舉報</button>
+            </form>
+        </div>
     </div>
-    <div class="modal-body">
-        <form novalidate class="simple-form">
-            問題是什麼?<br/>
-            <input type="radio" data-ng-model="report.reportType" value="UNAUTHORIZED_AD">這個帳戶所發佈全是廣吿<br/>
-            <input type="radio" data-ng-model="report.reportType" value="SPAM">這是垃圾訊息帳戶<br/>
-            <input type="radio" data-ng-model="report.reportType" value="INAPPROPRIATE">這個帳戶很令人困擾<br/>
-            <input type="radio" data-ng-model="report.reportType" value="COMPROMISED">這個帳戶可能遭到盜用<br/>
-            <div class="padding5"></div>
-            注:
-            <textarea name="community_desc" id="community_desc" class="form-control" data-ng-model="report.comment"></textarea><br/>     
-            <button data-ng-show="!complete" class="btn btn-primary ng-binding" data-ng-click="update(report)">{{submitBtn}}</button>
-            <button data-ng-show="complete" class="btn btn-primary ng-binding" data-ng-click="cancel()" >Cancel</button>
-        </form>
-    </div>
-</div>
-
-<div ng-show="objectType=='QUESTION' || objectType=='ANSWER' || objectType=='POST' || objectType=='COMMENT'">
-    <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel"><i class="glyphicon glyphicon-warning-sign"></i>舉報發佈<a href=""><i ng-click="cancel()" style="margin-top:10px;" class="glyphicon glyphicon-remove pull-right"></i></a></h4>
-        
-    </div>
-    <div class="modal-body">
-        <form novalidate class="simple-form">
-            問題是什麼?<br/>
-            <input type="radio" data-ng-model="report.reportType" value="UNAUTHORIZED_AD">這個帳戶所發佈全是廣吿<br/>
-            <input type="radio" data-ng-model="report.reportType" value="SPAM">這是垃圾訊息帳戶<br/>
-            <input type="radio" data-ng-model="report.reportType" value="INAPPROPRIATE">這個帳戶很令人困擾<br/>
-            <input type="radio" data-ng-model="report.reportType" value="COMPROMISED">這個帳戶可能遭到盜用<br/>
-            <div class="padding5"></div>
-            注:
-            <textarea name="community_desc" id="community_desc" class="form-control" data-ng-model="report.comment"></textarea><br/>     
-            <button data-ng-show="!complete" class="btn btn-primary ng-binding" data-ng-click="update(report)">{{submitBtn}}</button>
-            <button data-ng-show="complete" class="btn btn-primary ng-binding" data-ng-click="cancel()" >Cancel</button>
-        </form>
+    
+    <div ng-show="objectType=='QUESTION' || objectType=='ANSWER' || objectType=='POST' || objectType=='COMMENT'">
+        <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel"><i class="glyphicon glyphicon-warning-sign"></i>舉報發佈<a href=""><i ng-click="cancel()" style="margin-top:10px;" class="glyphicon glyphicon-remove pull-right"></i></a></h4>
+        </div>
+        <div class="modal-body">
+            <form novalidate class="simple-form">
+                <div>
+                    <b>問題是什麼?</b>
+                    <span ng-show="errorSelect"> 
+                        <i class="glyphicon glyphicon-exclamation-sign"></i>
+                        <span class="text-danger">請選項重試</span>
+                    </span>
+                </div>
+                <input type="radio" data-ng-model="report.reportType" value="UNAUTHORIZED_AD">這個帳戶所發佈全是廣吿<br/>
+                <input type="radio" data-ng-model="report.reportType" value="SPAM">這是垃圾訊息帳戶<br/>
+                <input type="radio" data-ng-model="report.reportType" value="INAPPROPRIATE">這個帳戶很令人困擾<br/>
+                <input type="radio" data-ng-model="report.reportType" value="COMPROMISED">這個帳戶可能遭到盜用<br/>
+                <div class="padding5"></div>
+                注:
+                <textarea name="community_desc" id="community_desc" class="form-control" data-ng-model="report.description"></textarea>
+                <button class="report-btn btn btn-primary ng-binding pull-right" data-ng-click="submitReport(report)">舉報</button>
+            </form>
+        </div>
     </div>
 </div>
 
 <style>
 .modal-dialog {
-    width: 450px;
-    margin:0px auto;
+    max-width: 450px;
+    margin: 0px auto;
     top: 50px;
 }
 </style>

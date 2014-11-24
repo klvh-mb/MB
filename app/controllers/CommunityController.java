@@ -82,6 +82,9 @@ public class CommunityController extends Controller{
             try {
                 int year = Integer.parseInt(vm.targetingInfo.substring(0, 4));  // e.g. 2013_08
                 int month = Integer.parseInt(vm.targetingInfo.substring(5));
+                if (year < DefaultValues.ZODIAC_COMMUNITY_MIN_YEAR) {
+                    continue;
+                }
                 if (new DateTime(year, month, 1, 0, 0, 0).isBefore(maxYearMonth)) {
                     result.add(vm);
                 }
@@ -747,14 +750,14 @@ public class CommunityController extends Controller{
         String questionTitle = Emoticon.replace(form.get("questionTitle"));
         String questionText = Emoticon.replace(form.get("questionText"));
         int shortBodyCount = questionText.length();
-        if(questionText.length() >= DefaultValues.POST_SHORT_COUNT){
-	        String shortdesc = questionText.substring(DefaultValues.POST_SHORT_COUNT);
+        if(questionText.length() >= DefaultValues.POST_PREVIEW_CHARS){
+	        String shortdesc = questionText.substring(DefaultValues.POST_PREVIEW_CHARS);
 	        
 	        if (shortdesc.lastIndexOf("<img") == -1){
-	        	shortBodyCount = DefaultValues.POST_SHORT_COUNT;
+	        	shortBodyCount = DefaultValues.POST_PREVIEW_CHARS;
 	        } else {
 	        	if(shortdesc.lastIndexOf("<img") < shortdesc.lastIndexOf("/>")){
-	        		shortBodyCount = DefaultValues.POST_SHORT_COUNT;
+	        		shortBodyCount = DefaultValues.POST_PREVIEW_CHARS;
 		        } else {
 		        	shortdesc.substring(shortdesc.lastIndexOf("<img")-1);
 		        	shortBodyCount = shortdesc.length();     // dont include emoticon if chopped off

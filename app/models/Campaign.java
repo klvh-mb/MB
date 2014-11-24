@@ -37,10 +37,8 @@ public class Campaign extends SocialObject implements Commentable, Likeable {
     
 	public int noOfViews = 0;
 	
-	@Formats.DateTime(pattern = "yyyy-MM-dd")
 	public Date startDate;
 
-	@Formats.DateTime(pattern = "yyyy-MM-dd")
     public Date endDate;
 	
 	@Enumerated(EnumType.STRING)

@@ -44,8 +44,8 @@ public class CampaignVM {
 	    this.id = campaign.id;
 	    this.name = campaign.name;
 	    this.image = campaign.image;
-	    if (preview && campaign.description.length() > DefaultValues.MAX_PREVIEW_CHARS) {
-	        this.description = campaign.description.substring(0, DefaultValues.MAX_PREVIEW_CHARS);
+	    if (preview && campaign.description.length() > DefaultValues.DEFAULT_PREVIEW_CHARS) {
+	        this.description = campaign.description.substring(0, DefaultValues.DEFAULT_PREVIEW_CHARS);
 	    } else {
 	        this.description = campaign.description;
 	    }

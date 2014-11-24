@@ -463,25 +463,25 @@ minibean.controller('ApplicationController',
     }
 });
 
-var ReportObjectModalController = function ($scope, $modalInstance, objectType, id, usSpinnerService, $http) {
+var ReportObjectModalController = function ($scope, $modalInstance, $http, objectType, id, usSpinnerService) {
     $scope.objectType = objectType;
     $scope.reportType = DefaultValues.DEFAULT_REPORT_TYPE;
-    $scope.submitBtn = "ok";
-    $scope.complete = false; 
-    $scope.update = function (report) {
+    $scope.errorSelect = false;
+    $scope.submitReport = function(report) {
+        if (report == undefined) {
+            $scope.errorSelect = true;
+            return;
+        }
         report.socialObjectID = id;
         report.objectType = objectType;
-        $scope.submitBtn = "done";
         usSpinnerService.spin('loading...');
-        log(report);
         $http.post('/send-report', report).success(
             function(data){
-                $scope.submitBtn = "Complete";
                 usSpinnerService.stop('loading...');
-                $scope.complete = true;
+                $modalInstance.dismiss('cancel');
             });
     };
-    $scope.cancel = function () {
+    $scope.cancel = function() {
         $modalInstance.dismiss('cancel');
     };
 };
@@ -565,7 +565,6 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 }
 
 minibean.controller('PrivacySettingsController', function($scope, $http, userSettingsService, usSpinnerService) {
-    log('PrivacySettingsController starts');
     
     $scope.privacyFormData = userSettingsService.privacySettings.get();
     $scope.privacySettingsSaved = false;
@@ -580,12 +579,9 @@ minibean.controller('PrivacySettingsController', function($scope, $http, userSet
                 prompt(data);
             });
     }
-    
-    log('PrivacySettingsController completed');
 });
 
 minibean.controller('EdmSettingsController', function($scope, $http, userSettingsService, usSpinnerService) {
-    log('EdmSettingsController starts');
     
     $scope.edmFormData = userSettingsService.edmSettings.get();
     $scope.edmSettingsSaved = false;
@@ -600,22 +596,6 @@ minibean.controller('EdmSettingsController', function($scope, $http, userSetting
                 prompt(data);
             });
     }
-    
-    log('EdmSettingsController completed');
-});
-
-minibean.controller('SubscriptionController', function($scope, subscriptionService) {
-    log('SubscriptionController starts');
-
-    $scope.unsubscriptions = subscriptionService.allUnsubscriptions.get();
-    $scope.subscribe = function(subscription,isSub) {
-        if (subscription.isUnsub != isSub) {
-            subscription.isUnsub = isSub;
-            subscriptionService.unsubscribe.get({id:subscription.id, isSub:isSub})
-        }
-    }
-    
-    log('SubscriptionController completed');
 });
 
 minibean.controller('UserAboutController',function($routeParams, $scope, $http, userAboutService, locationService, profilePhotoModal, usSpinnerService) {

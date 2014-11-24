@@ -29,23 +29,6 @@ minibean.service('userSettingsService',function($resource){
     );    
 });
 
-minibean.service('subscriptionService',function($resource){
-    this.allUnsubscriptions = $resource(
-            '/get-all-unsubscriptions',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get',isArray:true}
-            }
-    );
-    this.unsubscribe = $resource(
-            '/unsubscribe/:id',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get'}
-            }
-    );
-});
-
 minibean.service('announcementsService',function($resource) {
     this.getGeneralAnnouncements = $resource(
             '/get-general-announcements',

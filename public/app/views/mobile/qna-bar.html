@@ -22,7 +22,7 @@
             <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
                 <li role="presentation"><a role="menuitem" href="" ng-click="displayLink('/my#/post-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i>複製連結</a></li>
                 <li role="presentation" ng-show="post.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個話題嗎？"><i class="glyphicon glyphicon-trash"></i>刪除話題</a></li>
-                <li role="presentation" ng-show="!post.isO || userInfo.isSA"><a role="menuitem" ng-click="openReportObjectModal(post.id,'QUESTION')"><i class="glyphicon glyphicon-warning-sign"></i>舉報這個話題</a></li>
+                <li role="presentation" ng-show="!post.isO || userInfo.isSA"><a role="menuitem" ng-click="openReportObjectModal(post.id,'QUESTION')"><i class="glyphicon glyphicon-warning-sign"></i>舉報話題</a></li>
             </ul>
         </li>
     </ul>

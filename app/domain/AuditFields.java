@@ -31,9 +31,18 @@ public class AuditFields {
 		this.updatedDate = updatedDate;
 	}
 
+	public String getCreatedBy() {
+        return createdBy;
+    }
+	
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+    
 	public Date getCreatedDate() {
 		return createdDate;
 	}
+	
 	public Date getUpdatedDate() {
 		return updatedDate;
 	}
