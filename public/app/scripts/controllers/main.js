@@ -109,7 +109,7 @@ minibean.controller('GameController',function($scope, $http, $interval, $locatio
         return $http.post('/sign-in-for-today', formData)
             .success(function(data){
                 $scope.userInfo.enableSignInForToday = false;
-                prompt("<div><b>每日簽到 +5小豆豆!</b></div>", "bootbox-default-prompt game-bootbox-prompt", 1800);
+                prompt("<div><b>每日簽到 +10小豆豆!</b></div>", "bootbox-default-prompt game-bootbox-prompt", 1800);
                 $interval($scope.reloadPage, 2000, 1);
                 usSpinnerService.stop('loading...');
             });

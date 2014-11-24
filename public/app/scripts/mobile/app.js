@@ -78,6 +78,10 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/mobile/magazine/showArticlesPage.html',
     	controller : 'ShowArticlesController'  
       })
+      .when('/game',{
+        templateUrl: '/assets/app/views/mobile/game-page.html',
+        controller: 'GameController'
+      })
       .when('/error', {
     	  templateUrl: '/assets/app/views/errorPage.html',
       })

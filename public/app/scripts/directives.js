@@ -22,8 +22,8 @@ minibean.directive('adsFactor', function($window, $compile) {
     function resetAds(adsize) {
         $("div[id^=af_]").remove();         // remove all floating ads
         registeredAds[adsize] = [];  // LIMITIONS: only 1 ad per ad size per page
-        if (typeof defaultRegisteredAd !== 'undefined') {
-            defaultRegisteredAd = undefined;
+        if (typeof window.defaultRegisteredAd !== 'undefined') {
+            window.defaultRegisteredAd = undefined;
         }
     }
     function createAdsFactorScript(afid,sid,adsize) {
