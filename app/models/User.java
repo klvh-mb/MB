@@ -64,7 +64,6 @@ import com.feth.play.module.pa.user.AuthUser;
 import com.feth.play.module.pa.user.AuthUserIdentity;
 import com.feth.play.module.pa.user.EmailIdentity;
 import com.feth.play.module.pa.user.FirstLastNameIdentity;
-import com.feth.play.module.pa.user.NameIdentity;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.mnt.exception.SocialObjectNotCommentableException;
@@ -182,9 +181,6 @@ public class User extends SocialObject implements Subject, Socializable {
     @JsonIgnore
     public List<Conversation> conversation = new ArrayList<Conversation>();
 
-    @ManyToMany
-    public List<Subscription> unSubscriptions;
-    
     @Override
     @JsonIgnore
     public List<? extends Role> getRoles() {
@@ -1726,27 +1722,5 @@ public class User extends SocialObject implements Subject, Socializable {
         User noLoginUser = new User();
         noLoginUser.id = -1L;
         return noLoginUser;
-    }
-
-    @Transactional
-    public void setUnsubscription(Long subId) {
-        Subscription subscription = Subscription.findById(subId);
-        if(!this.isUnsubscribedBy(subscription)){
-            this.unSubscriptions.add(subscription);
-            this.merge();
-        }
-    }
-    
-    @Transactional
-    public void removeUnsubscription(Long subId) {
-        Subscription subscription = Subscription.findById(subId);
-        if(this.isUnsubscribedBy(subscription)){
-            this.unSubscriptions.remove(subscription);
-            this.merge();
-        }
-    }
-    
-    public boolean isUnsubscribedBy(Subscription subscription) {
-        return this.unSubscriptions.contains(subscription);
     }
 }
