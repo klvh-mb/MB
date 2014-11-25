@@ -18,6 +18,7 @@ angular.module('minibean', [
   'ngSanitize',
   'angularMoment',
   'wu.masonry',
+  'pasvaz.bindonce',
   'ui.utils'
 ])
   .config(function ($routeProvider) {

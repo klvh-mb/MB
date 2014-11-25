@@ -6,9 +6,9 @@
         </a>
     </div>
     <div class="content">
-        <ul class="newCommunity-info" ng-repeat="communityCategoryMap in ::socialCommunityCategoriesMap">
+        <ul class="newCommunity-info" ng-repeat="communityCategoryMap in socialCommunityCategoriesMap">
             <li class="category-name">{{communityCategoryMap.name}}</li>
-            <li ng-repeat="community in ::communityCategoryMap.communities">
+            <li ng-repeat="community in communityCategoryMap.communities">
                 <a href="my#/community/{{community.id}}"><img src="{{community.gi}}"></a>
                 <a href="my#/community/{{community.id}}">{{community.dn|characters:20:true}}</a>
                 <!--span class="community-member-counter"><font>{{community.mm}}個關注</font></span>
