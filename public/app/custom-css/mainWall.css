@@ -109,9 +109,9 @@
 .post-intro-divider {
     width: 10px;
     height: 100%;
-    border-right: #bcbcbc solid thin;
-    margin-left: 10px;
-    margin-right: 12px;
+    /*border-right: #bcbcbc solid thin;*/
+    margin-left: 0px;
+    margin-right: 7px;
 }
 .post-intro .post-dropdown-btn {
     border-color: transparent;

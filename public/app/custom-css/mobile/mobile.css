@@ -512,6 +512,7 @@ span.notif-count {
 .post-intro img {
     width: 18px;
     height: 18px;
+    vertical-align: middle;
 }
 .post-intro .post-dropdown-menu {
     font-size: 15px;
