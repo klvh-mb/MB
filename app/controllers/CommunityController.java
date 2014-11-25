@@ -8,11 +8,14 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import common.cache.CommunityCategoryCache;
+
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.joda.time.DateTime;
 
+import common.model.ZodiacYear;
 import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
 import models.Comment;
@@ -67,7 +70,34 @@ public class CommunityController extends Controller{
     public static Result getZodiacYearCommunities() {
         List<CommunitiesWidgetChildVM> vms = 
                 getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.ZODIAC_YEAR);
-        CommunitiesParentVM communitiesVM = new CommunitiesParentVM(vms.size(), vms);
+        
+        List<CommunitiesWidgetChildVM> result = new ArrayList<CommunitiesWidgetChildVM>();
+        int maxYear = new DateTime().getYear() + 1;
+        for (CommunitiesWidgetChildVM vm : vms) {
+            try {
+                int year = Integer.parseInt(vm.name.substring(vm.name.length()-4, vm.name.length()));  // e.g. 虎年媽媽會♥2010
+                //if (year < DefaultValues.ZODIAC_COMMUNITY_MIN_YEAR) {
+                //    continue;
+                //}
+                if (year <= maxYear) {
+                    result.add(vm);
+                }
+            } catch (NumberFormatException e) {
+                logger.underlyingLogger().error(String.format("[c=%d] zodiac year community name has no integer year", vm.id));
+            }
+        }
+        
+        // sort by year desc
+        Collections.sort(result, new Comparator<CommunitiesWidgetChildVM>() {
+            @Override
+            public int compare(CommunitiesWidgetChildVM o1, CommunitiesWidgetChildVM o2) {
+                ZodiacYear zodiacYear1 = ZodiacYear.parse(o1.targetingInfo);
+                ZodiacYear zodiacYear2 = ZodiacYear.parse(o2.targetingInfo);
+                return ((Integer)zodiacYear2.getYear()).compareTo((Integer)zodiacYear1.getYear());
+            }
+        });
+        
+        CommunitiesParentVM communitiesVM = new CommunitiesParentVM(result.size(), result);
         return ok(Json.toJson(communitiesVM));
     }
 
@@ -92,6 +122,21 @@ public class CommunityController extends Controller{
                 logger.underlyingLogger().error(String.format("[c=%d] targetingInfo not integer year", vm.id));
             }
         }
+        
+        // sort by year month desc
+        Collections.sort(result, new Comparator<CommunitiesWidgetChildVM>() {
+            @Override
+            public int compare(CommunitiesWidgetChildVM o1, CommunitiesWidgetChildVM o2) {
+                int year1 = Integer.parseInt(o1.targetingInfo.substring(0, 4));
+                int month1 = Integer.parseInt(o1.targetingInfo.substring(5));
+                int year2 = Integer.parseInt(o2.targetingInfo.substring(0, 4));
+                int month2 = Integer.parseInt(o2.targetingInfo.substring(5));
+                if (year1 == year2) {
+                    return ((Integer)month2).compareTo((Integer)month1);
+                }
+                return ((Integer)year2).compareTo((Integer)year1);
+            }
+        });
         
         CommunitiesParentVM communitiesVM = new CommunitiesParentVM(result.size(), result);
         return ok(Json.toJson(communitiesVM));
@@ -721,9 +766,9 @@ public class CommunityController extends Controller{
         List<MembersWidgetChildVM> members = new ArrayList<>();
         for(User member : community.getMembers()) {
             if(community.owner.equals(member)) {
-                members.add(new MembersWidgetChildVM(member.id, member.displayName,true));
+                members.add(new MembersWidgetChildVM(member.id, member.displayName, true));
             } else {
-                members.add(new MembersWidgetChildVM(member.id, member.displayName,false));
+                members.add(new MembersWidgetChildVM(member.id, member.displayName, false));
             }
         }
         MemberWidgetParentVM communitiesVM = new MemberWidgetParentVM(members.size(), members);

@@ -833,7 +833,7 @@ public class DataBootstrap {
     private static void createZodiacCommunity(String name, String desc, int year) {
         Community community = null;
         TargetYear targetYear = TargetYear.valueOf(new DateTime(year, 4, 1, 0, 0)); // april must be in the zodiac year already
-        String zodiac = targetYear.getZodiac().name();
+        String zodiac = targetYear.getZodiacYear().getZodiac().name();
         String targetingInfo = targetYear.getZodiacInfo();
         try {
             community = Application.getSuperAdmin().createCommunity(
@@ -857,7 +857,7 @@ public class DataBootstrap {
         String desc = name;
         Community community = null;
         TargetYear targetYear = TargetYear.valueOf(new DateTime(year, month, 1, 0, 0));
-        String zodiac = targetYear.getZodiac().name();
+        String zodiac = targetYear.getZodiacYear().getZodiac().name();
         String targetingInfo = year + "_" + month;      // e.g. 2013_8
         try {
             community = Application.getSuperAdmin().createCommunity(
