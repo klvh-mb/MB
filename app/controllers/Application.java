@@ -143,7 +143,7 @@ public class Application extends Controller {
 	
 	@Transactional
     public static Result getApplicationInfo() {
-	    return ok(Json.toJson(new ApplicationInfoVM(APPLICATION_BASE_URL, isMobileUser()))); 
+	    return ok(Json.toJson(new ApplicationInfoVM(APPLICATION_BASE_URL))); 
 	}
 	
 	@Transactional

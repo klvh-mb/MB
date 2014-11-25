@@ -11,6 +11,17 @@
     cursor: default;
     opacity: 1;
 }
+#game-promo-link {
+    width: 80%;
+    padding: 5px;
+    margin: 10px;
+    font-size: 15px;
+    color: #646464;
+    border-color: #FFB686;
+}
+#game-promo-link:hover {
+    border-color: #FF6600;
+}
 #game-info {
     padding: 5px 10px;
 }

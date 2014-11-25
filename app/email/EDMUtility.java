@@ -97,7 +97,7 @@ public class EDMUtility {
 		if (cls != null) {
 			Method htmlRender = null;
 			try {
-				String url = controllers.Application.APPLICATION_BASE_URL +"/my/promoCode/"+ promoCode;
+				String url = controllers.Application.APPLICATION_BASE_URL +"/signup-promo-code/"+ promoCode;
 				htmlRender = cls.getMethod("render", String.class, String.class);
 				ret = htmlRender.invoke(null,  email ,url)
 						.toString();
