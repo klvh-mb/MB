@@ -3,7 +3,6 @@
 var minibean = angular.module('minibean');
 
 minibean.controller('SlidingMenuController', function($scope, $routeParams, $location, userInfoService, articleService){
-    log("SlidingMenuController starts");
     
     //
     // sliding menu control
@@ -50,5 +49,4 @@ minibean.controller('SlidingMenuController', function($scope, $routeParams, $loc
         }
     );
     
-    log("SlidingMenuController completed");
 });

@@ -175,7 +175,7 @@ var toggleToNotVisible = true;
 var mainLogoNotVisible = true;
 
 $(window).scroll(function() {
-    if ($('#main-top').visible(true)) {
+    if (headerBarExists && $('#main-top').visible(true)) {
         //console.log("header no glow");
         $('#header-backdrop').removeClass('header-glow');
         toggleToNotVisible = true;
@@ -188,7 +188,7 @@ $(window).scroll(function() {
         toggleToNotVisible = false;
     }
     
-    if ($('#header-menu').visible(true)) {
+    if (headerMenuExists && $('#header-menu').visible(true)) {
         //console.log("show logo");
         mainLogoNotVisible = true;
     } else if (mainLogoNotVisible) {

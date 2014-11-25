@@ -5,8 +5,6 @@ var minibean = angular.module('minibean');
 minibean.controller('MagazineNewsFeedController', function($scope, $timeout, $upload, $http, $routeParams,  
     bookmarkPostService, likeFrameworkService, postManagementService, allCommentsService, magazineNewsFeedService, iconsService, usSpinnerService) {
     
-    log("MagazineNewsFeedController starts");
-    
     var cat = $routeParams.cat;
     if (cat == undefined) {
         cat = 0;
@@ -201,6 +199,4 @@ minibean.controller('MagazineNewsFeedController', function($scope, $timeout, $up
             usSpinnerService.stop('loading...');    
         });
     };
-    
-    log("MagazineNewsFeedController completed");
 });
