@@ -42,13 +42,15 @@
         </div>
     </div>
     <div class="padding10"></div>
-    
+    <div><img src="/assets/app/images/frontpage/topic_footer_a.jpg" /></div>
+</div>
+<div class="padding10"></div>
+
+<div id="game-box" class="box-a">
     <h4>小豆豆記錄表 (最近30個記錄)</h4>
     <ul class="record">
         <li ng-repeat="transaction in gameTransactions"> 
             {{transaction.tt | date:'yyyy-M-dd HH:mm'}} {{transaction.td}}獲得<span ng-show="transaction.tp < 0">-</span>{{transaction.tp}}個小豆豆
         </li>
     </ul>
-    
-    <div><img src="/assets/app/images/frontpage/topic_footer_a.jpg" /></div>
 </div>
