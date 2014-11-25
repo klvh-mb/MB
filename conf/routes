@@ -52,7 +52,7 @@ GET     /magazine                   controllers.magazine.MagazineController.inde
 
 # Home
 GET     /my                         controllers.Application.home
-GET     /my/promoCode/:promoCode    controllers.Application.homeWithPromoCode(promoCode: String)
+GET     /signup-promo-code/:promoCode      controllers.Application.homeWithPromoCode(promoCode: String)
 
 GET     /login                      controllers.Application.login
 POST    /login                      controllers.Application.doLogin
