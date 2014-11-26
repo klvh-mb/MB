@@ -1,0 +1,245 @@
+'use strict';
+
+var minibean = angular.module('minibean');
+
+minibean.factory('articleFactory',function(likeFrameworkService, bookmarkPostService, usSpinnerService) {
+
+    var factory = {}; 
+
+    factory.like_article = function(article_id, article) {
+        likeFrameworkService.hitLikeOnArticle.get({"article_id":article_id}, 
+            function(data) {
+                article.nol++;
+                article.isLike=true;
+            });
+    }
+
+    factory.unlike_article = function(article_id, article) {
+        likeFrameworkService.hitUnlikeOnArticle.get({"article_id":article_id}, 
+            function(data) {
+                article.nol--;
+                article.isLike=false;
+            });
+    }
+    
+    factory.bookmarkArticle = function(article_id, articles) {
+        bookmarkPostService.bookmarkArticle.get({"article_id":article_id}, function(data) {
+            angular.forEach(articles, function(article, key){
+                if(article.id == article_id) {
+                    article.isBookmarked = true;
+                }
+            })
+        });
+    }
+    
+    factory.unBookmarkArticle = function(article_id, articles) {
+        bookmarkPostService.unbookmarkArticle.get({"article_id":article_id}, function(data) {
+            angular.forEach(articles, function(article, key){
+                if(article.id == article_id) {
+                    article.isBookmarked = false;
+                }
+            })
+        });
+    }
+    
+    return factory;
+});
+
+minibean.factory('postFactory',function(postManagementService, likeFrameworkService, bookmarkPostService, usSpinnerService) {
+
+    // some private functions if needed...
+    //var myFunction = function() { 
+    //    return ""; 
+    //};
+
+    var factory = {}; 
+
+    //
+    // post
+    //
+    
+    factory.showMore = function(id, posts) {
+        postManagementService.postBody.get({id:id},function(data){
+            angular.forEach(posts, function(post, key){
+                if(post.id == id) {
+                    post.pt = data.body;
+                    post.showM = false;
+                }
+            })
+        })
+    }
+    
+    factory.getAllComments = function(id, posts, isBusy) {
+        isBusy = true;
+        angular.forEach(posts, function(post, key){
+            if (post.id == id) {
+                post.cs = postManagementService.allComments.get({id:id}, function(data) {
+                    console.log("start count");
+                    for (var ii=0;ii<1000000000;ii++) {}
+                    console.log("done count");
+                    isBusy = false;
+                });
+                post.ep = true;
+            }
+        });
+    }
+    
+    factory.deletePost = function(postId, posts) {
+        postManagementService.deletePost.get({"postId":postId}, function(data) {
+            angular.forEach(posts, function(post, key){
+                if(post.id == postId) {
+                    posts.splice(posts.indexOf(post),1);
+                }
+            })
+        });
+    }
+    
+    factory.selectEmoticon = function(code) {
+        if($("#content-upload-input").val()){
+            $("#content-upload-input").val($("#content-upload-input").val() + " " + code + " ");
+        }else{
+            $("#content-upload-input").val(code + " ");
+        }
+        $("#content-upload-input").focus();
+        $("#content-upload-input").trigger('input');    // need this to populate jquery val update to ng-model
+    }
+    
+    factory.selectCommentEmoticon = function(code, index) {
+        if($("#userCommentfield_"+index).val()){
+            $("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
+        }else{
+            $("#userCommentfield_"+index).val(code + " ");
+        }
+        $("#userCommentfield_"+index).focus();
+        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
+    }
+    
+    //
+    // social
+    //
+    
+    factory.want_answer = function(post_id, posts) {
+        likeFrameworkService.hitWantAnswerOnQnA.get({"post_id":post_id}, function(data) {
+            angular.forEach(posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isWtAns=true;
+                    post.nowa++;
+                }
+            })
+        });
+    }
+    
+    factory.unwant_answer = function(post_id, posts) {
+        likeFrameworkService.hitUnwantAnswerOnQnA.get({"post_id":post_id}, function(data) {
+            angular.forEach(posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isWtAns=false;
+                    post.nowa--;
+                }
+            })
+        });
+    }
+    
+    factory.like_post = function(post_id, posts) {
+        likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
+            angular.forEach(posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isLike=true;
+                    post.nol++;
+                }
+            })
+        });
+    }
+    
+    factory.unlike_post = function(post_id, posts) {
+        likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
+            angular.forEach(posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isLike=false;
+                    post.nol--;
+                }
+            })
+        });
+    }
+
+    factory.like_comment = function(post_id, comment_id, posts) {
+        likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
+            angular.forEach(posts, function(post, key){
+                if(post.id == post_id) {
+                    angular.forEach(post.cs, function(comment, key){
+                        if(comment.id == comment_id) {
+                            comment.nol++;
+                            comment.isLike=true;
+                        }
+                    })
+                }
+            })
+        });
+    }
+    
+    factory.unlike_comment = function(post_id, comment_id, posts) {
+        likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
+            angular.forEach(posts, function(post, key){
+                if(post.id == post_id) {
+                    angular.forEach(post.cs, function(comment, key){
+                        if(comment.id == comment_id) {
+                            comment.nol--;
+                            comment.isLike=false;
+                        }
+                    })
+                }
+            })
+        });
+    }
+    
+    factory.bookmarkPost = function(post_id, posts) {
+        bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
+            angular.forEach(posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isBookmarked = true;
+                }
+            })
+        });
+    }
+    
+    factory.unBookmarkPost = function(post_id, posts) {
+        bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
+            angular.forEach(posts, function(post, key){
+                if(post.id == post_id) {
+                    post.isBookmarked = false;
+                }
+            })
+        });
+    }
+    
+    //
+    // image
+    //
+    
+    /*
+    factory.onFileSelect = function($files, $timeout, selectedFiles, tempSelectedFiles, dataUrls) {
+        if(selectedFiles.length == 0) {
+            tempSelectedFiles = [];
+        }
+        
+        selectedFiles.push($files);
+        tempSelectedFiles.push($files);
+        for (var i = 0; i < $files.length; i++) {
+            var $file = $files[i];
+            if (window.FileReader && $file.type.indexOf('image') > -1) {
+                var fileReader = new FileReader();
+                fileReader.readAsDataURL($files[i]);
+                var loadFile = function(fileReader, index) {
+                    fileReader.onload = function(e) {
+                        $timeout(function() {
+                            dataUrls.push(e.target.result);
+                        });
+                    }
+                }(fileReader, i);
+            }
+        }
+    }
+    */
+    
+    return factory;
+});

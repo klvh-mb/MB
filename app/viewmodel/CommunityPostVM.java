@@ -57,7 +57,7 @@ public class CommunityPostVM {
 		postVM.postedTitle = post.title;
 		if(post.shortBodyCount > 0){
 			postVM.showMore= true; 
-			postVM.postedText = post.body.substring(0,post.shortBodyCount) + " ⋯⋯";
+			postVM.postedText = post.body.substring(0,post.shortBodyCount);
 		} else {
 			postVM.postedText = post.body;
 		}

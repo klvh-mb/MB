@@ -515,7 +515,6 @@ var PhotoModalController = function( $scope, $http, $timeout, $upload, profilePh
 	}
 	
 	$scope.onFileSelect = function($files) {
-		
 		$scope.selectedFiles = [];
 		$scope.progress = [];
 		if ($scope.upload && $scope.upload.length > 0) {
@@ -1296,8 +1295,8 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 	
 });
 
-minibean.controller('PostLandingController', function($scope, $routeParams, $http, $timeout, $upload, $validator, 
-    postLandingService, communityPageService, allCommentsService, showImageService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
+minibean.controller('PostLandingController', function($scope, $routeParams, $http, $upload, $timeout, $validator, 
+    postFactory, postLandingService, communityPageService, postManagementService, showImageService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
     
 	$scope.get_header_metaData();
 	
@@ -1326,64 +1325,24 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     
     $scope.isLoadingEnabled = false;
     
-    $scope.deletePost = function(postId) {
-        postManagementService.deletePost.get({"postId":postId}, function(data) {
-            angular.forEach($scope.QnAs.posts, function(post, key){
-                if(post.id == postId) {
-                    $scope.QnAs.posts.splice($scope.QnAs.posts.indexOf(post),1);
-                }
-            })
-        });
-    }
-    
     $scope.postPhoto = function() {
         $("#post-photo-id").click();
     }
-    $scope.selectedFiles = [];
-    $scope.tempSelectedFiles = [];
-    $scope.dataUrls = [];
     
-    $scope.get_all_comments = function(id) {
-        angular.forEach($scope.posts.posts, function(post, key){
-            if(post.id == id) {
-                post.cs = allCommentsService.comments.get({id:id});
-                post.ep = true;
-            }
-        });
+    $scope.showMore = function(id) {
+        postFactory.showMore(id, $scope.posts.posts);
     }
     
-    $scope.onFileSelect = function($files) {
-        
-        if($scope.selectedFiles.length == 0) {
-            $scope.tempSelectedFiles = [];
-        }
-        
-        $scope.selectedFiles.push($files);
-        $scope.tempSelectedFiles.push($files);
-        for ( var i = 0; i < $files.length; i++) {
-            var $file = $files[i];
-            if (window.FileReader && $file.type.indexOf('image') > -1) {
-                var fileReader = new FileReader();
-                fileReader.readAsDataURL($files[i]);
-                var loadFile = function(fileReader, index) {
-                    fileReader.onload = function(e) {
-                        $timeout(function() {
-                            $scope.dataUrls.push(e.target.result);
-                        });
-                    }
-                }(fileReader, i);
-            }
-        }
+    $scope.get_all_comments = function(id) {
+        postFactory.getAllComments(id, $scope.posts.posts);
+    }
+    
+    $scope.deletePost = function(postId) {
+        postFactory.deletePost(postId, $scope.posts.posts);
     }
     
     $scope.select_emoticon_comment = function(code, index) {
-        if($("#userCommentfield_"+index).val()){
-            $("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
-        }else{
-            $("#userCommentfield_"+index).val(code + " ");
-        }
-        $("#userCommentfield_"+index).focus();
-        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
+        postFactory.selectCommentEmoticon(code, index);
     }
     
     $scope.comment_on_post = function(id, commentText) {
@@ -1542,76 +1501,28 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
         $scope.dataUrls.splice(index, 1);
     }
     
-    $scope.bookmarkPost = function(post_id) {
-        bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.posts.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isBookmarked = true;
-                }
-            })
-        });
-    }
-    
-    $scope.unBookmarkPost = function(post_id) {
-        bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.posts.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isBookmarked = false;
-                }
-            })
-        });
-    }
-        
     $scope.like_post = function(post_id) {
-        likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.posts.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isLike=true;
-                    post.nol++;
-                }
-            })
-        });
+        postFactory.like_post(post_id, $scope.posts.posts);
     }
     
     $scope.unlike_post = function(post_id) {
-        likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.posts.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.nol--;
-                    post.isLike=false;
-                }
-            })
-        });
+        postFactory.unlike_post(post_id, $scope.posts.posts);
+    }
+
+    $scope.like_comment = function(post_id, comment_id) {
+        postFactory.like_comment(post_id, comment_id, $scope.posts.posts);
     }
     
-    $scope.like_comment = function(post_id,comment_id) {
-        likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
-            angular.forEach($scope.posts.posts, function(post, key){
-                if(post.id == post_id) {
-                    angular.forEach(post.cs, function(comment, key){
-                        if(comment.id == comment_id) {
-                            comment.nol++;
-                            comment.isLike=true;
-                        }
-                    })
-                }
-            })
-        });
+    $scope.unlike_comment = function(post_id, comment_id) {
+        postFactory.unlike_comment(post_id, comment_id, $scope.posts.posts);
     }
     
-    $scope.unlike_comment = function(post_id,comment_id) {
-        likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
-            angular.forEach($scope.posts.posts, function(post, key){
-                if(post.id == post_id) {
-                    angular.forEach(post.cs, function(comment, key){
-                        if(comment.id == comment_id) {
-                            comment.nol--;
-                            comment.isLike=false;
-                        }
-                    })
-                }
-            })
-        });
+    $scope.bookmarkPost = function(post_id) {
+        postFactory.bookmarkPost(post_id, $scope.posts.posts);
+    }
+    
+    $scope.unBookmarkPost = function(post_id) {
+        postFactory.unBookmarkPost(post_id, $scope.posts.posts);
     }
     
     $scope.commentPhoto = function(post_id) {
@@ -1651,7 +1562,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
 });
     
 minibean.controller('QnALandingController', function($scope, $routeParams, $http, $timeout, $upload, $validator, 
-    qnaLandingService, communityPageService, allAnswersService, showImageService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
+    postFactory, qnaLandingService, communityPageService, postManagementService, showImageService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
 
     $scope.get_header_metaData();
 
@@ -1679,13 +1590,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     }
     
     $scope.deletePost = function(postId) {
-        postManagementService.deletePost.get({"postId":postId}, function(data) {
-            angular.forEach($scope.QnAs.posts, function(post, key){
-                if(post.id == postId) {
-                    $scope.QnAs.posts.splice($scope.QnAs.posts.indexOf(post),1);
-                }
-            })
-        });
+        postFactory.deletePost(postId, $scope.QnAs.posts);
     }
     
     $scope.postPhoto = function() {
@@ -1693,12 +1598,11 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     }
     
     $scope.get_all_answers = function(id) {
-        angular.forEach($scope.QnAs.posts, function(post, key){
-            if(post.id == id) {
-                post.cs = allAnswersService.answers.get({id:id});
-                post.ep = true;
-            }
-        });
+        postFactory.getAllComments(id, $scope.QnAs.posts);
+    }
+    
+    $scope.get_all_comments = function(id) {
+        postFactory.getAllComments(id, $scope.QnAs.posts);
     }
     
     // !!!NOTE: Since we reuse qna-bar.html for landing page, and qna-bar.html is 
@@ -1706,12 +1610,6 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     // CommunityPageController.get_all_comments() instead of 
     // CommunityQnAController.get_all_answers(). Hence we need to define 
     // below to make get_all_comments() available in QnALandingController
-    
-    $scope.get_all_comments = $scope.get_all_answers;
-    
-    $scope.QnASelectedFiles = [];
-    $scope.dataUrls = [];
-    $scope.tempSelectedFiles = [];
     
     $scope.qnaCommentPhoto = function(post_id) {
         $("#qna-comment-photo-id").click();
@@ -1754,13 +1652,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     }
     
     $scope.select_emoticon_comment = function(code, index) {
-        if($("#userCommentfield_"+index).val()){
-            $("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
-        }else{
-            $("#userCommentfield_"+index).val(code + " ");
-        }
-        $("#userCommentfield_"+index).focus();
-        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
+        postFactory.selectCommentEmoticon(code, index);
     }
     
     $scope.answer_to_question = function(question_post_id, answerText) {
@@ -1826,128 +1718,38 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                 });
             });
     }
-    
-    $scope.onQnAFileSelect = function($files) {
-        if($scope.QnASelectedFiles.length == 0) {
-            $scope.tempSelectedFiles = [];
-        }
-        $scope.tempSelectedFiles.push($files);
-        $scope.QnASelectedFiles.push($files);
-        for ( var i = 0; i < $files.length; i++) {
-            var $file = $files[i];
-            if (window.FileReader && $file.type.indexOf('image') > -1) {
-                var fileReader = new FileReader();
-                fileReader.readAsDataURL($files[i]);
-                var loadFile = function(fileReader, index) {
-                    fileReader.onload = function(e) {
-                        $timeout(function() {
-                            $scope.dataUrls.push(e.target.result);
-                        });
-                    }
-                }(fileReader, i);
-            }
-        }
-    }
-    
-    $scope.remove_image = function(index) {
-        $scope.QnASelectedFiles.splice(index, 1);
-        $scope.dataUrls.splice(index, 1);
-    }
-    
+
     $scope.want_answer = function(post_id) {
-        likeFrameworkService.hitWantAnswerOnQnA.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.QnAs.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isWtAns=true;
-                    post.nowa++;
-                }
-            })
-        });
+        postFactory.want_answer(post_id, $scope.QnAs.posts);
     }
     
     $scope.unwant_answer = function(post_id) {
-        likeFrameworkService.hitUnwantAnswerOnQnA.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.QnAs.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isWtAns=false;
-                    post.nowa--;
-                }
-            })
-        });
+        postFactory.unwant_answer(post_id, $scope.QnAs.posts);
     }
     
     $scope.like_post = function(post_id) {
-        likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.QnAs.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isLike=true;
-                    post.nol++;
-                }
-            })
-        });
+        postFactory.like_post(post_id, $scope.QnAs.posts);
     }
     
     $scope.unlike_post = function(post_id) {
-        likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.QnAs.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isLike=false;
-                    post.nol--;
-                }
-            })
-        });
+        postFactory.unlike_post(post_id, $scope.QnAs.posts);
     }
 
-    $scope.like_comment = function(post_id,comment_id) {
-        likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
-            angular.forEach($scope.QnAs.posts, function(post, key){
-                if(post.id == post_id) {
-                    angular.forEach(post.cs, function(comment, key){
-                        if(comment.id == comment_id) {
-                            comment.nol++;
-                            comment.isLike=true;
-                        }
-                    })
-                }
-            })
-        });
+    $scope.like_comment = function(post_id, comment_id) {
+        postFactory.like_comment(post_id, comment_id, $scope.QnAs.posts);
     }
     
-    $scope.unlike_comment = function(post_id,comment_id) {
-        likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
-            angular.forEach($scope.QnAs.posts, function(post, key){
-                if(post.id == post_id) {
-                    angular.forEach(post.cs, function(comment, key){
-                        if(comment.id == comment_id) {
-                            comment.nol--;
-                            comment.isLike=false;
-                        }
-                    })
-                }
-            })
-        });
+    $scope.unlike_comment = function(post_id, comment_id) {
+        postFactory.unlike_comment(post_id, comment_id, $scope.QnAs.posts);
     }
     
     $scope.bookmarkPost = function(post_id) {
-        bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.QnAs.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isBookmarked = true;
-                }
-            })
-        });
+        postFactory.bookmarkPost(post_id, $scope.QnAs.posts);
     }
     
     $scope.unBookmarkPost = function(post_id) {
-        bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.QnAs.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isBookmarked = false;
-                }
-            })
-        });
+        postFactory.unBookmarkPost(post_id, $scope.QnAs.posts);
     }
-    
 });
 
 minibean.controller('CommunityPageController', function($scope, $routeParams, profilePhotoModal,
@@ -2043,8 +1845,8 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, pr
     
 });
 
-minibean.controller('CommunityPostController', function($scope, $routeParams, $http, profilePhotoModal,
-		allCommentsService, communityPageService, postManagementService, likeFrameworkService, bookmarkPostService, communityJoinService, $upload, $timeout, usSpinnerService){
+minibean.controller('CommunityPostController', function($scope, $routeParams, $http, $upload, $timeout, profilePhotoModal,
+		postFactory, communityPageService, postManagementService, likeFrameworkService, bookmarkPostService, communityJoinService, usSpinnerService){
 	
     var firstBatchLoaded = false;
     var offset = 0;
@@ -2081,66 +1883,47 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
         });
     }
     
-	$scope.deletePost = function(postId) {
-        //log("deletePost:"+postId);
-        postManagementService.deletePost.get({"postId":postId}, function(data) {
-            angular.forEach($scope.posts.posts, function(post, key){
-                if(post.id == postId) {
-                    //log("remove post:"+post.id);
-                    $scope.posts.posts.splice($scope.posts.posts.indexOf(post),1);
-                }
-            })
-        });
+    $scope.deletePost = function(postId) {
+        postFactory.deletePost(postId, $scope.posts.posts);
     }
-		
+    
 	$scope.postPhoto = function() {
 		$("#post-photo-id").click();
 	}
-	$scope.selectedFiles = [];
-	$scope.tempSelectedFiles = [];
-	$scope.dataUrls = [];
 	
 	$scope.get_all_comments = function(id) {
-		angular.forEach($scope.posts.posts, function(post, key){
-			if(post.id == id) {
-				post.cs = allCommentsService.comments.get({id:id});
-				post.ep = true;
-			}
-		});
-	}
-	
-	$scope.onFileSelect = function($files) {
-		
-		if($scope.selectedFiles.length == 0) {
-			$scope.tempSelectedFiles = [];
-		}
-		
-		$scope.selectedFiles.push($files);
-		$scope.tempSelectedFiles.push($files);
-		for ( var i = 0; i < $files.length; i++) {
-			var $file = $files[i];
-			if (window.FileReader && $file.type.indexOf('image') > -1) {
-				var fileReader = new FileReader();
-				fileReader.readAsDataURL($files[i]);
-				var loadFile = function(fileReader, index) {
-					fileReader.onload = function(e) {
-						$timeout(function() {
-							$scope.dataUrls.push(e.target.result);
-						});
-					}
-				}(fileReader, i);
-			}
-		}
-	}
-	
-	$scope.select_emoticon_comment = function(code, index) {
-        if($("#userCommentfield_"+index).val()){
-            $("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
-        }else{
-            $("#userCommentfield_"+index).val(code + " ");
+        postFactory.getAllComments(id, $scope.posts.posts);
+    }
+
+    $scope.selectedFiles = [];
+    $scope.tempSelectedFiles = [];
+    $scope.dataUrls = [];
+
+    $scope.onFileSelect = function($files) {
+        if($scope.selectedFiles.length == 0) {
+            $scope.tempSelectedFiles = [];
         }
-        $("#userCommentfield_"+index).focus();
-        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
+        
+        $scope.selectedFiles.push($files);
+        $scope.tempSelectedFiles.push($files);
+        for (var i = 0; i < $files.length; i++) {
+            var $file = $files[i];
+            if (window.FileReader && $file.type.indexOf('image') > -1) {
+                var fileReader = new FileReader();
+                fileReader.readAsDataURL($files[i]);
+                var loadFile = function(fileReader, index) {
+                    fileReader.onload = function(e) {
+                        $timeout(function() {
+                            $scope.dataUrls.push(e.target.result);
+                        });
+                    }
+                }(fileReader, i);
+            }
+        }
+    }
+    
+	$scope.select_emoticon_comment = function(code, index) {
+        postFactory.selectCommentEmoticon(code, index);
     }
     
 	$scope.comment_on_post = function(id, commentText) {
@@ -2276,77 +2059,34 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 		$scope.dataUrls.splice(index, 1);
 	}
 	
-	$scope.bookmarkPost = function(post_id) {
-		bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.posts.posts, function(post, key){
-				if(post.id == post_id) {
-					post.isBookmarked = true;
-				}
-			})
-		});
-	}
-	
-	$scope.unBookmarkPost = function(post_id) {
-		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.posts.posts, function(post, key){
-				if(post.id == post_id) {
-					post.isBookmarked = false;
-				}
-			})
-		});
-	}
-		
-	$scope.like_post = function(post_id) {
-		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.posts.posts, function(post, key){
-				if(post.id == post_id) {
-					post.isLike=true;
-					post.nol++;
-				}
-			})
-		});
-	}
-	
-	$scope.unlike_post = function(post_id) {
-		likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.posts.posts, function(post, key){
-				if(post.id == post_id) {
-					post.nol--;
-					post.isLike=false;
-				}
-			})
-		});
-	}
-	
-	$scope.like_comment = function(post_id,comment_id) {
-		likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.posts.posts, function(post, key){
-				if(post.id == post_id) {
-					angular.forEach(post.cs, function(comment, key){
-						if(comment.id == comment_id) {
-							comment.nol++;
-							comment.isLike=true;
-						}
-					})
-				}
-			})
-		});
-	}
-	
-	$scope.unlike_comment = function(post_id,comment_id) {
-		likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.posts.posts, function(post, key){
-				if(post.id == post_id) {
-					angular.forEach(post.cs, function(comment, key){
-						if(comment.id == comment_id) {
-							comment.nol--;
-							comment.isLike=false;
-						}
-					})
-				}
-			})
-		});
-	}
+    $scope.like_post = function(post_id) {
+        postFactory.like_post(post_id, $scope.posts.posts);
+    }
+    
+    $scope.unlike_post = function(post_id) {
+        postFactory.unlike_post(post_id, $scope.posts.posts);
+    }
+
+    $scope.like_comment = function(post_id, comment_id) {
+        postFactory.like_comment(post_id, comment_id, $scope.posts.posts);
+    }
+    
+    $scope.unlike_comment = function(post_id, comment_id) {
+        postFactory.unlike_comment(post_id, comment_id, $scope.posts.posts);
+    }
+    
+    $scope.bookmarkPost = function(post_id) {
+        postFactory.bookmarkPost(post_id, $scope.posts.posts);
+    }
+    
+    $scope.unBookmarkPost = function(post_id) {
+        postFactory.unBookmarkPost(post_id, $scope.posts.posts);
+    }
+    
+    $scope.commentPhoto = function(post_id) {
+        $("#comment-photo-id").click();
+        $scope.commentedOnPost = post_id ;
+    } 
 	
 	$scope.commentPhoto = function(post_id) {
 		$("#comment-photo-id").click();
@@ -2384,7 +2124,7 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 	
 });
 
-minibean.controller('CommunityQnAController',function($scope, postManagementService, bookmarkPostService, likeFrameworkService, allAnswersService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
+minibean.controller('CommunityQnAController',function($scope, postFactory, postManagementService, bookmarkPostService, likeFrameworkService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
 
     var firstBatchLoaded = false;
     var offsetq = 0;
@@ -2392,22 +2132,10 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
     var noMore = false;
     
     $scope.QnAs = communityQnAPageService.QnAs.get({id:$routeParams.id}, function(){
-        //log("===> get first batch QnAs completed");
         firstBatchLoaded = true;
         usSpinnerService.stop('loading...');
     });
 	
-    $scope.showMore = function(id){
-    	communityQnAPageService.getFullBody.get({id:id},function(data){
-    		angular.forEach($scope.QnAs.posts, function(post, key){
-                if(post.id == id) {
-                    post.pt = data.body;
-                    post.showM = false;
-                }
-            })
-    	})
-    }
-    
     $scope.nextPosts = function() {
         //log("===> nextPosts:isBusy="+$scope.isBusy+"|offsetq="+offsetq+"|time="+time+"|firstBatchLoaded="+firstBatchLoaded+"|noMore="+noMore);
         if ($scope.isBusy) return;
@@ -2433,41 +2161,40 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
         
     }
     
-	$scope.deletePost = function(postId) {
-        postManagementService.deletePost.get({"postId":postId}, function(data) {
-            angular.forEach($scope.QnAs.posts, function(post, key){
-                if(post.id == postId) {
-                    $scope.QnAs.posts.splice($scope.QnAs.posts.indexOf(post),1);
-                }
-            })
-        });
-    }
-    
 	$scope.postPhoto = function() {
 		$("#QnA-photo-id").click();
 	}
 	
+    $scope.showMore = function(id) {
+        postFactory.showMore(id, $scope.QnAs.posts);
+    }
+    
 	$scope.get_all_answers = function(id) {
-		angular.forEach($scope.QnAs.posts, function(post, key){
-			if(post.id == id) {
-				post.cs = allAnswersService.answers.get({id:id});
-				post.ep = true;
-			}
-		});
-	}
-	
+        postFactory.getAllComments(id, $scope.QnAs.posts);
+    }
+
+    $scope.get_all_comments = function(id) {
+        postFactory.getAllComments(id, $scope.QnAs.posts);
+    }
+
+    $scope.select_emoticon = function(code) {
+        postFactory.selectEmoticon(code);
+    }
+    
+    $scope.deletePost = function(postId) {
+        postFactory.deletePost(postId, $scope.QnAs.posts);
+    }
+    
+    $scope.select_emoticon_comment = function(code, index) {
+        postFactory.selectCommentEmoticon(code, index);
+    }
+    
 	// Right now community-qna-bar.html > qna-bar.html is using CommunityQnAController
 	// and home-news-feed.html > qna-bar.html is using CommunityPageController
 	// and qna-bar.html is calling get_all_comments() instead of get_all_answers() 
 	// such that it works in all places
 	// Assign the dummy get_all_comments here... needs refactoring... 
 	 
-	$scope.get_all_comments = $scope.get_all_answers;
-	
-	$scope.QnASelectedFiles = [];
-	$scope.dataUrls = [];
-	$scope.tempSelectedFiles = [];
-	
 	$scope.qnaCommentPhoto = function(post_id) {
 		$("#qna-comment-photo-id").click();
 		$scope.commentedOnPost = post_id ;
@@ -2502,24 +2229,36 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 		}
 	}
 	
-    $scope.select_emoticon = function(code) {
-        if($("#content-upload-input").val()){
-        	$("#content-upload-input").val($("#content-upload-input").val() + " " + code + " ");
-        }else{
-        	$("#content-upload-input").val(code + " ");
-        }
-        $("#content-upload-input").focus();
-        $("#content-upload-input").trigger('input');    // need this to populate jquery val update to ng-model
-    }
+    $scope.QnASelectedFiles = [];
+    $scope.tempSelectedFiles = [];
+    $scope.dataUrls = [];
     
-    $scope.select_emoticon_comment = function(code, index) {
-        if($("#userCommentfield_"+index).val()){
-        	$("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
-        }else{
-        	$("#userCommentfield_"+index).val(code + " ");
+    $scope.onQnAFileSelect = function($files) {
+        if($scope.QnASelectedFiles.length == 0) {
+            $scope.tempSelectedFiles = [];
         }
-        $("#userCommentfield_"+index).focus();
-        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
+        
+        $scope.QnASelectedFiles.push($files);
+        $scope.tempSelectedFiles.push($files);
+        for (var i = 0; i < $files.length; i++) {
+            var $file = $files[i];
+            if (window.FileReader && $file.type.indexOf('image') > -1) {
+                var fileReader = new FileReader();
+                fileReader.readAsDataURL($files[i]);
+                var loadFile = function(fileReader, index) {
+                    fileReader.onload = function(e) {
+                        $timeout(function() {
+                            $scope.dataUrls.push(e.target.result);
+                        });
+                    }
+                }(fileReader, i);
+            }
+        }
+    }
+      
+    $scope.remove_image = function(index) {
+        $scope.QnASelectedFiles.splice(index, 1);
+        $scope.dataUrls.splice(index, 1);
     }
     
 	$scope.ask_question_community = function(id, questionTitle, questionText) {
@@ -2582,7 +2321,7 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 		$scope.qnaTempCommentSelectedFiles.splice(index, 1);
 		$scope.qnaCommentDataUrls.splice(index, 1);
 	}
-    
+	
 	$scope.answer_to_question = function(question_post_id, answerText) {
 		// first convert to links
         answerText = convertText(answerText);
@@ -2640,134 +2379,44 @@ minibean.controller('CommunityQnAController',function($scope, postManagementServ
 									});
 								}
 							});
-					   }
+                        }
 				    }
 				    usSpinnerService.stop('loading...');
                 });
             });
 	}
-	
-	$scope.onQnAFileSelect = function($files) {
-		if($scope.QnASelectedFiles.length == 0) {
-			$scope.tempSelectedFiles = [];
-		}
-		$scope.tempSelectedFiles.push($files);
-		$scope.QnASelectedFiles.push($files);
-		for ( var i = 0; i < $files.length; i++) {
-			var $file = $files[i];
-			if (window.FileReader && $file.type.indexOf('image') > -1) {
-				var fileReader = new FileReader();
-				fileReader.readAsDataURL($files[i]);
-				var loadFile = function(fileReader, index) {
-					fileReader.onload = function(e) {
-						$timeout(function() {
-							$scope.dataUrls.push(e.target.result);
-						});
-					}
-				}(fileReader, i);
-			}
-		}
-	}
-	
-	$scope.remove_image = function(index) {
-		$scope.QnASelectedFiles.splice(index, 1);
-		$scope.dataUrls.splice(index, 1);
-	}
-	
-	$scope.want_answer = function(post_id) {
-        likeFrameworkService.hitWantAnswerOnQnA.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.QnAs.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isWtAns=true;
-                    post.nowa++;
-                }
-            })
-        });
+
+    $scope.want_answer = function(post_id) {
+        postFactory.want_answer(post_id, $scope.QnAs.posts);
     }
-    
+        
     $scope.unwant_answer = function(post_id) {
-        likeFrameworkService.hitUnwantAnswerOnQnA.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.QnAs.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isWtAns=false;
-                    post.nowa--;
-                }
-            })
-        });
+        postFactory.unwant_answer(post_id, $scope.QnAs.posts);
     }
     
 	$scope.like_post = function(post_id) {
-		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.QnAs.posts, function(post, key){
-				if(post.id == post_id) {
-					post.isLike=true;
-					post.nol++;
-				}
-			})
-		});
+		postFactory.like_post(post_id, $scope.QnAs.posts);
 	}
 	
 	$scope.unlike_post = function(post_id) {
-		likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.QnAs.posts, function(post, key){
-				if(post.id == post_id) {
-					post.isLike=false;
-					post.nol--;
-				}
-			})
-		});
+		postFactory.unlike_post(post_id, $scope.QnAs.posts);
 	}
 
-	$scope.like_comment = function(post_id,comment_id) {
-		likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.QnAs.posts, function(post, key){
-				if(post.id == post_id) {
-					angular.forEach(post.cs, function(comment, key){
-						if(comment.id == comment_id) {
-							comment.nol++;
-							comment.isLike=true;
-						}
-					})
-				}
-			})
-		});
+	$scope.like_comment = function(post_id, comment_id) {
+		postFactory.like_comment(post_id, comment_id, $scope.QnAs.posts);
 	}
 	
-	$scope.unlike_comment = function(post_id,comment_id) {
-		likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.QnAs.posts, function(post, key){
-				if(post.id == post_id) {
-					angular.forEach(post.cs, function(comment, key){
-						if(comment.id == comment_id) {
-							comment.nol--;
-							comment.isLike=false;
-						}
-					})
-				}
-			})
-		});
+	$scope.unlike_comment = function(post_id, comment_id) {
+		postFactory.unlike_comment(post_id, comment_id, $scope.QnAs.posts);
 	}
 	
 	$scope.bookmarkPost = function(post_id) {
-		bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.QnAs.posts, function(post, key){
-				if(post.id == post_id) {
-					post.isBookmarked = true;
-				}
-			})
-		});
+        postFactory.bookmarkPost(post_id, $scope.QnAs.posts);
 	}
 	
 	$scope.unBookmarkPost = function(post_id) {
-		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.QnAs.posts, function(post, key){
-				if(post.id == post_id) {
-					post.isBookmarked = false;
-				}
-			})
-		});
+		postFactory.unBookmarkPost(post_id, $scope.QnAs.posts);
 	}
-	
 });
 
 minibean.controller('ArticleSliderController', function($scope, $routeParams, $interval, showImageService, usSpinnerService, articleService){
@@ -2970,7 +2619,7 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
     
 });
 
-minibean.controller('ArticlePageController',function($scope, $routeParams, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService, tagwordService){
+minibean.controller('ArticlePageController',function($scope, $routeParams, articleFactory, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService, tagwordService){
     
     $scope.get_header_metaData();
     
@@ -3000,38 +2649,25 @@ minibean.controller('ArticlePageController',function($scope, $routeParams, bookm
         });
     
     $scope.like_article = function(article_id) {
-        likeFrameworkService.hitLikeOnArticle.get({"article_id":article_id}, 
-            function(data) {
-                $scope.article.nol++;
-                $scope.article.isLike=true;
-            });
+        articleFactory.like_article(article_id, $scope.article);
     }
 
     $scope.unlike_article = function(article_id) {
-        likeFrameworkService.hitUnlikeOnArticle.get({"article_id":article_id}, 
-            function(data) {
-                $scope.article.nol--;
-                $scope.article.isLike=false;
-            });
+        articleFactory.unlike_article(article_id, $scope.article);
     }
     
     $scope.bookmarkArticle = function(article_id) {
-        bookmarkPostService.bookmarkArticle.get({"article_id":article_id}, 
-            function(data) {
-                $scope.article.isBookmarked = true;
-            });
+        var articles = [ $scope.article ];
+        articleFactory.bookmarkArticle(article_id, articles);
     }
     
     $scope.unBookmarkArticle = function(article_id) {
-        bookmarkPostService.unbookmarkArticle.get({"article_id":article_id}, 
-            function(data) {
-                $scope.article.isBookmarked = false;
-            });
+        var articles = [ $scope.article ];
+        articleFactory.unBookmarkArticle(article_id, articles);
     }
-     
 });
 
-minibean.controller('ShowArticlesController',function($scope, $routeParams, articleService, tagwordService, bookmarkPostService, showImageService, usSpinnerService) {
+minibean.controller('ShowArticlesController',function($scope, $routeParams, articleFactory, articleService, tagwordService, bookmarkPostService, showImageService, usSpinnerService) {
 
     $scope.get_header_metaData();
 
@@ -3175,142 +2811,24 @@ minibean.controller('ShowArticlesController',function($scope, $routeParams, arti
     }
     
     $scope.bookmarkArticle = function(article_id) {
-        bookmarkPostService.bookmarkArticle.get({"article_id":article_id}, function(data) {
-            angular.forEach($scope.result, function(article, key){
-                if(article.id == article_id) {
-                    article.isBookmarked = true;
-                }
-            })
-        });
+        articleFactory.bookmarkArticle(article_id, $scope.result);
     }
-		
+    
     $scope.unBookmarkArticle = function(article_id) {
-    	bookmarkPostService.unbookmarkArticle.get({"article_id":article_id}, function(data) {
-    		angular.forEach($scope.result, function(article, key){
-    			if(article.id == article_id) {
-    				article.isBookmarked = false;
-    			}
-    		})
-    	});
+        articleFactory.unBookmarkArticle(article_id, $scope.result);
     }
-	 
 });
 
-minibean.controller('MyMagazineNewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, myMagazineNewsFeedService) {
+minibean.controller('MyMagazineNewsFeedController', function($scope, postFactory, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, usSpinnerService, myMagazineNewsFeedService) {
     
     $scope.newsFeeds = { posts: [] };
     
     $scope.deletePost = function(postId) {
-        postManagementService.deletePost.get({"postId":postId}, function(data) {
-            angular.forEach($scope.newsFeeds.posts, function(post, key){
-                if(post.id == postId) {
-                    $scope.newsFeeds.posts.splice($scope.newsFeeds.posts.indexOf(post),1);
-                }
-            })
-        });
-    }
-
-    $scope.bookmarkPost = function(post_id) {
-        bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.newsFeeds.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isBookmarked = true;
-                }
-            })
-        });
-    }
-    
-    $scope.unBookmarkPost = function(post_id) {
-        bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.newsFeeds.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isBookmarked = false;
-                }
-            })
-        });
-    }
-    
-    $scope.want_answer = function(post_id) {
-        likeFrameworkService.hitWantAnswerOnQnA.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.newsFeeds.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isWtAns=true;
-                    post.nowa++;
-                }
-            })
-        });
-    }
-    
-    $scope.unwant_answer = function(post_id) {
-        likeFrameworkService.hitUnwantAnswerOnQnA.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.newsFeeds.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isWtAns=false;
-                    post.nowa--;
-                }
-            })
-        });
-    }
-    
-    $scope.like_post = function(post_id) {
-        likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.newsFeeds.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isLike=true;
-                    post.nol++;
-                }
-            })
-        });
-    }
-    
-    $scope.unlike_post = function(post_id) {
-        likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.newsFeeds.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isLike=false;
-                    post.nol--;
-                }
-            })
-        });
-    }
-
-    $scope.like_comment = function(post_id,comment_id) {
-        likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
-            angular.forEach($scope.newsFeeds.posts, function(post, key){
-                if(post.id == post_id) {
-                    angular.forEach(post.cs, function(comment, key){
-                        if(comment.id == comment_id) {
-                            comment.nol++;
-                            comment.isLike=true;
-                        }
-                    })
-                }
-            })
-        });
-    }
-    
-    $scope.unlike_comment = function(post_id,comment_id) {
-        likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
-            angular.forEach($scope.newsFeeds.posts, function(post, key){
-                if(post.id == post_id) {
-                    angular.forEach(post.cs, function(comment, key){
-                        if(comment.id == comment_id) {
-                            comment.nol--;
-                            comment.isLike=false;
-                        }
-                    })
-                }
-            })
-        });
+        postFactory.deletePost(postId, $scope.newsFeeds.posts);
     }
     
     $scope.get_all_comments = function(id) {
-        angular.forEach($scope.newsFeeds.posts, function(post, key){
-            if(post.id == id) {
-                post.cs = allCommentsService.comments.get({id:id});
-                post.ep = true;
-            }
-        });
+        postFactory.getAllComments(id, $scope.newsFeeds.posts);
     }
 
     var noMore = false;
@@ -3335,31 +2853,51 @@ minibean.controller('MyMagazineNewsFeedController', function($scope, postManagem
         );
     }
 
-});
-
-minibean.controller('NewsFeedController', function($scope, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, allCommentsService, usSpinnerService, newsFeedService) {
-
-    $scope.get_header_metaData();
-	$scope.newsFeeds = { posts: [] };
-	
-	$scope.deletePost = function(postId) {
-        postManagementService.deletePost.get({"postId":postId}, function(data) {
-            angular.forEach($scope.newsFeeds.posts, function(post, key){
-                if(post.id == postId) {
-                    $scope.newsFeeds.posts.splice($scope.newsFeeds.posts.indexOf(post),1);
-                }
-            })
-        });
+    $scope.like_post = function(post_id) {
+        postFactory.like_post(post_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.unlike_post = function(post_id) {
+        postFactory.unlike_post(post_id, $scope.newsFeeds.posts);
     }
 
+    $scope.like_comment = function(post_id, comment_id) {
+        postFactory.like_comment(post_id, comment_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.unlike_comment = function(post_id, comment_id) {
+        postFactory.unlike_comment(post_id, comment_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.bookmarkPost = function(post_id) {
+        postFactory.bookmarkPost(post_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.unBookmarkPost = function(post_id) {
+        postFactory.unBookmarkPost(post_id, $scope.newsFeeds.posts);
+    }
+});
+
+minibean.controller('NewsFeedController', function($scope, postFactory, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, usSpinnerService, newsFeedService) {
+
+    $scope.get_header_metaData();
+    
+	$scope.newsFeeds = { posts: [] };
+	
+    $scope.showMore = function(id) {
+        postFactory.showMore(id, $scope.newsFeeds.posts);
+	}
+	
+    $scope.get_all_comments = function(id) {
+        postFactory.getAllComments(id, $scope.newsFeeds.posts);
+    }
+    
+	$scope.deletePost = function(postId) {
+        postFactory.deletePost(postId, $scope.newsFeeds.posts);
+    }
+    
     $scope.select_emoticon_comment = function(code, index) {
-        if($("#userCommentfield_"+index).val()){
-            $("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
-        }else{
-            $("#userCommentfield_"+index).val(code + " ");
-        }
-        $("#userCommentfield_"+index).focus();
-        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
+        postFactory.selectCommentEmoticon(code, index);
     }
     
 	$scope.comment_on_post = function(id, commentText) {
@@ -3426,109 +2964,38 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
             });
 	}
 	
-	$scope.bookmarkPost = function(post_id) {
-		bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.newsFeeds.posts, function(post, key){
-				if(post.id == post_id) {
-					post.isBookmarked = true;
-				}
-			})
-		});
-	}
-	
-	$scope.unBookmarkPost = function(post_id) {
-		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.newsFeeds.posts, function(post, key){
-				if(post.id == post_id) {
-					post.isBookmarked = false;
-				}
-			})
-		});
-	}
-	
-	$scope.want_answer = function(post_id) {
-        likeFrameworkService.hitWantAnswerOnQnA.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.newsFeeds.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isWtAns=true;
-                    post.nowa++;
-                }
-            })
-        });
+    $scope.want_answer = function(post_id) {
+        postFactory.want_answer(post_id, $scope.newsFeeds.posts);
     }
     
     $scope.unwant_answer = function(post_id) {
-        likeFrameworkService.hitUnwantAnswerOnQnA.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.newsFeeds.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isWtAns=false;
-                    post.nowa--;
-                }
-            })
-        });
+        postFactory.unwant_answer(post_id, $scope.newsFeeds.posts);
     }
     
-	$scope.like_post = function(post_id) {
-		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.newsFeeds.posts, function(post, key){
-				if(post.id == post_id) {
-					post.isLike=true;
-					post.nol++;
-				}
-			})
-		});
-	}
-	
-	$scope.unlike_post = function(post_id) {
-		likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.newsFeeds.posts, function(post, key){
-				if(post.id == post_id) {
-					post.isLike=false;
-					post.nol--;
-				}
-			})
-		});
-	}
+    $scope.like_post = function(post_id) {
+        postFactory.like_post(post_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.unlike_post = function(post_id) {
+        postFactory.unlike_post(post_id, $scope.newsFeeds.posts);
+    }
 
-	$scope.like_comment = function(post_id,comment_id) {
-		likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.newsFeeds.posts, function(post, key){
-				if(post.id == post_id) {
-					angular.forEach(post.cs, function(comment, key){
-						if(comment.id == comment_id) {
-							comment.nol++;
-							comment.isLike=true;
-						}
-					})
-				}
-			})
-		});
-	}
+    $scope.like_comment = function(post_id, comment_id) {
+        postFactory.like_comment(post_id, comment_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.unlike_comment = function(post_id, comment_id) {
+        postFactory.unlike_comment(post_id, comment_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.bookmarkPost = function(post_id) {
+        postFactory.bookmarkPost(post_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.unBookmarkPost = function(post_id) {
+        postFactory.unBookmarkPost(post_id, $scope.newsFeeds.posts);
+    }
 	
-	$scope.unlike_comment = function(post_id,comment_id) {
-		likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.newsFeeds.posts, function(post, key){
-				if(post.id == post_id) {
-					angular.forEach(post.cs, function(comment, key){
-						if(comment.id == comment_id) {
-							comment.nol--;
-							comment.isLike=false;
-						}
-					})
-				}
-			})
-		});
-	}
-	
-	$scope.get_all_comments = function(id) {
-		angular.forEach($scope.newsFeeds.posts, function(post, key){
-			if(post.id == id) {
-				post.cs = allCommentsService.comments.get({id:id});
-				post.ep = true;
-			}
-		});
-	}
-
 	var noMore = false;
 	var offset = 0;
 	$scope.nextNewsFeeds = function() {
@@ -3700,28 +3167,26 @@ minibean.controller('NewsFeedController', function($scope, postManagementService
 	
 });
 
-minibean.controller('UserNewsFeedController', function($scope, $routeParams, $timeout, $upload, postManagementService, bookmarkPostService, likeFrameworkService, $http, allCommentsService, usSpinnerService, userNewsFeedService) {
+minibean.controller('UserNewsFeedController', function($scope, $routeParams, $timeout, $upload, postFactory, postManagementService, bookmarkPostService, likeFrameworkService, $http, usSpinnerService, userNewsFeedService) {
+	
+	$scope.get_header_metaData();
 	
 	$scope.newsFeeds = { posts: [] };
 	
-	$scope.deletePost = function(postId) {
-        postManagementService.deletePost.get({"postId":postId}, function(data) {
-            angular.forEach($scope.newsFeeds.posts, function(post, key){
-                if(post.id == postId) {
-                    $scope.newsFeeds.posts.splice($scope.newsFeeds.posts.indexOf(post),1);
-                }
-            })
-        });
+	$scope.showMore = function(id) {
+        postFactory.showMore(id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.get_all_comments = function(id) {
+        postFactory.getAllComments(id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.deletePost = function(postId) {
+        postFactory.deletePost(postId, $scope.newsFeeds.posts);
     }
     
     $scope.select_emoticon_comment = function(code, index) {
-        if($("#userCommentfield_"+index).val()){
-            $("#userCommentfield_"+index).val($("#userCommentfield_"+index).val() + " " + code + " ");
-        }else{
-            $("#userCommentfield_"+index).val(code + " ");
-        }
-        $("#userCommentfield_"+index).focus();
-        $("#userCommentfield_"+index).trigger('input');    // need this to populate jquery val update to ng-model
+        postFactory.selectCommentEmoticon(code, index);
     }
     
 	$scope.comment_on_post = function(id, commentText) {
@@ -3933,109 +3398,37 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 		$scope.commentDataUrls.splice(index, 1);
 	}
 	
-	$scope.get_all_comments = function(id) {
-		angular.forEach($scope.newsFeeds.posts, function(post, key){
-			if(post.id == id) {
-				post.cs = allCommentsService.comments.get({id:id});
-				post.ep = true;
-			}
-		});
-	}
-	
-	$scope.bookmarkPost = function(post_id) {
-		bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.newsFeeds.posts, function(post, key){
-				if(post.id == post_id) {
-					post.isBookmarked = true;
-				}
-			})
-		});
-	}
-	
-	$scope.unBookmarkPost = function(post_id) {
-		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.newsFeeds.posts, function(post, key){
-				if(post.id == post_id) {
-					post.isBookmarked = false;
-				}
-			})
-		});
-	}
-	
 	$scope.want_answer = function(post_id) {
-        likeFrameworkService.hitWantAnswerOnQnA.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.newsFeeds.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isWtAns=true;
-                    post.nowa++;
-                }
-            })
-        });
+        postFactory.want_answer(post_id, $scope.newsFeeds.posts);
     }
     
     $scope.unwant_answer = function(post_id) {
-        likeFrameworkService.hitUnwantAnswerOnQnA.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.newsFeeds.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isWtAns=false;
-                    post.nowa--;
-                }
-            })
-        });
+        postFactory.unwant_answer(post_id, $scope.newsFeeds.posts);
     }
     
-	$scope.like_post = function(post_id) {
-		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.newsFeeds.posts, function(post, key){
-				if(post.id == post_id) {
-					post.isLike=true;
-					post.nol++;
-				}
-			})
-		});
-	}
-	
-	$scope.unlike_post = function(post_id) {
-		likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.newsFeeds.posts, function(post, key){
-				if(post.id == post_id) {
-					post.isLike=false;
-					post.nol--;
-				}
-			})
-		});
-	}
-	
+    $scope.like_post = function(post_id) {
+        postFactory.like_post(post_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.unlike_post = function(post_id) {
+        postFactory.unlike_post(post_id, $scope.newsFeeds.posts);
+    }
 
-	$scope.like_comment = function(post_id,comment_id) {
-		likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.newsFeeds.posts, function(post, key){
-				if(post.id == post_id) {
-					angular.forEach(post.cs, function(comment, key){
-						if(comment.id == comment_id) {
-							comment.nol++;
-							comment.isLike=true;
-						}
-					})
-				}
-			})
-		});
-	}
-	
-	$scope.unlike_comment = function(post_id,comment_id) {
-		likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.newsFeeds.posts, function(post, key){
-				if(post.id == post_id) {
-					angular.forEach(post.cs, function(comment, key){
-						if(comment.id == comment_id) {
-							comment.nol--;
-							comment.isLike=false;
-						}
-					})
-				}
-			})
-		});
-	}
+    $scope.like_comment = function(post_id, comment_id) {
+        postFactory.like_comment(post_id, comment_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.unlike_comment = function(post_id, comment_id) {
+        postFactory.unlike_comment(post_id, comment_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.bookmarkPost = function(post_id) {
+        postFactory.bookmarkPost(post_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.unBookmarkPost = function(post_id) {
+        postFactory.unBookmarkPost(post_id, $scope.newsFeeds.posts);
+    }
 	
 	var noMoreC = false;
 	var offsetC = 0;
@@ -4109,7 +3502,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 	
 });
 
-minibean.controller('MyBookmarkController', function($scope, bookmarkPostService, likeFrameworkService, postManagementService, $http, allCommentsService, usSpinnerService, bookmarkService) {
+minibean.controller('MyBookmarkController', function($scope, postFactory, bookmarkPostService, likeFrameworkService, postManagementService, $http, usSpinnerService, bookmarkService) {
     
     $scope.bookmarkSummary = bookmarkService.bookmarkSummary.get();
     
@@ -4120,52 +3513,13 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 	$scope.selectedSubTab = 1;
 	
 	$scope.deletePost = function(postId) {
-        postManagementService.deletePost.get({"postId":postId}, function(data) {
-            angular.forEach($scope.posts.posts, function(post, key){
-                if(post.id == postId) {
-                    $scope.posts.posts.splice($scope.posts.posts.indexOf(post),1);
-                }
-            })
-        });
+        postFactory.deletePost(postId, $scope.posts.posts);
+    }
+	
+    $scope.get_all_comments = function(id) {
+        postFactory.getAllComments(id, $scope.posts.posts);
     }
     
-    $scope.select_emoticon_comment = function(code, index) {
-        if($("#userCommentfield_bm_"+index).val()){
-            $("#userCommentfield_bm_"+index).val($("#userCommentfield_bm_"+index).val() + " " + code + " ");
-        }else{
-            $("#userCommentfield_bm_"+index).val(code + " ");
-        }
-        $("#userCommentfield_bm_"+index).focus();
-        $("#userCommentfield_bm_"+index).trigger('input');    // need this to populate jquery val update to ng-model
-    }
-    
-	$scope.comment_on_post = function(id, commentText) {
-        // first convert to links
-        commentText = convertText(commentText);
-
-		var data = {
-			"post_id" : id,
-			"commentText" : commentText
-		};
-		
-		usSpinnerService.spin('loading...');
-		$http.post('/community/post/comment', data) 
-			.success(function(response) {
-				angular.forEach($scope.posts.posts, function(post, key){
-					if(post.id == data.post_id) {
-						post.n_c++;
-						post.ut = new Date();
-						var comment = {"oid" : $scope.userInfo.id, "d" : response.text, "on" : $scope.userInfo.displayName,
-								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
-						post.cs.push(comment);
-    				}
-    				usSpinnerService.stop('loading...');	
-    			});
-    		});
-	}
-	
-	$scope.answer_to_question = $scope.comment_on_post;
-	
 	$scope.unBookmarkPost = function(post_id) {
 		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.posts.posts, function(post, key){
@@ -4174,7 +3528,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 					$scope.posts.posts.splice($scope.posts.posts.indexOf(post),1);
 					if (post.type == 'QUESTION')
     					$scope.bookmarkSummary.qc--;
-    			     else if (post.type == 'SIMPLE')
+                    else if (post.type == 'SIMPLE')
                         $scope.bookmarkSummary.pc--;
 				}
 			})
@@ -4194,95 +3548,36 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 	}
 	
 	$scope.want_answer = function(post_id) {
-        likeFrameworkService.hitWantAnswerOnQnA.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.posts.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isWtAns=true;
-                    post.nowa++;
-                }
-            })
-        });
+        postFactory.want_answer(post_id, $scope.newsFeeds.posts);
     }
     
     $scope.unwant_answer = function(post_id) {
-        likeFrameworkService.hitUnwantAnswerOnQnA.get({"post_id":post_id}, function(data) {
-            angular.forEach($scope.posts.posts, function(post, key){
-                if(post.id == post_id) {
-                    post.isWtAns=false;
-                    post.nowa--;
-                }
-            })
-        });
+        postFactory.unwant_answer(post_id, $scope.newsFeeds.posts);
     }
     
-	$scope.like_post = function(post_id) {
-		likeFrameworkService.hitLikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.posts.posts, function(post, key){
-				if(post.id == post_id) {
-					post.isLike=true;
-					post.nol++;
-				}
-			})
-		});
-	}
-	
-	$scope.unlike_post = function(post_id) {
-		likeFrameworkService.hitUnlikeOnPost.get({"post_id":post_id}, function(data) {
-			angular.forEach($scope.posts.posts, function(post, key){
-				if(post.id == post_id) {
-					post.isLike=false;
-					post.nol--;
-				}
-			})
-		});
-	}
+    $scope.like_post = function(post_id) {
+        postFactory.like_post(post_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.unlike_post = function(post_id) {
+        postFactory.unlike_post(post_id, $scope.newsFeeds.posts);
+    }
 
-	$scope.like_comment = function(post_id,comment_id) {
-		likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.posts.posts, function(post, key){
-				if(post.id == post_id) {
-					angular.forEach(post.cs, function(comment, key){
-						if(comment.id == comment_id) {
-							comment.nol++;
-							comment.isLike=true;
-						}
-					})
-				}
-			})
-		});
-	}
-	
-	$scope.unlike_comment = function(post_id,comment_id) {
-		likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
-			angular.forEach($scope.posts.posts, function(post, key){
-				if(post.id == post_id) {
-					angular.forEach(post.cs, function(comment, key){
-						if(comment.id == comment_id) {
-							comment.nol--;
-							comment.isLike=false;
-						}
-					})
-				}
-			})
-		});
-	}
-	
-	$scope.get_all_comments = function(id) {
-		angular.forEach($scope.posts.posts, function(post, key){
-			if(post.id == id) {
-				post.cs = allCommentsService.comments.get({id:id});
-				post.ep = true;
-			}
-		});
-	}
-
+    $scope.like_comment = function(post_id, comment_id) {
+        postFactory.like_comment(post_id, comment_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.unlike_comment = function(post_id, comment_id) {
+        postFactory.unlike_comment(post_id, comment_id, $scope.newsFeeds.posts);
+    }
+    
 	var offset = 0;
 	var noMore = false;
 	$scope.nextPosts = function() {
 		if ($scope.isBusy) return;
 		if (noMore) return;
 		$scope.isBusy = true;
-		bookmarkService.bookmarkPost.get({offset:offset},
+		bookmarkService.bookmarkedPosts.get({offset:offset},
             function(data){
     			var posts = data;
     			if(data.length == 0) {
@@ -4303,7 +3598,7 @@ minibean.controller('MyBookmarkController', function($scope, bookmarkPostService
 		if ($scope.isBusyA) return;
 		if (noMoreA) return;
 		$scope.isBusyA = true;
-		bookmarkService.bookmarkArticle.get({offsetA:offsetA},
+		bookmarkService.bookmarkedArticles.get({offsetA:offsetA},
             function(data){
     			var articleData = data;
     			if(data.length == 0) {
@@ -4368,9 +3663,11 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 	$scope.sendPhoto = function() {
         $("#send-photo-id").click();
     }
+    
     $scope.selectedFiles = [];
     $scope.dataUrls = [];
     $scope.tempSelectedFiles = [];
+    
     $scope.onFileSelect = function($files) {
         if($scope.selectedFiles.length == 0) {
             $scope.tempSelectedFiles = [];
@@ -4378,7 +3675,7 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
         
         $scope.selectedFiles.push($files);
         $scope.tempSelectedFiles.push($files);
-        for ( var i = 0; i < $files.length; i++) {
+        for (var i = 0; i < $files.length; i++) {
             var $file = $files[i];
             if (window.FileReader && $file.type.indexOf('image') > -1) {
                 var fileReader = new FileReader();

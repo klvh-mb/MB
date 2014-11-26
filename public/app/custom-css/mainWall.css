@@ -330,10 +330,10 @@
     height: 20px;
     text-indent: -999px;
 }
-a.post-view-all-link {
+a.post-view-all-comments-link, a.post-show-more-link {
     color: #BD6C6C
 }
-a.post-view-all-link:hover {
+a.post-view-all-comments-link:hover, a.post-show-more-link:hover {
     color: #E01717
 }
 .btn-like-wrapper {

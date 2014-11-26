@@ -413,27 +413,6 @@ public class CommunityController extends Controller{
     }
     
     @Transactional
-    public static Result getAllAnswers(Long id) {
-        NanoSecondStopWatch sw = new NanoSecondStopWatch();
-
-        final User localUser = Application.getLocalUser(session());
-        Post post = Post.findById(id);
-        List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
-        List<Comment> comments = post.getCommentsOfPost();
-        for (int i = 0; i < comments.size(); i++) {
-            Comment comment = comments.get(i);
-            CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, localUser, i+1);
-            commentsToShow.add(commentVM);
-        }
-
-        sw.stop();
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"][p="+id+"] getAllAnswers count="+comments.size()+". Took "+sw.getElapsedMS()+"ms");
-        }
-        return ok(Json.toJson(commentsToShow));
-    }
-    
-    @Transactional
     public static Result sendJoinRequest(String id) {
         final User localUser = Application.getLocalUser(session());
         if (logger.underlyingLogger().isDebugEnabled()) {

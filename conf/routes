@@ -80,9 +80,9 @@ GET     /get-new-Articles/:category_id          controllers.ArticleController.ge
 GET     /get-hot-Articles/:category_id          controllers.ArticleController.getHotArticles(category_id: Long)
 GET     /get-recommended-Articles/:category_id  controllers.ArticleController.getRecommendedArticles(category_id: Long)
 
+GET     /get-bookmarked-articles/:offset            controllers.ArticleController.getBookmarkedArticles(offset:Integer)
 GET     /bookmark-article/:article_id               controllers.ArticleController.onBookamrk(article_id : Long)
 GET     /unbookmark-article/:article_id             controllers.ArticleController.onUnBookmark(article_id : Long)
-GET     /get-bookmark-article/:offset               controllers.ArticleController.getBookmarkedArticles(offset:Integer)
 
 GET     /get-hot-articles-tagwords  controllers.TagWordController.getHotArticlesTagWords
 GET     /get-soon-moms-tagwords     controllers.TagWordController.getSoonToBeMomTagWords
@@ -201,7 +201,6 @@ GET     /get-community-members/:id              controllers.CommunityController.
 GET     /image/get-post-image-by-id/:id             controllers.CommunityController.getPostImageById(id : Long)
 GET     /image/get-original-post-image-by-id/:id            controllers.CommunityController.getOriginalPostImageByID(id : Long)
 GET     /comments/:id                           controllers.CommunityController.getAllComments(id : Long)
-GET     /answers/:id                            controllers.CommunityController.getAllAnswers(id : Long)
 GET     /posts                                  controllers.CommunityController.getNextPosts(id: String,offset: String,time:String)
 GET     /questions                              controllers.CommunityController.getNextQnAs(id: String,offset: String,time:String)
 GET     /community/posts/:id                    controllers.CommunityController.getAllPostsOfCommunity(id : Long)
@@ -213,7 +212,6 @@ POST    /createCommunity                        controllers.CommunityController.
 POST    /image/upload-cover-photo-group/:id     controllers.CommunityController.uploadCoverPhoto(id : Long)
 POST    /updateCommunityProfileData             controllers.CommunityController.updateCommunityProfileData
 GET     /communityQnA/questions/:id             controllers.CommunityController.getAllQuestionsOfCommunity(id : Long)
-GET     /communityQnA/questions/body/:id        controllers.CommunityController.getAllPostBody(id : Long)
 POST    /communityQnA/question/post             controllers.CommunityController.postQuestionOnCommunity()
 POST    /communityQnA/question/answer           controllers.CommunityController.answerToQuestionOnQnACommunity()
 POST    /image/uploadPostPhoto                  controllers.CommunityController.uploadPhotoOfPost()
@@ -225,8 +223,9 @@ POST    /image/uploadQnACommentPhoto            controllers.CommunityController.
 GET     /image/get-comment-image-by-id/:id      controllers.CommunityController.getCommentImageById(id : Long)
 GET     /post-landing/:id/:communityId          controllers.CommunityController.postLanding(id:Long, communityId:Long)
 GET     /qna-landing/:id/:communityId           controllers.CommunityController.qnaLanding(id:Long, communityId:Long)
+GET     /get-post-body/:id                      controllers.CommunityController.getAllPostBody(id : Long)
 
-GET     /get-bookmark-post/:offset              controllers.CommunityController.getBookmarkedPosts(offset:Integer)
+GET     /get-bookmarked-posts/:offset           controllers.CommunityController.getBookmarkedPosts(offset:Integer)
 GET     /unbookmark-post/:post_id               controllers.CommunityController.doUnBookmark(post_id : Long)
 GET     /bookmark-post/:post_id                 controllers.CommunityController.doBookmark(post_id : Long)
 

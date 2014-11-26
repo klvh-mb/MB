@@ -498,10 +498,16 @@ minibean.service('postManagementService',function($resource){
                 get: {method:'get', params:{commentId:'@commentId'}}
             }
     );
-});
-
-minibean.service('allCommentsService',function($resource){
-    this.comments = $resource(
+    
+    this.postBody = $resource(
+            '/get-post-body/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{id:'@id'}}
+            }
+    );
+    
+    this.allComments = $resource(
             '/comments/:id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
@@ -689,28 +695,11 @@ minibean.service('communityQnAPageService',function($resource){
                 get: {method:'get', params:{id:'@id'}}
             }
     );
-    this.getFullBody = $resource(
-            '/communityQnA/questions/body/:id',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get', params:{id:'@id'}}
-            }
-    );
     this.GetQnAs = $resource(
             '/questions?id=:id&offset=:offset&time=:time',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get', params:{id:'@id',offset:'@offset',time:'@time'},isArray:true}
-            }
-    );
-});
-
-minibean.service('allAnswersService',function($resource){
-    this.answers = $resource(
-            '/answers/:id',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get', params:{id:'@id'},isArray:true}
             }
     );
 });
@@ -906,16 +895,16 @@ minibean.service('userNewsFeedService',function($resource){
 });
 
 minibean.service('bookmarkService',function($resource){
-    this.bookmarkPost = $resource(
-            '/get-bookmark-post/:offset',
+    this.bookmarkedPosts = $resource(
+            '/get-bookmarked-posts/:offset',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'GET', params:{offset:'@offset'}, isArray:true}
             }
     );
     
-    this.bookmarkArticle = $resource(
-            '/get-bookmark-article/:offsetA',
+    this.bookmarkedArticles = $resource(
+            '/get-bookmarked-articles/:offsetA',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'GET', params:{offsetA:'@offsetA'}, isArray:true}
