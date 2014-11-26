@@ -3512,14 +3512,18 @@ minibean.controller('MyBookmarkController', function($scope, postFactory, bookma
 	
 	$scope.selectedSubTab = 1;
 	
-	$scope.deletePost = function(postId) {
-        postFactory.deletePost(postId, $scope.posts.posts);
+	$scope.showMore = function(id) {
+        postFactory.showMore(id, $scope.posts.posts);
     }
-	
+    
     $scope.get_all_comments = function(id) {
         postFactory.getAllComments(id, $scope.posts.posts);
     }
     
+	$scope.deletePost = function(postId) {
+        postFactory.deletePost(postId, $scope.posts.posts);
+    }
+	
 	$scope.unBookmarkPost = function(post_id) {
 		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.posts.posts, function(post, key){
