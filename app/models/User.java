@@ -848,7 +848,13 @@ public class User extends SocialObject implements Subject, Socializable {
         if (identity == null) {
             return null;
         }
+        
         if (identity instanceof UsernamePasswordAuthUser) {
+            // Bypass login
+            if ("dev".equals(controllers.Application.APPLICATION_ENV) && 
+                    controllers.Application.LOGIN_BYPASS_ALL == true) {
+                return User.findByEmail(identity.getId());
+            }
             return findByUsernamePasswordIdentity((UsernamePasswordAuthUser) identity);
         } else {
             try {

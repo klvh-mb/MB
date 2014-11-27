@@ -66,6 +66,9 @@ public class Application extends Controller {
     public static final String APPLICATION_ENV = 
             Play.application().configuration().getString("application.env", "dev");
     
+    public static final boolean LOGIN_BYPASS_ALL = 
+            Play.application().configuration().getBoolean("login.bypass.all", false);
+    
     public static final String APPLICATION_BASE_URL = 
             Play.application().configuration().getString("application.baseUrl");
     

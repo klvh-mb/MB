@@ -179,6 +179,17 @@ public class MyUsernamePasswordAuthProvider extends
 	@Override
 	protected com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.LoginResult loginUser(
 			final MyLoginUsernamePasswordAuthUser authUser) {
+	    
+	    // Bypass login
+	    if ("dev".equals(controllers.Application.APPLICATION_ENV) && 
+	            controllers.Application.LOGIN_BYPASS_ALL == true) {
+	        final User user = User.findByEmail(authUser.getEmail());
+	        if (user != null) {
+	            return LoginResult.USER_LOGGED_IN;
+	        }
+	        return LoginResult.NOT_FOUND;
+	    }
+
 		final User u = User.findByUsernamePasswordIdentity(authUser);
 		if (u == null) {
 		    // see if this email belongs to any FB login

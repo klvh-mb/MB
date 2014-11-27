@@ -170,8 +170,8 @@ public abstract class PlayAuthenticate {
 
 	public static void storeUser(final Session session, final AuthUser authUser) {
 
-		// User logged in once more - wanna make some updates?
-		final AuthUser u = getUserService().update(authUser);
+	    // User logged in once more - wanna make some updates?
+        final AuthUser u = getUserService().update(authUser);
 
 		session.put(PlayAuthenticate.USER_KEY, u.getId());
 		session.put(PlayAuthenticate.PROVIDER_KEY, u.getProvider());
@@ -539,6 +539,13 @@ public abstract class PlayAuthenticate {
 				}
 			}
 
+			// Bypass login
+			if ("dev".equals(controllers.Application.APPLICATION_ENV) && 
+                    controllers.Application.LOGIN_BYPASS_ALL == true && 
+                    !isLoggedIn) {
+                return loginAndRedirect(context, newUser);
+            }
+			
 			final Object loginIdentity = getUserService().getLocalIdentity(
 					newUser);
 			final boolean isLinked = loginIdentity != null;
