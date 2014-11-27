@@ -32,22 +32,6 @@ angular.module('minibean', [
       .when('/view/:cat', {
         templateUrl: '/assets/app/views/magazine/home.html'
       })
-      .when('/article/show/:catId',{
-        templateUrl: '/assets/app/views/magazine/showArticlesPage.html',
-        controller : 'ShowArticlesController'  
-      })
-      .when('/article/tagword/:tagwordId/:catGroup',{
-        templateUrl: '/assets/app/views/magazine/tagwordArticlesPage.html',
-        controller : 'ShowArticlesController'  
-      })
-      .when('/article/:id/:catId',{
-        templateUrl: '/assets/app/views/magazine/articlePage.html',
-        controller : 'ArticlePageController'  
-      })
-      .when('/campaign/:id',{
-        templateUrl: '/assets/app/views/magazine/campaign-page.html',
-        controller : 'CampaignPageController'  
-      })
       .when('/business/community/:id',{
         templateUrl: '/assets/app/views/business-community-page.html',
         controller : 'BusinessCommunityPageController'  

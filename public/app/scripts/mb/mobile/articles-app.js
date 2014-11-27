@@ -5,7 +5,6 @@ angular.module('minibean', [
   'ngResource',
   'ngRoute',
   'xeditable',
-  'ngAnimate',
   'ui.bootstrap',
   'ui.bootstrap.tpls',
   'angularFileUpload',
@@ -18,22 +17,40 @@ angular.module('minibean', [
   'ui.utils',
   'ngSanitize',
   'angularMoment',
-  'wu.masonry'
+  'wu.masonry',
+  'pasvaz.bindonce'
 ])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: '/assets/app/views/magazine/ads.html'
+        templateUrl: '/assets/app/views/mobile/magazine/showArticlesPage.html', 
+        controller : 'ShowArticlesController'
       })
-      .when('/ads', {
-        templateUrl: '/assets/app/views/magazine/ads.html'
+      .when('/article/show/:catId',{
+        templateUrl: '/assets/app/views/mobile/magazine/showArticlesPage.html',
+        controller : 'ShowArticlesController'  
+      })
+      .when('/article/tagword/:tagwordId/:catGroup',{
+        templateUrl: '/assets/app/views/mobile/magazine/tagwordArticlesPage.html',
+        controller : 'ShowArticlesController'  
+      })
+      .when('/article/:id/:catId',{
+        templateUrl: '/assets/app/views/mobile/magazine/articlePage.html',
+        controller : 'ArticlePageController'  
+      })
+      .when('/campaign/:id',{
+        templateUrl: '/assets/app/views/mobile/magazine/campaign-page.html',
+        controller : 'CampaignPageController'  
+      })
+      .when('/error', {
+    	  templateUrl: '/assets/app/views/errorPage.html',
       })
       .otherwise({
           redirectTo: '/'
       });
   })
   .run(function(editableOptions) {
-    editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+  editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
   });
 
 //
@@ -43,7 +60,6 @@ angular.module('minibean', [
 var minibean = angular.module('minibean');
 
 var URL_IGNORE = [
-    "tracking",
     "template", 
     "assets", 
     "image", 
@@ -68,10 +84,19 @@ minibean.config(['$httpProvider', function($httpProvider) {
                         if (!containsUrlIgnore) {
                             var separator = config.url.indexOf('?') === -1 ? '?' : '&';
                             config.url = config.url+separator+'noCache=' + new Date().getTime();
-                            console.log(config.method + " " + config.url);
+                            //console.log(config.method + " " + config.url);
                         }
                     }
                     return config;
                }
            };
     });
+    
+//minibean.config(['$httpProvider', function($httpProvider) {
+//    if (!$httpProvider.defaults.headers.get) {
+//        $httpProvider.defaults.headers.get = {};    
+//    }
+//    $httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
+//    $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache'; 
+//    $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
+//}]);

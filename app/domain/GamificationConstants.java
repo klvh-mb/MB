@@ -9,6 +9,10 @@ package domain;
 public interface GamificationConstants {
 
     /**
+     * To be in sync with default-values.js
+     */
+    
+    /**
      * Points
      */
     public static final int POINTS_SIGNUP = 20;

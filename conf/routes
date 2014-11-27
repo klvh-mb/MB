@@ -24,7 +24,6 @@ GET     /BingSiteAuth.xml           controllers.Application.bingWebmaster
 # Google Webmaster
 GET     /googlee42c6d2bf91e90b7.html    controllers.Application.googleWebmaster
 
-GET     /                           controllers.Application.index
 GET     /do-tracking                controllers.TrackingController.track
 
 GET     /favicon.ico                controllers.Assets.at(path="/public", file="app/images/favicon-1.ico")
@@ -40,21 +39,24 @@ GET     /promo                      controllers.promo.PromoController.index
 GET     /get-promo-pn-communities   controllers.promo.PromoPNController.getPNCommunities()
 GET     /get-promo-pns/:id          controllers.promo.PromoPNController.getPNs(id:Long)
 
-# Mobile Magazine
-GET     /m-magazine                 controllers.magazine.MagazineController.mobile
-
-# Mobile Home
-GET     /m-my                       controllers.Application.mobile
+# Mobile
+GET     /m-articles                 controllers.Application.mobileArticles
+GET     /m-knowledge                controllers.Application.mobileKnowledge
+GET     /m-magazine                 controllers.Application.mobileMagazine
+GET     /m-my                       controllers.Application.mobileHome
 GET     /m-login                    controllers.Application.mobileLogin
 
-# Magazine
-GET     /magazine                   controllers.magazine.MagazineController.index
+# Main
+GET     /                           controllers.Application.index
+GET     /articles                   controllers.Application.mainArticles
+GET     /knowledge                  controllers.Application.mainKnowledge
+GET     /magazine                   controllers.Application.mainMagazine
+GET     /my                         controllers.Application.mainHome
+GET     /login                      controllers.Application.login
 
 # Home
-GET     /my                         controllers.Application.home
 GET     /signup-promo-code/:promoCode      controllers.Application.homeWithPromoCode(promoCode: String)
 
-GET     /login                      controllers.Application.login
 POST    /login                      controllers.Application.doLogin
 POST    /saveSignupInfo             controllers.Application.saveSignupInfo
 POST    /saveSignupInfoFb           controllers.Application.saveSignupInfoFb

@@ -124,7 +124,7 @@ public class Signup extends Controller {
 				}
 			}
 
-			return redirect(routes.Application.home());
+			return redirect(routes.Application.mainHome());
 		}
 	}
 
@@ -235,7 +235,7 @@ public class Signup extends Controller {
 		}
 		
 		if (Application.getLocalUser(session()) != null) {
-			return redirect(routes.Application.home());
+			return redirect(routes.Application.mainHome());
 		} else {
 			return redirect(routes.Application.login());
 		}

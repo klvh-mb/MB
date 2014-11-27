@@ -184,6 +184,7 @@ minibean.controller('ApplicationController',
     window.isBrowserTabActive = true;
     
     $scope.selectNavBar = function(navBar, subBar) {
+        console.log(navBar+" "+subBar);
         $scope.selectedNavBar = navBar;
         $scope.selectedNavSubBar = subBar;
     }
@@ -223,7 +224,7 @@ minibean.controller('ApplicationController',
         
         // NOTE: this must exist to calculate the correct slider scrolling width!!! 
         // OK to set to auto after slider init
-        $interval($scope.adjustNavSlider, 100, 1);
+        $interval($scope.adjustNavSlider, 500, 1);
     }
     
     $scope.applicationInfo = applicationInfoService.ApplicationInfo.get();
@@ -241,9 +242,9 @@ minibean.controller('ApplicationController',
     $scope.topAnnouncements = announcementsService.getTopAnnouncements.get();
 	$scope.businessCommunityCategories = communityCategoryService.getAllBusinessCommunityCategories.get();
 	$scope.socialCommunityCategoriesMap = communityCategoryService.getSocialCommunityCategoriesMap.get({indexOnly:true});
-	
-	$scope.hotArticleCategories = [];
-	$scope.soonMomsArticleCategories = [];
+
+    $scope.hotArticleCategories = [];
+    $scope.soonMomsArticleCategories = [];	
 	$scope.articleCategories = articleService.AllArticleCategories.get(
         function(data) {
             angular.forEach(data, function(category, key){
@@ -254,11 +255,14 @@ minibean.controller('ApplicationController',
                 }
             });
             // articles cat
-            if ($scope.selectedNavSubBar != -1) {
+            if (($scope.selectedNavBar == 'HOT_ARTICLES' || 
+                $scope.selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES') && 
+                $scope.selectedNavSubBar != -1) {
                 $scope.selectNavBar($scope.getArticleCategoryGroup($scope.selectedNavSubBar), $scope.selectedNavSubBar);
             }
         }
 	);
+	
 	$scope.getArticleCategoryGroup = function(catId) {
         for (var i = 0; i < $scope.articleCategories.length; i++) {
             if (catId == $scope.articleCategories[i].id) {
@@ -266,8 +270,8 @@ minibean.controller('ApplicationController',
             }
         }
         return 'HOT_ARTICLES';
-	}
-	
+    }
+        
 	$scope.set_background_image = function() {
 		return { 
             background: 'url(/image/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+') center center no-repeat', 
@@ -3844,3 +3848,144 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 	}
 	
 });
+
+minibean.controller('MagazineNewsFeedController', function($scope, $timeout, $upload, $http, $routeParams,  
+    postFactory, bookmarkPostService, likeFrameworkService, postManagementService, magazineNewsFeedService, iconsService, usSpinnerService) {
+    
+    var cat = $routeParams.cat;
+    if (cat == undefined) {
+        cat = 0;
+    }
+    $scope.selectNavBar('MAGAZINE', cat);
+    
+    $scope.newsFeeds = { posts: [] };
+
+    var noMore = false;
+    var offset = 0;
+    $scope.nextNewsFeeds = function() {
+        if ($scope.isBusy) return;
+        if (noMore) return;
+        $scope.isBusy = true;
+        magazineNewsFeedService.NewsFeeds.get({offset:offset,cat:cat},
+            function(data){
+                var posts = data.posts;
+                if(posts.length == 0) {
+                    noMore = true;
+                }
+                for (var i = 0; i < posts.length; i++) {
+                    $scope.newsFeeds.posts.push(posts[i]);
+                }
+                $scope.isBusy = false;
+                offset=offset + 1;
+                
+                // render mobile scroll nav bar
+                if ($scope.userInfo.isMobile) {
+                    $scope.renderNavSubBar();
+                }
+            }
+        );
+    }
+
+    //
+    // Post management
+    //
+    
+    $scope.get_all_comments = function(id) {
+        postFactory.getAllComments(id, $scope.posts.posts);
+    }
+    
+    $scope.deletePost = function(postId) {
+        postFactory.deletePost(postId, $scope.newsFeeds.posts);
+    }
+
+    $scope.like_post = function(post_id) {
+        postFactory.like_post(post_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.unlike_post = function(post_id) {
+        postFactory.unlike_post(post_id, $scope.newsFeeds.posts);
+    }
+
+    $scope.like_comment = function(post_id, comment_id) {
+        postFactory.like_comment(post_id, comment_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.unlike_comment = function(post_id, comment_id) {
+        postFactory.unlike_comment(post_id, comment_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.bookmarkPost = function(post_id) {
+        postFactory.bookmarkPost(post_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.unBookmarkPost = function(post_id) {
+        postFactory.unBookmarkPost(post_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.comment_on_post = function(id, commentText) {
+        // first convert to links
+        commentText = convertText(commentText);
+
+        var data = {
+            "post_id" : id,
+            "commentText" : commentText,
+            "withPhotos" : $scope.commentSelectedFiles.length != 0
+        };
+        var post_data = data;
+        usSpinnerService.spin('loading...');
+        $http.post('/community/post/comment', data) 
+            .success(function(comment_id) {
+                $('.commentBox').val('');
+                
+                $scope.commentText = "";
+                angular.forEach($scope.newsFeeds.posts, function(post, key){
+                        if(post.id == data.post_id) {
+                            post.n_c++;
+                            post.ut = new Date();
+                            var comment = {"oid" : $scope.newsFeeds.lu, "d" : commentText, "on" : $scope.newsFeeds.lun,
+                                    "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c,"id" : comment_id};
+                            post.cs.push(comment);
+                            
+                            if($scope.commentSelectedFiles.length == 0) {
+                                return;
+                            }
+                            
+                            $scope.commentSelectedFiles = [];
+                            $scope.commentDataUrls = [];
+                            
+                            // when post is done in BE then do photo upload
+                            //log($scope.commentTempSelectedFiles.length);
+                            for(var i=0 ; i<$scope.commentTempSelectedFiles.length ; i++) {
+                                usSpinnerService.spin('loading...');
+                                $upload.upload({
+                                    url : '/image/uploadCommentPhoto',
+                                    method: $scope.httpMethod,
+                                    data : {
+                                        commentId : comment_id
+                                    },
+                                    file: $scope.commentTempSelectedFiles[i],
+                                    fileFormDataName: 'comment-photo'
+                                }).success(function(data, status, headers, config) {
+                                    $scope.commentTempSelectedFiles.length = 0;
+                                    if(post.id == post_data.post_id) {
+                                        angular.forEach(post.cs, function(cmt, key){
+                                            if(cmt.id == comment_id) {
+                                                cmt.hasImage = true;
+                                                if(cmt.imgs) {
+                                                    
+                                                } else {
+                                                    cmt.imgs = [];
+                                                }
+                                                cmt.imgs.push(data);
+                                            }
+                                        });
+                                    }
+                                });
+                        }
+                    }
+            });
+            usSpinnerService.stop('loading...');    
+        });
+    };
+});
+

@@ -87,11 +87,90 @@ public class Application extends Controller {
         setMobileUser(isMobile? "true":"false");
         
         if (isMobile) {
-            return redirect("/m-magazine#/article/show/0");
+            return redirect("/m-articles#/article/show/0");
         }
-        return redirect("/magazine#/article/show/0");
+        return redirect("/articles#/article/show/0");
     }
 	
+	//
+	// Entry points
+	//
+    
+    @Transactional
+    public static Result mainArticles() {
+        UserAgentUtil userAgentUtil = new UserAgentUtil(request());
+        boolean isMobile = userAgentUtil.isMobileUserAgent();
+        
+        Application.setMobileUser(isMobile? "true":"false");
+        
+        if (isMobile) {
+            return ok(views.html.mb.mobile.articles.render());
+        }
+        return ok(views.html.mb.site.articles.render());
+    }
+	
+    @Transactional
+    public static Result mainKnowledge() {
+        UserAgentUtil userAgentUtil = new UserAgentUtil(request());
+        boolean isMobile = userAgentUtil.isMobileUserAgent();
+        
+        Application.setMobileUser(isMobile? "true":"false");
+        
+        if (isMobile) {
+            return ok(views.html.mb.mobile.knowledge.render());
+        }
+        return ok(views.html.mb.site.knowledge.render());
+    }
+    
+    @Transactional
+    public static Result mainMagazine() {
+        UserAgentUtil userAgentUtil = new UserAgentUtil(request());
+        boolean isMobile = userAgentUtil.isMobileUserAgent();
+        
+        Application.setMobileUser(isMobile? "true":"false");
+        
+        if (isMobile) {
+            return ok(views.html.mb.mobile.magazine.render());
+        }
+        return ok(views.html.mb.site.magazine.render());
+    }
+    
+    @Transactional
+    public static Result mainHome() {
+        return home();
+    }
+	
+    
+    @Transactional
+    public static Result mobileArticles() {
+        setMobileUser();    // manually set mobile to true
+        return ok(views.html.mb.mobile.articles.render());
+    }
+    
+    @Transactional
+    public static Result mobileKnowledge() {
+        setMobileUser();    // manually set mobile to true
+        return ok(views.html.mb.mobile.knowledge.render());
+    }
+    
+    @Transactional
+    public static Result mobileMagazine() {
+        setMobileUser();    // manually set mobile to true
+        return ok(views.html.mb.mobile.magazine.render());
+    }
+    
+    @Transactional
+    public static Result mobileHome() {
+        setMobileUser();    // manually set mobile to true
+        
+        final User localUser = getLocalUser(session());
+        if(!User.isLoggedIn(localUser)) {
+            return login();
+        }
+
+        return home(localUser);
+    }
+    
 	//
 	// Mobile
 	//
@@ -112,18 +191,6 @@ public class Application extends Controller {
         session().put("mobile", value);
     }
 	
-	@Transactional
-    public static Result mobile() {
-        setMobileUser();    // manually set mobile to true
-        
-        final User localUser = getLocalUser(session());
-        if(!User.isLoggedIn(localUser)) {
-            return login();
-        }
-
-        return home(localUser);
-    }
-
 	@Transactional
     public static Result mobileLogin() {
         final User localUser = getLocalUser(session());
@@ -240,7 +307,7 @@ public class Application extends Controller {
 	        user.setNewUser(false);
 	        return redirect("/my#/communities-discover");
 	    }
-	    return isMobileUser()? ok(views.html.mobile.home.render()) : ok(views.html.home.render());
+	    return isMobileUser()? ok(views.html.mb.mobile.home.render()) : ok(views.html.mb.site.home.render());
 	}
 	
 	@Transactional
