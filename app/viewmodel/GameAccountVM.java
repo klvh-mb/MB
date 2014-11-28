@@ -2,6 +2,8 @@ package viewmodel;
 
 import models.GameAccount;
 import models.GameAccountStatistics;
+import models.GameLevel;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
@@ -18,7 +20,9 @@ public class GameAccountVM {
     @JsonProperty("rdpt")   public Long redeemedPoints;
     @JsonProperty("refs")   public Long noReferralSignups;
     @JsonProperty("signTd") public Boolean hasSignedInToday;
-
+    @JsonProperty("gl") public Long gameLevel;
+    @JsonProperty("gln") public String gameLevelName;
+    @JsonProperty("gli") public String gameLevelIcon;
 
     public GameAccountVM(GameAccount account, GameAccountStatistics stat) {
         this.userId = account.user_id;
@@ -28,5 +32,9 @@ public class GameAccountVM {
         this.redeemedPoints = account.redeemed_points;
         this.noReferralSignups = account.number_of_referral_signups;
         this.hasSignedInToday = stat.num_sign_in > 0;
+        GameLevel gameLevel = GameLevel.getGameLevel(account.getActivityPoints());
+        this.gameLevel = gameLevel.level;
+        this.gameLevelName = gameLevel.name;
+        this.gameLevelIcon = gameLevel.icon.url;
     }
 }

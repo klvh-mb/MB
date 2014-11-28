@@ -4,7 +4,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import controllers.Application;
 import controllers.GameController;
-import models.Icon;
 import models.Location;
 import models.User;
 
@@ -30,11 +29,7 @@ public class UserVM {
     @JsonProperty("isFbLogin") public boolean isFbLogin = false;
     @JsonProperty("isHomeTourCompleted") public boolean isHomeTourCompleted = false;
     
-    // game stats
-    @JsonProperty("gameLevel") public int gameLevel = 9;
-    @JsonProperty("gameLevelIcon") public String gameLevelIcon = Icon.getGameLevelIcon(gameLevel).url;
-    @JsonProperty("gameTotalPoints") public int gameTotalPoints = 100;
-    @JsonProperty("gameRedeemablePoints") public int gameRedeemablePoints = 89;
+    // game
     @JsonProperty("enableSignInForToday") public boolean enableSignInForToday = false;
     
 	public UserVM(User user) {
@@ -59,13 +54,13 @@ public class UserVM {
         		this.isFbLogin = user.fbLogin;
         		this.isHomeTourCompleted = user.isHomeTourCompleted();
         		
-        		this.enableSignInForToday = GameController.enableSignInForToday();
-        		
     		    this.isSuperAdmin = user.isSuperAdmin();
     	        this.isBusinessAdmin = user.isBusinessAdmin();
     	        this.isCommunityAdmin = user.isCommunityAdmin();
     	        this.isEditor = user.isEditor();
     	        this.isAdmin = this.isSuperAdmin || this.isBusinessAdmin || this.isCommunityAdmin;
+    	        
+    	        this.enableSignInForToday = GameController.enableSignInForToday();
     		}
 	    }
 	}

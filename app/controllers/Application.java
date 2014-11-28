@@ -423,6 +423,20 @@ public class Application extends Controller {
         }
 		return localUser;
 	}
+	
+	public static Long getLocalUserId() {
+        User user = null;
+        try {
+            user = getLocalUser(session());
+        } catch (Exception e) {
+            // ignore
+        }
+
+        if (user != null) {
+            return user.id;
+        }
+        return -1L;
+    }
 
     public static String getLocalUserName() {
         User user = null;

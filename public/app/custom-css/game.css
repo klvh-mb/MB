@@ -56,14 +56,22 @@
 #game-box div p {
     font-size: 14px;
 }
-#game-box h4 {
+#game-box h4, #game-box h5, #game-box h6 {
     padding: 10px;
     margin: 0; 
+}
+#game-box h4 {
     font-size: 15px;
     font-weight: bold;
     color: #556fb5;
     border-bottom: 1px dashed #2EAB66;
     /*background-color: #b0f0ff;*/
+}
+#game-box h5 {
+    font-size: 14px;
+}
+#game-box h6 {
+    font-size: 13px;
 }
 #game-box div:last-child {
     padding: 0;
