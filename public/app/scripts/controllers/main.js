@@ -45,7 +45,7 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
     $scope.openGroupCoverPhotoModal = function(id) {
         PhotoModalController.url = "image/upload-cover-photo-group/"+id;
         profilePhotoModal.OpenModal({
-             templateUrl: 'change-profile-photo-modal.html',
+             templateUrl: 'change-profile-photo-modal',
              controller: PhotoModalController
         },function() {
             $scope.coverImage = $scope.coverImage + "?q="+ Math.random();
@@ -457,7 +457,7 @@ minibean.controller('ApplicationController',
     
     $scope.openReportObjectModal = function (id, objectType) {
         var modalInstance = $modal.open({
-            templateUrl: '/assets/app/views/report-object.html',
+            templateUrl: '/assets/app/views/home/report-object.html',
             controller: ReportObjectModalController,
             resolve: {
                 objectType: function () {
@@ -678,7 +678,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 	$scope.openProfilePhotoModal = function() {
 		PhotoModalController.url = "image/upload-profile-photo";
 		profilePhotoModal.OpenModal({
-			 templateUrl: 'change-profile-photo-modal.html',
+			 templateUrl: 'change-profile-photo-modal',
 			 controller: PhotoModalController
 		},function() {
 			$scope.profileImage = $scope.profileImage + "?q="+ Math.random();
@@ -689,7 +689,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 	$scope.openCoverPhotoModal = function() {
 		PhotoModalController.url = "image/upload-cover-photo";
 		profilePhotoModal.OpenModal({
-			 templateUrl: 'change-profile-photo-modal.html',
+			 templateUrl: 'change-profile-photo-modal',
 			 controller: PhotoModalController
 		},function() {
 			$scope.coverImage = $scope.coverImage + "?q="+ Math.random();
@@ -742,7 +742,7 @@ minibean.controller('EditCommunityController',function($scope,$q, $location,$rou
 	$scope.openGroupCoverPhotoModal = function(id) {
 		PhotoModalController.url = "image/upload-cover-photo-group/"+id;
 		profilePhotoModal.OpenModal({
-			 templateUrl: 'change-profile-photo-modal.html',
+			 templateUrl: 'change-profile-photo-modal',
 			 controller: PhotoModalController
 		},function() {
 		
@@ -1601,6 +1601,10 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
         $("#QnA-photo-id").click();
     }
     
+    $scope.showMore = function(id) {
+        postFactory.showMore(id, $scope.QnAs.posts);
+    }
+    
     $scope.get_all_answers = function(id) {
         postFactory.getAllComments(id, $scope.QnAs.posts);
     }
@@ -1806,7 +1810,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, pr
     $scope.openGroupCoverPhotoModal = function(id) {
         PhotoModalController.url = "image/upload-cover-photo-group/"+id;
         profilePhotoModal.OpenModal({
-             templateUrl: 'change-profile-photo-modal.html',
+             templateUrl: 'change-profile-photo-modal',
              controller: PhotoModalController
         },function() {
             $scope.coverImage = $scope.coverImage + "?q="+ Math.random();
@@ -3556,27 +3560,27 @@ minibean.controller('MyBookmarkController', function($scope, postFactory, bookma
 	}
 	
 	$scope.want_answer = function(post_id) {
-        postFactory.want_answer(post_id, $scope.newsFeeds.posts);
+        postFactory.want_answer(post_id, $scope.posts.posts);
     }
     
     $scope.unwant_answer = function(post_id) {
-        postFactory.unwant_answer(post_id, $scope.newsFeeds.posts);
+        postFactory.unwant_answer(post_id, $scope.posts.posts);
     }
     
     $scope.like_post = function(post_id) {
-        postFactory.like_post(post_id, $scope.newsFeeds.posts);
+        postFactory.like_post(post_id, $scope.posts.posts);
     }
     
     $scope.unlike_post = function(post_id) {
-        postFactory.unlike_post(post_id, $scope.newsFeeds.posts);
+        postFactory.unlike_post(post_id, $scope.posts.posts);
     }
 
     $scope.like_comment = function(post_id, comment_id) {
-        postFactory.like_comment(post_id, comment_id, $scope.newsFeeds.posts);
+        postFactory.like_comment(post_id, comment_id, $scope.posts.posts);
     }
     
     $scope.unlike_comment = function(post_id, comment_id) {
-        postFactory.unlike_comment(post_id, comment_id, $scope.newsFeeds.posts);
+        postFactory.unlike_comment(post_id, comment_id, $scope.posts.posts);
     }
     
 	var offset = 0;

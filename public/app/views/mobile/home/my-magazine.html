@@ -1,0 +1,26 @@
+<header>
+    <div data-ng-include style="width:100%;" data-src="'/assets/app/views/mobile/header-bar.html'"></div>
+</header>
+
+<div class="themeA-container">
+    <div id="content">
+        <div class="row">
+            <div>
+                <div class="general-box">
+                    <div class="wall-title">
+                        <span class="wall-icon icon-title-friendwall"></span><a href="" ng-click="reloadPage()" style="cursor:pointer;"><font style="font-size:15px;font-weight:normal;vertical-align:middle;">Magazine</font></a>
+                        <a href="" ng-click="reloadPage()" class="pull-right"><i class="glyphicon glyphicon-refresh"></i></a>
+                    </div>
+                </div>
+                <div id="wall">
+                    <div ng-controller="MyMagazineNewsFeedController" data-ng-include style="width:100%;" data-src="'/assets/app/views/mobile/home/my-magazine-news-feed-section.html'"></div>
+                </div>
+                <!--Wall End -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="back-to-top" style="z-index:1000">
+    <a data-ng-click="gotoTop()"><span class="icon-title-arrow-up"></span></a>
+</div>

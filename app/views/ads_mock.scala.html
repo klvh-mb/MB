@@ -259,7 +259,7 @@
                 <!-- ngRepeat: post in QnAs.posts --><div data-ng-repeat="post in QnAs.posts" class="ng-scope">
                     <div id="wall-main">
                         <div class="general-box">
-                            <!-- ngInclude:  --><div data-ng-include="" data-src="'/assets/app/views/qna-bar.html'" class="ng-scope"><div class="post-card ng-scope">
+                            <!-- ngInclude:  --><div data-ng-include="" data-src="'/assets/app/views/home/qna-bar.html'" class="ng-scope"><div class="post-card ng-scope">
     <ul title="qna">
         <li class="post-intro post-qna-line">
             <span ng-show="!isCommunityPage" class="">
@@ -307,7 +307,7 @@
             <div data-ng-show="post.hasImage" class="post-body-image ng-hide">
                 <!-- ngRepeat: imageID in post.imgs -->
             </div>
-            <!-- ngInclude:  --><span data-ng-include="" data-src="'/assets/app/views/want-answer.html'" class="ng-scope"><span class="btn-like-wrapper ng-scope">
+            <!-- ngInclude:  --><span data-ng-include="" data-src="'/assets/app/views/home/want-answer.html'" class="ng-scope"><span class="btn-like-wrapper ng-scope">
     <a data-ng-show="!post.isWtAns" class="btn-like" href="" data-ng-click="want_answer(post.id)">想知!</a> 
     <a data-ng-show="post.isWtAns" class="btn-like ng-hide" href="" data-ng-click="unwant_answer(post.id)">取消</a>
     <span ng-show="post.nowa > 0" class="ng-hide"><b class="ng-binding"> · <i class="glyphicon glyphicon-hand-up"></i>0</b>個推上</span>
@@ -338,7 +338,7 @@
                 <div data-ng-show="comment.hasImage" class="post-body-image ng-hide">
                     <!-- ngRepeat: imageID in comment.imgs -->
                 </div>
-                <!-- ngInclude:  --><span data-ng-include="" data-src="'/assets/app/views/like-answer.html'" class="ng-scope"><span ng-show="userInfo.isLoggedIn" class="btn-like-wrapper ng-scope">
+                <!-- ngInclude:  --><span data-ng-include="" data-src="'/assets/app/views/home/like-answer.html'" class="ng-scope"><span ng-show="userInfo.isLoggedIn" class="btn-like-wrapper ng-scope">
     <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)">覺得有用</a> 
     <a data-ng-show="comment.isLike" class="btn-like ng-hide" href="" data-ng-click="unlike_comment(post.id,comment.id)">取消</a>
     <span ng-show="comment.nol > 0" class="ng-hide"><b class="ng-binding"> · <img data-ng-src="/assets/app/images/general/icons/liked_1.png" src="/assets/app/images/general/icons/liked_1.png">0</b></span>
@@ -362,7 +362,7 @@
                 <div data-ng-show="comment.hasImage" class="post-body-image ng-hide">
                     <!-- ngRepeat: imageID in comment.imgs -->
                 </div>
-                <!-- ngInclude:  --><span data-ng-include="" data-src="'/assets/app/views/like-answer.html'" class="ng-scope"><span ng-show="userInfo.isLoggedIn" class="btn-like-wrapper ng-scope">
+                <!-- ngInclude:  --><span data-ng-include="" data-src="'/assets/app/views/home/like-answer.html'" class="ng-scope"><span ng-show="userInfo.isLoggedIn" class="btn-like-wrapper ng-scope">
     <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)">覺得有用</a> 
     <a data-ng-show="comment.isLike" class="btn-like ng-hide" href="" data-ng-click="unlike_comment(post.id,comment.id)">取消</a>
     <span ng-show="comment.nol > 0" class="ng-hide"><b class="ng-binding"> · <img data-ng-src="/assets/app/images/general/icons/liked_1.png" src="/assets/app/images/general/icons/liked_1.png">0</b></span>
@@ -386,7 +386,7 @@
                 <div data-ng-show="comment.hasImage" class="post-body-image ng-hide">
                     <!-- ngRepeat: imageID in comment.imgs -->
                 </div>
-                <!-- ngInclude:  --><span data-ng-include="" data-src="'/assets/app/views/like-answer.html'" class="ng-scope"><span ng-show="userInfo.isLoggedIn" class="btn-like-wrapper ng-scope">
+                <!-- ngInclude:  --><span data-ng-include="" data-src="'/assets/app/views/home/like-answer.html'" class="ng-scope"><span ng-show="userInfo.isLoggedIn" class="btn-like-wrapper ng-scope">
     <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)">覺得有用</a> 
     <a data-ng-show="comment.isLike" class="btn-like ng-hide" href="" data-ng-click="unlike_comment(post.id,comment.id)">取消</a>
     <span ng-show="comment.nol > 0" class="ng-hide"><b class="ng-binding"> · <img data-ng-src="/assets/app/images/general/icons/liked_1.png" src="/assets/app/images/general/icons/liked_1.png">0</b></span>
@@ -484,7 +484,7 @@
     </div>
 </div>
 
-<!-- ngInclude:  --><div data-ng-include="" data-src="'/assets/app/views/showImageModal.html'" class="ng-scope"><div class="modal fade lightbox ng-scope" id="imageModal" data-backdrop="false">
+<!-- ngInclude:  --><div data-ng-include="" data-src="'/assets/app/views/home/show-image-modal.html'" class="ng-scope"><div class="modal fade lightbox ng-scope" id="imageModal" data-backdrop="false">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

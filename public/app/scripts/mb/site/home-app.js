@@ -24,88 +24,80 @@ angular.module('minibean', [
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: '/assets/app/views/home.html'
+        templateUrl: '/assets/app/views/home/home.html'
       })
       .when('/my-magazine', {
-        templateUrl: '/assets/app/views/my-magazine.html'
+        templateUrl: '/assets/app/views/home/my-magazine.html'
       })
       .when('/about',{
-        templateUrl: '/assets/app/views/about-me.html',
+        templateUrl: '/assets/app/views/home/about-me.html',
         controller: 'UserAboutController'
       })
       .when('/about/:tab',{
-    	templateUrl: '/assets/app/views/about-me.html',
+    	templateUrl: '/assets/app/views/home/about-me.html',
     	controller: 'UserAboutController'
       })
       .when('/about-edit',{
-        templateUrl: '/assets/app/views/about-me-edit.html',
+        templateUrl: '/assets/app/views/home/about-me-edit.html',
         controller: 'UserAboutController'
       })
       .when('/about-edit',{
-        templateUrl: '/assets/app/views/about-me-edit.html',
+        templateUrl: '/assets/app/views/home/about-me-edit.html',
         controller: 'UserAboutController'
       })
       .when('/profile/:id',{
-    	templateUrl: '/assets/app/views/visit-profile.html',
+    	templateUrl: '/assets/app/views/home/profile-page.html',
     	controller: 'UserProfileController'  
       })
       .when('/communities-discover',{
-        templateUrl: '/assets/app/views/communities-discover-page.html',
+        templateUrl: '/assets/app/views/home/communities-discover-page.html',
       })
       .when('/community/:id',{
-        templateUrl: '/assets/app/views/community-page.html',
+        templateUrl: '/assets/app/views/home/community-page.html',
         controller: 'CommunityPageController'  
       })
       .when('/community/:id/:tab',{
-    	templateUrl: '/assets/app/views/community-page.html',
+    	templateUrl: '/assets/app/views/home/community-page.html',
     	controller: 'CommunityPageController'  
       })
       .when('/editCommunity/:id',{
-        templateUrl: '/assets/app/views/edit-community.html',
+        templateUrl: '/assets/app/views/home/edit-community.html',
         controller: 'EditCommunityController'
       })
       .when('/post-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/post-landing.html',
+        templateUrl: '/assets/app/views/home/post-landing.html',
         controller: 'PostLandingController'  
       })
       .when('/qna-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/qna-landing.html',
+        templateUrl: '/assets/app/views/home/qna-landing.html',
         controller: 'QnALandingController'  
       })
       .when('/business/community/:id',{
-        templateUrl: '/assets/app/views/business-community-page.html',
+        templateUrl: '/assets/app/views/home/business-community-page.html',
         controller: 'BusinessCommunityPageController'  
       })
       .when('/business/community/:id/:tab',{
-        templateUrl: '/assets/app/views/business-community-page.html',
+        templateUrl: '/assets/app/views/home/business-community-page.html',
         controller: 'BusinessCommunityPageController'  
       })
       .when('/business-post-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/business-post-landing.html',
+        templateUrl: '/assets/app/views/home/business-post-landing.html',
         controller: 'PostLandingController'  
       })
-      .when('/article/:id/:catId',{
-    	templateUrl: '/assets/app/views/magazine/articlePage.html',
-    	controller: 'ArticlePageController'  
-      })
-      .when('/article/show/:catId',{
-    	templateUrl: '/assets/app/views/magazine/showArticlesPage.html',
-    	controller: 'ShowArticlesController'  
-      })
       .when('/message/:id',{
-    	templateUrl: '/assets/app/views/message.html',
+    	templateUrl: '/assets/app/views/home/message.html',
     	controller: 'UserConversationController'  
       })
       .when('/game',{
-        templateUrl: '/assets/app/views/game-page.html',
+        templateUrl: '/assets/app/views/home/game-page.html',
         controller: 'GameController'
       })
       .when('/game/rules',{
-        templateUrl: '/assets/app/views/game-rules.html',
+        templateUrl: '/assets/app/views/home/game-rules.html',
         controller: 'GameController'
       })
       .when('/error', {
-    	templateUrl: '/assets/app/views/errorPage.html',
+    	templateUrl: '/assets/app/views/error-page.html',
       })
       .otherwise({
           redirectTo: '/'

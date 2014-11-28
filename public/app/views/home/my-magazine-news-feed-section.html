@@ -1,9 +1,9 @@
 <div id="pin-container" infinite-scroll='nextNewsFeeds()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>
     <div masonry>
-        <div class="masonry-brick pin-brick" style="width:50%;" data-ng-repeat="post in newsFeeds.posts">
+        <div class="masonry-brick pin-brick" data-ng-repeat="post in newsFeeds.posts">
             <div id="wall-main">
                 <div class="general-box">
-                    <div data-ng-include data-src="'/assets/app/views/mobile/home/business-post-bar.html'"></div>
+                    <div data-ng-include data-src="'/assets/app/views/home/business-post-bar.html'"></div>
                 </div>
             </div>
         </div>

@@ -1,0 +1,216 @@
+<header>
+	<div data-ng-include style="width: 100%; height: 50px;" data-src="'/assets/app/views/header-bar.html'"></div>
+</header>
+
+<div class="innerAll">
+    <div class="row">
+    	<div class="col-lg-9 col-md-8">
+    		<div class="timeline-cover">	
+    			<div class="widget cover image">
+    				<div class="widget-body padding-none margin-none">
+    					<div class="top">
+    						<div class="top">
+    							<img data-ng-src="/image/get-cover-community-image-by-id/{{community.id}}" class="img-responsive" />
+    						</div>
+    						<a ng-click="openGroupCoverPhotoModal(community.id)" alt="Change" title="Change"  
+    											style="margin: -235px 0px 0px 7px;position: absolute;" href=""  ><img src="/assets/app/images/edit.png"/></a>	
+    					</div>
+    
+    					<div class="innerAll pull-left border-right">
+    						<h3 class="margin-none">{{community.n}}
+            				</h3>
+                  		</div>
+                	</div>
+             	</div>
+           </div>
+           <div class="row">
+              <div class="panel panel-default innerAll">
+                 <form role="form" editable-form name="group_data" onaftersave="updateGroupProfileData($data)">
+                  
+                  <div class="col-md-12" ng-show="group_data.$visible">
+                  	<div class="row">
+                  	</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="row form-group">
+    	                	<div class="col-md-4">
+    	                		<div class="pull-right">
+    	                    		<label>Community Name: </label>
+    	                    	</div>
+    	                    </div>
+    	                    
+    	                    <div class="col-md-6">
+    	                    	<input type="text" class="inputtext pls form-control" data-ng-model="community.n" name="name" disabled="disabled">
+    	                    </div>
+                      </div>
+                      <hr style="margin-top: 10px; margin-bottom: 10px;">
+                      
+                      <div class="row form-group tm">
+    	                	<div class="col-md-4">
+    	                		<div class="pull-right">
+                        			<label>Community Type: </label>
+                        		</div>
+                        	</div>
+                        	
+                        	<div class="col-md-6">
+                      		
+                      			<label style="width: 100%">
+       								<input type="radio" data-ng-model="community.typ" id="optionsRadios1" value="OPEN" >
+       								Open
+      							</label>
+      							<div class="fsm fwn fcg" style="margin-left: 10%;">Request for Join directly granted, without approval.</div>
+      							<label>
+       								<input type="radio" data-ng-model="community.typ" id="optionsRadios2" value="CLOSE" >
+       								Closed
+      							</label>
+      							<div class="fsm fwn fcg"  style="margin-left: 10%;">Admin must approve the request.</div>
+                      	</div>
+                      </div>
+                      
+                      
+    		           <hr style="margin-top: 10px; margin-bottom: 10px;">
+    		             
+    		           <div class="row tm">
+    		           	  <div class="col-md-12">
+    		              	<div class="row form-group">
+    		             			<div class="col-md-4">
+    		             				<div class="pull-right">
+    		                				<label> Community Icon: </label>
+    		                			</div>
+    		                		</div>
+    		                	
+    		                		<div class="col-md-8">
+    		                			<li class="col-md-12 dropdown">
+    		                 			<div class="form-control dropdown-toggle">
+    		                 				<img class="pull-left media-object" data-ng-src={{community.icon}} width="25">
+    		                 				<!-- <div class="media-body">
+    								       		<p class="margin-none pull-right">{{icon_text}}</p>
+    								    	</div> -->
+    		   							<div data-ng-if="!community.icon && !isChosen" data-ng-init="isChosen=false">
+    		   								Please select icon
+    		   							</div>
+    		 							</div>
+    		                  		<ul class="dropdown-menu chat media-list" style="width: 100%;">
+    									<li class="media" data-ng-repeat="icon in icons" style="margin-top: 10px; margin-bottom: 10px;">
+    								        <a href="" data-ng-click="select_icon(icon.url, icon.name)">
+    								        	<img class="pull-left media-object" data-ng-src="{{icon.url}}" alt="50x50" width="25" >
+    								        	<input type="hidden" data-ng-model="community.icon" >
+    											<div class="media-body">
+    								            	<p class="margin-none pull-right">{{icon.name}}</p>
+    								        	</div>							        	
+    								        </a>
+    									</li>
+    						      	</ul>
+    						      </li>
+    		                		</div>
+    		                	</div>
+    		             </div>
+    		           </div>
+              
+                       <hr style="margin-top: 10px; margin-bottom: 10px;">
+                      
+                      <div class="row tm">
+    	                	<div class="col-md-4">
+    	                		<div class="pull-right">
+                        			<label>Target District: </label>
+                        		</div>
+                        	</div>
+                        	
+                        	<!--div class="col-md-6">
+                        		<select class="form-control" data-ng-model="community.td" required ng-options="gl.value as gl.text for gl in tagetDistrict"></select>
+                        	</div-->
+                      </div>
+                      
+                       <hr style="margin-top: 10px; margin-bottom: 10px;">
+                      
+                       <div class="row tm">
+    	                  	<div class="col-md-4">
+    	                  		<div class="pull-right">
+    	                   			<label>Date of Birth:</label>
+    	                   		</div>
+    	                   	</div>
+    	                   	
+    	                   	<div class="col-md-6">
+    	                   		<p class="input-group">
+    								<input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy" ng-model="community.dte" />
+    				              <span class="input-group-btn">
+    				                <span class="btn btn-default" ><i class="glyphicon glyphicon-calendar"></i></span>
+    				              </span>
+    				             </p>
+    					  	</div>
+    			        </div>
+                      
+                       <hr style="margin-top: 10px; margin-bottom: 10px;">
+                      
+                      <div class="row tm">
+    	                	<div class="col-md-4">
+    	                		<div class="pull-right">
+                       				<label>Community Description: </label>
+                       			</div>
+                       		</div>
+                       		
+                       		<div class="row">
+    			               	<div class="col-md-6">
+    				                <textarea style="width:100%" class="inputtext pls form-control" data-ng-model="community.d">
+    									</textarea>	
+    									<label ng-show="community.d.length < 6" class="control-label error" style="color: #a94442;" >Minimun 6 character.</label>
+                   		 				<label ng-show="community.d.length > 1400" class="control-label error" style="color: #a94442;" > Maximum 1400 character.</label>	                 
+    			                 </div>
+    				        </div>
+                      </div>
+                      
+                     
+                      
+                      </div>
+    					<div class="row tm">
+    					<div class="pull-right">
+    				        <button type="submit" class="btn btn-primary"  >
+    								<span class="glyphicon glyphicon-ok"></span>
+    								{{submitBtn}}
+    							</button>
+    							</div>
+    				      </div>
+    					</div>
+    				</form>
+    		    </div>
+    		 </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="change-profile-photo-modal">
+    <div class="modal-header">
+        <button type="button" ng-click="close()" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">更換封面相片</h4>
+    </div>
+    <div class="modal-body">
+        <input type="file" ng-file-select="onFileSelect($files)" >
+        <div ng-file-drop="onFileSelect($files)" class="drop-box" ng-show="dropSupported">相片放到這裡</div>
+        <div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 相片拖放工能不支援!</div>
+        <br/><br/>
+        <div ng-show="selectedFiles != null">
+            <div class="sel-file" ng-repeat="f in selectedFiles">
+                <button class="button" ng-click="start($index)" ng-show="progress[$index] < 0">開始</button>
+                <button class="button" ng-click="abort($index)" ng-show="hasUploader($index) && progress[$index] < 100">終止</button>
+                {{f.name}} - size: {{f.size}}B - type: {{f.type}}
+            </div>
+        </div>
+        <div class="response" ng-show="uploadResult.length > 0">
+            <ul>
+                <li ng-repeat="result in uploadResult">
+                    <ul>
+                        <li ng-repeat="item in result.result">
+                            <div data-ng-show="item.name">檔案名稱: {{item.name}}</div>
+                            <div data-ng-show="item.fieldName">名稱: {{item.fieldName}}</div>
+                            <div data-ng-show="item.size">size: {{item.size}}</div>
+                            <div data-ng-show="item.value">value: {{item.value}}</div>
+                        </li>
+                    </ul>
+                    <div data-ng-show="result.requestHeaders" class="reqh">request headers: {{result.requestHeaders}}</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="modal-footer"></div>
+</script>

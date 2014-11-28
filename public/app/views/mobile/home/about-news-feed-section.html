@@ -1,0 +1,60 @@
+<div class="general-box tab-box" style="margin:-1px">
+    <div class="wall-title">
+        <!--span class="wall-icon icon-title-community"></span-->
+        <span style="margin-left:15px;">
+            <a data-ng-click="setSelectedSubTab(1)" ng-class="{activeTabUnderlined: selectedSubTab == 1}">
+                <font style="color: white;">發佈的話題</font>
+            </a>
+        </span>
+        <!--span class="wall-icon icon-title-friendwall"></span-->
+        <span style="margin-left:15px;">
+            <a data-ng-click="setSelectedSubTab(2)" ng-class="{activeTabUnderlined: selectedSubTab == 2}">
+                <font style="color: white;">回覆的話題</font>
+            </a>
+        </span>
+    </div>
+</div>
+<div class="padding5"></div>
+<!-- Bookmark Tabs End -->
+
+<div ng-if="selectedSubTab == 1" infinite-scroll='nextNewsFeeds()' infinite-scroll-disabled='isBusyP' infinite-scroll-distance='1'>
+    <div id="wall-main">
+    	<div data-ng-repeat="post in newsFeeds.posts">
+            <div class="general-box" data-ng-show="post.type=='SIMPLE'">
+                <div data-ng-include data-src="'/assets/app/views/mobile/home/post-bar.html'"></div>
+            </div>
+            <div class="general-box" data-ng-show="post.type=='QUESTION'">
+		        <div data-ng-include data-src="'/assets/app/views/mobile/home/qna-bar.html'"></div>
+		    </div>
+     	</div>
+	</div>
+	<div class="general-box widget-box" ng-show="newsFeeds.posts.length == 0 && !isBusyP">
+        <div class="section-title">
+            <div>
+                尚未有話題
+            </div>
+        </div>
+    </div>
+    <span ng-show="isBusyP" spinner-start-active="1" us-spinner="{top:'inherit'}"></span>
+</div>
+
+<div ng-if="selectedSubTab == 2" infinite-scroll='nextNewsFeedsComments()' infinite-scroll-disabled='isBusyC' infinite-scroll-distance='1'>
+    <div id="wall-main">
+    	<div data-ng-repeat="post in newsFeeds.posts">
+            <div class="general-box" data-ng-show="post.type=='SIMPLE'">
+                <div data-ng-include data-src="'/assets/app/views/mobile/home/post-bar.html'"></div>
+            </div>
+            <div class="general-box" data-ng-show="post.type=='QUESTION'">
+		        <div data-ng-include data-src="'/assets/app/views/mobile/home/qna-bar.html'"></div>
+		    </div>
+     	</div>
+	</div>
+	<div class="general-box widget-box" ng-show="newsFeeds.posts.length == 0 && !isBusyC">
+        <div class="section-title">
+            <div>
+                尚未有回覆
+            </div>
+        </div>
+    </div>
+	<span ng-show="isBusyC" spinner-start-active="1" us-spinner="{top:'inherit'}"></span>
+</div>

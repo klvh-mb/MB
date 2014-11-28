@@ -1,0 +1,97 @@
+<header>
+    <div data-ng-include style="width:100%;" data-src="'/assets/app/views/header-bar.html'"></div>
+</header>
+
+<div class="themeA-container">
+    <div data-ng-include data-src="'/assets/app/views/nav-bar.html'"></div>
+    <div class="ads-factor-728x90">
+        <script adSize="72890" adSid="630501056805" ads-factor language='JavaScript' type="text/javascript"></script>
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-sm-2 col-xs-2" style="width:45px;"></div>
+        <div class="col-md-6 col-sm-6 col-xs-6" style="width:620px;">
+            <div id="wall">
+                <div class="general-box article-box-main">
+                    <ul class="article-detail-wrapper">
+                        <li>
+                            <span data-ng-include data-src="'/assets/app/views/home/bookmark-article.html'"></span>
+                            <a href="#/article/show/{{article.ct.id}}">
+                                <img class="scCatMiniThumbnail" data-ng-src="{{article.ct.pictureName}}" />
+                            </a>
+                            <div style="margin-left:10px;width:60%;">
+                                <a href="#/article/show/0" ng-show="selectedNavBar == 'HOT_ARTICLES'">
+                                    <img style="width:auto;height:26px;" data-ng-src="/assets/app/images/general/titles/hot_articles.png">
+                                </a>
+                                <a href="#/article/show/{{soonMomsArticleCategories[0].id}}" ng-show="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'">
+                                    <img style="width:auto;height:26px;" data-ng-src="/assets/app/images/general/titles/preg_month.png">
+                                </a> 
+                                <span style="font-size:12px;">&gt;</span> 
+                                <a class="scCatName" href="#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
+                                <h6>
+                                    <font class="admin-visible-field" ng-show="userInfo.isE">{{article.pd | date:'M/dd/yyyy'}}</font>
+                                </h6>
+                            </div>
+                        </li>
+                        <li>
+                            <font class="scTitle">{{article.nm}}</font>
+                        </li>
+                        <li>
+                            <span class="btn-like-wrapper"><span ng-show="article.nov > 20 || userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{article.nov}}</span></span>
+                            <span data-ng-include data-src="'/assets/app/views/home/like-article.html'"></span>
+                        </li>
+                        <li><div style="font-size:16px;width:100%;" class="ng-binding" ng-bind-html="article.ds | to_trusted"></div></li>
+                        <li>
+                            <span class="btn-like-wrapper"><span ng-show="article.nov > 20 || userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{article.nov}}</span></span>
+                            <span data-ng-include data-src="'/assets/app/views/home/like-article.html'"></span>
+                        </li>
+                        <li>
+                            <div style="margin:20px 0;font-size:16px;">
+                                <div class="padding10" style="border-top:1px solid #eee;"></div>
+                                分享連結: 
+                                <input type='text' name='article-link' id='article-link' value='{{applicationInfo.baseUrl}}/magazine#/article/{{article.id}}/{{article.ct.id}}'></input> 
+                                <a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink("article-link")'><i class='glyphicon glyphicon-link'></i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--Post Detail End -->
+            <div id="relatePost" class="general-box">
+                <div class="con-title">
+                    <span class="icon-box icon-box-brown icon-title-relatePost"></span><p>相關文章</p>
+                </div>
+                <ul>
+                    <li data-ng-repeat="relatedArticle in relatedResult"><p><a href="#/article/{{relatedArticle.id}}/{{relatedArticle.ct.id}}" style="color: #324fe1;"><img ng-show="relatedArticle.img_url != 'No Image'"  data-ng-src="{{relatedArticle.img_url}}"/>{{relatedArticle.nm|limitTo:18}}</a></p></li>
+                </ul>
+            </div><!--Relate Post End -->
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
+            <div ng-init="collapsible = true" data-ng-include data-src="'/assets/app/views/widgets/tagwords-index-widget.html'"></div>
+            <div ng-show="!userInfo.isLoggedIn">
+                <div data-ng-include data-src="'/assets/app/views/widgets/promo-signup-widget.html'"></div>
+            </div>
+            <div>
+                <div data-ng-include data-src="'/assets/app/views/utilities/hotArticlesUtility.html'"></div>
+            </div>
+            <div class="ads-factor-300x250">
+                <script adSize="300250" adSid="247130236679" ads-factor language='JavaScript' type="text/javascript"></script>
+            </div>
+            <div id="right-sidebar" ui-scrollfix="+{{rightSidebarTop}}">
+                <div>
+                    <div data-ng-include data-src="'/assets/app/views/utilities/recommendedArticlesUtility.html'"></div>
+                </div>
+            </div>
+            <div class="ads-factor-1x1" ng-if="userInfo.isLoggedIn">
+                <script adSize="11" adSid="691373536678" ads-factor language='JavaScript' type="text/javascript"></script>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="back-to-top" style="z-index:1000">
+    <a data-ng-click="gotoTop()"><span class="icon-title-arrow-up"></span>Top</a>
+</div>
+
+<script>
+    ga_send_pv();
+</script>

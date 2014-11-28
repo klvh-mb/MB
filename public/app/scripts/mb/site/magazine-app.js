@@ -24,28 +24,28 @@ angular.module('minibean', [
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: '/assets/app/views/magazine/home.html'
+        templateUrl: '/assets/app/views/magazine/magazine.html'
       })
       .when('/view', {
-        templateUrl: '/assets/app/views/magazine/home.html'
+        templateUrl: '/assets/app/views/magazine/magazine.html'
       })
       .when('/view/:cat', {
-        templateUrl: '/assets/app/views/magazine/home.html'
+        templateUrl: '/assets/app/views/magazine/magazine.html'
       })
       .when('/business/community/:id',{
-        templateUrl: '/assets/app/views/business-community-page.html',
+        templateUrl: '/assets/app/views/home/business-community-page.html',
         controller : 'BusinessCommunityPageController'  
       })
       .when('/business/community/:id/:tab',{
-        templateUrl: '/assets/app/views/business-community-page.html',
+        templateUrl: '/assets/app/views/home/business-community-page.html',
         controller : 'BusinessCommunityPageController'  
       })
       .when('/business-post-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/business-post-landing.html',
+        templateUrl: '/assets/app/views/home/business-post-landing.html',
         controller : 'PostLandingController'  
       })
       .when('/error', {
-          templateUrl: '/assets/app/views/errorPage.html',
+          templateUrl: '/assets/app/views/error-page.html',
       })
       .otherwise({
           redirectTo: '/'

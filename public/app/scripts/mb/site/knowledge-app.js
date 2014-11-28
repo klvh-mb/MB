@@ -24,27 +24,23 @@ angular.module('minibean', [
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: '/assets/app/views/magazine/showArticlesPage.html', 
+        templateUrl: '/assets/app/views/articles/articles.html', 
         controller : 'ShowArticlesController' 
       })
       .when('/article/show/:catId',{
-        templateUrl: '/assets/app/views/magazine/showArticlesPage.html',
+        templateUrl: '/assets/app/views/articles/articles.html',
         controller : 'ShowArticlesController' 
       })
       .when('/article/tagword/:tagwordId/:catGroup',{
-        templateUrl: '/assets/app/views/magazine/tagwordArticlesPage.html',
+        templateUrl: '/assets/app/views/articles/tagword-articles-page.html',
         controller : 'ShowArticlesController' 
       })
       .when('/article/:id/:catId',{
-        templateUrl: '/assets/app/views/magazine/articlePage.html',
+        templateUrl: '/assets/app/views/articles/article-page.html',
         controller : 'ArticlePageController' 
       })
-      .when('/campaign/:id',{
-        templateUrl: '/assets/app/views/magazine/campaign-page.html',
-        controller : 'CampaignPageController' 
-      })
       .when('/error', {
-          templateUrl: '/assets/app/views/errorPage.html',
+          templateUrl: '/assets/app/views/error-page.html',
       })
       .otherwise({
           redirectTo: '/'
