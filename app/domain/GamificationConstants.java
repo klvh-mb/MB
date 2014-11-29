@@ -14,15 +14,17 @@ public interface GamificationConstants {
     
     /**
      * Points
+     * Conversion Rate = 0.007 (as of Nov 29th, 2014)
+     * i.e. $50 gift = 50 / 0.007 = 7143 points (~274 days to get with full activity)
      */
-    public static final int POINTS_SIGNUP = 20;
-    public static final int POINTS_REFERRAL_SIGNUP = 20;
-    public static final int POINTS_UPLOAD_PROFILE_PHOTO = 10;
-    public static final int POINTS_SIGNIN = 10;
-    public static final int POINTS_POST = 5;
-    public static final int POINTS_POST_DELETE = 1;
-    public static final int POINTS_COMMENT = 5;
-    public static final int POINTS_LIKE = 5;
+    public static final int POINTS_SIGNUP = 50;
+    public static final int POINTS_UPLOAD_PROFILE_PHOTO = 150;
+    public static final int POINTS_SIGNIN = 6;
+    public static final int POINTS_POST = 2;
+    public static final int POINTS_COMMENT = 2;
+    public static final int POINTS_LIKE = 0;             // not open yet
+
+    public static final int POINTS_REFERRAL_SIGNUP = 280;
 
     /**
      * Limit on Points accounting
