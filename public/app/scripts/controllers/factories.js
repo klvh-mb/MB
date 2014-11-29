@@ -69,16 +69,10 @@ minibean.factory('postFactory',function(postManagementService, likeFrameworkServ
         })
     }
     
-    factory.getAllComments = function(id, posts, isBusy) {
-        isBusy = true;
+    factory.getAllComments = function(id, posts) {
         angular.forEach(posts, function(post, key){
             if (post.id == id) {
-                post.cs = postManagementService.allComments.get({id:id}, function(data) {
-                    console.log("start count");
-                    for (var ii=0;ii<1000000000;ii++) {}
-                    console.log("done count");
-                    isBusy = false;
-                });
+                post.cs = postManagementService.allComments.get({id:id});
                 post.ep = true;
             }
         });
