@@ -33,13 +33,19 @@ import targeting.community.NewsfeedCommTargetingEngine;
 public class Global extends GlobalSettings {
     private static final play.api.Logger logger = play.api.Logger.apply("application");
 
-    // Configurations for bootstrap
+    // Configurations
     private static final String STARTUP_BOOTSTRAP_PROP = "startup.data.bootstrap";
+    private static final String RUN_BACKGROUND_TASKS_PROP = "run.backgroundtasks";
 
-
+    /**
+     * @param app
+     */
 	public void onStart(Application app) {
-        // schedule background jobs
-        scheduleJobs();
+        final boolean runBackgroundTasks = Play.application().configuration().getBoolean(RUN_BACKGROUND_TASKS_PROP, false);
+        if (runBackgroundTasks) {
+            // schedule background jobs
+            scheduleJobs();
+        }
 
 	    PlayAuthenticate.setResolver(new Resolver() {
             @Override
