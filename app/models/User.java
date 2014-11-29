@@ -1714,7 +1714,7 @@ public class User extends SocialObject implements Subject, Socializable {
 
     public Long getUnreadMsgCount() {
         Query q = JPA.em().createQuery(
-                "Select count(c) from Conversation c where ( c.user1.id = ?1 and (c.user1_time < c.conv_time or c.user1_time is null)) or (c.user2.id = ?1 and (user2_time < c.conv_time or c.user2_time is null ))");
+                "Select count(c) from Conversation c where ( c.user1.id = ?1 and (c.user1_time < c.conv_time )) or (c.user2.id = ?1 and (user2_time < c.conv_time))");
         q.setParameter(1, this.id);
         Long ret = (Long) q.getSingleResult();
         return ret;
