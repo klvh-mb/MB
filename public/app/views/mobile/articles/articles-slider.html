@@ -1,44 +1,9 @@
-<div class="col-lg-12 col-md-12 col-sd-12" style="padding: 0px !important;" >
-<div id="slider" class="general-box">
-	<div style="height:88%">
-	     <ul class="slider-menu" >
-	         <li data-ng-repeat="article in resultSlider.la" data-ng-mouseOver="changeInsideImage(article.id)">
-		         <a href="#/article/{{article.id}}/{{article.ct.id}}">
-			         <p>
-			         	<font>
-			         		<font style="text-align: center;">{{article.nm|limitTo:12:false}}<span data-ng-show="article.nm.length > 12">...</span></font><br>
-			         	</font>
-			         	<img class="slider-arrow-left" src="../assets/app/images/general/sliderArrow_right.png">
-		         	</p>
-	         	</a>
-	        </li>
-	     </ul>
-	     <div class="slider-photo">
-	       <a href="#/article/{{article_id}}/{{article_cat_id}}">
-    	       <span class="mask-blue">
-    	           <p class="slider-title">
-    	               {{title|limitTo:10:false}}
-    	           </p>
-    	           <p class="slider-subtitle">
-    	               {{description|limitTo:10:false}}...
-    	           </p>
-    	       </span>
-	           <img ng-show="image_source != 'No Image'" style="width: 100% !important;" data-ng-src="{{image_source}}">
-	       </a>
-	     </div>
-	     <ul class="slider-menu" >
-	         <li data-ng-repeat="article in resultSlider.ra" data-ng-mouseOver="changeInsideImage(article.id)">
-                <a href="/m-my#/article/{{article.id}}/{{article.ct.id}}">
-                    <p>
-                        <font>
-                            <font style="text-align: center;">{{article.nm|limitTo:12:false}}<span data-ng-show="article.nm.length > 12">...</span></font><br>
-                        </font>
-                        <img class="slider-arrow-right" src="../assets/app/images/general/sliderArrow_left.png">
-                    </p>
-                </a>
-             </li>
-	     </ul>
+<div ng-if="allCategory">
+    <div id="slider" class="general-box">
+        <div id="sta-con-slider">
+            <div class="sta-con-mainslide"><p><a href="#/article/{{resultSlider.la[0].id}}/{{resultSlider.la[0].ct.id}}">{{resultSlider.la[0].nm | limitTo:18}}</a><!--a title="summary" href="#/article/{{resultSlider.la[0].id}}/{{resultSlider.la[0].ct.id}}">{{resultSlider.la[0].lds | limitTo:60}}...</a--></p><a href="#/article/{{resultSlider.la[0].id}}/{{resultSlider.la[0].ct.id}}"><img ng-show="resultSlider.la[0].img_url != 'No Image'" data-ng-src="{{resultSlider.la[0].img_url}}"></a><a href="#/article/{{resultSlider.la[0].id}}/{{resultSlider.la[0].ct.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+            <div class="sta-con-mainslide"><a title="subslide" href="#/article/{{resultSlider.la[1].id}}/{{resultSlider.la[1].ct.id}}">{{resultSlider.la[1].nm | limitTo:18}}</a><a href="#/article/{{resultSlider.la[1].id}}/{{resultSlider.la[1].ct.id}}"><img ng-show="resultSlider.la[1].img_url != 'No Image'" data-ng-src="{{resultSlider.la[1].img_url}}"></a><a href="#/article/{{resultSlider.la[1].id}}/{{resultSlider.la[1].ct.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+            <div class="sta-con-mainslide"><a title="subslide" href="#/article/{{resultSlider.la[2].id}}/{{resultSlider.la[2].ct.id}}">{{resultSlider.la[2].nm | limitTo:18}}</a><a href="#/article/{{resultSlider.la[2].id}}/{{resultSlider.la[2].ct.id}}"><img ng-show="resultSlider.la[2].img_url != 'No Image'" data-ng-src="{{resultSlider.la[2].img_url}}"></a><a href="#/article/{{resultSlider.la[2].id}}/{{resultSlider.la[2].ct.id}}"><img src="../assets/app/images/general/gradient_black_30.png"></a></div>
+        </div>
      </div>
-     <div style="height:12%" class="slider-category"><p><a href="/m-my#/article/show/0"><font>所有文章</font></a></p></div>
-</div>
 </div>
