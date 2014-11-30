@@ -1,12 +1,11 @@
 package targeting.community;
 
+import models.Community;
 import models.UserCommunityAffinity;
+import org.joda.time.LocalDate;
 import targeting.Scorable;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -51,6 +50,7 @@ public class NewsfeedCommWeightDistributor {
         return result;
     }
 
+
     public static class DistributionResult {
         // (community id, entries count)
         private Map<Long, Integer> nfCountMap = new HashMap<>();
@@ -75,5 +75,38 @@ public class NewsfeedCommWeightDistributor {
         public String toString() {
             return "DistributionResult{"+nfCountMap+"}";
         }
+    }
+
+    /**
+     * @param userId
+     * @return
+     */
+    public static List<Long> getNfCommunities(Long userId) {
+        final List<Long> result = new ArrayList<>();
+
+        // get list of communities with affinity info for user (only active and comm not deleted)
+        List<UserCommunityAffinity> affinities = UserCommunityAffinity.findSocialFeedCommunitiesByUser(userId);
+
+        for (UserCommunityAffinity affinity : affinities) {
+            // only if user has subscribed
+            if (affinity.isNewsfeedEnabled()) {
+                result.add(affinity.getCommunityId());
+            }
+        }
+
+        logger.underlyingLogger().info("[u="+userId+"] Target fetch communities: "+result);
+        return result;
+    }
+
+    /**
+     * @return
+     */
+    public static List<Long> getNfCommunitiesNoLogin() {
+        LocalDate updatedSince = (new LocalDate()).minusDays(21);   // updated in the last 3 weeks
+
+        List<Long> result = Community.findSocialOpenCommIdsForNf(updatedSince);
+
+        logger.underlyingLogger().info("[u=-1] NoLogin Target fetch communities: "+result);
+        return result;
     }
 }

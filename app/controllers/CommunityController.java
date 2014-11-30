@@ -522,7 +522,7 @@ public class CommunityController extends Controller{
 
         logger.underlyingLogger().info("[u="+localUser.id+"] createCommunity. name="+community.getName()+", type="+community.communityType);
 
-        if (!community.checkCommunityNameExists()) {
+        if (community.doesCommunityNameExist()) {
             return status(505, String.format("Community name '%s' already exists", community.getName()));
         }
         
@@ -772,7 +772,7 @@ public class CommunityController extends Controller{
         Long communityId = Long.parseLong(form.get("community_id"));
         String questionTitle = Emoticon.replace(form.get("questionTitle"));
         String questionText = Emoticon.replace(form.get("questionText"));
-        int shortBodyCount = questionText.length();
+        int shortBodyCount;
         if(questionText.length() >= DefaultValues.POST_PREVIEW_CHARS){
 	        String shortdesc = questionText.substring(DefaultValues.POST_PREVIEW_CHARS);
 	        

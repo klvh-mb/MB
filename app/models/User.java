@@ -1719,29 +1719,27 @@ public class User extends SocialObject implements Subject, Socializable {
         Long ret = (Long) q.getSingleResult();
         return ret;
     }
-    
+
+    ///////////////////////////////////////////////
+    // Login, noLogin
+    private static final Long NO_LOGIN_ID = -1L;
+
     public boolean isLoggedIn() {
         return isLoggedIn(this);
     }
     
     public static boolean isLoggedIn(User user) {
-        return user != null && user.id != -1L;
+        return user != null && user.id != NO_LOGIN_ID;
+    }
+
+    public static boolean isLoggedIn(Long userId) {
+        return userId != NO_LOGIN_ID;
     }
     
     public static User noLoginUser() {
         User noLoginUser = new User();
-        noLoginUser.id = -1L;
+        noLoginUser.id = NO_LOGIN_ID;
         return noLoginUser;
     }
-
-    public void requestToRedemption(Long points) {
-		GameRedemption redemption = new GameRedemption();
-		redemption.redemption_state = GameRedemption.Redemption_state.InProgress;
-		redemption.redemption_points = points;
-		redemption.user_id = this.id;
-		redemption.date = new Date();
-		redemption.save();
-		EDMUtility edmUtility = new EDMUtility();
-		edmUtility.requestRedemptionMail(this);
-	}
+    ///////////////////////////////////////////////
 }

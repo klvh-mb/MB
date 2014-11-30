@@ -24,6 +24,7 @@ import common.utils.StringUtil;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import org.joda.time.LocalDate;
 import play.Play;
 import play.data.format.Formats;
 import play.db.jpa.JPA;
@@ -76,6 +77,8 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
 	public Date createDate;
 
+    public Date socialUpdatedDate = new Date();
+
 	public boolean adminPostOnly = false;
 	
 	public boolean excludeFromNewsfeed = false;
@@ -112,7 +115,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	@Override
 	@Transactional
 	public SocialObject onPost(User user, String title, String body, PostType type) {
-		Post post = null;
+		Post post;
 		
 		if (type == PostType.QUESTION) {
 		    post = new Post(user, title, body, this);
@@ -128,7 +131,8 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		    throw new RuntimeException("Post type is not recognized");
 		}
 		post.save();
-		
+
+        this.socialUpdatedDate = new Date();
 		JPA.em().merge(this);
 
         // record affinity
@@ -315,7 +319,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
     public static List<Long> findIdsByCommunityType(CommunityType commType) {
         List<Long> result = new ArrayList<>();
 
-        Query q = JPA.em().createQuery("SELECT c.id FROM Community c where communityType = ?1 and deleted = false");
+        Query q = JPA.em().createQuery("SELECT c.id FROM Community c where c.communityType = ?1 and c.deleted = false");
         q.setParameter(1, commType);
         try {
             result = q.getResultList();
@@ -339,6 +343,26 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
         } catch (NoResultException e) {
         }
 		return result;
+    }
+
+    /**
+     * Open community, not deleted, not excluded from newsfeed.
+     * @return
+     */
+    public static List<Long> findSocialOpenCommIdsForNf(LocalDate socialUpdatedSince) {
+        List<Long> result = new ArrayList<>();
+
+        Query q = JPA.em().createQuery("SELECT c.id FROM Community c " +
+                "where c.communityType = ?1 and c.deleted = false and c.excludeFromNewsfeed = false " +
+                "and c.socialUpdatedDate > ?2");
+        q.setParameter(1, CommunityType.OPEN);
+        q.setParameter(2, socialUpdatedSince.toDate());
+
+        try {
+            result = q.getResultList();
+        } catch (NoResultException e) {
+        }
+        return result;
     }
 
     public static CommunityType getCommunityTypeById(Long commId) {
@@ -400,19 +424,15 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		 return new File(STORAGE_COMMUNITY_COVER_NOIMAGE);
 	}
 	
-	public boolean checkCommunityNameExists() {
-		Query q = JPA.em().createQuery("Select c from Community c where name = ?1 and deleted = false");
+	public boolean doesCommunityNameExist() {
+		Query q = JPA.em().createQuery("Select c.id from Community c where c.name = ?1 and c.deleted = false");
 		q.setParameter(1, this.name);
-		//q.setParameter(2, SocialObjectType.COMMUNITY);
-	
-		Community community = null;
 		try {
-			community = (Community) q.getSingleResult();
+			q.getSingleResult();
+            return true;
+		} catch (NoResultException nre) {
+            return false;
 		}
-		catch(NoResultException nre) {
-		}
-		
-		return (community == null);
 	}
 	
 	@JsonIgnore

@@ -17,6 +17,7 @@ import models.Community;
 import models.Conversation;
 import models.Emoticon;
 import models.GameAccount;
+import models.GameRedemption;
 import models.Location;
 import models.Message;
 import models.Notification;
@@ -906,7 +907,7 @@ public class UserController extends Controller {
     @Transactional
     public static Result requestToRedemption(Long id, Long points) {
 		final User localUser = User.findById(id);
-		localUser.requestToRedemption(points);
+		GameRedemption.requestToRedemption(localUser, points);
 		return ok();
 	}
 }
