@@ -1832,6 +1832,19 @@ a:focus {
     bottom: 0;
     width: 90%;
 }
+.sta-con-mainslide p.recommend-tag {
+    color: white;
+    position: absolute;
+    z-index: 10;
+    left: 10px;
+    top: 8px;
+}
+.sta-con-mainslide p.recommend-tag span {
+    background-color: #D78D8D;
+    padding: 1px 5px;
+    border-radius: 10px;
+    font-weight: bold;
+}
 .sta-con-mainslide a {
     width: 95%;
     font-weight: bold;
