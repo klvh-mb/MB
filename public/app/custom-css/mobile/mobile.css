@@ -659,6 +659,10 @@ span.notif-count {
 }
 
 /* articles */
+.article-index-box .index-item div {
+    width: 32%;
+    margin-right: 0px;
+}
 #tagword-list li {
     margin: 0 5px;
     padding: 2px 2px;

@@ -6,13 +6,13 @@
                     <img style="width:auto;height:26px;" data-ng-src="/assets/app/images/general/titles/hot_articles.png">
                 </div>
             </li>
-            <li style="padding:5px 15px;font-size:15px;">
-                <div ng-class="{'selected-item': selectedNavSubBar == 0}" style="width:100%;display:inline-block;">
+            <li class="index-item">
+                <div ng-class="{'selected-item': selectedNavSubBar == 0}">
                     <a class="nav-item" ng-href="articles#/article/show/0">
                         所有文章
                     </a>
                 </div>
-                <div ng-class="{'selected-item': selectedNavSubBar == category.id}" style="width:100%;display:inline-block;" ng-repeat="category in hotArticleCategories">
+                <div ng-class="{'selected-item': selectedNavSubBar == category.id}" ng-repeat="category in hotArticleCategories">
                     <a class="nav-item" ng-href="articles#/article/show/{{category.id}}">
                         {{category.name}}
                     </a>

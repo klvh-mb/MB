@@ -1,41 +1,24 @@
 <header>
     <div data-ng-include style="width:100%;" data-src="'/assets/app/views/mobile/header-bar.html'"></div>
-    <div data-ng-include data-src="'/assets/app/views/mobile/nav-bar.html'"></div>
+    <!--div data-ng-include data-src="'/assets/app/views/mobile/nav-bar.html'"></div-->
 </header>
 
-<div class="themeA-container" style="top:20px;">
+<div class="themeA-container">
     <div class="row">
-        <div class="general-box" ng-show="oneCategory">
-            <div class="wall-title">
-                <a href="" style="cursor:pointer;">
-                    {{categoryName}}
-                </a>
-            </div>
-        </div>
-        <div class="general-box" ng-show="allCategory">
-            <div class="wall-title">
-                <a href="" style="cursor:pointer;">
-                    <font style="font-size:15px;vertical-align:middle;">所有文章</font>
-                </a>
-            </div>
-        </div>
-        <!--div class="general-box tab-box">
-            <div class="wall-title">
-                <a href="" class="text-muted">
-                    <i class="glyphicon glyphicon-bookmark" style="font-size:15px;color:white;"></i>精選文章
-                </a>
-            </div>
-        </div-->
-        <!--Post Category End -->
-        
         <div ng-if="selectedNavBar == 'HOT_ARTICLES'">
-			<div ng-controller="ArticleSliderController" data-ng-include data-src="'/assets/app/views/mobile/articles/articles-slider.html'"></div>
+            <div data-ng-include data-src="'/assets/app/views/widgets/article-categories-index-widget.html'"></div>
+        </div>
+        <div ng-if="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'">
+            <div data-ng-include data-src="'/assets/app/views/widgets/knowledge-categories-index-widget.html'"></div>
         </div>
         <!--Slider End -->
         <div id="wall">
-            <div ng-init="collapsible = true" data-ng-include data-src="'/assets/app/views/widgets/tagwords-index-widget.html'"></div>
             <div class="ads-factor-728x90">
                 <script adSize="72890" adSid="477069296823" ads-factor language='JavaScript' type="text/javascript"></script>
+            </div>
+            <div ng-init="collapsible = true" data-ng-include data-src="'/assets/app/views/widgets/tagwords-index-widget.html'"></div>
+            <div ng-if="selectedNavBar == 'HOT_ARTICLES'">
+                <div ng-controller="ArticleSliderController" data-ng-include data-src="'/assets/app/views/mobile/articles/articles-slider.html'"></div>
             </div>
             <div infinite-scroll='next_result()' infinite-scroll-distance='1'>
                 <div class="general-box">
