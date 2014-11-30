@@ -964,7 +964,44 @@ public class CommunityController extends Controller{
     }
 
     /**
-     * Play routes AJAX call
+     * Play routes AJAX call. Return newsfeed posts for homepage.
+     * @param offset
+     * @return
+     */
+    @Transactional
+    public static Result getHotNewsfeeds(int offset) {
+        final User noLoginUser = User.noLoginUser();
+
+        // reloading newsfeed
+        if(offset == 0) {
+            logger.underlyingLogger().info("STS [u="+noLoginUser.id+"] NoLogin Reloading social newsfeed");
+            // Re-index user's community feed
+            NewsfeedCommTargetingEngine.indexCommNewsfeedForUser(noLoginUser.getId());
+    	}
+
+        List<Post> newsFeeds = noLoginUser.getFeedPosts(true, offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        List<CommunityPostVM> posts = new ArrayList<>();
+        if (newsFeeds != null) {
+            final boolean isCommentable = true;    // must be open for social NF entries
+
+            for (Post p : newsFeeds) {
+                CommunityPostVM post = CommunityPostVM.communityPostVM(p, noLoginUser, isCommentable);
+                posts.add(post);
+            }
+        }
+
+        NewsFeedVM vm = new NewsFeedVM(noLoginUser, posts);
+
+        sw.stop();
+        logger.underlyingLogger().info("[u="+noLoginUser.id+"] getHotNewsfeeds(offset="+offset+") count="+posts.size()+". vm create Took "+sw.getElapsedMS()+"ms");
+        return ok(Json.toJson(vm));
+    }
+
+    /**
+     * Play routes AJAX call. Return newsfeed posts for user's social feed.
      * @param offset
      * @return
      */
@@ -1000,8 +1037,10 @@ public class CommunityController extends Controller{
         return ok(Json.toJson(vm));
     }
 
+
+
     /**
-     * Play routes AJAX call
+     * Play routes AJAX call. Return business feed posts.
      * @param offset
      * @return
      */
