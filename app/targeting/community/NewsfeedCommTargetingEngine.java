@@ -3,6 +3,7 @@ package targeting.community;
 import common.collection.Pair;
 import common.system.config.ConfigurationKeys;
 import common.utils.NanoSecondStopWatch;
+import models.User;
 import org.elasticsearch.common.joda.time.DateTime;
 import play.Play;
 import processor.FeedProcessor;
@@ -42,13 +43,18 @@ public class NewsfeedCommTargetingEngine {
     private static void indexCommNewsfeedForUserByTime(Long userId) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
-        // Get targeted distribution
-        DistributionResult distributionResult = NewsfeedCommWeightDistributor.process(userId, NEWSFEED_FULLLENGTH);
+        List<Long> commIds;
+        if (User.isLoggedIn(userId)) {
+            // Get communities with affinity
+            commIds = NewsfeedCommWeightDistributor.getNfCommunities(userId);
+        } else {
+            commIds = NewsfeedCommWeightDistributor.getNfCommunitiesNoLogin();
+        }
 
         PostDistributionTracker distTracker = new PostDistributionTracker();
         RatioCalculator ratioCalculator = new RatioCalculator();
 
-        for (Long commId : distributionResult.getCommunityIds()) {
+        for (Long commId : commIds) {
             // targeted count
             int commCount = NEWSFEED_FULLLENGTH / 2;
             // real posts

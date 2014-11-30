@@ -1714,34 +1714,32 @@ public class User extends SocialObject implements Subject, Socializable {
 
     public Long getUnreadMsgCount() {
         Query q = JPA.em().createQuery(
-                "Select count(c) from Conversation c where ( c.user1.id = ?1 and (c.user1_time < c.conv_time or c.user1_time is null)) or (c.user2.id = ?1 and (user2_time < c.conv_time or c.user2_time is null ))");
+                "Select count(c) from Conversation c where ( c.user1.id = ?1 and (c.user1_time < c.conv_time )) or (c.user2.id = ?1 and (user2_time < c.conv_time))");
         q.setParameter(1, this.id);
         Long ret = (Long) q.getSingleResult();
         return ret;
     }
-    
+
+    ///////////////////////////////////////////////
+    // Login, noLogin
+    private static final Long NO_LOGIN_ID = -1L;
+
     public boolean isLoggedIn() {
         return isLoggedIn(this);
     }
     
     public static boolean isLoggedIn(User user) {
-        return user != null && user.id != -1L;
+        return user != null && user.id != NO_LOGIN_ID;
+    }
+
+    public static boolean isLoggedIn(Long userId) {
+        return userId != NO_LOGIN_ID;
     }
     
     public static User noLoginUser() {
         User noLoginUser = new User();
-        noLoginUser.id = -1L;
+        noLoginUser.id = NO_LOGIN_ID;
         return noLoginUser;
     }
-
-    public void requestToRedemption(Long points) {
-		GameRedemption redemption = new GameRedemption();
-		redemption.redemption_state = GameRedemption.Redemption_state.InProgress;
-		redemption.redemption_points = points;
-		redemption.user_id = this.id;
-		redemption.date = new Date();
-		redemption.save();
-		EDMUtility edmUtility = new EDMUtility();
-		edmUtility.requestRedemptionMail(this);
-	}
+    ///////////////////////////////////////////////
 }

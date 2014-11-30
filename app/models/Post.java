@@ -113,6 +113,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
 
         // update last socialUpdatedDate in Question
         this.socialUpdatedDate = new Date();
+        this.community.socialUpdatedDate = new Date();
 
         recordWantAnswer(user);
         this.noWantAns++;
@@ -196,6 +197,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
             throws SocialObjectNotCommentableException {
         // update last socialUpdatedDate in Post
         this.socialUpdatedDate = new Date();
+        this.community.socialUpdatedDate = new Date();
 
         // create Comment object
         Comment comment = new Comment(this, user, body);

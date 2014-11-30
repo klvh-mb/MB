@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import email.EDMUtility;
 import play.db.jpa.JPA;
 
 @Entity
@@ -46,5 +47,16 @@ public class GameRedemption  extends domain.Entity {
 	    } 
 	}
 
+    public static void requestToRedemption(User user, Long points) {
+		GameRedemption redemption = new GameRedemption();
+		redemption.redemption_state = GameRedemption.Redemption_state.InProgress;
+		redemption.redemption_points = points;
+		redemption.user_id = user.id;
+		redemption.date = new Date();
+		redemption.save();
+
+		EDMUtility edmUtility = new EDMUtility();
+		edmUtility.requestRedemptionMail(user.name);
+	}
 	 
 }
