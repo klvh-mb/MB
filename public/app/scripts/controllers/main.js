@@ -184,7 +184,6 @@ minibean.controller('ApplicationController',
     window.isBrowserTabActive = true;
     
     $scope.selectNavBar = function(navBar, subBar) {
-        console.log(navBar+" "+subBar);
         $scope.selectedNavBar = navBar;
         $scope.selectedNavSubBar = subBar;
     }

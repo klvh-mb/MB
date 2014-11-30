@@ -78,7 +78,7 @@ public class Entity
   
   @Transactional
   public void save() {
-      setCreatedBy(Application.getLocalUserName());
+      //setCreatedBy(Application.getLocalUserName());
       setCreatedDate(new Date());
       JPA.em().persist(this);
       JPA.em().flush();
@@ -92,7 +92,7 @@ public class Entity
   
   @Transactional
   public void merge() {
-      setUpdatedBy(Application.getLocalUserName());
+      //setUpdatedBy(Application.getLocalUserName());
       setUpdatedDate(new Date());
       JPA.em().merge(this);
   }
