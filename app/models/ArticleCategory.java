@@ -21,7 +21,12 @@ import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
 /**
- * No UI Crud operation for this model. this Model will be populated by Admin directly in DB.
+ * update articlecategory set description='育兒小百科',name='育兒小百科',seq=1 where id=2;
+ * update articlecategory set description='小寶寶教養',name='小寶寶教養',seq=2 where id=4;
+ * update articlecategory set description='親子好關係',name='親子好關係',seq=3 where id=3;
+ * update articlecategory set description='健康靚媽咪',name='健康靚媽咪',seq=4 where id=5;
+ * update articlecategory set description='準媽媽教室',name='準媽媽教室',seq=5 where id=1;
+ * update articlecategory set description='開心小分享',name='開心小分享',seq=6 where id=6;
  */
 @Entity
 public class ArticleCategory  {

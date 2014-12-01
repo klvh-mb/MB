@@ -43,6 +43,10 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/mobile/home/business-post-landing.html',
         controller : 'PostLandingController'  
       })
+      .when('/article/:id/:catId',{
+        templateUrl: '/assets/app/views/mobile/articles/article-page.html',
+        controller : 'ArticlePageController'  
+      })
       .when('/error', {
     	  templateUrl: '/assets/app/views/error-page.html',
       })
