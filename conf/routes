@@ -56,6 +56,7 @@ GET     /my/promoCode/:promoCode    controllers.Application.homeWithPromoCode(pr
 
 GET     /login                      controllers.Application.login
 POST    /login                      controllers.Application.doLogin
+POST    /doLogin                      controllers.Application.doLoginPopup
 POST    /saveSignupInfo             controllers.Application.saveSignupInfo
 POST    /saveSignupInfoFb           controllers.Application.saveSignupInfoFb
 GET     /get-application-info       controllers.Application.getApplicationInfo

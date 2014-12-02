@@ -412,7 +412,27 @@ public class Application extends Controller {
 			return UsernamePasswordAuthProvider.handleLogin(ctx());
 		}
 	}
-
+	
+	@Transactional
+	public static Result doLoginPopup() {
+       
+		String redirectURL = "/magazine#/article/show/0"; //TODO: Need to get actual url from context object
+        session().put("pa.url.orig", redirectURL);
+        com.feth.play.module.pa.controllers.Authenticate.noCache(response());
+		final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
+				.bindFromRequest();
+		if (filledForm.hasErrors()) {
+			// User did not fill everything properly
+			flash("error", "登入電郵或密碼錯誤");
+			return isMobileUser()? 
+			        badRequest(views.html.mobile.login.render(filledForm, isOverDailySignupThreshold())):
+			            badRequest(views.html.login.render(filledForm, isOverDailySignupThreshold()));
+		} else {
+			// Everything was filled
+			return UsernamePasswordAuthProvider.handleLogin(ctx());
+		}
+	}
+	
 	@Transactional
 	public static Result signup() {
 		final User localUser = getLocalUser(session());
