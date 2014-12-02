@@ -6,7 +6,7 @@
         </a>
     </div>
     <div class="content">
-        <ul class="newCommunity-info" ng-repeat="communityCategoryMap in socialCommunityCategoriesMap">
+        <ul class="newCommunity-info" ng-repeat="communityCategoryMap in topicCommunityCategoriesMap">
             <li class="category-name">{{communityCategoryMap.name}}</li>
             <li ng-repeat="community in communityCategoryMap.communities">
                 <a href="my#/community/{{community.id}}"><img src="{{community.gi}}"></a>

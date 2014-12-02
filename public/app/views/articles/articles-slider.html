@@ -1,5 +1,5 @@
 <div ng-if="allCategory">
-    <div id="slider" class="general-box">
+    <div id="articles-slider" class="general-box">
         <div id="sta-con-slider">
             <div class="sta-con-mainslide">
                 <p class="recommend-tag">
@@ -8,6 +8,8 @@
                 <p>
                     <a href="#/article/{{resultSlider.la[0].id}}/{{resultSlider.la[0].ct.id}}">{{resultSlider.la[0].nm | limitTo:18}}</a>
                     <!--a title="summary" href="#/article/{{resultSlider.la[0].id}}/{{resultSlider.la[0].ct.id}}">{{resultSlider.la[0].lds | limitTo:60}}...</a-->
+                    <!--span ng-show="article.nov > 20 || userInfo.isE" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.png"/>{{resultSlider.la[0].nov}}</span>
+                    <span ng-show="article.nol > 0 || userInfo.isE" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{resultSlider.la[0].nol}}</span-->
                 </p>
                 <a href="#/article/{{resultSlider.la[0].id}}/{{resultSlider.la[0].ct.id}}">
                     <img ng-show="resultSlider.la[0].img_url != 'No Image'" data-ng-src="{{resultSlider.la[0].img_url}}">

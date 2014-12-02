@@ -40,6 +40,7 @@ GET     /get-promo-pn-communities   controllers.promo.PromoPNController.getPNCom
 GET     /get-promo-pns/:id          controllers.promo.PromoPNController.getPNs(id:Long)
 
 # Mobile
+GET     /m-frontpage                controllers.Application.mobileFrontpage
 GET     /m-articles                 controllers.Application.mobileArticles
 GET     /m-knowledge                controllers.Application.mobileKnowledge
 GET     /m-magazine                 controllers.Application.mobileMagazine
@@ -48,6 +49,7 @@ GET     /m-login                    controllers.Application.mobileLogin
 
 # Main
 GET     /                           controllers.Application.index
+GET     /frontpage                  controllers.Application.mainFrontpage
 GET     /articles                   controllers.Application.mainArticles
 GET     /knowledge                  controllers.Application.mainKnowledge
 GET     /magazine                   controllers.Application.mainMagazine
@@ -181,13 +183,13 @@ GET     /un-friend                  controllers.FriendsController.doUnFriend(id:
 
 # Community
 GET     /get-zodiac-year-communities            controllers.CommunityController.getZodiacYearCommunities
-GET     /get-zodiac-year-month-communities      controllers.CommunityController.getZodiacYearMonthCommunities
 GET     /get-district-communities               controllers.CommunityController.getDistrictCommunities
 GET     /get-topic-communities                  controllers.CommunityController.getTopicCommunities
 GET     /get-other-communities                  controllers.CommunityController.getOtherCommunities
 GET     /get-all-business-community-categories  controllers.CommunityController.getAllBusinessCommunityCategories
 GET     /get-all-social-community-categories    controllers.CommunityController.getAllSocialCommunityCategories
 GET     /get-social-community-categories-map    controllers.CommunityController.getSocialCommunityCategoriesMap(indexOnly:Boolean)
+GET     /get-zodiac-year-month-community-categories-map    controllers.CommunityController.getZodiacYearMonthCommunityCategoriesMap(indexOnly:Boolean)
 GET     /get-unjoined-communities               controllers.CommunityController.getUserUnJoinedCommunities
 GET     /get-my-communities                     controllers.CommunityController.getMyCommunities
 GET     /get-user-communities/:id               controllers.CommunityController.getUserCommunities(id :Long)

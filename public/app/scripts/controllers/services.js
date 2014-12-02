@@ -363,15 +363,22 @@ minibean.service('sendJoinRequest',function($resource){
 });
 
 minibean.service('communitiesDiscoverService',function($resource){
-    this.ZodiacYearCommunities = $resource(
-            '/get-zodiac-year-communities',
+    this.getSocialCommunityCategoriesMap = $resource(
+            '/get-social-community-categories-map?indexOnly=:indexOnly',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'get'}
+                get: {method:'get',params:{indexOnly:'@indexOnly'},isArray:true}
             }
     );
-    this.ZodiacYearMonthCommunities = $resource(
-            '/get-zodiac-year-month-communities',
+    this.getZodiacYearMonthCommunityCategoriesMap = $resource(
+            '/get-zodiac-year-month-community-categories-map?indexOnly=:indexOnly',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',params:{indexOnly:'@indexOnly'},isArray:true}
+            }
+    );
+    this.ZodiacYearCommunities = $resource(
+            '/get-zodiac-year-communities',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get'}
@@ -396,6 +403,20 @@ minibean.service('communitiesDiscoverService',function($resource){
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get'}
+            }
+    );
+    this.getAllBusinessCommunityCategories = $resource(
+            '/get-all-business-community-categories',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.getAllSocialCommunityCategories = $resource(
+            '/get-all-social-community-categories',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
             }
     );
 });
@@ -700,30 +721,6 @@ minibean.service('communityQnAPageService',function($resource){
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get', params:{id:'@id',offset:'@offset',time:'@time'},isArray:true}
-            }
-    );
-});
-
-minibean.service('communityCategoryService',function($resource){
-    this.getAllBusinessCommunityCategories = $resource(
-            '/get-all-business-community-categories',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get',isArray:true}
-            }
-    );
-    this.getAllSocialCommunityCategories = $resource(
-            '/get-all-social-community-categories',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get',isArray:true}
-            }
-    );
-    this.getSocialCommunityCategoriesMap = $resource(
-            '/get-social-community-categories-map?indexOnly=:indexOnly',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get',params:{indexOnly:'@indexOnly'},isArray:true}
             }
     );
 });
