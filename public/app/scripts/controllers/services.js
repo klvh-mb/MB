@@ -870,6 +870,13 @@ minibean.service('newsFeedService',function($resource){
                 get: {method:'GET', params:{offset:'@offset'}}
             }
     );
+    this.HotNewsFeeds = $resource(
+            '/get-hotnewsfeeds/:offset',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET', params:{offset:'@offset'}}
+            }
+    );
 });
       
 minibean.service('userNewsFeedService',function($resource){

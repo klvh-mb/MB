@@ -24,7 +24,7 @@
         </div>
     </div>
     
-    <a id="membersSearchwrapper" class="pull-right" style="margin-right:10%;" ng-show="selectedSubTab == 2">
+    <!--a id="membersSearchwrapper" class="pull-right" style="margin-right:10%;" ng-show="selectedSubTab == 2">
         <div class="basic-search-wrapper">
             <div class="input-group innerB basic-search">
                 <input type="text" class="form-control" ng-model="query" placeholder="搜尋社群">
@@ -36,15 +36,17 @@
             </div>
         </div>
     </a>
-    <div style="padding:30px;" ng-show="selectedSubTab == 2"></div>
-    <div style="padding:10px;" ng-show="selectedSubTab != 2"></div>
+    <div style="padding:30px;" ng-show="selectedSubTab == 2"></div-->
+    
+    <div style="padding:10px;"></div>
     
     <span ng-switch="selectedSubTab">
+        <!-- topic comms -->
         <span ng-switch-when="4">
             <div id="communities-index" class="general-box widget-box top-box">
-                <div ng-repeat="communityCategoryMap in topicCommunityCategoriesMap">
+                <div ng-repeat="communityCategoryMap in communityCategoriesMap">
                     <div class="category-name">{{communityCategoryMap.name}}</div>
-                    <div class="communityCard" ng-repeat="community in communityCategoryMap.communities">
+                    <div class="communityCard topicCard" ng-repeat="community in communityCategoryMap.communities">
                         <a href="my#/community/{{community.id}}" class="d-s ob">
                             <div class="communityImageBox">
                                 <img class="img-clean" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{community.id}}" alt="...">
@@ -54,12 +56,12 @@
                             <img src="{{community.gi}}">
                             <p>
                                 <a href="my#/community/{{community.id}}"><b><font>{{community.dn}}</font></b></a><br>
-                                <span class="community-member-counter"><font>{{community.mm}}個關注</font></span>
+                                <span class="community-member-counter"><img src="../assets/app/images/general/icons/i-mom.png" />{{community.mm}}</span>
                                 <span class="community-attribute">
                                     <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
                                 </span>
                             </p>
-                            <a ng-show="!community.isM && !community.isP" data-ng-click="send_request(community.id)" style="position:relative;right:5px;margin-bottom:5px;" class="btn-general pull-right">
+                            <a ng-show="!community.isM && !community.isP" data-ng-click="joinCommunity(community.id)" style="position:relative;right:5px;margin-bottom:5px;" class="btn-general pull-right">
                                 + <i class="fa fa-user"></i> 關注
                             </a>
                             <span ng-show="community.isM || community.isP" style="position:relative;right:5px;margin-bottom:5px;" class="btn-general-flat pull-right">
@@ -70,25 +72,79 @@
                 </div>
             </div>
         </span>
-        <span ng-switch-default>
+        <!-- zodiac year month comms -->
+        <span ng-switch-when="2">
+            <div id="communities-index" class="general-box widget-box top-box">
+                <div ng-repeat="communityCategoryMap in communityCategoriesMap">
+                    <div class="category-name">{{communityCategoryMap.name}}</div>
+                    <div class="communityCard zodiacYearMonthCard" ng-repeat="community in communityCategoryMap.communities">
+                        <div class="communityTagBox" style="padding:5px;">
+                            <img src="{{community.gi}}">
+                            <p style="width:auto;">
+                                <a href="my#/community/{{community.id}}"><b><font>{{$index+1}}月</font></b></a><br>
+                                <span class="community-member-counter"><img src="../assets/app/images/general/icons/i-mom.png" />{{community.mm}}</span>
+                                <span class="community-attribute">
+                                    <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
+                                </span>
+                            </p>
+                            <a ng-show="!community.isM && !community.isP" data-ng-click="joinCommunity(community.id)" class="btn-general pull-right">
+                                + <i class="fa fa-user"></i> 關注
+                            </a>
+                            <span ng-show="community.isM || community.isP" class="btn-general-flat pull-right">
+                                正在關注
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </span>
+        <span ng-switch-when="3">
             <div id="communities-index" class="general-box widget-box top-box">
                 <div class="padding5"></div>
-                <div class="communityCard" ng-repeat="community in communities | filter:query">
-                    <a href="my#/community/{{community.id}}" class="d-s ob">
+                <div class="communityCard districtCard" ng-repeat="community in communities">
+                    <!--a href="my#/community/{{community.id}}" class="d-s ob">
                         <div class="communityImageBox">
                             <img class="img-clean" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{community.id}}" alt="...">
                         </div>
-                    </a>
-                    <div class="communityTagBox">
-                        <img src="{{community.gi}}">
+                    </a-->
+                    <div class="communityTagBox" style="padding:5px;">
+                        <!--img src="{{community.gi}}"-->
                         <p>
-                            <a href="my#/community/{{community.id}}"><b><font>{{community.dn}}</font></b></a><br>
-                            <span class="community-member-counter"><font>{{community.mm}}個關注</font></span>
+                            <a href="my#/community/{{community.id}}"><b><font>{{community.dn | limitTo:community.dn.length-3}}</font></b></a><br>
+                            <span class="community-member-counter"><img src="../assets/app/images/general/icons/i-mom.png" />{{community.mm}}</span>
                             <span class="community-attribute">
                                 <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
                             </span>
                         </p>
-                        <a ng-show="!community.isM && !community.isP" data-ng-click="send_request(community.id)" style="position:relative;right:5px;margin-bottom:5px;" class="btn-general pull-right">
+                        <a ng-show="!community.isM && !community.isP" data-ng-click="joinCommunity(community.id)" style="position:relative;right:5px;margin-bottom:5px;" class="btn-general pull-right">
+                            + <i class="fa fa-user"></i> 關注
+                        </a>
+                        <span ng-show="community.isM || community.isP" style="position:relative;right:5px;margin-bottom:5px;" class="btn-general-flat pull-right">
+                            正在關注
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </span>
+        <span ng-switch-default>
+            <div id="communities-index" class="general-box widget-box top-box">
+                <div class="padding5"></div>
+                <div class="communityCard" ng-repeat="community in communities">
+                    <!--a href="my#/community/{{community.id}}" class="d-s ob">
+                        <div class="communityImageBox">
+                            <img class="img-clean" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{community.id}}" alt="...">
+                        </div>
+                    </a-->
+                    <div class="communityTagBox" style="padding:5px;">
+                        <img src="{{community.gi}}">
+                        <p>
+                            <a href="my#/community/{{community.id}}"><b><font>{{community.dn}}</font></b></a><br>
+                            <span class="community-member-counter"><img src="../assets/app/images/general/icons/i-mom.png" />{{community.mm}}</span>
+                            <span class="community-attribute">
+                                <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
+                            </span>
+                        </p>
+                        <a ng-show="!community.isM && !community.isP" data-ng-click="joinCommunity(community.id)" style="position:relative;right:5px;margin-bottom:5px;" class="btn-general pull-right">
                             + <i class="fa fa-user"></i> 關注
                         </a>
                         <span ng-show="community.isM || community.isP" style="position:relative;right:5px;margin-bottom:5px;" class="btn-general-flat pull-right">

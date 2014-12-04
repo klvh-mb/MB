@@ -1,0 +1,75 @@
+<div class="frontpage-communities-index general-box widget-box">
+    <div class="con-title">
+        <a href="my#/about/myCommunities" class="text-muted">
+            主題 - 媽媽社群
+        </a>
+    </div>
+    <ul class="myCommunity-info" style="margin:0px 5px;">
+        <div ng-repeat="communityCategoryMap in topicCommunityCategoriesMap">
+            <div class="category-name">{{communityCategoryMap.name}}</div>
+            <div class="topic-index" ng-repeat="community in communityCategoryMap.communities">
+                <a href="my#/community/{{community.id}}"><img src="{{community.gi}}"></a>
+                <p>
+                    <a href="my#/community/{{community.id}}">{{community.dn}}</a>
+                    <!--span class="community-member-counter"><img src="../assets/app/images/general/icons/i-mom.png" />{{community.mm}}</span-->
+                </p>
+            </div>
+        </div>
+    </ul>
+</div>
+
+<div class="frontpage-communities-index general-box widget-box">
+    <div class="con-title">
+        <a href="my#/about/myCommunities" class="text-muted">
+            年份 - 媽媽社群
+        </a>
+    </div>
+    <ul class="myCommunity-info" style="margin:2px 5px;">
+        <li class="zodiac-year-index" ng-repeat="community in zodiacYearCommunities">
+            <a href="my#/community/{{community.id}}"><img src="{{community.gi}}"></a>
+            <p>
+                <a href="my#/business/community/{{community.id}}">{{community.dn}}</a>
+                <!--span class="community-member-counter"><img src="../assets/app/images/general/icons/i-mom.png" />{{community.mm}}</span-->
+            </p>
+        </li>
+    </ul>
+</div>
+
+<div class="frontpage-communities-index general-box widget-box">
+    <div class="con-title">
+        <a href="my#/about/myCommunities" class="text-muted">
+            年月份 - 媽媽社群
+        </a>
+    </div>
+    <ul class="myCommunity-info" style="margin:0px 5px;">
+        <div ng-repeat="communityCategoryMap in zodiacYearMonthCommunityCategoriesMap">
+            <div class="category-name">{{communityCategoryMap.name}}</div>
+            <div class="zodiac-year-month-index" ng-repeat="community in communityCategoryMap.communities">
+                <a href="my#/community/{{community.id}}"><img src="{{community.gi}}"></a>
+                <p>
+                    <a href="my#/community/{{community.id}}">{{$index+1}}月</a>
+                    <!--span class="community-member-counter"><img src="../assets/app/images/general/icons/i-mom.png" />{{community.mm}}</span-->
+                </p>
+            </div>
+        </div>
+    </ul>
+</div>
+
+<div class="frontpage-communities-index general-box widget-box">
+    <div class="con-title">
+        <a href="my#/about/myCommunities" class="text-muted">
+            地區 - 媽媽社群
+        </a>
+    </div>
+    <ul class="myCommunity-info" style="margin:2px 5px;">
+        <li class="district-index" ng-repeat="community in districtCommunities">
+            <!--a href="my#/community/{{community.id}}"><img src="{{community.gi}}"></a-->
+            <p>
+                <a href="my#/business/community/{{community.id}}">{{community.dn | limitTo:community.dn.length-3}}</a>
+                <!--span class="community-member-counter"><img src="../assets/app/images/general/icons/i-mom.png" />{{community.mm}}</span-->
+            </p>
+        </li>
+    </ul>
+</div>
+
+

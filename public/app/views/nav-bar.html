@@ -2,9 +2,9 @@
     <div class="col-md-3 col-sm-3 col-xs-3" id="main-logo"><a href="/"><img style="width:165px;" src="/assets/app/images/logo-2.png" /></a></div>
     <div id="main-menu">
         <ul>
-            <!--li class="col-md-1 col-sm-1 col-xs-1">
-                <a href="#"><img src="/assets/app/images/frontpage/icon_mainMenu_home.png"/></a>
-            </li-->
+            <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'FRONTPAGE'}" ng-click="selectNavBar('FRONTPAGE')">
+                <a href="frontpage#"><img src="/assets/app/images/frontpage/icon_mainMenu_home.png"/></a>
+            </li>
             <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'HOT_ARTICLES'}" ng-click="selectNavBar('HOT_ARTICLES')">
                 <a href="articles#/article/show/0"><img src="/assets/app/images/frontpage/icon_mainMenu_article.png"/></a>
             </li>
@@ -20,7 +20,7 @@
             <!--li class="col-md-1 col-sm-1 col-xs-1">
                 <a href="#"><img src="/assets/app/images/frontpage/icon_mainMenu_tools.png"/></a>
             </li-->
-            <li class="col-md-3 col-sm-3 col-xs-3" style="width:360px;">
+            <li class="col-md-3 col-sm-3 col-xs-3" style="width:250px;">
                 <div class="pull-right">
                     <div data-ng-include data-src="'/assets/app/views/widgets/fb-link-like-widget.html'"></div>
                 </div>

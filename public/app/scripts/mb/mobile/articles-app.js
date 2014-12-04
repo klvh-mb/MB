@@ -38,10 +38,6 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/mobile/articles/article-page.html',
         controller : 'ArticlePageController'  
       })
-      .when('/campaign/:id',{
-        templateUrl: '/assets/app/views/mobile/frontpage/campaign-page.html',
-        controller : 'CampaignPageController'  
-      })
       .when('/error', {
     	  templateUrl: '/assets/app/views/error-page.html',
       })

@@ -978,7 +978,7 @@ a:focus {
     border-bottom: solid 1px #FFC8C8;
     border-radius: 10px 10px 0 0;
     width: 100%;
-    height: 40px;
+    height: 35px;
     padding: 7px;
     font-weight: normal;
     font-size: 16px;
@@ -987,7 +987,7 @@ a:focus {
 .con-title a {
     color: #6B1A1A;
     line-height: 14pt;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: normal;
 }
 .con-title a:hover{
@@ -1061,6 +1061,7 @@ a:focus {
 .newCommunity-info p, .myCommunity-info p {
     width: 58%;
     display: inline-block;
+    margin-bottom: 7px;
 }
 .newCommunity-info img, .myCommunity-info img {
     width: 30px;
@@ -1083,7 +1084,7 @@ a:focus {
     top: -8px;
 }
 .myCommunity-info p {
-    width: 80%;
+    width: 170px;
 }
 /* New Community End */
 
@@ -1098,6 +1099,14 @@ a:focus {
 .community-member-counter {
     font-size: 12px !important;
     color: #565656 !important;
+    line-height: 1.3 !important;
+}
+.community-member-counter img {
+    width: 12px !important;
+    height: auto !important;
+    float: none !important;
+    margin-right: 2px !important;
+    vertical-align: text-top !important;
 }
 /* Community End */
 
@@ -2462,7 +2471,12 @@ a:focus {
     font-size: 12px;
     font-weight: bold;
 }
+.topicCard {
+}
 .zodiacYearMonthCard {
+    width: 22% !important;
+}
+.districtCard {
     width: 22% !important;
 }
 .communityCard {
@@ -2510,7 +2524,7 @@ a:focus {
     min-height: 65px;
     height: auto;
     width: 100%;
-    padding: 5px 5px;
+    padding: 0 5px 5px 5px;
 }
 .communityTagBox img {
     width: 25px;
@@ -2520,6 +2534,7 @@ a:focus {
 .communityTagBox p {
     width: 75%;
     display: inline-block;
+    margin-bottom: 5px;
 }
 .communityTagBox .btn-general, .communityTagBox .btn-general-flat {
     position: relative;
@@ -3084,7 +3099,7 @@ span.notif-count {
 }
 #communities-index {
     margin: 5px 0 15px 0;
-    font-size: 13px;
+    font-size: 14px;
 }
 #communities-index .con-title {
     background-image: url(../images/general/box_header_pink.png);

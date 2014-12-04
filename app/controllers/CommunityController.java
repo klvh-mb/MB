@@ -105,6 +105,8 @@ public class CommunityController extends Controller{
         List<CommunitiesWidgetChildVM> vms = 
                 getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.ZODIAC_YEAR_MONTH);
         
+        int minYear = indexOnly? DefaultValues.ZODIAC_COMMUNITY_MIN_YEAR_FOR_INDEX : DefaultValues.ZODIAC_COMMUNITY_MIN_YEAR;
+        
         // by year
         Map<Integer, List<CommunitiesWidgetChildVM>> map = new HashMap<Integer, List<CommunitiesWidgetChildVM>>();
         
@@ -113,7 +115,7 @@ public class CommunityController extends Controller{
             try {
                 int year = Integer.parseInt(vm.targetingInfo.substring(0, 4));  // e.g. 2013_08
                 int month = Integer.parseInt(vm.targetingInfo.substring(5));
-                if (year < DefaultValues.ZODIAC_COMMUNITY_MIN_YEAR) {
+                if (year < minYear) {
                     continue;
                 }
                 if (new DateTime(year, month, 1, 0, 0, 0).isBefore(maxYearMonth)) {

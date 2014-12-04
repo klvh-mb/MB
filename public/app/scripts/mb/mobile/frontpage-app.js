@@ -18,36 +18,27 @@ angular.module('minibean', [
   'ngSanitize',
   'angularMoment',
   'wu.masonry',
-  'pasvaz.bindonce',
-  'ui.utils'
+  'pasvaz.bindonce'
 ])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: '/assets/app/views/articles/articles.html', 
-        controller : 'ShowArticlesController' 
+        templateUrl: '/assets/app/views/mobile/frontpage/frontpage.html', 
+        controller : 'FrontpageController'
       })
-      .when('/article/show/:catId',{
-        templateUrl: '/assets/app/views/articles/articles.html',
-        controller : 'ShowArticlesController' 
-      })
-      .when('/article/tagword/:tagwordId/:catGroup',{
-        templateUrl: '/assets/app/views/articles/tagword-articles-page.html',
-        controller : 'ShowArticlesController' 
-      })
-      .when('/article/:id/:catId',{
-        templateUrl: '/assets/app/views/articles/article-page.html',
-        controller : 'ArticlePageController' 
+      .when('/campaign/:id',{
+        templateUrl: '/assets/app/views/mobile/frontpage/campaign-page.html',
+        controller : 'CampaignPageController'  
       })
       .when('/error', {
-          templateUrl: '/assets/app/views/error-page.html',
+    	  templateUrl: '/assets/app/views/error-page.html',
       })
       .otherwise({
           redirectTo: '/'
       });
   })
   .run(function(editableOptions) {
-    editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+  editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
   });
 
 //
@@ -57,7 +48,6 @@ angular.module('minibean', [
 var minibean = angular.module('minibean');
 
 var URL_IGNORE = [
-    "tracking",
     "template", 
     "assets", 
     "image", 
@@ -89,3 +79,12 @@ minibean.config(['$httpProvider', function($httpProvider) {
                }
            };
     });
+    
+//minibean.config(['$httpProvider', function($httpProvider) {
+//    if (!$httpProvider.defaults.headers.get) {
+//        $httpProvider.defaults.headers.get = {};    
+//    }
+//    $httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
+//    $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache'; 
+//    $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
+//}]);

@@ -7,19 +7,16 @@
     <div class="row">
         <div ng-if="selectedNavBar == 'HOT_ARTICLES'">
             <div data-ng-include data-src="'/assets/app/views/widgets/article-categories-index-widget.html'"></div>
+            <div ng-controller="ArticleSliderController" data-ng-include data-src="'/assets/app/views/mobile/articles/articles-slider.html'"></div>
         </div>
         <div ng-if="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'">
             <div data-ng-include data-src="'/assets/app/views/widgets/knowledge-categories-index-widget.html'"></div>
         </div>
-        <!--Slider End -->
         <div id="wall">
             <div class="ads-factor-728x90">
                 <script adSize="72890" adSid="477069296823" ads-factor language='JavaScript' type="text/javascript"></script>
             </div>
             <div ng-init="collapsible = true" data-ng-include data-src="'/assets/app/views/widgets/tagwords-index-widget.html'"></div>
-            <div ng-if="selectedNavBar == 'HOT_ARTICLES'">
-                <div ng-controller="ArticleSliderController" data-ng-include data-src="'/assets/app/views/mobile/articles/articles-slider.html'"></div>
-            </div>
             <div infinite-scroll='next_result()' infinite-scroll-distance='1'>
                 <div class="general-box">
                     <ul class="allpost-wrapper">

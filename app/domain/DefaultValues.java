@@ -12,6 +12,7 @@ public class DefaultValues {
     public static int DEFAULT_PREVIEW_CHARS = 200;
     
     public static int ZODIAC_COMMUNITY_MIN_YEAR = 2010;
+    public static int ZODIAC_COMMUNITY_MIN_YEAR_FOR_INDEX = 2013;
     
     public static int COMMENTS_PREVIEW_COUNT = 2;
     public static int DEFAULT_UTILITY_COUNT = 5;

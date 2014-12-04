@@ -1,0 +1,83 @@
+<div id="frontpage-articles-section" class="general-box widget-box">
+    <div class="section-header">
+        <img src="/assets/app/images/frontpage/article_title_latest.png">
+        <a class="pull-right" href="articles#">更多</a>
+    </div>
+    
+    <div id="latest-articles">
+        <div class="section-title">
+            最新
+        </div>
+        <div class="section-details">
+            <ul>
+                <li data-ng-repeat="article in newArticles">
+                    <div class="article-details">
+                        <div>
+                            <a href="#/article/{{article.id}}/{{article.ct.id}}">
+                                <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
+                            </a>
+                        </div>
+                        <div class="article-summary">
+                            <a href="#/article/{{article.id}}/{{article.ct.id}}">
+                                <font>{{article.nm|limitTo:30}}</font>
+                            </a>
+                            <!--p>
+                                <font>{{article.lds|limitTo:25}}...</font>
+                            </p-->
+                        </div>
+                    </div>
+                </li>                    
+            </ul>
+        </div>
+    </div>
+    
+    <div id="hot-articles">
+        <div class="section-title">
+            最多人觀看
+        </div>
+        <div class="section-details">
+            <ul>
+                <li data-ng-repeat="article in hotArticles">
+                    <div class="article-details">
+                        <a href="#/article/{{article.id}}/{{article.ct.id}}">
+                            <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
+                        </a>
+                        <div class="article-summary pull-right">
+                            <a href="#/article/{{article.id}}/{{article.ct.id}}">
+                                <font>{{article.nm|limitTo:30}}</font>
+                            </a>
+                            <!--p>
+                                <font>{{article.lds|limitTo:25}}...</font>
+                            </p-->
+                        </div>
+                    </div>
+                </li>                    
+            </ul>
+        </div>
+    </div>
+    
+    <div id="recommend-articles">
+        <div class="section-title">
+            最讚好
+        </div>
+        <div class="section-details">
+            <ul>
+                <li data-ng-repeat="article in recommendedArticles">
+                    <div class="article-details">
+                        <a href="#/article/{{article.id}}/{{article.ct.id}}">
+                            <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
+                        </a>
+                        <div class="article-summary pull-right">
+                            <a href="#/article/{{article.id}}/{{article.ct.id}}">
+                                <font>{{article.nm|limitTo:30}}</font>
+                            </a>
+                            <!--p>
+                                <font>{{article.lds|limitTo:25}}...</font>
+                            </p-->
+                        </div>
+                    </div>
+                </li>                    
+            </ul>
+        </div>
+    </div>
+</div>

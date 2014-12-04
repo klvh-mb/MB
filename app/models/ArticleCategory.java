@@ -21,12 +21,12 @@ import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
 /**
- * update articlecategory set description='育兒小百科',name='育兒小百科',seq=1 where id=2;
- * update articlecategory set description='小寶寶教養',name='小寶寶教養',seq=2 where id=4;
- * update articlecategory set description='親子好關係',name='親子好關係',seq=3 where id=3;
- * update articlecategory set description='健康靚媽咪',name='健康靚媽咪',seq=4 where id=5;
- * update articlecategory set description='準媽媽教室',name='準媽媽教室',seq=5 where id=1;
- * update articlecategory set description='開心小分享',name='開心小分享',seq=6 where id=6;
+ * update articlecategory set description='育兒百科',name='育兒百科',seq=1 where id=2;
+ * update articlecategory set description='教養學習',name='教養學習',seq=2 where id=4;
+ * update articlecategory set description='健康靚媽',name='健康靚媽',seq=3 where id=5;
+ * update articlecategory set description='孕婦須知',name='孕婦須知',seq=4 where id=1;
+ * update articlecategory set description='開心分享',name='開心分享',seq=5 where id=6;
+ * update articlecategory set description='親子關係',name='親子關係',seq=6 where id=3;
  */
 @Entity
 public class ArticleCategory  {

@@ -336,3 +336,167 @@ box-shadow:         0px 1px 4px 0px rgba(152, 79, 201, 0.5);
 }
 
 #footer {display: block; height: 400px;}
+
+
+
+/* Custom */
+#frontpage {
+
+}
+#frontpage .section-header {
+    padding: 5px 10px;
+    height: 35px;
+    border-radius: 10px 10px 0 0;
+    background: linear-gradient(to bottom, rgba(249, 223, 223, 1) 0%,rgba(249, 208, 208, 1) 50%,rgba(252, 207, 207, 1) 51%,rgba(242, 162, 162, 1) 100%);
+}
+#frontpage .section-header a {
+    color: white;
+    font-weight: bold;
+    margin-top: 3px;
+}
+#frontpage .section-header-image {
+    height: 45px;
+    margin-top: -17px;
+}
+#frontpage .section-title {
+    width: auto;
+    margin: 0px 0px;
+    padding: 2px 10px;
+    border-bottom: 2px solid #FCC9CB;
+    box-shadow: 0 2px 1px -1px rgba(136, 136, 136, 0.3); 
+}
+
+#frontpage-slider-section {
+
+}
+#frontpage-slider-section div {
+    display: inline-block;
+    vertical-align: top;
+}
+#frontpage-slider-section #frontpage-slider {
+    width: 475px;
+    min-height: 250px;
+    margin-right: 5px;
+}
+#frontpage-slider-section #frontpage-promo {
+    width: 300px;
+    min-height: 250px;
+}
+
+#frontpage-communities-section {
+    overflow: visible;
+}
+#frontpage-communities-section #hot-topics,
+#frontpage-communities-section #hot-communities {
+    width: 355px;
+    display: inline-block;
+    margin: 5px 12px;
+    vertical-align: top;
+}
+#frontpage-communities-section #hot-topics .hot-post,
+#frontpage-communities-section #hot-communities .hot-community {
+    padding: 5px 0 3px 0;
+    border-bottom: 1px dashed #eee;
+    line-height: 1.5;
+}
+#frontpage-communities-section #hot-topics .hot-post .hot-post-body a, 
+#frontpage-communities-section #hot-topics .hot-post .hot-post-body a:hover, 
+#frontpage-communities-section #hot-communities .hot-community .hot-community-body a, 
+#frontpage-communities-section #hot-communities .hot-community .hot-community-body a:hover {
+    color: #404040;
+    font-size: 13px;
+}
+#frontpage-communities-section #hot-topics .hot-post .hot-post-intro {
+
+}
+#frontpage-communities-section #hot-topics .hot-post img, 
+#frontpage-communities-section #hot-communities .hot-community img {
+    width: 15px;
+    height: 15px;
+    vertical-align: text-bottom;
+    margin-right: 3px;
+}
+#frontpage-communities-section #hot-topics .hot-post .post-title-user-name img, 
+#frontpage-communities-section #hot-communities .hot-community .post-title-user-name img {
+    width: 12px;
+    height: 12px;
+    vertical-align: text-top;
+    margin-right: 3px;
+    border-radius: 10px;
+}
+
+#frontpage-articles-section {
+
+}
+#frontpage-articles-section #latest-articles,
+#frontpage-articles-section #hot-articles, 
+#frontpage-articles-section #recommend-articles {
+    width: 232px;
+    display: inline-block;
+    margin: 5px 12px;
+    vertical-align: top;
+}
+#frontpage-articles-section .article-details {
+    padding: 5px 0 7px 0;;
+    border-bottom: 1px dashed #eee;
+    line-height: 1.5;
+}
+#frontpage-articles-section .article-details div {
+    display: inline-block;
+}
+#frontpage-articles-section .article-details .article-summary {
+    width: 160px;
+}
+#frontpage-articles-section .section-details img {
+    width: 60px;
+    height: 48px;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+/* communities index */
+.frontpage-communities-index .myCommunity-info .topic-index,
+.frontpage-communities-index .myCommunity-info .zodiac-year-month-index,
+.frontpage-communities-index .myCommunity-info .district-index {
+    display: inline-block;
+}
+.frontpage-communities-index .myCommunity-info .topic-index p,
+.frontpage-communities-index .myCommunity-info .zodiac-year-month-index p,
+.frontpage-communities-index .myCommunity-info .district-index p {
+    width: auto;
+}
+.frontpage-communities-index .myCommunity-info .topic-index img,
+.frontpage-communities-index .myCommunity-info .zodiac-year-month-index img,
+.frontpage-communities-index .myCommunity-info .district-index img {
+    margin-right: 2px;
+}
+.frontpage-communities-index .myCommunity-info .topic-index {
+    width: 50%;
+}
+.frontpage-communities-index .myCommunity-info .zodiac-year-month-index {
+    width: 25%;
+}
+.frontpage-communities-index .myCommunity-info .district-index {
+    width: 33%;
+}
+
+.frontpage-communities-index .category-name {
+    font-size: 14px;
+    margin: 5px 5px 5px 5px;
+    padding-left: 5px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #FCC9CB;
+}
+.frontpage-communities-index .myCommunity-info p {
+    width: 170px;
+}
+.frontpage-communities-index .myCommunity-info img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+.frontpage-communities-index .myCommunity-info .community-member-counter {
+    margin-left: 5px;
+}
+
+

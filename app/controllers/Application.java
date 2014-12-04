@@ -90,15 +90,28 @@ public class Application extends Controller {
         setMobileUser(isMobile? "true":"false");
         
         if (isMobile) {
-            return redirect("/m-articles#/article/show/0");
+            return redirect("/m-frontpage#");
         }
-        return redirect("/articles#/article/show/0");
+        return redirect("/frontpage#");
     }
 	
 	//
 	// Entry points
 	//
     
+    @Transactional
+    public static Result mainFrontpage() {
+        UserAgentUtil userAgentUtil = new UserAgentUtil(request());
+        boolean isMobile = userAgentUtil.isMobileUserAgent();
+        
+        Application.setMobileUser(isMobile? "true":"false");
+        
+        if (isMobile) {
+            return ok(views.html.mb.mobile.frontpage.render());
+        }
+        return ok(views.html.mb.site.frontpage.render());
+    }
+	
     @Transactional
     public static Result mainArticles() {
         UserAgentUtil userAgentUtil = new UserAgentUtil(request());
@@ -111,7 +124,7 @@ public class Application extends Controller {
         }
         return ok(views.html.mb.site.articles.render());
     }
-	
+    
     @Transactional
     public static Result mainKnowledge() {
         UserAgentUtil userAgentUtil = new UserAgentUtil(request());
@@ -143,6 +156,11 @@ public class Application extends Controller {
         return home();
     }
 	
+    @Transactional
+    public static Result mobileFrontpage() {
+        setMobileUser();    // manually set mobile to true
+        return ok(views.html.mb.mobile.frontpage.render());
+    }
     
     @Transactional
     public static Result mobileArticles() {
