@@ -2868,6 +2868,7 @@ span.notif-count {
     font-size: 12px;
     margin-right: 5px;
     position: relative;
+    display: inline-block;
     top: -1px;
 }
 .view-count img, .like-count img {

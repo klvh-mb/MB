@@ -16,8 +16,9 @@
             <div data-ng-controller="UserCommunityWidgetController">
                 <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/widgets/all-communities-index-widget.html'"></div>
             </div>
+            <!-- fb widget -->
             <div>
-                <iframe src="https://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fminibean.com.hk&amp;width=220&amp;colorscheme=light&amp;show_faces=true&amp;border_color=white&amp;stream=false&amp;header=false&amp;height=265" frameborder="0" scrolling="no" style="width:220px;height:265px;background-color:white;" allowtransparency="true"></iframe>
+                <iframe src="https://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fminibean.com.hk&amp;width=220&amp;colorscheme=light&amp;layout=standard&amp;show_faces=true&amp;border_color=white&amp;stream=false&amp;header=false&amp;height=265" scrolling="no" frameborder="0" style="border:none;overflow:hidden;width:220px;height:265px;background-color:white;" allowtransparency="true"></iframe>
             </div>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-6" style="width:795px;">
@@ -40,7 +41,12 @@
                 <div>
                     <div data-ng-include data-src="'/assets/app/views/frontpage/communities-section.html'"></div>
                 </div>
-                
+
+                <!-- game -->
+                <!--div>
+                    <div data-ng-include data-src="'/assets/app/views/frontpage/game-section.html'"></div>
+                </div-->
+                                
                 <!-- new articles, hot articles, recommend articles -->
                 <div>
                     <div data-ng-include data-src="'/assets/app/views/frontpage/articles-section.html'"></div>

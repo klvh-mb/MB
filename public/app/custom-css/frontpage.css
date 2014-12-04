@@ -339,7 +339,19 @@ box-shadow:         0px 1px 4px 0px rgba(152, 79, 201, 0.5);
 
 
 
+
+
+
+
+
 /* Custom */
+.container-fluid {
+    background: inherit;
+    padding-bottom: 250px;
+}
+.themeA-container {
+    padding: 0 15px 50px 15px;
+}
 #frontpage {
 
 }
@@ -447,7 +459,7 @@ box-shadow:         0px 1px 4px 0px rgba(152, 79, 201, 0.5);
 #frontpage-articles-section .article-details .article-summary {
     width: 160px;
 }
-#frontpage-articles-section .section-details img {
+#frontpage-articles-section .article-details .article-image img {
     width: 60px;
     height: 48px;
     border-radius: 5px;

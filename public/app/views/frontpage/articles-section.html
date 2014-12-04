@@ -12,18 +12,15 @@
             <ul>
                 <li data-ng-repeat="article in newArticles">
                     <div class="article-details">
-                        <div>
+                        <div class="article-image">
                             <a href="#/article/{{article.id}}/{{article.ct.id}}">
                                 <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
                             </a>
                         </div>
                         <div class="article-summary">
                             <a href="#/article/{{article.id}}/{{article.ct.id}}">
-                                <font>{{article.nm|limitTo:30}}</font>
+                                <font>{{article.nm | limitTo:30}}</font>
                             </a>
-                            <!--p>
-                                <font>{{article.lds|limitTo:25}}...</font>
-                            </p-->
                         </div>
                     </div>
                 </li>                    
@@ -39,16 +36,16 @@
             <ul>
                 <li data-ng-repeat="article in hotArticles">
                     <div class="article-details">
-                        <a href="#/article/{{article.id}}/{{article.ct.id}}">
-                            <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
-                        </a>
+                        <div class="article-image">
+                            <a href="#/article/{{article.id}}/{{article.ct.id}}">
+                                <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
+                            </a>
+                        </div>
                         <div class="article-summary pull-right">
                             <a href="#/article/{{article.id}}/{{article.ct.id}}">
-                                <font>{{article.nm|limitTo:30}}</font>
+                                <font>{{article.nm | limitTo:30}}</font>
                             </a>
-                            <!--p>
-                                <font>{{article.lds|limitTo:25}}...</font>
-                            </p-->
+                            <span ng-show="article.nov > 0 || userInfo.isE" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.png"/>{{article.nov}}</span>
                         </div>
                     </div>
                 </li>                    
@@ -64,16 +61,16 @@
             <ul>
                 <li data-ng-repeat="article in recommendedArticles">
                     <div class="article-details">
-                        <a href="#/article/{{article.id}}/{{article.ct.id}}">
-                            <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
-                        </a>
+                        <div class="article-image">
+                            <a href="#/article/{{article.id}}/{{article.ct.id}}">
+                                <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
+                            </a>
+                        </div>
                         <div class="article-summary pull-right">
                             <a href="#/article/{{article.id}}/{{article.ct.id}}">
-                                <font>{{article.nm|limitTo:30}}</font>
+                                <font>{{article.nm | limitTo:30}}</font>
                             </a>
-                            <!--p>
-                                <font>{{article.lds|limitTo:25}}...</font>
-                            </p-->
+                            <span ng-show="article.nol > 0 || userInfo.isE" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{article.nol}}</span>
                         </div>
                     </div>
                 </li>                    
