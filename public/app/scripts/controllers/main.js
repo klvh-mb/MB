@@ -5,6 +5,8 @@ var minibean = angular.module('minibean');
 minibean.controller('BusinessCommunityPageController', function($scope, $routeParams, profilePhotoModal,
         communityPageService, communityJoinService, searchMembersService, usSpinnerService){
     
+    $scope.get_header_metaData();
+    
     $scope.selectNavBar('HOME', -1);
 
     $scope.selectedTab = 1;
@@ -130,6 +132,18 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     $scope.districtCommunities = [];
     $scope.otherCommunities = [];
 
+    if ($scope.topicCommunityCategoriesMap.length == 0) {
+        $scope.communityCategoriesMap = [];
+        usSpinnerService.spin('loading...');
+        communitiesDiscoverService.getSocialCommunityCategoriesMap.get({indexOnly:true}, 
+            function(data) {
+                $scope.topicCommunityCategoriesMap = data;
+                $scope.communityCategoriesMap = $scope.topicCommunityCategoriesMap;
+                usSpinnerService.stop('loading...');
+            }
+        );
+    }
+    
     if ($scope.zodiacYearCommunities.length == 0) {
         $scope.communities = [];
         usSpinnerService.spin('loading...');
@@ -137,18 +151,6 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
             function(data) {
                 $scope.zodiacYearCommunities = data.communities;
                 $scope.communities = $scope.zodiacYearCommunities;
-                usSpinnerService.stop('loading...');
-            }
-        );
-    }
-
-    if ($scope.zodiacYearMonthCommunityCategoriesMap.length == 0) {
-        $scope.communityCategoriesMap = []; 
-        usSpinnerService.spin('loading...');
-        communitiesDiscoverService.getZodiacYearMonthCommunityCategoriesMap.get({indexOnly:true}, 
-            function(data) {
-                $scope.zodiacYearMonthCommunityCategoriesMap = data; 
-                $scope.communityCategoriesMap = $scope.zodiacYearMonthCommunityCategoriesMap;
                 usSpinnerService.stop('loading...');
             }
         );
@@ -166,18 +168,20 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
         );
     }
 
-    if ($scope.topicCommunityCategoriesMap.length == 0) {
-        $scope.communityCategoriesMap = [];
+    /*
+    if ($scope.zodiacYearMonthCommunityCategoriesMap.length == 0) {
+        $scope.communityCategoriesMap = []; 
         usSpinnerService.spin('loading...');
-        communitiesDiscoverService.getSocialCommunityCategoriesMap.get({indexOnly:true}, 
+        communitiesDiscoverService.getZodiacYearMonthCommunityCategoriesMap.get({indexOnly:true}, 
             function(data) {
-                $scope.topicCommunityCategoriesMap = data;
-                $scope.communityCategoriesMap = $scope.topicCommunityCategoriesMap;
+                $scope.zodiacYearMonthCommunityCategoriesMap = data; 
+                $scope.communityCategoriesMap = $scope.zodiacYearMonthCommunityCategoriesMap;
                 usSpinnerService.stop('loading...');
             }
         );
     }
-
+    */
+    
     /*
     if ($scope.otherCommunities.length == 0) {
         $scope.communities = [];
