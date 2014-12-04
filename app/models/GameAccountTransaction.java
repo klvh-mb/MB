@@ -97,6 +97,8 @@ public class GameAccountTransaction  extends domain.Entity {
         for (GameAccountStatistics stat : stats) {
             GameAccount account = GameAccount.findByUserId(stat.user_id);
             if (account != null) {
+                double firstPersonMulti = account.getFirstPersonMultiplier();
+
                 long numPostCredit = Math.min(stat.num_new_posts, GamificationConstants.LIMIT_POST);
                 long numCommentCredit = Math.min(stat.num_new_comments, GamificationConstants.LIMIT_COMMENT);
                 long numLikeCredit = Math.min(stat.num_likes, GamificationConstants.LIMIT_LIKE);
@@ -105,8 +107,8 @@ public class GameAccountTransaction  extends domain.Entity {
 
                 if (toCredit) {
                     long totalCredit = 0;
-                    long pointsPostCredit = numPostCredit * GamificationConstants.POINTS_POST;
-                    long pointsCommentCredit = numCommentCredit * GamificationConstants.POINTS_COMMENT;
+                    long pointsPostCredit = (long)(numPostCredit * GamificationConstants.POINTS_POST * firstPersonMulti);
+                    long pointsCommentCredit = (long)(numCommentCredit * GamificationConstants.POINTS_COMMENT * firstPersonMulti);
                     long pointsLikeCredit = numLikeCredit * GamificationConstants.POINTS_LIKE;
 
                     long pointsPostActivity = stat.num_new_posts * GamificationConstants.POINTS_POST;

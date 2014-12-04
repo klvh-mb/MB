@@ -29,6 +29,9 @@ public class GameAccount extends domain.Entity {
 	private Long game_points = 0L;      // total capped points redeemable
     private Long activity_points = 0L;  // total points from activity
 
+    // Points multiplier
+    private Double firstPersonMultiplier = 1d;
+
     // Redemption
 	public Long redeemed_points;
 	public Date last_redemption_time;
@@ -228,5 +231,9 @@ public class GameAccount extends domain.Entity {
 
     public Long getActivityPoints() {
         return activity_points;
+    }
+
+    public Double getFirstPersonMultiplier() {
+        return (firstPersonMultiplier == null) ? 1d : firstPersonMultiplier;
     }
 }

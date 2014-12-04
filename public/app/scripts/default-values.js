@@ -4,9 +4,9 @@ var DefaultValues = new function() {
     this.GAME_PROFILE_PIC_POINTS = 150;
     this.GAME_DAILY_SIGNIN_POINTS = 5;
     this.GAME_POST_POINTS = 2;
-    this.GAME_COMMENT_POINTS = 2;
+    this.GAME_COMMENT_POINTS = 1;
     this.GAME_LIKE_POINTS = 0;
-    this.GAME_REFERRAL_POINTS = 500;
+    this.GAME_REFERRAL_POINTS = 80;
 
     this.TAGWORD_LIST_COLLAPSE_COUNT = 4;
     this.AUTO_SCROLL_INTERVAL = 6000;
