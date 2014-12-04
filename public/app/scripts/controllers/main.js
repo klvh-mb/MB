@@ -116,7 +116,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
         );
     }
     $scope.hotNewsFeeds(0);
-    $scope.hotNewsFeeds(1);
+    //$scope.hotNewsFeeds(1);
     
     // articles
     $scope.hotArticles = articleService.HotArticles.get({category_id:0});
