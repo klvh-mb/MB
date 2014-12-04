@@ -70,13 +70,16 @@ minibean.factory('postFactory',function(postManagementService, likeFrameworkServ
     }
     
     factory.getAllComments = function(id, posts) {
+        usSpinnerService.spin('loading..');
         angular.forEach(posts, function(post, key){
             if (post.id == id) {
-                post.cs = postManagementService.allComments.get({id:id});
+                postManagementService.allComments.get({id:id}, function(data) {
+                    post.cs = data;
+                    usSpinnerService.stop('loading..');                    
+                });
                 post.ep = true;
             }
         });
-        usSpinnerService.stop('loading..');
     }
     
     factory.deletePost = function(postId, posts) {

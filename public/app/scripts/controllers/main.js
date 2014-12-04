@@ -1451,7 +1451,6 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     }
     
     $scope.get_all_comments = function(id) {
-    	usSpinnerService.spin('loading..');
         postFactory.getAllComments(id, $scope.posts.posts);
     }
     
@@ -1720,12 +1719,11 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     }
     
     $scope.get_all_answers = function(id) {
-    	usSpinnerService.spin('loading..');
+        usSpinnerService.spin('loading_'+id);
         postFactory.getAllComments(id, $scope.QnAs.posts);
     }
     
     $scope.get_all_comments = function(id) {
-    	usSpinnerService.spin('loading..');
         postFactory.getAllComments(id, $scope.QnAs.posts);
     }
     
@@ -2294,11 +2292,11 @@ minibean.controller('CommunityQnAController',function($scope, postFactory, postM
     }
     
 	$scope.get_all_answers = function(id) {
+        usSpinnerService.spin('loading_'+id);
         postFactory.getAllComments(id, $scope.QnAs.posts);
     }
 
     $scope.get_all_comments = function(id) {
-    	usSpinnerService.spin('loading..');
         postFactory.getAllComments(id, $scope.QnAs.posts);
     }
 
@@ -2956,7 +2954,6 @@ minibean.controller('MyMagazineNewsFeedController', function($scope, postFactory
     }
     
     $scope.get_all_comments = function(id) {
-    	usSpinnerService.spin('loading..');
         postFactory.getAllComments(id, $scope.newsFeeds.posts);
     }
 
@@ -3018,7 +3015,6 @@ minibean.controller('NewsFeedController', function($scope, postFactory, postMana
 	}
 	
     $scope.get_all_comments = function(id) {
-    	usSpinnerService.spin('loading..');
         postFactory.getAllComments(id, $scope.newsFeeds.posts);
     }
     
@@ -3308,7 +3304,6 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
     }
     
     $scope.get_all_comments = function(id) {
-    	usSpinnerService.spin('loading..');
         postFactory.getAllComments(id, $scope.newsFeeds.posts);
     }
     
@@ -3648,7 +3643,6 @@ minibean.controller('MyBookmarkController', function($scope, postFactory, bookma
     }
     
     $scope.get_all_comments = function(id) {
-    	usSpinnerService.spin('loading..');
         postFactory.getAllComments(id, $scope.posts.posts);
     }
     
@@ -4019,7 +4013,6 @@ minibean.controller('MagazineNewsFeedController', function($scope, $timeout, $up
     //
     
     $scope.get_all_comments = function(id) {
-    	usSpinnerService.spin('loading..');
         postFactory.getAllComments(id, $scope.posts.posts);
     }
     
