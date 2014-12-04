@@ -10,7 +10,7 @@
         </div>
         <div class="section-details">
             <ul>
-                <li data-ng-repeat="post in newsFeeds.posts">
+                <li data-ng-repeat="post in newsFeeds.posts" ng-if="$index < 5">
                     <div class="hot-post">
                         <div class="hot-post-body">
                             <a data-ng-href="#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><span ng-bind-html="post.ptl | limitTo:25 | to_trusted"></span><span ng-if="post.ptl.length > 25">...</span></a>
@@ -45,22 +45,10 @@
                 <li data-ng-repeat="post in newsFeeds.posts">
                     <div class="hot-community">
                         <div class="hot-community-body">
-                            <a class="hot-community-body-text" data-ng-href="#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><span ng-bind-html="post.ptl | to_trusted"></span></a>
-                            <a class="pull-right" data-ng-href="my#/community/{{post.cid}}"><img src="{{post.ci}}">{{post.cn}}</a>
+
                         </div>
                         <div class="hot-community-intro">
-                            <span class="post-title-user-name">
-                                <img src="../assets/app/images/general/icons/i-mom.png" /><a data-ng-href="my#/profile/{{post.oid}}">{{post.p}}</a>
-                            </span>
-                            <span class="post-intro-divider"></span>
-                            <span class="post-qna-answer-count">
-                                <img src="../assets/app/images/general/icons/i-time.png" /><span class="post-date" am-time-ago="post.ut"></span>
-                            </span>
-                            <span class="post-intro-divider"></span>
-                            <span class="post-qna-answer-count">
-                                <img src="../assets/app/images/general/icons/i-reply.png" />{{post.n_c}}
-                            </span>
-                            <span class="post-intro-divider"></span>
+                        
                         </div>
                     </div>
                 </li>                    

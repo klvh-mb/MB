@@ -76,6 +76,7 @@ minibean.factory('postFactory',function(postManagementService, likeFrameworkServ
                 post.ep = true;
             }
         });
+        usSpinnerService.stop('loading..');
     }
     
     factory.deletePost = function(postId, posts) {

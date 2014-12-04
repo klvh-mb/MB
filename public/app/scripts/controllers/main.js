@@ -5,6 +5,8 @@ var minibean = angular.module('minibean');
 minibean.controller('BusinessCommunityPageController', function($scope, $routeParams, profilePhotoModal,
         communityPageService, communityJoinService, searchMembersService, usSpinnerService){
     
+    $scope.get_header_metaData();
+    
     $scope.selectNavBar('HOME', -1);
 
     $scope.selectedTab = 1;
@@ -116,7 +118,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
         );
     }
     $scope.hotNewsFeeds(0);
-    $scope.hotNewsFeeds(1);
+    //$scope.hotNewsFeeds(1);
     
     // articles
     $scope.hotArticles = articleService.HotArticles.get({category_id:0});
@@ -130,6 +132,18 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     $scope.districtCommunities = [];
     $scope.otherCommunities = [];
 
+    if ($scope.topicCommunityCategoriesMap.length == 0) {
+        $scope.communityCategoriesMap = [];
+        usSpinnerService.spin('loading...');
+        communitiesDiscoverService.getSocialCommunityCategoriesMap.get({indexOnly:true}, 
+            function(data) {
+                $scope.topicCommunityCategoriesMap = data;
+                $scope.communityCategoriesMap = $scope.topicCommunityCategoriesMap;
+                usSpinnerService.stop('loading...');
+            }
+        );
+    }
+    
     if ($scope.zodiacYearCommunities.length == 0) {
         $scope.communities = [];
         usSpinnerService.spin('loading...');
@@ -137,18 +151,6 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
             function(data) {
                 $scope.zodiacYearCommunities = data.communities;
                 $scope.communities = $scope.zodiacYearCommunities;
-                usSpinnerService.stop('loading...');
-            }
-        );
-    }
-
-    if ($scope.zodiacYearMonthCommunityCategoriesMap.length == 0) {
-        $scope.communityCategoriesMap = []; 
-        usSpinnerService.spin('loading...');
-        communitiesDiscoverService.getZodiacYearMonthCommunityCategoriesMap.get({indexOnly:true}, 
-            function(data) {
-                $scope.zodiacYearMonthCommunityCategoriesMap = data; 
-                $scope.communityCategoriesMap = $scope.zodiacYearMonthCommunityCategoriesMap;
                 usSpinnerService.stop('loading...');
             }
         );
@@ -166,18 +168,20 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
         );
     }
 
-    if ($scope.topicCommunityCategoriesMap.length == 0) {
-        $scope.communityCategoriesMap = [];
+    /*
+    if ($scope.zodiacYearMonthCommunityCategoriesMap.length == 0) {
+        $scope.communityCategoriesMap = []; 
         usSpinnerService.spin('loading...');
-        communitiesDiscoverService.getSocialCommunityCategoriesMap.get({indexOnly:true}, 
+        communitiesDiscoverService.getZodiacYearMonthCommunityCategoriesMap.get({indexOnly:true}, 
             function(data) {
-                $scope.topicCommunityCategoriesMap = data;
-                $scope.communityCategoriesMap = $scope.topicCommunityCategoriesMap;
+                $scope.zodiacYearMonthCommunityCategoriesMap = data; 
+                $scope.communityCategoriesMap = $scope.zodiacYearMonthCommunityCategoriesMap;
                 usSpinnerService.stop('loading...');
             }
         );
     }
-
+    */
+    
     /*
     if ($scope.otherCommunities.length == 0) {
         $scope.communities = [];
@@ -1447,6 +1451,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     }
     
     $scope.get_all_comments = function(id) {
+    	usSpinnerService.spin('loading..');
         postFactory.getAllComments(id, $scope.posts.posts);
     }
     
@@ -1715,10 +1720,12 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     }
     
     $scope.get_all_answers = function(id) {
+    	usSpinnerService.spin('loading..');
         postFactory.getAllComments(id, $scope.QnAs.posts);
     }
     
     $scope.get_all_comments = function(id) {
+    	usSpinnerService.spin('loading..');
         postFactory.getAllComments(id, $scope.QnAs.posts);
     }
     
@@ -2291,6 +2298,7 @@ minibean.controller('CommunityQnAController',function($scope, postFactory, postM
     }
 
     $scope.get_all_comments = function(id) {
+    	usSpinnerService.spin('loading..');
         postFactory.getAllComments(id, $scope.QnAs.posts);
     }
 
@@ -2948,6 +2956,7 @@ minibean.controller('MyMagazineNewsFeedController', function($scope, postFactory
     }
     
     $scope.get_all_comments = function(id) {
+    	usSpinnerService.spin('loading..');
         postFactory.getAllComments(id, $scope.newsFeeds.posts);
     }
 
@@ -3009,6 +3018,7 @@ minibean.controller('NewsFeedController', function($scope, postFactory, postMana
 	}
 	
     $scope.get_all_comments = function(id) {
+    	usSpinnerService.spin('loading..');
         postFactory.getAllComments(id, $scope.newsFeeds.posts);
     }
     
@@ -3298,6 +3308,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
     }
     
     $scope.get_all_comments = function(id) {
+    	usSpinnerService.spin('loading..');
         postFactory.getAllComments(id, $scope.newsFeeds.posts);
     }
     
@@ -3637,6 +3648,7 @@ minibean.controller('MyBookmarkController', function($scope, postFactory, bookma
     }
     
     $scope.get_all_comments = function(id) {
+    	usSpinnerService.spin('loading..');
         postFactory.getAllComments(id, $scope.posts.posts);
     }
     
@@ -4007,6 +4019,7 @@ minibean.controller('MagazineNewsFeedController', function($scope, $timeout, $up
     //
     
     $scope.get_all_comments = function(id) {
+    	usSpinnerService.spin('loading..');
         postFactory.getAllComments(id, $scope.posts.posts);
     }
     
