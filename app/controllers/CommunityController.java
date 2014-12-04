@@ -101,11 +101,13 @@ public class CommunityController extends Controller{
     }
 
     @Transactional
-    public static Result getZodiacYearMonthCommunities() {
+    public static Result getZodiacYearMonthCommunityCategoriesMap(boolean indexOnly) {
         List<CommunitiesWidgetChildVM> vms = 
                 getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.ZODIAC_YEAR_MONTH);
         
-        List<CommunitiesWidgetChildVM> result = new ArrayList<CommunitiesWidgetChildVM>();
+        // by year
+        Map<Integer, List<CommunitiesWidgetChildVM>> map = new HashMap<Integer, List<CommunitiesWidgetChildVM>>();
+        
         DateTime maxYearMonth = new DateTime().plusMonths(10);
         for (CommunitiesWidgetChildVM vm : vms) {
             try {
@@ -115,7 +117,10 @@ public class CommunityController extends Controller{
                     continue;
                 }
                 if (new DateTime(year, month, 1, 0, 0, 0).isBefore(maxYearMonth)) {
-                    result.add(vm);
+                    if (!map.containsKey(year)) {
+                        map.put(year, new ArrayList<CommunitiesWidgetChildVM>());
+                    }
+                    map.get(year).add(vm);
                 }
             } catch (NumberFormatException e) {
                 logger.underlyingLogger().error(String.format("[c=%d] targetingInfo not integer year", vm.id));
@@ -123,6 +128,7 @@ public class CommunityController extends Controller{
         }
         
         // sort by year month desc
+        /*
         Collections.sort(result, new Comparator<CommunitiesWidgetChildVM>() {
             @Override
             public int compare(CommunitiesWidgetChildVM o1, CommunitiesWidgetChildVM o2) {
@@ -136,9 +142,22 @@ public class CommunityController extends Controller{
                 return ((Integer)year2).compareTo((Integer)year1);
             }
         });
+        */
         
-        CommunitiesParentVM communitiesVM = new CommunitiesParentVM(result.size(), result);
-        return ok(Json.toJson(communitiesVM));
+        List<Integer> years = new ArrayList(map.keySet());
+        Collections.sort(years, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return ((Integer)o2).compareTo((Integer)o1);
+            }
+        });
+        
+        List<CommunityCategoryMapVM> communityCategoryMapVMs = new ArrayList<>();
+        for (Integer year : years) {
+            communityCategoryMapVMs.add(CommunityCategoryMapVM.communityCategoryMapVM(year.toString(), map.get(year)));
+        }
+        
+        return ok(Json.toJson(communityCategoryMapVMs));    
     }
     
     @Transactional
@@ -1370,12 +1389,11 @@ public class CommunityController extends Controller{
         }
         
         // get other topic comms
-        if (!indexOnly) {
-            List<CommunitiesWidgetChildVM> vms = 
-                    getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.PRE_NURSERY);
-            CommunityCategoryMapVM vm = CommunityCategoryMapVM.communityCategoryMapVM(vms);
-            communityCategoryMapVMs.add(vm);
-        }
+        List<CommunitiesWidgetChildVM> vms = 
+                getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.PRE_NURSERY);
+        CommunityCategoryMapVM vm = CommunityCategoryMapVM.communityCategoryMapVM("其他", vms);
+        communityCategoryMapVMs.add(vm);
+        
         return ok(Json.toJson(communityCategoryMapVMs));
     }
 }

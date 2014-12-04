@@ -98,6 +98,17 @@ minibean.controller('TodayWeatherInfoController',function($scope, $http, todayWe
     
 });
 
+minibean.controller('FrontpageController',function($scope, $route, $location, $http, $routeParams, campaignService, articleService, usSpinnerService) {
+    
+    $scope.selectNavBar('FRONTPAGE', -1);
+    
+    $scope.hotArticles = articleService.HotArticles.get({category_id:0});
+    $scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:0});
+    $scope.newArticles = articleService.NewArticles.get({category_id:0});
+    
+
+});
+
 minibean.controller('GameController',function($scope, $http, $interval, $location, gameService, usSpinnerService) {
 
     $scope.get_header_metaData();
@@ -141,7 +152,7 @@ minibean.controller('ApplicationController',
     function($scope, $location, $interval, $route, $window, $modal,  
         applicationInfoService, announcementsService, headerBarMetadataService, userInfoService,
         acceptJoinRequestService, acceptFriendRequestService, notificationMarkReadService,
-        communityCategoryService, articleService, iconsService, usSpinnerService) {
+        communitiesDiscoverService, articleService, iconsService, usSpinnerService) {
 
     // For fix sidebar
     $scope.leftSidebarTop = 0;
@@ -239,8 +250,8 @@ minibean.controller('ApplicationController',
     $scope.emoticons = iconsService.getEmoticons.get();
 
     $scope.topAnnouncements = announcementsService.getTopAnnouncements.get();
-	$scope.businessCommunityCategories = communityCategoryService.getAllBusinessCommunityCategories.get();
-	$scope.socialCommunityCategoriesMap = communityCategoryService.getSocialCommunityCategoriesMap.get({indexOnly:true});
+	$scope.businessCommunityCategories = communitiesDiscoverService.getAllBusinessCommunityCategories.get();
+	$scope.topicCommunityCategoriesMap = communitiesDiscoverService.getSocialCommunityCategoriesMap.get({indexOnly:true});
 
     $scope.hotArticleCategories = [];
     $scope.soonMomsArticleCategories = [];	
@@ -994,14 +1005,17 @@ minibean.controller('UserFriendsController',function($scope, $routeParams, frien
     
 });
 
-minibean.controller('CommunitiesDiscoverController',function($scope, $routeParams, usSpinnerService, communitiesDiscoverService, communityCategoryService, sendJoinRequest){
+minibean.controller('CommunitiesDiscoverController',function($scope, $routeParams, usSpinnerService, communitiesDiscoverService, sendJoinRequest){
     
     $scope.get_header_metaData();
     
+    // cache
     $scope.communities = [];
+    $scope.communityCategoriesMap = [];
+    
     $scope.topicCommunityCategoriesMap = [];
     $scope.zodiacYearCommunities = [];
-    $scope.zodiacYearMonthCommunities = [];
+    $scope.zodiacYearMonthCommunityCategoriesMap = [];
     $scope.districtCommunities = [];
     $scope.otherCommunities = [];
 
@@ -1025,17 +1039,17 @@ minibean.controller('CommunitiesDiscoverController',function($scope, $routeParam
                 $scope.communities = $scope.zodiacYearCommunities;
             } 
         } else if (tab == 2) {
-            if ($scope.zodiacYearMonthCommunities.length == 0) {
+            if ($scope.zodiacYearMonthCommunityCategoriesMap.length == 0) {
                 usSpinnerService.spin('loading...');
-                communitiesDiscoverService.ZodiacYearMonthCommunities.get(
+                communitiesDiscoverService.getZodiacYearMonthCommunityCategoriesMap.get({indexOnly:false}, 
                     function(data) {
-                        $scope.zodiacYearMonthCommunities = data.communities;
-                        $scope.communities = $scope.zodiacYearMonthCommunities;
+                        $scope.zodiacYearMonthCommunityCategoriesMap = data; 
+                        $scope.communityCategoriesMap = $scope.zodiacYearMonthCommunityCategoriesMap;
                         usSpinnerService.stop('loading...');
                     }
-                );    
+                );
             } else {
-                $scope.communities = $scope.zodiacYearMonthCommunities;
+                $scope.communityCategoriesMap = $scope.zodiacYearMonthCommunityCategoriesMap;
             }
         } else if (tab == 3) {
             if ($scope.districtCommunities.length == 0) {
@@ -1051,12 +1065,18 @@ minibean.controller('CommunitiesDiscoverController',function($scope, $routeParam
                 $scope.communities = $scope.districtCommunities;
             }
         } else if (tab == 4) {
+            if ($scope.topicCommunityCategoriesMap.length == 0) {
                 usSpinnerService.spin('loading...');
-                $scope.topicCommunityCategoriesMap = communityCategoryService.getSocialCommunityCategoriesMap.get({indexOnly:false}, 
+                 communitiesDiscoverService.getSocialCommunityCategoriesMap.get({indexOnly:false}, 
                     function(data) {
+                        $scope.topicCommunityCategoriesMap = data;
+                        $scope.communityCategoriesMap = $scope.topicCommunityCategoriesMap;
                         usSpinnerService.stop('loading...');
                     }
                 );
+            } else {
+                $scope.communityCategoriesMap = $scope.topicCommunityCategoriesMap;
+            }
         } else if (tab == 5) {
             if ($scope.otherCommunities.length == 0) {
                 usSpinnerService.spin('loading...');
@@ -1074,12 +1094,12 @@ minibean.controller('CommunitiesDiscoverController',function($scope, $routeParam
     }
     $scope.setSelectedSubTab(4);
     
-    $scope.send_request = function(id) {
+    $scope.joinCommunity = function(id) {
         usSpinnerService.spin('loading...');
         this.invite = sendJoinRequest.sendRequest.get({id:id},
             function(data) {
-                if ($scope.selectedSubTab == 4) {
-                    angular.forEach($scope.topicCommunityCategoriesMap, function(communityCategoryMap, key){
+                if ($scope.selectedSubTab == 4 || $scope.selectedSubTab == 2) {
+                    angular.forEach($scope.communityCategoriesMap, function(communityCategoryMap, key){
                         angular.forEach(communityCategoryMap.communities, function(community, key){
                             if(community.id == id) {
                                 community.isP = true;
@@ -2640,7 +2660,7 @@ minibean.controller('ArticlePageController',function($scope, $routeParams, artic
     
     $scope.hotArticles = articleService.HotArticles.get({category_id:$routeParams.catId});
     $scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:$routeParams.catId});
-    $scope.newArticles = articleService.NewArticles.get({category_id:$routeParams.catId});
+    //$scope.newArticles = articleService.NewArticles.get({category_id:$routeParams.catId});
     
     $scope.article = articleService.ArticleInfo.get({id:$routeParams.id}, 
         function(response) {

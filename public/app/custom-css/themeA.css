@@ -1838,6 +1838,9 @@ a:focus {
     z-index: 10;
     left: 10px;
     top: 8px;
+    height: 20px;
+    width: auto;
+    margin: 0;
 }
 .sta-con-mainslide p.recommend-tag span {
     background-color: #D78D8D;
@@ -2459,6 +2462,9 @@ a:focus {
     font-size: 12px;
     font-weight: bold;
 }
+.zodiacYearMonthCard {
+    width: 22% !important;
+}
 .communityCard {
     -webkit-border-radius: 10px;
     border-radius: 10px;
@@ -2501,19 +2507,25 @@ a:focus {
 .communityTagBox {
     position: relative;
     display: inline-block;
-    min-height: 75px;
+    min-height: 65px;
     height: auto;
     width: 100%;
-    padding: 0px 5px;
+    padding: 5px 5px;
 }
 .communityTagBox img {
-    width: 30px;
-    height: 30px;
-    vertical-align: text-bottom;
+    width: 25px;
+    height: 25px;
+    vertical-align: top;
 }
 .communityTagBox p {
     width: 75%;
     display: inline-block;
+}
+.communityTagBox .btn-general, .communityTagBox .btn-general-flat {
+    position: relative;
+    right: 5px;
+    padding: 3px;
+    margin-bottom: 5px;
 }
 .section-title {
     width: 100%;
@@ -3112,6 +3124,7 @@ span.notif-count {
 }
 #communities-discover-section #communities-index .communityTagBox p {
     width: 72%;
+    margin: 0 0 5px 0;
 }
 #communities-discover-section #communities-index .category-name {
     margin: 5px 10px 12px 10px;

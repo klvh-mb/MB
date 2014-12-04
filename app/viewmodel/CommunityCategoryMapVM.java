@@ -41,10 +41,10 @@ public class CommunityCategoryMapVM {
 		return communityCategoryMapVM;
 	}
 	
-	public static CommunityCategoryMapVM communityCategoryMapVM(List<CommunitiesWidgetChildVM> vms) {
+	public static CommunityCategoryMapVM communityCategoryMapVM(String name, List<CommunitiesWidgetChildVM> vms) {
         CommunityCategoryMapVM communityCategoryMapVM = new CommunityCategoryMapVM();
         communityCategoryMapVM.id = -1;
-        communityCategoryMapVM.name = "其他";
+        communityCategoryMapVM.name = name;
         communityCategoryMapVM.communityVMs = vms;
         return communityCategoryMapVM;
     }
