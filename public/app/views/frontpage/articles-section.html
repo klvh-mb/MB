@@ -1,26 +1,31 @@
-<div id="frontpage-articles-section" class="general-box widget-box">
-    <div class="section-header">
+<div id="frontpage-articles-section">
+    <!--div class="section-header">
         <img src="/assets/app/images/frontpage/article_title_latest.png">
         <a class="pull-right" href="articles#">更多</a>
-    </div>
+    </div-->
     
-    <div id="latest-articles">
-        <div class="section-title">
-            最新
+    <div id="article-latest" class="general-box utility-box">
+        <div class="article-title">
+            <span class="article-title-icon article-title-icon-latest"></span>
+            <img src="/assets/app/images/frontpage/article_title_latest.png">
+            <a class="pull-right" href="articles#">更多</a>
         </div>
         <div class="section-details">
             <ul>
                 <li data-ng-repeat="article in newArticles">
                     <div class="article-details">
                         <div class="article-image">
-                            <a href="#/article/{{article.id}}/{{article.ct.id}}">
+                            <a href="articles#/article/{{article.id}}/{{article.ct.id}}">
                                 <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
                             </a>
                         </div>
                         <div class="article-summary">
-                            <a href="#/article/{{article.id}}/{{article.ct.id}}">
-                                <font>{{article.nm | limitTo:30}}</font>
+                            <a href="articles#/article/{{article.id}}/{{article.ct.id}}">
+                                {{article.nm  | limitTo:20}}</span><span ng-if="article.nm.length > 20">...</span>
                             </a>
+                            <div style="display:block;">
+                                <a class="tag" data-ng-href="#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
+                            </div>
                         </div>
                     </div>
                 </li>                    
@@ -28,24 +33,28 @@
         </div>
     </div>
     
-    <div id="hot-articles">
-        <div class="section-title">
-            最多人觀看
+    <div id="article-hot" class="general-box utility-box">
+        <div class="article-title">
+            <span class="article-title-icon article-title-icon-hot"></span>
+            <img src="/assets/app/images/frontpage/article_title_hot.png">
         </div>
         <div class="section-details">
             <ul>
                 <li data-ng-repeat="article in hotArticles">
                     <div class="article-details">
                         <div class="article-image">
-                            <a href="#/article/{{article.id}}/{{article.ct.id}}">
+                            <a href="articles#/article/{{article.id}}/{{article.ct.id}}">
                                 <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
                             </a>
                         </div>
-                        <div class="article-summary pull-right">
-                            <a href="#/article/{{article.id}}/{{article.ct.id}}">
-                                <font>{{article.nm | limitTo:30}}</font>
+                        <div class="article-summary">
+                            <a href="articles#/article/{{article.id}}/{{article.ct.id}}">
+                                {{article.nm  | limitTo:20}}</span><span ng-if="article.nm.length > 20">...</span>
                             </a>
-                            <span ng-show="article.nov > 0 || userInfo.isE" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.png"/>{{article.nov}}</span>
+                            <div style="display:block;">
+                                <a class="tag" data-ng-href="#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
+                                <span ng-show="article.nov > 0 || userInfo.isE" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.png"/>{{article.nov}}</span>
+                            </div>
                         </div>
                     </div>
                 </li>                    
@@ -53,24 +62,28 @@
         </div>
     </div>
     
-    <div id="recommend-articles">
-        <div class="section-title">
-            最讚好
+    <div id="article-recommend" class="general-box utility-box">
+        <div class="article-title">
+            <span class="article-title-icon article-title-icon-recommend"></span>
+            <img src="/assets/app/images/frontpage/article_title_recommend.png">
         </div>
         <div class="section-details">
             <ul>
                 <li data-ng-repeat="article in recommendedArticles">
                     <div class="article-details">
                         <div class="article-image">
-                            <a href="#/article/{{article.id}}/{{article.ct.id}}">
+                            <a href="articles#/article/{{article.id}}/{{article.ct.id}}">
                                 <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
                             </a>
                         </div>
-                        <div class="article-summary pull-right">
-                            <a href="#/article/{{article.id}}/{{article.ct.id}}">
-                                <font>{{article.nm | limitTo:30}}</font>
+                        <div class="article-summary">
+                            <a href="articles#/article/{{article.id}}/{{article.ct.id}}">
+                                {{article.nm  | limitTo:20}}</span><span ng-if="article.nm.length > 20">...</span>
                             </a>
-                            <span ng-show="article.nol > 0 || userInfo.isE" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{article.nol}}</span>
+                            <div style="display:block;">
+                                <a class="tag" data-ng-href="#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
+                                <span ng-show="article.nol > 0 || userInfo.isE" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{article.nol}}</span>
+                            </div>
                         </div>
                     </div>
                 </li>                    

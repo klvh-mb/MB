@@ -1799,6 +1799,12 @@ a:focus {
     overflow: hidden;
     padding: 0 10px;
 }
+.static-content-wrapper .article-summary a.tag {
+    color: #008ee3;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1.8;
+}
 /*Static Content Page General Box End*/
 
 /*Static Content Page Slider Start*/

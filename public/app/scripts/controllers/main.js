@@ -1719,7 +1719,6 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     }
     
     $scope.get_all_answers = function(id) {
-        usSpinnerService.spin('loading_'+id);
         postFactory.getAllComments(id, $scope.QnAs.posts);
     }
     
@@ -2292,7 +2291,6 @@ minibean.controller('CommunityQnAController',function($scope, postFactory, postM
     }
     
 	$scope.get_all_answers = function(id) {
-        usSpinnerService.spin('loading_'+id);
         postFactory.getAllComments(id, $scope.QnAs.posts);
     }
 
