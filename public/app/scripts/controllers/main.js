@@ -331,6 +331,8 @@ minibean.controller('ApplicationController',
         function(data) {
             if (data.isLoggedIn) {
                 $scope.get_header_metaData();
+                $scope.profileImage = "/image/get-thumbnail-image-by-id/"+$scope.userInfo.id;
+                $scope.coverImage = "/image/get-thumbnail-cover-image-by-id/"+$scope.userInfo.id;
 	        }
         }
 	);
@@ -373,7 +375,7 @@ minibean.controller('ApplicationController',
         
 	$scope.set_background_image = function() {
 		return { 
-            background: 'url(/image/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+') center center no-repeat', 
+            background: 'url('+$scope.coverImage+') center center no-repeat', 
             backgroundSize: '100% auto' 
         };
 	} 
