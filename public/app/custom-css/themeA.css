@@ -63,6 +63,11 @@ pre {
     color: #038100 !important;
     font-style: italic;
 }
+.comment-spinner {
+    width: 18px;
+    margin-top: -3px;
+    margin-left: 10px;
+}
 #announce .tour-btn {
     font-size: 13px;
     padding: 2px 5px;

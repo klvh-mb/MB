@@ -47,6 +47,7 @@
             <span class="post-qna-answer-count" ng-show="post.n_c > 0 && post.n_c <= commentsPreviewNum">{{post.n_c}}個留言</span>
             <a class="post-view-all-comments-link" href="" ng-show="post.n_c > commentsPreviewNum" data-ng-click="get_all_comments(post.id)">共{{post.n_c}}個留言</a>
             <a class="post-view-all-comments-link pull-right" href="" data-ng-click="get_all_comments(post.id)">查看所有留言</a>
+            <img id="comment-spinner_{{post.id}}" class="comment-spinner" style="display:none;" src="/assets/app/images/general/animated/gray-spinner.gif">
         </li>
         <li data-ng-repeat="comment in post.cs">
             <a data-ng-href="my#/profile/{{comment.oid}}">
