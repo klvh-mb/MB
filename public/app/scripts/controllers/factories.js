@@ -70,12 +70,12 @@ minibean.factory('postFactory',function(postManagementService, likeFrameworkServ
     }
     
     factory.getAllComments = function(id, posts) {
-        usSpinnerService.spin('loading..');
+        usSpinnerService.spin('loading...');
         angular.forEach(posts, function(post, key){
             if (post.id == id) {
                 postManagementService.allComments.get({id:id}, function(data) {
                     post.cs = data;
-                    usSpinnerService.stop('loading..');                    
+                    usSpinnerService.stop('loading...');                    
                 });
                 post.ep = true;
             }
