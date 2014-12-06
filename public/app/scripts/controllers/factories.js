@@ -70,12 +70,12 @@ minibean.factory('postFactory',function(postManagementService, likeFrameworkServ
     }
     
     factory.getAllComments = function(id, posts) {
-        $("#comment-spinner_"+id).show();
+        $("#comment-spinner_"+id).show(10);
         angular.forEach(posts, function(post, key){
             if (post.id == id) {
                 postManagementService.allComments.get({id:id}, function(data) {
                     post.cs = data;
-                    $("#comment-spinner_"+id).hide();                    
+                    $("#comment-spinner_"+id).hide(10);                    
                 });
                 post.ep = true;
             }

@@ -64,7 +64,7 @@ pre {
     font-style: italic;
 }
 .comment-spinner {
-    width: 18px;
+    height: 6px;
     margin-top: -3px;
     margin-left: 10px;
 }
