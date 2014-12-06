@@ -1,5 +1,6 @@
 package models;
 
+import domain.PostType;
 import org.elasticsearch.common.joda.time.LocalDate;
 import play.data.validation.Constraints;
 import play.db.jpa.JPA;
@@ -22,6 +23,8 @@ import java.util.List;
  */
 @Entity
 public class CommunityStatistics {
+    private static play.api.Logger logger = play.api.Logger.apply(CommunityStatistics.class);
+
     @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
@@ -84,6 +87,28 @@ public class CommunityStatistics {
         executeUpdate();
     }
 
+    @Transactional
+    public static void setNumPosts(Long communityId, LocalDate refDate, Long numPosts) {
+        getCommunityStatistics(communityId, refDate);
+
+        JPA.em().createQuery("UPDATE CommunityStatistics s SET s.numPosts = ?1 where s.communityId = ?2 and s.activityDate = ?3").
+		setParameter(1, numPosts).
+        setParameter(2, communityId).
+		setParameter(3, refDate.toDate()).
+        executeUpdate();
+    }
+
+    @Transactional
+    public static void setNumComments(Long communityId, LocalDate refDate, Long numComments) {
+        getCommunityStatistics(communityId, refDate);
+
+        JPA.em().createQuery("UPDATE CommunityStatistics s SET s.numComments = ?1 where s.communityId = ?2 and s.activityDate = ?3").
+        setParameter(1, numComments).
+        setParameter(2, communityId).
+		setParameter(3, refDate.toDate()).
+        executeUpdate();
+    }
+
     /**
      * Return list of communities, sorted by activity count.
      * @param numDaysBefore
@@ -112,6 +137,46 @@ public class CommunityStatistics {
             result.add(entry);
         }
         return result;
+    }
+
+    /**
+     * @param numDaysBefore
+     */
+    public static void populatePastStats(int numDaysBefore) {
+        logger.underlyingLogger().info("CommunityStatistics - Begin population (daysBefore="+numDaysBefore+")");
+
+        for (int i = numDaysBefore; i >= 0; i--) {
+            LocalDate refDate = (new LocalDate()).minusDays(i);
+
+            Query q = JPA.em().createNativeQuery("select p.community_id, count(*) from Post p "+
+                   "where p.deleted = 0 and p.CREATED_DATE > ?1 and p.CREATED_DATE < ?2 "+
+                   "group by p.community_id");
+            q.setParameter(1, refDate.toDate());
+            q.setParameter(2, refDate.plusDays(1).toDate());
+            List<Object[]> postStats = q.getResultList();
+
+            for (Object[] postStat : postStats) {
+                BigInteger commId = (BigInteger) postStat[0];
+                BigInteger numPosts = (BigInteger) postStat[1];
+                setNumPosts(commId.longValue(), refDate, numPosts.longValue());
+            }
+
+            q = JPA.em().createNativeQuery("select p.community_id, count(*) from Post p, Comment c "+
+                   "where p.id = c.socialObject and p.postType = ?3 and p.deleted = 0 and c.deleted = 0 and c.CREATED_DATE > ?1 and c.CREATED_DATE < ?2 "+
+                   "group by p.community_id");
+            q.setParameter(1, refDate.toDate());
+            q.setParameter(2, refDate.plusDays(1).toDate());
+            q.setParameter(3, PostType.QUESTION.ordinal());
+            List<Object[]> commentStats = q.getResultList();
+
+            for (Object[] commentStat : commentStats) {
+                BigInteger commId = (BigInteger) commentStat[0];
+                BigInteger numComments = (BigInteger) commentStat[1];
+                setNumComments(commId.longValue(), refDate, numComments.longValue());
+            }
+        }
+
+        logger.underlyingLogger().info("CommunityStatistics - Done population (daysBefore="+numDaysBefore+")");
     }
 
     @Transactional

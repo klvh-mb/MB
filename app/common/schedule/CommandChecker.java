@@ -1,5 +1,6 @@
 package common.schedule;
 
+import models.CommunityStatistics;
 import models.GameAccountTransaction;
 import tagword.TaggingEngine;
 
@@ -34,6 +35,10 @@ public class CommandChecker {
     }
 
     private static void performCommand(String commandLine) {
+        if (commandLine.endsWith("DONE")) {
+            return;
+        }
+
         String[] tokens = commandLine.split("\\s");
 
         if (commandLine.startsWith("indexTagWords")) {
@@ -45,6 +50,13 @@ public class CommandChecker {
                 daysBefore = Integer.valueOf(tokens[1]);
             }
             GameAccountTransaction.performEndOfDayTasks(daysBefore);
+        }
+        else if (commandLine.startsWith("communityStatistics")) {
+            Integer daysBefore = null;
+            if (tokens.length > 1) {
+                daysBefore = Integer.valueOf(tokens[1]);
+            }
+            CommunityStatistics.populatePastStats(daysBefore);
         }
     }
 }
