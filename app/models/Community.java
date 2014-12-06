@@ -135,10 +135,11 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
         this.socialUpdatedDate = new Date();
 		JPA.em().merge(this);
 
+        // update community stats
+        CommunityStatistics.onNewPost(this.id);
         // record affinity
         UserCommunityAffinity.onCommunityActivity(user.id, this.id);
 
-		//recordPostOn(user);
 		return post;
 	}
 	
@@ -315,6 +316,21 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
             return null;
         }
 	}
+
+    public static List<Community> findOpenCommsByIds(List<Long> ids, int maxResults) {
+        if (ids == null || ids.size() == 0) {
+            return Collections.EMPTY_LIST;
+        }
+
+        String idsForIn = StringUtil.collectionToString(ids, ",");
+        Query q = JPA.em().createQuery("SELECT c FROM Community c "+
+                "where c.id in ("+idsForIn+") and c.communityType = ?1 and c.deleted = false "+
+                "order by FIELD(c.id ,"+idsForIn+")");
+        q.setParameter(1, CommunityType.OPEN);
+        q.setMaxResults(maxResults);
+        return (List<Community>) q.getResultList();
+    }
+
 
     public static List<Long> findIdsByCommunityType(CommunityType commType) {
         List<Long> result = new ArrayList<>();

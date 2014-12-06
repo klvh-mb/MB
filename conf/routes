@@ -247,6 +247,10 @@ GET     /unlike-comment/:comment_id             controllers.CommunityController.
 GET     /want-ans/:post_id                      controllers.CommunityController.wantAnswerFromQuestion(post_id:Long)
 GET     /unwant-ans/:post_id                    controllers.CommunityController.unwantAnswerFromQuestion(post_id:Long)
 
+# FrontPage
+GET     /get-hotcommunities                     controllers.FrontPageController.getHotCommunities()
+
+# PreNursery
 GET     /get-pn-communities                     controllers.PreNurseryController.getPNCommunities()
 GET     /getPNs/:id                             controllers.PreNurseryController.getPNs(id:Long)
 GET     /pn-request-update/:name/:districtId    controllers.PreNurseryController.requestUpdate(name:String,districtId:Long)
@@ -262,7 +266,7 @@ GET     /get-privacy-settings                   controllers.UserSettingsControll
 # Report Generation
 POST    /send-report                            controllers.ReportObjectController.createReport()
 
-# indexing with elasic search
+# indexing with elastic search
 GET     /searchForPosts/index/:query/:community_id/:offset  controllers.Application.searchForPosts(query: String, community_id: Long,offset:Long)
 
 GET     /get-today-weather-info                 controllers.Application.getTodayWeatherInfo()

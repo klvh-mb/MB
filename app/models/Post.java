@@ -226,6 +226,8 @@ public class Post extends SocialObject implements Likeable, Commentable {
             recordCommentOnCommunityPost(user, comment);
         }
 
+        // update community stats
+        CommunityStatistics.onNewComment(this.community.id);
         // update affinity
         UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
         // push to community

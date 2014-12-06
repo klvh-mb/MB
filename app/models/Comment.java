@@ -39,7 +39,7 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
     }
 
     @Required
-    public Long socialObject;
+    public Long socialObject;       // e.g. Post Id
     
     @Required
     public Date date = new Date();
