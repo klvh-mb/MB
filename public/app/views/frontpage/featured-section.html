@@ -1,0 +1,52 @@
+<div id="frontpage-featured-section">
+    
+    <div id="featured-game" class="general-box utility-box">
+        <div class="featured-title">
+            <span class="article-title-icon article-title-icon-hot"></span>
+            禮物
+        </div>
+        <div class="section-details">
+            <div class="featured-details">
+                <div class="featured-image">
+                    <a href="articles#/article/{{article.id}}/{{article.ct.id}}">
+                        <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
+                    </a>
+                </div>
+                <div class="featured-summary">
+                    <a href="articles#/article/{{article.id}}/{{article.ct.id}}">
+                        {{article.nm | limitTo:20}}</span><span ng-if="article.nm.length > 20">...</span>
+                    </a>
+                    <div style="display:block;">
+                        <a class="tag" data-ng-href="articles#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div><img src="/assets/app/images/frontpage/topic_footer_a.jpg"></div>
+    </div>
+    
+    <div id="featured-topic" class="general-box utility-box">
+        <div class="featured-title">
+            <span class="article-title-icon article-title-icon-recommend"></span>
+            話題
+        </div>
+        <div class="section-details">
+            <div class="featured-details">
+                <div class="featured-image">
+                    <a href="articles#/article/{{article.id}}/{{article.ct.id}}">
+                        <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
+                    </a>
+                </div>
+                <div class="featured-summary">
+                    <a href="articles#/article/{{article.id}}/{{article.ct.id}}">
+                        {{article.nm | limitTo:20}}</span><span ng-if="article.nm.length > 20">...</span>
+                    </a>
+                    <div style="display:block;">
+                        <a class="tag" data-ng-href="articles#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div><img src="/assets/app/images/frontpage/topic_footer_b.jpg"></div>
+    </div>
+</div>

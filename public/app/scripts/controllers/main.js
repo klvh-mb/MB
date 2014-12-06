@@ -327,10 +327,12 @@ minibean.controller('ApplicationController',
     }
     
     $scope.applicationInfo = applicationInfoService.ApplicationInfo.get();
-	$scope.userInfo = userInfoService.UserInfo.get(
+    $scope.userInfo = userInfoService.UserInfo.get(
         function(data) {
             if (data.isLoggedIn) {
                 $scope.get_header_metaData();
+                $scope.profileImage = "/image/get-thumbnail-image-by-id/"+$scope.userInfo.id;
+                $scope.coverImage = "/image/get-thumbnail-cover-image-by-id/"+$scope.userInfo.id;
 	        }
         }
 	);
@@ -373,7 +375,7 @@ minibean.controller('ApplicationController',
         
 	$scope.set_background_image = function() {
 		return { 
-            background: 'url(/image/get-thumbnail-cover-image-by-id/'+$scope.userInfo.id+') center center no-repeat', 
+            background: 'url('+$scope.coverImage+') center center no-repeat', 
             backgroundSize: '100% auto' 
         };
 	} 
@@ -1451,8 +1453,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     }
     
     $scope.get_all_comments = function(id) {
-    	usSpinnerService.spin('loading..');
-        postFactory.getAllComments(id, $scope.posts.posts);
+        postFactory.getAllComments(id, $scope.posts.posts, $scope);
     }
     
     $scope.deletePost = function(postId) {
@@ -1720,13 +1721,11 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     }
     
     $scope.get_all_answers = function(id) {
-    	usSpinnerService.spin('loading..');
-        postFactory.getAllComments(id, $scope.QnAs.posts);
+        postFactory.getAllComments(id, $scope.QnAs.posts, $scope);
     }
     
     $scope.get_all_comments = function(id) {
-    	usSpinnerService.spin('loading..');
-        postFactory.getAllComments(id, $scope.QnAs.posts);
+        postFactory.getAllComments(id, $scope.QnAs.posts, $scope);
     }
     
     // !!!NOTE: Since we reuse qna-bar.html for landing page, and qna-bar.html is 
@@ -2016,7 +2015,7 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 	}
 	
 	$scope.get_all_comments = function(id) {
-        postFactory.getAllComments(id, $scope.posts.posts);
+        postFactory.getAllComments(id, $scope.posts.posts, $scope);
     }
 
     $scope.selectedFiles = [];
@@ -2294,12 +2293,11 @@ minibean.controller('CommunityQnAController',function($scope, postFactory, postM
     }
     
 	$scope.get_all_answers = function(id) {
-        postFactory.getAllComments(id, $scope.QnAs.posts);
+        postFactory.getAllComments(id, $scope.QnAs.posts, $scope);
     }
 
     $scope.get_all_comments = function(id) {
-    	usSpinnerService.spin('loading..');
-        postFactory.getAllComments(id, $scope.QnAs.posts);
+        postFactory.getAllComments(id, $scope.QnAs.posts, $scope);
     }
 
     $scope.select_emoticon = function(code) {
@@ -2956,8 +2954,7 @@ minibean.controller('MyMagazineNewsFeedController', function($scope, postFactory
     }
     
     $scope.get_all_comments = function(id) {
-    	usSpinnerService.spin('loading..');
-        postFactory.getAllComments(id, $scope.newsFeeds.posts);
+        postFactory.getAllComments(id, $scope.newsFeeds.posts, $scope);
     }
 
     var noMore = false;
@@ -3018,8 +3015,7 @@ minibean.controller('NewsFeedController', function($scope, postFactory, postMana
 	}
 	
     $scope.get_all_comments = function(id) {
-    	usSpinnerService.spin('loading..');
-        postFactory.getAllComments(id, $scope.newsFeeds.posts);
+        postFactory.getAllComments(id, $scope.newsFeeds.posts, $scope);
     }
     
 	$scope.deletePost = function(postId) {
@@ -3308,8 +3304,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
     }
     
     $scope.get_all_comments = function(id) {
-    	usSpinnerService.spin('loading..');
-        postFactory.getAllComments(id, $scope.newsFeeds.posts);
+        postFactory.getAllComments(id, $scope.newsFeeds.posts, $scope);
     }
     
     $scope.deletePost = function(postId) {
@@ -3648,8 +3643,7 @@ minibean.controller('MyBookmarkController', function($scope, postFactory, bookma
     }
     
     $scope.get_all_comments = function(id) {
-    	usSpinnerService.spin('loading..');
-        postFactory.getAllComments(id, $scope.posts.posts);
+        postFactory.getAllComments(id, $scope.posts.posts, $scope);
     }
     
 	$scope.deletePost = function(postId) {
@@ -4019,8 +4013,7 @@ minibean.controller('MagazineNewsFeedController', function($scope, $timeout, $up
     //
     
     $scope.get_all_comments = function(id) {
-    	usSpinnerService.spin('loading..');
-        postFactory.getAllComments(id, $scope.posts.posts);
+        postFactory.getAllComments(id, $scope.posts.posts, $scope);
     }
     
     $scope.deletePost = function(postId) {

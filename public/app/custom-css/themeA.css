@@ -63,6 +63,11 @@ pre {
     color: #038100 !important;
     font-style: italic;
 }
+.comment-spinner {
+    height: 6px;
+    margin-top: -3px;
+    margin-left: 10px;
+}
 #announce .tour-btn {
     font-size: 13px;
     padding: 2px 5px;
@@ -1064,7 +1069,7 @@ a:focus {
     margin-bottom: 7px;
 }
 .newCommunity-info img, .myCommunity-info img {
-    width: 30px;
+    width: 28px;
     height: auto;
     float: left;
     margin-right: 5px;
@@ -1798,6 +1803,12 @@ a:focus {
     position: absolute;
     overflow: hidden;
     padding: 0 10px;
+}
+.static-content-wrapper .article-summary a.tag {
+    color: #008ee3;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1.8;
 }
 /*Static Content Page General Box End*/
 
@@ -2868,6 +2879,7 @@ span.notif-count {
     font-size: 12px;
     margin-right: 5px;
     position: relative;
+    display: inline-block;
     top: -1px;
 }
 .view-count img, .like-count img {
