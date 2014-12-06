@@ -21,10 +21,10 @@
                         </div>
                         <div class="article-summary">
                             <a href="articles#/article/{{article.id}}/{{article.ct.id}}">
-                                {{article.nm  | limitTo:20}}</span><span ng-if="article.nm.length > 20">...</span>
+                                {{article.nm | limitTo:20}}</span><span ng-if="article.nm.length > 20">...</span>
                             </a>
                             <div style="display:block;">
-                                <a class="tag" data-ng-href="#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
+                                <a class="tag" data-ng-href="articles#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
                             </div>
                         </div>
                     </div>
@@ -49,10 +49,10 @@
                         </div>
                         <div class="article-summary">
                             <a href="articles#/article/{{article.id}}/{{article.ct.id}}">
-                                {{article.nm  | limitTo:20}}</span><span ng-if="article.nm.length > 20">...</span>
+                                {{article.nm | limitTo:20}}</span><span ng-if="article.nm.length > 20">...</span>
                             </a>
                             <div style="display:block;">
-                                <a class="tag" data-ng-href="#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
+                                <a class="tag" data-ng-href="articles#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
                                 <span ng-show="article.nov > 0 || userInfo.isE" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.png"/>{{article.nov}}</span>
                             </div>
                         </div>
@@ -78,10 +78,10 @@
                         </div>
                         <div class="article-summary">
                             <a href="articles#/article/{{article.id}}/{{article.ct.id}}">
-                                {{article.nm  | limitTo:20}}</span><span ng-if="article.nm.length > 20">...</span>
+                                {{article.nm | limitTo:20}}</span><span ng-if="article.nm.length > 20">...</span>
                             </a>
                             <div style="display:block;">
-                                <a class="tag" data-ng-href="#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
+                                <a class="tag" data-ng-href="articles#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
                                 <span ng-show="article.nol > 0 || userInfo.isE" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{article.nol}}</span>
                             </div>
                         </div>
