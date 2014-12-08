@@ -28,7 +28,26 @@ angular.module('minibean', [
       })
       .when('/campaign/:id',{
         templateUrl: '/assets/app/views/mobile/frontpage/campaign-page.html',
-        controller : 'CampaignPageController'  
+        controller : 'CampaignPageController'
+      })
+      .when('/communities-discover',{
+        templateUrl: '/assets/app/views/mobile/home/communities-discover-page.html',
+      })
+      .when('/community/:id',{
+        templateUrl: '/assets/app/views/mobile/home/community-page.html',
+        controller : 'CommunityPageController'  
+      })
+      .when('/community/:id/:tab',{
+        templateUrl: '/assets/app/views/mobile/home/community-page.html',
+        controller : 'CommunityPageController'  
+      })
+      .when('/post-landing/id/:id/communityId/:communityId',{
+        templateUrl: '/assets/app/views/mobile/home/post-landing.html',
+        controller : 'PostLandingController'  
+      })
+      .when('/qna-landing/id/:id/communityId/:communityId',{
+        templateUrl: '/assets/app/views/mobile/home/qna-landing.html',
+        controller : 'QnALandingController'  
       })
       .when('/error', {
     	  templateUrl: '/assets/app/views/error-page.html',
