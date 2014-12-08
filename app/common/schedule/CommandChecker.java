@@ -45,18 +45,20 @@ public class CommandChecker {
             TaggingEngine.indexTagWords();
         }
         else if (commandLine.startsWith("gamificationEOD")) {
-            Integer daysBefore = null;
             if (tokens.length > 1) {
-                daysBefore = Integer.valueOf(tokens[1]);
+                Integer daysBefore = Integer.valueOf(tokens[1]);
+                GameAccountTransaction.performEndOfDayTasks(daysBefore);
+            } else {
+                logger.underlyingLogger().error("gamificationEOD missing daysBefore parameter");
             }
-            GameAccountTransaction.performEndOfDayTasks(daysBefore);
         }
         else if (commandLine.startsWith("communityStatistics")) {
-            Integer daysBefore = null;
             if (tokens.length > 1) {
-                daysBefore = Integer.valueOf(tokens[1]);
+                Integer daysBefore = Integer.valueOf(tokens[1]);
+                CommunityStatistics.populatePastStats(daysBefore);
+            } else {
+                logger.underlyingLogger().error("communityStatistics missing daysBefore parameter");
             }
-            CommunityStatistics.populatePastStats(daysBefore);
         }
     }
 }
