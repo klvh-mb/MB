@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -1116,6 +1118,13 @@ public class User extends SocialObject implements Subject, Socializable {
             return true;
         }
         return false;
+    }
+    
+    public static boolean isDisplayNameValid(String displayName) {
+        Pattern pattern = Pattern.compile("\\s");
+        Matcher matcher = pattern.matcher(displayName);
+        boolean containsWhitespace = matcher.find();
+        return !containsWhitespace;
     }
     
     @Transactional

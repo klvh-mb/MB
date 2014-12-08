@@ -356,6 +356,9 @@ public class Application extends Controller {
             numChildren = 0;
         }
         
+        if (!User.isDisplayNameValid(parentDisplayName)) {
+            return handleSaveSignupInfoError("\""+parentDisplayName+"\" 不可有空格", fb);
+        }
         if (User.isDisplayNameExists(parentDisplayName)) {
             return handleSaveSignupInfoError("\""+parentDisplayName+"\" 已被選用。請選擇另一個顯示名稱重試", fb);
         }

@@ -246,11 +246,17 @@ public class UserController extends Controller {
 	        parentAboutMe = parentAboutMe.trim();
 	    }
 	    
-	    if (!localUser.displayName.equals(parentDisplayName) && 
-                User.isDisplayNameExists(parentDisplayName)) {
-            logger.underlyingLogger().error(String.format(
-                    "[u=%d][displayname=%s] displayname already exists", localUser.id, parentDisplayName));
-            return status(500, "\""+parentDisplayName+"\" 已被選用。請選擇另一個顯示名稱重試");
+	    if (!localUser.displayName.equals(parentDisplayName)) {  
+	        if (!User.isDisplayNameValid(parentDisplayName)) {
+                logger.underlyingLogger().error(String.format(
+                        "[u=%d][displayname=%s] displayname contains whitespace", localUser.id, parentDisplayName));
+                return status(500, "\""+parentDisplayName+"\" 不可有空格");
+	        }
+	        if (User.isDisplayNameExists(parentDisplayName)) {
+                logger.underlyingLogger().error(String.format(
+                        "[u=%d][displayname=%s] displayname already exists", localUser.id, parentDisplayName));
+                return status(500, "\""+parentDisplayName+"\" 已被選用。請選擇另一個顯示名稱重試");
+            }
         }
         
 		// UserInfo

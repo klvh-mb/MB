@@ -2,6 +2,23 @@
 
 var minibean = angular.module('minibean');
 
+minibean.service('frontpageService',function($resource){
+    this.hotNewsFeeds = $resource(
+            '/get-hotnewsfeeds/:offset',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET', params:{offset:'@offset'}}
+            }
+    );
+    this.featuredTopic = $resource(
+            '/get-featured-topic',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET'}
+            }
+    );
+});
+
 minibean.service('headerBarMetadataService',function($resource){
 	this.headerBardata = $resource(
 			'/get-headerBar-data',
@@ -865,13 +882,6 @@ minibean.service('myMagazineNewsFeedService',function($resource){
 minibean.service('newsFeedService',function($resource){
     this.NewsFeeds = $resource(
             '/get-newsfeeds/:offset',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'GET', params:{offset:'@offset'}}
-            }
-    );
-    this.HotNewsFeeds = $resource(
-            '/get-hotnewsfeeds/:offset',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'GET', params:{offset:'@offset'}}

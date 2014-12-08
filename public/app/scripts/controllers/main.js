@@ -101,14 +101,14 @@ minibean.controller('TodayWeatherInfoController',function($scope, $http, todayWe
 });
 
 minibean.controller('FrontpageController',function($scope, $route, $location, $http, $routeParams, 
-    communitiesDiscoverService, newsFeedService, campaignService, articleService, usSpinnerService) {
+    frontpageService, communitiesDiscoverService, newsFeedService, campaignService, articleService, usSpinnerService) {
     
     $scope.selectNavBar('FRONTPAGE', -1);
     
     // communities
     $scope.newsFeeds = { posts: [] };
     $scope.hotNewsFeeds = function(offset) {
-        newsFeedService.HotNewsFeeds.get({offset:offset},
+        frontpageService.hotNewsFeeds.get({offset:offset},
             function(data){
                 var posts = data.posts;
                 for (var i = 0; i < posts.length; i++) {
@@ -119,6 +119,9 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     }
     $scope.hotNewsFeeds(0);
     //$scope.hotNewsFeeds(1);
+    
+    // featured topic
+    $scope.featuredTopic = frontpageService.featuredTopic.get();
     
     // articles
     $scope.hotArticles = articleService.HotArticles.get({category_id:0});

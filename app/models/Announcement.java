@@ -23,7 +23,7 @@ import play.db.jpa.Transactional;
  * Announcement are not frequently updated. Put in the cache and set ttl to e.g. 10mins.
  */
 @Entity
-public class Announcement  {
+public class Announcement {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;

@@ -1,15 +1,20 @@
 package controllers;
 
+import common.utils.ImageUploadUtil;
 import common.utils.NanoSecondStopWatch;
 import models.Community;
 import models.CommunityStatistics;
+import models.FeaturedTopic;
+import models.FeaturedTopic.FeaturedType;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import viewmodel.FeaturedTopicVM;
 import viewmodel.HotCommunityParentVM;
 import viewmodel.HotCommunityVM;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +32,8 @@ public class FrontPageController extends Controller {
     private static final int HOT_LAST_DAYS = 30;
     private static final int MAX_HOT_COMMS = 8;
 
+    private static final ImageUploadUtil imageUploadUtil = new ImageUploadUtil("frontpage");
+    
     @Transactional
     public static Result getHotCommunities() {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
@@ -55,4 +62,18 @@ public class FrontPageController extends Controller {
         return ok(Json.toJson(vms));
     }
 
+    @Transactional
+    public static Result getFeaturedTopic() {
+        FeaturedTopic topic = FeaturedTopic.getActiveFeaturedTopic(FeaturedType.FEATURED);
+        return ok(Json.toJson(new FeaturedTopicVM(topic)));
+    }
+    
+    @Transactional
+    public static Result getImage(Long year, Long month, Long date, String name) {
+        response().setHeader("Cache-Control", "max-age=604800");
+        String path = imageUploadUtil.getImagePath(year, month, date, name);
+
+        logger.underlyingLogger().debug("getImage. path="+path);
+        return ok(new File(path));
+    }
 }
