@@ -19,10 +19,15 @@ public class CampaignActionsMeta {
 	@Id @GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
 	
-	public Long campaignId;
+	private Long campaignId;
 	
-	public String validator;
-    
+	private String validator;
+
+    /**
+     * Ctor
+     * @param campaignId
+     * @param validator
+     */
 	public CampaignActionsMeta(Long campaignId, String validator) {
 	    this.campaignId = campaignId;
 	    this.validator = validator;
@@ -66,5 +71,13 @@ public class CampaignActionsMeta {
                 "campaignId='" + this.campaignId + '\'' +
                 "validator='" + this.validator + '\'' +
                 '}';
+    }
+
+    public Long getCampaignId() {
+        return campaignId;
+    }
+
+    public String getValidator() {
+        return validator;
     }
 }
