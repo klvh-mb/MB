@@ -793,6 +793,8 @@ public class DataBootstrap {
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "攝影", "攝影,拍攝,相機,閃光燈");
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "學說話", "學說話,學會說話,不會說話,說話能力");
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "瘦身", "瘦身,瘦腿,減肥");
+            createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "音樂", "音樂,古典樂,莫扎特,樂器,練琴");
+            createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "聖誕", "聖誕,聖誕老人,聖誕氣氛");
         }
     }
 

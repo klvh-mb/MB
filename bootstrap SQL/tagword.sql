@@ -31,3 +31,9 @@ values (0,0,0,CURDATE(),0,0, 0, 'SOON_TO_BE_MOMS_ARTICLES', '孕婦裝', '孕婦
 
 
 update TagWord set matchingWords = '寵物,拳師犬,狗狗' where displayWord = '寵物';
+
+insert into TagWord (deleted,system,excludeFromTargeting,UPDATED_DATE,socialObjectCount,noClicks, tagCategory, tagCategoryId, displayWord, matchingWords)
+values (0,0,0,CURDATE(),0,0, 0, 'HOT_ARTICLES', '音樂', '音樂,古典樂,莫扎特,樂器,練琴');
+
+insert into TagWord (deleted,system,excludeFromTargeting,UPDATED_DATE,socialObjectCount,noClicks, tagCategory, tagCategoryId, displayWord, matchingWords)
+values (0,0,0,CURDATE(),0,0, 0, 'HOT_ARTICLES', '聖誕', '聖誕,聖誕老人,聖誕氣氛');
