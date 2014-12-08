@@ -10,6 +10,13 @@ minibean.service('frontpageService',function($resource){
                 get: {method:'GET', params:{offset:'@offset'}}
             }
     );
+    this.hotCommunities = $resource(
+            '/get-hotcommunities',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET'}
+            }
+    );
     this.featuredTopic = $resource(
             '/get-featured-topic',
             {alt:'json',callback:'JSON_CALLBACK'},

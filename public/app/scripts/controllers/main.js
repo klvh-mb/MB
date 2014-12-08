@@ -105,7 +105,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     
     $scope.selectNavBar('FRONTPAGE', -1);
     
-    // communities
+    // hot newsfeed
     $scope.newsFeeds = { posts: [] };
     $scope.hotNewsFeeds = function(offset) {
         frontpageService.hotNewsFeeds.get({offset:offset},
@@ -120,6 +120,9 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     $scope.hotNewsFeeds(0);
     //$scope.hotNewsFeeds(1);
     
+    // hot communities
+    $scope.hotCommunities = frontpageService.hotCommunities.get();
+        
     // featured topic
     $scope.featuredTopic = frontpageService.featuredTopic.get();
     

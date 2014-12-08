@@ -65,6 +65,9 @@ public class FrontPageController extends Controller {
     @Transactional
     public static Result getFeaturedTopic() {
         FeaturedTopic topic = FeaturedTopic.getActiveFeaturedTopic(FeaturedType.FEATURED);
+        if (topic == null) {
+            return ok();
+        }
         return ok(Json.toJson(new FeaturedTopicVM(topic)));
     }
     

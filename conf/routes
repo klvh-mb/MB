@@ -249,6 +249,7 @@ GET     /unwant-ans/:post_id                    controllers.CommunityController.
 
 # FrontPage
 GET     /get-hotcommunities                     controllers.FrontPageController.getHotCommunities()
+GET     /get-featured-topic                     controllers.FrontPageController.getFeaturedTopic()
 
 # PreNursery
 GET     /get-pn-communities                     controllers.PreNurseryController.getPNCommunities()
@@ -272,6 +273,7 @@ GET     /searchForPosts/index/:query/:community_id/:offset  controllers.Applicat
 GET     /get-today-weather-info                 controllers.Application.getTodayWeatherInfo()
 
 GET     /image/article/:year/:month/:date/:name     controllers.ArticleController.getImage(year :Long, month :Long, date :Long, name : String)
+GET     /image/frontpage/:year/:month/:date/:name   controllers.FrontPageController.getImage(year :Long, month :Long, date :Long, name : String)
 GET     /image/campaign/:year/:month/:date/:name    controllers.CampaignController.getImage(year :Long, month :Long, date :Long, name : String)
 
 # Gamification

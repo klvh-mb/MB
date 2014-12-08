@@ -446,6 +446,10 @@ box-shadow:         0px 1px 4px 0px rgba(152, 79, 201, 0.5);
     border-bottom: 1px dashed #eee;
     line-height: 1.5;
 }
+#frontpage-communities-section #hot-communities .hot-community .hot-community-body .community-member-counter {
+    min-width: 30px;
+    display: inline-block;
+}
 #frontpage-communities-section #hot-topics .hot-post .hot-post-body a, 
 #frontpage-communities-section #hot-topics .hot-post .hot-post-body a:hover, 
 #frontpage-communities-section #hot-communities .hot-community .hot-community-body a, 

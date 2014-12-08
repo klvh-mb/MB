@@ -7,19 +7,8 @@
         </div>
         <div class="section-details">
             <div class="featured-details">
-                <div class="featured-image">
-                    <a href="articles#/article/{{article.id}}/{{article.ct.id}}">
-                        <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
-                    </a>
-                </div>
-                <div class="featured-summary">
-                    <a href="articles#/article/{{article.id}}/{{article.ct.id}}">
-                        {{article.nm | limitTo:20}}</span><span ng-if="article.nm.length > 20">...</span>
-                    </a>
-                    <div style="display:block;">
-                        <a class="tag" data-ng-href="articles#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
-                    </div>
-                </div>
+            
+                
             </div>
         </div>
         <div><img src="/assets/app/images/frontpage/topic_footer_a.jpg"></div>
@@ -35,23 +24,22 @@
                 
                 <div class="featured-main-area">
                     <div class="featured-area">
-                        <a href="{{featuredTopic.url}}">
+                        <a href="{{featuredTopic.url}}" target="_blank">
                             <img ng-src="{{featuredTopic.img}}">
                         </a>
                         <div class="featured-area-box">
-                            <a href="{{featuredTopic.url}}">
+                            <a href="{{featuredTopic.url}}" target="_blank">
                                 <div class="featured-area-box-bg"></div>
                             </a>
                             <div class="featured-overlay-title">
-                                <a href="{{featuredTopic.url}}"></a>
+                                <a href="{{featuredTopic.url}}" target="_blank"></a>
                                 <h4>
-                                    <a href="{{featuredTopic.url}}"></a>
-                                    <a href="{{featuredTopic.url}}">{{featuredTopic.nm}}</a>
+                                    <a href="{{featuredTopic.url}}" target="_blank">{{featuredTopic.nm}}</a>
                                 </h4>
                             </div>
                         </div>
                         <div class="featured-body">
-                            <a href="{{featuredTopic.url}}">{{featuredTopic.ds | limitTo:65}}<span ng-show="featuredTopic.ds.length > 65">...</a>
+                            <a href="{{featuredTopic.url}}" target="_blank">{{featuredTopic.ds | limitTo:65}}<span ng-show="featuredTopic.ds.length > 65">...</a>
                         </div>
                         <div class="featured-tag-icon">推介</div>
                     </div>

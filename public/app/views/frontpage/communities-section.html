@@ -42,10 +42,16 @@
         </div>
         <div class="section-details">
             <ul>
-                <li data-ng-repeat="post in newsFeeds.posts">
+                <li data-ng-repeat="community in hotCommunities.hcomm">
                     <div class="hot-community">
                         <div class="hot-community-body">
-
+                            <a data-ng-href="#/community/{{community.id}}"><img src="{{community.icon}}">{{community.n}}</a>
+                            <span class="padding5"></span>
+                            <span class="community-member-counter"><img src="../assets/app/images/general/icons/i-mom.png" />{{community.nom}}</span>
+                            <span class="pull-right">
+                                <span class="community-member-counter"><img src="../assets/app/images/general/icons/i-article.png" />{{community.nopst}}</span>
+                                <span class="community-member-counter"><img src="../assets/app/images/general/icons/i-reply.png" />{{community.nocom}}</span>
+                            </span>
                         </div>
                         <div class="hot-community-intro">
                         
