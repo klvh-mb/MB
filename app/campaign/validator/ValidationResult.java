@@ -1,5 +1,6 @@
 package campaign.validator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,12 +12,29 @@ import java.util.List;
 public class ValidationResult {
     public static ValidationResult VALIDATOR_NOT_FOUND = new ValidationResult(false, "Validator class not found");
 
+    private boolean success;
+    private List<String> messages = new ArrayList<>();
 
-    public boolean success;
-    public String message;
+    public ValidationResult() { }
 
     public ValidationResult(boolean success, String message) {
         this.success = success;
-        this.message = message;
+        messages.add(message);
+    }
+
+    public void addMessage(String message) {
+        messages.add(message);
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public List<String> getMessages() {
+        return messages;
     }
 }

@@ -18,27 +18,24 @@ public class ProfilePicPostCommentValidator implements ICampaignValidator {
 
     @Override
     public ValidationResult validate(Long userId, DateTime startTime, DateTime endTime) {
-        boolean validationResult = true;
-        String delim = "";
-        StringBuilder sb = new StringBuilder();
+        ValidationResult validationResult = new ValidationResult();
+        boolean valid = true;
 
         if (!hasQualifiedProfilePic(userId, startTime, endTime)) {
-            validationResult = false;
-            sb.append(delim).append("尚未上載個人頭像照片");
-            delim = ", ";
+            valid = false;
+            validationResult.addMessage("尚未上載個人頭像照片");
         }
         if (!hasQualifiedPost(userId, startTime, endTime)) {
-            validationResult = false;
-            sb.append(delim).append("尚未發佈話題");
-            delim = ", ";
+            valid = false;
+            validationResult.addMessage("尚未發佈話題");
         }
         if (!hasQualifiedComment(userId, startTime, endTime)) {
-            validationResult = false;
-            sb.append(delim).append("尚未回覆話題");
-            delim = ", ";
+            valid = false;
+            validationResult.addMessage("尚未回覆話題");
         }
 
-        return new ValidationResult(validationResult, sb.toString());
+        validationResult.setSuccess(valid);
+        return validationResult;
     }
 
     boolean hasQualifiedProfilePic(Long userId, DateTime startTime, DateTime endTime) {

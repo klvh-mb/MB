@@ -14,15 +14,14 @@ public class CampaignValidationEngine {
     private static final play.api.Logger logger = play.api.Logger.apply(CampaignValidationEngine.class);
 
     /**
-     * @param campaignId
+     * @param campaign
      * @param userId
      * @return
      */
-    public static ValidationResult validateCampaign(Long campaignId, Long userId) {
-        Campaign campaign = Campaign.findById(campaignId);
-        CampaignActionsMeta meta = CampaignActionsMeta.getMeta(campaignId);
-        if (campaign == null || meta == null) {
-            throw new IllegalArgumentException("Invalid campaignId: "+campaignId);
+    public static ValidationResult validateCampaign(Campaign campaign, Long userId) {
+        CampaignActionsMeta meta = CampaignActionsMeta.getMeta(campaign.getId());
+        if (meta == null) {
+            throw new IllegalArgumentException("Invalid campaignId: "+campaign.getId());
         }
 
         ICampaignValidator validator = getInstance(meta.getValidator());

@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import campaign.validator.CampaignValidationEngine;
+import campaign.validator.ValidationResult;
 import com.mnt.exception.SocialObjectNotLikableException;
 
 import common.utils.ImageUploadUtil;
@@ -136,29 +138,42 @@ public class CampaignController extends Controller {
         }
         
         CampaignUserJoinStatusVM vm = null;
-        if (CampaignType.ACTIONS == campaign.campaignType) {
-            vm = validateUserActions(localUser, campaign);
-            if (CampaignActionsUser.isJoinedCampaign(localUser.id, campaign.id)) {
-                logger.underlyingLogger().error(String.format("[u=%d][c=%d] User already joined campaign!", localUser.id, campaignId));
-                return status(501);
+
+        switch (campaign.campaignType) {
+            case ACTIONS: {
+                if (CampaignActionsUser.isJoinedCampaign(localUser.id, campaign.id)) {
+                    logger.underlyingLogger().error(String.format("[u=%d][c=%d] User already joined campaign!", localUser.id, campaignId));
+                    return status(501);
+                }
+
+                vm = validateUserActions(localUser, campaign);
+                if (vm.success) {
+                    CampaignActionsUser campaignUser = new CampaignActionsUser(campaign.id, localUser.id);
+                    campaignUser.save();
+                    logger.underlyingLogger().info(String.format("[u=%d][c=%d] User joined campaign", localUser.id, campaignId));
+                } else {
+                    logger.underlyingLogger().info(String.format("[u=%d][c=%d] User failed campaign validation. %s", localUser.id, campaignId, vm.messages.toString()));
+                }
+                break;
             }
-            CampaignActionsUser campaignUser = new CampaignActionsUser(campaign.id, localUser.id);
-            campaignUser.save();
-        } else if (CampaignType.QUESTIONS == campaign.campaignType) {
-            // TODO
-        } else if (CampaignType.VOTING == campaign.campaignType) {
-            // TODO
-        } else if (CampaignType.PHOTO_CONTEST == campaign.campaignType) {
-            // TODO
+            case QUESTIONS:
+            case VOTING:
+            case PHOTO_CONTEST: {
+                // TODO
+                break;
+            }
         }
-        
-        logger.underlyingLogger().debug(String.format("[u=%d][c=%d] User joined campaign", localUser.id, campaignId));
-        
         return ok(Json.toJson(vm));
     }
-    
+
+    /**
+     * @param user
+     * @param campaign
+     * @return
+     */
     private static CampaignUserJoinStatusVM validateUserActions(User user, Campaign campaign) {
-        return new CampaignUserJoinStatusVM(campaign.id, user.id, true, null); 
+        ValidationResult result = CampaignValidationEngine.validateCampaign(campaign, user.getId());
+        return new CampaignUserJoinStatusVM(campaign.id, user.id, result.isSuccess(), result.getMessages());
     }
     
     @Transactional
