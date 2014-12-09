@@ -32,8 +32,10 @@ public class CampaignActionsMeta {
 	    this.campaignId = campaignId;
 	    this.validator = validator;
 	}
-	
-	@Transactional
+
+    public CampaignActionsMeta() { }
+
+    @Transactional
     public static CampaignActionsMeta getMeta(Long campaignId) {
 	    Query q = JPA.em().createQuery("Select m from CampaignActionsMeta m where campaignId = ?1");
         q.setParameter(1, campaignId);

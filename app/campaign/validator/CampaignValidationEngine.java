@@ -1,6 +1,8 @@
 package campaign.validator;
 
+import models.Campaign;
 import models.CampaignActionsMeta;
+import org.joda.time.DateTime;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,13 +15,25 @@ public class CampaignValidationEngine {
 
     /**
      * @param campaignId
+     * @param userId
      * @return
      */
-    public static ValidationResult validateCampaign(Long campaignId) {
+    public static ValidationResult validateCampaign(Long campaignId, Long userId) {
+        Campaign campaign = Campaign.findById(campaignId);
         CampaignActionsMeta meta = CampaignActionsMeta.getMeta(campaignId);
+        if (campaign == null || meta == null) {
+            throw new IllegalArgumentException("Invalid campaignId: "+campaignId);
+        }
 
         ICampaignValidator validator = getInstance(meta.getValidator());
-        return validator.validate();
+        if (validator == null) {
+            return ValidationResult.VALIDATOR_NOT_FOUND;
+        }
+        else {
+            DateTime startTime = new DateTime(campaign.startDate.getTime());
+            DateTime endTime = new DateTime(campaign.endDate.getTime());
+            return validator.validate(userId, startTime, endTime);
+        }
     }
 
     // get instance by java reflection

@@ -1,5 +1,7 @@
 package campaign.validator;
 
+import org.joda.time.DateTime;
+
 /**
  * Created by IntelliJ IDEA.
  * Date: 8/12/14
@@ -8,6 +10,6 @@ package campaign.validator;
  */
 public interface ICampaignValidator {
 
-    public ValidationResult validate();
+    public ValidationResult validate(Long userId, DateTime startTime, DateTime endTime);
 
 }
