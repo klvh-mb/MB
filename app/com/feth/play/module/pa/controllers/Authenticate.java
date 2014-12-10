@@ -1,5 +1,6 @@
 package com.feth.play.module.pa.controllers;
 
+import play.data.DynamicForm;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -22,6 +23,18 @@ public class Authenticate extends Controller {
 
 	@Transactional
 	public static Result authenticate(final String provider) {
+		noCache(response());
+		
+		final String payload = getQueryString(request(), PAYLOAD_KEY);
+		return PlayAuthenticate.handleAuthentication(provider, ctx(), payload);
+	}
+	
+	@Transactional
+	public static Result authenticatePopup(final String provider) {
+		 DynamicForm form = DynamicForm.form().bindFromRequest();
+	   
+		String redirectURL = form.get("url"); //TODO: Need to get actual url from context object
+        session().put("pa.url.orig", redirectURL);
 		noCache(response());
 		
 		final String payload = getQueryString(request(), PAYLOAD_KEY);

@@ -150,6 +150,10 @@
          	 <form name="formData" id="loginForm" action="/doLogin"  method="post" >
           		<div class="login-box" id="login-section">
                 <ul>
+                    <li style="padding:5px;"><a href="/authenticatePopup/facebook?url=/magazine%23/article/show/0"><img style="padding-left: 20px;width:216px;height:auto;" alt="Login via Faceebook" src="../assets/app/images/login/facebook_acc.jpg" /></a></li>
+                    <!--li><img src="../assets/app/images/login/Facebook_icon_2013.jpg" alt="fb-icon" /><a href="#" title="user-name">Mom Dad</a><a href="#" title="user-name" >Mom Dad</a><span title="fd-num">27</span><p>個其他朋友使用miniBean</p></li>
+                    <li class="login-fd-list"><a href="#"><img src="../assets/app/images/login/login_fd_icon.jpg" /></a></li-->
+                    <hr style="margin-top:50px;"/>
                    <li id="login-info-wrapper">
                         <label for="Login email"></label>
                         <input type="text" name="email" id="email" required="required" class="general-textfield" placeholder="電郵" />
@@ -157,6 +161,7 @@
                         <input type="password" name="password" id="password" required="required" class="general-textfield" placeholder="密碼" />
                         <label for="Login state"></label>
                         <input type="checkbox" name="login-state" id="login-state" /><p>維持我的登入狀態</p>
+                        <input type="hidden" name="redirectURL" id="redirectURL" class="general-textfield" value="/magazine#/article/show/0" />
                         <input  type="submit" name="login-btn" id="login-btn" value="登入" />
                    </li>
                 </ul>

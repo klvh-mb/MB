@@ -415,8 +415,8 @@ public class Application extends Controller {
 	
 	@Transactional
 	public static Result doLoginPopup() {
-       
-		String redirectURL = "/magazine#/article/show/0"; //TODO: Need to get actual url from context object
+        DynamicForm form = DynamicForm.form().bindFromRequest();
+        String redirectURL = form.get("redirectURL");
         session().put("pa.url.orig", redirectURL);
         com.feth.play.module.pa.controllers.Authenticate.noCache(response());
 		final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
