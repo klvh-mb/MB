@@ -14,14 +14,13 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.hibernate.NonUniqueResultException;
 
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
 @Entity
-public class FeaturedTopic extends domain.Entity {
-    private static final play.api.Logger logger = play.api.Logger.apply(FeaturedTopic.class);
+public class FrontPageTopic extends domain.Entity {
+    private static final play.api.Logger logger = play.api.Logger.apply(FrontPageTopic.class);
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
@@ -35,6 +34,8 @@ public class FeaturedTopic extends domain.Entity {
 	
 	public String url;
 	
+	public int seq;
+	
 	public int noClicks = 0;
 	
 	public Date publishedDate;
@@ -44,28 +45,38 @@ public class FeaturedTopic extends domain.Entity {
     public Boolean deleted = false; 
     
     @Enumerated(EnumType.STRING)
-	public FeaturedType featuredType;
+	public TopicType topicType;
 	
-	public static enum FeaturedType {  // FEATURED, PROMO, AD ??
-        FEATURED
+	public static enum TopicType {
+	    SLIDER,
+        FEATURED,
+        PROMO
     }
 	
-	public FeaturedTopic() {}
+	@Enumerated(EnumType.STRING)
+    public TopicSubType topicSubType;
+    
+    public static enum TopicSubType {
+        NONE,
+        FLASH,
+        IMAGE,
+        IMAGE_TEXT
+    }
 	
-	public static FeaturedTopic findById(Long id) {
-		Query q = JPA.em().createQuery("SELECT f FROM FeaturedTopic f where id = ?1 and deleted = false");
+	public FrontPageTopic() {}
+	
+	public static FrontPageTopic findById(Long id) {
+		Query q = JPA.em().createQuery("SELECT f FROM FrontPageTopic f where id = ?1 and deleted = false");
 		q.setParameter(1, id);
-		return (FeaturedTopic) q.getSingleResult();
+		return (FrontPageTopic) q.getSingleResult();
 	}
 	
 	@Transactional
-	public static FeaturedTopic getActiveFeaturedTopic(FeaturedType featuredType) {
-        Query q = JPA.em().createQuery("SELECT f FROM FeaturedTopic f where featuredType = ?1 and active = true and deleted = false");
-        q.setParameter(1, featuredType);
+	public static List<FrontPageTopic> getActiveFrontPageTopics(TopicType topicType) {
+        Query q = JPA.em().createQuery("SELECT f FROM FrontPageTopic f where topicType = ?1 and active = true and deleted = false order by seq");
+        q.setParameter(1, topicType);
         try {
-            return (FeaturedTopic) q.getSingleResult();
-        } catch (NonUniqueResultException e) {
-            return ((List<FeaturedTopic>) q.getResultList()).get(0);
+            return (List<FrontPageTopic>) q.getResultList();
         } catch (NoResultException e) {
             return null;
         }
@@ -73,8 +84,8 @@ public class FeaturedTopic extends domain.Entity {
 	
 	@Override
     public boolean equals(Object o) {
-        if (o != null && o instanceof FeaturedTopic) {
-            final FeaturedTopic other = (FeaturedTopic) o;
+        if (o != null && o instanceof FrontPageTopic) {
+            final FrontPageTopic other = (FrontPageTopic) o;
             return new EqualsBuilder().append(id, other.id).isEquals();
         } 
         return false;
@@ -82,7 +93,7 @@ public class FeaturedTopic extends domain.Entity {
 	
     @Override
     public String toString() {
-        return "FeaturedTopic{" +
+        return "FrontPageTopic{" +
                 "id='" + id + '\'' +
                 "name='" + name + '\'' +
                 "clicks='" + noClicks + '\'' +

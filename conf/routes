@@ -249,7 +249,9 @@ GET     /unwant-ans/:post_id                    controllers.CommunityController.
 
 # FrontPage
 GET     /get-hotcommunities                     controllers.FrontPageController.getHotCommunities()
-GET     /get-featured-topic                     controllers.FrontPageController.getFeaturedTopic()
+GET     /get-slider-topics                      controllers.FrontPageController.getSliderTopics()
+GET     /get-featured-topics                    controllers.FrontPageController.getFeaturedTopics()
+GET     /get-promo-topics                       controllers.FrontPageController.getPromoTopics()
 
 # PreNursery
 GET     /get-pn-communities                     controllers.PreNurseryController.getPNCommunities()

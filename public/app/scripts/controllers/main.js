@@ -100,10 +100,39 @@ minibean.controller('TodayWeatherInfoController',function($scope, $http, todayWe
     
 });
 
-minibean.controller('FrontpageController',function($scope, $route, $location, $http, $routeParams, 
+minibean.controller('FrontpageController',function($scope, $route, $location, $http, $routeParams, $interval, 
     frontpageService, communitiesDiscoverService, newsFeedService, campaignService, articleService, usSpinnerService) {
     
     $scope.selectNavBar('FRONTPAGE', -1);
+    
+    $scope.renderFrontpageSlider = function() {
+        var opts = {
+            arrowsNav: true,
+            arrowsNavAutoHide: false,
+            fadeinLoadedSlide: false,
+            controlNavigationSpacing: 0,
+            controlNavigation: 'bullets',
+            imageScaleMode: 'none',
+            imageAlignCenter: false,
+            loop: true,
+            numImagesToPreload: 6,
+            transitionType: 'fade',
+            keyboardNavEnabled: false,
+            block: {
+                delay: 400
+            },
+            autoPlay: {
+                enabled: true,
+                pauseOnHover: true,
+                stopAtAction: false,
+                delay: 5000
+            }
+        };
+        var frontpageSlider = $('#frontpage-slider').royalSlider(opts);
+    }
+    //$scope.renderFrontpageSlider();
+    
+    $interval($scope.renderFrontpageSlider, 1000, 1);
     
     // hot newsfeed
     $scope.newsFeeds = { posts: [] };
@@ -123,8 +152,10 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     // hot communities
     $scope.hotCommunities = frontpageService.hotCommunities.get();
         
-    // featured topic
-    $scope.featuredTopic = frontpageService.featuredTopic.get();
+    // frontpage topics
+    $scope.sliderTopics = frontpageService.sliderTopics.get();
+    $scope.featuredTopics = frontpageService.featuredTopics.get();
+    $scope.promoTopics = frontpageService.promoTopics.get();
     
     // articles
     $scope.hotArticles = articleService.HotArticles.get({category_id:0});

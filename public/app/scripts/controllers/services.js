@@ -17,11 +17,25 @@ minibean.service('frontpageService',function($resource){
                 get: {method:'GET'}
             }
     );
-    this.featuredTopic = $resource(
-            '/get-featured-topic',
+    this.sliderTopics = $resource(
+            '/get-slider-topics',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'GET'}
+                get: {method:'GET',isArray:true}
+            }
+    );
+    this.featuredTopics = $resource(
+            '/get-featured-topics',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET',isArray:true}
+            }
+    );
+    this.promoTopics = $resource(
+            '/get-promo-topics',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET',isArray:true}
             }
     );
 });

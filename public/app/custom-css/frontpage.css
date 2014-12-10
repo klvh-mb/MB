@@ -411,7 +411,7 @@ box-shadow:         0px 1px 4px 0px rgba(152, 79, 201, 0.5);
 }
 #frontpage-slider-section #frontpage-slider {
     width: 475px;
-    min-height: 250px;
+    height: 250px;
     margin-right: 5px;
 }
 #frontpage-slider-section #frontpage-promo {

@@ -21,30 +21,28 @@
         </div>
         <div class="section-details">
             <div class="featured-details">
-                
-                <div class="featured-main-area">
+                <div class="featured-main-area" ng-repeat="topic in featuredTopics">
                     <div class="featured-area">
-                        <a href="{{featuredTopic.url}}" target="_blank">
-                            <img ng-src="{{featuredTopic.img}}">
+                        <a href="{{topic.url}}" target="_blank">
+                            <img ng-src="{{topic.img}}">
                         </a>
                         <div class="featured-area-box">
-                            <a href="{{featuredTopic.url}}" target="_blank">
+                            <a href="{{topic.url}}" target="_blank">
                                 <div class="featured-area-box-bg"></div>
                             </a>
                             <div class="featured-overlay-title">
-                                <a href="{{featuredTopic.url}}" target="_blank"></a>
+                                <a href="{{topic.url}}" target="_blank"></a>
                                 <h4>
-                                    <a href="{{featuredTopic.url}}" target="_blank">{{featuredTopic.nm}}</a>
+                                    <a href="{{topic.url}}" target="_blank">{{topic.nm}}</a>
                                 </h4>
                             </div>
                         </div>
                         <div class="featured-body">
-                            <a href="{{featuredTopic.url}}" target="_blank">{{featuredTopic.ds | limitTo:65}}<span ng-show="featuredTopic.ds.length > 65">...</a>
+                            <a href="{{topic.url}}" target="_blank">{{topic.ds | limitTo:65}}<span ng-show="topic.ds.length > 65">...</a>
                         </div>
                         <div class="featured-tag-icon">推介</div>
                     </div>
                 </div>
-                
             </div>
         </div>
         <div><img src="/assets/app/images/frontpage/topic_footer_b.jpg"></div>

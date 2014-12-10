@@ -4,13 +4,13 @@ import common.utils.ImageUploadUtil;
 import common.utils.NanoSecondStopWatch;
 import models.Community;
 import models.CommunityStatistics;
-import models.FeaturedTopic;
-import models.FeaturedTopic.FeaturedType;
+import models.FrontPageTopic;
+import models.FrontPageTopic.TopicType;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import viewmodel.FeaturedTopicVM;
+import viewmodel.FrontPageTopicVM;
 import viewmodel.HotCommunityParentVM;
 import viewmodel.HotCommunityVM;
 
@@ -62,13 +62,31 @@ public class FrontPageController extends Controller {
         return ok(Json.toJson(vms));
     }
 
-    @Transactional
-    public static Result getFeaturedTopic() {
-        FeaturedTopic topic = FeaturedTopic.getActiveFeaturedTopic(FeaturedType.FEATURED);
-        if (topic == null) {
+    private static Result getTopics(TopicType topicType) {
+        List<FrontPageTopic> topics = FrontPageTopic.getActiveFrontPageTopics(topicType);
+        if (topics == null) {
             return ok();
         }
-        return ok(Json.toJson(new FeaturedTopicVM(topic)));
+        List<FrontPageTopicVM> vms = new ArrayList<FrontPageTopicVM>();
+        for (FrontPageTopic topic : topics) {
+            vms.add(new FrontPageTopicVM(topic));
+        }
+        return ok(Json.toJson(vms));
+    }
+    
+    @Transactional
+    public static Result getSliderTopics() {
+        return getTopics(TopicType.SLIDER);
+    }
+    
+    @Transactional
+    public static Result getFeaturedTopics() {
+        return getTopics(TopicType.FEATURED);
+    }
+    
+    @Transactional
+    public static Result getPromoTopics() {
+        return getTopics(TopicType.PROMO);
     }
     
     @Transactional

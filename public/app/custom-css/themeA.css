@@ -3295,6 +3295,15 @@ span.notif-count {
     border: 1px solid #a0041e;
     color: #fff;
 }
+.gradient-bg img, .transparent-bg img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+}
+.transparent-bg, .transparent-bg:hover {
+    opacity: 0;
+}
 .fb-box {
     margin: 15px 0px;
 }
