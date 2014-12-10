@@ -293,6 +293,10 @@ minibean.controller('ApplicationController',
         //log('left sidebar top:'+$scope.leftSidebarTop+' | right sidebar top:'+$scope.rightSidebarTop);
     }
     
+    $scope.translateValidationMessages = function() {
+        translateValidationMessages();
+    }
+    
     // PC home tour
     $scope.homeTour = homeTour;
     $scope.startHomeTour = function() {
@@ -2706,14 +2710,6 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
             title: "參加活動",
             className: "campaign-login-modal",
         });
-    }
-    
-    $scope.popupJoinCampaignModal = function(campaignId) {
-        translateValidationMessages();
-    }
-    
-    $scope.popupWithdrawCampaignModal = function(campaignId) {
-        translateValidationMessages();
     }
     
     $scope.joinCampaign = function(campaignId) {
