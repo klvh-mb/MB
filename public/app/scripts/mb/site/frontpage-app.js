@@ -32,7 +32,7 @@ angular.module('minibean', [
         controller : 'CampaignPageController' 
       })
       .when('/communities-discover',{
-        templateUrl: '/assets/app/views/home/communities-discover-page.html',
+        templateUrl: '/assets/app/views/frontpage/communities-discover-page.html',
       })
       .when('/community/:id',{
         templateUrl: '/assets/app/views/home/community-page.html',

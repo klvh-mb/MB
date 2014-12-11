@@ -1,6 +1,6 @@
 <div id="myCommunity" class="general-box widget-box">
     <div class="con-title">
-        <a id="my-communities" href="my#/about/myCommunities" class="text-muted">
+        <a id="my-communities" href="#/about/myCommunities" class="text-muted">
             <span class="icon-box icon-box-blueDark icon-title-community"></span>我關注的社群
         </a>
         <div class="pull-right">
@@ -10,9 +10,9 @@
     <ul class="myCommunity-info">
         <li ng-repeat="community in myCommunities">
             <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
-            <a href="my#/community/{{community.id}}"><img src="{{community.gi}}"></a>
+            <a href="#/community/{{community.id}}"><img src="{{community.gi}}"></a>
             <p>
-                <a href="my#/community/{{community.id}}">{{community.dn|characters:20:true}}</a><br/>
+                <a href="#/community/{{community.id}}">{{community.dn|characters:20:true}}</a><br/>
                 <span class="community-member-counter"><img src="../assets/app/images/general/icons/i-mom.png" />{{community.mm}}</span>
                 <span class="community-attribute">
                     <font data-ng-show="community.tp=='CLOSE'"><span class="glyphicon glyphicon-lock"></span>不公開</font>
@@ -22,9 +22,9 @@
         </li>
         <li ng-repeat="community in sysCommunities" ng-if="community.tinfo != 'FEEDBACK'">
             <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
-            <a href="my#/community/{{community.id}}"><img src="{{community.gi}}"></a>
+            <a href="#/community/{{community.id}}"><img src="{{community.gi}}"></a>
             <p>
-                <a href="my#/community/{{community.id}}">{{community.dn|characters:20:true}}</a><br/>
+                <a href="#/community/{{community.id}}">{{community.dn|characters:20:true}}</a><br/>
                 <span class="community-member-counter"><img src="../assets/app/images/general/icons/i-mom.png" />{{community.mm}}</span>
                 <span class="community-attribute">
                     <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開的社群</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開的社群</font>
@@ -35,7 +35,7 @@
 </div>
 <div id="myCommunity" class="general-box widget-box" ng-show="myBusinessCommunities.length > 0">
     <div class="con-title">
-        <a href="my#/about/myCommunities" class="text-muted">
+        <a href="#/about/myCommunities" class="text-muted">
             <span class="icon-box icon-box-blueDark icon-title-community"></span>我關注的專頁
         </a>
         <div class="pull-right">
@@ -45,9 +45,9 @@
     <ul class="myCommunity-info">
         <li ng-repeat="community in myBusinessCommunities">
             <!--img src="/image/get-mini-cover-community-image-by-id/{{community.id}}"-->
-            <a href="my#/business/community/{{community.id}}"><img src="{{community.gi}}"></a>
+            <a href="#/business/community/{{community.id}}"><img src="{{community.gi}}"></a>
             <p>
-                <a href="my#/business/community/{{community.id}}">{{community.dn|characters:20:true}}</a><br/>
+                <a href="#/business/community/{{community.id}}">{{community.dn|characters:20:true}}</a><br/>
                 <span class="community-member-counter"><img src="../assets/app/images/general/icons/i-mom.png" />{{community.mm}}</span>
                 <span class="community-attribute">
                     <font data-ng-show="community.isO"> (您是管理員)</font>
