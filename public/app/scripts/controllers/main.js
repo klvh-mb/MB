@@ -280,6 +280,12 @@ minibean.controller('ApplicationController',
         acceptJoinRequestService, acceptFriendRequestService, notificationMarkReadService,
         communitiesDiscoverService, articleService, iconsService, usSpinnerService) {
 
+    // login
+    $scope.getFbLoginUrl = function() {
+        var url = encodeURIComponent(window.location.href);
+        return "/authenticatePopup/facebook?rurl="+url;     //http%3A%2F%2Fminibean.com.hk%2Fmy%23%2F
+    }
+    
     // For fix sidebar
     $scope.leftSidebarTop = 0;
     $scope.rightSidebarTop = 0;
