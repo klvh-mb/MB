@@ -345,8 +345,9 @@ public abstract class PlayAuthenticate {
 	}
 
 	private static String getJumpUrl(final Context ctx) {
+	    User localUser = Application.getLocalUser(ctx.session());
 		final String originalUrl = getOriginalUrl(ctx);
-		if (originalUrl != null) {
+		if (originalUrl != null && !localUser.isNewUser()) {
 			return originalUrl;
 		} else {
 			return getUrl(getResolver().afterAuth(ctx.session()),

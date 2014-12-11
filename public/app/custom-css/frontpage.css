@@ -372,11 +372,11 @@ box-shadow:         0px 1px 4px 0px rgba(152, 79, 201, 0.5);
     padding: 5px 10px;
     height: 35px;
     border-radius: 10px 10px 0 0;
-    background: linear-gradient(to bottom, rgba(249, 223, 223, 1) 0%,rgba(249, 208, 208, 1) 50%,rgba(252, 207, 207, 1) 51%,rgba(242, 162, 162, 1) 100%);
+    /*background: linear-gradient(to bottom, rgba(249, 223, 223, 1) 0%,rgba(249, 208, 208, 1) 50%,rgba(252, 207, 207, 1) 51%,rgba(242, 162, 162, 1) 100%);*/
+    background: linear-gradient(to bottom, rgba(216, 189, 249, 1) 0%,rgba(176, 144, 226, 1) 50%,rgba(168, 136, 219, 1) 51%,rgba(133, 78, 221, 1) 100%);
 }
 .frontpage-section .section-header a {
-    color: white;
-    font-weight: bold;
+    color: #6B1A1A;
     margin-top: 3px;
 }
 .frontpage-section .section-header-image {
@@ -428,7 +428,7 @@ box-shadow:         0px 1px 4px 0px rgba(152, 79, 201, 0.5);
     box-shadow: 0px 0px 3px 0px rgba(192, 165, 237, 0.5);
 }
 #frontpage-communities-section .section-header {
-    background: linear-gradient(to bottom, rgba(216, 189, 249, 1) 0%,rgba(176, 144, 226, 1) 50%,rgba(168, 136, 219, 1) 51%,rgba(133, 78, 221, 1) 100%);
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,rgba(255, 237, 237, 1) 47%,rgba(255, 195, 195, 1) 100%);
 }
 #frontpage-communities-section .section-title {
     height: auto;
@@ -644,6 +644,17 @@ box-shadow:         0px 1px 4px 0px rgba(152, 79, 201, 0.5);
 }
 
 /* communities index */
+.frontpage-communities-index {
+    border: 1px solid #C4AEF0;
+    box-shadow: 0px 0px 3px 0px rgba(192, 165, 237, 0.5);
+}
+.frontpage-communities-index .con-title {
+    border-bottom: none;
+    background: linear-gradient(to bottom, rgba(216, 189, 249, 1) 0%,rgba(176, 144, 226, 1) 50%,rgba(168, 136, 219, 1) 51%,rgba(133, 78, 221, 1) 100%);
+}
+.frontpage-communities-index .con-title a {
+    color: #fff;
+}
 .frontpage-communities-index .myCommunity-info .topic-index,
 .frontpage-communities-index .myCommunity-info .zodiac-year-month-index,
 .frontpage-communities-index .myCommunity-info .district-index {

@@ -100,67 +100,8 @@ minibean.controller('TodayWeatherInfoController',function($scope, $http, todayWe
     
 });
 
-minibean.controller('FrontpageController',function($scope, $route, $location, $http, $routeParams, $interval, 
+minibean.controller('AllCommunitiesIndexWidgetController',function($scope, $route, $location, $http, $routeParams, $interval, 
     frontpageService, communitiesDiscoverService, newsFeedService, campaignService, articleService, usSpinnerService) {
-    
-    $scope.selectNavBar('FRONTPAGE', -1);
-    
-    $scope.renderFrontpageSlider = function() {
-        var opts = {
-            arrowsNav: true,
-            arrowsNavAutoHide: false,
-            fadeinLoadedSlide: false,
-            controlNavigationSpacing: 0,
-            controlNavigation: 'bullets',
-            imageScaleMode: 'none',
-            imageAlignCenter: false,
-            loop: true,
-            numImagesToPreload: 6,
-            transitionType: 'fade',
-            keyboardNavEnabled: false,
-            block: {
-                delay: 400
-            },
-            autoPlay: {
-                enabled: true,
-                pauseOnHover: true,
-                stopAtAction: false,
-                delay: 5000
-            }
-        };
-        var frontpageSlider = $('#frontpage-slider').royalSlider(opts);
-    }
-    //$scope.renderFrontpageSlider();
-    
-    $interval($scope.renderFrontpageSlider, 1000, 1);
-    
-    // hot newsfeed
-    $scope.newsFeeds = { posts: [] };
-    $scope.hotNewsFeeds = function(offset) {
-        frontpageService.hotNewsFeeds.get({offset:offset},
-            function(data){
-                var posts = data.posts;
-                for (var i = 0; i < posts.length; i++) {
-                    $scope.newsFeeds.posts.push(posts[i]);
-                }
-            }
-        );
-    }
-    $scope.hotNewsFeeds(0);
-    //$scope.hotNewsFeeds(1);
-    
-    // hot communities
-    $scope.hotCommunities = frontpageService.hotCommunities.get();
-        
-    // frontpage topics
-    $scope.sliderTopics = frontpageService.sliderTopics.get();
-    $scope.featuredTopics = frontpageService.featuredTopics.get();
-    $scope.promoTopics = frontpageService.promoTopics.get();
-    
-    // articles
-    $scope.hotArticles = articleService.HotArticles.get({category_id:0});
-    $scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:0});
-    $scope.newArticles = articleService.NewArticles.get({category_id:0});
     
     // comm index
     $scope.topicCommunityCategoriesMap = [];
@@ -232,7 +173,70 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
         );    
     }
     */
-
+});
+    
+minibean.controller('FrontpageController',function($scope, $route, $location, $http, $routeParams, $interval, 
+    frontpageService, communitiesDiscoverService, newsFeedService, campaignService, articleService, usSpinnerService) {
+    
+    $scope.selectNavBar('FRONTPAGE', -1);
+    
+    $scope.renderFrontpageSlider = function() {
+        var opts = {
+            arrowsNav: true,
+            arrowsNavAutoHide: false,
+            fadeinLoadedSlide: false,
+            controlNavigationSpacing: 0,
+            controlNavigation: 'bullets',
+            imageScaleMode: 'none',
+            imageAlignCenter: false,
+            loop: true,
+            numImagesToPreload: 6,
+            transitionType: 'fade',
+            keyboardNavEnabled: false,
+            block: {
+                delay: 400
+            },
+            autoPlay: {
+                enabled: true,
+                pauseOnHover: true,
+                stopAtAction: false,
+                delay: 5000
+            }
+        };
+        var frontpageSlider = $('#frontpage-slider').royalSlider(opts);
+    }
+    //$scope.renderFrontpageSlider();
+    
+    $interval($scope.renderFrontpageSlider, 1000, 1);
+    
+    // hot newsfeed
+    $scope.newsFeeds = { posts: [] };
+    $scope.hotNewsFeeds = function(offset) {
+        frontpageService.hotNewsFeeds.get({offset:offset},
+            function(data){
+                var posts = data.posts;
+                for (var i = 0; i < posts.length; i++) {
+                    $scope.newsFeeds.posts.push(posts[i]);
+                }
+            }
+        );
+    }
+    $scope.hotNewsFeeds(0);
+    //$scope.hotNewsFeeds(1);
+    
+    // hot communities
+    $scope.hotCommunities = frontpageService.hotCommunities.get();
+        
+    // frontpage topics
+    $scope.sliderTopics = frontpageService.sliderTopics.get();
+    $scope.featuredTopics = frontpageService.featuredTopics.get();
+    $scope.promoTopics = frontpageService.promoTopics.get();
+    
+    // articles
+    $scope.hotArticles = articleService.HotArticles.get({category_id:0});
+    $scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:0});
+    $scope.newArticles = articleService.NewArticles.get({category_id:0});
+    
 });
 
 minibean.controller('GameController',function($scope, $http, $interval, $location, gameService, usSpinnerService) {
@@ -283,7 +287,7 @@ minibean.controller('ApplicationController',
     // login
     $scope.getFbLoginUrl = function() {
         var url = encodeURIComponent(window.location.href);
-        return "/authenticatePopup/facebook?rurl="+url;     //http%3A%2F%2Fminibean.com.hk%2Fmy%23%2F
+        return "/authenticatePopup/facebook?rurl="+url;     // http%3A%2F%2Fminibean.com.hk%2Fmy%23%2F
     }
     
     // For fix sidebar
@@ -334,7 +338,6 @@ minibean.controller('ApplicationController',
         $scope.selectedNavBar = navBar;
         $scope.selectedNavSubBar = subBar;
     }
-    $scope.selectNavBar('HOME', -1);
     
     $scope.reloadPage = function() {
         $route.reload();
@@ -770,22 +773,16 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
     $scope.selectedSubTab = 1;
 	if (tab == 'activities' || tab == undefined) {
 		$scope.selectedTab = 1;
-	}
-	
-	if (tab == 'communities') {
+	} else if (tab == 'communities') {
 		$scope.selectedTab = 2;
-	}
-	
-	if (tab == 'myCommunities') {
+	} else if (tab == 'myCommunities') {
 		$scope.selectedTab = 2;
-	}
-	
-	if (tab == 'friends') {
+	} else if (tab == 'friends') {
         $scope.selectedTab = 3;
-    }
-    
-    if (tab == 'bookmarks') {
+    } else if (tab == 'bookmarks') {
         $scope.selectedTab = 4;
+    } else {
+        $scope.selectedTab = 1;
     }
     
 	$scope.profileImage = "/image/get-profile-image";
@@ -1235,7 +1232,19 @@ minibean.controller('CommunitiesDiscoverController',function($scope, $routeParam
             }
         }
     }
-    $scope.setSelectedSubTab(4);
+    
+    var tab = $routeParams.tab;
+    if (tab == 'topic' || tab == undefined) {
+        $scope.setSelectedSubTab(4);
+    } else if (tab == 'zodiacYear') {
+        $scope.setSelectedSubTab(1);
+    } else if (tab == 'zodiacYearMonth') {
+        $scope.setSelectedSubTab(2);
+    } else if (tab == 'district') {
+        $scope.setSelectedSubTab(3);
+    } else {
+        $scope.setSelectedSubTab(4);
+    }
     
     $scope.joinCommunity = function(id) {
         usSpinnerService.spin('loading...');
@@ -1465,6 +1474,8 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     postFactory, postLandingService, communityPageService, postManagementService, showImageService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
     
 	$scope.get_header_metaData();
+	
+	$scope.selectNavBar('HOME', -1);
 	
     $scope.$on('$viewContentLoaded', function() {
         usSpinnerService.spin('loading...');
@@ -1732,6 +1743,8 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
 
     $scope.get_header_metaData();
 
+    $scope.selectNavBar('HOME', -1);
+
     $scope.$on('$viewContentLoaded', function() {
         usSpinnerService.spin('loading...');
     });
@@ -1926,6 +1939,8 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, pr
         communityPageService, communityJoinService, searchMembersService, usSpinnerService){
     
     $scope.get_header_metaData();
+
+    $scope.selectNavBar('HOME', -1);
 
     $scope.selectedTab = 1;
     $scope.selectedSubTab = 1;

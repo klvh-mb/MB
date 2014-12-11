@@ -13,7 +13,7 @@
                 <div data-ng-include data-src="'/assets/app/views/widgets/my-profile-widget.html'"></div>
             </div>
             <!-- comms directory -->
-            <div data-ng-controller="UserCommunityWidgetController">
+            <div data-ng-controller="AllCommunitiesIndexWidgetController">
                 <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/widgets/all-communities-index-widget.html'"></div>
             </div>
             <!-- fb widget -->
@@ -22,8 +22,8 @@
             </div>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-6" style="width:480px;">
-            <div id="wall">
-                <div ng-controller="CommunitiesDiscoverController" data-ng-include data-src="'/assets/app/views/home/communities-discover-section.html'"></div>
+            <div id="wall" data-ng-controller="CommunitiesDiscoverController">
+                <div data-ng-include data-src="'/assets/app/views/home/communities-discover-section.html'"></div>
             </div>
         </div>
         
