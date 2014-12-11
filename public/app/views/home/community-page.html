@@ -5,18 +5,23 @@
 <div class="themeA-container">
     <div data-ng-include data-src="'/assets/app/views/nav-bar.html'"></div>
     <div class="row">
-		<div class="col-md-2 col-sm-2 col-xs-2" style="width:230px;">
-            <div data-ng-controller="GameController">
-                <div data-ng-include data-src="'/assets/app/views/widgets/my-profile-widget.html'"></div>
+        <div class="col-md-2 col-sm-2 col-xs-2" style="width:230px;">
+            <div ng-if="userInfo.isLoggedIn">
+                <div data-ng-controller="GameController">
+                    <div data-ng-include data-src="'/assets/app/views/widgets/my-profile-widget.html'"></div>
+                </div>
+    			<div>
+                    <div data-ng-include data-src="'/assets/app/views/widgets/my-shortcuts-widget.html'"></div>
+                </div>
+                <div>
+                    <div data-ng-include data-src="'/assets/app/views/widgets/communities-discover-widget.html'"></div>
+                </div>
+    			<div data-ng-controller="UserCommunityWidgetController" data-ng-show="result.communities.length > 0">
+                    <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/widgets/my-communities-widget.html'"></div>
+                </div>
             </div>
-			<div>
-                <div data-ng-include data-src="'/assets/app/views/widgets/my-shortcuts-widget.html'"></div>
-            </div>
-            <div>
-                <div data-ng-include data-src="'/assets/app/views/widgets/communities-discover-widget.html'"></div>
-            </div>
-			<div data-ng-controller="UserCommunityWidgetController" data-ng-show="result.communities.length > 0">
-                <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/widgets/my-communities-widget.html'"></div>
+            <div ng-show="!userInfo.isLoggedIn">
+                <div data-ng-include data-src="'/assets/app/views/widgets/prompt-signup-widget.html'"></div>
             </div>
 		</div>
 		
@@ -46,7 +51,7 @@
 							<a ng-click="selectedTab = 1;">最新訊息</a>
 						</div>
 						<div class="divider-cus"></div>
-						<div ng-class="{activeTabBold: selectedTab == 2}">
+						<div ng-class="{activeTabBold: selectedTab == 2}" ng-show="userInfo.isLoggedIn">
 							<a ng-click="selectedTab = 2;">正在關注</a>
 						</div>
 						<div class="dropdown pull-right">
@@ -125,7 +130,7 @@
                 </div>
                 <!-- Closed Community Tips End -->
                 
-                <div class="tab-content row" ng-if="selectedTab == 2">
+                <div class="tab-content row" ng-if="selectedTab == 2" ng-if="userInfo.isLoggedIn">
                     <div data-ng-controller="CommunityMembersController" data-ng-include data-src="'/assets/app/views/home/community-members-section.html'"></div>
                 </div>
                 
@@ -146,55 +151,9 @@
 				<a style="margin:0 8px 8px 0" ng-show="!community.isO && community.isM == false && community.isP == false" class="btn-general pull-right" data-ng-click="send_join(community.id)">+ <i class="fa fa-user"></i> 關注社群</a>
                 <span style="margin:0 8px 8px 0" ng-show="!community.isO && community.isP == true" class="btn-general-flat pull-right" disabled="disabled"">已送出加入邀請</span>
 			</div>
-			<div id="about" class="general-box">
-				<div class="con-title">
-					<span class="icon-box icon-box-blueLight icon-title-profile-about"></span>關於
-					<div class="pull-right">
-						{{community.nom}}個關注
-						<!--p data-ng-show="community.typ == 'CLOSE'" class="small"><span class="glyphicon glyphicon-lock"></span>不公開的社群</p>
-						<p data-ng-show="community.typ == 'OPEN'" class="small">公開的社群</p-->
-					</div>
-				</div>
-
-				<div class="content-wrapper">
-					<ul>
-						<pre>{{community.d}}</pre>
-					</ul>
-				</div>
-				<div style="text-align:center;">
-					<ul>
-						<li>
-							<form id="commun-add-member-wrapper"
-								name="commun-add-member-wrapper" method="post" action="">
-								<label for="Add Member"></label> 
-								<input type="text" name="add-member-field" id="add-member-field" class="general-textfield general-input-box" data-ng-model="searchQuery1"
-									data-ng-keyup="search_unjoined_users(community.id, searchQuery1)" placeholder="+ 推薦給媽媽" />
-								<div>
-									<div class="row">
-										<ul class="col-lg-12 col-md-11 col-sd-11 dropdown-menu chat media-list hide"
-											ng-class="{show : nonMembers.length > 0 && searchQuery1.length > 0}"
-											style="overflow-y: scroll; max-height: 244px;">
-											<li class="media" ng-repeat="sr in nonMembers"
-												ng-switch="sr.tp" style="margin-top: 2% !important;">
-												<!-- shows user section --> 
-                                                <a class="pull-left" href="#/profile/{{sr.id}}"> 
-                                                    <img class="media-object thumb" data-ng-src="/image/get-mini-image-by-id/{{sr.id}}" alt="50x50" width="50"/>
-                                                </a>
-												<div class="media-body">
-													<h5 class="media-heading">
-												        {{sr.nm}} 
-												        <i data-ng-click="send_invite_to_join(community.id, sr.id)" class="fa fa-plus-square pull-right"></i>
-													</h5>
-												</div>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</form>
-						</li>
-					</ul>
-				</div>
-			</div>
+			<div>
+                <div data-ng-include data-src="'/assets/app/views/home/community-about-section.html'"></div>
+            </div>
 			<!--div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.communities.length > 0">
 				<div data-ng-include data-src="'/assets/app/views/utilities/yourFriendsCommunitiesUtility.html'"></div>
 			</div-->

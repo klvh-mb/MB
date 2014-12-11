@@ -3304,6 +3304,60 @@ span.notif-count {
 .transparent-bg, .transparent-bg:hover {
     opacity: 0;
 }
+
+#prompt-post-login {
+    background: #FFF;
+    color: #737272;
+    border-radius: 10px;
+    padding-top: 5px;
+}
+#prompt-comment-login {
+    background: #FFF;
+    border: 1px solid #93b9d8;
+    color: #737272;
+    border-radius: 10px;
+    padding: 5px 15px;
+}
+#prompt-post-login a, 
+#prompt-comment-login a {
+    padding: 0 3px;
+    font-weight: bold;
+    margin: 0;
+}
+#prompt-post-login .prompt-fb-login, 
+#prompt-comment-login .prompt-fb-login {
+    width: auto;
+    height: 22px;
+}
+#prompt-signup {
+    padding: 5px 20px;
+}
+#prompt-signup .prompt-signup-text {
+    font-size: 14px;
+    font-weight: normal;
+}
+#prompt-signup .prompt-signup-fb {
+    margin: 10px 0px;
+    text-align: center;
+}
+#prompt-signup .prompt-signup-fb h5 {
+    color: gray;
+    font-size: 12px;
+    margin: 10px auto;
+    width: 90%;
+    max-width: 170px;
+}
+#prompt-signup .prompt-signup-fb img {
+    width: 95%;
+    max-width: 200px;
+    height: auto;
+}
+#prompt-signup .prompt-signup-native {
+    font-size: 14px;
+    text-align: center;
+    margin: 5px 0px;
+}
+
 .fb-box {
     margin: 15px 0px;
 }

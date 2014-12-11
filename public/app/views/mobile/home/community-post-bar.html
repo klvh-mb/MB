@@ -8,7 +8,7 @@
 						ng-repeat="f in selectedFiles" tooltip-placement="bottom" tooltip="移除相片" data-ng-click="remove_image($index)"
 						ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
 				</div>
-				<div style="width:100px;margin-bottom:3px;" class="post-comment-box pull-right">
+				<div style="width:100px;margin-bottom:3px;" class="post-comment-box pull-right" ng-show="userInfo.isLoggedIn">
 				    <input style="visibility:hidden;display:inline-block;width:0px;height:0px;" id="post-photo-id" type="file" name="post-photo" ng-file-select="onFileSelect($files)"/>
     				<a class="post-photo-icon" data-ng-hide="selectedFiles.length >= 3">
                         <i class="icon-photo-camera-fill" data-ng-mousedown="postPhoto()"></i>
@@ -17,6 +17,9 @@
                             data-ng-mousedown="post_on_community(community.id, postText); postText='';">
                         分享
                     </button>
+                </div>
+                <div ng-show="!userInfo.isLoggedIn">
+                    <div data-ng-include data-src="'/assets/app/views/widgets/prompt-post-login-widget.html'"></div>
                 </div>
             </form>
         </li>

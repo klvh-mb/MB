@@ -1,0 +1,17 @@
+<div id="about" class="general-box">
+    <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
+        <div class="con-title">
+            <span class="icon-box icon-box-blueLight icon-title-profile-about"></span>關於
+            <div class="pull-right">
+                {{community.nom}}個關注
+                <!--p data-ng-show="community.typ == 'CLOSE'" class="small"><span class="glyphicon glyphicon-lock"></span>不公開的社群</p>
+                <p data-ng-show="community.typ == 'OPEN'" class="small">公開的社群</p-->
+            </div>
+        </div>
+    </a>
+    <div id="collapseOne" class="row collapse">
+        <ul style="padding:15px;">
+            <pre>{{community.d}}</pre>
+        </ul>
+    </div>
+</div>

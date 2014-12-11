@@ -30,7 +30,7 @@
                             <a ng-click="selectedTab = 1;">最新訊息</a>
                         </div>
                         <div class="divider-cus"></div>
-                        <div ng-class="{activeTabBold: selectedTab == 2}">
+                        <div ng-class="{activeTabBold: selectedTab == 2}" ng-show="userInfo.isLoggedIn">
                             <a ng-click="selectedTab = 2;">正在關注</a>
                         </div>
                         <div class="dropdown pull-right">
@@ -51,7 +51,7 @@
                 </ul>
             </div>
             <!-- Action buttons -->
-            <div class="community-action-menu row">
+            <div class="community-action-menu row" ng-if="userInfo.isLoggedIn">
                 <a ng-show="!community.isO && community.isM == false && community.isP == false" class="btn-general pull-right" data-ng-click="send_join(community.id)">+ <i class="fa fa-user"></i> 關注社群</a>
                 <span ng-show="!community.isO && community.isP == true" class="btn-general-flat class="btn-general pull-right" disabled="disabled"">已送出加入邀請</span>
             </div>
@@ -61,6 +61,7 @@
                     <script adSize="72890" adSid="477069296823" ads-factor language='JavaScript' type="text/javascript"></script>
                 </div>
                 <div class="tab-content" ng-show="selectedTab == 1">
+                    <div style="width:100%;" data-ng-include data-src="'/assets/app/views/mobile/home/community-about-section.html'"></div>
                     <div class="info-section" ng-if="userInfo.isLoggedIn && community.isO">
                         您是管理員
                     </div>
@@ -120,7 +121,7 @@
                 </div>
                 <!-- Closed Community Tips End -->
                 
-                <div class="tab-content row" ng-if="selectedTab == 2">
+                <div class="tab-content row" ng-if="selectedTab == 2" ng-if="userInfo.isLoggedIn">
                     <div data-ng-controller="CommunityMembersController" data-ng-include data-src="'/assets/app/views/mobile/home/community-members-section.html'"></div>
                 </div>
                 

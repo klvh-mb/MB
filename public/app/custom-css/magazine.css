@@ -6,41 +6,6 @@
     background-attachment: fixed;
 }*/
 
-#promo-login a {
-    font-size: 15px;
-    font-weight: bold;
-    display: block;
-    text-align: center;
-}
-#promo-signup {
-    padding: 5px 20px;
-}
-#promo-signup .promo-signup-text {
-    font-size: 14px;
-    font-weight: normal;
-}
-#promo-signup .promo-signup-fb {
-    margin: 10px 0px;
-    text-align: center;
-}
-#promo-signup .promo-signup-fb h5 {
-    color: gray;
-    font-size: 12px;
-    margin: 10px auto;
-    width: 90%;
-    max-width: 170px;
-}
-#promo-signup .promo-signup-fb img {
-    width: 95%;
-    max-width: 200px;
-    height: auto;
-}
-#promo-signup .promo-signup-native {
-    font-size: 14px;
-    text-align: center;
-    margin: 5px 0px;
-}
-
 #nav-bar, #nav-subbar {
     width: 100%;
     height: auto;

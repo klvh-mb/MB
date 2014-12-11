@@ -258,18 +258,21 @@ box-shadow:         0px 1px 4px 0px rgba(152, 79, 201, 0.5);
     background-repeat: no-repeat; 
     background-position: center center;
     background-size: 95%;
+    margin-right: 3px;
 }
 .article-title-icon-latest {
     background-image: url(../images/frontpage/article_latest.png); 
     background-repeat: no-repeat; 
     background-position: center center;
     background-size: 95%;
+    margin-right: 3px;
 }
 .article-title-icon-recommend {
     background-image: url(../images/frontpage/article_recommend.png); 
     background-repeat: no-repeat; 
     background-position: center center;
     background-size: 95%;
+    margin-right: 3px;
 }
 .article-content {
     padding: 20px; 
@@ -540,10 +543,14 @@ box-shadow:         0px 1px 4px 0px rgba(152, 79, 201, 0.5);
 #frontpage-featured-section #featured-game .featured-title {
     background-color: #b0f0ff;
     color: #556fb5;
+    font-size: 18px;
+    vertical-align: top;
 }
 #frontpage-featured-section #featured-topic .featured-title {
     background-color: #f19ec2;
     color: #b32272;
+    font-size: 18px;
+    vertical-align: top;
 }
 #frontpage-featured-section .featured-details {
     padding: 7px 5px 7px 10px;
@@ -627,13 +634,13 @@ box-shadow:         0px 1px 4px 0px rgba(152, 79, 201, 0.5);
     position: absolute;
     top: 50px;
     right: 30px;
-    width: 50px;
+    width: 60px;
     height: 24px;
     background: url(../images/frontpage/featured_tag.png) no-repeat;
     line-height: 20px;
     color: #FFF;
     float: right;
-    padding-left: 12px;
+    text-align: center;
 }
 
 /* communities index */

@@ -7,7 +7,7 @@
     <div id="frontpage" class="row">
         <div class="col-md-2 col-sm-2 col-xs-2" style="width:230px;">
             <div ng-if="!userInfo.isLoggedIn">
-                <div data-ng-include data-src="'/assets/app/views/widgets/promo-signup-widget.html'"></div>
+                <div data-ng-include data-src="'/assets/app/views/widgets/prompt-signup-widget.html'"></div>
             </div>
             <div data-ng-controller="GameController" ng-if="userInfo.isLoggedIn">
                 <div data-ng-include data-src="'/assets/app/views/widgets/my-profile-widget.html'"></div>

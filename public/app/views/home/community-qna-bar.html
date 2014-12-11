@@ -9,7 +9,7 @@
 					ng-repeat="f in QnASelectedFiles" ng-show="dataUrls[$index]" 
 					ng-src="{{dataUrls[$index]}}" tooltip-placement="bottom" tooltip="移除相片" data-ng-click="remove_image($index)">
 				</div>
-				<div style="width:120px;margin-bottom:0px;" class="post-comment-box pull-right">
+				<div style="width:120px;margin-bottom:0px;" class="post-comment-box pull-right" ng-show=" userInfo.isLoggedIn">
                     <input class="pull-left" style="visibility:hidden;display:inline-block;width:0px;height:0px;" id="QnA-photo-id" type="file" name="post-photo" ng-file-select="onQnAFileSelect($files)"/>
                     <a class="dropdown-toggle dropdown-hover colorChange pull-left" data-toggle="dropdown" href="#">
                         <img style="width:18px;margin-top:10px;margin-right:5px;" src="../assets/app/images/emoticons/smile.png" />
@@ -28,6 +28,9 @@
                             data-ng-mousedown="ask_question_community(community.id, questionTitle, questionText); questionTitle=''; questionText='';">
                         發出
                     </button>
+                </div>
+                <div ng-show="!userInfo.isLoggedIn">
+                    <div data-ng-include data-src="'/assets/app/views/widgets/prompt-post-login-widget.html'"></div>
                 </div>
             </form>
         </li>

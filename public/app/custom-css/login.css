@@ -312,7 +312,6 @@ ul, li {
     float: right;
     width: 28%;
 }
-
 #pwd-btn {
     margin-top: 10px;
     font-size: 16px;
@@ -331,4 +330,7 @@ ul, li {
     color: #292f33;
     text-shadow: 0 1px 0 rgba(255,255,255,0.5);
     align: left;
+}
+#loginModal .modal-dialog {
+    width: 350px;
 }

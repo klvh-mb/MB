@@ -92,7 +92,7 @@
             </div>
         </li>
         <!-- Post Answer box-->
-        <li ng-show="(post.isC == true || (community.isM || community.isO)) && !isMyBookmarksPage">
+        <li ng-show="(post.isC == true || (community.isM || community.isO)) && !isMyBookmarksPage && userInfo.isLoggedIn">
             <!--a data-ng-href="m-my#/profile/{{userInfo.id}}">
                 <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
             </a-->
@@ -124,6 +124,9 @@
                         ng-show="qnaCommentDataUrls[$index]" ng-src="{{qnaCommentDataUrls[$index]}}">
                 </div>
             </span>
+        </li>
+        <li ng-show="!userInfo.isLoggedIn">
+            <div data-ng-include data-src="'/assets/app/views/widgets/prompt-comment-login-widget.html'"></div>
         </li>
     </ul>
     <!-- Post Answers Ends -->
