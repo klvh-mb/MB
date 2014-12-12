@@ -1,0 +1,21 @@
+<header>
+	<div data-ng-include style="width:100%;" data-src="'/assets/app/views/mobile/header-bar.html'"></div>
+</header>
+
+<div id="discover-communities" class="themeA-container">
+	<div id="content">
+		<div class="row">
+            <div id="wall" data-ng-controller="CommunitiesDiscoverController" >
+                <div data-ng-include style="width:100%;" data-src="'/assets/app/views/home/communities-discover-section.html'"></div>
+            </div>
+	    </div>
+    </div>
+</div>
+
+<div id="back-to-top" style="z-index:1000">
+    <a data-ng-click="gotoTop()"><span class="icon-title-arrow-up"></span></a>
+</div>
+
+<script>
+    ga_send_pv();
+</script>

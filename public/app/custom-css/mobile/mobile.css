@@ -540,6 +540,9 @@ span.notif-count {
 .zodiacYearMonthCard {
     width: 29% !important;
 }
+.districtCard {
+    width: 29% !important;
+}
 .communityCard {
     width: 45%;
     margin-left: 7px;
