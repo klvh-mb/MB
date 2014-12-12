@@ -4,14 +4,10 @@
         <div ng-repeat="topic in sliderTopics">
             <div class="rsContent fp-image-slide" ng-if="topic.sty == 'FLASH' || topic.sty == 'IMAGE'">
                 <a class="rsImg" href="{{topic.img}}"></a>
-                <a class="transparent-bg" href="{{topic.url}}" target="_blank">
+                <a class="transparent-bg" href="{{topic.url}}" target="_blank" ng-if="topic.nm.length == 0 || topic.ds.length == 0">
                     <img src="../assets/app/images/general/gradient_black_30.png">
                 </a>
-                <div class="bContainer"></div>
-            </div>
-            <div class="rsContent fp-image-text-slide" ng-if="topic.sty == 'IMAGE_TEXT'">
-                <a class="rsImg" href="{{topic.img}}"></a>
-                <a class="gradient-bg" href="{{topic.url}}" target="_blank">
+                <a class="gradient-bg" href="{{topic.url}}" target="_blank" ng-if="topic.nm.length > 0 || topic.ds.length > 0">
                     <img src="../assets/app/images/general/gradient_black_30.png">
                 </a>
                 <div class="bContainer">
@@ -72,7 +68,7 @@
 #frontpage-slider .fp-flash-slide {
     background: #fff;
 }
-#frontpage-slider .fp-image-slide .bContainer, .fp-image-text-slide .bContainer {
+#frontpage-slider .fp-image-slide .bContainer {
     position: absolute;
     left: 0px;
     bottom: 15px;
@@ -83,7 +79,7 @@
     z-index: 25;
     padding: 0 25px;
 }
-#frontpage-slider .fp-image-text-slide .bContainer a, .fp-image-text-slide .bContainer a:hover {
+#frontpage-slider .fp-image-slide .bContainer a, .fp-image-slide .bContainer a:hover {
     color: white;
     line-height: 1.5;
 }

@@ -178,6 +178,8 @@ minibean.controller('AllCommunitiesIndexWidgetController',function($scope, $rout
 minibean.controller('FrontpageController',function($scope, $route, $location, $http, $routeParams, $interval, 
     frontpageService, communitiesDiscoverService, newsFeedService, campaignService, articleService, usSpinnerService) {
     
+    $scope.get_header_metaData();
+    
     $scope.selectNavBar('FRONTPAGE', -1);
     
     $scope.renderFrontpageSlider = function() {
@@ -3098,6 +3100,8 @@ minibean.controller('MyMagazineNewsFeedController', function($scope, postFactory
 minibean.controller('NewsFeedController', function($scope, postFactory, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, usSpinnerService, newsFeedService) {
 
     $scope.get_header_metaData();
+    
+    $scope.selectNavBar('HOME', -1);
     
 	$scope.newsFeeds = { posts: [] };
 	
