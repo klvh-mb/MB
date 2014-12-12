@@ -10,7 +10,7 @@
         </div>
         <div class="section-details">
             <ul>
-                <li data-ng-repeat="post in newsFeeds.posts" ng-if="$index < 5">
+                <li data-ng-repeat="post in newsFeeds.posts" ng-if="$index < frontpageHotNewsfeedCount">
                     <div class="hot-post">
                         <div class="hot-post-body">
                             <a data-ng-href="#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><span ng-bind-html="post.ptl | limitTo:25 | to_trusted"></span><span ng-if="post.ptl.length > 25">...</span></a>
@@ -42,7 +42,7 @@
         </div>
         <div class="section-details">
             <ul>
-                <li data-ng-repeat="community in hotCommunities.hcomm">
+                <li data-ng-repeat="community in hotCommunities.hcomm" ng-if="$index < frontpageHotCommunitiesCount">
                     <div class="hot-community">
                         <div class="hot-community-body">
                             <a data-ng-href="#/community/{{community.id}}"><img src="{{community.icon}}">{{community.n}}</a>

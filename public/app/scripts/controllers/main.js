@@ -181,32 +181,62 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     $scope.selectNavBar('FRONTPAGE', -1);
     
     $scope.renderFrontpageSlider = function() {
-        var opts = {
-            arrowsNav: true,
-            arrowsNavAutoHide: false,
-            fadeinLoadedSlide: false,
-            controlNavigationSpacing: 0,
-            controlNavigation: 'bullets',
-            imageScaleMode: 'none',
-            imageAlignCenter: false,
-            loop: true,
-            numImagesToPreload: 6,
-            transitionType: 'fade',
-            keyboardNavEnabled: false,
-            block: {
-                delay: 400
-            },
-            autoPlay: {
-                enabled: true,
-                pauseOnHover: true,
-                stopAtAction: false,
-                delay: 5000
-            }
-        };
+        var opts 
+        if ($scope.userInfo.isMobile) {
+            // mobile slider
+            opts = {
+                arrowsNav: false,
+                arrowsNavAutoHide: false,
+                fadeinLoadedSlide: false,
+                controlsInside: false,
+                controlNavigationSpacing: 0,
+                controlNavigation: 'bullets',
+                imageScaleMode: 'fill',
+                imageAlignCenter: false,
+                autoScaleSlider: true, 
+                autoScaleSliderWidth: 475,     
+                autoScaleSliderHeight: 250,
+                thumbsFitInViewport: false,
+                loop: true,
+                transitionType:'move',
+                keyboardNavEnabled: false,
+                navigateByClick: true,
+                imgWidth: 475,
+                imgHeight: 250,
+                autoPlay: {
+                    enabled: true,
+                    pauseOnHover: false,
+                    stopAtAction: false,
+                    delay: 4000
+                }
+            };
+        } else {
+            // pc slider
+            opts = {
+                arrowsNav: true,
+                arrowsNavAutoHide: false,
+                fadeinLoadedSlide: false,
+                controlsInside: false,
+                controlNavigationSpacing: 0,
+                controlNavigation: 'bullets',
+                imageScaleMode: 'none',
+                imageAlignCenter: false,
+                loop: true,
+                transitionType: 'fade',
+                keyboardNavEnabled: false,
+                block: {
+                    delay: 400
+                },
+                autoPlay: {
+                    enabled: true,
+                    pauseOnHover: true,
+                    stopAtAction: false,
+                    delay: 5000
+                }
+            };
+        }
         var frontpageSlider = $('#frontpage-slider').royalSlider(opts);
     }
-    //$scope.renderFrontpageSlider();
-    
     $interval($scope.renderFrontpageSlider, 1000, 1);
     
     // hot newsfeed
@@ -221,12 +251,17 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
             }
         );
     }
-    $scope.hotNewsFeeds(0);
-    //$scope.hotNewsFeeds(1);
+    $scope.hotNewsFeeds(0);     //$scope.hotNewsFeeds(1);
     
     // hot communities
     $scope.hotCommunities = frontpageService.hotCommunities.get();
-        
+
+    $scope.frontpageHotNewsfeedCount = DefaultValues.FRONTPAGE_HOT_NEWSFEED_COUNT;
+    $scope.frontpageHotCommunitiesCount = DefaultValues.FRONTPAGE_HOT_COMMUNITIES_COUNT;
+    if ($scope.userInfo.isMobile) {
+        $scope.frontpageHotCommunitiesCount = DefaultValues.FRONTPAGE_HOT_COMMUNITIES_COUNT / 2;
+    }
+
     // frontpage topics
     $scope.sliderTopics = frontpageService.sliderTopics.get();
     $scope.featuredTopics = frontpageService.featuredTopics.get();
@@ -3001,6 +3036,8 @@ minibean.controller('ShowArticlesController',function($scope, $routeParams, arti
 
 minibean.controller('MyMagazineNewsFeedController', function($scope, postFactory, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, usSpinnerService, myMagazineNewsFeedService) {
     
+    $scope.get_header_metaData();
+    
     $scope.newsFeeds = { posts: [] };
     
     $scope.deletePost = function(postId) {
@@ -4027,6 +4064,8 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 
 minibean.controller('MagazineNewsFeedController', function($scope, $timeout, $upload, $http, $routeParams,  
     postFactory, bookmarkPostService, likeFrameworkService, postManagementService, magazineNewsFeedService, iconsService, usSpinnerService) {
+    
+    $scope.get_header_metaData();
     
     var cat = $routeParams.cat;
     if (cat == undefined) {

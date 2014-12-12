@@ -1,0 +1,39 @@
+<header>
+    <div data-ng-include style="width:100%;" data-src="'/assets/app/views/mobile/header-bar.html'"></div>
+    <!--div data-ng-include data-src="'/assets/app/views/mobile/nav-bar.html'"></div-->
+</header>
+
+<div class="themeA-container">
+    <div class="row">
+        <div id="wall">
+        
+            <!-- slider - promo, campaigns, announcements, voting -->
+            <div class="frontpage-section">
+                <div data-ng-include data-src="'/assets/app/views/mobile/frontpage/slider-section.html'"></div>
+            </div>
+            
+            <!-- new posts, hot comms -->
+            <div class="frontpage-section">
+                <div data-ng-include data-src="'/assets/app/views/frontpage/communities-section.html'"></div>
+            </div>
+            
+            <!-- featured game gifts/info, articles, knowledge -->
+            <div class="frontpage-section">
+                <div data-ng-include data-src="'/assets/app/views/frontpage/topics-section.html'"></div>
+            </div>
+                
+            <!--div class="ads-factor-728x90">
+                <script adSize="72890" adSid="477069296823" ads-factor language='JavaScript' type="text/javascript"></script>
+            </div-->
+            
+        </div>
+    </div>
+</div>
+
+<div id="back-to-top" style="z-index:1000">
+    <a data-ng-click="gotoTop()"><span class="icon-title-arrow-up"></span></a>
+</div>
+
+<script>
+    ga_send_pv();
+</script>

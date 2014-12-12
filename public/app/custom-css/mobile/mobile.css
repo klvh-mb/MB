@@ -714,3 +714,48 @@ span.notif-count {
     width: 100%;
     overflow: hidden;
 }
+
+/* Frontpage */
+#frontpage-slider-section #frontpage-slider {
+    width: 100%;
+    height: 250px;
+    margin-right: 5px;
+    margin-bottom: 15px;
+}
+#frontpage-communities-section #hot-topics, 
+#frontpage-communities-section #hot-communities {
+    width: 95%;
+}
+#frontpage-featured-section #featured-game, 
+#frontpage-featured-section #featured-topic {
+    width: 100%;
+}
+#frontpage-featured-section .featured-details .featured-area {
+    width: auto;
+}
+#frontpage-featured-section .featured-details .featured-main-area {
+    width: auto;
+}
+#frontpage-featured-section .featured-details .featured-area img {
+    width: 250px;
+    height: 150px;
+}
+#frontpage-featured-section .featured-details .featured-area-box {
+    width: 100%;
+    height: 150px;
+    margin-top: -150px;
+}
+#frontpage-featured-section .featured-details .featured-area-box-bg {
+    width: 250px;
+    height: 120px;
+}
+#frontpage-featured-section .featured-details .featured-overlay-title {
+    width: 250px;
+    height: 30px;
+    padding: 5px 10px;
+}
+#frontpage-featured-section .featured-details .featured-overlay-title h4 a {
+    font-size: 18px;
+    font-weight: normal;
+}
+

@@ -2,12 +2,7 @@
             
     <div id="frontpage-slider" class="royalSlider rsMinW general-box">
         <div ng-repeat="topic in sliderTopics">
-            <div class="rsContent fp-flash-slide" ng-if="topic.sty == 'FLASH'">
-                <div class="bContainer">
-                    <span ng-bind-html="topic.ds | to_trusted "></span>
-                </div>
-            </div>
-            <div class="rsContent fp-image-slide" ng-if="topic.sty == 'IMAGE'">
+            <div class="rsContent fp-image-slide" ng-if="topic.sty == 'FLASH' || topic.sty == 'IMAGE'">
                 <a class="rsImg" href="{{topic.img}}"></a>
                 <a class="transparent-bg" href="{{topic.url}}" target="_blank">
                     <img src="../assets/app/images/general/gradient_black_30.png">
@@ -30,16 +25,6 @@
             </div>
         </div>
     </div>
-  
-  
-    <div id="frontpage-promo">
-        <div  class="general-box">
-           <div id="premiumbanner"><a href="http://ads.openrice.com/openx/www/delivery/ck.php?oaparams=2__bannerid=6371__zoneid=359__cb=05aafb4677__oadest=http%3A%2F%2Fad.doubleclick.net%2Fddm%2Fclk%2F284259545%3B111291775%3Bn%23v%3D4" target="_blank"><img src="http://ads.orstatic.com/openx/www/images/21fe581d27583f03e3351d0faf1118fa.jpg" width="300" height="100" alt="" title="" border="0"></a><div id="beacon_05aafb4677" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="http://ads.openrice.com/openx/www/delivery/lg.php?bannerid=6371&amp;campaignid=3678&amp;zoneid=359&amp;loc=http%3A%2F%2Fwww.openrice.com%2Fzh%2Fhongkong%3Ffbc%3D1&amp;referer=http%3A%2F%2Fwww.openrice.com%2Fzh%2Fsso%2Findex.htm%3Fisfblogined%3D1%26src%3Dorweb%26loginUrl%3Dhttp%253A%252F%252Fwww.openrice.com%252Fzh%252Fhongkong%253Ffbc%253D1&amp;cb=05aafb4677" width="0" height="0" alt="" style="width: 0px; height: 0px;"></div></div>
-        </div>
-        <div  class="general-box">
-           <div id="premiumbanner"><a href="http://ads.openrice.com/openx/www/delivery/ck.php?oaparams=2__bannerid=6209__zoneid=359__cb=e9dcf50a73__oadest=http%3A%2F%2Fad.doubleclick.net%2Fddm%2Fclk%2F284259545%3B111291775%3Bn%23v%3D4" target="_blank"><img src="http://ads.orstatic.com/openx/www/images/83a24b716f38002da7350afe5c4f50af.jpg" width="300" height="130" alt="" title="" border="0"></a><div id="beacon_e9dcf50a73" style="position: absolute; left: 0px; top: 0px; visibility: hidden;"><img src="http://ads.openrice.com/openx/www/delivery/lg.php?bannerid=6209&amp;campaignid=3678&amp;zoneid=359&amp;loc=http%3A%2F%2Fwww.openrice.com%2Fzh%2Fhongkong%3Ffbc%3D1&amp;referer=http%3A%2F%2Fwww.openrice.com%2Fzh%2Fsso%2Findex.htm%3Fisfblogined%3D1%26src%3Dorweb%26loginUrl%3Dhttp%253A%252F%252Fwww.openrice.com%252Fzh%252Fhongkong%253Ffbc%253D1&amp;cb=e9dcf50a73" width="0" height="0" alt="" style="width: 0px; height: 0px;"></div></div>
-        </div>
-    </div>
 </div>
  
  
@@ -55,14 +40,10 @@
     opacity: 0.8;
 }
 #frontpage-slider .rsImg {
-    width: 475px;
-    height: 250px;
 }
 #frontpage-slider .rsContent {
-    width: 475px;
-    height: 250px;
     color: #FFF;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.4;
     float: left;
 }
@@ -77,11 +58,11 @@
 }
 #frontpage-slider .blockHeadline {
     font-weight: bold;
-    font-size: 24px;
+    font-size: 18px;
     line-height: 1.2;
 }
 #frontpage-slider .blockSubHeadline {
-    font-size: 18px;
+    font-size: 15px;
     line-height: 1.4;
 }
 #frontpage-slider .txtCent {
@@ -107,7 +88,7 @@
     line-height: 1.5;
 }
 #frontpage-slider .rsBullets {
-    
+    right: 30px;
 }
 #frontpage-slider .rsBullets, #frontpage-slider .rsBullets div {
     border-radius: 0;
