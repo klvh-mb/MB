@@ -421,6 +421,16 @@ box-shadow:         0px 1px 4px 0px rgba(152, 79, 201, 0.5);
     width: 300px;
     min-height: 250px;
 }
+#frontpage-slider-section #frontpage-promo #promo-area1, 
+#frontpage-slider-section #frontpage-promo #promo-area2 {
+    overflow: hidden;
+}
+#frontpage-slider-section #frontpage-promo #promo-area1 {
+    height: 100px;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 {
+    height: 130px;
+}
 
 #frontpage-communities-section {
     overflow: visible;
