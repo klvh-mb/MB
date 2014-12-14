@@ -14,6 +14,7 @@ import models.Campaign.CampaignType;
 import models.CampaignActionsUser;
 import models.CampaignWinner;
 import models.CampaignWinner.WinnerState;
+import models.GameAccount;
 import models.User;
 import play.data.DynamicForm;
 import play.db.jpa.Transactional;
@@ -163,6 +164,17 @@ public class CampaignController extends Controller {
                 break;
             }
         }
+
+        // Capture contact info from form.
+        if (vm != null && vm.success) {
+            String realName = form.get("name");
+            String phone = form.get("mobileNumber");
+            String email = form.get("email");
+            GameAccount gameAccount = GameAccount.findByUserId(localUser.id);
+            gameAccount.setContactInfo(realName, phone, email);
+            gameAccount.save();
+        }
+
         return ok(Json.toJson(vm));
     }
 

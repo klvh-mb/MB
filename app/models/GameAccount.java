@@ -37,11 +37,13 @@ public class GameAccount extends domain.Entity {
 	public Date last_redemption_time;
 
     // Contact information
-	public String address_1;
+    public String realName;
+	public String phone;
+    public String email;
+    public String address_1;
 	public String address_2;
 	public String city;
-	public Long phone;
-	
+
 	public Boolean has_upload_profile_pic = false;
 
     public String promoCode;
@@ -235,5 +237,11 @@ public class GameAccount extends domain.Entity {
 
     public Double getFirstPersonMultiplier() {
         return (firstPersonMultiplier == null) ? 1d : firstPersonMultiplier;
+    }
+
+    public void setContactInfo(String realName, String phone, String email) {
+        this.realName = realName;
+        this.phone = phone;
+        this.email = email;
     }
 }
