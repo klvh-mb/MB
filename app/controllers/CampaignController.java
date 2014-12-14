@@ -16,6 +16,7 @@ import models.CampaignWinner;
 import models.CampaignWinner.WinnerState;
 import models.GameAccount;
 import models.User;
+import org.apache.commons.lang.StringUtils;
 import play.data.DynamicForm;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -132,10 +133,18 @@ public class CampaignController extends Controller {
         DynamicForm form = DynamicForm.form().bindFromRequest();
         
         Long campaignId = Long.parseLong(form.get("campaignId"));
+        String realName = form.get("name");
+        String phone = form.get("mobileNumber");
+        String email = form.get("email");
+
         Campaign campaign = Campaign.findById(campaignId);
         if (campaign == null) {
             logger.underlyingLogger().error(String.format("[u=%d][c=%d] User tried to join campaign which does not exist", localUser.id, campaignId));
             return status(500);
+        }
+        if (StringUtils.isEmpty(realName) || StringUtils.isEmpty(phone) || StringUtils.isEmpty(email)) {
+            logger.underlyingLogger().error(String.format("[u=%d][c=%d] User tried to join campaign. Missing contact info.", localUser.id, campaignId));
+            return status(502);
         }
         
         CampaignUserJoinStatusVM vm = null;
@@ -167,9 +176,6 @@ public class CampaignController extends Controller {
 
         // Capture contact info from form.
         if (vm != null && vm.success) {
-            String realName = form.get("name");
-            String phone = form.get("mobileNumber");
-            String email = form.get("email");
             GameAccount gameAccount = GameAccount.findByUserId(localUser.id);
             gameAccount.setContactInfo(realName, phone, email);
             gameAccount.save();

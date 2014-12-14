@@ -2775,6 +2775,7 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
 
         $scope.errorCampaignNotExist = false;        
         $scope.errorJoinedAlready = false;
+        $scope.errorMissingContact = false;
         usSpinnerService.spin('loading...');
         return $http.post('/join-campaign', $scope.formData).success(function(data){
             usSpinnerService.stop('loading...');
@@ -2791,6 +2792,10 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
             } else if(status == 501){
                 usSpinnerService.stop('loading...');
                 $scope.errorJoinedAlready = true;
+                //alert("你之前已加活動。活動只可參加一次。");
+            } else if(status == 502){
+                usSpinnerService.stop('loading...');
+                $scope.errorMissingContact = true;
                 //alert("你之前已加活動。活動只可參加一次。");
             }
         });
