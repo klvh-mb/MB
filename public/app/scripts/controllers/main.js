@@ -176,7 +176,7 @@ minibean.controller('AllCommunitiesIndexWidgetController',function($scope, $rout
 });
     
 minibean.controller('FrontpageController',function($scope, $route, $location, $http, $routeParams, $interval, 
-    frontpageService, communitiesDiscoverService, newsFeedService, campaignService, articleService, usSpinnerService) {
+    frontpageService, communitiesDiscoverService, newsFeedService, campaignService, articleService, tagwordService, usSpinnerService) {
     
     $scope.get_header_metaData();
     
@@ -256,7 +256,11 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     $scope.hotNewsFeeds(0);     //$scope.hotNewsFeeds(1);
     
     // hot communities
-    $scope.hotCommunities = frontpageService.hotCommunities.get();
+    $scope.hotCommunities = frontpageService.hotCommunities.get({},
+        function(data){
+            $scope.hottestCommunity = data.hcomm[0];
+        }
+    );
 
     $scope.frontpageHotNewsfeedCount = DefaultValues.FRONTPAGE_HOT_NEWSFEED_COUNT;
     $scope.frontpageHotCommunitiesCount = DefaultValues.FRONTPAGE_HOT_COMMUNITIES_COUNT;
@@ -266,14 +270,20 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
 
     // frontpage topics
     $scope.sliderTopics = frontpageService.sliderTopics.get();
+    $scope.gameTopics = frontpageService.gameTopics.get();
     $scope.featuredTopics = frontpageService.featuredTopics.get();
     $scope.promoTopics = frontpageService.promoTopics.get();
     
     // articles
+    $scope.allCategory = true;      // for mobile articles slider
+    $scope.selectedNavBar = 'HOT_ARTICLES';
+    $scope.defaultCollapseCount = DefaultValues.TAGWORD_LIST_COLLAPSE_COUNT * 2;
     $scope.hotArticles = articleService.HotArticles.get({category_id:0});
-    $scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:0});
-    $scope.newArticles = articleService.NewArticles.get({category_id:0});
-    
+    if (!$scope.userInfo.isMobile) {
+        $scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:0});
+        $scope.newArticles = articleService.NewArticles.get({category_id:0});
+        $scope.hotArticlesTagwords = tagwordService.HotArticlesTagwords.get();
+    }
 });
 
 minibean.controller('GameController',function($scope, $http, $interval, $location, gameService, usSpinnerService) {

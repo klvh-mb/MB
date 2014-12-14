@@ -80,13 +80,18 @@ public class FrontPageController extends Controller {
     }
     
     @Transactional
+    public static Result getPromoTopics() {
+        return getTopics(TopicType.PROMO);
+    }
+    
+    @Transactional
     public static Result getFeaturedTopics() {
         return getTopics(TopicType.FEATURED);
     }
     
     @Transactional
-    public static Result getPromoTopics() {
-        return getTopics(TopicType.PROMO);
+    public static Result getGameTopics() {
+        return getTopics(TopicType.GAME);
     }
     
     @Transactional

@@ -49,8 +49,9 @@ public class FrontPageTopic extends domain.Entity {
 	
 	public static enum TopicType {
 	    SLIDER,
-        FEATURED,
-        PROMO
+	    PROMO,
+	    FEATURED,
+        GAME
     }
 	
 	@Enumerated(EnumType.STRING)

@@ -24,6 +24,13 @@ minibean.service('frontpageService',function($resource){
                 get: {method:'GET',isArray:true}
             }
     );
+    this.promoTopics = $resource(
+            '/get-promo-topics',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET',isArray:true}
+            }
+    );
     this.featuredTopics = $resource(
             '/get-featured-topics',
             {alt:'json',callback:'JSON_CALLBACK'},
@@ -31,8 +38,8 @@ minibean.service('frontpageService',function($resource){
                 get: {method:'GET',isArray:true}
             }
     );
-    this.promoTopics = $resource(
-            '/get-promo-topics',
+    this.gameTopics = $resource(
+            '/get-game-topics',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'GET',isArray:true}

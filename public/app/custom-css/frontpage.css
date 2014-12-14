@@ -424,12 +424,49 @@ box-shadow:         0px 1px 4px 0px rgba(152, 79, 201, 0.5);
 #frontpage-slider-section #frontpage-promo #promo-area1, 
 #frontpage-slider-section #frontpage-promo #promo-area2 {
     overflow: hidden;
+    box-shadow: none;
+    width: 300px;
 }
 #frontpage-slider-section #frontpage-promo #promo-area1 {
     height: 100px;
 }
 #frontpage-slider-section #frontpage-promo #promo-area2 {
-    height: 130px;
+    height: 135px;
+    background-image:url(/assets/app/images/frontpage/promo_bg.png);
+    background-color: #FFF5FD;
+    color: #FDB2B2;
+    border-radius: 10px;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .promo-name {
+    padding: 15px;
+    font-size: 16px;
+    display: inline-block;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .promo-name div {
+    display: block;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .promo-name .promo-title-img {
+    width: 95px;
+    margin-bottom: 2px;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .promo-name .promo-name-text {
+    font-size: 15px;
+    margin: 5px;
+    color: #666;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .promo-name .promo-name-text img {
+    width: 16px;
+    margin-right: 5px;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .hottestCommunityCard {
+    width: 140px;
+    height: 110px;
+    margin: 12px 18px 12px 0;
+    float: right;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .hottestCommunityCard .communityTagBox {
+    padding: 7px;
+    font-size: 15px;
 }
 
 #frontpage-communities-section {
