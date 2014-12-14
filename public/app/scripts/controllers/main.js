@@ -276,13 +276,12 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     
     // articles
     $scope.allCategory = true;      // for mobile articles slider
-    $scope.selectedNavBar = 'HOT_ARTICLES';
-    $scope.defaultCollapseCount = DefaultValues.TAGWORD_LIST_COLLAPSE_COUNT * 2;
     $scope.hotArticles = articleService.HotArticles.get({category_id:0});
     if (!$scope.userInfo.isMobile) {
         $scope.recommendedArticles = articleService.RecommendedArticles.get({category_id:0});
         $scope.newArticles = articleService.NewArticles.get({category_id:0});
         $scope.hotArticlesTagwords = tagwordService.HotArticlesTagwords.get();
+        $scope.defaultCollapseCount = DefaultValues.TAGWORD_LIST_COLLAPSE_COUNT * 2;
     }
 });
 
@@ -2921,7 +2920,8 @@ minibean.controller('ShowArticlesController',function($scope, $routeParams, arti
     // tag words
     $scope.hotArticlesTagwords = tagwordService.HotArticlesTagwords.get({}, 
         function(data) {
-            if (tagwordRequest && $routeParams.catGroup == 'HOT_ARTICLES') {
+            if (tagwordRequest && $routeParams.catGroup == 'HOT_ARTICLES' || 
+                tagwordRequest && $routeParams.catGroup == 'FRONTPAGE') {
                 angular.forEach(data, function(tagword, key){
                     if(tagword.id == tagwordId) {
                         $scope.tagword = tagword;

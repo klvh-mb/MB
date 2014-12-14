@@ -1,4 +1,4 @@
-<div ng-if="selectedNavBar == 'HOT_ARTICLES' && hotArticlesTagwords.length > 0">
+<div ng-if="(selectedNavBar == 'HOT_ARTICLES' || selectedNavBar == 'FRONTPAGE') && hotArticlesTagwords.length > 0">
     <div ng-init="catGroup = selectedNavBar;tab = 'articles';tagwords = hotArticlesTagwords" data-ng-include data-src="'/assets/app/views/widgets/tagwords-index.html'"></div>
 </div>
 <div ng-if="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES' && soonMomsTagwords.length > 0">
