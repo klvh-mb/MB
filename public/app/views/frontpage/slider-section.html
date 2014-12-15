@@ -32,13 +32,13 @@
             <span ng-bind-html="topic.ds | to_trusted "></span>
         </div>
         <div id="promo-area2">
-            <div class="promo-name">
+            <a href="#/community/{{hottestCommunity.id}}" class="promo-name">
                 <img class="promo-title-img" src="../assets/app/images/frontpage/promo_hot.png">
                 <div>
                     <div class="promo-name-text"><img src="../assets/app/images/general/icons/i-article.png" />{{hottestCommunity.nopst}}個新話題</div>
                     <div class="promo-name-text"><img src="../assets/app/images/general/icons/i-reply.png" />{{hottestCommunity.nocom}}個新回覆</div>
                 </div>
-            </div>
+            </a>
             <div class="communityCard hottestCommunityCard">
                 <a href="#/community/{{hottestCommunity.id}}" class="d-s ob">
                     <div class="communityImageBox">

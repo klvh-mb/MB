@@ -165,6 +165,14 @@ var log = function(str) {
         console.log(str);
 }
 
+var debugObject = function(obj, console) {
+    if (cosole) {
+        log(JSON.stringify(obj));
+    } else {
+        alert(JSON.stringify(obj));
+    }
+}
+
 //
 // header bottom glow
 //

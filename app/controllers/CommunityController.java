@@ -601,7 +601,7 @@ public class CommunityController extends Controller{
         community.merge();
 
         logger.underlyingLogger().debug("[c="+community.id+"] updateCommunityProfileData");
-        return ok("true");
+        return ok();
     }
     
     @Transactional

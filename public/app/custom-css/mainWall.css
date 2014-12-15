@@ -350,6 +350,7 @@ a.post-view-all-comments-link:hover, a.post-show-more-link:hover {
     vertical-align: text-bottom;
     margin: 0 3px 0 0;
     display: inline-block;
+    border-radius: 0 !important;
 }
 a.btn-like, a.btn-like:hover {
     margin: 0;

@@ -46,10 +46,10 @@
                                 <li style="margin:10px;">
                                     <table>
                                         <tr>
-                                            <td>開始時間:</td><td><b>{{campaign.sd | date:'M/dd/yyyy hh:mm a'}}</b></td>
+                                            <td>開始時間:</td><td><b>{{campaign.sd | date:'yyyy年M月d日 h:mm a'}}</b></td>
                                         </tr>
                                         <tr>
-                                            <td>報名截止:</td><td><b>{{campaign.ed | date:'M/dd/yyyy hh:mm a'}}</b></td>
+                                            <td>報名截止:</td><td><b>{{campaign.ed | date:'yyyy年M月d日 h:mm a'}}</b></td>
                                         </tr>
                                     </table>
                                     <div style="padding:10px;">
@@ -95,7 +95,10 @@
                                 </li>
                             </ul>
                         </li>
-                        <li><div style="font-size:16px;width:100%;" class="ng-binding" ng-bind-html="campaign.ds | to_trusted"></div></li>
+                        <li>
+                            <div style="font-size:16px;width:100%;" class="ng-binding" ng-bind-html="campaign.ds | to_trusted"></div>
+                            <!--div data-ng-include data-src="'/assets/app/views/frontpage/campaign-page-mockup.html'"></div-->
+                        </li>
                         <li>
                             <div style="margin-top:50px">
                                 <span data-ng-include data-src="'/assets/app/views/home/like-campaign.html'"></span>

@@ -23,8 +23,8 @@ public class CampaignVM {
 	@JsonProperty("ds") public String description;
 	@JsonProperty("ct") public String campaignType;
 	@JsonProperty("cs") public String campaignState;
-	@JsonProperty("sd") public String startDate;
-	@JsonProperty("ed") public String endDate;
+	@JsonProperty("sd") public Date startDate;
+	@JsonProperty("ed") public Date endDate;
 	@JsonProperty("at") public String announcementType;
 	@JsonProperty("an") public String announcement;
 	
@@ -57,8 +57,8 @@ public class CampaignVM {
 		        campaign.endDate.after(new Date())) {
 		    this.isActive = true;
 		}
-		this.startDate = DateTimeUtil.toString(campaign.startDate);
-		this.endDate = DateTimeUtil.toString(campaign.endDate);
+		this.startDate = campaign.startDate;
+		this.endDate = campaign.endDate;
 		this.announcementType = campaign.announcementType.name();
 		this.announcement = campaign.announcement;
 		
