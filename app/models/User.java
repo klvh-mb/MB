@@ -1249,7 +1249,7 @@ public class User extends SocialObject implements Subject, Socializable {
     public List<Notification> getAllNotification() {
         
         Query q = JPA.em().createQuery(
-                "SELECT n from Notification n where recipient = ?1 and notificationType in (?2,?3,?4,?6,?7,?8) and" +
+                "SELECT n from Notification n where recipient = ?1 and notificationType in (?2,?3,?4,?6,?7,?8,?9) and" +
                 " CREATED_DATE > ?5 ORDER BY UPDATED_DATE desc");
         q.setParameter(1, this.id);
         q.setParameter(2, NotificationType.COMMENT);
@@ -1258,6 +1258,7 @@ public class User extends SocialObject implements Subject, Socializable {
         q.setParameter(6, NotificationType.POSTED);
         q.setParameter(7, NotificationType.QUESTIONED);
         q.setParameter(8, NotificationType.WANTED_ANS);
+        q.setParameter(9, NotificationType.CAMPAIGN);
         // subtract 7 days
         DateTime sevenDaysBefore = (new DateTime()).minusDays(7);
         q.setParameter(5, sevenDaysBefore.toDate());

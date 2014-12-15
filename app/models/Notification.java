@@ -69,7 +69,8 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 		LIKED,
 		ANSWERED,
         QUESTIONED,
-        WANTED_ANS
+        WANTED_ANS,
+        CAMPAIGN
 	}
 
 
