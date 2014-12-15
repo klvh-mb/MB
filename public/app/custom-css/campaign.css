@@ -148,9 +148,39 @@
     color: #FFFFFF;
     background-color: #480c0c;
 }
-.campaign-container .gift-table {
+.campaign-container .gift-items {
 
 }
-
-
-
+.campaign-container .gift-items .gift-item-pic,
+.campaign-container .gift-items .gift-item-desc {
+    border: 2px solid #a00a0c;
+    vertical-align: top;
+    display: inline-block;
+    padding: 0;
+}
+.campaign-container .gift-items .gift-item-pic {
+    background-color: #cb1305;
+    text-align: center;
+    width: 180px;
+    height: 180px;    
+}
+.campaign-container .gift-items .gift-item-pic img {
+    width: 180px;
+    height: 180px;
+}
+.campaign-container .gift-items .gift-item-desc {
+    background-color: #480c0c;
+    width: 435px;
+    height: 180px;
+    padding: 20px 20px 0 20px;
+    margin-left: -5px;
+}
+.campaign-container .gift-items .gift-item-note {
+    width: 615px;
+    text-align: center;
+    vertical-align: top;
+    background-color: #cb1305;
+    color: #ffffff;
+    line-height: 1.6em;
+    padding: 20px;
+}
