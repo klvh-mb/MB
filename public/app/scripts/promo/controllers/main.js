@@ -8,13 +8,12 @@ minibeanPromo.controller('PromoController', function($scope, $routeParams, $loca
     log("PromoController completed");
 });
 
-minibeanPromo.controller('PromoPNController',function($scope, $routeParams, $http, promoPNService, trackingService) {
+minibeanPromo.controller('PromoPNController',function($scope, $routeParams, $http, promoPNService) {
     log("PromoPNController starts");
 
     $scope.pnHome = false;
     if ($routeParams.id == undefined) {
         $scope.pnHome = true;
-        trackingService.Track.get({page:'promo-pn-home',fr:$routeParams.fr});
     }
     
     $scope.pnCommunities = promoPNService.PNCommunities.get();

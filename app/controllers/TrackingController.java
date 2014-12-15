@@ -1,19 +1,22 @@
 package controllers;
 
-import models.User;
+import org.apache.commons.lang.StringUtils;
+
+import models.TrackingCode;
+import models.TrackingCode.TrackingTarget;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
-import play.mvc.Result;
 
 public class TrackingController extends Controller {
     private static final play.api.Logger logger = play.api.Logger.apply(TrackingController.class);
     
     @Transactional(readOnly=true)
-    public static Result track() {
-        final User localUser = Application.getLocalUser(session());
-        String page = request().getQueryString("page");
-        String fr = request().getQueryString("fr");
-        logger.underlyingLogger().info(String.format("STS [u=%d][page=%s][fr=%s] track", localUser.id, page, fr));
-        return ok();
+    public static void track(TrackingTarget trackingTarget, Boolean mobile) {
+        String trackingSource = request().getQueryString("ts");
+        if (!StringUtils.isEmpty(trackingSource)) {
+            TrackingCode trackingCode = new TrackingCode(trackingSource, trackingTarget, mobile);
+            trackingCode.save();
+            logger.underlyingLogger().info(String.format("STS %s", trackingCode.toString()));
+        }
     }
 }

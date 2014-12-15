@@ -24,8 +24,6 @@ GET     /BingSiteAuth.xml           controllers.Application.bingWebmaster
 # Google Webmaster
 GET     /googlee42c6d2bf91e90b7.html    controllers.Application.googleWebmaster
 
-GET     /do-tracking                controllers.TrackingController.track
-
 GET     /favicon.ico                controllers.Assets.at(path="/public", file="app/images/favicon-1.ico")
 GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
 GET     /privacy                    controllers.Application.privacy

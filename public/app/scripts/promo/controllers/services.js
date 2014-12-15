@@ -2,16 +2,6 @@
 
 var minibeanPromo = angular.module('minibeanPromo');
 
-minibeanPromo.service('trackingService',function($resource){
-    this.Track = $resource(
-            '/do-tracking?page=:page&fr=:fr',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'GET'}
-            }
-    );
-});
-
 minibeanPromo.service('promoPNService',function($resource){
     this.PNCommunities = $resource(
             '/get-promo-pn-communities',

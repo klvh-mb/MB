@@ -16,6 +16,7 @@ import models.GameAccountReferral;
 import models.Location;
 import models.SecurityRole;
 import models.TermsAndConditions;
+import models.TrackingCode.TrackingTarget;
 import models.User;
 import models.UserChild;
 import models.UserInfo;
@@ -543,6 +544,7 @@ public class Application extends Controller {
 		if(User.isLoggedIn(localUser)) {
 			return redirect("/my");
 		}
+		TrackingController.track(TrackingTarget.SIGNUP_PAGE, isMobileUser());
 		return isMobileUser()? 
 		        ok(views.html.mobile.signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM)):
 		            ok(views.html.signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));

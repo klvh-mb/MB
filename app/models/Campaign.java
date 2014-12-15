@@ -12,7 +12,6 @@ import javax.persistence.Query;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
@@ -25,8 +24,6 @@ import domain.SocialObjectType;
 @Entity
 public class Campaign extends SocialObject implements Commentable, Likeable {
     private static final play.api.Logger logger = play.api.Logger.apply(Campaign.class);
-
-	public Campaign() {}
 
 	public String image;
 	
@@ -73,6 +70,8 @@ public class Campaign extends SocialObject implements Commentable, Likeable {
         WINNERS,
         CUSTOM
     }
+    
+    public Campaign() {}
     
 	public Campaign(String name, String description, CampaignType campaignType, Date startDate, Date endDate) {
 		this.name = name;
