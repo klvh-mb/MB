@@ -25,13 +25,9 @@ public class ProfilePicPostCommentValidator implements ICampaignValidator {
             valid = false;
             validationResult.addMessage("尚未上載個人頭像照片");
         }
-        if (!hasQualifiedPost(userId, startTime, endTime)) {
+        if (!hasQualifiedPost(userId, startTime, endTime) && !hasQualifiedComment(userId, startTime, endTime)) {
             valid = false;
-            validationResult.addMessage("尚未發佈話題");
-        }
-        if (!hasQualifiedComment(userId, startTime, endTime)) {
-            valid = false;
-            validationResult.addMessage("尚未回覆話題");
+            validationResult.addMessage("尚未發佈話題或回覆");
         }
 
         validationResult.setSuccess(valid);
