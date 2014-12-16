@@ -37,16 +37,20 @@ public class WeatherUtil {
     public static void fillInfo(TodayWeatherInfo info) throws JAXBException, IOException {
         YahooWeatherService service;
         service = new YahooWeatherService();
-        Channel channel = service.getForecast(HONG_KONG_WOEID, DegreeUnit.CELSIUS);
-        Condition condition = channel.getItem().getCondition();
-        info.setTitle(channel.getTitle());
-        info.setDescription(channel.getDescription());
-        info.setCondition(condition.getText());
-        info.setConditionCode(condition.getCode());
-        info.setIcon(getIcon(condition.getCode(), new DateTime(condition.getDate())));
-        info.setLocation(channel.getLocation().getCity());
-        info.setTemperature(condition.getTemp());
-        info.setUpdatedTime(new DateTime(condition.getDate()));
+        try {
+            Channel channel = service.getForecast(HONG_KONG_WOEID, DegreeUnit.CELSIUS);
+            Condition condition = channel.getItem().getCondition();
+            info.setTitle(channel.getTitle());
+            info.setDescription(channel.getDescription());
+            info.setCondition(condition.getText());
+            info.setConditionCode(condition.getCode());
+            info.setIcon(getIcon(condition.getCode(), new DateTime(condition.getDate())));
+            info.setLocation(channel.getLocation().getCity());
+            info.setTemperature(condition.getTemp());
+            info.setUpdatedTime(new DateTime(condition.getDate()));
+        } catch (Exception e) {
+            logger.underlyingLogger().error(e.getLocalizedMessage());
+        }
     }
     
     public static String getIcon(int conditionCode, DateTime updatedTime) {
