@@ -69,7 +69,7 @@
 }
 .campaign-detail-wrapper li {
     clear: both;
-    padding-top: 10px;
+    padding-top: 20px;
 }
 .campaign-detail-wrapper li:first-child > a > img {
     float: left;
@@ -128,6 +128,7 @@
 .campaign-container {
     width: 100%;
     font-size: 16px;
+    background-image: url(../images/frontpage/campaign/campaign_bg_1.gif);
 }
 .campaign-container div {
     float: none;
@@ -140,20 +141,26 @@
 }
 .campaign-container .sub-title {
     font-size: 1.8em;
-    padding: 10px 0;
-    color: #a00a0c;
+    padding: 10px 15px;
+    color: #ffffff;
 }
 .campaign-container .campaign-desc {
     padding: 20px;
     color: #FFFFFF;
     background-color: #480c0c;
 }
+.campaign-container .campaign-desc a {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffeb3b;
+    text-shadow: 1px 1px 10px rgb(215, 46, 46);
+}
 .campaign-container .gift-items {
 
 }
 .campaign-container .gift-items .gift-item-pic,
 .campaign-container .gift-items .gift-item-desc {
-    border: 2px solid #a00a0c;
+    border: 1px solid #a00a0c;
     vertical-align: top;
     display: inline-block;
     padding: 0;
@@ -170,13 +177,13 @@
 }
 .campaign-container .gift-items .gift-item-desc {
     background-color: #480c0c;
-    width: 435px;
+    width: 442px;
     height: 180px;
     padding: 20px 20px 0 20px;
     margin-left: -5px;
 }
 .campaign-container .gift-items .gift-item-note {
-    width: 615px;
+    width: 620px;
     text-align: center;
     vertical-align: top;
     background-color: #cb1305;
