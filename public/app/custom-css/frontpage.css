@@ -417,6 +417,10 @@ box-shadow:         0px 1px 4px 0px rgba(152, 79, 201, 0.5);
     height: 250px;
     margin-right: 5px;
 }
+#frontpage-slider-section #promo-slider {
+    width: 300px;
+    height: 100px;
+}
 #frontpage-slider-section #frontpage-promo {
     width: 300px;
     min-height: 250px;
@@ -429,6 +433,7 @@ box-shadow:         0px 1px 4px 0px rgba(152, 79, 201, 0.5);
 }
 #frontpage-slider-section #frontpage-promo #promo-area1 {
     height: 100px;
+    margin-bottom: 15px;
 }
 #frontpage-slider-section #frontpage-promo #promo-area2 {
     height: 135px;

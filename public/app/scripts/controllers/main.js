@@ -241,6 +241,65 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     }
     $interval($scope.renderFrontpageSlider, 1000, 1);
     
+    $scope.renderPromoSlider = function() {
+        var opts 
+        if ($scope.userInfo.isMobile) {
+            // mobile slider
+            opts = {
+                arrowsNav: false,
+                arrowsNavAutoHide: false,
+                fadeinLoadedSlide: false,
+                controlsInside: false,
+                controlNavigationSpacing: 0,
+                controlNavigation: 'bullets',
+                imageScaleMode: 'fill',
+                imageAlignCenter: false,
+                autoScaleSlider: true, 
+                autoScaleSliderWidth: 300,     
+                autoScaleSliderHeight: 100,
+                thumbsFitInViewport: false,
+                loop: true,
+                transitionType:'move',
+                keyboardNavEnabled: false,
+                navigateByClick: true,
+                imgWidth: 300,
+                imgHeight: 100,
+                autoPlay: {
+                    enabled: true,
+                    pauseOnHover: false,
+                    stopAtAction: false,
+                    delay: 4000
+                }
+            };
+        } else {
+            // pc slider
+            opts = {
+                arrowsNav: true,
+                arrowsNavAutoHide: false,
+                fadeinLoadedSlide: false,
+                controlsInside: false,
+                controlNavigationSpacing: 0,
+                controlNavigation: 'bullets',
+                imageScaleMode: 'none',
+                imageAlignCenter: false,
+                loop: true,
+                transitionType: 'fade',
+                keyboardNavEnabled: false,
+                block: {
+                    delay: 400
+                },
+                autoPlay: {
+                    enabled: true,
+                    pauseOnHover: true,
+                    stopAtAction: false,
+                    delay: 5000
+                }
+            };
+        }
+        var promoSlider = $('#promo-slider').royalSlider(opts);
+    }
+    $interval($scope.renderPromoSlider, 1000, 1);
+    
     // hot newsfeed
     $scope.newsFeeds = { posts: [] };
     $scope.hotNewsFeeds = function(offset) {
@@ -2766,13 +2825,15 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
         });
     
     $scope.popupLoginModal = function() {
+        var rurl = $scope.getFbLoginUrl();
         bootbox.dialog({
             message: 
                 "<div style='margin:0 20px;'>" + 
                 "<div style='height:25px;'>你並未登入。請先登入再參加活動" +
-                "<a style='float:right;' onclick='window.location=\"\/my#\/login\"'><b>會員登入</b></a></div>" +
+                "<a style='float:right;' onclick='window.location=\"\/login\"'><b>會員登入</b></a></div>" +
                 "<div style='height:25px;'>如未有帳戶，請登記再重試~" +
-                "<a style='float:right;' onclick='window.location=\"\/my#\/signup\"'><b>立即註冊!</b></a></div>" +
+                "<a style='float:right;' onclick='window.location=\"\/signup\"'><b>立即註冊!</b></a></div>" +
+                "<a style='float:right;' onclick='window.location=\""+rurl+"\"'><b>Facebook Signup</b></a>" + 
                 "</div>",
             title: "參加活動",
             className: "campaign-login-modal",
