@@ -182,9 +182,34 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     
     $scope.selectNavBar('FRONTPAGE', -1);
     
+    // Frontpage slider
     $scope.renderFrontpageSlider = function() {
         var opts 
-        if ($scope.userInfo.isMobile) {
+        if (!$scope.userInfo.isMobile) {
+            // pc slider
+            opts = {
+                arrowsNav: true,
+                arrowsNavAutoHide: false,
+                fadeinLoadedSlide: false,
+                controlsInside: false,
+                controlNavigationSpacing: 0,
+                controlNavigation: 'bullets',
+                imageScaleMode: 'none',
+                imageAlignCenter: false,
+                loop: true,
+                transitionType: 'fade',
+                keyboardNavEnabled: false,
+                block: {
+                    delay: 400
+                },
+                autoPlay: {
+                    enabled: true,
+                    pauseOnHover: true,
+                    stopAtAction: false,
+                    delay: 5000
+                }
+            };            
+        } else {
             // mobile slider
             opts = {
                 arrowsNav: false,
@@ -196,7 +221,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
                 imageScaleMode: 'fill',
                 imageAlignCenter: false,
                 autoScaleSlider: true, 
-                autoScaleSliderWidth: 475,     
+                autoScaleSliderWidth: 475,
                 autoScaleSliderHeight: 250,
                 thumbsFitInViewport: false,
                 loop: true,
@@ -212,66 +237,17 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
                     delay: 4000
                 }
             };
-        } else {
-            // pc slider
-            opts = {
-                arrowsNav: true,
-                arrowsNavAutoHide: false,
-                fadeinLoadedSlide: false,
-                controlsInside: false,
-                controlNavigationSpacing: 0,
-                controlNavigation: 'bullets',
-                imageScaleMode: 'none',
-                imageAlignCenter: false,
-                loop: true,
-                transitionType: 'fade',
-                keyboardNavEnabled: false,
-                block: {
-                    delay: 400
-                },
-                autoPlay: {
-                    enabled: true,
-                    pauseOnHover: true,
-                    stopAtAction: false,
-                    delay: 5000
-                }
-            };
         }
-        var frontpageSlider = $('#frontpage-slider').royalSlider(opts);
+        if ($('#frontpage-slider').length > 0 && $('#frontpage-slider').visible(true)) {
+            var frontpageSlider = $('#frontpage-slider').royalSlider(opts);
+        }
     }
     $interval($scope.renderFrontpageSlider, 1000, 1);
     
+    // Frontpage promo slider
     $scope.renderPromoSlider = function() {
         var opts 
-        if ($scope.userInfo.isMobile) {
-            // mobile slider
-            opts = {
-                arrowsNav: false,
-                arrowsNavAutoHide: false,
-                fadeinLoadedSlide: false,
-                controlsInside: false,
-                controlNavigationSpacing: 0,
-                controlNavigation: 'bullets',
-                imageScaleMode: 'fill',
-                imageAlignCenter: false,
-                autoScaleSlider: true, 
-                autoScaleSliderWidth: 300,     
-                autoScaleSliderHeight: 100,
-                thumbsFitInViewport: false,
-                loop: true,
-                transitionType:'move',
-                keyboardNavEnabled: false,
-                navigateByClick: true,
-                imgWidth: 300,
-                imgHeight: 100,
-                autoPlay: {
-                    enabled: true,
-                    pauseOnHover: false,
-                    stopAtAction: false,
-                    delay: 4000
-                }
-            };
-        } else {
+        if (!$scope.userInfo.isMobile) {
             // pc slider
             opts = {
                 arrowsNav: true,
@@ -295,8 +271,10 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
                     delay: 5000
                 }
             };
+            if ($('#promo-slider').length > 0 && $('#promo-slider').visible(true)) {
+                var promoSlider = $('#promo-slider').royalSlider(opts);
+            }
         }
-        var promoSlider = $('#promo-slider').royalSlider(opts);
     }
     $interval($scope.renderPromoSlider, 1000, 1);
     
@@ -474,7 +452,9 @@ minibean.controller('ApplicationController',
             navigateByClick: true,
             fadeinLoadedSlide: true,
         };
-        var navSlider = $('#nav-slider').royalSlider(opts);
+        if ($('#nav-slider').length > 0 && $('#nav-slider').visible(true)) {
+            var navSlider = $('#nav-slider').royalSlider(opts);
+        }
         
         // NOTE: this must exist to calculate the correct slider scrolling width!!! 
         // OK to set to auto after slider init
