@@ -2820,18 +2820,25 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
         });
     }
     
+    $scope.formData = {};
     $scope.joinCampaign = function(campaignId) {
         $scope.formData.campaignId = campaignId;
 
         $scope.errorCampaignNotExist = false;        
         $scope.errorJoinedAlready = false;
         $scope.errorMissingContact = false;
+        $scope.errorStatus = false;
         usSpinnerService.spin('loading...');
         return $http.post('/join-campaign', $scope.formData).success(function(data){
             usSpinnerService.stop('loading...');
-            $('#joinCampaignModal').modal('hide');
-            prompt("<div><b>歡迎參加，你的報名已發出!</b></div>", "bootbox-default-prompt game-bootbox-prompt", 1800);
-            $scope.campaign.isJoined = true;
+            if (data.success) {
+                $('#joinCampaignModal').modal('hide');
+                prompt("<div><b>你已成功參加此活動!</b></div>", "bootbox-default-prompt game-bootbox-prompt", 1800);
+                $scope.campaign.isJoined = true;
+            } else {
+                $scope.messages = data.messages;
+                $scope.errorStatus = true;
+            }
         }).error(function(data, status, headers, config) {
             if(status == 599){
                 usSpinnerService.stop('loading...');
