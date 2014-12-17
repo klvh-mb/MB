@@ -3,11 +3,12 @@
     <div class="campaign-desc" style="margin-bottom:20px;">
         由2014年12月20日起至2014年12月31日，於「小萌豆miniBean」完成以下步驟然後按「我要參加」，即有機會贏得一田$200現金劵；或iPhone/Samsung自訂手機套。
         <div class="campaign-desc" style="color:#ffeb3b;">
-            * 參加步驟將於 12月20日 早上10時公佈，請先注册成會員方可參加 
+            1) 請先注册成為「小萌豆 miniBean」會員 <br/> 
+            <span style="width:50px;display:inline-block;"></span><span ng-if="userInfo.isLoggedIn">歡迎！你已是會員</span><span ng-if="!userInfo.isLoggedIn"><a href="/signup?ts=CAMPAIGN_1" target="_blank">立即注册</a></span>  <br/> 
+            2) 到 <span ng-if="userInfo.isLoggedIn"><a href="my#/about/activities" target="_blank">「我的主頁」</a></span><span ng-if="!userInfo.isLoggedIn">「我的主頁」</span> 上載頭像照片 <br/>
+            3) 到 任何社群發佈一個新「話題」或 在任何話題發佈一個「留言」 <br/> 
+            4) 完成後按「我要參加」 <br/> 
         </div>
-        <div style="text-align:center;">
-            <a href="/signup?ts=CAMPAIGN_1">立即登記</a>
-        </div> 
     </div>
     <div class="clearfix"></div>
     <div style="height:8px; background-color:#a00a0c;"></div>

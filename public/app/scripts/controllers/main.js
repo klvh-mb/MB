@@ -2830,6 +2830,7 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
         return $http.post('/join-campaign', $scope.formData).success(function(data){
             usSpinnerService.stop('loading...');
             $('#joinCampaignModal').modal('hide');
+            prompt("<div><b>歡迎參加，你的報名已發出!</b></div>", "bootbox-default-prompt game-bootbox-prompt", 1800);
             $scope.campaign.isJoined = true;
         }).error(function(data, status, headers, config) {
             if(status == 599){
