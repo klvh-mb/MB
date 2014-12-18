@@ -12,7 +12,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import com.mnt.exception.SocialObjectNotLikableException;
 
-import common.utils.DateTimeUtil;
 import controllers.CampaignController;
 import domain.DefaultValues;
 

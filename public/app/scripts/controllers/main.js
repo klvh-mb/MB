@@ -2804,6 +2804,18 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
             }
         });
     
+    $scope.popupCampaignNotStartModal = function() {
+        bootbox.dialog({
+            message: 
+                "<div style='margin:0 20px;'>" + 
+                "<div style='height:25px;margin-top:10px;font-size:15px;'>此活動尚未開始</div>" +
+                "<div style='height:25px;margin-top:0px;font-size:15px;'>請於活動開始時間再參加</div>" +
+                "</div>",
+            title: "參加活動",
+            className: "campaign-login-modal",
+        });
+    }
+    
     $scope.popupLoginModal = function() {
         var rurl = $scope.getFbLoginUrl();
         bootbox.dialog({

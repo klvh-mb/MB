@@ -158,8 +158,16 @@ public class CampaignController extends Controller {
 
                 vm = validateUserActions(localUser, campaign);
                 if (vm.success) {
-                    CampaignActionsUser campaignUser = new CampaignActionsUser(campaign.id, localUser.id);
-                    campaignUser.save();
+                    CampaignActionsUser campaignUser = CampaignActionsUser.getCampaignActionsUser(localUser.id, campaign.id);
+                    if (campaignUser != null && campaignUser.withdraw) {
+                        // user withdrawn before
+                        campaignUser.withdraw = false;
+                        campaignUser.merge();
+                    } else {
+                        // user newly joined
+                        campaignUser = new CampaignActionsUser(campaign.id, localUser.id);
+                        campaignUser.save();
+                    }
                     logger.underlyingLogger().info(String.format("[u=%d][c=%d] User joined campaign", localUser.id, campaignId));
                 } else {
                     logger.underlyingLogger().info(String.format("[u=%d][c=%d] User failed campaign validation. %s", localUser.id, campaignId, vm.messages.toString()));

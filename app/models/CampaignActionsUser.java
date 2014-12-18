@@ -64,4 +64,16 @@ public class CampaignActionsUser extends domain.Entity {
         Long count = (Long)q.getSingleResult();
         return count;
     }
+    
+    @Transactional
+    public static CampaignActionsUser getCampaignActionsUser(Long userId, Long campaignId) {
+        Query q = JPA.em().createQuery("Select u from CampaignActionsUser u where userId = ?1 and campaignId = ?2");
+        q.setParameter(1, userId);
+        q.setParameter(2, campaignId);
+        try {
+            return (CampaignActionsUser)q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }

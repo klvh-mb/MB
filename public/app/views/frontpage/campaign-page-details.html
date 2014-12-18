@@ -48,6 +48,13 @@
                             </tr>
                         </table>
                         <div style="padding:10px;">
+                            <span ng-if="campaign.ac && campaign.cs == 'PUBLISHED'">
+                                <span>
+                                    <a href="" ng-click="popupCampaignNotStartModal()">
+                                        <img style="height:30px;width:auto;" src="/assets/app/images/general/btn_campaign_join.png">
+                                    </a>
+                                </span>
+                            </span>
                             <span ng-if="campaign.ac && campaign.cs == 'STARTED'">
                                 <span ng-if="userInfo.isLoggedIn">
                                     <span ng-if="!campaign.isJoined">
@@ -56,10 +63,10 @@
                                         </a>
                                     </span>
                                     <span ng-if="campaign.isJoined">
-                                        <a href="" ng-click="translateValidationMessages()" data-toggle="modal" data-target="#withdrawCampaignModal" ng-if="campaign.isJoined">
+                                        <a ng-if="userInfo.isSA" href="" ng-click="translateValidationMessages()" data-toggle="modal" data-target="#withdrawCampaignModal" ng-if="campaign.isJoined">
                                             <img style="height:30px;width:auto;" src="/assets/app/images/general/btn_campaign_withdraw.png">
                                         </a>
-                                        <div class="campaign-join-confirm">你的報名已發出!</div>
+                                        <div class="campaign-join-confirm">你已成功參加此活動!</div>
                                     </span>
                                 </span>
                                 <span ng-if="!userInfo.isLoggedIn">
