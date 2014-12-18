@@ -1322,26 +1322,26 @@ public class CommunityController extends Controller{
 
     @Transactional
     public static Result postLanding(Long id, Long communityId) {
-        logger.underlyingLogger().debug("postLanding");
         final User localUser = Application.getLocalUser(session());
-        
         final Post post = Post.findById(id);
         if (post == null) {
             return ok("NO_RESULT"); 
         }
+        logger.underlyingLogger().info("[u="+localUser.id+"][c="+communityId+"][p="+id+"] postLanding");
+
         post.noOfViews++;
         return ok(Json.toJson(CommunityPostsVM.posts(post.community, localUser, post)));
     }
     
     @Transactional
     public static Result qnaLanding(Long id, Long communityId) {
-        logger.underlyingLogger().debug("qnaLanding");
         final User localUser = Application.getLocalUser(session());
-        
         final Post post = Post.findById(id);
         if (post == null) {
             return ok("NO_RESULT"); 
         }
+        logger.underlyingLogger().info("[u="+localUser.id+"][c="+communityId+"][p="+id+"] qnaLanding");
+
         post.noOfViews++;
         return ok(Json.toJson(CommunityPostsVM.posts(post.community, localUser, post)));
     }

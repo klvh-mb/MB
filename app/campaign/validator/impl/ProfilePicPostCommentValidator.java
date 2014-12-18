@@ -15,11 +15,16 @@ import java.math.BigInteger;
  * To change this template use File | Settings | File Templates.
  */
 public class ProfilePicPostCommentValidator implements ICampaignValidator {
+    private static final play.api.Logger logger = play.api.Logger.apply(ProfilePicPostCommentValidator.class);
 
     @Override
     public ValidationResult validate(Long userId, DateTime startTime, DateTime endTime) {
         ValidationResult validationResult = new ValidationResult();
         boolean valid = true;
+
+        // Adjust validation start date to T-3 (since annoucement made early)
+        startTime = startTime.minusDays(3);
+        logger.underlyingLogger().info("ProfilePicPostCommentValidator - startTime="+startTime);
 
         if (!hasQualifiedProfilePic(userId, startTime, endTime)) {
             valid = false;
