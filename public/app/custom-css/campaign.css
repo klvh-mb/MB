@@ -11,7 +11,7 @@
 }
 #joinCampaignModal .modal-dialog, #withdrawCampaignModal .modal-dialog {
     width: 400px;
-    margin: 200px auto;
+    margin: 120px auto;
 }
 #joinCampaignModal .modal-dialog td, #withdrawCampaignModal .modal-dialog td {
     padding: 5px;

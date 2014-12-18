@@ -2809,11 +2809,15 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
         bootbox.dialog({
             message: 
                 "<div style='margin:0 20px;'>" + 
-                "<div style='height:25px;'>你並未登入。請先登入再參加活動" +
-                "<a style='float:right;' onclick='window.location=\"\/login\"'><b>會員登入</b></a></div>" +
-                "<div style='height:25px;'>如未有帳戶，請登記再重試~" +
-                "<a style='float:right;' onclick='window.location=\"\/signup\"'><b>立即註冊!</b></a></div>" +
-                "<a style='float:right;' onclick='window.location=\""+rurl+"\"'><b>Facebook Signup</b></a>" + 
+                "<div style='height:25px;margin-top:10px;font-size:15px;'>你並未登入。請先登入再參加活動</div>" +
+                "<div style='height:25px;margin-left:20px;font-size:15px;'>" + 
+                "<a onclick='window.location=\"\/login\"'><b>會員登入</b></a> 或以 Facebook" +
+                "<a onclick='window.location=\""+rurl+"\"'><img style='height:22px;margin-left:5px;' src='../assets/app/images/login/facebook_login_s.jpg' /></a>" +
+                "</div>" +
+                "<div style='height:25px;margin-top:20px;font-size:15px;'>如未有帳戶，請登記再重試~</div>" +
+                "<div style='height:25px;margin-left:20px;font-size:15px;'>" +
+                "<a onclick='window.location=\"\/signup\"'><b>立即註冊!</b></a>" +
+                "</div>" + 
                 "</div>",
             title: "參加活動",
             className: "campaign-login-modal",

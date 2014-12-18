@@ -2691,7 +2691,7 @@ span.notif-count {
     border-color: #FCC9CB;
     border-width: 3px;
     border-radius: 15px;
-    top: 35px;
+    top: 0px;
     max-width: 880px;
     max-height: 620px;
 }
