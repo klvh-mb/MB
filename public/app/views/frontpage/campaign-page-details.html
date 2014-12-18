@@ -25,7 +25,10 @@
         </ul>
         <ul class="campaign-detail-wrapper" ng-if="showCampaign">
             <li ng-if="campaign.ac">
-                <font class="campaign-title">{{campaign.nm}}</font>
+                <span class="campaign-title">
+                    <div style="width:50px;display:inline-block;vertical-align: middle;"><img style="height:50px;width:auto;" src="/assets/app/images/frontpage/mascot/green_right.png"></div>
+                    <div style="width:550px;display:inline-block;vertical-align: middle;">{{campaign.nm}}</div>
+                </span>
             </li>
             <li ng-if="!campaign.ac">
                 <font class="campaign-title-ended">【活動結束】{{campaign.nm}}</font>
