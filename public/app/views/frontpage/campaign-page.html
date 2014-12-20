@@ -11,6 +11,9 @@
             </div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
+            <div>
+                <div data-ng-include data-src="'/assets/app/views/utilities/feedbackCommunityUtility.html'"></div>
+            </div>
             <div ng-show="!userInfo.isLoggedIn">
                 <div data-ng-include data-src="'/assets/app/views/widgets/prompt-signup-widget.html'"></div>
             </div>

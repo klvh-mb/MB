@@ -242,7 +242,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
             var frontpageSlider = $('#frontpage-slider').royalSlider(opts);
         }
     }
-    $interval($scope.renderFrontpageSlider, 1000, 1);
+    $interval($scope.renderFrontpageSlider, 1500, 1);
     
     // Frontpage promo slider
     $scope.renderPromoSlider = function() {
@@ -276,7 +276,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
             }
         }
     }
-    $interval($scope.renderPromoSlider, 1000, 1);
+    $interval($scope.renderPromoSlider, 1500, 1);
     
     // hot newsfeed
     $scope.newsFeeds = { posts: [] };
