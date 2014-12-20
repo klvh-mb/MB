@@ -14,6 +14,7 @@ public class ValidationResult {
 
     private boolean success;
     private List<String> messages = new ArrayList<>();
+    private List<String> systemMessages = new ArrayList<>();
 
     public ValidationResult() { }
 
@@ -26,6 +27,10 @@ public class ValidationResult {
         messages.add(message);
     }
 
+    public void addSystemMessage(String message) {
+        systemMessages.add(message);
+    }
+
     public void setSuccess(boolean success) {
         this.success = success;
     }
@@ -36,5 +41,9 @@ public class ValidationResult {
 
     public List<String> getMessages() {
         return messages;
+    }
+
+    public List<String> getSystemMessages() {
+        return systemMessages;
     }
 }
