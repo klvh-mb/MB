@@ -133,8 +133,8 @@ public class CampaignController extends Controller {
         DynamicForm form = DynamicForm.form().bindFromRequest();
         
         Long campaignId = Long.parseLong(form.get("campaignId"));
-        String realName = form.get("name");
-        String phone = form.get("mobileNumber");
+        //String realName = form.get("name");
+        //String phone = form.get("mobileNumber");
         String email = form.get("email");
 
         Campaign campaign = Campaign.findById(campaignId);
@@ -142,7 +142,8 @@ public class CampaignController extends Controller {
             logger.underlyingLogger().error(String.format("[u=%d][c=%d] User tried to join campaign which does not exist", localUser.id, campaignId));
             return status(500);
         }
-        if (StringUtils.isEmpty(realName) || StringUtils.isEmpty(phone) || StringUtils.isEmpty(email)) {
+        //if (StringUtils.isEmpty(realName) || StringUtils.isEmpty(phone) || StringUtils.isEmpty(email)) {
+        if (StringUtils.isEmpty(email)) {
             logger.underlyingLogger().error(String.format("[u=%d][c=%d] User tried to join campaign. Missing contact info.", localUser.id, campaignId));
             return status(502);
         }
@@ -183,7 +184,7 @@ public class CampaignController extends Controller {
         // Capture contact info from form.
         if (vm != null && vm.success) {
             GameAccount gameAccount = GameAccount.findByUserId(localUser.id);
-            gameAccount.setContactInfo(realName, phone, email);
+            gameAccount.setContactInfo(null, null, email);
             gameAccount.save();
         }
 
