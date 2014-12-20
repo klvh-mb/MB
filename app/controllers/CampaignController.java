@@ -168,9 +168,7 @@ public class CampaignController extends Controller {
                         campaignUser = new CampaignActionsUser(campaign.id, localUser.id);
                         campaignUser.save();
                     }
-                    logger.underlyingLogger().info(String.format("[u=%d][c=%d] User joined campaign", localUser.id, campaignId));
-                } else {
-                    logger.underlyingLogger().info(String.format("[u=%d][c=%d] User failed campaign validation. %s", localUser.id, campaignId, vm.messages.toString()));
+                    logger.underlyingLogger().info(String.format("[u=%d][c=%d] Successfully joined campaign", localUser.id, campaignId));
                 }
                 break;
             }
@@ -199,6 +197,10 @@ public class CampaignController extends Controller {
      */
     private static CampaignUserJoinStatusVM validateUserActions(User user, Campaign campaign) {
         ValidationResult result = CampaignValidationEngine.validateCampaign(campaign, user.getId());
+        if (!result.isSuccess()) {
+            logger.underlyingLogger().info(String.format("[u=%d][c=%d] Failed campaign validation. %s",
+                    user.id, campaign.id, result.getSystemMessages().toString()));
+        }
         return new CampaignUserJoinStatusVM(campaign.id, user.id, result.isSuccess(), result.getMessages());
     }
     
