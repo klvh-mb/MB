@@ -1288,7 +1288,7 @@ a:focus {
 }
 #main-uphoto a[title="user-picture"] {
     position: relative;
-    left: 5%;
+    left: 12px;
     top: 12%;
 }
 #main-uphoto img[alt="user-picture-bg"] {
