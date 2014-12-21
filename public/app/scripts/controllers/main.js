@@ -301,9 +301,9 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
 
     $scope.frontpageHotNewsfeedCount = DefaultValues.FRONTPAGE_HOT_NEWSFEED_COUNT;
     $scope.frontpageHotCommunitiesCount = DefaultValues.FRONTPAGE_HOT_COMMUNITIES_COUNT;
-    if ($scope.userInfo.isMobile) {
-        $scope.frontpageHotCommunitiesCount = DefaultValues.FRONTPAGE_HOT_COMMUNITIES_COUNT / 2;
-    }
+    //if ($scope.userInfo.isMobile) {
+    //    $scope.frontpageHotCommunitiesCount = DefaultValues.FRONTPAGE_HOT_COMMUNITIES_COUNT / 2;
+    //}
 
     // frontpage topics
     $scope.sliderTopics = frontpageService.sliderTopics.get();
