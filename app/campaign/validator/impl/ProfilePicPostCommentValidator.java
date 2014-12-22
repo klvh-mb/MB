@@ -26,11 +26,13 @@ public class ProfilePicPostCommentValidator implements ICampaignValidator {
         startTime = startTime.minusDays(3);
         logger.underlyingLogger().info("ProfilePicPostCommentValidator - startTime="+startTime);
 
+        /*
         if (!hasQualifiedProfilePic(userId, startTime, endTime)) {
             valid = false;
             validationResult.addMessage("尚未上載個人頭像照片");
             validationResult.addSystemMessage("Missing profile pic");
         }
+        */
         if (!hasQualifiedPost(userId, startTime, endTime) && !hasQualifiedComment(userId, startTime, endTime)) {
             valid = false;
             validationResult.addMessage("尚未發佈話題或回覆");
