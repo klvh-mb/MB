@@ -2791,7 +2791,12 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
 
     $scope.announcedWinners = [];
     
-    $scope.campaign = campaignService.campaignInfo.get({id:$routeParams.id}, 
+    var id = -1;    // my profile newsfeed
+    if($routeParams.id != undefined){
+        id = $routeParams.id;
+    }
+    
+    $scope.campaign = campaignService.campaignInfo.get({id:id}, 
         function(data) {
             if(data[0] == 'NO_RESULT'){
                 $location.path('/campaign/show');
@@ -2800,7 +2805,7 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
                 $scope.showCampaign = false;
             }
             if ($scope.campaign.cs == 'ANNOUNCED' || $scope.campaign.cs == 'CLOSED') {
-                $scope.announcedWinners = campaignService.campaignAnnouncedWinners.get({id:$routeParams.id});
+                $scope.announcedWinners = campaignService.campaignAnnouncedWinners.get({id:id});
             }
         });
     

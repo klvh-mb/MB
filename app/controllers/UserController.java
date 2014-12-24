@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.joda.time.DateTime;
 
 import models.Community;
 import models.Conversation;
@@ -682,11 +683,11 @@ public class UserController extends Controller {
 	}
 	
 	@Transactional
-	public static Result getMessages(String id, String offset) {
+	public static Result getMessages(Long id, Long offset) {
 		final User localUser = Application.getLocalUser(session());
 		List<MessageVM> vms = new ArrayList<>();
-		Conversation conversation = Conversation.findById(Long.parseLong(id)); 
-		List<Message> messages =  (List<Message>) localUser.getMessageForConversation(conversation, Long.parseLong(offset));
+		Conversation conversation = Conversation.findById(id); 
+		List<Message> messages =  (List<Message>) localUser.getMessageForConversation(conversation, offset);
 		if(messages != null ){
 			for(Message message : messages) {
 				MessageVM vm = new MessageVM(message);
@@ -714,7 +715,23 @@ public class UserController extends Controller {
         String msgText = Emoticon.replace(form.get("msgText"));
         Conversation.sendMessage(localUser, receiverUser, msgText);
         Conversation conversation = Conversation.findBetween(localUser, receiverUser);
-        return getMessages(conversation.id+"", 0+"");
+        return getMessages(conversation.id, 0L);
+    }
+	
+	@Transactional
+    public static Result sendGreetingMessageToNewUser() {
+        final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
+        User superAdmin = Application.getMBAdmin();
+        String msgText = Emoticon.replace("歡迎來到「小萌豆 miniBean」! 立即發掘您喜愛的媽媽社群與話題。 請開心分享！");
+        Conversation.sendMessage(superAdmin, localUser, msgText);
+        Conversation conversation = Conversation.findBetween(superAdmin, localUser);
+        //conversation.conv_time = new DateTime().minusMinutes(1).toDate();   // workaround to trigger message notif to user... message time < conv time
+        return ok();
     }
 	
 	@Transactional
@@ -852,7 +869,6 @@ public class UserController extends Controller {
     		}
     		notif.add(new NotificationVM(n));
     	}
-		
     	
     	List<Notification> requestNotif = localUser.getAllRequestNotification();
     	List<NotificationVM> requests = new ArrayList<>();

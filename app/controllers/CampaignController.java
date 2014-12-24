@@ -80,7 +80,13 @@ public class CampaignController extends Controller {
     @Transactional
     public static Result infoCampaign(Long id) {
         final User localUser = Application.getLocalUser(session());
-        Campaign campaign = Campaign.findById(id);
+        
+        Campaign campaign = null;
+        if (id == -1) {
+            campaign = Campaign.getActiveCampaign();
+        } else {
+            campaign = Campaign.findById(id);
+        }
         if (campaign == null) {
             return ok("NO_RESULT");
         }

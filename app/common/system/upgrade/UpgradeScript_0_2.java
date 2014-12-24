@@ -95,7 +95,7 @@ public class UpgradeScript_0_2 extends UpgradeScript {
         signup.repeatPassword = "m1n1Bean";
         
         MyUsernamePasswordAuthUser authUser = new MyUsernamePasswordAuthUser(signup);
-        User superAdmin = Application.getSuperAdmin();
+        User superAdmin = Application.getMBAdmin();
         if (CollectionUtils.isEmpty(superAdmin.linkedAccounts)) {
             superAdmin.linkedAccounts = Collections.singletonList(
                     LinkedAccount.create(authUser).addUser(superAdmin));
@@ -110,7 +110,7 @@ public class UpgradeScript_0_2 extends UpgradeScript {
     private static Community createFeedbackCommunity(String name, String desc) {
         Community community = null;
         try {
-            community = Application.getSuperAdmin().createCommunity(
+            community = Application.getMBAdmin().createCommunity(
                     name, desc, CommunityType.OPEN, 
                     "/assets/app/images/general/icons/community/beans.png");
             community.system = true;
