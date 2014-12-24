@@ -185,7 +185,7 @@ public class User extends SocialObject implements Subject, Socializable {
 
     @OneToMany
     @JsonIgnore
-    public List<Conversation> conversation = new ArrayList<Conversation>();
+    public List<Conversation> conversations = new ArrayList<Conversation>();
 
     @Override
     @JsonIgnore
@@ -226,16 +226,16 @@ public class User extends SocialObject implements Subject, Socializable {
     }
 
     public Conversation sendMessage(User user, String msg) {
-        Conversation conver = Conversation.findBetween(this, user);
+        Conversation conversation = Conversation.findBetween(this, user);
 
-        if (conversation == null || conver == null) {
-            conver = new Conversation(this, user);
-            conversation = Lists.newArrayList();
-            conversation.add(conver);
-            user.conversation.add(conver);
+        if (conversations == null || conversation == null) {
+            conversation = new Conversation(this, user);
+            conversations = Lists.newArrayList();
+            conversations.add(conversation);
+            user.conversations.add(conversation);
         }
-        conver.addMessage(this, msg);
-        return conver;
+        conversation.addMessage(this, msg);
+        return conversation;
     }
 
     public SocialObject commentedOn(SocialObject target, String comment)
@@ -1718,12 +1718,12 @@ public class User extends SocialObject implements Subject, Socializable {
         this.album = album;
     }
 
-    public List<Conversation> getConversation() {
-        return conversation;
+    public List<Conversation> getConversations() {
+        return conversations;
     }
 
-    public void setConversation(List<Conversation> conversation) {
-        this.conversation = conversation;
+    public void setConversations(List<Conversation> conversations) {
+        this.conversations = conversations;
     }
 
     public void setRoles(List<SecurityRole> roles) {
@@ -1764,12 +1764,8 @@ public class User extends SocialObject implements Subject, Socializable {
         return frndList;
     }
 
-    public Long getUnreadMsgCount() {
-        Query q = JPA.em().createQuery(
-                "Select count(c) from Conversation c where ( c.user1.id = ?1 and (c.user1_time < c.conv_time )) or (c.user2.id = ?1 and (user2_time < c.conv_time))");
-        q.setParameter(1, this.id);
-        Long ret = (Long) q.getSingleResult();
-        return ret;
+    public Long getUnreadConversationCount() {
+        return Conversation.getUnreadConversationCount(this.id);
     }
 
     ///////////////////////////////////////////////

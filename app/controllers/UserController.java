@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.joda.time.DateTime;
 
 import models.Community;
 import models.Conversation;
@@ -696,7 +695,7 @@ public class UserController extends Controller {
 		}
 		Map<String, Object> map = new HashMap<>();
 		map.put("message", vms);
-		map.put("counter", localUser.getUnreadMsgCount());
+		map.put("counter", localUser.getUnreadConversationCount());
 		return ok(Json.toJson(map));
 	}
 	
@@ -850,7 +849,7 @@ public class UserController extends Controller {
 	public static Result getUnreadMsgCount() {
 		final User localUser = Application.getLocalUser(session());
 		Map<String, Long> vm = new HashMap<>();
-		vm.put("count", localUser.getUnreadMsgCount());
+		vm.put("count", localUser.getUnreadConversationCount());
 		return ok(Json.toJson(vm));
 	}
 	
@@ -881,7 +880,7 @@ public class UserController extends Controller {
     	
 		Map<String, Object> vm = new HashMap<>();
 		
-		vm.put("messageCount", localUser.getUnreadMsgCount());
+		vm.put("messageCount", localUser.getUnreadConversationCount());
 		vm.put("requestNotif", requests);
 		vm.put("allNotif", notif);
 		vm.put("name", localUser.displayName);
