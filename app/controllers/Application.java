@@ -326,7 +326,7 @@ public class Application extends Controller {
 
 	        CommunityTargetingEngine.assignSystemCommunitiesToUser(user);
 	        
-	        //UserController.sendGreetingMessageToNewUser();
+	        UserController.sendGreetingMessageToNewUser();
 	        
 	        user.setNewUser(false);
 	        return redirect("/my#/communities-discover");

@@ -726,10 +726,8 @@ public class UserController extends Controller {
         }
         
         User superAdmin = Application.getMBAdmin();
-        String msgText = Emoticon.replace("歡迎來到「小萌豆 miniBean」! 立即發掘您喜愛的媽媽社群與話題。 請開心分享！");
+        String msgText = Emoticon.replace("歡迎來到「小萌豆 miniBean」~  立即發掘您喜愛的媽媽社群與話題。 請開心分享！");
         Conversation.sendMessage(superAdmin, localUser, msgText);
-        Conversation conversation = Conversation.findBetween(superAdmin, localUser);
-        //conversation.conv_time = new DateTime().minusMinutes(1).toDate();   // workaround to trigger message notif to user... message time < conv time
         return ok();
     }
 	
