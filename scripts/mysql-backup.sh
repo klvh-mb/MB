@@ -32,4 +32,9 @@ tar -czf mysql_backup_$nowdate.tgz parent-social.sql
 # remove sql file
 rm -rf ${DATA_BACKUP_PATH}/parent-social.sql
 
+# remove all versions except most recent N
+ls -rt | grep mysql_backup | head -n -6 | while read f; do
+  rm -rf "$f"
+done
+
 echo "Done backing up MySQL to $DATA_BACKUP_PATH/mysql_backup_$nowdate.tgz"
