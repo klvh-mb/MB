@@ -2785,6 +2785,11 @@ minibean.controller('ArticleSliderController', function($scope, $routeParams, $i
   
 });
 
+minibean.controller('CampaignPageJoinersController',function($scope, $route, $location, $http, $routeParams, campaignService){
+
+    $scope.joiners = campaignService.campaignJoiners.get({id:$routeParams.id});
+});
+
 minibean.controller('CampaignPageController',function($scope, $route, $location, $http, $routeParams, likeFrameworkService, campaignService, usSpinnerService){
 
     $scope.showCampaign = true;

@@ -35,6 +35,10 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/frontpage/campaign-page.html',
         controller : 'CampaignPageController' 
       })
+      .when('/campaign/joiners/:id',{
+        templateUrl: '/assets/app/views/frontpage/campaign-page-joiners.html',
+        controller : 'CampaignPageJoinersController' 
+      })
       .when('/communities-discover',{
         templateUrl: '/assets/app/views/frontpage/communities-discover-page.html'
       })

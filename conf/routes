@@ -65,6 +65,7 @@ GET     /get-application-info       controllers.Application.getApplicationInfo
 GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
 
 GET     /get-campaign-info/:id      controllers.CampaignController.infoCampaign(id :Long)
+GET     /get-campaign-joiners/:id   controllers.CampaignController.getCampaignJoiners(id :Long)
 GET     /get-campaign-announced-winners/:id      controllers.CampaignController.getCampaignAnnouncedWinners(id :Long)
 GET     /like-campaign/:id          controllers.CampaignController.onLike(id : Long)
 GET     /unlike-campaign/:id        controllers.CampaignController.onUnlike(id : Long)

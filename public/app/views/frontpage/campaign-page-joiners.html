@@ -1,0 +1,12 @@
+<div class="themeA-container">
+    <div class="row">
+        <div ng-show="userInfo.isSA">
+            Joiners: {{joiners.length}}
+            <table style="width:100%;">
+                <tr ng-repeat="joiner in joiners">
+                    <td style="width:30%;">{{$index+1}}) {{joiner.name}}</td><td>{{joiner.joinedDate | date:'yyyy年M月d日 h:mm a'}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
