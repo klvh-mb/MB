@@ -441,7 +441,12 @@
 #frontpage-communities-section #hot-communities .hot-community {
     padding: 5px 0 3px 0;
     border-bottom: 1px dashed #eee;
+}
+#frontpage-communities-section #hot-topics .hot-post {
     line-height: 1.5;
+}
+#frontpage-communities-section #hot-communities .hot-community {
+    line-height: 1.6;
 }
 #frontpage-communities-section #hot-communities .hot-community .hot-community-body .community-member-counter {
     min-width: 30px;

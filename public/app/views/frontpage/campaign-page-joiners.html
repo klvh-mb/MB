@@ -4,7 +4,10 @@
             Joiners: {{joiners.length}}
             <table style="width:100%;">
                 <tr ng-repeat="joiner in joiners">
-                    <td style="width:30%;">{{$index+1}}) {{joiner.name}}</td><td>{{joiner.joinedDate | date:'yyyy年M月d日 h:mm a'}}</td>
+                    <td>
+                        <div><span style="width:40%;display:inline-block;">{{$index+1}}) {{joiner.displayName}}</span><span>{{joiner.joinedDate | date:'yyyy年M月d日 h:mm a'}}</span></div>
+                        <div><span style="margin:0 15px 0 30px;">{{joiner.name}}</span>|<span style="margin:0 15px;">{{joiner.email}}</span></div>
+                    </td>
                 </tr>
             </table>
         </div>

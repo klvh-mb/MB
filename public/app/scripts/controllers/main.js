@@ -238,7 +238,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
                 }
             };
         }
-        if ($('#frontpage-slider').length > 0 && $('#frontpage-slider').visible(true)) {
+        if ($('#frontpage-slider').length > 0) {
             var frontpageSlider = $('#frontpage-slider').royalSlider(opts);
         }
     }
@@ -271,12 +271,42 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
                     delay: 5000
                 }
             };
-            if ($('#promo-slider').length > 0 && $('#promo-slider').visible(true)) {
+            if ($('#promo-slider').length > 0) {
                 var promoSlider = $('#promo-slider').royalSlider(opts);
             }
         }
     }
     $interval($scope.renderPromoSlider, 1500, 1);
+    
+    // Hot topics slider
+    $scope.renderHotTopicsSlider = function() {
+        var opts = {
+            arrowsNav: false,
+            arrowsNavAutoHide: false,
+            fadeinLoadedSlide: false,
+            controlsInside: false,
+            controlNavigationSpacing: 0,
+            controlNavigation: 'bullets',
+            imageScaleMode: 'none',
+            imageAlignCenter: false,
+            loop: true,
+            transitionType: 'move',
+            keyboardNavEnabled: false,
+            block: {
+                delay: 400
+            },
+            autoPlay: {
+                enabled: true,
+                pauseOnHover: true,
+                stopAtAction: false,
+                delay: 5000
+            }
+        };            
+        if ($('#hot-topics-slider').length > 0) {
+            var hotTopicsSlider = $('#hot-topics-slider').royalSlider(opts);
+        }
+    }
+    $interval($scope.renderHotTopicsSlider, 1500, 1);
     
     // hot newsfeed
     $scope.newsFeeds = { posts: [] };
@@ -290,7 +320,8 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
             }
         );
     }
-    $scope.hotNewsFeeds(0);     //$scope.hotNewsFeeds(1);
+    $scope.hotNewsFeeds(0);
+    $scope.hotNewsFeeds(1);
     
     // hot communities
     $scope.hotCommunities = frontpageService.hotCommunities.get({},
