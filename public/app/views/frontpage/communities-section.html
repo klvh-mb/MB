@@ -47,11 +47,11 @@
                                     </span-->
                                     <span class="post-intro-divider"></span>
                                     <span class="post-qna-answer-count">
-                                        <img src="../assets/app/images/general/icons/i-time.png" /><span class="post-date" am-time-ago="post.ut"></span>
+                                        <a data-ng-href="#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-time.png" /><span class="post-date" am-time-ago="post.ut"></span></a>
                                     </span>
                                     <span class="post-intro-divider"></span>
                                     <span class="post-qna-answer-count">
-                                        <img src="../assets/app/images/general/icons/i-reply.png" />{{post.n_c}}
+                                        <a data-ng-href="#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-reply.png" />{{post.n_c}}</a>
                                     </span>
                                     <span class="post-intro-divider"></span>
                                     <a class="pull-right" data-ng-href="#/community/{{post.cid}}"><img src="{{post.ci}}">{{post.cn}}</a>
@@ -176,6 +176,12 @@
 }
 .fp-topic-slide .bContainer a, .fp-topic-slide .bContainer a:hover {
     font-size: 13px;
+}
+.fp-topic-slide .bContainer .post-qna-answer-count a, 
+.fp-topic-slide .bContainer .post-qna-answer-count a:hover {
+    color: #565656;
+    font-size: 12px;
+    text-decoration: none;
 }
 #hot-topics-slider .rsBullets {
     width: 100%;
