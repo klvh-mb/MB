@@ -6,6 +6,7 @@ import java.util.List;
 
 import campaign.validator.CampaignValidationEngine;
 import campaign.validator.ValidationResult;
+
 import com.mnt.exception.SocialObjectNotLikableException;
 
 import common.utils.ImageUploadUtil;
@@ -16,12 +17,15 @@ import models.CampaignWinner;
 import models.CampaignWinner.WinnerState;
 import models.GameAccount;
 import models.User;
+
 import org.apache.commons.lang.StringUtils;
+
 import play.data.DynamicForm;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import viewmodel.CampaignJoinerVM;
 import viewmodel.CampaignUserJoinStatusVM;
 import viewmodel.CampaignVM;
 import viewmodel.CampaignWinnerVM;
@@ -49,6 +53,17 @@ public class CampaignController extends Controller {
         }
         
         return count;
+    }
+    
+    @Transactional
+    public static Result getCampaignJoiners(Long campaignId) {
+        List<CampaignActionsUser> joiners = CampaignActionsUser.getCampaignActionsUsers(campaignId);
+        List<CampaignJoinerVM> vms = new ArrayList<>();
+        for (CampaignActionsUser joiner : joiners) {
+            CampaignJoinerVM vm = new CampaignJoinerVM(joiner.userId, joiner.campaignId, joiner.getCreatedDate());
+            vms.add(vm);
+        }
+        return ok(Json.toJson(vms));
     }
     
     @Transactional
