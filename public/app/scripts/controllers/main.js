@@ -298,7 +298,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
             autoPlay: {
                 enabled: true,
                 pauseOnHover: true,
-                stopAtAction: false,
+                stopAtAction: true,
                 delay: 5000
             }
         };            

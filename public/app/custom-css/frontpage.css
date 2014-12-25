@@ -460,7 +460,8 @@
     font-size: 13px;
 }
 #frontpage-communities-section #hot-topics .hot-post .hot-post-intro {
-
+    color: #565656;
+    font-size: 12px;
 }
 #frontpage-communities-section #hot-topics .hot-post img, 
 #frontpage-communities-section #hot-communities .hot-community img {
