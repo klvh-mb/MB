@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import campaign.validator.CampaignValidationEngine;
@@ -57,12 +58,22 @@ public class CampaignController extends Controller {
     
     @Transactional
     public static Result getCampaignJoiners(Long campaignId) {
-        List<CampaignActionsUser> joiners = CampaignActionsUser.getCampaignActionsUsers(campaignId);
+        Campaign campaign = Campaign.findById(campaignId);
         List<CampaignJoinerVM> vms = new ArrayList<>();
-        for (CampaignActionsUser joiner : joiners) {
-            CampaignJoinerVM vm = new CampaignJoinerVM(joiner.userId, joiner.campaignId, joiner.getCreatedDate());
-            vms.add(vm);
+        if (CampaignType.ACTIONS == campaign.campaignType) {
+            List<CampaignActionsUser> joiners = CampaignActionsUser.getCampaignActionsUsers(campaignId);
+            for (CampaignActionsUser joiner : joiners) {
+                CampaignJoinerVM vm = new CampaignJoinerVM(joiner.userId, joiner.campaignId, joiner.getCreatedDate());
+                vms.add(vm);
+            }    
+        } else if (CampaignType.QUESTIONS == campaign.campaignType) {
+            // TODO
+        } else if (CampaignType.VOTING == campaign.campaignType) {
+            // TODO
+        } else if (CampaignType.PHOTO_CONTEST == campaign.campaignType) {
+            // TODO
         }
+        
         return ok(Json.toJson(vms));
     }
     
@@ -93,14 +104,14 @@ public class CampaignController extends Controller {
     }
     
     @Transactional
-    public static Result infoCampaign(Long id) {
+    public static Result infoCampaign(Long campaignId) {
         final User localUser = Application.getLocalUser(session());
         
         Campaign campaign = null;
-        if (id == -1) {
+        if (campaignId == -1) {
             campaign = Campaign.getActiveCampaign();
         } else {
-            campaign = Campaign.findById(id);
+            campaign = Campaign.findById(campaignId);
         }
         if (campaign == null) {
             return ok("NO_RESULT");
@@ -184,10 +195,12 @@ public class CampaignController extends Controller {
                     if (campaignUser != null && campaignUser.withdraw) {
                         // user withdrawn before
                         campaignUser.withdraw = false;
+                        campaignUser.setUpdatedDate(new Date());
                         campaignUser.merge();
                     } else {
                         // user newly joined
                         campaignUser = new CampaignActionsUser(campaign.id, localUser.id);
+                        campaignUser.setCreatedDate(new Date());
                         campaignUser.save();
                     }
                     logger.underlyingLogger().info(String.format("[u=%d][c=%d] Successfully joined campaign", localUser.id, campaignId));
