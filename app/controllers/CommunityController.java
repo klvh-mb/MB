@@ -1011,7 +1011,6 @@ public class CommunityController extends Controller{
             for (Post p : newsFeeds) {
                 CommunityPostVM post = CommunityPostVM.communityPostVM(p, noLoginUser, isCommentable);
                 posts.add(post);
-                logger.underlyingLogger().info(post.postedTitle);
             }
         }
 
