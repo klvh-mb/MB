@@ -309,19 +309,19 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     $interval($scope.renderHotTopicsSlider, 1500, 1);
     
     // hot newsfeed
-    $scope.newsFeeds = { posts: [] };
-    $scope.hotNewsFeeds = function(offset) {
+    $scope.hotNewsFeeds = { posts: [] };
+    $scope.nextHotNewsFeeds = function(offset) {
         frontpageService.hotNewsFeeds.get({offset:offset},
             function(data){
                 var posts = data.posts;
                 for (var i = 0; i < posts.length; i++) {
-                    $scope.newsFeeds.posts.push(posts[i]);
+                    $scope.hotNewsFeeds.posts.push(posts[i]);
                 }
             }
         );
     }
-    $scope.hotNewsFeeds(0);
-    $scope.hotNewsFeeds(1);
+    $scope.nextHotNewsFeeds(0);
+    //$scope.nextHotNewsFeeds(1);
     
     // hot communities
     $scope.hotCommunities = frontpageService.hotCommunities.get({},

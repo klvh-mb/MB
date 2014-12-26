@@ -1000,7 +1000,7 @@ public class CommunityController extends Controller{
             NewsfeedCommTargetingEngine.indexCommNewsfeedForUser(noLoginUser.getId());
     	}
 
-        List<Post> newsFeeds = noLoginUser.getFeedPosts(true, offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        List<Post> newsFeeds = noLoginUser.getFeedPosts(true, offset, DefaultValues.FRONTPAGE_HOT_POSTS_COUNT);
 
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
@@ -1011,6 +1011,7 @@ public class CommunityController extends Controller{
             for (Post p : newsFeeds) {
                 CommunityPostVM post = CommunityPostVM.communityPostVM(p, noLoginUser, isCommentable);
                 posts.add(post);
+                logger.underlyingLogger().info(post.postedTitle);
             }
         }
 

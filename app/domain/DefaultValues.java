@@ -14,6 +14,10 @@ public class DefaultValues {
     public static int ZODIAC_COMMUNITY_MIN_YEAR = 2010;
     public static int ZODIAC_COMMUNITY_MIN_YEAR_FOR_INDEX = 2013;
     
+    public static int FRONTPAGE_HOT_POSTS_COUNT = 15;
+    public static int FRONTPAGE_HOT_COMMUNITIES_COUNT = 8;
+    public static int FRONTPAGE_HOT_COMMUNITIES_FOR_LAST_DAYS = 30;
+    
     public static int COMMENTS_PREVIEW_COUNT = 2;
     public static int DEFAULT_UTILITY_COUNT = 5;
     public static int DEFAULT_INFINITE_SCROLL_COUNT = 7;
