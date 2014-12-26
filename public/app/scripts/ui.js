@@ -41,7 +41,7 @@ var homeTour = new Tour({
         "讓您預覽您正在關注的社群中最新，最熱門話題。輕易知道所有關注社群的最新動向"
   },
   {
-    element: "#main-uphoto",
+    element: "#my-posts",
     title: 
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_4.png\">" + 
         "我的個人主頁",

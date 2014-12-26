@@ -141,6 +141,15 @@
             </ul>
         </div>
     </div>
+    
+    <div ng-show="userInfo.isMobile">
+        <div ng-show="userInfo.isLoggedIn">
+            <a href="my#" class="btn-communities-flat" style="margin-bottom:5px;">我的社群動向</a>
+        </div>    
+        <div>
+            <a href="#/communities-discover" class="btn-communities-flat">所有媽媽社群</a>
+        </div>
+    </div>
 </div>
 
 
@@ -198,7 +207,7 @@
     height: 14px;
 }
 #hot-topics-slider .rsBullet span {
-    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 1px 1px rgba(250, 3, 3, 0.5);
 }
 #hot-topics-slider .rsBullet.rsNavSelected span {
     background: #FDB2B2;

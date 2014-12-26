@@ -26,6 +26,20 @@
                     <div ng-show="topAnnouncements.length > 0">
                         <div data-ng-include data-src="'/assets/app/views/widgets/top-announcements-widget.html'"></div>
                     </div>
+                    <div ng-show="!userInfo.isHomeTourCompleted">
+                        <div id="message-board" class="alert alert-info">
+                            <div style="font-size:16px;">
+                                <img style="width:32px;" src="/assets/app/images/general/icons/pink_heart.png"></img>
+                                {{userInfo.displayName}} 歡迎來到小萌豆！
+                            </div>
+                            <div style="margin-left:50px;">
+                                <a class="btn btn-general tour-btn" href="" ng-click="startHomeTour();">
+                                    <img style="width:10px;" src="/assets/app/images/general/icons/pink_question_mark.gif"></img>
+                                    看看小貼士
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                     <div>
                         <div data-ng-include data-src="'/assets/app/views/widgets/communities-index-widget.html'"></div>
                     </div>

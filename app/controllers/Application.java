@@ -329,7 +329,7 @@ public class Application extends Controller {
 	        UserController.sendGreetingMessageToNewUser();
 	        
 	        user.setNewUser(false);
-	        return redirect("/my#/communities-discover");
+	        //return redirect("/my#/communities-discover");
 	    }
 	    return isMobileUser()? ok(views.html.mb.mobile.home.render()) : ok(views.html.mb.site.home.render());
 	}
