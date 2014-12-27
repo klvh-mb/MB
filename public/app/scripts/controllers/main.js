@@ -1634,6 +1634,10 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
         postFactory.deletePost(postId, $scope.posts.posts);
     }
     
+    $scope.deleteComment = function(commentId, post) {
+        postFactory.deleteComment(commentId, post);
+    }
+    
     $scope.select_emoticon_comment = function(code, index) {
         postFactory.selectCommentEmoticon(code, index);
     }
@@ -1888,6 +1892,10 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
         postFactory.deletePost(postId, $scope.QnAs.posts);
     }
     
+    $scope.deleteComment = function(commentId, post) {
+        postFactory.deleteComment(commentId, post);
+    }
+    
     $scope.postPhoto = function() {
         $("#QnA-photo-id").click();
     }
@@ -1974,6 +1982,8 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                         post.ut = new Date();
                         var answer = {"oid" : $scope.QnAs.lu, "d" : response.text, "on" : $scope.QnAs.lun, 
                                 "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
+                        answer.isO = true;
+                        answer.n = post.n_c;
                         post.cs.push(answer);
                     
                         if($scope.qnaCommentSelectedFiles.length == 0) {
@@ -2186,6 +2196,10 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
     
     $scope.deletePost = function(postId) {
         postFactory.deletePost(postId, $scope.posts.posts);
+    }
+    
+    $scope.deleteComment = function(commentId, post) {
+        postFactory.deleteComment(commentId, post);
     }
     
 	$scope.postPhoto = function() {
@@ -2486,6 +2500,10 @@ minibean.controller('CommunityQnAController',function($scope, postFactory, postM
         postFactory.deletePost(postId, $scope.QnAs.posts);
     }
     
+    $scope.deleteComment = function(commentId, post) {
+        postFactory.deleteComment(commentId, post);
+    }
+    
     $scope.select_emoticon_comment = function(code, index) {
         postFactory.selectCommentEmoticon(code, index);
     }
@@ -2643,6 +2661,8 @@ minibean.controller('CommunityQnAController',function($scope, postFactory, postM
 						post.ut = new Date();
 						var answer = {"oid" : $scope.QnAs.lu, "d" : response.text, "on" : $scope.QnAs.lun, 
 								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
+                        answer.isO = true;
+                        answer.n = post.n_c;
                         post.cs.push(answer);
 					  
 						if($scope.qnaCommentSelectedFiles.length == 0) {
@@ -3167,6 +3187,10 @@ minibean.controller('MyMagazineNewsFeedController', function($scope, postFactory
         postFactory.deletePost(postId, $scope.newsFeeds.posts);
     }
     
+    $scope.deleteComment = function(commentId, post) {
+        postFactory.deleteComment(commentId, post);
+    }
+    
     $scope.get_all_comments = function(id) {
         postFactory.getAllComments(id, $scope.newsFeeds.posts, $scope);
     }
@@ -3236,6 +3260,10 @@ minibean.controller('NewsFeedController', function($scope, postFactory, postMana
     
 	$scope.deletePost = function(postId) {
         postFactory.deletePost(postId, $scope.newsFeeds.posts);
+    }
+    
+    $scope.deleteComment = function(commentId, post) {
+        postFactory.deleteComment(commentId, post);
     }
     
     $scope.select_emoticon_comment = function(code, index) {
@@ -3416,6 +3444,8 @@ minibean.controller('NewsFeedController', function($scope, postFactory, postMana
 						post.ut = new Date();
 						var answer = {"oid" : $scope.userInfo.id, "d" : response.text, "on" : $scope.userInfo.displayName, 
 								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
+                        answer.isO = true;
+                        answer.n = post.n_c;
 						post.cs.push(answer);
                         
 						if($scope.qnaCommentSelectedFiles.length == 0) {
@@ -3525,6 +3555,10 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
     
     $scope.deletePost = function(postId) {
         postFactory.deletePost(postId, $scope.newsFeeds.posts);
+    }
+    
+    $scope.deleteComment = function(commentId, post) {
+        postFactory.deleteComment(commentId, post);
     }
     
     $scope.select_emoticon_comment = function(code, index) {
@@ -3649,6 +3683,8 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 						post.ut = new Date();
 						var answer = {"oid" : $scope.userInfo.id, "d" : response.text, "on" : $scope.userInfo.displayName, 
 								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
+                        answer.isO = true;
+                        answer.n = post.n_c;
                         post.cs.push(answer);
                         
 						if($scope.qnaCommentSelectedFiles.length == 0) {
@@ -3866,6 +3902,10 @@ minibean.controller('MyBookmarkController', function($scope, postFactory, bookma
         postFactory.deletePost(postId, $scope.posts.posts);
     }
 	
+	$scope.deleteComment = function(commentId, post) {
+        postFactory.deleteComment(commentId, post);
+    }
+    
 	$scope.unBookmarkPost = function(post_id) {
 		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.posts.posts, function(post, key){
@@ -4238,6 +4278,10 @@ minibean.controller('MagazineNewsFeedController', function($scope, $timeout, $up
         postFactory.deletePost(postId, $scope.newsFeeds.posts);
     }
 
+    $scope.deleteComment = function(commentId, post) {
+        postFactory.deleteComment(commentId, post);
+    }
+    
     $scope.like_post = function(post_id) {
         postFactory.like_post(post_id, $scope.newsFeeds.posts);
     }

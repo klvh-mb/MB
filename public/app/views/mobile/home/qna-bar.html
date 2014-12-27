@@ -77,7 +77,16 @@
                 </span>
                 <span style="margin-left:5px;"/>
                 <span class="post-date" am-time-ago="comment.cd"></span>
-                <span class="post-number pull-right">#{{comment.n}}</span>
+                <div class="pull-right">
+                    <span class="post-number">#{{comment.n}}</span>
+                    <button ng-show="comment.isO || userInfo.isSA" class="post-dropdown-btn btn btn-default dropdown-toggle" type="button" id="post-dropdown" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
+                        <li role="presentation" ng-show="comment.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deleteComment(comment.id, post)" ng-confirm-message="您確定刪除這個留言嗎？"><i class="glyphicon glyphicon-trash"></i>刪除留言</a></li>
+                        <!--li role="presentation" ng-show="!comment.isO || userInfo.isSA"><a role="menuitem" ng-click="openReportObjectModal(comment.id,'ANSWER')"><i class="glyphicon glyphicon-warning-sign"></i>舉報留言</a></li-->
+                    </ul>
+                </div>
             </div>
             <div class="post-qna-answer-body">
                 <div>

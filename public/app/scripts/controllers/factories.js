@@ -92,6 +92,18 @@ minibean.factory('postFactory',function(postManagementService, likeFrameworkServ
         });
     }
     
+    factory.deleteComment = function(commentId, post) {
+        postManagementService.deleteComment.get({"commentId":commentId}, function(data) {
+            var comments = post.cs;
+            angular.forEach(comments, function(comment, key){
+                if(comment.id == commentId) {
+                    comments.splice(comments.indexOf(comment),1);
+                }
+            })
+            post.n_c--;
+        });
+    }
+    
     factory.selectEmoticon = function(code) {
         if($("#content-upload-input").val()){
             $("#content-upload-input").val($("#content-upload-input").val() + " " + code + " ");

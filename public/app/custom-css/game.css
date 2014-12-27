@@ -50,6 +50,7 @@
     overflow: hidden; 
     background-color: white;
     border: #7acff2 solid 1px;
+    border-radius: 10px;
 }
 #game-box div {
 }
