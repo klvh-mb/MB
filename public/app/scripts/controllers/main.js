@@ -238,7 +238,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
                 }
             };
         }
-        if ($('#frontpage-slider').length > 0 && $('#frontpage-slider').visible(true)) {
+        if ($('#frontpage-slider').length > 0) {
             var frontpageSlider = $('#frontpage-slider').royalSlider(opts);
         }
     }
@@ -271,26 +271,57 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
                     delay: 5000
                 }
             };
-            if ($('#promo-slider').length > 0 && $('#promo-slider').visible(true)) {
+            if ($('#promo-slider').length > 0) {
                 var promoSlider = $('#promo-slider').royalSlider(opts);
             }
         }
     }
     $interval($scope.renderPromoSlider, 1500, 1);
     
+    // Hot topics slider
+    $scope.renderHotTopicsSlider = function() {
+        var opts = {
+            arrowsNav: false,
+            arrowsNavAutoHide: false,
+            fadeinLoadedSlide: false,
+            controlsInside: false,
+            controlNavigationSpacing: 0,
+            controlNavigation: 'bullets',
+            imageScaleMode: 'none',
+            imageAlignCenter: false,
+            loop: true,
+            transitionType: 'move',
+            keyboardNavEnabled: false,
+            block: {
+                delay: 400
+            },
+            autoPlay: {
+                enabled: true,
+                pauseOnHover: true,
+                stopAtAction: true,
+                delay: 5000
+            }
+        };            
+        if ($('#hot-topics-slider').length > 0) {
+            var hotTopicsSlider = $('#hot-topics-slider').royalSlider(opts);
+        }
+    }
+    $interval($scope.renderHotTopicsSlider, 1500, 1);
+    
     // hot newsfeed
-    $scope.newsFeeds = { posts: [] };
-    $scope.hotNewsFeeds = function(offset) {
+    $scope.hotNewsFeeds = { posts: [] };
+    $scope.nextHotNewsFeeds = function(offset) {
         frontpageService.hotNewsFeeds.get({offset:offset},
             function(data){
                 var posts = data.posts;
                 for (var i = 0; i < posts.length; i++) {
-                    $scope.newsFeeds.posts.push(posts[i]);
+                    $scope.hotNewsFeeds.posts.push(posts[i]);
                 }
             }
         );
     }
-    $scope.hotNewsFeeds(0);     //$scope.hotNewsFeeds(1);
+    $scope.nextHotNewsFeeds(0);
+    //$scope.nextHotNewsFeeds(1);
     
     // hot communities
     $scope.hotCommunities = frontpageService.hotCommunities.get({},
@@ -1603,6 +1634,10 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
         postFactory.deletePost(postId, $scope.posts.posts);
     }
     
+    $scope.deleteComment = function(commentId, post) {
+        postFactory.deleteComment(commentId, post);
+    }
+    
     $scope.select_emoticon_comment = function(code, index) {
         postFactory.selectCommentEmoticon(code, index);
     }
@@ -1857,6 +1892,10 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
         postFactory.deletePost(postId, $scope.QnAs.posts);
     }
     
+    $scope.deleteComment = function(commentId, post) {
+        postFactory.deleteComment(commentId, post);
+    }
+    
     $scope.postPhoto = function() {
         $("#QnA-photo-id").click();
     }
@@ -1943,6 +1982,8 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
                         post.ut = new Date();
                         var answer = {"oid" : $scope.QnAs.lu, "d" : response.text, "on" : $scope.QnAs.lun, 
                                 "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
+                        answer.isO = true;
+                        answer.n = post.n_c;
                         post.cs.push(answer);
                     
                         if($scope.qnaCommentSelectedFiles.length == 0) {
@@ -2155,6 +2196,10 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
     
     $scope.deletePost = function(postId) {
         postFactory.deletePost(postId, $scope.posts.posts);
+    }
+    
+    $scope.deleteComment = function(commentId, post) {
+        postFactory.deleteComment(commentId, post);
     }
     
 	$scope.postPhoto = function() {
@@ -2455,6 +2500,10 @@ minibean.controller('CommunityQnAController',function($scope, postFactory, postM
         postFactory.deletePost(postId, $scope.QnAs.posts);
     }
     
+    $scope.deleteComment = function(commentId, post) {
+        postFactory.deleteComment(commentId, post);
+    }
+    
     $scope.select_emoticon_comment = function(code, index) {
         postFactory.selectCommentEmoticon(code, index);
     }
@@ -2612,6 +2661,8 @@ minibean.controller('CommunityQnAController',function($scope, postFactory, postM
 						post.ut = new Date();
 						var answer = {"oid" : $scope.QnAs.lu, "d" : response.text, "on" : $scope.QnAs.lun, 
 								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
+                        answer.isO = true;
+                        answer.n = post.n_c;
                         post.cs.push(answer);
 					  
 						if($scope.qnaCommentSelectedFiles.length == 0) {
@@ -2785,13 +2836,23 @@ minibean.controller('ArticleSliderController', function($scope, $routeParams, $i
   
 });
 
+minibean.controller('CampaignPageJoinersController',function($scope, $route, $location, $http, $routeParams, campaignService){
+
+    $scope.joiners = campaignService.campaignJoiners.get({id:$routeParams.id});
+});
+
 minibean.controller('CampaignPageController',function($scope, $route, $location, $http, $routeParams, likeFrameworkService, campaignService, usSpinnerService){
 
     $scope.showCampaign = true;
 
     $scope.announcedWinners = [];
     
-    $scope.campaign = campaignService.campaignInfo.get({id:$routeParams.id}, 
+    var id = -1;    // my profile newsfeed
+    if($routeParams.id != undefined){
+        id = $routeParams.id;
+    }
+    
+    $scope.campaign = campaignService.campaignInfo.get({id:id}, 
         function(data) {
             if(data[0] == 'NO_RESULT'){
                 $location.path('/campaign/show');
@@ -2800,7 +2861,7 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
                 $scope.showCampaign = false;
             }
             if ($scope.campaign.cs == 'ANNOUNCED' || $scope.campaign.cs == 'CLOSED') {
-                $scope.announcedWinners = campaignService.campaignAnnouncedWinners.get({id:$routeParams.id});
+                $scope.announcedWinners = campaignService.campaignAnnouncedWinners.get({id:id});
             }
         });
     
@@ -3126,6 +3187,10 @@ minibean.controller('MyMagazineNewsFeedController', function($scope, postFactory
         postFactory.deletePost(postId, $scope.newsFeeds.posts);
     }
     
+    $scope.deleteComment = function(commentId, post) {
+        postFactory.deleteComment(commentId, post);
+    }
+    
     $scope.get_all_comments = function(id) {
         postFactory.getAllComments(id, $scope.newsFeeds.posts, $scope);
     }
@@ -3195,6 +3260,10 @@ minibean.controller('NewsFeedController', function($scope, postFactory, postMana
     
 	$scope.deletePost = function(postId) {
         postFactory.deletePost(postId, $scope.newsFeeds.posts);
+    }
+    
+    $scope.deleteComment = function(commentId, post) {
+        postFactory.deleteComment(commentId, post);
     }
     
     $scope.select_emoticon_comment = function(code, index) {
@@ -3375,6 +3444,8 @@ minibean.controller('NewsFeedController', function($scope, postFactory, postMana
 						post.ut = new Date();
 						var answer = {"oid" : $scope.userInfo.id, "d" : response.text, "on" : $scope.userInfo.displayName, 
 								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
+                        answer.isO = true;
+                        answer.n = post.n_c;
 						post.cs.push(answer);
                         
 						if($scope.qnaCommentSelectedFiles.length == 0) {
@@ -3484,6 +3555,10 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
     
     $scope.deletePost = function(postId) {
         postFactory.deletePost(postId, $scope.newsFeeds.posts);
+    }
+    
+    $scope.deleteComment = function(commentId, post) {
+        postFactory.deleteComment(commentId, post);
     }
     
     $scope.select_emoticon_comment = function(code, index) {
@@ -3608,6 +3683,8 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 						post.ut = new Date();
 						var answer = {"oid" : $scope.userInfo.id, "d" : response.text, "on" : $scope.userInfo.displayName, 
 								"isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
+                        answer.isO = true;
+                        answer.n = post.n_c;
                         post.cs.push(answer);
                         
 						if($scope.qnaCommentSelectedFiles.length == 0) {
@@ -3825,6 +3902,10 @@ minibean.controller('MyBookmarkController', function($scope, postFactory, bookma
         postFactory.deletePost(postId, $scope.posts.posts);
     }
 	
+	$scope.deleteComment = function(commentId, post) {
+        postFactory.deleteComment(commentId, post);
+    }
+    
 	$scope.unBookmarkPost = function(post_id) {
 		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.posts.posts, function(post, key){
@@ -4197,6 +4278,10 @@ minibean.controller('MagazineNewsFeedController', function($scope, $timeout, $up
         postFactory.deletePost(postId, $scope.newsFeeds.posts);
     }
 
+    $scope.deleteComment = function(commentId, post) {
+        postFactory.deleteComment(commentId, post);
+    }
+    
     $scope.like_post = function(post_id) {
         postFactory.like_post(post_id, $scope.newsFeeds.posts);
     }

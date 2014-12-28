@@ -93,6 +93,25 @@ public class Campaign extends SocialObject implements Commentable, Likeable {
 		return (List<Campaign>)q.getResultList();
 	}
 	
+	public static Campaign getActiveCampaign() {
+	    Campaign campaign = getActiveCampaignByState(CampaignState.STARTED);
+	    if (campaign == null) {
+	        campaign = getActiveCampaignByState(CampaignState.PUBLISHED);
+	    }
+	    return campaign;
+    }
+	
+	private static Campaign getActiveCampaignByState(CampaignState campaignState) {
+        Query q = JPA.em().createQuery("SELECT c FROM Campaign c where c.campaignState = ?1 and c.deleted = false order by startDate desc");
+        q.setParameter(1, campaignState);
+        q.setMaxResults(1);
+        try {
+            return (Campaign) q.getSingleResult();
+        } catch(NoResultException e) {
+            return null;
+        }
+    }
+	
 	public static Campaign findById(Long id) {
 		Query q = JPA.em().createQuery("SELECT c FROM Campaign c where c.id = ?1 and c.deleted = false");
 		q.setParameter(1, id);

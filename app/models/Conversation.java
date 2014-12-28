@@ -53,17 +53,13 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 	public Date user1_archive_time;
 	
 	public Date user2_archive_time;
+	
+	public int user1_noOfMessages = 0;
+	
+	public int user2_noOfMessages = 0;
 
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "conversation")
 	public Set<Message> messages = new TreeSet<Message>();
-
-	// public List<Message> messages = new ArrayList<Message>();
-	/**
-	 * mark readed all the messages for the user in the conversation
-	 * 
-	 * @param user
-	 */
-	
 
 	public Message addMessage(User sender, String body) {
 		Message message = new Message();
@@ -77,13 +73,14 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 		this.save();
 		if(this.user1 == sender){
 			this.user1_time = new Date();
+			this.user2_noOfMessages++;
 			this.conv_time = new Date();
 		} else {
 			this.user2_time = new Date();
+			this.user1_noOfMessages++;
 			this.conv_time = new Date();
 		}
 		return message;
-
 	}
 
 	public static Conversation findBetween(User u1, User u2) {
@@ -101,7 +98,9 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 
 	public static List<Conversation> findAllConversations(User user, int latest) {
 		Query q = JPA.em().createQuery(
-		        "SELECT c from Conversation c  where ((user1 = ?1 and (user1_archive_time < conv_time or user1_archive_time is NULL )) or (user2 = ?1 and (user2_archive_time < conv_time or user2_archive_time is NULL))) order by updated_date desc");
+		        "SELECT c from Conversation c where " + 
+		        "(user1 = ?1 and (user1_archive_time < conv_time or user1_archive_time is NULL)) or " + 
+		        "(user2 = ?1 and (user2_archive_time < conv_time or user2_archive_time is NULL)) order by updated_date desc");
 		q.setParameter(1, user);
 		
 		try {
@@ -200,7 +199,6 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 		} else { 
 			return this.user2_time.getTime() >= this.conv_time.getTime();
 		}
-		
 	}
 	
 	public static void archiveConversation(Long id, User user) {
@@ -209,8 +207,38 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 		conversation.setArchiveTime(user);
 	}
 	
+	public static Long getUnreadConversationCount(Long userId) {
+        Query q = JPA.em().createQuery(
+                "Select count(c) from Conversation c where " + 
+                        "(c.user1.id = ?1 and c.user1_noOfMessages > 0 and (c.user1_time < c.conv_time or c.user1_time is null)) or " + 
+                        "(c.user2.id = ?1 and c.user2_noOfMessages > 0 and (c.user2_time < c.conv_time or c.user2_time is null))");
+        q.setParameter(1, userId);
+        Long ret = (Long) q.getSingleResult();
+        return ret;
+    }
+
+	public Long getMessageCount(User user) {
+        Query q = JPA.em().createQuery("Select count(c) from Message c where c.conversation = ?2 and c.date > ?1");
+        q.setParameter(2, this);
+        if(this.user1 == user){
+            if(this.user2_archive_time == null){
+                q.setParameter(1, new Date(0));
+            } else {
+                q.setParameter(1, this.user2_archive_time);
+            }
+        } else {
+            if(this.user1_archive_time == null){
+                q.setParameter(1, new Date(0));
+            } else {
+                q.setParameter(1, this.user1_archive_time);
+            }
+        }
+        
+        Long ret = (Long) q.getSingleResult();
+        return ret;
+    }
+	
 	private void deleteConversation() {
-		// TODO Auto-generated method stub
 		Query q = JPA.em().createQuery("DELETE FROM Message where conversation_id = ?1");
 		q.setParameter(1, this.id);
 		q.executeUpdate();
@@ -220,47 +248,30 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 	}
 	
 	private void setArchiveTime(User user){
-		if(this.user1 == user){
-			if(this.user2_archive_time == null){
-				user1_archive_time = new Date();
-			} else {
-				if (this.user2_archive_time.compareTo(this.conv_time) < 0) {
-					this.user1_archive_time = new Date();
-		        } else {
-		        	this.deleteConversation();
-		        }
-			}
-		} else {
-			if(this.user1_archive_time == null){
-				user2_archive_time = new Date();
-			} else {
-				if (this.user1_archive_time.compareTo(this.conv_time) < 0) {
-					this.user2_archive_time = new Date();
-		        } else {
-		        	this.deleteConversation();
-		        }
-			}
-		}
-	}
-
-	public Long getMessageCount(User user) {
-		Query q = JPA.em().createQuery("Select count(c) from Message c where c.conversation = ?2 and c.date > ?1");
-		q.setParameter(2, this);
-		if(this.user1 == user){
-        	if(this.user2_archive_time == null){
-        		q.setParameter(1, new Date(0));
-        	} else {
-        		q.setParameter(1, this.user2_archive_time);
-        	}
-        } else {
-        	if(this.user1_archive_time == null){
-        		q.setParameter(1, new Date(0));
-        	} else {
-        		q.setParameter(1, this.user1_archive_time);
-        	}
-        }
-        
-        Long ret = (Long) q.getSingleResult();
-        return ret;
+	    if(this.user1 == user){
+	        if(this.user2_archive_time == null){
+	            this.user1_archive_time = new Date();
+	            this.user1_noOfMessages = 0;
+	        } else {
+	            if (this.user2_archive_time.compareTo(this.conv_time) < 0) {
+	                this.user1_archive_time = new Date();
+	                this.user1_noOfMessages = 0;
+	            } else {
+	                this.deleteConversation();
+	            }
+	        }
+	    } else {
+	        if(this.user1_archive_time == null){
+	            this.user2_archive_time = new Date();
+	            this.user2_noOfMessages = 0;
+	        } else {
+	            if (this.user1_archive_time.compareTo(this.conv_time) < 0) {
+	                this.user2_archive_time = new Date();
+	                this.user2_noOfMessages = 0;
+	            } else {
+	                this.deleteConversation();
+	            }
+	        }
+	    }
 	}
 }

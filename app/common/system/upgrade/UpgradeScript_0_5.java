@@ -138,7 +138,7 @@ public class UpgradeScript_0_5 extends UpgradeScript {
             String icon, TargetingType targetingType, String targetingInfo) {
         Community community = null;
         try {
-            community = Application.getSuperAdmin().createCommunity(
+            community = Application.getMBAdmin().createCommunity(
                     name, desc, CommunityType.OPEN, icon);
             community.system = true;
             community.excludeFromNewsfeed = false;

@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -86,7 +87,7 @@ public class CampaignWinner extends domain.Entity {
         try {
             return (List<CampaignWinner>)q.getResultList();
         } catch (NoResultException e) {
-            return null;
+            return new ArrayList<>();
         }
 	}
 	

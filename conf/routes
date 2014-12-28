@@ -65,6 +65,7 @@ GET     /get-application-info       controllers.Application.getApplicationInfo
 GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
 
 GET     /get-campaign-info/:id      controllers.CampaignController.infoCampaign(id :Long)
+GET     /get-campaign-joiners/:id   controllers.CampaignController.getCampaignJoiners(id :Long)
 GET     /get-campaign-announced-winners/:id      controllers.CampaignController.getCampaignAnnouncedWinners(id :Long)
 GET     /like-campaign/:id          controllers.CampaignController.onLike(id : Long)
 GET     /unlike-campaign/:id        controllers.CampaignController.onUnlike(id : Long)
@@ -161,7 +162,7 @@ GET     /image/get-original-image-by-id/:id     controllers.UserController.getOr
 
 # Conversation
 GET     /get-all-Conversation       controllers.UserController.getAllConversation()
-GET     /get-messages/:id/:offset   controllers.UserController.getMessages(id: String, offset: String)
+GET     /get-messages/:id/:offset   controllers.UserController.getMessages(id: Long, offset: Long)
 GET     /start-Conversation/:id     controllers.UserController.startConversation(id: Long)
 GET     /delete-Conversation/:id    controllers.UserController.deleteConversation(id: Long)
 POST    /Message/sendMsg            controllers.UserController.sendMessage()

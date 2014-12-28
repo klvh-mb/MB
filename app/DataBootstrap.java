@@ -801,7 +801,7 @@ public class DataBootstrap {
     private static Community createFeedbackCommunity(String name, String desc) {
         Community community = null;
         try {
-            community = Application.getSuperAdmin().createCommunity(
+            community = Application.getMBAdmin().createCommunity(
                     name, desc, CommunityType.OPEN, 
                     "/assets/app/images/general/icons/community/feedback.png");
             community.system = true;
@@ -819,7 +819,7 @@ public class DataBootstrap {
             String icon, TargetingType targetingType, String targetingInfo) {
         Community community = null;
         try {
-            community = Application.getSuperAdmin().createCommunity(
+            community = Application.getMBAdmin().createCommunity(
                     name, desc, CommunityType.OPEN, icon);
             community.system = true;
             community.excludeFromNewsfeed = false;
@@ -838,7 +838,7 @@ public class DataBootstrap {
         String zodiac = targetYear.getZodiacYear().getZodiac().name();
         String targetingInfo = targetYear.getZodiacInfo();
         try {
-            community = Application.getSuperAdmin().createCommunity(
+            community = Application.getMBAdmin().createCommunity(
                     name, desc, CommunityType.OPEN, 
                     "/assets/app/images/general/icons/zodiac/" + zodiac.toLowerCase() + ".png");
             community.system = true;
@@ -862,7 +862,7 @@ public class DataBootstrap {
         String zodiac = targetYear.getZodiacYear().getZodiac().name();
         String targetingInfo = year + "_" + month;      // e.g. 2013_8
         try {
-            community = Application.getSuperAdmin().createCommunity(
+            community = Application.getMBAdmin().createCommunity(
                     name, desc, CommunityType.OPEN, 
                     "/assets/app/images/general/icons/zodiac/" + zodiac.toLowerCase() + ".png");
             community.system = true;
@@ -878,7 +878,7 @@ public class DataBootstrap {
         Community community = null;
         String targetingInfo = location.id.toString();
         try {
-            community = Application.getSuperAdmin().createCommunity(
+            community = Application.getMBAdmin().createCommunity(
                     name, desc, CommunityType.OPEN, 
                     "/assets/app/images/general/icons/community/loc_" + location.locationType.name().toLowerCase() + ".png");
             community.system = true;
@@ -894,7 +894,7 @@ public class DataBootstrap {
                 Community community = null;
         String targetingInfo = region.id.toString();
         try {
-            community = Application.getSuperAdmin().createCommunity(
+            community = Application.getMBAdmin().createCommunity(
                     name, desc, CommunityType.OPEN,
                     "/assets/app/images/general/icons/community/grad_hat.png");
             community.system = true;

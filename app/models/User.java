@@ -38,7 +38,6 @@ import common.utils.DateTimeUtil;
 import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
 import common.utils.StringUtil;
-import email.EDMUtility;
 import models.Community.CommunityType;
 import models.Notification.NotificationType;
 import models.SocialRelation.Action;
@@ -85,7 +84,11 @@ import domain.Socializable;
 public class User extends SocialObject implements Subject, Socializable {
     private static final play.api.Logger logger = play.api.Logger.apply(User.class);
 
-    private static User SUPER_ADMIN;
+    private static User MB_ADMIN;
+    private static User MB_EDITOR;
+    
+    public static final String MB_ADMIN_NAME = "小萌豆 管理員";
+    public static final String MB_EDITOR_NAME = "小萌豆 編輯";
     
     public String firstName;
     public String lastName;
@@ -182,7 +185,7 @@ public class User extends SocialObject implements Subject, Socializable {
 
     @OneToMany
     @JsonIgnore
-    public List<Conversation> conversation = new ArrayList<Conversation>();
+    public List<Conversation> conversations = new ArrayList<Conversation>();
 
     @Override
     @JsonIgnore
@@ -223,16 +226,16 @@ public class User extends SocialObject implements Subject, Socializable {
     }
 
     public Conversation sendMessage(User user, String msg) {
-        Conversation conver = Conversation.findBetween(this, user);
+        Conversation conversation = Conversation.findBetween(this, user);
 
-        if (conversation == null || conver == null) {
-            conver = new Conversation(this, user);
-            conversation = Lists.newArrayList();
-            conversation.add(conver);
-            user.conversation.add(conver);
+        if (conversations == null || conversation == null) {
+            conversation = new Conversation(this, user);
+            conversations = Lists.newArrayList();
+            conversations.add(conversation);
+            user.conversations.add(conversation);
         }
-        conver.addMessage(this, msg);
-        return conver;
+        conversation.addMessage(this, msg);
+        return conversation;
     }
 
     public SocialObject commentedOn(SocialObject target, String comment)
@@ -910,6 +913,7 @@ public class User extends SocialObject implements Subject, Socializable {
         final User user = new User();
         user.roles = Collections.singletonList(
                 SecurityRole.findByRoleName(SecurityRole.RoleType.USER.name()));
+        user.setCreatedDate(new Date());
         user.active = true;
         user.newUser = true;
         user.lastLogin = new Date();
@@ -1064,21 +1068,59 @@ public class User extends SocialObject implements Subject, Socializable {
     }
     
     @Transactional
-    public static User getSuperAdmin() {
-        if (SUPER_ADMIN != null)
-            return SUPER_ADMIN;
-        
-        Query q = JPA.em().createQuery(
-                "SELECT u FROM User u where active = ?1 and system = ?2 and deleted = false");
-        q.setParameter(1, true);
-        q.setParameter(2, true);
-        List<User> sysUsers = (List<User>)q.getResultList();
-        for (User sysUser : sysUsers) {
-            if (sysUser.isSuperAdmin()) {
-                SUPER_ADMIN = sysUser;
-            }
+    public static User getMBAdmin() {
+        if (MB_ADMIN != null)
+            return MB_ADMIN;
+        User superAdmin = getSuperAdmin(MB_ADMIN_NAME);
+        if (superAdmin == null) {
+            superAdmin = getSuperAdmin();
         }
-        return SUPER_ADMIN;
+        MB_ADMIN = superAdmin;
+        return superAdmin;
+    }
+    
+    @Transactional
+    public static User getMBEditor() {
+        if (MB_EDITOR != null)
+            return MB_EDITOR;
+        User superAdmin = getSuperAdmin(MB_EDITOR_NAME);
+        if (superAdmin == null) {
+            superAdmin = getSuperAdmin();
+        }
+        MB_EDITOR = superAdmin;
+        return superAdmin;
+    }
+    
+    @Transactional
+    public static User getSuperAdmin(String name) {
+        Query q = JPA.em().createQuery(
+                "SELECT u FROM User u where name = ?1 and active = ?2 and system = ?3 and deleted = false");
+        q.setParameter(1, name);
+        q.setParameter(2, true);
+        q.setParameter(3, true);
+        try {
+            User sysUser = (User)q.getSingleResult();
+            return sysUser;
+        } catch (NoResultException e) {
+            logger.underlyingLogger().error("SuperAdmin not found - "+name, e);
+            return null;
+        }
+    }
+    
+    @Transactional
+    public static User getSuperAdmin() {
+        Query q = JPA.em().createQuery(
+                "SELECT u FROM User u where id = ?1 and active = ?2 and system = ?3 and deleted = false");
+        q.setParameter(1, 1);
+        q.setParameter(2, true);
+        q.setParameter(3, true);
+        try {
+            User sysUser = (User)q.getSingleResult();
+            return sysUser;
+        } catch (NoResultException e) {
+            logger.underlyingLogger().error("SuperAdmin not found", e);
+            return null;
+        }
     }
     
     @Transactional
@@ -1676,12 +1718,12 @@ public class User extends SocialObject implements Subject, Socializable {
         this.album = album;
     }
 
-    public List<Conversation> getConversation() {
-        return conversation;
+    public List<Conversation> getConversations() {
+        return conversations;
     }
 
-    public void setConversation(List<Conversation> conversation) {
-        this.conversation = conversation;
+    public void setConversations(List<Conversation> conversations) {
+        this.conversations = conversations;
     }
 
     public void setRoles(List<SecurityRole> roles) {
@@ -1722,12 +1764,8 @@ public class User extends SocialObject implements Subject, Socializable {
         return frndList;
     }
 
-    public Long getUnreadMsgCount() {
-        Query q = JPA.em().createQuery(
-                "Select count(c) from Conversation c where ( c.user1.id = ?1 and (c.user1_time < c.conv_time )) or (c.user2.id = ?1 and (user2_time < c.conv_time))");
-        q.setParameter(1, this.id);
-        Long ret = (Long) q.getSingleResult();
-        return ret;
+    public Long getUnreadConversationCount() {
+        return Conversation.getUnreadConversationCount(this.id);
     }
 
     ///////////////////////////////////////////////

@@ -2,10 +2,12 @@ package controllers;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import campaign.validator.CampaignValidationEngine;
 import campaign.validator.ValidationResult;
+
 import com.mnt.exception.SocialObjectNotLikableException;
 
 import common.utils.ImageUploadUtil;
@@ -17,12 +19,15 @@ import models.CampaignWinner;
 import models.CampaignWinner.WinnerState;
 import models.GameAccount;
 import models.User;
+
 import org.apache.commons.lang.StringUtils;
+
 import play.data.DynamicForm;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import viewmodel.CampaignJoinerVM;
 import viewmodel.CampaignUserJoinStatusVM;
 import viewmodel.CampaignVM;
 import viewmodel.CampaignWinnerVM;
@@ -53,6 +58,27 @@ public class CampaignController extends Controller {
     }
     
     @Transactional
+    public static Result getCampaignJoiners(Long campaignId) {
+        Campaign campaign = Campaign.findById(campaignId);
+        List<CampaignJoinerVM> vms = new ArrayList<>();
+        if (CampaignType.ACTIONS == campaign.campaignType) {
+            List<CampaignActionsUser> joiners = CampaignActionsUser.getCampaignActionsUsers(campaignId);
+            for (CampaignActionsUser joiner : joiners) {
+                CampaignJoinerVM vm = new CampaignJoinerVM(joiner.userId, joiner.campaignId, joiner.getCreatedDate());
+                vms.add(vm);
+            }    
+        } else if (CampaignType.QUESTIONS == campaign.campaignType) {
+            // TODO
+        } else if (CampaignType.VOTING == campaign.campaignType) {
+            // TODO
+        } else if (CampaignType.PHOTO_CONTEST == campaign.campaignType) {
+            // TODO
+        }
+        
+        return ok(Json.toJson(vms));
+    }
+    
+    @Transactional
     public static Result getCampaignAnnouncedWinners(Long campaignId) {
         List<CampaignWinner> winners = CampaignWinner.getWinners(campaignId);
         List<CampaignWinnerVM> vms = new ArrayList<>();
@@ -79,9 +105,15 @@ public class CampaignController extends Controller {
     }
     
     @Transactional
-    public static Result infoCampaign(Long id) {
+    public static Result infoCampaign(Long campaignId) {
         final User localUser = Application.getLocalUser(session());
-        Campaign campaign = Campaign.findById(id);
+        
+        Campaign campaign = null;
+        if (campaignId == -1) {
+            campaign = Campaign.getActiveCampaign();
+        } else {
+            campaign = Campaign.findById(campaignId);
+        }
         if (campaign == null) {
             return ok("NO_RESULT");
         }
@@ -164,10 +196,12 @@ public class CampaignController extends Controller {
                     if (campaignUser != null && campaignUser.withdraw) {
                         // user withdrawn before
                         campaignUser.withdraw = false;
+                        campaignUser.setUpdatedDate(new Date());
                         campaignUser.merge();
                     } else {
                         // user newly joined
                         campaignUser = new CampaignActionsUser(campaign.id, localUser.id);
+                        campaignUser.setCreatedDate(new Date());
                         campaignUser.save();
                     }
                     logger.underlyingLogger().info(String.format("[u=%d][c=%d] Successfully joined campaign", localUser.id, campaignId));

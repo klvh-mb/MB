@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import domain.DefaultValues;
+
 /**
  * Created by IntelliJ IDEA.
  * Date: 5/12/14
@@ -29,9 +31,6 @@ import java.util.Map;
 public class FrontPageController extends Controller {
     private static play.api.Logger logger = play.api.Logger.apply(FrontPageController.class);
 
-    private static final int HOT_LAST_DAYS = 30;
-    private static final int MAX_HOT_COMMS = 8;
-
     private static final ImageUploadUtil imageUploadUtil = new ImageUploadUtil("frontpage");
     
     @Transactional
@@ -39,7 +38,7 @@ public class FrontPageController extends Controller {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         List<CommunityStatistics.StatisticsSummary> sortedStats =
-                CommunityStatistics.getMostActiveCommunities(HOT_LAST_DAYS);
+                CommunityStatistics.getMostActiveCommunities(DefaultValues.FRONTPAGE_HOT_COMMUNITIES_FOR_LAST_DAYS);
 
         Map<Long, CommunityStatistics.StatisticsSummary> statsMap = new HashMap<>();
         List<Long> ids = new ArrayList<>(sortedStats.size());
@@ -49,7 +48,7 @@ public class FrontPageController extends Controller {
             statsMap.put(sortedStat.commId, sortedStat);
         }
 
-        List<Community> comms = Community.findOpenCommsByIds(ids, MAX_HOT_COMMS);
+        List<Community> comms = Community.findOpenCommsByIds(ids, DefaultValues.FRONTPAGE_HOT_COMMUNITIES_COUNT);
 
         HotCommunityParentVM vms = new HotCommunityParentVM();
         for (Community comm : comms) {

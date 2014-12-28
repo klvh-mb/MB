@@ -226,8 +226,8 @@ public class Application extends Controller {
 	// End Mobile
 	//
 	
-	public static User getSuperAdmin() {
-	    return User.getSuperAdmin();
+	public static User getMBAdmin() {
+	    return User.getMBAdmin();
 	}
 	
 	@Transactional
@@ -326,8 +326,10 @@ public class Application extends Controller {
 
 	        CommunityTargetingEngine.assignSystemCommunitiesToUser(user);
 	        
+	        UserController.sendGreetingMessageToNewUser();
+	        
 	        user.setNewUser(false);
-	        return redirect("/my#/communities-discover");
+	        //return redirect("/my#/communities-discover");
 	    }
 	    return isMobileUser()? ok(views.html.mb.mobile.home.render()) : ok(views.html.mb.site.home.render());
 	}

@@ -1,5 +1,8 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -74,6 +77,18 @@ public class CampaignActionsUser extends domain.Entity {
             return (CampaignActionsUser)q.getSingleResult();
         } catch (NoResultException e) {
             return null;
+        }
+    }
+    
+    @Transactional
+    public static List<CampaignActionsUser> getCampaignActionsUsers(Long campaignId) {
+        Query q = JPA.em().createQuery("Select u from CampaignActionsUser u where campaignId = ?1 and withdraw = ?2");
+        q.setParameter(1, campaignId);
+        q.setParameter(2, false);
+        try {
+            return (List<CampaignActionsUser>)q.getResultList();
+        } catch (NoResultException e) {
+            return new ArrayList<>();
         }
     }
 }

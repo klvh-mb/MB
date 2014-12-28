@@ -42,7 +42,7 @@ public class UpgradeScript_0_1 extends UpgradeScript {
     @Override
     public boolean upgrade() throws Exception {
         logger.underlyingLogger().info("Insert SuperAdmin profile pic...");
-        User superAdmin = Application.getSuperAdmin();
+        User superAdmin = Application.getMBAdmin();
         try {
             superAdmin.setPhotoProfile(new File(Resource.STORAGE_PATH + "/default/logo/logo-mB-1.png"));
         } catch (IOException e) {

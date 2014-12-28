@@ -802,6 +802,13 @@ minibean.service('campaignService',function($resource){
                 get: {method:'get'}
             }
     );
+    this.campaignJoiners = $resource(
+            '/get-campaign-joiners/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
     this.campaignAnnouncedWinners = $resource(
             '/get-campaign-announced-winners/:id',
             {alt:'json',callback:'JSON_CALLBACK'},

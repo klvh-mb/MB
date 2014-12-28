@@ -113,11 +113,12 @@
     margin-left: 0px;
     margin-right: 7px;
 }
-.post-intro .post-dropdown-btn {
+.post-card .post-dropdown-btn {
+    background-color: transparent;
     border-color: transparent;
     padding: 0px 5px;
 }
-.post-intro .post-dropdown-menu {
+.post-card .post-dropdown-menu {
     min-width: 80px;
     position: absolute;
     top: 15px;
@@ -126,11 +127,11 @@
     left: initial;
     font-size: 13px;
 }
-.post-intro .post-dropdown-menu li {
+.post-card .post-dropdown-menu li {
     padding: 0;
     margin: 7px 0;
 }
-.post-intro .post-dropdown-menu li a {
+.post-card .post-dropdown-menu li a {
     padding: 0 12px;
 }
 .post-qna-body-top, .post-sharing-body-top {

@@ -2,9 +2,6 @@
     <div id="frontpage-slider" class="royalSlider rsMinW general-box">
         <div ng-repeat="topic in sliderTopics">
             <div class="rsContent fp-flash-slide" ng-if="topic.sty == 'FLASH'">
-                <a class="transparent-bg" href="{{topic.url}}">
-                    <img src="../assets/app/images/general/gradient_black_30.png">
-                </a>
                 <div class="bContainer">
                     <span ng-bind-html="topic.ds | to_trusted "></span>
                 </div>
@@ -34,9 +31,6 @@
             <div id="promo-slider" class="royalSlider rsMinW general-box">
                 <div ng-repeat="topic in promoTopics">
                     <div class="rsContent fp-flash-slide" ng-if="topic.sty == 'FLASH'">
-                        <a class="transparent-bg" href="{{topic.url}}">
-                            <img src="../assets/app/images/general/gradient_black_30.png">
-                        </a>
                         <div class="bContainer">
                             <span ng-bind-html="topic.ds | to_trusted "></span>
                         </div>
@@ -91,7 +85,7 @@
 <style>
 #frontpage-slider,
 #promo-slider {
-
+    background-color: white;
 }
 #frontpage-slider div,
 #promo-slider div {
@@ -130,7 +124,7 @@
 #promo-slider .bContainer {
 
 }
-#frontpage-slider .rsABlock {
+#frontpage-slider .rsABlock, 
 #promo-slider .rsABlock {
     position: relative;
     display: block;

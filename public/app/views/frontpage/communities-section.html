@@ -9,16 +9,16 @@
             最新話題
         </div>
         <div class="section-details">
-            <ul>
-                <li data-ng-repeat="post in newsFeeds.posts" ng-if="$index < frontpageHotNewsfeedCount">
+            <!--ul>
+                <li data-ng-repeat="post in hotNewsFeeds.posts" ng-if="$index < frontpageHotNewsfeedCount">
                     <div class="hot-post">
                         <div class="hot-post-body">
                             <a data-ng-href="#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><span ng-bind-html="post.ptl | limitTo:25 | to_trusted"></span><span ng-if="post.ptl.length > 25">...</span></a>
                         </div>
                         <div class="hot-post-intro">
-                            <!--span class="post-title-user-name">
+                            <span class="post-title-user-name">
                                 <img src="../assets/app/images/general/icons/i-mom.png" /><a data-ng-href="my#/profile/{{post.oid}}">{{post.p}}</a>
-                            </span-->
+                            </span>
                             <span class="post-intro-divider"></span>
                             <span class="post-qna-answer-count">
                                 <img src="../assets/app/images/general/icons/i-time.png" /><span class="post-date" am-time-ago="post.ut"></span>
@@ -32,7 +32,87 @@
                         </div>
                     </div>
                 </li>                    
-            </ul>
+            </ul-->
+            <div id="hot-topics-slider" class="royalSlider rsMinW">
+                <div class="rsContent fp-topic-slide">
+                    <div class="bContainer">
+                        <div ng-repeat="post in hotNewsFeeds.posts" ng-if="$index < frontpageHotNewsfeedCount">
+                            <div class="hot-post">
+                                <div class="hot-post-body">
+                                    <a data-ng-href="#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><span ng-bind-html="post.ptl | limitTo:25 | to_trusted"></span><span ng-if="post.ptl.length > 25">...</span></a>
+                                </div>
+                                <div class="hot-post-intro">
+                                    <!--span class="post-title-user-name">
+                                        <img src="../assets/app/images/general/icons/i-mom.png" /><a data-ng-href="my#/profile/{{post.oid}}">{{post.p}}</a>
+                                    </span-->
+                                    <span class="post-intro-divider"></span>
+                                    <span class="post-qna-answer-count">
+                                        <a data-ng-href="#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-time.png" /><span class="post-date" am-time-ago="post.ut"></span></a>
+                                    </span>
+                                    <span class="post-intro-divider"></span>
+                                    <span class="post-qna-answer-count">
+                                        <a data-ng-href="#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-reply.png" />{{post.n_c}}</a>
+                                    </span>
+                                    <span class="post-intro-divider"></span>
+                                    <a class="pull-right" data-ng-href="#/community/{{post.cid}}"><img src="{{post.ci}}">{{post.cn}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rsContent fp-topic-slide">
+                    <div class="bContainer">
+                        <div ng-repeat="post in hotNewsFeeds.posts" ng-if="$index >= frontpageHotNewsfeedCount && $index < (frontpageHotNewsfeedCount*2)">
+                            <div class="hot-post">
+                                <div class="hot-post-body">
+                                    <a data-ng-href="#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><span ng-bind-html="post.ptl | limitTo:25 | to_trusted"></span><span ng-if="post.ptl.length > 25">...</span></a>
+                                </div>
+                                <div class="hot-post-intro">
+                                    <!--span class="post-title-user-name">
+                                        <img src="../assets/app/images/general/icons/i-mom.png" /><a data-ng-href="my#/profile/{{post.oid}}">{{post.p}}</a>
+                                    </span-->
+                                    <span class="post-intro-divider"></span>
+                                    <span class="post-qna-answer-count">
+                                        <a data-ng-href="#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-time.png" /><span class="post-date" am-time-ago="post.ut"></span></a>
+                                    </span>
+                                    <span class="post-intro-divider"></span>
+                                    <span class="post-qna-answer-count">
+                                        <a data-ng-href="#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-reply.png" />{{post.n_c}}</a>
+                                    </span>
+                                    <span class="post-intro-divider"></span>
+                                    <a class="pull-right" data-ng-href="#/community/{{post.cid}}"><img src="{{post.ci}}">{{post.cn}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rsContent fp-topic-slide">
+                    <div class="bContainer">
+                        <div ng-repeat="post in hotNewsFeeds.posts" ng-if="$index >= (frontpageHotNewsfeedCount*2)">
+                            <div class="hot-post">
+                                <div class="hot-post-body">
+                                    <a data-ng-href="#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><span ng-bind-html="post.ptl | limitTo:25 | to_trusted"></span><span ng-if="post.ptl.length > 25">...</span></a>
+                                </div>
+                                <div class="hot-post-intro">
+                                    <!--span class="post-title-user-name">
+                                        <img src="../assets/app/images/general/icons/i-mom.png" /><a data-ng-href="my#/profile/{{post.oid}}">{{post.p}}</a>
+                                    </span-->
+                                    <span class="post-intro-divider"></span>
+                                    <span class="post-qna-answer-count">
+                                        <a data-ng-href="#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-time.png" /><span class="post-date" am-time-ago="post.ut"></span></a>
+                                    </span>
+                                    <span class="post-intro-divider"></span>
+                                    <span class="post-qna-answer-count">
+                                        <a data-ng-href="#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-reply.png" />{{post.n_c}}</a>
+                                    </span>
+                                    <span class="post-intro-divider"></span>
+                                    <a class="pull-right" data-ng-href="#/community/{{post.cid}}"><img src="{{post.ci}}">{{post.cn}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -61,4 +141,75 @@
             </ul>
         </div>
     </div>
+    
+    <div ng-show="userInfo.isMobile">
+        <div ng-show="userInfo.isLoggedIn">
+            <a href="my#" class="btn-communities-flat" style="margin-bottom:5px;">我的社群動向</a>
+        </div>    
+        <div>
+            <a href="#/communities-discover" class="btn-communities-flat">所有媽媽社群</a>
+        </div>
+    </div>
 </div>
+
+
+<style>
+#hot-topics-slider {
+    width: 100%;
+    height: 255px;
+    background-color: white;
+}
+#hot-topics-slider div {
+    border-radius: 10px;
+    background-color: transparent;
+}
+#hot-topics-slider .rsOverflow:hover {
+    cursor: default !important;
+}
+#hot-topics-slider .rsContent {
+    width: 100%;
+    height: 100%;
+}
+#hot-topics-slider .bContainer {
+
+}
+#hot-topics-slider .fp-topic-slide .bContainer {
+    position: absolute;
+    left: 0px;
+    top: 5px;
+    width: 100%;
+    height: auto;
+    color: #565656;
+    z-index: 25;
+    padding: 0;
+}
+.fp-topic-slide .bContainer a, .fp-topic-slide .bContainer a:hover {
+    font-size: 13px;
+}
+.fp-topic-slide .bContainer .post-qna-answer-count a, 
+.fp-topic-slide .bContainer .post-qna-answer-count a:hover {
+    color: #565656;
+    font-size: 12px;
+    text-decoration: none;
+}
+#hot-topics-slider .rsBullets {
+    width: 100%;
+    position: initial;
+    z-index: 35;
+    height: auto;
+    text-align: center;
+    overflow: hidden;
+    margin-top: -15px;
+    margin-bottom: 5px;
+}
+#hot-topics-slider .rsBullet {
+    width: 10px;
+    height: 14px;
+}
+#hot-topics-slider .rsBullet span {
+    box-shadow: 0 0 1px 1px rgba(250, 3, 3, 0.5);
+}
+#hot-topics-slider .rsBullet.rsNavSelected span {
+    background: #FDB2B2;
+}
+</style>
