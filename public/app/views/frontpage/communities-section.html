@@ -116,6 +116,12 @@
         </div>
     </div>
     
+    <div ng-show="userInfo.isMobile">
+        <div ng-show="userInfo.isLoggedIn">
+            <a href="my#" class="btn-communities-flat" style="margin-bottom:5px;">我的社群動向</a>
+        </div>    
+    </div>
+    
     <div id="hot-communities">
         <div class="section-title">
             熱門社群
@@ -143,9 +149,6 @@
     </div>
     
     <div ng-show="userInfo.isMobile">
-        <div ng-show="userInfo.isLoggedIn">
-            <a href="my#" class="btn-communities-flat" style="margin-bottom:5px;">我的社群動向</a>
-        </div>    
         <div>
             <a href="#/communities-discover" class="btn-communities-flat">所有媽媽社群</a>
         </div>
