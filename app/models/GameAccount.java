@@ -209,7 +209,7 @@ public class GameAccount extends domain.Entity {
      */
     public void sendInvitation(String email) {
 		EDMUtility edmUtility = new EDMUtility();
-		edmUtility.sendMailToUser(email, this.promoCode);
+		edmUtility.sendMailInvitationToUser(email, this.promoCode);
 
         logger.underlyingLogger().info("[u="+user_id+"] Promocode="+promoCode+". Sent signup invitation to: "+email);
     }

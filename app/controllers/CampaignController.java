@@ -11,6 +11,7 @@ import campaign.validator.ValidationResult;
 import com.mnt.exception.SocialObjectNotLikableException;
 
 import common.utils.ImageUploadUtil;
+import email.EDMUtility;
 import models.Campaign;
 import models.Campaign.CampaignType;
 import models.CampaignActionsUser;
@@ -204,6 +205,9 @@ public class CampaignController extends Controller {
                         campaignUser.save();
                     }
                     logger.underlyingLogger().info(String.format("[u=%d][c=%d] Successfully joined campaign", localUser.id, campaignId));
+
+                    String notifText = "New joiner (u="+localUser.id+") to campaign (c="+campaignId+")";
+                    EDMUtility.getInstance().sendMailToMB(notifText, notifText);
                 }
                 break;
             }
