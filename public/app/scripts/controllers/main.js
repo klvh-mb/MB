@@ -242,7 +242,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
             var frontpageSlider = $('#frontpage-slider').royalSlider(opts);
         }
     }
-    $interval($scope.renderFrontpageSlider, 1500, 1);
+    $interval($scope.renderFrontpageSlider, 2000, 1);
     
     // Frontpage promo slider
     $scope.renderPromoSlider = function() {
@@ -2836,9 +2836,9 @@ minibean.controller('ArticleSliderController', function($scope, $routeParams, $i
   
 });
 
-minibean.controller('CampaignPageJoinersController',function($scope, $route, $location, $http, $routeParams, campaignService){
+minibean.controller('AdminCampaignJoinersController',function($scope, $route, $location, $http, $routeParams, adminService){
 
-    $scope.joiners = campaignService.campaignJoiners.get({id:$routeParams.id});
+    $scope.joiners = adminService.campaignJoiners.get({id:$routeParams.id});
 });
 
 minibean.controller('CampaignPageController',function($scope, $route, $location, $http, $routeParams, likeFrameworkService, campaignService, usSpinnerService){

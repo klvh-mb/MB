@@ -2,6 +2,16 @@
 
 var minibean = angular.module('minibean');
 
+minibean.service('adminService',function($resource){
+    this.campaignJoiners = $resource(
+            '/admin/get-campaign-joiners/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+});
+
 minibean.service('frontpageService',function($resource){
     this.hotNewsFeeds = $resource(
             '/get-hotnewsfeeds/:offset',
@@ -800,13 +810,6 @@ minibean.service('campaignService',function($resource){
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get'}
-            }
-    );
-    this.campaignJoiners = $resource(
-            '/get-campaign-joiners/:id',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get',isArray:true}
             }
     );
     this.campaignAnnouncedWinners = $resource(
