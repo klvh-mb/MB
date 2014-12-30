@@ -64,6 +64,12 @@ POST    /saveSignupInfoFb           controllers.Application.saveSignupInfoFb
 GET     /get-application-info       controllers.Application.getApplicationInfo
 GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
 
+GET     /get-pkview-info/:id        controllers.PKViewController.infoPKView(id :Long)
+GET     /like-pkview/:id            controllers.PKViewController.onLike(id : Long)
+GET     /unlike-pkview/:id          controllers.PKViewController.onUnlike(id : Long)
+GET     /bookmark-pkview/:id        controllers.PKViewController.onBookmark(id : Long)
+GET     /unbookmark-pkview/:id      controllers.PKViewController.onUnBookmark(id : Long)
+
 GET     /get-campaign-info/:id      controllers.CampaignController.infoCampaign(id :Long)
 GET     /get-campaign-announced-winners/:id      controllers.CampaignController.getCampaignAnnouncedWinners(id :Long)
 GET     /like-campaign/:id          controllers.CampaignController.onLike(id : Long)
@@ -84,8 +90,8 @@ GET     /get-hot-Articles/:category_id          controllers.ArticleController.ge
 GET     /get-recommended-Articles/:category_id  controllers.ArticleController.getRecommendedArticles(category_id: Long)
 
 GET     /get-bookmarked-articles/:offset            controllers.ArticleController.getBookmarkedArticles(offset:Integer)
-GET     /bookmark-article/:article_id               controllers.ArticleController.onBookamrk(article_id : Long)
-GET     /unbookmark-article/:article_id             controllers.ArticleController.onUnBookmark(article_id : Long)
+GET     /bookmark-article/:id       controllers.ArticleController.onBookmark(id : Long)
+GET     /unbookmark-article/:id     controllers.ArticleController.onUnBookmark(id : Long)
 
 GET     /get-hot-articles-tagwords  controllers.TagWordController.getHotArticlesTagWords
 GET     /get-soon-moms-tagwords     controllers.TagWordController.getSoonToBeMomTagWords

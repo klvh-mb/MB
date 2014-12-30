@@ -30,6 +30,7 @@ public class ProfileVM {
     @JsonProperty("isdV") boolean isDetailVisibleToAll = true;
 
     // admin readonly fields
+    @JsonProperty("n")  public String name;
     @JsonProperty("mb")  public boolean mobileSignup;
     @JsonProperty("fb")  public boolean fbLogin;
     @JsonProperty("vl")  public boolean emailValidated;
@@ -91,6 +92,7 @@ public class ProfileVM {
 
         // admin readonly fields
         if (localUser.isSuperAdmin()) {
+            vm.name = user.firstName + " " + user.lastName;
             vm.mobileSignup = user.mobileSignup;
             vm.fbLogin = user.fbLogin;
             vm.emailValidated = user.emailValidated;

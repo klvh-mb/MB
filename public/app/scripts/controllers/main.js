@@ -2,6 +2,10 @@
 
 var minibean = angular.module('minibean');
 
+minibean.controller('AdminCampaignJoinersController',function($scope, $route, $location, $http, $routeParams, adminService){
+    $scope.joiners = adminService.campaignJoiners.get({id:$routeParams.id});
+});
+
 minibean.controller('BusinessCommunityPageController', function($scope, $routeParams, profilePhotoModal,
         communityPageService, communityJoinService, searchMembersService, usSpinnerService){
     
@@ -402,6 +406,26 @@ minibean.controller('ApplicationController',
     $scope.getFbLoginUrl = function() {
         var url = encodeURIComponent(window.location.href);
         return "/authenticatePopup/facebook?rurl="+url;     // http%3A%2F%2Fminibean.com.hk%2Fmy%23%2F
+    }
+    
+    $scope.popupLoginModal = function() {
+        var rurl = $scope.getFbLoginUrl();
+        bootbox.dialog({
+            message: 
+                "<div style='margin:0 20px;'>" + 
+                "<div style='height:25px;margin-top:10px;font-size:15px;'>你並未登入。請先登入再參加活動</div>" +
+                "<div style='height:25px;margin-left:20px;font-size:15px;'>" + 
+                "<a onclick='window.location=\"\/login\"'><b>會員登入</b></a> 或以 Facebook" +
+                "<a onclick='window.location=\""+rurl+"\"'><img style='height:22px;margin-left:5px;' src='../assets/app/images/login/facebook_login_s.jpg' /></a>" +
+                "</div>" +
+                "<div style='height:25px;margin-top:20px;font-size:15px;'>如未有帳戶，請登記再重試~</div>" +
+                "<div style='height:25px;margin-left:20px;font-size:15px;'>" +
+                "<a onclick='window.location=\"\/signup\"'><b>立即註冊!</b></a>" +
+                "</div>" + 
+                "</div>",
+            title: "參加活動",
+            className: "popup-login-modal",
+        });
     }
     
     // For fix sidebar
@@ -2833,12 +2857,17 @@ minibean.controller('ArticleSliderController', function($scope, $routeParams, $i
         }
         //log(left+":"+index);
     }
-  
 });
 
-minibean.controller('AdminCampaignJoinersController',function($scope, $route, $location, $http, $routeParams, adminService){
-
-    $scope.joiners = adminService.campaignJoiners.get({id:$routeParams.id});
+minibean.controller('PKViewPageController',function($scope, $route, $location, $http, $routeParams, pkViewService, likeFrameworkService, bookmarkService, usSpinnerService){
+    
+    $scope.campaign = pkViewService.pkViewInfo.get({id:$routeParams.id}, 
+        function(data) {
+            if(data[0] == 'NO_RESULT'){
+                $location.path('/pkview/show');
+            }
+        });
+    
 });
 
 minibean.controller('CampaignPageController',function($scope, $route, $location, $http, $routeParams, likeFrameworkService, campaignService, usSpinnerService){
@@ -2871,26 +2900,6 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
                 "<div style='margin:0 20px;'>" + 
                 "<div style='height:25px;margin-top:10px;font-size:15px;'>此活動尚未開始</div>" +
                 "<div style='height:25px;margin-top:0px;font-size:15px;'>請於活動開始時間再參加</div>" +
-                "</div>",
-            title: "參加活動",
-            className: "campaign-login-modal",
-        });
-    }
-    
-    $scope.popupLoginModal = function() {
-        var rurl = $scope.getFbLoginUrl();
-        bootbox.dialog({
-            message: 
-                "<div style='margin:0 20px;'>" + 
-                "<div style='height:25px;margin-top:10px;font-size:15px;'>你並未登入。請先登入再參加活動</div>" +
-                "<div style='height:25px;margin-left:20px;font-size:15px;'>" + 
-                "<a onclick='window.location=\"\/login\"'><b>會員登入</b></a> 或以 Facebook" +
-                "<a onclick='window.location=\""+rurl+"\"'><img style='height:22px;margin-left:5px;' src='../assets/app/images/login/facebook_login_s.jpg' /></a>" +
-                "</div>" +
-                "<div style='height:25px;margin-top:20px;font-size:15px;'>如未有帳戶，請登記再重試~</div>" +
-                "<div style='height:25px;margin-left:20px;font-size:15px;'>" +
-                "<a onclick='window.location=\"\/signup\"'><b>立即註冊!</b></a>" +
-                "</div>" + 
                 "</div>",
             title: "參加活動",
             className: "campaign-login-modal",

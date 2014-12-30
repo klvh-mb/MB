@@ -1471,6 +1471,10 @@ public class User extends SocialObject implements Subject, Socializable {
         return getBookmarkCount(SocialObjectType.ARTICLE);
     }
     
+    public long getPKViewBookmarkCount() {
+        return getBookmarkCount(SocialObjectType.PK_VIEW);
+    }
+    
     private long getBookmarkCount(SocialObjectType socialObjectType) {
         Query query = JPA.em().createQuery(
                 "select count(sr.target) from SecondarySocialRelation sr where sr.action = ?1 and sr.actor = ?2 and sr.targetType = ?3)");
@@ -1513,6 +1517,23 @@ public class User extends SocialObject implements Subject, Socializable {
             logger.underlyingLogger().debug("[u="+id+"] getBookmarkedArticles(offset="+offset+", limit="+limit+") - ret="+query.getResultList().size());
         }
         return (List<Article>)query.getResultList();
+    }
+    
+    public List<PKView> getBookmarkedPKViews(int offset, int limit) {
+        Query query = JPA.em().createQuery(
+                "Select p from PKView p where p.id in " + 
+                "(select sr.target from  SecondarySocialRelation sr " + 
+                "where sr.action = ?1 and sr.actor = ?2 and sr.targetType = ?3) and p.deleted = false order by p.socialUpdatedDate,p.id desc");  
+        query.setParameter(1, SecondarySocialRelation.Action.BOOKMARKED);
+        query.setParameter(2, this.id);
+        query.setParameter(3, SocialObjectType.PK_VIEW);
+        query.setFirstResult(offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        query.setMaxResults(limit);
+
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+id+"] getBookmarkedPKViews(offset="+offset+", limit="+limit+") - ret="+query.getResultList().size());
+        }
+        return (List<PKView>)query.getResultList();
     }
     
     public List<Post> getFeedPosts(boolean isSocialFeed, int offset, int limit) {

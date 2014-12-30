@@ -21,5 +21,6 @@ public enum SocialObjectType {
      COMMENT,
      ANSWER,
      TAGWORD,
-     CAMPAIGN
+     CAMPAIGN,
+     PK_VIEW
 }

@@ -1,11 +1,11 @@
-<div class="themeA-container">
+<div class="themeA-container" ng-show="userInfo.isSA">
     <div class="row">
-        <div ng-show="userInfo.isSA">
+        <div>
             Joiners: {{joiners.length}}
             <table style="width:100%;">
                 <tr ng-repeat="joiner in joiners">
                     <td>
-                        <div><span style="width:40%;display:inline-block;">{{$index+1}}) {{joiner.displayName}} - {{joiner.userId}}</span><span>{{joiner.joinedDate | date:'yyyy年M月d日 h:mm a'}}</span></div>
+                        <div><span style="width:40%;display:inline-block;">{{$index+1}}) {{joiner.displayName}} - <a href="my#/profile/{{joiner.userId}}">{{joiner.userId}}</a></span><span>{{joiner.joinedDate | date:'yyyy年M月d日 h:mm a'}}</span></div>
                         <div><span style="margin:0 15px 0 30px;">{{joiner.name}}</span>|<span style="margin:0 15px;">{{joiner.email}}</span></div>
                     </td>
                 </tr>

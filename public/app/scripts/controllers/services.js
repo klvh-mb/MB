@@ -803,6 +803,16 @@ minibean.service('tagwordService',function($resource){
             }
     );
 });
+
+minibean.service('pkViewService',function($resource){
+    this.pkViewInfo = $resource(
+            '/get-pkview-info/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
+});
     
 minibean.service('campaignService',function($resource){
     this.campaignInfo = $resource(

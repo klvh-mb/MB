@@ -304,7 +304,7 @@ public class ArticleController extends Controller {
 	}
 	
 	@Transactional
-	public static Result onBookamrk(Long articleId) {
+	public static Result onBookmark(Long articleId) {
 		User localUser = Application.getLocalUser(session());
 		if (!localUser.isLoggedIn()) {
             logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));

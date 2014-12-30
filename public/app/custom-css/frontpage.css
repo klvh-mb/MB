@@ -1,3 +1,11 @@
+.popup-login-modal {
+    top: 150px;
+}
+.popup-login-modal .modal-dialog {
+    width: 350px;
+    transition: none !important;
+    transform: none !important;
+}
 /* index icon */
 .index-icon-box {
     border-radius: 25px;
