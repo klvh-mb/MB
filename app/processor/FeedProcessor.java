@@ -274,6 +274,7 @@ public class FeedProcessor {
                                             if (commTypeInt != null && Community.CommunityType.BUSINESS.ordinal() == commTypeInt) {
                                                 queryStr = "SELECT p from Post p where p.community.id=?1 and p.deleted=0 order by p.socialUpdatedDate desc";
                                             } else {
+                                                // Questions only
                                                 int quesType = PostType.QUESTION.ordinal();
                                                 queryStr = "SELECT p from Post p where p.community.id=?1 and p.deleted=0 and p.postType="+quesType+" order by p.socialUpdatedDate desc";
                                             }
