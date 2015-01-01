@@ -5,7 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import models.Community;
-import models.PKView;
+import models.Post;
+import models.PKViewMeta;
 import models.User;
 
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -14,6 +15,9 @@ import com.mnt.exception.SocialObjectNotLikableException;
 
 import domain.DefaultValues;
 
+/**
+ *
+ */
 public class PKViewVM {
 	@JsonProperty("id") public long id;
 	@JsonProperty("cd") public Date createdDate;
@@ -39,78 +43,48 @@ public class PKViewVM {
     @JsonProperty("ci") public String communityIcon;
     @JsonProperty("cid") public Long communityId;
     
-	public PKViewVM(PKView pkView) {
-	    this(pkView, false);
+	public PKViewVM(PKViewMeta pkViewMeta, Post post) {
+	    this(pkViewMeta, post, false);
 	}
 	
-	public PKViewVM(PKView pkView, boolean preview) {
-	    // TODO
-	    if (pkView == null) {
-	        this.id = 1;
-	        this.name = "PK View Topic";
-	        this.description = "PK View Description";
-	        this.createdDate = new Date();
-	        this.noOfLikes = 1;
-	        this.noOfViews = 1;
-	        
-	        this.redDescription = "Red Description";
-	        this.noOfRedVotes = 30;
-	        this.noOfRedComments = 20;
-	        this.redComments = new ArrayList<>();
-	        this.blueDescription = "Blue Description";
-	        this.noOfBlueVotes = 100;
-	        this.noOfBlueComments = 35;
-	        this.blueComments = new ArrayList<>();
-	        
-	        Community community = Community.findById(37L);
-	        this.communityType = community.communityType.name();
-	        this.communityName = community.name;
-	        this.communityIcon = community.icon;
-	        this.communityId = community.id;
-	        return;
-	    }
-	    
-	    this.id = pkView.id;
-	    this.name = pkView.name;
-	    this.image = pkView.image;
-	    if (preview && pkView.description.length() > DefaultValues.DEFAULT_PREVIEW_CHARS) {
-	        this.description = pkView.description.substring(0, DefaultValues.DEFAULT_PREVIEW_CHARS);
+	public PKViewVM(PKViewMeta pkViewMeta, Post post, boolean preview) {
+	    this.id = pkViewMeta.id;
+	    this.createdDate = post.getCreatedDate();
+        this.name = post.title;
+	    if (preview && post.getBody().length() > DefaultValues.DEFAULT_PREVIEW_CHARS) {
+	        this.description = post.getBody().substring(0, DefaultValues.DEFAULT_PREVIEW_CHARS);
 	    } else {
-	        this.description = pkView.description;
+	        this.description = post.getBody();
 	    }
-		this.createdDate = pkView.getCreatedDate();
-		
-		this.noOfLikes = pkView.noOfLikes;
-		this.noOfViews = pkView.noOfViews;
-		
-		// TODO
-		this.redDescription = "Red Description";
-		this.noOfRedVotes = 30;
-		this.noOfRedComments = 20;
-		this.redComments = new ArrayList<>();
-		this.blueDescription = "Blue Description";
-		this.noOfBlueVotes = 100;
-		this.noOfBlueComments = 35;
-		this.blueComments = new ArrayList<>();
-		
-		this.communityType = pkView.community.communityType.name();
-		this.communityName = pkView.community.name;
-		this.communityIcon = pkView.community.icon;
-		this.communityId = pkView.community.id;
+		this.image = pkViewMeta.getImage();
+
+		this.redDescription = pkViewMeta.getYesText();
+		this.noOfRedVotes = pkViewMeta.getYesVoteCount();
+		this.noOfRedComments = pkViewMeta.getYesCommentCount();
+		this.redComments = new ArrayList<>();       // TODO
+		this.blueDescription = pkViewMeta.getNoText();
+		this.noOfBlueVotes = pkViewMeta.getNoVoteCount();
+		this.noOfBlueComments = pkViewMeta.getNoCommentCount();
+		this.blueComments = new ArrayList<>();      // TODO
+
+        this.noOfLikes = post.noOfLikes;
+		this.noOfViews = post.noOfViews;
+
+        Community postComm = post.getCommunity();
+		this.communityType = postComm.communityType.name();
+		this.communityName = postComm.name;
+		this.communityIcon = postComm.icon;
+		this.communityId = postComm.id;
 	}
 
-    public PKViewVM(PKView pkView, User user) {
-        this(pkView);
-        
+    public PKViewVM(PKViewMeta pkViewMeta, Post post, User user) {
+        this(pkViewMeta, post);
+
         try {
-            this.isLike = pkView.isLikedBy(user);
-            this.isBookmarked = pkView.isBookmarkedBy(user);
+            this.isLike = post.isLikedBy(user);
+            this.isBookmarked = post.isBookmarkedBy(user);
         } catch (SocialObjectNotLikableException e) {
-            ;
-        }
-        
-        if (user.isLoggedIn() && user.isEditor()) {
-            
+            this.isLike = false;
         }
     }
 }

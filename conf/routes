@@ -64,12 +64,12 @@ POST    /saveSignupInfoFb           controllers.Application.saveSignupInfoFb
 GET     /get-application-info       controllers.Application.getApplicationInfo
 GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
 
+# PKView
 GET     /get-pkview-info/:id        controllers.PKViewController.infoPKView(id :Long)
-GET     /like-pkview/:id            controllers.PKViewController.onLike(id : Long)
-GET     /unlike-pkview/:id          controllers.PKViewController.onUnlike(id : Long)
-GET     /bookmark-pkview/:id        controllers.PKViewController.onBookmark(id : Long)
-GET     /unbookmark-pkview/:id      controllers.PKViewController.onUnBookmark(id : Long)
+GET     /get-allPkViews             controllers.PKViewController.getAllPKViews
+GET     /get-commPkViews/:id        controllers.PKViewController.getPKViewsByCommunity(id :Long)
 
+# Campaign
 GET     /get-campaign-info/:id      controllers.CampaignController.infoCampaign(id :Long)
 GET     /get-campaign-announced-winners/:id      controllers.CampaignController.getCampaignAnnouncedWinners(id :Long)
 GET     /like-campaign/:id          controllers.CampaignController.onLike(id : Long)

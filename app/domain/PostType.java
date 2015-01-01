@@ -2,5 +2,6 @@ package domain;
 
 public enum PostType {
 	QUESTION,
-	SIMPLE
+	SIMPLE,
+    PK_VIEW
 }

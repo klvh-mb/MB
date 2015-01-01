@@ -151,22 +151,32 @@ public class Post extends SocialObject implements Likeable, Commentable {
 
         // push to / remove from community
         if (!this.deleted) {
-            FeedProcessor.pushToCommunity(this);
-            
-            if (this.postType == PostType.SIMPLE) {
-                recordPost(owner);
-                owner.postsCount++;
-            } else if (this.postType == PostType.QUESTION) {
-                recordQnA(owner);
-                owner.questionsCount++;
+            switch(this.postType) {
+                case SIMPLE: {
+                    FeedProcessor.pushToCommunity(this);
+                    recordPost(owner);
+                    owner.postsCount++;
+                    break;
+                }
+                case QUESTION: {
+                    FeedProcessor.pushToCommunity(this);
+                    recordQnA(owner);
+                    owner.questionsCount++;
+                    break;
+                }
             }
         } else {
-            FeedProcessor.removeFromCommunity(this);
-            
-            if (this.postType == PostType.SIMPLE) {
-                owner.postsCount--;
-            } else if (this.postType == PostType.QUESTION) {
-                owner.questionsCount--;
+            switch(this.postType) {
+                case SIMPLE: {
+                    FeedProcessor.removeFromCommunity(this);
+                    owner.postsCount--;
+                    break;
+                }
+                case QUESTION: {
+                    FeedProcessor.removeFromCommunity(this);
+                    owner.questionsCount--;
+                    break;
+                }
             }
         }
     }
@@ -181,17 +191,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
         save();
         GameAccountStatistics.recordDeletePost(deletedBy.id);
     }
-    
-    public static Post findById(Long id) {
-        try {
-            Query q = JPA.em().createQuery("SELECT p FROM Post p where id = ?1 and deleted = false");
-            q.setParameter(1, id);
-            return (Post) q.getSingleResult();
-        } catch (NoResultException nre) {
-            return null;
-        }
-    }
-    
+
     @Override
     public SocialObject onComment(User user, String body, CommentType type)
             throws SocialObjectNotCommentableException {
@@ -358,51 +358,39 @@ public class Post extends SocialObject implements Likeable, Commentable {
         }
     }
 
-    public String getBody() {
-        return body;
+    ///////////////////// Query APIs /////////////////////
+    public static Post findById(Long id) {
+        try {
+            Query q = JPA.em().createQuery("SELECT p FROM Post p where id = ?1 and deleted = false");
+            q.setParameter(1, id);
+            return (Post) q.getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    ///////////////////// Getters /////////////////////
+    public String getBody() {
+        return body;
     }
 
     public Community getCommunity() {
         return community;
     }
 
-    public void setCommunity(Community community) {
-        this.community = community;
-    }
-
     public Set<Comment> getComments() {
         return comments;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
     }
 
     public PostType getPostType() {
         return postType;
     }
 
-    public void setPostType(PostType postType) {
-        this.postType = postType;
-    }
-
     public Folder getFolder() {
         return folder;
     }
 
-    public void setFolder(Folder folder) {
-        this.folder = folder;
-    }
-
     public Date getSocialUpdatedDate() {
         return socialUpdatedDate;
-    }
-
-    public void setSocialUpdatedDate(Date socialUpdatedDate) {
-        this.socialUpdatedDate = socialUpdatedDate;
     }
 }

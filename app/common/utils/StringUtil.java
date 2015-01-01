@@ -1,5 +1,7 @@
 package common.utils;
 
+import domain.DefaultValues;
+
 import java.io.*;
 import java.util.Collection;
 import java.util.zip.GZIPInputStream;
@@ -55,6 +57,32 @@ public class StringUtil {
             return text;
         }
         return text.substring(0, numChars)+"...";
+    }
+
+
+    /**
+     * @param text
+     * @return
+     */
+    public static int computePostShortBodyCount(String text) {
+        int shortBodyCount;
+        if (text.length() >= DefaultValues.POST_PREVIEW_CHARS){
+	        String shortDesc = text.substring(DefaultValues.POST_PREVIEW_CHARS);
+
+	        if (shortDesc.lastIndexOf("<img") == -1){
+	        	shortBodyCount = DefaultValues.POST_PREVIEW_CHARS;
+	        } else {
+	        	if(shortDesc.lastIndexOf("<img") < shortDesc.lastIndexOf("/>")){
+	        		shortBodyCount = DefaultValues.POST_PREVIEW_CHARS;
+		        } else {
+		        	shortDesc.substring(shortDesc.lastIndexOf("<img")-1);
+		        	shortBodyCount = shortDesc.length();     // dont include emoticon if chopped off
+		        }
+	        }
+        } else {
+        	shortBodyCount = 0;
+        }
+        return shortBodyCount;
     }
 
     public static String compress(String in) {

@@ -11,6 +11,7 @@ import java.util.*;
 
 import common.cache.CommunityCategoryCache;
 
+import common.utils.StringUtil;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.joda.time.DateTime;
 
@@ -793,23 +794,7 @@ public class CommunityController extends Controller{
         Long communityId = Long.parseLong(form.get("community_id"));
         String questionTitle = Emoticon.replace(form.get("questionTitle"));
         String questionText = Emoticon.replace(form.get("questionText"));
-        int shortBodyCount;
-        if(questionText.length() >= DefaultValues.POST_PREVIEW_CHARS){
-	        String shortdesc = questionText.substring(DefaultValues.POST_PREVIEW_CHARS);
-	        
-	        if (shortdesc.lastIndexOf("<img") == -1){
-	        	shortBodyCount = DefaultValues.POST_PREVIEW_CHARS;
-	        } else {
-	        	if(shortdesc.lastIndexOf("<img") < shortdesc.lastIndexOf("/>")){
-	        		shortBodyCount = DefaultValues.POST_PREVIEW_CHARS;
-		        } else {
-		        	shortdesc.substring(shortdesc.lastIndexOf("<img")-1);
-		        	shortBodyCount = shortdesc.length();     // dont include emoticon if chopped off
-		        }
-	        }
-        } else {
-        	shortBodyCount = 0;
-        }
+        int shortBodyCount = StringUtil.computePostShortBodyCount(questionText);
 
         Community c = Community.findById(communityId);
         if (CommunityPermission.canPostOnCommunity(localUser, c)) {
@@ -830,14 +815,13 @@ public class CommunityController extends Controller{
             Map<String,String> map = new HashMap<>();
             map.put("id", p.id.toString());
            
-            if(p.shortBodyCount>0){
+            if (p.shortBodyCount>0){
             	map.put("text", p.body.substring(0,p.shortBodyCount));
             	map.put("showM", "true");
-            }else{
+            } else{
             	map.put("text", p.body);
             	map.put("showM", "false");
             }
-            
 
             return ok(Json.toJson(map));
         }
