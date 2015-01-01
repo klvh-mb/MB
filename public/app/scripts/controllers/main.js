@@ -1230,13 +1230,7 @@ minibean.controller('CommunityPNController',function($scope, $routeParams, $http
         }
         $scope.setPNPage(1);
 	}
-	
-    $scope.requestUpdate = function(id, name, districtId) {
-        pnService.RequestUpdate.get({"name":name,"districtId":districtId});
-        $('#request_'+id).hide();
-        $('#thx_'+id).show();
-    }
-    
+
 });
 
 minibean.controller('RecommendedCommunityWidgetController',function($scope, usSpinnerService, sendJoinRequest, unJoinedCommunityWidgetService, userInfoService, $http){

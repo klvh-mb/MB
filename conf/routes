@@ -263,7 +263,6 @@ GET     /get-game-topics                       controllers.FrontPageController.g
 # PreNursery
 GET     /get-pn-communities                     controllers.PreNurseryController.getPNCommunities()
 GET     /getPNs/:id                             controllers.PreNurseryController.getPNs(id:Long)
-GET     /pn-request-update/:name/:districtId    controllers.PreNurseryController.requestUpdate(name:String,districtId:Long)
 
 # Edm settings
 POST    /save-edm-settings                      controllers.UserSettingsController.saveEdmSettings

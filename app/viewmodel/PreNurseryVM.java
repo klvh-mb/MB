@@ -1,7 +1,6 @@
 package viewmodel;
 
 import common.utils.StringUtil;
-import models.PNRequestUpdate;
 import models.PreNursery;
 
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -30,7 +29,6 @@ public class PreNurseryVM {
     @JsonProperty("eds")  public String applicationEndDateStr;
     @JsonProperty("fom")  public String formUrl;
     @JsonProperty("map")  public String mapUrl;
-    @JsonProperty("ruc")  public Long requestUpdateCount = 0L;
 
     public PreNurseryVM(PreNursery pn, boolean isMyDistrict, String districtName) {
         this.id = pn.id;
@@ -49,10 +47,6 @@ public class PreNurseryVM {
         this.formUrl = pn.formUrl;
         if (pn.mapUrlSuffix != null) {
             this.mapUrl = MAPURL_PREFIX + pn.mapUrlSuffix;
-        }
-        PNRequestUpdate requestUpdate = PNRequestUpdate.getPNRequestUpdate(pn.name, pn.districtId);
-        if (requestUpdate != null) {
-            this.requestUpdateCount = requestUpdate.count;
         }
     }
 }
