@@ -680,6 +680,10 @@ span.notif-count {
 }
 
 /* Campaign */
+.campaign-winners-wrapper .campaign-winners-announcement li {
+    width: 100%;
+    display: inline-block;
+}
 .campaign-detail-wrapper {
     padding: 10px 15px 20px 15px;
 }
