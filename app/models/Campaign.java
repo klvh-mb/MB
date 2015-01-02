@@ -98,6 +98,13 @@ public class Campaign extends SocialObject implements Commentable, Likeable {
 	    if (campaign == null) {
 	        campaign = getActiveCampaignByState(CampaignState.PUBLISHED);
 	    }
+	    // could be ended campaign
+	    if (campaign == null) {
+            campaign = getActiveCampaignByState(CampaignState.ENDED);
+        }
+	    if (campaign == null) {
+            campaign = getActiveCampaignByState(CampaignState.ANNOUNCED);
+        }
 	    return campaign;
     }
 	

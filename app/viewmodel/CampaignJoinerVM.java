@@ -13,6 +13,7 @@ public class CampaignJoinerVM {
 	@JsonProperty("name") public String name;
 	@JsonProperty("email") public String email;
 	@JsonProperty("joinedDate") public Date joinedDate;
+	@JsonProperty("fbLink") public String fbLink;
 	
 	public CampaignJoinerVM(Long userId, Long campaignId, Date joinedDate) {
         this.userId = userId;
@@ -22,5 +23,8 @@ public class CampaignJoinerVM {
         this.displayName = user.displayName;
         this.name = user.firstName + " " + user.lastName;
         this.email = user.email;
+        if (user.fbUserInfo != null) {
+            this.fbLink = user.fbUserInfo.link;
+        }
     }
 }

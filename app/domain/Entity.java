@@ -8,7 +8,6 @@ import javax.persistence.MappedSuperclass;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import controllers.Application;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
