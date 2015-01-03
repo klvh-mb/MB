@@ -237,29 +237,29 @@ public class ArticleController extends Controller {
      * Note: No comment support on Articles right now
      * @return
      */
-	@Transactional
-	public static Result commentOnArticle() {
-		final User localUser = Application.getLocalUser(session());
-		if (!localUser.isLoggedIn()) {
-            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
-            return status(500);
-        }
-		
-		DynamicForm form = form().bindFromRequest();
-		
-		Long postId = Long.parseLong(form.get("articleId"));
-		String commentText = form.get("commentText");
-		
-		Article p = Article.findById(postId);
-		
-		try {
-			//NOTE: Currently commentType is hardcoded to SIMPLE
-			p.onComment(localUser, commentText, CommentType.SIMPLE);
-		} catch (SocialObjectNotCommentableException e) {
-			e.printStackTrace();
-		}
-		return ok(Json.toJson(p.id));
-	}
+//	@Transactional
+//	public static Result commentOnArticle() {
+//		final User localUser = Application.getLocalUser(session());
+//		if (!localUser.isLoggedIn()) {
+//            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+//            return status(500);
+//        }
+//
+//		DynamicForm form = form().bindFromRequest();
+//
+//		Long postId = Long.parseLong(form.get("articleId"));
+//		String commentText = form.get("commentText");
+//
+//		Article p = Article.findById(postId);
+//
+//		try {
+//			//NOTE: Currently commentType is hardcoded to SIMPLE
+//			p.onComment(localUser, commentText, CommentType.SIMPLE);
+//		} catch (SocialObjectNotCommentableException e) {
+//			e.printStackTrace();
+//		}
+//		return ok(Json.toJson(p.id));
+//	}
 	
     @Transactional
     public static Result infoArticle(Long articleId) {
