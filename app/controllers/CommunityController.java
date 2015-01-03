@@ -12,24 +12,25 @@ import java.util.*;
 import common.cache.CommunityCategoryCache;
 
 import common.utils.StringUtil;
+import models.Comment;
+import models.Community;
+import models.CommunityCategory;
+import models.Emoticon;
+import models.Icon;
+import models.PKViewMeta;
+import models.Post;
+import models.Resource;
+import models.TargetingSocialObject;
+import models.User;
+import models.UserCommunityAffinity;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.joda.time.DateTime;
 
 import common.model.ZodiacYear;
 import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
-import models.Comment;
-import models.Community;
 import models.Community.CommunityType;
 import models.TargetingSocialObject.TargetingType;
-import models.CommunityCategory;
-import models.Emoticon;
-import models.Icon;
-import models.Post;
-import models.Resource;
-import models.TargetingSocialObject;
-import models.User;
-import models.UserCommunityAffinity;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -870,7 +871,57 @@ public class CommunityController extends Controller{
         }
         return ok("You are not a member of the community");
     }
-    
+
+    @Transactional
+    public static Result commentToPkViewOnCommunity() {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+
+        DynamicForm form = form().bindFromRequest();
+        Long postId = Long.parseLong(form.get("post_id"));
+        String commentText = Emoticon.replace(form.get("commentText"));
+        String attribute = form.get("attribute");
+
+        if (!PKViewMeta.isValidCommentAttribute(attribute)) {
+            logger.underlyingLogger().error("Invalid comment attribute: "+attribute);
+            return status(501);
+        }
+
+        Post p = Post.findById(postId);
+        Community c = p.community;
+        if (CommunityPermission.canPostOnCommunity(localUser, c)) {
+            try {
+                Comment comment = (Comment) p.onCommentPkView(localUser, commentText, attribute);
+
+                String withPhotos = form.get("withPhotos");
+                if(Boolean.parseBoolean(withPhotos)) {
+                	comment.ensureAlbumExist();
+                }
+                p.setUpdatedDate(new Date());
+                p.merge();
+
+                sw.stop();
+                logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"][p="+postId+"] commentToPkViewOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
+
+                Map<String, String> map = new HashMap<>();
+                map.put("id", comment.id.toString());
+                map.put("text", comment.body);
+                map.put("attribute", attribute);
+
+                return ok(Json.toJson(map));
+            } catch (SocialObjectNotCommentableException e) {
+                logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+            }
+            return ok("Error in creating PkView comment");
+        }
+        return ok("You are not a member of the community");
+    }
+
     @Transactional
     public static Result getAllQuestionsOfCommunity(Long id) {
         final User localUser = Application.getLocalUser(session());

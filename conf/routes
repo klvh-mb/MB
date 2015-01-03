@@ -224,6 +224,7 @@ POST    /updateCommunityProfileData             controllers.CommunityController.
 GET     /communityQnA/questions/:id             controllers.CommunityController.getAllQuestionsOfCommunity(id : Long)
 POST    /communityQnA/question/post             controllers.CommunityController.postQuestionOnCommunity()
 POST    /communityQnA/question/answer           controllers.CommunityController.answerToQuestionOnQnACommunity()
+POST    /communityViewPoint/view/comment        controllers.CommunityController.commentToPkViewOnCommunity()
 POST    /image/uploadPostPhoto                  controllers.CommunityController.uploadPhotoOfPost()
 GET     /image/getCommunityIcons                controllers.CommunityController.getCommunityIcons()
 GET     /getAllUnjoinedMembers/:id/:query       controllers.CommunityController.getAllUnjoinedUsers(id : Long, query: String)

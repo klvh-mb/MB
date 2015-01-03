@@ -34,10 +34,9 @@ public class CommunityPostCommentVM {
 		postCommentVM.number = number;
 		postCommentVM.isOwner = comment.owner.id == user.id;
 		
-		List<Resource> resources = null;
 		if(comment.folder != null && !CollectionUtils.isEmpty(comment.folder.resources)) {
 			postCommentVM.hasImage = true;
-			resources = Resource.findAllResourceOfFolder(comment.folder.id);
+			List<Resource> resources = Resource.findAllResourceOfFolder(comment.folder.id);
 			postCommentVM.images = new Long[resources.size()];
 			int i = 0;
 			for (Resource rs : resources) {

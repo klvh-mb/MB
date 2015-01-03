@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import models.*;
+import models.Comment;
+import models.Post;
+import models.PrimarySocialRelation;
+import models.Resource;
+import models.User;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.jackson.annotate.JsonProperty;

@@ -15,6 +15,9 @@ import java.util.List;
  */
 @Entity
 public class PKViewMeta extends domain.Entity {
+    public static final String COMMENT_ATTR_YES = "YES";
+    public static final String COMMENT_ATTR_NO = "NO";
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
@@ -27,8 +30,6 @@ public class PKViewMeta extends domain.Entity {
 
     private int yesVoteCount = 0;
     private int noVoteCount = 0;
-    private int yesCommentCount = 0;
-    private int noCommentCount = 0;
 
     // Ctor
     public PKViewMeta() {}
@@ -86,6 +87,11 @@ public class PKViewMeta extends domain.Entity {
         }
 	}
 
+    ///////////////////// Utility /////////////////////
+    public static boolean isValidCommentAttribute(String attribute) {
+        return COMMENT_ATTR_YES.equals(attribute) || COMMENT_ATTR_NO.equals(attribute);
+    }
+
     ///////////////////// Getters /////////////////////
     public Long getPostId() {
         return postId;
@@ -109,13 +115,5 @@ public class PKViewMeta extends domain.Entity {
 
     public int getNoVoteCount() {
         return noVoteCount;
-    }
-
-    public int getYesCommentCount() {
-        return yesCommentCount;
-    }
-
-    public int getNoCommentCount() {
-        return noCommentCount;
     }
 }

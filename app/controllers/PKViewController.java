@@ -88,11 +88,12 @@ public class PKViewController extends Controller {
 
     @Transactional
     public static Result getAllPKViews() {
+        final User user = Application.getLocalUser(session());
         List<Pair<PKViewMeta, Post>> pkPosts = PKViewMeta.getAllPKViewMeta();
 
         final List<PKViewVM> vms = new ArrayList<>();
         for (Pair<PKViewMeta, Post> pkPost : pkPosts) {
-            PKViewVM vm = new PKViewVM(pkPost.first, pkPost.second, true);
+            PKViewVM vm = new PKViewVM(pkPost.first, pkPost.second, user, true);
             vms.add(vm);
         }
         return ok(Json.toJson(vms));
@@ -100,11 +101,12 @@ public class PKViewController extends Controller {
 
     @Transactional
     public static Result getPKViewsByCommunity(Long communityId) {
+        final User user = Application.getLocalUser(session());
         List<Pair<PKViewMeta, Post>> pkPosts = PKViewMeta.getPKViewsByCommunity(communityId);
 
         final List<PKViewVM> vms = new ArrayList<>();
         for (Pair<PKViewMeta, Post> pkPost : pkPosts) {
-            PKViewVM vm = new PKViewVM(pkPost.first, pkPost.second, true);
+            PKViewVM vm = new PKViewVM(pkPost.first, pkPost.second, user, true);
             vms.add(vm);
         }
         return ok(Json.toJson(vms));

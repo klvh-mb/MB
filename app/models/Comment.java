@@ -10,7 +10,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import common.utils.StringUtil;
@@ -25,11 +24,33 @@ import domain.SocialObjectType;
  * A Comment by an User on a SocialObject 
  *
  */
-
 @Entity
 public class Comment extends SocialObject implements Comparable<Comment>, Likeable, Serializable, Creatable {
     private static final play.api.Logger logger = play.api.Logger.apply(Comment.class);
 
+    @Required
+    public Long socialObject;       // e.g. Post Id
+
+    @Required
+    public Date date = new Date();
+
+    @Required
+    @Column(length=2000)
+    public String body;
+
+    @Required
+    public CommentType commentType;
+
+    public int noOfLikes=0;
+
+    private String attribute;
+
+    @ManyToOne(cascade = CascadeType.REMOVE)
+  	public Folder folder;
+
+    /**
+     * Ctor
+     */
     public Comment() {}
     
     public Comment(SocialObject socialObject, User user, String body) {
@@ -38,11 +59,12 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
         this.body = body;
     }
 
-    @Required
-    public Long socialObject;       // e.g. Post Id
-    
-    @Required
-    public Date date = new Date();
+    public static Comment findById(Long id) {
+        Query q = JPA.em().createQuery("SELECT c FROM Comment c where id = ?1 and deleted = false");
+        q.setParameter(1, id);
+        return (Comment) q.getSingleResult();
+    }
+
     
     @Override
     public void onLikedBy(User user) {
@@ -64,19 +86,7 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
         this.noOfLikes--;
         user.likesCount--;
     }
-    
-    @Required
-    @Column(length=2000)
-    public String body;
-    
-    @Required
-    public CommentType commentType;
-    
-    public int noOfLikes=0;
-      
-    @ManyToOne(cascade = CascadeType.REMOVE)
-  	public Folder folder;
-  
+
     @Override
     public int compareTo(Comment o) {
         return date.compareTo(o.date);
@@ -95,13 +105,7 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
         GameAccountStatistics.recordDeleteComment(deletedBy.id);
         save();
     }
-    
-    public static Comment findById(Long id) {
-        Query q = JPA.em().createQuery("SELECT c FROM Comment c where id = ?1 and deleted = false");
-        q.setParameter(1, id);
-        return (Comment) q.getSingleResult();
-    }
-    
+
     public Resource addCommentPhoto(File source) throws IOException {
 		ensureAlbumExist();
 		Resource cover_photo = this.folder.addFile(source,
@@ -131,5 +135,14 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
         } else {
             return StringUtil.truncateWithDots(body, 12);
         }
+    }
+
+    /////////////////// Getters, Setters ///////////////////
+    public String getAttribute() {
+        return attribute;
+    }
+
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
     }
 }

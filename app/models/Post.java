@@ -212,7 +212,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
 
         // merge into Post
         if (comments == null) {
-            comments = new HashSet<Comment>();
+            comments = new HashSet<>();
         }
         this.comments.add(comment);
         this.noOfComments++;
@@ -230,7 +230,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
         CommunityStatistics.onNewComment(this.community.id);
         // update affinity
         UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
-        // push to community
+        // push to community NF
         FeedProcessor.pushToCommunity(this);
 
         if (type == CommentType.SIMPLE) {
@@ -265,18 +265,44 @@ public class Post extends SocialObject implements Likeable, Commentable {
             }
 
             sw.stop();
-
             if (logger.underlyingLogger().isDebugEnabled()) {
                 logger.underlyingLogger().debug("[ElasticSearch] onComment index took "+sw.getElapsedMS()+"ms");
             }
         } catch(Exception e) {
             logger.underlyingLogger().error("Error in onComment() - Elastic search index", e);
         }
-        
-        //PostIndex.find.search(indexQuery);
+
         return comment;
     }
-    
+
+    public SocialObject onCommentPkView(User user, String body, String attribute)
+        throws SocialObjectNotCommentableException {
+        // update last socialUpdatedDate in Post
+        this.socialUpdatedDate = new Date();
+
+        // create Comment object
+        Comment comment = new Comment(this, user, body);
+        comment.commentType = CommentType.SIMPLE;
+        comment.objectType = SocialObjectType.PK_VIEW;
+        comment.setAttribute(attribute);
+        comment.save();
+
+        // merge into Post
+        if (comments == null) {
+            comments = new HashSet<>();
+        }
+        this.comments.add(comment);
+        this.noOfComments++;
+        JPA.em().merge(this);
+
+        // TODO: record for notifications?
+
+        // update affinity
+        UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
+
+        return comment;
+    }
+
     @Override
     public void onDeleteComment(User user, String body, CommentType type) 
             throws SocialObjectNotCommentableException {
@@ -332,6 +358,22 @@ public class Post extends SocialObject implements Likeable, Commentable {
     public List<Comment> getCommentsOfPost(int limit) {
         Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 and deleted = false order by date desc" );
         q.setParameter(1, this.id);
+        return (List<Comment>)q.setMaxResults(limit).getResultList();
+    }
+
+    @JsonIgnore
+    public List<Comment> getCommentsOfPostByAttribute(String attribute) {
+        Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 and attribute = ?2 and deleted = false order by date desc");
+        q.setParameter(1, this.id);
+        q.setParameter(2, attribute);
+        return (List<Comment>)q.getResultList();
+    }
+
+    @JsonIgnore
+    public List<Comment> getCommentsOfPostByAttribute(int limit, String attribute) {
+        Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 and attribute = ?2 and deleted = false order by date desc" );
+        q.setParameter(1, this.id);
+        q.setParameter(2, attribute);
         return (List<Comment>)q.setMaxResults(limit).getResultList();
     }
     
