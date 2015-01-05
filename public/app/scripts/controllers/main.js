@@ -1551,7 +1551,7 @@ minibean.controller('UserProfileController',function($scope, $routeParams, $loca
     
 });
 
-minibean.controller('SearchPageController', function($scope, $routeParams, likeFrameworkService, communityPageService, $http, communitySearchPageService, usSpinnerService){
+minibean.controller('SearchPageController', function($scope, $routeParams, communityPageService, $http, communitySearchPageService, usSpinnerService){
 
 	$scope.highlightText="";
 	$scope.highlightQuery = "";
@@ -1605,7 +1605,7 @@ minibean.controller('SearchPageController', function($scope, $routeParams, likeF
 });
 
 minibean.controller('PostLandingController', function($scope, $routeParams, $http, $upload, $timeout, $validator, 
-    postFactory, postLandingService, communityPageService, postManagementService, showImageService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
+    postFactory, postLandingService, communityPageService, postManagementService, showImageService, usSpinnerService) {
     
 	$scope.get_header_metaData();
 	
@@ -1877,7 +1877,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
 });
     
 minibean.controller('QnALandingController', function($scope, $routeParams, $http, $timeout, $upload, $validator, 
-    postFactory, qnaLandingService, communityPageService, postManagementService, showImageService, bookmarkPostService, likeFrameworkService, usSpinnerService) {
+    postFactory, qnaLandingService, communityPageService, postManagementService, showImageService, usSpinnerService) {
 
     $scope.get_header_metaData();
 
@@ -2175,7 +2175,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, pr
 });
 
 minibean.controller('CommunityPostController', function($scope, $routeParams, $http, $upload, $timeout, profilePhotoModal,
-		postFactory, communityPageService, postManagementService, likeFrameworkService, bookmarkPostService, communityJoinService, usSpinnerService){
+		postFactory, communityPageService, postManagementService, communityJoinService, usSpinnerService){
 	
     var firstBatchLoaded = false;
     var offset = 0;
@@ -2457,7 +2457,7 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 	
 });
 
-minibean.controller('CommunityQnAController',function($scope, postFactory, postManagementService, bookmarkPostService, likeFrameworkService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
+minibean.controller('CommunityQnAController',function($scope, postFactory, postManagementService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
 
     var firstBatchLoaded = false;
     var offsetq = 0;
@@ -2853,15 +2853,37 @@ minibean.controller('ArticleSliderController', function($scope, $routeParams, $i
     }
 });
 
-minibean.controller('PKViewPageController',function($scope, $route, $location, $http, $routeParams, pkViewService, likeFrameworkService, bookmarkService, usSpinnerService){
+minibean.controller('PKViewPageController',function($scope, $route, $location, $http, $routeParams, pkviewFactory, pkViewService, likeFrameworkService, usSpinnerService){
     
-    $scope.campaign = pkViewService.pkViewInfo.get({id:$routeParams.id}, 
+    $scope.showPKView = true;
+    
+    $scope.pkview = pkViewService.pkViewInfo.get({id:$routeParams.id}, 
         function(data) {
             if(data[0] == 'NO_RESULT'){
                 $location.path('/pkview/show');
             }
+            if ($scope.pkview.id == null) {
+                $scope.showPKView = false;
+            }
         });
+        
+    $scope.like_pkview = function(pkview_id) {
+        pkviewFactory.like_pkview(pkview_id, $scope.pkview);
+    }
+
+    $scope.unlike_pkview = function(pkview_id) {
+        pkviewFactory.unlike_pkview(pkview_id, $scope.pkview);
+    }
     
+    $scope.bookmarkPKView = function(pkview_id) {
+        var pkviews = [ $scope.pkview ];
+        pkviewFactory.bookmarkPKView(pkview_id, pkviews);
+    }
+    
+    $scope.unBookmarkPKView = function(pkview_id) {
+        var pkviews = [ $scope.pkview ];
+        pkviewFactory.unBookmarkPKView(pkview_id, pkviews);
+    }
 });
 
 minibean.controller('CampaignPageController',function($scope, $route, $location, $http, $routeParams, likeFrameworkService, campaignService, usSpinnerService){
@@ -2977,10 +2999,9 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
                 $scope.campaign.isLike=false;
             });
     }
-    
 });
 
-minibean.controller('ArticlePageController',function($scope, $routeParams, articleFactory, bookmarkPostService, likeFrameworkService, usSpinnerService, articleService, tagwordService){
+minibean.controller('ArticlePageController',function($scope, $routeParams, articleFactory, usSpinnerService, articleService, tagwordService){
     
     $scope.get_header_metaData();
     
@@ -3028,7 +3049,7 @@ minibean.controller('ArticlePageController',function($scope, $routeParams, artic
     }
 });
 
-minibean.controller('ShowArticlesController',function($scope, $routeParams, articleFactory, articleService, tagwordService, bookmarkPostService, showImageService, usSpinnerService) {
+minibean.controller('ShowArticlesController',function($scope, $routeParams, articleFactory, articleService, tagwordService, showImageService, usSpinnerService) {
 
     $scope.get_header_metaData();
 
@@ -3180,7 +3201,7 @@ minibean.controller('ShowArticlesController',function($scope, $routeParams, arti
     }
 });
 
-minibean.controller('MyMagazineNewsFeedController', function($scope, postFactory, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, usSpinnerService, myMagazineNewsFeedService) {
+minibean.controller('MyMagazineNewsFeedController', function($scope, postFactory, postManagementService, $timeout, $upload, $http, usSpinnerService, myMagazineNewsFeedService) {
     
     $scope.get_header_metaData();
     
@@ -3245,7 +3266,7 @@ minibean.controller('MyMagazineNewsFeedController', function($scope, postFactory
     }
 });
 
-minibean.controller('NewsFeedController', function($scope, postFactory, postManagementService, bookmarkPostService, likeFrameworkService, $timeout, $upload, $http, usSpinnerService, newsFeedService) {
+minibean.controller('NewsFeedController', function($scope, postFactory, postManagementService, $timeout, $upload, $http, usSpinnerService, newsFeedService) {
 
     $scope.get_header_metaData();
     
@@ -3542,7 +3563,7 @@ minibean.controller('NewsFeedController', function($scope, postFactory, postMana
 	
 });
 
-minibean.controller('UserNewsFeedController', function($scope, $routeParams, $timeout, $upload, postFactory, postManagementService, bookmarkPostService, likeFrameworkService, $http, usSpinnerService, userNewsFeedService) {
+minibean.controller('UserNewsFeedController', function($scope, $routeParams, $timeout, $upload, postFactory, postManagementService, $http, usSpinnerService, userNewsFeedService) {
 	
 	$scope.get_header_metaData();
 	
@@ -3883,7 +3904,7 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 	
 });
 
-minibean.controller('MyBookmarkController', function($scope, postFactory, bookmarkPostService, likeFrameworkService, postManagementService, $http, usSpinnerService, bookmarkService) {
+minibean.controller('MyBookmarkController', function($scope, postFactory, bookmarkPostService, postManagementService, $http, usSpinnerService, bookmarkService) {
     
     $scope.bookmarkSummary = bookmarkService.bookmarkSummary.get();
     
@@ -3935,6 +3956,18 @@ minibean.controller('MyBookmarkController', function($scope, postFactory, bookma
 			})
 		});
 	}
+	
+	$scope.unBookmarkPKView = function(article_id) {
+        bookmarkPostService.unbookmarkPKView.get({"pkview_id":pkview_id}, function(data) {
+            angular.forEach($scope.pkviews.pkview, function(pkview, key){
+                if(pkview.id == pkview_id) {
+                    pkview.isBookmarked = false;
+                    $scope.pkviews.pkview.splice($scope.pkviews.pkview.indexOf(pkview),1);
+                    $scope.bookmarkSummary.pkc--;
+                }
+            })
+        });
+    }
 	
 	$scope.want_answer = function(post_id) {
         postFactory.want_answer(post_id, $scope.posts.posts);
@@ -3989,19 +4022,39 @@ minibean.controller('MyBookmarkController', function($scope, postFactory, bookma
 		$scope.isBusyA = true;
 		bookmarkService.bookmarkedArticles.get({offsetA:offsetA},
             function(data){
-    			var articleData = data;
+    			var articles = data;
     			if(data.length == 0) {
     				noMoreA = true;
     			}
     			
-    			for (var i = 0; i < articleData.length; i++) {
-    				$scope.articles.article.push(articleData[i]);
+    			for (var i = 0; i < articles.length; i++) {
+    				$scope.articles.article.push(articles[i]);
     		    }
     			$scope.isBusyA = false;
     			offsetA++;
     		});
 	}
 	
+	var offsetP = 0;
+    var noMoreP = false;
+    $scope.nextPKViews = function() {
+        if ($scope.isBusyP) return;
+        if (noMoreP) return;
+        $scope.isBusyP = true;
+        bookmarkService.bookmarkedPKViews.get({offsetP:offsetP},
+            function(data){
+                var pkviews = data;
+                if(data.length == 0) {
+                    noMoreP = true;
+                }
+                
+                for (var i = 0; i < pkviews.length; i++) {
+                    $scope.pkviews.pkview.push(pkviews[i]);
+                }
+                $scope.isBusyP = false;
+                offsetP++;
+            });
+    }
 });
 
 minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $routeParams, $sce, searchFriendService, usSpinnerService, getMessageService, allConversationService) {
@@ -4231,7 +4284,7 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 });
 
 minibean.controller('MagazineNewsFeedController', function($scope, $timeout, $upload, $http, $routeParams,  
-    postFactory, bookmarkPostService, likeFrameworkService, postManagementService, magazineNewsFeedService, iconsService, usSpinnerService) {
+    postFactory, postManagementService, magazineNewsFeedService, iconsService, usSpinnerService) {
     
     $scope.get_header_metaData();
     

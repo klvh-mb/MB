@@ -1,0 +1,5 @@
+<span ng-show="userInfo.isLoggedIn">
+    <a data-ng-show="!pkview.isBookmarked" class="post-favorite" href="" data-ng-click="bookmarkPKView(pkview.id)"></a>
+    <a data-ng-show="pkview.isBookmarked && !confirm" class="post-favorited" href="" data-ng-click="unBookmarkPKView(pkview.id)"></a>
+    <a data-ng-show="pkview.isBookmarked && confirm" class="post-favorited" href="" data-ng-confirm-click="unBookmarkPKView(pkview.id)" data-ng-confirm-message="您確定移除這個收藏嗎?"></a>
+</span>

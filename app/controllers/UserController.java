@@ -114,7 +114,11 @@ public class UserController extends Controller {
         final User localUser = Application.getLocalUser(session());
         
         BookmarkSummaryVM summary = new BookmarkSummaryVM(
-                localUser.getQnABookmarkCount(), localUser.getPostBookmarkCount(), localUser.getArticleBookmarkCount());
+                localUser.getQnABookmarkCount(), 
+                localUser.getPostBookmarkCount(), 
+                localUser.getArticleBookmarkCount(),
+                localUser.getPKViewBookmarkCount()
+                );
         return ok(Json.toJson(summary));
     }
     

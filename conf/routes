@@ -66,8 +66,13 @@ GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
 
 # PKView
 GET     /get-pkview-info/:id        controllers.PKViewController.infoPKView(id :Long)
-GET     /get-allPkViews             controllers.PKViewController.getAllPKViews
-GET     /get-commPkViews/:id        controllers.PKViewController.getPKViewsByCommunity(id :Long)
+GET     /get-all-pkviews            controllers.PKViewController.getAllPKViews
+GET     /get-comm-pkviews/:id       controllers.PKViewController.getPKViewsByCommunity(id :Long)
+GET     /like-pkview/:id            controllers.PKViewController.onLike(id : Long)
+GET     /unlike-pkview/:id          controllers.PKViewController.onUnlike(id : Long)
+GET     /get-bookmarked-pkviews/:offset     controllers.PKViewController.getBookmarkedPKViews(offset:Integer)
+GET     /bookmark-pkview/:id        controllers.PKViewController.onBookmark(id : Long)
+GET     /unbookmark-pkview/:id      controllers.PKViewController.onUnBookmark(id : Long)
 
 # Campaign
 GET     /get-campaign-info/:id      controllers.CampaignController.infoCampaign(id :Long)

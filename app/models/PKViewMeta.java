@@ -13,6 +13,13 @@ import java.util.List;
  * Time: 1:53 PM
  * To change this template use File | Settings | File Templates.
  */
+/**
+ * insert into pkviewmeta (id,noCommentCount,noText,noVoteCount,postId,yesCommentCount,yesText,yesVoteCount) 
+ * values (1, 0, 'No no no', 0, 351, 0, 'Yes yes yes', 0); 
+ * 
+ * @author keithlei
+ *
+ */
 @Entity
 public class PKViewMeta extends domain.Entity {
     public static final String COMMENT_ATTR_YES = "YES";

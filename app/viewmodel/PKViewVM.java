@@ -30,10 +30,12 @@ public class PKViewVM {
 	@JsonProperty("norv") public long noOfRedVotes;
 	@JsonProperty("norc") public long noOfRedComments;
 	@JsonProperty("red_cs") public List<CommunityPostCommentVM> redComments;
+	@JsonProperty("isRed") public boolean isRed = false;
 	@JsonProperty("blue_ds") public String blueDescription;
 	@JsonProperty("nobv") public long noOfBlueVotes;
 	@JsonProperty("nobc") public long noOfBlueComments;
 	@JsonProperty("blue_cs") public List<CommunityPostCommentVM> blueComments;
+	@JsonProperty("isBlue") public boolean isBlue = false;
 	
 	@JsonProperty("nol") public int noOfLikes;
     @JsonProperty("nov") public int noOfViews;
@@ -83,6 +85,8 @@ public class PKViewVM {
 		this.communityId = postComm.id;
 
         try {
+            this.isRed = true;
+            this.isBlue = false;
             this.isLike = post.isLikedBy(user);
             this.isBookmarked = post.isBookmarkedBy(user);
         } catch (SocialObjectNotLikableException e) {

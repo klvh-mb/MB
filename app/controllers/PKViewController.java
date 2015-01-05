@@ -3,19 +3,21 @@ package controllers;
 import java.io.File;
 import java.util.*;
 
+import com.mnt.exception.SocialObjectNotLikableException;
+
 import common.collection.Pair;
 import common.utils.ImageUploadUtil;
 import common.utils.NanoSecondStopWatch;
 import domain.DefaultValues;
+import models.Article;
 import models.Post;
 import models.PKViewMeta;
 import models.User;
-
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-
+import viewmodel.ArticleVM;
 import viewmodel.PKViewVM;
 
 /**
@@ -68,6 +70,59 @@ public class PKViewController extends Controller {
     }
 
     @Transactional
+    public static Result onLike(Long id) throws SocialObjectNotLikableException {
+        User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
+        Pair<PKViewMeta, Post> pkView = PKViewMeta.getPKViewById(id);
+        pkView.second.onLikedBy(localUser);
+        return ok();
+    }
+    
+    @Transactional
+    public static Result onUnlike(Long id) throws SocialObjectNotLikableException {
+        User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
+        Pair<PKViewMeta, Post> pkView = PKViewMeta.getPKViewById(id);
+        pkView.second.onUnlikedBy(localUser);
+        localUser.doUnLike(pkView.second.id, pkView.second.objectType);
+        return ok();
+    }
+    
+    @Transactional
+    public static Result onBookmark(Long id) {
+        User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
+        Pair<PKViewMeta, Post> pkView = PKViewMeta.getPKViewById(id);
+        pkView.second.onBookmarkedBy(localUser);
+        return ok();
+    }
+    
+    @Transactional
+    public static Result onUnBookmark(Long id) {
+        User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
+        Pair<PKViewMeta, Post> pkView = PKViewMeta.getPKViewById(id);
+        localUser.unBookmarkOn(pkView.second.id, pkView.second.objectType);
+        return ok();
+    }
+    
+    @Transactional
     public static Result getBookmarkedPKViews(int offset) {
         final List<PKViewVM> vms = new ArrayList<>();
 
@@ -88,7 +143,7 @@ public class PKViewController extends Controller {
         logger.underlyingLogger().info("[u="+localUser.id+"] getBookmarkedPKViews - ret="+vms.size()+". Took "+sw.getElapsedMS()+"ms");
         return ok(Json.toJson(vms));
     }
-
+    
     @Transactional
     public static Result getImage(Long year, Long month, Long date, String name) {
         response().setHeader("Cache-Control", "max-age=604800");

@@ -1,0 +1,206 @@
+.f12 {
+    font-size: 12px;
+}
+.f13 {
+    font-size: 13px;
+}
+.f14 {
+    font-size: 14px;
+}
+.f15 {
+    font-size: 15px;
+}
+.f16 {
+    font-size: 16px;
+}
+.rel {
+    position: relative;
+}
+.abs {
+    position: absolute;
+}
+.list_container {
+    position: relative;
+}
+.pkview-box-main {
+    border-color: #FDB2B2;
+    border-width: 3px;
+    box-shadow: 0px 1px 5px rgba(244, 168, 168, 0.8);
+}
+.pkview-box-main .pkview-detail-wrapper {
+    padding: 10px 15px 20px 15px;
+}
+.pkview-box-main .head {
+    margin: -10px -25px 0 -25px;
+}
+.pkview-box-main .head ins {
+    width: 132px;
+    height: 55px;
+    display: block;
+    top: 0;
+    left: 20px;
+    position: absolute;
+}
+.pkview-box-main .head .over {
+    background: url(../images/frontpage/pkview/head-over.png);
+    _background: none;
+    _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=scale, src='../images/frontpage/pkview/head-over.png');
+}
+.pkview-box-main .bar {
+    height: 38px;
+    background: url(../images/frontpage/pkview/bar-extend.png) 0 0 repeat-x;
+    width: 684px;
+    left: -10px;
+    margin: 0;
+    z-index: 1;
+}
+.pkview-box-main .bar b {
+    width: 10px;
+    height: 38px;
+    display: block;
+}
+.pkview-box-main .bar .bar-bg-l {
+    background: url(../images/frontpage/pkview/bar-bg.png) 0 0;
+    left: 0;
+}
+.pkview-box-main .bar .bar-bg-r {
+    background: url(../images/frontpage/pkview/bar-bg.png) -10px 0;
+    right: 0;
+}
+.pkview-box-main .bar .bar-l {
+    background: url(../images/frontpage/pkview/bar-extend.png) 0 -40px repeat-x;
+    padding-right: 60px;
+    text-align: right;
+}
+.pkview-box-main .bar .bar-r {
+    background: url(../images/frontpage/pkview/bar-extend.png) 0 -70px repeat-x;
+    padding-left: 60px;
+}
+.pkview-box-main .bar table {
+    width: 664px;
+    position: absolute;
+    left: 10px;
+    top: 6px;
+}
+.pkview-box-main .bar td {
+    height: 25px;
+    color: #fff;
+    font-size: 14px;
+}
+.pkview-box-main .bar ins {
+    width: 90px;
+    height: 70px;
+    display: block;
+    background: url(../images/frontpage/pkview/bar.png);
+    top: -21px;
+    _background: none;
+    _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=scale, src='../images/frontpage/pkview/bar.png');
+}
+.pkview-box-main .area {
+    width: 50%;
+    float: left;
+}
+.pkview-box-main .intro {
+    height: 150px;
+}
+.pkview-box-main .intro h2 {
+    font-size: 36px;
+    font-weight: normal;
+    color: #fff;
+    display: block;
+    width: 120px;
+    text-align: center;
+    top: 28px;
+    margin: 0;
+}
+.pkview-box-main .intro a {
+    display: block;
+    width: 90px;
+    height: 29px;
+    left: 18px;
+    top: 73px;
+}
+.pkview-box-main .intro em {
+    color: #fff;
+    top: 106px;
+    left: 12px;
+    font-style: normal;
+}
+.pkview-box-main .intro dl {
+    left: 135px;
+    top: 15px;
+    line-height: 1.5;
+}
+.pkview-box-main .intro dt {
+    width: 50px;
+    float: left;
+    font-weight: bold;
+}
+.pkview-box-main .intro dd {
+    width: 200px;
+    float: left;
+}
+.pkview-box-main .intro dd p {
+    padding: 0 0 15px;
+    height: 47px;
+}
+.pkview-box-main .intro dd span {
+    color: #666;
+}
+.pkview-box-main .textarea {
+    height: 150px;
+}
+.pkview-box-main .textarea label {
+    left: 115px;
+    top: 119px;
+}
+.pkview-box-main .textarea span {
+    left: 200px;
+    top: 115px;
+}
+.pkview-box-main .textarea span b {
+    color: #666;
+}
+.pkview-box-main .textarea textarea {
+    width: 300px;
+    height: 80px;
+    left: 15px;
+    top: 13px;
+    resize: none;
+}
+.pkview-box-main .textarea a {
+    display: block;
+    width: 90px;
+    height: 29px;
+    top: 112px;
+    left: 10px;
+}
+.pkview-box-main .col-l .intro {
+    background: url(../images/frontpage/pkview/intro.png) 0 0;
+}
+.pkview-box-main .col-l .intro dl {
+    color: #E8332F;
+}
+.pkview-box-main .col-l .textarea {
+    background: url(../images/frontpage/pkview/textarea.png) 0 0;
+}
+.pkview-box-main .col-r .intro {
+    background: url(../images/frontpage/pkview/intro.png) 0 -150px;
+}
+.pkview-box-main .col-r .intro dl {
+    color: #69b2e0;
+}
+.pkview-box-main .col-r .textarea {
+    background: url(../images/frontpage/pkview/textarea.png) 0 -150px;
+}
+
+
+.share-link-bar {
+    float: left;
+    width: 100%;
+}
+#pkview-link {
+    width: 65%;
+    padding: 5px;
+}
+

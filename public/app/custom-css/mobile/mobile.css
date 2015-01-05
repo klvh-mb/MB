@@ -768,10 +768,12 @@ span.notif-count {
     width: 100%;
 }
 #frontpage-featured-section .featured-details .featured-area {
-    width: auto;
+    /*width: auto;*/
+    width: 100%;
 }
 #frontpage-featured-section .featured-details .featured-main-area {
-    width: auto;
+    /*width: auto;*/
+    width: 100%;
 }
 #frontpage-featured-section .featured-details .featured-area img {
     width: 225px;
@@ -801,5 +803,10 @@ span.notif-count {
     width: 100%;
     margin: 0px;
     margin-bottom: 10px;
+}
+#frontpage-articles-section .article-details .article-image {
+}
+#frontpage-articles-section .article-details .article-summary {
+    width: 70%;
 }
 

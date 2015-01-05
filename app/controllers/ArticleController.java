@@ -1,7 +1,5 @@
 package controllers;
 
-import static play.data.Form.form;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -18,7 +16,6 @@ import models.Article;
 import models.ArticleCategory;
 import models.TagWordScore;
 import models.User;
-import play.data.DynamicForm;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -31,10 +28,8 @@ import viewmodel.ArticleCategoryVM;
 import viewmodel.ArticleVM;
 import viewmodel.SlidderArticleVM;
 
-import com.mnt.exception.SocialObjectNotCommentableException;
 import com.mnt.exception.SocialObjectNotLikableException;
 
-import domain.CommentType;
 import domain.DefaultValues;
 
 public class ArticleController extends Controller {

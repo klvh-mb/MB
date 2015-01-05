@@ -1,123 +1,117 @@
 <div id="wall">
-    <div class="campaign-winners-wrapper" ng-if="campaign.cs == 'ANNOUNCED' || campaign.cs == 'CLOSED'">
-        <div class="campaign-winners-header"><img src="/assets/app/images/general/campaign_winners_greeting.png" /></div>
-        <div class="campaign-winners-list" ng-if="campaign.at == 'WINNERS'">
-            <ul>
-                <li ng-repeat="winner in announcedWinners">
-                    {{winner.name}}
-                </li>
-            </ul>
-        </div>
-        <div class="campaign-winners-announcement" ng-if="campaign.an.length > 0">
-            <div style="font-size:16px;width:100%;" class="ng-binding" ng-bind-html="campaign.an | to_trusted"></div>
-        </div>
-    </div>
-    <div class="general-box campaign-box-main">
-        <div class="campaign-sticker">
-            <a href="#/campaign/show">
-                <img style="height:50px;" src="/assets/app/images/general/campaign_sticker.png" />
-            </a>
-        </div>
-        <ul class="campaign-detail-wrapper" ng-if="!showCampaign">
-            <li style="font-size:20px;">
+    <div class="general-box pkview-box-main">
+        <div class="pkview-detail-wrapper" ng-if="!showPKView">
+            <div style="font-size:20px;">
                 對不起~ 尋找不到此活動。 請確定連結正確無誤。
-            </li>
-        </ul>
-        <ul class="campaign-detail-wrapper" ng-if="showCampaign">
-            <li ng-if="campaign.ac">
-                <span class="campaign-title">
-                    <div style="display:inline-block;vertical-align: middle;"><img style="height:50px;width:auto;" src="/assets/app/images/frontpage/mascot/green_right.png"></div>
-                    <div style="display:inline-block;vertical-align: middle;width:85%;">{{campaign.nm}}</div>
-                </span>
-            </li>
-            <li ng-if="!campaign.ac">
-                <font class="campaign-title-ended">【活動結束】{{campaign.nm}}</font>
-            </li>
-            <li>
-                <ul class="campaign-details">
-                    <li>
-                        <img ng-src="{{campaign.im}}">
-                    </li>
-                    <li style="margin:10px 20px;">
-                        <table>
-                            <tr>
-                                <td>開始時間:</td><td><b>{{campaign.sd | date:'yyyy年M月d日 h:mm a'}}</b></td>
-                            </tr>
-                            <tr>
-                                <td>報名截止:</td><td><b>{{campaign.ed | date:'yyyy年M月d日 h:mm a'}}</b></td>
-                            </tr>
-                        </table>
-                        <div style="padding:10px;">
-                            <span ng-if="campaign.ac && campaign.cs == 'PUBLISHED'">
-                                <span>
-                                    <a href="" ng-click="popupCampaignNotStartModal()">
-                                        <img style="height:30px;width:auto;" src="/assets/app/images/general/btn_campaign_join.png">
-                                    </a>
-                                </span>
-                            </span>
-                            <span ng-if="campaign.ac && campaign.cs == 'STARTED'">
-                                <span ng-if="userInfo.isLoggedIn">
-                                    <span ng-if="!campaign.isJoined">
-                                        <a href="" ng-click="translateValidationMessages()" data-toggle="modal" data-target="#joinCampaignModal" ng-if="!campaign.isJoined">
-                                            <img style="height:30px;width:auto;" src="/assets/app/images/general/btn_campaign_join.png">
-                                        </a>
-                                    </span>
-                                    <span ng-if="campaign.isJoined">
-                                        <a ng-if="userInfo.isSA" href="" ng-click="translateValidationMessages()" data-toggle="modal" data-target="#withdrawCampaignModal" ng-if="campaign.isJoined">
-                                            <img style="height:30px;width:auto;" src="/assets/app/images/general/btn_campaign_withdraw.png">
-                                        </a>
-                                        <div class="campaign-join-confirm">你已成功參加此活動!</div>
-                                    </span>
-                                </span>
-                                <span ng-if="!userInfo.isLoggedIn">
-                                    <a href="" ng-click="popupLoginModal()">
-                                        <img style="height:30px;width:auto;" src="/assets/app/images/general/btn_campaign_join.png">
-                                    </a>
-                                </span>
-                            </span>
-                            <span ng-if="!campaign.ac">
-                                <img style="height:30px;width:auto;" src="/assets/app/images/general/btn_campaign_ended.png">
-                            </span>
-                        </div>
-                        <div style="padding-top:20px;">
-                            <span data-ng-include data-src="'/assets/app/views/home/like-campaign.html'"></span>
-                        </div>
-                        <div class="admin-visible-field" ng-if="userInfo.isE">
-                            <div class="padding20"></div>
-                            <div>
-                                <span>State: <b>{{campaign.cs}}</b></span>
-                            </div>
-                            <div>
-                                <span>Joined Users: <b>{{campaign.uc}}</b></span>
-                            </div>
-                            <div>
-                                <span class="btn-like-wrapper"><span class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{campaign.nov}}</span></span>
-                            </div>
-                            <div>
-                                <a href="#/admin/campaign-joiners/{{campaign.id}}">View Joiners</a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <div style="font-size:16px;width:100%;" class="ng-binding" ng-bind-html="campaign.ds | to_trusted"></div>
-                <!--div data-ng-include data-src="'/assets/app/views/frontpage/campaign-page-mockup.html'"></div-->
-            </li>
-            <li>
-                <div style="margin-top:50px">
-                    <span data-ng-include data-src="'/assets/app/views/home/like-campaign.html'"></span>
+            </div>
+        </div>
+        <div class="pkview-detail-wrapper" ng-if="showPKView">
+            <div class="head rel">
+                <img src="http://pic05.babytreeimg.com/foto3/common_photo/original/2014/1215/cd1d01ee6431087.jpg" data-i="link">
+                <p class="abs"></p>
+                <ins class="over"></ins>
+            </div>
+            <div style="padding:10px;">
+                <span data-ng-include data-src="'/assets/app/views/frontpage/like-pkview.html'"></span>
+                <span data-ng-include data-src="'/assets/app/views/frontpage/bookmark-pkview.html'"></span>
+            </div>
+            <div class="bar rel">
+                <b class="bar-bg-l abs"></b>
+                <b class="bar-bg-r abs"></b>
+                <table>
+                    <tbody><tr>
+                        <td class="bar-l" style="width: 70%;"><span id="zf_span"><span id="zf_text">紅方比例 </span>
+                            <span id="zf_percent">70</span>%</span></td><td class="bar-r">
+                            <span id="ff_text">
+                            <span id="ff_text">藍方比例 </span>
+                            <span id="ff_persent">30</span>%</span>
+                        </td>
+                    </tr></tbody>
+                </table>
+                <ins class="abs" style="left: 62%;"></ins>
+            </div>
+            
+            
+            
+            <div class="area col-l list_container">
+                <div class="intro rel">
+                    <h2 class="abs" id="red_agree_count">27</h2>
+                    <a href="javascript:void(0);" class="abs" id="red_agree_a"></a>
+                    <em class="abs" id="red_camp" ng-show="pkview.isRed">(我已投票給紅方)</em>
+                        <dl class="f14 abs">
+                        <dt>紅方：</dt>
+                        <dd>
+                            <p>{{pkview.red_ds}}</p>
+                            <span class="f12">已發表觀點：<span class="f16" id="red_view_count">{{pkview.norv}}</span></span>
+                        </dd>
+                    </dl>
                 </div>
-            </li>
-            <li>
+                <div class="textarea rel">
+                <textarea class="abs f14" id="r_textarea"></textarea>
+                    <a href="javascript:void(0);" class="abs" id="r_btn"></a>
+                    <span class="abs" id="r_z">您還可以輸入<b>140</b>字</span>
+                </div>
+                <div class="tabs rel" id="red_gd_tab">
+                <a href="javascript:void(0)" class="selected">大家的观点</a></div>
+                <div class="order rel" id="red_order_tab">
+                <a href="javascript:void(0)" class="cBlues">按时间排列</a>|<a href="javascript:void(0)">按热度排列</a></div>
+                <div class="list rel" id="r_container">
+                    <div id="item_300412" class="item" style="">
+                        <div class="user"><a class="avatar" target="_blank" href="http://home.babytree.com/u89806957267"><img src="http://pic05.babytreeimg.com/foto3/thumbs/2014/0615/99/5/14e8e96ad33dacc24108dc33_hs.jpg"></a><a href="http://home.babytree.com/u89806957267" target="_blank" title="我家的鲁西西">我家的鲁西</a></div><div class="comm"><ins></ins><div class="text"><span>反驳<a href="http://home.babytree.com/u66831487121" target="_blank">狄小夏</a>：<br>即使概率不大 可是最好还是要预防啊<div class="quote"><span>“支持蓝方”</span></div></span></div><div class="status"><b>2014-12-21 20:45</b><a href="javascript:void(0)">反驳(<span>0)</span></a><a href="javascript:void(0)">顶(<span>0</span>)</a></div><div class="input-box rel" style="display: none;"><textarea class="f12"></textarea><label class="abs"><input type="checkbox">同步到薇博</label><a href="javascript:void(0)" class="abs"></a></div></div>
+                    </div>
+                    <div id="item_300411" class="item" style="">
+                        <div class="user"><a class="avatar" target="_blank" href="http://home.babytree.com/u89806957267"><img src="http://pic05.babytreeimg.com/foto3/thumbs/2014/0615/99/5/14e8e96ad33dacc24108dc33_hs.jpg"></a><a href="http://home.babytree.com/u89806957267" target="_blank" title="我家的鲁西西">我家的鲁西</a></div><div class="comm"><ins></ins><div class="text"><span>反驳<a href="http://home.babytree.com/u13364416735" target="_blank">多多妈1229</a>：<br>可是不容否认的是 缺陷的孩子还是很多的啊 特别是周围的中老年人中 智障的什么的 更多吧<div class="quote"><span>“我们上几辈也没补充什么营养啊，我们不也挺好的”</span></div></span></div><div class="status"><b>2014-12-21 20:44</b><a href="javascript:void(0)">反驳(<span>0)</span></a><a href="javascript:void(0)">顶(<span>0</span>)</a></div><div class="input-box rel" style="display: none;"><textarea class="f12"></textarea><label class="abs"><input type="checkbox">同步到薇博</label><a href="javascript:void(0)" class="abs"></a></div></div>
+                    </div>
+                    <div class="list-page"><a href="javascript:void(0)">首页</a><a class="cBlue" href="javascript:void(0)" attr="1">1</a><a href="javascript:void(0)" attr="2">2</a><a href="javascript:void(0)" attr="3">3</a><a href="javascript:void(0)" attr="4">4</a><a href="javascript:void(0)" attr="5">5</a><a href="javascript:void(0)" attr="6">6</a><a href="javascript:void(0)" attr="7">7</a><a href="javascript:void(0)" attr="8">8</a><a href="javascript:void(0)" attr="9">9</a><a href="javascript:void(0)">...</a><a href="javascript:void(0)">下一页</a><a href="javascript:void(0)">尾页</a></div>
+                </div>
+                <img src="http://img03.babytreeimg.com/img/common/loading_pic_s.gif" id="l_loadimg" class="loadimg" style="display: none;">
+            </div>
+
+
+
+            <div class="area col-r list_container">
+                <div class="intro rel">
+                    <h2 class="abs" id="blue_agree_count">3</h2>
+                    <a href="javascript:void(0);" class="abs" id="blue_agree_a"></a>
+                    <em class="abs" id="blue_camp" ng-show="pkview.isBlue">(我已投票給藍方)</em>
+                        <dl class="f14 abs">
+                        <dt>藍方：</dt>
+                        <dd>
+                            <p>{{pkview.blue_ds}}</p>
+                            <span class="f12">已發表觀點：<span class="f16" id="blue_view_count">{{pkview.nobv}}</span></span>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="textarea rel">
+                <textarea class="abs f14" id="b_textarea"></textarea>
+                    <a href="javascript:void(0);" class="abs" id="b_btn"></a>
+                    <span class="abs" id="b_z">您還可以輸入<b>140</b>字</span>
+                </div>
+                <div class="tabs rel" id="blue_gd_tab">
+                <a href="javascript:void(0)" class="selected">大家的观点</a></div>
+                <div class="order rel" id="blue_order_tab">
+                <a href="javascript:void(0)" class="cBlues">按时间排列</a>|<a href="javascript:void(0)">按热度排列</a></div>
+                <div class="list rel" id="b_container">
+                    <div id="item_300412" class="item" style="">
+                        <div class="user"><a class="avatar" target="_blank" href="http://home.babytree.com/u89806957267"><img src="http://pic05.babytreeimg.com/foto3/thumbs/2014/0615/99/5/14e8e96ad33dacc24108dc33_hs.jpg"></a><a href="http://home.babytree.com/u89806957267" target="_blank" title="我家的鲁西西">我家的鲁西</a></div><div class="comm"><ins></ins><div class="text"><span>反驳<a href="http://home.babytree.com/u66831487121" target="_blank">狄小夏</a>：<br>即使概率不大 可是最好还是要预防啊<div class="quote"><span>“支持蓝方”</span></div></span></div><div class="status"><b>2014-12-21 20:45</b><a href="javascript:void(0)">反驳(<span>0)</span></a><a href="javascript:void(0)">顶(<span>0</span>)</a></div><div class="input-box rel" style="display: none;"><textarea class="f12"></textarea><label class="abs"><input type="checkbox">同步到薇博</label><a href="javascript:void(0)" class="abs"></a></div></div>
+                    </div>
+                    <div id="item_300411" class="item" style="">
+                        <div class="user"><a class="avatar" target="_blank" href="http://home.babytree.com/u89806957267"><img src="http://pic05.babytreeimg.com/foto3/thumbs/2014/0615/99/5/14e8e96ad33dacc24108dc33_hs.jpg"></a><a href="http://home.babytree.com/u89806957267" target="_blank" title="我家的鲁西西">我家的鲁西</a></div><div class="comm"><ins></ins><div class="text"><span>反驳<a href="http://home.babytree.com/u13364416735" target="_blank">多多妈1229</a>：<br>可是不容否认的是 缺陷的孩子还是很多的啊 特别是周围的中老年人中 智障的什么的 更多吧<div class="quote"><span>“我们上几辈也没补充什么营养啊，我们不也挺好的”</span></div></span></div><div class="status"><b>2014-12-21 20:44</b><a href="javascript:void(0)">反驳(<span>0)</span></a><a href="javascript:void(0)">顶(<span>0</span>)</a></div><div class="input-box rel" style="display: none;"><textarea class="f12"></textarea><label class="abs"><input type="checkbox">同步到薇博</label><a href="javascript:void(0)" class="abs"></a></div></div>
+                    </div>
+                    <div class="list-page"><a href="javascript:void(0)">首页</a><a class="cBlue" href="javascript:void(0)" attr="1">1</a><a href="javascript:void(0)" attr="2">2</a><a href="javascript:void(0)" attr="3">3</a><a href="javascript:void(0)" attr="4">4</a><a href="javascript:void(0)" attr="5">5</a><a href="javascript:void(0)" attr="6">6</a><a href="javascript:void(0)" attr="7">7</a><a href="javascript:void(0)" attr="8">8</a><a href="javascript:void(0)" attr="9">9</a><a href="javascript:void(0)">...</a><a href="javascript:void(0)">下一页</a><a href="javascript:void(0)">尾页</a></div>
+                </div>
+                <img src="http://img03.babytreeimg.com/img/common/loading_pic_s.gif" id="l_loadimg" class="loadimg" style="display: none;">
+            </div>
+            
+            <div class="share-link-bar rel">
                 <div style="margin:20px 0;font-size:16px;">
                     <div class="padding10" style="border-top:1px solid #eee;"></div>
                     分享連結: 
-                    <input type='text' name='campaign-link' id='campaign-link' value='{{applicationInfo.baseUrl}}/frontpage#/campaign/{{campaign.id}}'></input> 
-                    <a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink("campaign-link")'><i class='glyphicon glyphicon-link'></i></a>
+                    <input type='text' name='pkview-link' id='pkview-link' value='{{applicationInfo.baseUrl}}/frontpage#/pkview/{{pkview.id}}'></input> 
+                    <a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink("pkview-link")'><i class='glyphicon glyphicon-link'></i></a>
                 </div>
-            </li>
-        </ul>
-        <div class="general-box-footer"><img style="margin-top:10px;" src="/assets/app/images/general/campaign_footer.png" /></div>
+            </div>
+        </div>
+        <!--div class="general-box-footer"><img style="margin-top:10px;" src="/assets/app/images/general/pkview_footer.png" /></div-->
     </div>
 </div>

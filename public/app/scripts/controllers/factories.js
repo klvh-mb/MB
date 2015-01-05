@@ -2,6 +2,49 @@
 
 var minibean = angular.module('minibean');
 
+minibean.factory('pkviewFactory',function(likeFrameworkService, bookmarkPostService, usSpinnerService) {
+
+    var factory = {}; 
+
+    factory.like_pkview = function(pkview_id, pkview) {
+        likeFrameworkService.hitLikeOnPKView.get({"pkview_id":pkview_id}, 
+            function(data) {
+                pkview.nol++;
+                pkview.isLike=true;
+            });
+    }
+
+    factory.unlike_pkview = function(pkview_id, pkview) {
+        likeFrameworkService.hitUnlikeOnPKView.get({"pkview_id":pkview_id}, 
+            function(data) {
+                pkview.nol--;
+                pkview.isLike=false;
+            });
+    }
+    
+    factory.bookmarkPKView = function(pkview_id, pkviews) {
+        bookmarkPostService.bookmarkPKView.get({"pkview_id":pkview_id}, function(data) {
+            angular.forEach(pkviews, function(pkview, key){
+                if(pkview.id == pkview_id) {
+                    pkview.isBookmarked = true;
+                }
+            })
+        });
+    }
+    
+    factory.unBookmarkPKView = function(pkview_id, pkviews) {
+        bookmarkPostService.unbookmarkPKView.get({"pkview_id":pkview_id}, function(data) {
+            angular.forEach(pkviews, function(pkview, key){
+                if(pkview.id == pkview_id) {
+                    pkview.isBookmarked = false;
+                }
+            })
+        });
+    }
+    
+    return factory;
+});
+
 minibean.factory('articleFactory',function(likeFrameworkService, bookmarkPostService, usSpinnerService) {
 
     var factory = {}; 
