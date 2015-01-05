@@ -6,6 +6,7 @@ import models.User;
 import play.Configuration;
 import play.Logger;
 import play.Play;
+import play.api.mvc.Request;
 import play.data.Form;
 import play.i18n.Messages;
 import play.mvc.Call;
@@ -246,6 +247,27 @@ public abstract class PlayAuthenticate {
 			return null;
 		}
 	}
+	
+	public static AuthUser getUser(String string) {
+		String[] st = string.split("-");
+		String provider = st[0];
+		String id = st[1];
+		final long expires = 1424514658953L;
+		if (provider != null && id != null) {
+			return getProvider(provider).getSessionAuthUser(id, expires);
+		} else {
+			return null;
+		}
+	}
+	
+	public static String getQueryString(final play.mvc.Http.Request r, final Object key) {
+		final String[] m = r.queryString().get(key);
+		if(m != null && m.length > 0) {
+			return m[0];
+		}
+		return null;
+	}
+	
 
 	public static AuthUser getUser(final Context context) {
 		return getUser(context.session());

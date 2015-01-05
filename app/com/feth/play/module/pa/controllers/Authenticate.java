@@ -1,18 +1,31 @@
 package com.feth.play.module.pa.controllers;
 
+import java.security.Key;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+
 import play.data.DynamicForm;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http.Request;
 import play.mvc.Http.Response;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 import com.feth.play.module.pa.PlayAuthenticate;
+
+import controllers.Application;
 
 public class Authenticate extends Controller {
 
 	
 	private static final String PAYLOAD_KEY = "p";
+	private static final String USER_KEY = "pa.u.id";
+	private static final String PROVIDER_KEY = "pa.p.id";
 	
 	public static void noCache(final Response response) {
 		// http://stackoverflow.com/questions/49547/making-sure-a-web-page-is-not-cached-across-all-browsers
@@ -27,6 +40,43 @@ public class Authenticate extends Controller {
 		
 		final String payload = getQueryString(request(), PAYLOAD_KEY);
 		return PlayAuthenticate.handleAuthentication(provider, ctx(), payload);
+	}
+	
+	 private static Key generateKey() throws Exception {
+        Key key = new SecretKeySpec("TheBestSecretkey".getBytes(), "AES");
+        return key;
+	}
+	
+	@Transactional
+	public static Result mobileAuthenticate(final String provider) {
+		noCache(response());
+		
+		final String payload = getQueryString(request(), PAYLOAD_KEY);
+		Result result = PlayAuthenticate.handleAuthentication(provider, ctx(), payload);
+		play.api.mvc.Result wrappedResult = result.getWrappedResult();
+		if (wrappedResult instanceof play.api.mvc.PlainResult) {
+		    play.api.mvc.PlainResult plainResult = (play.api.mvc.PlainResult)wrappedResult;
+		    session();
+		    Application.getLocalUser(session());
+		    int code = plainResult.header().status();
+		    if (code == OK){
+		    	return ok();
+		    }
+		      // Cache
+		  }
+		String encryptedValue = null;
+		String plainData=session().get(PROVIDER_KEY)+"-"+session().get(USER_KEY);
+		try { 
+    		
+    		Key key = generateKey();
+            Cipher c = Cipher.getInstance("AES");
+            c.init(Cipher.ENCRYPT_MODE, key);
+            byte[] encVal = c.doFinal(plainData.getBytes());
+            encryptedValue = new BASE64Encoder().encode(encVal);
+    		
+    	}
+    	catch(Exception e) { }
+		return ok(encryptedValue.replace("+", "%2b"));
 	}
 	
     @Transactional

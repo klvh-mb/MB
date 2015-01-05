@@ -18,6 +18,9 @@ GET     /ng-ads                     controllers.Application.ngAds
 POST    /signupTest                 controllers.Application.doSignupForTest
 POST    /loginTest                  controllers.Application.doLoginForTest
 
+POST    /mobile/loginTest                  controllers.Application.doLoginForTest
+GET     /mobile/get-newsfeeds                  controllers.CommunityController.getMobileNewsfeeds
+
 # Bing Webmaster
 GET     /BingSiteAuth.xml           controllers.Application.bingWebmaster
 
@@ -99,7 +102,9 @@ GET     /click-tagword/:id          controllers.TagWordController.onClick(id : L
 
 GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
 GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
+GET     /authenticate/mobile/:provider     com.feth.play.module.pa.controllers.Authenticate.mobileAuthenticate(provider: String)
 GET     /authenticatePopup/:provider    com.feth.play.module.pa.controllers.Authenticate.authenticatePopup(provider: String)
+GET     /test      controllers.UserController.testURL
  
 GET     /signup                     controllers.Application.signup
 POST    /signup                     controllers.Application.doSignup

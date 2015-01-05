@@ -5,11 +5,15 @@ import be.objectify.deadbolt.java.actions.Restrict;
 import common.cache.LocationCache;
 import indexing.PostIndex;
 
+import java.security.Key;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 import models.GameAccount;
 import models.GameAccountReferral;
@@ -36,11 +40,13 @@ import play.db.jpa.Transactional;
 import play.i18n.Messages;
 import play.libs.Json;
 import play.mvc.Controller;
+import play.mvc.Http.Request;
 import play.mvc.Http.Session;
 import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
+import sun.misc.BASE64Encoder;
 import targeting.community.CommunityTargetingEngine;
 import viewmodel.ApplicationInfoVM;
 import viewmodel.PostIndexVM;
@@ -82,6 +88,8 @@ public class Application extends Controller {
     public static final String SESSION_PROMOCODE = "PROMO_CODE";
     public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";
+	private static final String USER_KEY = "pa.u.id";
+	private static final String PROVIDER_KEY = "pa.p.id";
 
 	@Transactional
     public static Result index() {
@@ -448,6 +456,32 @@ public class Application extends Controller {
 		return localUser;
 	}
 	
+	public static User getLocalUser(final String session) {
+		final AuthUser currentAuthUser = PlayAuthenticate.getUser(session);
+		if (currentAuthUser == null) {
+		    return User.noLoginUser();
+		}
+		final User localUser = User.findByAuthUserIdentity(currentAuthUser);
+		if (localUser == null) {
+            return User.noLoginUser();
+        }
+		return localUser;
+	}
+	
+	public static User getMobileLocalUser(final String decryptedValue) {
+		final AuthUser currentAuthUser = PlayAuthenticate.getUser(decryptedValue);
+		
+
+		if (currentAuthUser == null) {
+		    return User.noLoginUser();
+		}
+		final User localUser = User.findByAuthUserIdentity(currentAuthUser);
+		if (localUser == null) {
+            return User.noLoginUser();
+        }
+		return localUser;
+	}
+	
 	public static Long getLocalUserId() {
         User user = null;
         try {
@@ -660,6 +694,10 @@ public class Application extends Controller {
 			
 		}
 	}
+	 private static Key generateKey() throws Exception {
+	        Key key = new SecretKeySpec("TheBestSecretkey".getBytes(), "AES");
+	        return key;
+		}
 	
 	@Transactional
 	public static Result doLoginForTest() throws AuthException {
@@ -674,7 +712,19 @@ public class Application extends Controller {
 			Result r  = PlayAuthenticate.handleAnthenticationByProvider(ctx(),
 					 com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.Case.LOGIN,
 					 new MyUsernamePasswordAuthProvider(Play.application()));
-			return r;
+			String encryptedValue = null;
+			String plainData=session().get(PROVIDER_KEY)+"-"+session().get(USER_KEY);
+			try { 
+	    		
+	    		Key key = generateKey();
+	            Cipher c = Cipher.getInstance("AES");
+	            c.init(Cipher.ENCRYPT_MODE, key);
+	            byte[] encVal = c.doFinal(plainData.getBytes());
+	            encryptedValue = new BASE64Encoder().encode(encVal);
+	    		
+	    	}
+	    	catch(Exception e) { }
+			return ok(encryptedValue.replace("+", "%2b"));
 		}
 	}
 

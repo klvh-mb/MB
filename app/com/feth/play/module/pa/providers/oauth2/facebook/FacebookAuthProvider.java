@@ -92,5 +92,15 @@ public class FacebookAuthProvider extends
 			return new FacebookAuthInfo(m);
 		}
 	}
+	
+	@Override
+	protected FacebookAuthInfo buildWithAccessInfo(final String token) {
+		
+			final Map<String, String> m = new HashMap<String, String>();
+				m.put(OAuth2AuthProvider.Constants.ACCESS_TOKEN, token);
+				m.put("expires","15");
+			return new FacebookAuthInfo(m);
+		
+	}
 
 }

@@ -5,9 +5,12 @@ import static play.data.Form.form;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.security.Key;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import javax.crypto.Cipher;
 
 import common.cache.CommunityCategoryCache;
 
@@ -38,6 +41,7 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import security.CommunityPermission;
+import sun.misc.BASE64Decoder;
 import targeting.community.BusinessFeedCommTargetingEngine;
 import targeting.community.NewsfeedCommTargetingEngine;
 import viewmodel.CommunitiesParentVM;
@@ -1022,6 +1026,47 @@ public class CommunityController extends Controller{
     	}
 
         List<Post> newsFeeds = localUser.getFeedPosts(true, offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        List<CommunityPostVM> posts = new ArrayList<>();
+        if (newsFeeds != null) {
+            final boolean isCommentable = true;    // must be open for social NF entries
+
+            for (Post p : newsFeeds) {
+                CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser, isCommentable);
+                posts.add(post);
+            }
+        }
+        
+        NewsFeedVM vm = new NewsFeedVM(localUser, posts);
+
+        sw.stop();
+        logger.underlyingLogger().info("[u="+localUser.id+"] getNewsfeeds(offset="+offset+") count="+posts.size()+". vm create Took "+sw.getElapsedMS()+"ms");
+        return ok(Json.toJson(vm));
+    }
+    
+    @Transactional
+    public static Result getMobileNewsfeeds() {
+    	User localUser = null;
+    	try {
+    		Key dkey = UserController.generateKey();
+            Cipher c = Cipher.getInstance("AES");
+            c.init(Cipher.DECRYPT_MODE, dkey);
+            byte[] decordedValue = new BASE64Decoder().decodeBuffer(UserController.getQueryString(request(), "key"));
+            byte[] decValue = c.doFinal(decordedValue);
+            String decryptedValue = new String(decValue);
+    		System.out.println(UserController.getQueryString(request(), "key")+"hhhhhhhhhhhhh "+decryptedValue);
+    		localUser = Application.getMobileLocalUser(decryptedValue);
+	    		
+		}catch(Exception e) { 
+			
+		}
+
+        int offset = 0;
+		// reloading newsfeed
+
+        List<Post> newsFeeds = localUser.getUserNewsfeeds(offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
