@@ -104,7 +104,9 @@ public class PrimarySocialRelation extends domain.Entity implements Serializable
 		POSTED, 
 		POSTED_QUESTION, 
 		COMMENTED, 
-		ANSWERED
+		ANSWERED,
+        YES_VOTED,
+        NO_VOTED
 	}
 	
 	public PrimarySocialRelation(){}

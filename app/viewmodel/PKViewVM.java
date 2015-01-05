@@ -27,11 +27,13 @@ public class PKViewVM {
 	@JsonProperty("ds") public String description;
 	@JsonProperty("im") public String image;
 	@JsonProperty("red_ds") public String redDescription;
+    @JsonProperty("red_im") public String redImage;
 	@JsonProperty("norv") public long noOfRedVotes;
 	@JsonProperty("norc") public long noOfRedComments;
 	@JsonProperty("red_cs") public List<CommunityPostCommentVM> redComments;
 	@JsonProperty("isRed") public boolean isRed = false;
 	@JsonProperty("blue_ds") public String blueDescription;
+    @JsonProperty("blue_im") public String blueImage;
 	@JsonProperty("nobv") public long noOfBlueVotes;
 	@JsonProperty("nobc") public long noOfBlueComments;
 	@JsonProperty("blue_cs") public List<CommunityPostCommentVM> blueComments;
@@ -60,7 +62,8 @@ public class PKViewVM {
 	    } else {
 	        this.description = post.getBody();
 	    }
-		this.image = pkViewMeta.getImage();
+		this.redImage = pkViewMeta.getYesImage();
+        this.blueImage = pkViewMeta.getNoImage();
 
         // fetch comments
         Pair<List<CommunityPostCommentVM>,List<CommunityPostCommentVM>>

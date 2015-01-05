@@ -70,6 +70,32 @@ public class PKViewController extends Controller {
     }
 
     @Transactional
+    public static Result onYesVote(Long id) throws SocialObjectNotLikableException {
+        User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+
+        Pair<PKViewMeta, Post> pkView = PKViewMeta.getPKViewById(id);
+        pkView.first.onYesVote(localUser, pkView.second);
+        return ok();
+    }
+
+    @Transactional
+    public static Result onNoVote(Long id) throws SocialObjectNotLikableException {
+        User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+
+        Pair<PKViewMeta, Post> pkView = PKViewMeta.getPKViewById(id);
+        pkView.first.onNoVote(localUser, pkView.second);
+        return ok();
+    }
+
+    @Transactional
     public static Result onLike(Long id) throws SocialObjectNotLikableException {
         User localUser = Application.getLocalUser(session());
         if (!localUser.isLoggedIn()) {

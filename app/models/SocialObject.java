@@ -135,6 +135,7 @@ public abstract class SocialObject extends domain.Entity implements
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.LIKED;
 		action.validateUniquenessAndCreate();
+        // Game Stats
         GameAccountStatistics.recordLike(user.id);
 	}
 
@@ -143,6 +144,18 @@ public abstract class SocialObject extends domain.Entity implements
 		action.action = PrimarySocialRelation.Action.WANT_ANS;
 		action.validateUniquenessAndCreate();
 	}
+
+    protected final void recordYesVote(User user) {
+		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
+		action.action = PrimarySocialRelation.Action.YES_VOTED;
+		action.validateUniquenessAndCreate();
+    }
+
+    protected final void recordNoVote(User user) {
+		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
+		action.action = PrimarySocialRelation.Action.NO_VOTED;
+		action.validateUniquenessAndCreate();
+    }
 	
 	protected final void recordBookmark(User user) {
 		SecondarySocialRelation action = new SecondarySocialRelation(user, this);
@@ -285,6 +298,7 @@ public abstract class SocialObject extends domain.Entity implements
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.POSTED;
 		action.save();
+        // Game Stats
         GameAccountStatistics.recordPost(user.id);
 	}
 
@@ -292,6 +306,7 @@ public abstract class SocialObject extends domain.Entity implements
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.POSTED_QUESTION;
 		action.save();
+        // Game Stats
         GameAccountStatistics.recordPost(user.id);
 	}
 
@@ -306,6 +321,7 @@ public abstract class SocialObject extends domain.Entity implements
 		PrimarySocialRelation action = new PrimarySocialRelation(user, comment);
 		action.action = PrimarySocialRelation.Action.COMMENTED;
 		action.save();
+        // Game Stats
         GameAccountStatistics.recordComment(user.id);
 	}
 
@@ -313,6 +329,7 @@ public abstract class SocialObject extends domain.Entity implements
 		PrimarySocialRelation action = new PrimarySocialRelation(user, answer);
 		action.action = PrimarySocialRelation.Action.ANSWERED;
         action.save();
+        // Game Stats
         GameAccountStatistics.recordComment(user.id);
 	}
 
