@@ -9,7 +9,6 @@ import common.collection.Pair;
 import common.utils.ImageUploadUtil;
 import common.utils.NanoSecondStopWatch;
 import domain.DefaultValues;
-import models.Article;
 import models.Post;
 import models.PKViewMeta;
 import models.User;
@@ -17,7 +16,6 @@ import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import viewmodel.ArticleVM;
 import viewmodel.PKViewVM;
 
 /**
@@ -35,7 +33,7 @@ public class PKViewController extends Controller {
 
         final List<PKViewVM> vms = new ArrayList<>();
         for (Pair<PKViewMeta, Post> pkPost : pkPosts) {
-            PKViewVM vm = new PKViewVM(pkPost.first, pkPost.second, user, true);
+            PKViewVM vm = new PKViewVM(pkPost.first, pkPost.second, user);
             vms.add(vm);
         }
         return ok(Json.toJson(vms));
@@ -48,7 +46,7 @@ public class PKViewController extends Controller {
 
         final List<PKViewVM> vms = new ArrayList<>();
         for (Pair<PKViewMeta, Post> pkPost : pkPosts) {
-            PKViewVM vm = new PKViewVM(pkPost.first, pkPost.second, user, true);
+            PKViewVM vm = new PKViewVM(pkPost.first, pkPost.second, user);
             vms.add(vm);
         }
         return ok(Json.toJson(vms));

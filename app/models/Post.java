@@ -285,7 +285,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
 
         // create Comment object
         Comment comment = new Comment(this, user, body);
-        comment.commentType = CommentType.SIMPLE;
+        comment.commentType = CommentType.VIEW;
         comment.objectType = SocialObjectType.PK_VIEW;
         comment.setAttribute(attribute);
         comment.save();

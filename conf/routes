@@ -75,6 +75,7 @@ GET     /unlike-pkview/:id          controllers.PKViewController.onUnlike(id : L
 GET     /get-bookmarked-pkviews/:offset     controllers.PKViewController.getBookmarkedPKViews(offset:Integer)
 GET     /bookmark-pkview/:id        controllers.PKViewController.onBookmark(id : Long)
 GET     /unbookmark-pkview/:id      controllers.PKViewController.onUnBookmark(id : Long)
+POST    /community/pkview/comment   controllers.CommunityController.commentToPkViewOnCommunity()
 
 # Campaign
 GET     /get-campaign-info/:id      controllers.CampaignController.infoCampaign(id :Long)
@@ -231,13 +232,11 @@ POST    /updateCommunityProfileData             controllers.CommunityController.
 GET     /communityQnA/questions/:id             controllers.CommunityController.getAllQuestionsOfCommunity(id : Long)
 POST    /communityQnA/question/post             controllers.CommunityController.postQuestionOnCommunity()
 POST    /communityQnA/question/answer           controllers.CommunityController.answerToQuestionOnQnACommunity()
-POST    /communityViewPoint/view/comment        controllers.CommunityController.commentToPkViewOnCommunity()
 POST    /image/uploadPostPhoto                  controllers.CommunityController.uploadPhotoOfPost()
 GET     /image/getCommunityIcons                controllers.CommunityController.getCommunityIcons()
 GET     /getAllUnjoinedMembers/:id/:query       controllers.CommunityController.getAllUnjoinedUsers(id : Long, query: String)
 GET     /inviteToCommunity/:community_id/:user_id   controllers.CommunityController.sendInviteToJoinCommunity(community_id : Long, user_id: Long)
 POST    /image/uploadCommentPhoto               controllers.CommunityController.uploadCommentPhoto()
-POST    /image/uploadQnACommentPhoto            controllers.CommunityController.uploadQnACommentPhoto() 
 GET     /image/get-comment-image-by-id/:id      controllers.CommunityController.getCommentImageById(id : Long)
 GET     /post-landing/:id/:communityId          controllers.CommunityController.postLanding(id:Long, communityId:Long)
 GET     /qna-landing/:id/:communityId           controllers.CommunityController.qnaLanding(id:Long, communityId:Long)

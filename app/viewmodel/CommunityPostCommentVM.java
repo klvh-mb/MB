@@ -18,6 +18,7 @@ public class CommunityPostCommentVM {
 	@JsonProperty("imgs") public Long[] images;
 	@JsonProperty("d") public String commentText;
 	@JsonProperty("nol") public int noOfLikes;
+	@JsonProperty("attr") public String attribute;
 	@JsonProperty("n") public int number;
 	
 	@JsonProperty("isO") public boolean isOwner = false;
@@ -31,6 +32,7 @@ public class CommunityPostCommentVM {
 		postCommentVM.postedOn = comment.getCreatedDate().getTime();
 		postCommentVM.commentText = comment.body;
 		postCommentVM.noOfLikes = comment.noOfLikes;
+		postCommentVM.attribute = comment.getAttribute();
 		postCommentVM.number = number;
 		postCommentVM.isOwner = comment.owner.id == user.id;
 		

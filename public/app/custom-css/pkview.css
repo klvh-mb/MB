@@ -175,6 +175,13 @@
     top: 112px;
     left: 10px;
 }
+.pkview-box-main .col-lr {
+    display: inline-block;
+    background: url(../images/frontpage/pkview/bar-bg-y.png) repeat-y;
+}
+.pkview-box-main .col-l {
+    /*background: url(../images/frontpage/pkview/bar-bg-l-y.png) repeat-y;*/
+}
 .pkview-box-main .col-l .intro {
     background: url(../images/frontpage/pkview/intro.png) 0 0;
 }
@@ -184,6 +191,9 @@
 .pkview-box-main .col-l .textarea {
     background: url(../images/frontpage/pkview/textarea.png) 0 0;
 }
+.pkview-box-main .col-r {
+    /*background: url(../images/frontpage/pkview/bar-bg-r-y.png) repeat-y;*/
+}
 .pkview-box-main .col-r .intro {
     background: url(../images/frontpage/pkview/intro.png) 0 -150px;
 }
@@ -192,6 +202,61 @@
 }
 .pkview-box-main .col-r .textarea {
     background: url(../images/frontpage/pkview/textarea.png) 0 -150px;
+}
+.pkview-box-main .tabs {
+    height: 23px;
+    border-bottom: 1px solid #E5E3DE;
+    margin: 10px 5px;
+}
+.pkview-box-main .tabs .selected {
+    width: 110px;
+    background: url(../images/frontpage/pkview/bar-bg.png) -25px 0;
+    font-weight: bold;
+    color: #999;
+}
+.pkview-box-main .col-r .tabs .selected {
+    width: 110px;
+    background: url(../images/frontpage/pkview/bar-bg.png) -25px -25px;
+    font-weight: bold;
+    color: #999;
+}
+.pkview-box-main .tabs a {
+    cursor: pointer;
+    display: inline-block;
+    height: 22px;
+    text-align: center;
+    float: left;
+    line-height: 20px;
+    width: 60px;
+    color: #E8332F;
+    position: relative;
+    top: 1px;
+}
+.pkview-box-main #red_order_tab, .pkview-box-main #blue_order_tab {
+    width: 300px;
+    float: right;
+}
+.pkview-box-main .order {
+    margin: -30px 0 10px;
+    text-align: right;
+}
+.pkview-box-main .order .cBlues {
+    color: #999 !important;
+}
+.pkview-box-main .order a {
+    color: #06c !important;
+    margin: 0 5px;
+}
+.pkview-box-main .list {
+    padding: 10px;
+    color: #333;
+}
+.pkview-box-main .post-qna-answers {
+    background-color: transparent;
+}
+.pkview-box-main .post-qna-answers li.post-qna-answer-odd, 
+.pkview-box-main .post-qna-answers li.post-qna-answer-even {
+    background-color: transparent;
 }
 
 

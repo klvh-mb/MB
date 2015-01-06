@@ -368,7 +368,7 @@ public class UserController extends Controller {
         List<Post> newsFeeds = user.getUserNewsfeeds(Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 		if(newsFeeds != null ){
 			for(Post p : newsFeeds) {
-				CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser);
+				CommunityPostVM post = new CommunityPostVM(p, localUser);
 				posts.add(post);
 			}
 		}
@@ -398,7 +398,7 @@ public class UserController extends Controller {
 		
 		if(newsFeeds != null ){
 			for(Post p : newsFeeds) {
-				CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser);
+				CommunityPostVM post = new CommunityPostVM(p, localUser);
 				posts.add(post);
 			}
 		}
