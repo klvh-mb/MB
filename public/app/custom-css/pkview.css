@@ -108,9 +108,9 @@
     font-weight: normal;
     color: #fff;
     display: block;
-    width: 120px;
+    width: 128px;
     text-align: center;
-    top: 28px;
+    top: 8px;
     margin: 0;
 }
 .pkview-box-main .intro a {
@@ -123,7 +123,7 @@
 .pkview-box-main .intro em {
     color: #fff;
     top: 106px;
-    left: 12px;
+    left: 20px;
     font-style: normal;
 }
 .pkview-box-main .intro dl {
@@ -132,7 +132,7 @@
     line-height: 1.5;
 }
 .pkview-box-main .intro dt {
-    width: 50px;
+    width: 100px;
     float: left;
     font-weight: bold;
 }
@@ -179,7 +179,7 @@
     background: url(../images/frontpage/pkview/intro.png) 0 0;
 }
 .pkview-box-main .col-l .intro dl {
-    color: #E8332F;
+    color: #F24B48;
 }
 .pkview-box-main .col-l .textarea {
     background: url(../images/frontpage/pkview/textarea.png) 0 0;
