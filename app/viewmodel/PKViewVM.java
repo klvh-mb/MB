@@ -18,6 +18,7 @@ public class PKViewVM extends CommunityPostVM {
 	
     @JsonProperty("id") public Long id;
     @JsonProperty("pid") public Long postId;
+    @JsonProperty("im") public String postImage;
     
 	@JsonProperty("red_ds") public String redDescription;
     @JsonProperty("red_im") public String redImage;
@@ -41,6 +42,7 @@ public class PKViewVM extends CommunityPostVM {
         // fix id
         this.id = pkViewMeta.id;
         this.postId = post.id;
+        this.postImage = pkViewMeta.getPostImage();
         
 		this.redImage = pkViewMeta.getYesImage();
         this.blueImage = pkViewMeta.getNoImage();
