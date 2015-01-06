@@ -60,7 +60,7 @@ public class PKViewVM extends CommunityPostVM {
 		this.blueComments = yesNoComments.second;
 
 		// TODO
-        this.isRed = true;
+        this.isRed = false;
         this.isBlue = false;
 	}
 

@@ -837,6 +837,20 @@ minibean.service('pkViewService',function($resource){
                 get: {method:'get'}
             }
     );
+    this.yesVotePKView = $resource(
+            '/yesvote-pkview/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
+    this.noVotePKView = $resource(
+            '/novote-pkview/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
 });
     
 minibean.service('campaignService',function($resource){

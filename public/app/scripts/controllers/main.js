@@ -2853,7 +2853,7 @@ minibean.controller('ArticleSliderController', function($scope, $routeParams, $i
     }
 });
 
-minibean.controller('PKViewPageController',function($scope, $route, $location, $http, $timeout, $routeParams, pkviewFactory, pkViewService, likeFrameworkService, usSpinnerService){
+minibean.controller('PKViewPageController',function($scope, $route, $location, $http, $timeout, $routeParams, pkViewFactory, pkViewService, likeFrameworkService, usSpinnerService){
     
     $scope.showPKView = true;
     $scope.commentsPreviewNum = DefaultValues.COMMENTS_PREVIEW_COUNT;
@@ -2867,27 +2867,61 @@ minibean.controller('PKViewPageController',function($scope, $route, $location, $
                 $scope.showPKView = false;
             }
         });
-        
+    
+    $scope.alreadyVote = function() {
+        if ($scope.pkview.isRed) {
+            prompt("<div><b>你已支持紅豆豆</b></div>", "bootbox-default-prompt", 2500);
+            return true;
+        }
+        if ($scope.pkview.isBlue) {
+            prompt("<div><b>你已支持藍豆豆</b></div>", "bootbox-default-prompt", 2500);
+            return true;
+        }
+        return false;
+    }
+    
+    $scope.yesVote = function(pkview_id) {
+        if ($scope.alreadyVote()) {
+            return;
+        }
+        pkViewService.yesVotePKView.get({id:pkview_id},
+            function(data) {
+                $scope.pkview.n_rv++;
+                $scope.pkview.isRed = true;
+            });
+    }
+    
+    $scope.noVote = function(pkview_id) {
+        if ($scope.alreadyVote()) {
+            return;
+        }
+        pkViewService.noVotePKView.get({id:pkview_id},
+            function(data) {
+                $scope.pkview.n_bv++;
+                $scope.pkview.isBlue = true;
+            });
+    }
+    
     $scope.like_pkview = function(pkview_id) {
-        pkviewFactory.like_pkview(pkview_id, $scope.pkview);
+        pkViewFactory.like_pkview(pkview_id, $scope.pkview);
     }
 
     $scope.unlike_pkview = function(pkview_id) {
-        pkviewFactory.unlike_pkview(pkview_id, $scope.pkview);
+        pkViewFactory.unlike_pkview(pkview_id, $scope.pkview);
     }
     
     $scope.bookmarkPKView = function(pkview_id) {
         var pkviews = [ $scope.pkview ];
-        pkviewFactory.bookmarkPKView(pkview_id, pkviews);
+        pkViewFactory.bookmarkPKView(pkview_id, pkviews);
     }
     
     $scope.unBookmarkPKView = function(pkview_id) {
         var pkviews = [ $scope.pkview ];
-        pkviewFactory.unBookmarkPKView(pkview_id, pkviews);
+        pkViewFactory.unBookmarkPKView(pkview_id, pkviews);
     }
     
     $scope.select_emoticon_comment = function(code, attribute) {
-        pkviewFactory.selectCommentEmoticon(code, attribute);
+        pkViewFactory.selectCommentEmoticon(code, attribute);
     }
     
     $scope.comment_to_pkview = function(pkview_id, commentText, attribute) {

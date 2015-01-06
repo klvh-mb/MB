@@ -2,7 +2,7 @@
 
 var minibean = angular.module('minibean');
 
-minibean.factory('pkviewFactory',function(likeFrameworkService, bookmarkPostService, usSpinnerService) {
+minibean.factory('pkViewFactory',function(likeFrameworkService, bookmarkPostService, usSpinnerService) {
 
     var factory = {}; 
 

@@ -26,6 +26,10 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/mobile/frontpage/frontpage.html', 
         controller : 'FrontpageController'
       })
+      .when('/pkview/:id',{
+        templateUrl: '/assets/app/views/mobile/frontpage/pkview-page.html',
+        controller : 'PKViewPageController' 
+      })
       .when('/campaign',{
         templateUrl: '/assets/app/views/mobile/frontpage/campaign-page.html',
         controller : 'CampaignPageController'
