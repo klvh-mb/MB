@@ -25,7 +25,7 @@ public class PKViewVM extends CommunityPostVM {
 	@JsonProperty("n_rc") public long noOfRedComments;
 	@JsonProperty("red_cs") public List<CommunityPostCommentVM> redComments;
 	@JsonProperty("isRed") public boolean isRed = false;
-	@JsonProperty("red_ep") public boolean redExpanded = false;
+	@JsonProperty("red_ep") public boolean redExpanded = true;     // always expanded
 	
 	@JsonProperty("blue_ds") public String blueDescription;
     @JsonProperty("blue_im") public String blueImage;
@@ -33,7 +33,7 @@ public class PKViewVM extends CommunityPostVM {
 	@JsonProperty("n_bc") public long noOfBlueComments;
 	@JsonProperty("blue_cs") public List<CommunityPostCommentVM> blueComments;
 	@JsonProperty("isBlue") public boolean isBlue = false;
-	@JsonProperty("blue_ep") public boolean blueExpanded = false;
+	@JsonProperty("blue_ep") public boolean blueExpanded = true;       // always expanded
 	
     public PKViewVM(PKViewMeta pkViewMeta, Post post, User user) {
         super(post, user);

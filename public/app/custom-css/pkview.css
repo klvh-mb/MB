@@ -168,14 +168,15 @@
     top: 13px;
     resize: none;
 }
-.pkview-box-main .textarea a {
-    display: block;
-    width: 90px;
+.pkview-box-main .textarea .comment-btns {
+    position: relative;
+    width: 120px;
     height: 29px;
-    top: 112px;
+    top: 85px;
     left: 10px;
 }
 .pkview-box-main .col-lr {
+    width: 100%;
     display: inline-block;
     background: url(../images/frontpage/pkview/bar-bg-y.png) repeat-y;
 }
@@ -198,7 +199,7 @@
     background: url(../images/frontpage/pkview/intro.png) 0 -150px;
 }
 .pkview-box-main .col-r .intro dl {
-    color: #69b2e0;
+    color: #3691E0;
 }
 .pkview-box-main .col-r .textarea {
     background: url(../images/frontpage/pkview/textarea.png) 0 -150px;
@@ -257,6 +258,24 @@
 .pkview-box-main .post-qna-answers li.post-qna-answer-odd, 
 .pkview-box-main .post-qna-answers li.post-qna-answer-even {
     background-color: transparent;
+    border-top: none;
+    border-bottom: 1px solid #DADADA;
+    line-height: 1.5;
+    padding: 10px 0 20px 0;
+}
+.pkview-box-main .post-sharing-comment-user-image {
+    width: 35px;
+    height: 35px;
+}
+.pkview-box-main .col-l .post-title-user-name a {
+    color: #F24B48;
+}
+.pkview-box-main .col-r .post-title-user-name a {
+    color: #3691E0;
+}
+.pkview-box-main .post-card ul.post-emoticon-dropdown-menu {
+    top: -110px;
+    right: -90px;
 }
 
 

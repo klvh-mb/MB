@@ -42,6 +42,23 @@ minibean.factory('pkviewFactory',function(likeFrameworkService, bookmarkPostServ
         });
     }
     
+    factory.selectCommentEmoticon = function(code, attribute) {
+        var elem;
+        if (attribute == 'YES') {
+            elem = $("#redCommentfield");
+        } else if (attribute == 'NO') {
+            elem = $("#blueCommentfield");
+        }
+        
+        if(elem.val()){
+            elem.val(elem.val() + " " + code + " ");
+        }else{
+            elem.val(code + " ");
+        }
+        elem.focus();
+        elem.trigger('input');    // need this to populate jquery val update to ng-model
+    }
+    
     return factory;
 });
 

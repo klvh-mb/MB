@@ -1,3 +1,15 @@
+<style>
+.btn-like-wrapper span img {
+    width: 14px !important;
+}
+.btn-like-wrapper span, .btn-like-wrapper div {
+    font-size: 12px !important;
+}
+a.btn-like, a.btn-like, a.btn-like, a.btn-like:hover {
+    font-size: 12px !important;
+}
+</style>
+
 <span ng-show="userInfo.isLoggedIn" class="btn-like-wrapper" style="margin-left:10px;">
     <a data-ng-show="!comment.isLike" class="btn-like" href="" data-ng-click="like_comment(post.id,comment.id)">讚好</a> 
     <a data-ng-show="comment.isLike" class="btn-like" href="" data-ng-click="unlike_comment(post.id,comment.id)">取消讚好</a>
