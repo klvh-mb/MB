@@ -31,15 +31,45 @@
     padding: 10px 15px 20px 15px;
 }
 .pkview-box-main .head {
+    width: 120%;
+    height: 150px;
     margin: -10px -25px 0 -25px;
+    background-color: #FBF5ED
+}
+.pkview-box-main .head .head-image {
+    max-width: 200px;
+    height: 100%;
+}
+.pkview-box-main .head p {
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    width: 480px;
+    padding: 20px 30px;
+}
+.pkview-box-main .head p .head-title {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+}
+.pkview-box-main .head p .head-text {
+    display: block;
+    font-size: 16px;
+    margin-top: 10px;
+    line-height: 1.35;
 }
 .pkview-box-main .head ins {
-    width: 132px;
-    height: 55px;
+    width: 100px;
+    height: 42px;
     display: block;
     top: 0;
-    left: 20px;
+    left: 30px;
     position: absolute;
+}
+.pkview-box-main .head .in {
+    background: url(../images/frontpage/pkview/head-in.png);
+    _background: none;
+    _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=scale, src='../images/frontpage/pkview/head-in.png');
 }
 .pkview-box-main .head .over {
     background: url(../images/frontpage/pkview/head-over.png);
@@ -148,32 +178,37 @@
     color: #666;
 }
 .pkview-box-main .textarea {
-    height: 150px;
+    height: 140px;
 }
 .pkview-box-main .textarea label {
     left: 115px;
     top: 119px;
 }
 .pkview-box-main .textarea span {
-    left: 200px;
-    top: 115px;
+    left: 220px;
+    top: 108px;
 }
 .pkview-box-main .textarea span b {
     color: #666;
 }
 .pkview-box-main .textarea textarea {
-    width: 300px;
+    width: 260px;
     height: 80px;
-    left: 15px;
+    right: 15px;
     top: 13px;
+    padding: 5px;
     resize: none;
 }
 .pkview-box-main .textarea .comment-btns {
     position: relative;
-    width: 120px;
-    height: 29px;
-    top: 85px;
-    left: 10px;
+    width: 150px;
+    height: 28px;
+    top: 82px;
+    left: 5px;
+}
+.pkview-box-main .textarea #prompt-comment-login {
+    padding: 20px;
+    height: 100px;
 }
 .pkview-box-main .col-lr {
     width: 100%;
@@ -249,7 +284,7 @@
     margin: 0 5px;
 }
 .pkview-box-main .list {
-    padding: 10px;
+    padding: 0 10px;
     color: #333;
 }
 .pkview-box-main .post-qna-answers {
@@ -262,6 +297,9 @@
     border-bottom: 1px solid #DADADA;
     line-height: 1.5;
     padding: 10px 0 20px 0;
+}
+.pkview-box-main .textarea .post-sharing-comment-user-image {
+    margin-top: 7px;
 }
 .pkview-box-main .post-sharing-comment-user-image {
     width: 35px;
@@ -276,6 +314,10 @@
 .pkview-box-main .post-card ul.post-emoticon-dropdown-menu {
     top: -110px;
     right: -90px;
+}
+.pkview-box-main .col-lr a.btn-like, 
+.pkview-box-main .col-lr a.btn-like:hover {
+    font-size: 12px !important;
 }
 
 

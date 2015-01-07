@@ -352,7 +352,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
     
     @JsonIgnore
     public List<Comment> getCommentsOfPost() {
-        Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 and deleted = false");
+        Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 and deleted = false order by date");
         q.setParameter(1, this.id);
         return (List<Comment>)q.getResultList();
     }
