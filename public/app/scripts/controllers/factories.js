@@ -2,10 +2,48 @@
 
 var minibean = angular.module('minibean');
 
-minibean.factory('pkViewFactory',function(likeFrameworkService, bookmarkPostService, usSpinnerService) {
+minibean.factory('pkViewFactory',function(postManagementService, likeFrameworkService, bookmarkPostService, usSpinnerService) {
 
     var factory = {}; 
 
+    factory.deleteComment = function(commentId, attr, pkview) {
+        postManagementService.deleteComment.get({"commentId":commentId}, function(data) {
+            if (attr == 'YES') {
+                angular.forEach(pkview.red_cs, function(comment, key){
+                    if(comment.id == commentId) {
+                        pkview.red_cs.splice(pkview.red_cs.indexOf(comment),1);
+                    }
+                })
+                pkview.n_rc--;            
+            } else if (attr == 'NO') {
+                angular.forEach(pkview.blue_cs, function(comment, key){
+                    if(comment.id == commentId) {
+                        pkview.blue_cs.splice(pkview.blue_cs.indexOf(comment),1);
+                    }
+                })
+                pkview.n_bc--;
+            }
+            pkview.n_c--;
+        });
+    }
+    
+    factory.selectCommentEmoticon = function(code, attr) {
+        var elem;
+        if (attr == 'YES') {
+            elem = $("#redCommentfield");
+        } else if (attr == 'NO') {
+            elem = $("#blueCommentfield");
+        }
+        
+        if(elem.val()){
+            elem.val(elem.val() + " " + code + " ");
+        }else{
+            elem.val(code + " ");
+        }
+        elem.focus();
+        elem.trigger('input');    // need this to populate jquery val update to ng-model
+    }
+    
     factory.like_pkview = function(pkview_id, pkview) {
         likeFrameworkService.hitLikeOnPKView.get({"pkview_id":pkview_id}, 
             function(data) {
@@ -22,41 +60,56 @@ minibean.factory('pkViewFactory',function(likeFrameworkService, bookmarkPostServ
             });
     }
     
-    factory.bookmarkPKView = function(pkview_id, pkviews) {
+    factory.bookmarkPKView = function(pkview_id, pkview) {
         bookmarkPostService.bookmarkPKView.get({"pkview_id":pkview_id}, function(data) {
-            angular.forEach(pkviews, function(pkview, key){
-                if(pkview.id == pkview_id) {
-                    pkview.isBookmarked = true;
-                }
-            })
+            pkview.isBookmarked = true;
         });
     }
     
-    factory.unBookmarkPKView = function(pkview_id, pkviews) {
+    factory.unBookmarkPKView = function(pkview_id, pkview) {
         bookmarkPostService.unbookmarkPKView.get({"pkview_id":pkview_id}, function(data) {
-            angular.forEach(pkviews, function(pkview, key){
-                if(pkview.id == pkview_id) {
-                    pkview.isBookmarked = false;
-                }
-            })
+            pkview.isBookmarked = false;
         });
     }
     
-    factory.selectCommentEmoticon = function(code, attribute) {
-        var elem;
-        if (attribute == 'YES') {
-            elem = $("#redCommentfield");
-        } else if (attribute == 'NO') {
-            elem = $("#blueCommentfield");
-        }
-        
-        if(elem.val()){
-            elem.val(elem.val() + " " + code + " ");
-        }else{
-            elem.val(code + " ");
-        }
-        elem.focus();
-        elem.trigger('input');    // need this to populate jquery val update to ng-model
+    factory.like_comment = function(comment_id, attr, pkview) {
+        likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
+            if (attr == 'YES') {
+                angular.forEach(pkview.red_cs, function(comment, key){
+                    if(comment.id == comment_id) {
+                        comment.nol++;
+                        comment.isLike = true;
+                    }
+                });
+            } else if (attr == 'NO') {
+                angular.forEach(pkview.blue_cs, function(comment, key){
+                    if(comment.id == comment_id) {
+                        comment.nol++;
+                        comment.isLike = true;
+                    }
+                });
+            }
+        });
+    }
+    
+    factory.unlike_comment = function(comment_id, attr, pkview) {
+        likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
+            if (attr == 'YES') {
+                angular.forEach(pkview.red_cs, function(comment, key){
+                    if(comment.id == comment_id) {
+                        comment.nol--;
+                        comment.isLike = false;
+                    }
+                });
+            } else if (attr == 'NO') {
+                angular.forEach(pkview.blue_cs, function(comment, key){
+                    if(comment.id == comment_id) {
+                        comment.nol--;
+                        comment.isLike = false;
+                    }
+                });
+            }
+        });
     }
     
     return factory;

@@ -31,15 +31,44 @@
     padding: 10px 15px 20px 15px;
 }
 .pkview-box-main .head {
+    width: 120%;
+    height: 150px;
     margin: -10px -25px 0 -25px;
+    background-color: #FBF5ED
+}
+.pkview-box-main .head .head-image {
+    max-width: 200px;
+    height: 100%;
+}
+.pkview-box-main .head p {
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    width: 480px;
+    padding: 20px 30px;
+}
+.pkview-box-main .head p .head-title {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+}
+.pkview-box-main .head p .head-text {
+    display: block;
+    font-size: 16px;
+    margin-top: 10px;
 }
 .pkview-box-main .head ins {
-    width: 132px;
-    height: 55px;
+    width: 100px;
+    height: 42px;
     display: block;
     top: 0;
-    left: 20px;
+    left: 30px;
     position: absolute;
+}
+.pkview-box-main .head .in {
+    background: url(../images/frontpage/pkview/head-in.png);
+    _background: none;
+    _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=scale, src='../images/frontpage/pkview/head-in.png');
 }
 .pkview-box-main .head .over {
     background: url(../images/frontpage/pkview/head-over.png);
@@ -276,6 +305,10 @@
 .pkview-box-main .post-card ul.post-emoticon-dropdown-menu {
     top: -110px;
     right: -90px;
+}
+.pkview-box-main .col-lr a.btn-like, 
+.pkview-box-main .col-lr a.btn-like:hover {
+    font-size: 12px !important;
 }
 
 

@@ -2902,6 +2902,10 @@ minibean.controller('PKViewPageController',function($scope, $route, $location, $
             });
     }
     
+    $scope.deleteComment = function(commentId, attr) {
+        pkViewFactory.deleteComment(commentId, attr, $scope.pkview);
+    }
+    
     $scope.like_pkview = function(pkview_id) {
         pkViewFactory.like_pkview(pkview_id, $scope.pkview);
     }
@@ -2911,17 +2915,23 @@ minibean.controller('PKViewPageController',function($scope, $route, $location, $
     }
     
     $scope.bookmarkPKView = function(pkview_id) {
-        var pkviews = [ $scope.pkview ];
-        pkViewFactory.bookmarkPKView(pkview_id, pkviews);
+        pkViewFactory.bookmarkPKView(pkview_id, $scope.pkview);
     }
     
     $scope.unBookmarkPKView = function(pkview_id) {
-        var pkviews = [ $scope.pkview ];
-        pkViewFactory.unBookmarkPKView(pkview_id, pkviews);
+        pkViewFactory.unBookmarkPKView(pkview_id, $scope.pkview);
     }
     
-    $scope.select_emoticon_comment = function(code, attribute) {
-        pkViewFactory.selectCommentEmoticon(code, attribute);
+    $scope.like_comment = function(comment_id, attr) {
+        pkViewFactory.like_comment(comment_id, attr, $scope.pkview);
+    }
+    
+    $scope.unlike_comment = function(comment_id, attr) {
+        pkViewFactory.unlike_comment(comment_id, attr, $scope.pkview);
+    }
+    
+    $scope.select_emoticon_comment = function(code, attr) {
+        pkViewFactory.selectCommentEmoticon(code, attr);
     }
     
     $scope.comment_to_pkview = function(pkview_id, commentText, attribute) {
@@ -2946,10 +2956,10 @@ minibean.controller('PKViewPageController',function($scope, $route, $location, $
                 comment.n = $scope.pkview.n_c;
                 $scope.pkview.cs.push(comment);
                 if (response.attribute == 'YES') {
-                    $scope.pkview.red_cs.push(comment);
+                    $scope.pkview.red_cs.unshift(comment);
                     $scope.pkview.n_rc++;
                 } else if (response.attribute == 'NO') {
-                    $scope.pkview.blue_cs.push(comment);
+                    $scope.pkview.blue_cs.unshift(comment);
                     $scope.pkview.n_bc++;
                 }
                 usSpinnerService.stop('loading...');

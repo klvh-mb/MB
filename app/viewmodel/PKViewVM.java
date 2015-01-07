@@ -18,9 +18,10 @@ public class PKViewVM extends CommunityPostVM {
 	
     @JsonProperty("id") public Long id;
     @JsonProperty("pid") public Long postId;
+    @JsonProperty("img") public String image;
     
 	@JsonProperty("red_ds") public String redDescription;
-    @JsonProperty("red_im") public String redImage;
+    @JsonProperty("red_img") public String redImage;
 	@JsonProperty("n_rv") public long noOfRedVotes;
 	@JsonProperty("n_rc") public long noOfRedComments;
 	@JsonProperty("red_cs") public List<CommunityPostCommentVM> redComments;
@@ -28,7 +29,7 @@ public class PKViewVM extends CommunityPostVM {
 	@JsonProperty("red_ep") public boolean redExpanded = true;     // always expanded
 	
 	@JsonProperty("blue_ds") public String blueDescription;
-    @JsonProperty("blue_im") public String blueImage;
+    @JsonProperty("blue_img") public String blueImage;
 	@JsonProperty("n_bv") public long noOfBlueVotes;
 	@JsonProperty("n_bc") public long noOfBlueComments;
 	@JsonProperty("blue_cs") public List<CommunityPostCommentVM> blueComments;
@@ -42,6 +43,7 @@ public class PKViewVM extends CommunityPostVM {
         this.id = pkViewMeta.id;
         this.postId = post.id;
         
+        this.image = "";
 		this.redImage = pkViewMeta.getYesImage();
         this.blueImage = pkViewMeta.getNoImage();
 
@@ -74,14 +76,14 @@ public class PKViewVM extends CommunityPostVM {
         List<CommunityPostCommentVM> yesCommentVMs = new ArrayList<>(yesCommentCount);
         List<CommunityPostCommentVM> noCommentVMs = new ArrayList<>(noCommentCount);
 
-        for(int i = yesCommentCount- 1; i >= 0 ; i--) {
+        for(int i = 0; i < yesCommentCount; i++) {
             Comment yesComment = yesComments.get(i);
-            CommunityPostCommentVM vm = CommunityPostCommentVM.communityPostCommentVM(yesComment, user, yesCommentCount-i);
+            CommunityPostCommentVM vm = CommunityPostCommentVM.communityPostCommentVM(yesComment, user, i+i);
             yesCommentVMs.add(vm);
         }
-        for(int i = noCommentCount- 1; i >= 0 ; i--) {
+        for(int i = 0; i < noCommentCount; i++) {
             Comment noComment = noComments.get(i);
-            CommunityPostCommentVM vm = CommunityPostCommentVM.communityPostCommentVM(noComment, user, noCommentCount-i);
+            CommunityPostCommentVM vm = CommunityPostCommentVM.communityPostCommentVM(noComment, user, i+i);
             noCommentVMs.add(vm);
         }
         return new Pair<>(yesCommentVMs, noCommentVMs);

@@ -7,13 +7,15 @@
         </div>
         <div class="pkview-detail-wrapper" ng-if="showPKView">
             <div class="head rel">
-                <img src="http://pic05.babytreeimg.com/foto3/common_photo/original/2014/1215/cd1d01ee6431087.jpg" data-i="link">
-                <p class="abs"></p>
-                <ins class="over"></ins>
-            </div>
-            <div style="padding:10px;">
-                <span data-ng-include data-src="'/assets/app/views/frontpage/like-pkview.html'"></span>
-                <span data-ng-include data-src="'/assets/app/views/frontpage/bookmark-pkview.html'"></span>
+                <img class="head-image" ng-src="{{pkview.img}}">
+                <p class="abs">
+                    <span class="head-title">{{pkview.ptl}}</span>
+                    <span class="head-text" ng-bind-html="pkview.pt | to_trusted"></span>
+                    <span data-ng-include data-src="'/assets/app/views/frontpage/like-pkview.html'"></span>
+                    <span data-ng-include data-src="'/assets/app/views/frontpage/bookmark-pkview.html'"></span>
+                </p>
+                <!--ins class="in"></ins-->
+                <!--ins class="over"></ins-->
             </div>
             <div class="bar rel">
                 <b class="bar-bg-l abs"></b>
@@ -51,7 +53,7 @@
                     <div class="post-card">
                         <ul class="post-qna-answers">
                             <li ng-show="userInfo.isLoggedIn">
-                                <!--a data-ng-href="m-my#/profile/{{userInfo.id}}">
+                                <!--a data-ng-href="my#/profile/{{userInfo.id}}">
                                     <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
                                 </a-->
                                 <form class="post-comment-box" name="redComment" method="post" action="">
@@ -83,8 +85,7 @@
                 </div>
                 <div class="tabs rel" id="red_gd_tab">
                 <a href="javascript:void(0)" class="selected">大家的觀點</a></div>
-                <div class="order rel" id="red_order_tab">
-                <a href="javascript:void(0)" class="cBlues">按時間排列</a>|<a href="javascript:void(0)">按熱門排列</a></div>
+                <!--div class="order rel" id="red_order_tab"><a href="javascript:void(0)" class="cBlues">按時間排列</a>|<a href="javascript:void(0)">按熱門排列</a></div-->
                 <div class="list rel" id="r_container">
                     <div class="post-card">
                         <ul class="post-qna-answers">
@@ -97,23 +98,23 @@
                                 <img id="comment-spinner_{{pkview.id}}" class="comment-spinner" style="display:none;" src="/assets/app/images/general/animated/green-spinner.gif">
                             </li-->
                             <li data-ng-repeat="comment in pkview.red_cs" ng-class-odd="'post-qna-answer-odd'" ng-class-even="'post-qna-answer-even'">
-                                <a data-ng-href="m-my#/profile/{{comment.oid}}">
+                                <a data-ng-href="my#/profile/{{comment.oid}}">
                                     <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
                                 </a>
                                 <div>
                                     <span class="post-title-user-name">
-                                        <a data-ng-href="m-my#/profile/{{comment.oid}}">{{comment.on}}</a>
+                                        <a data-ng-href="my#/profile/{{comment.oid}}">{{comment.on}}</a>
                                     </span>
                                     <span style="margin-left:5px;"/>
                                     <span class="post-date" am-time-ago="comment.cd"></span>
-                                    <span data-ng-include data-src="'/assets/app/views/home/like-answer.html'"></span>
+                                    <span data-ng-include data-src="'/assets/app/views/frontpage/like-pkview-comment.html'"></span>
                                     <div class="pull-right">
                                         <!--span class="post-number">#{{comment.n}}</span-->
                                         <button ng-show="comment.isO || userInfo.isSA" class="post-dropdown-btn btn btn-default dropdown-toggle" type="button" id="post-dropdown" data-toggle="dropdown">
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
-                                            <li role="presentation" ng-show="comment.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deleteComment(comment.id, post)" ng-confirm-message="您確定刪除這個留言嗎？"><i class="glyphicon glyphicon-trash"></i>刪除留言</a></li>
+                                            <li role="presentation" ng-show="comment.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deleteComment(comment.id, comment.attr)" ng-confirm-message="您確定刪除這個留言嗎？"><i class="glyphicon glyphicon-trash"></i>刪除留言</a></li>
                                             <!--li role="presentation" ng-show="!comment.isO || userInfo.isSA"><a role="menuitem" ng-click="openReportObjectModal(comment.id,'VIEW')"><i class="glyphicon glyphicon-warning-sign"></i>舉報留言</a></li-->
                                         </ul>
                                     </div>
@@ -153,7 +154,7 @@
                     <div class="post-card">
                         <ul class="post-qna-answers">
                             <li ng-show="userInfo.isLoggedIn">
-                                <!--a data-ng-href="m-my#/profile/{{userInfo.id}}">
+                                <!--a data-ng-href="my#/profile/{{userInfo.id}}">
                                     <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
                                 </a-->
                                 <form class="post-comment-box" name="blueComment" method="post" action="">
@@ -185,8 +186,7 @@
                 </div>
                 <div class="tabs rel" id="blue_gd_tab">
                 <a href="javascript:void(0)" class="selected">大家的觀點</a></div>
-                <div class="order rel" id="blue_order_tab">
-                <a href="javascript:void(0)" class="cBlues">按時間排列</a>|<a href="javascript:void(0)">按熱門排列</a></div>
+                <!--div class="order rel" id="blue_order_tab"><a href="javascript:void(0)" class="cBlues">按時間排列</a>|<a href="javascript:void(0)">按熱門排列</a></div-->
                 <div class="list rel" id="b_container">
                     <div class="post-card">
                         <ul class="post-qna-answers">
@@ -199,23 +199,23 @@
                                 <img id="comment-spinner_{{pkview.id}}" class="comment-spinner" style="display:none;" src="/assets/app/images/general/animated/green-spinner.gif">
                             </li-->
                             <li data-ng-repeat="comment in pkview.blue_cs" ng-class-odd="'post-qna-answer-odd'" ng-class-even="'post-qna-answer-even'">
-                                <a data-ng-href="m-my#/profile/{{comment.oid}}">
+                                <a data-ng-href="my#/profile/{{comment.oid}}">
                                     <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
                                 </a>
                                 <div>
                                     <span class="post-title-user-name">
-                                        <a data-ng-href="m-my#/profile/{{comment.oid}}">{{comment.on}}</a>
+                                        <a data-ng-href="my#/profile/{{comment.oid}}">{{comment.on}}</a>
                                     </span>
                                     <span style="margin-left:5px;"/>
                                     <span class="post-date" am-time-ago="comment.cd"></span>
-                                    <span data-ng-include data-src="'/assets/app/views/home/like-answer.html'"></span>
+                                    <span data-ng-include data-src="'/assets/app/views/frontpage/like-pkview-comment.html'"></span>
                                     <div class="pull-right">
                                         <!--span class="post-number">#{{comment.n}}</span-->
                                         <button ng-show="comment.isO || userInfo.isSA" class="post-dropdown-btn btn btn-default dropdown-toggle" type="button" id="post-dropdown" data-toggle="dropdown">
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
-                                            <li role="presentation" ng-show="comment.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deleteComment(comment.id, post)" ng-confirm-message="您確定刪除這個留言嗎？"><i class="glyphicon glyphicon-trash"></i>刪除留言</a></li>
+                                            <li role="presentation" ng-show="comment.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deleteComment(comment.id, comment.attr)" ng-confirm-message="您確定刪除這個留言嗎？"><i class="glyphicon glyphicon-trash"></i>刪除留言</a></li>
                                             <!--li role="presentation" ng-show="!comment.isO || userInfo.isSA"><a role="menuitem" ng-click="openReportObjectModal(comment.id,'VIEW')"><i class="glyphicon glyphicon-warning-sign"></i>舉報留言</a></li-->
                                         </ul>
                                     </div>
