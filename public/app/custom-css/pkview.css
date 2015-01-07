@@ -177,32 +177,37 @@
     color: #666;
 }
 .pkview-box-main .textarea {
-    height: 150px;
+    height: 140px;
 }
 .pkview-box-main .textarea label {
     left: 115px;
     top: 119px;
 }
 .pkview-box-main .textarea span {
-    left: 200px;
-    top: 115px;
+    left: 220px;
+    top: 108px;
 }
 .pkview-box-main .textarea span b {
     color: #666;
 }
 .pkview-box-main .textarea textarea {
-    width: 300px;
+    width: 260px;
     height: 80px;
-    left: 15px;
+    right: 15px;
     top: 13px;
+    padding: 5px;
     resize: none;
 }
 .pkview-box-main .textarea .comment-btns {
     position: relative;
-    width: 120px;
-    height: 29px;
-    top: 85px;
-    left: 10px;
+    width: 150px;
+    height: 28px;
+    top: 82px;
+    left: 5px;
+}
+.pkview-box-main .textarea #prompt-comment-login {
+    padding: 20px;
+    height: 100px;
 }
 .pkview-box-main .col-lr {
     width: 100%;
@@ -278,7 +283,7 @@
     margin: 0 5px;
 }
 .pkview-box-main .list {
-    padding: 10px;
+    padding: 0 10px;
     color: #333;
 }
 .pkview-box-main .post-qna-answers {
@@ -291,6 +296,9 @@
     border-bottom: 1px solid #DADADA;
     line-height: 1.5;
     padding: 10px 0 20px 0;
+}
+.pkview-box-main .textarea .post-sharing-comment-user-image {
+    margin-top: 7px;
 }
 .pkview-box-main .post-sharing-comment-user-image {
     width: 35px;

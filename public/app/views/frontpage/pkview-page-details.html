@@ -12,7 +12,7 @@
                     <span class="head-title">{{pkview.ptl}}</span>
                     <span class="head-text" ng-bind-html="pkview.pt | to_trusted"></span>
                     <span data-ng-include data-src="'/assets/app/views/frontpage/like-pkview.html'"></span>
-                    <span data-ng-include data-src="'/assets/app/views/frontpage/bookmark-pkview.html'"></span>
+                    <!--span data-ng-include data-src="'/assets/app/views/frontpage/bookmark-pkview.html'"></span-->
                 </p>
                 <!--ins class="in"></ins-->
                 <!--ins class="over"></ins-->
@@ -33,208 +33,210 @@
                 <ins class="abs" style="left: 62%;"></ins>
             </div>
             
-            
             <div class="col-lr">
-            
-            <div class="area col-l list_container">
-                <div class="intro rel">
-                    <h2 class="abs" id="red_agree_count">{{pkview.n_rv}}</h2>
-                    <a href="" ng-click="yesVote(pkview.id)" class="abs" id="red_agree_a"></a>
-                    <em class="abs" id="red_camp" ng-show="pkview.isRed">(我支持紅豆豆)</em>
-                    <dl class="f14 abs">
-                        <dt>紅豆豆：</dt>
-                        <dd>
-                            <p>{{pkview.red_ds}}</p>
-                            <span class="f12">已發表觀點：<span class="f16" id="red_view_count">{{pkview.n_rc}}</span></span>
-                        </dd>
-                    </dl>
-                </div>
-                <div class="textarea rel">
-                    <div class="post-card">
-                        <ul class="post-qna-answers">
-                            <li ng-show="userInfo.isLoggedIn">
-                                <!--a data-ng-href="my#/profile/{{userInfo.id}}">
-                                    <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
-                                </a-->
-                                <form class="post-comment-box" name="redComment" method="post" action="">
-                                    <label for="User Comment"></label>
-                                    <textarea type="text" id="redCommentfield" name="redCommentfield" data-ng-model="redCommentText" class="abs f14" placeholder="觀點..."></textarea>
-                                    <div class="comment-btns">
-                                        <a class="dropdown-toggle dropdown-hover colorChange post-emoticon-dropdown" data-toggle="dropdown" href="#">
-                                            <img src="../assets/app/images/emoticons/smile.png" />
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-menu-right icon-dropdown post-emoticon-dropdown-menu">
-                                            <li data-ng-repeat="emoticon in emoticons">
-                                                <a href="" data-ng-click="select_emoticon_comment(emoticon.code,'YES')">
-                                                    <img class="emoticon" data-ng-src="{{emoticon.url}}"/>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <button class="btn btn-primary ng-binding" ng-disabled="redComment.$pristine || (redComment.$dirty && !redCommentText.length)" type="submit" disabled="disabled" data-ng-click="comment_to_pkview(pkview.id, redCommentText, 'YES');redCommentText='';">
-                                            發表觀點
-                                        </button>
-                                    </div>
-                                    <span class="abs" id="b_z">您還可以輸入<b>140</b>字</span>
-                                </form>
-                            </li>
-                            <li ng-show="!userInfo.isLoggedIn">
-                                <div data-ng-include data-src="'/assets/app/views/widgets/prompt-comment-login-widget.html'"></div>
-                            </li>
-                        </ul>
+                <div class="area col-l list_container">
+                    <div class="intro rel">
+                        <h2 class="abs" id="red_agree_count">{{pkview.n_rv}}</h2>
+                        <a href="" ng-click="yesVote(pkview.id)" class="abs" id="red_agree_a"></a>
+                        <em class="abs" id="red_camp" ng-show="pkview.isRed">(我支持紅豆豆)</em>
+                        <dl class="f14 abs">
+                            <dt>紅豆豆：</dt>
+                            <dd>
+                                <p>{{pkview.red_ds}}</p>
+                                <span class="f12">已發表觀點：<span class="f16" id="red_view_count">{{pkview.n_rc}}</span></span>
+                            </dd>
+                        </dl>
                     </div>
-                </div>
-                <div class="tabs rel" id="red_gd_tab">
-                <a href="javascript:void(0)" class="selected">大家的觀點</a></div>
-                <!--div class="order rel" id="red_order_tab"><a href="javascript:void(0)" class="cBlues">按時間排列</a>|<a href="javascript:void(0)">按熱門排列</a></div-->
-                <div class="list rel" id="r_container">
-                    <div class="post-card">
-                        <ul class="post-qna-answers">
-                            <!--li ng-show="pkview.n_rc > commentsPreviewNum">
-                                <span class="post-qna-answer-count" ng-show="pkview.n_rc == 0">尚未有觀點</span>
-                                <span class="post-qna-answer-count" ng-show="pkview.n_rc > 0 && pkview.n_rc <= commentsPreviewNum">{{pkview.n_rc}}個觀點</span>
-                                <span class="post-qna-answer-count" ng-show="pkview.n_rc > commentsPreviewNum  && pkview.red_ep">共{{pkview.n_rc}}個觀點</span>
-                                <a class="post-view-all-comments-link" href="" ng-show="pkview.n_rc > commentsPreviewNum && !pkview.red_ep" data-ng-click="get_all_red_comments(pkview.id)">共{{pkview.n_rc}}個觀點</a>
-                                <a class="post-view-all-comments-link pull-right" href="" ng-show="pkview.n_rc > commentsPreviewNum && !pkview.red_ep" data-ng-click="get_all_red_comments(pkview.id)">查看所有觀點</a>
-                                <img id="comment-spinner_{{pkview.id}}" class="comment-spinner" style="display:none;" src="/assets/app/images/general/animated/green-spinner.gif">
-                            </li-->
-                            <li data-ng-repeat="comment in pkview.red_cs" ng-class-odd="'post-qna-answer-odd'" ng-class-even="'post-qna-answer-even'">
-                                <a data-ng-href="my#/profile/{{comment.oid}}">
-                                    <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
-                                </a>
-                                <div>
-                                    <span class="post-title-user-name">
-                                        <a data-ng-href="my#/profile/{{comment.oid}}">{{comment.on}}</a>
-                                    </span>
-                                    <span style="margin-left:5px;"/>
-                                    <span class="post-date" am-time-ago="comment.cd"></span>
-                                    <span data-ng-include data-src="'/assets/app/views/frontpage/like-pkview-comment.html'"></span>
-                                    <div class="pull-right">
-                                        <!--span class="post-number">#{{comment.n}}</span-->
-                                        <button ng-show="comment.isO || userInfo.isSA" class="post-dropdown-btn btn btn-default dropdown-toggle" type="button" id="post-dropdown" data-toggle="dropdown">
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
-                                            <li role="presentation" ng-show="comment.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deleteComment(comment.id, comment.attr)" ng-confirm-message="您確定刪除這個留言嗎？"><i class="glyphicon glyphicon-trash"></i>刪除留言</a></li>
-                                            <!--li role="presentation" ng-show="!comment.isO || userInfo.isSA"><a role="menuitem" ng-click="openReportObjectModal(comment.id,'VIEW')"><i class="glyphicon glyphicon-warning-sign"></i>舉報留言</a></li-->
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="post-qna-answer-body">
+                    <div class="textarea rel">
+                        <div class="post-card">
+                            <ul class="post-qna-answers">
+                                <li ng-show="userInfo.isLoggedIn">
+                                    <a data-ng-href="my#/profile/{{userInfo.id}}">
+                                        <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
+                                    </a>
+                                    <form class="post-comment-box" name="redComment" method="post" action="">
+                                        <label for="User Comment"></label>
+                                        <textarea type="text" id="redCommentfield" name="redCommentfield" data-ng-model="redCommentText" class="abs f14" placeholder="觀點..."></textarea>
+                                        <div class="comment-btns">
+                                            <a class="dropdown-toggle dropdown-hover colorChange post-emoticon-dropdown" data-toggle="dropdown" href="#">
+                                                <img src="../assets/app/images/emoticons/smile.png" />
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-right icon-dropdown post-emoticon-dropdown-menu">
+                                                <li data-ng-repeat="emoticon in emoticons">
+                                                    <a href="" data-ng-click="select_emoticon_comment(emoticon.code,'YES')">
+                                                        <img class="emoticon" data-ng-src="{{emoticon.url}}"/>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <button class="btn btn-primary ng-binding" ng-disabled="redComment.$pristine || (redComment.$dirty && !redCommentText.length)" type="submit" disabled="disabled" data-ng-click="comment_to_pkview(pkview.id, redCommentText, 'YES');redCommentText='';">
+                                                發表觀點
+                                            </button>
+                                        </div>
+                                        <span class="abs" id="b_z">可以輸入<b>140</b>字</span>
+                                    </form>
+                                </li>
+                                <li ng-show="!userInfo.isLoggedIn">
+                                    <div data-ng-include data-src="'/assets/app/views/widgets/prompt-comment-login-widget.html'"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tabs rel" id="red_gd_tab">
+                    <a href="javascript:void(0)" class="selected">大家的觀點</a></div>
+                    <!--div class="order rel" id="red_order_tab"><a href="javascript:void(0)" class="cBlues">按時間排列</a>|<a href="javascript:void(0)">按熱門排列</a></div-->
+                    <div class="list rel" id="r_container">
+                        <div style="width:100%;text-align:center;padding:25px 0;" class="f16" ng-if="pkview.n_rc == 0">
+                            快來支持紅豆豆，發佈第一個觀點
+                        </div>
+                        <div class="post-card" ng-if="pkview.n_rc > 0">
+                            <ul class="post-qna-answers">
+                                <!--li ng-show="pkview.n_rc > commentsPreviewNum">
+                                    <span class="post-qna-answer-count" ng-show="pkview.n_rc == 0">尚未有觀點</span>
+                                    <span class="post-qna-answer-count" ng-show="pkview.n_rc > 0 && pkview.n_rc <= commentsPreviewNum">{{pkview.n_rc}}個觀點</span>
+                                    <span class="post-qna-answer-count" ng-show="pkview.n_rc > commentsPreviewNum  && pkview.red_ep">共{{pkview.n_rc}}個觀點</span>
+                                    <a class="post-view-all-comments-link" href="" ng-show="pkview.n_rc > commentsPreviewNum && !pkview.red_ep" data-ng-click="get_all_red_comments(pkview.id)">共{{pkview.n_rc}}個觀點</a>
+                                    <a class="post-view-all-comments-link pull-right" href="" ng-show="pkview.n_rc > commentsPreviewNum && !pkview.red_ep" data-ng-click="get_all_red_comments(pkview.id)">查看所有觀點</a>
+                                    <img id="comment-spinner_{{pkview.id}}" class="comment-spinner" style="display:none;" src="/assets/app/images/general/animated/green-spinner.gif">
+                                </li-->
+                                <li data-ng-repeat="comment in pkview.red_cs" ng-class-odd="'post-qna-answer-odd'" ng-class-even="'post-qna-answer-even'">
+                                    <a data-ng-href="my#/profile/{{comment.oid}}">
+                                        <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
+                                    </a>
                                     <div>
-                                        <span class="post-qna-answer-body-text" ng-bind-html="comment.d | to_trusted"></span>
+                                        <span class="post-title-user-name">
+                                            <a data-ng-href="my#/profile/{{comment.oid}}">{{comment.on}}</a>
+                                        </span>
+                                        <span style="margin-left:5px;"/>
+                                        <span class="post-date" am-time-ago="comment.cd"></span>
+                                        <span data-ng-include data-src="'/assets/app/views/frontpage/like-pkview-comment.html'"></span>
+                                        <div class="pull-right">
+                                            <!--span class="post-number">#{{comment.n}}</span-->
+                                            <button ng-show="comment.isO || userInfo.isSA" class="post-dropdown-btn btn btn-default dropdown-toggle" type="button" id="post-dropdown" data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
+                                                <li role="presentation" ng-show="comment.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deleteComment(comment.id, comment.attr)" ng-confirm-message="您確定刪除這個觀點嗎？"><i class="glyphicon glyphicon-trash"></i>刪除觀點</a></li>
+                                                <!--li role="presentation" ng-show="!comment.isO || userInfo.isSA"><a role="menuitem" ng-click="openReportObjectModal(comment.id,'VIEW')"><i class="glyphicon glyphicon-warning-sign"></i>舉報觀點</a></li-->
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div data-ng-show="comment.hasImage" class="post-body-image">
-                                        <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in comment.imgs" href="">
-                                            <img data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
-                                        </a>
+                                    <div class="post-qna-answer-body">
+                                        <div>
+                                            <span class="post-qna-answer-body-text" ng-bind-html="comment.d | to_trusted"></span>
+                                        </div>
+                                        <div data-ng-show="comment.hasImage" class="post-body-image">
+                                            <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in comment.imgs" href="">
+                                                <img data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                        </ul>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-
-
-            <div class="area col-r list_container">
-                <div class="intro rel">
-                    <h2 class="abs" id="blue_agree_count">{{pkview.n_bv}}</h2>
-                    <a href="" ng-click="noVote(pkview.id)" class="abs" id="blue_agree_a"></a>
-                    <em class="abs" id="blue_camp" ng-show="pkview.isBlue">(我支持藍豆豆)</em>
-                    <dl class="f14 abs">
-                        <dt>藍豆豆：</dt>
-                        <dd>
-                            <p>{{pkview.blue_ds}}</p>
-                            <span class="f12">已發表觀點：<span class="f16" id="blue_view_count">{{pkview.n_bc}}</span></span>
-                        </dd>
-                    </dl>
-                </div>
-                <div class="textarea rel">
-                    <div class="post-card">
-                        <ul class="post-qna-answers">
-                            <li ng-show="userInfo.isLoggedIn">
-                                <!--a data-ng-href="my#/profile/{{userInfo.id}}">
-                                    <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
-                                </a-->
-                                <form class="post-comment-box" name="blueComment" method="post" action="">
-                                    <label for="User Comment"></label>
-                                    <textarea type="text" id="blueCommentfield" name="blueCommentfield" data-ng-model="blueCommentText" class="abs f14" placeholder="觀點..."></textarea>
-                                    <div class="comment-btns">
-                                        <a class="dropdown-toggle dropdown-hover colorChange post-emoticon-dropdown" data-toggle="dropdown" href="#">
-                                            <img src="../assets/app/images/emoticons/smile.png" />
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-menu-right icon-dropdown post-emoticon-dropdown-menu">
-                                            <li data-ng-repeat="emoticon in emoticons">
-                                                <a href="" data-ng-click="select_emoticon_comment(emoticon.code,'NO')">
-                                                    <img class="emoticon" data-ng-src="{{emoticon.url}}"/>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <button class="btn btn-primary ng-binding" ng-disabled="blueComment.$pristine || (blueComment.$dirty && !blueCommentText.length)" type="submit" disabled="disabled" data-ng-click="comment_to_pkview(pkview.id, blueCommentText, 'NO');blueCommentText='';">
-                                            發表觀點
-                                        </button>
-                                    </div>
-                                    <span class="abs" id="b_z">您還可以輸入<b>140</b>字</span>
-                                </form>
-                            </li>
-                            <li ng-show="!userInfo.isLoggedIn">
-                                <div data-ng-include data-src="'/assets/app/views/widgets/prompt-comment-login-widget.html'"></div>
-                            </li>
-                        </ul>
+    
+                <div class="area col-r list_container">
+                    <div class="intro rel">
+                        <h2 class="abs" id="blue_agree_count">{{pkview.n_bv}}</h2>
+                        <a href="" ng-click="noVote(pkview.id)" class="abs" id="blue_agree_a"></a>
+                        <em class="abs" id="blue_camp" ng-show="pkview.isBlue">(我支持藍豆豆)</em>
+                        <dl class="f14 abs">
+                            <dt>藍豆豆：</dt>
+                            <dd>
+                                <p>{{pkview.blue_ds}}</p>
+                                <span class="f12">已發表觀點：<span class="f16" id="blue_view_count">{{pkview.n_bc}}</span></span>
+                            </dd>
+                        </dl>
                     </div>
-                </div>
-                <div class="tabs rel" id="blue_gd_tab">
-                <a href="javascript:void(0)" class="selected">大家的觀點</a></div>
-                <!--div class="order rel" id="blue_order_tab"><a href="javascript:void(0)" class="cBlues">按時間排列</a>|<a href="javascript:void(0)">按熱門排列</a></div-->
-                <div class="list rel" id="b_container">
-                    <div class="post-card">
-                        <ul class="post-qna-answers">
-                            <!--li ng-show="pkview.n_bc > commentsPreviewNum">
-                                <span class="post-qna-answer-count" ng-show="pkview.n_bc == 0">尚未有觀點</span>
-                                <span class="post-qna-answer-count" ng-show="pkview.n_bc > 0 && pkview.n_bc <= commentsPreviewNum">{{pkview.n_bc}}個觀點</span>
-                                <span class="post-qna-answer-count" ng-show="pkview.n_bc > commentsPreviewNum  && pkview.blue_ep">共{{pkview.n_bc}}個觀點</span>
-                                <a class="post-view-all-comments-link" href="" ng-show="pkview.n_bc > commentsPreviewNum && !pkview.blue_ep" data-ng-click="get_all_blue_comments(pkview.id)">共{{pkview.n_bc}}個觀點</a>
-                                <a class="post-view-all-comments-link pull-right" href="" ng-show="pkview.n_bc > commentsPreviewNum && !pkview.blue_ep" data-ng-click="get_all_blue_comments(pkview.id)">查看所有觀點</a>
-                                <img id="comment-spinner_{{pkview.id}}" class="comment-spinner" style="display:none;" src="/assets/app/images/general/animated/green-spinner.gif">
-                            </li-->
-                            <li data-ng-repeat="comment in pkview.blue_cs" ng-class-odd="'post-qna-answer-odd'" ng-class-even="'post-qna-answer-even'">
-                                <a data-ng-href="my#/profile/{{comment.oid}}">
-                                    <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
-                                </a>
-                                <div>
-                                    <span class="post-title-user-name">
-                                        <a data-ng-href="my#/profile/{{comment.oid}}">{{comment.on}}</a>
-                                    </span>
-                                    <span style="margin-left:5px;"/>
-                                    <span class="post-date" am-time-ago="comment.cd"></span>
-                                    <span data-ng-include data-src="'/assets/app/views/frontpage/like-pkview-comment.html'"></span>
-                                    <div class="pull-right">
-                                        <!--span class="post-number">#{{comment.n}}</span-->
-                                        <button ng-show="comment.isO || userInfo.isSA" class="post-dropdown-btn btn btn-default dropdown-toggle" type="button" id="post-dropdown" data-toggle="dropdown">
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
-                                            <li role="presentation" ng-show="comment.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deleteComment(comment.id, comment.attr)" ng-confirm-message="您確定刪除這個留言嗎？"><i class="glyphicon glyphicon-trash"></i>刪除留言</a></li>
-                                            <!--li role="presentation" ng-show="!comment.isO || userInfo.isSA"><a role="menuitem" ng-click="openReportObjectModal(comment.id,'VIEW')"><i class="glyphicon glyphicon-warning-sign"></i>舉報留言</a></li-->
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="post-qna-answer-body">
+                    <div class="textarea rel">
+                        <div class="post-card">
+                            <ul class="post-qna-answers">
+                                <li ng-show="userInfo.isLoggedIn">
+                                    <a data-ng-href="my#/profile/{{userInfo.id}}">
+                                        <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
+                                    </a>
+                                    <form class="post-comment-box" name="blueComment" method="post" action="">
+                                        <label for="User Comment"></label>
+                                        <textarea type="text" id="blueCommentfield" name="blueCommentfield" data-ng-model="blueCommentText" class="abs f14" placeholder="觀點..."></textarea>
+                                        <div class="comment-btns">
+                                            <a class="dropdown-toggle dropdown-hover colorChange post-emoticon-dropdown" data-toggle="dropdown" href="#">
+                                                <img src="../assets/app/images/emoticons/smile.png" />
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-right icon-dropdown post-emoticon-dropdown-menu">
+                                                <li data-ng-repeat="emoticon in emoticons">
+                                                    <a href="" data-ng-click="select_emoticon_comment(emoticon.code,'NO')">
+                                                        <img class="emoticon" data-ng-src="{{emoticon.url}}"/>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <button class="btn btn-primary ng-binding" ng-disabled="blueComment.$pristine || (blueComment.$dirty && !blueCommentText.length)" type="submit" disabled="disabled" data-ng-click="comment_to_pkview(pkview.id, blueCommentText, 'NO');blueCommentText='';">
+                                                發表觀點
+                                            </button>
+                                        </div>
+                                        <span class="abs" id="b_z">可以輸入<b>140</b>字</span>
+                                    </form>
+                                </li>
+                                <li ng-show="!userInfo.isLoggedIn">
+                                    <div data-ng-include data-src="'/assets/app/views/widgets/prompt-comment-login-widget.html'"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tabs rel" id="blue_gd_tab">
+                    <a href="javascript:void(0)" class="selected">大家的觀點</a></div>
+                    <!--div class="order rel" id="blue_order_tab"><a href="javascript:void(0)" class="cBlues">按時間排列</a>|<a href="javascript:void(0)">按熱門排列</a></div-->
+                    <div class="list rel" id="b_container">
+                        <div style="width:100%;text-align:center;padding:25px 0;" class="f16" ng-if="pkview.n_bc == 0">
+                            快來支持藍豆豆，發佈第一個觀點
+                        </div>
+                        <div class="post-card" ng-if="pkview.n_bc > 0">
+                            <ul class="post-qna-answers">
+                                <!--li ng-show="pkview.n_bc > commentsPreviewNum">
+                                    <span class="post-qna-answer-count" ng-show="pkview.n_bc == 0">尚未有觀點</span>
+                                    <span class="post-qna-answer-count" ng-show="pkview.n_bc > 0 && pkview.n_bc <= commentsPreviewNum">{{pkview.n_bc}}個觀點</span>
+                                    <span class="post-qna-answer-count" ng-show="pkview.n_bc > commentsPreviewNum  && pkview.blue_ep">共{{pkview.n_bc}}個觀點</span>
+                                    <a class="post-view-all-comments-link" href="" ng-show="pkview.n_bc > commentsPreviewNum && !pkview.blue_ep" data-ng-click="get_all_blue_comments(pkview.id)">共{{pkview.n_bc}}個觀點</a>
+                                    <a class="post-view-all-comments-link pull-right" href="" ng-show="pkview.n_bc > commentsPreviewNum && !pkview.blue_ep" data-ng-click="get_all_blue_comments(pkview.id)">查看所有觀點</a>
+                                    <img id="comment-spinner_{{pkview.id}}" class="comment-spinner" style="display:none;" src="/assets/app/images/general/animated/green-spinner.gif">
+                                </li-->
+                                <li data-ng-repeat="comment in pkview.blue_cs" ng-class-odd="'post-qna-answer-odd'" ng-class-even="'post-qna-answer-even'">
+                                    <a data-ng-href="my#/profile/{{comment.oid}}">
+                                        <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
+                                    </a>
                                     <div>
-                                        <span class="post-qna-answer-body-text" ng-bind-html="comment.d | to_trusted"></span>
+                                        <span class="post-title-user-name">
+                                            <a data-ng-href="my#/profile/{{comment.oid}}">{{comment.on}}</a>
+                                        </span>
+                                        <span style="margin-left:5px;"/>
+                                        <span class="post-date" am-time-ago="comment.cd"></span>
+                                        <span data-ng-include data-src="'/assets/app/views/frontpage/like-pkview-comment.html'"></span>
+                                        <div class="pull-right">
+                                            <!--span class="post-number">#{{comment.n}}</span-->
+                                            <button ng-show="comment.isO || userInfo.isSA" class="post-dropdown-btn btn btn-default dropdown-toggle" type="button" id="post-dropdown" data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
+                                                <li role="presentation" ng-show="comment.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deleteComment(comment.id, comment.attr)" ng-confirm-message="您確定刪除這個觀點嗎？"><i class="glyphicon glyphicon-trash"></i>刪除觀點</a></li>
+                                                <!--li role="presentation" ng-show="!comment.isO || userInfo.isSA"><a role="menuitem" ng-click="openReportObjectModal(comment.id,'VIEW')"><i class="glyphicon glyphicon-warning-sign"></i>舉報觀點</a></li-->
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div data-ng-show="comment.hasImage" class="post-body-image">
-                                        <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in comment.imgs" href="">
-                                            <img data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
-                                        </a>
+                                    <div class="post-qna-answer-body">
+                                        <div>
+                                            <span class="post-qna-answer-body-text" ng-bind-html="comment.d | to_trusted"></span>
+                                        </div>
+                                        <div data-ng-show="comment.hasImage" class="post-body-image">
+                                            <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in comment.imgs" href="">
+                                                <img data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                        </ul>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
             
             <div class="share-link-bar rel">
