@@ -22,15 +22,21 @@
                 <b class="bar-bg-r abs"></b>
                 <table>
                     <tbody><tr>
-                        <td class="bar-l" style="width: 70%;"><span id="zf_span"><span id="zf_text">紅豆豆 </span>
-                            <span id="zf_percent">70</span>%</span></td><td class="bar-r">
+                        <td class="bar-l" style="width:{{pkview.red_w}}%;">
+                            <span id="zf_span">
+                                <span id="zf_text" ng-show="pkview.red_w > 20">紅豆豆 </span>
+                                <span id="zf_percent">{{pkview.red_vp}}</span>%
+                            </span>
+                        </td>
+                        <td class="bar-r">
                             <span id="ff_text">
-                            <span id="ff_text">藍豆豆 </span>
-                            <span id="ff_persent">30</span>%</span>
+                                <span id="ff_text" ng-show="pkview.red_w < 80">藍豆豆 </span>
+                                <span id="ff_persent">{{pkview.blue_vp}}</span>%
+                            </span>
                         </td>
                     </tr></tbody>
                 </table>
-                <ins class="abs" style="left: 62%;"></ins>
+                <ins class="abs" style="left:{{pkview.red_w-6}}%;"></ins>
             </div>
             
             <div class="col-lr">

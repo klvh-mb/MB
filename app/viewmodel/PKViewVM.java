@@ -20,6 +20,11 @@ public class PKViewVM extends CommunityPostVM {
     @JsonProperty("pid") public Long postId;
     @JsonProperty("img") public String image;
     
+    @JsonProperty("red_vp") public Long redVotePercent;
+    @JsonProperty("blue_vp") public Long blueVotePercent;
+    @JsonProperty("red_w") public Long redBarWidth;
+    @JsonProperty("blue_w") public Long blueBarWidth;
+    
 	@JsonProperty("red_ds") public String redDescription;
     @JsonProperty("red_img") public String redImage;
 	@JsonProperty("n_rv") public long noOfRedVotes;
@@ -35,6 +40,8 @@ public class PKViewVM extends CommunityPostVM {
 	@JsonProperty("blue_cs") public List<CommunityPostCommentVM> blueComments;
 	@JsonProperty("isBlue") public boolean isBlue = false;
 	@JsonProperty("blue_ep") public boolean blueExpanded = true;       // always expanded
+	
+	public static final long MIN_BAR_WIDTH = 12;
 	
     public PKViewVM(PKViewMeta pkViewMeta, Post post, User user) {
         super(post, user);
@@ -64,6 +71,25 @@ public class PKViewVM extends CommunityPostVM {
 		// TODO
         this.isRed = false;
         this.isBlue = false;
+        
+        // UI
+        long totalVotes = noOfRedVotes + noOfBlueVotes;
+        if (totalVotes == 0) {
+            this.redVotePercent = 0L;
+            this.redBarWidth = 50L;
+            this.blueVotePercent = 0L;
+            this.blueBarWidth = 50L;
+        } else {
+            this.redVotePercent = noOfRedVotes * 100 / totalVotes;
+            this.blueVotePercent = 100 - redVotePercent;
+            if (redVotePercent > blueVotePercent) {
+                blueBarWidth = (blueVotePercent < MIN_BAR_WIDTH)? MIN_BAR_WIDTH : blueVotePercent;
+                redBarWidth = 100 - blueVotePercent;
+            } else {
+                redBarWidth = (redVotePercent < MIN_BAR_WIDTH)? MIN_BAR_WIDTH : redVotePercent;
+                blueBarWidth = 100 - blueVotePercent;
+            }
+        }
 	}
 
     private static Pair<List<CommunityPostCommentVM>,List<CommunityPostCommentVM>>

@@ -2869,6 +2869,11 @@ minibean.controller('PKViewPageController',function($scope, $route, $location, $
         });
     
     $scope.alreadyVote = function() {
+        if (!$scope.userInfo.isLoggedIn) {
+            prompt("<div><b>請先登入再投票</b></div>", "bootbox-default-prompt", 2500);
+            return true;
+        }
+        
         if ($scope.pkview.isRed) {
             prompt("<div><b>你已支持紅豆豆</b></div>", "bootbox-default-prompt", 2500);
             return true;
