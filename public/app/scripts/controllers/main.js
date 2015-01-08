@@ -342,9 +342,10 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
 
     // frontpage topics
     $scope.sliderTopics = frontpageService.sliderTopics.get();
+    $scope.promoTopics = frontpageService.promoTopics.get();
+    $scope.promo2Topics = frontpageService.promo2Topics.get();
     $scope.gameTopics = frontpageService.gameTopics.get();
     $scope.featuredTopics = frontpageService.featuredTopics.get();
-    $scope.promoTopics = frontpageService.promoTopics.get();
     
     // articles
     $scope.allCategory = true;      // for mobile articles slider
@@ -2854,6 +2855,41 @@ minibean.controller('ArticleSliderController', function($scope, $routeParams, $i
 });
 
 minibean.controller('PKViewPageController',function($scope, $route, $location, $http, $timeout, $routeParams, pkViewFactory, pkViewService, likeFrameworkService, usSpinnerService){
+    
+    $scope.redExpandText = '只看紅豆豆';
+    $scope.blueExpandText = '只看藍豆豆';
+    $scope.redExpanded = false;
+    $scope.blueExpanded = false;
+    $scope.toggleRedExpand = function() {
+        $scope.redExpanded = !$scope.redExpanded;
+        if ($scope.redExpanded) {
+            $('.col-l').show();
+            $('.col-l').width('100%');
+            $('.col-r').hide();
+            $scope.redExpandText = '全部意見';
+        } else {
+            $('.col-l').show();
+            $('.col-l').width('50%');
+            $('.col-r').show();
+            $('.col-r').width('50%');
+            $scope.redExpandText = '只看紅豆豆';
+        }
+    }
+    $scope.toggleBlueExpand = function() {
+        $scope.blueExpanded = !$scope.blueExpanded;
+        if ($scope.blueExpanded) {
+            $('.col-l').hide();
+            $('.col-r').show();
+            $('.col-r').width('100%');
+            $scope.blueExpandText = '全部意見';
+        } else {
+            $('.col-l').show();
+            $('.col-l').width('50%');
+            $('.col-r').show();
+            $('.col-r').width('50%');
+            $scope.blueExpandText = '只看藍豆豆';
+        }
+    }
     
     $scope.showPKView = true;
     $scope.commentsPreviewNum = DefaultValues.COMMENTS_PREVIEW_COUNT;

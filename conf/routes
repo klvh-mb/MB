@@ -264,6 +264,7 @@ GET     /unwant-ans/:post_id                    controllers.CommunityController.
 GET     /get-hotcommunities                     controllers.FrontPageController.getHotCommunities()
 GET     /get-slider-topics                      controllers.FrontPageController.getSliderTopics()
 GET     /get-promo-topics                       controllers.FrontPageController.getPromoTopics()
+GET     /get-promo2-topics                      controllers.FrontPageController.getPromo2Topics()
 GET     /get-featured-topics                    controllers.FrontPageController.getFeaturedTopics()
 GET     /get-game-topics                       controllers.FrontPageController.getGameTopics()
 

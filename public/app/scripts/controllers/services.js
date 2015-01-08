@@ -41,6 +41,13 @@ minibean.service('frontpageService',function($resource){
                 get: {method:'GET',isArray:true}
             }
     );
+    this.promo2Topics = $resource(
+            '/get-promo2-topics',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET',isArray:true}
+            }
+    );
     this.featuredTopics = $resource(
             '/get-featured-topics',
             {alt:'json',callback:'JSON_CALLBACK'},
