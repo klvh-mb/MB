@@ -59,7 +59,7 @@ public class PKViewController extends Controller {
         Pair<PKViewMeta, Post> pkView = PKViewMeta.getPKViewById(pkViewMetaId);
         if (pkView == null) {
             logger.underlyingLogger().error("Invalid pkViewMetaId: "+pkViewMetaId);
-            return status(500);
+            return ok("NO_RESULT");
         }
         pkView.second.noOfViews++;                          // TODO: need to save
 

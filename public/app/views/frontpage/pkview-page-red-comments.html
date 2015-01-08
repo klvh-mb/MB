@@ -1,0 +1,50 @@
+<div class="list rel" id="r_container">
+    <div style="width:100%;text-align:center;padding:25px 0;" class="f16" ng-if="pkview.n_rc == 0">
+        快來支持紅豆豆，發佈第一個觀點
+    </div>
+    <div class="post-card" ng-if="pkview.n_rc > 0">
+        <ul class="post-qna-answers">
+            <!--li ng-show="pkview.n_rc > commentsPreviewNum">
+                <span class="post-qna-answer-count" ng-show="pkview.n_rc == 0">尚未有觀點</span>
+                <span class="post-qna-answer-count" ng-show="pkview.n_rc > 0 && pkview.n_rc <= commentsPreviewNum">{{pkview.n_rc}}個觀點</span>
+                <span class="post-qna-answer-count" ng-show="pkview.n_rc > commentsPreviewNum  && pkview.red_ep">共{{pkview.n_rc}}個觀點</span>
+                <a class="post-view-all-comments-link" href="" ng-show="pkview.n_rc > commentsPreviewNum && !pkview.red_ep" data-ng-click="get_all_red_comments(pkview.id)">共{{pkview.n_rc}}個觀點</a>
+                <a class="post-view-all-comments-link pull-right" href="" ng-show="pkview.n_rc > commentsPreviewNum && !pkview.red_ep" data-ng-click="get_all_red_comments(pkview.id)">查看所有觀點</a>
+                <img id="comment-spinner_{{pkview.id}}" class="comment-spinner" style="display:none;" src="/assets/app/images/general/animated/green-spinner.gif">
+            </li-->
+            <li data-ng-repeat="comment in pkview.red_cs" ng-class-odd="'post-qna-answer-odd'" ng-class-even="'post-qna-answer-even'">
+                <a data-ng-href="my#/profile/{{comment.oid}}">
+                    <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
+                </a>
+                <div>
+                    <span class="post-title-user-name">
+                        <a data-ng-href="my#/profile/{{comment.oid}}">{{comment.on}}</a>
+                    </span>
+                    <span style="margin-left:5px;"/>
+                    <span class="post-date" am-time-ago="comment.cd"></span>
+                    <span data-ng-include data-src="'/assets/app/views/frontpage/like-pkview-comment.html'"></span>
+                    <div class="pull-right">
+                        <!--span class="post-number">#{{comment.n}}</span-->
+                        <button ng-show="comment.isO || userInfo.isSA" class="post-dropdown-btn btn btn-default dropdown-toggle" type="button" id="post-dropdown" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
+                            <li role="presentation" ng-show="comment.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deleteComment(comment.id, comment.attr)" ng-confirm-message="您確定刪除這個觀點嗎？"><i class="glyphicon glyphicon-trash"></i>刪除觀點</a></li>
+                            <!--li role="presentation" ng-show="!comment.isO || userInfo.isSA"><a role="menuitem" ng-click="openReportObjectModal(comment.id,'VIEW')"><i class="glyphicon glyphicon-warning-sign"></i>舉報觀點</a></li-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="post-qna-answer-body">
+                    <div>
+                        <span class="post-qna-answer-body-text" ng-bind-html="comment.d | to_trusted"></span>
+                    </div>
+                    <div data-ng-show="comment.hasImage" class="post-body-image">
+                        <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in comment.imgs" href="">
+                            <img data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

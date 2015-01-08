@@ -11,6 +11,8 @@ import models.User;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import controllers.Application;
+
 /**
  * VM Class for PKView
  */
@@ -73,6 +75,7 @@ public class PKViewVM extends CommunityPostVM {
         this.isBlue = false;
         
         // UI
+        long minBarWidth = Application.isMobileUser()? MIN_BAR_WIDTH * 2 : MIN_BAR_WIDTH;
         long totalVotes = noOfRedVotes + noOfBlueVotes;
         if (totalVotes == 0) {
             this.redVotePercent = 0L;
@@ -83,11 +86,11 @@ public class PKViewVM extends CommunityPostVM {
             this.redVotePercent = noOfRedVotes * 100 / totalVotes;
             this.blueVotePercent = 100 - redVotePercent;
             if (redVotePercent > blueVotePercent) {
-                blueBarWidth = (blueVotePercent < MIN_BAR_WIDTH)? MIN_BAR_WIDTH : blueVotePercent;
-                redBarWidth = 100 - blueVotePercent;
+                blueBarWidth = (blueVotePercent < minBarWidth)? minBarWidth : blueVotePercent;
+                redBarWidth = 100 - blueBarWidth;
             } else {
-                redBarWidth = (redVotePercent < MIN_BAR_WIDTH)? MIN_BAR_WIDTH : redVotePercent;
-                blueBarWidth = 100 - blueVotePercent;
+                redBarWidth = (redVotePercent < minBarWidth)? minBarWidth : redVotePercent;
+                blueBarWidth = 100 - redBarWidth;
             }
         }
 	}

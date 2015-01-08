@@ -130,12 +130,14 @@ pre {
  * bootstrap
  */
 .bootbox-default-prompt .modal-dialog {
+    top: 100px;
     width: 350px;
     margin: 100px auto;
 }
 .bootbox-default-prompt .modal-content {
     border-color: #FCC9CB;
     border-width: 3px;
+    padding: 10px 0;
 }
 #content {
     min-width: 280px;
