@@ -11,6 +11,8 @@ import models.User;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import controllers.Application;
+
 /**
  * VM Class for PKView
  */
@@ -36,7 +38,17 @@ public class PKViewVM extends CommunityPostVM {
 	@JsonProperty("isBlue") public boolean isBlue = false;
 	@JsonProperty("blue_ep") public boolean blueExpanded = true;       // always expanded
 	
+<<<<<<< HEAD
     public PKViewVM(PKViewMeta pkViewMeta, Post post, User user) {
+=======
+	public static final long MIN_BAR_WIDTH = 12;
+	
+	public PKViewVM(PKViewMeta pkViewMeta, Post post, User user) {
+	    this(pkViewMeta, post, user, false);
+	}
+	
+    public PKViewVM(PKViewMeta pkViewMeta, Post post, User user, boolean skipComments) {
+>>>>>>> 9fbac5ca2a81f3c6dbf857742a0d469b9eb26353
         super(post, user);
         
         // fix id
@@ -47,23 +59,50 @@ public class PKViewVM extends CommunityPostVM {
 		this.redImage = pkViewMeta.getYesImage();
         this.blueImage = pkViewMeta.getNoImage();
 
-        // fetch comments
-        Pair<List<CommunityPostCommentVM>,List<CommunityPostCommentVM>>
+        this.redDescription = pkViewMeta.getYesText();
+        this.noOfRedVotes = pkViewMeta.getYesVoteCount();
+        
+        this.blueDescription = pkViewMeta.getNoText();
+        this.noOfBlueVotes = pkViewMeta.getNoVoteCount();
+        
+        if (!skipComments) {
+            // fetch comments
+            Pair<List<CommunityPostCommentVM>,List<CommunityPostCommentVM>> 
                 yesNoComments = extractYesNoCommentVMs(post, user);
-
-		this.redDescription = pkViewMeta.getYesText();
-		this.noOfRedVotes = pkViewMeta.getYesVoteCount();
-		this.noOfRedComments = yesNoComments.first.size();
-		this.redComments = yesNoComments.first;
-		
-		this.blueDescription = pkViewMeta.getNoText();
-		this.noOfBlueVotes = pkViewMeta.getNoVoteCount();
-		this.noOfBlueComments = yesNoComments.second.size();
-		this.blueComments = yesNoComments.second;
-
+        
+            this.noOfRedComments = yesNoComments.first.size();
+            this.redComments = yesNoComments.first;
+            
+            this.noOfBlueComments = yesNoComments.second.size();
+            this.blueComments = yesNoComments.second;
+        }
+        
 		// TODO
         this.isRed = true;
         this.isBlue = false;
+<<<<<<< HEAD
+=======
+        
+        // UI
+        long minBarWidth = Application.isMobileUser()? MIN_BAR_WIDTH * 2 : MIN_BAR_WIDTH;
+        long totalVotes = noOfRedVotes + noOfBlueVotes;
+        if (totalVotes == 0) {
+            this.redVotePercent = 0L;
+            this.redBarWidth = 50L;
+            this.blueVotePercent = 0L;
+            this.blueBarWidth = 50L;
+        } else {
+            this.redVotePercent = noOfRedVotes * 100 / totalVotes;
+            this.blueVotePercent = 100 - redVotePercent;
+            if (redVotePercent > blueVotePercent) {
+                blueBarWidth = (blueVotePercent < minBarWidth)? minBarWidth : blueVotePercent;
+                redBarWidth = 100 - blueBarWidth;
+            } else {
+                redBarWidth = (redVotePercent < minBarWidth)? minBarWidth : redVotePercent;
+                blueBarWidth = 100 - redBarWidth;
+            }
+        }
+>>>>>>> 9fbac5ca2a81f3c6dbf857742a0d469b9eb26353
 	}
 
     private static Pair<List<CommunityPostCommentVM>,List<CommunityPostCommentVM>>

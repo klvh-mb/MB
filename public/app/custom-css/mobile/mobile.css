@@ -698,6 +698,91 @@ span.notif-count {
     margin: 100px auto;
 }
 
+/* PKView */
+.pkview-box-main .pkview-detail-wrapper {
+    padding: 10px 0px 20px 0px;
+}
+.pkview-box-main .head {
+    width: 100%;
+    height: auto;
+    margin: -10px 0 0 0;
+}
+.pkview-box-main .head p {
+    padding: 20px 20px;
+}
+.pkview-box-main .bar {
+    height: 38px;
+    background: url(../../images/frontpage/pkview/bar-extend.png) 0 0 repeat-x;
+    width: 100%;
+    left: 0%;
+}
+.pkview-box-main .col-l .intro {
+    height: 260px;
+}
+.pkview-box-main .col-l .intro-bg {
+    background: url(../../images/frontpage/pkview/intro-l.png) 0 0;
+    top: 130px;
+    height: 130px;
+}
+.pkview-box-main .col-r .intro {
+    height: 260px;
+}
+.pkview-box-main .col-r .intro-bg {
+    background: url(../../images/frontpage/pkview/intro-r.png) 0 0;
+    top: 130px;
+    height: 130px;
+}
+.pkview-box-main .intro h2 {
+    font-size: 32px;
+    width: 148px;
+    top: 8px;
+}
+.pkview-box-main .intro a {
+    left: 32px;
+    top: 52px;
+}
+.pkview-box-main .intro dd {
+    width: 100%;
+    float: left;
+}
+.pkview-box-main .intro dl {
+    left: 15px;
+    top: 10px;
+    line-height: 1.5;
+}
+.pkview-box-main .intro em {
+    top: 86px;
+    left: 34px;
+}
+.pkview-box-main .textarea textarea {
+    width: 85%;
+}
+.pkview-box-main .textarea #prompt-comment-login {
+    padding: 15px 10px;
+    height: 120px;
+}
+.pkview-box-main .red-expand,
+.pkview-box-main .blue-expand {
+    text-align: center;
+}
+.pkview-box-main .red-expand .btn {
+    width: 120px;
+    margin: 10px;
+    background-color: #E66869;
+    border: 2px solid #B53A3B;
+}
+.pkview-box-main .blue-expand .btn {
+    width: 120px;
+    margin: 10px;
+    background-color: #6BBCDE;
+    border: 2px solid #3C8AAB;
+}
+.pkview-box-main .post-qna-body, 
+.pkview-box-main .post-qna-answer-body {
+    padding-left: 0px;
+    margin-top: 10px;
+}
+
 /* Custom styles per campaign */
 .campaign-container .gift-items .gift-item-pic {
     width: 100%;

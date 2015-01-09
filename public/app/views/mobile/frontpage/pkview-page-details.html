@@ -24,13 +24,13 @@
                     <tbody><tr>
                         <td class="bar-l" style="width:{{pkview.red_w}}%;">
                             <span id="zf_span">
-                                <span id="zf_text" ng-show="pkview.red_w > 20">紅豆豆 </span>
+                                <!--span id="zf_text" ng-show="pkview.red_w > 20">紅豆豆 </span-->
                                 <span id="zf_percent">{{pkview.red_vp}}</span>%
                             </span>
                         </td>
                         <td class="bar-r">
                             <span id="ff_text">
-                                <span id="ff_text" ng-show="pkview.red_w < 80">藍豆豆 </span>
+                                <!--span id="ff_text" ng-show="pkview.red_w < 80">藍豆豆 </span-->
                                 <span id="ff_persent">{{pkview.blue_vp}}</span>%
                             </span>
                         </td>
@@ -59,9 +59,9 @@
                         <div class="post-card">
                             <ul class="post-qna-answers">
                                 <li ng-show="userInfo.isLoggedIn">
-                                    <a data-ng-href="my#/profile/{{userInfo.id}}">
+                                    <!--a data-ng-href="my#/profile/{{userInfo.id}}">
                                         <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
-                                    </a>
+                                    </a-->
                                     <form class="post-comment-box" name="redComment" method="post" action="">
                                         <label for="User Comment"></label>
                                         <textarea type="text" id="redCommentfield" name="redCommentfield" data-ng-model="redCommentText" class="abs f14" placeholder="發表意見..."></textarea>
@@ -89,8 +89,8 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="tabs rel" id="red_gd_tab"><a href="" class="selected">大家的意見</a></div>
-                    <!--div class="order rel" id="red_order_tab"><a href="" class="cBlues">按時間排列</a>|<a href="">按熱門排列</a></div-->
+                    <div class="tabs rel" id="red_gd_tab"><a href="" class="selected">紅豆豆意見</a></div>
+                    <div class="red-expand rel"><button class="btn btn-primary" ng-click="toggleRedExpand()">{{redExpandText}}</button></div>
                     <div data-ng-include data-src="'/assets/app/views/frontpage/pkview-page-red-comments.html'"></div>
                 </div>
     
@@ -113,9 +113,9 @@
                         <div class="post-card">
                             <ul class="post-qna-answers">
                                 <li ng-show="userInfo.isLoggedIn">
-                                    <a data-ng-href="my#/profile/{{userInfo.id}}">
+                                    <!--a data-ng-href="my#/profile/{{userInfo.id}}">
                                         <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
-                                    </a>
+                                    </a-->
                                     <form class="post-comment-box" name="blueComment" method="post" action="">
                                         <label for="User Comment"></label>
                                         <textarea type="text" id="blueCommentfield" name="blueCommentfield" data-ng-model="blueCommentText" class="abs f14" placeholder="發表意見..."></textarea>
@@ -143,8 +143,8 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="tabs rel" id="blue_gd_tab"><a href="" class="selected">大家的意見</a></div>
-                    <!--div class="order rel" id="blue_order_tab"><a href="" class="cBlues">按時間排列</a>|<a href="">按熱門排列</a></div-->
+                    <div class="tabs rel" id="blue_gd_tab"><a href="" class="selected">藍豆豆意見</a></div>
+                    <div class="blue-expand rel"><button class="btn btn-primary" ng-click="toggleBlueExpand()">{{blueExpandText}}</button></div>
                     <div data-ng-include data-src="'/assets/app/views/frontpage/pkview-page-blue-comments.html'"></div>
                 </div>
             </div>

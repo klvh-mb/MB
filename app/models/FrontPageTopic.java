@@ -34,6 +34,8 @@ public class FrontPageTopic extends domain.Entity {
 	
 	public String url;
 	
+	public String attribute;
+	
 	public int seq;
 	
 	public int noClicks = 0;
@@ -50,6 +52,7 @@ public class FrontPageTopic extends domain.Entity {
 	public static enum TopicType {
 	    SLIDER,
 	    PROMO,
+	    PROMO_2,
 	    FEATURED,
         GAME
     }
@@ -60,7 +63,9 @@ public class FrontPageTopic extends domain.Entity {
     public static enum TopicSubType {
         NONE,
         FLASH,
-        IMAGE
+        IMAGE,
+        HOT_COMM,
+        PK_VIEW
     }
 	
 	public FrontPageTopic() {}

@@ -41,6 +41,13 @@ minibean.service('frontpageService',function($resource){
                 get: {method:'GET',isArray:true}
             }
     );
+    this.promo2Topics = $resource(
+            '/get-promo2-topics',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET',isArray:true}
+            }
+    );
     this.featuredTopics = $resource(
             '/get-featured-topics',
             {alt:'json',callback:'JSON_CALLBACK'},
@@ -832,6 +839,13 @@ minibean.service('tagwordService',function($resource){
 minibean.service('pkViewService',function($resource){
     this.pkViewInfo = $resource(
             '/get-pkview-info/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{id:'@id'}}
+            }
+    );
+    this.latestPKView = $resource(
+            '/list-latest-pkview',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get'}

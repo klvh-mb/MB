@@ -86,6 +86,22 @@ public class PKViewMeta extends domain.Entity {
         return result;
 	}
 
+    public static Pair<PKViewMeta, Post> getLatestPKView() {
+        Query q = JPA.em().createQuery(
+                "select m, p from PKViewMeta m, Post p where m.postId = p.id and p.deleted=false order by p.id desc");
+        q.setMaxResults(1);
+        List<Object[]> objList = (List<Object[]>) q.getResultList();
+
+        Pair<PKViewMeta, Post> result = new Pair<>();
+        if (objList.size() == 1) {
+            result.first = (PKViewMeta) objList.get(0)[0];
+            result.second = (Post) objList.get(0)[1];
+            return result;
+        } else {
+            return null;
+        }
+    }
+    
     public static Pair<PKViewMeta, Post> getPKViewById(Long pkViewMetaId) {
         Query q = JPA.em().createQuery(
                 "select m, p from PKViewMeta m, Post p where m.id = ?1 and m.postId = p.id and p.deleted=false");

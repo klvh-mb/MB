@@ -32,7 +32,7 @@
 }
 .pkview-box-main .head {
     width: 120%;
-    height: 150px;
+    height: auto;
     margin: -10px -25px 0 -25px;
     background-color: #FBF5ED
 }
@@ -44,7 +44,8 @@
     display: inline-block;
     position: relative;
     vertical-align: top;
-    width: 480px;
+    width: 85%;
+    /*width: 480px;*/
     padding: 20px 30px;
 }
 .pkview-box-main .head p .head-title {
@@ -99,17 +100,17 @@
 }
 .pkview-box-main .bar .bar-l {
     background: url(../images/frontpage/pkview/bar-extend.png) 0 -40px repeat-x;
-    padding-right: 60px;
+    padding-right: 50px;
     text-align: right;
 }
 .pkview-box-main .bar .bar-r {
     background: url(../images/frontpage/pkview/bar-extend.png) 0 -70px repeat-x;
-    padding-left: 60px;
+    padding-left: 50px;
 }
 .pkview-box-main .bar table {
-    width: 664px;
+    width: 100%;
     position: absolute;
-    left: 10px;
+    left: 0px;
     top: 6px;
 }
 .pkview-box-main .bar td {
@@ -123,6 +124,7 @@
     display: block;
     background: url(../images/frontpage/pkview/bar.png);
     top: -21px;
+    margin-left: -45px;
     _background: none;
     _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=scale, src='../images/frontpage/pkview/bar.png');
 }
@@ -162,7 +164,7 @@
     line-height: 1.5;
 }
 .pkview-box-main .intro dt {
-    width: 100px;
+    width: 65px;
     float: left;
     font-weight: bold;
 }
@@ -212,14 +214,22 @@
 }
 .pkview-box-main .col-lr {
     width: 100%;
-    display: inline-block;
-    background: url(../images/frontpage/pkview/bar-bg-y.png) repeat-y;
+    display: flex;
+    border-top: 1px solid #CDCECF;
+    border-bottom: 1px solid #CDCECF;
+    /*display: inline-block;*/ 
+    /*background: url(../images/frontpage/pkview/bar-bg-y.png) repeat-y;*/
 }
 .pkview-box-main .col-l {
     /*background: url(../images/frontpage/pkview/bar-bg-l-y.png) repeat-y;*/
+    background-color: #FBF5ED;
 }
 .pkview-box-main .col-l .intro {
+    height: 150px;
+}
+.pkview-box-main .col-l .intro-bg {
     background: url(../images/frontpage/pkview/intro.png) 0 0;
+    height: 150px;
 }
 .pkview-box-main .col-l .intro dl {
     color: #F24B48;
@@ -229,9 +239,15 @@
 }
 .pkview-box-main .col-r {
     /*background: url(../images/frontpage/pkview/bar-bg-r-y.png) repeat-y;*/
+    background-color: #ECF8FD;
+    border-left: solid 1px #eee;
 }
 .pkview-box-main .col-r .intro {
+    height: 150px;
+}
+.pkview-box-main .col-r .intro-bg {
     background: url(../images/frontpage/pkview/intro.png) 0 -150px;
+    height: 150px;
 }
 .pkview-box-main .col-r .intro dl {
     color: #3691E0;
@@ -269,7 +285,6 @@
     top: 1px;
 }
 .pkview-box-main #red_order_tab, .pkview-box-main #blue_order_tab {
-    width: 300px;
     float: right;
 }
 .pkview-box-main .order {

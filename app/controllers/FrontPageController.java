@@ -84,6 +84,11 @@ public class FrontPageController extends Controller {
     }
     
     @Transactional
+    public static Result getPromo2Topics() {
+        return getTopics(TopicType.PROMO_2);
+    }
+    
+    @Transactional
     public static Result getFeaturedTopics() {
         return getTopics(TopicType.FEATURED);
     }
