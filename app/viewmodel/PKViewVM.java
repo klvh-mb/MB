@@ -21,7 +21,12 @@ public class PKViewVM extends CommunityPostVM {
     @JsonProperty("id") public Long id;
     @JsonProperty("pid") public Long postId;
     @JsonProperty("im") public String postImage;
-    
+
+    @JsonProperty("red_vp") public Long redVotePercent;
+    @JsonProperty("blue_vp") public Long blueVotePercent;
+    @JsonProperty("red_w") public Long redBarWidth;
+    @JsonProperty("blue_w") public Long blueBarWidth;
+
 	@JsonProperty("red_ds") public String redDescription;
     @JsonProperty("red_im") public String redImage;
 	@JsonProperty("n_rv") public long noOfRedVotes;
@@ -38,9 +43,6 @@ public class PKViewVM extends CommunityPostVM {
 	@JsonProperty("isBlue") public boolean isBlue = false;
 	@JsonProperty("blue_ep") public boolean blueExpanded = true;       // always expanded
 	
-<<<<<<< HEAD
-    public PKViewVM(PKViewMeta pkViewMeta, Post post, User user) {
-=======
 	public static final long MIN_BAR_WIDTH = 12;
 	
 	public PKViewVM(PKViewMeta pkViewMeta, Post post, User user) {
@@ -48,7 +50,6 @@ public class PKViewVM extends CommunityPostVM {
 	}
 	
     public PKViewVM(PKViewMeta pkViewMeta, Post post, User user, boolean skipComments) {
->>>>>>> 9fbac5ca2a81f3c6dbf857742a0d469b9eb26353
         super(post, user);
         
         // fix id
@@ -80,9 +81,7 @@ public class PKViewVM extends CommunityPostVM {
 		// TODO
         this.isRed = true;
         this.isBlue = false;
-<<<<<<< HEAD
-=======
-        
+
         // UI
         long minBarWidth = Application.isMobileUser()? MIN_BAR_WIDTH * 2 : MIN_BAR_WIDTH;
         long totalVotes = noOfRedVotes + noOfBlueVotes;
@@ -102,7 +101,6 @@ public class PKViewVM extends CommunityPostVM {
                 blueBarWidth = 100 - redBarWidth;
             }
         }
->>>>>>> 9fbac5ca2a81f3c6dbf857742a0d469b9eb26353
 	}
 
     private static Pair<List<CommunityPostCommentVM>,List<CommunityPostCommentVM>>
