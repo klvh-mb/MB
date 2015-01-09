@@ -45,7 +45,11 @@ public class PKViewVM extends CommunityPostVM {
 	
 	public static final long MIN_BAR_WIDTH = 12;
 	
-    public PKViewVM(PKViewMeta pkViewMeta, Post post, User user) {
+	public PKViewVM(PKViewMeta pkViewMeta, Post post, User user) {
+	    this(pkViewMeta, post, user, false);
+	}
+	
+    public PKViewVM(PKViewMeta pkViewMeta, Post post, User user, boolean skipComments) {
         super(post, user);
         
         // fix id
@@ -56,20 +60,24 @@ public class PKViewVM extends CommunityPostVM {
 		this.redImage = pkViewMeta.getYesImage();
         this.blueImage = pkViewMeta.getNoImage();
 
-        // fetch comments
-        Pair<List<CommunityPostCommentVM>,List<CommunityPostCommentVM>>
+        this.redDescription = pkViewMeta.getYesText();
+        this.noOfRedVotes = pkViewMeta.getYesVoteCount();
+        
+        this.blueDescription = pkViewMeta.getNoText();
+        this.noOfBlueVotes = pkViewMeta.getNoVoteCount();
+        
+        if (!skipComments) {
+            // fetch comments
+            Pair<List<CommunityPostCommentVM>,List<CommunityPostCommentVM>> 
                 yesNoComments = extractYesNoCommentVMs(post, user);
-
-		this.redDescription = pkViewMeta.getYesText();
-		this.noOfRedVotes = pkViewMeta.getYesVoteCount();
-		this.noOfRedComments = yesNoComments.first.size();
-		this.redComments = yesNoComments.first;
-		
-		this.blueDescription = pkViewMeta.getNoText();
-		this.noOfBlueVotes = pkViewMeta.getNoVoteCount();
-		this.noOfBlueComments = yesNoComments.second.size();
-		this.blueComments = yesNoComments.second;
-
+        
+            this.noOfRedComments = yesNoComments.first.size();
+            this.redComments = yesNoComments.first;
+            
+            this.noOfBlueComments = yesNoComments.second.size();
+            this.blueComments = yesNoComments.second;
+        }
+        
 		// TODO
         this.isRed = false;
         this.isBlue = false;

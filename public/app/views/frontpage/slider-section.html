@@ -56,7 +56,6 @@
             </div>
         </div>
         <div id="promo-area2">
-        
             <div id="promo2-slider" class="royalSlider rsMinW general-box">
                 <div ng-repeat="topic in promo2Topics">
                     <div class="rsContent fp-content-slide" ng-if="topic.sty == 'HOT_COMM'">
@@ -88,33 +87,47 @@
                     </div>
                     <div class="rsContent fp-content-slide" ng-if="topic.sty == 'PK_VIEW'">
                         <div class="bContainer">
-                            <a href="#/pkview/{{latestPKView.id}}" class="promo-name">
-                                <img class="promo-title-img" src="../assets/app/images/frontpage/promo_hot.png">
-                                <div>
-                                    <div class="promo-name-text">{{latestPKView.ptl}}</div>
-                                    <!--div class="promo-name-text">{{latestPKView.pt}}</div-->
+                            <div class="pkview-box-main">
+                                <div class="pkview-title">
+                                    <a href="#/pkview/{{latestPKView.id}}">
+                                        <img class="promo-title-img" src="../assets/app/images/frontpage/promo_pkview.png">
+                                        <strong>{{latestPKView.ptl  | limitTo:10}}<span ng-show="latestPKView.ptl.length > 10">..</span></strong>
+                                    </a>
                                 </div>
-                            </a>
-                            <div class="communityCard hottestCommunityCard">
-                                <a href="#/community/{{hottestCommunity.id}}" class="d-s ob">
-                                    <div class="communityImageBox">
-                                        <img class="img-clean" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{hottestCommunity.id}}" alt="...">
-                                    </div>
-                                </a>
-                                <div class="communityTagBox">
-                                    <img src="{{hottestCommunity.icon}}">
-                                    <p>
-                                        <a href="#/community/{{hottestCommunity.id}}"><b>{{hottestCommunity.n}}</b></a><br>
-                                        <span class="community-member-counter"><img src="../assets/app/images/general/icons/i-mom.png" />{{hottestCommunity.nom}}</span>
-                                    </p>
+                                <div class="bar rel">
+                                    <a href="#/pkview/{{latestPKView.id}}">
+                                        <table>
+                                            <tbody><tr>
+                                                <td class="bar-l" style="width:{{latestPKView.red_w}}%;">
+                                                    <span id="zf_span">
+                                                        <span id="zf_percent">{{latestPKView.red_vp}}</span>%
+                                                    </span>
+                                                </td>
+                                                <td class="bar-r">
+                                                    <span id="ff_text">
+                                                        <span id="ff_persent">{{latestPKView.blue_vp}}</span>%
+                                                    </span>
+                                                </td>
+                                            </tr></tbody>
+                                        </table>
+                                        <ins class="abs" style="left:{{latestPKView.red_w}}%;"></ins>
+                                    </a>
+                                </div>
+                                <div class="pkview-views">
+                                    <dl class="pros">
+                                        <dt><a href="#/pkview/{{latestPKView.id}}"><span class="supporters">{{latestPKView.n_rv}}</span><strong>支持紅豆豆</strong></a></dt>
+                                        <dd><a href="#/pkview/{{latestPKView.id}}">{{latestPKView.red_ds | limitTo:15}}<span ng-show="latestPKView.red_ds.length > 15">..</span></a></dd>
+                                    </dl>
+                                    <dl class="cons">
+                                        <dt><a href="#/pkview/{{latestPKView.id}}"><span class="supporters">{{latestPKView.n_bv}}</span><strong>支持藍豆豆</strong></a></dt>
+                                        <dd><a href="#/pkview/{{latestPKView.id}}">{{latestPKView.blue_ds | limitTo:15}}<span ng-show="latestPKView.blue_ds.length > 15">..</span></a></dd>
+                                    </dl>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            
         </div>
     </div>
 </div>
@@ -130,7 +143,7 @@
 #promo-slider div,
 #promo2-slider div {
     border-radius: 10px;
-    /*background-color: transparent;*/
+    background-color: transparent;
 }
 #frontpage-slider .gradient-bg img, #frontpage-slider .gradient-bg img:hover,
 #promo-slider .gradient-bg img, #promo-slider .gradient-bg img:hover,

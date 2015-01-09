@@ -399,6 +399,99 @@
     color: #FDB2B2;
     border-radius: 10px;
 }
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main {
+    width: 100%;
+    height: 100px;
+    border: none;
+    box-shadow: none;
+    /*background-color: #FBF5ED;*/
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .pkview-title {
+    width: 100%;
+    text-align: left;
+    padding: 7px 10px 3px 10px;
+    font-size: 15px;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .pkview-title img {
+    width: 95px;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .pkview-title strong {
+    vertical-align: middle;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .bar {
+    width: 100%;
+    height: 38px;
+    background: url(../images/frontpage/pkview/bar-extend.png) 0 0 repeat-x;
+    left: 0;
+    margin: 0;
+    z-index: 1;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .bar .bar-l {
+    padding-right: 42px;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .bar .bar-r {
+    padding-left: 42px;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .bar td {
+    height: 20px;
+    color: #fff;
+    font-size: 12px;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .bar ins {
+    width: 70px;
+    height: 55px;
+    display: block;
+    background: url(../images/frontpage/pkview/bar-fp.png);
+    top: -15px;
+    margin-left: -35px;
+    _background: none;
+    _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=scale, src='../images/frontpage/pkview/bar.png');
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .pkview-views {
+    clear: both;
+    width: 100%;
+    height: auto;
+    margin: 0 0 5px;
+    zoom: 1;
+    border-top: 1px solid #FAE5C9;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .pkview-views dl {
+    width: 50%;
+    height: 70px;
+    padding: 5px 10px;
+    margin: 0;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .pkview-views dl.pros {
+    background-color: #FFF5F5;
+    float: left;
+    display: inline;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .pkview-views .pros dt a {
+    color: #e35353;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .pkview-views dd {
+    clear: both;
+    font-weight: normal;
+    color: #999;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .pkview-views dl.cons {
+    background-color: #F5FCFF;
+    float: right;
+    display: inline;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .pkview-views .cons dt a {
+    color: #00AEEF;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .pkview-views dd a {
+    clear: both;
+    font-size: 13px;
+    font-weight: normal;
+    color: #999;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .pkview-views .supporters {
+    font-size: 16px;
+    margin: 0 4px 0 0;
+}
 #frontpage-slider-section #frontpage-promo #promo-area2 .promo-name {
     padding: 20px 0 0 20px;
     font-size: 16px;
@@ -428,6 +521,7 @@
     height: 110px;
     margin: 12px 18px 12px 0;
     float: right;
+    background-color: white;
 }
 #frontpage-slider-section #frontpage-promo #promo-area2 .hottestCommunityCard .communityTagBox {
     padding: 7px;

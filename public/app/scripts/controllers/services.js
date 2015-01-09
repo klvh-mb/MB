@@ -841,6 +841,13 @@ minibean.service('pkViewService',function($resource){
             '/get-pkview-info/:id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
+                get: {method:'get', params:{id:'@id'}}
+            }
+    );
+    this.latestPKView = $resource(
+            '/list-latest-pkview',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
                 get: {method:'get'}
             }
     );

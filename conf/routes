@@ -66,6 +66,7 @@ GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
 
 # PKView
 GET     /get-pkview-info/:id        controllers.PKViewController.infoPKView(id :Long)
+GET     /list-latest-pkview         controllers.PKViewController.listLatestPKView()
 GET     /get-all-pkviews            controllers.PKViewController.getAllPKViews
 GET     /get-comm-pkviews/:id       controllers.PKViewController.getPKViewsByCommunity(id :Long)
 GET     /yesvote-pkview/:id         controllers.PKViewController.onYesVote(id : Long)

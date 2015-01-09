@@ -100,12 +100,12 @@
 }
 .pkview-box-main .bar .bar-l {
     background: url(../images/frontpage/pkview/bar-extend.png) 0 -40px repeat-x;
-    padding-right: 48px;
+    padding-right: 50px;
     text-align: right;
 }
 .pkview-box-main .bar .bar-r {
     background: url(../images/frontpage/pkview/bar-extend.png) 0 -70px repeat-x;
-    padding-left: 55px;
+    padding-left: 50px;
 }
 .pkview-box-main .bar table {
     width: 100%;
@@ -124,6 +124,7 @@
     display: block;
     background: url(../images/frontpage/pkview/bar.png);
     top: -21px;
+    margin-left: -45px;
     _background: none;
     _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=scale, src='../images/frontpage/pkview/bar.png');
 }

@@ -9,7 +9,6 @@ import common.collection.Pair;
 import common.utils.ImageUploadUtil;
 import common.utils.NanoSecondStopWatch;
 import domain.DefaultValues;
-import models.Campaign;
 import models.Post;
 import models.PKViewMeta;
 import models.User;
@@ -51,6 +50,21 @@ public class PKViewController extends Controller {
             vms.add(vm);
         }
         return ok(Json.toJson(vms));
+    }
+    
+    @Transactional
+    public static Result listLatestPKView() {
+        final User localUser = Application.getLocalUser(session());
+
+        Pair<PKViewMeta, Post> pkView = PKViewMeta.getLatestPKView();
+        if (pkView == null) {
+            logger.underlyingLogger().error("No latest pkViewMeta");
+            return ok("NO_RESULT");
+        }
+        pkView.second.noOfViews++;                          // TODO: need to save
+
+        PKViewVM vm = new PKViewVM(pkView.first, pkView.second, localUser, true);
+        return ok(Json.toJson(vm));
     }
     
     @Transactional

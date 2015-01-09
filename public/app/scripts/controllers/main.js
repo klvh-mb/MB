@@ -297,7 +297,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
                 imageScaleMode: 'none',
                 imageAlignCenter: false,
                 loop: true,
-                transitionType: 'fade',
+                transitionType: 'move',
                 keyboardNavEnabled: false,
                 block: {
                     delay: 400
@@ -370,7 +370,17 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
 
     // pkview
     var pkviewId = -1;
-    $scope.latestPKView = pkViewService.pkViewInfo.get({id:pkviewId});
+    $scope.latestPKView = pkViewService.latestPKView.get({}, 
+        function(data) {
+            var minBarWidth = 24;
+            if (data.red_w < minBarWidth) {
+                data.red_w = minBarWidth;
+                data.blue_w = 100 - data.red_w;
+            } else if (data.blue_w < minBarWidth) {
+                data.blue_w = minBarWidth;
+                data.red_w = 100 - data.blue_w;
+            }
+        });
     
     $scope.frontpageHotNewsfeedCount = DefaultValues.FRONTPAGE_HOT_NEWSFEED_COUNT;
     $scope.frontpageHotCommunitiesCount = DefaultValues.FRONTPAGE_HOT_COMMUNITIES_COUNT;
