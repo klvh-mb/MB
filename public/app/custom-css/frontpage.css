@@ -370,6 +370,10 @@
     width: 300px;
     height: 100px;
 }
+#frontpage-slider-section #promo2-slider {
+    width: 300px;
+    height: 135px;
+}
 #frontpage-slider-section #frontpage-promo {
     width: 300px;
     min-height: 250px;
@@ -385,6 +389,10 @@
     margin-bottom: 15px;
 }
 #frontpage-slider-section #frontpage-promo #promo-area2 {
+    height: 135px;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .promo-hottest-comm {
+    width: 100%;
     height: 135px;
     background-image:url(/assets/app/images/frontpage/promo_bg.png);
     background-color: #FFEDED;

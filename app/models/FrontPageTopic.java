@@ -34,6 +34,8 @@ public class FrontPageTopic extends domain.Entity {
 	
 	public String url;
 	
+	public String attribute;
+	
 	public int seq;
 	
 	public int noClicks = 0;

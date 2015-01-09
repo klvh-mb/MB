@@ -757,19 +757,23 @@ span.notif-count {
 .pkview-box-main .textarea textarea {
     width: 85%;
 }
+.pkview-box-main .textarea #prompt-comment-login {
+    padding: 15px 10px;
+    height: 120px;
+}
 .pkview-box-main .red-expand,
 .pkview-box-main .blue-expand {
     text-align: center;
 }
 .pkview-box-main .red-expand .btn {
     width: 120px;
-    margin: 5px;
+    margin: 10px;
     background-color: #E66869;
     border: 2px solid #B53A3B;
 }
 .pkview-box-main .blue-expand .btn {
     width: 120px;
-    margin: 5px;
+    margin: 10px;
     background-color: #6BBCDE;
     border: 2px solid #3C8AAB;
 }

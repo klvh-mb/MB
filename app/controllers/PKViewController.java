@@ -9,6 +9,7 @@ import common.collection.Pair;
 import common.utils.ImageUploadUtil;
 import common.utils.NanoSecondStopWatch;
 import domain.DefaultValues;
+import models.Campaign;
 import models.Post;
 import models.PKViewMeta;
 import models.User;
@@ -56,7 +57,12 @@ public class PKViewController extends Controller {
     public static Result infoPKView(Long pkViewMetaId) {
         final User localUser = Application.getLocalUser(session());
 
-        Pair<PKViewMeta, Post> pkView = PKViewMeta.getPKViewById(pkViewMetaId);
+        Pair<PKViewMeta, Post> pkView = null;
+        if (pkViewMetaId == -1) {
+            pkView = PKViewMeta.getLatestPKView();
+        } else {
+            pkView = PKViewMeta.getPKViewById(pkViewMetaId);
+        }
         if (pkView == null) {
             logger.underlyingLogger().error("Invalid pkViewMetaId: "+pkViewMetaId);
             return ok("NO_RESULT");
