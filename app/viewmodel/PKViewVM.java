@@ -1,17 +1,22 @@
 package viewmodel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import common.collection.Pair;
-import models.Comment;
-import models.Post;
-import models.PKViewMeta;
-import models.User;
+import models.PrimarySocialRelation;
 
+import models.Comment;
+import models.PKViewMeta;
+import models.Post;
+import models.User;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import controllers.Application;
+import processor.PrimarySocialRelationManager;
+import static processor.PrimarySocialRelationManager.PrimarySocialResult;
 
 /**
  * VM Class for PKView
@@ -59,10 +64,8 @@ public class PKViewVM extends CommunityPostVM {
         
 		this.redImage = pkViewMeta.getYesImage();
         this.blueImage = pkViewMeta.getNoImage();
-
         this.redDescription = pkViewMeta.getYesText();
         this.noOfRedVotes = pkViewMeta.getYesVoteCount();
-        
         this.blueDescription = pkViewMeta.getNoText();
         this.noOfBlueVotes = pkViewMeta.getNoVoteCount();
         
@@ -77,10 +80,16 @@ public class PKViewVM extends CommunityPostVM {
             this.noOfBlueComments = yesNoComments.second.size();
             this.blueComments = yesNoComments.second;
         }
-        
-		// TODO
-        this.isRed = true;
-        this.isBlue = false;
+
+        // check if user has voted
+        Boolean vote = post.getYesNoVote(user);
+        if (vote != null) {
+            if (vote) {
+                this.isRed = true;
+            } else {
+                this.isBlue = true;
+            }
+        }
 
         // UI
         long minBarWidth = Application.isMobileUser()? MIN_BAR_WIDTH * 2 : MIN_BAR_WIDTH;
@@ -103,6 +112,7 @@ public class PKViewVM extends CommunityPostVM {
         }
 	}
 
+    // Extract Yes/No Comments
     private static Pair<List<CommunityPostCommentVM>,List<CommunityPostCommentVM>>
             extractYesNoCommentVMs(Post p, User user) {
         List<Comment> yesComments = p.getCommentsOfPostByAttribute(PKViewMeta.COMMENT_ATTR_YES);
@@ -113,14 +123,31 @@ public class PKViewVM extends CommunityPostVM {
         List<CommunityPostCommentVM> yesCommentVMs = new ArrayList<>(yesCommentCount);
         List<CommunityPostCommentVM> noCommentVMs = new ArrayList<>(noCommentCount);
 
+        Set<PrimarySocialResult> srByUser = null;
+        if (User.isLoggedIn(user)){
+            // optimization for like checking
+            List<Long> likeCheckIds = new ArrayList<>(yesCommentCount+noCommentCount);
+            for (Comment yesComment : yesComments) {
+                likeCheckIds.add(yesComment.getId());
+            }
+            for (Comment noComment : noComments) {
+                likeCheckIds.add(noComment.getId());
+            }
+            srByUser = PrimarySocialRelationManager.getSocialRelationBy(user, likeCheckIds);
+        }
+
         for(int i = yesCommentCount- 1; i >= 0 ; i--) {
             Comment yesComment = yesComments.get(i);
             CommunityPostCommentVM vm = CommunityPostCommentVM.communityPostCommentVM(yesComment, user, yesCommentCount-i);
+            vm.isLike = srByUser != null &&
+                    srByUser.contains(new PrimarySocialResult(yesComment.id, yesComment.objectType, PrimarySocialRelation.Action.LIKED));
             yesCommentVMs.add(vm);
         }
         for(int i = noCommentCount- 1; i >= 0 ; i--) {
             Comment noComment = noComments.get(i);
             CommunityPostCommentVM vm = CommunityPostCommentVM.communityPostCommentVM(noComment, user, noCommentCount-i);
+            vm.isLike = srByUser != null &&
+                    srByUser.contains(new PrimarySocialResult(noComment.id, noComment.objectType, PrimarySocialRelation.Action.LIKED));
             noCommentVMs.add(vm);
         }
         return new Pair<>(yesCommentVMs, noCommentVMs);

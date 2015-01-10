@@ -130,6 +130,23 @@ public abstract class SocialObject extends domain.Entity implements
         }
         return true;
     }
+
+    public Boolean getYesNoVote(User user) {
+        Query q = JPA.em().createQuery("Select sr from PrimarySocialRelation sr where sr.action in (?1,?2) and sr.actor=?3 " +
+                "and sr.target=?4 and sr.targetType=?5");
+        q.setParameter(1, PrimarySocialRelation.Action.YES_VOTED);
+        q.setParameter(2, PrimarySocialRelation.Action.NO_VOTED);
+        q.setParameter(3, user.id);
+        q.setParameter(4, this.id);
+        q.setParameter(5, this.objectType);
+        PrimarySocialRelation sr;
+        try {
+            sr = (PrimarySocialRelation)q.getSingleResult();
+        } catch(NoResultException nre) {
+            return null;
+        }
+        return (sr.action == PrimarySocialRelation.Action.YES_VOTED);
+    }
     
 	protected final void recordLike(User user) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
