@@ -1,7 +1,6 @@
 package viewmodel;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -92,7 +91,7 @@ public class PKViewVM extends CommunityPostVM {
         }
 
         // UI
-        long minBarWidth = Application.isMobileUser()? MIN_BAR_WIDTH * 2 : MIN_BAR_WIDTH;
+        long minBarWidth = (Application.isMobileUser() || skipComments) ? MIN_BAR_WIDTH * 2 : MIN_BAR_WIDTH;
         long totalVotes = noOfRedVotes + noOfBlueVotes;
         if (totalVotes == 0) {
             this.redVotePercent = 0L;

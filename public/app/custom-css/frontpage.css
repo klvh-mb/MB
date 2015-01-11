@@ -538,7 +538,7 @@
     height: auto;
     padding: 2px 10px;
     border-bottom: 2px solid #FCC9CB;
-    box-shadow: 0 2px 1px -1px rgba(136, 136, 136, 0.3); 
+    /*box-shadow: 0 2px 1px -1px rgba(136, 136, 136, 0.3);*/
 }
 #frontpage-communities-section #hot-topics,
 #frontpage-communities-section #hot-communities {

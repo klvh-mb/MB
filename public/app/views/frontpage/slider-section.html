@@ -89,38 +89,38 @@
                         <div class="bContainer">
                             <div class="pkview-box-main">
                                 <div class="pkview-title">
-                                    <a href="#/pkview/{{latestPKView.id}}">
-                                        <img class="promo-title-img" src="../assets/app/images/frontpage/promo_pkview.png">
-                                        <strong>{{latestPKView.ptl  | limitTo:10}}<span ng-show="latestPKView.ptl.length > 10">..</span></strong>
+                                    <a href="#/pkview/{{topic.obj.id}}">
+                                        <!--img class="promo-title-img" src="../assets/app/images/frontpage/promo_pkview.png"-->
+                                        <strong>{{topic.obj.ptl  | limitTo:15}}<span ng-show="topic.obj.ptl.length > 15">..</span></strong>
                                     </a>
                                 </div>
                                 <div class="bar rel">
-                                    <a href="#/pkview/{{latestPKView.id}}">
+                                    <a href="#/pkview/{{topic.obj.id}}">
                                         <table>
                                             <tbody><tr>
-                                                <td class="bar-l" style="width:{{latestPKView.red_w}}%;">
+                                                <td class="bar-l" style="width:{{topic.obj.red_w}}%;">
                                                     <span id="zf_span">
-                                                        <span id="zf_percent">{{latestPKView.red_vp}}</span>%
+                                                        <span id="zf_percent">{{topic.obj.red_vp}}</span>%
                                                     </span>
                                                 </td>
                                                 <td class="bar-r">
                                                     <span id="ff_text">
-                                                        <span id="ff_persent">{{latestPKView.blue_vp}}</span>%
+                                                        <span id="ff_persent">{{topic.obj.blue_vp}}</span>%
                                                     </span>
                                                 </td>
                                             </tr></tbody>
                                         </table>
-                                        <ins class="abs" style="left:{{latestPKView.red_w}}%;"></ins>
+                                        <ins class="abs" style="left:{{topic.obj.red_w}}%;"></ins>
                                     </a>
                                 </div>
                                 <div class="pkview-views">
                                     <dl class="pros">
-                                        <dt><a href="#/pkview/{{latestPKView.id}}"><span class="supporters">{{latestPKView.n_rv}}</span><strong>支持紅豆豆</strong></a></dt>
-                                        <dd><a href="#/pkview/{{latestPKView.id}}">{{latestPKView.red_ds | limitTo:15}}<span ng-show="latestPKView.red_ds.length > 15">..</span></a></dd>
+                                        <dt><a href="#/pkview/{{topic.obj.id}}"><span class="supporters">{{topic.obj.n_rv}}</span><strong>個支持</strong></a></dt>
+                                        <dd><a href="#/pkview/{{topic.obj.id}}">{{topic.obj.red_ds | limitTo:15}}<span ng-show="topic.obj.red_ds.length > 15">..</span></a></dd>
                                     </dl>
                                     <dl class="cons">
-                                        <dt><a href="#/pkview/{{latestPKView.id}}"><span class="supporters">{{latestPKView.n_bv}}</span><strong>支持藍豆豆</strong></a></dt>
-                                        <dd><a href="#/pkview/{{latestPKView.id}}">{{latestPKView.blue_ds | limitTo:15}}<span ng-show="latestPKView.blue_ds.length > 15">..</span></a></dd>
+                                        <dt><a href="#/pkview/{{topic.obj.id}}"><span class="supporters">{{topic.obj.n_bv}}</span><strong>個支持</strong></a></dt>
+                                        <dd><a href="#/pkview/{{topic.obj.id}}">{{topic.obj.blue_ds | limitTo:15}}<span ng-show="topic.obj.blue_ds.length > 15">..</span></a></dd>
                                     </dl>
                                 </div>
                             </div>

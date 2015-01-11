@@ -369,6 +369,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     );
 
     // pkview
+    /*
     var pkviewId = -1;
     $scope.latestPKView = pkViewService.latestPKView.get({}, 
         function(data) {
@@ -381,6 +382,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
                 data.red_w = 100 - data.blue_w;
             }
         });
+    */
     
     $scope.frontpageHotNewsfeedCount = DefaultValues.FRONTPAGE_HOT_NEWSFEED_COUNT;
     $scope.frontpageHotCommunitiesCount = DefaultValues.FRONTPAGE_HOT_COMMUNITIES_COUNT;

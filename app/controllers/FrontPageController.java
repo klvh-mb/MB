@@ -68,7 +68,7 @@ public class FrontPageController extends Controller {
         }
         List<FrontPageTopicVM> vms = new ArrayList<FrontPageTopicVM>();
         for (FrontPageTopic topic : topics) {
-            vms.add(new FrontPageTopicVM(topic));
+            vms.add(new FrontPageTopicVM(topic, Application.getLocalUser(session())));
         }
         return ok(Json.toJson(vms));
     }
