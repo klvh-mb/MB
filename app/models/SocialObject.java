@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
 import common.cache.FriendCache;
@@ -144,7 +145,10 @@ public abstract class SocialObject extends domain.Entity implements
             sr = (PrimarySocialRelation)q.getSingleResult();
         } catch(NoResultException nre) {
             return null;
+        } catch(NonUniqueResultException nure) {
+            sr = (PrimarySocialRelation)(q.getResultList().get(0));
         }
+        
         return (sr.action == PrimarySocialRelation.Action.YES_VOTED);
     }
     

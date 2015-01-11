@@ -136,16 +136,16 @@ public class PKViewVM extends CommunityPostVM {
             srByUser = PrimarySocialRelationManager.getSocialRelationBy(user, likeCheckIds);
         }
 
-        for(int i = yesCommentCount- 1; i >= 0 ; i--) {
+        for(int i = 0; i < yesCommentCount; i++) {
             Comment yesComment = yesComments.get(i);
-            CommunityPostCommentVM vm = CommunityPostCommentVM.communityPostCommentVM(yesComment, user, yesCommentCount-i);
+            CommunityPostCommentVM vm = CommunityPostCommentVM.communityPostCommentVM(yesComment, user, i+i);
             vm.isLike = srByUser != null &&
                     srByUser.contains(new PrimarySocialResult(yesComment.id, yesComment.objectType, PrimarySocialRelation.Action.LIKED));
             yesCommentVMs.add(vm);
         }
-        for(int i = noCommentCount- 1; i >= 0 ; i--) {
+        for(int i = 0; i < noCommentCount; i++) {
             Comment noComment = noComments.get(i);
-            CommunityPostCommentVM vm = CommunityPostCommentVM.communityPostCommentVM(noComment, user, noCommentCount-i);
+            CommunityPostCommentVM vm = CommunityPostCommentVM.communityPostCommentVM(noComment, user, i+i);
             vm.isLike = srByUser != null &&
                     srByUser.contains(new PrimarySocialResult(noComment.id, noComment.objectType, PrimarySocialRelation.Action.LIKED));
             noCommentVMs.add(vm);
