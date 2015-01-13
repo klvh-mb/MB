@@ -1,9 +1,11 @@
 package models;
 
 import common.collection.Pair;
+import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,19 +32,24 @@ public class PKViewMeta extends domain.Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
-
+    
+    @Required
     private Long postId;
     private String postImage;
 
+    @Required
     private String yesText;
-    private String noText;
-
     private String yesImage;
-    private String noImage;
-
     private int yesVoteCount = 0;
+    
+    @Required
+    private String noText;
+    private String noImage;
     private int noVoteCount = 0;
-
+    
+    @Required
+    public Boolean deleted = false;
+    
     // Ctor
     public PKViewMeta() {}
 

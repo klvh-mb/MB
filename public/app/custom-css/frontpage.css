@@ -406,6 +406,39 @@
     box-shadow: none;
     /*background-color: #FBF5ED;*/
 }
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .btn-red,
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .btn-blue {
+    color: #fff;
+    padding: 1px 5px;
+    font-size: 12px;
+    font-weight: normal;
+    float: right;
+    border: none;
+    margin: -1px 0 0 0;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .btn-red:hover,
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .btn-blue:hover {
+    opacity: .8;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .btn-red {
+    background-color: #EF7474;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .btn-blue {
+    background-color: #589DD8;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .voted-red,
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .voted-blue {
+    font-size: 12px;
+    font-weight: bold;
+    float: right;
+    margin: 0;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .voted-red {
+    color: #EF7474;
+}
+#frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .voted-blue {
+    color: #589DD8;
+}
 #frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .pkview-title {
     width: 100%;
     text-align: left;
@@ -420,7 +453,7 @@
 }
 #frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .bar {
     width: 100%;
-    height: 38px;
+    height: 32px;
     background: url(../images/frontpage/pkview/bar-extend.png) 0 0 repeat-x;
     left: 0;
     margin: 0;
@@ -473,6 +506,7 @@
     clear: both;
     font-weight: normal;
     color: #999;
+    line-height: 1.25;
 }
 #frontpage-slider-section #frontpage-promo #promo-area2 .pkview-box-main .pkview-views dl.cons {
     background-color: #F5FCFF;

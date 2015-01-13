@@ -203,6 +203,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
                 loop: true,
                 transitionType: 'fade',
                 keyboardNavEnabled: false,
+                navigateByClick: false,
                 block: {
                     delay: 400
                 },
@@ -231,7 +232,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
                 loop: true,
                 transitionType:'move',
                 keyboardNavEnabled: false,
-                navigateByClick: true,
+                navigateByClick: false,
                 imgWidth: 475,
                 imgHeight: 250,
                 autoPlay: {
@@ -265,6 +266,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
                 loop: true,
                 transitionType: 'fade',
                 keyboardNavEnabled: false,
+                navigateByClick: false,
                 block: {
                     delay: 400
                 },
@@ -299,6 +301,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
                 loop: true,
                 transitionType: 'move',
                 keyboardNavEnabled: false,
+                navigateByClick: false,
                 block: {
                     delay: 400
                 },
@@ -330,6 +333,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
             loop: true,
             transitionType: 'move',
             keyboardNavEnabled: false,
+            navigateByClick: false,
             block: {
                 delay: 400
             },
@@ -383,6 +387,24 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
             }
         });
     */
+    
+    $scope.redVote = function(pkview) {
+        $scope.pkviewToVote = pkview;
+        pkViewService.yesVotePKView.get({id:pkview.id},
+            function(data) {
+                $scope.pkviewToVote.n_rv++;
+                $scope.pkviewToVote.isRed = true;
+            });
+    }
+    
+    $scope.blueVote = function(pkview) {
+        $scope.pkviewToVote = pkview;
+        pkViewService.noVotePKView.get({id:pkview.id},
+            function(data) {
+                $scope.pkviewToVote.n_bv++;
+                $scope.pkviewToVote.isBlue = true;
+            });
+    }
     
     $scope.frontpageHotNewsfeedCount = DefaultValues.FRONTPAGE_HOT_NEWSFEED_COUNT;
     $scope.frontpageHotCommunitiesCount = DefaultValues.FRONTPAGE_HOT_COMMUNITIES_COUNT;
@@ -2971,7 +2993,7 @@ minibean.controller('PKViewPageController',function($scope, $route, $location, $
         return false;
     }
     
-    $scope.yesVote = function(pkview_id) {
+    $scope.redVote = function(pkview_id) {
         if ($scope.alreadyVote()) {
             return;
         }
@@ -2982,7 +3004,7 @@ minibean.controller('PKViewPageController',function($scope, $route, $location, $
             });
     }
     
-    $scope.noVote = function(pkview_id) {
+    $scope.blueVote = function(pkview_id) {
         if ($scope.alreadyVote()) {
             return;
         }

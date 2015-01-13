@@ -115,11 +115,23 @@
                                 </div>
                                 <div class="pkview-views">
                                     <dl class="pros">
-                                        <dt><a href="#/pkview/{{topic.obj.id}}"><span class="supporters">{{topic.obj.n_rv}}</span><strong>個支持</strong></a></dt>
+                                        <dt>
+                                            <a href="#/pkview/{{topic.obj.id}}"><span class="supporters">{{topic.obj.n_rv}}</span><strong>個支持</strong></a>
+                                            <button ng-show="userInfo.isLoggedIn && !topic.obj.isRed && !topic.obj.isBlue" class="btn btn-red ng-binding" data-ng-click="redVote(topic.obj)">
+                                                我支持
+                                            </button>
+                                            <span ng-show="userInfo.isLoggedIn && topic.obj.isRed" class="voted-red">(我支持!)</span>
+                                        </dt>
                                         <dd><a href="#/pkview/{{topic.obj.id}}">{{topic.obj.red_ds | limitTo:15}}<span ng-show="topic.obj.red_ds.length > 15">..</span></a></dd>
                                     </dl>
                                     <dl class="cons">
-                                        <dt><a href="#/pkview/{{topic.obj.id}}"><span class="supporters">{{topic.obj.n_bv}}</span><strong>個支持</strong></a></dt>
+                                        <dt>
+                                            <a href="#/pkview/{{topic.obj.id}}"><span class="supporters">{{topic.obj.n_bv}}</span><strong>個支持</strong></a>
+                                            <button ng-show="userInfo.isLoggedIn && !topic.obj.isRed && !topic.obj.isBlue" class="btn btn-blue ng-binding" data-ng-click="blueVote(topic.obj)">
+                                                我支持
+                                            </button>
+                                            <span ng-show="userInfo.isLoggedIn && topic.obj.isBlue" class="voted-blue">(我支持!)</span>
+                                        </dt>
                                         <dd><a href="#/pkview/{{topic.obj.id}}">{{topic.obj.blue_ds | limitTo:15}}<span ng-show="topic.obj.blue_ds.length > 15">..</span></a></dd>
                                     </dl>
                                 </div>
