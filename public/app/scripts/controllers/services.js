@@ -27,6 +27,13 @@ minibean.service('frontpageService',function($resource){
                 get: {method:'GET'}
             }
     );
+    this.frontpageTopics = $resource(
+            '/get-frontpage-topics',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET',isArray:true}
+            }
+    );
     this.sliderTopics = $resource(
             '/get-slider-topics',
             {alt:'json',callback:'JSON_CALLBACK'},

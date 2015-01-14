@@ -385,7 +385,8 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
                 data.blue_w = minBarWidth;
                 data.red_w = 100 - data.blue_w;
             }
-        });
+        }
+    );
     */
     
     $scope.redVote = function(pkview) {
@@ -394,7 +395,8 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
             function(data) {
                 $scope.pkviewToVote.n_rv++;
                 $scope.pkviewToVote.isRed = true;
-            });
+            }
+        );
     }
     
     $scope.blueVote = function(pkview) {
@@ -403,7 +405,8 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
             function(data) {
                 $scope.pkviewToVote.n_bv++;
                 $scope.pkviewToVote.isBlue = true;
-            });
+            }
+        );
     }
     
     $scope.frontpageHotNewsfeedCount = DefaultValues.FRONTPAGE_HOT_NEWSFEED_COUNT;
@@ -413,11 +416,36 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     //}
 
     // frontpage topics
+    /*
     $scope.sliderTopics = frontpageService.sliderTopics.get();
     $scope.promoTopics = frontpageService.promoTopics.get();
     $scope.promo2Topics = frontpageService.promo2Topics.get();
     $scope.gameTopics = frontpageService.gameTopics.get();
     $scope.featuredTopics = frontpageService.featuredTopics.get();
+    */
+    
+    $scope.sliderTopics = [];
+    $scope.promoTopics = [];
+    $scope.promo2Topics = [];
+    $scope.gameTopics = [];
+    $scope.featuredTopics = [];
+    $scope.frontpageTopics = frontpageService.frontpageTopics.get({},
+        function(data) {
+            angular.forEach(data, function(topic, key){
+                if (topic.ty == 'SLIDER') {
+                    $scope.sliderTopics.push(topic);
+                } else if (topic.ty == 'PROMO') {
+                    $scope.promoTopics.push(topic);
+                } else if (topic.ty == 'PROMO_2') {
+                    $scope.promo2Topics.push(topic);
+                } else if (topic.ty == 'GAME') {
+                    $scope.gameTopics.push(topic);
+                } else if (topic.ty == 'FEATURED') {
+                    $scope.featuredTopics.push(topic);
+                } 
+            });
+        }
+    );
     
     // articles
     $scope.allCategory = true;      // for mobile articles slider

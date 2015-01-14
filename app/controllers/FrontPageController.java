@@ -61,6 +61,19 @@ public class FrontPageController extends Controller {
         return ok(Json.toJson(vms));
     }
 
+    @Transactional
+    public static Result getFrontPageTopics() {
+        List<FrontPageTopic> topics = FrontPageTopic.getActiveFrontPageTopics();
+        if (topics == null) {
+            return ok();
+        }
+        List<FrontPageTopicVM> vms = new ArrayList<FrontPageTopicVM>();
+        for (FrontPageTopic topic : topics) {
+            vms.add(new FrontPageTopicVM(topic, Application.getLocalUser(session())));
+        }
+        return ok(Json.toJson(vms));
+    }
+    
     private static Result getTopics(TopicType topicType) {
         List<FrontPageTopic> topics = FrontPageTopic.getActiveFrontPageTopics(topicType);
         if (topics == null) {
