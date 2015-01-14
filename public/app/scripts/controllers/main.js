@@ -373,23 +373,27 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     );
 
     // pkview
-    /*
-    var pkviewId = -1;
-    $scope.latestPKView = pkViewService.latestPKView.get({}, 
-        function(data) {
-            var minBarWidth = 24;
-            if (data.red_w < minBarWidth) {
-                data.red_w = minBarWidth;
-                data.blue_w = 100 - data.red_w;
-            } else if (data.blue_w < minBarWidth) {
-                data.blue_w = minBarWidth;
-                data.red_w = 100 - data.blue_w;
-            }
+    $scope.alreadyVote = function() {
+        if (!$scope.userInfo.isLoggedIn) {
+            $scope.popupLoginModal();
+            return true;
         }
-    );
-    */
+        
+        if ($scope.pkview.isRed) {
+            prompt("<div><b>你已支持紅豆豆</b></div>", "bootbox-default-prompt", 2500);
+            return true;
+        }
+        if ($scope.pkview.isBlue) {
+            prompt("<div><b>你已支持藍豆豆</b></div>", "bootbox-default-prompt", 2500);
+            return true;
+        }
+        return false;
+    }
     
     $scope.redVote = function(pkview) {
+        if ($scope.alreadyVote()) {
+            return;
+        }
         $scope.pkviewToVote = pkview;
         pkViewService.yesVotePKView.get({id:pkview.id},
             function(data) {
@@ -400,6 +404,9 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     }
     
     $scope.blueVote = function(pkview) {
+        if ($scope.alreadyVote()) {
+            return;
+        }
         $scope.pkviewToVote = pkview;
         pkViewService.noVotePKView.get({id:pkview.id},
             function(data) {
@@ -2055,7 +2062,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
         $scope.qnaCommentSelectedFiles.push($files);
         //log($scope.qnaCommentSelectedFiles);
         $scope.qnaTempCommentSelectedFiles.push($files);
-        for ( var i = 0; i < $files.length; i++) {
+        for (var i = 0; i < $files.length; i++) {
             var $file = $files[i];
             if (window.FileReader && $file.type.indexOf('image') > -1) {
                 var fileReader = new FileReader();
@@ -2180,8 +2187,8 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     }
 });
 
-minibean.controller('CommunityPageController', function($scope, $routeParams, profilePhotoModal,
-        communityPageService, communityJoinService, searchMembersService, usSpinnerService){
+minibean.controller('CommunityPageController', function($scope, $routeParams, $interval, profilePhotoModal,
+        communityPageService, communityJoinService, pkViewService, searchMembersService, usSpinnerService){
     
     $scope.get_header_metaData();
 
@@ -2200,27 +2207,74 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, pr
         $scope.selectedTab = 3;
     }
     
+    // pkview slider
+    $scope.renderPromo2Slider = function() {
+        var opts 
+        if (!$scope.userInfo.isMobile) {
+            // pc slider
+            opts = {
+                arrowsNav: false,
+                arrowsNavAutoHide: false,
+                fadeinLoadedSlide: false,
+                controlsInside: false,
+                controlNavigationSpacing: 0,
+                controlNavigation: 'bullets',
+                imageScaleMode: 'none',
+                imageAlignCenter: false,
+                loop: true,
+                transitionType: 'move',
+                keyboardNavEnabled: false,
+                navigateByClick: false,
+                block: {
+                    delay: 400
+                },
+                autoPlay: {
+                    enabled: true,
+                    pauseOnHover: true,
+                    stopAtAction: false,
+                    delay: 5000
+                }
+            };
+            if ($('#promo2-slider').length > 0) {
+                var promo2Slider = $('#promo2-slider').royalSlider(opts);
+            }
+        }
+    }
+    $scope.pkviews = pkViewService.communityPKViews.get({community_id:$routeParams.id},
+        function(data) {
+            if (data.length > 0) {
+                $interval($scope.renderPromo2Slider, 1500, 1);
+            }
+        }
+    );
+    
     $scope.$on('$viewContentLoaded', function() {
         usSpinnerService.spin('loading...');
     });
     
-    $scope.community = communityPageService.Community.get({id:$routeParams.id}, function(data){
-        usSpinnerService.stop('loading...');
-        
-        // special handling - select details tab for PN
-        if (data.ttyp == 'PRE_NURSERY') {
-            $scope.selectedTab = 3;
+    $scope.community = communityPageService.Community.get({id:$routeParams.id}, 
+        function(data){
+            usSpinnerService.stop('loading...');
+            
+            // special handling - select details tab for PN
+            if (data.ttyp == 'PRE_NURSERY') {
+                $scope.selectedTab = 3;
+            }
         }
-    });
+    );
     
-    communityPageService.isNewsfeedEnabled.get({community_id:$routeParams.id}, function(data) {
-        $scope.newsfeedEnabled = data.newsfeedEnabled; 
-    });
+    communityPageService.isNewsfeedEnabled.get({community_id:$routeParams.id}, 
+        function(data) {
+            $scope.newsfeedEnabled = data.newsfeedEnabled; 
+        }
+    );
     
     $scope.toggleNewsfeedEnabled = function(community_id) {
-        communityPageService.toggleNewsfeedEnabled.get({"community_id":community_id}, function(data) {
-            $scope.newsfeedEnabled = data.newsfeedEnabled; 
-        });
+        communityPageService.toggleNewsfeedEnabled.get({"community_id":community_id}, 
+            function(data) {
+                $scope.newsfeedEnabled = data.newsfeedEnabled; 
+            }
+        );
     }
     
     $scope.showImage = function(imageId) {
@@ -3006,7 +3060,7 @@ minibean.controller('PKViewPageController',function($scope, $route, $location, $
     
     $scope.alreadyVote = function() {
         if (!$scope.userInfo.isLoggedIn) {
-            prompt("<div><b>請先登入再投票</b></div>", "bootbox-default-prompt", 2500);
+            $scope.popupLoginModal();
             return true;
         }
         
@@ -3021,26 +3075,30 @@ minibean.controller('PKViewPageController',function($scope, $route, $location, $
         return false;
     }
     
-    $scope.redVote = function(pkview_id) {
+    $scope.redVote = function(pkview) {
         if ($scope.alreadyVote()) {
             return;
         }
-        pkViewService.yesVotePKView.get({id:pkview_id},
+        $scope.pkviewToVote = pkview;
+        pkViewService.yesVotePKView.get({id:pkview.id},
             function(data) {
-                $scope.pkview.n_rv++;
-                $scope.pkview.isRed = true;
-            });
+                $scope.pkviewToVote.n_rv++;
+                $scope.pkviewToVote.isRed = true;
+            }
+        );
     }
     
-    $scope.blueVote = function(pkview_id) {
+    $scope.blueVote = function(pkview) {
         if ($scope.alreadyVote()) {
             return;
         }
-        pkViewService.noVotePKView.get({id:pkview_id},
+        $scope.pkviewToVote = pkview;
+        pkViewService.noVotePKView.get({id:pkview.id},
             function(data) {
-                $scope.pkview.n_bv++;
-                $scope.pkview.isBlue = true;
-            });
+                $scope.pkviewToVote.n_bv++;
+                $scope.pkviewToVote.isBlue = true;
+            }
+        );
     }
     
     $scope.deleteComment = function(commentId, attr) {

@@ -11,6 +11,7 @@
                 <p class="abs">
                     <span class="head-title">{{pkview.ptl}}</span>
                     <span class="head-text" ng-bind-html="pkview.pt | to_trusted"></span>
+                    <span class="pkview-community"><a href="#/community/{{pkview.cid}}"><img src="{{pkview.ci}}">{{pkview.cn}}</a></span>
                     <span data-ng-include data-src="'/assets/app/views/frontpage/like-pkview.html'"></span>
                     <!--span data-ng-include data-src="'/assets/app/views/frontpage/bookmark-pkview.html'"></span-->
                 </p>
@@ -44,7 +45,7 @@
                     <div class="intro rel">
                         <div class="intro-bg rel">
                             <h2 class="abs" id="red_agree_count">{{pkview.n_rv}}</h2>
-                            <a href="" ng-click="redVote(pkview.id)" class="abs" id="red_agree_a"></a>
+                            <a href="" ng-click="redVote(pkview)" class="abs" id="red_agree_a"></a>
                             <em class="abs" id="red_camp" ng-show="pkview.isRed">(我支持!)</em>
                         </div>
                         <dl class="f14 abs">
@@ -98,7 +99,7 @@
                     <div class="intro rel">
                         <div class="intro-bg rel">
                             <h2 class="abs" id="blue_agree_count">{{pkview.n_bv}}</h2>
-                            <a href="" ng-click="blueVote(pkview.id)" class="abs" id="blue_agree_a"></a>
+                            <a href="" ng-click="blueVote(pkview)" class="abs" id="blue_agree_a"></a>
                             <em class="abs" id="blue_camp" ng-show="pkview.isBlue">(我支持!)</em>
                         </div>
                         <dl class="f14 abs">

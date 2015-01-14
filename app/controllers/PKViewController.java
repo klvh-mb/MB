@@ -53,21 +53,6 @@ public class PKViewController extends Controller {
     }
     
     @Transactional
-    public static Result listLatestPKView() {
-        final User localUser = Application.getLocalUser(session());
-
-        Pair<PKViewMeta, Post> pkView = PKViewMeta.getLatestPKView();
-        if (pkView == null) {
-            logger.underlyingLogger().error("No latest pkViewMeta");
-            return ok("NO_RESULT");
-        }
-        pkView.second.noOfViews++;                          // TODO: need to save
-
-        PKViewVM vm = new PKViewVM(pkView.first, pkView.second, localUser, true);
-        return ok(Json.toJson(vm));
-    }
-    
-    @Transactional
     public static Result infoPKView(Long pkViewMetaId) {
         final User localUser = Application.getLocalUser(session());
 

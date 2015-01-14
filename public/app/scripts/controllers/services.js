@@ -851,11 +851,11 @@ minibean.service('pkViewService',function($resource){
                 get: {method:'get', params:{id:'@id'}}
             }
     );
-    this.latestPKView = $resource(
-            '/list-latest-pkview',
+    this.communityPKViews = $resource(
+            '/get-comm-pkviews/:community_id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'get'}
+                get: {method:'get',isArray:true}
             }
     );
     this.yesVotePKView = $resource(
@@ -960,7 +960,7 @@ minibean.service('articleService',function($resource){
 minibean.service('showImageService',function($resource){
     this.getImage = $resource(
             '/get-image-url/:id',
-            {alt:'json',callback:'JSON_CALLBACK', },
+            {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get'}
             }
@@ -972,7 +972,7 @@ minibean.service('articleCommentsService',function($resource){
             '/ArticleComments/:id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'get' ,isArray:true}
+                get: {method:'get',isArray:true}
             }
     );
 });

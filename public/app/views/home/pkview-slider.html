@@ -1,0 +1,63 @@
+<div id="frontpage-slider-section">
+    <div id="frontpage-promo" style="min-height:100px;margin-bottom:10px;">
+        <div id="promo-area2">
+            <div id="promo2-slider" class="royalSlider rsMinW general-box">
+                <div ng-repeat="pkview in pkviews">
+                    <div class="rsContent fp-content-slide">
+                        <div class="bContainer">
+                            <div class="pkview-box-main">
+                                <div class="pkview-title">
+                                    <a href="#/pkview/{{pkview.id}}">
+                                        <!--img class="promo-title-img" src="../assets/app/images/frontpage/promo_pkview.png"-->
+                                        <strong>{{pkview.ptl | limitTo:15}}<span ng-show="pkview.ptl.length > 15">..</span></strong>
+                                    </a>
+                                </div>
+                                <div class="bar rel">
+                                    <a href="#/pkview/{{pkview.id}}">
+                                        <table>
+                                            <tbody><tr>
+                                                <td class="bar-l" style="width:{{pkview.red_w}}%;">
+                                                    <span id="zf_span">
+                                                        <span id="zf_percent">{{pkview.red_vp}}</span>%
+                                                    </span>
+                                                </td>
+                                                <td class="bar-r">
+                                                    <span id="ff_text">
+                                                        <span id="ff_persent">{{pkview.blue_vp}}</span>%
+                                                    </span>
+                                                </td>
+                                            </tr></tbody>
+                                        </table>
+                                        <ins class="abs" style="left:{{pkview.red_w}}%;"></ins>
+                                    </a>
+                                </div>
+                                <div class="pkview-views">
+                                    <dl class="pros">
+                                        <dt>
+                                            <a href="#/pkview/{{pkview.id}}"><span class="supporters">{{pkview.n_rv}}</span><strong>個支持</strong></a>
+                                            <button ng-show="!pkview.isRed && !pkview.isBlue" class="btn btn-red ng-binding" data-ng-click="redVote(pkview)">
+                                                我支持
+                                            </button>
+                                            <span ng-show="pkview.isRed" class="voted-red">(我支持!)</span>
+                                        </dt>
+                                        <dd><a href="#/pkview/{{pkview.id}}">{{pkview.red_ds | limitTo:15}}<span ng-show="pkview.red_ds.length > 15">..</span></a></dd>
+                                    </dl>
+                                    <dl class="cons">
+                                        <dt>
+                                            <a href="#/pkview/{{pkview.id}}"><span class="supporters">{{pkview.n_bv}}</span><strong>個支持</strong></a>
+                                            <button ng-show="!pkview.isRed && !pkview.isBlue" class="btn btn-blue ng-binding" data-ng-click="blueVote(pkview)">
+                                                我支持
+                                            </button>
+                                            <span ng-show="pkview.isBlue" class="voted-blue">(我支持!)</span>
+                                        </dt>
+                                        <dd><a href="#/pkview/{{pkview.id}}">{{pkview.blue_ds | limitTo:15}}<span ng-show="pkview.blue_ds.length > 15">..</span></a></dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

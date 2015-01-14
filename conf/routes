@@ -55,7 +55,7 @@ GET     /my                         controllers.Application.mainHome
 GET     /login                      controllers.Application.login
 
 # Home
-GET     /signup-promo-code/:promoCode      controllers.Application.homeWithPromoCode(promoCode: String)
+GET     /signup-promo-code/:promoCode      controllers.Application.homeWithPromoCode(promoCode:String)
 
 POST    /login                      controllers.Application.doLogin
 POST    /login-popup                controllers.Application.doLoginPopup
@@ -65,36 +65,35 @@ GET     /get-application-info       controllers.Application.getApplicationInfo
 GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
 
 # PKView
-GET     /get-pkview-info/:id        controllers.PKViewController.infoPKView(id :Long)
-GET     /list-latest-pkview         controllers.PKViewController.listLatestPKView()
+GET     /get-pkview-info/:id        controllers.PKViewController.infoPKView(id:Long)
 GET     /get-all-pkviews            controllers.PKViewController.getAllPKViews
-GET     /get-comm-pkviews/:id       controllers.PKViewController.getPKViewsByCommunity(id :Long)
-GET     /yesvote-pkview/:id         controllers.PKViewController.onYesVote(id : Long)
-GET     /novote-pkview/:id          controllers.PKViewController.onNoVote(id : Long)
-GET     /like-pkview/:id            controllers.PKViewController.onLike(id : Long)
-GET     /unlike-pkview/:id          controllers.PKViewController.onUnlike(id : Long)
+GET     /get-comm-pkviews/:community_id       controllers.PKViewController.getPKViewsByCommunity(community_id:Long)
+GET     /yesvote-pkview/:id         controllers.PKViewController.onYesVote(id:Long)
+GET     /novote-pkview/:id          controllers.PKViewController.onNoVote(id:Long)
+GET     /like-pkview/:id            controllers.PKViewController.onLike(id:Long)
+GET     /unlike-pkview/:id          controllers.PKViewController.onUnlike(id:Long)
 GET     /get-bookmarked-pkviews/:offset     controllers.PKViewController.getBookmarkedPKViews(offset:Integer)
-GET     /bookmark-pkview/:id        controllers.PKViewController.onBookmark(id : Long)
-GET     /unbookmark-pkview/:id      controllers.PKViewController.onUnBookmark(id : Long)
+GET     /bookmark-pkview/:id        controllers.PKViewController.onBookmark(id:Long)
+GET     /unbookmark-pkview/:id      controllers.PKViewController.onUnBookmark(id:Long)
 POST    /community/pkview/comment   controllers.CommunityController.commentToPkViewOnCommunity()
 
 # Campaign
-GET     /get-campaign-info/:id      controllers.CampaignController.infoCampaign(id :Long)
-GET     /get-campaign-announced-winners/:id      controllers.CampaignController.getCampaignAnnouncedWinners(id :Long)
-GET     /like-campaign/:id          controllers.CampaignController.onLike(id : Long)
-GET     /unlike-campaign/:id        controllers.CampaignController.onUnlike(id : Long)
+GET     /get-campaign-info/:id      controllers.CampaignController.infoCampaign(id:Long)
+GET     /get-campaign-announced-winners/:id      controllers.CampaignController.getCampaignAnnouncedWinners(id:Long)
+GET     /like-campaign/:id          controllers.CampaignController.onLike(id:Long)
+GET     /unlike-campaign/:id        controllers.CampaignController.onUnlike(id:Long)
 POST    /join-campaign              controllers.CampaignController.joinCampaign
 POST    /withdraw-campaign          controllers.CampaignController.withdrawCampaign
 
 GET     /get-all-article-categories     controllers.ArticleController.getAllArticleCategories
-GET     /get-Articles-Categorywise/:category_id/:offset     controllers.ArticleController.getArticlesCategorywise(category_id: Long, offset:Integer)
-GET     /get-Articles-TagWise/:tagword_id/:offset           controllers.ArticleController.getArticlesTagwise(tagword_id: Long, offset:Integer)
-GET     /get-Six-Articles/:category_id          controllers.ArticleController.getSixArticles(category_id: Long)
-GET     /get-Related-Articles/:id/:category_id  controllers.ArticleController.getRelatedArticles(id :Long,category_id :Long)
-GET     /get-article-info/:id       controllers.ArticleController.infoArticle(id :Long)
-GET     /like-article/:id           controllers.ArticleController.onLike(id : Long)
-GET     /unlike-article/:id         controllers.ArticleController.onUnlike(id : Long)
-GET     /get-new-Articles/:category_id          controllers.ArticleController.getNewArticles(category_id: Long)
+GET     /get-Articles-Categorywise/:category_id/:offset     controllers.ArticleController.getArticlesCategorywise(category_id:Long, offset:Integer)
+GET     /get-Articles-TagWise/:tagword_id/:offset           controllers.ArticleController.getArticlesTagwise(tagword_id:Long, offset:Integer)
+GET     /get-Six-Articles/:category_id          controllers.ArticleController.getSixArticles(category_id:Long)
+GET     /get-Related-Articles/:id/:category_id  controllers.ArticleController.getRelatedArticles(id :Long,category_id:Long)
+GET     /get-article-info/:id       controllers.ArticleController.infoArticle(id:Long)
+GET     /like-article/:id           controllers.ArticleController.onLike(id:Long)
+GET     /unlike-article/:id         controllers.ArticleController.onUnlike(id:Long)
+GET     /get-new-Articles/:category_id          controllers.ArticleController.getNewArticles(category_id:Long)
 GET     /get-hot-Articles/:category_id          controllers.ArticleController.getHotArticles(category_id: Long)
 GET     /get-recommended-Articles/:category_id  controllers.ArticleController.getRecommendedArticles(category_id: Long)
 
