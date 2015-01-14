@@ -180,7 +180,7 @@ minibean.controller('AllCommunitiesIndexWidgetController',function($scope, $rout
 });
     
 minibean.controller('FrontpageController',function($scope, $route, $location, $http, $routeParams, $interval, 
-    frontpageService, communitiesDiscoverService, newsFeedService, campaignService, pkViewService, articleService, tagwordService, usSpinnerService) {
+    pkViewFactory, frontpageService, communitiesDiscoverService, newsFeedService, campaignService, pkViewService, articleService, tagwordService, usSpinnerService) {
     
     $scope.get_header_metaData();
     
@@ -373,47 +373,20 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     );
 
     // pkview
-    $scope.alreadyVote = function() {
+    $scope.redVote = function(pkview) {
         if (!$scope.userInfo.isLoggedIn) {
             $scope.popupLoginModal();
-            return true;
-        }
-        
-        if ($scope.pkview.isRed) {
-            prompt("<div><b>你已支持紅豆豆</b></div>", "bootbox-default-prompt", 2500);
-            return true;
-        }
-        if ($scope.pkview.isBlue) {
-            prompt("<div><b>你已支持藍豆豆</b></div>", "bootbox-default-prompt", 2500);
-            return true;
-        }
-        return false;
-    }
-    
-    $scope.redVote = function(pkview) {
-        if ($scope.alreadyVote()) {
             return;
         }
-        $scope.pkviewToVote = pkview;
-        pkViewService.yesVotePKView.get({id:pkview.id},
-            function(data) {
-                $scope.pkviewToVote.n_rv++;
-                $scope.pkviewToVote.isRed = true;
-            }
-        );
+        pkViewFactory.redVote(pkview);
     }
     
     $scope.blueVote = function(pkview) {
-        if ($scope.alreadyVote()) {
+        if (!$scope.userInfo.isLoggedIn) {
+            $scope.popupLoginModal();
             return;
         }
-        $scope.pkviewToVote = pkview;
-        pkViewService.noVotePKView.get({id:pkview.id},
-            function(data) {
-                $scope.pkviewToVote.n_bv++;
-                $scope.pkviewToVote.isBlue = true;
-            }
-        );
+        pkViewFactory.blueVote(pkview);
     }
     
     $scope.frontpageHotNewsfeedCount = DefaultValues.FRONTPAGE_HOT_NEWSFEED_COUNT;
@@ -2188,7 +2161,7 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
 });
 
 minibean.controller('CommunityPageController', function($scope, $routeParams, $interval, profilePhotoModal,
-        communityPageService, communityJoinService, pkViewService, searchMembersService, usSpinnerService){
+        pkViewFactory, communityPageService, communityJoinService, pkViewService, searchMembersService, usSpinnerService){
     
     $scope.get_header_metaData();
 
@@ -2247,6 +2220,22 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $i
             }
         }
     );
+    
+    $scope.redVote = function(pkview) {
+        if (!$scope.userInfo.isLoggedIn) {
+            $scope.popupLoginModal();
+            return;
+        }
+        pkViewFactory.redVote(pkview);
+    }
+    
+    $scope.blueVote = function(pkview) {
+        if (!$scope.userInfo.isLoggedIn) {
+            $scope.popupLoginModal();
+            return;
+        }
+        pkViewFactory.blueVote(pkview);
+    }
     
     $scope.$on('$viewContentLoaded', function() {
         usSpinnerService.spin('loading...');
@@ -3056,49 +3045,23 @@ minibean.controller('PKViewPageController',function($scope, $route, $location, $
             if ($scope.pkview.id == null) {
                 $scope.showPKView = false;
             }
-        });
-    
-    $scope.alreadyVote = function() {
-        if (!$scope.userInfo.isLoggedIn) {
-            $scope.popupLoginModal();
-            return true;
         }
-        
-        if ($scope.pkview.isRed) {
-            prompt("<div><b>你已支持紅豆豆</b></div>", "bootbox-default-prompt", 2500);
-            return true;
-        }
-        if ($scope.pkview.isBlue) {
-            prompt("<div><b>你已支持藍豆豆</b></div>", "bootbox-default-prompt", 2500);
-            return true;
-        }
-        return false;
-    }
+    );
     
     $scope.redVote = function(pkview) {
-        if ($scope.alreadyVote()) {
+        if (!$scope.userInfo.isLoggedIn) {
+            $scope.popupLoginModal();
             return;
         }
-        $scope.pkviewToVote = pkview;
-        pkViewService.yesVotePKView.get({id:pkview.id},
-            function(data) {
-                $scope.pkviewToVote.n_rv++;
-                $scope.pkviewToVote.isRed = true;
-            }
-        );
+        pkViewFactory.redVote(pkview);
     }
     
     $scope.blueVote = function(pkview) {
-        if ($scope.alreadyVote()) {
+        if (!$scope.userInfo.isLoggedIn) {
+            $scope.popupLoginModal();
             return;
         }
-        $scope.pkviewToVote = pkview;
-        pkViewService.noVotePKView.get({id:pkview.id},
-            function(data) {
-                $scope.pkviewToVote.n_bv++;
-                $scope.pkviewToVote.isBlue = true;
-            }
-        );
+        pkViewFactory.blueVote(pkview);
     }
     
     $scope.deleteComment = function(commentId, attr) {

@@ -2,7 +2,7 @@
 
 var minibean = angular.module('minibean');
 
-minibean.factory('pkViewFactory',function(postManagementService, likeFrameworkService, bookmarkPostService, usSpinnerService) {
+minibean.factory('pkViewFactory',function(pkViewService, postManagementService, likeFrameworkService, bookmarkPostService, usSpinnerService) {
 
     var factory = {}; 
 
@@ -110,6 +110,44 @@ minibean.factory('pkViewFactory',function(postManagementService, likeFrameworkSe
                 });
             }
         });
+    }
+    
+    var alreadyVote = function(pkview) {
+        if (pkview.isRed) {
+            prompt("<div><b>你已支持紅豆豆</b></div>", "bootbox-default-prompt", 2500);
+            return true;
+        }
+        if (pkview.isBlue) {
+            prompt("<div><b>你已支持藍豆豆</b></div>", "bootbox-default-prompt", 2500);
+            return true;
+        }
+        return false;
+    }
+    
+    factory.redVote = function(pkview) {
+        if (alreadyVote(pkview)) {
+            return;
+        }
+        var pkviewToVote = pkview;
+        pkViewService.yesVotePKView.get({id:pkview.id},
+            function(data) {
+                pkviewToVote.n_rv++;
+                pkviewToVote.isRed = true;
+            }
+        );
+    }
+    
+    factory.blueVote = function(pkview) {
+        if (alreadyVote(pkview)) {
+            return;
+        }
+        var pkviewToVote = pkview;
+        pkViewService.noVotePKView.get({id:pkview.id},
+            function(data) {
+                pkviewToVote.n_bv++;
+                pkviewToVote.isBlue = true;
+            }
+        );
     }
     
     return factory;

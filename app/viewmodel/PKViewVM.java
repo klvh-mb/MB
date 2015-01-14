@@ -81,6 +81,7 @@ public class PKViewVM extends CommunityPostVM {
         }
 
         // check if user has voted
+        /*
         Boolean vote = post.getYesNoVote(user);
         if (vote != null) {
             if (vote) {
@@ -89,7 +90,8 @@ public class PKViewVM extends CommunityPostVM {
                 this.isBlue = true;
             }
         }
-
+        */
+        
         // UI
         long minBarWidth = (Application.isMobileUser() || skipComments) ? MIN_BAR_WIDTH * 2 : MIN_BAR_WIDTH;
         long totalVotes = noOfRedVotes + noOfBlueVotes;
