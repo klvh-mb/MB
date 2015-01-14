@@ -66,12 +66,12 @@
     -webkit-border-radius: 0px 0px 15px 15px;
     border: 0px solid;
     padding: 5px;
-    width: 200px;
+    width: 210px;
     height: 85px; 
     position: fixed; 
     z-index: 100;
     display: inline-block;
-    margin-left: 25px;
+    margin-left: 20px;
 }
 #main-logo a {
     background: rgb(255,255,255);
