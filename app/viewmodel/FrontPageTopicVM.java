@@ -39,8 +39,8 @@ public class FrontPageTopicVM {
 		this.noClicks = topic.noClicks;
 		this.topicType = topic.topicType.name();
         this.topicSubType = topic.topicSubType.name();
-		this.active = topic.active;
-		this.mobile = topic.mobile;
+		this.active = (topic.active != null && topic.active);
+		this.mobile = (topic.mobile != null && topic.mobile);
 		
 		if (FrontPageTopic.TopicSubType.PK_VIEW.equals(topic.topicSubType)) {
 		    Pair<PKViewMeta, Post> pair = PKViewMeta.getPKViewById(Long.parseLong(topic.attribute));
