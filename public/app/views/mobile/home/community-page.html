@@ -57,11 +57,16 @@
             </div>
             <!-- Community Header End -->
             <div id="wall">
-                <div class="ads-factor-728x90">
+                <!--div class="ads-factor-728x90">
                     <script adSize="72890" adSid="477069296823" ads-factor language='JavaScript' type="text/javascript"></script>
-                </div>
+                </div-->
                 <div class="tab-content" ng-show="selectedTab == 1">
-                    <div style="width:100%;" data-ng-include data-src="'/assets/app/views/mobile/home/community-about-section.html'"></div>
+                    <div ng-show="pkviews.length > 0">
+                        <div data-ng-include data-src="'/assets/app/views/home/pkview-slider.html'"></div>
+                    </div>
+                    <div style="width:100%;">
+                        <div data-ng-include data-src="'/assets/app/views/mobile/home/community-about-section.html'"></div>
+                    </div>
                     <div class="info-section" ng-if="userInfo.isLoggedIn && community.isO">
                         您是管理員
                     </div>

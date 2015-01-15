@@ -838,11 +838,22 @@ span.notif-count {
     margin-right: 5px;
     margin-bottom: 15px;
 }
-#frontpage-slider-section #promo-slider {
+#frontpage-slider-section #frontpage-promo {
     width: 100%;
-    height: 100px;
+    margin-bottom: 15px;
+}
+#frontpage-slider-section #promo-area2 {
+    width: 100%;
+}
+#frontpage-slider-section #promo2-slider {
+    width: 100%;
+    height: 135px;
     margin-right: 5px;
     margin-bottom: 15px;
+}
+#frontpage-slider-section #promo2-slider .rsContent {
+    width: 100%;
+    height: 135px;
 }
 #frontpage-communities-section #hot-topics, 
 #frontpage-communities-section #hot-communities {

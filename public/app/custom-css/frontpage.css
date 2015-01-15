@@ -376,7 +376,7 @@
 }
 #frontpage-slider-section #frontpage-promo {
     width: 300px;
-    min-height: 250px;
+    margin-bottom: 10px;
 }
 #frontpage-slider-section #promo-area1, 
 #frontpage-slider-section #promo-area2 {

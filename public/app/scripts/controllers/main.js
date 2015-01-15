@@ -312,9 +312,34 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
                     delay: 5000
                 }
             };
-            if ($('#promo2-slider').length > 0) {
-                var promo2Slider = $('#promo2-slider').royalSlider(opts);
-            }
+        } else {
+            // mobile slider
+            opts = {
+                arrowsNav: false,
+                arrowsNavAutoHide: false,
+                fadeinLoadedSlide: false,
+                controlsInside: false,
+                controlNavigationSpacing: 0,
+                controlNavigation: 'bullets',
+                imageScaleMode: 'none',
+                imageAlignCenter: false,
+                loop: true,
+                transitionType: 'move',
+                keyboardNavEnabled: false,
+                navigateByClick: false,
+                block: {
+                    delay: 400
+                },
+                autoPlay: {
+                    enabled: true,
+                    pauseOnHover: true,
+                    stopAtAction: false,
+                    delay: 4000
+                }
+            };
+        }
+        if ($('#promo2-slider').length > 0) {
+            var promo2Slider = $('#promo2-slider').royalSlider(opts);
         }
     }
     $interval($scope.renderPromo2Slider, 1500, 1);
@@ -404,6 +429,9 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     $scope.featuredTopics = frontpageService.featuredTopics.get();
     */
     
+    $scope.showMobileFrontpageSlider = false;
+    $scope.showMobilePromo2Slider = false;
+    
     $scope.sliderTopics = [];
     $scope.promoTopics = [];
     $scope.promo2Topics = [];
@@ -414,10 +442,19 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
             angular.forEach(data, function(topic, key){
                 if (topic.ty == 'SLIDER') {
                     $scope.sliderTopics.push(topic);
+                    if (topic.m) {
+                        $scope.showMobileFrontpageSlider = true;
+                    }
                 } else if (topic.ty == 'PROMO') {
                     $scope.promoTopics.push(topic);
+                    if (topic.m) {
+                        $scope.showMobileFrontpageSlider = true;
+                    }
                 } else if (topic.ty == 'PROMO_2') {
                     $scope.promo2Topics.push(topic);
+                    if (topic.m) {
+                        $scope.showMobilePromo2Slider = true;
+                    }
                 } else if (topic.ty == 'GAME') {
                     $scope.gameTopics.push(topic);
                 } else if (topic.ty == 'FEATURED') {
@@ -2208,9 +2245,34 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $i
                     delay: 5000
                 }
             };
-            if ($('#promo2-slider').length > 0) {
-                var promo2Slider = $('#promo2-slider').royalSlider(opts);
-            }
+        } else {
+            // mobile slider
+            opts = {
+                arrowsNav: false,
+                arrowsNavAutoHide: false,
+                fadeinLoadedSlide: false,
+                controlsInside: false,
+                controlNavigationSpacing: 0,
+                controlNavigation: 'bullets',
+                imageScaleMode: 'none',
+                imageAlignCenter: false,
+                loop: true,
+                transitionType: 'move',
+                keyboardNavEnabled: false,
+                navigateByClick: false,
+                block: {
+                    delay: 400
+                },
+                autoPlay: {
+                    enabled: true,
+                    pauseOnHover: true,
+                    stopAtAction: false,
+                    delay: 4000
+                }
+            };
+        }
+        if ($('#promo2-slider').length > 0) {
+            var promo2Slider = $('#promo2-slider').royalSlider(opts);
         }
     }
     $scope.pkviews = pkViewService.communityPKViews.get({community_id:$routeParams.id},
