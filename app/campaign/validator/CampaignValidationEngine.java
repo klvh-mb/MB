@@ -2,7 +2,10 @@ package campaign.validator;
 
 import models.Campaign;
 import models.CampaignActionsMeta;
+
 import org.joda.time.DateTime;
+
+import campaign.validator.impl.NoOpValidator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,11 +23,14 @@ public class CampaignValidationEngine {
      */
     public static ValidationResult validateCampaign(Campaign campaign, Long userId) {
         CampaignActionsMeta meta = CampaignActionsMeta.getMeta(campaign.getId());
+        ICampaignValidator validator = null;
         if (meta == null) {
-            throw new IllegalArgumentException("Invalid campaignId: "+campaign.getId());
+        	validator = new NoOpValidator();
+        	logger.underlyingLogger().info("CampaignActionsMeta not set, use NoOpValidator for campaignId: "+campaign.getId());
+        } else {
+        	validator = getInstance(meta.getValidator());
         }
-
-        ICampaignValidator validator = getInstance(meta.getValidator());
+        
         if (validator == null) {
             return ValidationResult.VALIDATOR_NOT_FOUND;
         }

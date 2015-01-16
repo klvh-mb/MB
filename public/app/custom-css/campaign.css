@@ -57,6 +57,7 @@
 .campaign-detail-wrapper .campaign-details li img {
     width: 100%;
     height: auto;
+    border-radius: 10px;
 }
 .campaign-detail-wrapper .campaign-details table td {
     padding: 3px;
@@ -175,6 +176,8 @@
 .campaign-container .gift-items .gift-item-pic img {
     width: 180px;
     height: 180px;
+    border-radius: 25px;
+    border: 5px solid transparent;
 }
 .campaign-container .gift-items .gift-item-desc {
     background-color: #480c0c;
