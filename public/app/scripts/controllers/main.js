@@ -3076,7 +3076,7 @@ minibean.controller('PKViewPageController',function($scope, $route, $location, $
             $('.col-l').show();
             $('.col-l').width('50%');
             $('.col-r').show();
-            $('.col-r').width('50%');
+            $('.col-r').width('49%');
             $scope.redExpandText = '只看紅豆豆意見';
         }
     }
@@ -3091,7 +3091,7 @@ minibean.controller('PKViewPageController',function($scope, $route, $location, $
             $('.col-l').show();
             $('.col-l').width('50%');
             $('.col-r').show();
-            $('.col-r').width('50%');
+            $('.col-r').width('49%');
             $scope.blueExpandText = '只看藍豆豆意見';
         }
     }
@@ -3175,7 +3175,7 @@ minibean.controller('PKViewPageController',function($scope, $route, $location, $
                 $scope.pkview.n_c++;
                 $scope.pkview.ut = new Date();
                 var comment = {"oid" : $scope.userInfo.id, "d" : response.text, "on" : $scope.userInfo.displayName, 
-                        "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : $scope.pkview.n_c, "id" : response.id, "attribute" : response.attribute};
+                        "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : $scope.pkview.n_c, "id" : response.id, "attr" : response.attribute};
                 comment.isO = true;
                 comment.n = $scope.pkview.n_c;
                 $scope.pkview.cs.push(comment);

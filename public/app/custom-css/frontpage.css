@@ -421,10 +421,12 @@
     opacity: .8;
 }
 #frontpage-slider-section #promo-area2 .pkview-box-main .btn-red {
-    background-color: #EF7474;
+    /*background-color: #EF7474;*/
+    background-color: #FFA500;
 }
 #frontpage-slider-section #promo-area2 .pkview-box-main .btn-blue {
-    background-color: #589DD8;
+    /*background-color: #589DD8;*/
+    background-color: #FFA500;
 }
 #frontpage-slider-section #promo-area2 .pkview-box-main .voted-red,
 #frontpage-slider-section #promo-area2 .pkview-box-main .voted-blue {
@@ -434,10 +436,12 @@
     margin: 0;
 }
 #frontpage-slider-section #promo-area2 .pkview-box-main .voted-red {
-    color: #EF7474;
+    /*color: #EF7474;*/
+    color: #FFA500;
 }
 #frontpage-slider-section #promo-area2 .pkview-box-main .voted-blue {
-    color: #589DD8;
+    /*color: #589DD8;*/
+    color: #FFA500;
 }
 #frontpage-slider-section #promo-area2 .pkview-box-main .pkview-title {
     width: 100%;
@@ -520,7 +524,7 @@
     clear: both;
     font-size: 13px;
     font-weight: normal;
-    color: #999;
+    color: #777;
 }
 #frontpage-slider-section #promo-area2 .pkview-box-main .pkview-views .supporters {
     font-size: 16px;
