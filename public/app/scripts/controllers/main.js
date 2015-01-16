@@ -188,7 +188,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     
     // Frontpage slider
     $scope.renderFrontpageSlider = function() {
-        var opts 
+        var opts;
         if (!$scope.userInfo.isMobile) {
             // pc slider
             opts = {
@@ -251,7 +251,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     
     // Frontpage promo slider
     $scope.renderPromoSlider = function() {
-        var opts 
+        var opts;
         if (!$scope.userInfo.isMobile) {
             // pc slider
             opts = {
@@ -286,58 +286,29 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     
     // Frontpage promo2 slider
     $scope.renderPromo2Slider = function() {
-        var opts 
-        if (!$scope.userInfo.isMobile) {
-            // pc slider
-            opts = {
-                arrowsNav: false,
-                arrowsNavAutoHide: false,
-                fadeinLoadedSlide: false,
-                controlsInside: false,
-                controlNavigationSpacing: 0,
-                controlNavigation: 'bullets',
-                imageScaleMode: 'none',
-                imageAlignCenter: false,
-                loop: true,
-                transitionType: 'move',
-                keyboardNavEnabled: false,
-                navigateByClick: false,
-                block: {
-                    delay: 400
-                },
-                autoPlay: {
-                    enabled: true,
-                    pauseOnHover: true,
-                    stopAtAction: false,
-                    delay: 5000
-                }
-            };
-        } else {
-            // mobile slider
-            opts = {
-                arrowsNav: false,
-                arrowsNavAutoHide: false,
-                fadeinLoadedSlide: false,
-                controlsInside: false,
-                controlNavigationSpacing: 0,
-                controlNavigation: 'bullets',
-                imageScaleMode: 'none',
-                imageAlignCenter: false,
-                loop: true,
-                transitionType: 'move',
-                keyboardNavEnabled: false,
-                navigateByClick: false,
-                block: {
-                    delay: 400
-                },
-                autoPlay: {
-                    enabled: true,
-                    pauseOnHover: true,
-                    stopAtAction: false,
-                    delay: 4000
-                }
-            };
-        }
+        var opts = {
+            arrowsNav: false,
+            arrowsNavAutoHide: false,
+            fadeinLoadedSlide: false,
+            controlsInside: false,
+            controlNavigationSpacing: 0,
+            controlNavigation: 'bullets',
+            imageScaleMode: 'none',
+            imageAlignCenter: false,
+            loop: true,
+            transitionType: 'move',
+            keyboardNavEnabled: false,
+            navigateByClick: false,
+            block: {
+                delay: 400
+            },
+            autoPlay: {
+                enabled: true,
+                pauseOnHover: true,
+                stopAtAction: false,
+                delay: 5000
+            }
+        };
         if ($('#promo2-slider').length > 0) {
             var promo2Slider = $('#promo2-slider').royalSlider(opts);
         }
@@ -2219,58 +2190,29 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $i
     
     // pkview slider
     $scope.renderPromo2Slider = function() {
-        var opts 
-        if (!$scope.userInfo.isMobile) {
-            // pc slider
-            opts = {
-                arrowsNav: false,
-                arrowsNavAutoHide: false,
-                fadeinLoadedSlide: false,
-                controlsInside: false,
-                controlNavigationSpacing: 0,
-                controlNavigation: 'bullets',
-                imageScaleMode: 'none',
-                imageAlignCenter: false,
-                loop: true,
-                transitionType: 'move',
-                keyboardNavEnabled: false,
-                navigateByClick: false,
-                block: {
-                    delay: 400
-                },
-                autoPlay: {
-                    enabled: true,
-                    pauseOnHover: true,
-                    stopAtAction: false,
-                    delay: 5000
-                }
-            };
-        } else {
-            // mobile slider
-            opts = {
-                arrowsNav: false,
-                arrowsNavAutoHide: false,
-                fadeinLoadedSlide: false,
-                controlsInside: false,
-                controlNavigationSpacing: 0,
-                controlNavigation: 'bullets',
-                imageScaleMode: 'none',
-                imageAlignCenter: false,
-                loop: true,
-                transitionType: 'move',
-                keyboardNavEnabled: false,
-                navigateByClick: false,
-                block: {
-                    delay: 400
-                },
-                autoPlay: {
-                    enabled: true,
-                    pauseOnHover: true,
-                    stopAtAction: false,
-                    delay: 4000
-                }
-            };
-        }
+        var opts = {
+            arrowsNav: false,
+            arrowsNavAutoHide: false,
+            fadeinLoadedSlide: false,
+            controlsInside: false,
+            controlNavigationSpacing: 0,
+            controlNavigation: 'bullets',
+            imageScaleMode: 'none',
+            imageAlignCenter: false,
+            loop: true,
+            transitionType: 'move',
+            keyboardNavEnabled: false,
+            navigateByClick: false,
+            block: {
+                delay: 400
+            },
+            autoPlay: {
+                enabled: true,
+                pauseOnHover: true,
+                stopAtAction: false,
+                delay: 5000
+            }
+        };
         if ($('#promo2-slider').length > 0) {
             var promo2Slider = $('#promo2-slider').royalSlider(opts);
         }

@@ -85,14 +85,6 @@ public class Application extends Controller {
 
 	@Transactional
     public static Result index() {
-        UserAgentUtil userAgentUtil = new UserAgentUtil(request());
-        boolean isMobile = userAgentUtil.isMobileUserAgent();
-        
-        setMobileUser(isMobile? "true":"false");
-        
-        if (isMobile) {
-            return redirect("/m-frontpage#");
-        }
         return redirect("/frontpage#");
     }
 	
