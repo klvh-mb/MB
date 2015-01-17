@@ -41,7 +41,7 @@ angular.module('minibean', [
         controller : 'BusinessCommunityPageController'  
       })
       .when('/business-post-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/home/business-post-landing.html',
+        templateUrl: '/assets/app/views/home/business-post-landing-page.html',
         controller : 'PostLandingController'  
       })
       .when('/article/:id/:catId',{

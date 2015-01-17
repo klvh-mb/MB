@@ -1,0 +1,100 @@
+<div class="post-card">
+    <ul title="sharing">
+        <li class="post-intro post-sharing-line">
+            <span class="post-sharing-tag pull-left" style="margin-right:5px;">♥</span>
+            <span class="post-intro-share">分享</span>
+            <span class="post-intro-share" ng-show="!isCommunityPage">於 </span>
+            <a data-ng-href="m-my#/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
+            <span class="post-intro-divider" ng-show="post.n_c > 0"></span>
+            <span class="post-qna-answer-count" ng-show="post.n_c > 0">最新留言: 
+                <span class="post-date" am-time-ago="post.ut"></span>
+            </span>
+            <button class="post-dropdown-btn btn btn-default dropdown-toggle pull-right" type="button" id="post-dropdown" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+            <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
+                <li role="presentation"><a role="menuitem" href="" ng-click="displayLink('/my#/qna-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i>複製連結</a></li>
+                <li role="presentation" ng-show="post.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個分享嗎？"><i class="glyphicon glyphicon-trash"></i>刪除分享</a></li>
+                <li role="presentation" ng-show="!post.isO || userInfo.isSA"><a role="menuitem" ng-click="openReportObjectModal(post.id,'POST')"><i class="glyphicon glyphicon-warning-sign"></i>舉報這個分享</a></li>
+            </ul>
+        </li>
+    </ul>
+    <!-- Post Intro Ends -->
+    <ul>
+        <li class="post-sharing-body-top">
+            <a data-ng-href="m-my#/profile/{{post.oid}}">
+                <img class="post-title-user-image" data-ng-src="/image/get-mini-image-by-id/{{post.oid}}"/>
+            </a>
+            <div class="post-title-user-name">
+                <a data-ng-href="m-my#/profile/{{post.oid}}">{{post.p}}</a>
+                <span ng-init="confirm = isMyBookmarksPage" data-ng-include data-src="'/assets/app/views/home/bookmark-post.html'"></span>
+            </div>
+            <span class="post-date" am-time-ago="post.t"></span>
+        </li>
+        <li class="post-sharing-body">
+            <div class="post-sharing-body-text" ng-bind-html="post.pt | to_trusted | highlight: highlightText"></div>
+            <div data-ng-show="post.hasImage" class="post-body-image">
+                <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
+                    <img data-ng-src="/image/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                </a>
+            </div>
+            <span data-ng-include data-src="'/assets/app/views/home/like-post.html'"></span>
+        </li>
+    </ul>
+    <!-- Post Body Ends -->
+    <ul class="post-sharing-comments">
+        <li ng-show="post.n_c > commentsPreviewNum && !post.ep">
+            <span class="post-qna-answer-count" ng-show="post.n_c > 0 && post.n_c <= commentsPreviewNum">{{post.n_c}}個留言</span>
+            <a class="post-view-all-comments-link" href="" ng-show="post.n_c > commentsPreviewNum" data-ng-click="get_all_comments(post.id)">共{{post.n_c}}個留言</a>
+            <a class="post-view-all-comments-link pull-right" href="" data-ng-click="get_all_comments(post.id)">查看所有留言</a>
+            <img id="post-comment-spinner_{{post.id}}" class="comment-spinner" style="display:none;" src="/assets/app/images/general/animated/green-spinner.gif">
+        </li>
+        <li data-ng-repeat="comment in post.cs">
+            <a data-ng-href="m-my#/profile/{{comment.oid}}">
+                <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
+            </a>
+            <span class="post-sharing-comment-body">
+                <span class="post-title-user-name">
+                    <a data-ng-href="m-my#/profile/{{comment.oid}}">{{comment.on}}</a>
+                </span>
+                <span class="post-sharing-comment-body-text" ng-bind-html="comment.d | to_trusted"></span>
+                <!--<span class="post-sharing-comment-body-text">{{comment.d}}</span>-->
+                <div>
+                    <span class="post-date" am-time-ago="comment.cd"></span>
+                    <span style="margin-left:5px;"/>
+    	            <span data-ng-include data-src="'/assets/app/views/home/like-comment.html'"></span>
+    	        </div>
+    	        <div data-ng-show="comment.hasImage" class="post-body-image">
+                    <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in comment.imgs" href="">
+                        <img style="max-width:110px; max-height:150px;" data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                    </a>
+                </div>
+	        </span>
+    	</li>
+    	<!-- Post Comment box-->
+        <li ng-show="post.isC || (community.isM || community.isO)">
+            <!--a data-ng-href="m-my#/profile/{{userInfo.id}}">
+                <img style="margin-top:5px;" class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
+            </a-->
+            <form class="post-comment-box" name="userComment" method="post" action="">
+                <label for="User Comment"></label>
+                <textarea type="text" name="userCommentfield" id="userCommentfield" class="general-textfield post-sharing-comment-textfield" placeholder="留言..." cols="70" data-ng-model="commentText" rows="1"></textarea>
+                <a class="post-photo-icon" data-ng-hide="commentSelectedFiles.length >= 3 && commentedOnPost == post.id" id="upload">
+                    <i class="icon-photo-camera-fill" data-ng-click="commentPhoto(post.id)"></i>
+                </a>
+                <button class="btn btn-primary ng-binding" ng-disabled="userComment.$pristine || (userComment.$dirty && !commentText.length)" type="submit" disabled="disabled" data-ng-click="comment_on_post(post.id, commentText); commentText=''">
+                    留言
+                </button>
+                <input style="visibility:hidden;width:0px;height:0px;" id="comment-photo-id" type="file" name="comment-photo" ng-file-select="onCommentFileSelect($files)"/>
+            </form>
+            <span ng-if="commentedOnPost == post.id">
+                <div ng-show="commentSelectedFiles != null">
+                    <img class="post-photo-preview" ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
+                        ng-repeat="f in commentSelectedFiles" tooltip-placement="bottom" tooltip="移除相片" data-ng-click="remove_image_from_comment($index)"
+                        ng-show="commentDataUrls[$index]" ng-src="{{commentDataUrls[$index]}}">
+                </div>
+            </span>
+        </li>
+    </ul>
+    <!-- Post Comments Ends -->
+</div>
