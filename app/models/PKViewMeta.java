@@ -125,6 +125,15 @@ public class PKViewMeta extends domain.Entity {
         }
 	}
 
+    public static List<Long> getVotedUserIds(Long pkViewMetaId, boolean isYesVote) {
+        Query q = JPA.em().createQuery(
+                "select p.actor from PKViewMeta m, PrimarySocialRelation p where m.id = ?1 and m.postId = p.target and p.targetType = 'PK_VIEW' and p.action = ?2");
+		q.setParameter(1, pkViewMetaId);
+        q.setParameter(2, isYesVote ? PrimarySocialRelation.Action.YES_VOTED : PrimarySocialRelation.Action.NO_VOTED);
+
+        return (List<Long>) q.getResultList();
+    }
+
     public void onYesVote(User user, Post post) {
         this.yesVoteCount++;
         merge();

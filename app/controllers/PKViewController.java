@@ -17,6 +17,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import viewmodel.PKViewVM;
+import viewmodel.PKViewVoterVM;
 
 /**
  * Controller for PKView
@@ -70,6 +71,20 @@ public class PKViewController extends Controller {
 
         PKViewVM vm = new PKViewVM(pkView.first, pkView.second, localUser);
         return ok(Json.toJson(vm));
+    }
+
+    @Transactional
+    public static Result getVoters(Long pkViewMetaId, String isYesVote) {
+        boolean isYes = "true".equalsIgnoreCase(isYesVote);
+
+        List<Long> voterIds = PKViewMeta.getVotedUserIds(pkViewMetaId, isYes);
+
+        List<PKViewVoterVM> vms = new ArrayList<>();
+        for (Long voterId : voterIds) {
+            PKViewVoterVM vm = new PKViewVoterVM(pkViewMetaId, voterId);
+            vms.add(vm);
+        }
+        return ok(Json.toJson(vms));
     }
 
     @Transactional
@@ -172,7 +187,7 @@ public class PKViewController extends Controller {
         logger.underlyingLogger().info("[u="+localUser.id+"] getBookmarkedPKViews - ret="+vms.size()+". Took "+sw.getElapsedMS()+"ms");
         return ok(Json.toJson(vms));
     }
-    
+
     @Transactional
     public static Result getImage(Long year, Long month, Long date, String name) {
         response().setHeader("Cache-Control", "max-age=604800");
