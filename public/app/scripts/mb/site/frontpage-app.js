@@ -58,11 +58,11 @@ angular.module('minibean', [
         controller: 'CommunityPageController'  
       })
       .when('/post-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/home/post-landing.html',
+        templateUrl: '/assets/app/views/home/post-landing-page.html',
         controller: 'PostLandingController'  
       })
       .when('/qna-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/home/qna-landing.html',
+        templateUrl: '/assets/app/views/home/qna-landing-page.html',
         controller: 'QnALandingController'  
       })
       .when('/error', {
