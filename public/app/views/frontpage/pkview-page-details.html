@@ -14,6 +14,9 @@
                     <span class="pkview-community"><a href="#/community/{{pkview.cid}}"><img src="{{pkview.ci}}">{{pkview.cn}}</a></span>
                     <span data-ng-include data-src="'/assets/app/views/frontpage/like-pkview.html'"></span>
                     <!--span data-ng-include data-src="'/assets/app/views/frontpage/bookmark-pkview.html'"></span-->
+                    <span class="admin-visible-field pull-right" ng-if="userInfo.isE">
+                        <a href="#/admin/pkview-voters/{{pkview.id}}">View Voters</a>
+                    </span>
                 </p>
                 <!--ins class="in"></ins-->
                 <!--ins class="over"></ins-->

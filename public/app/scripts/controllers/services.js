@@ -10,6 +10,13 @@ minibean.service('adminService',function($resource){
                 get: {method:'get',isArray:true}
             }
     );
+    this.pkViewVoters = $resource(
+            '/get-pkview-voters/:id/:yes_no',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
 });
 
 minibean.service('frontpageService',function($resource){

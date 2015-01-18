@@ -6,6 +6,11 @@ minibean.controller('AdminCampaignJoinersController',function($scope, $route, $l
     $scope.joiners = adminService.campaignJoiners.get({id:$routeParams.id});
 });
 
+minibean.controller('AdminPKViewVotersController',function($scope, $route, $location, $http, $routeParams, adminService){
+    $scope.redVoters = adminService.pkViewVoters.get({id:$routeParams.id,yes_no:'YES'});
+    $scope.blueVoters = adminService.pkViewVoters.get({id:$routeParams.id,yes_no:'NO'});
+});
+
 minibean.controller('BusinessCommunityPageController', function($scope, $routeParams, profilePhotoModal,
         communityPageService, communityJoinService, searchMembersService, usSpinnerService){
     

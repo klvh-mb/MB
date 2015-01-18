@@ -74,8 +74,8 @@ public class PKViewController extends Controller {
     }
 
     @Transactional
-    public static Result getVoters(Long pkViewMetaId, String isYesVote) {
-        boolean isYes = "true".equalsIgnoreCase(isYesVote);
+    public static Result getVoters(Long pkViewMetaId, String yesNo) {
+        boolean isYes = PKViewMeta.COMMENT_ATTR_YES.equalsIgnoreCase(yesNo);
 
         List<Long> voterIds = PKViewMeta.getVotedUserIds(pkViewMetaId, isYes);
 

@@ -76,7 +76,7 @@ GET     /get-bookmarked-pkviews/:offset     controllers.PKViewController.getBook
 GET     /bookmark-pkview/:id        controllers.PKViewController.onBookmark(id:Long)
 GET     /unbookmark-pkview/:id      controllers.PKViewController.onUnBookmark(id:Long)
 POST    /community/pkview/comment   controllers.CommunityController.commentToPkViewOnCommunity()
-GET     /getVoters/:id/:yes_no      controllers.PKViewController.getVoters(id:Long, yes_no:String)
+GET     /get-pkview-voters/:id/:yes_no      controllers.PKViewController.getVoters(id:Long, yes_no:String)
 
 # Campaign
 GET     /get-campaign-info/:id      controllers.CampaignController.infoCampaign(id:Long)
