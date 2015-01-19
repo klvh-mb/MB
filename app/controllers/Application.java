@@ -85,7 +85,7 @@ public class Application extends Controller {
 
 	@Transactional
     public static Result index() {
-        return redirect("/frontpage#");
+        return redirect("/frontpage");
     }
 	
 	//
@@ -725,12 +725,17 @@ public class Application extends Controller {
 	
 	@Transactional
     public static Result bingWebmaster() {
-        return ok(views.html.bing_webmaster.render());
+        return ok(views.xml.bing_webmaster.render());
     }
 	
 	@Transactional
 	public static Result googleWebmaster() {
 	    return ok(views.html.google_webmaster.render());
+	}
+	
+	@Transactional
+	public static Result sitemap() {
+	    return ok(views.xml.sitemap.render());
 	}
 	
 	//
