@@ -60,6 +60,8 @@ public class Post extends SocialObject implements Likeable, Commentable {
     public int noOfViews = 0;
     public int shortBodyCount = 0;
 
+	@ManyToOne
+	public User socialUpdatedBy;
 	public Date socialUpdatedDate = new Date();
 
     /**
@@ -115,6 +117,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
         }
 
         // update last socialUpdatedDate in Question
+        this.socialUpdatedBy = user;
         this.socialUpdatedDate = new Date();
         this.community.socialUpdatedDate = new Date();
 
@@ -150,6 +153,10 @@ public class Post extends SocialObject implements Likeable, Commentable {
     @Override
     public void save() {
         super.save();
+        
+        if (this.socialUpdatedBy == null) {
+        	this.socialUpdatedBy = this.owner;
+        }
         this.socialUpdatedDate = new Date();
 
         // push to / remove from community
@@ -199,6 +206,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
     public SocialObject onComment(User user, String body, CommentType type)
             throws SocialObjectNotCommentableException {
         // update last socialUpdatedDate in Post
+    	this.socialUpdatedBy = user;
         this.socialUpdatedDate = new Date();
         this.community.socialUpdatedDate = new Date();
 
@@ -281,6 +289,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
     public SocialObject onCommentPkView(User user, String body, String attribute)
         throws SocialObjectNotCommentableException {
         // update last socialUpdatedDate in Post
+    	this.socialUpdatedBy = user;
         this.socialUpdatedDate = new Date();
 
         // create Comment object
@@ -374,7 +383,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
 
     @JsonIgnore
     public List<Comment> getCommentsOfPostByAttribute(int limit, String attribute) {
-        Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 and attribute = ?2 and deleted = false order by date desc" );
+        Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 and attribute = ?2 and deleted = false order by date desc");
         q.setParameter(1, this.id);
         q.setParameter(2, attribute);
         return (List<Comment>)q.setMaxResults(limit).getResultList();

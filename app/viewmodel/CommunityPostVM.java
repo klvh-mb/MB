@@ -22,6 +22,8 @@ public class CommunityPostVM {
 	@JsonProperty("oid") public Long ownerId;
 	@JsonProperty("p") public String postedBy;
 	@JsonProperty("t") public long postedOn;
+	@JsonProperty("uid") public Long updatedById;
+	@JsonProperty("u") public String updatedBy;
 	@JsonProperty("ut") public long updatedOn;
 	@JsonProperty("ptl") public String postedTitle;
 	@JsonProperty("pt") public String postedText;
@@ -55,7 +57,11 @@ public class CommunityPostVM {
 		this.ownerId = post.owner.id;
 		this.postedBy = post.owner.displayName;
 		this.postedOn = post.getCreatedDate().getTime();
-		this.updatedOn = post.getSocialUpdatedDate().getTime();
+		if (post.socialUpdatedBy != null) {
+			this.updatedById = post.socialUpdatedBy.id;
+			this.updatedBy = post.socialUpdatedBy.displayName;
+		}
+		this.updatedOn = post.socialUpdatedDate.getTime();
 		this.postedTitle = post.title;
 		if(post.shortBodyCount > 0){
 		    this.showMore= true; 
