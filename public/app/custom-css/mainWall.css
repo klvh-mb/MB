@@ -478,9 +478,7 @@ a.btn-like, a.btn-like:hover {
     padding: 3px 10px;
 }
 
-
-
-
+/* post bar layout */
 .post-bar .post-favorite:after, 
 .post-bar .post-favorited:after {
 	top: 0;
@@ -522,34 +520,15 @@ a.btn-like, a.btn-like:hover {
     vertical-align: text-bottom;
     margin-right: 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.post-bar .post-bar-images {
+	padding: 5px 0 10px 0;
+}
+.post-bar .post-bar-images img {
+    width: auto;
+    height: auto;
+    max-width: 100px;
+    max-height: 50px;
+    border-radius: 3px;
+    margin-right: 3px;
+    border: 1px solid #DBDAFF;
+}

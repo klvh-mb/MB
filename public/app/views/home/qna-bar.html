@@ -4,6 +4,11 @@
             <a data-ng-href="#/qna-landing/id/{{post.id}}/communityId/{{post.cid}}" target="_blank"><div ng-bind-html="post.ptl | to_trusted"></div></a>
             <span ng-init="confirm = isMyBookmarksPage" data-ng-include data-src="'/assets/app/views/home/bookmark-post.html'"></span>
         </li>
+        <li class="post-bar-images" ng-if="post.hasImage">
+            <a data-toggle="modal" data-target="#imageModal" ng-repeat="imageID in post.imgs" href="">
+                <img ng-src="/image/get-post-image-by-id/{{imageID}}" ng-click="showImage(imageID)" alt="">
+            </a>
+        </li>
         <li class="post-bar-details">
             <div class="row">
                 <span class="post-qna-answer-count">
@@ -30,10 +35,9 @@
                     最新回覆: --
                 </span>
                 <span ng-if="post.n_c > 0">
-                    最新回覆:
-                    <span class="post-intro-divider"></span>
+                    最新回覆: 
 	                <span class="post-qna-answer-count">
-	                    <a data-ng-href="my#/profile/{{post.uid}}"><img style="float:none;" class="user-image" data-ng-src="/image/get-mini-image-by-id/{{post.uid}}"/></a>
+	                    <!--a data-ng-href="my#/profile/{{post.uid}}"><img style="float:none;" class="user-image" data-ng-src="/image/get-mini-image-by-id/{{post.uid}}"/></a-->
 	                    <span class="post-title-user-name">
 	                        <a data-ng-href="my#/profile/{{post.uid}}">{{post.u}}</a>
 	                    </span>
