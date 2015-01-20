@@ -1828,88 +1828,6 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
         $scope.commentDataUrls.splice(index, 1);
     }
     
-    $scope.post_on_community = function(id, postText) {
-        
-        usSpinnerService.spin('loading...');
-        var data = {
-            "community_id" : id,
-            "postText" : postText,
-            "withPhotos" : $scope.selectedFiles.length != 0
-        };
-        
-        $scope.postText="";
-        
-        $http.post('/community/post', data) // first create post with post text.
-            .success(function(post_id) {
-                usSpinnerService.stop('loading...');
-                $('.postBox').val('');
-                $scope.postText = "";
-                var post = {"oid" : $scope.posts.lu, "pt" : postText, "cn" : $scope.community.n,
-                        "isLike" : false, "nol" : 0, "p" : $scope.posts.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
-                $scope.posts.posts.unshift(post);
-                
-                if($scope.selectedFiles.length == 0) {
-                    return;
-                }
-                
-                $scope.selectedFiles = [];
-                $scope.dataUrls = [];
-                
-                // when post is done in BE then do photo upload
-                for(var i=0 ; i<$scope.tempSelectedFiles.length ; i++) {
-                    $upload.upload({
-                        url : '/image/uploadPostPhoto',
-                        method: $scope.httpMethod,
-                        data : {
-                            postId : post_id
-                        },
-                        file: $scope.tempSelectedFiles[i],
-                        fileFormDataName: 'post-photo'
-                    }).success(function(data, status, headers, config) {
-                        usSpinnerService.stop('loading...');
-                        angular.forEach($scope.posts.posts, function(post, key){
-                            if(post.id == post_id) {
-                                post.hasImage = true;
-                                if(post.imgs) { 
-                                } else {
-                                    post.imgs = [];
-                                }
-                                post.imgs.push(data);
-                            }
-                        });
-                    }).error(function(data, status, headers, config) {
-                        prompt("上載圖片失敗。請重試");
-                    });
-                }
-            }).error(function(data, status, headers, config) {
-                prompt("發佈失敗。請重試");
-            });
-            usSpinnerService.spin('loading...');
-    }
-
-    $scope.send_join = function(id) {
-        usSpinnerService.spin('loading...');
-        this.send_join_request = communityJoinService.sendJoinRequest.get({"id":id}, function(data) {
-            usSpinnerService.stop('loading...');
-            $scope.community.isP = $scope.community.typ == 'CLOSE' ?  true : false;
-            $scope.community.isM = $scope.community.typ == 'OPEN'? true : false;
-        });
-    }
-    
-    $scope.leave_community = function(id) {
-        usSpinnerService.spin('loading...');
-        this.leave_this_community = communityJoinService.leaveCommunity.get({"id":id}, function(data) {
-            usSpinnerService.stop('loading...');
-            $scope.community.isM = false;
-        });
-    }
-    
-    $scope.remove_image = function(index) {
-        $scope.selectedFiles.splice(index, 1);
-        $scope.tempSelectedFiles.splice(index, 1);
-        $scope.dataUrls.splice(index, 1);
-    }
-    
     $scope.like_post = function(post_id) {
         postFactory.like_post(post_id, $scope.posts.posts);
     }
@@ -2500,9 +2418,9 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 				usSpinnerService.stop('loading...');
 				$('.postBox').val('');
 				$scope.postText = "";
-				var post = {"oid" : $scope.posts.lu, "pt" : postText, "cn" : $scope.posts.n,
-						"isLike" : false, "nol" : 0, "p" : $scope.posts.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
-				$scope.posts.posts.unshift(post);
+				var post = {"oid" : $scope.posts.lu, "pt" : postText, "cid" : $scope.community.id, "cn" : $scope.community.n, "ci" : $scope.community.icon, 
+                        "isLike" : false, "nol" : 0, "p" : $scope.posts.lun, "t" : new Date(), "n_c" : 0, "id" : post_id, "cs": []};
+                $scope.posts.posts.unshift(post);
 				
 				if($scope.selectedFiles.length == 0) {
 					return;
@@ -2767,7 +2685,7 @@ minibean.controller('CommunityQnAController',function($scope, postFactory, postM
 			.success(function(response) {
 				usSpinnerService.stop('loading...');
 				$('.postBox').val('');
-				var post = {"oid" : $scope.QnAs.lu, "ptl" : questionTitle, "pt" : response.text, "cn" : $scope.community.n, 
+				var post = {"oid" : $scope.QnAs.lu, "ptl" : questionTitle, "pt" : response.text, "cid" : $scope.community.id, "cn" : $scope.community.n, 
 						"isLike" : false, "showM": (response.showM == 'true'), "nol" : 0, "p" : $scope.QnAs.lun, "t" : new Date(), "n_c" : 0, "id" : response.id, "cs": []};
 				$scope.QnAs.posts.unshift(post);
 				
