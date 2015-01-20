@@ -486,6 +486,9 @@ a.btn-like, a.btn-like:hover {
 .post-bar {
 	border-bottom: 1px solid #DBDAFF;
 }
+.post-bar:hover {
+    background-color: #F9FBFF;
+}
 .post-bar ul {
     padding: 5px 10px;
     margin: 0;
@@ -496,10 +499,9 @@ a.btn-like, a.btn-like:hover {
 	font-weight: normal;
 	white-space: pre-wrap;
 }
-.post-bar .post-bar-title a div {
-	border-radius: 5px;
-	padding: 5px 0 3px 0;
-	margin-right: 15px;
+.post-bar .post-bar-title a span {
+	margin: 0 15px 0 2px;
+    line-height: 2.0;
 }
 .post-bar .post-bar-details {
     	
@@ -521,7 +523,7 @@ a.btn-like, a.btn-like:hover {
     margin-right: 0;
 }
 .post-bar .post-bar-images {
-	padding: 5px 0 10px 0;
+	padding: 2px 5px 10px 5px;
 }
 .post-bar .post-bar-images img {
     width: auto;
