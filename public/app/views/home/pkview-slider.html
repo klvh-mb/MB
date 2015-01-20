@@ -7,13 +7,13 @@
                         <div class="bContainer">
                             <div class="pkview-box-main">
                                 <div class="pkview-title">
-                                    <a href="#/pkview/{{pkview.id}}">
+                                    <a href="#!/pkview/{{pkview.id}}">
                                         <!--img class="promo-title-img" src="../assets/app/images/frontpage/promo_pkview.png"-->
                                         <strong>{{pkview.ptl | limitTo:18}}<span ng-show="pkview.ptl.length > 18">..</span></strong>
                                     </a>
                                 </div>
                                 <div class="bar rel">
-                                    <a href="#/pkview/{{pkview.id}}">
+                                    <a href="#!/pkview/{{pkview.id}}">
                                         <table>
                                             <tbody><tr>
                                                 <td class="bar-l" style="width:{{pkview.red_w}}%;">
@@ -34,23 +34,23 @@
                                 <div class="pkview-views">
                                     <dl class="pros">
                                         <dt>
-                                            <a href="#/pkview/{{pkview.id}}"><span class="supporters">{{pkview.n_rv}}</span><strong>個支持</strong></a>
+                                            <a href="#!/pkview/{{pkview.id}}"><span class="supporters">{{pkview.n_rv}}</span><strong>個支持</strong></a>
                                             <button ng-show="!pkview.isRed && !pkview.isBlue" class="btn btn-red ng-binding" data-ng-click="redVote(pkview)">
                                                 我支持
                                             </button>
                                             <span ng-show="pkview.isRed" class="voted-red">(我支持!)</span>
                                         </dt>
-                                        <dd><a href="#/pkview/{{pkview.id}}">{{pkview.red_ds | limitTo:15}}<span ng-show="pkview.red_ds.length > 15">..</span></a></dd>
+                                        <dd><a href="#!/pkview/{{pkview.id}}">{{pkview.red_ds | limitTo:15}}<span ng-show="pkview.red_ds.length > 15">..</span></a></dd>
                                     </dl>
                                     <dl class="cons">
                                         <dt>
-                                            <a href="#/pkview/{{pkview.id}}"><span class="supporters">{{pkview.n_bv}}</span><strong>個支持</strong></a>
+                                            <a href="#!/pkview/{{pkview.id}}"><span class="supporters">{{pkview.n_bv}}</span><strong>個支持</strong></a>
                                             <button ng-show="!pkview.isRed && !pkview.isBlue" class="btn btn-blue ng-binding" data-ng-click="blueVote(pkview)">
                                                 我支持
                                             </button>
                                             <span ng-show="pkview.isBlue" class="voted-blue">(我支持!)</span>
                                         </dt>
-                                        <dd><a href="#/pkview/{{pkview.id}}">{{pkview.blue_ds | limitTo:15}}<span ng-show="pkview.blue_ds.length > 15">..</span></a></dd>
+                                        <dd><a href="#!/pkview/{{pkview.id}}">{{pkview.blue_ds | limitTo:15}}<span ng-show="pkview.blue_ds.length > 15">..</span></a></dd>
                                     </dl>
                                 </div>
                             </div>

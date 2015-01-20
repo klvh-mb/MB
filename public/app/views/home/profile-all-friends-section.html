@@ -12,14 +12,14 @@
 </a>
 <div style="padding:30px;"></div>
 <div class="friendCard" ng-repeat="friend in result.friends | filter:query">
-    <a href="my#/profile/{{friend.id}}" class="d-s ob">
+    <a href="my#!/profile/{{friend.id}}" class="d-s ob">
         <div class="friendImageBox">
             <img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{friend.dn}}" data-ng-src="/image/get-thumbnail-image-by-id/{{friend.id}}" alt="...">
         </div>
     </a>
     <div class="friendTagBox">
         <div class="friendTag">
-            <a href="my#/profile/{{friend.id}}" class="friendTagRef"><span class="friendName">{{friend.dn}}</span></a>
+            <a href="my#!/profile/{{friend.id}}" class="friendTagRef"><span class="friendName">{{friend.dn}}</span></a>
             <!-- don't show location of other users' friends -->
             <!--span class="friendType"><i class="fa fa-fw fa-map-marker text-muted"></i>{{friend.ln.displayName}}</span-->
         </div>

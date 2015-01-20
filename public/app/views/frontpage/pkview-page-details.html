@@ -11,11 +11,11 @@
                 <p class="abs">
                     <span class="head-title">{{pkview.ptl}}</span>
                     <span class="head-text" ng-bind-html="pkview.pt | to_trusted"></span>
-                    <span class="pkview-community"><a href="#/community/{{pkview.cid}}"><img src="{{pkview.ci}}">{{pkview.cn}}</a></span>
+                    <span class="pkview-community"><a href="#!/community/{{pkview.cid}}"><img src="{{pkview.ci}}">{{pkview.cn}}</a></span>
                     <span data-ng-include data-src="'/assets/app/views/frontpage/like-pkview.html'"></span>
                     <!--span data-ng-include data-src="'/assets/app/views/frontpage/bookmark-pkview.html'"></span-->
                     <span class="admin-visible-field pull-right" ng-if="userInfo.isE">
-                        <a href="#/admin/pkview-voters/{{pkview.id}}">View Voters</a>
+                        <a href="#!/admin/pkview-voters/{{pkview.id}}">View Voters</a>
                     </span>
                 </p>
                 <!--ins class="in"></ins-->
@@ -63,14 +63,14 @@
                         <div class="post-card">
                             <ul class="post-qna-answers">
                                 <li ng-show="userInfo.isLoggedIn">
-                                    <a data-ng-href="my#/profile/{{userInfo.id}}">
+                                    <a data-ng-href="my#!/profile/{{userInfo.id}}">
                                         <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
                                     </a>
                                     <form class="post-comment-box" name="redComment" method="post" action="">
                                         <label for="User Comment"></label>
                                         <textarea type="text" id="redCommentfield" name="redCommentfield" data-ng-model="redCommentText" class="abs f14" placeholder="發表意見..."></textarea>
                                         <div class="comment-btns">
-                                            <a class="dropdown-toggle dropdown-hover colorChange post-emoticon-dropdown" data-toggle="dropdown" href="#">
+                                            <a class="dropdown-toggle dropdown-hover colorChange post-emoticon-dropdown" data-toggle="dropdown" href="">
                                                 <img src="../assets/app/images/emoticons/smile.png" />
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-right icon-dropdown post-emoticon-dropdown-menu">
@@ -117,14 +117,14 @@
                         <div class="post-card">
                             <ul class="post-qna-answers">
                                 <li ng-show="userInfo.isLoggedIn">
-                                    <a data-ng-href="my#/profile/{{userInfo.id}}">
+                                    <a data-ng-href="my#!/profile/{{userInfo.id}}">
                                         <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
                                     </a>
                                     <form class="post-comment-box" name="blueComment" method="post" action="">
                                         <label for="User Comment"></label>
                                         <textarea type="text" id="blueCommentfield" name="blueCommentfield" data-ng-model="blueCommentText" class="abs f14" placeholder="發表意見..."></textarea>
                                         <div class="comment-btns">
-                                            <a class="dropdown-toggle dropdown-hover colorChange post-emoticon-dropdown" data-toggle="dropdown" href="#">
+                                            <a class="dropdown-toggle dropdown-hover colorChange post-emoticon-dropdown" data-toggle="dropdown" href="">
                                                 <img src="../assets/app/images/emoticons/smile.png" />
                                             </a>
                                             <ul class="dropdown-menu dropdown-menu-right icon-dropdown post-emoticon-dropdown-menu">
@@ -157,7 +157,7 @@
                 <div style="margin:20px 0;font-size:16px;">
                     <div class="padding10" style="border-top:1px solid #eee;"></div>
                     分享連結: 
-                    <input type='text' name='pkview-link' id='pkview-link' value='{{applicationInfo.baseUrl}}/frontpage#/pkview/{{pkview.id}}'></input> 
+                    <input type='text' name='pkview-link' id='pkview-link' value='{{applicationInfo.baseUrl}}/frontpage#!/pkview/{{pkview.id}}'></input> 
                     <a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink("pkview-link")'><i class='glyphicon glyphicon-link'></i></a>
                 </div>
             </div>

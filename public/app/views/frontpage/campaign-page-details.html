@@ -14,7 +14,7 @@
     </div>
     <div class="general-box campaign-box-main">
         <div class="campaign-sticker">
-            <a href="#/campaign/show">
+            <a href="#!/campaign/show">
                 <img style="height:50px;" src="/assets/app/images/general/campaign_sticker.png" />
             </a>
         </div>
@@ -94,7 +94,7 @@
                                 <span class="btn-like-wrapper"><span class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{campaign.nov}}</span></span>
                             </div>
                             <div>
-                                <a href="#/admin/campaign-joiners/{{campaign.id}}">View Joiners</a>
+                                <a href="#!/admin/campaign-joiners/{{campaign.id}}">View Joiners</a>
                             </div>
                         </div>
                     </li>
@@ -113,7 +113,7 @@
                 <div style="margin:20px 0;font-size:16px;">
                     <div class="padding10" style="border-top:1px solid #eee;"></div>
                     分享連結: 
-                    <input type='text' name='campaign-link' id='campaign-link' value='{{applicationInfo.baseUrl}}/frontpage#/campaign/{{campaign.id}}'></input> 
+                    <input type='text' name='campaign-link' id='campaign-link' value='{{applicationInfo.baseUrl}}/frontpage#!/campaign/{{campaign.id}}'></input> 
                     <a style='margin-left:5px;padding:2px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink("campaign-link")'><i class='glyphicon glyphicon-link'></i></a>
                 </div>
             </li>

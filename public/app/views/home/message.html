@@ -59,7 +59,7 @@
 				        </div>
 				        <span class="pull-right">新訊息:</span>
 				    </form>
-                    <!-- <a class="toolsbox toolsbox-end" href="#"><span class="icon-box icon-title-search"></span></a> -->
+                    <!-- <a class="toolsbox toolsbox-end" href="#!"><span class="icon-box icon-title-search"></span></a> -->
                 </div>
                 <ul id="message-area">
                     <li ng-show="loadMore == true">
@@ -109,21 +109,6 @@
                         <label for="Input Message"></label>
                         <textarea rows="4" cols="70" id="message-inputfield" name="message-inputfield" data-ng-model="messageText" data-ng-maxlength="500" maxlength="500"></textarea>
                         <p ng-show="messageText.length >= 480">Reached message Limit</p>
-                        <!--a href="#emo" id="message-emo-icon" class="icon-box icon-title-emo"></a>
-                        <div id="message-emo-box">
-                            <table border="0" cellspacing="0" cellpadding="0">
-                              <tr>
-                                <td><a href="#"><img src="../assets/app/images/emoticons/smile.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/emoticons/grin.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/emoticons/wink.png" /></a></td>
-                              </tr>
-                              <tr>
-                                <td><a href="#"><img src="../assets/app/images/emoticons/tongue.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/emoticons/frown.png" /></a></td>
-                                <td><a href="#"><img src="../assets/app/images/emoticons/gasp.png" /></a></td>
-                              </tr>
-                            </table>
-                        </div-->
                     </form>
                     <div style="margin:5px 15px;" class="post-comment-box">
                         <button class="btn btn-primary ng-binding pull-right" ng-disabled="messageEntry.$pristine || (messageEntry.$dirty && !messageText.length)" type="submit" disabled="disabled" 
@@ -134,7 +119,7 @@
                         <a class="post-photo-icon pull-right" data-ng-show="selectedFiles.length == 0">
                             <i class="icon-photo-camera-fill" data-ng-click="sendPhoto()"></i>
                         </a>
-                        <a class="dropdown-toggle dropdown-hover colorChange pull-right" data-toggle="dropdown" href="#">
+                        <a class="dropdown-toggle dropdown-hover colorChange pull-right" data-toggle="dropdown" href="">
                             <img style="width:18px;margin:2px 7px 0 0;" src="../assets/app/images/emoticons/smile.png" />
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right icon-dropdown">

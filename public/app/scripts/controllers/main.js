@@ -3114,7 +3114,7 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
         }).error(function(data, status, headers, config) {
             if(status == 599){
                 usSpinnerService.stop('loading...');
-                window.location = '/my#/login';
+                window.location = '/my#!/login';
             } else if(status == 500){
                 usSpinnerService.stop('loading...');
                 $scope.errorCampaignNotExist = true;
@@ -3145,7 +3145,7 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
         }).error(function(data, status, headers, config) {
             if(status == 599){
                 usSpinnerService.stop('loading...');
-                window.location = '/my#/login';
+                window.location = '/my#!/login';
             } else if(status == 500){
                 usSpinnerService.stop('loading...');
                 $scope.errorCampaignNotExist = true;

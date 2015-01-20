@@ -4,7 +4,7 @@
     </div>
     <ul>
         <li ng-repeat="tagword in tagwords" ng-class-odd="'tagword-odd'" ng-class-even="'tagword-even'">
-            <a ng-href="{{tab}}#/article/tagword/{{tagword.id}}/{{catGroup}}">
+            <a ng-href="{{tab}}#!/article/tagword/{{tagword.id}}/{{catGroup}}">
                 {{tagword.nm}}
                 <span class="tagword-stats pull-right">
                     <!--span ng-show="userInfo.isE">
@@ -28,7 +28,7 @@
     <div>
         <ul style="padding-bottom:30px;margin-bottom:0;">
             <li ng-repeat="tagword in tagwords" ng-class-odd="'tagword-odd'" ng-class-even="'tagword-even'" ng-if="$index < defaultCollapseCount">
-                <a ng-href="{{tab}}#/article/tagword/{{tagword.id}}/{{catGroup}}">
+                <a ng-href="{{tab}}#!/article/tagword/{{tagword.id}}/{{catGroup}}">
                     {{tagword.nm}}
                     <span class="tagword-stats pull-right">
                         <!--span ng-show="userInfo.isE">
@@ -50,7 +50,7 @@
     <div id="collapseOne" class="collapse" ng-show="tagwords.length > defaultCollapseCount">
         <ul>
             <li ng-repeat="tagword in tagwords" ng-class-odd="'tagword-odd'" ng-class-even="'tagword-even'" ng-if="$index >= defaultCollapseCount">
-                <a ng-href="{{tab}}#/article/tagword/{{tagword.id}}/{{catGroup}}">
+                <a ng-href="{{tab}}#!/article/tagword/{{tagword.id}}/{{catGroup}}">
                     {{tagword.nm}}
                     <span class="tagword-stats pull-right">
                         <!--span ng-show="userInfo.isE">

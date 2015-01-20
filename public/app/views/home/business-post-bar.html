@@ -2,12 +2,12 @@
     <ul>
         <li class="post-sharing-body">
             <div class="post-sharing-body-text-wrapper">
-                <a href="#/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}">
+                <a href="#!/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}">
                     <div class="post-sharing-body-text"><span ng-bind-html="post.pt | limitTo:35:false | to_trusted"></span><span ng-show="post.pt.length > 65"> ...</span></div>
                 </a>
             </div>
             <div data-ng-show="post.hasImage" class="post-body-image">
-                <a data-ng-repeat="imageID in post.imgs" ng-if="$index < 1" href="#/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}">
+                <a data-ng-repeat="imageID in post.imgs" ng-if="$index < 1" href="#!/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}">
                     <img data-ng-src="/image/get-post-image-by-id/{{imageID}}" data-ng-click="" alt="">
                 </a>
             </div>
@@ -16,20 +16,20 @@
     <!-- Post Body Ends -->
     <ul class="post-sharing-comments">
         <li class="post-intro">
-            <a data-ng-href="#/business/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
+            <a data-ng-href="#!/business/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
             <span class="post-date" am-time-ago="post.t"></span>
         </li>
         <li ng-show="post.n_c > commentsPreviewNum && !post.ep">
             <span class="post-qna-answer-count" ng-show="post.n_c > 0 && post.n_c <= commentsPreviewNum"><b>{{post.n_c}}個留言</b></span>
-            <a href="#/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}" ng-show="post.n_c > commentsPreviewNum"><b>共{{post.n_c}}個留言</b></a>
+            <a href="#!/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}" ng-show="post.n_c > commentsPreviewNum"><b>共{{post.n_c}}個留言</b></a>
         </li>
         <li data-ng-repeat="comment in post.cs">
-            <a data-ng-href="my#/profile/{{comment.oid}}">
+            <a data-ng-href="my#!/profile/{{comment.oid}}">
                 <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
             </a>
             <span class="post-sharing-comment-body">
                 <span class="post-title-user-name post-sharing-comment-font">
-                    <a data-ng-href="my#/profile/{{comment.oid}}">{{comment.on}}</a>
+                    <a data-ng-href="my#!/profile/{{comment.oid}}">{{comment.on}}</a>
                 </span>
                 <span class="post-date" am-time-ago="comment.cd"></span>
                 <div>
@@ -44,7 +44,7 @@
     	</li>
     	<!-- Post Comment box -->
         <!--li ng-show="post.isC || (community.isM || community.isO)">
-            <a data-ng-href="my#/profile/{{userInfo.id}}">
+            <a data-ng-href="my#!/profile/{{userInfo.id}}">
                 <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
             </a>
             <form class="post-comment-box" name="userComment" method="post" action="">
@@ -62,7 +62,7 @@
                 <span class="btn-like-wrapper"><span ng-show="post.nov > 20 || userInfo.isAdmin" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{post.nov}}</span></span>
             </span>
             <span class="pull-right">
-                <a href="" ng-click="displayLink('/my#/business-post-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i></a>
+                <a href="" ng-click="displayLink('/my#!/business-post-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i></a>
                 <a ng-show="post.isO || userInfo.isSA" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個分享嗎？"><i class="glyphicon glyphicon-trash"></i></a>
             </span>
         </li>

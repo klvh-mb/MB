@@ -58,7 +58,7 @@
                                     <a ng-show="newsfeedEnabled" data-ng-confirm-click="toggleNewsfeedEnabled(community.id)" data-ng-confirm-message="您確定不需要 '{{community.n}}' 的發佈顯示到我的社群動向嗎?"><i class="glyphicon glyphicon-check"></i> 顯示到我的社群動向</a>
                                     <a ng-show="!newsfeedEnabled" data-ng-click="toggleNewsfeedEnabled(community.id)"><i class="glyphicon glyphicon-unchecked"></i> 顯示到我的社群動向</a>
                                 </li>
-                                <!--li ng-show="community.isO"><a data-ng-href="my#/editCommunity/{{community.id}}">編輯專頁</a></li-->
+                                <!--li ng-show="community.isO"><a data-ng-href="my#!/editCommunity/{{community.id}}">編輯專頁</a></li-->
                                 <li class="dropdown-divider" role="presentation"></li>
                                 <li ng-show="!community.isO && community.isM == true"><a data-ng-confirm-click="leave_community(community.id)" data-ng-confirm-message="您確定取消關注這個專頁 '{{community.n}}' 嗎?">取消關注專頁</a></li>
                                 <!--li><a data-ng-click="">檢舉專頁</a></li-->
@@ -121,7 +121,7 @@
 											<li class="media" ng-repeat="sr in nonMembers"
 												ng-switch="sr.tp" style="margin-top: 2% !important;">
 												<!-- shows user section --> 
-                                                <a class="pull-left" href="#/profile/{{sr.id}}"> 
+                                                <a class="pull-left" href="#!/profile/{{sr.id}}"> 
                                                     <img class="media-object thumb" data-ng-src="/image/get-mini-image-by-id/{{sr.id}}" alt="50x50" width="50"/>
                                                 </a>
 												<div class="media-body">

@@ -4,7 +4,7 @@
             <div class="rsContent fp-content-slide" ng-if="topic.sty == 'HOT_COMM'">
                 <div class="bContainer">
                     <div class="promo-hottest-comm">
-                        <a href="#/community/{{hottestCommunity.id}}" class="promo-name">
+                        <a href="#!/community/{{hottestCommunity.id}}" class="promo-name">
                             <img class="promo-title-img" src="../assets/app/images/frontpage/promo_hot.png">
                             <div>
                                 <div class="promo-name-text"><img src="../assets/app/images/general/icons/i-article.png" />{{hottestCommunity.nopst}}個新話題</div>
@@ -12,7 +12,7 @@
                             </div>
                         </a>
                         <div class="communityCard hottestCommunityCard">
-                            <a href="#/community/{{hottestCommunity.id}}" class="d-s ob">
+                            <a href="#!/community/{{hottestCommunity.id}}" class="d-s ob">
                                 <div class="communityImageBox">
                                     <img class="img-clean" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{hottestCommunity.id}}" alt="...">
                                 </div>
@@ -20,7 +20,7 @@
                             <div class="communityTagBox">
                                 <img src="{{hottestCommunity.icon}}">
                                 <p>
-                                    <a href="#/community/{{hottestCommunity.id}}"><b>{{hottestCommunity.n}}</b></a><br>
+                                    <a href="#!/community/{{hottestCommunity.id}}"><b>{{hottestCommunity.n}}</b></a><br>
                                     <span class="community-member-counter"><img src="../assets/app/images/general/icons/i-mom.png" />{{hottestCommunity.nom}}</span>
                                 </p>
                             </div>
@@ -32,13 +32,13 @@
                 <div class="bContainer">
                     <div class="pkview-box-main">
                         <div class="pkview-title">
-                            <a href="#/pkview/{{topic.obj.id}}">
+                            <a href="#!/pkview/{{topic.obj.id}}">
                                 <!--img class="promo-title-img" src="../assets/app/images/frontpage/promo_pkview.png"-->
                                 <strong>{{topic.obj.ptl | limitTo:18}}<span ng-show="topic.obj.ptl.length > 18">..</span></strong>
                             </a>
                         </div>
                         <div class="bar rel">
-                            <a href="#/pkview/{{topic.obj.id}}">
+                            <a href="#!/pkview/{{topic.obj.id}}">
                                 <table>
                                     <tbody><tr>
                                         <td class="bar-l" style="width:{{topic.obj.red_w}}%;">
@@ -59,23 +59,23 @@
                         <div class="pkview-views">
                             <dl class="pros">
                                 <dt>
-                                    <a href="#/pkview/{{topic.obj.id}}"><span class="supporters">{{topic.obj.n_rv}}</span><strong>個支持</strong></a>
+                                    <a href="#!/pkview/{{topic.obj.id}}"><span class="supporters">{{topic.obj.n_rv}}</span><strong>個支持</strong></a>
                                     <button ng-show="!topic.obj.isRed && !topic.obj.isBlue" class="btn btn-red ng-binding" data-ng-click="redVote(topic.obj)">
                                         我支持
                                     </button>
                                     <span ng-show="topic.obj.isRed" class="voted-red">(我支持!)</span>
                                 </dt>
-                                <dd><a href="#/pkview/{{topic.obj.id}}">{{topic.obj.red_ds | limitTo:15}}<span ng-show="topic.obj.red_ds.length > 15">..</span></a></dd>
+                                <dd><a href="#!/pkview/{{topic.obj.id}}">{{topic.obj.red_ds | limitTo:15}}<span ng-show="topic.obj.red_ds.length > 15">..</span></a></dd>
                             </dl>
                             <dl class="cons">
                                 <dt>
-                                    <a href="#/pkview/{{topic.obj.id}}"><span class="supporters">{{topic.obj.n_bv}}</span><strong>個支持</strong></a>
+                                    <a href="#!/pkview/{{topic.obj.id}}"><span class="supporters">{{topic.obj.n_bv}}</span><strong>個支持</strong></a>
                                     <button ng-show="!topic.obj.isRed && !topic.obj.isBlue" class="btn btn-blue ng-binding" data-ng-click="blueVote(topic.obj)">
                                         我支持
                                     </button>
                                     <span ng-show="topic.obj.isBlue" class="voted-blue">(我支持!)</span>
                                 </dt>
-                                <dd><a href="#/pkview/{{topic.obj.id}}">{{topic.obj.blue_ds | limitTo:15}}<span ng-show="topic.obj.blue_ds.length > 15">..</span></a></dd>
+                                <dd><a href="#!/pkview/{{topic.obj.id}}">{{topic.obj.blue_ds | limitTo:15}}<span ng-show="topic.obj.blue_ds.length > 15">..</span></a></dd>
                             </dl>
                         </div>
                     </div>

@@ -24,8 +24,8 @@ import domain.SocialObjectType;
  */
 public class SocialActivity {
     // play url prefix
-    private static final String MY_PREFIX = "/my#";
-    private static final String MAGAZINE_PREFIX = "/magazine#";
+    private static final String MY_PREFIX = "/my#!";
+    private static final String MAGAZINE_PREFIX = "/magazine#!";
 
     //////////////////////////////////////////////////
     // Url Helpers
