@@ -12,6 +12,9 @@
             <div data-ng-controller="GameController" ng-if="userInfo.isLoggedIn">
                 <div data-ng-include data-src="'/assets/app/views/widgets/my-profile-widget.html'"></div>
             </div>
+            <div ng-if="userInfo.isLoggedIn">
+                <div data-ng-include data-src="'/assets/app/views/widgets/my-shortcuts-widget.html'"></div>
+            </div>
             <!-- comms directory -->
             <div data-ng-controller="AllCommunitiesIndexWidgetController">
                 <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/widgets/all-communities-index-widget.html'"></div>
