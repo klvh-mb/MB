@@ -10,12 +10,12 @@
                     <ul>
                         <li class="post-sharing-body">
                             <div class="post-sharing-body-text-wrapper">
-                                <a href="my#!/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}">
+                                <a href="/my#!/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}">
                                     <div class="post-sharing-body-text"><span ng-bind-html="post.pt | to_trusted"></span></div>
                                 </a>
                             </div>
                             <div data-ng-show="post.hasImage" class="post-body-image">
-                                <div data-ng-repeat="imageID in post.imgs" href="my#!/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}">
+                                <div data-ng-repeat="imageID in post.imgs" href="/my#!/business-post-landing/id/{{post.id}}/communityId/{{post.cid}}">
                                     <img style="width:auto;max-width:100%;" data-ng-src="/image/get-original-post-image-by-id/{{imageID}}">
                                 </div>
                             </div>
@@ -24,7 +24,7 @@
                     </ul>
                     <ul class="post-sharing-comments">
                         <li class="post-intro">
-                            <a data-ng-href="my#!/business/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
+                            <a data-ng-href="/my#!/business/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
                             <div class="post-date" am-time-ago="post.t"></div>
                         </li>
                         <li ng-show="post.n_c > 3 && !post.ep">
@@ -32,12 +32,12 @@
                             <a href="" ng-show="post.n_c > 3" data-ng-click="get_all_comments(post.id)"><b>共{{post.n_c}}個留言</b></a>
                         </li>
                         <li data-ng-repeat="comment in post.cs">
-                            <a data-ng-href="my#!/profile/{{comment.oid}}">
+                            <a data-ng-href="/my#!/profile/{{comment.oid}}">
                                 <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
                             </a>
                             <span class="post-sharing-comment-body">
                                 <span class="post-title-user-name">
-                                    <a data-ng-href="my#!/profile/{{comment.oid}}">{{comment.on}}</a>
+                                    <a data-ng-href="/my#!/profile/{{comment.oid}}">{{comment.on}}</a>
                                 </span>
                                 <span class="post-date" am-time-ago="comment.cd"></span>
                                 <div>
@@ -47,7 +47,7 @@
                         </li>
                         <!-- Post Comment box -->
                         <li ng-show="userInfo.isLoggedIn && post.isC">
-                            <a data-ng-href="my#!/profile/{{userInfo.id}}">
+                            <a data-ng-href="/my#!/profile/{{userInfo.id}}">
                                 <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
                             </a>
                             <form class="post-comment-box" name="userComment" method="post" action="">

@@ -133,6 +133,8 @@ public class Application extends Controller {
     
     @Transactional
     public static Result mainMagazine() {
+    	return mainFrontpage();
+    	/*
         UserAgentUtil userAgentUtil = new UserAgentUtil(request());
         boolean isMobile = userAgentUtil.isMobileUserAgent();
         
@@ -142,6 +144,7 @@ public class Application extends Controller {
             return ok(views.html.mb.mobile.magazine.render());
         }
         return ok(views.html.mb.site.magazine.render());
+        */
     }
     
     @Transactional
@@ -169,8 +172,11 @@ public class Application extends Controller {
     
     @Transactional
     public static Result mobileMagazine() {
+    	return mobileFrontpage();
+    	/*
         setMobileUser();    // manually set mobile to true
         return ok(views.html.mb.mobile.magazine.render());
+        */
     }
     
     @Transactional

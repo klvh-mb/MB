@@ -7,16 +7,16 @@
                     <a href="/"><img src="/assets/app/images/frontpage/icon_mainMenu_home.png"/></a>
                 </li>
                 <li class="sliding-menu-main-item">
-                    <a href="my#!"><img src="/assets/app/images/frontpage/icon_mainMenu_myMiniBean.png"/></a>
+                    <a href="/my#!"><img src="/assets/app/images/frontpage/icon_mainMenu_myMiniBean.png"/></a>
                 </li>
                 <li class="sliding-menu-main-item">
-                    <a href="articles#!/article/show/0"><img src="/assets/app/images/frontpage/icon_mainMenu_article.png"/></a>
+                    <a href="/articles#!/article/show/0"><img src="/assets/app/images/frontpage/icon_mainMenu_article.png"/></a>
                 </li>
                 <li class="sliding-menu-main-item">
-                    <a href="knowledge#!/article/show/{{soonMomsArticleCategories[0].id}}"><img src="/assets/app/images/frontpage/icon_mainMenu_library.png"/></a>
+                    <a href="/knowledge#!/article/show/{{soonMomsArticleCategories[0].id}}"><img src="/assets/app/images/frontpage/icon_mainMenu_library.png"/></a>
                 </li>
                 <!--li class="sliding-menu-main-item">
-                    <a href="magazine#!"><img src="/assets/app/images/frontpage/icon_mainMenu_magazine.png"/></a>
+                    <a href="/magazine#!"><img src="/assets/app/images/frontpage/icon_mainMenu_magazine.png"/></a>
                 </li-->
                 
             </ul>
@@ -24,15 +24,15 @@
         <li ng-show="!userInfo.isLoggedIn">
             <div id="main-uphoto" data-ng-style="set_background_image()">
                 <img src="/assets/app/images/mobile/general/gradient_black_30.png" alt="gradient-black">
-                <a title="user-picture" href="m-my#!/"><img src="/image/get-mini-image-by-id/-1" alt="user-picture"></a>
-                <a href="m-my#!/m-login" class="userName">登入</a>
+                <a title="user-picture" href="/m-my#!/"><img src="/image/get-mini-image-by-id/-1" alt="user-picture"></a>
+                <a href="/m-my#!/m-login" class="userName">登入</a>
             </div>
         </li>
         <li ng-show="userInfo.isLoggedIn">
             <!--div id="main-uphoto" data-ng-style="set_background_image()">
                 <img src="/assets/app/images/mobile/general/gradient_black_30.png" alt="gradient-black">
-                <a title="user-picture" href="m-my#!/about/activities"><img src="/image/get-mini-image-by-id/{{userInfo.id}}" alt="user-picture"></a>
-                <a href="m-my#!/about/activities" class="userName">{{userInfo.displayName}}</a>
+                <a title="user-picture" href="/m-my#!/about/activities"><img src="/image/get-mini-image-by-id/{{userInfo.id}}" alt="user-picture"></a>
+                <a href="/m-my#!/about/activities" class="userName">{{userInfo.displayName}}</a>
             </div-->
             <div data-ng-controller="GameController">
                 <div data-ng-include data-src="'/assets/app/views/widgets/my-profile-widget.html'"></div>
@@ -47,17 +47,17 @@
             <ul class="sliding-menu-item">
                 <!--div style="margin:5px 0;"-->
                 <li>
-                    <a href="m-my#!" class="text-muted">
+                    <a href="/m-my#!" class="text-muted">
                         <img style="width:auto;height:22px;margin:0 8px 0 3px;" src="/assets/app/images/general/icons/newsfeed.png">我的社群動向
                     </a>
                 </li>
                 <li>
-                    <a href="m-my#!/about/activities" class="text-muted">
+                    <a href="/m-my#!/about/activities" class="text-muted">
                         <img style="width:auto;height:22px;margin:0 8px 0 3px;" src="/assets/app/images/general/icons/i-article.png">我的發佈
                     </a>
                 </li>
                 <li>
-                    <a href="m-my#!/about/bookmarks" class="text-muted">
+                    <a href="/m-my#!/about/bookmarks" class="text-muted">
                         <img style="width:auto;height:22px;margin:0 8px 0 3px;" src="/assets/app/images/general/icons/message_favorited.png">我的收藏
                     </a>
                 </li>
@@ -100,7 +100,7 @@
             <ul class="sliding-menu-single-item">
                 <li>
                     <div id="login-footer">
-                        <!--a href="#!">關於</a><a href="#!">刊登廣告</a--><a href="terms" target="_blank">使用條款</a><a href="privacy" target="_blank">私隱政策</a>
+                        <!--a href="/#!">關於</a><a href="/#!">刊登廣告</a--><a href="terms" target="_blank">使用條款</a><a href="privacy" target="_blank">私隱政策</a>
                     </div>
                 </li>
             </ul>

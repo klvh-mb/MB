@@ -62,7 +62,7 @@
                                     <a ng-show="newsfeedEnabled" data-ng-confirm-click="toggleNewsfeedEnabled(community.id)" data-ng-confirm-message="您確定不需要 '{{community.n}}' 的發佈顯示到我的社群動向嗎?"><i class="glyphicon glyphicon-check"></i> 顯示到我的社群動向</a>
                                     <a ng-show="!newsfeedEnabled" data-ng-click="toggleNewsfeedEnabled(community.id)"><i class="glyphicon glyphicon-unchecked"></i> 顯示到我的社群動向</a>
                                 </li>
-                                <!--li ng-show="community.isO"><a data-ng-href="my#!/editCommunity/{{community.id}}">編輯社群</a></li-->
+                                <!--li ng-show="community.isO"><a data-ng-href="/my#!/editCommunity/{{community.id}}">編輯社群</a></li-->
                                 <li class="dropdown-divider" role="presentation"></li>
                                 <li ng-show="!community.isO && community.isM == true"><a data-ng-confirm-click="leave_community(community.id)" data-ng-confirm-message="您確定取消關注 '{{community.n}}' 嗎?">取消關注</a></li>
                                 <!--li ng-show="!community.isO"><a ng-click="openReportObjectModal(post.id,'COMMUNITY')"><i class="glyphicon glyphicon-warning-sign"></i>舉報這個社群</a></li-->

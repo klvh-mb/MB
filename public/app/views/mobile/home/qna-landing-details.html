@@ -6,7 +6,7 @@
                 <span class="post-qna-tag pull-left" style="margin-right:5px;">?</span>
                 <span class="post-intro-share">發佈</span>
                 <span class="post-intro-share">於 </span-->
-                <a data-ng-href="m-my#!/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
+                <a data-ng-href="/m-my#!/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
                 <span class="post-intro-divider"></span>
             </span>
             <span class="post-qna-answer-count">
@@ -34,11 +34,11 @@
     <ul>
         <li class="post-qna-body-top">
             <div class="post-qna-body-title"><a data-ng-href="#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}" target="_blank"><div ng-bind-html="post.ptl | to_trusted"></div></a></div>
-            <a data-ng-href="m-my#!/profile/{{post.oid}}">
+            <a data-ng-href="/m-my#!/profile/{{post.oid}}">
                 <img class="post-title-user-image" data-ng-src="/image/get-mini-image-by-id/{{post.oid}}"/>
             </a>
             <span class="post-title-user-name">
-                <a data-ng-href="m-my#!/profile/{{post.oid}}">{{post.p}}</a>
+                <a data-ng-href="/m-my#!/profile/{{post.oid}}">{{post.p}}</a>
                 <span ng-init="confirm = isMyBookmarksPage" data-ng-include data-src="'/assets/app/views/home/bookmark-post.html'"></span>
             </span>
             <span style="margin-left:5px;"/>
@@ -68,12 +68,12 @@
             <img id="comment-spinner_{{post.id}}" class="comment-spinner" style="display:none;" src="/assets/app/images/general/animated/green-spinner.gif">
         </li>
         <li data-ng-repeat="comment in post.cs" ng-class-odd="'post-qna-answer-odd'" ng-class-even="'post-qna-answer-even'">
-            <a data-ng-href="m-my#!/profile/{{comment.oid}}">
+            <a data-ng-href="/m-my#!/profile/{{comment.oid}}">
                 <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
             </a>
             <div>
                 <span class="post-title-user-name">
-                    <a data-ng-href="m-my#!/profile/{{comment.oid}}">{{comment.on}}</a>
+                    <a data-ng-href="/m-my#!/profile/{{comment.oid}}">{{comment.on}}</a>
                 </span>
                 <span style="margin-left:5px;"/>
                 <span class="post-date" am-time-ago="comment.cd"></span>
@@ -102,7 +102,7 @@
         </li>
         <!-- Post Answer box-->
         <li ng-show="(post.isC == true || (community.isM || community.isO)) && !isMyBookmarksPage && userInfo.isLoggedIn">
-            <!--a data-ng-href="m-my#!/profile/{{userInfo.id}}">
+            <!--a data-ng-href="/m-my#!/profile/{{userInfo.id}}">
                 <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
             </a-->
             <form class="post-comment-box" name="userComment" method="post" action="">

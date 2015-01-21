@@ -25,9 +25,9 @@ angular.module('minibean', [
       .when('/', {
         templateUrl: '/assets/app/views/mobile/home/home.html'
       })
-      .when('/my-magazine', {
-        templateUrl: '/assets/app/views/mobile/home/my-magazine.html'
-      })
+      //.when('/my-magazine', {
+      //  templateUrl: '/assets/app/views/mobile/home/my-magazine.html'
+      //})
       .when('/about',{
     	templateUrl: '/assets/app/views/mobile/home/about-me.html',
     	controller: 'UserAboutController'

@@ -13,12 +13,12 @@
                 <img id="comment-spinner_{{pkview.id}}" class="comment-spinner" style="display:none;" src="/assets/app/images/general/animated/green-spinner.gif">
             </li-->
             <li data-ng-repeat="comment in pkview.red_cs" ng-class-odd="'post-qna-answer-odd'" ng-class-even="'post-qna-answer-even'">
-                <a data-ng-href="my#!/profile/{{comment.oid}}">
+                <a data-ng-href="/my#!/profile/{{comment.oid}}">
                     <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
                 </a>
                 <div>
                     <span class="post-title-user-name">
-                        <a data-ng-href="my#!/profile/{{comment.oid}}">{{comment.on}}</a>
+                        <a data-ng-href="/my#!/profile/{{comment.oid}}">{{comment.on}}</a>
                     </span>
                     <span style="margin-left:5px;"/>
                     <span class="post-date" am-time-ago="comment.cd"></span>

@@ -12,9 +12,9 @@
         <li class="post-bar-details">
             <div class="row">
                 <span class="post-qna-answer-count">
-                    <!--a data-ng-href="my#!/profile/{{post.oid}}"><img style="float:none;" class="user-image" data-ng-src="/image/get-mini-image-by-id/{{post.oid}}"/></a-->
+                    <!--a data-ng-href="/my#!/profile/{{post.oid}}"><img style="float:none;" class="user-image" data-ng-src="/image/get-mini-image-by-id/{{post.oid}}"/></a-->
                     <span class="post-title-user-name">
-                        <a data-ng-href="my#!/profile/{{post.oid}}">{{post.p}}</a>
+                        <a data-ng-href="/my#!/profile/{{post.oid}}">{{post.p}}</a>
                     </span>
                 </span>
                 <span class="post-intro-divider"></span>
@@ -37,9 +37,9 @@
                 <span ng-if="post.n_c > 0">
                     最新回覆: 
 	                <span class="post-qna-answer-count">
-	                    <!--a data-ng-href="my#!/profile/{{post.uid}}"><img style="float:none;" class="user-image" data-ng-src="/image/get-mini-image-by-id/{{post.uid}}"/></a-->
+	                    <!--a data-ng-href="/my#!/profile/{{post.uid}}"><img style="float:none;" class="user-image" data-ng-src="/image/get-mini-image-by-id/{{post.uid}}"/></a-->
 	                    <span class="post-title-user-name">
-	                        <a data-ng-href="my#!/profile/{{post.uid}}">{{post.u}}</a>
+	                        <a data-ng-href="/my#!/profile/{{post.uid}}">{{post.u}}</a>
 	                    </span>
 	                </span>
 	                <span class="post-intro-divider"></span>
@@ -49,7 +49,7 @@
 	            </span>
                 
                 <span class="pull-right" ng-if="!isCommunityPage">
-                    <a data-ng-href="my#!/community/{{post.cid}}"><img src="{{post.ci}}">{{post.cn}}</a>
+                    <a data-ng-href="/my#!/community/{{post.cid}}"><img src="{{post.ci}}">{{post.cn}}</a>
                 </span>
             </div>
         </li>
