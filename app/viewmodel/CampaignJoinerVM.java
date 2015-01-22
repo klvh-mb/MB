@@ -2,6 +2,7 @@ package viewmodel;
 
 import java.util.Date;
 
+import models.GameAccount;
 import models.User;
 
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -22,7 +23,10 @@ public class CampaignJoinerVM {
         User user = User.findById(userId);
         this.displayName = user.displayName;
         this.name = user.firstName + " " + user.lastName;
-        this.email = user.email;
+        GameAccount gameAccount = GameAccount.findByUserId(userId);
+        if (gameAccount != null) {
+        	this.email = gameAccount.email;        	
+        }
         if (user.fbUserInfo != null) {
             this.fbLink = user.fbUserInfo.link;
         }
