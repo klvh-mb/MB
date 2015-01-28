@@ -19,7 +19,8 @@ POST    /signupTest                 controllers.Application.doSignupForTest
 POST    /loginTest                  controllers.Application.doLoginForTest
 
 POST    /mobile/loginTest                  controllers.Application.doLoginForTest
-GET     /mobile/get-newsfeeds                  controllers.CommunityController.getMobileNewsfeeds
+POST    /mobile/get-newsfeeds                  controllers.CommunityController.getMobileNewsfeeds
+POST    /mobile/image/upload-profile-photo     controllers.UserController.uploadProfilePhotoMobile
 
 # Bing Webmaster
 GET     /BingSiteAuth.xml           controllers.Application.bingWebmaster

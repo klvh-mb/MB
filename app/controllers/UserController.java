@@ -213,6 +213,28 @@ public class UserController extends Controller {
 	}
 	
 	@Transactional
+	public static Result uploadProfilePhotoMobile() {
+		final User localUser = Application.getLocalUser(session());
+		logger.underlyingLogger().info("STS [u="+localUser.id+"] uploadProfilePhoto");
+
+		FilePart picture = request().body().asMultipartFormData().getFile("club_image");
+		String fileName = picture.getFilename();
+		System.out.println("::::::::::::"+fileName);
+		request().body().asMultipartFormData().getFile("club_image");
+	    File file = picture.getFile();
+	    /*try {
+            File fileTo = ImageFileUtil.copyImageFileToTemp(file, fileName);
+			localUser.setPhotoProfile(fileTo);
+		} catch (IOException e) {
+		    logger.underlyingLogger().error("Error in uploadProfilePhoto", e);
+			return status(500);
+		}*/
+	    System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+	    //completeHomeTour();
+		return ok();
+	}
+	
+	@Transactional
 	public static Result uploadCoverPhoto() {
 		final User localUser = Application.getLocalUser(session());
 		if (!localUser.isLoggedIn()) {
