@@ -43,26 +43,11 @@ public class School {
         PreNursery pn = new PreNursery();
         pn.regionId = LocationFK.REGION_MAP.get(region);
         pn.districtId = LocationFK.DISTRICT_MAP.get(district);
-        pn.name = name;
+        pn.pnName = name;
         pn.url = url;
         pn.phoneText = beautifyPhoneText(phoneText);
         pn.email = email;
         pn.couponSupport = couponSupport;
-        pn.formStartDateString = formStartDate;
-        if (formStartDate != null) {
-            pn.formStartDate = toLocalDate(formStartDate).toDate();
-        }
-        pn.applicationStartDateString = applicationStartDate;
-        if (applicationStartDate != null) {
-            pn.applicationStartDate = toLocalDate(applicationStartDate).toDate();
-        }
-        pn.applicationEndDateString = applicationEndDate;
-        if (applicationEndDate != null) {
-            pn.applicationEndDate = toLocalDate(applicationEndDate).toDate();
-        }
-        pn.formUrl = formUrl;
-
-        pn.schoolYear = schoolYear;
         return pn;
     }
 

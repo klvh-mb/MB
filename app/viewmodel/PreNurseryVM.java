@@ -35,16 +35,12 @@ public class PreNurseryVM {
         this.isMyDistrict = isMyDistrict;
         this.districtName = districtName;
         this.districtId = pn.districtId;
-        this.name = pn.name;
+        this.name = pn.pnName;
         this.url = pn.url;
         this.phoneText = pn.phoneText;
         this.phoneUrl = StringUtil.removeNonDigits(pn.phoneText);
         this.email = pn.email;
         this.address = pn.address;
-        this.formStartDateStr = pn.formStartDateString;
-        this.applicationStartDateStr = pn.applicationStartDateString;
-        this.applicationEndDateStr = pn.applicationEndDateString;
-        this.formUrl = pn.formUrl;
         if (pn.mapUrlSuffix != null) {
             this.mapUrl = MAPURL_PREFIX + pn.mapUrlSuffix;
         }
