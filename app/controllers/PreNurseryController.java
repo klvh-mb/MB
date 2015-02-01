@@ -63,9 +63,8 @@ public class PreNurseryController extends Controller {
             commRegion = LocationCache.getRegion(regionId);
         }
 
-        Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.regionId = ?1 and pn.schoolYear = ?2 order by pn.districtId, pn.name");
+        Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.regionId = ?1 order by pn.districtId, pn.name");
         q.setParameter(1, commRegion.id);
-        q.setParameter(2, SCHOOL_YEAR);
         List<PreNursery> pns = (List<PreNursery>)q.getResultList();
 
         Long userDistrictId = null;
@@ -78,7 +77,7 @@ public class PreNurseryController extends Controller {
             boolean isMyDistrict = userDistrictId != null && userDistrictId.equals(pn.districtId);
 
             String districtName = LocationCache.getDistrict(pn.districtId).getDisplayName();
-            PreNurseryVM vm = new PreNurseryVM(pn, isMyDistrict, districtName);
+            PreNurseryVM vm = new PreNurseryVM(pn, localUser, isMyDistrict, districtName);
             pnVMs.add(vm);
         }
 

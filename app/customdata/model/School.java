@@ -43,7 +43,7 @@ public class School {
         PreNursery pn = new PreNursery();
         pn.regionId = LocationFK.REGION_MAP.get(region);
         pn.districtId = LocationFK.DISTRICT_MAP.get(district);
-        pn.pnName = name;
+        pn.name = name;
         pn.url = url;
         pn.phoneText = beautifyPhoneText(phoneText);
         pn.email = email;

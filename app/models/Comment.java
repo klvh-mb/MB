@@ -21,7 +21,7 @@ import domain.Likeable;
 import domain.SocialObjectType;
 
 /**
- * A Comment by an User on a SocialObject 
+ * A Comment by an User on a SocialObject (Post only)
  *
  */
 @Entity
