@@ -1048,21 +1048,8 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static Result getMobileNewsfeeds() {
-    	User localUser = null;
-    	try {
-    		Key dkey = UserController.generateKey();
-            Cipher c = Cipher.getInstance("AES");
-            c.init(Cipher.DECRYPT_MODE, dkey);
-            byte[] decordedValue = new BASE64Decoder().decodeBuffer(UserController.getQueryString(request(), "key"));
-            byte[] decValue = c.doFinal(decordedValue);
-            String decryptedValue = new String(decValue);
-    		System.out.println(UserController.getQueryString(request(), "key")+"hhhhhhhhhhhhh "+decryptedValue);
-    		localUser = Application.getMobileLocalUser(decryptedValue);
-	    		
-		}catch(Exception e) { 
-			
-		}
-
+    	
+    	final User localUser = Application.getLocalUser(session());
         int offset = 0;
 		// reloading newsfeed
 

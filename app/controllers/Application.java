@@ -445,6 +445,25 @@ public class Application extends Controller {
     }
 	   
 	public static User getLocalUser(final Session session) {
+		//if request from mobile 
+		if(UserController.getQueryString(request(), "key") != null ){
+			User localUser = null;
+	    	try {
+	    		Key dkey = UserController.generateKey();
+	            Cipher c = Cipher.getInstance("AES");
+	            c.init(Cipher.DECRYPT_MODE, dkey);
+	            byte[] decordedValue = new BASE64Decoder().decodeBuffer(UserController.getQueryString(request(), "key"));
+	            byte[] decValue = c.doFinal(decordedValue);
+	            String decryptedValue = new String(decValue);
+	    		System.out.println(UserController.getQueryString(request(), "key")+"hhhhhhhhhhhhh "+decryptedValue);
+	    		localUser = Application.getMobileLocalUser(decryptedValue);
+	    		return localUser;
+			}catch(Exception e) { 
+				return null;
+			}
+		}
+		
+		//if request from web
 		final AuthUser currentAuthUser = PlayAuthenticate.getUser(session);
 		if (currentAuthUser == null) {
 		    return User.noLoginUser();

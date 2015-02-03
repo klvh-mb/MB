@@ -103,7 +103,7 @@ GET     /click-tagword/:id          controllers.TagWordController.onClick(id : L
 
 GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
 GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
-GET     /authenticate/mobile/:provider     com.feth.play.module.pa.controllers.Authenticate.mobileAuthenticate(provider: String)
+POST     /authenticate/mobile/:provider     com.feth.play.module.pa.controllers.Authenticate.mobileAuthenticate(provider: String)
 GET     /authenticatePopup/:provider    com.feth.play.module.pa.controllers.Authenticate.authenticatePopup(provider: String)
 GET     /test      controllers.UserController.testURL
  
