@@ -18,8 +18,7 @@ GET     /ng-ads                     controllers.Application.ngAds
 POST    /signupTest                 controllers.Application.doSignupForTest
 POST    /loginTest                  controllers.Application.doLoginForTest
 
-POST    /mobile/loginTest                  controllers.Application.doLoginForTest
-POST    /mobile/get-newsfeeds                  controllers.CommunityController.getMobileNewsfeeds
+POST    /mobile/login               controllers.Application.doLoginForTest
 POST    /mobile/image/upload-profile-photo     controllers.UserController.uploadProfilePhotoMobile
 
 # Bing Webmaster
