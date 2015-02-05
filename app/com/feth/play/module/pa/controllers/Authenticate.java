@@ -1,8 +1,6 @@
 package com.feth.play.module.pa.controllers;
 
 import java.security.Key;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -13,8 +11,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http.Request;
 import play.mvc.Http.Response;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import Decoder.BASE64Encoder;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 

@@ -43,7 +43,6 @@ import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import security.CommunityPermission;
-import sun.misc.BASE64Decoder;
 import targeting.community.BusinessFeedCommTargetingEngine;
 import targeting.community.NewsfeedCommTargetingEngine;
 import viewmodel.CommunitiesParentVM;
@@ -1100,36 +1099,6 @@ public class CommunityController extends Controller{
         return ok(Json.toJson(vm));
     }
     
-    @Transactional
-    public static Result getMobileNewsfeeds() {
-    	
-    	final User localUser = Application.getLocalUser(session());
-        int offset = 0;
-		// reloading newsfeed
-
-        List<Post> newsFeeds = localUser.getUserNewsfeeds(offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
-
-        NanoSecondStopWatch sw = new NanoSecondStopWatch();
-
-        List<CommunityPostVM> posts = new ArrayList<>();
-        if (newsFeeds != null) {
-            final boolean isCommentable = true;    // must be open for social NF entries
-
-            for (Post p : newsFeeds) {
-                CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser, isCommentable);
-                posts.add(post);
-            }
-        }
-        
-        NewsFeedVM vm = new NewsFeedVM(localUser, posts);
-
-        sw.stop();
-        logger.underlyingLogger().info("[u="+localUser.id+"] getNewsfeeds(offset="+offset+") count="+posts.size()+". vm create Took "+sw.getElapsedMS()+"ms");
-        return ok(Json.toJson(vm));
-    }
-
-
-
     /**
      * Play routes AJAX call. Return business feed posts.
      * @param offset

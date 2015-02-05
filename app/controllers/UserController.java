@@ -32,15 +32,13 @@ import models.SiteTour;
 import models.User;
 import models.UserCommunityAffinity;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
-
 import play.data.DynamicForm;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import sun.misc.BASE64Decoder;
+import Decoder.BASE64Decoder;
 import viewmodel.BookmarkSummaryVM;
 import viewmodel.CommunityPostVM;
 import viewmodel.ConversationVM;

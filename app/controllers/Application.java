@@ -1,5 +1,6 @@
 package controllers;
 
+import Decoder.BASE64Decoder;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import common.cache.LocationCache;
@@ -46,7 +47,7 @@ import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
-import sun.misc.BASE64Encoder;
+import Decoder.BASE64Encoder;
 import targeting.community.CommunityTargetingEngine;
 import viewmodel.ApplicationInfoVM;
 import viewmodel.PostIndexVM;
