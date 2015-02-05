@@ -85,7 +85,7 @@ public class Application extends Controller {
 
 	@Transactional
     public static Result index() {
-        return redirect("/frontpage");
+        return mainFrontpage();
     }
 	
 	//
