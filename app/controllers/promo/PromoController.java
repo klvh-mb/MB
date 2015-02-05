@@ -15,6 +15,6 @@ public class PromoController extends Controller {
 	public static Result index() {
         logger.underlyingLogger().info("STS PromoController index()");
         //return ok(views.html.promo.home.render());
-        return redirect("/magazine");
+        return redirect("/frontpage");
     }
 }

@@ -108,9 +108,11 @@ public class SystemVersion extends domain.Entity {
     
     @Transactional
     public static boolean versionUpgradeIfAny() {
-        logger.underlyingLogger().info("versionUpgradeIfAny()");
+    	SystemVersion version = getCurrentVersion();
+        logger.underlyingLogger().info("versionUpgradeIfAny() current version - " + version.version);
         
         if ("dev".equalsIgnoreCase(APPLICATION_ENV)) {
+        	logger.underlyingLogger().info("Skip version upgrade for dev environment");	
             return true;
         }
         

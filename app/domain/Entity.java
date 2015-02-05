@@ -25,22 +25,30 @@ public class Entity
   
   public void setCreatedBy(String createdBy)
   {
-    this.auditFields.setCreatedBy(createdBy);
+      if (auditFields != null) {
+        this.auditFields.setCreatedBy(createdBy);
+      }
   }
   
   public void setCreatedDate(Date createdDate)
   {
-    this.auditFields.setCreatedDate(createdDate);
+      if (auditFields != null) {
+        this.auditFields.setCreatedDate(createdDate);
+      }
   }
   
   public void setUpdatedBy(String updatedBy)
   {
-    this.auditFields.setUpdatedBy(updatedBy);
+      if (auditFields != null) {
+        this.auditFields.setUpdatedBy(updatedBy);
+      }
   }
   
   public void setUpdatedDate(Date updatedDate)
   {
-    this.auditFields.setUpdatedDate(updatedDate);
+      if (auditFields != null) {
+        this.auditFields.setUpdatedDate(updatedDate);
+      }
   }
   
   @JsonIgnore

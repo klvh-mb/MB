@@ -21,14 +21,14 @@ angular.module('minibean', [
   'pasvaz.bindonce',
   'ui.utils'
 ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
         templateUrl: '/assets/app/views/home/home.html'
       })
-      .when('/my-magazine', {
-        templateUrl: '/assets/app/views/home/my-magazine.html'
-      })
+      //.when('/my-magazine', {
+      //  templateUrl: '/assets/app/views/home/my-magazine.html'
+      //})
       .when('/about',{
         templateUrl: '/assets/app/views/home/about-me.html',
         controller: 'UserAboutController'
@@ -68,11 +68,11 @@ angular.module('minibean', [
         controller: 'EditCommunityController'
       })
       .when('/post-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/home/post-landing.html',
+        templateUrl: '/assets/app/views/home/post-landing-page.html',
         controller: 'PostLandingController'  
       })
       .when('/qna-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/home/qna-landing.html',
+        templateUrl: '/assets/app/views/home/qna-landing-page.html',
         controller: 'QnALandingController'  
       })
       .when('/business/community/:id',{
@@ -84,7 +84,7 @@ angular.module('minibean', [
         controller: 'BusinessCommunityPageController'  
       })
       .when('/business-post-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/home/business-post-landing.html',
+        templateUrl: '/assets/app/views/home/business-post-landing-page.html',
         controller: 'PostLandingController'  
       })
       .when('/message/:id',{
@@ -105,6 +105,9 @@ angular.module('minibean', [
       .otherwise({
           redirectTo: '/'
       });
+    $locationProvider
+      .html5Mode(false)
+      .hashPrefix('!');
   })
   .run(function(editableOptions) {
   editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'

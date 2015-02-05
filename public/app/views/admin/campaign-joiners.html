@@ -5,7 +5,7 @@
             <table style="width:100%;">
                 <tr ng-repeat="joiner in joiners">
                     <td>
-                        <div><span style="width:40%;display:inline-block;">{{$index+1}}) {{joiner.displayName}} - <a href="my#/profile/{{joiner.userId}}" target="_blank">{{joiner.userId}}</a> | <a href="{{joiner.fbLink}}" target="_blank" ng-if="joiner.fbLink">facebook</a></span><span>{{joiner.joinedDate | date:'yyyy年M月d日 h:mm a'}}</span></div>
+                        <div><span style="width:40%;display:inline-block;">{{$index+1}}) {{joiner.displayName}} - <a href="/my#!/profile/{{joiner.userId}}" target="_blank">{{joiner.userId}}</a> | <a href="{{joiner.fbLink}}" target="_blank" ng-if="joiner.fbLink">facebook</a></span><span>{{joiner.joinedDate | date:'yyyy年M月d日 h:mm a'}}</span></div>
                         <div><span style="margin:0 15px 0 30px;">{{joiner.name}}</span>|<span style="margin:0 15px;">{{joiner.email}}</span></div>
                     </td>
                 </tr>

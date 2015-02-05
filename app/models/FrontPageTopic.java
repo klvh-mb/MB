@@ -34,6 +34,8 @@ public class FrontPageTopic extends domain.Entity {
 	
 	public String url;
 	
+	public String attribute;
+	
 	public int seq;
 	
 	public int noClicks = 0;
@@ -41,6 +43,8 @@ public class FrontPageTopic extends domain.Entity {
 	public Date publishedDate;
 
 	public Boolean active = false;
+	
+	public Boolean mobile = false;
 	
     public Boolean deleted = false; 
     
@@ -50,6 +54,7 @@ public class FrontPageTopic extends domain.Entity {
 	public static enum TopicType {
 	    SLIDER,
 	    PROMO,
+	    PROMO_2,
 	    FEATURED,
         GAME
     }
@@ -60,7 +65,9 @@ public class FrontPageTopic extends domain.Entity {
     public static enum TopicSubType {
         NONE,
         FLASH,
-        IMAGE
+        IMAGE,
+        HOT_COMM,
+        PK_VIEW
     }
 	
 	public FrontPageTopic() {}
@@ -75,6 +82,16 @@ public class FrontPageTopic extends domain.Entity {
 	public static List<FrontPageTopic> getActiveFrontPageTopics(TopicType topicType) {
         Query q = JPA.em().createQuery("SELECT f FROM FrontPageTopic f where topicType = ?1 and active = true and deleted = false order by seq");
         q.setParameter(1, topicType);
+        try {
+            return (List<FrontPageTopic>) q.getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+	
+	@Transactional
+    public static List<FrontPageTopic> getActiveFrontPageTopics() {
+        Query q = JPA.em().createQuery("SELECT f FROM FrontPageTopic f where active = true and deleted = false order by seq");
         try {
             return (List<FrontPageTopic>) q.getResultList();
         } catch (NoResultException e) {

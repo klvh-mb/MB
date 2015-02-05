@@ -11,7 +11,7 @@
 				</div>
 				<div style="width:120px;margin-bottom:0px;" class="post-comment-box pull-right" ng-show="userInfo.isLoggedIn">
                     <input class="pull-left" style="visibility:hidden;display:inline-block;width:0px;height:0px;" id="QnA-photo-id" type="file" name="post-photo" ng-file-select="onQnAFileSelect($files)"/>
-                    <a class="dropdown-toggle dropdown-hover colorChange pull-left" data-toggle="dropdown" href="#">
+                    <a class="dropdown-toggle dropdown-hover colorChange pull-left" data-toggle="dropdown" href="">
                         <img style="width:18px;margin-top:10px;margin-right:5px;" src="../assets/app/images/emoticons/smile.png" />
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right icon-dropdown">
@@ -38,10 +38,10 @@
 </div>
 
 <div infinite-scroll='nextPosts()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>	
-    <div data-ng-repeat="post in QnAs.posts">
-        <div id="wall-main">
-            <div class="general-box">
-                <div ng-init="isCommunityPage = true" data-ng-include data-src="'/assets/app/views/mobile/home/qna-bar.html'"></div>
+    <div id="wall-main">
+        <div class="general-box">   
+            <div data-ng-repeat="post in QnAs.posts">
+                <div ng-init="isCommunityPage = true" data-ng-include data-src="'/assets/app/views/home/qna-bar.html'"></div>
             </div>
         </div>
     </div>

@@ -3,26 +3,21 @@ package controllers;
 import java.io.File;
 import java.util.*;
 
+import com.mnt.exception.SocialObjectNotLikableException;
+
 import common.collection.Pair;
 import common.utils.ImageUploadUtil;
 import common.utils.NanoSecondStopWatch;
-import common.utils.StringUtil;
 import domain.DefaultValues;
-import domain.PostType;
-import domain.SocialObjectType;
-import models.Community;
-import models.Emoticon;
 import models.Post;
 import models.PKViewMeta;
 import models.User;
-
-import play.data.DynamicForm;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-
 import viewmodel.PKViewVM;
+import viewmodel.PKViewVoterVM;
 
 /**
  * Controller for PKView
@@ -32,67 +27,14 @@ public class PKViewController extends Controller {
 
     private static final ImageUploadUtil imageUploadUtil = new ImageUploadUtil("pkview");
 
-
-    @Transactional
-    public static Result postPKOnCommunity() {
-        NanoSecondStopWatch sw = new NanoSecondStopWatch();
-
-        final User user = Application.getLocalUser(session());
-        if (!user.isLoggedIn()) {
-            logger.underlyingLogger().error(String.format("User not logged in to postPKOnCommunity"));
-            return status(500);
-        }
-
-        DynamicForm form = DynamicForm.form().bindFromRequest();
-        Long communityId = Long.parseLong(form.get("community_id"));
-        String pkTitle = Emoticon.replace(form.get("pkTitle"));
-        String pkText = Emoticon.replace(form.get("pkText"));
-        int shortBodyCount = StringUtil.computePostShortBodyCount(pkText);
-
-        String pkYesText = Emoticon.replace(form.get("pkYesText"));
-        String pkNoText = Emoticon.replace(form.get("pkNoText"));
-
-        Community community = Community.findById(communityId);
-        if (community == null) {
-            logger.underlyingLogger().error("Invalid communityId: "+communityId);
-            return status(501);
-        }
-
-        // create Post
-        Post post = new Post(user, pkTitle, pkText, community);
-        post.objectType = SocialObjectType.PK_VIEW;
-        post.postType = PostType.PK_VIEW;
-        post.shortBodyCount = shortBodyCount;
-        post.setUpdatedDate(new Date());
-        post.save();
-        // create PKViewMeta
-        PKViewMeta pkViewMeta = new PKViewMeta(post.id, pkYesText, pkNoText);
-        pkViewMeta.save();
-
-        sw.stop();
-        logger.underlyingLogger().info("[c="+communityId+"] postPKOnCommunity. Took "+sw.getElapsedMS()+"ms");
-
-        Map<String,String> map = new HashMap<>();
-        map.put("id", post.id.toString());
-
-        if (post.shortBodyCount > 0) {
-            map.put("text", post.body.substring(0,post.shortBodyCount));
-            map.put("showM", "true");
-        } else{
-            map.put("text", post.body);
-            map.put("showM", "false");
-        }
-        return ok(Json.toJson(map));
-    }
-
-
     @Transactional
     public static Result getAllPKViews() {
+        final User user = Application.getLocalUser(session());
         List<Pair<PKViewMeta, Post>> pkPosts = PKViewMeta.getAllPKViewMeta();
 
         final List<PKViewVM> vms = new ArrayList<>();
         for (Pair<PKViewMeta, Post> pkPost : pkPosts) {
-            PKViewVM vm = new PKViewVM(pkPost.first, pkPost.second, true);
+            PKViewVM vm = new PKViewVM(pkPost.first, pkPost.second, user);
             vms.add(vm);
         }
         return ok(Json.toJson(vms));
@@ -100,11 +42,12 @@ public class PKViewController extends Controller {
 
     @Transactional
     public static Result getPKViewsByCommunity(Long communityId) {
+        final User user = Application.getLocalUser(session());
         List<Pair<PKViewMeta, Post>> pkPosts = PKViewMeta.getPKViewsByCommunity(communityId);
 
         final List<PKViewVM> vms = new ArrayList<>();
         for (Pair<PKViewMeta, Post> pkPost : pkPosts) {
-            PKViewVM vm = new PKViewVM(pkPost.first, pkPost.second, true);
+            PKViewVM vm = new PKViewVM(pkPost.first, pkPost.second, user);
             vms.add(vm);
         }
         return ok(Json.toJson(vms));
@@ -114,10 +57,15 @@ public class PKViewController extends Controller {
     public static Result infoPKView(Long pkViewMetaId) {
         final User localUser = Application.getLocalUser(session());
 
-        Pair<PKViewMeta, Post> pkView = PKViewMeta.getPKViewById(pkViewMetaId);
+        Pair<PKViewMeta, Post> pkView = null;
+        if (pkViewMetaId == -1) {
+            pkView = PKViewMeta.getLatestPKView();
+        } else {
+            pkView = PKViewMeta.getPKViewById(pkViewMetaId);
+        }
         if (pkView == null) {
             logger.underlyingLogger().error("Invalid pkViewMetaId: "+pkViewMetaId);
-            return status(500);
+            return ok("NO_RESULT");
         }
         pkView.second.noOfViews++;                          // TODO: need to save
 
@@ -125,6 +73,99 @@ public class PKViewController extends Controller {
         return ok(Json.toJson(vm));
     }
 
+    @Transactional
+    public static Result getVoters(Long pkViewMetaId, String yesNo) {
+        boolean isYes = PKViewMeta.COMMENT_ATTR_YES.equalsIgnoreCase(yesNo);
+
+        List<Long> voterIds = PKViewMeta.getVotedUserIds(pkViewMetaId, isYes);
+
+        List<PKViewVoterVM> vms = new ArrayList<>();
+        for (Long voterId : voterIds) {
+            PKViewVoterVM vm = new PKViewVoterVM(pkViewMetaId, voterId);
+            vms.add(vm);
+        }
+        return ok(Json.toJson(vms));
+    }
+
+    @Transactional
+    public static Result onYesVote(Long id) throws SocialObjectNotLikableException {
+        User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+
+        Pair<PKViewMeta, Post> pkView = PKViewMeta.getPKViewById(id);
+        pkView.first.onYesVote(localUser, pkView.second);
+        return ok();
+    }
+
+    @Transactional
+    public static Result onNoVote(Long id) throws SocialObjectNotLikableException {
+        User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+
+        Pair<PKViewMeta, Post> pkView = PKViewMeta.getPKViewById(id);
+        pkView.first.onNoVote(localUser, pkView.second);
+        return ok();
+    }
+
+    @Transactional
+    public static Result onLike(Long id) throws SocialObjectNotLikableException {
+        User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
+        Pair<PKViewMeta, Post> pkView = PKViewMeta.getPKViewById(id);
+        pkView.second.onLikedBy(localUser);
+        return ok();
+    }
+    
+    @Transactional
+    public static Result onUnlike(Long id) throws SocialObjectNotLikableException {
+        User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
+        Pair<PKViewMeta, Post> pkView = PKViewMeta.getPKViewById(id);
+        pkView.second.onUnlikedBy(localUser);
+        localUser.doUnLike(pkView.second.id, pkView.second.objectType);
+        return ok();
+    }
+    
+    @Transactional
+    public static Result onBookmark(Long id) {
+        User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
+        Pair<PKViewMeta, Post> pkView = PKViewMeta.getPKViewById(id);
+        pkView.second.onBookmarkedBy(localUser);
+        return ok();
+    }
+    
+    @Transactional
+    public static Result onUnBookmark(Long id) {
+        User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
+        Pair<PKViewMeta, Post> pkView = PKViewMeta.getPKViewById(id);
+        localUser.unBookmarkOn(pkView.second.id, pkView.second.objectType);
+        return ok();
+    }
+    
     @Transactional
     public static Result getBookmarkedPKViews(int offset) {
         final List<PKViewVM> vms = new ArrayList<>();

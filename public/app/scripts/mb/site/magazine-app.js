@@ -21,7 +21,7 @@ angular.module('minibean', [
   'pasvaz.bindonce',
   'ui.utils'
 ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
         templateUrl: '/assets/app/views/magazine/magazine.html'
@@ -41,7 +41,7 @@ angular.module('minibean', [
         controller : 'BusinessCommunityPageController'  
       })
       .when('/business-post-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/home/business-post-landing.html',
+        templateUrl: '/assets/app/views/home/business-post-landing-page.html',
         controller : 'PostLandingController'  
       })
       .when('/article/:id/:catId',{
@@ -54,6 +54,9 @@ angular.module('minibean', [
       .otherwise({
           redirectTo: '/'
       });
+    $locationProvider
+      .html5Mode(false)
+      .hashPrefix('!');
   })
   .run(function(editableOptions) {
     editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'

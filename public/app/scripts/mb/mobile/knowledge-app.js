@@ -20,7 +20,7 @@ angular.module('minibean', [
   'wu.masonry',
   'pasvaz.bindonce'
 ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
         templateUrl: '/assets/app/views/mobile/articles/articles.html', 
@@ -44,6 +44,9 @@ angular.module('minibean', [
       .otherwise({
           redirectTo: '/'
       });
+    $locationProvider
+      .html5Mode(false)
+      .hashPrefix('!');
   })
   .run(function(editableOptions) {
   editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'

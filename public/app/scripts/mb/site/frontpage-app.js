@@ -21,7 +21,7 @@ angular.module('minibean', [
   'pasvaz.bindonce',
   'ui.utils'
 ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
         templateUrl: '/assets/app/views/frontpage/frontpage.html', 
@@ -30,6 +30,10 @@ angular.module('minibean', [
       .when('/pkview/:id',{
         templateUrl: '/assets/app/views/frontpage/pkview-page.html',
         controller : 'PKViewPageController' 
+      })
+      .when('/admin/pkview-voters/:id',{
+        templateUrl: '/assets/app/views/admin/pkview-voters.html',
+        controller : 'AdminPKViewVotersController' 
       })
       .when('/campaign',{
         templateUrl: '/assets/app/views/frontpage/campaign-page.html',
@@ -58,11 +62,11 @@ angular.module('minibean', [
         controller: 'CommunityPageController'  
       })
       .when('/post-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/home/post-landing.html',
+        templateUrl: '/assets/app/views/home/post-landing-page.html',
         controller: 'PostLandingController'  
       })
       .when('/qna-landing/id/:id/communityId/:communityId',{
-        templateUrl: '/assets/app/views/home/qna-landing.html',
+        templateUrl: '/assets/app/views/home/qna-landing-page.html',
         controller: 'QnALandingController'  
       })
       .when('/error', {
@@ -71,6 +75,9 @@ angular.module('minibean', [
       .otherwise({
           redirectTo: '/'
       });
+    $locationProvider
+      .html5Mode(false)
+      .hashPrefix('!');
   })
   .run(function(editableOptions) {
     editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'

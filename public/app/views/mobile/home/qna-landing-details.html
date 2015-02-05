@@ -1,0 +1,142 @@
+<div class="post-card">
+    <ul>
+        <li class="post-intro post-qna-line">
+            <span ng-show="!isCommunityPage">
+                <!--span class="post-new-tag pull-left" style="margin-right:5px;">New</span>
+                <span class="post-qna-tag pull-left" style="margin-right:5px;">?</span>
+                <span class="post-intro-share">發佈</span>
+                <span class="post-intro-share">於 </span-->
+                <a data-ng-href="/m-my#!/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
+                <span class="post-intro-divider"></span>
+            </span>
+            <span class="post-qna-answer-count">
+                <img src="../assets/app/images/general/icons/i-time.png" /><span class="post-date" am-time-ago="post.ut"></span>
+            </span>
+            <span class="post-intro-divider"></span>
+            <span class="post-qna-answer-count">
+                <img src="../assets/app/images/general/icons/i-reply.png" />{{post.n_c}}
+            </span>
+            <span class="post-intro-divider"></span>
+            <!--span class="post-qna-answer-count">查看: {{post.nov}}</span-->
+            <div class="pull-right">
+                <button class="post-dropdown-btn btn btn-default dropdown-toggle" type="button" id="post-dropdown" data-toggle="dropdown">
+                    <span class="caret"></span>
+                </button>
+                <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
+                    <li role="presentation"><a role="menuitem" href="" ng-click="displayLink('/my#!/qna-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i>複製連結</a></li>
+                    <li role="presentation" ng-show="post.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個話題嗎？"><i class="glyphicon glyphicon-trash"></i>刪除話題</a></li>
+                    <li role="presentation" ng-show="!post.isO || userInfo.isSA"><a role="menuitem" ng-click="openReportObjectModal(post.id,'QUESTION')"><i class="glyphicon glyphicon-warning-sign"></i>舉報話題</a></li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+    <!-- Post Intro Ends -->
+    <ul>
+        <li class="post-qna-body-top">
+            <div class="post-qna-body-title"><a data-ng-href="#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}" target="_blank"><div ng-bind-html="post.ptl | to_trusted"></div></a></div>
+            <a data-ng-href="/m-my#!/profile/{{post.oid}}">
+                <img class="post-title-user-image" data-ng-src="/image/get-mini-image-by-id/{{post.oid}}"/>
+            </a>
+            <span class="post-title-user-name">
+                <a data-ng-href="/m-my#!/profile/{{post.oid}}">{{post.p}}</a>
+                <span ng-init="confirm = isMyBookmarksPage" data-ng-include data-src="'/assets/app/views/home/bookmark-post.html'"></span>
+            </span>
+            <span style="margin-left:5px;"/>
+            <span class="post-date" am-time-ago="post.t"></span>
+        </li>
+       	<li class="post-qna-body">
+            <div class="post-qna-body-text" ng-bind-html="post.pt | to_trusted | highlight: highlightText"></div>
+            <div data-ng-show="post.showM" style="margin-bottom:5px;">⋯⋯ <a class="post-show-more-link" href="" data-ng-click="showMore(post.id)">查看更多</a></div>
+            <div data-ng-show="post.hasImage" class="post-body-image">
+                <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in post.imgs" href="">
+                    <img data-ng-src="/image/get-post-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                </a>
+            </div>
+            <span data-ng-include data-src="'/assets/app/views/home/like-post.html'"></span>            
+            <span style="padding: 0 5px;color: #77737E;">|</span>
+            <span data-ng-include data-src="'/assets/app/views/home/want-answer.html'"></span>
+         </li>
+    </ul>
+    <!-- Post Body Ends -->
+    <ul class="post-qna-answers">
+        <li ng-show="post.n_c > commentsPreviewNum">
+            <span class="post-qna-answer-count" ng-show="post.n_c == 0">尚未有回覆</span>
+            <span class="post-qna-answer-count" ng-show="post.n_c > 0 && post.n_c <= commentsPreviewNum">{{post.n_c}}個回覆</span>
+            <span class="post-qna-answer-count" ng-show="post.n_c > commentsPreviewNum  && post.ep">共{{post.n_c}}個回覆</span>
+            <a class="post-view-all-comments-link" href="" ng-show="post.n_c > commentsPreviewNum && !post.ep" data-ng-click="get_all_comments(post.id)">共{{post.n_c}}個回覆</a>
+            <a class="post-view-all-comments-link pull-right" href="" ng-show="post.n_c > commentsPreviewNum && !post.ep" data-ng-click="get_all_comments(post.id)">查看所有回覆</a>
+            <img id="comment-spinner_{{post.id}}" class="comment-spinner" style="display:none;" src="/assets/app/images/general/animated/green-spinner.gif">
+        </li>
+        <li data-ng-repeat="comment in post.cs" ng-class-odd="'post-qna-answer-odd'" ng-class-even="'post-qna-answer-even'">
+            <a data-ng-href="/m-my#!/profile/{{comment.oid}}">
+                <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{comment.oid}}"/>
+            </a>
+            <div>
+                <span class="post-title-user-name">
+                    <a data-ng-href="/m-my#!/profile/{{comment.oid}}">{{comment.on}}</a>
+                </span>
+                <span style="margin-left:5px;"/>
+                <span class="post-date" am-time-ago="comment.cd"></span>
+                <div class="pull-right">
+                    <span class="post-number">#{{comment.n}}</span>
+                    <button ng-show="comment.isO || userInfo.isSA" class="post-dropdown-btn btn btn-default dropdown-toggle" type="button" id="post-dropdown" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
+                        <li role="presentation" ng-show="comment.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deleteComment(comment.id, post)" ng-confirm-message="您確定刪除這個留言嗎？"><i class="glyphicon glyphicon-trash"></i>刪除留言</a></li>
+                        <!--li role="presentation" ng-show="!comment.isO || userInfo.isSA"><a role="menuitem" ng-click="openReportObjectModal(comment.id,'ANSWER')"><i class="glyphicon glyphicon-warning-sign"></i>舉報留言</a></li-->
+                    </ul>
+                </div>
+            </div>
+            <div class="post-qna-answer-body">
+                <div>
+                    <span class="post-qna-answer-body-text" ng-bind-html="comment.d | to_trusted"></span>
+                    <span data-ng-include data-src="'/assets/app/views/home/like-answer.html'"></span>
+                </div>
+                <div data-ng-show="comment.hasImage" class="post-body-image">
+                    <a data-toggle="modal" data-target="#imageModal" data-ng-repeat="imageID in comment.imgs" href="">
+                        <img data-ng-src="/image/get-comment-image-by-id/{{imageID}}" data-ng-click="showImage(imageID)" alt="">
+                    </a>
+                </div>
+            </div>
+        </li>
+        <!-- Post Answer box-->
+        <li ng-show="(post.isC == true || (community.isM || community.isO)) && !isMyBookmarksPage && userInfo.isLoggedIn">
+            <!--a data-ng-href="/m-my#!/profile/{{userInfo.id}}">
+                <img class="post-sharing-comment-user-image" data-ng-src="/image/get-comment-mini-image-by-id/{{userInfo.id}}"/>
+            </a-->
+            <form class="post-comment-box" name="userComment" method="post" action="">
+                <label for="User Comment"></label>
+                <textarea type="text" id="userCommentfield_{{$index}}" name="userCommentfield" data-ng-model="commentText" class="general-textfield post-qna-reply-textfield" placeholder="回覆..." cols="70" rows="1"></textarea>
+                <a class="dropdown-toggle dropdown-hover colorChange post-emoticon-dropdown" data-toggle="dropdown" href="">
+                    <img src="../assets/app/images/emoticons/smile.png" />
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right icon-dropdown post-emoticon-dropdown-menu">
+                    <li data-ng-repeat="emoticon in emoticons">
+                        <a href="" data-ng-click="select_emoticon_comment(emoticon.code,$parent.$index)">
+                            <img class="emoticon" data-ng-src="{{emoticon.url}}"/>
+                        </a>
+                    </li>
+                </ul>
+                <a class="post-photo-icon" data-ng-hide="qnaCommentSelectedFiles.length >= 3 && commentedOnPost == post.id" id="upload">
+                    <i class="icon-photo-camera-fill" data-ng-click="qnaCommentPhoto(post.id)"></i>
+                </a>
+                <button class="btn btn-primary ng-binding" ng-disabled="userComment.$pristine || (userComment.$dirty && !commentText.length)" type="submit" disabled="disabled" data-ng-click="answer_to_question(post.id, commentText);commentText='';">
+                    回覆
+                </button>
+                <input style="visibility:hidden;width:0px;height:0px;" id="qna-comment-photo-id" type="file" name="comment-photo" ng-file-select="onQnACommentFileSelect($files)"/>
+            </form>
+            <span ng-if="commentedOnPost == post.id">
+                <div ng-show="qnaCommentSelectedFiles != null">
+                    <img class="post-photo-preview" ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
+                        ng-repeat="f in qnaCommentSelectedFiles" tooltip-placement="bottom" tooltip="移除相片" data-ng-click="remove_image_from_qna_comment($index)"
+                        ng-show="qnaCommentDataUrls[$index]" ng-src="{{qnaCommentDataUrls[$index]}}">
+                </div>
+            </span>
+        </li>
+        <li ng-show="!userInfo.isLoggedIn">
+            <div data-ng-include data-src="'/assets/app/views/widgets/prompt-comment-login-widget.html'"></div>
+        </li>
+    </ul>
+    <!-- Post Answers Ends -->
+</div>

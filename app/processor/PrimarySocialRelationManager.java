@@ -9,6 +9,7 @@ import models.SocialObject;
 import models.User;
 import play.db.jpa.JPA;
 import javax.persistence.Query;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +27,10 @@ public class PrimarySocialRelationManager {
      * @param objIds
      */
     public static Set<PrimarySocialResult> getSocialRelationBy(User user, List<Long> objIds) {
+        if (objIds == null || objIds.size() == 0) {
+            return Collections.EMPTY_SET;
+        }
+
         Set<PrimarySocialResult> results = new HashSet<>();
 
         String idsForIn = StringUtil.collectionToString(objIds, ",");

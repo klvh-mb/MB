@@ -19,12 +19,12 @@ ul, li {
     margin-left: 8%;
     margin-bottom: 0%;
     float: left;
-    top: -5px;
+    top: -15px;
     position: relative;
 }
 .login-logo img {
     width: auto !important;
-    height: 65px !important;
+    height: 85px !important;
 }
 #login-header {
     width: 100%;

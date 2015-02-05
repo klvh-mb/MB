@@ -1,7 +1,7 @@
 <div id="communities-index" class="general-box widget-box top-box">
     <div class="con-title">
         熱門社群
-        <a style="font-size:13px;" href="my#/communities-discover">
+        <a style="font-size:13px;" href="/my#!/communities-discover">
             (所有媽媽社群)
         </a>
     </div>
@@ -9,8 +9,8 @@
         <ul class="newCommunity-info" ng-repeat="communityCategoryMap in topicCommunityCategoriesMap">
             <li class="category-name">{{communityCategoryMap.name}}</li>
             <li ng-repeat="community in communityCategoryMap.communities">
-                <a href="my#/community/{{community.id}}"><img src="{{community.gi}}"></a>
-                <a href="my#/community/{{community.id}}">{{community.dn|characters:20:true}}</a>
+                <a href="/my#!/community/{{community.id}}"><img src="{{community.gi}}"></a>
+                <a href="/my#!/community/{{community.id}}">{{community.dn|characters:20:true}}</a>
                 <!--span class="community-member-counter"><img src="../assets/app/images/general/icons/i-mom.png" />{{community.mm}}</span>
                 <span class="community-attribute"></span-->
             </li>

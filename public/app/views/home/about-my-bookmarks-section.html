@@ -69,16 +69,16 @@
         <div class="general-box">
             <ul class="allpost-wrapper">
                 <li>
-                    <a href="#/article/{{article.id}}/{{article.ct.id}}" target="_blank">
+                    <a href="/articles#!/article/{{article.id}}/{{article.ct.id}}" target="_blank">
                         <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
                     </a>
                     <span ng-init="confirm = true" data-ng-include data-src="'/assets/app/views/home/bookmark-article.html'"></span>
                     <div>
-                        <a href="#/article/{{article.id}}/{{article.ct.id}}" target="_blank">
+                        <a href="/articles#!/article/{{article.id}}/{{article.ct.id}}" target="_blank">
                             <h4 style="color: #324fe1;"><font><font>{{article.nm}}</font></font></h4>
                         </a>
                         <h6>
-                            <a class="tag" data-ng-href="my#/article/show/{{article.ct.id}}">
+                            <a class="tag" data-ng-href="/articles#!/article/show/{{article.ct.id}}" target="_blank">
                                 <font><font>{{article.ct.name}}</font></font>
                             </a>
                             <font class="admin-visible-field" ng-show="userInfo.isE">{{article.pd | date:'M/dd/yyyy'}}</font>

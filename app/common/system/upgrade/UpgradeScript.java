@@ -13,8 +13,8 @@ public abstract class UpgradeScript {
     // TODO New upgrade scripts go here!
     private static List<UpgradeScript> newUpgradeScripts =  
             new ArrayList<UpgradeScript>(Arrays.asList(
-                    //new UpgradeScript_No_Opt()
-                    new UpgradeScript_0_5()
+                    new UpgradeScript_No_Opt()
+                    //new UpgradeScript_1_0()
             ));
     
     abstract public String getVersion();

@@ -16,7 +16,7 @@
                 <div>
                     <div data-ng-include data-src="'/assets/app/views/widgets/communities-discover-widget.html'"></div>
                 </div>
-    			<div data-ng-controller="UserCommunityWidgetController" data-ng-show="result.communities.length > 0">
+    			<div data-ng-controller="UserCommunityWidgetController" ng-show="result.communities.length > 0">
                     <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/widgets/my-communities-widget.html'"></div>
                 </div>
             </div>
@@ -31,7 +31,7 @@
 					<li>
                         <div id="community-header-cover">
                             <img id="community-banner" data-ng-src="{{coverImage}}"/>
-                            <a data-ng-show="community.isO" ng-click="openGroupCoverPhotoModal(community.id)">
+                            <a ng-show="community.isO" ng-click="openGroupCoverPhotoModal(community.id)">
                                 <span class="icon-box-2 icon-title-edit-photo"></span>
                                 <span class="icon-box-2 icon-box-black-op05"></span>
                             </a>
@@ -62,7 +62,7 @@
                                     <a ng-show="newsfeedEnabled" data-ng-confirm-click="toggleNewsfeedEnabled(community.id)" data-ng-confirm-message="您確定不需要 '{{community.n}}' 的發佈顯示到我的社群動向嗎?"><i class="glyphicon glyphicon-check"></i> 顯示到我的社群動向</a>
                                     <a ng-show="!newsfeedEnabled" data-ng-click="toggleNewsfeedEnabled(community.id)"><i class="glyphicon glyphicon-unchecked"></i> 顯示到我的社群動向</a>
                                 </li>
-                                <!--li ng-show="community.isO"><a data-ng-href="my#/editCommunity/{{community.id}}">編輯社群</a></li-->
+                                <!--li ng-show="community.isO"><a data-ng-href="/my#!/editCommunity/{{community.id}}">編輯社群</a></li-->
                                 <li class="dropdown-divider" role="presentation"></li>
                                 <li ng-show="!community.isO && community.isM == true"><a data-ng-confirm-click="leave_community(community.id)" data-ng-confirm-message="您確定取消關注 '{{community.n}}' 嗎?">取消關注</a></li>
                                 <!--li ng-show="!community.isO"><a ng-click="openReportObjectModal(post.id,'COMMUNITY')"><i class="glyphicon glyphicon-warning-sign"></i>舉報這個社群</a></li-->
@@ -151,10 +151,13 @@
 				<a style="margin:0 8px 8px 0" ng-show="!community.isO && community.isM == false && community.isP == false" class="btn-general pull-right" data-ng-click="send_join(community.id)">+ <i class="fa fa-user"></i> 關注社群</a>
                 <span style="margin:0 8px 8px 0" ng-show="!community.isO && community.isP == true" class="btn-general-flat pull-right" disabled="disabled"">已送出加入邀請</span>
 			</div>
+			<div ng-show="pkviews.length > 0">
+                <div data-ng-include data-src="'/assets/app/views/home/pkview-slider.html'"></div>
+            </div>
 			<div>
                 <div data-ng-include data-src="'/assets/app/views/home/community-about-section.html'"></div>
             </div>
-			<!--div ng-controller="RecommendedCommunityWidgetController" data-ng-show="result.communities.length > 0">
+			<!--div ng-controller="RecommendedCommunityWidgetController" ng-show="result.communities.length > 0">
 				<div data-ng-include data-src="'/assets/app/views/utilities/yourFriendsCommunitiesUtility.html'"></div>
 			</div-->
 			<div class="ads-factor-300x250">

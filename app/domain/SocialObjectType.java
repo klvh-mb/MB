@@ -18,5 +18,7 @@ public enum SocialObjectType {
      ANSWER,
      TAGWORD,
      CAMPAIGN,
-     PK_VIEW
+     PK_VIEW,
+     REVIEW_COMMENT,
+     PRE_NURSERY
 }

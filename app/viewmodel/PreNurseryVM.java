@@ -1,9 +1,17 @@
 package viewmodel;
 
 import common.utils.StringUtil;
-import models.PreNursery;
 
+import models.ReviewComment;
+import models.User;
+import models.PreNursery;
+import models.PrimarySocialRelation;
 import org.codehaus.jackson.annotate.JsonProperty;
+import processor.PrimarySocialRelationManager;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,13 +32,23 @@ public class PreNurseryVM {
     @JsonProperty("phol") public String phoneUrl;
     @JsonProperty("em")   public String email;
     @JsonProperty("adr")  public String address;
+    @JsonProperty("map")  public String mapUrl;
+
+    @JsonProperty("n_c") public int noOfComments;
+    @JsonProperty("cs") public List<ReviewCommentVM> reviews;
+	@JsonProperty("nol") public int noOfLikes;
+    @JsonProperty("nov") public int noOfViews;
+
+    @JsonProperty("isLike") public boolean isLike = false;
+
+    // deprecated.
     @JsonProperty("fds")  public String formStartDateStr;
     @JsonProperty("ads")  public String applicationStartDateStr;
     @JsonProperty("eds")  public String applicationEndDateStr;
     @JsonProperty("fom")  public String formUrl;
-    @JsonProperty("map")  public String mapUrl;
 
-    public PreNurseryVM(PreNursery pn, boolean isMyDistrict, String districtName) {
+
+    public PreNurseryVM(PreNursery pn, User user, boolean isMyDistrict, String districtName) {
         this.id = pn.id;
         this.isMyDistrict = isMyDistrict;
         this.districtName = districtName;
@@ -41,12 +59,42 @@ public class PreNurseryVM {
         this.phoneUrl = StringUtil.removeNonDigits(pn.phoneText);
         this.email = pn.email;
         this.address = pn.address;
-        this.formStartDateStr = pn.formStartDateString;
-        this.applicationStartDateStr = pn.applicationStartDateString;
-        this.applicationEndDateStr = pn.applicationEndDateString;
-        this.formUrl = pn.formUrl;
         if (pn.mapUrlSuffix != null) {
             this.mapUrl = MAPURL_PREFIX + pn.mapUrlSuffix;
         }
+
+        this.noOfComments = pn.noOfComments;
+        this.noOfLikes = pn.noOfLikes;
+        this.noOfViews = pn.noOfViews;
+
+        List<ReviewCommentVM> commentsToShow = new ArrayList<>();
+        List<ReviewComment> reviewComments = pn.getReviewComments();
+
+        List<Long> likeCheckIds = new ArrayList<>();
+        for(ReviewComment rc : reviewComments) {
+            likeCheckIds.add(rc.getId());
+        }
+
+        if (User.isLoggedIn(user)){
+            Set<PrimarySocialRelationManager.PrimarySocialResult> srByUser = PrimarySocialRelationManager.getSocialRelationBy(user, likeCheckIds);
+
+    		for(int i = reviewComments.size() - 1; i >= 0 ; i--) {
+                ReviewComment rc = reviewComments.get(i);
+    			ReviewCommentVM commentVM = ReviewCommentVM.toVM(rc, user, pn.noOfComments - i);
+    			commentVM.isLike = srByUser.contains(new PrimarySocialRelationManager.PrimarySocialResult(rc.id, rc.objectType, models.PrimarySocialRelation.Action.LIKED));
+    			commentsToShow.add(commentVM);
+    		}
+    		this.isLike = srByUser.contains(new PrimarySocialRelationManager.PrimarySocialResult(pn.id, pn.objectType, PrimarySocialRelation.Action.LIKED));
+        } else {
+            for(int i = reviewComments.size() - 1; i >= 0 ; i--) {
+                ReviewComment rc = reviewComments.get(i);
+                ReviewCommentVM commentVM = ReviewCommentVM.toVM(rc, user, pn.noOfComments - i);
+                commentVM.isLike = false;
+                commentsToShow.add(commentVM);
+            }
+            this.isLike = false;
+        }
+
+        this.reviews = commentsToShow;
     }
 }

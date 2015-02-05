@@ -36,7 +36,7 @@ public class DataBootstrap {
         bootstrapUser();
         bootstrapLocation();
         bootstrapCommunity();
-        bootstrapPNCommunity();
+//        bootstrapPNCommunity();
         bootstrapTagWords();
 
         // clear cache
@@ -177,10 +177,10 @@ public class DataBootstrap {
         announcement = 
                 new Announcement(
                         "小萌豆為所有龍媽媽蛇媽媽編制了2015-2016嘅幼兒班申請資訊。 請立即到 PN討論區 査看啦<br>" + 
-                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#/community/49'>港島PN討論區</a></span>" + 
-                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#/community/50'>九龍PN討論區</a></span>" + 
-                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#/community/51'>新界PN討論區</a></span>" +
-                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#/community/53'>離島PN討論區</a></span>",
+                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#!/community/49'>港島PN討論區</a></span>" + 
+                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#!/community/50'>九龍PN討論區</a></span>" + 
+                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#!/community/51'>新界PN討論區</a></span>" +
+                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#!/community/53'>離島PN討論區</a></span>",
                         AnnouncementType.TOP_INFO, 
                         new DateTime(2014,12,31,0,0).toDate());
         announcement.save();
@@ -728,24 +728,24 @@ public class DataBootstrap {
         }
     }
 
-    private static void bootstrapPNCommunity() {
-        Query q = JPA.em().createQuery("Select count(c) from Community c where c.targetingType = ?1 and c.system = true");
-        q.setParameter(1, TargetingType.PRE_NURSERY);
-        Long count = (Long)q.getSingleResult();
-        if (count > 0) {
-            return;
-        }
-
-        logger.underlyingLogger().info("bootstrapPNCommunity()");
-
-        // PN Region communities
-        List<Location> regions = Location.getHongKongRegions();
-        for (Location region : regions) {
-            String name = region.displayName + "PN討論區2015-16";
-            String desc = region.displayName + "PreNursery討論區 2015-2016";
-            createPNCommunity(name, desc, region);
-        }
-    }
+//    private static void bootstrapPNCommunity() {
+//        Query q = JPA.em().createQuery("Select count(c) from Community c where c.targetingType = ?1 and c.system = true");
+//        q.setParameter(1, TargetingType.PRE_NURSERY);
+//        Long count = (Long)q.getSingleResult();
+//        if (count > 0) {
+//            return;
+//        }
+//
+//        logger.underlyingLogger().info("bootstrapPNCommunity()");
+//
+//        // PN Region communities
+//        List<Location> regions = Location.getHongKongRegions();
+//        for (Location region : regions) {
+//            String name = region.displayName + "PN討論區2015-16";
+//            String desc = region.displayName + "PreNursery討論區 2015-2016";
+//            createPNCommunity(name, desc, region);
+//        }
+//    }
 
     private static void bootstrapTagWords() {
         String soonMomsCatId = ArticleCategory.ArticleCategoryGroup.SOON_TO_BE_MOMS_ARTICLES.name();
@@ -890,21 +890,21 @@ public class DataBootstrap {
         }
     }
 
-    private static Community createPNCommunity(String name, String desc, Location region) {
-                Community community = null;
-        String targetingInfo = region.id.toString();
-        try {
-            community = Application.getMBAdmin().createCommunity(
-                    name, desc, CommunityType.OPEN,
-                    "/assets/app/images/general/icons/community/grad_hat.png");
-            community.system = true;
-            community.targetingType = TargetingType.PRE_NURSERY;
-            community.targetingInfo = targetingInfo;
-        } catch (Exception e) {
-            logger.underlyingLogger().error("Error in createPNCommunity", e);
-        }
-        return community;
-    }
+//    private static Community createPNCommunity(String name, String desc, Location region) {
+//                Community community = null;
+//        String targetingInfo = region.id.toString();
+//        try {
+//            community = Application.getMBAdmin().createCommunity(
+//                    name, desc, CommunityType.OPEN,
+//                    "/assets/app/images/general/icons/community/grad_hat.png");
+//            community.system = true;
+//            community.targetingType = TargetingType.PRE_NURSERY;
+//            community.targetingInfo = targetingInfo;
+//        } catch (Exception e) {
+//            logger.underlyingLogger().error("Error in createPNCommunity", e);
+//        }
+//        return community;
+//    }
 
     private static TagWord createTagWord(TagWord.TagCategory tagCategory, String tagCategoryId,
                                          String displayWord, String matchingWords) {

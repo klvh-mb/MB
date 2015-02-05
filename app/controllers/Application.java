@@ -93,15 +93,7 @@ public class Application extends Controller {
 
 	@Transactional
     public static Result index() {
-        UserAgentUtil userAgentUtil = new UserAgentUtil(request());
-        boolean isMobile = userAgentUtil.isMobileUserAgent();
-        
-        setMobileUser(isMobile? "true":"false");
-        
-        if (isMobile) {
-            return redirect("/m-frontpage#");
-        }
-        return redirect("/frontpage#");
+        return redirect("/frontpage");
     }
 	
 	//
@@ -149,6 +141,8 @@ public class Application extends Controller {
     
     @Transactional
     public static Result mainMagazine() {
+    	return mainFrontpage();
+    	/*
         UserAgentUtil userAgentUtil = new UserAgentUtil(request());
         boolean isMobile = userAgentUtil.isMobileUserAgent();
         
@@ -158,6 +152,7 @@ public class Application extends Controller {
             return ok(views.html.mb.mobile.magazine.render());
         }
         return ok(views.html.mb.site.magazine.render());
+        */
     }
     
     @Transactional
@@ -185,8 +180,11 @@ public class Application extends Controller {
     
     @Transactional
     public static Result mobileMagazine() {
+    	return mobileFrontpage();
+    	/*
         setMobileUser();    // manually set mobile to true
         return ok(views.html.mb.mobile.magazine.render());
+        */
     }
     
     @Transactional
@@ -337,7 +335,7 @@ public class Application extends Controller {
 	        UserController.sendGreetingMessageToNewUser();
 	        
 	        user.setNewUser(false);
-	        //return redirect("/my#/communities-discover");
+	        //return redirect("/my#!/communities-discover");
 	    }
 	    return isMobileUser()? ok(views.html.mb.mobile.home.render()) : ok(views.html.mb.site.home.render());
 	}
@@ -802,12 +800,17 @@ public class Application extends Controller {
 	
 	@Transactional
     public static Result bingWebmaster() {
-        return ok(views.html.bing_webmaster.render());
+        return ok(views.xml.bing_webmaster.render());
     }
 	
 	@Transactional
 	public static Result googleWebmaster() {
 	    return ok(views.html.google_webmaster.render());
+	}
+	
+	@Transactional
+	public static Result sitemap() {
+	    return ok(views.xml.sitemap.render());
 	}
 	
 	//

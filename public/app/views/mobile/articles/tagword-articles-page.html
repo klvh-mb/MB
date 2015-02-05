@@ -14,10 +14,10 @@
                 <div class="general-box">
                     <div style="padding:5px 10px;font-weight:bold;">
                         <div ng-show="selectedNavBar == 'HOT_ARTICLES'" ng-click="selectNavBar('HOT_ARTICLES')">
-                            <a href="articles#/article/show/0">返回文章</a>
+                            <a href="/articles#!/article/show/0">返回文章</a>
                         </div>
                         <div ng-show="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'" ng-click="selectNavBar('SOON_TO_BE_MOMS_ARTICLES')">
-                            <a href="knowledge#/article/show/{{soonMomsArticleCategories[0].id}}">&lt;&lt; 返回知識庫</a>
+                            <a href="/knowledge#!/article/show/{{soonMomsArticleCategories[0].id}}">&lt;&lt; 返回知識庫</a>
                         </div>
                     </div>
                     <div class="tagword-results-header">
@@ -41,16 +41,16 @@
                     <ul class="allpost-wrapper">
                         <li data-ng-repeat="article in result">
                             <span class="rank-number">#{{$index+1}}</span>
-                            <a href="#/article/{{article.id}}/{{article.ct.id}}">
+                            <a href="#!/article/{{article.id}}/{{article.ct.id}}">
                                 <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
                             </a>
                             <span data-ng-include data-src="'/assets/app/views/home/bookmark-article.html'"></span>
                             <div>
-                                <a href="#/article/{{article.id}}/{{article.ct.id}}">
+                                <a href="#!/article/{{article.id}}/{{article.ct.id}}">
                                     <h4 style="color:#324fe1;"><font><font>{{article.nm}}</font></font></h4>
                                 </a>
                                 <h6>
-                                    <a class="tag" data-ng-href="#/article/show/{{article.ct.id}}">
+                                    <a class="tag" data-ng-href="#!/article/show/{{article.ct.id}}">
                                         <font><font>{{article.ct.name}}</font></font>
                                     </a>
                                     <font ng-show="userInfo.isE">{{article.pd | date:'M/dd/yyyy'}}</font>

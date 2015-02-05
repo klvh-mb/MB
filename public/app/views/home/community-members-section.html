@@ -30,7 +30,7 @@
 
 <pagination style="margin: 0px 0px 10px 20px;" direction-links="false" ng-show="result.members.length > itemsPerPage && showMembers" total-items="result.members.length" page="currentPage" on-select-page="setMemberPage(page)" items-per-page="itemsPerPage"></pagination>
 <div class="memberCard" ng-repeat="member in pagedMembers | filter:query" ng-show="showMembers">
- 	<a href="my#/profile/{{member.id}}" class="d-s ob">
+ 	<a href="/my#!/profile/{{member.id}}" class="d-s ob">
     	<div class="memberImageBox">
         	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{member.dn}}" data-ng-src="/image/get-thumbnail-image-by-id/{{member.id}}" alt="...">
         	<img class="memberImageStar" ng-show="member.isAdmin" data-ng-src="/assets/app/images/general/icons/star.png"/>
@@ -38,7 +38,7 @@
 	</a>
     <div class="memberTagBox">
     	<div class="memberTag">
-        	<a href="my#/profile/{{member.id}}" class="memberTagRef"><span class="memberName">{{member.dn}}</span></a>
+        	<a href="/my#!/profile/{{member.id}}" class="memberTagRef"><span class="memberName">{{member.dn}}</span></a>
         	<span class="memberType" ng-show="member.isAdmin">管理員</span>
         </div>
     </div>
@@ -46,7 +46,7 @@
 <pagination style="margin: 0px 0px 10px 20px;" direction-links="false" ng-show="result.members.length > itemsPerPage && showMembers" total-items="result.members.length" page="currentPage" on-select-page="setMemberPage(page)" items-per-page="itemsPerPage"></pagination>
 
 <div class="memberCard" ng-repeat="member in result.members | filter:query" ng-show="showAdmin && member.isAdmin">
- 	<a href="my#/profile/{{member.id}}" class="d-s ob">
+ 	<a href="/my#!/profile/{{member.id}}" class="d-s ob">
     	<div class="memberImageBox">
         	<img class="img-clean" data-toggle="tooltip" data-placement="top" data-tooltip="{{member.dn}}" data-ng-src="/image/get-thumbnail-image-by-id/{{member.id}}" alt="...">
         	<img class="memberImageStar" ng-show="member.isAdmin" data-ng-src="/assets/app/images/general/icons/star.png"/>
@@ -54,7 +54,7 @@
 	</a>
     <div class="memberTagBox">
     	<div class="memberTag">
-        	<a href="my#/profile/{{member.id}}" class="memberTagRef">
+        	<a href="/my#!/profile/{{member.id}}" class="memberTagRef">
         	<span class="memberName">{{member.dn}}</span></a><span class="memberType" ng-show="member.isAdmin">管理員</span>
         </div>
     </div>

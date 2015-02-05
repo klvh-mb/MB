@@ -25,7 +25,7 @@ public class CommunityPostsVM {
 		List<CommunityPostVM> postsVM = new ArrayList<>();
 		if (canSeePostsOfCommunity(user, c)) {
     		for(Post p: posts) {
-    			CommunityPostVM post = CommunityPostVM.communityPostVM(p,user);
+    			CommunityPostVM post = new CommunityPostVM(p,user);
     			postsVM.add(post);
     		}
 		}
@@ -41,7 +41,7 @@ public class CommunityPostsVM {
 
         List<CommunityPostVM> posts = new ArrayList<>();
         if (canSeePostsOfCommunity(user, c)) {
-            posts.add(CommunityPostVM.communityPostVM(post,user));
+            posts.add(new CommunityPostVM(post,user));
         }
 
         vm.posts = posts;

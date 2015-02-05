@@ -13,26 +13,28 @@ import java.util.*;
 import javax.crypto.Cipher;
 
 import common.cache.CommunityCategoryCache;
-
+import common.collection.Pair;
 import common.utils.StringUtil;
+import models.Comment;
+import models.Community;
+import models.CommunityCategory;
+import models.Emoticon;
+import models.Icon;
+import models.PKViewMeta;
+import models.Post;
+import models.Resource;
+import models.TargetingSocialObject;
+import models.User;
+import models.UserCommunityAffinity;
+
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.joda.time.DateTime;
 
 import common.model.ZodiacYear;
 import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
-import models.Comment;
-import models.Community;
 import models.Community.CommunityType;
 import models.TargetingSocialObject.TargetingType;
-import models.CommunityCategory;
-import models.Emoticon;
-import models.Icon;
-import models.Post;
-import models.Resource;
-import models.TargetingSocialObject;
-import models.User;
-import models.UserCommunityAffinity;
 import play.data.DynamicForm;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -464,7 +466,7 @@ public class CommunityController extends Controller{
         List<CommunityPostVM> postsVM = new ArrayList<>();
         List<Post> posts = community.getPostsOfCommunityByTime(start, Long.parseLong(time));
         for(Post p: posts) {
-            CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser);
+            CommunityPostVM post = new CommunityPostVM(p, localUser);
             postsVM.add(post);
         }
 
@@ -495,7 +497,7 @@ public class CommunityController extends Controller{
         List<CommunityPostVM> postsVM = new ArrayList<>();
         List<Post> posts =  community.getQuestionsOfCommunityByTime(Long.parseLong(time));
         for(Post p: posts) {
-            CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser);
+            CommunityPostVM post = new CommunityPostVM(p, localUser);
             postsVM.add(post);
         }
 
@@ -874,7 +876,59 @@ public class CommunityController extends Controller{
         }
         return ok("You are not a member of the community");
     }
-    
+
+    @Transactional
+    public static Result commentToPkViewOnCommunity() {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+
+        DynamicForm form = form().bindFromRequest();
+        Long pkviewId = Long.parseLong(form.get("pkview_id"));
+        Pair<PKViewMeta, Post> pkViewMeta = PKViewMeta.getPKViewById(pkviewId);;
+        Long postId = pkViewMeta.second.id;
+        String commentText = Emoticon.replace(form.get("commentText"));
+        String attribute = form.get("attribute");
+
+        if (!PKViewMeta.isValidCommentAttribute(attribute)) {
+            logger.underlyingLogger().error("Invalid comment attribute: "+attribute);
+            return status(501);
+        }
+
+        Post p = Post.findById(postId);
+        Community c = p.community;
+        if (CommunityPermission.canPostOnCommunity(localUser, c)) {
+            try {
+                Comment comment = (Comment) p.onCommentPkView(localUser, commentText, attribute);
+
+                String withPhotos = form.get("withPhotos");
+                if(Boolean.parseBoolean(withPhotos)) {
+                	comment.ensureAlbumExist();
+                }
+                p.setUpdatedDate(new Date());
+                p.merge();
+
+                sw.stop();
+                logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"][p="+postId+"] commentToPkViewOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
+
+                Map<String, String> map = new HashMap<>();
+                map.put("id", comment.id.toString());
+                map.put("text", comment.body);
+                map.put("attribute", attribute);
+
+                return ok(Json.toJson(map));
+            } catch (SocialObjectNotCommentableException e) {
+                logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
+            }
+            return ok("Error in creating PkView comment");
+        }
+        return ok("You are not a member of the community");
+    }
+
     @Transactional
     public static Result getAllQuestionsOfCommunity(Long id) {
         final User localUser = Application.getLocalUser(session());
@@ -965,7 +1019,7 @@ public class CommunityController extends Controller{
         final User localUser = Application.getLocalUser(session());
         List<CommunityPostVM> posts = new ArrayList<>();
         for(Post p :localUser.getMyUpdates(timestamps)) {
-            CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
+            CommunityPostVM post = new CommunityPostVM(p,localUser);
             posts.add(post);
         }
         NewsFeedVM vm = new NewsFeedVM(localUser, posts);
@@ -997,7 +1051,7 @@ public class CommunityController extends Controller{
             final boolean isCommentable = true;    // must be open for social NF entries
 
             for (Post p : newsFeeds) {
-                CommunityPostVM post = CommunityPostVM.communityPostVM(p, noLoginUser, isCommentable);
+                CommunityPostVM post = new CommunityPostVM(p, noLoginUser, isCommentable);
                 posts.add(post);
             }
         }
@@ -1034,7 +1088,7 @@ public class CommunityController extends Controller{
             final boolean isCommentable = true;    // must be open for social NF entries
 
             for (Post p : newsFeeds) {
-                CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser, isCommentable);
+                CommunityPostVM post = new CommunityPostVM(p, localUser, isCommentable);
                 posts.add(post);
             }
         }
@@ -1101,7 +1155,7 @@ public class CommunityController extends Controller{
             final boolean isMember = false;    // must NOT be member for biz NF entries
 
             for (Post p : newsFeeds) {
-                CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser, isMember);
+                CommunityPostVM post = new CommunityPostVM(p, localUser, isMember);
                 posts.add(post);
             }
         }
@@ -1125,7 +1179,7 @@ public class CommunityController extends Controller{
         
         List<CommunityPostVM> posts = new ArrayList<>();
         for(Post p :localUser.getMyLiveUpdates(timestamps)) {
-            CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
+            CommunityPostVM post = new CommunityPostVM(p,localUser);
             posts.add(post);
         }
         
@@ -1141,7 +1195,7 @@ public class CommunityController extends Controller{
         
         List<CommunityPostVM> posts = new ArrayList<>();
         for(Post p :localUser.getMyNextNewsFeeds(timestamp)) {
-            CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
+            CommunityPostVM post = new CommunityPostVM(p,localUser);
             posts.add(post);
         }
         
@@ -1276,7 +1330,7 @@ public class CommunityController extends Controller{
         List<Post> bookmarkedPosts = localUser.getBookmarkedPosts(offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
         if(bookmarkedPosts != null ){
             for(Post p : bookmarkedPosts) {
-                CommunityPostVM post = CommunityPostVM.communityPostVM(p,localUser);
+                CommunityPostVM post = new CommunityPostVM(p,localUser);
                 posts.add(post);
             }
         }
@@ -1315,27 +1369,6 @@ public class CommunityController extends Controller{
 		return ok(Resource.findById(id).getThumbnailFile());
 	}
 	
-	@Transactional
-	public static Result uploadQnACommentPhoto() {
-		DynamicForm form = DynamicForm.form().bindFromRequest();
-		String commentId = form.get("commentId");
-		if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("uploadQnACommentPhoto(cmt="+commentId+")");
-        }
-
-		FilePart picture = request().body().asMultipartFormData().getFile("comment-photo0");
-		String fileName = picture.getFilename();
-		File file = picture.getFile();
-	    try {
-            File fileTo = ImageFileUtil.copyImageFileToTemp(file, fileName);
-	    	Long id = Comment.findById(Long.valueOf(commentId)).addCommentPhoto(fileTo).id;
-	    	return ok(id.toString());
-		} catch (IOException e) {
-			logger.underlyingLogger().error("Error in uploadQnACommentPhoto", e);
-			return status(500);
-		}
-	}
-
     @Transactional
     public static Result postLanding(Long id, Long communityId) {
         final User localUser = Application.getLocalUser(session());

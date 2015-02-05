@@ -163,7 +163,11 @@ public class UserController extends Controller {
         final User localUser = Application.getLocalUser(session());
         
         BookmarkSummaryVM summary = new BookmarkSummaryVM(
-                localUser.getQnABookmarkCount(), localUser.getPostBookmarkCount(), localUser.getArticleBookmarkCount());
+                localUser.getQnABookmarkCount(), 
+                localUser.getPostBookmarkCount(), 
+                localUser.getArticleBookmarkCount(),
+                localUser.getPKViewBookmarkCount()
+                );
         return ok(Json.toJson(summary));
     }
     
@@ -435,7 +439,7 @@ public class UserController extends Controller {
         List<Post> newsFeeds = user.getUserNewsfeeds(Integer.parseInt(offset), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 		if(newsFeeds != null ){
 			for(Post p : newsFeeds) {
-				CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser);
+				CommunityPostVM post = new CommunityPostVM(p, localUser);
 				posts.add(post);
 			}
 		}
@@ -465,7 +469,7 @@ public class UserController extends Controller {
 		
 		if(newsFeeds != null ){
 			for(Post p : newsFeeds) {
-				CommunityPostVM post = CommunityPostVM.communityPostVM(p, localUser);
+				CommunityPostVM post = new CommunityPostVM(p, localUser);
 				posts.add(post);
 			}
 		}

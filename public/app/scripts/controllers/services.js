@@ -10,6 +10,13 @@ minibean.service('adminService',function($resource){
                 get: {method:'get',isArray:true}
             }
     );
+    this.pkViewVoters = $resource(
+            '/get-pkview-voters/:id/:yes_no',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
 });
 
 minibean.service('frontpageService',function($resource){
@@ -27,6 +34,13 @@ minibean.service('frontpageService',function($resource){
                 get: {method:'GET'}
             }
     );
+    this.frontpageTopics = $resource(
+            '/get-frontpage-topics',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET',isArray:true}
+            }
+    );
     this.sliderTopics = $resource(
             '/get-slider-topics',
             {alt:'json',callback:'JSON_CALLBACK'},
@@ -36,6 +50,13 @@ minibean.service('frontpageService',function($resource){
     );
     this.promoTopics = $resource(
             '/get-promo-topics',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET',isArray:true}
+            }
+    );
+    this.promo2Topics = $resource(
+            '/get-promo2-topics',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'GET',isArray:true}
@@ -671,6 +692,22 @@ minibean.service('bookmarkPostService', function($resource) {
                 get: {method:'get', params:{article_id:'@article_id'}}
             }
     );
+    
+    this.bookmarkPKView = $resource(
+            '/bookmark-pkview/:pkview_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{pkview_id:'@pkview_id'}}
+            }
+    );
+    
+    this.unbookmarkPKView = $resource(
+            '/unbookmark-pkview/:pkview_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{pkview_id:'@pkview_id'}}
+            }
+    );
 });
     
 minibean.service('likeFrameworkService', function($resource) {
@@ -754,6 +791,22 @@ minibean.service('likeFrameworkService', function($resource) {
                 get: {method:'get', params:{campaign_id:'@campaign_id'}}
             }
     );
+    
+    this.hitLikeOnPKView = $resource(
+            '/like-pkview/:pkview_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{pkview_id:'@pkview_id'}}
+            }
+    );
+    
+    this.hitUnlikeOnPKView = $resource(
+            '/unlike-pkview/:pkview_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{pkview_id:'@pkview_id'}}
+            }
+    );
 });
 
 minibean.service('communityQnAPageService',function($resource){
@@ -800,6 +853,27 @@ minibean.service('tagwordService',function($resource){
 minibean.service('pkViewService',function($resource){
     this.pkViewInfo = $resource(
             '/get-pkview-info/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{id:'@id'}}
+            }
+    );
+    this.communityPKViews = $resource(
+            '/get-comm-pkviews/:community_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.yesVotePKView = $resource(
+            '/yesvote-pkview/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
+    this.noVotePKView = $resource(
+            '/novote-pkview/:id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get'}
@@ -893,7 +967,7 @@ minibean.service('articleService',function($resource){
 minibean.service('showImageService',function($resource){
     this.getImage = $resource(
             '/get-image-url/:id',
-            {alt:'json',callback:'JSON_CALLBACK', },
+            {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get'}
             }
@@ -905,7 +979,7 @@ minibean.service('articleCommentsService',function($resource){
             '/ArticleComments/:id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'get' ,isArray:true}
+                get: {method:'get',isArray:true}
             }
     );
 });
@@ -963,6 +1037,14 @@ minibean.service('bookmarkService',function($resource){
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'GET', params:{offsetA:'@offsetA'}, isArray:true}
+            }
+    );
+    
+    this.bookmarkedPKViews = $resource(
+            '/get-bookmarked-pkviews/:offsetP',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET', params:{offsetA:'@offsetP'}, isArray:true}
             }
     );
     

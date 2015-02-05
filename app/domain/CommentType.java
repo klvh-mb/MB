@@ -2,5 +2,6 @@ package domain;
 
 public enum CommentType {
 	ANSWER,
-	SIMPLE
+	SIMPLE,
+	VIEW
 }

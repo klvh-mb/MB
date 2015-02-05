@@ -61,6 +61,19 @@ public class FrontPageController extends Controller {
         return ok(Json.toJson(vms));
     }
 
+    @Transactional
+    public static Result getFrontPageTopics() {
+        List<FrontPageTopic> topics = FrontPageTopic.getActiveFrontPageTopics();
+        if (topics == null) {
+            return ok();
+        }
+        List<FrontPageTopicVM> vms = new ArrayList<FrontPageTopicVM>();
+        for (FrontPageTopic topic : topics) {
+            vms.add(new FrontPageTopicVM(topic, Application.getLocalUser(session())));
+        }
+        return ok(Json.toJson(vms));
+    }
+    
     private static Result getTopics(TopicType topicType) {
         List<FrontPageTopic> topics = FrontPageTopic.getActiveFrontPageTopics(topicType);
         if (topics == null) {
@@ -68,7 +81,7 @@ public class FrontPageController extends Controller {
         }
         List<FrontPageTopicVM> vms = new ArrayList<FrontPageTopicVM>();
         for (FrontPageTopic topic : topics) {
-            vms.add(new FrontPageTopicVM(topic));
+            vms.add(new FrontPageTopicVM(topic, Application.getLocalUser(session())));
         }
         return ok(Json.toJson(vms));
     }
@@ -81,6 +94,11 @@ public class FrontPageController extends Controller {
     @Transactional
     public static Result getPromoTopics() {
         return getTopics(TopicType.PROMO);
+    }
+    
+    @Transactional
+    public static Result getPromo2Topics() {
+        return getTopics(TopicType.PROMO_2);
     }
     
     @Transactional

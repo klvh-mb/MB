@@ -57,6 +57,7 @@
 .campaign-detail-wrapper .campaign-details li img {
     width: 100%;
     height: auto;
+    border-radius: 10px;
 }
 .campaign-detail-wrapper .campaign-details table td {
     padding: 3px;
@@ -93,7 +94,7 @@
     line-height: 1.4;
 }
 .campaign-winners-wrapper {
-    border: 4px solid #FFB2B2;
+    border: 3px solid #FFB2B2;
     border-radius: 15px;
     background-color: #FFF9F9;
     font-size: 15px;
@@ -117,10 +118,15 @@
 }
 .campaign-winners-wrapper .campaign-winners-announcement {
     padding: 10px;
+    font-size: 15px;
 }
 .campaign-winners-wrapper .campaign-winners-list li {
     padding: 0;
     width: 24%;
+    display: inline-block;
+}
+.campaign-winners-wrapper .campaign-winners-announcement li {
+    width: 49%;
     display: inline-block;
 }
 
@@ -128,7 +134,7 @@
 .campaign-container {
     width: 100%;
     font-size: 16px;
-    background-image: url(../images/frontpage/campaign/campaign_bg_1.gif);
+    background-image: url(../images/frontpage/campaign/campaign_bg_r.jpg);
 }
 .campaign-container div {
     float: none;
@@ -170,6 +176,8 @@
 .campaign-container .gift-items .gift-item-pic img {
     width: 180px;
     height: 180px;
+    border-radius: 25px;
+    border: 5px solid transparent;
 }
 .campaign-container .gift-items .gift-item-desc {
     background-color: #480c0c;
@@ -186,4 +194,8 @@
     color: #ffffff;
     line-height: 1.6em;
     padding: 20px;
+}
+#campaign-link {
+    width: 65%;
+    padding: 5px;
 }

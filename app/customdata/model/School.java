@@ -48,21 +48,6 @@ public class School {
         pn.phoneText = beautifyPhoneText(phoneText);
         pn.email = email;
         pn.couponSupport = couponSupport;
-        pn.formStartDateString = formStartDate;
-        if (formStartDate != null) {
-            pn.formStartDate = toLocalDate(formStartDate).toDate();
-        }
-        pn.applicationStartDateString = applicationStartDate;
-        if (applicationStartDate != null) {
-            pn.applicationStartDate = toLocalDate(applicationStartDate).toDate();
-        }
-        pn.applicationEndDateString = applicationEndDate;
-        if (applicationEndDate != null) {
-            pn.applicationEndDate = toLocalDate(applicationEndDate).toDate();
-        }
-        pn.formUrl = formUrl;
-
-        pn.schoolYear = schoolYear;
         return pn;
     }
 

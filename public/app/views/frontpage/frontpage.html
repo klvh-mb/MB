@@ -12,6 +12,9 @@
             <div data-ng-controller="GameController" ng-if="userInfo.isLoggedIn">
                 <div data-ng-include data-src="'/assets/app/views/widgets/my-profile-widget.html'"></div>
             </div>
+            <div ng-if="userInfo.isLoggedIn">
+                <div data-ng-include data-src="'/assets/app/views/widgets/my-shortcuts-widget.html'"></div>
+            </div>
             <!-- comms directory -->
             <div data-ng-controller="AllCommunitiesIndexWidgetController">
                 <div ng-init="niceScroll()" data-ng-include data-src="'/assets/app/views/widgets/all-communities-index-widget.html'"></div>
@@ -44,10 +47,6 @@
                     <div data-ng-include data-src="'/assets/app/views/frontpage/communities-section.html'"></div>
                 </div>
 
-                <div class="ads-factor-728x90" style="margin-bottom:15px;">
-                    <script adSize="72890" adSid="630501056805" ads-factor language='JavaScript' type="text/javascript"></script>
-                </div>
-                
                 <!-- featured game gifts/info, articles, knowledge -->
                 <div class="frontpage-section">
                     <div data-ng-include data-src="'/assets/app/views/frontpage/topics-section.html'"></div>
@@ -56,6 +55,10 @@
                 <!-- new articles, hot articles, recommend articles -->
                 <div class="frontpage-section">
                     <div data-ng-include data-src="'/assets/app/views/frontpage/articles-section.html'"></div>
+                </div>
+                
+                <div class="ads-factor-728x90" style="margin-bottom:15px;">
+                    <script adSize="72890" adSid="630501056805" ads-factor language='JavaScript' type="text/javascript"></script>
                 </div>
                 
             </div>

@@ -2,6 +2,157 @@
 
 var minibean = angular.module('minibean');
 
+minibean.factory('pkViewFactory',function(pkViewService, postManagementService, likeFrameworkService, bookmarkPostService, usSpinnerService) {
+
+    var factory = {}; 
+
+    factory.deleteComment = function(commentId, attr, pkview) {
+        postManagementService.deleteComment.get({"commentId":commentId}, function(data) {
+            if (attr == 'YES') {
+                angular.forEach(pkview.red_cs, function(comment, key){
+                    if(comment.id == commentId) {
+                        pkview.red_cs.splice(pkview.red_cs.indexOf(comment),1);
+                    }
+                })
+                pkview.n_rc--;            
+            } else if (attr == 'NO') {
+                angular.forEach(pkview.blue_cs, function(comment, key){
+                    if(comment.id == commentId) {
+                        pkview.blue_cs.splice(pkview.blue_cs.indexOf(comment),1);
+                    }
+                })
+                pkview.n_bc--;
+            }
+            pkview.n_c--;
+        });
+    }
+    
+    factory.selectCommentEmoticon = function(code, attr) {
+        var elem;
+        if (attr == 'YES') {
+            elem = $("#redCommentfield");
+        } else if (attr == 'NO') {
+            elem = $("#blueCommentfield");
+        }
+        
+        if(elem.val()){
+            elem.val(elem.val() + " " + code + " ");
+        }else{
+            elem.val(code + " ");
+        }
+        elem.focus();
+        elem.trigger('input');    // need this to populate jquery val update to ng-model
+    }
+    
+    factory.like_pkview = function(pkview_id, pkview) {
+        likeFrameworkService.hitLikeOnPKView.get({"pkview_id":pkview_id}, 
+            function(data) {
+                pkview.nol++;
+                pkview.isLike=true;
+            });
+    }
+
+    factory.unlike_pkview = function(pkview_id, pkview) {
+        likeFrameworkService.hitUnlikeOnPKView.get({"pkview_id":pkview_id}, 
+            function(data) {
+                pkview.nol--;
+                pkview.isLike=false;
+            });
+    }
+    
+    factory.bookmarkPKView = function(pkview_id, pkview) {
+        bookmarkPostService.bookmarkPKView.get({"pkview_id":pkview_id}, function(data) {
+            pkview.isBookmarked = true;
+        });
+    }
+    
+    factory.unBookmarkPKView = function(pkview_id, pkview) {
+        bookmarkPostService.unbookmarkPKView.get({"pkview_id":pkview_id}, function(data) {
+            pkview.isBookmarked = false;
+        });
+    }
+    
+    factory.like_comment = function(comment_id, attr, pkview) {
+        likeFrameworkService.hitLikeOnComment.get({"comment_id":comment_id}, function(data) {
+            if (attr == 'YES') {
+                angular.forEach(pkview.red_cs, function(comment, key){
+                    if(comment.id == comment_id) {
+                        comment.nol++;
+                        comment.isLike = true;
+                    }
+                });
+            } else if (attr == 'NO') {
+                angular.forEach(pkview.blue_cs, function(comment, key){
+                    if(comment.id == comment_id) {
+                        comment.nol++;
+                        comment.isLike = true;
+                    }
+                });
+            }
+        });
+    }
+    
+    factory.unlike_comment = function(comment_id, attr, pkview) {
+        likeFrameworkService.hitUnlikeOnComment.get({"comment_id":comment_id}, function(data) {
+            if (attr == 'YES') {
+                angular.forEach(pkview.red_cs, function(comment, key){
+                    if(comment.id == comment_id) {
+                        comment.nol--;
+                        comment.isLike = false;
+                    }
+                });
+            } else if (attr == 'NO') {
+                angular.forEach(pkview.blue_cs, function(comment, key){
+                    if(comment.id == comment_id) {
+                        comment.nol--;
+                        comment.isLike = false;
+                    }
+                });
+            }
+        });
+    }
+    
+    var alreadyVote = function(pkview) {
+        if (pkview.isRed) {
+            prompt("<div><b>你已支持紅豆豆</b></div>", "bootbox-default-prompt", 2500);
+            return true;
+        }
+        if (pkview.isBlue) {
+            prompt("<div><b>你已支持藍豆豆</b></div>", "bootbox-default-prompt", 2500);
+            return true;
+        }
+        return false;
+    }
+    
+    factory.redVote = function(pkview) {
+        if (alreadyVote(pkview)) {
+            return;
+        }
+        var pkviewToVote = pkview;
+        pkViewService.yesVotePKView.get({id:pkview.id},
+            function(data) {
+                pkviewToVote.n_rv++;
+                pkviewToVote.isRed = true;
+            }
+        );
+    }
+    
+    factory.blueVote = function(pkview) {
+        if (alreadyVote(pkview)) {
+            return;
+        }
+        var pkviewToVote = pkview;
+        pkViewService.noVotePKView.get({id:pkview.id},
+            function(data) {
+                pkviewToVote.n_bv++;
+                pkviewToVote.isBlue = true;
+            }
+        );
+    }
+    
+    return factory;
+});
+
 minibean.factory('articleFactory',function(likeFrameworkService, bookmarkPostService, usSpinnerService) {
 
     var factory = {}; 

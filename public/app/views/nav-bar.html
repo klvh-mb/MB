@@ -1,24 +1,24 @@
 <div id="header-menu" class="row">
-    <div class="col-md-3 col-sm-3 col-xs-3" id="main-logo"><a href="/"><img src="/assets/app/images/logo-xmas.gif" /></a></div>
+    <div class="col-md-3 col-sm-3 col-xs-3" id="main-logo"><a href="/"><img src="/assets/app/images/logo-2.png" /></a></div>
     <div id="main-menu">
         <ul>
             <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'FRONTPAGE'}" ng-click="selectNavBar('FRONTPAGE')">
-                <a href="frontpage#"><img src="/assets/app/images/frontpage/icon_mainMenu_home.png"/></a>
+                <a href="/frontpage#!"><img src="/assets/app/images/frontpage/icon_mainMenu_home.png"/></a>
             </li>
             <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'HOME'}" ng-click="selectNavBar('HOME')">
-                <a href="my#"><img src="/assets/app/images/frontpage/icon_mainMenu_myMiniBean.png"/></a>
+                <a href="/my#!"><img src="/assets/app/images/frontpage/icon_mainMenu_myMiniBean.png"/></a>
             </li>
             <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'HOT_ARTICLES'}" ng-click="selectNavBar('HOT_ARTICLES')">
-                <a href="articles#/article/show/0"><img src="/assets/app/images/frontpage/icon_mainMenu_article.png"/></a>
+                <a href="/articles#!/article/show/0"><img src="/assets/app/images/frontpage/icon_mainMenu_article.png"/></a>
             </li>
             <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'}" ng-click="selectNavBar('SOON_TO_BE_MOMS_ARTICLES')">
-                <a href="knowledge#/article/show/{{soonMomsArticleCategories[0].id}}"><img src="/assets/app/images/frontpage/icon_mainMenu_library.png"/></a>
+                <a href="/knowledge#!/article/show/{{soonMomsArticleCategories[0].id}}"><img src="/assets/app/images/frontpage/icon_mainMenu_library.png"/></a>
             </li>
             <!--li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'MAGAZINE'}" ng-click="selectNavBar('MAGAZINE')">
-                <a href="magazine#"><img src="/assets/app/images/frontpage/icon_mainMenu_magazine.png"/></a>
+                <a href="/magazine#!"><img src="/assets/app/images/frontpage/icon_mainMenu_magazine.png"/></a>
             </li-->
             <!--li class="col-md-1 col-sm-1 col-xs-1">
-                <a href="#"><img src="/assets/app/images/frontpage/icon_mainMenu_tools.png"/></a>
+                <a href="/#!"><img src="/assets/app/images/frontpage/icon_mainMenu_tools.png"/></a>
             </li-->
             <li class="col-md-3 col-sm-3 col-xs-3" style="width:340px;">
                 <div class="pull-right">
@@ -32,12 +32,12 @@
 <div id="nav-subbar" ng-show="selectedNavBar == 'MAGAZINE'">
     <div class="nav-menu">
         <span ng-class="{'selected-green': selectedNavSubBar == 0}">
-            <a class="nav-item nav-item-green" href="magazine#/">
+            <a class="nav-item nav-item-green" href="/magazine#!/">
                 最新動向
             </a>
         </span>
         <span ng-class="{'selected-green': selectedNavSubBar == category.id}" ng-repeat="category in businessCommunityCategories">
-            <a class="nav-item nav-item-green" href="magazine#/view/{{category.id}}">
+            <a class="nav-item nav-item-green" href="/magazine#!/view/{{category.id}}">
                 {{category.name}}
             </a>
         </span>

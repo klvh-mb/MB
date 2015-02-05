@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
 
 import common.cache.FriendCache;
@@ -130,11 +131,32 @@ public abstract class SocialObject extends domain.Entity implements
         }
         return true;
     }
+
+    public Boolean getYesNoVote(User user) {
+        Query q = JPA.em().createQuery("Select sr from PrimarySocialRelation sr where sr.action in (?1,?2) and sr.actor=?3 " +
+                "and sr.target=?4 and sr.targetType=?5");
+        q.setParameter(1, PrimarySocialRelation.Action.YES_VOTED);
+        q.setParameter(2, PrimarySocialRelation.Action.NO_VOTED);
+        q.setParameter(3, user.id);
+        q.setParameter(4, this.id);
+        q.setParameter(5, this.objectType);
+        PrimarySocialRelation sr;
+        try {
+            sr = (PrimarySocialRelation)q.getSingleResult();
+        } catch(NoResultException nre) {
+            return null;
+        } catch(NonUniqueResultException nure) {
+            sr = (PrimarySocialRelation)(q.getResultList().get(0));
+        }
+        
+        return (sr.action == PrimarySocialRelation.Action.YES_VOTED);
+    }
     
 	protected final void recordLike(User user) {
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.LIKED;
 		action.validateUniquenessAndCreate();
+        // Game Stats
         GameAccountStatistics.recordLike(user.id);
 	}
 
@@ -143,6 +165,18 @@ public abstract class SocialObject extends domain.Entity implements
 		action.action = PrimarySocialRelation.Action.WANT_ANS;
 		action.validateUniquenessAndCreate();
 	}
+
+    protected final void recordYesVote(User user) {
+		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
+		action.action = PrimarySocialRelation.Action.YES_VOTED;
+		action.validateUniquenessAndCreate();
+    }
+
+    protected final void recordNoVote(User user) {
+		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
+		action.action = PrimarySocialRelation.Action.NO_VOTED;
+		action.validateUniquenessAndCreate();
+    }
 	
 	protected final void recordBookmark(User user) {
 		SecondarySocialRelation action = new SecondarySocialRelation(user, this);
@@ -285,6 +319,7 @@ public abstract class SocialObject extends domain.Entity implements
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.POSTED;
 		action.save();
+        // Game Stats
         GameAccountStatistics.recordPost(user.id);
 	}
 
@@ -292,6 +327,7 @@ public abstract class SocialObject extends domain.Entity implements
 		PrimarySocialRelation action = new PrimarySocialRelation(user, this);
 		action.action = PrimarySocialRelation.Action.POSTED_QUESTION;
 		action.save();
+        // Game Stats
         GameAccountStatistics.recordPost(user.id);
 	}
 
@@ -306,6 +342,7 @@ public abstract class SocialObject extends domain.Entity implements
 		PrimarySocialRelation action = new PrimarySocialRelation(user, comment);
 		action.action = PrimarySocialRelation.Action.COMMENTED;
 		action.save();
+        // Game Stats
         GameAccountStatistics.recordComment(user.id);
 	}
 
@@ -313,6 +350,7 @@ public abstract class SocialObject extends domain.Entity implements
 		PrimarySocialRelation action = new PrimarySocialRelation(user, answer);
 		action.action = PrimarySocialRelation.Action.ANSWERED;
         action.save();
+        // Game Stats
         GameAccountStatistics.recordComment(user.id);
 	}
 

@@ -27,6 +27,9 @@ GET     /BingSiteAuth.xml           controllers.Application.bingWebmaster
 # Google Webmaster
 GET     /googlee42c6d2bf91e90b7.html    controllers.Application.googleWebmaster
 
+# sitemap.xml
+GET     /sitemap.xml                controllers.Application.sitemap
+
 GET     /favicon.ico                controllers.Assets.at(path="/public", file="app/images/favicon-1.ico")
 GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
 GET     /privacy                    controllers.Application.privacy
@@ -58,7 +61,7 @@ GET     /my                         controllers.Application.mainHome
 GET     /login                      controllers.Application.login
 
 # Home
-GET     /signup-promo-code/:promoCode      controllers.Application.homeWithPromoCode(promoCode: String)
+GET     /signup-promo-code/:promoCode      controllers.Application.homeWithPromoCode(promoCode:String)
 
 POST    /login                      controllers.Application.doLogin
 POST    /login-popup                controllers.Application.doLoginPopup
@@ -68,27 +71,36 @@ GET     /get-application-info       controllers.Application.getApplicationInfo
 GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
 
 # PKView
-GET     /get-pkview-info/:id        controllers.PKViewController.infoPKView(id :Long)
-GET     /get-allPkViews             controllers.PKViewController.getAllPKViews
-GET     /get-commPkViews/:id        controllers.PKViewController.getPKViewsByCommunity(id :Long)
+GET     /get-pkview-info/:id        controllers.PKViewController.infoPKView(id:Long)
+GET     /get-all-pkviews            controllers.PKViewController.getAllPKViews
+GET     /get-comm-pkviews/:community_id       controllers.PKViewController.getPKViewsByCommunity(community_id:Long)
+GET     /yesvote-pkview/:id         controllers.PKViewController.onYesVote(id:Long)
+GET     /novote-pkview/:id          controllers.PKViewController.onNoVote(id:Long)
+GET     /like-pkview/:id            controllers.PKViewController.onLike(id:Long)
+GET     /unlike-pkview/:id          controllers.PKViewController.onUnlike(id:Long)
+GET     /get-bookmarked-pkviews/:offset     controllers.PKViewController.getBookmarkedPKViews(offset:Integer)
+GET     /bookmark-pkview/:id        controllers.PKViewController.onBookmark(id:Long)
+GET     /unbookmark-pkview/:id      controllers.PKViewController.onUnBookmark(id:Long)
+POST    /community/pkview/comment   controllers.CommunityController.commentToPkViewOnCommunity()
+GET     /get-pkview-voters/:id/:yes_no      controllers.PKViewController.getVoters(id:Long, yes_no:String)
 
 # Campaign
-GET     /get-campaign-info/:id      controllers.CampaignController.infoCampaign(id :Long)
-GET     /get-campaign-announced-winners/:id      controllers.CampaignController.getCampaignAnnouncedWinners(id :Long)
-GET     /like-campaign/:id          controllers.CampaignController.onLike(id : Long)
-GET     /unlike-campaign/:id        controllers.CampaignController.onUnlike(id : Long)
+GET     /get-campaign-info/:id      controllers.CampaignController.infoCampaign(id:Long)
+GET     /get-campaign-announced-winners/:id      controllers.CampaignController.getCampaignAnnouncedWinners(id:Long)
+GET     /like-campaign/:id          controllers.CampaignController.onLike(id:Long)
+GET     /unlike-campaign/:id        controllers.CampaignController.onUnlike(id:Long)
 POST    /join-campaign              controllers.CampaignController.joinCampaign
 POST    /withdraw-campaign          controllers.CampaignController.withdrawCampaign
 
 GET     /get-all-article-categories     controllers.ArticleController.getAllArticleCategories
-GET     /get-Articles-Categorywise/:category_id/:offset     controllers.ArticleController.getArticlesCategorywise(category_id: Long, offset:Integer)
-GET     /get-Articles-TagWise/:tagword_id/:offset           controllers.ArticleController.getArticlesTagwise(tagword_id: Long, offset:Integer)
-GET     /get-Six-Articles/:category_id          controllers.ArticleController.getSixArticles(category_id: Long)
-GET     /get-Related-Articles/:id/:category_id  controllers.ArticleController.getRelatedArticles(id :Long,category_id :Long)
-GET     /get-article-info/:id       controllers.ArticleController.infoArticle(id :Long)
-GET     /like-article/:id           controllers.ArticleController.onLike(id : Long)
-GET     /unlike-article/:id         controllers.ArticleController.onUnlike(id : Long)
-GET     /get-new-Articles/:category_id          controllers.ArticleController.getNewArticles(category_id: Long)
+GET     /get-Articles-Categorywise/:category_id/:offset     controllers.ArticleController.getArticlesCategorywise(category_id:Long, offset:Integer)
+GET     /get-Articles-TagWise/:tagword_id/:offset           controllers.ArticleController.getArticlesTagwise(tagword_id:Long, offset:Integer)
+GET     /get-Six-Articles/:category_id          controllers.ArticleController.getSixArticles(category_id:Long)
+GET     /get-Related-Articles/:id/:category_id  controllers.ArticleController.getRelatedArticles(id :Long,category_id:Long)
+GET     /get-article-info/:id       controllers.ArticleController.infoArticle(id:Long)
+GET     /like-article/:id           controllers.ArticleController.onLike(id:Long)
+GET     /unlike-article/:id         controllers.ArticleController.onUnlike(id:Long)
+GET     /get-new-Articles/:category_id          controllers.ArticleController.getNewArticles(category_id:Long)
 GET     /get-hot-Articles/:category_id          controllers.ArticleController.getHotArticles(category_id: Long)
 GET     /get-recommended-Articles/:category_id  controllers.ArticleController.getRecommendedArticles(category_id: Long)
 
@@ -234,7 +246,6 @@ GET     /image/getCommunityIcons                controllers.CommunityController.
 GET     /getAllUnjoinedMembers/:id/:query       controllers.CommunityController.getAllUnjoinedUsers(id : Long, query: String)
 GET     /inviteToCommunity/:community_id/:user_id   controllers.CommunityController.sendInviteToJoinCommunity(community_id : Long, user_id: Long)
 POST    /image/uploadCommentPhoto               controllers.CommunityController.uploadCommentPhoto()
-POST    /image/uploadQnACommentPhoto            controllers.CommunityController.uploadQnACommentPhoto() 
 GET     /image/get-comment-image-by-id/:id      controllers.CommunityController.getCommentImageById(id : Long)
 GET     /post-landing/:id/:communityId          controllers.CommunityController.postLanding(id:Long, communityId:Long)
 GET     /qna-landing/:id/:communityId           controllers.CommunityController.qnaLanding(id:Long, communityId:Long)
@@ -260,10 +271,12 @@ GET     /unwant-ans/:post_id                    controllers.CommunityController.
 
 # FrontPage
 GET     /get-hotcommunities                     controllers.FrontPageController.getHotCommunities()
+GET     /get-frontpage-topics                   controllers.FrontPageController.getFrontPageTopics()
 GET     /get-slider-topics                      controllers.FrontPageController.getSliderTopics()
 GET     /get-promo-topics                       controllers.FrontPageController.getPromoTopics()
+GET     /get-promo2-topics                      controllers.FrontPageController.getPromo2Topics()
 GET     /get-featured-topics                    controllers.FrontPageController.getFeaturedTopics()
-GET     /get-game-topics                       controllers.FrontPageController.getGameTopics()
+GET     /get-game-topics                        controllers.FrontPageController.getGameTopics()
 
 # PreNursery
 GET     /get-pn-communities                     controllers.PreNurseryController.getPNCommunities()

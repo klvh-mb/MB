@@ -200,7 +200,7 @@
     /*background-color: #FDF7F7;*/
     border-radius: 5px;
     padding: 5px;
-    border-left: 3px solid #E5E2E2;
+    /*border-left: 3px solid #E5E2E2;*/
     padding-left: 10px;
 }
 .post-qna-body-text, .post-qna-answer-body-text, .post-sharing-body-text {
@@ -476,4 +476,61 @@ a.btn-like, a.btn-like:hover {
 }
 .pagination > li > a, .pagination > li > span {
     padding: 3px 10px;
+}
+
+/* post bar layout */
+.post-bar .post-favorite:after, 
+.post-bar .post-favorited:after {
+	top: 0;
+}
+.post-bar {
+	border-bottom: 1px solid #DBDAFF;
+}
+.post-bar:hover {
+    background-color: #F9FBFF;
+}
+.post-bar ul {
+    padding: 5px 10px;
+    margin: 0;
+}
+.post-bar .post-bar-title a, .post-bar .post-bar-title a:hover {
+	color: #0521AB;
+	font-size: 17px;
+	font-weight: normal;
+	white-space: pre-wrap;
+}
+.post-bar .post-bar-title a span {
+	margin: 0 15px 0 2px;
+    line-height: 2.0;
+}
+.post-bar .post-bar-details {
+    	
+}
+.post-bar .post-bar-details .row {
+    padding: 1px 10px;
+}
+.post-bar .post-bar-details .row img {
+	width: 15px;
+	height: 15px;
+	border-radius: 3px;
+	vertical-align: text-bottom;
+	margin-right: 3px;
+}
+.post-bar .post-bar-details .row img.user-image {
+    width: 15px;
+    height: 15px;
+    vertical-align: text-bottom;
+    margin-right: 0;
+}
+.post-bar .post-bar-images {
+	padding: 2px 5px 10px 5px;
+}
+.post-bar .post-bar-images img {
+    width: auto;
+    height: auto;
+    max-width: 100px;
+    max-height: 50px;
+    border-radius: 3px;
+    margin-right: 3px;
+    border: 1px solid #DBDAFF;
 }

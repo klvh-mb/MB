@@ -3,7 +3,7 @@
         <div class="article-title">
             <span class="article-title-icon article-title-icon-hot"></span>
             <img src="/assets/app/images/frontpage/article_title_featured.png">
-            <a class="pull-right" href="articles#">更多</a>
+            <a class="pull-right" href="/articles#!">更多</a>
         </div>
         <div class="section-details">
             <ul>
@@ -11,22 +11,22 @@
                 <li data-ng-repeat="article in hotArticles">
                     <div class="article-details">
                         <div class="article-image">
-                            <a href="articles#/article/{{article.id}}/{{article.ct.id}}">
+                            <a href="/articles#!/article/{{article.id}}/{{article.ct.id}}">
                                 <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
                             </a>
                         </div>
                         <div class="article-summary">
-                            <a href="articles#/article/{{article.id}}/{{article.ct.id}}">
+                            <a href="/articles#!/article/{{article.id}}/{{article.ct.id}}">
                                 {{article.nm | limitTo:20}}</span><span ng-if="article.nm.length > 20">...</span>
                             </a>
                             <div style="display:block;">
-                                <a class="tag" data-ng-href="articles#/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
+                                <a class="tag" data-ng-href="/articles#!/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
                                 <span ng-show="article.nov > 0 || userInfo.isE" class="view-count" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.png"/>{{article.nov}}</span>
                             </div>
                         </div>
                     </div>
                 </li>
-                <li><a href="articles#" class="btn-articles-flat">更多文章</a></li>
+                <li><a href="/articles#!" class="btn-articles-flat">更多文章</a></li>
             </ul>
         </div>
     </div>

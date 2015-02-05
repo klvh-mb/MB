@@ -1,0 +1,26 @@
+<div id="frontpage-slider" class="royalSlider rsMinW general-box">
+    <div ng-repeat="topic in sliderTopics">
+        <div class="rsContent fp-flash-slide" ng-if="topic.sty == 'FLASH'">
+            <div class="bContainer">
+                <span ng-bind-html="topic.ds | to_trusted "></span>
+            </div>
+        </div>
+        <div class="rsContent fp-image-slide" ng-if="topic.sty == 'IMAGE'">
+            <a class="rsImg" href="{{topic.img}}"></a>
+            <a class="transparent-bg" href="{{topic.url}}" ng-if="topic.nm.length == 0 || topic.ds.length == 0">
+                <img src="../assets/app/images/general/gradient_black_30.png">
+            </a>
+            <a class="gradient-bg" href="{{topic.url}}" ng-if="topic.nm.length > 0 || topic.ds.length > 0">
+                <img src="../assets/app/images/general/gradient_black_30.png">
+            </a>
+            <div class="bContainer">
+                <a href="{{topic.url}}">
+                    <span class="rsABlock blockHeadline" data-move-effect="top" data-delay="200" data-fade-effect="none" ng-if="topic.nm.length > 0">
+                        {{topic.nm}}
+                        <span class="blockSubHeadline" ng-if="topic.ds.length > 0"><br/>{{topic.ds}}</span>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

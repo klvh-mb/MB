@@ -1,13 +1,15 @@
 package models;
 
-import play.data.format.Formats;
+import com.mnt.exception.SocialObjectNotCommentableException;
+import domain.*;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import play.db.jpa.JPA;
 
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,53 +18,100 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-public class PreNursery {
+public class PreNursery extends SocialObject implements Likeable, Commentable {
     private static final play.api.Logger logger = play.api.Logger.apply(PreNursery.class);
 
-    public PreNursery() {}
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
-
     public Long regionId;
-
     public Long districtId;
 
-    public String name;
-
-    public String url;
+    // name is inherited
 
     public String phoneText;
-
+    public String url;
     public String email;
-
     public String address;
-
-    public boolean couponSupport = false;
-
-    public String formStartDateString;
-
-    @Formats.DateTime(pattern = "yyyy-MM-dd")
-    public Date formStartDate;
-
-    public String applicationStartDateString;
-
-    @Formats.DateTime(pattern = "yyyy-MM-dd")
-    public Date applicationStartDate;
-
-    public String applicationEndDateString;
-
-    @Formats.DateTime(pattern = "yyyy-MM-dd")
-    public Date applicationEndDate;
-
-    public String formUrl;
-
     public String mapUrlSuffix;
 
-    public String schoolYear;
+    public boolean couponSupport = false;
+    public String classTimes;       // comma separated (AM,PM,WD)
+
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    public Set<ReviewComment> reviews;
+
+    // stats
+    public int noOfComments = 0;
+    public int noOfLikes = 0;
+    public int noOfViews = 0;
 
 
+    // Ctor
+    public PreNursery() {}
+
+
+    public SocialObject onReview(User user, String body)
+            throws SocialObjectNotCommentableException {
+        // create Review object
+        ReviewComment review = ReviewComment.createReview(id, user, body, ReviewType.PN);
+
+        if (reviews == null) {
+            reviews = new HashSet<>();
+        }
+        this.reviews.add(review);
+        this.noOfComments++;
+        JPA.em().merge(this);
+
+        return review;
+    }
+
+    public void onDeleteReview(User user)
+            throws SocialObjectNotCommentableException {
+        this.noOfComments--;
+    }
+
+    @JsonIgnore
+    public long getNumReviewComments() {
+        Query q = JPA.em().createQuery("Select count(c.id) from ReviewComment c where socialObject=?1 and reviewType=?2 and deleted=false");
+        q.setParameter(1, this.id);
+        q.setParameter(2, ReviewType.PN);
+        return (Long) q.getSingleResult();
+    }
+
+    @JsonIgnore
+    public List<ReviewComment> getReviewComments() {
+        Query q = JPA.em().createQuery("Select c from ReviewComment c where socialObject=?1 and reviewType=?2 and deleted=false order by date");
+        q.setParameter(1, this.id);
+        q.setParameter(2, ReviewType.PN);
+        return (List<ReviewComment>)q.getResultList();
+    }
+
+    @JsonIgnore
+    public List<ReviewComment> getReviewComments(int limit) {
+        Query q = JPA.em().createQuery("Select c from ReviewComment c where socialObject=?1 and reviewType=?2 and deleted=false order by date desc" );
+        q.setParameter(1, this.id);
+        q.setParameter(2, ReviewType.PN);
+        return (List<ReviewComment>)q.setMaxResults(limit).getResultList();
+    }
+
+    @Override
+    public void onLikedBy(User user) {
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+user.id+"][pn="+this.id+"] PreNursery onLikedBy");
+        }
+        recordLike(user);
+        this.noOfLikes++;
+        user.likesCount++;
+    }
+
+    @Override
+    public void onUnlikedBy(User user) {
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+user.id+"][pn="+this.id+"] PreNursery onUnlikedBy");
+        }
+        this.noOfLikes--;
+        user.likesCount--;
+    }
+
+    ///////////////////// SQL /////////////////////
     /**
      * @return
      */
@@ -74,14 +123,12 @@ public class PreNursery {
      * @return
      */
     public String getInsertSql() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
         StringBuilder sb = new StringBuilder();
         sb.append("insert into PreNursery (");
-        sb.append("regionId, districtId, name, url, phoneText, email, address, couponSupport, formStartDateString, ");
-        sb.append("formStartDate, applicationStartDateString, applicationStartDate, applicationEndDateString, applicationEndDate, ");
-        sb.append("formUrl, mapUrlSuffix, schoolYear");
+        sb.append("regionId, districtId, name, url, phoneText, email, address, couponSupport, ");
+        sb.append("formUrl, mapUrlSuffix, classTimes");
         sb.append(") values (");
+
         sb.append(regionId).append(", ");
         sb.append(districtId).append(", ");
         sb.append("'").append(name).append("', ");
@@ -90,22 +137,12 @@ public class PreNursery {
         if (email != null) sb.append("'").append(email).append("', "); else sb.append("NULL, ");
         if (address != null) sb.append("'").append(address.replace("'","")).append("', "); else sb.append("NULL, ");
         sb.append(couponSupport ? 1 : 0).append(", ");
-        if (formStartDateString != null) sb.append("'").append(formStartDateString).append("', "); else sb.append("NULL, ");
-        if (formStartDate != null) sb.append("'").append(dateFormat.format(formStartDate)).append("', "); else sb.append("NULL, ");
-        if (applicationStartDateString != null) sb.append("'").append(applicationStartDateString).append("', "); else sb.append("NULL, ");
-        if (applicationStartDate != null) sb.append("'").append(dateFormat.format(applicationStartDate)).append("', "); else sb.append("NULL, ");
-        if (applicationEndDateString != null) sb.append("'").append(applicationEndDateString).append("', "); else sb.append("NULL, ");
-        if (applicationEndDate != null) sb.append("'").append(dateFormat.format(applicationEndDate)).append("', "); else sb.append("NULL, ");
-        if (formUrl != null) sb.append("'").append(formUrl).append("', "); else sb.append("NULL, ");
         if (mapUrlSuffix != null) sb.append("'").append(mapUrlSuffix.replace("'","")).append("', "); else sb.append("NULL, ");
+        if (classTimes != null) sb.append("'").append(classTimes.replace("'","")).append("', "); else sb.append("NULL, ");
 
-        if (schoolYear != null) sb.append("'").append(schoolYear).append("'"); else sb.append("NULL");
+        sb.deleteCharAt(sb.length() - 1);
+        sb.deleteCharAt(sb.length() - 1);
         sb.append(");");
         return sb.toString();
     }
-
-    public String getKey() {
-        return districtId+"_"+name;
-    }
-
 }
