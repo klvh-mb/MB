@@ -22,21 +22,29 @@ angular.module('minibean', [
 ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
-      .when('/', {
-        templateUrl: '/assets/app/views/mobile/articles/articles.html', 
-        controller : 'ShowArticlesController'
+      .when('/',{
+        templateUrl: '/assets/app/views/mobile/schools/schools.html', 
+        controller : 'ShowSchoolsController' 
       })
-      .when('/article/show/:catId',{
-        templateUrl: '/assets/app/views/mobile/articles/articles.html',
-        controller : 'ShowArticlesController'  
+      .when('/pn',{
+        templateUrl: '/assets/app/views/mobile/schools/pns.html',
+        controller : 'ShowSchoolsController' 
       })
-      .when('/article/tagword/:tagwordId/:catGroup',{
-        templateUrl: '/assets/app/views/mobile/articles/tagword-articles-page.html',
-        controller : 'ShowArticlesController'  
+      .when('/pn/district/:districtId',{
+        templateUrl: '/assets/app/views/mobile/schools/pns.html',
+        controller : 'ShowSchoolsController' 
       })
-      .when('/article/:id/:catId',{
-        templateUrl: '/assets/app/views/mobile/articles/article-page.html',
-        controller : 'ArticlePageController'  
+      .when('/pn/top-views/:num',{
+        templateUrl: '/assets/app/views/mobile/schools/pns.html',
+        controller : 'ShowSchoolsController' 
+      })
+      .when('/pn/top-bookmarked/:num',{
+        templateUrl: '/assets/app/views/mobile/schools/pns.html',
+        controller : 'ShowSchoolsController' 
+      })
+      .when('/pn/:id',{
+        templateUrl: '/assets/app/views/mobile/schools/pn-page.html',
+        controller : 'PNPageController' 
       })
       .when('/error', {
     	  templateUrl: '/assets/app/views/error-page.html',

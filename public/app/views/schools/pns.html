@@ -14,12 +14,12 @@
         <div class="col-md-6 col-sm-6 col-xs-6" style="width:500px;">
             <div data-ng-include data-src="'/assets/app/views/widgets/schools-pn-districts-index-widget.html'"></div>
             <div id="wall">
-                <div ng-repeat="pn in pns | objFilter:pnFilter">
-	                <div class="general-box school-list-title" ng-if="$index == 0">
-	                    <span>{{pn.dis}}</span> 有 <span>{{pns.length}}</span> 間幼稚園提供2-3歲幼兒服務 (PN 幼兒班)
-	                </div>
-	                <div class="general-box school-list-entry">
-					    <ul class="pn-wrapper" style="padding: 5px 10px 0px 10px;">
+                <div class="general-box school-list-title">
+                    <span>{{pns[0].dis}}</span> 有 <span>{{pns.length}}</span> 間幼稚園提供2-3歲幼兒服務 (PN 幼兒班)
+                </div>
+                <div class="general-box school-list">
+                    <div class=" school-list-entry" ng-repeat="pn in pns | objFilter:pnFilter">
+					    <ul class="pn-wrapper">
 					        <li>
 					            <div class="pn-info">
 					                <a ng-href="{{pn.url}}" target="_blank">
@@ -30,14 +30,14 @@
 					
 					                <div class="pn-info-note"><span ng-show="pn.adr">{{pn.adr}}</span></div>
 					                <div class="pn-info-note"><span ng-show="pn.pho">電話: {{pn.pho}}</span><span ng-show="pn.em"> · 電郵: {{pn.em}}</span></div>
-					                <div class="pn-info-attr">
+					                <!--div class="pn-info-attr">
 					                    <span>派表日期: {{pn.fds}}<span ng-show="!pn.fds">--</span></span>
 					                    <span>報名日期: {{pn.ads}}<span ng-show="!pn.ads">--</span></span>
 					                    <span>截止日期: {{pn.eds}}<span ng-show="!pn.eds">--</span></span>
 					                    <div class="pull-right" style="margin:auto auto;">
 					                        <span style="margin-right:5px;" ng-show="pn.fom">申請表格: <a href="{{pn.fom}}" target="_blank"><i class="glyphicon glyphicon-download-alt"></i></a></span>
 					                    </div>
-					                </div>
+					                </div-->
 					            </div>
 					        </li>
 					    </ul>
@@ -53,12 +53,9 @@
             <div class="ads-factor-300x250">
                 <script adSize="300250" adSid="244781106677" ads-factor language='JavaScript' type="text/javascript"></script>
             </div>
-            <div>
-                <div data-ng-include data-src="'/assets/app/views/widgets/fb-likebox-widget.html'"></div>
-            </div>
             <div id="right-sidebar" ui-scrollfix="+{{rightSidebarTop}}">
                 <div>
-                    <div data-ng-include data-src="'/assets/app/views/utilities/bookmarked-pns-utility.html'"></div>
+                    <div data-ng-include data-src="'/assets/app/views/widgets/fb-likebox-widget.html'"></div>
                 </div>
             </div>
             <div class="ads-factor-1x1" ng-if="userInfo.isLoggedIn">
