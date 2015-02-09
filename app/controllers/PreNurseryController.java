@@ -7,15 +7,12 @@ import models.Location;
 import models.PreNursery;
 import models.TargetingSocialObject.TargetingType;
 import models.User;
-import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import viewmodel.CommunitiesWidgetChildVM;
 import viewmodel.PreNurseryVM;
-
-import javax.persistence.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +25,6 @@ import java.util.List;
  */
 public class PreNurseryController extends Controller {
     private static play.api.Logger logger = play.api.Logger.apply(PreNurseryController.class);
-
-    private static final String SCHOOL_YEAR = "2015";
 
     @Transactional
     public static Result getPNCommunities() {
@@ -48,10 +43,7 @@ public class PreNurseryController extends Controller {
     }
     
     @Transactional
-	public static Result getPNs(Long id) {
-        NanoSecondStopWatch sw = new NanoSecondStopWatch();
-        
-		final User localUser = Application.getLocalUser(session());
+	public static Result getPNsByCommunity(Long id) {
         final Community community = Community.findById(id);
         if (community == null || community.getTargetingType() != TargetingType.PRE_NURSERY) {
             return ok(Json.toJson(new ArrayList<PreNurseryVM>()));
@@ -63,91 +55,171 @@ public class PreNurseryController extends Controller {
             commRegion = LocationCache.getRegion(regionId);
         }
 
-        Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.regionId = ?1 order by pn.districtId, pn.name");
-        q.setParameter(1, commRegion.id);
-        List<PreNursery> pns = (List<PreNursery>)q.getResultList();
+        return getPNsByRegion(commRegion.id);
+	}
 
-        Long userDistrictId = null;
-        if (User.isLoggedIn(localUser) && localUser.userInfo != null && localUser.userInfo.location != null) {
-            userDistrictId = localUser.userInfo.location.id;
-        }
+    @Transactional
+	public static Result searchByName(String nameSubStr) {
+        final User localUser = Application.getLocalUser(session());
+        List<PreNursery> pns = PreNursery.searchByName(nameSubStr);
 
         final List<PreNurseryVM> pnVMs = new ArrayList<>();
         for (PreNursery pn : pns) {
-            boolean isMyDistrict = userDistrictId != null && userDistrictId.equals(pn.districtId);
+            pnVMs.add(new PreNurseryVM(pn, localUser));
+        }
+		return ok(Json.toJson(pnVMs));
+    }
 
-            String districtName = LocationCache.getDistrict(pn.districtId).getDisplayName();
-            PreNurseryVM vm = new PreNurseryVM(pn, localUser, isMyDistrict, districtName);
-            pnVMs.add(vm);
+    @Transactional
+	public static Result getPNsByRegion(Long regionId) {
+    	NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+		final User localUser = Application.getLocalUser(session());
+        List<PreNursery> pns = PreNursery.getPNsByRegion(regionId);
+
+        final List<PreNurseryVM> pnVMs = new ArrayList<>();
+        for (PreNursery pn : pns) {
+            pnVMs.add(new PreNurseryVM(pn, localUser));
         }
 
         sw.stop();
-        logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+id+"] getPNs. Took "+sw.getElapsedMS()+"ms");
+        logger.underlyingLogger().info("STS [u="+localUser.id+"][r="+regionId+"] getPNsByRegion. Took "+sw.getElapsedMS()+"ms");
 		return ok(Json.toJson(pnVMs));
-	}
-    
+    }
+
     @Transactional
 	public static Result getPNsByDistrict(Long districtId) {
     	NanoSecondStopWatch sw = new NanoSecondStopWatch();
         
 		final User localUser = Application.getLocalUser(session());
-        
-        Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.districtId = ?1 order by pn.name");
-        q.setParameter(1, districtId);
-        List<PreNursery> pns = (List<PreNursery>)q.getResultList();
+        List<PreNursery> pns = PreNursery.getPNsByDistrict(districtId);
 
         final List<PreNurseryVM> pnVMs = new ArrayList<>();
         for (PreNursery pn : pns) {
-            boolean isMyDistrict = false;	// TODO
-            String districtName = LocationCache.getDistrict(pn.districtId).getDisplayName();
-            PreNurseryVM vm = new PreNurseryVM(pn, localUser, isMyDistrict, districtName);
-            pnVMs.add(vm);
+            pnVMs.add(new PreNurseryVM(pn, localUser));
         }
 
         sw.stop();
-        logger.underlyingLogger().info("STS [u="+localUser.id+"][d="+districtId+"] getPNs. Took "+sw.getElapsedMS()+"ms");
+        logger.underlyingLogger().info("STS [u="+localUser.id+"][d="+districtId+"] getPNsByDistrict. Took "+sw.getElapsedMS()+"ms");
 		return ok(Json.toJson(pnVMs));
     }
     
     @Transactional
 	public static Result getTopViewsPNs(Long num) {
-    	
-    	return ok(Json.toJson(null));
+    	NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+		final User localUser = Application.getLocalUser(session());
+        List<PreNursery> pns = PreNursery.getTopViewsPNs(num);
+
+        final List<PreNurseryVM> pnVMs = new ArrayList<>();
+        for (PreNursery pn : pns) {
+            pnVMs.add(new PreNurseryVM(pn, localUser));
+        }
+
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] getTopViewsPNs. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(pnVMs));
     }
     
     @Transactional
 	public static Result getTopBookmarkedPNs(Long num) {
-    	
-    	return ok(Json.toJson(null));
+    	NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+		final User localUser = Application.getLocalUser(session());
+        List<PreNursery> pns = PreNursery.getTopBookmarkedPNs(num);
+
+        final List<PreNurseryVM> pnVMs = new ArrayList<>();
+        for (PreNursery pn : pns) {
+            pnVMs.add(new PreNurseryVM(pn, localUser));
+        }
+
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] getTopBookmarkedPNs. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(pnVMs));
     }
     
     @Transactional
 	public static Result getBookmarkedPNs() {
-    	
-    	return ok(Json.toJson(null));
+    	NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+		final User localUser = Application.getLocalUser(session());
+        List<PreNursery> pns = PreNursery.getBookmarkedPNs(localUser.getId());
+
+        final List<PreNurseryVM> pnVMs = new ArrayList<>();
+        for (PreNursery pn : pns) {
+            pnVMs.add(new PreNurseryVM(pn, localUser));
+        }
+
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] getBookmarkedPNs. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(pnVMs));
     }
     
     @Transactional
 	public static Result getFormReceivedPNs() {
-    	
-    	return ok(Json.toJson(null));
+    	NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+		final User localUser = Application.getLocalUser(session());
+        List<PreNursery> pns = PreNursery.getFormReceivedPNs(localUser.getId());
+
+        final List<PreNurseryVM> pnVMs = new ArrayList<>();
+        for (PreNursery pn : pns) {
+            pnVMs.add(new PreNurseryVM(pn, localUser));
+        }
+
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] getFormReceivedPNs. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(pnVMs));
     }
     
     @Transactional
 	public static Result getAppliedPNs() {
-    	
-    	return ok(Json.toJson(null));
+    	NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+		final User localUser = Application.getLocalUser(session());
+        List<PreNursery> pns = PreNursery.getAppliedPNs(localUser.getId());
+
+        final List<PreNurseryVM> pnVMs = new ArrayList<>();
+        for (PreNursery pn : pns) {
+            pnVMs.add(new PreNurseryVM(pn, localUser));
+        }
+
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] getAppliedPNs. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(pnVMs));
     }
     
     @Transactional
 	public static Result getInterviewedPNs() {
-    	
-    	return ok(Json.toJson(null));
+    	NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+		final User localUser = Application.getLocalUser(session());
+        List<PreNursery> pns = PreNursery.getInterviewedPNs(localUser.getId());
+
+        final List<PreNurseryVM> pnVMs = new ArrayList<>();
+        for (PreNursery pn : pns) {
+            pnVMs.add(new PreNurseryVM(pn, localUser));
+        }
+
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] getInterviewedPNs. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(pnVMs));
     }
     
     @Transactional
 	public static Result getOfferedPNs() {
-    	
-    	return ok(Json.toJson(null));
+    	NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+		final User localUser = Application.getLocalUser(session());
+        List<PreNursery> pns = PreNursery.getOfferedPNs(localUser.getId());
+
+        final List<PreNurseryVM> pnVMs = new ArrayList<>();
+        for (PreNursery pn : pns) {
+            pnVMs.add(new PreNurseryVM(pn, localUser));
+        }
+
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] getOfferedPNs. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(pnVMs));
     }
 }

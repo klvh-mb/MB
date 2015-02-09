@@ -16,7 +16,7 @@ public class SchoolSaved extends domain.Entity {
     private static final play.api.Logger logger = play.api.Logger.apply(SchoolSaved.class);
 
     public static enum Status {
-	    Watched, GotForm, Applied, Offered, WaitListed, Rejected
+	    Watched, GotForm, Applied, Interviewed, Offered, WaitListed, Rejected
 	}
 
     public static enum ClassSession {

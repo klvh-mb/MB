@@ -1,5 +1,6 @@
 package viewmodel;
 
+import common.cache.LocationCache;
 import common.utils.StringUtil;
 
 import models.ReviewComment;
@@ -48,10 +49,14 @@ public class PreNurseryVM {
     @JsonProperty("fom")  public String formUrl;
 
 
-    public PreNurseryVM(PreNursery pn, User user, boolean isMyDistrict, String districtName) {
+    public PreNurseryVM(PreNursery pn, User user) {
         this.id = pn.id;
-        this.isMyDistrict = isMyDistrict;
-        this.districtName = districtName;
+
+        this.isMyDistrict = false;
+        if (user.userInfo != null && user.userInfo.location != null) {
+            this.isMyDistrict = user.userInfo.location.id.equals(pn.districtId);
+        }
+        this.districtName = LocationCache.getDistrict(pn.districtId).getDisplayName();
         this.districtId = pn.districtId;
         this.name = pn.name;
         this.url = pn.url;
