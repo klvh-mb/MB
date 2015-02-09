@@ -187,7 +187,6 @@ minibean.service('qnaLandingService',function($resource){
     );
 });
 
-///////////////////////// Search Service Start //////////////////////////////////
 minibean.service('searchService',function($resource){
     this.userSearch = $resource(
             '/user-search?query=:q',
@@ -891,6 +890,65 @@ minibean.service('campaignService',function($resource){
     );
     this.campaignAnnouncedWinners = $resource(
             '/get-campaign-announced-winners/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+});
+
+minibean.service('schoolsService',function($resource){
+    this.pnsByDistrict = $resource(
+            '/get-pns-by-district/:district_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.topViewsPNs = $resource(
+            '/get-top-views-pns/:num',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.topBookmarkedPNs = $resource(
+            '/get-top-bookmarked-pns/:num',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.bookmarkedPNs = $resource(
+            '/get-bookmarked-pns',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.formReceivedPNs = $resource(
+            '/get-form-received-pns',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.appliedPNs = $resource(
+            '/get-applied-pns',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.interviewedPNs = $resource(
+            '/get-interviewed-pns',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.offeredPNs = $resource(
+            '/get-offered-pns',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get',isArray:true}

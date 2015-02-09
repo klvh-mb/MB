@@ -3219,6 +3219,22 @@ minibean.controller('ArticlePageController',function($scope, $routeParams, artic
     }
 });
 
+minibean.controller('ShowSchoolsController',function($scope, $routeParams, locationService, schoolsService, usSpinnerService) {
+
+    $scope.get_header_metaData();
+
+    $scope.selectNavBar('SCHOOLS', 1);
+    
+    $scope.selectedDistrictId = 5;
+    $scope.districts = locationService.getAllDistricts.get();
+    
+    $scope.selectedDistrictId = $routeParams.districtId;
+    if ($scope.selectedDistrictId == undefined) {
+    	$scope.selectedDistrictId = 5;
+    }
+    $scope.pns = schoolsService.pnsByDistrict.get({district_id:$scope.selectedDistrictId});
+});
+
 minibean.controller('ShowArticlesController',function($scope, $routeParams, articleFactory, articleService, tagwordService, showImageService, usSpinnerService) {
 
     $scope.get_header_metaData();
