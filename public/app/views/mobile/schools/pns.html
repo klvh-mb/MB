@@ -1,0 +1,56 @@
+<header>
+    <div data-ng-include style="width:100%;" data-src="'/assets/app/views/mobile/header-bar.html'"></div>
+    <!--div data-ng-include data-src="'/assets/app/views/mobile/nav-bar.html'"></div-->
+</header>
+
+<div class="themeA-container">
+    <div class="row">
+        <div data-ng-include data-src="'/assets/app/views/widgets/schools-pn-districts-index-widget.html'"></div>
+        <div id="wall">
+            <div data-ng-include data-src="'/assets/app/views/widgets/schools-pn-ranking-index-widget.html'"></div>
+            <div class="general-box school-list-title">
+                <span>{{pns[0].dis}}</span> 有 <span>{{pns.length}}</span> 間幼稚園提供2-3歲幼兒服務 (PN 幼兒班)
+            </div>
+            <div class="general-box school-list">
+                <div class=" school-list-entry" ng-repeat="pn in pns | objFilter:pnFilter">
+				    <ul class="pn-wrapper">
+				        <li>
+				            <div class="pn-info">
+				                <a ng-href="{{pn.url}}" target="_blank">
+				                    {{pn.n}}
+				                </a>
+				                <!--span class="tag" ng-style="{backgroundColor: pn.tagc}">{{pn.dis}}</span-->
+				                <a class="schools-map" ng-show="pn.map != null" href="{{pn.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i>地圖</a>
+				
+				                <div class="pn-info-note"><span ng-show="pn.adr">{{pn.adr}}</span></div>
+				                <div class="pn-info-note"><span ng-show="pn.pho">電話: {{pn.pho}}</span><span ng-show="pn.em"> · 電郵: {{pn.em}}</span></div>
+				                <!--div class="pn-info-attr">
+				                    <span>派表日期: {{pn.fds}}<span ng-show="!pn.fds">--</span></span>
+				                    <span>報名日期: {{pn.ads}}<span ng-show="!pn.ads">--</span></span>
+				                    <span>截止日期: {{pn.eds}}<span ng-show="!pn.eds">--</span></span>
+				                    <div class="pull-right" style="margin:auto auto;">
+				                        <span style="margin-right:5px;" ng-show="pn.fom">申請表格: <a href="{{pn.fom}}" target="_blank"><i class="glyphicon glyphicon-download-alt"></i></a></span>
+				                    </div>
+				                </div-->
+				            </div>
+				        </li>
+				    </ul>
+				</div>
+			</div>
+        </div>
+        <div ng-show="!userInfo.isLoggedIn">
+            <div data-ng-include data-src="'/assets/app/views/widgets/prompt-signup-widget.html'"></div>
+        </div>
+        <div class="ads-factor-728x90">
+            <script adSize="72890" adSid="477069296823" ads-factor language='JavaScript' type="text/javascript"></script>
+        </div>
+    </div>
+</div>
+
+<div id="back-to-top" style="z-index:1000">
+    <a data-ng-click="gotoTop()"><span class="icon-title-arrow-up"></span></a>
+</div>
+
+<script>
+    ga_send_pv();
+</script>

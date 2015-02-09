@@ -973,3 +973,8 @@ span.notif-count {
 .rsMinW .rsBullets div {
     border-radius: 0;
 }
+
+/* schools */
+.schools-district-index li {
+	width: 22%;
+}

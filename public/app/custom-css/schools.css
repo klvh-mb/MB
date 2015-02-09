@@ -37,9 +37,14 @@
 }
 .school-list-title span {
 	color: green;
+	font-size: 17px;
 	font-weight: bold;
 }
-.school-list-entry {
-    border: solid 1px #7999F9;
+.school-list {
+    border: solid 1px #B8C9FD;
     box-shadow: none;
+}
+.school-list-entry {
+    border-bottom: solid 1px #B8C9FD;
+    padding: 10px 10px 0px 10px;
 }
