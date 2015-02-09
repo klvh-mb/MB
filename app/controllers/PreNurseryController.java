@@ -85,4 +85,69 @@ public class PreNurseryController extends Controller {
         logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+id+"] getPNs. Took "+sw.getElapsedMS()+"ms");
 		return ok(Json.toJson(pnVMs));
 	}
+    
+    @Transactional
+	public static Result getPNsByDistrict(Long districtId) {
+    	NanoSecondStopWatch sw = new NanoSecondStopWatch();
+        
+		final User localUser = Application.getLocalUser(session());
+        
+        Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.districtId = ?1 order by pn.name");
+        q.setParameter(1, districtId);
+        List<PreNursery> pns = (List<PreNursery>)q.getResultList();
+
+        final List<PreNurseryVM> pnVMs = new ArrayList<>();
+        for (PreNursery pn : pns) {
+            boolean isMyDistrict = false;	// TODO
+            String districtName = LocationCache.getDistrict(pn.districtId).getDisplayName();
+            PreNurseryVM vm = new PreNurseryVM(pn, localUser, isMyDistrict, districtName);
+            pnVMs.add(vm);
+        }
+
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"][d="+districtId+"] getPNs. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(pnVMs));
+    }
+    
+    @Transactional
+	public static Result getTopViewsPNs(Long num) {
+    	
+    	return ok(Json.toJson(null));
+    }
+    
+    @Transactional
+	public static Result getTopBookmarkedPNs(Long num) {
+    	
+    	return ok(Json.toJson(null));
+    }
+    
+    @Transactional
+	public static Result getBookmarkedPNs() {
+    	
+    	return ok(Json.toJson(null));
+    }
+    
+    @Transactional
+	public static Result getFormReceivedPNs() {
+    	
+    	return ok(Json.toJson(null));
+    }
+    
+    @Transactional
+	public static Result getAppliedPNs() {
+    	
+    	return ok(Json.toJson(null));
+    }
+    
+    @Transactional
+	public static Result getInterviewedPNs() {
+    	
+    	return ok(Json.toJson(null));
+    }
+    
+    @Transactional
+	public static Result getOfferedPNs() {
+    	
+    	return ok(Json.toJson(null));
+    }
 }

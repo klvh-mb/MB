@@ -1,0 +1,45 @@
+.schools-index-box {
+    border-color: #57A857;
+    box-shadow: 0px 1px 3px rgba(124, 158, 131, 0.5);
+}
+.schools-district-index {
+	margin: 0;
+}
+.schools-district-index li.index-title {
+    width: 100%;
+    margin: 0;
+    border-bottom: 2px solid #57A857;
+    padding: 5px 10px;
+}
+.schools-district-index li {
+    width: 15%;
+    margin: 5px 0 5px 5px;
+    display: inline-block;
+}
+.schools-district-index li a {
+	padding: 3px 5px;
+}
+.schools-district-index li.selected-item a {
+	background-color: #57A857;
+	color: white;
+	border-radius: 15px;
+	font-weight: bold;
+}
+.schools-map, .schools-map:hover {
+	color: #5F1B1B;
+    text-decoration: none;
+}
+.school-list-title {
+	padding: 10px 10px;
+    font-size: 16px;
+    border: solid 1px #57A857;
+    box-shadow: none;
+}
+.school-list-title span {
+	color: green;
+	font-weight: bold;
+}
+.school-list-entry {
+    border: solid 1px #7999F9;
+    box-shadow: none;
+}

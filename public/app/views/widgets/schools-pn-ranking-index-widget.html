@@ -1,0 +1,72 @@
+<div id="tagword-list" class="featured-box" ng-if="!collapsible">
+    <div class="featured-box-header">
+        最多人關注
+    </div>
+    <ul>
+        <li class="tagword-odd">
+            <a ng-href="schools#!/pn/top-view/10">
+                Top 10 最多閱覽次數
+                <!--span class="tagword-stats pull-right">
+                    <img data-ng-src="/assets/app/images/general/icons/view.png"/>{{tagword.noc}}
+                </span-->
+            </a>
+        </li>
+        <li class="tagword-odd">
+            <a ng-href="schools#!/pn/top-view/30">
+                Top 30 最多閱覽次數
+                <!--span class="tagword-stats pull-right">
+                    <img data-ng-src="/assets/app/images/general/icons/view.png"/>{{tagword.noc}}
+                </span-->
+            </a>
+        </li>
+        <li class="tagword-odd">
+            <a ng-href="schools#!/pn/top-bookmarked/10">
+                Top 10 最多媽媽收藏
+                <!--span class="tagword-stats pull-right">
+                    <img data-ng-src="/assets/app/images/general/icons/message_favorited.png"/>{{tagword.noc}}
+                </span-->
+            </a>
+        </li>
+        <li class="tagword-odd">
+            <a ng-href="schools#!/pn/top-bookmarked/30">
+                Top 30 最多媽媽收藏
+                <!--span class="tagword-stats pull-right">
+                    <img data-ng-src="/assets/app/images/general/icons/message_favorited.png"/>{{tagword.noc}}
+                </span-->
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div id="tagword-list" class="featured-box" ng-if="collapsible">
+    <div class="featured-box-header">
+        <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
+            最多人關注
+        </a>
+    </div>
+    <div>
+        <ul style="padding-bottom:30px;margin-bottom:0;">
+            <li class="tagword-odd">
+	            <a ng-href="schools#!/pn/top-view/10">
+	                Top 10 最多閱覽次數
+	            </a>
+	        </li>
+	        <li class="tagword-odd">
+	            <a ng-href="schools#!/pn/top-view/30">
+	                Top 30 最多閱覽次數
+	            </a>
+	        </li>
+	        <li class="tagword-odd">
+	            <a ng-href="schools#!/pn/top-bookmarked/10">
+	                Top 10 最多媽媽收藏
+	            </a>
+	        </li>
+	        <li class="tagword-odd">
+	            <a ng-href="schools#!/pn/top-bookmarked/30">
+	                Top 30 最多媽媽收藏
+	            </a>
+	        </li>
+        </ul>
+    </div>
+</div>
+

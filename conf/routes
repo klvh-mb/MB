@@ -42,19 +42,21 @@ GET     /get-promo-pns/:id          controllers.promo.PromoPNController.getPNs(i
 
 # Mobile
 GET     /m-frontpage                controllers.Application.mobileFrontpage
+GET     /m-my                       controllers.Application.mobileHome
 GET     /m-articles                 controllers.Application.mobileArticles
 GET     /m-knowledge                controllers.Application.mobileKnowledge
-GET     /m-magazine                 controllers.Application.mobileMagazine
-GET     /m-my                       controllers.Application.mobileHome
+GET     /m-schools                  controllers.Application.mobileSchools
+#GET    /m-magazine                 controllers.Application.mobileMagazine
 GET     /m-login                    controllers.Application.mobileLogin
 
 # Main
 GET     /                           controllers.Application.index
 GET     /frontpage                  controllers.Application.mainFrontpage
+GET     /my                         controllers.Application.mainHome
 GET     /articles                   controllers.Application.mainArticles
 GET     /knowledge                  controllers.Application.mainKnowledge
-GET     /magazine                   controllers.Application.mainMagazine
-GET     /my                         controllers.Application.mainHome
+GET     /schools                    controllers.Application.mainSchools
+#GET    /magazine                   controllers.Application.mainMagazine
 GET     /login                      controllers.Application.login
 
 # Home
@@ -276,6 +278,14 @@ GET     /get-game-topics                        controllers.FrontPageController.
 # PreNursery
 GET     /get-pn-communities                     controllers.PreNurseryController.getPNCommunities()
 GET     /getPNs/:id                             controllers.PreNurseryController.getPNs(id:Long)
+GET     /get-pns-by-district/:district_id       controllers.PreNurseryController.getPNsByDistrict(district_id:Long)
+GET     /get-top-views-pns/:num                 controllers.PreNurseryController.getTopViewsPNs(num:Long)
+GET     /get-top-bookmarked-pns/:num            controllers.PreNurseryController.getTopBookmarkedPNs(num:Long)
+GET     /get-bookmarked-pns                     controllers.PreNurseryController.getBookmarkedPNs()
+GET     /get-form-received-pns                  controllers.PreNurseryController.getFormReceivedPNs()
+GET     /get-applied-pns                        controllers.PreNurseryController.getAppliedPNs()
+GET     /get-interviewed-pns                    controllers.PreNurseryController.getInterviewedPNs()
+GET     /get-offered-pns                        controllers.PreNurseryController.getOfferedPNs()
 
 # Edm settings
 POST    /save-edm-settings                      controllers.UserSettingsController.saveEdmSettings

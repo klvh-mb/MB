@@ -132,6 +132,19 @@ public class Application extends Controller {
     }
     
     @Transactional
+    public static Result mainSchools() {
+        UserAgentUtil userAgentUtil = new UserAgentUtil(request());
+        boolean isMobile = userAgentUtil.isMobileUserAgent();
+        
+        Application.setMobileUser(isMobile? "true":"false");
+        
+        if (isMobile) {
+            return ok(views.html.mb.mobile.schools.render());
+        }
+        return ok(views.html.mb.site.schools.render());
+    }
+    
+    @Transactional
     public static Result mainMagazine() {
     	return mainFrontpage();
     	/*
@@ -168,6 +181,12 @@ public class Application extends Controller {
     public static Result mobileKnowledge() {
         setMobileUser();    // manually set mobile to true
         return ok(views.html.mb.mobile.knowledge.render());
+    }
+    
+    @Transactional
+    public static Result mobileSchools() {
+        setMobileUser();    // manually set mobile to true
+        return ok(views.html.mb.mobile.schools.render());
     }
     
     @Transactional
