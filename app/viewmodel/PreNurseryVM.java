@@ -35,6 +35,11 @@ public class PreNurseryVM {
     @JsonProperty("adr")  public String address;
     @JsonProperty("map")  public String mapUrl;
 
+    @JsonProperty("cp")  public boolean couponSupport;
+    @JsonProperty("ct")  public String classTimes;
+    @JsonProperty("ms")  public boolean maleStudents;
+    @JsonProperty("fs")  public boolean femaleStudents;
+    
     @JsonProperty("n_c") public int noOfComments;
     @JsonProperty("cs") public List<ReviewCommentVM> reviews;
 	@JsonProperty("nol") public int noOfLikes;
@@ -68,6 +73,9 @@ public class PreNurseryVM {
             this.mapUrl = MAPURL_PREFIX + pn.mapUrlSuffix;
         }
 
+        this.couponSupport = pn.couponSupport;
+        this.classTimes = pn.classTimes;
+        
         this.noOfComments = pn.noOfComments;
         this.noOfLikes = pn.noOfLikes;
         this.noOfViews = pn.noOfViews;
