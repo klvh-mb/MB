@@ -43,8 +43,8 @@ public class PreNurseryController extends Controller {
     }
     
     @Transactional
-	public static Result getPNsByCommunity(Long id) {
-        final Community community = Community.findById(id);
+	public static Result getPNsByCommunity(Long communityId) {
+        final Community community = Community.findById(communityId);
         if (community == null || community.getTargetingType() != TargetingType.PRE_NURSERY) {
             return ok(Json.toJson(new ArrayList<PreNurseryVM>()));
         }

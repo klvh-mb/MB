@@ -350,10 +350,10 @@ minibean.service('pnService',function($resource){
             }
     );
     this.PNs = $resource(
-            '/getPNs/:id',
+            '/get-pns-by-community/:community_id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'GET', params:{id:'@id'},isArray:true}
+                get: {method:'GET', params:{community_id:'@community_id'},isArray:true}
             }
     );
 });

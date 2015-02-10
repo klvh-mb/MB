@@ -1292,14 +1292,14 @@ minibean.controller('CommunityPNController',function($scope, $routeParams, $http
     
     var curDistrict = '';
     var tagColorIndex = -1;
-	$scope.pns = pnService.PNs.get({id:$routeParams.id}, 
+	$scope.pns = pnService.PNs.get({community_id:$routeParams.id}, 
 	       function(data) {
                 angular.forEach($scope.pns, function(request, key){
                     if (curDistrict == '' || curDistrict != request.dis) {
                         curDistrict = request.dis;
                         tagColorIndex++;
                         $scope.allDistricts.push(curDistrict);
-                        //log(curDistrict + ":" + DefaultValues.tagColors[tagColorIndex]);
+                        log(curDistrict + ":" + DefaultValues.tagColors[tagColorIndex]);
                     }
                     request.tagc = DefaultValues.tagColors[tagColorIndex];
                     if (request.myd) {
@@ -3219,7 +3219,7 @@ minibean.controller('ArticlePageController',function($scope, $routeParams, artic
     }
 });
 
-minibean.controller('ShowSchoolsController',function($scope, $routeParams, locationService, schoolsService, usSpinnerService) {
+minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filter, locationService, schoolsService, usSpinnerService) {
 
     $scope.get_header_metaData();
 
@@ -3233,6 +3233,36 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, locat
     	$scope.selectedDistrictId = 5;
     }
     $scope.pns = schoolsService.pnsByDistrict.get({district_id:$scope.selectedDistrictId});
+    $scope.filteredPNs = $scope.pns;
+    
+    // remember all filters user set
+    $scope.couponFilter = {'cp':'all'};
+    $scope.classtimesFilter = {'ct':'all'};
+    $scope.genderFilter = {'gen':'all'};
+    $scope.setFilter = function(key, value) {
+    	if (key == 'cp') {
+    		$scope.couponFilter = {'cp':value};
+    	} else if (key == 'ct') {
+    		$scope.classtimesFilter = {'ct':value};
+    	} else if (key == 'gen') {
+    		$scope.genderFilter = {'gen':value};
+    	}
+    }
+    $scope.applySchoolFilter = function(key, value) {
+    	$scope.setFilter(key, value);
+    	
+    	// filter one by one
+    	$scope.filteredPNs = $scope.pns;
+    	if ($scope.couponFilter.cp != 'all') {
+    		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.couponFilter);
+    	}
+    	if ($scope.classtimesFilter.ct != 'all') {
+    		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.classtimesFilter);
+    	}
+    	if ($scope.genderFilter.gen != 'all') {
+    		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.genderFilter);
+    	}
+	}
 });
 
 minibean.controller('ShowArticlesController',function($scope, $routeParams, articleFactory, articleService, tagwordService, showImageService, usSpinnerService) {

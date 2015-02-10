@@ -68,9 +68,10 @@ minibean.filter('objFilter', function() {
             return items;
         }
         var result = [];
-        angular.forEach( filter, function(filterVal, filterKey) {
+        angular.forEach(filter, function(filterVal, filterKey) {
             angular.forEach(items, function(item, key) {
-                var fieldVal = item[filterKey];
+                var fieldVal = item[filterKey] + "";    // convert boolean to string in case
+                //console.log("item value:"+fieldVal.toLowerCase()+"   filter value:"+filterVal.toLowerCase());
                 if (fieldVal && fieldVal.toLowerCase().indexOf(filterVal.toLowerCase()) > -1){
                     result.push(item);
                 }

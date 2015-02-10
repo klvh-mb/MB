@@ -978,3 +978,8 @@ span.notif-count {
 .schools-district-index li {
 	width: 22%;
 }
+.school-list-entry .attr-coupon,
+.school-list-entry .attr-gender,
+.school-list-entry .attr-classtimes {
+    display: block;
+}

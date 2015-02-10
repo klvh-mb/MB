@@ -18,6 +18,7 @@
 }
 .schools-district-index li a {
 	padding: 3px 5px;
+	color: #333;
 }
 .schools-district-index li.selected-item a {
 	background-color: #57A857;
@@ -34,11 +35,13 @@
     font-size: 16px;
     border: solid 1px #57A857;
     box-shadow: none;
+    overflow: visible;
 }
-.school-list-title span {
+.school-list-title p {
 	color: green;
 	font-size: 17px;
 	font-weight: bold;
+	display: inline-block;
 }
 .school-list {
     border: solid 1px #B8C9FD;
@@ -48,19 +51,88 @@
     border-bottom: solid 1px #B8C9FD;
     padding: 10px 10px 0px 10px;
 }
-.school-list-entry .pn-info-attr {
+.school-list-entry .pn-wrapper .pn-info .pn-info-attr {
 	padding: 2px 5px;
 	background-color: #FEFFF0;
 	border: 1px solid #D1D897;
-	margin: 5px 100px 5px 5px;
+	margin: 5px 20px 5px 5px;
 	border-radius: 5px;
 	line-height: 1.8;
 }
+.school-list-entry .attr-coupon,
+.school-list-entry .attr-gender,
+.school-list-entry .attr-classtimes {
+    display: inline-block;
+}
 .school-list-entry .attr-coupon span,
-.school-list-entry .attr-sex span,
+.school-list-entry .attr-gender span,
 .school-list-entry .attr-classtimes span {
     margin-left: 3px;
     margin-right: 10px;
     color: #5F1B1B;
 }
+
+
+.school-list-filters {
+	margin-top: 10px;
+    font-size: 14px;
+}
+.school-list-filters span {
+	display: inline-block;
+	margin-bottom: 3px;
+}
+.school-list-filters .btn-group {
+	margin-right: 15px;
+}
+.schools-filter-dropdown-btn, 
+.btn-group.open .btn-primary.dropdown-toggle, .btn-primary.disabled, .btn-primary[disabled], .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
+	border: #bcbcbc solid thin;
+	border-bottom-left-radius: 3px;
+	border-top-left-radius: 3px;
+	color: black;
+	font-size: 12px;
+	display: inline-block;
+	margin: 0;
+	background: rgb(255,255,255);
+	background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(47%,rgba(246,246,246,1)), color-stop(100%,rgba(237,237,237,1)));
+	background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+	background: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+	background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+	background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+}
+.schools-filter-dropdown {
+	width: 80px;
+	min-width: 80px;
+	font-size: 12px;
+	left: 0px;
+    top: 23px;
+}
+.schools-filter-dropdown > li > label {
+    padding: 0;	
+}
+#schools-gender-filter-dropdown-btn,
+#schools-coupon-filter-dropdown-btn,
+#schools-classtimes-filter-dropdown-btn {
+	
+}
+#schools-coupon-filter-dropdown {
+	
+}
+#schools-classtimes-filter-dropdown {
+	
+}
+#schools-gender-filter-dropdown {
+
+}
+
+
+
+
+
+
+
+
+
 
