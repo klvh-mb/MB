@@ -35,14 +35,18 @@ public class PreNurseryVM {
     @JsonProperty("adr")  public String address;
     @JsonProperty("map")  public String mapUrl;
 
+    @JsonProperty("org")  public String organization;
+    @JsonProperty("orgt") public String organizationType;
     @JsonProperty("cp")  public boolean couponSupport;
     @JsonProperty("ct")  public String classTimes;
+    @JsonProperty("cur")  public String curriculum;
     @JsonProperty("gen")  public String studentsGender;
     
     @JsonProperty("n_c") public int noOfComments;
-    @JsonProperty("cs") public List<ReviewCommentVM> reviews;
+    @JsonProperty("cs")  public List<ReviewCommentVM> reviews;
 	@JsonProperty("nol") public int noOfLikes;
     @JsonProperty("nov") public int noOfViews;
+    @JsonProperty("nob") public int noOfBookmarks;
 
     @JsonProperty("isLike") public boolean isLike = false;
 
@@ -72,13 +76,17 @@ public class PreNurseryVM {
             this.mapUrl = MAPURL_PREFIX + pn.mapUrlSuffix;
         }
 
+        this.organization = pn.organization;
+        this.organizationType = pn.organizationType;
         this.couponSupport = pn.couponSupport;
         this.classTimes = pn.classTimes;
         this.studentsGender = "M";
+        this.curriculum = pn.curriculum;
         
         this.noOfComments = pn.noOfComments;
         this.noOfLikes = pn.noOfLikes;
         this.noOfViews = pn.noOfViews;
+        this.noOfBookmarks = pn.noOfBookmarks;
 
         List<ReviewCommentVM> commentsToShow = new ArrayList<>();
         List<ReviewComment> reviewComments = pn.getReviewComments();

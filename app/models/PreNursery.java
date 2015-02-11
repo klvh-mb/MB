@@ -34,8 +34,11 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
     public String address;
     public String mapUrlSuffix;
 
+    public String organization;
+    public String organizationType;
     public boolean couponSupport = false;
     public String classTimes;       // comma separated (AM,PM,WD)
+    public String curriculum;
 
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     public Set<ReviewComment> reviews;
