@@ -45,6 +45,7 @@
     width: 100%;
     padding: 0;
     margin: 0;
+    z-index: 10;
 }
 #schools-search-box .dropdown-menu li {
 	padding: 0;

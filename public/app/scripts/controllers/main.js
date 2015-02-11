@@ -3243,12 +3243,17 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
 		$scope.searchPNsResults = [];
     }
     $scope.searchPNsByName = function(schoolQuery) {
-		if(schoolQuery != undefined && $scope.searchTerm != schoolQuery) {
-			$scope.searchPNsResults = schoolsService.searchPNsByName.get({query:schoolQuery});
+		if(schoolQuery != undefined && schoolQuery.length > 0 && $scope.searchTerm != schoolQuery) {
+			$scope.searching = true;
+			$scope.searchPNsResults = schoolsService.searchPNsByName.get({query:schoolQuery},
+				function(data) {
+					$scope.searching = false;
+				}
+			);
 			$scope.searchTerm = schoolQuery;
 		}
 		if (schoolQuery == null || schoolQuery.length == 0) {
-			resetSearch();
+			$scope.resetSearch();
 		}
 	}
     
