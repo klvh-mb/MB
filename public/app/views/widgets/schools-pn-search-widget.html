@@ -2,18 +2,12 @@
 	<div id="schools-search-box" name="schools-search-box">
 	    <a id="schools-search-wrapper" class="ng-pristine ng-valid">
 	        <div class="input-group innerB schools-search">
-	            <input type="text" name="schools-searchfield" id="schools-searchfield" class="form-control" ng-model="schoolQuery" data-ng-change="searchPNsByName(schoolQuery)" placeholder="搜尋學校名稱">
+	            <input type="text" name="schools-searchfield" id="schools-searchfield" class="form-control" ng-model="schoolQuery" data-ng-change="searchPNsByName(schoolQuery)" placeholder="搜尋學校名稱 (所有區)">
 	            <div class="input-group-btn">
-	                <button id="submit-search" name="submit-search" class="btn btn-default" type="submit" ng-click="schoolQuery = '';resetSearch()">
-	                    <i class="fa fa-search" ng-show="schoolQuery == null || schoolQuery.length == 0"></i>
-	                    <i class="glyphicon glyphicon-remove" ng-show="schoolQuery.length > 0"></i>
+	                <button id="submit-search" name="submit-search" class="btn btn-default" type="submit">
+	                    <i class="fa fa-search"></i>
 	                </button>
 	            </div>
-	            <!--div class="input-group-btn">
-	               <button id="submit-search" name="submit-search" class="btn btn-default" type="submit">
-	                   <i class="fa fa-search"></i>
-	               </button>
-	            </div-->
             </div>
         </a>
         <ul class="dropdown-menu hide" ng-class="{show : schoolQuery.length > 0}">
@@ -23,6 +17,9 @@
             <div ng-if="!searching">
 	            <div class="school-list-title">
 	                搜尋「<p>{{searchTerm}}</p>」 有 <p>{{searchPNsResults.length}}</p> 個結果
+                    <button id="dismiss-search" name="dismiss-search" class="btn btn-warning pull-right" type="reset" ng-click="resetSearch()">
+                        <i class="glyphicon glyphicon-remove"></i> <b>完成搜尋</b>
+                    </button>
 	            </div>
 	            <li ng-if="searchPNsResults.length > 100">
 	                <div class="school-list-entry">

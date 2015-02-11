@@ -7,7 +7,7 @@
 	
 }
 .schools-search input {
-	border-color: #C8C8DA;
+	border-color: #7BC77E;
 	border-radius: 25px;
 	padding-left: 3%;
 	height: 40px;
@@ -23,7 +23,7 @@
 .schools-search button, .schools-search submit {
 	color: #333;
 	background-color: white;
-	border-color: #ccc;
+	border-color: #7BC77E;
 	padding: 4px 12px;
 	border-radius: 25px;
 	height: 40px !important;
@@ -54,6 +54,10 @@
 #schools-search-box .dropdown-menu li a {
 	padding: 0;
     margin: 0;
+}
+#dismiss-search {
+	top: -3px;
+    position: relative;
 }
 
 
@@ -114,7 +118,7 @@
 .school-list-entry .pn-info a:first-child {
 	color: #324fe1;
 	font-weight: bold;
-	font-size: 16px;
+	font-size: 18px;
 	margin-right: 5px;
 	line-height: 1.8;
 }

@@ -3241,6 +3241,8 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     $scope.resetSearch = function() {
     	$scope.searchTerm = '';
 		$scope.searchPNsResults = [];
+		$("#schools-searchfield").val('');
+        $("#schools-searchfield").trigger('input');
     }
     $scope.searchPNsByName = function(schoolQuery) {
 		if(schoolQuery != undefined && schoolQuery.length > 0 && $scope.searchTerm != schoolQuery) {
@@ -3274,6 +3276,7 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     	$scope.setFilter(key, value);
     	
     	// filter one by one
+    	$scope.filtering = true;
     	$scope.filteredPNs = $scope.pns;
     	if ($scope.couponFilter.cp != 'all') {
     		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.couponFilter);
@@ -3284,6 +3287,7 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     	if ($scope.privateFilter.p != 'all') {
     		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.privateFilter);
     	}
+    	$scope.filtering = false;
 	}
 });
 

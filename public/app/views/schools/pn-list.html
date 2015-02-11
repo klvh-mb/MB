@@ -20,7 +20,7 @@
 			    </ul>
 		    </div>
 	    </span>
-        <span>
+        <!--span>
             學校類別: 
             <div class="btn-group">
                 <button data-toggle="dropdown" id="schools-private-filter-dropdow-btn" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
@@ -38,7 +38,7 @@
                     </li>
                 </ul>
             </div>
-        </span>
+        </span-->
 	    <span>
 	        學班時間: 
 	        <div class="btn-group">
@@ -65,6 +65,9 @@
     </div>
 </div>
 <div class="general-box school-list">
+    <div ng-if="filtering">
+        <img class="comment-spinner" src="/assets/app/images/general/animated/green-spinner.gif">
+    </div>
     <ul>
         <li ng-if="filteredPNs.length == 0">
             <div class="school-list-entry" style="font-size:16px;padding-bottom:10px;">沒有符合條件的幼兒班。請重新查看選項</div>
@@ -85,10 +88,10 @@
 	                        <span ng-show="pn.cp">✓</span>
 	                        <span ng-show="!pn.cp">--</span>
 	                    </span>
-	                    <span class="attr-private">學校類別: 
+	                    <!--span class="attr-private">學校類別: 
                             <span ng-show="pn.p">私立</span>
                             <span ng-show="!pn.p">非牟利</span>
-                        </span>
+                        </span-->
 	                    <span class="attr-classtimes">學班時間: 
                             <span ng-show="pn.ct == 'AM'">上午</span>
                             <span ng-show="pn.ct == 'PM'">下午</span>
