@@ -38,11 +38,11 @@ public class PreNurseryVM {
 
     @JsonProperty("cp")  public boolean couponSupport;
     @JsonProperty("ct")  public String classTimes;
-    @JsonProperty("gen")  public String studentsGender;
+    @JsonProperty("p")   public boolean privateSchool;
     
     @JsonProperty("n_c") public int noOfComments;
     @JsonProperty("cs") public List<ReviewCommentVM> reviews;
-	@JsonProperty("nol") public int noOfLikes;
+    @JsonProperty("nol") public int noOfLikes;
     @JsonProperty("nov") public int noOfViews;
 
     @JsonProperty("isLike") public boolean isLike = false;
@@ -78,7 +78,7 @@ public class PreNurseryVM {
 
         this.couponSupport = pn.couponSupport;
         this.classTimes = pn.classTimes;
-        this.studentsGender = "M";
+        this.privateSchool = true;
         
         this.noOfComments = pn.noOfComments;
         this.noOfLikes = pn.noOfLikes;

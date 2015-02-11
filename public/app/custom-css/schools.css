@@ -1,7 +1,7 @@
 #schools-search-box {
 	position: relative;
 	background-color: transparent;
-	margin-bottom: 5px;
+	margin: 5px 0;
 }
 #schools-search-wrapper {
 	
@@ -42,7 +42,7 @@
     left: 0px;
     overflow-y: scroll;
     max-height: 380px;
-    width: 90%;
+    width: 100%;
     padding: 0;
     margin: 0;
 }
@@ -126,12 +126,12 @@
 	line-height: 1.8;
 }
 .school-list-entry .attr-coupon,
-.school-list-entry .attr-gender,
+.school-list-entry .attr-private,
 .school-list-entry .attr-classtimes {
     display: inline-block;
 }
 .school-list-entry .attr-coupon span,
-.school-list-entry .attr-gender span,
+.school-list-entry .attr-private span,
 .school-list-entry .attr-classtimes span {
     margin-left: 3px;
     margin-right: 10px;
@@ -178,7 +178,7 @@
 .schools-filter-dropdown > li > label {
     padding: 0;	
 }
-#schools-gender-filter-dropdown-btn,
+#schools-private-filter-dropdown-btn,
 #schools-coupon-filter-dropdown-btn,
 #schools-classtimes-filter-dropdown-btn {
 	
@@ -189,7 +189,7 @@
 #schools-classtimes-filter-dropdown {
 	
 }
-#schools-gender-filter-dropdown {
+#schools-private-filter-dropdown {
 
 }
 

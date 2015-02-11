@@ -3237,24 +3237,32 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     
     // search by name
     $scope.searchTerm = '';
+    $scope.searchPNsResults = [];
+    $scope.resetSearch = function() {
+    	$scope.searchTerm = '';
+		$scope.searchPNsResults = [];
+    }
     $scope.searchPNsByName = function(schoolQuery) {
-		if(schoolQuery != undefined && $scope.searchTerm != schoolQuery && schoolQuery.length > 1) {
+		if(schoolQuery != undefined && $scope.searchTerm != schoolQuery) {
 			$scope.searchPNsResults = schoolsService.searchPNsByName.get({query:schoolQuery});
 			$scope.searchTerm = schoolQuery;
+		}
+		if (schoolQuery == null || schoolQuery.length == 0) {
+			resetSearch();
 		}
 	}
     
     // remember all filters user set
     $scope.couponFilter = {'cp':'all'};
     $scope.classtimesFilter = {'ct':'all'};
-    $scope.genderFilter = {'gen':'all'};
+    $scope.privateFilter = {'p':'all'};
     $scope.setFilter = function(key, value) {
     	if (key == 'cp') {
     		$scope.couponFilter = {'cp':value};
     	} else if (key == 'ct') {
     		$scope.classtimesFilter = {'ct':value};
-    	} else if (key == 'gen') {
-    		$scope.genderFilter = {'gen':value};
+    	} else if (key == 'p') {
+    		$scope.privateFilter = {'p':value};
     	}
     }
     $scope.applySchoolFilter = function(key, value) {
@@ -3268,8 +3276,8 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     	if ($scope.classtimesFilter.ct != 'all') {
     		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.classtimesFilter);
     	}
-    	if ($scope.genderFilter.gen != 'all') {
-    		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.genderFilter);
+    	if ($scope.privateFilter.p != 'all') {
+    		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.privateFilter);
     	}
 	}
 });
