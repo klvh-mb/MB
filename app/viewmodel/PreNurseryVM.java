@@ -41,7 +41,6 @@ public class PreNurseryVM {
     @JsonProperty("cp")  public boolean couponSupport;
     @JsonProperty("ct")  public String classTimes;
     @JsonProperty("cur")  public String curriculum;
-    @JsonProperty("p")   public boolean privateSchool;     // TODO
     
     @JsonProperty("n_c") public int noOfComments;
     @JsonProperty("cs") public List<ReviewCommentVM> reviews;
@@ -79,7 +78,6 @@ public class PreNurseryVM {
         this.couponSupport = pn.couponSupport;
         this.classTimes = pn.classTimes;
         this.curriculum = pn.curriculum;
-        this.privateSchool = true;      // TODO: remove
 
         this.noOfComments = pn.noOfComments;
         this.noOfLikes = pn.noOfLikes;

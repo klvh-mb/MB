@@ -23,22 +23,35 @@
         <!--span>
             學校類別: 
             <div class="btn-group">
-                <button data-toggle="dropdown" id="schools-private-filter-dropdow-btn" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
+                <button data-toggle="dropdown" id="schools-org-type-filter-dropdow-btn" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
                     全部<span class="caret"></span>
                 </button>
-                <ul id="schools-private-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
-                    <li ng-click="applySchoolFilter('p','all')" style="cursor:pointer;">
-                        <input type="radio" id="private-all" name="private" value="all"><label for="private-all">全部</label>
-                    </li>
-                    <li ng-click="applySchoolFilter('p','true')" style="cursor:pointer;">
-                        <input type="radio" id="private-yes" name="private" value="true"><label for="private-yes">私立</label>
-                    </li>
-                    <li ng-click="applySchoolFilter('p','false')" style="cursor:pointer;">
-                        <input type="radio" id="private-no" name="private" value="false"><label for="private-no">非牟利</label>
+                <ul id="schools-org-type-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
+                    <li ng-click="applySchoolFilter('org','all')" style="cursor:pointer;">
+                        <input type="radio" id="org-all" name="org-type" value="all"><label for="org-all">全部</label>
                     </li>
                 </ul>
             </div>
         </span-->
+        <span>
+            學校類別: 
+            <div class="btn-group">
+                <button data-toggle="dropdown" id="schools-org-type-filter-dropdow-btn" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
+                    全部<span class="caret"></span>
+                </button>
+                <ul id="schools-org-type-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
+                    <li ng-click="applySchoolFilter('orgt','all')" style="cursor:pointer;">
+                        <input type="radio" id="org-type-all" name="org-type" value="all"><label for="org-type-all">全部</label>
+                    </li>
+                    <li ng-click="applySchoolFilter('orgt','私立')" style="cursor:pointer;">
+                        <input type="radio" id="org-type-private" name="org-type" value="私立"><label for="org-type-private">私立</label>
+                    </li>
+                    <li ng-click="applySchoolFilter('orgt','非牟利')" style="cursor:pointer;">
+                        <input type="radio" id="org-type-nonprofit" name="org-type" value="非牟利"><label for="org-type-nonprofit">非牟利</label>
+                    </li>
+                </ul>
+            </div>
+        </span>
 	    <span>
 	        學班時間: 
 	        <div class="btn-group">
@@ -49,13 +62,13 @@
 		            <li ng-click="applySchoolFilter('ct','all')" style="cursor:pointer;">
 		                <input type="radio" id="classtimes-all" name="classtimes" value="all"><label for="classtimes-all">全部</label>
 		            </li>
-		            <li ng-click="applySchoolFilter('ct','am')" style="cursor:pointer;">
+		            <li ng-click="applySchoolFilter('ct','AM')" style="cursor:pointer;">
 		                <input type="radio" id="classtimes-am" name="classtimes" value="AM"><label for="classtimes-am">上午</label>
 		            </li>
-		            <li ng-click="applySchoolFilter('ct','pm')" style="cursor:pointer;">
+		            <li ng-click="applySchoolFilter('ct','PM')" style="cursor:pointer;">
 		                <input type="radio" id="classtimes-pm" name="classtimes" value="PM"><label for="classtimes-pm">下午</label>
 		            </li>
-		            <li ng-click="applySchoolFilter('ct','wd')" style="cursor:pointer;">
+		            <li ng-click="applySchoolFilter('ct','WD')" style="cursor:pointer;">
 		                <input type="radio" id="classtimes-wd" name="classtimes" value="WD"><label for="classtimes-wd">全日</label>
 		            </li>
 		        </ul>
@@ -84,15 +97,17 @@
 	                <div class="pn-info-note"><span ng-show="pn.adr">{{pn.adr}}</span></div>
 	                <div class="pn-info-note"><span ng-show="pn.pho">電話: {{pn.pho}}</span><span ng-show="pn.em"> · 電郵: {{pn.em}}</span></div>
 	                <div class="pn-info-attr">
-	                    <span class="attr-coupon">學券申請: 
+	                    <span class="school-attr">學券申請: 
 	                        <span ng-show="pn.cp">✓</span>
 	                        <span ng-show="!pn.cp">--</span>
 	                    </span>
-	                    <!--span class="attr-private">學校類別: 
-                            <span ng-show="pn.p">私立</span>
-                            <span ng-show="!pn.p">非牟利</span>
-                        </span-->
-	                    <span class="attr-classtimes">學班時間: 
+	                    <span class="school-attr">辦學團體: 
+                            <span>{{pn.org || '--'}}</span>
+                        </span>
+	                    <span class="school-attr">學校類別: 
+                            <span>{{pn.orgt || '--'}}</span>
+                        </span>
+	                    <span class="school-attr">學班時間: 
                             <span ng-show="pn.ct == 'AM'">上午</span>
                             <span ng-show="pn.ct == 'PM'">下午</span>
                             <span ng-show="pn.ct == 'WD'">全日</span>

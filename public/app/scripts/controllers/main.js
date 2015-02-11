@@ -3262,14 +3262,17 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     // remember all filters user set
     $scope.couponFilter = {'cp':'all'};
     $scope.classtimesFilter = {'ct':'all'};
-    $scope.privateFilter = {'p':'all'};
+    $scope.orgFilter = {'org':'all'};
+    $scope.orgTypeFilter = {'orgt':'all'};
     $scope.setFilter = function(key, value) {
     	if (key == 'cp') {
     		$scope.couponFilter = {'cp':value};
     	} else if (key == 'ct') {
     		$scope.classtimesFilter = {'ct':value};
-    	} else if (key == 'p') {
-    		$scope.privateFilter = {'p':value};
+    	} else if (key == 'org') {
+    		$scope.orgFilter = {'org':value};
+    	} else if (key == 'orgt') {
+    		$scope.orgTypeFilter = {'orgt':value};
     	}
     }
     $scope.applySchoolFilter = function(key, value) {
@@ -3284,8 +3287,11 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     	if ($scope.classtimesFilter.ct != 'all') {
     		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.classtimesFilter);
     	}
-    	if ($scope.privateFilter.p != 'all') {
-    		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.privateFilter);
+    	if ($scope.orgFilter.org != 'all') {
+    		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.orgFilter);
+    	}
+    	if ($scope.orgTypeFilter.orgt != 'all') {
+    		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.orgTypeFilter);
     	}
     	$scope.filtering = false;
 	}

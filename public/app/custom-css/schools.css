@@ -58,6 +58,7 @@
 #dismiss-search {
 	top: -3px;
     position: relative;
+    font-weight: bold;
 }
 
 
@@ -130,14 +131,11 @@
 	border-radius: 5px;
 	line-height: 1.8;
 }
-.school-list-entry .attr-coupon,
-.school-list-entry .attr-private,
-.school-list-entry .attr-classtimes {
+.school-list-entry .school-attr {
     display: inline-block;
+    width: 45%;
 }
-.school-list-entry .attr-coupon span,
-.school-list-entry .attr-private span,
-.school-list-entry .attr-classtimes span {
+.school-list-entry .school-attr span {
     margin-left: 3px;
     margin-right: 10px;
     color: #5F1B1B;
@@ -183,27 +181,6 @@
 .schools-filter-dropdown > li > label {
     padding: 0;	
 }
-#schools-private-filter-dropdown-btn,
-#schools-coupon-filter-dropdown-btn,
-#schools-classtimes-filter-dropdown-btn {
-	
-}
-#schools-coupon-filter-dropdown {
-	
-}
-#schools-classtimes-filter-dropdown {
-	
-}
-#schools-private-filter-dropdown {
-
-}
-
-
-
-
-
-
-
 
 
 
