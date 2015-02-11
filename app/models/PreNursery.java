@@ -126,7 +126,7 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
 
     ///////////////////// GET SQLs /////////////////////
     public static List<PreNursery> searchByName(String nameSubStr) {
-        Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.name like ?1 or UPPER(pn.namEn) like ?2");
+        Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.name like ?1 or UPPER(pn.nameEn) like ?2");
         q.setParameter(1, "%"+nameSubStr+"%");
         q.setParameter(2, "%"+nameSubStr.toUpperCase()+"%");
         return (List<PreNursery>)q.getResultList();

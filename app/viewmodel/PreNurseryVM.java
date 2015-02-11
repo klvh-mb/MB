@@ -28,6 +28,7 @@ public class PreNurseryVM {
     @JsonProperty("dis")  public String districtName;
     @JsonProperty("disId")  public Long districtId;
     @JsonProperty("n")    public String name;
+    @JsonProperty("ne")   public String nameEn;
     @JsonProperty("url")  public String url;
     @JsonProperty("pho")  public String phoneText;
     @JsonProperty("phol") public String phoneUrl;
@@ -40,21 +41,15 @@ public class PreNurseryVM {
     @JsonProperty("cp")  public boolean couponSupport;
     @JsonProperty("ct")  public String classTimes;
     @JsonProperty("cur")  public String curriculum;
-    @JsonProperty("gen")  public String studentsGender;
+    @JsonProperty("p")   public boolean privateSchool;     // TODO
     
     @JsonProperty("n_c") public int noOfComments;
-    @JsonProperty("cs")  public List<ReviewCommentVM> reviews;
-	@JsonProperty("nol") public int noOfLikes;
+    @JsonProperty("cs") public List<ReviewCommentVM> reviews;
+    @JsonProperty("nol") public int noOfLikes;
     @JsonProperty("nov") public int noOfViews;
     @JsonProperty("nob") public int noOfBookmarks;
 
     @JsonProperty("isLike") public boolean isLike = false;
-
-    // deprecated.
-    @JsonProperty("fds")  public String formStartDateStr;
-    @JsonProperty("ads")  public String applicationStartDateStr;
-    @JsonProperty("eds")  public String applicationEndDateStr;
-    @JsonProperty("fom")  public String formUrl;
 
 
     public PreNurseryVM(PreNursery pn, User user) {
@@ -67,6 +62,9 @@ public class PreNurseryVM {
         this.districtName = LocationCache.getDistrict(pn.districtId).getDisplayName();
         this.districtId = pn.districtId;
         this.name = pn.name;
+        if (!pn.name.equals(pn.nameEn)) {
+        	this.nameEn = pn.nameEn;
+        }
         this.url = pn.url;
         this.phoneText = pn.phoneText;
         this.phoneUrl = StringUtil.removeNonDigits(pn.phoneText);
@@ -80,9 +78,9 @@ public class PreNurseryVM {
         this.organizationType = pn.organizationType;
         this.couponSupport = pn.couponSupport;
         this.classTimes = pn.classTimes;
-        this.studentsGender = "M";
         this.curriculum = pn.curriculum;
-        
+        this.privateSchool = true;      // TODO: remove
+
         this.noOfComments = pn.noOfComments;
         this.noOfLikes = pn.noOfLikes;
         this.noOfViews = pn.noOfViews;

@@ -487,7 +487,7 @@ minibean.controller('SearchController',function($scope, searchService){
 		if(query != undefined) {
 			this.result = searchService.userSearch.get({q:query});
 		}
-	}	
+	}
 });
 
 minibean.controller('ApplicationController', 
@@ -3235,23 +3235,48 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     $scope.pns = schoolsService.pnsByDistrict.get({district_id:$scope.selectedDistrictId});
     $scope.filteredPNs = $scope.pns;
     
+    // search by name
+    $scope.searchTerm = '';
+    $scope.searchPNsResults = [];
+    $scope.resetSearch = function() {
+    	$scope.searchTerm = '';
+		$scope.searchPNsResults = [];
+		$("#schools-searchfield").val('');
+        $("#schools-searchfield").trigger('input');
+    }
+    $scope.searchPNsByName = function(schoolQuery) {
+		if(schoolQuery != undefined && schoolQuery.length > 0 && $scope.searchTerm != schoolQuery) {
+			$scope.searching = true;
+			$scope.searchPNsResults = schoolsService.searchPNsByName.get({query:schoolQuery},
+				function(data) {
+					$scope.searching = false;
+				}
+			);
+			$scope.searchTerm = schoolQuery;
+		}
+		if (schoolQuery == null || schoolQuery.length == 0) {
+			$scope.resetSearch();
+		}
+	}
+    
     // remember all filters user set
     $scope.couponFilter = {'cp':'all'};
     $scope.classtimesFilter = {'ct':'all'};
-    $scope.genderFilter = {'gen':'all'};
+    $scope.privateFilter = {'p':'all'};
     $scope.setFilter = function(key, value) {
     	if (key == 'cp') {
     		$scope.couponFilter = {'cp':value};
     	} else if (key == 'ct') {
     		$scope.classtimesFilter = {'ct':value};
-    	} else if (key == 'gen') {
-    		$scope.genderFilter = {'gen':value};
+    	} else if (key == 'p') {
+    		$scope.privateFilter = {'p':value};
     	}
     }
     $scope.applySchoolFilter = function(key, value) {
     	$scope.setFilter(key, value);
     	
     	// filter one by one
+    	$scope.filtering = true;
     	$scope.filteredPNs = $scope.pns;
     	if ($scope.couponFilter.cp != 'all') {
     		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.couponFilter);
@@ -3259,9 +3284,10 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     	if ($scope.classtimesFilter.ct != 'all') {
     		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.classtimesFilter);
     	}
-    	if ($scope.genderFilter.gen != 'all') {
-    		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.genderFilter);
+    	if ($scope.privateFilter.p != 'all') {
+    		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.privateFilter);
     	}
+    	$scope.filtering = false;
 	}
 });
 

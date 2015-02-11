@@ -1,5 +1,5 @@
 <div class="general-box school-list-title">
-    <p>{{pns[0].dis}}</p> 有 <p>{{pns.length}}</p> 間幼稚園提供2-3歲幼兒服務 (PN 幼兒班)
+    <b>幼兒服務<b>: </b></b><p>{{pns[0].dis}}</p> 有 <p>{{pns.length}}</p> 間幼稚園提供2-3歲幼兒服務 (PN幼兒班)
     <div class="school-list-filters">
         <span>
 	        學券申請: 
@@ -20,7 +20,25 @@
 			    </ul>
 		    </div>
 	    </span>
-	    
+        <!--span>
+            學校類別: 
+            <div class="btn-group">
+                <button data-toggle="dropdown" id="schools-private-filter-dropdow-btn" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
+                    全部<span class="caret"></span>
+                </button>
+                <ul id="schools-private-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
+                    <li ng-click="applySchoolFilter('p','all')" style="cursor:pointer;">
+                        <input type="radio" id="private-all" name="private" value="all"><label for="private-all">全部</label>
+                    </li>
+                    <li ng-click="applySchoolFilter('p','true')" style="cursor:pointer;">
+                        <input type="radio" id="private-yes" name="private" value="true"><label for="private-yes">私立</label>
+                    </li>
+                    <li ng-click="applySchoolFilter('p','false')" style="cursor:pointer;">
+                        <input type="radio" id="private-no" name="private" value="false"><label for="private-no">非牟利</label>
+                    </li>
+                </ul>
+            </div>
+        </span-->
 	    <span>
 	        學班時間: 
 	        <div class="btn-group">
@@ -43,35 +61,19 @@
 		        </ul>
 	        </div>
 	    </span>
-
-        <span>
-	        學生性別: 
-	        <div class="btn-group">
-		        <button data-toggle="dropdown" id="schools-gender-filter-dropdow-btn" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
-		            男女<span class="caret"></span>
-		        </button>
-		        <ul id="schools-gender-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
-		            <li ng-click="applySchoolFilter('gen','all')" style="cursor:pointer;">
-		                <input type="radio" id="gender-all" name="gender" value="all"><label for="gender-all">男女</label>
-		            </li>
-		            <li ng-click="applySchoolFilter('gen','m')" style="cursor:pointer;">
-		                <input type="radio" id="gender-m" name="gender" value="M"><label for="gender-m">男</label>
-		            </li>
-		            <li ng-click="applySchoolFilter('gen','f')" style="cursor:pointer;">
-		                <input type="radio" id="gender-f" name="gender" value="F"><label for="gender-f">女</label>
-		            </li>
-		        </ul>
-	        </div>
-        </span>
-        
         <p>({{filteredPNs.length}}間)</p>
     </div>
 </div>
 <div class="general-box school-list">
-    <div class="school-list-entry" ng-if="filteredPNs.length == 0" style="font-size:16px;padding-bottom:10px;">沒有符合條件的幼兒班。請重新查看選項</div>
-    <div class="school-list-entry" ng-repeat="pn in filteredPNs">
-	    <ul class="pn-wrapper">
-	        <li>
+    <div ng-if="filtering">
+        <img class="comment-spinner" src="/assets/app/images/general/animated/green-spinner.gif">
+    </div>
+    <ul>
+        <li ng-if="filteredPNs.length == 0">
+            <div class="school-list-entry" style="font-size:16px;padding-bottom:10px;">沒有符合條件的幼兒班。請重新查看選項</div>
+        </li>
+	    <li ng-repeat="pn in filteredPNs">
+	        <div class="school-list-entry">
 	            <div class="pn-info">
 	                <a ng-href="{{pn.url}}" target="_blank">
 	                    {{pn.n}}
@@ -86,6 +88,10 @@
 	                        <span ng-show="pn.cp">✓</span>
 	                        <span ng-show="!pn.cp">--</span>
 	                    </span>
+	                    <!--span class="attr-private">學校類別: 
+                            <span ng-show="pn.p">私立</span>
+                            <span ng-show="!pn.p">非牟利</span>
+                        </span-->
 	                    <span class="attr-classtimes">學班時間: 
                             <span ng-show="pn.ct == 'AM'">上午</span>
                             <span ng-show="pn.ct == 'PM'">下午</span>
@@ -94,11 +100,6 @@
                             <span ng-show="pn.ct == 'AM,WD'">上午、全日</span>
                             <span ng-show="pn.ct == 'PM,WD'">下午、全日</span>
                             <span ng-show="pn.ct == 'AM,PM,WD'">上午、下午、全日</span>
-                        </span>
-                        <span class="attr-gender">學生性別: 
-                            <span ng-show="pn.gen == 'M,F'">男女</span>
-                            <span ng-show="pn.gen == 'M'">男</span>
-                            <span ng-show="pn.gen == 'F'">女</span>
                         </span>
 	                </div>
 	                <!--div class="pn-info-attr">
@@ -110,7 +111,7 @@
 					    </div>
 					</div-->
 	            </div>
-	        </li>
-	    </ul>
-	</div>
+	        </div>
+	    </li>
+	</ul>
 </div>
