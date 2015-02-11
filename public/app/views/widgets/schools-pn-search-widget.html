@@ -34,11 +34,17 @@
 		                    </a>
 		                    <div class="pn-info-note"><span ng-show="pn.ne">{{pn.ne}}</span></div>
 		                    <div class="pn-info-attr">
-		                        <span class="attr-coupon">學券申請: 
+		                        <span class="school-attr">學券申請: 
 		                            <span ng-show="pn.cp">✓</span>
 		                            <span ng-show="!pn.cp">--</span>
 		                        </span>
-		                        <span class="attr-classtimes">學班時間: 
+		                        <span class="school-attr">辦學團體: 
+		                            <span>{{pn.org || '--'}}</span>
+		                        </span>
+		                        <span class="school-attr">學校類別: 
+		                            <span>{{pn.orgt || '--'}}</span>
+		                        </span>
+		                        <span class="schools-attr">學班時間: 
 		                            <span ng-show="pn.ct == 'AM'">上午</span>
 		                            <span ng-show="pn.ct == 'PM'">下午</span>
 		                            <span ng-show="pn.ct == 'WD'">全日</span>
@@ -46,11 +52,6 @@
 		                            <span ng-show="pn.ct == 'AM,WD'">上午、全日</span>
 		                            <span ng-show="pn.ct == 'PM,WD'">下午、全日</span>
 		                            <span ng-show="pn.ct == 'AM,PM,WD'">上午、下午、全日</span>
-		                        </span>
-		                        <span class="attr-gender">學生性別: 
-		                            <span ng-show="pn.gen == 'M,F'">男女</span>
-		                            <span ng-show="pn.gen == 'M'">男</span>
-		                            <span ng-show="pn.gen == 'F'">女</span>
 		                        </span>
 		                    </div>
 		                </div>

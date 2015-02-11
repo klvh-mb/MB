@@ -984,4 +984,5 @@ span.notif-count {
 }
 .school-list-entry .school-attr {
     display: block;
+    width: 100%;
 }
