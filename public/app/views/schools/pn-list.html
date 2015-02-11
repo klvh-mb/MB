@@ -68,10 +68,12 @@
     </div>
 </div>
 <div class="general-box school-list">
-    <div class="school-list-entry" ng-if="filteredPNs.length == 0" style="font-size:16px;padding-bottom:10px;">沒有符合條件的幼兒班。請重新查看選項</div>
-    <div class="school-list-entry" ng-repeat="pn in filteredPNs">
-	    <ul class="pn-wrapper">
-	        <li>
+    <ul>
+        <li ng-if="filteredPNs.length == 0">
+            <div class="school-list-entry" style="font-size:16px;padding-bottom:10px;">沒有符合條件的幼兒班。請重新查看選項</div>
+        </li>
+	    <li ng-repeat="pn in filteredPNs">
+	        <div class="school-list-entry">
 	            <div class="pn-info">
 	                <a ng-href="{{pn.url}}" target="_blank">
 	                    {{pn.n}}
@@ -110,7 +112,7 @@
 					    </div>
 					</div-->
 	            </div>
-	        </li>
-	    </ul>
-	</div>
+	        </div>
+	    </li>
+	</ul>
 </div>

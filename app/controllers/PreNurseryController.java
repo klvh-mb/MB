@@ -59,7 +59,7 @@ public class PreNurseryController extends Controller {
 	}
 
     @Transactional
-	public static Result searchByName(String nameSubStr) {
+	public static Result searchPNsByName(String nameSubStr) {
         final User localUser = Application.getLocalUser(session());
         List<PreNursery> pns = PreNursery.searchByName(nameSubStr);
 

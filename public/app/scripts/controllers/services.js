@@ -898,6 +898,13 @@ minibean.service('campaignService',function($resource){
 });
 
 minibean.service('schoolsService',function($resource){
+	this.searchPNsByName = $resource(
+            '/search-pns-by-name/:query',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
     this.pnsByDistrict = $resource(
             '/get-pns-by-district/:district_id',
             {alt:'json',callback:'JSON_CALLBACK'},

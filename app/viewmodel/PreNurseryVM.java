@@ -28,6 +28,7 @@ public class PreNurseryVM {
     @JsonProperty("dis")  public String districtName;
     @JsonProperty("disId")  public Long districtId;
     @JsonProperty("n")    public String name;
+    @JsonProperty("ne")   public String nameEn;
     @JsonProperty("url")  public String url;
     @JsonProperty("pho")  public String phoneText;
     @JsonProperty("phol") public String phoneUrl;
@@ -63,6 +64,9 @@ public class PreNurseryVM {
         this.districtName = LocationCache.getDistrict(pn.districtId).getDisplayName();
         this.districtId = pn.districtId;
         this.name = pn.name;
+        if (!pn.name.equals(pn.nameEn)) {
+        	this.nameEn = pn.nameEn;
+        }
         this.url = pn.url;
         this.phoneText = pn.phoneText;
         this.phoneUrl = StringUtil.removeNonDigits(pn.phoneText);

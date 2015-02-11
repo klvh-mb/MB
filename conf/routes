@@ -278,7 +278,7 @@ GET     /get-game-topics                        controllers.FrontPageController.
 # PreNursery
 GET     /get-pn-communities                     controllers.PreNurseryController.getPNCommunities()
 GET     /get-pns-by-community/:community_id     controllers.PreNurseryController.getPNsByCommunity(community_id:Long)
-GET     /search-by-name/:name                   controllers.PreNurseryController.searchByName(name:String)
+GET     /search-pns-by-name/:query              controllers.PreNurseryController.searchPNsByName(query:String)
 GET     /get-pns-by-region/:region_id           controllers.PreNurseryController.getPNsByRegion(region_id:Long)
 GET     /get-pns-by-district/:district_id       controllers.PreNurseryController.getPNsByDistrict(district_id:Long)
 GET     /get-top-views-pns/:num                 controllers.PreNurseryController.getTopViewsPNs(num:Long)

@@ -487,7 +487,7 @@ minibean.controller('SearchController',function($scope, searchService){
 		if(query != undefined) {
 			this.result = searchService.userSearch.get({q:query});
 		}
-	}	
+	}
 });
 
 minibean.controller('ApplicationController', 
@@ -3234,6 +3234,15 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     }
     $scope.pns = schoolsService.pnsByDistrict.get({district_id:$scope.selectedDistrictId});
     $scope.filteredPNs = $scope.pns;
+    
+    // search by name
+    $scope.searchTerm = '';
+    $scope.searchPNsByName = function(schoolQuery) {
+		if(schoolQuery != undefined && $scope.searchTerm != schoolQuery && schoolQuery.length > 1) {
+			$scope.searchPNsResults = schoolsService.searchPNsByName.get({query:schoolQuery});
+			$scope.searchTerm = schoolQuery;
+		}
+	}
     
     // remember all filters user set
     $scope.couponFilter = {'cp':'all'};

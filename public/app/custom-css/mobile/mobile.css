@@ -975,6 +975,10 @@ span.notif-count {
 }
 
 /* schools */
+#schools-search-box .dropdown-menu {
+	left: 0px;
+	max-height: 350px;
+}
 .schools-district-index li {
 	width: 22%;
 }
