@@ -41,9 +41,6 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
     public String classTimes;       // comma separated (AM,PM,WD)
     public String curriculum;
 
-    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    public Set<ReviewComment> reviews;
-
     // stats
     public int noOfComments = 0;
     public int noOfLikes = 0;
@@ -55,49 +52,7 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
     public PreNursery() {}
 
 
-    public SocialObject onReview(User user, String body)
-            throws SocialObjectNotCommentableException {
-        // create Review object
-        ReviewComment review = ReviewComment.createReview(id, user, body, ReviewType.PN);
-
-        if (reviews == null) {
-            reviews = new HashSet<>();
-        }
-        this.reviews.add(review);
-        this.noOfComments++;
-        JPA.em().merge(this);
-
-        return review;
-    }
-
-    public void onDeleteReview(User user) throws SocialObjectNotCommentableException {
-        this.noOfComments--;
-    }
-
-    @JsonIgnore
-    public long getNumReviewComments() {
-        Query q = JPA.em().createQuery("Select count(c.id) from ReviewComment c where socialObject=?1 and reviewType=?2 and deleted=false");
-        q.setParameter(1, this.id);
-        q.setParameter(2, ReviewType.PN);
-        return (Long) q.getSingleResult();
-    }
-
-    @JsonIgnore
-    public List<ReviewComment> getReviewComments() {
-        Query q = JPA.em().createQuery("Select c from ReviewComment c where socialObject=?1 and reviewType=?2 and deleted=false order by date");
-        q.setParameter(1, this.id);
-        q.setParameter(2, ReviewType.PN);
-        return (List<ReviewComment>)q.getResultList();
-    }
-
-    @JsonIgnore
-    public List<ReviewComment> getReviewComments(int limit) {
-        Query q = JPA.em().createQuery("Select c from ReviewComment c where socialObject=?1 and reviewType=?2 and deleted=false order by date desc" );
-        q.setParameter(1, this.id);
-        q.setParameter(2, ReviewType.PN);
-        return (List<ReviewComment>)q.setMaxResults(limit).getResultList();
-    }
-
+   ///////////////////// onSocialActions /////////////////////
     @Override
     public void onLikedBy(User user) {
         if (logger.underlyingLogger().isDebugEnabled()) {

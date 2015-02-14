@@ -3,16 +3,9 @@ package viewmodel;
 import common.cache.LocationCache;
 import common.utils.StringUtil;
 
-import models.ReviewComment;
 import models.User;
 import models.PreNursery;
-import models.PrimarySocialRelation;
 import org.codehaus.jackson.annotate.JsonProperty;
-import processor.PrimarySocialRelationManager;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,6 +17,7 @@ public class PreNurseryVM {
     private static final String MAPURL_PREFIX = "http://maps.google.com.hk/maps?q=";
 
     @JsonProperty("id")  public Long id;
+    @JsonProperty("commid") public Long communityId;
     @JsonProperty("myd")  public boolean isMyDistrict;
     @JsonProperty("dis")  public String districtName;
     @JsonProperty("disId")  public Long districtId;
@@ -42,8 +36,7 @@ public class PreNurseryVM {
     @JsonProperty("ct")  public String classTimes;
     @JsonProperty("cur")  public String curriculum;
     
-    @JsonProperty("n_c") public int noOfComments;
-    @JsonProperty("cs") public List<ReviewCommentVM> reviews;
+    @JsonProperty("n_c") public int noOfComments;       // TODO
     @JsonProperty("nol") public int noOfLikes;
     @JsonProperty("nov") public int noOfViews;
     @JsonProperty("nob") public int noOfBookmarks;
@@ -58,6 +51,7 @@ public class PreNurseryVM {
 
     public PreNurseryVM(PreNursery pn, User user, boolean isBookmarked) {
         this.id = pn.id;
+        this.communityId = pn.communityId;
 
         this.isMyDistrict = false;
         if (user.userInfo != null && user.userInfo.location != null) {
@@ -84,40 +78,18 @@ public class PreNurseryVM {
         this.classTimes = pn.classTimes;
         this.curriculum = pn.curriculum;
 
-        this.noOfComments = pn.noOfComments;
+        this.noOfComments = pn.noOfComments;    // TODO
         this.noOfLikes = pn.noOfLikes;
         this.noOfViews = pn.noOfViews;
         this.noOfBookmarks = pn.noOfBookmarks;
 
-        List<ReviewCommentVM> commentsToShow = new ArrayList<>();
-        List<ReviewComment> reviewComments = pn.getReviewComments();
-
-        List<Long> likeCheckIds = new ArrayList<>();
-        for(ReviewComment rc : reviewComments) {
-            likeCheckIds.add(rc.getId());
-        }
-
         if (User.isLoggedIn(user)){
-            Set<PrimarySocialRelationManager.PrimarySocialResult> srByUser = PrimarySocialRelationManager.getSocialRelationBy(user, likeCheckIds);
-
-    		for(int i = reviewComments.size() - 1; i >= 0 ; i--) {
-                ReviewComment rc = reviewComments.get(i);
-    			ReviewCommentVM commentVM = ReviewCommentVM.toVM(rc, user, pn.noOfComments - i);
-    			commentVM.isLike = srByUser.contains(new PrimarySocialRelationManager.PrimarySocialResult(rc.id, rc.objectType, models.PrimarySocialRelation.Action.LIKED));
-    			commentsToShow.add(commentVM);
-    		}
-    		this.isLike = srByUser.contains(new PrimarySocialRelationManager.PrimarySocialResult(pn.id, pn.objectType, PrimarySocialRelation.Action.LIKED));
-        } else {
-            for(int i = reviewComments.size() - 1; i >= 0 ; i--) {
-                ReviewComment rc = reviewComments.get(i);
-                ReviewCommentVM commentVM = ReviewCommentVM.toVM(rc, user, pn.noOfComments - i);
-                commentVM.isLike = false;
-                commentsToShow.add(commentVM);
+            try {
+    		    this.isLike = pn.isLikedBy(user);
+            } catch (Exception e) {
+                this.isLike = false;
             }
-            this.isLike = false;
         }
-
-        this.reviews = commentsToShow;
         this.isBookmarked = isBookmarked;
     }
 }
