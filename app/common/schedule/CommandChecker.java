@@ -1,9 +1,9 @@
 package common.schedule;
 
+import data.DataBootstrap;
 import models.CommunityStatistics;
 import models.GameAccountTransaction;
 import tagword.TaggingEngine;
-
 import java.io.*;
 
 /**
@@ -34,6 +34,12 @@ public class CommandChecker {
         }
     }
 
+    /**
+     * 1) indexTagWords
+     * 2) gamificationEOD [daysBefore]
+     * 3) communityStatistics [daysBefore]
+     * 4) bootstrapPNCommunity
+     */
     private static void performCommand(String commandLine) {
         if (commandLine.endsWith("DONE")) {
             return;
@@ -59,6 +65,9 @@ public class CommandChecker {
             } else {
                 logger.underlyingLogger().error("communityStatistics missing daysBefore parameter");
             }
+        }
+        else if (commandLine.startsWith("bootstrapPNCommunity")) {
+            DataBootstrap.bootstrapPNCommunity();
         }
     }
 }

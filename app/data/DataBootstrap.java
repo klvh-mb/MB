@@ -1,17 +1,27 @@
+package data;
+
 import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Query;
 
-import models.*;
-import models.Announcement.AnnouncementType;
-import models.Article;
+
+import models.Announcement;
 import models.ArticleCategory;
+import models.Community;
+import models.CommunityCategory;
 import models.Community.CommunityType;
+import models.Emoticon;
+import models.Icon;
 import models.Icon.IconType;
+import models.Location;
 import models.Location.LocationCode;
+import models.PreNursery;
+import models.SecurityRole;
 import models.TagWord;
 import models.TargetingSocialObject.TargetingType;
+import models.TermsAndConditions;
+import models.User;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.joda.time.DateTime;
@@ -23,6 +33,9 @@ import common.model.TodayWeatherInfo;
 import controllers.Application;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
 
+/**
+ * data.DataBootstrap
+ */
 public class DataBootstrap {
     private static final play.api.Logger logger = play.api.Logger.apply(DataBootstrap.class);
     
@@ -36,7 +49,6 @@ public class DataBootstrap {
         bootstrapUser();
         bootstrapLocation();
         bootstrapCommunity();
-//        bootstrapPNCommunity();
         bootstrapTagWords();
 
         // clear cache
@@ -169,20 +181,8 @@ public class DataBootstrap {
         announcement.save();
         announcement = 
                 new Announcement(
-                        "我地有手機版啦！立即用手機登入 minibean.com.hk 試下啦", 
+                        "我地有手機版啦！立即用手機登入 www.minibean.hk 試下啦",
                         new DateTime(2015,12,31,0,0).toDate());
-        announcement.save();
-        
-        // Top info
-        announcement = 
-                new Announcement(
-                        "小萌豆為所有龍媽媽蛇媽媽編制了2015-2016嘅幼兒班申請資訊。 請立即到 PN討論區 査看啦<br>" + 
-                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#!/community/49'>港島PN討論區</a></span>" + 
-                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#!/community/50'>九龍PN討論區</a></span>" + 
-                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#!/community/51'>新界PN討論區</a></span>" +
-                        "<span style='margin-left:7%;width:40%;display:inline-block;'><a href='my#!/community/53'>離島PN討論區</a></span>",
-                        AnnouncementType.TOP_INFO, 
-                        new DateTime(2014,12,31,0,0).toDate());
         announcement.save();
     }
 
@@ -728,25 +728,6 @@ public class DataBootstrap {
         }
     }
 
-//    private static void bootstrapPNCommunity() {
-//        Query q = JPA.em().createQuery("Select count(c) from Community c where c.targetingType = ?1 and c.system = true");
-//        q.setParameter(1, TargetingType.PRE_NURSERY);
-//        Long count = (Long)q.getSingleResult();
-//        if (count > 0) {
-//            return;
-//        }
-//
-//        logger.underlyingLogger().info("bootstrapPNCommunity()");
-//
-//        // PN Region communities
-//        List<Location> regions = Location.getHongKongRegions();
-//        for (Location region : regions) {
-//            String name = region.displayName + "PN討論區2015-16";
-//            String desc = region.displayName + "PreNursery討論區 2015-2016";
-//            createPNCommunity(name, desc, region);
-//        }
-//    }
-
     private static void bootstrapTagWords() {
         String soonMomsCatId = ArticleCategory.ArticleCategoryGroup.SOON_TO_BE_MOMS_ARTICLES.name();
 
@@ -797,6 +778,27 @@ public class DataBootstrap {
             createTagWord(TagWord.TagCategory.ARTICLE, hotArticlesCatId, "聖誕", "聖誕,聖誕老人,聖誕氣氛");
         }
     }
+
+    /**
+     * Invoked from command line
+     */
+    public static void bootstrapPNCommunity() {
+        // PN communities
+        List<PreNursery> pns = PreNursery.findAll();
+        logger.underlyingLogger().info("bootstrapPNCommunity() - count="+pns.size());
+
+        for (PreNursery pn : pns) {
+            String name = pn.getName();
+            String desc = pn.getName()+" PreNursery討論區";
+            Community community = getOrCreatePNCommunity(name, desc, pn.districtId);
+            if (community != null) {
+                pn.communityId = community.getId();
+                pn.save();
+            }
+        }
+    }
+
+    //////////////// Creation Helpers ////////////////
 
     private static Community createFeedbackCommunity(String name, String desc) {
         Community community = null;
@@ -890,21 +892,24 @@ public class DataBootstrap {
         }
     }
 
-//    private static Community createPNCommunity(String name, String desc, Location region) {
-//                Community community = null;
-//        String targetingInfo = region.id.toString();
-//        try {
-//            community = Application.getMBAdmin().createCommunity(
-//                    name, desc, CommunityType.OPEN,
-//                    "/assets/app/images/general/icons/community/grad_hat.png");
-//            community.system = true;
-//            community.targetingType = TargetingType.PRE_NURSERY;
-//            community.targetingInfo = targetingInfo;
-//        } catch (Exception e) {
-//            logger.underlyingLogger().error("Error in createPNCommunity", e);
-//        }
-//        return community;
-//    }
+    private static Community getOrCreatePNCommunity(String name, String desc, Long districtId) {
+        String targetingInfo = districtId.toString();
+
+        Community community = Community.findByNameTargetingTypeTargetingInfo(name, TargetingType.PRE_NURSERY, targetingInfo);
+        if (community == null) {
+            try {
+                community = Application.getMBAdmin().createCommunity(
+                        name, desc, CommunityType.OPEN,
+                        "/assets/app/images/general/icons/community/grad_hat.png");
+                community.system = true;
+                community.targetingType = TargetingType.PRE_NURSERY;
+                community.targetingInfo = targetingInfo;
+            } catch (Exception e) {
+                logger.underlyingLogger().error("Error in getOrCreatePNCommunity", e);
+            }
+        }
+        return community;
+    }
 
     private static TagWord createTagWord(TagWord.TagCategory tagCategory, String tagCategoryId,
                                          String displayWord, String matchingWords) {

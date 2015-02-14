@@ -183,8 +183,7 @@ public class CommunityController extends Controller{
                 getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.ALL_MOMS_DADS));
         vms.addAll(
                 getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.PUBLIC));
-        vms.addAll( 
-                getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.PRE_NURSERY));
+
         CommunitiesParentVM communitiesVM = new CommunitiesParentVM(vms.size(), vms);
         return ok(Json.toJson(communitiesVM));
     }
@@ -1406,13 +1405,7 @@ public class CommunityController extends Controller{
                             category, Community.findByCategory(category), localUser);
             communityCategoryMapVMs.add(vm);
         }
-        
-        // get other topic comms
-        List<CommunitiesWidgetChildVM> vms = 
-                getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.PRE_NURSERY);
-        CommunityCategoryMapVM vm = CommunityCategoryMapVM.communityCategoryMapVM("其他", vms);
-        communityCategoryMapVMs.add(vm);
-        
+
         return ok(Json.toJson(communityCategoryMapVMs));
     }
 }

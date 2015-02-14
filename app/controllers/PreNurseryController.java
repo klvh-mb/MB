@@ -26,40 +26,6 @@ import java.util.List;
 public class PreNurseryController extends Controller {
     private static play.api.Logger logger = play.api.Logger.apply(PreNurseryController.class);
 
-    // TODO
-    @Transactional
-    public static Result getPNCommunities() {
-        final User localUser = Application.getLocalUser(session());
-        List<Community> pnCommunities = Community.findByTargetingType(TargetingType.PRE_NURSERY);
-        
-        final List<CommunitiesWidgetChildVM> pnCommunityVMs = new ArrayList<>();
-        for (Community community : pnCommunities) {
-            if (!localUser.isMemberOf(community)) {
-                CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community, localUser);
-                pnCommunityVMs.add(vm);
-            }
-        }
-
-        return ok(Json.toJson(pnCommunityVMs));
-    }
-
-    // TODO
-    @Transactional
-	public static Result getPNsByCommunity(Long communityId) {
-        final Community community = Community.findById(communityId);
-        if (community == null || community.getTargetingType() != TargetingType.PRE_NURSERY) {
-            return ok(Json.toJson(new ArrayList<PreNurseryVM>()));
-        }
-        
-        Location commRegion = null;
-        if (community.targetingInfo != null) {
-            Long regionId = Long.parseLong(community.targetingInfo);
-            commRegion = LocationCache.getRegion(regionId);
-        }
-
-        return getPNsByRegion(commRegion.id);
-	}
-
     @Transactional
 	public static Result searchPNsByName(String nameSubStr) {
         final User localUser = Application.getLocalUser(session());
@@ -254,4 +220,19 @@ public class PreNurseryController extends Controller {
         logger.underlyingLogger().info("STS [u="+localUser.id+"] getOfferedPNs. Took "+sw.getElapsedMS()+"ms");
 		return ok(Json.toJson(pnVMs));
     }
+
+
+    /**
+     * @deprecated
+     */
+    public static Result getPNCommunities() {
+        return ok(Json.toJson(new ArrayList<>()));
+    }
+
+    /**
+     * @deprecated
+     */
+	public static Result getPNsByCommunity(Long communityId) {
+        return ok(Json.toJson(new ArrayList<>()));
+	}
 }
