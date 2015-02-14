@@ -91,6 +91,7 @@ GET     /unlike-campaign/:id        controllers.CampaignController.onUnlike(id:L
 POST    /join-campaign              controllers.CampaignController.joinCampaign
 POST    /withdraw-campaign          controllers.CampaignController.withdrawCampaign
 
+# Articles
 GET     /get-all-article-categories     controllers.ArticleController.getAllArticleCategories
 GET     /get-Articles-Categorywise/:category_id/:offset     controllers.ArticleController.getArticlesCategorywise(category_id:Long, offset:Integer)
 GET     /get-Articles-TagWise/:tagword_id/:offset           controllers.ArticleController.getArticlesTagwise(tagword_id:Long, offset:Integer)
@@ -283,6 +284,8 @@ GET     /get-pns-by-region/:region_id           controllers.PreNurseryController
 GET     /get-pns-by-district/:district_id       controllers.PreNurseryController.getPNsByDistrict(district_id:Long)
 GET     /get-top-views-pns/:num                 controllers.PreNurseryController.getTopViewsPNs(num:Long)
 GET     /get-top-bookmarked-pns/:num            controllers.PreNurseryController.getTopBookmarkedPNs(num:Long)
+GET     /bookmark-pn/:id                        controllers.PreNurseryController.onBookmark(id : Long)
+GET     /unbookmark-pn/:id                      controllers.PreNurseryController.onUnBookmark(id : Long)
 GET     /get-bookmarked-pns                     controllers.PreNurseryController.getBookmarkedPNs()
 GET     /get-form-received-pns                  controllers.PreNurseryController.getFormReceivedPNs()
 GET     /get-applied-pns                        controllers.PreNurseryController.getAppliedPNs()

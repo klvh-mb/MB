@@ -22,6 +22,7 @@ import java.util.Set;
 public class PreNursery extends SocialObject implements Likeable, Commentable {
     private static final play.api.Logger logger = play.api.Logger.apply(PreNursery.class);
 
+    public Long communityId;
     public Long regionId;
     public Long districtId;
 
@@ -120,17 +121,40 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
         if (logger.underlyingLogger().isDebugEnabled()) {
             logger.underlyingLogger().debug("[u="+user.id+"][pn="+this.id+"] PreNursery onBookmarkedBy");
         }
+        SchoolSaved saved = new SchoolSaved(user.getId(), this.id, SchoolType.PN);
+        saved.save();
         recordBookmark(user);
         this.noOfBookmarks++;
     }
 
+    public void onUnBookmarkedBy(User user) {
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+user.id+"][pn="+this.id+"] PreNursery onBookmarkedBy");
+        }
+        SchoolSaved saved = SchoolSaved.findByUserSchoolId(user.getId(), this.id);
+        if (saved != null) {
+            saved.delete();
+        }
+        user.unBookmarkOn(this.id, this.objectType);
+        this.noOfBookmarks--;
+    }
+
     ///////////////////// GET SQLs /////////////////////
+    public static PreNursery findById(Long id) {
+        Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.id=?1");
+        q.setParameter(1, id);
+        try {
+            return (PreNursery) q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public static List<PreNursery> searchByName(String nameSubStr) {
         Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.name like ?1 or UPPER(pn.nameEn) like ?2");
         q.setParameter(1, "%"+nameSubStr+"%");
         q.setParameter(2, "%"+nameSubStr.toUpperCase()+"%");
         return (List<PreNursery>)q.getResultList();
-
     }
 
     public static List<PreNursery> getPNsByRegion(Long regionId) {
@@ -158,11 +182,10 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
     }
 
     public static List<PreNursery> getBookmarkedPNs(Long userId) {
-        Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn, SecondarySocialRelation sr where sr.action=?1 and sr.actor=?2 " +
-                "and sr.targetType=?3 and sr.target = pn.id");
-        q.setParameter(1, SecondarySocialRelation.Action.BOOKMARKED);
+        Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn, SchoolSaved ss where ss.schoolType=?1 and ss.userId=?2 " +
+                "and ss.schoolId = pn.id");
+        q.setParameter(1, SchoolType.PN);
         q.setParameter(2, userId);
-        q.setParameter(3, SocialObjectType.PRE_NURSERY);
         return (List<PreNursery>)q.getResultList();
     }
 

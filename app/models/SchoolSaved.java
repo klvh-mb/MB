@@ -1,6 +1,7 @@
 package models;
 
 import common.model.SchoolType;
+import play.db.jpa.JPA;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -58,4 +59,23 @@ public class SchoolSaved extends domain.Entity {
     // Ctor
     public SchoolSaved() {}
 
+    public SchoolSaved(Long userId, Long schoolId, SchoolType schoolType) {
+        this.userId = userId;
+        this.schoolId = schoolId;
+        this.schoolType = schoolType;
+        this.status = Status.Watched;
+    }
+
+
+    ///////////////////// GET SQLs /////////////////////
+    public static SchoolSaved findByUserSchoolId(Long userId, Long schoolId) {
+        Query q = JPA.em().createQuery("SELECT ss FROM SchoolSaved ss where ss.userId=?1 and ss.schoolId=?2");
+        q.setParameter(1, userId);
+        q.setParameter(2, schoolId);
+        try {
+            return (SchoolSaved) q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

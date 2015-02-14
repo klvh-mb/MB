@@ -26,6 +26,7 @@ import java.util.List;
 public class PreNurseryController extends Controller {
     private static play.api.Logger logger = play.api.Logger.apply(PreNurseryController.class);
 
+    // TODO
     @Transactional
     public static Result getPNCommunities() {
         final User localUser = Application.getLocalUser(session());
@@ -41,7 +42,8 @@ public class PreNurseryController extends Controller {
 
         return ok(Json.toJson(pnCommunityVMs));
     }
-    
+
+    // TODO
     @Transactional
 	public static Result getPNsByCommunity(Long communityId) {
         final Community community = Community.findById(communityId);
@@ -137,17 +139,47 @@ public class PreNurseryController extends Controller {
         logger.underlyingLogger().info("STS [u="+localUser.id+"] getTopBookmarkedPNs. Took "+sw.getElapsedMS()+"ms");
 		return ok(Json.toJson(pnVMs));
     }
-    
+
+    @Transactional
+    public static Result onBookmark(Long id) {
+		User localUser = Application.getLocalUser(session());
+		if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+
+        PreNursery pn = PreNursery.findById(id);
+        if (pn != null) {
+            pn.onBookmarkedBy(localUser);
+        }
+        return ok();
+    }
+
+    @Transactional
+    public static Result onUnBookmark(Long id) {
+		User localUser = Application.getLocalUser(session());
+		if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+
+        PreNursery pn = PreNursery.findById(id);
+        if (pn != null) {
+            pn.onUnBookmarkedBy(localUser);
+        }
+        return ok();
+    }
+
     @Transactional
 	public static Result getBookmarkedPNs() {
-    	NanoSecondStopWatch sw = new NanoSecondStopWatch();
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
-		final User localUser = Application.getLocalUser(session());
+        final User localUser = Application.getLocalUser(session());
         List<PreNursery> pns = PreNursery.getBookmarkedPNs(localUser.getId());
 
         final List<PreNurseryVM> pnVMs = new ArrayList<>();
         for (PreNursery pn : pns) {
-            pnVMs.add(new PreNurseryVM(pn, localUser));
+            pnVMs.add(new PreNurseryVM(pn, localUser, true));   // must be Bookmarked
         }
 
         sw.stop();

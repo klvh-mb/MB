@@ -49,9 +49,14 @@ public class PreNurseryVM {
     @JsonProperty("nob") public int noOfBookmarks;
 
     @JsonProperty("isLike") public boolean isLike = false;
-
+    @JsonProperty("isBookmarked") public boolean isBookmarked = false;
 
     public PreNurseryVM(PreNursery pn, User user) {
+        this(pn, user, false);
+        this.isBookmarked = pn.isBookmarkedBy(user);
+    }
+
+    public PreNurseryVM(PreNursery pn, User user, boolean isBookmarked) {
         this.id = pn.id;
 
         this.isMyDistrict = false;
@@ -113,5 +118,6 @@ public class PreNurseryVM {
         }
 
         this.reviews = commentsToShow;
+        this.isBookmarked = isBookmarked;
     }
 }
