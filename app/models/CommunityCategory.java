@@ -7,7 +7,7 @@ import play.db.jpa.Transactional;
 
 import javax.persistence.*;
 
-import common.cache.CommunityCategoryCache;
+import common.cache.CommunityMetaCache;
 
 /**
  * Created by IntelliJ IDEA.
@@ -82,10 +82,10 @@ public class CommunityCategory {
 
     // For controllers
     public static List<CommunityCategory> getAllBusinessCategories() {
-        return CommunityCategoryCache.getAllBusinessCategories();
+        return CommunityMetaCache.getAllBusinessCategories();
     }
 
     public static List<CommunityCategory> getAllSocialCategories() {
-        return CommunityCategoryCache.getAllSocialCategories();
+        return CommunityMetaCache.getAllSocialCategories();
     }
 }

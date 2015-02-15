@@ -9,7 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import common.cache.CommunityCategoryCache;
+import common.cache.CommunityMetaCache;
 import common.collection.Pair;
 import common.utils.StringUtil;
 import models.Comment;
@@ -1391,7 +1391,7 @@ public class CommunityController extends Controller{
         // index only, return cached categories map
         if (indexOnly) {
             List<CommunityCategoryMapVM> communityCategoryMapVMs =
-                    CommunityCategoryCache.getSocialCommCategoryMapVMs();
+                    CommunityMetaCache.getSocialCommCategoryMapVMs();
             return ok(Json.toJson(communityCategoryMapVMs));    
         }
         
