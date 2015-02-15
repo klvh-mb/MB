@@ -1,18 +1,14 @@
 package controllers;
 
-import common.cache.LocationCache;
 import common.utils.NanoSecondStopWatch;
-import models.Community;
-import models.Location;
 import models.PreNursery;
-import models.TargetingSocialObject.TargetingType;
 import models.User;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import viewmodel.CommunitiesWidgetChildVM;
 import viewmodel.PreNurseryVM;
+import viewmodel.StringVM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +67,18 @@ public class PreNurseryController extends Controller {
         logger.underlyingLogger().info("STS [u="+localUser.id+"][d="+districtId+"] getPNsByDistrict. Took "+sw.getElapsedMS()+"ms");
 		return ok(Json.toJson(pnVMs));
     }
-    
+
+    @Transactional
+	public static Result getPNOrgsByDistrict(Long districtId) {
+        List<String> orgs = PreNursery.getOrganizationsByDistrict(districtId);
+
+        final List<StringVM> vms = new ArrayList<>();
+        for (String org : orgs) {
+            vms.add(new StringVM(org));
+        }
+		return ok(Json.toJson(vms));
+    }
+
     @Transactional
 	public static Result getTopViewsPNs(Long num) {
     	NanoSecondStopWatch sw = new NanoSecondStopWatch();

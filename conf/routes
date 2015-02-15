@@ -282,6 +282,7 @@ GET     /get-pns-by-community/:community_id     controllers.PreNurseryController
 GET     /search-pns-by-name/:query              controllers.PreNurseryController.searchPNsByName(query:String)
 GET     /get-pns-by-region/:region_id           controllers.PreNurseryController.getPNsByRegion(region_id:Long)
 GET     /get-pns-by-district/:district_id       controllers.PreNurseryController.getPNsByDistrict(district_id:Long)
+GET     /get-pn-orgs-by-district/:district_id   controllers.PreNurseryController.getPNOrgsByDistrict(district_id:Long)
 GET     /get-top-views-pns/:num                 controllers.PreNurseryController.getTopViewsPNs(num:Long)
 GET     /get-top-bookmarked-pns/:num            controllers.PreNurseryController.getTopBookmarkedPNs(num:Long)
 GET     /bookmark-pn/:id                        controllers.PreNurseryController.onBookmark(id : Long)

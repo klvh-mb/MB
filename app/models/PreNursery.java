@@ -129,6 +129,12 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
         return (List<PreNursery>)q.getResultList();
     }
 
+    public static List<String> getOrganizationsByDistrict(Long districtId) {
+        Query q = JPA.em().createQuery("SELECT distinct pn.organization FROM PreNursery pn where pn.districtId=?1 and pn.organization is NOT NULL");
+        q.setParameter(1, districtId);
+        return (List<String>)q.getResultList();
+    }
+
     public static List<PreNursery> getTopViewsPNs(Long num) {
         Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn order by pn.noOfViews desc");
         q.setMaxResults(num.intValue());
