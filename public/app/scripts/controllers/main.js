@@ -3219,7 +3219,7 @@ minibean.controller('ArticlePageController',function($scope, $routeParams, artic
     }
 });
 
-minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filter, locationService, schoolsService, usSpinnerService) {
+minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filter, schoolsFactory, schoolsService, locationService, usSpinnerService) {
 
     $scope.get_header_metaData();
 
@@ -3236,16 +3236,18 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     $scope.filteredPNs = $scope.pns;
     
     // search by name
-    $scope.searchTerm = '';
-    $scope.searchPNsResults = [];
     $scope.resetSearch = function() {
     	$scope.searchTerm = '';
 		$scope.searchPNsResults = [];
 		$("#schools-searchfield").val('');
         $("#schools-searchfield").trigger('input');
+        $scope.searchMode = false;
     }
+    $scope.resetSearch();
+    
     $scope.searchPNsByName = function(schoolQuery) {
 		if(schoolQuery != undefined && schoolQuery.length > 0 && $scope.searchTerm != schoolQuery) {
+			$scope.searchMode = true;
 			$scope.searching = true;
 			$scope.searchPNsResults = schoolsService.searchPNsByName.get({query:schoolQuery},
 				function(data) {
@@ -3295,6 +3297,22 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     	}
     	$scope.filtering = false;
 	}
+    
+    $scope.bookmarkPN = function(pn_id) {
+    	var pns = $scope.filteredPNs;
+    	if ($scope.searchMode) {
+    		pns = $scope.searchPNsResults;
+    	}
+        schoolsFactory.bookmarkPN(pn_id, pns);
+    }
+    
+    $scope.unBookmarkPN = function(pn_id) {
+    	var pns = $scope.filteredPNs;
+    	if ($scope.searchMode) {
+    		pns = $scope.searchPNsResults;
+    	}
+    	schoolsFactory.unBookmarkPN(pn_id, pns);
+    }
 });
 
 minibean.controller('ShowArticlesController',function($scope, $routeParams, articleFactory, articleService, tagwordService, showImageService, usSpinnerService) {
@@ -4152,9 +4170,9 @@ minibean.controller('UserNewsFeedController', function($scope, $routeParams, $ti
 	
 });
 
-minibean.controller('MyBookmarkController', function($scope, postFactory, bookmarkPostService, postManagementService, $http, usSpinnerService, bookmarkService) {
+minibean.controller('MyBookmarksController', function($scope, postFactory, myBookmarksService, bookmarkService, postManagementService, $http, usSpinnerService) {
     
-    $scope.bookmarkSummary = bookmarkService.bookmarkSummary.get();
+    $scope.bookmarkSummary = myBookmarksService.bookmarkSummary.get();
     
 	$scope.posts = { posts: [] };
 	
@@ -4179,7 +4197,7 @@ minibean.controller('MyBookmarkController', function($scope, postFactory, bookma
     }
     
 	$scope.unBookmarkPost = function(post_id) {
-		bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
+		bookmarkService.unbookmarkPost.get({"post_id":post_id}, function(data) {
 			angular.forEach($scope.posts.posts, function(post, key){
 				if(post.id == post_id) {
 					post.isBookmarked = false;
@@ -4194,7 +4212,7 @@ minibean.controller('MyBookmarkController', function($scope, postFactory, bookma
 	}
 	
 	$scope.unBookmarkArticle = function(article_id) {
-		bookmarkPostService.unbookmarkArticle.get({"article_id":article_id}, function(data) {
+		bookmarkService.unbookmarkArticle.get({"article_id":article_id}, function(data) {
 			angular.forEach($scope.articles.article, function(article, key){
 				if(article.id == article_id) {
 					article.isBookmarked = false;
@@ -4206,7 +4224,7 @@ minibean.controller('MyBookmarkController', function($scope, postFactory, bookma
 	}
 	
 	$scope.unBookmarkPKView = function(article_id) {
-        bookmarkPostService.unbookmarkPKView.get({"pkview_id":pkview_id}, function(data) {
+		bookmarkService.unbookmarkPKView.get({"pkview_id":pkview_id}, function(data) {
             angular.forEach($scope.pkviews.pkview, function(pkview, key){
                 if(pkview.id == pkview_id) {
                     pkview.isBookmarked = false;
@@ -4247,7 +4265,7 @@ minibean.controller('MyBookmarkController', function($scope, postFactory, bookma
 		if ($scope.isBusy) return;
 		if (noMore) return;
 		$scope.isBusy = true;
-		bookmarkService.bookmarkedPosts.get({offset:offset},
+		myBookmarksService.bookmarkedPosts.get({offset:offset},
             function(data){
     			var posts = data;
     			if(data.length == 0) {
@@ -4268,7 +4286,7 @@ minibean.controller('MyBookmarkController', function($scope, postFactory, bookma
 		if ($scope.isBusyA) return;
 		if (noMoreA) return;
 		$scope.isBusyA = true;
-		bookmarkService.bookmarkedArticles.get({offsetA:offsetA},
+		myBookmarksService.bookmarkedArticles.get({offsetA:offsetA},
             function(data){
     			var articles = data;
     			if(data.length == 0) {
@@ -4289,7 +4307,7 @@ minibean.controller('MyBookmarkController', function($scope, postFactory, bookma
         if ($scope.isBusyP) return;
         if (noMoreP) return;
         $scope.isBusyP = true;
-        bookmarkService.bookmarkedPKViews.get({offsetP:offsetP},
+        myBookmarksService.bookmarkedPKViews.get({offsetP:offsetP},
             function(data){
                 var pkviews = data;
                 if(data.length == 0) {

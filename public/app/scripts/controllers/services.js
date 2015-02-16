@@ -659,7 +659,7 @@ minibean.service('searchMembersService',function($resource){
     );
 });
 
-minibean.service('bookmarkPostService', function($resource) {
+minibean.service('bookmarkService', function($resource) {
     this.bookmarkPost = $resource(
             '/bookmark-post/:post_id',
             {alt:'json',callback:'JSON_CALLBACK'},
@@ -705,6 +705,22 @@ minibean.service('bookmarkPostService', function($resource) {
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get', params:{pkview_id:'@pkview_id'}}
+            }
+    );
+    
+    this.bookmarkPN = $resource(
+            '/bookmark-pn/:pn_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{pn_id:'@pn_id'}}
+            }
+    );
+    
+    this.unbookmarkPN = $resource(
+            '/unbookmark-pn/:pn_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{pn_id:'@pn_id'}}
             }
     );
 });
@@ -1088,7 +1104,7 @@ minibean.service('userNewsFeedService',function($resource){
     );
 });
 
-minibean.service('bookmarkService',function($resource){
+minibean.service('myBookmarksService',function($resource){
     this.bookmarkedPosts = $resource(
             '/get-bookmarked-posts/:offset',
             {alt:'json',callback:'JSON_CALLBACK'},
@@ -1110,6 +1126,14 @@ minibean.service('bookmarkService',function($resource){
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'GET', params:{offsetA:'@offsetP'}, isArray:true}
+            }
+    );
+    
+    this.bookmarkedPNs = $resource(
+            '/get-bookmarked-pns',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET', isArray:true}
             }
     );
     

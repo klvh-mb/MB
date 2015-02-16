@@ -41,7 +41,7 @@
     top: 40px;
     left: 0px;
     overflow-y: scroll;
-    max-height: 380px;
+    max-height: 450px;
     width: 100%;
     padding: 0;
     margin: 0;
@@ -54,6 +54,9 @@
 #schools-search-box .dropdown-menu li a {
 	padding: 0;
     margin: 0;
+}
+#schools-search-box .dropdown-menu li a {
+    background-color: transparent;
 }
 #dismiss-search {
 	top: -3px;
@@ -115,8 +118,9 @@
 .school-list-entry {
     border-bottom: solid 1px #B8C9FD;
     padding: 10px;
+    position: relative;
 }
-.school-list-entry .pn-info a:first-child {
+.school-list-entry .pn-info > a:first-child {
 	color: #324fe1;
 	font-weight: bold;
 	font-size: 18px;
@@ -131,6 +135,12 @@
 	border-radius: 5px;
 	line-height: 1.8;
 }
+.school-list-entry .post-favorite, 
+.school-list-entry .post-favorited {
+    text-indent: 20px;
+    right: 0;
+    top: 5px;
+}
 .school-list-entry .school-attr {
     display: inline-block;
     width: 45%;
@@ -140,8 +150,6 @@
     margin-right: 10px;
     color: #5F1B1B;
 }
-
-
 .school-list-filters {
 	margin-top: 10px;
     font-size: 14px;

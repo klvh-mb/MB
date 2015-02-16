@@ -1,85 +1,48 @@
-<div class="btn-group" dropdown style="margin-top:0;margin-left:10px;">
-    <button type="button" id="membersDropdownBtn" class="btn btn-primary dropdown-toggle">
-        所有地區 ({{allDistricts.length}}) <span class="caret"></span>
-    </button>
-    <ul id="membersDropdown" class="dropdown-menu" role="menu">
-        <li ng-click="applyPNFilter('all')" style="cursor:pointer;">所有地區</li>
-        <li ng-click="applyPNFilter(district)" style="cursor:pointer;" ng-repeat="district in allDistricts">{{district}}</li>
-    </ul>
-</div>
-<div class="padding5 row"></div>
+<header>
+    <div data-ng-include style="width:100%;" data-src="'/assets/app/views/header-bar.html'"></div>
+</header>
 
-<div><h6>*以下資料及日期只供參考。各小萌豆家長可按下面的學校連結到學校官方網站確認。如報名或其他日期有誤，請按 '要求日期更新<i class="glyphicon glyphicon-flag"></i>'，我們會盡快更新</h6></div>
-
-<div ng-show="filteredMyDistrictPNs.length > 0">
-    <div class="general-box widget-box" ng-show="filteredMyDistrictPNs.length > 0">
-        <div class="section-title" style="padding:4px 10px;background-color:#4694D6;color:white;">
-            <!--span class="section-icon icon-title-community"></span-->
-            <span><b>我的社區 - {{filteredMyDistrictPNs[0].dis}}</b></span>
+<div class="themeA-container">
+    <div data-ng-include data-src="'/assets/app/views/nav-bar.html'"></div>
+    <div class="row">
+        <div class="col-md-2 col-sm-2 col-xs-2" style="width:210px;">
+            <!--div id="left-sidebar" ui-scrollfix="+{{leftSidebarTop}}">
+                <div data-ng-include data-src="'/assets/app/views/widgets/schools-pn-ranking-index-widget.html'"></div>
+            </div-->
+        </div>
+        
+        <div class="col-md-6 col-sm-6 col-xs-6" style="width:500px;">
+            
+            
+            
+            
+            
+            
+        </div>
+        
+        <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
+            <div ng-show="!userInfo.isLoggedIn">
+                <div data-ng-include data-src="'/assets/app/views/widgets/prompt-signup-widget.html'"></div>
+            </div>
+            <div class="ads-factor-300x250">
+                <script adSize="300250" adSid="244781106677" ads-factor language='JavaScript' type="text/javascript"></script>
+            </div>
+            <div id="right-sidebar" ui-scrollfix="+{{rightSidebarTop}}">
+                <div>
+                    <div data-ng-include data-src="'/assets/app/views/widgets/fb-likebox-widget.html'"></div>
+                </div>
+            </div>
+            <div class="ads-factor-1x1" ng-if="userInfo.isLoggedIn">
+                <script adSize="11" adSid="985037346676" ads-factor language='JavaScript' type="text/javascript"></script>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="general-box" ng-repeat="pn in filteredMyDistrictPNs | objFilter:pnFilter">
-    <ul class="pn-wrapper" style="padding: 5px 10px 0px 10px;">
-        <li>
-            <div class="pn-info">
-                <a ng-href="{{pn.url}}" target="_blank">
-                    {{pn.n}}
-                </a>
-                <span class="tag" ng-style="{backgroundColor: pn.tagc}">{{pn.dis}}</span>
-                <a ng-show="pn.map != null" href="{{pn.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i></a>
-
-                <div class="pn-info-note"><span ng-show="pn.adr">{{pn.adr}}</span></div>
-                <div class="pn-info-note"><span ng-show="pn.pho">電話: {{pn.pho}}</span><span ng-show="pn.em"> · 電郵: {{pn.em}}</span></div>
-                <div class="pn-info-attr">
-                    <span>派表日期: {{pn.fds}}<span ng-show="!pn.fds">--</span></span>
-                    <span>報名日期: {{pn.ads}}<span ng-show="!pn.ads">--</span></span>
-                    <span>截止日期: {{pn.eds}}<span ng-show="!pn.eds">--</span></span>
-                    <div class="pull-right" style="margin:auto auto;">
-                        <span style="margin-right:5px;" ng-show="pn.fom">申請表格: <a href="{{pn.fom}}" target="_blank"><i class="glyphicon glyphicon-download-alt"></i></a></span>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </ul>
+<div id="back-to-top" style="z-index:1000">
+    <a data-ng-click="gotoTop()"><span class="icon-title-arrow-up"></span>Top</a>
 </div>
 
-<div ng-show="filteredMyDistrictPNs.length > 0">
-    <div class="padding5"></div>
-    <div class="general-box widget-box">
-        <div class="section-title" style="padding:4px 10px;background-color:#4694D6;color:white;">
-            <!--span class="section-icon icon-title-community"></span-->
-            <span><b>其他地區</b></span>
-        </div>
-    </div>
-</div>
-
-<pagination direction-links="false" ng-show="filteredOtherPNs.length > itemsPerPage" total-items="filteredOtherPNs.length" page="currentPage" on-select-page="setPNPage(page)" items-per-page="itemsPerPage"></pagination>
-<div class="general-box" ng-repeat="pn in pagedFilteredOtherPNs">
-    <ul class="pn-wrapper" style="padding: 5px 10px 0px 10px;">
-        <li>
-            <div class="pn-info">
-                <a ng-href="{{pn.url}}" target="_blank">
-                    {{pn.n}}
-                </a>
-                <span class="tag" ng-style="{backgroundColor: pn.tagc}">{{pn.dis}}</span>
-                <a ng-show="pn.map != null" href="{{pn.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i></a>
-
-                <div class="pn-info-note"><span ng-show="pn.adr">{{pn.adr}}</span></div>
-                <div class="pn-info-note"><span ng-show="pn.pho">電話: {{pn.pho}}</span><span ng-show="pn.em"> · 電郵: {{pn.em}}</span></div>
-                <div class="pn-info-attr">
-                    <span>派表日期: {{pn.fds}}<span ng-show="!pn.fds">--</span></span>
-                    <span>報名日期: {{pn.ads}}<span ng-show="!pn.ads">--</span></span>
-                    <span>截止日期: {{pn.eds}}<span ng-show="!pn.eds">--</span></span>
-                    <div class="pull-right" style="margin:auto auto;">
-                        <span style="margin-right:5px;" ng-show="pn.fom">申請表格: <a href="{{pn.fom}}" target="_blank"><i class="glyphicon glyphicon-download-alt"></i></a></span>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </ul>
-</div>
-<pagination direction-links="false" ng-show="filteredOtherPNs.length > itemsPerPage" total-items="filteredOtherPNs.length" page="currentPage" on-select-page="setPNPage(page)" items-per-page="itemsPerPage"></pagination>
-
-<!--div><h6>*以上資料及日期只供參考。各小萌豆家長可按下面的學校連結到學校官方網站確認。</h6></div-->
+<script>
+    ga_send_pv();
+</script>
