@@ -5,6 +5,7 @@ import play.db.jpa.JPA;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -68,14 +69,10 @@ public class SchoolSaved extends domain.Entity {
 
 
     ///////////////////// GET SQLs /////////////////////
-    public static SchoolSaved findByUserSchoolId(Long userId, Long schoolId) {
+    public static List<SchoolSaved> findByUserSchoolId(Long userId, Long schoolId) {
         Query q = JPA.em().createQuery("SELECT ss FROM SchoolSaved ss where ss.userId=?1 and ss.schoolId=?2");
         q.setParameter(1, userId);
         q.setParameter(2, schoolId);
-        try {
-            return (SchoolSaved) q.getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
+        return (List<SchoolSaved>) q.getResultList();
     }
 }
