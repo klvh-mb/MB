@@ -39,7 +39,10 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
     public String organizationType;
     public boolean couponSupport = false;
     public String classTimes;       // comma separated (AM,PM,WD)
+    @Column(length = 1024)
     public String curriculum;
+    public String annualFeeHD;
+    public String annualFeeWD;
 
     // stats
     public int noOfComments = 0;
