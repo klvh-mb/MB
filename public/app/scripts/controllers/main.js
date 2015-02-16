@@ -3219,7 +3219,7 @@ minibean.controller('ArticlePageController',function($scope, $routeParams, artic
     }
 });
 
-minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filter, schoolsFactory, schoolsService, locationService, usSpinnerService) {
+minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filter, schoolsFactory, schoolsService, myBookmarksService, locationService, usSpinnerService) {
 
     $scope.get_header_metaData();
 
@@ -3298,12 +3298,14 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     	$scope.filtering = false;
 	}
     
+    $scope.bookmarkedPNs = myBookmarksService.bookmarkedPNs.get();
+    
     $scope.bookmarkPN = function(pn_id) {
     	var pns = $scope.filteredPNs;
     	if ($scope.searchMode) {
     		pns = $scope.searchPNsResults;
     	}
-        schoolsFactory.bookmarkPN(pn_id, pns);
+        schoolsFactory.bookmarkPN(pn_id, pns, $scope.bookmarkedPNs);
     }
     
     $scope.unBookmarkPN = function(pn_id) {
@@ -3311,7 +3313,7 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     	if ($scope.searchMode) {
     		pns = $scope.searchPNsResults;
     	}
-    	schoolsFactory.unBookmarkPN(pn_id, pns);
+    	schoolsFactory.unBookmarkPN(pn_id, pns, $scope.bookmarkedPNs);
     }
 });
 

@@ -88,12 +88,11 @@
 	    <li ng-repeat="pn in filteredPNs">
 	        <div class="school-list-entry">
 	            <div class="pn-info">
-	                <a ng-href="{{pn.url}}" target="_blank">
+	                <a href="/schools#!/pn/{{pn.id}}">
 	                    {{pn.n}}
 	                </a>
 	                <span data-ng-include data-src="'/assets/app/views/schools/bookmark-pn.html'"></span>
 	                
-	                <!--span class="tag" ng-style="{backgroundColor: pn.tagc}">{{pn.dis}}</span-->
 	                <a class="schools-map" ng-show="pn.map != null" href="{{pn.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i>地圖</a>
 	
 	                <div class="pn-info-note"><span ng-show="pn.adr">{{pn.adr}}</span></div>

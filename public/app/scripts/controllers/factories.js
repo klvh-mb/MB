@@ -22,21 +22,38 @@ minibean.factory('schoolsFactory',function(schoolsService, postManagementService
             });
     }
     
-    factory.bookmarkPN = function(pn_id, pns) {
+    factory.bookmarkPN = function(pn_id, pns, bookmarkedPNs) {
         bookmarkService.bookmarkPN.get({"pn_id":pn_id}, function(data) {
             angular.forEach(pns, function(pn, key){
                 if(pn.id == pn_id) {
                     pn.isBookmarked = true;
+                    
+                    var bookmarked = false;
+                    angular.forEach(bookmarkedPNs, function(bookmarkedPN, key){
+                    	if (bookmarkedPN.id == pn_id) {
+                    		bookmarked = true;
+                    	}
+                    })
+                    if (!bookmarked) {
+                    	bookmarkedPNs.push(pn);
+                    }
                 }
             })
         });
     }
     
-    factory.unBookmarkPN = function(pn_id, pns) {
+    factory.unBookmarkPN = function(pn_id, pns, bookmarkedPNs) {
         bookmarkService.unbookmarkPN.get({"pn_id":pn_id}, function(data) {
             angular.forEach(pns, function(pn, key){
                 if(pn.id == pn_id) {
                     pn.isBookmarked = false;
+                    
+                    angular.forEach(bookmarkedPNs, function(bookmarkedPN, key){
+                    	if (bookmarkedPN.id == pn_id) {
+                    		//alert(pn_id+":"+bookmarkedPNs.indexOf(bookmarkedPN));
+                    		bookmarkedPNs.splice(bookmarkedPNs.indexOf(bookmarkedPN),1);
+                    	}
+                    })
                 }
             })
         });

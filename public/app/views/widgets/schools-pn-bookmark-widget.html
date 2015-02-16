@@ -1,0 +1,28 @@
+<div id="schools-pn-bookmarks-section">
+    
+    <div id="schools-pn-bookmarks" class="general-box utility-box">
+        <div class="bookmarks-title">
+            <span class="schools-title-icon schools-title-icon-bookmark"></span>
+            <img src="/assets/app/images/general/titles/schools_title_bookmarks.png">
+        </div>
+        <div class="section-details">
+            <ul>
+                <li ng-repeat="pn in bookmarkedPNs">
+                    <div class="pn-details">
+                        <div class="pn-summary">
+                            <a href="/schools#!/pn/{{pn.id}}">
+                                {{pn.n}}
+                            </a>
+                            <span class="tag">{{pn.dis}}</span>
+                            
+                            <!--div style="display:block;">
+                                <a class="tag" data-ng-href="/articles#!/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
+                                <span ng-show="article.nol > 0 || userInfo.isE" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{article.nol}}</span>
+                            </div-->
+                        </div>
+                    </div>
+                </li>                    
+            </ul>
+        </div>
+    </div>
+</div>
