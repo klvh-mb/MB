@@ -502,22 +502,23 @@ minibean.controller('ApplicationController',
         return "/authenticatePopup/facebook?rurl="+url;     // http%3A%2F%2Fminibean.com.hk%2Fmy%23%2F
     }
     
-    $scope.popupLoginModal = function() {
+    $scope.popupLoginModal = function(titleText) {
+    	if (titleText == undefined || titleText == null) {
+    		titleText = "參加活動";
+    	}
         var rurl = $scope.getFbLoginUrl();
         bootbox.dialog({
             message: 
-                "<div style='margin:0 20px;'>" + 
-                "<div style='height:25px;margin-top:10px;font-size:15px;'>你並未登入。請先登入再參加活動</div>" +
-                "<div style='height:25px;margin-left:20px;font-size:15px;'>" + 
-                "<a onclick='window.location=\"\/login\"'><b>會員登入</b></a> 或以 Facebook" +
-                "<a onclick='window.location=\""+rurl+"\"'><img style='height:22px;margin-left:5px;' src='../assets/app/images/login/facebook_login_s.jpg' /></a>" +
-                "</div>" +
-                "<div style='height:25px;margin-top:20px;font-size:15px;'>如未有帳戶，請登記再重試~</div>" +
-                "<div style='height:25px;margin-left:20px;font-size:15px;'>" +
-                "<a onclick='window.location=\"\/signup\"'><b>立即註冊!</b></a>" +
-                "</div>" + 
+                "<div style='margin:0 20px;font-size:15px;line-height: 2.5;'>" + 
+                "    <div>" +
+                "        請先 <a onclick='window.location=\""+rurl+"\"'><img style='height:26px;' src='../assets/app/images/login/facebook_login_s.jpg' /></a> 再" + titleText + 
+                "    </div>" +
+                "    <div>" +
+                "        或以 <a onclick='window.location=\"\/login\"'><b>電郵登入</b></a> | " +
+                "        <a onclick='window.location=\"\/signup\"'><b>會員注册</b></a>" +
+                "    </div>" + 
                 "</div>",
-            title: "參加活動",
+            title: titleText,
             className: "popup-login-modal",
         });
     }

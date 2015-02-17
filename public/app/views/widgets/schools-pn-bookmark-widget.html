@@ -1,28 +1,38 @@
 <div id="schools-pn-bookmarks-section">
-    
-    <div id="schools-pn-bookmarks" class="general-box utility-box">
-        <div class="bookmarks-title">
-            <span class="schools-title-icon schools-title-icon-bookmark"></span>
-            <img src="/assets/app/images/general/titles/schools_title_bookmarks.png">
-        </div>
-        <div class="section-details">
-            <ul>
-                <li ng-repeat="pn in bookmarkedPNs">
-                    <div class="pn-details">
-                        <div class="pn-summary">
-                            <a href="/schools#!/pn/{{pn.id}}">
-                                {{pn.n}}
-                            </a>
-                            <span class="tag">{{pn.dis}}</span>
-                            
-                            <!--div style="display:block;">
-                                <a class="tag" data-ng-href="/articles#!/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
-                                <span ng-show="article.nol > 0 || userInfo.isE" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{article.nol}}</span>
-                            </div-->
-                        </div>
-                    </div>
-                </li>                    
-            </ul>
-        </div>
-    </div>
+	<div id="schools-pn-bookmarks" class="general-box utility-box">
+	    <div class="bookmarks-title">
+	        <span class="schools-title-icon schools-title-icon-bookmark"></span>
+	        <img src="/assets/app/images/general/titles/schools_title_bookmarks.png">
+	    </div>
+	    <div class="section-details">
+		    <div class="login-reminder" ng-show="!userInfo.isLoggedIn || bookmarkedPNs.length == 0">
+                <div class="login-reminder-text">
+                    按幼稚園右方的
+                    <img style="width:18px;vertical-align:text-bottom;margin:1px 1px;" src="/assets/app/images/general/icons/message_favorited.png">
+                    收藏方便査看
+                    <img style="width:100%;margin-top:5px;" src="http://www.minibean.hk/image/frontpage/2015/2/17/bookmark-sample.jpg">
+                </div>          
+	            <div class="login-reminder-prompt" ng-show="!userInfo.isLoggedIn">
+                    請先 <a ng-href="{{getFbLoginUrl()}}"><img class="prompt-fb-login" src="../assets/app/images/login/facebook_login_s.jpg" /></a> <br>或以 <a href="/login">電郵登入</a> | <a href="/signup">會員注册</a>
+                </div>
+            </div>
+	        <ul ng-if="userInfo.isLoggedIn">
+	            <li ng-repeat="pn in bookmarkedPNs">
+	                <div class="pn-details">
+	                    <div class="pn-summary">
+	                        <a href="/schools#!/pn/{{pn.id}}">
+	                            {{pn.n}}
+	                        </a>
+	                        <span class="tag">{{pn.dis}}</span>
+	                        
+	                        <!--div style="display:block;">
+	                            <a class="tag" data-ng-href="/articles#!/article/show/{{article.ct.id}}">{{article.ct.name}}</a>
+	                            <span ng-show="article.nol > 0 || userInfo.isE" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{article.nol}}</span>
+	                        </div-->
+	                    </div>
+	                </div>
+	            </li>                    
+	        </ul>
+	    </div>
+	</div>
 </div>
