@@ -29,7 +29,8 @@
 		        <li ng-repeat="pn in searchPNsResults" ng-if="searchPNsResults.length <= 100">
 		            <div class="school-list-entry">
 		               <div class="pn-info">
-		                    <a href="/schools#!/pn/{{pn.id}}">
+		                    <!--a href="/schools#!/pn/{{pn.id}}"-->
+		                    <a ng-href="{{pn.url}}" target="_blank">
 		                        {{pn.n}}
 		                    </a>
 		                    <span class="tag">{{pn.dis}}</span>

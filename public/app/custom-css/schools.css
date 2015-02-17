@@ -276,6 +276,16 @@
 	background: -ms-linear-gradient(top, rgba(171, 219, 172, 1) 0%,rgba(84, 169, 88, 1) 50%,rgba(82, 169, 90, 1) 51%,rgba(28, 110, 29, 1) 100%);
 	background: linear-gradient(to bottom, rgba(171, 219, 172, 1) 0%,rgba(84, 169, 88, 1) 50%,rgba(82, 169, 90, 1) 51%,rgba(28, 110, 29, 1) 100%);
 }
+#schools-pn-bookmarks-section #schools-pn-bookmarks .bookmarks-summary {
+	font-size: 16px;
+	color: #407E40;
+	margin: 0px 5px 0px 10px;
+	padding: 3px 0px;
+	border-bottom: dashed 1px #407E40; 
+}
+#schools-pn-bookmarks-section a:hover {
+	text-decoration: none;
+}
 #schools-pn-bookmarks-section #schools-pn-bookmarks .section-details {
 	
 }
