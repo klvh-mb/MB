@@ -27,6 +27,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.joda.time.DateTime;
 
 import play.db.jpa.JPA;
+import play.db.jpa.Transactional;
 import providers.MyUsernamePasswordAuthUser;
 import common.model.TargetYear;
 import common.model.TodayWeatherInfo;
@@ -788,12 +789,12 @@ public class DataBootstrap {
         logger.underlyingLogger().info("bootstrapPNCommunity() - count="+pns.size());
 
         for (PreNursery pn : pns) {
-            String name = pn.getName();
+            String name = pn.getName()+" - "+pn.districtId;
             String desc = pn.getName()+" PreNursery討論區";
-            Community community = getOrCreatePNCommunity(name, desc, pn.districtId);
+            Community community = getOrCreatePNCommunity(name, desc);
             if (community != null) {
                 pn.communityId = community.getId();
-                pn.save();
+                pn.merge();
             }
         }
     }
@@ -892,23 +893,25 @@ public class DataBootstrap {
         }
     }
 
-    private static Community getOrCreatePNCommunity(String name, String desc, Long districtId) {
-        String targetingInfo = districtId.toString();
-
-        Community community = Community.findByNameTargetingTypeTargetingInfo(name, TargetingType.PRE_NURSERY, targetingInfo);
-        if (community == null) {
+    @Transactional
+    private static Community getOrCreatePNCommunity(String name, String desc) {
+        Community newComm = Community.findByNameTargetingType(name, TargetingType.PRE_NURSERY);
+        if (newComm == null) {
             try {
-                community = Application.getMBAdmin().createCommunity(
+                newComm = Application.getMBAdmin().createCommunity(
                         name, desc, CommunityType.OPEN,
                         "/assets/app/images/general/icons/community/grad_hat.png");
-                community.system = true;
-                community.targetingType = TargetingType.PRE_NURSERY;
-                community.targetingInfo = targetingInfo;
+                newComm.system = true;
+                newComm.excludeFromNewsfeed = true;
+                newComm.targetingType = TargetingType.PRE_NURSERY;
+                newComm.targetingInfo = null;
+
+                logger.underlyingLogger().info("Created PN community (id="+newComm.getId()+"): "+name);
             } catch (Exception e) {
                 logger.underlyingLogger().error("Error in getOrCreatePNCommunity", e);
             }
         }
-        return community;
+        return newComm;
     }
 
     private static TagWord createTagWord(TagWord.TagCategory tagCategory, String tagCategoryId,
