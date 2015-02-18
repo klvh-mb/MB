@@ -416,13 +416,12 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
         return null;
 	}
 
-    public static Community findByNameTargetingTypeTargetingInfo(String name,
-	        TargetingSocialObject.TargetingType targetingType, String targetingInfo) {
-	    Query q = JPA.em().createQuery("SELECT c FROM Community c where system=?1 and targetingType=?2 and targetingInfo=?3 and name=?4 and deleted = false");
+    public static Community findByNameTargetingType(String name,
+                                                    TargetingSocialObject.TargetingType targetingType) {
+	    Query q = JPA.em().createQuery("SELECT c FROM Community c where system=?1 and targetingType=?2 and name=?3 and deleted = false");
 	    q.setParameter(1, true);
         q.setParameter(2, targetingType);
-        q.setParameter(3, targetingInfo);
-        q.setParameter(4, name);
+        q.setParameter(3, name);
         try {
             return (Community)q.getSingleResult();
         } catch (NoResultException e) {
