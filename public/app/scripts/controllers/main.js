@@ -3224,43 +3224,73 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
 
     $scope.get_header_metaData();
 
-    $scope.selectNavBar('SCHOOLS', 1);
+    var type = $routeParams.type;
+    if (type == undefined) {
+        type = 1;
+    }
+    $scope.selectNavBar('SCHOOLS', type);
     
-    $scope.selectedDistrictId = 5;
     $scope.districts = locationService.getAllDistricts.get();
-    
     $scope.selectedDistrictId = $routeParams.districtId;
     if ($scope.selectedDistrictId == undefined) {
     	$scope.selectedDistrictId = 5;
     }
-    $scope.pns = schoolsService.pnsByDistrict.get({district_id:$scope.selectedDistrictId});
-    $scope.filteredPNs = $scope.pns;
+    
+    if (type == 1) {	// PN
+    	$scope.schools = schoolsService.pnsByDistrict.get({district_id:$scope.selectedDistrictId});
+    	$scope.bookmarkedSchools = myBookmarksService.bookmarkedPNs.get();
+    } else if (type == 2) {		// K
+    	$scope.schools = [];
+    	$scope.bookmarkedSchools = [];
+    }
+    $scope.filteredSchools = $scope.schools;
     
     // search by name
     $scope.resetSearch = function() {
     	$scope.searchTerm = '';
-		$scope.searchPNsResults = [];
+		$scope.searchResults = [];
 		$("#schools-searchfield").val('');
         $("#schools-searchfield").trigger('input');
         $scope.searchMode = false;
     }
     $scope.resetSearch();
     
-    $scope.searchPNsByName = function(schoolQuery) {
+    $scope.searchByName = function(schoolQuery) {
 		if(schoolQuery != undefined && schoolQuery.length > 0 && $scope.searchTerm != schoolQuery) {
 			$scope.searchMode = true;
 			$scope.searching = true;
-			$scope.searchPNsResults = schoolsService.searchPNsByName.get({query:schoolQuery},
-				function(data) {
-					$scope.searching = false;
-				}
-			);
 			$scope.searchTerm = schoolQuery;
+			if (type == 1) {
+				$scope.searchResults = schoolsService.searchPNsByName.get({query:schoolQuery},
+					function(data) {
+						$scope.searching = false;
+					}
+				);
+			} else if (type == 2) {
+				
+			}
 		}
 		if (schoolQuery == null || schoolQuery.length == 0) {
 			$scope.resetSearch();
 		}
 	}
+    
+    // bookmark
+    $scope.bookmarkPN = function(pn_id) {
+    	var schools = $scope.filteredSchools;
+    	if ($scope.searchMode) {
+    		schools = $scope.searchResults;
+    	}
+        schoolsFactory.bookmarkPN(pn_id, schools, $scope.bookmarkedSchools);
+    }
+    
+    $scope.unBookmarkPN = function(pn_id) {
+    	var schools = $scope.filteredSchools;
+    	if ($scope.searchMode) {
+    		schools = $scope.searchResults;
+    	}
+    	schoolsFactory.unBookmarkPN(pn_id, schools, $scope.bookmarkedSchools);
+    }
     
     // remember all filters user set
     $scope.couponFilter = {'cp':'all'};
@@ -3283,39 +3313,21 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     	
     	// filter one by one
     	$scope.filtering = true;
-    	$scope.filteredPNs = $scope.pns;
+    	$scope.filteredSchools = $scope.schools;
     	if ($scope.couponFilter.cp != 'all') {
-    		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.couponFilter);
+    		$scope.filteredSchools = $filter('objFilter')($scope.filteredSchools, $scope.couponFilter);
     	}
     	if ($scope.classtimesFilter.ct != 'all') {
-    		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.classtimesFilter);
+    		$scope.filteredSchools = $filter('objFilter')($scope.filteredSchools, $scope.classtimesFilter);
     	}
     	if ($scope.orgFilter.org != 'all') {
-    		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.orgFilter);
+    		$scope.filteredSchools = $filter('objFilter')($scope.filteredSchools, $scope.orgFilter);
     	}
     	if ($scope.orgTypeFilter.orgt != 'all') {
-    		$scope.filteredPNs = $filter('objFilter')($scope.filteredPNs, $scope.orgTypeFilter);
+    		$scope.filteredSchools = $filter('objFilter')($scope.filteredSchools, $scope.orgTypeFilter);
     	}
     	$scope.filtering = false;
 	}
-    
-    $scope.bookmarkedPNs = myBookmarksService.bookmarkedPNs.get();
-    
-    $scope.bookmarkPN = function(pn_id) {
-    	var pns = $scope.filteredPNs;
-    	if ($scope.searchMode) {
-    		pns = $scope.searchPNsResults;
-    	}
-        schoolsFactory.bookmarkPN(pn_id, pns, $scope.bookmarkedPNs);
-    }
-    
-    $scope.unBookmarkPN = function(pn_id) {
-    	var pns = $scope.filteredPNs;
-    	if ($scope.searchMode) {
-    		pns = $scope.searchPNsResults;
-    	}
-    	schoolsFactory.unBookmarkPN(pn_id, pns, $scope.bookmarkedPNs);
-    }
 });
 
 minibean.controller('ShowArticlesController',function($scope, $routeParams, articleFactory, articleService, tagwordService, showImageService, usSpinnerService) {

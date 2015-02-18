@@ -5,7 +5,7 @@
 	        <img src="/assets/app/images/general/titles/schools_title_bookmarks.png">
 	    </div>
 	    <div class="section-details">
-		    <div class="login-reminder" ng-show="!userInfo.isLoggedIn || bookmarkedPNs.length == 0">
+		    <div class="login-reminder" ng-show="!userInfo.isLoggedIn || bookmarkedSchools.length == 0">
                 <div class="login-reminder-text">
                     按幼稚園右方的
                     <img style="width:18px;vertical-align:text-bottom;margin:1px 1px;" src="/assets/app/images/general/icons/message_favorited.png">
@@ -17,11 +17,10 @@
                 </div>
             </div>
 	        <ul ng-if="userInfo.isLoggedIn">
-	            <li ng-repeat="pn in bookmarkedPNs">
+	            <li ng-repeat="pn in bookmarkedSchools">
 	                <div class="pn-details">
 	                    <div class="pn-summary">
-	                        <!--a href="/schools#!/pn/{{pn.id}}"-->
-	                        <a ng-href="{{pn.url}}" target="_blank">
+	                        <a href="/schools#!/pn/{{pn.id}}">
 	                            {{pn.n}}
 	                        </a>
 	                        <span class="tag">{{pn.dis}}</span>
@@ -47,30 +46,29 @@
             </a>
         </div>
         <div class="section-details">
-            <div class="login-reminder" ng-show="!userInfo.isLoggedIn || bookmarkedPNs.length == 0">
+            <div class="login-reminder" ng-show="!userInfo.isLoggedIn || bookmarkedSchools.length == 0">
                 <div class="login-reminder-text">
                     按幼稚園右方的
                     <img style="width:18px;vertical-align:text-bottom;margin:1px 1px;" src="/assets/app/images/general/icons/message_favorited.png">
                     收藏方便査看
-                    <img style="width:100%;max-width:225px;margin-top:5px;" src="http://www.minibean.hk/image/frontpage/2015/2/17/bookmark-sample.jpg">
+                    <img style="width:100%;max-width:225px;margin-top:5px;" src="http://www.minibean.hk/image/frontpage/2015/2/18/bookmark-sample-m.jpg">
                 </div>          
                 <div class="login-reminder-prompt" ng-show="!userInfo.isLoggedIn">
                     請先 <a ng-href="{{getFbLoginUrl()}}"><img class="prompt-fb-login" src="../assets/app/images/login/facebook_login_s.jpg" /></a> <br>或以 <a href="/login">電郵登入</a> | <a href="/signup">會員注册</a>
                 </div>
             </div>
             <ul ng-if="userInfo.isLoggedIn">
-                <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" ng-if="bookmarkedPNs.length > 0">
+                <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" ng-if="bookmarkedSchools.length > 0">
                     <li>
-                        <span class="bookmarks-summary">您收藏了 "<b>{{bookmarkedPNs.length}}</b>" 間幼稚園</span>
+                        <span class="bookmarks-summary">您收藏了 "<b>{{bookmarkedSchools.length}}</b>" 間幼稚園</span>
                         <img style="width:20px;" src="/assets/app/images/general/icons/green_more.png" />
                     </li>
                 </a>
                 <div id="collapseOne" class="collapse">
-	                <li ng-repeat="pn in bookmarkedPNs">
+	                <li ng-repeat="pn in bookmarkedSchools">
 	                    <div class="pn-details">
 	                        <div class="pn-summary">
-	                            <!--a href="/schools#!/pn/{{pn.id}}"-->
-	                            <a ng-href="{{pn.url}}" target="_blank">
+	                            <a href="/schools#!/pn/{{pn.id}}">
 	                                {{pn.n}}
 	                            </a>
 	                            <span class="tag">{{pn.dis}}</span>
