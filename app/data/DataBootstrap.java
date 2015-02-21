@@ -789,7 +789,7 @@ public class DataBootstrap {
         logger.underlyingLogger().info("bootstrapPNCommunity() - count="+pns.size());
 
         for (PreNursery pn : pns) {
-            String name = pn.getName()+" - "+pn.districtId;
+            String name = pn.getName();
             String desc = pn.getName()+" PreNursery討論區";
             Community community = getOrCreatePNCommunity(name, desc);
             if (community != null) {

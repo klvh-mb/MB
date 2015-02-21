@@ -7,6 +7,7 @@ import java.util.Map;
 
 import models.Comment;
 import models.Community;
+import models.TargetingSocialObject.TargetingType;
 import models.Notification;
 import models.Notification.NotificationType;
 import models.Post;
@@ -63,6 +64,11 @@ public class SocialActivity {
 
     private static boolean isBusinessCommunity(Community community) {
         return community != null && community.communityType == Community.CommunityType.BUSINESS;
+    }
+
+    private static boolean isSendToAllMembers(Community community) {
+        return community.getTargetingType() != null &&
+               community.getTargetingType() == TargetingType.PRE_NURSERY;
     }
     //////////////////////////////////////////////////
 
@@ -226,21 +232,23 @@ public class SocialActivity {
 
                 case POSTED_QUESTION: {
                     Post post = Post.findById(socialAction.target);
+                    User actor = User.findById(socialAction.actor);
                     Community community = post.community;
                     if (isBusinessCommunity(community)) {
                         break;
                     }
 
-                    // fan out to friends of same social community only
+                    // send to All, or fan out to friends of same social community only
+                    boolean sendToAll = isSendToAllMembers(community);
                     List<Long> frdIds = FriendCache.getFriendsIds(socialAction.actor);
 
-                    if (frdIds.size() > 0) {
+                    if (sendToAll || frdIds.size() > 0) {
                         String commLandingUrl = resolveCommunityLandingUrl(community.id, community.communityType);
                         String qnaLandingUrl = resolveQnALandingUrl(post.id, community.id, community.communityType);
                         String msgEnd = " 在「"+community.name+"」發佈了新話題。";
 
-                        List<User> frdMembers = community.getMembersIn(frdIds);
-                        for(User user : frdMembers){
+                        List<User> members = sendToAll ? community.getMembers() : community.getMembersIn(frdIds);
+                        for(User user : members){
                             Notification notification =
                                     Notification.getNotification(user.id, NotificationType.QUESTIONED, community.id, SocialObjectType.COMMUNITY);
 
@@ -249,7 +257,7 @@ public class SocialActivity {
                                 String msg = socialAction.actorname + msgEnd + ((shortTitle.length() == 0) ? "" : "\""+shortTitle+"\"");
 
                                 notification = new Notification();
-                                notification.addToList(User.findById(socialAction.actor));
+                                notification.addToList(actor);
                                 notification.target = community.id;
                                 notification.targetType = SocialObjectType.COMMUNITY;
                                 notification.notificationType = NotificationType.QUESTIONED;
@@ -258,7 +266,6 @@ public class SocialActivity {
                                 jsonMap.put("onClick", qnaLandingUrl);
                                 notification.URLs = Json.stringify(Json.toJson(jsonMap));
                                 notification.count++;
-                                notification.status = 0;
                                 notification.socialActionID = community.id;
                                 notification.message = msg;
                                 notification.setUpdatedDate(new Date());
@@ -270,7 +277,7 @@ public class SocialActivity {
                                 jsonMap.put("onClick", commLandingUrl);
                                 notification.URLs = Json.stringify(Json.toJson(jsonMap));
                                 notification.status = 0;
-                                notification.addToList(User.findById(socialAction.actor));
+                                notification.addToList(actor);
                                 notification.message = msg;
                                 notification.merge();
                             }
