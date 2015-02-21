@@ -41,8 +41,10 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
     public String classTimes;       // comma separated (AM,PM,WD)
     @Column(length = 1024)
     public String curriculum;
+    public String curriculumType;
     public String annualFeeHD;
     public String annualFeeWD;
+    public String numAdmitted;
 
     // stats
     public int noOfComments = 0;
@@ -198,26 +200,6 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
      * @return
      */
     public String getInsertSql() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("insert into PreNursery (");
-        sb.append("regionId, districtId, name, url, phoneText, email, address, couponSupport, ");
-        sb.append("formUrl, mapUrlSuffix, classTimes");
-        sb.append(") values (");
-
-        sb.append(regionId).append(", ");
-        sb.append(districtId).append(", ");
-        sb.append("'").append(name).append("', ");
-        if (url != null) sb.append("'").append(url).append("', "); else sb.append("NULL, ");
-        if (phoneText != null) sb.append("'").append(phoneText).append("', "); else sb.append("NULL, ");
-        if (email != null) sb.append("'").append(email).append("', "); else sb.append("NULL, ");
-        if (address != null) sb.append("'").append(address.replace("'","")).append("', "); else sb.append("NULL, ");
-        sb.append(couponSupport ? 1 : 0).append(", ");
-        if (mapUrlSuffix != null) sb.append("'").append(mapUrlSuffix.replace("'","")).append("', "); else sb.append("NULL, ");
-        if (classTimes != null) sb.append("'").append(classTimes.replace("'","")).append("', "); else sb.append("NULL, ");
-
-        sb.deleteCharAt(sb.length() - 1);
-        sb.deleteCharAt(sb.length() - 1);
-        sb.append(");");
-        return sb.toString();
+        return "";
     }
 }
