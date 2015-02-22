@@ -144,6 +144,11 @@ public class ReviewFileReader {
         public Long userId;
         public List<ReviewComment> comments = new ArrayList<>();
 
+        public boolean isCompleted() {
+            return districtId != null && pnName != null && title != null &&
+                    body != null && dateTime != null && userId != null;
+        }
+
         @Override
         public String toString() {
             return "ReviewEntry{" +
@@ -162,6 +167,10 @@ public class ReviewFileReader {
         public String body;
         public DateTime dateTime;
         public Long userId;
+
+        public boolean isCompleted() {
+            return body != null && dateTime != null && userId != null;
+        }
 
         @Override
         public String toString() {

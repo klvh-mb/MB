@@ -7,8 +7,11 @@ import javax.persistence.Query;
 
 
 import customdata.file.ReviewFileReader;
+import domain.CommentType;
+import domain.PostType;
 import models.Announcement;
 import models.ArticleCategory;
+import models.Comment;
 import models.Community;
 import models.CommunityCategory;
 import models.Community.CommunityType;
@@ -18,6 +21,7 @@ import models.Icon.IconType;
 import models.Location;
 import models.Location.LocationCode;
 import models.PreNursery;
+import models.Post;
 import models.SecurityRole;
 import models.TagWord;
 import models.TargetingSocialObject.TargetingType;
@@ -809,8 +813,53 @@ public class DataBootstrap {
             reader.read(filePath);
             List<ReviewFileReader.ReviewEntry> reviewEntries = reader.getReviews();
 
+            boolean allCompleted = true;
             for (ReviewFileReader.ReviewEntry review : reviewEntries) {
-                logger.underlyingLogger().info(review.toString());
+                if (!review.isCompleted()) {
+                    logger.underlyingLogger().info("Incomplete post: "+review.toString());
+                    allCompleted = false;
+                }
+                else {
+                    for (ReviewFileReader.ReviewComment reviewComment : review.comments) {
+                        if (!reviewComment.isCompleted()) {
+                            logger.underlyingLogger().info("Incomplete comment: "+reviewComment.toString());
+                            allCompleted = false;
+                        }
+                    }
+                }
+            }
+
+            if (!allCompleted) {
+                return;     // return if incomplete input data
+            }
+
+            for (ReviewFileReader.ReviewEntry review : reviewEntries) {
+                logger.underlyingLogger().info("Creating post: "+review.toString());
+
+                User owner = User.findById(review.userId);
+                PreNursery preNursery = PreNursery.findByNameDistrictId(review.pnName, review.districtId);
+
+                if (owner != null && preNursery != null) {
+                    Community community = Community.findById(preNursery.communityId);
+                    Post post = (Post) community.onPost(owner, review.title, review.body, PostType.QUESTION);
+                    post.setCreatedDate(review.dateTime.toDate());
+                    post.setUpdatedDate(review.dateTime.toDate());
+
+                    for (ReviewFileReader.ReviewComment reviewComment : review.comments) {
+                        owner = User.findById(reviewComment.userId);
+                        Comment comment = (Comment) post.onComment(owner, reviewComment.body, CommentType.ANSWER);
+                        comment.setCreatedDate(reviewComment.dateTime.toDate());
+                        comment.setUpdatedDate(reviewComment.dateTime.toDate());
+                        comment.merge();
+
+                        post.socialUpdatedDate = reviewComment.dateTime.toDate();
+                    }
+
+                    post.merge();
+                }
+                else {
+                    logger.underlyingLogger().info("Invalid data. userId="+review.userId+" pnName="+review.pnName+" districtId="+review.districtId);
+                }
             }
         } catch (Exception e) {
             logger.underlyingLogger().error("Error in bootstrapPNReviews", e);
