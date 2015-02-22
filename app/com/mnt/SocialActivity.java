@@ -21,7 +21,7 @@ import common.cache.FriendCache;
 import domain.SocialObjectType;
 
 /**
- * Class for triggering all the different types of notifications.
+ * Notification - Class for triggering all the different types of notifications.
  */
 public class SocialActivity {
     // play url prefix

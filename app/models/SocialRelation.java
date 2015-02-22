@@ -214,8 +214,9 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	
 	@Override
 	public void postSave() {
-		if(isPostSave)
-			SocialActivity.handle(this);
+		if (isPostSave) {
+            SocialActivity.handle(this);
+        }
 	}
 	
 	public <T> T getTargetObject(Class<T> claszz){

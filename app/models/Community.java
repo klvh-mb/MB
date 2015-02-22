@@ -154,9 +154,13 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		if (communityType == CommunityType.CLOSE) {
 			recordJoinRequest(user);
 		} else {
-			beMemberOfOpenCommunity(user);
+			beMemberOfOpenCommunity(user, shouldNotifyOnJoin());
 		}
 	}
+
+    private boolean shouldNotifyOnJoin() {
+        return targetingType == null || targetingType != TargetingType.PRE_NURSERY;
+    }
 
 	@Override
 	@Transactional

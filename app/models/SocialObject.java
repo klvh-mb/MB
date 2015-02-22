@@ -125,8 +125,7 @@ public abstract class SocialObject extends domain.Entity implements
         q.setParameter(4, this.objectType);
         try {
             SecondarySocialRelation sr = (SecondarySocialRelation)q.getSingleResult();
-        }
-        catch(NoResultException nre) {
+        } catch(NoResultException nre) {
             return false;
         }
         return true;
@@ -197,14 +196,19 @@ public abstract class SocialObject extends domain.Entity implements
 		action.isPostSave = false;
 		action.ensureUniqueAndCreate();
 	}
-	
-	protected final void beMemberOfOpenCommunity(User user) {
+
+    /**
+     * Be member of Open Community without join request.
+     */
+	protected final void beMemberOfOpenCommunity(User user, boolean sendNotification) {
 	    // Join community
 	    SocialRelation action = new SocialRelation(user, this);
         action.action = SocialRelation.Action.MEMBER;
         action.actionType = SocialRelation.ActionType.GRANT;
         action.memberJoinedOpenCommunity = true;
+        action.isPostSave = sendNotification;
 
+        // save SocialRelation
         if (action.ensureUniqueAndCreate()) {
             // save community affinity
             UserCommunityAffinity.onJoinedCommunity(user.id, this.id);

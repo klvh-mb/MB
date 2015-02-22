@@ -5,6 +5,7 @@ import common.model.SchoolType;
 import domain.*;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import play.db.jpa.JPA;
+import play.db.jpa.Transactional;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -77,16 +78,29 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
         user.likesCount--;
     }
 
+    @Transactional
     public void onBookmarkedBy(User user) {
         if (logger.underlyingLogger().isDebugEnabled()) {
             logger.underlyingLogger().debug("[u="+user.id+"][pn="+this.id+"] PreNursery onBookmarkedBy");
         }
+        // 1) school saved list
         SchoolSaved saved = new SchoolSaved(user.getId(), this.id, SchoolType.PN);
         saved.save();
+        // 2) join PN community
+        if (communityId != null) {
+            try {
+                Community pnComm = Community.findById(communityId);
+                pnComm.onJoinRequest(user);
+            } catch (Exception e) {
+                logger.underlyingLogger().error("Error joining PN community: "+communityId, e);
+            }
+        }
+        // 3) record bookmark
         recordBookmark(user);
         this.noOfBookmarks++;
     }
 
+    @Transactional
     public void onUnBookmarkedBy(User user) {
         if (logger.underlyingLogger().isDebugEnabled()) {
             logger.underlyingLogger().debug("[u="+user.id+"][pn="+this.id+"] PreNursery onBookmarkedBy");
