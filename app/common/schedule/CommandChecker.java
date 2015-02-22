@@ -28,6 +28,8 @@ public class CommandChecker {
                 }
 
                 in.close();
+                // rename to prevent infinite loop.
+                f.renameTo(new File("command_done.txt"));
             } catch (Exception e) {
                 logger.underlyingLogger().error("Error in performCommand", e);
             }
@@ -68,6 +70,15 @@ public class CommandChecker {
         }
         else if (commandLine.startsWith("bootstrapPNCommunity")) {
             DataBootstrap.bootstrapPNCommunity();
+        }
+
+        else if (commandLine.startsWith("bootstrapPNReviews")) {
+            if (tokens.length > 1) {
+                String filePath = tokens[1];
+                DataBootstrap.bootstrapPNReviews(filePath);
+            } else {
+                logger.underlyingLogger().error("bootstrapPNReviews missing file path");
+            }
         }
     }
 }

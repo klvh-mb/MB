@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Query;
 
 
+import customdata.file.ReviewFileReader;
 import models.Announcement;
 import models.ArticleCategory;
 import models.Community;
@@ -796,6 +797,23 @@ public class DataBootstrap {
                 pn.communityId = community.getId();
                 pn.merge();
             }
+        }
+    }
+
+    /**
+     * Invoked from command line
+     */
+    public static void bootstrapPNReviews(String filePath) {
+        ReviewFileReader reader = new ReviewFileReader();
+        try {
+            reader.read(filePath);
+            List<ReviewFileReader.ReviewEntry> reviewEntries = reader.getReviews();
+
+            for (ReviewFileReader.ReviewEntry review : reviewEntries) {
+                logger.underlyingLogger().info(review.toString());
+            }
+        } catch (Exception e) {
+            logger.underlyingLogger().error("Error in bootstrapPNReviews", e);
         }
     }
 
