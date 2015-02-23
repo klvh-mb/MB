@@ -11,10 +11,57 @@
         <div class="col-md-2 col-sm-2 col-xs-2" style="width:45px;"></div>
         <div class="col-md-6 col-sm-6 col-xs-6" style="width:620px;">
             <div id="wall">
-                <div class="general-box article-box-main">
-                
-                
-                
+                <div class="general-box school-box-main">
+	                <div class="school-list-entry">
+		                <div class="pn-info">
+                            <div class="">
+                                <div>
+                                    {{pn.n}}
+                                    <span class="tag">{{pn.dis}}</span>
+                                </div>
+                                <div>{{pn.ne || ''}}</div>
+		                    </div>
+		                    <span data-ng-include data-src="'/assets/app/views/schools/bookmark-pn.html'"></span>
+
+		                    <a class="schools-map" ng-show="pn.map != null" href="{{pn.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i>地圖</a>
+		    
+		                    <div class="pn-info-note">地址: {{pn.adr || '--'}}</div>
+		                    <div class="pn-info-note">電話: {{pn.pho || '--'}}</div>
+		                    <div class="pn-info-note">電郵: {{pn.em || '--'}}</div>
+		                    <div class="pn-info-note">傳真: {{pn.fax || '--'}}</div>
+		                    <div class="pn-info-attr">
+		                        <span class="school-attr">學券申請: 
+		                            <span ng-show="pn.cp">✓</span>
+		                            <span ng-show="!pn.cp">--</span>
+		                        </span>
+		                        <span class="school-attr">辦學團體: 
+		                            <span>{{pn.org || '--'}}</span>
+		                        </span>
+		                        <span class="school-attr">學校類別: 
+		                            <span>{{pn.orgt || '--'}}</span>
+		                        </span>
+		                        <span class="school-attr">學班時間: 
+		                            <span ng-show="pn.ct == 'AM'">上午</span>
+		                            <span ng-show="pn.ct == 'PM'">下午</span>
+		                            <span ng-show="pn.ct == 'WD'">全日</span>
+		                            <span ng-show="pn.ct == 'AM,PM'">上午、下午</span>
+		                            <span ng-show="pn.ct == 'AM,WD'">上午、全日</span>
+		                            <span ng-show="pn.ct == 'PM,WD'">下午、全日</span>
+		                            <span ng-show="pn.ct == 'AM,PM,WD'">上午、下午、全日</span>
+		                        </span>
+		                    </div>
+		                    <!--div class="pn-info-attr">
+		                        <span>派表日期: {{pn.fds}}<span ng-show="!pn.fds">--</span></span>
+		                        <span>報名日期: {{pn.ads}}<span ng-show="!pn.ads">--</span></span>
+		                        <span>截止日期: {{pn.eds}}<span ng-show="!pn.eds">--</span></span>
+		                        <div class="pull-right" style="margin:auto auto;">
+		                            <span style="margin-right:5px;" ng-show="pn.fom">申請表格: <a href="{{pn.fom}}" target="_blank"><i class="glyphicon glyphicon-download-alt"></i></a></span>
+		                        </div>
+		                    </div-->
+		                    
+		                    <div class="pn-info-note">課程編排: {{pn.cur || ''}}</span></div>
+		                </div>
+		            </div>
                 </div>
             </div>
         </div>

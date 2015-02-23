@@ -914,6 +914,13 @@ minibean.service('campaignService',function($resource){
 });
 
 minibean.service('schoolsService',function($resource){
+	this.pnInfo = $resource(
+            '/get-pn-info/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
 	this.searchPNsByName = $resource(
             '/search-pns-by-name/:query',
             {alt:'json',callback:'JSON_CALLBACK'},

@@ -23,6 +23,18 @@ public class PreNurseryController extends Controller {
     private static play.api.Logger logger = play.api.Logger.apply(PreNurseryController.class);
 
     @Transactional
+	public static Result getPNInfo(Long id) {
+    	NanoSecondStopWatch sw = new NanoSecondStopWatch();
+        
+		final User localUser = Application.getLocalUser(session());
+        PreNursery pn = PreNursery.findById(id);
+
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"][id="+id+"] getPN. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(new PreNurseryVM(pn, localUser)));
+    }
+    
+    @Transactional
 	public static Result searchPNsByName(String nameSubStr) {
         final User localUser = Application.getLocalUser(session());
         List<PreNursery> pns = PreNursery.searchByName(nameSubStr);

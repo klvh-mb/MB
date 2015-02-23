@@ -42,7 +42,7 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
     });
     
     $scope.toggleNewsfeedEnabled = function(community_id) {
-        communityPageService.toggleNewsfeedEnabled.get({"community_id":community_id}, function(data) {
+        communityPageService.toggleNewsfeedEnabled.get({community_id:community_id}, function(data) {
             $scope.newsfeedEnabled = data.newsfeedEnabled; 
         });
     }
@@ -82,7 +82,7 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
     
     $scope.send_join = function(id) {
         usSpinnerService.spin('loading...');
-        this.send_join_request = communityJoinService.sendJoinRequest.get({"id":id}, function(data) {
+        this.send_join_request = communityJoinService.sendJoinRequest.get({id:id}, function(data) {
             usSpinnerService.stop('loading...');
             $scope.community.isM = $scope.community.typ == 'BUSINESS'? true : false;
         });
@@ -90,7 +90,7 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
     
     $scope.leave_community = function(id) {
         usSpinnerService.spin('loading...');
-        this.leave_this_community = communityJoinService.leaveCommunity.get({"id":id}, function(data) {
+        this.leave_this_community = communityJoinService.leaveCommunity.get({id:id}, function(data) {
             usSpinnerService.stop('loading...');
             $scope.community.isM = false;
         });
@@ -713,7 +713,7 @@ minibean.controller('ApplicationController',
 		var spinner = new Spinner().spin();
 		
 		$(".a_" + notify_id).append(spinner.el);
-		this.accept_join_request = acceptJoinRequestService.acceptJoinRequest.get({"member_id":member_id, "group_id":group_id, "notify_id":notify_id},
+		this.accept_join_request = acceptJoinRequestService.acceptJoinRequest.get({member_id:member_id, group_id:group_id, notify_id:notify_id},
 			function() {
                 $(".a_" + notify_id).html("已加入");
                 $(".a_" + notify_id).removeClass("btn-success");
@@ -730,7 +730,7 @@ minibean.controller('ApplicationController',
 		var spinner = new Spinner().spin();
 		
         $(".a_" + notify_id).append(spinner.el);
-		this.accept_invite_request = acceptJoinRequestService.acceptInviteRequest.get({"member_id":member_id, "group_id":group_id, "notify_id":notify_id},
+		this.accept_invite_request = acceptJoinRequestService.acceptInviteRequest.get({member_id:member_id, group_id:group_id, notify_id:notify_id},
 			function() {
                 $(".a_" + notify_id).html("正在關注");
                 $(".a_" + notify_id).removeClass("btn-success");
@@ -743,7 +743,7 @@ minibean.controller('ApplicationController',
 	}
 
     $scope.ignoreIt = function(notify_id) {
-        notificationMarkReadService.ignoreIt.get({"notify_id":notify_id}, function() {
+        notificationMarkReadService.ignoreIt.get({notify_id:notify_id}, function() {
             angular.forEach($scope.request_notif, function(request, key){
                 if(request.nid == notify_id) {
                     $scope.friend_requests.splice($scope.friend_requests.indexOf(request),1);
@@ -767,7 +767,7 @@ minibean.controller('ApplicationController',
                 data = data + "," + request.nid;
             }
         });
-        notificationMarkReadService.markAsRead.get({"notify_ids":data});
+        notificationMarkReadService.markAsRead.get({notify_ids:data});
     }
 
     $scope.mark_requests_read = function() {
@@ -785,7 +785,7 @@ minibean.controller('ApplicationController',
                 data = data + "," + request.nid;
             }
         });
-        notificationMarkReadService.markAsRead.get({"notify_ids":data});
+        notificationMarkReadService.markAsRead.get({notify_ids:data});
     }
 
 	$scope.reset_notify_count = function() {
@@ -2172,11 +2172,6 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $i
     $scope.community = communityPageService.Community.get({id:$routeParams.id}, 
         function(data){
             usSpinnerService.stop('loading...');
-            
-            // special handling - select details tab for PN
-            if (data.ttyp == 'PRE_NURSERY') {
-                $scope.selectedTab = 3;
-            }
         }
     );
     
@@ -2187,7 +2182,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $i
     );
     
     $scope.toggleNewsfeedEnabled = function(community_id) {
-        communityPageService.toggleNewsfeedEnabled.get({"community_id":community_id}, 
+        communityPageService.toggleNewsfeedEnabled.get({community_id:community_id}, 
             function(data) {
                 $scope.newsfeedEnabled = data.newsfeedEnabled; 
             }
@@ -2229,7 +2224,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $i
     
     $scope.send_join = function(id) {
         usSpinnerService.spin('loading...');
-        this.send_join_request = communityJoinService.sendJoinRequest.get({"id":id}, function(data) {
+        this.send_join_request = communityJoinService.sendJoinRequest.get({id:id}, function(data) {
             usSpinnerService.stop('loading...');
             $scope.community.isP = $scope.community.typ == 'CLOSE' ?  true : false;
             $scope.community.isM = $scope.community.typ == 'OPEN'? true : false;
@@ -2238,7 +2233,7 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $i
     
     $scope.leave_community = function(id) {
         usSpinnerService.spin('loading...');
-        this.leave_this_community = communityJoinService.leaveCommunity.get({"id":id}, function(data) {
+        this.leave_this_community = communityJoinService.leaveCommunity.get({id:id}, function(data) {
             usSpinnerService.stop('loading...');
             $scope.community.isM = false;
         });
@@ -3156,7 +3151,7 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
     }
     
     $scope.like_campaign = function(campaign_id) {
-        likeFrameworkService.hitLikeOnCampaign.get({"campaign_id":campaign_id}, 
+        likeFrameworkService.hitLikeOnCampaign.get({campaign_id:campaign_id}, 
             function(data) {
                 $scope.campaign.nol++;
                 $scope.campaign.isLike=true;
@@ -3164,7 +3159,7 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
     }
 
     $scope.unlike_campaign = function(campaign_id) {
-        likeFrameworkService.hitUnlikeOnCampaign.get({"campaign_id":campaign_id}, 
+        likeFrameworkService.hitUnlikeOnCampaign.get({campaign_id:campaign_id}, 
             function(data) {
                 $scope.campaign.nol--;
                 $scope.campaign.isLike=false;
@@ -3220,6 +3215,33 @@ minibean.controller('ArticlePageController',function($scope, $routeParams, artic
     }
 });
 
+minibean.controller('PNPageController',function($scope, $routeParams, schoolsFactory, schoolsService, myBookmarksService, locationService, usSpinnerService) {
+
+    $scope.get_header_metaData();
+    
+    $scope.selectNavBar('SCHOOLS', 1);
+    
+    $scope.pn = schoolsService.pnInfo.get({id:$routeParams.id},
+    	function(data) {
+    		
+		}
+    );
+    
+    // bookmark
+    $scope.bookmarkPN = function(id) {
+    	var schools = [ $scope.pn ];
+    	var bookmarkedSchools = [];
+    	schoolsFactory.bookmarkPN(id, schools, bookmarkedSchools);	
+    }
+    
+    $scope.unBookmarkPN = function(id) {
+    	var schools = [ $scope.pn ];
+    	var bookmarkedSchools = [];
+    	schoolsFactory.unBookmarkPN(id, schools, bookmarkedSchools);
+    }
+    
+});
+
 minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filter, schoolsFactory, schoolsService, myBookmarksService, locationService, usSpinnerService) {
 
     $scope.get_header_metaData();
@@ -3230,20 +3252,26 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     }
     $scope.selectNavBar('SCHOOLS', type);
     
-    $scope.districts = locationService.getAllDistricts.get();
-    $scope.selectedDistrictId = $routeParams.districtId;
-    if ($scope.selectedDistrictId == undefined) {
-    	$scope.selectedDistrictId = 5;
+    $scope.initSchools = function() {
+    	$scope.selectedDistrictId = $routeParams.districtId;
+    	if ($scope.selectedDistrictId == undefined) {
+			$scope.selectedDistrictId = $scope.districts[0].id;
+		}
+	    if (type == 1) {	// PN
+	    	$scope.schools = schoolsService.pnsByDistrict.get({district_id:$scope.selectedDistrictId});
+	    	$scope.bookmarkedSchools = myBookmarksService.bookmarkedPNs.get();
+	    } else if (type == 2) {		// K
+	    	$scope.schools = [];
+	    	$scope.bookmarkedSchools = [];
+	    }
+	    $scope.filteredSchools = $scope.schools;
     }
     
-    if (type == 1) {	// PN
-    	$scope.schools = schoolsService.pnsByDistrict.get({district_id:$scope.selectedDistrictId});
-    	$scope.bookmarkedSchools = myBookmarksService.bookmarkedPNs.get();
-    } else if (type == 2) {		// K
-    	$scope.schools = [];
-    	$scope.bookmarkedSchools = [];
-    }
-    $scope.filteredSchools = $scope.schools;
+    $scope.districts = locationService.getAllDistricts.get({},
+    	function(data) {
+    		$scope.initSchools();
+    	}
+    );
     
     // search by name
     $scope.resetSearch = function() {
@@ -3276,20 +3304,20 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
 	}
     
     // bookmark
-    $scope.bookmarkPN = function(pn_id) {
+    $scope.bookmarkPN = function(id) {
     	var schools = $scope.filteredSchools;
     	if ($scope.searchMode) {
     		schools = $scope.searchResults;
     	}
-        schoolsFactory.bookmarkPN(pn_id, schools, $scope.bookmarkedSchools);
+    	schoolsFactory.bookmarkPN(id, schools, $scope.bookmarkedSchools);	
     }
     
-    $scope.unBookmarkPN = function(pn_id) {
+    $scope.unBookmarkPN = function(id) {
     	var schools = $scope.filteredSchools;
     	if ($scope.searchMode) {
     		schools = $scope.searchResults;
     	}
-    	schoolsFactory.unBookmarkPN(pn_id, schools, $scope.bookmarkedSchools);
+    	schoolsFactory.unBookmarkPN(id, schools, $scope.bookmarkedSchools);
     }
     
     // remember all filters user set
@@ -4212,7 +4240,7 @@ minibean.controller('MyBookmarksController', function($scope, postFactory, myBoo
     }
     
 	$scope.unBookmarkPost = function(post_id) {
-		bookmarkService.unbookmarkPost.get({"post_id":post_id}, function(data) {
+		bookmarkService.unbookmarkPost.get({post_id:post_id}, function(data) {
 			angular.forEach($scope.posts.posts, function(post, key){
 				if(post.id == post_id) {
 					post.isBookmarked = false;
@@ -4227,7 +4255,7 @@ minibean.controller('MyBookmarksController', function($scope, postFactory, myBoo
 	}
 	
 	$scope.unBookmarkArticle = function(article_id) {
-		bookmarkService.unbookmarkArticle.get({"article_id":article_id}, function(data) {
+		bookmarkService.unbookmarkArticle.get({article_id:article_id}, function(data) {
 			angular.forEach($scope.articles.article, function(article, key){
 				if(article.id == article_id) {
 					article.isBookmarked = false;
@@ -4239,7 +4267,7 @@ minibean.controller('MyBookmarksController', function($scope, postFactory, myBoo
 	}
 	
 	$scope.unBookmarkPKView = function(article_id) {
-		bookmarkService.unbookmarkPKView.get({"pkview_id":pkview_id}, function(data) {
+		bookmarkService.unbookmarkPKView.get({pkview_id:pkview_id}, function(data) {
             angular.forEach($scope.pkviews.pkview, function(pkview, key){
                 if(pkview.id == pkview_id) {
                     pkview.isBookmarked = false;

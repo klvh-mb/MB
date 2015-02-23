@@ -1,17 +1,13 @@
 package models;
 
-import com.mnt.exception.SocialObjectNotCommentableException;
 import common.model.SchoolType;
 import domain.*;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.

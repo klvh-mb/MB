@@ -35,11 +35,6 @@ GET     /terms                      controllers.Application.terms
 GET     /restricted                 controllers.Application.restricted
 GET     /profile                    controllers.Application.profile
 
-# Promo
-GET     /promo                      controllers.promo.PromoController.index
-GET     /get-promo-pn-communities   controllers.promo.PromoPNController.getPNCommunities()
-GET     /get-promo-pns/:id          controllers.promo.PromoPNController.getPNs(id:Long)
-
 # Mobile
 GET     /m-frontpage                controllers.Application.mobileFrontpage
 GET     /m-my                       controllers.Application.mobileHome
@@ -277,6 +272,7 @@ GET     /get-featured-topics                    controllers.FrontPageController.
 GET     /get-game-topics                        controllers.FrontPageController.getGameTopics()
 
 # PreNursery
+GET     /get-pn-info/:id                        controllers.PreNurseryController.getPNInfo(id:Long)
 GET     /get-pn-communities                     controllers.PreNurseryController.getPNCommunities()
 GET     /get-pns-by-community/:community_id     controllers.PreNurseryController.getPNsByCommunity(community_id:Long)
 GET     /search-pns-by-name/:query              controllers.PreNurseryController.searchPNsByName(query:String)
