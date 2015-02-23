@@ -28,26 +28,26 @@
 	            </li>
 		        <li ng-repeat="pn in searchResults" ng-if="searchResults.length <= 100">
 		            <div class="school-list-entry">
-		               <div class="pn-info">
+		               <div class="school-info">
 		                    <a href="/schools#!/pn/{{pn.id}}">
 		                        {{pn.n}}
 		                    </a>
 		                    <span class="tag">{{pn.dis}}</span>
 		                    <span data-ng-include data-src="'/assets/app/views/schools/bookmark-pn.html'"></span>
 		                    
-		                    <div class="pn-info-note"><span ng-show="pn.ne">{{pn.ne}}</span></div>
-		                    <div class="pn-info-attr">
-		                        <span class="school-attr">學券申請: 
+		                    <div class="school-info-note"><span ng-show="pn.ne">{{pn.ne}}</span></div>
+		                    <div class="school-info-attr">
+			                    <span class="school-attr-short">學券申請: 
 		                            <span ng-show="pn.cp">✓</span>
 		                            <span ng-show="!pn.cp">--</span>
-		                        </span>
-		                        <span class="school-attr">辦學團體: 
-		                            <span>{{pn.org || '--'}}</span>
 		                        </span>
 		                        <span class="school-attr">學校類別: 
 		                            <span>{{pn.orgt || '--'}}</span>
 		                        </span>
-		                        <span class="schools-attr">學班時間: 
+		                        <span class="school-attr-short">課程類別: 
+		                            <span>{{pn.curt || '--'}}</span>
+		                        </span>
+		                        <span class="school-attr">課堂: 
 		                            <span ng-show="pn.ct == 'AM'">上午</span>
 		                            <span ng-show="pn.ct == 'PM'">下午</span>
 		                            <span ng-show="pn.ct == 'WD'">全日</span>
@@ -56,6 +56,9 @@
 		                            <span ng-show="pn.ct == 'PM,WD'">下午、全日</span>
 		                            <span ng-show="pn.ct == 'AM,PM,WD'">上午、下午、全日</span>
 		                        </span>
+		                        <!--span class="school-attr">辦學團體: 
+		                            <span>{{pn.org || '--'}}</span>
+		                        </span-->
 		                    </div>
 		                </div>
 		            </div>

@@ -1,5 +1,5 @@
-<div id="schools-pn-bookmarks-section" ng-if="!collapsible">
-	<div id="schools-pn-bookmarks" class="general-box utility-box">
+<div id="schools-bookmarks-section" ng-if="!collapsible">
+	<div id="schools-bookmarks" class="general-box utility-box">
 	    <div class="bookmarks-title">
 	        <span class="schools-title-icon schools-title-icon-bookmark"></span>
 	        <img src="/assets/app/images/general/titles/schools_title_bookmarks.png">
@@ -18,8 +18,8 @@
             </div>
 	        <ul ng-if="userInfo.isLoggedIn">
 	            <li ng-repeat="pn in bookmarkedSchools">
-	                <div class="pn-details">
-	                    <div class="pn-summary">
+	                <div class="school-details">
+	                    <div class="school-summary">
 	                        <a href="/schools#!/pn/{{pn.id}}">
 	                            {{pn.n}}
 	                        </a>
@@ -37,8 +37,8 @@
 	</div>
 </div>
 
-<div id="schools-pn-bookmarks-section" ng-if="collapsible">
-    <div id="schools-pn-bookmarks" class="general-box utility-box">
+<div id="schools-bookmarks-section" ng-if="collapsible">
+    <div id="schools-bookmarks" class="general-box utility-box">
         <div class="bookmarks-title">
             <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
                 <span class="schools-title-icon schools-title-icon-bookmark"></span>
@@ -66,8 +66,8 @@
                 </a>
                 <div id="collapseOne" class="collapse">
 	                <li ng-repeat="pn in bookmarkedSchools">
-	                    <div class="pn-details">
-	                        <div class="pn-summary">
+	                    <div class="school-details">
+	                        <div class="school-summary">
 	                            <a href="/schools#!/pn/{{pn.id}}">
 	                                {{pn.n}}
 	                            </a>
