@@ -1,6 +1,6 @@
 .tag {
     color: #CD8400;
-    font-weight: bold;
+    font-size: 14px;
     margin: 0px;
     display: inline-block;
 }
@@ -170,7 +170,9 @@
 	line-height: 1.8;
 }
 .school-list-entry .post-favorite, 
-.school-list-entry .post-favorited {
+.school-list-entry .post-favorited, 
+.school-box .post-favorite, 
+.school-box .post-favorited {
     text-indent: 20px;
     right: 0;
     top: 5px;
@@ -266,7 +268,7 @@
 	vertical-align: top;
 	
 	border: 1px solid #A3D0A4;
-	box-shadow: 0px 1px 3px rgba(136, 136, 136, 0.5);
+	box-shadow: 0px 0px 3px #8FB389;
 }
 #schools-bookmarks-section #schools-bookmarks .bookmarks-title {
 	width: auto;
@@ -322,8 +324,66 @@
 
 
 
+.school-box-search #schools-search-box .dropdown-menu {
+	max-height: 400px;
+}
+#school-box-main {
+	border: 1px solid #A3D0A4;
+    box-shadow: 0px 0px 3px #8FB389;
+    font-size: 15px;
+}
+#school-box-main .school-box {
+	border-bottom: solid 1px #B8C9FD;
+    padding: 20px;
+    position: relative;
+}
+.school-box .tag {
+	font-size: 16px;
+}
+.school-box .school-title {
+	color: #324fe1;
+	font-weight: bold;
+	font-size: 18px;
+	margin-bottom: 10px;
+}
+.school-box .school-title > div:first-child {
+	font-size: 26px;
+}
+.school-box .school-section-title {
+	font-size: 18px;
+	font-weight: bold;
+	color: green;
+	margin-top: 20px;
+	margin-bottom: 5px;
+}
+.school-box .school-info-note,
+.school-box .school-info-attr, 
+.school-box .school-info-attr-short {
+	width: 100%;
+	display: inline-block;
+	line-height: 1.6;
+}
+.school-box .school-info-attr {
+    width: 62%;
+    color: #5F1B1B
+}
+.school-box .school-info-attr-short {
+    width: 35%;
+    color: #5F1B1B
+}
+.school-box .school-info-note > span:first-child, 
+.school-box .school-info-attr > span:first-child {
+	font-weight: bold;
+	margin-right: 5px;
+	color: #333;
+}
 
-#school-box-main 
+
+
+
+
+
+
 
 
 

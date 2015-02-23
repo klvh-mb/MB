@@ -3227,6 +3227,33 @@ minibean.controller('PNPageController',function($scope, $routeParams, schoolsFac
 		}
     );
     
+    // search by name
+    $scope.resetSearch = function() {
+    	$scope.searchTerm = '';
+		$scope.searchResults = [];
+		$("#schools-searchfield").val('');
+        $("#schools-searchfield").trigger('input');
+        $scope.searchMode = false;
+    }
+    $scope.resetSearch();
+    
+    $scope.searchByName = function(schoolQuery) {
+		if(schoolQuery != undefined && schoolQuery.length > 0 && $scope.searchTerm != schoolQuery) {
+			$scope.searchMode = true;
+			$scope.searching = true;
+			$scope.searchTerm = schoolQuery;
+				
+			$scope.searchResults = schoolsService.searchPNsByName.get({query:schoolQuery},
+				function(data) {
+					$scope.searching = false;
+				}
+			);
+		}
+		if (schoolQuery == null || schoolQuery.length == 0) {
+			$scope.resetSearch();
+		}
+	}
+    
     // bookmark
     $scope.bookmarkPN = function(id) {
     	var schools = [ $scope.pn ];

@@ -57,7 +57,7 @@ angular.module('minibean', [
       .hashPrefix('!');
   })
   .run(function(editableOptions) {
-  editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+    editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
   });
 
 //

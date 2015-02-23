@@ -979,10 +979,9 @@ span.notif-count {
 	left: 0px;
 	max-height: 380px;
 }
+.school-box-search #schools-search-box .dropdown-menu {
+    max-height: 380px;
+}
 .schools-district-index li {
 	width: 22%;
-}
-.school-list-entry .school-attr {
-    display: block;
-    width: 100%;
 }
