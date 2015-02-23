@@ -509,13 +509,13 @@ minibean.controller('ApplicationController',
         var rurl = $scope.getFbLoginUrl();
         bootbox.dialog({
             message: 
-                "<div style='margin:0 20px;font-size:15px;line-height: 2.5;'>" + 
+                "<div style='margin:0 20px;font-size:15px;line-height:2.4;'>" + 
                 "    <div>" +
                 "        請先 <a onclick='window.location=\""+rurl+"\"'><img style='height:26px;' src='../assets/app/images/login/facebook_login_s.jpg' /></a> 再" + titleText + 
                 "    </div>" +
                 "    <div>" +
-                "        或以 <a onclick='window.location=\"\/login\"'><b>電郵登入</b></a> | " +
-                "        <a onclick='window.location=\"\/signup\"'><b>會員注册</b></a>" +
+                "        或以 <a onclick='window.location=\"\/login\"'>電郵登入</a> | " +
+                "        <a onclick='window.location=\"\/signup\"'>會員注册</a>" +
                 "    </div>" + 
                 "</div>",
             title: titleText,
@@ -3322,18 +3322,21 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     
     // remember all filters user set
     $scope.couponFilter = {'cp':'all'};
+    $scope.orgTypeFilter = {'orgt':'all'};
+    $scope.curTypeFilter = {'curt':'all'};
     $scope.classtimesFilter = {'ct':'all'};
     $scope.orgFilter = {'org':'all'};
-    $scope.orgTypeFilter = {'orgt':'all'};
     $scope.setFilter = function(key, value) {
     	if (key == 'cp') {
     		$scope.couponFilter = {'cp':value};
+    	} else if (key == 'orgt') {
+    		$scope.orgTypeFilter = {'orgt':value};
+    	} else if (key == 'curt') {
+    		$scope.curTypeFilter = {'curt':value};
     	} else if (key == 'ct') {
     		$scope.classtimesFilter = {'ct':value};
     	} else if (key == 'org') {
     		$scope.orgFilter = {'org':value};
-    	} else if (key == 'orgt') {
-    		$scope.orgTypeFilter = {'orgt':value};
     	}
     }
     $scope.applySchoolFilter = function(key, value) {
@@ -3345,14 +3348,17 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     	if ($scope.couponFilter.cp != 'all') {
     		$scope.filteredSchools = $filter('objFilter')($scope.filteredSchools, $scope.couponFilter);
     	}
+    	if ($scope.orgTypeFilter.orgt != 'all') {
+    		$scope.filteredSchools = $filter('objFilter')($scope.filteredSchools, $scope.orgTypeFilter);
+    	}
+    	if ($scope.curTypeFilter.curt != 'all') {
+    		$scope.filteredSchools = $filter('objFilter')($scope.filteredSchools, $scope.curTypeFilter, true);
+    	}
     	if ($scope.classtimesFilter.ct != 'all') {
     		$scope.filteredSchools = $filter('objFilter')($scope.filteredSchools, $scope.classtimesFilter);
     	}
     	if ($scope.orgFilter.org != 'all') {
     		$scope.filteredSchools = $filter('objFilter')($scope.filteredSchools, $scope.orgFilter);
-    	}
-    	if ($scope.orgTypeFilter.orgt != 'all') {
-    		$scope.filteredSchools = $filter('objFilter')($scope.filteredSchools, $scope.orgTypeFilter);
     	}
     	$scope.filtering = false;
 	}

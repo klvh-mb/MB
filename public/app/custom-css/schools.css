@@ -17,11 +17,12 @@
 	border-top: 1px solid #A3D0A4;
 	color: #737272;
 	padding: 10px 5px 0px 5px;
-	line-height: 2.0;
+	font-size: 15px;
+	line-height: 2.2;
 }
 .login-reminder-prompt .prompt-fb-login {
     width: auto;
-    height: 22px;
+    height: 26px;
 }
 
 /* search */
@@ -153,18 +154,18 @@
 	font-size: 14px;
 	margin-left: 5px;
 }
-.school-list-entry .pn-info > a:first-child {
+.school-list-entry .school-info > a:first-child {
 	color: #324fe1;
 	font-weight: bold;
 	font-size: 18px;
 	margin-right: 5px;
 	line-height: 1.8;
 }
-.school-list-entry .pn-info .pn-info-attr {
+.school-list-entry .school-info .school-info-attr {
 	padding: 2px 5px;
 	background-color: #FEFFF0;
 	border: 1px solid #D1D897;
-	margin: 5px 20px 5px 5px;
+	margin: 5px 10px 5px 5px;
 	border-radius: 5px;
 	line-height: 1.8;
 }
@@ -174,10 +175,17 @@
     right: 0;
     top: 5px;
 }
+.school-list-entry .school-attr-short, 
 .school-list-entry .school-attr {
     display: inline-block;
-    width: 45%;
 }
+.school-list-entry .school-attr-short {
+	width: 42%;
+}
+.school-list-entry .school-attr {
+	width: 55%;
+}
+.school-list-entry .school-attr-short span, 
 .school-list-entry .school-attr span {
     margin-left: 3px;
     margin-right: 10px;
@@ -248,10 +256,10 @@
 	margin-left: 5px;
 	margin-top: 0px;
 }
-#schools-pn-bookmarks-section {
+#schools-bookmarks-section {
 	
 }
-#schools-pn-bookmarks-section #schools-pn-bookmarks {
+#schools-bookmarks-section #schools-bookmarks {
 	width: 100%;
 	display: inline-block;
 	margin: 0px 8px 10px 1px;
@@ -260,7 +268,7 @@
 	border: 1px solid #A3D0A4;
 	box-shadow: 0px 1px 3px rgba(136, 136, 136, 0.5);
 }
-#schools-pn-bookmarks-section #schools-pn-bookmarks .bookmarks-title {
+#schools-bookmarks-section #schools-bookmarks .bookmarks-title {
 	width: auto;
 	margin: 0px 0px;
 	padding: 5px 10px;
@@ -276,40 +284,47 @@
 	background: -ms-linear-gradient(top, rgba(171, 219, 172, 1) 0%,rgba(84, 169, 88, 1) 50%,rgba(82, 169, 90, 1) 51%,rgba(28, 110, 29, 1) 100%);
 	background: linear-gradient(to bottom, rgba(171, 219, 172, 1) 0%,rgba(84, 169, 88, 1) 50%,rgba(82, 169, 90, 1) 51%,rgba(28, 110, 29, 1) 100%);
 }
-#schools-pn-bookmarks-section #schools-pn-bookmarks .bookmarks-summary {
+#schools-bookmarks-section #schools-bookmarks .bookmarks-summary {
 	font-size: 16px;
 	color: #407E40;
 	margin: 0px 5px 0px 10px;
 	padding: 3px 0px;
 	border-bottom: dashed 1px #407E40; 
 }
-#schools-pn-bookmarks-section a:hover {
+#schools-bookmarks-section a:hover {
 	text-decoration: none;
 }
-#schools-pn-bookmarks-section #schools-pn-bookmarks .section-details {
+#schools-bookmarks-section #schools-bookmarks .section-details {
 	
 }
-#schools-pn-bookmarks-section #schools-pn-bookmarks .pn-details {
+#schools-bookmarks-section #schools-bookmarks .school-details {
 	padding: 5px 10px;
     border-bottom: 1px dashed #eee;
 }
-#schools-pn-bookmarks-section #schools-pn-bookmarks .pn-details div {
+#schools-bookmarks-section #schools-bookmarks .school-details div {
     display: inline-block;
 }
-#schools-pn-bookmarks-section #schools-pn-bookmarks .pn-details .pn-summary {
+#schools-bookmarks-section #schools-bookmarks .school-details .school-summary {
     vertical-align: text-top;
 }
 
-#schools-pn-bookmarks-section #schools-pn-bookmarks .pn-details .pn-summary > a:first-child {
+#schools-bookmarks-section #schools-bookmarks .school-details .school-summary > a:first-child {
     color: #324fe1;
     font-weight: bold;
     font-size: 14px;
     margin-right: 5px;
 }
-#schools-pn-bookmarks-section #schools-pn-bookmarks .tag {
+#schools-bookmarks-section #schools-bookmarks .tag {
     font-size: 13px;
     margin: 0px;
     display: block;
 }
+
+
+
+
+#school-box-main 
+
+
 
 

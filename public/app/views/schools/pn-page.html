@@ -12,8 +12,8 @@
         <div class="col-md-6 col-sm-6 col-xs-6" style="width:620px;">
             <div id="wall">
                 <div class="general-box school-box-main">
-	                <div class="school-list-entry">
-		                <div class="pn-info">
+	                <div class="school-box">
+		                <div class="school-info">
                             <div class="">
                                 <div>
                                     {{pn.n}}
@@ -25,22 +25,22 @@
 
 		                    <a class="schools-map" ng-show="pn.map != null" href="{{pn.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i>地圖</a>
 		    
-		                    <div class="pn-info-note">地址: {{pn.adr || '--'}}</div>
-		                    <div class="pn-info-note">電話: {{pn.pho || '--'}}</div>
-		                    <div class="pn-info-note">電郵: {{pn.em || '--'}}</div>
-		                    <div class="pn-info-note">傳真: {{pn.fax || '--'}}</div>
-		                    <div class="pn-info-attr">
-		                        <span class="school-attr">學券申請: 
-		                            <span ng-show="pn.cp">✓</span>
+		                    <div class="school-info-note">地址: {{pn.adr || '--'}}</div>
+		                    <div class="school-info-note">電話: {{pn.pho || '--'}}</div>
+		                    <div class="school-info-note">電郵: {{pn.em || '--'}}</div>
+		                    <div class="school-info-note">傳真: {{pn.fax || '--'}}</div>
+		                    <div class="school-info-attr">
+		                        <span class="school-attr-short">學券申請: 
+	                            <span ng-show="pn.cp">✓</span>
 		                            <span ng-show="!pn.cp">--</span>
-		                        </span>
-		                        <span class="school-attr">辦學團體: 
-		                            <span>{{pn.org || '--'}}</span>
 		                        </span>
 		                        <span class="school-attr">學校類別: 
 		                            <span>{{pn.orgt || '--'}}</span>
 		                        </span>
-		                        <span class="school-attr">學班時間: 
+		                        <span class="school-attr-short">課程類別: 
+		                            <span>{{pn.curt || '--'}}</span>
+		                        </span>
+		                        <span class="school-attr">課堂: 
 		                            <span ng-show="pn.ct == 'AM'">上午</span>
 		                            <span ng-show="pn.ct == 'PM'">下午</span>
 		                            <span ng-show="pn.ct == 'WD'">全日</span>
@@ -49,8 +49,11 @@
 		                            <span ng-show="pn.ct == 'PM,WD'">下午、全日</span>
 		                            <span ng-show="pn.ct == 'AM,PM,WD'">上午、下午、全日</span>
 		                        </span>
+		                        <span class="school-attr">辦學團體: 
+		                            <span>{{pn.org || '--'}}</span>
+		                        </span>
 		                    </div>
-		                    <!--div class="pn-info-attr">
+		                    <!--div class="school-info-attr">
 		                        <span>派表日期: {{pn.fds}}<span ng-show="!pn.fds">--</span></span>
 		                        <span>報名日期: {{pn.ads}}<span ng-show="!pn.ads">--</span></span>
 		                        <span>截止日期: {{pn.eds}}<span ng-show="!pn.eds">--</span></span>
@@ -59,7 +62,7 @@
 		                        </div>
 		                    </div-->
 		                    
-		                    <div class="pn-info-note">課程編排: {{pn.cur || ''}}</span></div>
+		                    <div class="school-info-note">課程編排: {{pn.cur || ''}}</span></div>
 		                </div>
 		            </div>
                 </div>

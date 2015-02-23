@@ -1,5 +1,5 @@
 <div class="general-box school-list-title">
-    <b>幼兒服務<b>: </b></b><p>{{pns[0].dis}}</p> 有 <p>{{pns.length}}</p> 間幼稚園提供2-3歲幼兒服務 (PN幼兒班)
+    <b>幼兒服務<b>: </b></b><p>{{schools[0].dis}}</p> 有 <p>{{schools.length}}</p> 間幼稚園提供2-3歲幼兒服務 (PN幼兒班)
     <div class="school-list-filters">
         <span>
 	        學券申請: 
@@ -20,19 +20,6 @@
 			    </ul>
 		    </div>
 	    </span>
-        <!--span>
-            學校類別: 
-            <div class="btn-group">
-                <button data-toggle="dropdown" id="schools-org-type-filter-dropdow-btn" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
-                    全部<span class="caret"></span>
-                </button>
-                <ul id="schools-org-type-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
-                    <li ng-click="applySchoolFilter('org','all')" style="cursor:pointer;">
-                        <input type="radio" id="org-all" name="org-type" value="all"><label for="org-all">全部</label>
-                    </li>
-                </ul>
-            </div>
-        </span-->
         <span>
             學校類別: 
             <div class="btn-group">
@@ -52,8 +39,27 @@
                 </ul>
             </div>
         </span>
+        <span>
+            課程類別: 
+            <div class="btn-group">
+                <button data-toggle="dropdown" id="schools-cur-type-filter-dropdow-btn" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
+                    全部<span class="caret"></span>
+                </button>
+                <ul id="schools-cur-type-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
+                    <li ng-click="applySchoolFilter('curt','all')" style="cursor:pointer;">
+                        <input type="radio" id="cur-type-all" name="cur-type" value="all"><label for="cur-type-all">全部</label>
+                    </li>
+                    <li ng-click="applySchoolFilter('curt','本地')" style="cursor:pointer;">
+                        <input type="radio" id="cur-type-local" name="cur-type" value="本地"><label for="cur-type-local">本地</label>
+                    </li>
+                    <li ng-click="applySchoolFilter('curt','非本地')" style="cursor:pointer;">
+                        <input type="radio" id="cur-type-nonlocal" name="cur-type" value="非本地"><label for="cur-type-nonlocal">非本地</label>
+                    </li>
+                </ul>
+            </div>
+        </span>
 	    <span>
-	        學班時間: 
+	        課堂時間: 
 	        <div class="btn-group">
 		        <button data-toggle="dropdown" id="schools-classtimes-filter-dropdow-btn" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
 		            全部<span class="caret"></span>
@@ -87,7 +93,7 @@
         </li>
 	    <li ng-repeat="pn in filteredSchools">
 	        <div class="school-list-entry">
-	            <div class="pn-info">
+	            <div class="school-info">
 	                <a href="/schools#!/pn/{{pn.id}}">
 	                    {{pn.n}}
 	                </a>
@@ -95,19 +101,19 @@
 	                
 	                <a class="schools-map" ng-show="pn.map != null" href="{{pn.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i>地圖</a>
 	
-	                <div class="pn-info-note"><span ng-show="pn.adr">{{pn.adr}}</span></div>
-	                <div class="pn-info-attr">
-	                    <span class="school-attr">學券申請: 
+	                <div class="school-info-note"><span ng-show="pn.adr">{{pn.adr}}</span></div>
+	                <div class="school-info-attr">
+	                    <span class="school-attr-short">學券申請: 
 	                        <span ng-show="pn.cp">✓</span>
 	                        <span ng-show="!pn.cp">--</span>
 	                    </span>
-	                    <span class="school-attr">辦學團體: 
-                            <span>{{pn.org || '--'}}</span>
-                        </span>
 	                    <span class="school-attr">學校類別: 
                             <span>{{pn.orgt || '--'}}</span>
                         </span>
-	                    <span class="school-attr">學班時間: 
+	                    <span class="school-attr-short">課程類別: 
+                            <span>{{pn.curt || '--'}}</span>
+                        </span>
+	                    <span class="school-attr">課堂: 
                             <span ng-show="pn.ct == 'AM'">上午</span>
                             <span ng-show="pn.ct == 'PM'">下午</span>
                             <span ng-show="pn.ct == 'WD'">全日</span>
@@ -116,8 +122,11 @@
                             <span ng-show="pn.ct == 'PM,WD'">下午、全日</span>
                             <span ng-show="pn.ct == 'AM,PM,WD'">上午、下午、全日</span>
                         </span>
+                        <!--span class="school-attr">辦學團體: 
+                            <span>{{pn.org || '--'}}</span>
+                        </span-->
 	                </div>
-	                <!--div class="pn-info-attr">
+	                <!--div class="school-info-attr">
 					    <span>派表日期: {{pn.fds}}<span ng-show="!pn.fds">--</span></span>
 					    <span>報名日期: {{pn.ads}}<span ng-show="!pn.ads">--</span></span>
 					    <span>截止日期: {{pn.eds}}<span ng-show="!pn.eds">--</span></span>
