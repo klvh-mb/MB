@@ -372,7 +372,8 @@
     color: #5F1B1B
 }
 .school-box .school-info-note > span:first-child, 
-.school-box .school-info-attr > span:first-child {
+.school-box .school-info-attr > span:first-child, 
+.school-box .school-info-attr-short > span:first-child {
 	font-weight: bold;
 	margin-right: 5px;
 	color: #333;
