@@ -75,6 +75,8 @@ public class CommandChecker {
         else if (commandLine.startsWith("bootstrapPNReviews")) {
             if (tokens.length > 1) {
                 String filePath = tokens[1];
+                logger.underlyingLogger().info("Running bootstrapPNReviews with: "+filePath);
+
                 DataBootstrap.bootstrapPNReviews(filePath);
             } else {
                 logger.underlyingLogger().error("bootstrapPNReviews missing file path");
