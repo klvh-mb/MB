@@ -101,12 +101,23 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
         if (logger.underlyingLogger().isDebugEnabled()) {
             logger.underlyingLogger().debug("[u="+user.id+"][pn="+this.id+"] PreNursery onBookmarkedBy");
         }
+        // 1) remove from school saved list
         List<SchoolSaved> savedList = SchoolSaved.findByUserSchoolId(user.getId(), this.id);
         if (savedList != null) {
             for (SchoolSaved saved : savedList) {
                 saved.delete();
             }
         }
+        // 2) leave PN community
+        if (communityId != null) {
+            try {
+                Community pnComm = Community.findById(communityId);
+                user.leaveCommunity(pnComm);
+            } catch (Exception e) {
+                logger.underlyingLogger().error("Error un-joining PN community: "+communityId, e);
+            }
+        }
+        // 3) remove bookmark record
         user.unBookmarkOn(this.id, this.objectType);
         this.noOfBookmarks--;
     }
