@@ -977,6 +977,8 @@ public class DataBootstrap {
             } catch (Exception e) {
                 logger.underlyingLogger().error("Error in getOrCreatePNCommunity", e);
             }
+        } else {
+            logger.underlyingLogger().info("Updated with PN community (id="+newComm.getId()+"): "+name);
         }
         return newComm;
     }

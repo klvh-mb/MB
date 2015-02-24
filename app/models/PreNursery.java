@@ -28,6 +28,7 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
 
     public String phoneText;
     public String url;
+    public String govUrl;
     public String email;
     public String address;
     public String mapUrlSuffix;

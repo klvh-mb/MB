@@ -24,6 +24,7 @@ public class PreNurseryVM {
     @JsonProperty("n")    public String name;
     @JsonProperty("ne")   public String nameEn;
     @JsonProperty("url")  public String url;
+    @JsonProperty("govUrl")  public String govUrl;
     @JsonProperty("pho")  public String phoneText;
     @JsonProperty("phol") public String phoneUrl;
     @JsonProperty("em")   public String email;
@@ -68,6 +69,7 @@ public class PreNurseryVM {
         	this.nameEn = pn.nameEn;
         }
         this.url = pn.url;
+        this.govUrl = pn.govUrl;
         this.phoneText = pn.phoneText;
         this.phoneUrl = StringUtil.removeNonDigits(pn.phoneText);
         this.email = pn.email;
