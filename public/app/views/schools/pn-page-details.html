@@ -28,13 +28,13 @@
             </div>
             <div class="school-info-attr">
                 <span>課堂時間 : </span> 
-	<span ng-show="pn.ct == 'AM'">上午</span>
-	<span ng-show="pn.ct == 'PM'">下午</span>
-	<span ng-show="pn.ct == 'WD'">全日</span>
-	<span ng-show="pn.ct == 'AM,PM'">上午、下午</span>
-	<span ng-show="pn.ct == 'AM,WD'">上午、全日</span>
-	<span ng-show="pn.ct == 'PM,WD'">下午、全日</span>
-	<span ng-show="pn.ct == 'AM,PM,WD'">上午、下午、全日</span>
+				<span ng-show="pn.ct == 'AM'">上午</span>
+				<span ng-show="pn.ct == 'PM'">下午</span>
+				<span ng-show="pn.ct == 'WD'">全日</span>
+				<span ng-show="pn.ct == 'AM,PM'">上午、下午</span>
+				<span ng-show="pn.ct == 'AM,WD'">上午、全日</span>
+				<span ng-show="pn.ct == 'PM,WD'">下午、全日</span>
+				<span ng-show="pn.ct == 'AM,PM,WD'">上午、下午、全日</span>
             </div>
             <div class="school-info-attr">
                 <span>辦學團體 : </span> 
@@ -55,6 +55,7 @@
             <div class="school-info-note-short" ng-show="pn.fax"><span>傳真 :</span> {{pn.fax || '--'}}</div>
             <div class="school-info-note" ng-show="pn.em"><span>電郵 :</span> {{pn.em || '--'}}</div>
             <div class="school-info-note"><span>網址 :</span> <a ng-href="{{pn.url || '--'}}" target="_blank">{{pn.url}}</a></div>
+            <div class="school-info-note"><span>教局網址 :</span> <a ng-href="{{pn.govUrl || '--'}}" target="_blank"><img style="width:24px;" src="../assets/app/images/general/school-gov.png" /></a></div>
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 <div id="frontpage-communities-section" class="general-box widget-box">
     <div class="section-header">
         <img class="section-header-image" src="/assets/app/images/frontpage/bean-promo.png">
-        <a class="pull-right" href="#!/communities-discover">所有媽媽社群</a>
+        <a class="pull-right" href="/#!/communities-discover">所有媽媽社群</a>
     </div>
     
     <div id="hot-topics">
@@ -23,17 +23,17 @@
                                     </span-->
                                     <span class="post-intro-divider"></span>
                                     <span class="post-qna-answer-count">
-                                        <a data-ng-href="#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-time.png" /><span class="post-date" am-time-ago="post.ut"></span></a>
+                                        <a data-ng-href="/#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-time.png" /><span class="post-date" am-time-ago="post.ut"></span></a>
                                     </span>
                                     <span class="post-intro-divider"></span>
                                     <span class="post-qna-answer-count">
-                                        <a data-ng-href="#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-reply.png" />{{post.n_c}}</a>
+                                        <a data-ng-href="/#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-reply.png" />{{post.n_c}}</a>
                                     </span>
                                     <span class="admin-visible-field" ng-if="userInfo.isE">
                                         <span class="post-intro-divider"></span>
                                         <span class="post-qna-answer-count"><img src="../assets/app/images/general/icons/view.png" />{{post.nov}}</span>
                                     </span>
-                                    <a class="pull-right" data-ng-href="#!/community/{{post.cid}}"><img src="{{post.ci}}">{{post.cn}}</a>
+                                    <a class="pull-right" data-ng-href="/#!/community/{{post.cid}}"><img src="{{post.ci}}">{{post.cn}}</a>
                                 </div>
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                         <div ng-repeat="post in hotNewsFeeds.posts" ng-if="$index >= frontpageHotNewsfeedCount && $index < (frontpageHotNewsfeedCount*2)">
                             <div class="hot-post">
                                 <div class="hot-post-body">
-                                    <a data-ng-href="#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><span ng-bind-html="post.ptl | limitTo:25 | to_trusted"></span><span ng-if="post.ptl.length > 25">...</span></a>
+                                    <a data-ng-href="/#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><span ng-bind-html="post.ptl | limitTo:25 | to_trusted"></span><span ng-if="post.ptl.length > 25">...</span></a>
                                 </div>
                                 <div class="hot-post-intro">
                                     <!--span class="post-title-user-name">
@@ -52,17 +52,17 @@
                                     </span-->
                                     <span class="post-intro-divider"></span>
                                     <span class="post-qna-answer-count">
-                                        <a data-ng-href="#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-time.png" /><span class="post-date" am-time-ago="post.ut"></span></a>
+                                        <a data-ng-href="/#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-time.png" /><span class="post-date" am-time-ago="post.ut"></span></a>
                                     </span>
                                     <span class="post-intro-divider"></span>
                                     <span class="post-qna-answer-count">
-                                        <a data-ng-href="#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-reply.png" />{{post.n_c}}</a>
+                                        <a data-ng-href="/#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-reply.png" />{{post.n_c}}</a>
                                     </span>
                                     <span class="admin-visible-field" ng-if="userInfo.isE">
                                         <span class="post-intro-divider"></span>
                                         <span class="post-qna-answer-count"><img src="../assets/app/images/general/icons/view.png" />{{post.nov}}</span>
                                     </span>
-                                    <a class="pull-right" data-ng-href="#!/community/{{post.cid}}"><img src="{{post.ci}}">{{post.cn}}</a>
+                                    <a class="pull-right" data-ng-href="/#!/community/{{post.cid}}"><img src="{{post.ci}}">{{post.cn}}</a>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                         <div ng-repeat="post in hotNewsFeeds.posts" ng-if="$index >= (frontpageHotNewsfeedCount*2)">
                             <div class="hot-post">
                                 <div class="hot-post-body">
-                                    <a data-ng-href="#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><span ng-bind-html="post.ptl | limitTo:25 | to_trusted"></span><span ng-if="post.ptl.length > 25">...</span></a>
+                                    <a data-ng-href="/#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><span ng-bind-html="post.ptl | limitTo:25 | to_trusted"></span><span ng-if="post.ptl.length > 25">...</span></a>
                                 </div>
                                 <div class="hot-post-intro">
                                     <!--span class="post-title-user-name">
@@ -81,17 +81,17 @@
                                     </span-->
                                     <span class="post-intro-divider"></span>
                                     <span class="post-qna-answer-count">
-                                        <a data-ng-href="#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-time.png" /><span class="post-date" am-time-ago="post.ut"></span></a>
+                                        <a data-ng-href="/#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-time.png" /><span class="post-date" am-time-ago="post.ut"></span></a>
                                     </span>
                                     <span class="post-intro-divider"></span>
                                     <span class="post-qna-answer-count">
-                                        <a data-ng-href="#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-reply.png" />{{post.n_c}}</a>
+                                        <a data-ng-href="/#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}"><img src="../assets/app/images/general/icons/i-reply.png" />{{post.n_c}}</a>
                                     </span>
                                     <span class="admin-visible-field" ng-if="userInfo.isE">
                                         <span class="post-intro-divider"></span>
                                         <span class="post-qna-answer-count"><img src="../assets/app/images/general/icons/view.png" />{{post.nov}}</span>
                                     </span>
-                                    <a class="pull-right" data-ng-href="#!/community/{{post.cid}}"><img src="{{post.ci}}">{{post.cn}}</a>
+                                    <a class="pull-right" data-ng-href="/#!/community/{{post.cid}}"><img src="{{post.ci}}">{{post.cn}}</a>
                                 </div>
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                 <li data-ng-repeat="community in hotCommunities.hcomm" ng-if="$index < frontpageHotCommunitiesCount">
                     <div class="hot-community">
                         <div class="hot-community-body">
-                            <a data-ng-href="#!/community/{{community.id}}"><img src="{{community.icon}}">{{community.n}}</a>
+                            <a data-ng-href="/#!/community/{{community.id}}"><img src="{{community.icon}}">{{community.n}}</a>
                             <span class="padding5"></span>
                             <span class="community-member-counter"><img src="../assets/app/images/general/icons/i-mom.png" />{{community.nom}}</span>
                             <span class="pull-right">
@@ -135,7 +135,7 @@
     
     <div ng-show="userInfo.isMobile">
         <div>
-            <a href="#!/communities-discover" class="btn-communities-flat">所有媽媽社群</a>
+            <a href="/#!/communities-discover" class="btn-communities-flat">所有媽媽社群</a>
         </div>
     </div>
 </div>

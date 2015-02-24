@@ -6,7 +6,7 @@
                 <span class="post-qna-tag pull-left" style="margin-right:5px;">?</span>
                 <span class="post-intro-share">發佈</span>
                 <span class="post-intro-share">於 </span-->
-                <a data-ng-href="/my#!/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
+                <a data-ng-href="/#!/community/{{post.cid}}" ng-show="!isCommunityPage"><img src="{{post.ci}}">{{post.cn}}</a>
                 <span class="post-intro-divider"></span>
             </span>
             <span class="post-qna-answer-count">
@@ -23,7 +23,7 @@
                     <span class="caret"></span>
                 </button>
                 <ul class="post-dropdown-menu dropdown-menu" role="menu" aria-labelledby="post-dropdown">
-                    <li role="presentation"><a role="menuitem" href="" ng-click="displayLink('/my#!/qna-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i>複製連結</a></li>
+                    <li role="presentation"><a role="menuitem" href="" ng-click="displayLink('/#!/qna-landing/id/'+post.id+'/communityId/'+post.cid)"><i class="glyphicon glyphicon-share"></i>複製連結</a></li>
                     <li role="presentation" ng-show="post.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個話題嗎？"><i class="glyphicon glyphicon-trash"></i>刪除話題</a></li>
                     <li role="presentation" ng-show="!post.isO || userInfo.isSA"><a role="menuitem" ng-click="openReportObjectModal(post.id,'QUESTION')"><i class="glyphicon glyphicon-warning-sign"></i>舉報話題</a></li>
                 </ul>
@@ -33,7 +33,7 @@
     <!-- Post Intro Ends -->
     <ul>
         <li class="post-qna-body-top">
-            <div class="post-qna-body-title"><a data-ng-href="#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}" target="_blank"><div ng-bind-html="post.ptl | to_trusted"></div></a></div>
+            <div class="post-qna-body-title"><a data-ng-href="/#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}" target="_blank"><div ng-bind-html="post.ptl | to_trusted"></div></a></div>
             <a data-ng-href="/my#!/profile/{{post.oid}}">
                 <img class="post-title-user-image" data-ng-src="/image/get-mini-image-by-id/{{post.oid}}"/>
             </a>

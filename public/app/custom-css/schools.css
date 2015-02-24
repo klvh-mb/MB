@@ -385,6 +385,10 @@
 }
 
 /* pn comm */
+#school-box-main #community-header {
+	margin: 0;
+    margin-bottom: 25px;
+}
 #school-box-main #community-header li {
     border: none;
 }
@@ -393,26 +397,31 @@
 	background-color: #4B964B;
 }
 #school-box-main #wall-main .general-box {
-	margin-bottom: 10px;
+	margin: 10px;
 	box-shadow: none;
-	border: none;
-	border-radius: 0;
+	border: 1px solid #A3D0A4;
+	border-radius: 3px;
+}
+#school-box-main .tab-content {
+	margin: 0 50px;
 }
 #school-box-main .post-bar {
 	border: none;
-    border-top: 1px solid #A3D0A4;
-    margin: 0 15px;
+    border-bottom: 1px solid #A3D0A4;
 }
 #school-box-main .post-bar:hover {
     background-color: #F3FDF2;
 }
 #school-box-main .tab-box {
-    border-radius: 10px 10px 0 0;
+    border-radius: 3px 3px 0 0;
     width: auto;
-    margin: 0px 25px;
+    margin: 0px 10px;
+    box-shadow: none;
 }
 #school-box-main #content-uploader {
-	margin: 0 25px 35px 25px;
+	margin: 0 10px 25px 10px;
+	border-radius: 0px 0px 3px 3px;
+	box-shadow: none;
 }
 
 #school-box-main .widget-box {

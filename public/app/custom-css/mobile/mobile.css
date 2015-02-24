@@ -994,3 +994,17 @@ span.notif-count {
 .school-box .school-info-attr-short {
     width: 100%;
 }
+#school-box-main #community-header {
+    margin-bottom: 15px;
+}
+#school-box-main .tab-content {
+    margin: 0;
+}
+#school-box-main .tab-box {
+    margin: 0;
+}
+#school-box-main #content-uploader {
+    margin: 0 0 15px 0;
+}
+#school-box-main #wall-main .general-box {
+    margin: 0;
