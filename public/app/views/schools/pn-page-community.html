@@ -1,0 +1,44 @@
+<div class="padding5"></div>
+<div id="school-box-main" class="general-box">
+    <div id="community-header">
+        <ul>
+            <li id="community-header-menu">
+                <div class="h5">
+                    <img src="{{community.icon}}"><b>{{community.n}}</b>
+                </div>
+                <div class="divider-cus"></div>
+                <div ng-class="{activeTabBold: selectedTab == 1}">
+                    <a ng-click="selectedTab = 1;">最新訊息</a>
+                </div>
+                <div class="divider-cus"></div>
+                <div ng-class="{activeTabBold: selectedTab == 2}" ng-show="userInfo.isLoggedIn">
+                    <a ng-click="selectedTab = 2;">正在關注</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content row" ng-if="selectedTab == 2" ng-if="userInfo.isLoggedIn">
+        <div ng-controller="CommunityMembersController" data-ng-include data-src="'/assets/app/views/home/community-members-section.html'"></div>
+    </div>
+
+	<div id="wall">
+	    <div class="tab-content" ng-if="selectedTab == 1">
+	        <div class="general-box tab-box">
+	            <div class="wall-title">
+	                <span style="margin-left:10px;"/>
+	                <span>
+	                    <a>
+	                        <font style="color:white;">發表關於{{community.n}}的問題 / 討論</font>
+	                    </a>
+	                </span>
+	            </div>
+	        </div>
+	        
+	        <div class="tab-content" id="qnapost">
+	            <div ng-controller="CommunityQnAController" data-ng-include data-src="'/assets/app/views/home/community-qna-bar.html'"></div>
+	        </div>
+	    </div>
+	</div>
+</div>
+
+<div class="padding20"></div>

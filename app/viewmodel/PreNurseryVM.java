@@ -17,7 +17,7 @@ public class PreNurseryVM {
     private static final String MAPURL_PREFIX = "http://maps.google.com.hk/maps?q=";
 
     @JsonProperty("id")  public Long id;
-    @JsonProperty("commid") public Long communityId;
+    @JsonProperty("commId") public Long communityId;
     @JsonProperty("myd")  public boolean isMyDistrict;
     @JsonProperty("dis")  public String districtName;
     @JsonProperty("disId")  public Long districtId;

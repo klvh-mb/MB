@@ -1221,6 +1221,11 @@ minibean.controller('SuggestedFriendsUtilityController',function($scope, unFrien
 
 minibean.controller('CommunityMembersController',function($scope, $routeParams, membersWidgetService, $http){
     
+	var id = $routeParams.id;
+    if ($scope.mainCommId != 'undefined') {
+    	id = $scope.mainCommId;		// set in pn page
+    }
+    
     // paged filtered data
     $scope.pagedMembers = [];
     
@@ -1233,7 +1238,7 @@ minibean.controller('CommunityMembersController',function($scope, $routeParams, 
         $scope.currentPage = page;
     }
     
-	$scope.result = membersWidgetService.CommunityMembers.get({id:$routeParams.id}, 
+	$scope.result = membersWidgetService.CommunityMembers.get({id:id}, 
 	   function() {
 	       $scope.setMemberPage(1);
 	   } 
@@ -1249,83 +1254,6 @@ minibean.controller('CommunityMembersController',function($scope, $routeParams, 
 		$scope.showAdmin = true;
 	}
 	
-});
-
-minibean.controller('PNCommunitiesUtilityController', function($scope, $routeParams, pnService, sendJoinRequest, $http){
-
-    $scope.pnCommunities = pnService.PNCommunities.get();
-    $scope.send_request = function(id) {
-        this.invite = sendJoinRequest.sendRequest.get({id:id},
-                function(data) {
-                    angular.forEach($scope.pnCommunities, function(request, key){
-                        if(request.id == id) {
-                            request.isP = true;
-                        }
-                    });
-                }
-        );
-    }
-    
-});
-
-minibean.controller('CommunityPNController',function($scope, $routeParams, $http, $filter, pnService) {
-
-    $scope.currentPage = 1;
-    $scope.itemsPerPage = DefaultValues.DEFAULT_ITEMS_PER_PAGE;
-    $scope.setPNPage = function(page) {
-        var begin = ((page - 1) * $scope.itemsPerPage);
-        var end = begin + $scope.itemsPerPage;
-        $scope.pagedFilteredOtherPNs = $scope.filteredOtherPNs.slice(begin, end);
-        $scope.currentPage = page;
-    }
-
-    // base data
-    $scope.allDistricts = [];
-    $scope.myDistrictPNs = [];
-    $scope.otherPNs = [];
-    
-    // filtered data
-    $scope.filteredMyDistrictPNs = [];
-    $scope.filteredOtherPNs = [];
-
-    // paged filtered data
-    $scope.pagedFilteredOtherPNs = [];
-    
-    var curDistrict = '';
-    var tagColorIndex = -1;
-	$scope.pns = pnService.PNs.get({community_id:$routeParams.id}, 
-	       function(data) {
-                angular.forEach($scope.pns, function(request, key){
-                    if (curDistrict == '' || curDistrict != request.dis) {
-                        curDistrict = request.dis;
-                        tagColorIndex++;
-                        $scope.allDistricts.push(curDistrict);
-                        log(curDistrict + ":" + DefaultValues.tagColors[tagColorIndex]);
-                    }
-                    request.tagc = DefaultValues.tagColors[tagColorIndex];
-                    if (request.myd) {
-                        $scope.myDistrictPNs.push(request);
-                    } else {
-                        $scope.otherPNs.push(request);
-                    }
-                });
-                $scope.filteredMyDistrictPNs = $scope.myDistrictPNs;
-                $scope.filteredOtherPNs = $scope.otherPNs;
-                $scope.setPNPage(1);
-            }
-	);
-	
-    $scope.applyPNFilter = function(district) {
-        if (district == "all") {
-            $scope.filteredMyDistrictPNs = $scope.myDistrictPNs;
-            $scope.filteredOtherPNs = $scope.otherPNs;
-        } else {
-            $scope.filteredMyDistrictPNs = [];
-            $scope.filteredOtherPNs = $filter('objFilter')($scope.pns, {"dis":district});
-        }
-        $scope.setPNPage(1);
-	}
-
 });
 
 minibean.controller('RecommendedCommunityWidgetController',function($scope, usSpinnerService, sendJoinRequest, unJoinedCommunityWidgetService, userInfoService, $http){
@@ -2531,7 +2459,12 @@ minibean.controller('CommunityQnAController',function($scope, postFactory, postM
     var time = 0;
     var noMore = false;
     
-    $scope.QnAs = communityQnAPageService.QnAs.get({id:$routeParams.id}, function(){
+    var id = $routeParams.id;
+    if ($scope.mainCommId != undefined) {
+    	id = $scope.mainCommId;		// set in pn page
+    }
+    
+    $scope.QnAs = communityQnAPageService.QnAs.get({id:id}, function(){
         firstBatchLoaded = true;
         usSpinnerService.stop('loading...');
     });
@@ -2546,7 +2479,7 @@ minibean.controller('CommunityQnAController',function($scope, postFactory, postM
             time = $scope.QnAs.posts[$scope.QnAs.posts.length - 1].t;
             //log("===> set time:"+time);
         }
-        communityQnAPageService.GetQnAs.get({id:$routeParams.id,offset:offsetq,time:time}, function(data){
+        communityQnAPageService.GetQnAs.get({id:id,offset:offsetq,time:time}, function(data){
             var posts = data;
             if(data.length == 0) {
                 noMore = true;
@@ -3215,19 +3148,30 @@ minibean.controller('ArticlePageController',function($scope, $routeParams, artic
     }
 });
 
-minibean.controller('PNPageController',function($scope, $routeParams, schoolsFactory, schoolsService, myBookmarksService, locationService, usSpinnerService) {
+minibean.controller('PNPageController',function($scope, $routeParams, schoolsFactory, schoolsService, myBookmarksService, communityPageService, usSpinnerService) {
 
     $scope.get_header_metaData();
     
     $scope.selectNavBar('SCHOOLS', 1);
     
-    $scope.pn = schoolsService.pnInfo.get({id:$routeParams.id},
+    var id = $routeParams.id;
+    $scope.pn = schoolsService.pnInfo.get({id:id},
     	function(data) {
-    		
+    		usSpinnerService.spin('loading...');
+    		var commId = data.commId;
+    		$scope.community = communityPageService.Community.get({id:commId}, function(data){
+    	        usSpinnerService.stop('loading...');
+    	    });
+
+    		$scope.mainCommId = commId;		// to be used in CommunityQnAController and CommunityMembersController
+    		$scope.selectedTab = 1;
 		}
     );
     
+    $scope.bookmarkedSchools = myBookmarksService.bookmarkedPNs.get();
+    
     // search by name
+    $scope.maxSchoolsSearchCount = DefaultValues.MAX_SCHOOLS_SEARCH_COUNT;
     $scope.resetSearch = function() {
     	$scope.searchTerm = '';
 		$scope.searchResults = [];
@@ -3257,14 +3201,18 @@ minibean.controller('PNPageController',function($scope, $routeParams, schoolsFac
     // bookmark
     $scope.bookmarkPN = function(id) {
     	var schools = [ $scope.pn ];
-    	var bookmarkedSchools = [];
-    	schoolsFactory.bookmarkPN(id, schools, bookmarkedSchools);	
+    	if ($scope.searchMode) {
+    		schools = $scope.searchResults;
+    	}
+    	schoolsFactory.bookmarkPN(id, schools, $scope.bookmarkedSchools);	
     }
     
     $scope.unBookmarkPN = function(id) {
     	var schools = [ $scope.pn ];
-    	var bookmarkedSchools = [];
-    	schoolsFactory.unBookmarkPN(id, schools, bookmarkedSchools);
+    	if ($scope.searchMode) {
+    		schools = $scope.searchResults;
+    	}
+    	schoolsFactory.unBookmarkPN(id, schools, $scope.bookmarkedSchools);
     }
     
 });
@@ -3301,6 +3249,7 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     );
     
     // search by name
+    $scope.maxSchoolsSearchCount = DefaultValues.MAX_SCHOOLS_SEARCH_COUNT;
     $scope.resetSearch = function() {
     	$scope.searchTerm = '';
 		$scope.searchResults = [];

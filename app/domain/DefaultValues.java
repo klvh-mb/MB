@@ -7,6 +7,8 @@ import org.joda.time.DateTime;
 
 public class DefaultValues {
 
+	public static int MAX_SCHOOLS_SEARCH_COUNT = 100;
+	
     public static int POST_PREVIEW_CHARS = 300;
     public static int COMMENT_PREVIEW_CHARS = 200;
     public static int DEFAULT_PREVIEW_CHARS = 200;

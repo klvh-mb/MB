@@ -985,3 +985,12 @@ span.notif-count {
 .schools-district-index li {
 	width: 22%;
 }
+.school-box .school-info-note-short {
+    width: 100%;
+}
+.school-box .school-info-attr {
+    width: 100%;
+}
+.school-box .school-info-attr-short {
+    width: 100%;
+}

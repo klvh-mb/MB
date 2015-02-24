@@ -1,5 +1,7 @@
 var DefaultValues = new function() {
 
+    this.MAX_SCHOOLS_SEARCH_COUNT = 100;
+    
     this.FRONTPAGE_HOT_NEWSFEED_COUNT = 5;
     this.FRONTPAGE_HOT_COMMUNITIES_COUNT = 8;
     

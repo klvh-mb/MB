@@ -13,6 +13,8 @@ import viewmodel.StringVM;
 import java.util.ArrayList;
 import java.util.List;
 
+import domain.DefaultValues;
+
 /**
  * Created by IntelliJ IDEA.
  * Date: 26/7/14
@@ -40,8 +42,14 @@ public class PreNurseryController extends Controller {
         List<PreNursery> pns = PreNursery.searchByName(nameSubStr);
 
         final List<PreNurseryVM> pnVMs = new ArrayList<>();
-        for (PreNursery pn : pns) {
-            pnVMs.add(new PreNurseryVM(pn, localUser));
+        if (pns.size() > DefaultValues.MAX_SCHOOLS_SEARCH_COUNT) {
+        	for (PreNursery pn : pns) {
+                pnVMs.add(null);
+            }
+        } else {
+        	for (PreNursery pn : pns) {
+                pnVMs.add(new PreNurseryVM(pn, localUser));
+            }	
         }
 		return ok(Json.toJson(pnVMs));
     }

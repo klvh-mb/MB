@@ -322,10 +322,9 @@
     display: block;
 }
 
-
-
+/* pn page */
 .school-box-search #schools-search-box .dropdown-menu {
-	max-height: 400px;
+	max-height: 450px;
 }
 #school-box-main {
 	border: 1px solid #A3D0A4;
@@ -354,24 +353,30 @@
 	font-weight: bold;
 	color: green;
 	margin-top: 20px;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
+	border-bottom: 1px dashed #A3D0A4;
 }
 .school-box .school-info-note,
+.school-box .school-info-note-short,
 .school-box .school-info-attr, 
 .school-box .school-info-attr-short {
 	width: 100%;
 	display: inline-block;
 	line-height: 1.6;
 }
+.school-box .school-info-note-short {
+	width: 30%;
+}
 .school-box .school-info-attr {
-    width: 62%;
+    width: 60%;
     color: #5F1B1B
 }
 .school-box .school-info-attr-short {
-    width: 35%;
+    width: 38%;
     color: #5F1B1B
 }
-.school-box .school-info-note > span:first-child, 
+.school-box .school-info-note > span:first-child,
+.school-box .school-info-note-short > span:first-child, 
 .school-box .school-info-attr > span:first-child, 
 .school-box .school-info-attr-short > span:first-child {
 	font-weight: bold;
@@ -379,13 +384,46 @@
 	color: #333;
 }
 
+/* pn comm */
+#school-box-main #community-header li {
+    border: none;
+}
+#school-box-main .wall-title {
+	font-size: 15px;
+	background-color: #4B964B;
+}
+#school-box-main #wall-main .general-box {
+	margin-bottom: 10px;
+	box-shadow: none;
+	border: none;
+	border-radius: 0;
+}
+#school-box-main .post-bar {
+	border: none;
+    border-top: 1px solid #A3D0A4;
+    margin: 0 15px;
+}
+#school-box-main .post-bar:hover {
+    background-color: #F3FDF2;
+}
+#school-box-main .tab-box {
+    border-radius: 10px 10px 0 0;
+    width: auto;
+    margin: 0px 25px;
+}
+#school-box-main #content-uploader {
+	margin: 0 25px 35px 25px;
+}
 
-
-
-
-
-
-
-
+#school-box-main .widget-box {
+	border: none;
+	border-radius: 0;
+	box-shadow: none;
+	font-size: 17px;
+	margin: 0 20px 20px 20px;
+}
+#school-box-main .widget-box .section-title {
+    background-color: #EBFDEA;
+}
 
 

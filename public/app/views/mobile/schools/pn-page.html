@@ -7,75 +7,14 @@
     <div class="row">
         <div class="school-box-search" data-ng-include data-src="'/assets/app/views/widgets/schools-pn-search-widget.html'"></div>
         <div id="wall">
-            <div id="school-box-main" class="general-box">
-                <div class="school-box">
-                    <div class="school-info">
-                        <div class="school-title">
-                            <div>
-                                {{pn.n}}
-                                <span class="tag">{{pn.dis}}</span>
-                            </div>
-                            <div>{{pn.ne || ''}}</div>
-                        </div>
-                        <span data-ng-include data-src="'/assets/app/views/schools/bookmark-pn.html'"></span>
-
-                        <a class="schools-map" ng-show="pn.map != null" href="{{pn.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i>地圖</a>
-
-                        <div class="school-section-title">學校資料</div>
-                        <div class="school-info-attr-short">
-                            <span>學券申請 : </span>
-                            <span ng-show="pn.cp">✓</span>
-                            <span ng-show="!pn.cp">✘</span>
-                        </div>
-                        <div class="school-info-attr">
-                            <span>學校類別 : </span>
-                            <span>{{pn.orgt || '--'}}</span>
-                        </div>
-                        <div class="school-info-attr-short">
-                            <span>課程類別 : </span> 
-                            <span>{{pn.curt || '--'}}</span>
-                        </div>
-                        <div class="school-info-attr">
-                            <span>課堂時間 : </span> 
-                            <span ng-show="pn.ct == 'AM'">上午</span>
-                            <span ng-show="pn.ct == 'PM'">下午</span>
-                            <span ng-show="pn.ct == 'WD'">全日</span>
-                            <span ng-show="pn.ct == 'AM,PM'">上午、下午</span>
-                            <span ng-show="pn.ct == 'AM,WD'">上午、全日</span>
-                            <span ng-show="pn.ct == 'PM,WD'">下午、全日</span>
-                            <span ng-show="pn.ct == 'AM,PM,WD'">上午、下午、全日</span>
-                        </div>
-                        <div class="school-info-attr">
-                            <span>辦學團體 : </span> 
-                            <span>{{pn.org || '--'}}</span>
-                        </div>
-                        
-                        <div class="school-section-title">兩歲幼兒班(PN班) 收生資料</div>
-                        <div class="school-info-note"><span>收錄人數 : </span> {{pn.nadm || '--'}}</div>
-                        <div class="school-info-note"><span>半日班全年收費 : </span> {{pn.feeHd || '--'}}</div>
-                        <div class="school-info-note"><span>全日班全年收費 : </span> {{pn.feeWd || '--'}}</div>
-                        
-                        <div class="school-section-title">課程資料</div>
-                        <div class="school-info-note"><span>課程編排 : </span> {{pn.cur || '學校沒有提供'}}</div>
-                        
-                        <div class="school-section-title">聯絡資料</div>
-                        <div class="school-info-note"><span>地址 :</span> {{pn.adr || '--'}}</div>
-                        <div class="school-info-note" style="width:28%;" ng-show="pn.pho"><span>電話 :</span> {{pn.pho || '--'}}</div>
-                        <div class="school-info-note" style="width:28%;" ng-show="pn.fax"><span>傳真 :</span> {{pn.fax || '--'}}</div>
-                        <div class="school-info-note" ng-show="pn.em"><span>電郵 :</span> {{pn.em || '--'}}</div>
-                        <div class="school-info-note"><span>網址 :</span> <a ng-href="{{pn.url || '--'}}" target="_blank">{{pn.url}}</a></div>
-                    </div>
-                </div>
-            </div>
+            <div data-ng-include data-src="'/assets/app/views/schools/pn-page-details.html'"></div>
+            <div data-ng-include data-src="'/assets/app/views/schools/pn-page-community.html'"></div>
         </div>
+        <div data-ng-include data-src="'/assets/app/views/widgets/schools-pn-bookmark-widget.html'" ng-init="collapsible = true"></div>
         <!--div data-ng-include data-src="'/assets/app/views/utilities/recommendedPNsUtility.html'"></div-->
-        <!--div data-ng-include data-src="'/assets/app/views/widgets/schools-pn-ranking-index-widget.html'"></div-->
         <div class="ads-factor-728x90">
             <script adSize="72890" adSid="477069296823" ads-factor language='JavaScript' type="text/javascript"></script>
             <script adSize="300250" adSid="395216266815" ads-factor language='JavaScript' type="text/javascript"></script>
-        </div>
-        <div ng-show="!userInfo.isLoggedIn">
-            <div data-ng-include data-src="'/assets/app/views/widgets/prompt-signup-widget.html'"></div>
         </div>
     </div>
 </div>

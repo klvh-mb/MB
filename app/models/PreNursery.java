@@ -149,6 +149,13 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
         return (List<PreNursery>)q.getResultList();
     }
 
+    public static Long searchByNameCount(String nameSubStr) {
+        Query q = JPA.em().createQuery("SELECT count(pn) FROM PreNursery pn where pn.name like ?1 or UPPER(pn.nameEn) like ?2");
+        q.setParameter(1, "%"+nameSubStr+"%");
+        q.setParameter(2, "%"+nameSubStr.toUpperCase()+"%");
+        return (Long)q.getSingleResult();
+    }
+    
     public static List<PreNursery> searchByName(String nameSubStr) {
         Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.name like ?1 or UPPER(pn.nameEn) like ?2");
         q.setParameter(1, "%"+nameSubStr+"%");
