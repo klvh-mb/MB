@@ -4,8 +4,8 @@
             <div class="school-title">
                 <div>{{pn.n}}</div>
                 <div>{{pn.ne || ''}} <span class="tag">{{pn.dis}}</span></div>
+                <span data-ng-include data-src="'/assets/app/views/schools/bookmark-pn.html'"></span>
             </div>
-            <span data-ng-include data-src="'/assets/app/views/schools/bookmark-pn.html'"></span>
 
             <a class="schools-map" ng-show="pn.map != null" href="{{pn.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i>地圖</a>
 
@@ -42,6 +42,7 @@
             <div class="school-info-note"><span>收錄人數 : </span> {{pn.nadm || '--'}}</div>
             <div class="school-info-note"><span>半日班全年收費 : </span> {{pn.feeHd || '--'}}</div>
             <div class="school-info-note"><span>全日班全年收費 : </span> {{pn.feeWd || '--'}}</div>
+            <div class="school-info-note" style="font-size:13px;margin-top:3px;">* 根據教育局提供的幼兒服務資料 (2013年9月資料)</div>
 
             <div class="school-section-title">課程資料</div>
             <div class="school-info-note"><span>課程編排 : </span> {{pn.cur || '學校沒有提供'}}</div>
@@ -51,8 +52,8 @@
             <div class="school-info-note-short" ng-show="pn.pho"><span>電話 :</span> {{pn.pho || '--'}}</div>
             <div class="school-info-note-short" ng-show="pn.fax"><span>傳真 :</span> {{pn.fax || '--'}}</div>
             <div class="school-info-note" ng-show="pn.em"><span>電郵 :</span> {{pn.em || '--'}}</div>
-            <div class="school-info-note"><span>網址 :</span> <a ng-href="{{pn.url || '--'}}" target="_blank">{{pn.url}}</a></div>
-            <div class="school-info-note"><span>教局網址 :</span> <a ng-href="{{pn.govUrl || '--'}}" target="_blank"><img style="width:24px;" src="../assets/app/images/general/school-gov.png" /></a></div>
+            <div class="school-info-note" ng-show="pn.url"><span>網址 :</span> <a ng-href="{{pn.url || '--'}}" target="_blank">{{pn.url}}</a></div>
+            <div class="school-info-note" ng-show="pn.govUrl"><span>教局網址 :</span> <a ng-href="{{pn.govUrl || '--'}}" target="_blank"><img style="width:24px;" src="../assets/app/images/general/school-gov.png" /></a></div>
         </div>
     </div>
 </div>

@@ -1222,7 +1222,7 @@ minibean.controller('SuggestedFriendsUtilityController',function($scope, unFrien
 minibean.controller('CommunityMembersController',function($scope, $routeParams, membersWidgetService, $http){
     
 	var id = $routeParams.id;
-    if ($scope.mainCommId != 'undefined') {
+    if ($scope.mainCommId != undefined) {
     	id = $scope.mainCommId;		// set in pn page
     }
     

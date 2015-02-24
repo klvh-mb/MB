@@ -386,8 +386,8 @@
 }
 
 /* pn comm */
-#school-box-main .post-favorite:after, 
-#school-box-main .post-favorited:after {
+#school-box-main .school-title .post-favorite:after, 
+#school-box-main .school-title .post-favorited:after {
 	text-indent: 35px;
 	background-size: 22px 22px;
 	top: 15px;
@@ -427,10 +427,11 @@
 }
 #school-box-main #content-uploader {
 	margin: 0 10px 25px 10px;
+	border: 1px solid #ccc;
+    border-top: none;
 	border-radius: 0px 0px 3px 3px;
 	box-shadow: none;
 }
-
 #school-box-main .widget-box {
 	border: none;
 	border-radius: 0;
@@ -441,5 +442,3 @@
 #school-box-main .widget-box .section-title {
     background-color: #EBFDEA;
 }
-
-
