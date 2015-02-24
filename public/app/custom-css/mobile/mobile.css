@@ -1008,3 +1008,7 @@ span.notif-count {
 }
 #school-box-main #wall-main .general-box {
     margin: 0;
+}
+#school-box-main .widget-box {
+	margin: 0;
+}

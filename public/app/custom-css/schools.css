@@ -343,6 +343,7 @@
 	color: #324fe1;
 	font-weight: bold;
 	font-size: 18px;
+	width: 95%;
 	margin-bottom: 10px;
 }
 .school-box .school-title > div:first-child {
@@ -385,6 +386,12 @@
 }
 
 /* pn comm */
+#school-box-main .post-favorite:after, 
+#school-box-main .post-favorited:after {
+	text-indent: 35px;
+	background-size: 22px 22px;
+	top: 15px;
+}
 #school-box-main #community-header {
 	margin: 0;
     margin-bottom: 25px;
@@ -429,7 +436,7 @@
 	border-radius: 0;
 	box-shadow: none;
 	font-size: 17px;
-	margin: 0 20px 20px 20px;
+	margin: 0 10px 20px 10px;
 }
 #school-box-main .widget-box .section-title {
     background-color: #EBFDEA;

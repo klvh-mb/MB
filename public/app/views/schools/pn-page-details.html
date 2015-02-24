@@ -2,11 +2,8 @@
     <div class="school-box">
         <div class="school-info">
             <div class="school-title">
-                <div>
-                    {{pn.n}}
-                    <span class="tag">{{pn.dis}}</span>
-                </div>
-                <div>{{pn.ne || ''}}</div>
+                <div>{{pn.n}}</div>
+                <div>{{pn.ne || ''}} <span class="tag">{{pn.dis}}</span></div>
             </div>
             <span data-ng-include data-src="'/assets/app/views/schools/bookmark-pn.html'"></span>
 
