@@ -249,6 +249,10 @@ public class SocialActivity {
 
                         List<User> members = sendToAll ? community.getMembers() : community.getMembersIn(frdIds);
                         for(User user : members){
+                            if (user.getId() == actor.getId()) {
+                                continue;   // skip the actor himself
+                            }
+
                             Notification notification =
                                     Notification.getNotification(user.id, NotificationType.QUESTIONED, community.id, SocialObjectType.COMMUNITY);
 
