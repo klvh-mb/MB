@@ -797,7 +797,8 @@ public class DataBootstrap {
         for (PreNursery pn : pns) {
             String name = pn.getName();
             String desc = pn.getName()+" PreNursery討論區";
-            Community community = getOrCreatePNCommunity(name, desc);
+            String targetingInfo = pn.getId().toString();
+            Community community = getOrCreatePNCommunity(name, desc, targetingInfo);
             if (community != null) {
                 pn.communityId = community.getId();
                 pn.merge();
@@ -965,8 +966,8 @@ public class DataBootstrap {
     }
 
     @Transactional
-    private static Community getOrCreatePNCommunity(String name, String desc) {
-        Community newComm = Community.findByNameTargetingType(name, TargetingType.PRE_NURSERY);
+    private static Community getOrCreatePNCommunity(String name, String desc, String targetingInfo) {
+        Community newComm = Community.findByNameTargetingTypeInfo(name, TargetingType.PRE_NURSERY, targetingInfo);
         if (newComm == null) {
             try {
                 newComm = Application.getMBAdmin().createCommunity(
@@ -975,7 +976,7 @@ public class DataBootstrap {
                 newComm.system = true;
                 newComm.excludeFromNewsfeed = true;
                 newComm.targetingType = TargetingType.PRE_NURSERY;
-                newComm.targetingInfo = null;
+                newComm.targetingInfo = targetingInfo;
 
                 logger.underlyingLogger().info("Created PN community (id="+newComm.getId()+"): "+name);
             } catch (Exception e) {

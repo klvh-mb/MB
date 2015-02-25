@@ -71,7 +71,6 @@ public class CommandChecker {
         else if (commandLine.startsWith("bootstrapPNCommunity")) {
             DataBootstrap.bootstrapPNCommunity();
         }
-
         else if (commandLine.startsWith("bootstrapPNReviews")) {
             if (tokens.length > 1) {
                 String filePath = tokens[1];
