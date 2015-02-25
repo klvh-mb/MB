@@ -393,28 +393,6 @@ span.notif-count {
     width: 50%;
     padding: 5px;
 }
-.post-qna-tag, .post-sharing-tag {
-    font-size: 12px;
-    font-weight: bold;
-    border-radius: 15px;
-    width: 15px;
-    height: 15px;
-    margin-top: 3px;
-}
-.post-date {
-    font-size: 11px;
-}
-.post-intro {
-    font-size: 12px;
-}
-.post-intro img {
-    width: 18px;
-    height: 18px;
-    vertical-align: middle;
-}
-.post-intro .post-dropdown-menu {
-    font-size: 15px;
-}
 .post-comment-box .post-qna-reply-textfield {
     width: 58%;
 }
@@ -428,28 +406,6 @@ span.notif-count {
     width: 58%;
 }
 .post-qna-body-title {
-}
-.post-qna-answers {
-    font-size: 13px;
-}
-.post-qna-answers li {
-}
-.post-qna-body-title a {
-    font-size: 18px;
-}
-.post-qna-body {
-    padding-top: 0px;
-}
-.post-sharing-body {
-    padding-top: 5px;
-}
-.post-qna-body-text, .post-qna-answer-body-text {
-    padding: 0px 0px 5px 0px;
-    line-height: 1.2;
-}
-.post-sharing-body-text {
-    padding: 5px 0px 5px 0px;
-    line-height: 1.2;
 }
 .post-favorite:after, .post-favorited:after {
     text-indent: 23px;
