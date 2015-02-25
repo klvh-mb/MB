@@ -13,6 +13,8 @@ import models.User;
 import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import common.cache.CommunityMetaCache;
+
 import domain.DefaultValues;
 import processor.PrimarySocialRelationManager;
 import static processor.PrimarySocialRelationManager.PrimarySocialResult;
@@ -47,7 +49,10 @@ public class CommunityPostVM {
 	@JsonProperty("isLike") public boolean isLike = false;
     @JsonProperty("isWtAns") public boolean isWantAnswer = false;
 	@JsonProperty("isBookmarked") public boolean isBookmarked = false;
-
+	
+	@JsonProperty("pnId") public Long pnId = null;
+	@JsonProperty("kindyId") public Long kindyId = null;
+	
 	public CommunityPostVM(Post post, User user) {
         this(post, user, true, false);
     }
@@ -88,6 +93,9 @@ public class CommunityPostVM {
 		this.isCommentable = isCommentable;
 		this.isOwner = post.owner.id == user.id;
 
+		this.pnId = CommunityMetaCache.getPNIdFromCommunity(post.community.id);
+		//this.kindyId = CommunityMetaCache.getKindyIdFromCommId(post.community.id);
+		
 		if(post.folder != null && !CollectionUtils.isEmpty(post.folder.resources)) {
 		    this.hasImage = true;
 		    this.images = new Long[post.folder.resources.size()];
