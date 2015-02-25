@@ -166,7 +166,7 @@ var log = function(str) {
 }
 
 var debugObject = function(obj, console) {
-    if (cosole) {
+    if (console) {
         log(JSON.stringify(obj));
     } else {
         alert(JSON.stringify(obj));

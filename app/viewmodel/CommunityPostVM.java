@@ -49,10 +49,14 @@ public class CommunityPostVM {
 	@JsonProperty("isBookmarked") public boolean isBookmarked = false;
 
 	public CommunityPostVM(Post post, User user) {
-        this(post, user, true);
+        this(post, user, true, false);
     }
 
-    public CommunityPostVM(Post post, User user, boolean isCommentable) {
+	public CommunityPostVM(Post post, User user, boolean isCommentable) {
+		this(post, user, isCommentable, false);
+	}
+	
+    public CommunityPostVM(Post post, User user, boolean isCommentable, boolean fetchComments) {
         this.postId = post.id;
 		this.ownerId = post.owner.id;
 		this.postedBy = post.owner.displayName;
@@ -75,7 +79,7 @@ public class CommunityPostVM {
 		this.communityName = post.community.name;
 		this.communityIcon = post.community.icon;
 		this.communityId = post.community.id;
-		//need to write logic for showing no of views
+
 		this.noOfViews = post.noOfViews;
 		this.noOfLikes = post.noOfLikes;
 		this.noOfWantAnswers = post.noWantAns;
@@ -93,39 +97,40 @@ public class CommunityPostVM {
 			}
 		}
 
-        // fetch preview comments
-		List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
-		List<Comment> comments = post.getCommentsOfPost(DefaultValues.COMMENTS_PREVIEW_COUNT);
-
-        List<Long> likeCheckIds = new ArrayList<>();
-        likeCheckIds.add(post.id);
-        for(int i = comments.size() - 1; i >= 0 ; i--) {
-            likeCheckIds.add(comments.get(i).getId());
-        }
-        
-        if (User.isLoggedIn(user)){
-            Set<PrimarySocialResult> srByUser = PrimarySocialRelationManager.getSocialRelationBy(user, likeCheckIds);
-
-    		for(int i = comments.size() - 1; i >= 0 ; i--) {
-    			Comment comment = comments.get(i);
-    			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, user, post.noOfComments - i);
-    			commentVM.isLike = srByUser.contains(new PrimarySocialResult(comment.id, comment.objectType, PrimarySocialRelation.Action.LIKED));
-    			commentsToShow.add(commentVM);
-    		}
-
-    		this.isLike = srByUser.contains(new PrimarySocialResult(post.id, post.objectType, PrimarySocialRelation.Action.LIKED));
-    		this.isWantAnswer = srByUser.contains(new PrimarySocialResult(post.id, post.objectType, PrimarySocialRelation.Action.WANT_ANS));
-        } else {
-            for(int i = comments.size() - 1; i >= 0 ; i--) {
-                Comment comment = comments.get(i);
-                CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, user, post.noOfComments - i);
-                commentVM.isLike = false;
-                commentsToShow.add(commentVM);
-            }
-
-            this.isLike = false;
-            this.isWantAnswer = false;
-        }
-        this.comments = commentsToShow;
+		if (fetchComments) {
+			List<CommunityPostCommentVM> commentsVM = new ArrayList<>();
+			List<Comment> comments = post.getCommentsOfPost(DefaultValues.COMMENTS_PREVIEW_COUNT);
+	
+	        List<Long> likeCheckIds = new ArrayList<>();
+	        likeCheckIds.add(post.id);
+	        for(int i = comments.size() - 1; i >= 0 ; i--) {
+	            likeCheckIds.add(comments.get(i).getId());
+	        }
+	        
+	        if (User.isLoggedIn(user)){
+	            Set<PrimarySocialResult> srByUser = PrimarySocialRelationManager.getSocialRelationBy(user, likeCheckIds);
+	
+	    		for(int i = comments.size() - 1; i >= 0 ; i--) {
+	    			Comment comment = comments.get(i);
+	    			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, user, post.noOfComments - i);
+	    			commentVM.isLike = srByUser.contains(new PrimarySocialResult(comment.id, comment.objectType, PrimarySocialRelation.Action.LIKED));
+	    			commentsVM.add(commentVM);
+	    		}
+	
+	    		this.isLike = srByUser.contains(new PrimarySocialResult(post.id, post.objectType, PrimarySocialRelation.Action.LIKED));
+	    		this.isWantAnswer = srByUser.contains(new PrimarySocialResult(post.id, post.objectType, PrimarySocialRelation.Action.WANT_ANS));
+	        } else {
+	            for(int i = comments.size() - 1; i >= 0 ; i--) {
+	                Comment comment = comments.get(i);
+	                CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, user, post.noOfComments - i);
+	                commentVM.isLike = false;
+	                commentsVM.add(commentVM);
+	            }
+	
+	            this.isLike = false;
+	            this.isWantAnswer = false;
+	        }
+	        this.comments = commentsVM;
+		}
 	}
 }

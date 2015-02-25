@@ -415,6 +415,7 @@
 #school-box-main .post-bar {
 	border: none;
     border-bottom: 1px solid #A3D0A4;
+    border-left: 3px solid #A3D0A4;
 }
 #school-box-main .post-bar:hover {
     background-color: #F3FDF2;

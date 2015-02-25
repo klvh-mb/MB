@@ -428,13 +428,11 @@ span.notif-count {
     width: 58%;
 }
 .post-qna-body-title {
-    padding-bottom: 10px;
 }
 .post-qna-answers {
     font-size: 13px;
 }
 .post-qna-answers li {
-    /*padding: 10px 10px;*/
 }
 .post-qna-body-title a {
     font-size: 18px;

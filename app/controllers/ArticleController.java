@@ -259,13 +259,11 @@ public class ArticleController extends Controller {
     @Transactional
     public static Result infoArticle(Long articleId) {
         final User localUser = Application.getLocalUser(session());
-        Article article = null;
-        try {
-            article = Article.findById(articleId);
-            article.noOfViews++;
-        } catch(NoResultException e) {
-            return ok("NO_RESULT");
+        Article article = Article.findById(articleId);
+        if (article == null) {
+            return notFound();
         }
+        article.noOfViews++;
         ArticleVM vm = new ArticleVM(article, localUser);
         vm.description = article.description;
         return ok(Json.toJson(vm));

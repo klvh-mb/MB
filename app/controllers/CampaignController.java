@@ -93,7 +93,7 @@ public class CampaignController extends Controller {
             campaign = Campaign.findById(campaignId);
         }
         if (campaign == null) {
-            return ok("NO_RESULT");
+            return notFound();
         }
         campaign.noOfViews++;
         CampaignVM vm = new CampaignVM(campaign, localUser);

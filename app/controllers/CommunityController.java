@@ -1341,12 +1341,12 @@ public class CommunityController extends Controller{
         final User localUser = Application.getLocalUser(session());
         final Post post = Post.findById(id);
         if (post == null) {
-            return ok("NO_RESULT"); 
+            return notFound(); 
         }
         logger.underlyingLogger().info("[u="+localUser.id+"][c="+communityId+"][p="+id+"] postLanding");
 
         post.noOfViews++;
-        return ok(Json.toJson(CommunityPostsVM.posts(post.community, localUser, post)));
+        return ok(Json.toJson(new CommunityPostVM(post, localUser, true, true)));
     }
     
     @Transactional
@@ -1354,12 +1354,12 @@ public class CommunityController extends Controller{
         final User localUser = Application.getLocalUser(session());
         final Post post = Post.findById(id);
         if (post == null) {
-            return ok("NO_RESULT"); 
+            return notFound(); 
         }
         logger.underlyingLogger().info("[u="+localUser.id+"][c="+communityId+"][p="+id+"] qnaLanding");
 
         post.noOfViews++;
-        return ok(Json.toJson(CommunityPostsVM.posts(post.community, localUser, post)));
+        return ok(Json.toJson(new CommunityPostVM(post, localUser, true, true)));
     }
     
     @Transactional

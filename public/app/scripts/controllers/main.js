@@ -1089,14 +1089,14 @@ minibean.controller('EditCommunityController',function($scope,$q, $location,$rou
 
 	$scope.submitBtn = "儲存";
 	$scope.community = editCommunityPageService.EditCommunityPage.get({id:$routeParams.id}, 
-			function(response) {
-			},
-			function(rejection) {
-				if(rejection.status === 500) {
-					$location.path('/error');
-				}
-				return $q.reject(rejection);
+		function(response) {
+		},
+		function(rejection) {
+			if(rejection.status === 500) {
+				$location.path('/error');
 			}
+			return $q.reject(rejection);
+		}
 	);
 
 	$scope.community.typ = DefaultValues.communityType;
@@ -1640,13 +1640,16 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     
     $scope.community = communityPageService.Community.get({id:$routeParams.communityId});
     
-    $scope.posts = postLandingService.postLanding.get({id:$routeParams.id,communityId:$routeParams.communityId}, function(response) {
-        if (response[0] == 'NO_RESULT'){
-            $scope.noResult = true;
-        }
-        $scope.noResult = false;
-        usSpinnerService.stop('loading...');
-    });
+    $scope.post = postLandingService.postLanding.get({id:$routeParams.id,communityId:$routeParams.communityId}, 
+    	function(data) {
+    		$scope.noResult = false;
+        	usSpinnerService.stop('loading...');
+    	}, 
+    	function(rejection) {
+    		$scope.noResult = true;
+    		usSpinnerService.stop('loading...');
+		}
+    );
     
     //
     // Below is copied completely from CommunityPageController
@@ -1664,15 +1667,18 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     }
     
     $scope.showMore = function(id) {
-        postFactory.showMore(id, $scope.posts.posts);
+    	var posts = [ $scope.post ];
+        postFactory.showMore(id, posts);
     }
     
     $scope.get_all_comments = function(id) {
-        postFactory.getAllComments(id, $scope.posts.posts, $scope);
+    	var posts = [ $scope.post ];
+        postFactory.getAllComments(id, posts, $scope);
     }
     
     $scope.deletePost = function(postId) {
-        postFactory.deletePost(postId, $scope.posts.posts);
+    	var posts = [ $scope.post ];
+        postFactory.deletePost(postId, posts);
     }
     
     $scope.deleteComment = function(commentId, post) {
@@ -1697,11 +1703,12 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
         usSpinnerService.spin('loading...');
         $http.post('/community/post/comment', data) 
             .success(function(response) {
-                angular.forEach($scope.posts.posts, function(post, key){
+            	var posts = [ $scope.post ];
+                angular.forEach(posts, function(post, key){
                     if(post.id == data.post_id) {
                         post.n_c++;
                         post.ut = new Date();
-                        var comment = {"oid" : $scope.posts.lu, "d" : response.text, "on" : $scope.posts.lun,
+                        var comment = {"oid" : $scope.userInfo.id, "d" : response.text, "on" : $scope.userInfo.displayName,
                                 "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
                         post.cs.push(comment);
                         
@@ -1758,27 +1765,33 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     }
     
     $scope.like_post = function(post_id) {
-        postFactory.like_post(post_id, $scope.posts.posts);
+    	var posts = [ $scope.post ];
+        postFactory.like_post(post_id, posts);
     }
     
     $scope.unlike_post = function(post_id) {
-        postFactory.unlike_post(post_id, $scope.posts.posts);
+    	var posts = [ $scope.post ];
+        postFactory.unlike_post(post_id, posts);
     }
 
     $scope.like_comment = function(post_id, comment_id) {
-        postFactory.like_comment(post_id, comment_id, $scope.posts.posts);
+    	var posts = [ $scope.post ];
+        postFactory.like_comment(post_id, comment_id, posts);
     }
     
     $scope.unlike_comment = function(post_id, comment_id) {
-        postFactory.unlike_comment(post_id, comment_id, $scope.posts.posts);
+    	var posts = [ $scope.post ];
+        postFactory.unlike_comment(post_id, comment_id, posts);
     }
     
     $scope.bookmarkPost = function(post_id) {
-        postFactory.bookmarkPost(post_id, $scope.posts.posts);
+    	var posts = [ $scope.post ];
+        postFactory.bookmarkPost(post_id, posts);
     }
     
     $scope.unBookmarkPost = function(post_id) {
-        postFactory.unBookmarkPost(post_id, $scope.posts.posts);
+    	var posts = [ $scope.post ];
+        postFactory.unBookmarkPost(post_id, posts);
     }
     
     $scope.commentPhoto = function(post_id) {
@@ -1830,13 +1843,16 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     
     $scope.community = communityPageService.Community.get({id:$routeParams.communityId});
     
-    $scope.QnAs = qnaLandingService.qnaLanding.get({id:$routeParams.id,communityId:$routeParams.communityId}, function(response) {
-        if (response[0] == 'NO_RESULT'){
-            $scope.noResult = true;
-        }
-        $scope.noResult = false;
-        usSpinnerService.stop('loading...');
-    });
+    $scope.post = qnaLandingService.qnaLanding.get({id:$routeParams.id,communityId:$routeParams.communityId}, 
+    	function(data) {
+    		$scope.noResult = false;
+    		usSpinnerService.stop('loading...');
+    	},
+    	function(rejection) {
+    		$scope.noResult = true;
+    		usSpinnerService.stop('loading...');
+		}
+    );
     
     //
     // Below is copied completely from CommunityQnAController
@@ -1848,7 +1864,9 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     }
     
     $scope.deletePost = function(postId) {
-        postFactory.deletePost(postId, $scope.QnAs.posts);
+    	var posts = [ $scope.post ];
+        postFactory.deletePost(postId, posts);
+        $scope.noResult = true;
     }
     
     $scope.deleteComment = function(commentId, post) {
@@ -1860,15 +1878,18 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     }
     
     $scope.showMore = function(id) {
-        postFactory.showMore(id, $scope.QnAs.posts);
+    	var posts = [ $scope.post ];
+        postFactory.showMore(id, posts);
     }
     
     $scope.get_all_answers = function(id) {
-        postFactory.getAllComments(id, $scope.QnAs.posts, $scope);
+    	var posts = [ $scope.post ];
+        postFactory.getAllComments(id, posts, $scope);
     }
     
     $scope.get_all_comments = function(id) {
-        postFactory.getAllComments(id, $scope.QnAs.posts, $scope);
+    	var posts = [ $scope.post ];
+        postFactory.getAllComments(id, posts, $scope);
     }
     
     // !!!NOTE: Since we reuse qna-bar.html for landing page, and qna-bar.html is 
@@ -1935,11 +1956,12 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
         usSpinnerService.spin('loading...');
         $http.post('/communityQnA/question/answer', data) 
             .success(function(response) {
-                angular.forEach($scope.QnAs.posts, function(post, key){
+            	var posts = [ $scope.post ];
+                angular.forEach(posts, function(post, key){
                     if(post.id == data.post_id) {
                         post.n_c++;
                         post.ut = new Date();
-                        var answer = {"oid" : $scope.QnAs.lu, "d" : response.text, "on" : $scope.QnAs.lun, 
+                        var answer = {"oid" : $scope.userInfo.id, "d" : response.text, "on" : $scope.userInfo.displayName, 
                                 "isLike" : false, "nol" : 0, "cd" : new Date(), "n_c" : post.n_c, "id" : response.id};
                         answer.isO = true;
                         answer.n = post.n_c;
@@ -1988,35 +2010,43 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     }
 
     $scope.want_answer = function(post_id) {
-        postFactory.want_answer(post_id, $scope.QnAs.posts);
+    	var posts = [ $scope.post ];
+        postFactory.want_answer(post_id, posts);
     }
     
     $scope.unwant_answer = function(post_id) {
-        postFactory.unwant_answer(post_id, $scope.QnAs.posts);
+    	var posts = [ $scope.post ];
+        postFactory.unwant_answer(post_id, posts);
     }
     
     $scope.like_post = function(post_id) {
-        postFactory.like_post(post_id, $scope.QnAs.posts);
+    	var posts = [ $scope.post ];
+        postFactory.like_post(post_id, posts);
     }
     
     $scope.unlike_post = function(post_id) {
-        postFactory.unlike_post(post_id, $scope.QnAs.posts);
+    	var posts = [ $scope.post ];
+        postFactory.unlike_post(post_id, posts);
     }
 
     $scope.like_comment = function(post_id, comment_id) {
-        postFactory.like_comment(post_id, comment_id, $scope.QnAs.posts);
+    	var posts = [ $scope.post ];
+        postFactory.like_comment(post_id, comment_id, posts);
     }
     
     $scope.unlike_comment = function(post_id, comment_id) {
-        postFactory.unlike_comment(post_id, comment_id, $scope.QnAs.posts);
+    	var posts = [ $scope.post ];
+        postFactory.unlike_comment(post_id, comment_id, posts);
     }
     
     $scope.bookmarkPost = function(post_id) {
-        postFactory.bookmarkPost(post_id, $scope.QnAs.posts);
+    	var posts = [ $scope.post ];
+        postFactory.bookmarkPost(post_id, posts);
     }
     
     $scope.unBookmarkPost = function(post_id) {
-        postFactory.unBookmarkPost(post_id, $scope.QnAs.posts);
+    	var posts = [ $scope.post ];
+        postFactory.unBookmarkPost(post_id, posts);
     }
 });
 
@@ -2895,13 +2925,13 @@ minibean.controller('PKViewPageController',function($scope, $route, $location, $
     
     $scope.pkview = pkViewService.pkViewInfo.get({id:$routeParams.id}, 
         function(data) {
-            if(data[0] == 'NO_RESULT'){
-                $location.path('/pkview/show');
-            }
             if ($scope.pkview.id == null) {
                 $scope.showPKView = false;
             }
-        }
+        },
+    	function(rejection) {
+        	$location.path('/pkview/show');
+		}
     );
     
     $scope.redVote = function(pkview) {
@@ -2998,16 +3028,17 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
     
     $scope.campaign = campaignService.campaignInfo.get({id:id}, 
         function(data) {
-            if(data[0] == 'NO_RESULT'){
-                $location.path('/campaign/show');
-            }
             if ($scope.campaign.id == null || ($scope.campaign.cs == 'NEW' && !$scope.userInfo.isE)) {
                 $scope.showCampaign = false;
             }
             if ($scope.campaign.cs == 'ANNOUNCED' || $scope.campaign.cs == 'CLOSED') {
                 $scope.announcedWinners = campaignService.campaignAnnouncedWinners.get({id:id});
             }
-        });
+        }, 
+        function(rejection) {
+        	$location.path('/campaign/show');
+		}
+    );
     
     $scope.popupCampaignNotStartModal = function() {
         bootbox.dialog({
@@ -3117,17 +3148,18 @@ minibean.controller('ArticlePageController',function($scope, $routeParams, artic
     //$scope.newArticles = articleService.NewArticles.get({category_id:$routeParams.catId});
     
     $scope.article = articleService.ArticleInfo.get({id:$routeParams.id}, 
-        function(response) {
-            if(response[0] == 'NO_RESULT'){
-                $location.path('/article/show/0');
-            }
+        function(data) {
             $scope.relatedResult = articleService.getRelatedArticles.get({id:$routeParams.id, category_id:response.ct.id});
             
             // render mobile scroll nav bar
             if ($scope.userInfo.isMobile) {
                 $scope.renderNavSubBar();
             }
-        });
+        },
+        function(rejection) {
+        	$location.path('/article/show/0');
+		}
+	);
     
     $scope.like_article = function(article_id) {
         articleFactory.like_article(article_id, $scope.article);
