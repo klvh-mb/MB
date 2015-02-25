@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Query;
 
 
+import common.cache.CommunityMetaCache;
 import customdata.file.ReviewFileReader;
 import domain.CommentType;
 import domain.PostType;
@@ -802,6 +803,9 @@ public class DataBootstrap {
                 pn.merge();
             }
         }
+
+        // reload cache
+        CommunityMetaCache.loadPreNurseryComms();
     }
 
     /**
