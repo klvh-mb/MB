@@ -6,6 +6,7 @@ import models.Community;
 import models.CommunityStatistics;
 import models.FrontPageTopic;
 import models.FrontPageTopic.TopicType;
+import models.TargetingSocialObject;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -38,7 +39,9 @@ public class FrontPageController extends Controller {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         List<CommunityStatistics.StatisticsSummary> sortedStats =
-                CommunityStatistics.getMostActiveCommunities(DefaultValues.FRONTPAGE_HOT_COMMUNITIES_FOR_LAST_DAYS);
+                CommunityStatistics.getMostActiveCommunities(
+                        DefaultValues.FRONTPAGE_HOT_COMMUNITIES_FOR_LAST_DAYS,
+                        TargetingSocialObject.TargetingType.PRE_NURSERY);
 
         Map<Long, CommunityStatistics.StatisticsSummary> statsMap = new HashMap<>();
         List<Long> ids = new ArrayList<>(sortedStats.size());

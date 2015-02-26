@@ -7,6 +7,7 @@ import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
 import javax.persistence.*;
+import java.lang.annotation.Target;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Table to capture activity statistics by community.
+ * Table to capture activity statistics by community. (Updated nightly, or on-demand)
  *
  * Created by IntelliJ IDEA.
  * Date: 5/12/14
@@ -31,6 +32,7 @@ public class CommunityStatistics {
 
     @Constraints.Required
     public Long communityId;
+    public TargetingSocialObject.TargetingType targetingType;
 
     public Date activityDate;
 
@@ -56,8 +58,13 @@ public class CommunityStatistics {
             try {
                 return (CommunityStatistics) q.getSingleResult();
             } catch (NoResultException e) {
+                Community community = Community.findById(commId);
+
                 CommunityStatistics statistics = new CommunityStatistics();
                 statistics.communityId = commId;
+                if (community != null) {
+                    statistics.targetingType = community.getTargetingType();
+                }
                 statistics.activityDate = refDate;
                 statistics.save();
                 return statistics;
@@ -114,14 +121,15 @@ public class CommunityStatistics {
      * @param numDaysBefore
      * @return
      */
-    public static List<StatisticsSummary> getMostActiveCommunities(int numDaysBefore) {
+    public static List<StatisticsSummary> getMostActiveCommunities(int numDaysBefore, TargetingSocialObject.TargetingType excludeType) {
         LocalDate since = (new LocalDate()).minusDays(numDaysBefore);
 
         Query q = JPA.em().createNativeQuery("select s.communityId, SUM(s.numPosts), SUM(s.numComments) from CommunityStatistics s "+
-               "where s.activityDate > ?1 "+
+               "where s.activityDate > ?1 and (s.targetingType is NULL or s.targetingType <> ?2) "+
                "group by s.communityId "+
                "order by SUM(s.numPosts+s.numComments) desc");
         q.setParameter(1, since.toDate());
+        q.setParameter(2, excludeType);
         List<Object[]> commRanks = q.getResultList();
 
         final List<StatisticsSummary> result = new ArrayList<>();
