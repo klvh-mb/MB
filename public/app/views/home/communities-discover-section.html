@@ -16,11 +16,11 @@
                     <font style="color:white;">年月份</font>
                 </a>
             </span>
-            <span style="margin-left:15px;">
+            <!--span style="margin-left:15px;">
                 <a data-ng-click="setSelectedSubTab(3)" ng-class="{activeTabUnderlined: selectedSubTab == 3}">
                     <font style="color:white;">地區</font>
                 </a>
-            </span>
+            </span-->
         </div>
     </div>
     
@@ -102,22 +102,15 @@
                 </div>
             </div>
         </span>
-        <span ng-switch-when="3">
+        <!--span ng-switch-when="3">
             <div id="communities-index" class="general-box widget-box top-box">
                 <div class="padding5"></div>
                 <div class="communityCard districtCard" ng-repeat="community in communities">
-                    <!--a href="#!/community/{{community.id}}" class="d-s ob">
-                        <div class="communityImageBox">
-                            <img class="img-clean" data-ng-src="/image/get-thumbnail-cover-community-image-by-id/{{community.id}}" alt="...">
-                        </div>
-                    </a-->
                     <div class="communityTagBox" style="padding:5px;">
-                        <!--img src="{{community.gi}}"-->
                         <p>
                             <a href="#!/community/{{community.id}}"><b><font>{{community.dn | limitTo:community.dn.length-3}}</font></b></a><br>
                             <span class="community-member-counter"><img src="../assets/app/images/general/icons/i-mom.png" />{{community.mm}}</span>
                             <span class="community-attribute">
-                                <!-- font data-ng-show="community.tp=='OPEN'">   ·   公開</font --><font data-ng-show="community.tp=='CLOSE'">   ·   <span class="glyphicon glyphicon-lock"></span>不公開</font>
                             </span>
                         </p>
                         <span ng-if="userInfo.isLoggedIn">
@@ -131,7 +124,7 @@
                     </div>
                 </div>
             </div>
-        </span>
+        </span-->
         <span ng-switch-default>
             <div id="communities-index" class="general-box widget-box top-box">
                 <div class="padding5"></div>

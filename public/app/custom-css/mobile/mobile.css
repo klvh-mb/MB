@@ -466,6 +466,10 @@ span.notif-count {
 #communities-index ul {
     width: 50%;
 }
+#communities-index .category-comm {
+    width: 100%;
+    display: inline-block;
+}
 #community-header {
     background-color: white;
     margin: -8px -12px 0 -12px;
