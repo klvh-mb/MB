@@ -1,5 +1,25 @@
 
 //
+// write meta
+//
+
+var writeMeta = function(absUrl) {
+	//log('orginial: '+absUrl);
+	if (absUrl.match(/frontpage#!/)) {
+		absUrl = absUrl.replace(/frontpage#!/, "#!");
+	} else if (absUrl.match(/my#!/)) {
+		absUrl = absUrl.replace(/my#!\/communities-discover/, "#!/communities-discover");
+		absUrl = absUrl.replace(/my#!\/community/, "#!/community");
+		absUrl = absUrl.replace(/my#!\/post-landing/, "#!/post-landing");
+		absUrl = absUrl.replace(/my#!\/qna-landing/, "#!/qna-landing");
+	}
+	//log('replace: 'absUrl);
+	
+	$('link[rel=canonical]').attr('href', absUrl);
+	//$('meta[name=description]').attr('content', '「miniBean 小萌豆」 - 每個家長嘅小寶寶就好似可愛「小萌豆」，一日一日茁壯成長。「miniBean 小萌豆」係一個親子社交平台，透過家長互相分享經驗和心得，大家都能夠得到更貼心的育兒親子資訊。');
+}
+
+//
 // New user tour
 //
 
