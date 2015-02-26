@@ -496,6 +496,16 @@ minibean.controller('ApplicationController',
         acceptJoinRequestService, acceptFriendRequestService, notificationMarkReadService,
         communitiesDiscoverService, articleService, iconsService, usSpinnerService) {
 
+	// meta
+	var writeMeta = function() {
+		//$('meta[name=description]').attr('content', '「miniBean 小萌豆」 - 每個家長嘅小寶寶就好似可愛「小萌豆」，一日一日茁壯成長。「miniBean 小萌豆」係一個親子社交平台，透過家長互相分享經驗和心得，大家都能夠得到更貼心的育兒親子資訊。');
+		$('link[rel=canonical]').attr('href', $location.absUrl());
+	}
+	
+	$scope.$on('$viewContentLoaded', function() {
+		writeMeta();
+	});
+	
     // login
     $scope.getFbLoginUrl = function() {
         var url = encodeURIComponent(window.location.href);

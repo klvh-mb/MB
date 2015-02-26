@@ -2,6 +2,7 @@
 //
 // New user tour
 //
+
 var homeTour = new Tour({
   container: "body",
   template: "<div class='popover tour'>" + 
