@@ -193,7 +193,7 @@
 }
 .post-title-user-name {
     font-weight: normal;
-    font-size: 12px;
+    font-size: 13px;
     margin-bottom: 3px;
 }
 .post-title-user-name a {
@@ -259,10 +259,10 @@
     padding: 5px 0px;
 }
 .post-qna-body-text, .post-sharing-body-text {
-    font-size: 15px;
+    font-size: 16px;
 }
 .post-qna-answer-body-text, .post-sharing-comment-body-text {
-    font-size: 15px;
+    font-size: 16px;
 }
 .post-body-image {
     padding: 10px;

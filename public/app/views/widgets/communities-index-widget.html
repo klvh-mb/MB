@@ -8,7 +8,7 @@
     <div class="content">
         <ul class="newCommunity-info" ng-repeat="communityCategoryMap in topicCommunityCategoriesMap">
             <li class="category-name">{{communityCategoryMap.name}}</li>
-            <li ng-repeat="community in communityCategoryMap.communities">
+            <li class="category-comm" ng-repeat="community in communityCategoryMap.communities">
                 <a href="/my#!/community/{{community.id}}"><img src="{{community.gi}}"></a>
                 <a href="/my#!/community/{{community.id}}">{{community.dn|characters:20:true}}</a>
                 <!--span class="community-member-counter"><img src="../assets/app/images/general/icons/i-mom.png" />{{community.mm}}</span>

@@ -387,6 +387,10 @@ public class CommunityController extends Controller{
 
         List<Community> communities = localUser.getListOfJoinedCommunities();
         for(Community community : communities) {
+        	if (TargetingSocialObject.TargetingType.PRE_NURSERY.equals(community.targetingType) ||
+        			TargetingSocialObject.TargetingType.KINDY.equals(community.targetingType)) {
+        		continue;
+        	}
             communityList.add(new CommunitiesWidgetChildVM(community, localUser));
         }
         CommunitiesParentVM communitiesVM = new CommunitiesParentVM(communityList.size(), communityList);
