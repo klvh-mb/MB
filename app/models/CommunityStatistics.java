@@ -32,6 +32,8 @@ public class CommunityStatistics {
 
     @Constraints.Required
     public Long communityId;
+
+    @Enumerated(EnumType.STRING)
     public TargetingSocialObject.TargetingType targetingType;
 
     public Date activityDate;
@@ -129,7 +131,7 @@ public class CommunityStatistics {
                "group by s.communityId "+
                "order by SUM(s.numPosts+s.numComments) desc");
         q.setParameter(1, since.toDate());
-        q.setParameter(2, excludeType);
+        q.setParameter(2, excludeType.toString());
         List<Object[]> commRanks = q.getResultList();
 
         final List<StatisticsSummary> result = new ArrayList<>();
