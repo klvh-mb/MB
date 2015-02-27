@@ -1401,7 +1401,6 @@ public class User extends SocialObject implements Subject, Socializable {
     }
     
     public int unBookmarkOn(Long id, SocialObjectType type) {
-        
         Query query = JPA.em().createQuery(
                 "SELECT sr FROM SecondarySocialRelation sr where sr.targetType = ?4 and sr.action = ?3 and " +
                 "(sr.target = ?1 and sr.actor = ?2)", SecondarySocialRelation.class);
@@ -1409,10 +1408,12 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(2, this.id);
         query.setParameter(3, SecondarySocialRelation.Action.BOOKMARKED);
         query.setParameter(4, type);
-        SecondarySocialRelation sr= (SecondarySocialRelation) query.getSingleResult();
-        sr.delete();
-        
-        return 1;
+
+        List<SecondarySocialRelation> srs = (List<SecondarySocialRelation>)query.getResultList();
+        for (SecondarySocialRelation sr : srs) {
+            sr.delete();
+        }
+        return srs.size();
     }
     
     public static int unBookmarkAllUsersOn(Long id, SocialObjectType type) {
