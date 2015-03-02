@@ -1,6 +1,6 @@
 <div id="frontpage-slider-section">
     <span data-ng-include data-src="'/assets/app/views/mobile/frontpage/frontpage-slider.html'" ng-if="showMobileFrontpageSlider"></span>
-    <div id="frontpage-promo">
-        <span data-ng-include data-src="'/assets/app/views/frontpage/promo2-slider.html'" ng-if="showMobilePromo2Slider"></span>
+    <div id="frontpage-promo" ng-if="showMobilePromo2Slider">
+        <span data-ng-include data-src="'/assets/app/views/frontpage/promo2-slider.html'"></span>
     </div>
 </div>
