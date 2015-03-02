@@ -498,7 +498,7 @@ minibean.controller('ApplicationController',
 
 	// meta
 	$scope.$on('$viewContentLoaded', function() {
-		writeMeta($location.absUrl());
+		writeMetaCanonical($location.absUrl());
 	});
 	
     // login
@@ -1227,8 +1227,8 @@ minibean.controller('SuggestedFriendsUtilityController',function($scope, unFrien
 minibean.controller('CommunityMembersController',function($scope, $routeParams, membersWidgetService, $http){
     
 	var id = $routeParams.id;
-    if ($scope.mainCommId != undefined) {
-    	id = $scope.mainCommId;		// set in pn page
+    if ($scope._commId != undefined) {
+    	id = $scope._commId;		// set in pn page
     }
     
     // paged filtered data
@@ -2495,8 +2495,8 @@ minibean.controller('CommunityQnAController',function($scope, postFactory, postM
     var noMore = false;
     
     var id = $routeParams.id;
-    if ($scope.mainCommId != undefined) {
-    	id = $scope.mainCommId;		// set in pn page
+    if ($scope._commId != undefined) {
+    	id = $scope._commId;		// set in pn page
     }
     
     $scope.QnAs = communityQnAPageService.QnAs.get({id:id}, function(){
@@ -3192,16 +3192,18 @@ minibean.controller('PNPageController',function($scope, $routeParams, schoolsFac
     $scope.selectNavBar('SCHOOLS', 1);
     
     var id = $routeParams.id;
+    usSpinnerService.spin('loading...');
     $scope.pn = schoolsService.pnInfo.get({id:id},
     	function(data) {
-    		usSpinnerService.spin('loading...');
     		var commId = data.commId;
     		$scope.community = communityPageService.Community.get({id:commId}, function(data){
     	        usSpinnerService.stop('loading...');
     	    });
 
-    		$scope.mainCommId = commId;		// to be used in CommunityQnAController and CommunityMembersController
+    		$scope._commId = commId;		// to be used in CommunityQnAController and CommunityMembersController
     		$scope.selectedTab = 1;
+    		
+    		writeMetaTitleDescription(data.n + ' ' + data.ne, data.cur);
 		}
     );
     

@@ -74,6 +74,7 @@
 .post-commenter {
 	
 }
+.post-poster .comment-dropdown, 
 .post-commenter .comment-dropdown {
     top: 15px;
     right: 15px;
@@ -163,9 +164,9 @@
 .post-card .post-dropdown-menu {
     min-width: 80px;
     position: absolute;
-    top: 15px;
+    top: 7px;
     float: right;
-    right: -10px;
+    right: -15px;
     left: initial;
     font-size: 13px;
 }
@@ -239,7 +240,7 @@
     line-height: 1.2;
     font-size: 18px;
     font-weight: normal;
-    white-space: pre-wrap;
+    /*white-space: pre-wrap;*/
 }
 .post-qna-body-title a div {
     /*background-color: #FDF7F7;*/

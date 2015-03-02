@@ -169,14 +169,20 @@
 	border-radius: 5px;
 	line-height: 1.8;
 }
+
+
 .school-list-entry .post-favorite, 
-.school-list-entry .post-favorited, 
-.school-box .post-favorite, 
-.school-box .post-favorited {
-    text-indent: 20px;
-    right: 0;
-    top: 5px;
+.school-list-entry .post-favorited {
+    top: 10px;
+    right: 10px;
 }
+#school-box-main .post-bar .post-favorite, 
+#school-box-main .post-bar .post-favorited {
+    top: 5px;
+    right: 5px;
+}
+
+
 .school-list-entry .school-attr-short, 
 .school-list-entry .school-attr {
     display: inline-block;
@@ -241,6 +247,20 @@
 	background-size: 80%;
 	margin-right: 3px;
 }
+.schools-title-icon-tips {
+    background-image: url(../images/frontpage/mascot/purple_schools.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 80%;
+    
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    position: relative !important;
+    top: -23px !important;
+    width: 48px !important;
+    height: 54px !important;
+}
 .schools-title-icon {
 	display: inline-block;
 	width: 24px;
@@ -269,6 +289,7 @@
 	
 	border: 1px solid #A3D0A4;
 	box-shadow: 0px 0px 3px #8FB389;
+	overflow: visible;
 }
 #schools-bookmarks-section #schools-bookmarks .bookmarks-title {
 	width: auto;
@@ -276,6 +297,7 @@
 	padding: 5px 10px;
 	height: 35px;
 
+    border-radius: 10px 10px 0 0;
 	border-bottom: none;
 	background: rgb(255,183,107);
 	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -346,6 +368,9 @@
 	width: 95%;
 	margin-bottom: 10px;
 }
+.school-box h2.school-title {
+    margin: 0;
+}
 .school-box .school-title > div:first-child {
 	font-size: 26px;
 }
@@ -386,11 +411,18 @@
 }
 
 /* pn comm */
+#school-box-main .school-title .post-favorite, 
+#school-box-main .school-title .post-favorited {
+    width: 22px;
+    height: 22px;
+    top: 20px;
+    right: 20px;
+}
 #school-box-main .school-title .post-favorite:after, 
 #school-box-main .school-title .post-favorited:after {
-	text-indent: 35px;
 	background-size: 22px 22px;
-	top: 15px;
+	width: 22px;
+	height: 22px;
 }
 #school-box-main #community-header {
 	margin: 0;

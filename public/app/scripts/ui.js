@@ -3,7 +3,7 @@
 // write meta
 //
 
-var writeMeta = function(absUrl) {
+var writeMetaCanonical = function(absUrl) {
 	//log('orginial: '+absUrl);
 	if (absUrl.match(/frontpage#!/)) {
 		absUrl = absUrl.replace(/frontpage#!/, "#!");
@@ -16,7 +16,12 @@ var writeMeta = function(absUrl) {
 	//log('replace: 'absUrl);
 	
 	$('link[rel=canonical]').attr('href', absUrl);
-	//$('meta[name=description]').attr('content', '「miniBean 小萌豆」 - 每個家長嘅小寶寶就好似可愛「小萌豆」，一日一日茁壯成長。「miniBean 小萌豆」係一個親子社交平台，透過家長互相分享經驗和心得，大家都能夠得到更貼心的育兒親子資訊。');
+}
+
+var writeMetaTitleDescription = function(title, description) {
+	document.title = title;
+	$('meta[name=description]').attr('content', title + ', ' + description.substring(0,150));
+	$('meta[name=keywords]').attr('content', title + ', ' + $('meta[name=keywords]').attr('content'));
 }
 
 //

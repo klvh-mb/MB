@@ -18,7 +18,6 @@
 	                    <a ng-href="/schools#!/kindy/{{post.kindyId}}" ng-if="post.kindyId"><img src="{{post.ci}}">{{post.cn}}</a>
 	                    <a ng-href="/#!/community/{{post.cid}}" ng-if="!post.pnId && !post.kindyId"><img src="{{post.ci}}">{{post.cn}}</a>
 	                </span>
-                    <span ng-init="confirm = isMyBookmarksPage" data-ng-include data-src="'/assets/app/views/home/bookmark-post.html'"></span>
 	            </div>
             </li>
 	        <li class="post-header2">
@@ -41,7 +40,8 @@
 	        <li class="post-qna-body-top">
                 <div class="post-qna-body-title">
                     <span ng-bind-html="post.ptl | to_trusted"></span>
-                    <div class="pull-right">
+                    <span class="pull-right">
+                        <span ng-init="confirm = isMyBookmarksPage" data-ng-include data-src="'/assets/app/views/home/bookmark-post.html'"></span>
                         <button class="post-dropdown-btn btn btn-default dropdown-toggle" type="button" id="post-dropdown" data-toggle="dropdown">
                             <span class="caret"></span>
                         </button>
@@ -50,7 +50,7 @@
                             <li role="presentation" ng-show="post.isO || userInfo.isSA"><a role="menuitem" href="" ng-confirm-click="deletePost(post.id)" ng-confirm-message="您確定刪除這個話題嗎？"><i class="glyphicon glyphicon-trash"></i>刪除話題</a></li>
                             <li role="presentation" ng-show="!post.isO || userInfo.isSA"><a role="menuitem" ng-click="openReportObjectModal(post.id,'QUESTION')"><i class="glyphicon glyphicon-warning-sign"></i>舉報話題</a></li>
                         </ul>
-                    </div>
+                    </span>
 	            </div>
                 <div class="post-poster">
                     <span>

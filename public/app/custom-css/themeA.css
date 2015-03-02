@@ -2230,16 +2230,18 @@ a:focus {
     border-radius: 10px 10px 0 0;
 }
 /* Profile page Header End */
+.post-card .post-favorite, 
+.post-card .post-favorited {
+	top: 0;
+	right: 30px;
+}
 .post-favorite, .post-favorited { 
     width: 18px;
     height: 18px;
     color: transparent;
     position: absolute;
-    right: -8px;
     top: 5px;
-    text-align: right;
-    /*position: relative;
-    float: right;*/
+    right: 5px;
 }
 .post-favorite:hover, .post-favorited:hover {
     color: transparent;
@@ -2247,13 +2249,12 @@ a:focus {
 .post-favorite:after, .post-favorited:after {
     content: ".";
     color: transparent;
-    text-indent: 25px;
     background-repeat: no-repeat;
     background-size: 18px 18px;
     /*background-position: 0 2px;*/
     position: absolute;
-    right: 0;
-    top: 5px;
+    width: 18px;
+    height: 18px;
 }
 .post-favorite:after {
     background-image: url(../images/general/icons/message_favorite.png);
