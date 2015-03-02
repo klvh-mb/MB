@@ -1,4 +1,4 @@
-<span class="btn-like-wrapper">
+<span ng-show="userInfo.isLoggedIn" class="btn-like-wrapper">
     <a data-ng-show="!post.isWtAns" class="btn-like" href="" data-ng-click="want_answer(post.id)">推上</a>
     <span ng-show="post.isWtAns">你把這推上</span> 
     <!--a data-ng-show="post.isWtAns" class="btn-like" href="" data-ng-click="unwant_answer(post.id)">取消</a-->

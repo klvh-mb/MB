@@ -1,6 +1,6 @@
 body {
     font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     color: #333;
     margin: 0;
     padding: 0;
@@ -157,7 +157,6 @@ div[class*="col-xs-"], div[class*="col-sm-"], div[class*="col-md-"], div[class*=
 .glyphicon-trash, .glyphicon-share, .glyphicon-warning-sign {
     margin-right: 4px;
     font-size: 12px;
-    vertical-align: text-top;
     color: #3F64A7;
 }
 .glyphicon-film {
@@ -2231,16 +2230,18 @@ a:focus {
     border-radius: 10px 10px 0 0;
 }
 /* Profile page Header End */
+.post-card .post-favorite, 
+.post-card .post-favorited {
+	top: 0;
+	right: 30px;
+}
 .post-favorite, .post-favorited { 
     width: 18px;
     height: 18px;
     color: transparent;
     position: absolute;
-    right: -8px;
     top: 5px;
-    text-align: right;
-    /*position: relative;
-    float: right;*/
+    right: 5px;
 }
 .post-favorite:hover, .post-favorited:hover {
     color: transparent;
@@ -2248,13 +2249,12 @@ a:focus {
 .post-favorite:after, .post-favorited:after {
     content: ".";
     color: transparent;
-    text-indent: 20px;
     background-repeat: no-repeat;
     background-size: 18px 18px;
     /*background-position: 0 2px;*/
     position: absolute;
-    right: 0;
-    top: 5px;
+    width: 18px;
+    height: 18px;
 }
 .post-favorite:after {
     background-image: url(../images/general/icons/message_favorite.png);
@@ -2993,12 +2993,16 @@ span.notif-count {
     padding-bottom: 2px;
     border-bottom: 1px solid #FCC9CB;
 }
+#communities-index .category-comm {
+    width: 50%;
+    display: inline-block;
+}
 #communities-index .content {
     margin: 5px 0;
 }
 #communities-index ul {
     display: inline-block;
-    width: 25%;
+    width: 50%;
     height: auto;
     vertical-align: text-top;
     margin: 0;
@@ -3186,7 +3190,7 @@ span.notif-count {
     color: #737272;
     border-radius: 10px;
     padding: 5px 15px;
-    line-height: 1.8;
+    line-height: 2.0;
 }
 #prompt-post-login a, 
 #prompt-comment-login a {
@@ -3201,6 +3205,7 @@ span.notif-count {
 }
 #prompt-signup {
     padding: 5px 20px;
+    border: 3px solid #FDB2B2;
 }
 #prompt-signup .prompt-signup-text {
     font-size: 14px;

@@ -1,7 +1,7 @@
 <div class="post-bar">
     <ul>
         <li class="post-bar-title">
-            <a data-ng-href="#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}" target="_blank"><div ng-bind-html="post.ptl | to_trusted"></div></a>
+            <a data-ng-href="/#!/qna-landing/id/{{post.id}}/communityId/{{post.cid}}" target="_blank"><div ng-bind-html="post.ptl | to_trusted"></div></a>
             <span ng-init="confirm = isMyBookmarksPage" data-ng-include data-src="'/assets/app/views/home/bookmark-post.html'"></span>
         </li>
         <li class="post-bar-images" ng-if="post.hasImage">
@@ -49,7 +49,7 @@
                 </span>
                 
                 <span class="pull-right" ng-if="!isCommunityPage">
-                    <a data-ng-href="/my#!/community/{{post.cid}}"><img src="{{post.ci}}">{{post.cn}}</a>
+                    <a data-ng-href="/#!/community/{{post.cid}}"><img src="{{post.ci}}">{{post.cn}}</a>
                 </span>
             </div>
         </li>

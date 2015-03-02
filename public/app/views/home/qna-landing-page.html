@@ -4,20 +4,11 @@
 
 <div class="themeA-container">
     <div data-ng-include data-src="'/assets/app/views/nav-bar.html'"></div>
-    <div class="ads-factor-728x90">
-        <script adSize="72890" adSid="576698686809" ads-factor language='JavaScript' type="text/javascript"></script>
-    </div>
     <div class="row">
         <div class="col-md-2 col-sm-2 col-xs-2" style="width:100px;"></div>
         <div class="col-md-6 col-sm-6 col-xs-6" style="width:480px;">
             <div id="wall">
-                <div data-ng-repeat="post in QnAs.posts">
-                    <div id="wall-main">
-                        <div class="general-box">
-                            <div data-ng-include data-src="'/assets/app/views/home/qna-landing-details.html'"></div>
-                        </div>
-                     </div>
-                </div>
+                <div data-ng-include data-src="'/assets/app/views/home/qna-landing-details.html'"></div>
             </div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
@@ -28,6 +19,9 @@
                 <script adSize="11" adSid="516615626682" ads-factor language='JavaScript' type="text/javascript"></script>
             </div>
         </div>
+    </div>
+    <div class="ads-factor-728x90">
+        <script adSize="72890" adSid="576698686809" ads-factor language='JavaScript' type="text/javascript"></script>
     </div>
 </div>
 

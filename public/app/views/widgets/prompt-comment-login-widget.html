@@ -1,3 +1,6 @@
 <div id="prompt-comment-login">
-    <span>請 <a href="/login">登入</a> | <a href="/signup">注册</a> 便可留言。 或以 facebook <a ng-href="{{getFbLoginUrl()}}"><img class="prompt-fb-login" src="../assets/app/images/login/facebook_login_s.jpg" /></a></span>
+    <!--span>請 <a href="/login">登入</a> | <a href="/signup">注册</a> 便可留言。 或以 facebook <a ng-href="{{getFbLoginUrl()}}"><img class="prompt-fb-login" src="../assets/app/images/login/facebook_login_s.jpg" /></a></span-->
+    <span>
+        請先 <a ng-href="{{getFbLoginUrl()}}"><img class="prompt-fb-login" src="../assets/app/images/login/facebook_login_s.jpg" /></a> 便可留言。 <br>或以 <a href="/login">電郵登入</a> | <a href="/signup">會員注册</a>
+    </span>
 </div>

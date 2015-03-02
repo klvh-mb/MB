@@ -154,9 +154,13 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		if (communityType == CommunityType.CLOSE) {
 			recordJoinRequest(user);
 		} else {
-			beMemberOfOpenCommunity(user);
+			beMemberOfOpenCommunity(user, shouldNotifyOnJoin());
 		}
 	}
+
+    private boolean shouldNotifyOnJoin() {
+        return targetingType == null || targetingType != TargetingType.PRE_NURSERY;
+    }
 
 	@Override
 	@Transactional
@@ -415,7 +419,29 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
         }
         return null;
 	}
-	
+
+    public static Community findByNameTargetingTypeInfo(String name,
+                                                        TargetingSocialObject.TargetingType targetingType,
+                                                        String targetingInfo) {
+        Query q;
+        if (targetingInfo != null) {
+	        q = JPA.em().createQuery("SELECT c FROM Community c where system=?1 and targetingType=?2 and name = ?3 and targetingInfo=?4 and deleted = false");
+        } else {
+            q = JPA.em().createQuery("SELECT c FROM Community c where system=?1 and targetingType=?2 and name = ?3 and deleted = false");
+        }
+	    q.setParameter(1, true);
+        q.setParameter(2, targetingType);
+        q.setParameter(3, name);
+        if (targetingInfo != null) {
+            q.setParameter(4, targetingInfo);
+        }
+        try {
+            return (Community)q.getSingleResult();
+        } catch (NoResultException e) {
+        }
+        return null;
+	}
+
 	public static List<Community> findByCategory(CommunityCategory category) {
         Query q = JPA.em().createNativeQuery("SELECT * FROM Community c where c.deleted = false" + 
                 " and c.id in (select cc.Community_id from Community_CommunityCategory cc where cc.communityCategories_id = ?1)", 

@@ -49,7 +49,13 @@
                             <input type="text" name="parent_firstname" id="parent_firstname" required="required" placeholder="名" ng-model="userAbout.firstName" style="padding:3px 10px;width:45%"></input>
                         </td>
                     </tr>
-                    <tr>
+                    <tr style="display:none;">
+                        <td>出生年份:</td>
+                        <td>
+                            <input type="text" name="parent_birth_year" id="parent_birth_year"  ng-model="userAbout.userInfo.birthYear"></input>
+                        </td>
+                    </tr>
+                    <!--tr>
                         <td>出生年份:</td>
                         <td>
                             <div>
@@ -58,7 +64,7 @@
                                 </span> 
                             </div>
                         </td>
-                    </tr>
+                    </tr-->
                     <tr>
                         <td>地區:</td>
                         <td>

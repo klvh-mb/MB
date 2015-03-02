@@ -43,10 +43,6 @@
 							<img src="{{community.icon}}"><b>{{community.n}}</b>
 						</div>
 						<div class="divider-cus"></div-->
-                        <div ng-class="{activeTabBold: selectedTab == 3}" ng-show="community.ttyp=='PRE_NURSERY'">
-                            <a ng-click="selectedTab = 3;"><i style="vertical-align:text-top;" class="glyphicon glyphicon-list-alt"></i> 幼兒班情報</a>
-                        </div>
-						<div class="divider-cus" ng-show="community.ttyp=='PRE_NURSERY'"></div>
 						<div ng-class="{activeTabBold: selectedTab == 1}">
 							<a ng-click="selectedTab = 1;">最新訊息</a>
 						</div>
@@ -132,10 +128,6 @@
                 
                 <div class="tab-content row" ng-if="selectedTab == 2" ng-if="userInfo.isLoggedIn">
                     <div data-ng-controller="CommunityMembersController" data-ng-include data-src="'/assets/app/views/home/community-members-section.html'"></div>
-                </div>
-                
-                <div class="tab-content row" ng-show="selectedTab == 3">
-                    <div data-ng-controller="CommunityPNController" data-ng-include data-src="'/assets/app/views/home/community-pn-section.html'"></div>
                 </div>
                 
                 <div class="padding20"></div>

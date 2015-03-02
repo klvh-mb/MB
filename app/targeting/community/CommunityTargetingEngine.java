@@ -70,12 +70,15 @@ public class CommunityTargetingEngine {
             assign(community, user);
         }
         
+        // Districts
+        /*
         if (targetProfile.getLocation() != null) {
             Location district = Location.getParentLocation(targetProfile.getLocation(), Location.LocationType.DISTRICT);
             Community community = Community.findByTargetingTypeTargetingInfo(
                     TargetingSocialObject.TargetingType.LOCATION_DISTRICT, district.id.toString());
             assign(community, user);
         }
+        */
     }
     
     private static void assign(Community community, User user) {

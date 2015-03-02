@@ -89,19 +89,18 @@ public class Notification  extends domain.Entity implements Serializable, Creata
         }
 	}
 
-	public void addToList(User addUser) {
+	public String addToList(User addUser) {
         String addUserName = addUser.displayName;
         if (addUserName == null) {
             addUserName = "User";
         }
 
-		if(this.usersName == null) {
+		if (this.usersName == null) {
             this.usersName = addUserName;
             this.count++;
-		}
-        else {
+		} else {
 			if(this.usersName.toLowerCase().contains(addUserName.toLowerCase())){
-				return;
+				return this.usersName;
 			}
 
             this.count++;
@@ -114,6 +113,7 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 				this.usersName = addUserName+", "+this.usersName;
             }
 		}
+        return this.usersName;
 	}
 
 	public void changeStatus(int status) {

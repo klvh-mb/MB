@@ -1,9 +1,9 @@
 package common.schedule;
 
+import data.DataBootstrap;
 import models.CommunityStatistics;
 import models.GameAccountTransaction;
 import tagword.TaggingEngine;
-
 import java.io.*;
 
 /**
@@ -28,12 +28,20 @@ public class CommandChecker {
                 }
 
                 in.close();
+                // rename to prevent infinite loop.
+                f.renameTo(new File("command_done.txt"));
             } catch (Exception e) {
                 logger.underlyingLogger().error("Error in performCommand", e);
             }
         }
     }
 
+    /**
+     * 1) indexTagWords
+     * 2) gamificationEOD [daysBefore]
+     * 3) communityStatistics [daysBefore]
+     * 4) bootstrapPNCommunity
+     */
     private static void performCommand(String commandLine) {
         if (commandLine.endsWith("DONE")) {
             return;
@@ -58,6 +66,19 @@ public class CommandChecker {
                 CommunityStatistics.populatePastStats(daysBefore);
             } else {
                 logger.underlyingLogger().error("communityStatistics missing daysBefore parameter");
+            }
+        }
+        else if (commandLine.startsWith("bootstrapPNCommunity")) {
+            DataBootstrap.bootstrapPNCommunity();
+        }
+        else if (commandLine.startsWith("bootstrapPNReviews")) {
+            if (tokens.length > 1) {
+                String filePath = tokens[1];
+                logger.underlyingLogger().info("Running bootstrapPNReviews with: "+filePath);
+
+                DataBootstrap.bootstrapPNReviews(filePath);
+            } else {
+                logger.underlyingLogger().error("bootstrapPNReviews missing file path");
             }
         }
     }

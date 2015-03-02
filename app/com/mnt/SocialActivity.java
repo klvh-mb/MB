@@ -7,6 +7,7 @@ import java.util.Map;
 
 import models.Comment;
 import models.Community;
+import models.TargetingSocialObject.TargetingType;
 import models.Notification;
 import models.Notification.NotificationType;
 import models.Post;
@@ -20,7 +21,7 @@ import common.cache.FriendCache;
 import domain.SocialObjectType;
 
 /**
- * Class for triggering all the different types of notifications.
+ * Notification - Class for triggering all the different types of notifications.
  */
 public class SocialActivity {
     // play url prefix
@@ -63,6 +64,11 @@ public class SocialActivity {
 
     private static boolean isBusinessCommunity(Community community) {
         return community != null && community.communityType == Community.CommunityType.BUSINESS;
+    }
+
+    private static boolean isSendToAllMembers(Community community) {
+        return community.getTargetingType() != null &&
+               community.getTargetingType() == TargetingType.PRE_NURSERY;
     }
     //////////////////////////////////////////////////
 
@@ -191,32 +197,28 @@ public class SocialActivity {
                                     Notification.getNotification(user.id, NotificationType.POSTED, community.id, SocialObjectType.COMMUNITY);
 
                             if(notification == null){
-                                String msg = socialAction.actorname + msgEnd;
-
                                 notification = new Notification();
+                                String msgSubjects = notification.addToList(User.findById(socialAction.actor));  // post owner
+
                                 notification.notificationType = NotificationType.POSTED;
                                 notification.target = community.id;
                                 notification.targetType = SocialObjectType.COMMUNITY;
                                 notification.recipient = user.id;
-                                notification.count++;
                                 notification.socialActionID = community.id;
                                 jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                                 jsonMap.put("onClick", postLandingUrl);
                                 notification.URLs = Json.stringify(Json.toJson(jsonMap));
-                                notification.addToList(User.findById(socialAction.actor));  // post owner
-                                notification.status = 0;
-                                notification.message = msg;
+                                notification.message = msgSubjects + msgEnd;
                                 notification.setUpdatedDate(new Date());
                                 notification.save();
                             } else {
-                                String msg = notification.usersName + msgEnd;
+                                String msgSubjects = notification.addToList(User.findById(socialAction.actor));
 
                                 jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                                 jsonMap.put("onClick", commLandingUrl);
                                 notification.URLs = Json.stringify(Json.toJson(jsonMap));
                                 notification.status = 0;
-                                notification.addToList(User.findById(socialAction.actor));
-                                notification.message = msg;
+                                notification.message = msgSubjects + msgEnd;
                                 notification.merge();
                             }
                         }
@@ -226,21 +228,27 @@ public class SocialActivity {
 
                 case POSTED_QUESTION: {
                     Post post = Post.findById(socialAction.target);
+                    User actor = User.findById(socialAction.actor);
                     Community community = post.community;
                     if (isBusinessCommunity(community)) {
                         break;
                     }
 
-                    // fan out to friends of same social community only
+                    // send to All, or fan out to friends of same social community only
+                    boolean sendToAll = isSendToAllMembers(community);
                     List<Long> frdIds = FriendCache.getFriendsIds(socialAction.actor);
 
-                    if (frdIds.size() > 0) {
+                    if (sendToAll || frdIds.size() > 0) {
                         String commLandingUrl = resolveCommunityLandingUrl(community.id, community.communityType);
                         String qnaLandingUrl = resolveQnALandingUrl(post.id, community.id, community.communityType);
                         String msgEnd = " 在「"+community.name+"」發佈了新話題。";
 
-                        List<User> frdMembers = community.getMembersIn(frdIds);
-                        for(User user : frdMembers){
+                        List<User> members = sendToAll ? community.getMembers() : community.getMembersIn(frdIds);
+                        for(User user : members){
+                            if (user.getId() == actor.getId()) {
+                                continue;   // skip the actor himself
+                            }
+
                             Notification notification =
                                     Notification.getNotification(user.id, NotificationType.QUESTIONED, community.id, SocialObjectType.COMMUNITY);
 
@@ -249,7 +257,7 @@ public class SocialActivity {
                                 String msg = socialAction.actorname + msgEnd + ((shortTitle.length() == 0) ? "" : "\""+shortTitle+"\"");
 
                                 notification = new Notification();
-                                notification.addToList(User.findById(socialAction.actor));
+                                notification.addToList(actor);
                                 notification.target = community.id;
                                 notification.targetType = SocialObjectType.COMMUNITY;
                                 notification.notificationType = NotificationType.QUESTIONED;
@@ -257,21 +265,18 @@ public class SocialActivity {
                                 jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                                 jsonMap.put("onClick", qnaLandingUrl);
                                 notification.URLs = Json.stringify(Json.toJson(jsonMap));
-                                notification.count++;
-                                notification.status = 0;
                                 notification.socialActionID = community.id;
                                 notification.message = msg;
                                 notification.setUpdatedDate(new Date());
                                 notification.save();
                             } else {
-                                String msg = notification.usersName + msgEnd;
+                                String msgSubjects = notification.addToList(actor);
 
                                 jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                                 jsonMap.put("onClick", commLandingUrl);
                                 notification.URLs = Json.stringify(Json.toJson(jsonMap));
                                 notification.status = 0;
-                                notification.addToList(User.findById(socialAction.actor));
-                                notification.message = msg;
+                                notification.message = msgSubjects + msgEnd;
                                 notification.merge();
                             }
                         }
@@ -290,19 +295,18 @@ public class SocialActivity {
                         String landingUrl = resolveQnALandingUrl(post.id, post.community.id, post.community.communityType);
 
                         String shortTitle = post.getShortenedTitle();
-                        String msgEd = " 把你的話題推上。"+((shortTitle.length() == 0) ? "" : "\""+shortTitle+"\"");
+                        String msgEnd = " 把你的話題推上。"+((shortTitle.length() == 0) ? "" : "\""+shortTitle+"\"");
 
                         Notification notification =
                                 Notification.getNotification(owner_id, NotificationType.WANTED_ANS, socialAction.target, SocialObjectType.QUESTION);
                         if(notification == null){
-                            String msg = socialAction.actorname + msgEd;
+                            String msg = socialAction.actorname + msgEnd;
 
                             notification = new Notification();
                             notification.target = socialAction.target;              // post id
                             notification.targetType = SocialObjectType.QUESTION;
                             notification.notificationType = NotificationType.WANTED_ANS;
                             notification.recipient = owner_id;
-                            notification.count++;
                             notification.socialActionID = socialAction.target;
                             notification.addToList(User.findById(socialAction.actor));
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
@@ -313,13 +317,12 @@ public class SocialActivity {
                             notification.setUpdatedDate(new Date());
                             notification.save();
                         } else {
-                            String msg = notification.usersName + msgEd;
+                            String msgSubjects = notification.addToList(User.findById(socialAction.actor));
 
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                             jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
-                            notification.addToList(User.findById(socialAction.actor));
-                            notification.message = msg;
+                            notification.message = msgSubjects + msgEnd;
                             notification.status = 0;
                             notification.merge();
                         }
@@ -328,15 +331,19 @@ public class SocialActivity {
                 break;
 
                 case LIKED: {
-                    // Liked POST
-                    if(socialAction.targetType == SocialObjectType.POST){
+                    // Liked QUESTION or POST
+                    if (socialAction.targetType == SocialObjectType.QUESTION ||
+                        socialAction.targetType == SocialObjectType.POST) {
+
                         Post post = Post.findById(socialAction.target);
                         long owner_id = post.owner.id;
                         if(User.findById(socialAction.actor).id == owner_id){
                             return;
                         }
 
-                        String landingUrl = resolvePostLandingUrl(post.id, post.community.id, post.community.communityType);
+                        String landingUrl = (socialAction.targetType == SocialObjectType.QUESTION) ?
+                                resolveQnALandingUrl(post.id, post.community.id, post.community.communityType) :
+                                resolvePostLandingUrl(post.id, post.community.id, post.community.communityType);
                         String msgEnd = " 對你的分享讚好。";
 
                         Notification notification =
@@ -349,30 +356,27 @@ public class SocialActivity {
                             notification.targetType = SocialObjectType.POST;
                             notification.notificationType = NotificationType.LIKED;
                             notification.recipient = owner_id;
-                            notification.count = 1L;
                             notification.socialActionID = socialAction.target;
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                             jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
                             notification.addToList(User.findById(socialAction.actor));
                             notification.message = msg;
-                            notification.status = 0;
                             notification.setUpdatedDate(new Date());
                             notification.save();
                         } else {
-                            String msg = notification.usersName + msgEnd;
+                            String msgSubjects = notification.addToList(User.findById(socialAction.actor));
 
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                             jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
-                            notification.addToList(User.findById(socialAction.actor));
-                            notification.message = msg;
+                            notification.message = msgSubjects + msgEnd;
                             notification.status = 0;
                             notification.merge();
                         }
                     }
                     // Liked COMMENT
-                    else if(socialAction.targetType == SocialObjectType.COMMENT){
+                    else if(socialAction.targetType == SocialObjectType.COMMENT) {
                         Comment comment = Comment.findById(socialAction.target);
                         long owner_id = comment.owner.id;
                         if(User.findById(socialAction.actor).id == owner_id){
@@ -385,7 +389,7 @@ public class SocialActivity {
 
                         Notification notification =
                                 Notification.getNotification(owner_id, NotificationType.LIKED, socialAction.target, SocialObjectType.COMMENT);
-                        if(notification == null){
+                        if(notification == null) {
                             String msg = socialAction.actorname + msgEnd;
 
                             notification = new Notification();
@@ -393,24 +397,21 @@ public class SocialActivity {
                             notification.targetType = SocialObjectType.COMMENT;
                             notification.notificationType = NotificationType.LIKED;
                             notification.recipient = owner_id;
-                            notification.count++;
                             notification.socialActionID = comment.getPost().id;
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                             jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
                             notification.addToList(User.findById(socialAction.actor));
-                            notification.status = 0;
                             notification.message = msg;
                             notification.setUpdatedDate(new Date());
                             notification.save();
                         } else {
-                            String msg = notification.usersName + msgEnd;
+                            String msgSubjects = notification.addToList(User.findById(socialAction.actor));
 
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                             jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
-                            notification.addToList(User.findById(socialAction.actor));
-                            notification.message = msg;
+                            notification.message = msgSubjects + msgEnd;
                             notification.status = 0;
                             notification.merge();
                         }
@@ -439,24 +440,21 @@ public class SocialActivity {
                             notification.targetType = SocialObjectType.ANSWER;
                             notification.notificationType = NotificationType.LIKED;
                             notification.recipient = owner_id;
-                            notification.count++;
                             notification.socialActionID = comment.getPost().id;
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                             jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
                             notification.addToList(User.findById(socialAction.actor));
-                            notification.status = 0;
                             notification.message = msg;
                             notification.setUpdatedDate(new Date());
                             notification.save();
                         } else {
-                            String msg = notification.usersName + msgEnd;
+                            String msgSubjects = notification.addToList(User.findById(socialAction.actor));
 
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                             jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
-                            notification.addToList(User.findById(socialAction.actor));
-                            notification.message = msg;
+                            notification.message = msgSubjects + msgEnd;
                             notification.status = 0;
                             notification.merge();
                         }
@@ -487,25 +485,22 @@ public class SocialActivity {
                         notification.targetType = SocialObjectType.POST;
                         notification.notificationType = NotificationType.COMMENT;
                         notification.recipient = owner_id;
-                        notification.count = 1L;
                         notification.socialActionID = post.id;
                         jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                         jsonMap.put("onClick", landingUrl);
                         notification.URLs = Json.stringify(Json.toJson(jsonMap));
                         notification.addToList(User.findById(socialAction.actor));
                         notification.message = msg;
-                        notification.status = 0;
                         notification.setUpdatedDate(new Date());
                         notification.save();
                     } else {
-                        String msg = notification.usersName + msgEnd;
+                        String msgSubjects = notification.addToList(User.findById(socialAction.actor));
 
-                        notification.addToList(User.findById(socialAction.actor));
                         jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                         jsonMap.put("onClick", landingUrl);
                         notification.URLs = Json.stringify(Json.toJson(jsonMap));
                         notification.status = 0;
-                        notification.message = msg;
+                        notification.message = msgSubjects + msgEnd;
                         notification.merge();
                     }
                 }
@@ -535,24 +530,21 @@ public class SocialActivity {
                         notification.targetType = SocialObjectType.POST;
                         notification.notificationType = NotificationType.ANSWERED;
                         notification.recipient = owner_id;
-                        notification.count = 1L;
                         jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                         jsonMap.put("onClick", landingUrl);
                         notification.URLs = Json.stringify(Json.toJson(jsonMap));
                         notification.socialActionID = post.id;
                         notification.addToList(User.findById(socialAction.actor));
                         notification.message = msg;
-                        notification.status = 0;
                         notification.setUpdatedDate(new Date());
                         notification.save();
                     } else {
-                        String msg = notification.usersName + msgEnd;
+                        String msgSubjects = notification.addToList(User.findById(socialAction.actor));
 
-                        notification.addToList(User.findById(socialAction.actor));
                         jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                         jsonMap.put("onClick", landingUrl);
                         notification.URLs = Json.stringify(Json.toJson(jsonMap));
-                        notification.message = msg;
+                        notification.message = msgSubjects + msgEnd;
                         notification.status = 0;
                         notification.merge();
                     }

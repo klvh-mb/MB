@@ -187,7 +187,6 @@ minibean.service('qnaLandingService',function($resource){
     );
 });
 
-///////////////////////// Search Service Start //////////////////////////////////
 minibean.service('searchService',function($resource){
     this.userSearch = $resource(
             '/user-search?query=:q',
@@ -351,10 +350,10 @@ minibean.service('pnService',function($resource){
             }
     );
     this.PNs = $resource(
-            '/getPNs/:id',
+            '/get-pns-by-community/:community_id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'GET', params:{id:'@id'},isArray:true}
+                get: {method:'GET', params:{community_id:'@community_id'},isArray:true}
             }
     );
 });
@@ -660,7 +659,7 @@ minibean.service('searchMembersService',function($resource){
     );
 });
 
-minibean.service('bookmarkPostService', function($resource) {
+minibean.service('bookmarkService', function($resource) {
     this.bookmarkPost = $resource(
             '/bookmark-post/:post_id',
             {alt:'json',callback:'JSON_CALLBACK'},
@@ -706,6 +705,22 @@ minibean.service('bookmarkPostService', function($resource) {
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get', params:{pkview_id:'@pkview_id'}}
+            }
+    );
+    
+    this.bookmarkPN = $resource(
+            '/bookmark-pn/:pn_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{pn_id:'@pn_id'}}
+            }
+    );
+    
+    this.unbookmarkPN = $resource(
+            '/unbookmark-pn/:pn_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{pn_id:'@pn_id'}}
             }
     );
 });
@@ -898,6 +913,79 @@ minibean.service('campaignService',function($resource){
     );
 });
 
+minibean.service('schoolsService',function($resource){
+	this.pnInfo = $resource(
+            '/get-pn-info/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
+	this.searchPNsByName = $resource(
+            '/search-pns-by-name/:query',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.pnsByDistrict = $resource(
+            '/get-pns-by-district/:district_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.topViewsPNs = $resource(
+            '/get-top-views-pns/:num',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.topBookmarkedPNs = $resource(
+            '/get-top-bookmarked-pns/:num',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.bookmarkedPNs = $resource(
+            '/get-bookmarked-pns',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.formReceivedPNs = $resource(
+            '/get-form-received-pns',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.appliedPNs = $resource(
+            '/get-applied-pns',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.interviewedPNs = $resource(
+            '/get-interviewed-pns',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.offeredPNs = $resource(
+            '/get-offered-pns',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+});
+
 minibean.service('articleService',function($resource){
     this.AllArticleCategories = $resource(
             '/get-all-article-categories',
@@ -1023,7 +1111,7 @@ minibean.service('userNewsFeedService',function($resource){
     );
 });
 
-minibean.service('bookmarkService',function($resource){
+minibean.service('myBookmarksService',function($resource){
     this.bookmarkedPosts = $resource(
             '/get-bookmarked-posts/:offset',
             {alt:'json',callback:'JSON_CALLBACK'},
@@ -1045,6 +1133,14 @@ minibean.service('bookmarkService',function($resource){
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'GET', params:{offsetA:'@offsetP'}, isArray:true}
+            }
+    );
+    
+    this.bookmarkedPNs = $resource(
+            '/get-bookmarked-pns',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET', isArray:true}
             }
     );
     

@@ -3,6 +3,7 @@ import java.util.Arrays;
 import common.cache.FriendCache;
 import common.schedule.CommandChecker;
 import common.schedule.JobScheduler;
+import data.DataBootstrap;
 import models.GameAccountTransaction;
 import models.Notification;
 import models.SecurityRole;

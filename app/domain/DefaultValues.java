@@ -7,6 +7,8 @@ import org.joda.time.DateTime;
 
 public class DefaultValues {
 
+	public static int MAX_SCHOOLS_SEARCH_COUNT = 100;
+	
     public static int POST_PREVIEW_CHARS = 300;
     public static int COMMENT_PREVIEW_CHARS = 200;
     public static int DEFAULT_PREVIEW_CHARS = 200;
@@ -18,9 +20,9 @@ public class DefaultValues {
     public static int FRONTPAGE_HOT_COMMUNITIES_COUNT = 8;
     public static int FRONTPAGE_HOT_COMMUNITIES_FOR_LAST_DAYS = 30;
     
-    public static int COMMENTS_PREVIEW_COUNT = 2;
+    public static int COMMENTS_PREVIEW_COUNT = 10;
     public static int DEFAULT_UTILITY_COUNT = 5;
-    public static int DEFAULT_INFINITE_SCROLL_COUNT = 7;
+    public static int DEFAULT_INFINITE_SCROLL_COUNT = 10;
     public static int FEATURED_ARTICLES_COUNT = 6;
     public static int ARTICLES_UTILITY_COUNT = 4;
     public static int ARTICLES_RELATED_COUNT = 10;

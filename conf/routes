@@ -38,26 +38,23 @@ GET     /terms                      controllers.Application.terms
 GET     /restricted                 controllers.Application.restricted
 GET     /profile                    controllers.Application.profile
 
-# Promo
-GET     /promo                      controllers.promo.PromoController.index
-GET     /get-promo-pn-communities   controllers.promo.PromoPNController.getPNCommunities()
-GET     /get-promo-pns/:id          controllers.promo.PromoPNController.getPNs(id:Long)
-
 # Mobile
 GET     /m-frontpage                controllers.Application.mobileFrontpage
+GET     /m-my                       controllers.Application.mobileHome
 GET     /m-articles                 controllers.Application.mobileArticles
 GET     /m-knowledge                controllers.Application.mobileKnowledge
-GET     /m-magazine                 controllers.Application.mobileMagazine
-GET     /m-my                       controllers.Application.mobileHome
+GET     /m-schools                  controllers.Application.mobileSchools
+#GET    /m-magazine                 controllers.Application.mobileMagazine
 GET     /m-login                    controllers.Application.mobileLogin
 
 # Main
 GET     /                           controllers.Application.index
 GET     /frontpage                  controllers.Application.mainFrontpage
+GET     /my                         controllers.Application.mainHome
 GET     /articles                   controllers.Application.mainArticles
 GET     /knowledge                  controllers.Application.mainKnowledge
-GET     /magazine                   controllers.Application.mainMagazine
-GET     /my                         controllers.Application.mainHome
+GET     /schools                    controllers.Application.mainSchools
+#GET    /magazine                   controllers.Application.mainMagazine
 GET     /login                      controllers.Application.login
 
 # Home
@@ -92,6 +89,7 @@ GET     /unlike-campaign/:id        controllers.CampaignController.onUnlike(id:L
 POST    /join-campaign              controllers.CampaignController.joinCampaign
 POST    /withdraw-campaign          controllers.CampaignController.withdrawCampaign
 
+# Articles
 GET     /get-all-article-categories     controllers.ArticleController.getAllArticleCategories
 GET     /get-Articles-Categorywise/:category_id/:offset     controllers.ArticleController.getArticlesCategorywise(category_id:Long, offset:Integer)
 GET     /get-Articles-TagWise/:tagword_id/:offset           controllers.ArticleController.getArticlesTagwise(tagword_id:Long, offset:Integer)
@@ -279,8 +277,22 @@ GET     /get-featured-topics                    controllers.FrontPageController.
 GET     /get-game-topics                        controllers.FrontPageController.getGameTopics()
 
 # PreNursery
+GET     /get-pn-info/:id                        controllers.PreNurseryController.getPNInfo(id:Long)
 GET     /get-pn-communities                     controllers.PreNurseryController.getPNCommunities()
-GET     /getPNs/:id                             controllers.PreNurseryController.getPNs(id:Long)
+GET     /get-pns-by-community/:community_id     controllers.PreNurseryController.getPNsByCommunity(community_id:Long)
+GET     /search-pns-by-name/:query              controllers.PreNurseryController.searchPNsByName(query:String)
+GET     /get-pns-by-region/:region_id           controllers.PreNurseryController.getPNsByRegion(region_id:Long)
+GET     /get-pns-by-district/:district_id       controllers.PreNurseryController.getPNsByDistrict(district_id:Long)
+GET     /get-pn-orgs-by-district/:district_id   controllers.PreNurseryController.getPNOrgsByDistrict(district_id:Long)
+GET     /get-top-views-pns/:num                 controllers.PreNurseryController.getTopViewsPNs(num:Long)
+GET     /get-top-bookmarked-pns/:num            controllers.PreNurseryController.getTopBookmarkedPNs(num:Long)
+GET     /bookmark-pn/:id                        controllers.PreNurseryController.onBookmark(id : Long)
+GET     /unbookmark-pn/:id                      controllers.PreNurseryController.onUnBookmark(id : Long)
+GET     /get-bookmarked-pns                     controllers.PreNurseryController.getBookmarkedPNs()
+GET     /get-form-received-pns                  controllers.PreNurseryController.getFormReceivedPNs()
+GET     /get-applied-pns                        controllers.PreNurseryController.getAppliedPNs()
+GET     /get-interviewed-pns                    controllers.PreNurseryController.getInterviewedPNs()
+GET     /get-offered-pns                        controllers.PreNurseryController.getOfferedPNs()
 
 # Edm settings
 POST    /save-edm-settings                      controllers.UserSettingsController.saveEdmSettings

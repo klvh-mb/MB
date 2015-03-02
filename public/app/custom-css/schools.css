@@ -1,0 +1,477 @@
+.tag {
+    color: #CD8400;
+    font-size: 14px;
+    margin: 0px;
+    display: inline-block;
+}
+.login-reminder {
+    padding: 10px;	
+}
+.login-reminder-text {
+	color: #407E40;
+	font-size: 16px;
+	margin-bottom: 10px;
+}
+.login-reminder-prompt {
+	background: #FFF;
+	border-top: 1px solid #A3D0A4;
+	color: #737272;
+	padding: 10px 5px 0px 5px;
+	font-size: 15px;
+	line-height: 2.2;
+}
+.login-reminder-prompt .prompt-fb-login {
+    width: auto;
+    height: 26px;
+}
+
+/* search */
+#schools-search-box {
+	position: relative;
+	background-color: transparent;
+	margin: 5px 0;
+}
+#schools-search-wrapper {
+	
+}
+.schools-search input {
+	border-color: #7BC77E;
+	border-radius: 25px;
+	padding-left: 3%;
+	height: 40px;
+	line-height: 1.8;
+	font-size: 18px;
+}
+.schools-search input:hover, 
+.schools-search input:focus {
+	background-color: white !important;
+	border-color: #7BC77E !important;
+    box-shadow: 0px 0px 3px #8FB389 !important;
+}
+.schools-search button, .schools-search submit {
+	color: #333;
+	background-color: white;
+	border-color: #7BC77E;
+	padding: 4px 12px;
+	border-radius: 25px;
+	height: 40px !important;
+	margin: 0;
+}
+.schools-search i {
+    color: #57A857;
+}
+#schools-search-box .school-list-title {
+	background-color: #F7FCF7;
+	border: none;
+	border-bottom: solid 1px #ACCBAC;
+}
+#schools-search-box .dropdown-menu {
+    top: 40px;
+    left: 0px;
+    overflow-y: scroll;
+    max-height: 450px;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    z-index: 10;
+}
+#schools-search-box .dropdown-menu li {
+	padding: 0;
+	margin: 0;
+}
+#schools-search-box .dropdown-menu li a {
+	padding: 0;
+    margin: 0;
+}
+#schools-search-box .dropdown-menu li a {
+    background-color: transparent;
+}
+#dismiss-search {
+	top: -3px;
+    position: relative;
+    font-weight: bold;
+}
+
+/* district index */
+.schools-index-box {
+    border-color: #57A857;
+    box-shadow: 0px 1px 3px rgba(124, 158, 131, 0.5);
+}
+.schools-district-index {
+	margin: 0;
+}
+.schools-district-index li.index-title {
+    width: 100%;
+    margin: 0;
+    border-bottom: 2px solid #57A857;
+    padding: 5px 10px;
+}
+.schools-district-index li {
+    width: 15%;
+    margin: 5px 0 5px 5px;
+    display: inline-block;
+}
+.schools-district-index li a {
+	padding: 3px 5px;
+	color: #333;
+}
+.schools-district-index li.selected-item a {
+	background-color: #57A857;
+	color: white;
+	border-radius: 15px;
+	font-weight: bold;
+}
+.schools-map, .schools-map:hover {
+	color: #5F1B1B;
+    text-decoration: none;
+}
+
+/* schools list */
+.school-list-title {
+	padding: 10px 10px;
+    font-size: 16px;
+    border: solid 1px #57A857;
+    box-shadow: none;
+    overflow: visible;
+}
+.school-list-title p {
+	color: green;
+	font-size: 17px;
+	font-weight: bold;
+	display: inline-block;
+	margin: 0;
+}
+.school-list {
+    border: solid 1px #B8C9FD;
+    box-shadow: none;
+}
+.school-list-entry {
+    border-bottom: solid 1px #B8C9FD;
+    padding: 10px;
+    position: relative;
+}
+.school-list-entry .tag {
+	font-size: 14px;
+	margin-left: 5px;
+}
+.school-list-entry .school-info > a:first-child {
+	color: #324fe1;
+	font-weight: bold;
+	font-size: 18px;
+	margin-right: 5px;
+	line-height: 1.8;
+}
+.school-list-entry .school-info .school-info-attr {
+	padding: 2px 5px;
+	background-color: #FEFFF0;
+	border: 1px solid #D1D897;
+	margin: 5px 10px 5px 5px;
+	border-radius: 5px;
+	line-height: 1.8;
+}
+
+
+.school-list-entry .post-favorite, 
+.school-list-entry .post-favorited {
+    top: 10px;
+    right: 10px;
+}
+#school-box-main .post-bar .post-favorite, 
+#school-box-main .post-bar .post-favorited {
+    top: 5px;
+    right: 5px;
+}
+
+
+.school-list-entry .school-attr-short, 
+.school-list-entry .school-attr {
+    display: inline-block;
+}
+.school-list-entry .school-attr-short {
+	width: 42%;
+}
+.school-list-entry .school-attr {
+	width: 55%;
+}
+.school-list-entry .school-attr-short span, 
+.school-list-entry .school-attr span {
+    margin-left: 3px;
+    margin-right: 10px;
+    color: #5F1B1B;
+}
+.school-list-filters {
+	margin-top: 10px;
+    font-size: 14px;
+}
+.school-list-filters span {
+	display: inline-block;
+	margin-bottom: 3px;
+}
+.school-list-filters .btn-group {
+	margin-right: 15px;
+}
+.schools-filter-dropdown-btn, 
+.btn-group.open .btn-primary.dropdown-toggle, .btn-primary.disabled, .btn-primary[disabled], .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
+	border: #bcbcbc solid thin;
+	border-bottom-left-radius: 3px;
+	border-top-left-radius: 3px;
+	color: black;
+	font-size: 12px;
+	display: inline-block;
+	margin: 0;
+	background: rgb(255,255,255);
+	background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(47%,rgba(246,246,246,1)), color-stop(100%,rgba(237,237,237,1)));
+	background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+	background: -o-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+	background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+	background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+}
+.schools-filter-dropdown {
+	width: 80px;
+	min-width: 80px;
+	font-size: 12px;
+	left: 0px;
+    top: 23px;
+}
+.schools-filter-dropdown > li > label {
+    padding: 0;	
+}
+
+/* bookmarks */
+.schools-title-icon-bookmark {
+	background-image: url(../images/general/icons/message_favorited.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: 80%;
+	margin-right: 3px;
+}
+.schools-title-icon-tips {
+    background-image: url(../images/frontpage/mascot/purple_schools.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 80%;
+    
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    position: relative !important;
+    top: -23px !important;
+    width: 48px !important;
+    height: 54px !important;
+}
+.schools-title-icon {
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	border: white solid 1px;
+	border-radius: 20px 20px;
+	background-color: white;
+	-webkit-box-shadow: inset 1px 1px 2px 0px rgba(0,0,0,0.6);
+	-moz-box-shadow: inset 1px 1px 2px 0px rgba(0,0,0,0.6);
+	box-shadow: inset 1px 1px 2px 0px rgba(0,0,0,0.6);
+}
+.schools-title-icon+img {
+	position: absolute;
+	height: 24px;
+	margin-left: 5px;
+	margin-top: 0px;
+}
+#schools-bookmarks-section {
+	
+}
+#schools-bookmarks-section #schools-bookmarks {
+	width: 100%;
+	display: inline-block;
+	margin: 0px 8px 10px 1px;
+	vertical-align: top;
+	
+	border: 1px solid #A3D0A4;
+	box-shadow: 0px 0px 3px #8FB389;
+	overflow: visible;
+}
+#schools-bookmarks-section #schools-bookmarks .bookmarks-title {
+	width: auto;
+	margin: 0px 0px;
+	padding: 5px 10px;
+	height: 35px;
+
+    border-radius: 10px 10px 10px 10px;
+	border-bottom: none;
+	background: rgb(255,183,107);
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top, rgba(171, 219, 172, 1) 0%, rgba(84, 169, 88, 1) 50%, rgba(82, 169, 90, 1) 51%, rgba(28, 110, 29, 1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(171, 219, 172, 1)), color-stop(50%,rgba(84, 169, 88, 1)), color-stop(51%,rgba(82, 169, 90, 1)), color-stop(100%,rgba(28, 110, 29, 1)));
+	background: -webkit-linear-gradient(top, rgba(171, 219, 172, 1) 0%,rgba(84, 169, 88, 1) 50%,rgba(82, 169, 90, 1) 51%,rgba(28, 110, 29, 1) 100%);
+	background: -o-linear-gradient(top, rgba(171, 219, 172, 1) 0%,rgba(84, 169, 88, 1) 50%,rgba(82, 169, 90, 1) 51%,rgba(28, 110, 29, 1) 100%);
+	background: -ms-linear-gradient(top, rgba(171, 219, 172, 1) 0%,rgba(84, 169, 88, 1) 50%,rgba(82, 169, 90, 1) 51%,rgba(28, 110, 29, 1) 100%);
+	background: linear-gradient(to bottom, rgba(171, 219, 172, 1) 0%,rgba(84, 169, 88, 1) 50%,rgba(82, 169, 90, 1) 51%,rgba(28, 110, 29, 1) 100%);
+}
+#schools-bookmarks-section #schools-bookmarks .bookmarks-summary {
+	font-size: 16px;
+	color: #407E40;
+	margin: 0px 5px 0px 10px;
+	padding: 3px 0px;
+	border-bottom: dashed 1px #407E40; 
+}
+#schools-bookmarks-section a:hover {
+	text-decoration: none;
+}
+#schools-bookmarks-section #schools-bookmarks .section-details {
+	
+}
+#schools-bookmarks-section #schools-bookmarks .school-details {
+	padding: 5px 10px;
+    border-bottom: 1px dashed #eee;
+}
+#schools-bookmarks-section #schools-bookmarks .school-details div {
+    display: inline-block;
+}
+#schools-bookmarks-section #schools-bookmarks .school-details .school-summary {
+    vertical-align: text-top;
+}
+
+#schools-bookmarks-section #schools-bookmarks .school-details .school-summary > a:first-child {
+    color: #324fe1;
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 5px;
+}
+#schools-bookmarks-section #schools-bookmarks .tag {
+    font-size: 13px;
+    margin: 0px;
+    display: block;
+}
+
+/* pn page */
+.school-box-search #schools-search-box .dropdown-menu {
+	max-height: 450px;
+}
+#school-box-main {
+	border: 1px solid #A3D0A4;
+    box-shadow: 0px 0px 3px #8FB389;
+    font-size: 15px;
+}
+#school-box-main .school-box {
+	border-bottom: solid 1px #B8C9FD;
+    padding: 20px;
+    position: relative;
+}
+.school-box .tag {
+	font-size: 16px;
+}
+.school-box .school-title {
+	color: #324fe1;
+	font-weight: bold;
+	font-size: 18px;
+	width: 95%;
+	margin-bottom: 10px;
+}
+.school-box h2.school-title {
+    margin: 0;
+}
+.school-box .school-title > div:first-child {
+	font-size: 26px;
+}
+.school-box .school-section-title {
+	font-size: 18px;
+	font-weight: bold;
+	color: green;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	border-bottom: 1px dashed #A3D0A4;
+}
+.school-box .school-info-note,
+.school-box .school-info-note-short,
+.school-box .school-info-attr, 
+.school-box .school-info-attr-short {
+	width: 100%;
+	display: inline-block;
+	line-height: 1.6;
+}
+.school-box .school-info-note-short {
+	width: 30%;
+}
+.school-box .school-info-attr {
+    width: 60%;
+    color: #5F1B1B
+}
+.school-box .school-info-attr-short {
+    width: 38%;
+    color: #5F1B1B
+}
+.school-box .school-info-note > span:first-child,
+.school-box .school-info-note-short > span:first-child, 
+.school-box .school-info-attr > span:first-child, 
+.school-box .school-info-attr-short > span:first-child {
+	font-weight: bold;
+	margin-right: 5px;
+	color: #333;
+}
+
+/* pn comm */
+#school-box-main .school-title .post-favorite, 
+#school-box-main .school-title .post-favorited {
+    width: 22px;
+    height: 22px;
+    top: 20px;
+    right: 20px;
+}
+#school-box-main .school-title .post-favorite:after, 
+#school-box-main .school-title .post-favorited:after {
+	background-size: 22px 22px;
+	width: 22px;
+	height: 22px;
+}
+#school-box-main #community-header {
+	margin: 0;
+    margin-bottom: 25px;
+}
+#school-box-main #community-header li {
+    border: none;
+}
+#school-box-main .wall-title {
+	font-size: 15px;
+	background-color: #4B964B;
+}
+#school-box-main #wall-main .general-box {
+	margin: 10px;
+	box-shadow: none;
+	border: 1px solid #A3D0A4;
+	border-radius: 3px;
+}
+#school-box-main .tab-content {
+	margin: 0 50px;
+}
+#school-box-main .post-bar {
+	border: none;
+    border-bottom: 1px solid #A3D0A4;
+    border-left: 3px solid #A3D0A4;
+}
+#school-box-main .post-bar:hover {
+    background-color: #F3FDF2;
+}
+#school-box-main .tab-box {
+    border-radius: 3px 3px 0 0;
+    width: auto;
+    margin: 0px 10px;
+    box-shadow: none;
+}
+#school-box-main #content-uploader {
+	margin: 0 10px 25px 10px;
+	border: 1px solid #ccc;
+    border-top: none;
+	border-radius: 0px 0px 3px 3px;
+	box-shadow: none;
+}
+#school-box-main .widget-box {
+	border: none;
+	border-radius: 0;
+	box-shadow: none;
+	font-size: 17px;
+	margin: 0 10px 20px 10px;
+}
+#school-box-main .widget-box .section-title {
+    background-color: #EBFDEA;
+}

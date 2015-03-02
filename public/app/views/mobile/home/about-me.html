@@ -19,7 +19,7 @@
     						<div class="divider-cus"></div>
     						<a ng-click="selectedTab = 3;" ng-class="{activeTabBold: selectedTab == 3}">朋友</a>
     						<div class="divider-cus"></div>
-    						<a ng-click="selectedTab = 4;" ng-class="{activeTabBold: selectedTab == 4}"><img style="width:13px;vertical-align:text-top;margin:1px 3px;" data-ng-src="/assets/app/images/general/icons/message_favorited.png"/>收藏</a>
+    						<a ng-click="selectedTab = 4;" ng-class="{activeTabBold: selectedTab == 4}"><img style="width:13px;vertical-align:text-bottom;margin:1px 3px;" data-ng-src="/assets/app/images/general/icons/message_favorited.png"/>收藏</a>
                         </div>
                     </li>
                 </ul>
@@ -41,7 +41,7 @@
                 <div data-ng-include style="width:100%;" data-src="'/assets/app/views/mobile/home/about-my-friends-section.html'"></div>
             </div>
     		 
-            <div ng-if="selectedTab == 4" id="wall" style="height: auto !important;" ng-controller="MyBookmarkController" >
+            <div ng-if="selectedTab == 4" id="wall" style="height: auto !important;" ng-controller="MyBookmarksController" >
                 <div data-ng-include style="width:100%;" data-src="'/assets/app/views/mobile/home/about-my-bookmarks-section.html'"></div>
             </div>
     		 

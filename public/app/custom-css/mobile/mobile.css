@@ -393,28 +393,6 @@ span.notif-count {
     width: 50%;
     padding: 5px;
 }
-.post-qna-tag, .post-sharing-tag {
-    font-size: 12px;
-    font-weight: bold;
-    border-radius: 15px;
-    width: 15px;
-    height: 15px;
-    margin-top: 3px;
-}
-.post-date {
-    font-size: 11px;
-}
-.post-intro {
-    font-size: 12px;
-}
-.post-intro img {
-    width: 18px;
-    height: 18px;
-    vertical-align: middle;
-}
-.post-intro .post-dropdown-menu {
-    font-size: 15px;
-}
 .post-comment-box .post-qna-reply-textfield {
     width: 58%;
 }
@@ -428,30 +406,6 @@ span.notif-count {
     width: 58%;
 }
 .post-qna-body-title {
-    padding-bottom: 10px;
-}
-.post-qna-answers {
-    font-size: 13px;
-}
-.post-qna-answers li {
-    /*padding: 10px 10px;*/
-}
-.post-qna-body-title a {
-    font-size: 18px;
-}
-.post-qna-body {
-    padding-top: 0px;
-}
-.post-sharing-body {
-    padding-top: 5px;
-}
-.post-qna-body-text, .post-qna-answer-body-text {
-    padding: 0px 0px 5px 0px;
-    line-height: 1.2;
-}
-.post-sharing-body-text {
-    padding: 5px 0px 5px 0px;
-    line-height: 1.2;
 }
 .post-favorite:after, .post-favorited:after {
     text-indent: 23px;
@@ -511,6 +465,10 @@ span.notif-count {
 /* community */
 #communities-index ul {
     width: 50%;
+}
+#communities-index .category-comm {
+    width: 100%;
+    display: inline-block;
 }
 #community-header {
     background-color: white;
@@ -972,4 +930,43 @@ span.notif-count {
 .rsMinW .rsBullets, 
 .rsMinW .rsBullets div {
     border-radius: 0;
+}
+
+/* schools */
+#schools-search-box .dropdown-menu {
+	left: 0px;
+	max-height: 380px;
+}
+.school-box-search #schools-search-box .dropdown-menu {
+    max-height: 380px;
+}
+.schools-district-index li {
+	width: 22%;
+}
+.school-box .school-info-note-short {
+    width: 100%;
+}
+.school-box .school-info-attr {
+    width: 100%;
+}
+.school-box .school-info-attr-short {
+    width: 100%;
+}
+#school-box-main #community-header {
+    margin-bottom: 15px;
+}
+#school-box-main .tab-content {
+    margin: 0;
+}
+#school-box-main .tab-box {
+    margin: 0;
+}
+#school-box-main #content-uploader {
+    margin: 0 0 15px 0;
+}
+#school-box-main #wall-main .general-box {
+    margin: 0;
+}
+#school-box-main .widget-box {
+	margin: 0;
 }

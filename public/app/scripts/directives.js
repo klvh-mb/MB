@@ -63,15 +63,18 @@ minibean.directive('adsFactor', function($window, $compile) {
  * </ul>
  */
 minibean.filter('objFilter', function() {
-    return function(items, filter) {
+    return function(items, filter, exact) {
         if (!filter){
             return items;
         }
         var result = [];
-        angular.forEach( filter, function(filterVal, filterKey) {
+        angular.forEach(filter, function(filterVal, filterKey) {
             angular.forEach(items, function(item, key) {
-                var fieldVal = item[filterKey];
-                if (fieldVal && fieldVal.toLowerCase().indexOf(filterVal.toLowerCase()) > -1){
+                var fieldVal = item[filterKey] + "";    // convert boolean to string in case
+                //console.log("item value:"+fieldVal.toLowerCase()+"   filter value:"+filterVal.toLowerCase());
+                if (exact && fieldVal && fieldVal.toLowerCase() == filterVal.toLowerCase()) {
+                    result.push(item);                
+                } else if (!exact && fieldVal && fieldVal.toLowerCase().indexOf(filterVal.toLowerCase()) > -1){
                     result.push(item);
                 }
             });

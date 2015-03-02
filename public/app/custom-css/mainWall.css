@@ -33,9 +33,52 @@
 }
 #wall-main .general-box {
     margin-bottom: 10px;
-    /*box-shadow: 0 0 3px #D3D5F3;*/
     box-shadow: none;
     border: 1px solid #C0C2DD;
+}
+.post-header {
+}
+.post-header li {
+    margin: 5px 0;	
+}
+.post-header1 {
+    font-size: 16px;	
+}
+.post-header1 img {
+    width: 20px;
+	height: 20px;
+	vertical-align: text-bottom;
+	margin-right: 3px;
+}
+.post-header2 {
+    font-size: 14px;
+}
+.post-header2 .post-date {
+	font-size: 14px;
+}
+.post-header2 img {
+	width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    margin-right: 3px;
+}
+.post-header .post-favorite:after, 
+.post-header .post-favorited:after {
+	text-indent: 30px;
+    background-size: 20px 20px;
+    top: 0px;
+}
+.post-poster {
+	
+}
+.post-commenter {
+	
+}
+.post-poster .comment-dropdown, 
+.post-commenter .comment-dropdown {
+    top: 15px;
+    right: 15px;
+    position: absolute;
 }
 .post-input-title, .post-input-body {
     resize: none;
@@ -68,11 +111,11 @@
     /*height: 80px !important;*/
 }
 .post-card {
-    padding: 0px;
+    /*padding: 0px;*/
 }
 .post-card ul {
     padding: 0px;
-    margin: 8px 10px;
+    margin: 15px;
 }
 .post-card ul[title="sharing"] {
     /*background-color: #fffef4;*/
@@ -121,9 +164,9 @@
 .post-card .post-dropdown-menu {
     min-width: 80px;
     position: absolute;
-    top: 15px;
+    top: 7px;
     float: right;
-    right: -10px;
+    right: -15px;
     left: initial;
     font-size: 13px;
 }
@@ -133,6 +176,7 @@
 }
 .post-card .post-dropdown-menu li a {
     padding: 0 12px;
+    font-size: 13px;
 }
 .post-qna-body-top, .post-sharing-body-top {
     color: #77737E;
@@ -143,14 +187,15 @@
 .post-title-user-image {
     margin-right: 10px;
     float: left;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     border-radius: 5px;
     border: 1px solid #E9ECFC;
 }
 .post-title-user-name {
     font-weight: normal;
-    font-size: 12px;
+    font-size: 13px;
+    margin-bottom: 3px;
 }
 .post-title-user-name a {
     color: #6BA8DB;
@@ -172,7 +217,7 @@
     border: 1px solid #E7D5FD;
     border-radius: 3px;
     border-radius: 5px;
-    padding: 1px 2px;
+    padding: 5px 5px 3px 5px;
     margin-left: 7px;
 }
 .post-qna-body {
@@ -182,19 +227,20 @@
     padding-top: 5px;
 }
 .post-qna-body, .post-qna-answer-body {
-    padding-left: 40px;
-    margin-top: 2px;
+    margin: 10px 0 10px 0;
 }
 .post-qna-body-title {
+    margin: 15px 0 15px 0;
     padding-bottom: 10px;
-    margin-right: 20px;
+    border-bottom: 1px solid #C0C2DD;
 }
-.post-qna-body-title a, .post-qna-body-title a:hover {
+.post-qna-body-title a, .post-qna-body-title a:hover,
+.post-qna-body-title span {
     color: #0521AB;
     line-height: 1.2;
     font-size: 18px;
     font-weight: normal;
-    white-space: pre-wrap;
+    /*white-space: pre-wrap;*/
 }
 .post-qna-body-title a div {
     /*background-color: #FDF7F7;*/
@@ -204,8 +250,7 @@
     padding-left: 10px;
 }
 .post-qna-body-text, .post-qna-answer-body-text, .post-sharing-body-text {
-    /*padding: 5px 0px 10px 0px;*/
-    padding-bottom: 5px;
+    padding: 5px 0 15px 0;
     margin: 0;
     color: #141823;
     line-height: 1.4;
@@ -215,10 +260,10 @@
     padding: 5px 0px;
 }
 .post-qna-body-text, .post-sharing-body-text {
-    font-size: 14px;
+    font-size: 16px;
 }
 .post-qna-answer-body-text, .post-sharing-comment-body-text {
-    font-size: 13px;
+    font-size: 16px;
 }
 .post-body-image {
     padding: 10px;
@@ -226,7 +271,8 @@
 .post-body-image img {
     border-radius: 10px;
     vertical-align: top;
-    margin: 2px 0px;
+    margin: 5px;
+    border: 1px solid #ddd;
 }
 .post-qna-answer-count {
     font-weight: normal;
@@ -237,9 +283,8 @@
     margin: 0px !important;
 }
 .post-qna-answers li {
-    padding: 7px 10px;
+    padding: 10px 15px 5px 15px;
     border-top: 1px solid #CDCECF;
-    line-height: 1.3;
 }
 .post-qna-answers li.post-qna-answer-odd {
     background-color: #f8f5ff;
@@ -264,8 +309,8 @@
 .post-sharing-comment-user-image {
     margin-right: 10px;
     float: left;
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     border-radius: 5px;
     border: 1px solid #E9ECFC;
     margin-top: 2px;
@@ -283,10 +328,10 @@
     vertical-align: middle;
 }
 .post-comment-box .post-qna-reply-textfield {
-    width: 280px;
+    width: 275px;
 }
 .post-comment-box .post-sharing-comment-textfield {
-    width: 280px;
+    width: 275px;
 }
 .post-comment-box .post-qna-reply-textfield:focus {
     border: thin solid #a37cde !important;
@@ -356,7 +401,7 @@ a.post-view-all-comments-link:hover, a.post-show-more-link:hover {
 a.btn-like, a.btn-like:hover {
     margin: 0;
     color: #006CE0;
-    font-size: 12px;
+    font-size: 13px;
 }
 .post-wall-icon {
     font-size: 13px;

@@ -3,10 +3,13 @@
     <div id="main-menu">
         <ul>
             <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'FRONTPAGE'}" ng-click="selectNavBar('FRONTPAGE')">
-                <a href="/frontpage#!"><img src="/assets/app/images/frontpage/icon_mainMenu_home.png"/></a>
+                <a href="/"><img src="/assets/app/images/frontpage/icon_mainMenu_home.png"/></a>
             </li>
             <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'HOME'}" ng-click="selectNavBar('HOME')">
                 <a href="/my#!"><img src="/assets/app/images/frontpage/icon_mainMenu_myMiniBean.png"/></a>
+            </li>
+            <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'SCHOOLS'}" ng-click="selectNavBar('SCHOOLS')">
+                <a href="/schools#!"><img src="/assets/app/images/frontpage/icon_mainMenu_schools.png"/></a>
             </li>
             <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'HOT_ARTICLES'}" ng-click="selectNavBar('HOT_ARTICLES')">
                 <a href="/articles#!/article/show/0"><img src="/assets/app/images/frontpage/icon_mainMenu_article.png"/></a>
@@ -20,7 +23,7 @@
             <!--li class="col-md-1 col-sm-1 col-xs-1">
                 <a href="/#!"><img src="/assets/app/images/frontpage/icon_mainMenu_tools.png"/></a>
             </li-->
-            <li class="col-md-3 col-sm-3 col-xs-3" style="width:340px;">
+            <li class="col-md-3 col-sm-3 col-xs-3" style="width:240px;">
                 <div class="pull-right">
                     <div data-ng-include data-src="'/assets/app/views/widgets/fb-link-like-widget.html'"></div>
                 </div>
@@ -29,6 +32,25 @@
     </div>
 </div>
 
+<!--div id="nav-subbar" ng-show="selectedNavBar == 'SCHOOLS'">
+    <div class="nav-menu">
+        <span ng-class="{'selected-green': selectedNavSubBar == 0}">
+            <a class="nav-item nav-item-green" href="/schools#!/">
+                讀書寶寶首頁
+            </a>
+        </span>
+        <span ng-class="{'selected-green': selectedNavSubBar == 1}">
+            <a class="nav-item nav-item-green" href="/schools#!/pn">
+                PN 幼兒班
+            </a>
+        </span>
+        <span ng-class="{'selected-green': selectedNavSubBar == 2}">
+            <a class="nav-item nav-item-green" href="/schools#!/k">
+                幼稚園
+            </a>
+        </span>
+    </div>
+</div-->
 <div id="nav-subbar" ng-show="selectedNavBar == 'MAGAZINE'">
     <div class="nav-menu">
         <span ng-class="{'selected-green': selectedNavSubBar == 0}">

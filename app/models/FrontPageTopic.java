@@ -25,10 +25,10 @@ public class FrontPageTopic extends domain.Entity {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
     
-	public String name;
+	public String name = "";
 	
 	@Lob
-	public String description;
+	public String description = "";
 	
 	public String image;
 	

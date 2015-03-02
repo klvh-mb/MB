@@ -1,0 +1,8 @@
+<span ng-show="userInfo.isLoggedIn">
+    <a data-ng-show="!pn.isBookmarked" class="post-favorite" href="" data-ng-click="bookmarkPN(pn.id)"></a> <!--data-toggle="tooltip" data-tooltip="加到'我的收藏'"></a-->
+    <a data-ng-show="pn.isBookmarked && !confirm" class="post-favorited" href="" data-ng-click="unBookmarkPN(pn.id)"></a>
+    <a data-ng-show="pn.isBookmarked && confirm" class="post-favorited" href="" data-ng-confirm-click="unBookmarkPN(pn.id)" data-ng-confirm-message="您確定移除這個收藏嗎?"></a>
+</span>
+<span ng-show="!userInfo.isLoggedIn">
+    <a class="post-favorite" href="" data-ng-click="popupLoginModal('收藏幼稚園')"></a>
+</span>

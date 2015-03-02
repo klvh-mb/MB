@@ -2,7 +2,67 @@
 
 var minibean = angular.module('minibean');
 
-minibean.factory('pkViewFactory',function(pkViewService, postManagementService, likeFrameworkService, bookmarkPostService, usSpinnerService) {
+minibean.factory('schoolsFactory',function(schoolsService, postManagementService, likeFrameworkService, bookmarkService, usSpinnerService) {
+
+    var factory = {}; 
+
+    factory.likePN = function(pn_id, pn) {
+        likeFrameworkService.hitLikeOnPKView.get({"pn_id":pn_id}, 
+            function(data) {
+                pn.nol++;
+                pn.isLike=true;
+            });
+    }
+
+    factory.unlikePN = function(pn_id, pn) {
+        likeFrameworkService.hitUnlikeOnPKView.get({"pn_id":pn_id}, 
+            function(data) {
+                pn.nol--;
+                pn.isLike=false;
+            });
+    }
+    
+    factory.bookmarkPN = function(pn_id, pns, bookmarkedPNs) {
+        bookmarkService.bookmarkPN.get({"pn_id":pn_id}, function(data) {
+            angular.forEach(pns, function(pn, key){
+                if(pn.id == pn_id) {
+                    pn.isBookmarked = true;
+                    
+                    var bookmarked = false;
+                    angular.forEach(bookmarkedPNs, function(bookmarkedPN, key){
+                    	if (bookmarkedPN.id == pn_id) {
+                    		bookmarked = true;
+                    	}
+                    })
+                    if (!bookmarked) {
+                    	bookmarkedPNs.push(pn);
+                    }
+                }
+            })
+        });
+    }
+    
+    factory.unBookmarkPN = function(pn_id, pns, bookmarkedPNs) {
+        bookmarkService.unbookmarkPN.get({"pn_id":pn_id}, function(data) {
+            angular.forEach(pns, function(pn, key){
+                if(pn.id == pn_id) {
+                    pn.isBookmarked = false;
+                    
+                    angular.forEach(bookmarkedPNs, function(bookmarkedPN, key){
+                    	if (bookmarkedPN.id == pn_id) {
+                    		//alert(pn_id+":"+bookmarkedPNs.indexOf(bookmarkedPN));
+                    		bookmarkedPNs.splice(bookmarkedPNs.indexOf(bookmarkedPN),1);
+                    	}
+                    })
+                }
+            })
+        });
+    }
+    
+    return factory;
+});
+    
+minibean.factory('pkViewFactory',function(pkViewService, postManagementService, likeFrameworkService, bookmarkService, usSpinnerService) {
 
     var factory = {}; 
 
@@ -61,13 +121,13 @@ minibean.factory('pkViewFactory',function(pkViewService, postManagementService, 
     }
     
     factory.bookmarkPKView = function(pkview_id, pkview) {
-        bookmarkPostService.bookmarkPKView.get({"pkview_id":pkview_id}, function(data) {
+        bookmarkService.bookmarkPKView.get({"pkview_id":pkview_id}, function(data) {
             pkview.isBookmarked = true;
         });
     }
     
     factory.unBookmarkPKView = function(pkview_id, pkview) {
-        bookmarkPostService.unbookmarkPKView.get({"pkview_id":pkview_id}, function(data) {
+        bookmarkService.unbookmarkPKView.get({"pkview_id":pkview_id}, function(data) {
             pkview.isBookmarked = false;
         });
     }
@@ -153,7 +213,7 @@ minibean.factory('pkViewFactory',function(pkViewService, postManagementService, 
     return factory;
 });
 
-minibean.factory('articleFactory',function(likeFrameworkService, bookmarkPostService, usSpinnerService) {
+minibean.factory('articleFactory',function(likeFrameworkService, bookmarkService, usSpinnerService) {
 
     var factory = {}; 
 
@@ -174,7 +234,7 @@ minibean.factory('articleFactory',function(likeFrameworkService, bookmarkPostSer
     }
     
     factory.bookmarkArticle = function(article_id, articles) {
-        bookmarkPostService.bookmarkArticle.get({"article_id":article_id}, function(data) {
+        bookmarkService.bookmarkArticle.get({"article_id":article_id}, function(data) {
             angular.forEach(articles, function(article, key){
                 if(article.id == article_id) {
                     article.isBookmarked = true;
@@ -184,7 +244,7 @@ minibean.factory('articleFactory',function(likeFrameworkService, bookmarkPostSer
     }
     
     factory.unBookmarkArticle = function(article_id, articles) {
-        bookmarkPostService.unbookmarkArticle.get({"article_id":article_id}, function(data) {
+        bookmarkService.unbookmarkArticle.get({"article_id":article_id}, function(data) {
             angular.forEach(articles, function(article, key){
                 if(article.id == article_id) {
                     article.isBookmarked = false;
@@ -196,7 +256,7 @@ minibean.factory('articleFactory',function(likeFrameworkService, bookmarkPostSer
     return factory;
 });
 
-minibean.factory('postFactory',function(postManagementService, likeFrameworkService, bookmarkPostService, usSpinnerService) {
+minibean.factory('postFactory',function(postManagementService, likeFrameworkService, bookmarkService, usSpinnerService) {
 
     // some private functions if needed...
     //var myFunction = function() { 
@@ -354,7 +414,7 @@ minibean.factory('postFactory',function(postManagementService, likeFrameworkServ
     }
     
     factory.bookmarkPost = function(post_id, posts) {
-        bookmarkPostService.bookmarkPost.get({"post_id":post_id}, function(data) {
+        bookmarkService.bookmarkPost.get({"post_id":post_id}, function(data) {
             angular.forEach(posts, function(post, key){
                 if(post.id == post_id) {
                     post.isBookmarked = true;
@@ -364,7 +424,7 @@ minibean.factory('postFactory',function(postManagementService, likeFrameworkServ
     }
     
     factory.unBookmarkPost = function(post_id, posts) {
-        bookmarkPostService.unbookmarkPost.get({"post_id":post_id}, function(data) {
+        bookmarkService.unbookmarkPost.get({"post_id":post_id}, function(data) {
             angular.forEach(posts, function(post, key){
                 if(post.id == post_id) {
                     post.isBookmarked = false;

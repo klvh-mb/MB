@@ -1,7 +1,33 @@
 
 //
+// write meta
+//
+
+var writeMetaCanonical = function(absUrl) {
+	//log('orginial: '+absUrl);
+	if (absUrl.match(/frontpage#!/)) {
+		absUrl = absUrl.replace(/frontpage#!/, "#!");
+	} else if (absUrl.match(/my#!/)) {
+		absUrl = absUrl.replace(/my#!\/communities-discover/, "#!/communities-discover");
+		absUrl = absUrl.replace(/my#!\/community/, "#!/community");
+		absUrl = absUrl.replace(/my#!\/post-landing/, "#!/post-landing");
+		absUrl = absUrl.replace(/my#!\/qna-landing/, "#!/qna-landing");
+	}
+	//log('replace: 'absUrl);
+	
+	$('link[rel=canonical]').attr('href', absUrl);
+}
+
+var writeMetaTitleDescription = function(title, description) {
+	document.title = title;
+	$('meta[name=description]').attr('content', title + ', ' + description.substring(0,150));
+	$('meta[name=keywords]').attr('content', title + ', ' + $('meta[name=keywords]').attr('content'));
+}
+
+//
 // New user tour
 //
+
 var homeTour = new Tour({
   container: "body",
   template: "<div class='popover tour'>" + 
@@ -166,7 +192,7 @@ var log = function(str) {
 }
 
 var debugObject = function(obj, console) {
-    if (cosole) {
+    if (console) {
         log(JSON.stringify(obj));
     } else {
         alert(JSON.stringify(obj));
