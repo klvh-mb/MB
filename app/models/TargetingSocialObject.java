@@ -44,6 +44,7 @@ public abstract class TargetingSocialObject extends SocialObject {
         LOCATION_DISTRICT,
         LOCATION_REGION,
         PRE_NURSERY,
+        KINDY,
         OTHER
     }
     

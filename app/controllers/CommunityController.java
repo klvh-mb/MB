@@ -5,14 +5,11 @@ import static play.data.Form.form;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.security.Key;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import javax.crypto.Cipher;
-
-import common.cache.CommunityCategoryCache;
+import common.cache.CommunityMetaCache;
 import common.collection.Pair;
 import common.utils.StringUtil;
 import models.Comment;
@@ -186,8 +183,7 @@ public class CommunityController extends Controller{
                 getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.ALL_MOMS_DADS));
         vms.addAll(
                 getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.PUBLIC));
-        vms.addAll( 
-                getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.PRE_NURSERY));
+
         CommunitiesParentVM communitiesVM = new CommunitiesParentVM(vms.size(), vms);
         return ok(Json.toJson(communitiesVM));
     }
@@ -391,6 +387,10 @@ public class CommunityController extends Controller{
 
         List<Community> communities = localUser.getListOfJoinedCommunities();
         for(Community community : communities) {
+        	if (TargetingSocialObject.TargetingType.PRE_NURSERY.equals(community.targetingType) ||
+        			TargetingSocialObject.TargetingType.KINDY.equals(community.targetingType)) {
+        		continue;
+        	}
             communityList.add(new CommunitiesWidgetChildVM(community, localUser));
         }
         CommunitiesParentVM communitiesVM = new CommunitiesParentVM(communityList.size(), communityList);
@@ -1098,7 +1098,9 @@ public class CommunityController extends Controller{
         logger.underlyingLogger().info("[u="+localUser.id+"] getNewsfeeds(offset="+offset+") count="+posts.size()+". vm create Took "+sw.getElapsedMS()+"ms");
         return ok(Json.toJson(vm));
     }
-    
+
+
+
     /**
      * Play routes AJAX call. Return business feed posts.
      * @param offset
@@ -1343,12 +1345,12 @@ public class CommunityController extends Controller{
         final User localUser = Application.getLocalUser(session());
         final Post post = Post.findById(id);
         if (post == null) {
-            return ok("NO_RESULT"); 
+            return notFound(); 
         }
         logger.underlyingLogger().info("[u="+localUser.id+"][c="+communityId+"][p="+id+"] postLanding");
 
         post.noOfViews++;
-        return ok(Json.toJson(CommunityPostsVM.posts(post.community, localUser, post)));
+        return ok(Json.toJson(new CommunityPostVM(post, localUser, true, true)));
     }
     
     @Transactional
@@ -1356,12 +1358,12 @@ public class CommunityController extends Controller{
         final User localUser = Application.getLocalUser(session());
         final Post post = Post.findById(id);
         if (post == null) {
-            return ok("NO_RESULT"); 
+            return notFound(); 
         }
         logger.underlyingLogger().info("[u="+localUser.id+"][c="+communityId+"][p="+id+"] qnaLanding");
 
         post.noOfViews++;
-        return ok(Json.toJson(CommunityPostsVM.posts(post.community, localUser, post)));
+        return ok(Json.toJson(new CommunityPostVM(post, localUser, true, true)));
     }
     
     @Transactional
@@ -1393,7 +1395,7 @@ public class CommunityController extends Controller{
         // index only, return cached categories map
         if (indexOnly) {
             List<CommunityCategoryMapVM> communityCategoryMapVMs =
-                    CommunityCategoryCache.getSocialCommCategoryMapVMs();
+                    CommunityMetaCache.getSocialCommCategoryMapVMs();
             return ok(Json.toJson(communityCategoryMapVMs));    
         }
         
@@ -1407,13 +1409,7 @@ public class CommunityController extends Controller{
                             category, Community.findByCategory(category), localUser);
             communityCategoryMapVMs.add(vm);
         }
-        
-        // get other topic comms
-        List<CommunitiesWidgetChildVM> vms = 
-                getCommunitiesByTargetingType(TargetingSocialObject.TargetingType.PRE_NURSERY);
-        CommunityCategoryMapVM vm = CommunityCategoryMapVM.communityCategoryMapVM("其他", vms);
-        communityCategoryMapVMs.add(vm);
-        
+
         return ok(Json.toJson(communityCategoryMapVMs));
     }
 }
