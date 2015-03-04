@@ -84,9 +84,9 @@ public class PreNurseryVM {
         this.classTimes = pn.classTimes;
         this.curriculum = pn.curriculum;
         this.curriculumType = pn.curriculumType;
-        this.annualFeeHD = pn.annualFeeHD;
-        this.annualFeeWD = pn.annualFeeWD;
-        this.numAdmitted = pn.numAdmitted;
+        this.annualFeeHD = pn.getAnnualFeeHD();
+        this.annualFeeWD = pn.getAnnualFeeWD();
+        this.numAdmitted = pn.getNumAdmitted();
 
         this.noOfComments = pn.noOfComments;    // TODO
         this.noOfLikes = pn.noOfLikes;

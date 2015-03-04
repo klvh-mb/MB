@@ -69,10 +69,11 @@ public class SchoolSaved extends domain.Entity {
 
 
     ///////////////////// GET SQLs /////////////////////
-    public static List<SchoolSaved> findByUserSchoolId(Long userId, Long schoolId) {
-        Query q = JPA.em().createQuery("SELECT ss FROM SchoolSaved ss where ss.userId=?1 and ss.schoolId=?2");
+    public static List<SchoolSaved> findByUserSchoolId(Long userId, Long schoolId, SchoolType type) {
+        Query q = JPA.em().createQuery("SELECT ss FROM SchoolSaved ss where ss.userId=?1 and ss.schoolId=?2 and ss.schoolType=?3");
         q.setParameter(1, userId);
         q.setParameter(2, schoolId);
+        q.setParameter(3, type);
         return (List<SchoolSaved>) q.getResultList();
     }
 }

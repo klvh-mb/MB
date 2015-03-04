@@ -20,5 +20,6 @@ public enum SocialObjectType {
      CAMPAIGN,
      PK_VIEW,
      REVIEW_COMMENT,
-     PRE_NURSERY
+     PRE_NURSERY,
+     KINDY
 }

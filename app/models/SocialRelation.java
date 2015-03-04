@@ -108,14 +108,8 @@ public class SocialRelation extends domain.Entity implements Serializable, Creat
 	
 	static public enum Action {
 		ADDED,
-		REQUEST,
 		FRIEND,
-		MESSAGE_SEND,
 		MEMBER,
-		POSTED_QUESTION,
-		POSTED_ANSWER,
-		ANSWERED,
-        POSTED;
 	}
 
 	public SocialRelation(){}

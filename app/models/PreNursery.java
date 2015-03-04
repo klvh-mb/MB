@@ -41,9 +41,10 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
     @Column(length = 1024)
     public String curriculum;
     public String curriculumType;
-    public String annualFeeHD;
-    public String annualFeeWD;
-    public String numAdmitted;
+
+    private String annualFeeHD;
+    private String annualFeeWD;
+    private String numAdmitted;
 
     // stats
     public int noOfComments = 0;
@@ -53,7 +54,9 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
 
 
     // Ctor
-    public PreNursery() {}
+    public PreNursery() {
+        this.objectType = SocialObjectType.PRE_NURSERY;
+    }
 
 
    ///////////////////// onSocialActions /////////////////////
@@ -104,7 +107,7 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
             logger.underlyingLogger().debug("[u="+user.id+"][pn="+this.id+"] PreNursery onBookmarkedBy");
         }
         // 1) remove from school saved list
-        List<SchoolSaved> savedList = SchoolSaved.findByUserSchoolId(user.getId(), this.id);
+        List<SchoolSaved> savedList = SchoolSaved.findByUserSchoolId(user.getId(), this.id, SchoolType.PN);
         if (savedList != null) {
             for (SchoolSaved saved : savedList) {
                 saved.delete();
@@ -227,6 +230,19 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
         q.setParameter(2, SchoolType.PN);
         q.setParameter(3, status);
         return (List<PreNursery>)q.getResultList();
+    }
+
+    ///////////////////// Getters /////////////////////
+    public String getAnnualFeeHD() {
+        return annualFeeHD;
+    }
+
+    public String getAnnualFeeWD() {
+        return annualFeeWD;
+    }
+
+    public String getNumAdmitted() {
+        return numAdmitted;
     }
 
     ///////////////////// SQL /////////////////////

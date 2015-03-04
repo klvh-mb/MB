@@ -176,7 +176,9 @@ public class PrimarySocialRelation extends domain.Entity implements Serializable
 	
 	@Override
 	public void postSave() {
-	    SocialActivity.handle(this);
+        if (isPostSave) {
+	        SocialActivity.handle(this);
+        }
 	}
 	
 	public <T> T getTargetObject(Class<T> claszz){
