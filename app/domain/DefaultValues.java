@@ -23,6 +23,7 @@ public class DefaultValues {
     public static int COMMENTS_PREVIEW_COUNT = 10;
     public static int DEFAULT_UTILITY_COUNT = 5;
     public static int DEFAULT_INFINITE_SCROLL_COUNT = 10;
+    public static int DEFAULT_PAGINATION_COUNT = 10;
     public static int FEATURED_ARTICLES_COUNT = 6;
     public static int ARTICLES_UTILITY_COUNT = 4;
     public static int ARTICLES_RELATED_COUNT = 10;

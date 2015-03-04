@@ -368,11 +368,21 @@ public class Post extends SocialObject implements Likeable, Commentable {
     
     @JsonIgnore
     public List<Comment> getCommentsOfPost(int limit) {
+    	// NOTE: order by date desc to show latest comments first on landing page
         Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 and deleted = false order by date desc" );
         q.setParameter(1, this.id);
         return (List<Comment>)q.setMaxResults(limit).getResultList();
     }
 
+    @JsonIgnore
+    public List<Comment> getCommentsOfPost(int offset, int limit) {
+        Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 and deleted = false order by date" );
+        q.setParameter(1, this.id);
+        q.setFirstResult(offset * limit);
+        q.setMaxResults(limit);
+        return (List<Comment>)q.getResultList();
+    }
+    
     @JsonIgnore
     public List<Comment> getCommentsOfPostByAttribute(String attribute) {
         Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 and attribute = ?2 and deleted = false order by date desc");
