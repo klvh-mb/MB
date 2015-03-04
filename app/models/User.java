@@ -75,7 +75,6 @@ import com.mnt.exception.SocialObjectNotPostableException;
 
 import controllers.Application;
 import domain.CommentType;
-import domain.DefaultValues;
 import domain.PostType;
 import domain.SocialObjectType;
 import domain.Socializable;
@@ -1449,14 +1448,14 @@ public class User extends SocialObject implements Subject, Socializable {
         return 1;
     }
     
-    public List<Post> getMyUpdates(Long timestamp) {
+    public List<Post> getMyUpdates(Long timestamp, int limit) {
         Query query = JPA.em().createQuery(
                 "SELECT p from Post p where p.community in (select sr.target from SocialRelation sr " + 
                 "where sr.actor=?1 and sr.action = ?2) and p.deleted = false order by p.auditFields.createdDate desc");
         query.setParameter(1, this.id);
         query.setParameter(2, SocialRelation.Action.MEMBER);
         query.setFirstResult(0);
-        query.setMaxResults(DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        query.setMaxResults(limit);
         return (List<Post>)query.getResultList();
     }
     
@@ -1494,7 +1493,7 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(2, this.id);
         query.setParameter(3, SocialObjectType.POST);
         query.setParameter(4, SocialObjectType.QUESTION);
-        query.setFirstResult(offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        query.setFirstResult(offset * limit);
         query.setMaxResults(limit);
 
         if (logger.underlyingLogger().isDebugEnabled()) {
@@ -1511,7 +1510,7 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(1, SecondarySocialRelation.Action.BOOKMARKED);
         query.setParameter(2, this.id);
         query.setParameter(3, SocialObjectType.ARTICLE);
-        query.setFirstResult(offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        query.setFirstResult(offset * limit);
         query.setMaxResults(limit);
 
         List<Article> result = (List<Article>)query.getResultList();
@@ -1529,7 +1528,7 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(1, SecondarySocialRelation.Action.BOOKMARKED);
         query.setParameter(2, this.id);
         query.setParameter(3, SocialObjectType.PK_VIEW);
-        query.setFirstResult(offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        query.setFirstResult(offset * limit);
         query.setMaxResults(limit);
 
         List<Pair<PKViewMeta, Post>> result = query.getResultList();
@@ -1573,7 +1572,7 @@ public class User extends SocialObject implements Subject, Socializable {
                 "SELECT p from Post p where p.owner = ?1 and p.postType = ?2 and p.deleted = false order by p.socialUpdatedDate desc");
         query.setParameter(1, this);
         query.setParameter(2, PostType.QUESTION);
-        query.setFirstResult(offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        query.setFirstResult(offset * limit);
         query.setMaxResults(limit);
         return (List<Post>)query.getResultList();
     }
@@ -1586,12 +1585,12 @@ public class User extends SocialObject implements Subject, Socializable {
                 "and p.postType = ?2 and p.deleted = false order by p.socialUpdatedDate desc");
         query.setParameter(1, this);
         query.setParameter(2, PostType.QUESTION);
-        query.setFirstResult(offset * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        query.setFirstResult(offset * limit);
         query.setMaxResults(limit);
         return (List<Post>)query.getResultList();
     }
     
-    public List<Post> getMyLiveUpdates(Long timestamp) {
+    public List<Post> getMyLiveUpdates(Long timestamp, int limit) {
         Query query = JPA.em().createQuery(
                 "SELECT p from Post p where p.community in (select sr.target " +
                 "from SocialRelation sr where sr.actor=?1 and sr.action = ?2) and " + 
@@ -1599,18 +1598,18 @@ public class User extends SocialObject implements Subject, Socializable {
                 timestamp + " > UNIX_TIMESTAMP(p.auditFields.createdDate) and p.deleted = false order by p.auditFields.createdDate desc");
         query.setParameter(1, this.id);
         query.setParameter(2, SocialRelation.Action.MEMBER);
-        query.setMaxResults(DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        query.setMaxResults(limit);
         return (List<Post>)query.getResultList();
     }
 
-    public List<Post> getMyNextNewsFeeds(Long timestamp) {
+    public List<Post> getMyNextNewsFeeds(Long timestamp, int limit) {
         Query query = JPA.em().createQuery(
                 "SELECT p from Post p where p.community in (select sr.target " +
                 "from SocialRelation sr where sr.actor=?1 and sr.action = ?2) and " + 
                 timestamp + " > UNIX_TIMESTAMP(p.auditFields.createdDate) and p.deleted = false order by p.auditFields.createdDate desc");
         query.setParameter(1, this.id);
         query.setParameter(2, SocialRelation.Action.MEMBER);
-        query.setMaxResults(DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        query.setMaxResults(limit);
         return (List<Post>)query.getResultList();
     }
 
