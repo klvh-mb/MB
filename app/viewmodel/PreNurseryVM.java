@@ -41,7 +41,7 @@ public class PreNurseryVM {
     @JsonProperty("feeWd")  public String annualFeeWD;
     @JsonProperty("nadm")  public String numAdmitted;
     
-    @JsonProperty("n_c") public int noOfComments;       // TODO
+    @JsonProperty("nop") public int noOfPosts;       // TODO
     @JsonProperty("nol") public int noOfLikes;
     @JsonProperty("nov") public int noOfViews;
     @JsonProperty("nob") public int noOfBookmarks;
@@ -88,7 +88,7 @@ public class PreNurseryVM {
         this.annualFeeWD = pn.getAnnualFeeWD();
         this.numAdmitted = pn.getNumAdmitted();
 
-        this.noOfComments = pn.noOfComments;    // TODO
+        this.noOfPosts = pn.noOfPosts;    // TODO
         this.noOfLikes = pn.noOfLikes;
         this.noOfViews = pn.noOfViews;
         this.noOfBookmarks = pn.noOfBookmarks;

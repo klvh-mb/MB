@@ -47,7 +47,7 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
     private String numAdmitted;
 
     // stats
-    public int noOfComments = 0;
+    public int noOfPosts = 0;
     public int noOfLikes = 0;
     public int noOfViews = 0;
     public int noOfBookmarks = 0;

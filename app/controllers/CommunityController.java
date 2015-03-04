@@ -423,21 +423,50 @@ public class CommunityController extends Controller{
 
         final User localUser = Application.getLocalUser(session());
         Post post = Post.findById(id);
-        List<CommunityPostCommentVM> commentsToShow = new ArrayList<>();
+        List<CommunityPostCommentVM> commentsVM = new ArrayList<>();
         List<Comment> comments = post.getCommentsOfPost();
         for (int i = 0; i < comments.size(); i++) {
             Comment comment = comments.get(i);
             CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, localUser, i+1);
-            commentsToShow.add(commentVM);
+            commentsVM.add(commentVM);
         }
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
             logger.underlyingLogger().debug("[u="+localUser.id+"][p="+id+"] getAllComments count="+comments.size()+". Took "+sw.getElapsedMS()+"ms");
         }
-        return ok(Json.toJson(commentsToShow));
+        return ok(Json.toJson(commentsVM));
     }
-    
+
+    @Transactional
+    public static Result getComments(Long id, int offset) {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        final User localUser = Application.getLocalUser(session());
+        Post post = Post.findById(id);
+        double maxOffset = Math.floor((double)post.noOfComments / (double)DefaultValues.DEFAULT_PAGINATION_COUNT);
+        
+        List<CommunityPostCommentVM> commentsVM = new ArrayList<>();
+        if (offset > maxOffset) {
+        	sw.stop();
+        	logger.underlyingLogger().error("[u="+localUser.id+"][p="+id+"][offset="+offset+"] failed to getComments with offset > maxOffset="+maxOffset+". Took "+sw.getElapsedMS()+"ms");
+        	return ok(Json.toJson(commentsVM));
+        }
+        
+        List<Comment> comments = post.getCommentsOfPost(offset, DefaultValues.DEFAULT_PAGINATION_COUNT);
+        for (int i = 0; i < comments.size(); i++) {
+            Comment comment = comments.get(i);
+            CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, localUser, i+1);
+            commentsVM.add(commentVM);
+        }
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"][p="+id+"][offset="+offset+"] getComments count="+comments.size()+". Took "+sw.getElapsedMS()+"ms");
+        }
+        return ok(Json.toJson(commentsVM));
+    }
+
     @Transactional
     public static Result sendJoinRequest(String id) {
         final User localUser = Application.getLocalUser(session());
@@ -1017,7 +1046,7 @@ public class CommunityController extends Controller{
         logger.underlyingLogger().debug("getMyUpdates");
         final User localUser = Application.getLocalUser(session());
         List<CommunityPostVM> posts = new ArrayList<>();
-        for(Post p :localUser.getMyUpdates(timestamps)) {
+        for(Post p :localUser.getMyUpdates(timestamps, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT)) {
             CommunityPostVM post = new CommunityPostVM(p,localUser);
             posts.add(post);
         }
@@ -1149,7 +1178,7 @@ public class CommunityController extends Controller{
         final User localUser = Application.getLocalUser(session());
         
         List<CommunityPostVM> posts = new ArrayList<>();
-        for(Post p :localUser.getMyLiveUpdates(timestamps)) {
+        for(Post p :localUser.getMyLiveUpdates(timestamps, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT)) {
             CommunityPostVM post = new CommunityPostVM(p,localUser);
             posts.add(post);
         }
@@ -1165,7 +1194,7 @@ public class CommunityController extends Controller{
         final User localUser = Application.getLocalUser(session());
         
         List<CommunityPostVM> posts = new ArrayList<>();
-        for(Post p :localUser.getMyNextNewsFeeds(timestamp)) {
+        for(Post p :localUser.getMyNextNewsFeeds(timestamp, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT)) {
             CommunityPostVM post = new CommunityPostVM(p,localUser);
             posts.add(post);
         }
