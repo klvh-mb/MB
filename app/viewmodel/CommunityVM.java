@@ -53,36 +53,9 @@ public class CommunityVM {
 		//TODO Logic required
 		vm.isRequested = memStatus.first;
         vm.isMember = memStatus.second;
-		vm.isOwner = (user == c.owner) ? true : false;
+		vm.isOwner = (user == c.owner);
 		vm.adminPostOnly = c.adminPostOnly;
 		
 		return vm;
 	}
-	
-	public static CommunityVM communityVM(Community c) {
-        Long memCount = c.getMemberCount();
-
-        CommunityVM vm = new CommunityVM();
-        vm.loggedUserId = -1L;
-        vm.loggedUserName = "";
-        
-        vm.name = c.name;
-        vm.description = c.description;
-        vm.communityType = c.communityType;
-        vm.targetingType = c.targetingType;
-        vm.targetingInfo = c.targetingInfo;
-        vm.icon = c.icon;
-        vm.createDate = c.createDate;
-        vm.id = c.id;
-        vm.system = c.system;
-        vm.noOfMembers = memCount.intValue();
-        
-        //TODO Logic required
-        vm.isRequested = false;
-        vm.isMember = false;
-        vm.isOwner = false;
-        vm.adminPostOnly = c.adminPostOnly;
-        
-        return vm;
-    }
 }

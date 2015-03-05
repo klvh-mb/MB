@@ -136,7 +136,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		JPA.em().merge(this);
 
         // update community stats
-        CommunityStatistics.onNewPost(this.id);
+        CommunityStatistics.onNewPost(this.id, this.targetingType);
         // record affinity
         UserCommunityAffinity.onCommunityActivity(user.id, this.id);
 
@@ -516,6 +516,14 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		q.setMaxResults(limit);
 		return (List<Post>)q.getResultList();
 	}
+
+    @JsonIgnore
+    public Long getQuestionsCount() {
+        Query query = JPA.em().createQuery("select count(p.id) from Post p where community=?1 and postType=?2 and deleted = false");
+        query.setParameter(1, this.id);
+        query.setParameter(2, PostType.QUESTION);
+        return (Long) query.getSingleResult();
+    }
 	
 	@JsonIgnore
 	public List<User> getNonMembersOfCommunity(String query) {

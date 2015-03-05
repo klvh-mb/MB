@@ -1,5 +1,6 @@
 package models;
 
+import common.cache.CommunityMetaCache;
 import domain.PostType;
 import org.elasticsearch.common.joda.time.LocalDate;
 import play.data.validation.Constraints;
@@ -75,7 +76,7 @@ public class CommunityStatistics {
 	}
 
     @Transactional
-    public static void onNewPost(Long communityId) {
+    public static void onNewPost(Long communityId, TargetingSocialObject.TargetingType targetingType) {
         LocalDate today = new LocalDate();
         getCommunityStatistics(communityId, today);
 
@@ -83,6 +84,33 @@ public class CommunityStatistics {
 		setParameter(1, communityId).
 		setParameter(2, today.toDate()).
         executeUpdate();
+
+        if (targetingType == TargetingSocialObject.TargetingType.PRE_NURSERY) {
+            PreNursery pn = PreNursery.findById(CommunityMetaCache.getPNIdFromCommunity(communityId));
+            if (pn != null) {
+                pn.noOfPosts++;
+                pn.merge();
+            }
+        }
+    }
+
+    @Transactional
+    public static void onDeletePost(Long communityId, TargetingSocialObject.TargetingType targetingType) {
+        LocalDate today = new LocalDate();
+        getCommunityStatistics(communityId, today);
+
+        JPA.em().createQuery("UPDATE CommunityStatistics s SET s.numPosts = s.numPosts - 1 where s.communityId = ?1 and s.activityDate = ?2").
+		setParameter(1, communityId).
+		setParameter(2, today.toDate()).
+        executeUpdate();
+
+        if (targetingType == TargetingSocialObject.TargetingType.PRE_NURSERY) {
+            PreNursery pn = PreNursery.findById(CommunityMetaCache.getPNIdFromCommunity(communityId));
+            if (pn != null) {
+                pn.noOfPosts--;
+                pn.merge();
+            }
+        }
     }
 
     @Transactional

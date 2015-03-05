@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import common.cache.CommunityMetaCache;
 import models.Comment;
 import models.Community;
 import models.TargetingSocialObject.TargetingType;
@@ -27,15 +28,21 @@ public class SocialActivity {
     // play url prefix
     private static final String MY_PREFIX = "/my#!";
     private static final String MAGAZINE_PREFIX = "/magazine#!";
+    private static final String SCHOOL_PREFIX = "/schools#!";
 
     //////////////////////////////////////////////////
     // Url Helpers
-    private static String resolveCommunityLandingUrl(Long commId, Community.CommunityType type) {
+    private static String resolveCommunityLandingUrl(Long commId, Community.CommunityType type,
+                                                     TargetingType targetingType) {
         boolean isBizCommunity = type != null && type == Community.CommunityType.BUSINESS;
         if (isBizCommunity) {
             return MAGAZINE_PREFIX+"/business/community/"+commId;
         } else {
-            return MY_PREFIX+"/community/"+commId;
+            if (targetingType != null && targetingType == TargetingType.PRE_NURSERY) {
+                return SCHOOL_PREFIX+"/pn/"+ CommunityMetaCache.getPNIdFromCommunity(commId);
+            } else {
+                return MY_PREFIX+"/community/"+commId;
+            }
         }
     }
 
@@ -59,7 +66,7 @@ public class SocialActivity {
 
     private static String resolveCommunityLandingUrl(Long commId) {
         Community.CommunityType type = Community.getCommunityTypeById(commId);
-        return resolveCommunityLandingUrl(commId, type);
+        return resolveCommunityLandingUrl(commId, type, null);
     }
 
     private static boolean isBusinessCommunity(Community community) {
@@ -187,7 +194,7 @@ public class SocialActivity {
                     List<Long> frdIds = FriendCache.getFriendsIds(socialAction.actor);
 
                     if (frdIds.size() > 0) {
-                        String commLandingUrl = resolveCommunityLandingUrl(community.id, community.communityType);
+                        String commLandingUrl = resolveCommunityLandingUrl(community.id, community.communityType, community.targetingType);
                         String postLandingUrl = resolvePostLandingUrl(post.id, community.id, community.communityType);
                         String msgEnd = " 在「"+community.name+"」發佈了分享。";
 
@@ -239,7 +246,7 @@ public class SocialActivity {
                     List<Long> frdIds = FriendCache.getFriendsIds(socialAction.actor);
 
                     if (sendToAll || frdIds.size() > 0) {
-                        String commLandingUrl = resolveCommunityLandingUrl(community.id, community.communityType);
+                        String commLandingUrl = resolveCommunityLandingUrl(community.id, community.communityType, community.targetingType);
                         String qnaLandingUrl = resolveQnALandingUrl(post.id, community.id, community.communityType);
                         String msgEnd = " 在「"+community.name+"」發佈了新話題。";
 

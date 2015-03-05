@@ -199,6 +199,10 @@ public class Post extends SocialObject implements Likeable, Commentable {
         this.deleted = true;
         this.deletedBy = deletedBy;
         save();
+
+        // Community statistics
+        CommunityStatistics.onDeletePost(community.id, community.targetingType);
+        // Game statistics
         GameAccountStatistics.recordDeletePost(deletedBy.id);
     }
 
