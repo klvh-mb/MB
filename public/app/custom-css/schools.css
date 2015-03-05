@@ -99,6 +99,16 @@
     position: relative;
     font-weight: bold;
 }
+.school-info-tips {
+    font-size: 13px;
+    font-weight: normal;
+    color: #555;
+    vertical-align: middle;
+}
+.school-info-tips img {
+    width: 16px;
+    margin: 0 3px 0 5px;
+}
 
 /* district index */
 .schools-index-box {
@@ -437,17 +447,20 @@
 	width: 100%;
 	display: inline-block;
 	line-height: 1.6;
+	font-size: 14px;
+    font-weight: normal;
+    color: #333;
 }
 .school-box .school-info-note-short {
 	width: 30%;
 }
 .school-box .school-info-attr {
     width: 60%;
-    color: #5F1B1B
+    color: #5F1B1B;
 }
 .school-box .school-info-attr-short {
     width: 38%;
-    color: #5F1B1B
+    color: #5F1B1B;
 }
 .school-box .school-info-note > span:first-child,
 .school-box .school-info-note-short > span:first-child, 

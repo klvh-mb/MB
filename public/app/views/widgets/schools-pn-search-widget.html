@@ -33,6 +33,9 @@
 		                        {{pn.n}}
 		                    </a>
 		                    <span class="tag">{{pn.dis}}</span>
+		                    <span class="school-info-tips" ng-if="pn.nop > 0">
+                                <img src="../assets/app/images/general/icons/i-reply.png">{{pn.nop}}
+                            </span>
 		                    <span data-ng-include data-src="'/assets/app/views/schools/bookmark-pn.html'"></span>
 		                    
 		                    <div class="school-info-note"><span ng-show="pn.ne">{{pn.ne}}</span></div>
