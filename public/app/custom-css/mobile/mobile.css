@@ -958,9 +958,18 @@ span.notif-count {
 }
 .school-box .school-title .school-reviews-summary {
 	margin-top: 10px;
-	width: 50%;
+	width: 80%;
 	position: relative;
     float: right;
+}
+.school-box .school-title .school-reviews-summary div {
+	text-align: center;
+	display: inline-block;
+	width: 48%;
+}
+.school-box .school-title .school-reviews-summary div:first-child {
+	border-right: 1px solid #aaa;
+	margin-bottom: 5px;
 }
 #school-box-main #community-header {
     margin-bottom: 15px;

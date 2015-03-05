@@ -3274,7 +3274,11 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filt
     $scope.initSchools = function() {
     	$scope.selectedDistrictId = $routeParams.districtId;
     	if ($scope.selectedDistrictId == undefined) {
-			$scope.selectedDistrictId = $scope.districts[0].id;
+    		if ($scope.userInfo.isLoggedIn) {
+    			$scope.selectedDistrictId = $scope.userInfo.location.id;
+    		} else { 
+    			$scope.selectedDistrictId = $scope.districts[0].id;
+    		}
 		}
 	    if (type == 1) {	// PN
 	    	$scope.schools = schoolsService.pnsByDistrict.get({district_id:$scope.selectedDistrictId});
