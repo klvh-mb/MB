@@ -1,11 +1,28 @@
 <div id="school-box-main" class="general-box">
     <div class="school-box">
         <div class="school-info">
-            <h2 class="school-title">
-                <div>{{pn.n}}</div>
-                <div>{{pn.ne || ''}} <span class="tag">{{pn.dis}}</span></div>
+            <div class="nav-trail">
+                <img style="width:18px;vertical-align:text-bottom;" src="../assets/app/images/general/icons/gray_back.png" />
+                返回 <a ng-href="/schools#!/pn/district/{{pn.disId}}"><span class="tag">{{pn.dis}}幼稚園</span></a>
                 <span data-ng-include data-src="'/assets/app/views/schools/bookmark-pn.html'"></span>
-            </h2>
+            </div>
+            
+            <ul class="school-title">
+                <li>
+	                <h2>
+		                <div>{{pn.n}}</div>
+		                <div>{{pn.ne || ''}}</div>
+		            </h2>
+                </li>
+                <li>
+                    <div class="school-reviews-summary">
+                        <div><img style="width:18px;margin-right:3px;" src="../assets/app/images/general/icons/i-reply.png">討論: {{pn.nop}}</div>
+                        <div style="margin-top:5px;">
+                            <a data-ng-click="gotoId('school-community-main')">一齊討論<img style="width:16px;margin-left:5px;" src="/assets/app/images/general/animated/arrow.gif"></a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
 
             <a class="schools-map" ng-show="pn.map != null" href="{{pn.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i>地圖</a>
 

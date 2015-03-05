@@ -952,6 +952,16 @@ span.notif-count {
 .school-box .school-info-attr-short {
     width: 100%;
 }
+.school-box .school-title > li, 
+.school-box .school-title > li:first-child {
+    width: 100%;
+}
+.school-box .school-title .school-reviews-summary {
+	margin-top: 10px;
+	width: 50%;
+	position: relative;
+    float: right;
+}
 #school-box-main #community-header {
     margin-bottom: 15px;
 }

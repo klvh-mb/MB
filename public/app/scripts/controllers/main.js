@@ -841,10 +841,15 @@ minibean.controller('ApplicationController',
     }
     
     $scope.gotoTop = function() {
-        // set the location.hash to the id of
-        // the element you wish to scroll to
         $window.scrollTo($window.pageXOffset, 0);
-    };
+    }
+    
+    $scope.gotoId = function(id) {
+    	var offset = $('#'+id).offset();
+    	if (offset && offset != undefined) {
+        	$window.scrollTo($window.pageXOffset, $('#'+id).offset().top - 50);	// minus top bar height
+    	}
+    }
     
     $scope.openReportObjectModal = function (id, objectType) {
         var modalInstance = $modal.open({
