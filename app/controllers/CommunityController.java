@@ -485,14 +485,13 @@ public class CommunityController extends Controller{
     }
     
     @Transactional
-    public static Result getNextPosts(String id,String offset,String time) {
+    public static Result getNextPosts(String id, String time) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         final User localUser = Application.getLocalUser(session());
         Community community = Community.findById(Long.parseLong(id));
-        int start = (Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) + DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
         List<CommunityPostVM> postsVM = new ArrayList<>();
-        List<Post> posts = community.getPostsOfCommunityByTime(start, Long.parseLong(time));
+        List<Post> posts = community.getPostsOfCommunityByTime(Long.parseLong(time), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
         for(Post p: posts) {
             CommunityPostVM post = new CommunityPostVM(p, localUser);
             postsVM.add(post);
@@ -500,7 +499,27 @@ public class CommunityController extends Controller{
 
         sw.stop();
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getNextPosts(offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
+            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getNextPosts(time="+time+"). Took "+sw.getElapsedMS()+"ms");
+        }
+        return ok(Json.toJson(postsVM));
+    }
+    
+    @Transactional
+    public static Result getNextQuestions(String id, String time) {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        final User localUser = Application.getLocalUser(session());
+        Community community = Community.findById(Long.parseLong(id));
+        List<CommunityPostVM> postsVM = new ArrayList<>();
+        List<Post> posts =  community.getQuestionsOfCommunityByTime(Long.parseLong(time), DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        for(Post p: posts) {
+            CommunityPostVM post = new CommunityPostVM(p, localUser);
+            postsVM.add(post);
+        }
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getNextQuestions(time="+time+"). Took "+sw.getElapsedMS()+"ms");
         }
         return ok(Json.toJson(postsVM));
     }
@@ -511,29 +530,6 @@ public class CommunityController extends Controller{
         Map<String, String> map = new HashMap<>();
         map.put("body", Post.findById(id).body);
         return ok(Json.toJson(map));
-    }
-    
-    
-    
-    @Transactional
-    public static Result getNextQnAs(String id,String offset,String time) {
-        NanoSecondStopWatch sw = new NanoSecondStopWatch();
-
-        final User localUser = Application.getLocalUser(session());
-        Community community = Community.findById(Long.parseLong(id));
-        int start = (Integer.parseInt(offset) * DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT) + DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT;
-        List<CommunityPostVM> postsVM = new ArrayList<>();
-        List<Post> posts =  community.getQuestionsOfCommunityByTime(Long.parseLong(time));
-        for(Post p: posts) {
-            CommunityPostVM post = new CommunityPostVM(p, localUser);
-            postsVM.add(post);
-        }
-
-        sw.stop();
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getNextQnAs(offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
-        }
-        return ok(Json.toJson(postsVM));
     }
     
     @Transactional
@@ -958,7 +954,7 @@ public class CommunityController extends Controller{
     }
 
     @Transactional
-    public static Result getAllQuestionsOfCommunity(Long id) {
+    public static Result getInitialQuestions(Long id) {
         final User localUser = Application.getLocalUser(session());
         final Community community = Community.findById(id);
         List<Post> posts = community.getQuestionsOfCommunity(0, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
@@ -966,13 +962,13 @@ public class CommunityController extends Controller{
         CommunityPostsVM postsVM = CommunityPostsVM.posts(community, localUser, posts);
     
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getAllQuestionsOfCommunity="+postsVM.posts.size());
+            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getInitialQuestions="+postsVM.posts.size());
         }
         return ok(Json.toJson(postsVM));
     }
 
     @Transactional
-    public static Result getAllPostsOfCommunity(Long id) {
+    public static Result getInitialPosts(Long id) {
         final User localUser = Application.getLocalUser(session());
         final Community community = Community.findById(id);
         List<Post> posts = community.getPostsOfCommunity(0, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
@@ -980,7 +976,7 @@ public class CommunityController extends Controller{
         CommunityPostsVM postsVM = CommunityPostsVM.posts(community, localUser, posts);
     
         if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getAllPostsOfCommunity="+postsVM.posts.size());
+            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getInitialPosts="+postsVM.posts.size());
         }
         return ok(Json.toJson(postsVM));
     }

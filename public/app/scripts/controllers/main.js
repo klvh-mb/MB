@@ -2213,27 +2213,26 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 		postFactory, communityPageService, postManagementService, communityJoinService, usSpinnerService){
 	
     var firstBatchLoaded = false;
-    var offset = 0;
     var time = 0;
     var noMore = false;
     
-	$scope.posts = communityPageService.Posts.get({id:$routeParams.id}, function(){
+	$scope.posts = communityPageService.InitialPosts.get({id:$routeParams.id}, function(){
         //log("===> get first batch posts completed");
         firstBatchLoaded = true;
         usSpinnerService.stop('loading...');
     });
     
     $scope.nextPosts = function() {
-        //log("===> nextPosts:isBusy="+$scope.isBusy+"|offsetq="+offsetq+"|time="+time+"|firstBatchLoaded="+firstBatchLoaded+"|noMore="+noMore);
+        //log("===> nextPosts:isBusy="+$scope.isBusy+"|time="+time+"|firstBatchLoaded="+firstBatchLoaded+"|noMore="+noMore);
         if ($scope.isBusy) return;
         if (!firstBatchLoaded) return;
         if (noMore) return;
         $scope.isBusy = true;
         if(angular.isObject($scope.posts.posts) && $scope.posts.posts.length > 0) {
-            time = $scope.posts.posts[$scope.posts.posts.length - 1].t;
+            time = $scope.posts.posts[$scope.posts.posts.length - 1].ut;
             //log("===> set time:"+time);
         }
-        communityPageService.GetPosts.get({id:$routeParams.id,offset:offset,time:time}, function(data){
+        communityPageService.NextPosts.get({id:$routeParams.id,time:time}, function(data){
             var posts = data;
             if(data.length == 0) {
                 noMore = true;
@@ -2243,7 +2242,6 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
                 $scope.posts.posts.push(posts[i]);
             }
             $scope.isBusy = false;
-            offset++;
         });
     }
     
@@ -2495,7 +2493,6 @@ minibean.controller('CommunityPostController', function($scope, $routeParams, $h
 minibean.controller('CommunityQnAController',function($scope, postFactory, postManagementService, communityQnAPageService, usSpinnerService ,$timeout, $routeParams, $http,  $upload, $validator){
 
     var firstBatchLoaded = false;
-    var offsetq = 0;
     var time = 0;
     var noMore = false;
     
@@ -2504,22 +2501,22 @@ minibean.controller('CommunityQnAController',function($scope, postFactory, postM
     	id = $scope._commId;		// set in pn page
     }
     
-    $scope.QnAs = communityQnAPageService.QnAs.get({id:id}, function(){
+    $scope.QnAs = communityQnAPageService.InitialQuestions.get({id:id}, function(){
         firstBatchLoaded = true;
         usSpinnerService.stop('loading...');
     });
 	
     $scope.nextPosts = function() {
-        //log("===> nextPosts:isBusy="+$scope.isBusy+"|offsetq="+offsetq+"|time="+time+"|firstBatchLoaded="+firstBatchLoaded+"|noMore="+noMore);
+        //log("===> nextPosts:isBusy="+$scope.isBusy+"|time="+time+"|firstBatchLoaded="+firstBatchLoaded+"|noMore="+noMore);
         if ($scope.isBusy) return;
         if (!firstBatchLoaded) return;
         if (noMore) return;
         $scope.isBusy = true;
         if(angular.isObject($scope.QnAs.posts) && $scope.QnAs.posts.length > 0) {
-            time = $scope.QnAs.posts[$scope.QnAs.posts.length - 1].t;
+            time = $scope.QnAs.posts[$scope.QnAs.posts.length - 1].ut;
             //log("===> set time:"+time);
         }
-        communityQnAPageService.GetQnAs.get({id:id,offset:offsetq,time:time}, function(data){
+        communityQnAPageService.NextQuestions.get({id:id,time:time}, function(data){
             var posts = data;
             if(data.length == 0) {
                 noMore = true;
@@ -2529,7 +2526,6 @@ minibean.controller('CommunityQnAController',function($scope, postFactory, postM
                 $scope.QnAs.posts.push(posts[i]);
             }
             $scope.isBusy = false;
-            offsetq++;
         });
         
     }
@@ -3575,7 +3571,7 @@ minibean.controller('MyMagazineNewsFeedController', function($scope, postFactory
                     $scope.newsFeeds.posts.push(posts[i]);
                 }
                 $scope.isBusy = false;
-                offset=offset + 1;
+                offset++;
             }
         );
     }
@@ -3746,7 +3742,7 @@ minibean.controller('NewsFeedController', function($scope, postFactory, postMana
 					$scope.newsFeeds.posts.push(posts[i]);
 			    }
 			    $scope.isBusy = false;
-				offset=offset + 1;
+				offset++;
 			}
 		);
 	}
@@ -4651,7 +4647,7 @@ minibean.controller('MagazineNewsFeedController', function($scope, $timeout, $up
                     $scope.newsFeeds.posts.push(posts[i]);
                 }
                 $scope.isBusy = false;
-                offset=offset + 1;
+                offset++;
                 
                 // render mobile scroll nav bar
                 if ($scope.userInfo.isMobile) {
