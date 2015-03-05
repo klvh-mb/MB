@@ -538,7 +538,7 @@ minibean.service('communityPageService',function($resource){
             }
     );
     
-    this.Posts = $resource(
+    this.InitialPosts = $resource(
             '/community/posts/:id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
@@ -546,11 +546,11 @@ minibean.service('communityPageService',function($resource){
             }
     );
     
-    this.GetPosts = $resource(
-            '/posts?id=:id&offset=:offset&time=:time',
+    this.NextPosts = $resource(
+            '/community/posts/next/:id/:time',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'get', params:{id:'@id',offset:'@offset',time:'@time'},isArray:true}
+                get: {method:'get', params:{id:'@id',time:'@time'},isArray:true}
             }
     );
     
@@ -825,18 +825,18 @@ minibean.service('likeFrameworkService', function($resource) {
 });
 
 minibean.service('communityQnAPageService',function($resource){
-    this.QnAs = $resource(
+    this.InitialQuestions = $resource(
             '/communityQnA/questions/:id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get', params:{id:'@id'}}
             }
     );
-    this.GetQnAs = $resource(
-            '/questions?id=:id&offset=:offset&time=:time',
+    this.NextQuestions = $resource(
+    		'/communityQnA/questions/next/:id/:time',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
-                get: {method:'get', params:{id:'@id',offset:'@offset',time:'@time'},isArray:true}
+                get: {method:'get', params:{id:'@id',time:'@time'},isArray:true}
             }
     );
 });
