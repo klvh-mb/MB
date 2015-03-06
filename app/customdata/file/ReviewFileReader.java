@@ -17,6 +17,7 @@ import java.util.*;
 public class ReviewFileReader {
     private static final play.api.Logger logger = play.api.Logger.apply(ReviewFileReader.class);
 
+    public static final String PN_ID_KEY = "PN Id";
     public static final String DISTRICTID_KEY = "DistrictId";
     public static final String PN_KEY = "PN Name";
     public static final String TITLE_KEY = "Review Title";
@@ -50,7 +51,7 @@ public class ReviewFileReader {
         while ((line = br.readLine()) != null) {
             String[] row = line.split(DELIM);
 
-            Long districtId = null, userId = null;
+            Long pnId = null, districtId = null, userId = null;
             String pnName = null, title = null, body = null;
             DateTime dateTime = null;
 
@@ -64,7 +65,9 @@ public class ReviewFileReader {
                     if (value != null && !"".equals(value)) {
                         value = value.trim();
 
-                        if (header.equals(DISTRICTID_KEY)) {
+                        if (header.equals(PN_ID_KEY)) {
+                            pnId = Long.parseLong(value);
+                        } else if (header.equals(DISTRICTID_KEY)) {
                             districtId = Long.parseLong(value);
                         } else if (header.equals(PN_KEY)) {
                             pnName = value;
@@ -107,6 +110,7 @@ public class ReviewFileReader {
             // new review
             else {
                 lastReview = new ReviewEntry();
+                lastReview.pnId = pnId;
                 lastReview.districtId = districtId;
                 lastReview.pnName = pnName;
                 lastReview.title = title;
@@ -136,6 +140,7 @@ public class ReviewFileReader {
     }
 
     public static class ReviewEntry {
+        public Long pnId;
         public Long districtId;
         public String pnName;
         public String title;
@@ -145,14 +150,15 @@ public class ReviewFileReader {
         public List<ReviewComment> comments = new ArrayList<>();
 
         public boolean isCompleted() {
-            return districtId != null && pnName != null && title != null &&
+            return pnId != null && districtId != null && pnName != null && title != null &&
                     body != null && dateTime != null && userId != null;
         }
 
         @Override
         public String toString() {
             return "ReviewEntry{" +
-                    "districtId=" + districtId +
+                    "pnId=" + pnId +
+                    ", districtId=" + districtId +
                     ", pnName='" + pnName + '\'' +
                     ", title='" + title + '\'' +
                     ", body='" + body + '\'' +

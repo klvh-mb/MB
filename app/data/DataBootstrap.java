@@ -842,9 +842,13 @@ public class DataBootstrap {
                 logger.underlyingLogger().info("Creating post: "+review.toString());
 
                 User owner = User.findById(review.userId);
-                PreNursery preNursery = PreNursery.findByNameDistrictId(review.pnName, review.districtId);
+                PreNursery preNursery = PreNursery.findById(review.pnId);
 
-                if (owner != null && preNursery != null) {
+                if (owner == null) {
+                    logger.underlyingLogger().info("Invalid data. userId="+review.userId);
+                } else if (preNursery == null) {
+                    logger.underlyingLogger().info("Invalid data. pnId="+review.pnId+" districtId="+review.districtId);
+                } else {
                     Community community = Community.findById(preNursery.communityId);
                     Post post = (Post) community.onPost(owner, review.title, review.body, PostType.QUESTION);
                     post.setCreatedDate(review.dateTime.toDate());
@@ -861,9 +865,6 @@ public class DataBootstrap {
                     }
 
                     post.merge();
-                }
-                else {
-                    logger.underlyingLogger().info("Invalid data. userId="+review.userId+" pnName="+review.pnName+" districtId="+review.districtId);
                 }
             }
         } catch (Exception e) {
