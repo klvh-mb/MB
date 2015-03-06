@@ -40,7 +40,7 @@
                     </div>
                     <ul class="allpost-wrapper">
                         <li data-ng-repeat="article in result">
-                            <span class="rank-number">#{{$index+1}}</span>
+                            <span class="rank-number">{{$index+1}}</span>
                             <a href="#!/article/{{article.id}}/{{article.ct.id}}">
                                 <img ng-show="article.img_url != 'No Image'" data-ng-src="{{article.img_url}}">
                             </a>

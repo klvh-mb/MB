@@ -3032,8 +3032,8 @@ span.notif-count {
 }
 .rank-number {
     margin-right: 15px;
-    padding: 3px 5px;
-    border-radius: 35px;
+    padding: 5px 10px 3px 10px;
+    border-radius: 50px;
     min-width: 25px;
     font-size: 13px;
     font-weight: bold;

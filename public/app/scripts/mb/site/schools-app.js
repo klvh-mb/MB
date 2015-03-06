@@ -35,13 +35,9 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/schools/pns.html',
         controller : 'ShowSchoolsController' 
       })
-      .when('/pn/top-views/:num',{
-        templateUrl: '/assets/app/views/schools/pns.html',
-        controller : 'ShowSchoolsController' 
-      })
-      .when('/pn/top-bookmarked/:num',{
-        templateUrl: '/assets/app/views/schools/pns.html',
-        controller : 'ShowSchoolsController' 
+      .when('/pn/ranking',{
+        templateUrl: '/assets/app/views/schools/pn-ranking-page.html',
+        controller : 'SchoolsRankingController' 
       })
       .when('/pn/:id',{
         templateUrl: '/assets/app/views/schools/pn-page.html',

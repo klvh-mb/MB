@@ -107,7 +107,7 @@
 }
 .school-info-tips img {
     width: 16px;
-    margin: 0 3px 0 5px;
+    margin: 0 3px 1px 5px;
 }
 
 /* district index */
@@ -171,6 +171,9 @@
 .school-list-entry .tag {
 	font-size: 14px;
 	margin-left: 5px;
+}
+.school-list-entry .rank-number {
+    padding: 2px 9px 1px 10px;
 }
 .school-list-entry .school-info > a:first-child {
 	color: #324fe1;
@@ -376,7 +379,7 @@
 #schools-bookmarks-section #schools-bookmarks .tag {
     font-size: 13px;
     margin: 0px;
-    display: block;
+    display: inline-block;
 }
 
 /* pn page */

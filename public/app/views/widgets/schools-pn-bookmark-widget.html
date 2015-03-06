@@ -21,9 +21,10 @@
 	                <div class="school-details">
 	                    <div class="school-summary">
 	                        <a href="/schools#!/pn/{{pn.id}}">
-	                            {{pn.n}}
+	                            <img style="width:20px;margin:0 4px 2px 0;" src="../assets/app/images/schools/green_book.png" />{{pn.n}}
 	                        </a>
 	                        <span class="tag">{{pn.dis}}</span>
+	                        <span class="school-info-tips" ng-if="pn.nop > 0"><img style="width:14px;margin-left:6px;margin-right:3px" src="../assets/app/images/general/icons/i-reply.png">{{pn.nop}}</span>
 	                    </div>
 	                </div>
 	            </li>                    
@@ -68,9 +69,10 @@
 	                    <div class="school-details">
 	                        <div class="school-summary">
 	                            <a href="/schools#!/pn/{{pn.id}}">
-	                                {{pn.n}}
+	                                <img style="width:20px;margin:0 4px 2px 0;" src="../assets/app/images/schools/green_book.png" />{{pn.n}}
 	                            </a>
 	                            <span class="tag">{{pn.dis}}</span>
+	                            <span class="school-info-tips" ng-if="pn.nop > 0"><img style="width:14px;margin-left:6px;margin-right:3px" src="../assets/app/images/general/icons/i-reply.png">{{pn.nop}}</span>
 	                        </div>
 	                    </div>
 	                </li>

@@ -3204,7 +3204,11 @@ minibean.controller('PNPageController',function($scope, $routeParams, schoolsFac
     		$scope._commId = commId;		// to be used in CommunityQnAController and CommunityMembersController
     		$scope.selectedTab = 1;
     		
-    		writeMetaTitleDescription(data.n + ' ' + data.ne, data.cur);
+    		var title = data.n;
+    		if (data.ne && data.ne != undefined) {
+    			title += ' ' + data.ne;
+    		}
+    		writeMetaTitleDescription(title, data.cur);
 		}
     );
     
@@ -3257,13 +3261,37 @@ minibean.controller('PNPageController',function($scope, $routeParams, schoolsFac
     
 });
 
-minibean.controller('ShowSchoolsController',function($scope, $routeParams, $filter, schoolsFactory, schoolsService, myBookmarksService, locationService, usSpinnerService) {
+minibean.controller('SchoolsRankingController',function($scope, $routeParams, $location, schoolsService, usSpinnerService) {
 
     $scope.get_header_metaData();
 
-    var type = $routeParams.type;
-    if (type == undefined) {
-        type = 1;
+    var type = 1;
+    if ($location.url().indexOf('/pn/') > -1) {
+    	type = 1;
+    } else if ($location.url().indexOf('/kindy/') > -1) {
+    	type = 2;
+    }
+    $scope.selectNavBar('SCHOOLS', type);
+    
+	if (type == 1) {	// PN
+		$scope.topViewedSchools = schoolsService.pnsByDistrict.get({district_id:10});
+		$scope.topDiscussedSchools = schoolsService.pnsByDistrict.get({district_id:10});
+	} else if (type == 2) {		// K
+	    $scope.topViewedSchools = [];
+	   	$scope.topDiscussedSchools = [];
+	}
+    
+});
+
+minibean.controller('ShowSchoolsController',function($scope, $routeParams, $location, $filter, schoolsFactory, schoolsService, myBookmarksService, locationService, usSpinnerService) {
+
+    $scope.get_header_metaData();
+
+    var type = 1;
+    if ($location.url().indexOf('/pn/') > -1) {
+    	type = 1;
+    } else if ($location.url().indexOf('/kindy/') > -1) {
+    	type = 2;
     }
     $scope.selectNavBar('SCHOOLS', type);
     
