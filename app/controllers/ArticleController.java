@@ -8,8 +8,6 @@ import java.util.Random;
 import java.util.Set;
 import java.io.File;
 
-import javax.persistence.NoResultException;
-
 import common.utils.ImageUploadUtil;
 import common.utils.NanoSecondStopWatch;
 import models.Article;

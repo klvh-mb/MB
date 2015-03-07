@@ -4,6 +4,9 @@
     margin: 0px;
     display: inline-block;
 }
+.tag:hover {
+	font-weight: normal;
+}
 .login-reminder {
     padding: 10px;	
 }
@@ -104,6 +107,7 @@
     font-weight: normal;
     color: #555;
     vertical-align: middle;
+    display: inline-block;
 }
 .school-info-tips img {
     width: 16px;
@@ -173,7 +177,10 @@
 	margin-left: 5px;
 }
 .school-list-entry .rank-number {
-    padding: 2px 9px 1px 10px;
+	margin-right: 10px;
+    padding: 2px 7px 1px 8px;
+    min-width: 15px;
+    background-color: #57A857;
 }
 .school-list-entry .school-info > a:first-child {
 	color: #324fe1;
@@ -526,3 +533,39 @@
 #school-box-main .widget-box .section-title {
     background-color: #EBFDEA;
 }
+
+/* pn ranking */
+#schools-ranking-index #tagword-list ul {
+	padding: 5px;
+	margin: 0px;
+	font-size: 14px;
+}
+.schools-ranking-main .index-title {
+	margin: 10px;
+    padding-bottom: 10px;
+	border-bottom: 1px dashed #57A857;
+}
+.schools-ranking-main .school-list {
+    border-color: #57A857;
+}
+.schools-ranking-main .school-list-entry {
+	border-bottom: none;
+	padding: 5px 15px;
+}
+.schools-ranking-main .school-list-entry .school-info {
+    display: inline-block;
+    width: 85%;
+}
+.schools-ranking-main .school-list-entry .school-info > a:first-child {
+	color: #324fe1;
+	font-weight: normal;
+	font-size: 15px;
+	margin-right: 5px;
+	line-height: 1.5;
+}
+.schools-ranking-main .school-list-entry .tag {
+    font-size: 13px;
+    margin-left: 0px;
+}
+
+

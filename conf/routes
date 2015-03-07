@@ -280,8 +280,9 @@ GET     /search-pns-by-name/:query              controllers.PreNurseryController
 GET     /get-pns-by-region/:region_id           controllers.PreNurseryController.getPNsByRegion(region_id:Long)
 GET     /get-pns-by-district/:district_id       controllers.PreNurseryController.getPNsByDistrict(district_id:Long)
 GET     /get-pn-orgs-by-district/:district_id   controllers.PreNurseryController.getPNOrgsByDistrict(district_id:Long)
-GET     /get-top-views-pns/:num                 controllers.PreNurseryController.getTopViewsPNs(num:Long)
-GET     /get-top-bookmarked-pns/:num            controllers.PreNurseryController.getTopBookmarkedPNs(num:Long)
+GET     /get-top-viewed-pns                     controllers.PreNurseryController.getTopViewedPNs
+GET     /get-top-discussed-pns                  controllers.PreNurseryController.getTopDiscussedPNs
+GET     /get-top-bookmarked-pns                 controllers.PreNurseryController.getTopBookmarkedPNs
 GET     /bookmark-pn/:id                        controllers.PreNurseryController.onBookmark(id : Long)
 GET     /unbookmark-pn/:id                      controllers.PreNurseryController.onUnBookmark(id : Long)
 GET     /get-bookmarked-pns                     controllers.PreNurseryController.getBookmarkedPNs()

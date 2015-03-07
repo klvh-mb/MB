@@ -29,6 +29,8 @@ public class DefaultValues {
     public static int ARTICLES_RELATED_COUNT = 10;
     public static int FRIENDS_UTILITY_COUNT = 9;
     
+    public static int TOP_SCHOOLS_RANKING_COUNT = 20;
+    
     public static Map<String, String> PARENT_BIRTH_YEARS = new LinkedHashMap<String, String>();
     public static Map<String, String> CHILD_BIRTH_YEARS = new LinkedHashMap<String, String>();
     

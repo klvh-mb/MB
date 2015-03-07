@@ -186,15 +186,21 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
         return (List<String>)q.getResultList();
     }
 
-    public static List<PreNursery> getTopViewsPNs(Long num) {
+    public static List<PreNursery> getTopViewsPNs(int num) {
         Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn order by pn.noOfViews desc");
-        q.setMaxResults(num.intValue());
+        q.setMaxResults(num);
         return (List<PreNursery>)q.getResultList();
     }
 
-    public static List<PreNursery> getTopBookmarkedPNs(Long num) {
+    public static List<PreNursery> getTopDiscussedPNs(int num) {
+        Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn order by pn.noOfPosts desc");
+        q.setMaxResults(num);
+        return (List<PreNursery>)q.getResultList();
+    }
+    
+    public static List<PreNursery> getTopBookmarkedPNs(int num) {
         Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn order by pn.noOfBookmarks desc");
-        q.setMaxResults(num.intValue());
+        q.setMaxResults(num);
         return (List<PreNursery>)q.getResultList();
     }
 

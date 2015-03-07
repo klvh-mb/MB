@@ -3274,13 +3274,19 @@ minibean.controller('SchoolsRankingController',function($scope, $routeParams, $l
     $scope.selectNavBar('SCHOOLS', type);
     
 	if (type == 1) {	// PN
-		$scope.topViewedSchools = schoolsService.pnsByDistrict.get({district_id:10});
-		$scope.topDiscussedSchools = schoolsService.pnsByDistrict.get({district_id:10});
+		$scope.topViewedSchools = schoolsService.topViewedPNs.get();
+		$scope.topDiscussedSchools = schoolsService.topDiscussedPNs.get();
+		$scope.topBookmarkedSchools = schoolsService.topBookmarkedPNs.get();
 	} else if (type == 2) {		// K
-	    $scope.topViewedSchools = [];
-	   	$scope.topDiscussedSchools = [];
+		$scope.topViewedSchools = [];
+		$scope.topDiscussedSchools = [];
+		$scope.topBookmarkedSchools = [];
 	}
     
+});
+
+minibean.controller('BookmarkedSchoolsController',function($scope, myBookmarksService) {
+	$scope.bookmarkedSchools = myBookmarksService.bookmarkedPNs.get();
 });
 
 minibean.controller('ShowSchoolsController',function($scope, $routeParams, $location, $filter, schoolsFactory, schoolsService, myBookmarksService, locationService, usSpinnerService) {

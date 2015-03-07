@@ -935,15 +935,22 @@ minibean.service('schoolsService',function($resource){
                 get: {method:'get',isArray:true}
             }
     );
-    this.topViewsPNs = $resource(
-            '/get-top-views-pns/:num',
+    this.topViewedPNs = $resource(
+            '/get-top-viewed-pns',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.topDiscussedPNs = $resource(
+            '/get-top-discussed-pns',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get',isArray:true}
             }
     );
     this.topBookmarkedPNs = $resource(
-            '/get-top-bookmarked-pns/:num',
+            '/get-top-bookmarked-pns',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get',isArray:true}

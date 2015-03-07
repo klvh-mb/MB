@@ -30,6 +30,10 @@ public class PreNurseryController extends Controller {
         
 		final User localUser = Application.getLocalUser(session());
         PreNursery pn = PreNursery.findById(id);
+        if (pn == null) {
+            return notFound();
+        }
+        pn.noOfViews++;
 
         sw.stop();
         logger.underlyingLogger().info("STS [u="+localUser.id+"][id="+id+"] getPN. Took "+sw.getElapsedMS()+"ms");
@@ -100,11 +104,11 @@ public class PreNurseryController extends Controller {
     }
 
     @Transactional
-	public static Result getTopViewsPNs(Long num) {
+	public static Result getTopViewedPNs() {
     	NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
 		final User localUser = Application.getLocalUser(session());
-        List<PreNursery> pns = PreNursery.getTopViewsPNs(num);
+        List<PreNursery> pns = PreNursery.getTopViewsPNs(DefaultValues.TOP_SCHOOLS_RANKING_COUNT);
 
         final List<PreNurseryVM> pnVMs = new ArrayList<>();
         for (PreNursery pn : pns) {
@@ -112,16 +116,33 @@ public class PreNurseryController extends Controller {
         }
 
         sw.stop();
-        logger.underlyingLogger().info("STS [u="+localUser.id+"] getTopViewsPNs. Took "+sw.getElapsedMS()+"ms");
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] getTopViewedPNs. Took "+sw.getElapsedMS()+"ms");
 		return ok(Json.toJson(pnVMs));
     }
     
     @Transactional
-	public static Result getTopBookmarkedPNs(Long num) {
+	public static Result getTopDiscussedPNs() {
     	NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
 		final User localUser = Application.getLocalUser(session());
-        List<PreNursery> pns = PreNursery.getTopBookmarkedPNs(num);
+        List<PreNursery> pns = PreNursery.getTopDiscussedPNs(DefaultValues.TOP_SCHOOLS_RANKING_COUNT);
+
+        final List<PreNurseryVM> pnVMs = new ArrayList<>();
+        for (PreNursery pn : pns) {
+            pnVMs.add(new PreNurseryVM(pn, localUser));
+        }
+
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] getTopDiscussedPNs. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(pnVMs));
+    }
+    
+    @Transactional
+	public static Result getTopBookmarkedPNs() {
+    	NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+		final User localUser = Application.getLocalUser(session());
+        List<PreNursery> pns = PreNursery.getTopBookmarkedPNs(DefaultValues.TOP_SCHOOLS_RANKING_COUNT);
 
         final List<PreNurseryVM> pnVMs = new ArrayList<>();
         for (PreNursery pn : pns) {
