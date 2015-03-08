@@ -109,7 +109,7 @@ minibean.controller('TodayWeatherInfoController',function($scope, $http, todayWe
     
 });
 
-minibean.controller('AllCommunitiesIndexWidgetController',function($scope, $route, $location, $http, $routeParams, $interval, 
+minibean.controller('AllCommunitiesIndexWidgetController',function($scope, $route, $location, $http, $routeParams, 
     frontpageService, communitiesDiscoverService, newsFeedService, campaignService, articleService, usSpinnerService) {
     
     // comm index
@@ -3261,7 +3261,7 @@ minibean.controller('PNPageController',function($scope, $routeParams, schoolsFac
     
 });
 
-minibean.controller('SchoolsRankingController',function($scope, $routeParams, $location, schoolsService, usSpinnerService) {
+minibean.controller('SchoolsRankingController',function($scope, $routeParams, $location, $interval, schoolsService, usSpinnerService) {
 
     $scope.get_header_metaData();
 
@@ -3274,13 +3274,37 @@ minibean.controller('SchoolsRankingController',function($scope, $routeParams, $l
     $scope.selectNavBar('SCHOOLS', type);
     
 	if (type == 1) {	// PN
-		$scope.topViewedSchools = schoolsService.topViewedPNs.get();
-		$scope.topDiscussedSchools = schoolsService.topDiscussedPNs.get();
-		$scope.topBookmarkedSchools = schoolsService.topBookmarkedPNs.get();
+		$scope.topViewedSchools = schoolsService.topViewedPNs.get({},
+			function(data) {
+				gotoRanking();
+    		}
+		);
+		$scope.topDiscussedSchools = schoolsService.topDiscussedPNs.get({},
+			function(data) {
+				gotoRanking();
+			}
+		);
+		$scope.topBookmarkedSchools = schoolsService.topBookmarkedPNs.get({},
+			function(data) {
+				gotoRanking();
+			}
+		);
 	} else if (type == 2) {		// K
 		$scope.topViewedSchools = [];
 		$scope.topDiscussedSchools = [];
 		$scope.topBookmarkedSchools = [];
+	}
+	
+	var gotoRanking = function(param) {
+		if ($scope.userInfo.isMobile) {
+			if ($location.url().indexOf('top-viewed') > -1) {
+				$scope.gotoId('schools-ranking-top-viewed');
+		    } else if ($location.url().indexOf('top-discussed') > -1) {
+				$scope.gotoId('schools-ranking-top-discussed');
+		    } else if ($location.url().indexOf('top-bookmarked') > -1) {
+				$scope.gotoId('schools-ranking-top-bookmarked');
+		    }
+		}
 	}
     
 });
@@ -3570,7 +3594,7 @@ minibean.controller('ShowArticlesController',function($scope, $routeParams, arti
     }
 });
 
-minibean.controller('MyMagazineNewsFeedController', function($scope, postFactory, postManagementService, $timeout, $upload, $http, usSpinnerService, myMagazineNewsFeedService) {
+minibean.controller('MyMagazineNewsFeedController', function($scope, postFactory, postManagementService, $upload, $http, usSpinnerService, myMagazineNewsFeedService) {
     
     $scope.get_header_metaData();
     
@@ -4652,7 +4676,7 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 	
 });
 
-minibean.controller('MagazineNewsFeedController', function($scope, $timeout, $upload, $http, $routeParams,  
+minibean.controller('MagazineNewsFeedController', function($scope, $upload, $http, $routeParams,  
     postFactory, postManagementService, magazineNewsFeedService, iconsService, usSpinnerService) {
     
     $scope.get_header_metaData();

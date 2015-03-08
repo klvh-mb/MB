@@ -5,51 +5,7 @@
 
 <div class="themeA-container">
     <div class="row">
-        <div id="wall">
-            <div class="schools-ranking-main">
-                <div class="general-box school-list">
-                    <ul>
-                        <li class="index-title">
-                            <img style="width:auto;height:28px;" data-ng-src="/assets/app/images/general/titles/schools_most_discussed.png">
-                        </li>
-                        <li ng-repeat="pn in topDiscussedSchools">
-                            <div class="school-list-entry">
-                                <span class="rank-number ng-binding">{{$index+1}}</span>
-                                <div class="school-info">
-                                    <a href="/schools#!/pn/{{pn.id}}">{{pn.n}}</a>
-                                    <span class="tag">{{pn.dis}}</span>
-                                    <span class="school-info-tips" ng-if="pn.nop > 0">
-                                        <img src="../assets/app/images/general/icons/i-reply.png">{{pn.nop}}
-                                    </span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="schools-ranking-main">
-                <div class="general-box school-list">
-                    <ul>
-                        <li class="index-title">
-                            <img style="width:auto;height:28px;" data-ng-src="/assets/app/images/general/titles/schools_most_viewed.png">
-                        </li>
-                        <li ng-repeat="pn in topViewedSchools">
-                            <div class="school-list-entry">
-                                <span class="rank-number ng-binding">{{$index+1}}</span>
-                                <div class="school-info">
-                                    <a href="/schools#!/pn/{{pn.id}}">{{pn.n}}</a>
-                                    <span class="tag">{{pn.dis}}</span>
-                                    <span class="school-info-tips" ng-if="pn.nov > 0">
-                                        <img src="/assets/app/images/general/icons/view.png"/>{{pn.nov}}
-                                    </span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        <div data-ng-include data-src="'/assets/app/views/schools/pn-ranking-page-details.html'"></div>
         <div class="ads-factor-728x90">
             <script adSize="72890" adSid="477069296823" ads-factor language='JavaScript' type="text/javascript"></script>
             <script adSize="300250" adSid="395216266815" ads-factor language='JavaScript' type="text/javascript"></script>

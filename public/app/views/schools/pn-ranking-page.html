@@ -5,52 +5,12 @@
 <div class="themeA-container">
     <div data-ng-include data-src="'/assets/app/views/nav-bar.html'"></div>
     <div class="row">
-        <div class="col-md-2 col-sm-2 col-xs-2" style="width:355px;">
-            <div class="schools-ranking-main">
-                <div class="general-box school-list">
-                    <ul>
-                        <li class="index-title">
-                            <img style="width:auto;height:28px;" data-ng-src="/assets/app/images/general/titles/schools_most_discussed.png">
-                        </li>
-                        <li ng-repeat="pn in topDiscussedSchools">
-                            <div class="school-list-entry">
-                                <span class="rank-number ng-binding">{{$index+1}}</span>
-                                <div class="school-info">
-                                    <a href="/schools#!/pn/{{pn.id}}">{{pn.n}}</a>
-                                    <span class="tag">{{pn.dis}}</span>
-                                    <span class="school-info-tips" ng-if="pn.nop > 0">
-                                        <img src="../assets/app/images/general/icons/i-reply.png">{{pn.nop}}
-                                    </span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+        <div class="col-md-2 col-sm-2 col-xs-2" style="width:10px;">
+            
         </div>
         
-        <div class="col-md-6 col-sm-6 col-xs-6" style="width:355px;">
-            <div class="schools-ranking-main">
-                <div class="general-box school-list">
-                    <ul>
-                        <li class="index-title">
-                            <img style="width:auto;height:28px;" data-ng-src="/assets/app/images/general/titles/schools_most_viewed.png">
-                        </li>
-                        <li ng-repeat="pn in topViewedSchools">
-                            <div class="school-list-entry">
-                                <span class="rank-number ng-binding">{{$index+1}}</span>
-                                <div class="school-info">
-                                    <a href="/schools#!/pn/{{pn.id}}">{{pn.n}}</a>
-                                    <span class="tag">{{pn.dis}}</span>
-                                    <span class="school-info-tips" ng-if="pn.nov > 0">
-                                        <img src="/assets/app/images/general/icons/view.png"/>{{pn.nov}}
-                                    </span>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+        <div class="col-md-6 col-sm-6 col-xs-6" style="width:700px;">
+            <div data-ng-include data-src="'/assets/app/views/schools/pn-ranking-page-details.html'"></div>
         </div>
         
         <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">

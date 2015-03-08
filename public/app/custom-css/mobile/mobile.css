@@ -989,3 +989,11 @@ span.notif-count {
 #school-box-main .widget-box {
 	margin: 0;
 }
+.schools-ranking-main li.schools-ranking-box {
+    width: 100%;
+    display: inline-block;
+    vertical-align: top;
+}
+.schools-ranking-main > li.schools-ranking-box:first-child {
+    margin-right: 0;
+}

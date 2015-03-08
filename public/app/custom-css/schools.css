@@ -540,6 +540,14 @@
 	margin: 0px;
 	font-size: 14px;
 }
+.schools-ranking-main li.schools-ranking-box {
+	width: 49%;
+	display: inline-block;
+	vertical-align: top;
+}
+.schools-ranking-main > li.schools-ranking-box:first-child {
+	margin-right: 5px;
+}
 .schools-ranking-main .index-title {
 	margin: 10px;
     padding-bottom: 10px;
