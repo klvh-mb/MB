@@ -171,7 +171,7 @@ public class PreNurseryController extends Controller {
 
     @Transactional
     public static Result onUnBookmark(Long id) {
-		User localUser = Application.getLocalUser(session());
+		final User localUser = Application.getLocalUser(session());
 		if (!localUser.isLoggedIn()) {
             logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
             return status(500);
@@ -186,11 +186,14 @@ public class PreNurseryController extends Controller {
 
     @Transactional
 	public static Result getBookmarkedPNs() {
-        NanoSecondStopWatch sw = new NanoSecondStopWatch();
-
         final User localUser = Application.getLocalUser(session());
-        List<PreNursery> pns = PreNursery.getBookmarkedPNs(localUser.getId());
+        if (!localUser.isLoggedIn()) {
+        	return ok(Json.toJson(new ArrayList<PreNurseryVM>()));
+        }
 
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+        
+        List<PreNursery> pns = PreNursery.getBookmarkedPNs(localUser.getId());
         final List<PreNurseryVM> pnVMs = new ArrayList<>();
         for (PreNursery pn : pns) {
             pnVMs.add(new PreNurseryVM(pn, localUser, true));   // must be Bookmarked
