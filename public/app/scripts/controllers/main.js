@@ -3279,11 +3279,6 @@ minibean.controller('SchoolsRankingController',function($scope, $routeParams, $l
 				$interval($scope.gotoRanking, 100, 1);
     		}
 		);
-		$scope.topDiscussedSchools = schoolsService.topDiscussedPNs.get({},
-			function(data) {
-				$interval($scope.gotoRanking, 100, 1);
-			}
-		);
 		$scope.topBookmarkedSchools = schoolsService.topBookmarkedPNs.get({},
 			function(data) {
 				$interval($scope.gotoRanking, 100, 1);
@@ -3291,7 +3286,6 @@ minibean.controller('SchoolsRankingController',function($scope, $routeParams, $l
 		);
 	} else if (type == 2) {		// K
 		$scope.topViewedSchools = [];
-		$scope.topDiscussedSchools = [];
 		$scope.topBookmarkedSchools = [];
 	}
 	
@@ -3299,12 +3293,22 @@ minibean.controller('SchoolsRankingController',function($scope, $routeParams, $l
 		if ($scope.userInfo.isMobile) {
 			if ($location.url().indexOf('top-viewed') > -1) {
 				$scope.gotoId('schools-ranking-top-viewed');
+			} else if ($location.url().indexOf('top-bookmarked') > -1) {
+				$scope.gotoId('schools-ranking-top-bookmarked');
 		    } else if ($location.url().indexOf('top-discussed') > -1) {
 				$scope.gotoId('schools-ranking-top-discussed');
-		    } else if ($location.url().indexOf('top-bookmarked') > -1) {
-				$scope.gotoId('schools-ranking-top-bookmarked');
 		    }
 		}
+		
+		// HACK for admin
+		if ($scope.userInfo.isE) {
+			if (type == 1) {	// PN
+				$scope.topDiscussedSchools = schoolsService.topDiscussedPNs.get();
+			} else if (type == 2) {		// K
+				$scope.topDiscussedSchools = [];
+			}
+		}
+		
 	}
     
 });

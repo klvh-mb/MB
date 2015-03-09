@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Date;
 
 import common.cache.FriendCache;
 import common.schedule.CommandChecker;
@@ -8,6 +9,7 @@ import models.GameAccountTransaction;
 import models.Notification;
 import models.SecurityRole;
 import models.SystemVersion;
+import models.User;
 import play.Application;
 import play.GlobalSettings;
 import play.Play;
@@ -52,9 +54,6 @@ public class Global extends GlobalSettings {
             @Override
             public Call login(final Session session) {
                 // Your login page
-                if (controllers.Application.isMobileUser()) {
-                    return routes.Application.mobileLogin();
-                }
                 return routes.Application.login();
             }
 
@@ -62,18 +61,18 @@ public class Global extends GlobalSettings {
             public Call afterAuth(final Session session) {
                 // The user will be redirected to this page after authentication
                 // if no original URL was saved
-                if (controllers.Application.isMobileUser()) {
-                    return routes.Application.mobileHome();
-                }
-                return routes.Application.mainHome();
+            	
+            	// reset last login time
+            	final User user = controllers.Application.getLocalUser(session);
+    		    user.setLastLogin(new Date());
+    		    
+                //return routes.Application.mainHome();
+                return routes.Application.mainFrontpage();
             }
 
             @Override
             public Call afterLogout(final Session session) {
-                if (controllers.Application.isMobileUser()) {
-                    return routes.Application.mobileLogin();
-                }
-                return routes.Application.login();
+                return routes.Application.mainFrontpage();
             }
 
             @Override

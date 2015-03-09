@@ -99,6 +99,18 @@ public class Application extends Controller {
         
         Application.setMobileUser(isMobile? "true":"false");
         
+        final User user = getLocalUser(session());
+		if (User.isLoggedIn(user) && user.userInfo == null) {
+		    if (user.fbLogin) {
+		        return isMobileUser()? 
+		                ok(views.html.mobile.signup_info_fb.render(user)):
+		                    ok(views.html.signup_info_fb.render(user));
+		    }
+    	    return isMobileUser()? 
+    	            ok(views.html.mobile.signup_info.render(user)):
+    	                ok(views.html.signup_info.render(user));
+		}
+        
         if (isMobile) {
             return ok(views.html.mb.mobile.frontpage.render());
         }
@@ -321,9 +333,7 @@ public class Application extends Controller {
             logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] Login - PC");
         }
 	    
-	    // reset last login time
-	    user.setLastLogin(new Date());
-	    
+	    /* Move this code to frontpage
 		if (User.isLoggedIn(user) && user.userInfo == null) {
 		    if (user.fbLogin) {
 		        return isMobileUser()? 
@@ -334,7 +344,8 @@ public class Application extends Controller {
     	            ok(views.html.mobile.signup_info.render(user)):
     	                ok(views.html.signup_info.render(user));
 		}
-		
+		*/
+	    
 	    if (user.isNewUser()) {
             logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] Signup completed - "+(isMobileUser()?"mobile":"PC"));
 
@@ -346,7 +357,6 @@ public class Application extends Controller {
 	        UserController.sendGreetingMessageToNewUser();
 	        
 	        user.setNewUser(false);
-	        //return redirect("/my#!/communities-discover");
 	    }
 	    return isMobileUser()? ok(views.html.mb.mobile.home.render()) : ok(views.html.mb.site.home.render());
 	}
@@ -437,7 +447,8 @@ public class Application extends Controller {
             localUser.children.add(userChild);
         }
         
-        return redirect("/my");
+        //return redirect("/my");
+        return redirect("/frontpage");
 	}
 	
 	private static Result handleSaveSignupInfoError(String error, boolean fb) {

@@ -933,6 +933,12 @@ span.notif-count {
 }
 
 /* schools */
+.login-reminder {
+    padding: 5px 0 0 10px;
+}
+.login-reminder-text {
+    margin-bottom: 5px;
+}
 #schools-search-box .dropdown-menu {
 	left: 0px;
 	max-height: 380px;
