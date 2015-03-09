@@ -3276,17 +3276,17 @@ minibean.controller('SchoolsRankingController',function($scope, $routeParams, $l
 	if (type == 1) {	// PN
 		$scope.topViewedSchools = schoolsService.topViewedPNs.get({},
 			function(data) {
-				gotoRanking();
+				$interval($scope.gotoRanking, 100, 1);
     		}
 		);
 		$scope.topDiscussedSchools = schoolsService.topDiscussedPNs.get({},
 			function(data) {
-				gotoRanking();
+				$interval($scope.gotoRanking, 100, 1);
 			}
 		);
 		$scope.topBookmarkedSchools = schoolsService.topBookmarkedPNs.get({},
 			function(data) {
-				gotoRanking();
+				$interval($scope.gotoRanking, 100, 1);
 			}
 		);
 	} else if (type == 2) {		// K
@@ -3295,7 +3295,7 @@ minibean.controller('SchoolsRankingController',function($scope, $routeParams, $l
 		$scope.topBookmarkedSchools = [];
 	}
 	
-	var gotoRanking = function(param) {
+	$scope.gotoRanking = function() {
 		if ($scope.userInfo.isMobile) {
 			if ($location.url().indexOf('top-viewed') > -1) {
 				$scope.gotoId('schools-ranking-top-viewed');
