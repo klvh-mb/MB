@@ -8,17 +8,21 @@
         <span class="icon-bar"></span>
     </a>
     
+    <span class="pull-left" ng-if="!userInfo.isLoggedIn">
+        <a class="header-main-text" style="margin-left:15px;margin-right:0;" ng-href="/signup">
+            註冊
+        </a>
+    </span>
+            
     <a id="header-logo-mobile" href="/">
         <img src="../assets/app/images/mobile/logo-1.png" />
     </a>
     
-    <ul class="header-notif-bar pull-right" ng-if="!userInfo.isLoggedIn">
-        <li class="dropdown notif pull-left" style="margin-right:10px;">
-            <a class="header-main-text" ng-href="/login">
-                登入
-            </a>
-        </li>
-    </ul>
+    <span class="pull-right" ng-if="!userInfo.isLoggedIn">
+        <a class="header-main-text" style="margin-left:0;margin-right:15px;" ng-href="/login">
+            登入
+        </a>
+    </span>
     <ul class="header-notif-bar pull-right" ng-if="userInfo.isLoggedIn">
         <li class="dropdown notif pull-left">
             <a href="" class="dropdown-toggle dropdown-hover" data-toggle="dropdown" data-ng-click="mark_requests_read()">

@@ -48,6 +48,15 @@
                 width: auto !important;
                 height: 65px !important;
             }
+            #login-section li:first-child h4 {
+                color: white;
+                font-weight: bold;
+                font-size: 18px;
+                position: relative;
+                left: -18px;
+                top: -30px;
+                margin-bottom: 0px;
+            }
             .login-container {
                 position: relative !important;
                 width: auto !important;
@@ -65,14 +74,17 @@
                 line-height: 1.5 !important;
             }
             .login-container div.login-box:first-child {
-                padding: 0px 0px 60px 45px !important;
+                padding: 0px 20px 20px 20px;
+                margin-right: 0px;
             }
             #login-promote {
                 width: 100% !important;
             }
             #login-section li:first-child img {
-                position: relative !important;
-                left: 0 !important;
+                width: 100px;
+                position: relative;
+                left: -28px;
+                top: 15px;
             }
             #login-btn {
                 width: 70% !important;
@@ -85,6 +97,9 @@
                 margin-top: 15px !important;
                 margin-bottom: 50px;
             }
+            #login-newacc {
+                margin-top: 25px;
+            }
         </style>
     </head>
     
@@ -95,21 +110,16 @@
             </a>
         </div>
         <div class="login-container">
-            <div class="login-box" id="login-promote">
-                <!--img src="../assets/app/images/mobile/login/login-pic.png" alt="title-image"/-->
-                <div><h3>歡迎來到<br>miniBean 小萌豆!</h3></div>
-                <!--div><h3>一個屬於所有媽媽爸爸的社群</h3></div-->
-                <!--div><p>歡迎來到小萌豆!</p></div-->
-            </div>
             <div class="login-box" id="login-section">
                 <ul>
-                    <li class="row"><span style="font-size:13px;color:#414141;float:left;margin-left:15px;margin-bottom:5px;">Facebook 登入</span></li>
+                    <li><img src="../assets/app/images/login/login_flag.png" /><h4>會員登入</h4></li>
+                    <li class="row"><span style="font-size:13px;color:#0C0EBD;float:left;margin-left:15px;margin-bottom:5px;">Facebook 登入</span></li>
                     <li style="width:100%;text-align:center;padding:5px;"><a href="/authenticate/facebook"><img style="width:216px;height:auto;" alt="Login via Faceebook" src="../assets/app/images/mobile/login/facebook_acc.jpg" /></a></li>
                     <li style="padding-left:10px;"><span style="color:gray;font-size:12px;">註: 小萌豆絕對不會發佈或留言到您的 facebook 帳戶中</span></li>
                     <!--li><img src="../assets/app/images/mobile/login/Facebook_icon_2013.jpg" alt="fb-icon" /><a href="/#!" title="user-name">Mom Dad</a><a href="/#!" title="user-name" >Mom Dad</a><span title="fd-num">27</span><p>個其他朋友使用miniBean</p></li>
                     <li class="login-fd-list"><a href="/#!"><img src="../assets/app/images/mobile/login/login_fd_icon.jpg" /></a></li-->
-                    <hr style="margin-top:15px;margin-bottom:15px;"/>
-                    <li class="row"><span style="font-size:13px;color:#414141;float:left;margin-left:15px;margin-bottom:10px;">miniBean 小萌豆登入</span></li>
+                    <hr style="margin-top:15px;margin-bottom:20px;"/>
+                    <li class="row"><span style="font-size:13px;color:#0C0EBD;float:left;margin-left:15px;margin-bottom:10px;">電郵登入</span></li>
                     <li id="login-info-wrapper">
                         @helper.form(routes.Application.doLogin) {
     						@if(loginForm.hasGlobalErrors) { 
