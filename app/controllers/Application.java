@@ -111,6 +111,19 @@ public class Application extends Controller {
     	                ok(views.html.signup_info.render(user));
 		}
         
+		if (user.isNewUser()) {
+            logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] Signup completed - "+(isMobileUser()?"mobile":"PC"));
+
+            String promoCode = session().get(SESSION_PROMOCODE);
+            GameAccount.setPointsForSignUp(user, promoCode);
+
+	        CommunityTargetingEngine.assignSystemCommunitiesToUser(user);
+	        
+	        UserController.sendGreetingMessageToNewUser();
+	        
+	        user.setNewUser(false);
+	    }
+		
         if (isMobile) {
             return ok(views.html.mb.mobile.frontpage.render());
         }
@@ -344,7 +357,6 @@ public class Application extends Controller {
     	            ok(views.html.mobile.signup_info.render(user)):
     	                ok(views.html.signup_info.render(user));
 		}
-		*/
 	    
 	    if (user.isNewUser()) {
             logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] Signup completed - "+(isMobileUser()?"mobile":"PC"));
@@ -358,6 +370,8 @@ public class Application extends Controller {
 	        
 	        user.setNewUser(false);
 	    }
+	    */
+	    
 	    return isMobileUser()? ok(views.html.mb.mobile.home.render()) : ok(views.html.mb.site.home.render());
 	}
 	

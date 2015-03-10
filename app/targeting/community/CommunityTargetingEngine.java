@@ -9,7 +9,6 @@ import com.mnt.exception.SocialObjectNotJoinableException;
 import common.model.TargetProfile;
 import common.model.TargetYear;
 import models.Community;
-import models.Location;
 import models.TargetingSocialObject;
 import models.User;
 import models.UserInfo;
