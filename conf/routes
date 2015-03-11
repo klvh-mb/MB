@@ -14,10 +14,6 @@ GET     /ads-mock                   controllers.Application.adsMock
 GET     /ads-plain                  controllers.Application.adsPlain
 GET     /ng-ads                     controllers.Application.ngAds
 
-# For Testing ONLY
-POST    /signupTest                 controllers.Application.doSignupForTest
-POST    /loginTest                  controllers.Application.doLoginForTest
-
 # Bing Webmaster
 GET     /BingSiteAuth.xml           controllers.Application.bingWebmaster
 
@@ -34,6 +30,11 @@ GET     /terms                      controllers.Application.terms
 
 GET     /restricted                 controllers.Application.restricted
 GET     /profile                    controllers.Application.profile
+
+# App API
+POST    /mobile/login               controllers.Application.doMobileLogin
+POST    /mobile/image/upload-profile-photo  controllers.UserController.uploadProfilePhotoMobile
+POST    /authenticate/mobile/:provider  com.feth.play.module.pa.controllers.Authenticate.mobileAuthenticate(provider: String)
 
 # Mobile
 GET     /m-frontpage                controllers.Application.mobileFrontpage
