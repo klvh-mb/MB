@@ -235,6 +235,26 @@ public abstract class PlayAuthenticate {
 		return expires;
 	}
 
+	public static String getMobileUserKey(final play.mvc.Http.Request r, final Object key) {
+		final String[] m = r.queryString().get(key);
+		if(m != null && m.length > 0) {
+			return m[0];
+		}
+		return null;
+	}
+	
+	public static AuthUser getUser(String string) {
+		String[] st = string.split("-");
+		String provider = st[0];
+		String id = st[1];
+		final long expires = 1424514658953L;
+		if (provider != null && id != null) {
+			return getProvider(provider).getSessionAuthUser(id, expires);
+		} else {
+			return null;
+		}
+	}
+	
 	public static AuthUser getUser(final Session session) {
 		final String provider = session.get(PROVIDER_KEY);
 		final String id = session.get(USER_KEY);

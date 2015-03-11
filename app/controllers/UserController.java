@@ -5,6 +5,8 @@ import static play.data.Form.form;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -51,6 +53,18 @@ import domain.DefaultValues;
 
 public class UserController extends Controller {
     private static final play.api.Logger logger = play.api.Logger.apply(UserController.class);
+    
+    public static String getMobileUserKey(final play.mvc.Http.Request r, final Object key) {
+		final String[] m = r.queryString().get(key);
+		if(m != null && m.length > 0) {
+			try {
+				return URLDecoder.decode(m[0], "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
     
     @Transactional
     public static Result completeHomeTour() {
@@ -163,6 +177,18 @@ public class UserController extends Controller {
 		    logger.underlyingLogger().error("Error in uploadProfilePhoto", e);
 			return status(500);
 		}
+	    completeHomeTour();
+		return ok();
+	}
+	
+	@Transactional
+	public static Result uploadProfilePhotoMobile() {
+		final User localUser = Application.getLocalUser(session());
+		FilePart picture = request().body().asMultipartFormData().getFile("club_image");
+		String fileName = picture.getFilename();
+		logger.underlyingLogger().info("STS [u="+localUser.id+"] uploadProfilePhotoMobile - "+fileName);
+		request().body().asMultipartFormData().getFile("club_image");
+	    File file = picture.getFile();
 	    completeHomeTour();
 		return ok();
 	}

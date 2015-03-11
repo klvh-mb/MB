@@ -100,6 +100,10 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 	protected abstract I buildInfo(final Response r)
 			throws AccessTokenException;
 
+	protected I buildWithAccessInfo(String token) {
+	    return null;	
+	}
+	
 	protected String getAuthUrl(final Request request, final String state)
 			throws AuthException {
 		final Configuration c = getConfiguration();
@@ -186,6 +190,12 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 			final AuthUserIdentity u = transform(info, state);
 			return u;
 			// System.out.println(accessToken.getAccessToken());
+		} else if (isWithAccessTokenRequest(context)) { 
+			final String  ACCESS_TOKEN = Authenticate
+					.getQueryString(request, Constants.ACCESS_TOKEN);
+			final I info = buildWithAccessInfo(ACCESS_TOKEN);
+			final AuthUserIdentity u = transform(info, state);
+			return u;
 		} else {
 			// no auth, yet
 			final String url = getAuthUrl(request, state);
@@ -198,6 +208,10 @@ public abstract class OAuth2AuthProvider<U extends AuthUserIdentity, I extends O
 		return context.request().queryString().containsKey(Constants.CODE);
 	}
 
+	protected boolean isWithAccessTokenRequest(final Context context) {
+		return context.request().queryString().containsKey(Constants.ACCESS_TOKEN);
+	}
+	
 	protected String getErrorParameterKey() {
 		return Constants.ERROR;
 	}
