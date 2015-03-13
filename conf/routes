@@ -40,8 +40,8 @@ POST    /authenticate/mobile/:provider  com.feth.play.module.pa.controllers.Auth
 GET     /m-frontpage                controllers.Application.mobileFrontpage
 GET     /m-my                       controllers.Application.mobileHome
 GET     /m-articles                 controllers.Application.mobileArticles
-GET     /m-knowledge                controllers.Application.mobileKnowledge
 GET     /m-schools                  controllers.Application.mobileSchools
+#GET    /m-knowledge                controllers.Application.mobileKnowledge
 #GET    /m-magazine                 controllers.Application.mobileMagazine
 GET     /m-login                    controllers.Application.mobileLogin
 
@@ -49,9 +49,9 @@ GET     /m-login                    controllers.Application.mobileLogin
 GET     /                           controllers.Application.index
 GET     /frontpage                  controllers.Application.mainFrontpage
 GET     /my                         controllers.Application.mainHome
-GET     /articles                   controllers.Application.mainArticles
-GET     /knowledge                  controllers.Application.mainKnowledge
 GET     /schools                    controllers.Application.mainSchools
+GET     /articles                   controllers.Application.mainArticles
+#GET    /knowledge                  controllers.Application.mainKnowledge
 #GET    /magazine                   controllers.Application.mainMagazine
 GET     /login                      controllers.Application.login
 

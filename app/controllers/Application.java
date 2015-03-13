@@ -155,6 +155,8 @@ public class Application extends Controller {
     
     @Transactional
     public static Result mainKnowledge() {
+    	return mainFrontpage();
+    	/*
         UserAgentUtil userAgentUtil = new UserAgentUtil(request());
         boolean isMobile = userAgentUtil.isMobileUserAgent();
         
@@ -164,6 +166,7 @@ public class Application extends Controller {
             return ok(views.html.mb.mobile.knowledge.render());
         }
         return ok(views.html.mb.site.knowledge.render());
+        */
     }
     
     @Transactional
@@ -214,8 +217,11 @@ public class Application extends Controller {
     
     @Transactional
     public static Result mobileKnowledge() {
+    	return mobileFrontpage();
+    	/*
         setMobileUser();    // manually set mobile to true
         return ok(views.html.mb.mobile.knowledge.render());
+        */
     }
     
     @Transactional
