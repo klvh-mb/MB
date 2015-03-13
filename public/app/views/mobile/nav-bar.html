@@ -1,4 +1,37 @@
-<div id="nav-holder" ng-if="selectedNavBar == 'HOT_ARTICLES'">
+<div id="header-menu" class="row">
+    <div id="main-menu">
+        <ul>
+            <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'FRONTPAGE'}" ng-click="selectNavBar('FRONTPAGE')">
+                <a href="/"><span>首頁</span></a>
+            </li>
+            <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'HOME'}" ng-click="selectNavBar('HOME')">
+                <a href="/my#!"><span>媽媽社群</span></a>
+            </li>
+            <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'SCHOOLS'}" ng-click="selectNavBar('SCHOOLS')">
+                <a href="/schools#!"><span>幼稚園</span></a>
+            </li>
+            <li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'HOT_ARTICLES'}" ng-click="selectNavBar('HOT_ARTICLES')">
+                <a href="/articles#!/article/show/0"><span>文章</span></a>
+            </li>
+            <!--li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'}" ng-click="selectNavBar('SOON_TO_BE_MOMS_ARTICLES')">
+                <a href="/knowledge#!/article/show/{{soonMomsArticleCategories[0].id}}"><img src="/assets/app/images/frontpage/icon_mainMenu_library.png"/></a>
+            </li-->
+            <!--li class="col-md-1 col-sm-1 col-xs-1" ng-class="{selected: selectedNavBar == 'MAGAZINE'}" ng-click="selectNavBar('MAGAZINE')">
+                <a href="/magazine#!"><img src="/assets/app/images/frontpage/icon_mainMenu_magazine.png"/></a>
+            </li-->
+            <!--li class="col-md-1 col-sm-1 col-xs-1">
+                <a href="/#!"><img src="/assets/app/images/frontpage/icon_mainMenu_tools.png"/></a>
+            </li-->
+            <!--li class="col-md-3 col-sm-3 col-xs-3" style="width:240px;">
+                <div class="pull-right">
+                    <div data-ng-include data-src="'/assets/app/views/widgets/fb-link-like-widget.html'"></div>
+                </div>
+            </li-->
+        </ul>
+    </div>
+</div>
+
+<!--div id="nav-holder" ng-if="selectedNavBar == 'HOT_ARTICLES'">
     <div id="nav-slider" class="royalSlider rsDefaultInv">
         <div class="rsContent">
             <span class="rsTmb nav-link"><img ng-src="/assets/app/images/general/titles/hot_articles.png"></span>
@@ -14,9 +47,9 @@
             </a>
         </div>
     </div>
-</div>
+</div-->
 
-<div id="nav-holder" ng-if="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'">
+<!--div id="nav-holder" ng-if="selectedNavBar == 'SOON_TO_BE_MOMS_ARTICLES'">
     <div id="nav-slider" class="royalSlider rsDefaultInv">
         <div class="rsContent">
             <span class="rsTmb nav-link"><img ng-src="/assets/app/images/general/titles/preg_month.png"></span>
@@ -27,7 +60,7 @@
             </a>
         </div>
     </div>
-</div>
+</div-->
 
 <div id="nav-holder" ng-if="selectedNavBar == 'MAGAZINE'">
     <div id="nav-slider" class="royalSlider rsDefaultInv">

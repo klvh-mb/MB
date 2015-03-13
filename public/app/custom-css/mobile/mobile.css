@@ -1,3 +1,41 @@
+#header-menu {
+    margin-bottom: 0;
+    height: 72px;
+}
+#main-menu {
+    position: relative;
+    top: 30px;
+    left: 15px;
+    height: 35px;
+}
+#main-menu li:first-child,
+#main-menu li:first-child a {
+    border-left: none;
+}
+#main-menu li {
+    width: 23%;
+    height: 37px;
+}
+#main-menu li a {
+    position: relative;
+    left: 0px;
+    height: 38px;
+    width: 100%;
+    text-align: center;
+}
+#main-menu li a:hover {
+    text-decoration: none;
+}
+#main-menu li span {
+    position: relative;
+    top: 12px;
+    left: 0;
+    width: 100px;
+    height: auto;
+    color: white;
+    font-size: 15px;
+}
+
 body {
     font-family: Helvetica, Arial, 'lucida grande',tahoma,verdana,arial,sans-serif;
     font-size: 13px;
@@ -98,7 +136,7 @@ body {
     width: 100%;
     position: relative;
     box-shadow: none;
-    top: 40px;
+    /*top: 40px;*/
 }
 .wall-title {
     width: 100%;
