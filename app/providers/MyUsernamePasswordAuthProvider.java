@@ -291,7 +291,7 @@ public class MyUsernamePasswordAuthProvider extends
 		//final boolean isSecure = getConfiguration().getBoolean(SETTING_KEY_VERIFICATION_LINK_SECURE);
 		//final String url = routes.Signup.verify(token).absoluteURL(ctx.request(), isSecure);
 		String url = controllers.Application.APPLICATION_BASE_URL + routes.Signup.verify(token).url();
-		logger.underlyingLogger().debug("[u="+user.getId()+"] getVerifyEmailMailingBody url="+url);
+		logger.underlyingLogger().info("["+user.getFirstName()+" "+user.getLastName()+"] getVerifyEmailMailingBody url="+url);
 		
 		final Lang lang = Lang.preferred(ctx.request().acceptLanguages());
 		final String langCode = lang.code();

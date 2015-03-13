@@ -842,12 +842,12 @@ public class DataBootstrap {
                 logger.underlyingLogger().info("Creating post: "+review.toString());
 
                 User owner = User.findById(review.userId);
-                PreNursery preNursery = PreNursery.findById(review.pnId);
+                PreNursery preNursery = PreNursery.findByNameDistrictId(review.pnName, review.districtId);
 
                 if (owner == null) {
                     logger.underlyingLogger().info("Invalid data. userId="+review.userId);
                 } else if (preNursery == null) {
-                    logger.underlyingLogger().info("Invalid data. pnId="+review.pnId+" districtId="+review.districtId);
+                    logger.underlyingLogger().info("Invalid data. pnName="+review.pnName+" districtId="+review.districtId);
                 } else {
                     Community community = Community.findById(preNursery.communityId);
                     Post post = (Post) community.onPost(owner, review.title, review.body, PostType.QUESTION);
