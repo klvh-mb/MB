@@ -523,8 +523,14 @@ public class SocialActivity {
                     String msgEnd = " 回應了話題\""+shortTitle+"\"。";
 
                     // fan-out, or just to the post owner
-                    boolean sendToAll = isSendToAllMembers(community);
-                    List<Long> recipientIds = sendToAll ? community.getMemberIds() : Lists.newArrayList(post.owner.id);
+                    Collection<Long> recipientIds;
+                    if (isSendToAllMembers(community)) {
+                        recipientIds = community.getMemberIds();
+                    } else {
+                        Set<Long> commentUserIds = post.getCommentUserIdsOfPost();
+                        commentUserIds.add(post.owner.id);
+                        recipientIds = commentUserIds;
+                    }
 
                     for (Long recipientId : recipientIds) {
                         if (recipientId == socialAction.actor) {
