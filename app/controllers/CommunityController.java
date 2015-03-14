@@ -17,6 +17,7 @@ import models.Community;
 import models.CommunityCategory;
 import models.Emoticon;
 import models.Icon;
+import models.PrimarySocialRelation;
 import models.PKViewMeta;
 import models.Post;
 import models.Resource;
@@ -39,6 +40,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
+import processor.PrimarySocialRelationManager;
 import security.CommunityPermission;
 import targeting.community.BusinessFeedCommTargetingEngine;
 import targeting.community.NewsfeedCommTargetingEngine;
@@ -423,11 +425,26 @@ public class CommunityController extends Controller{
 
         final User localUser = Application.getLocalUser(session());
         Post post = Post.findById(id);
-        List<CommunityPostCommentVM> commentsVM = new ArrayList<>();
         List<Comment> comments = post.getCommentsOfPost();
+
+        // prepare comment ids for like-check
+        final List<Long> likeCheckIds = new ArrayList<>();
+        for(int i = comments.size() - 1; i >= 0 ; i--) {
+            likeCheckIds.add(comments.get(i).getId());
+        }
+
+        Set<PrimarySocialRelationManager.PrimarySocialResult> srByUser = null;
+        if (User.isLoggedIn(localUser)) {
+            srByUser = PrimarySocialRelationManager.getSocialRelationBy(localUser, likeCheckIds);
+        }
+
+        // create vm list
+        final List<CommunityPostCommentVM> commentsVM = new ArrayList<>();
         for (int i = 0; i < comments.size(); i++) {
             Comment comment = comments.get(i);
             CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, localUser, i+1);
+            commentVM.isLike = srByUser != null &&
+                srByUser.contains(new PrimarySocialRelationManager.PrimarySocialResult(comment.id, comment.objectType, PrimarySocialRelation.Action.LIKED));
             commentsVM.add(commentVM);
         }
 
@@ -454,9 +471,24 @@ public class CommunityController extends Controller{
         }
         
         List<Comment> comments = post.getCommentsOfPost(offset, DefaultValues.DEFAULT_PAGINATION_COUNT);
+
+        // prepare comment ids for like-check
+        final List<Long> likeCheckIds = new ArrayList<>();
+        for(int i = comments.size() - 1; i >= 0 ; i--) {
+            likeCheckIds.add(comments.get(i).getId());
+        }
+
+        Set<PrimarySocialRelationManager.PrimarySocialResult> srByUser = null;
+        if (User.isLoggedIn(localUser)) {
+            srByUser = PrimarySocialRelationManager.getSocialRelationBy(localUser, likeCheckIds);
+        }
+
+        // create vm list
         for (int i = 0; i < comments.size(); i++) {
             Comment comment = comments.get(i);
             CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, localUser, i+1);
+            commentVM.isLike = srByUser != null &&
+                srByUser.contains(new PrimarySocialRelationManager.PrimarySocialResult(comment.id, comment.objectType, PrimarySocialRelation.Action.LIKED));
             commentsVM.add(commentVM);
         }
 
