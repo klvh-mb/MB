@@ -1,9 +1,6 @@
 package com.mnt;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import common.cache.CommunityMetaCache;
 import models.Comment;
@@ -15,6 +12,7 @@ import models.Post;
 import models.PrimarySocialRelation;
 import models.SocialRelation;
 import models.User;
+import com.google.common.collect.Lists;
 import play.libs.Json;
 
 import common.cache.FriendCache;
@@ -516,44 +514,51 @@ public class SocialActivity {
                 case ANSWERED: {
                     Comment comment= Comment.findById(socialAction.target);
                     Post post = comment.getPost();
-                    long owner_id = post.owner.id;
-                    if(User.findById(socialAction.actor).id == post.owner.id){
-                        return;
-                    }
+                    Community community = post.getCommunity();
 
                     String landingUrl = resolveQnALandingUrl(post.id, post.community.id, post.community.communityType);
 
                     String shortTitle = post.getShortenedTitle();
                     String shortBody = comment.getShortenedBody();
-                    String msgEnd = " 回應了你的話題\""+shortTitle+"\"。";
+                    String msgEnd = " 回應了話題\""+shortTitle+"\"。";
 
-                    Notification notification =
-                            Notification.getNotification(owner_id, NotificationType.ANSWERED, post.id, SocialObjectType.POST);
-                    if(notification == null){
-                        String msg = socialAction.actorname + msgEnd +((shortBody.length() >= 0) ? "\""+shortBody+"\"" : "");
+                    // fan-out, or just to the post owner
+                    boolean sendToAll = isSendToAllMembers(community);
+                    List<User> recipients = sendToAll ? community.getMembers() : Lists.newArrayList(post.owner);
 
-                        notification = new Notification();
-                        notification.target = post.id;
-                        notification.targetType = SocialObjectType.POST;
-                        notification.notificationType = NotificationType.ANSWERED;
-                        notification.recipient = owner_id;
-                        jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
-                        jsonMap.put("onClick", landingUrl);
-                        notification.URLs = Json.stringify(Json.toJson(jsonMap));
-                        notification.socialActionID = post.id;
-                        notification.addToList(User.findById(socialAction.actor));
-                        notification.message = msg;
-                        notification.setUpdatedDate(new Date());
-                        notification.save();
-                    } else {
-                        String msgSubjects = notification.addToList(User.findById(socialAction.actor));
+                    for (User recipient : recipients) {
+                        if (recipient.getId() == socialAction.actor) {
+                            continue;   // skip the actor himself
+                        }
 
-                        jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
-                        jsonMap.put("onClick", landingUrl);
-                        notification.URLs = Json.stringify(Json.toJson(jsonMap));
-                        notification.message = msgSubjects + msgEnd;
-                        notification.status = 0;
-                        notification.merge();
+                        Notification notification =
+                                Notification.getNotification(recipient.id, NotificationType.ANSWERED, post.id, SocialObjectType.POST);
+                        if(notification == null){
+                            String msg = socialAction.actorname + msgEnd +((shortBody.length() >= 0) ? "\""+shortBody+"\"" : "");
+
+                            notification = new Notification();
+                            notification.target = post.id;
+                            notification.targetType = SocialObjectType.POST;
+                            notification.notificationType = NotificationType.ANSWERED;
+                            notification.recipient = recipient.id;
+                            jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
+                            jsonMap.put("onClick", landingUrl);
+                            notification.URLs = Json.stringify(Json.toJson(jsonMap));
+                            notification.socialActionID = post.id;
+                            notification.addToList(User.findById(socialAction.actor));
+                            notification.message = msg;
+                            notification.setUpdatedDate(new Date());
+                            notification.save();
+                        } else {
+                            String msgSubjects = notification.addToList(User.findById(socialAction.actor));
+
+                            jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
+                            jsonMap.put("onClick", landingUrl);
+                            notification.URLs = Json.stringify(Json.toJson(jsonMap));
+                            notification.message = msgSubjects + msgEnd;
+                            notification.status = 0;
+                            notification.merge();
+                        }
                     }
                 }
 				break;	
