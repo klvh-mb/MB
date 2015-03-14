@@ -7,6 +7,7 @@ import indexing.PostIndex;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +32,7 @@ import domain.Commentable;
 import domain.Likeable;
 import domain.PostType;
 import domain.SocialObjectType;
+import sun.security.util.BigInt;
 
 @Entity
 public class Post extends SocialObject implements Likeable, Commentable {
@@ -362,7 +364,19 @@ public class Post extends SocialObject implements Likeable, Commentable {
         q.setParameter(1, this.id);
         return (Long) q.getSingleResult();
     }
-    
+
+    @JsonIgnore
+    public Set<Long> getCommentUserIdsOfPost() {
+        Query q = JPA.em().createNativeQuery("Select c.owner_id from Comment c where socialObject=?1 and deleted = 0");
+        q.setParameter(1, this.id);
+        List<BigInteger> qRets = (List<BigInteger>) q.getResultList();
+        Set<Long> ret = new HashSet<>();
+        for (BigInteger qRet : qRets) {
+            ret.add(qRet.longValue());
+        }
+        return ret;
+    }
+
     @JsonIgnore
     public List<Comment> getCommentsOfPost() {
         Query q = JPA.em().createQuery("Select c from Comment c where socialObject=?1 and deleted = false order by date");
