@@ -524,15 +524,15 @@ public class SocialActivity {
 
                     // fan-out, or just to the post owner
                     boolean sendToAll = isSendToAllMembers(community);
-                    List<User> recipients = sendToAll ? community.getMembers() : Lists.newArrayList(post.owner);
+                    List<Long> recipientIds = sendToAll ? community.getMemberIds() : Lists.newArrayList(post.owner.id);
 
-                    for (User recipient : recipients) {
-                        if (recipient.getId() == socialAction.actor) {
+                    for (Long recipientId : recipientIds) {
+                        if (recipientId == socialAction.actor) {
                             continue;   // skip the actor himself
                         }
 
                         Notification notification =
-                                Notification.getNotification(recipient.id, NotificationType.ANSWERED, post.id, SocialObjectType.POST);
+                                Notification.getNotification(recipientId, NotificationType.ANSWERED, post.id, SocialObjectType.POST);
                         if(notification == null){
                             String msg = socialAction.actorname + msgEnd +((shortBody.length() >= 0) ? "\""+shortBody+"\"" : "");
 
@@ -540,7 +540,7 @@ public class SocialActivity {
                             notification.target = post.id;
                             notification.targetType = SocialObjectType.POST;
                             notification.notificationType = NotificationType.ANSWERED;
-                            notification.recipient = recipient.id;
+                            notification.recipient = recipientId;
                             jsonMap.put("photo", "/image/get-thumbnail-image-by-id/"+socialAction.actor);
                             jsonMap.put("onClick", landingUrl);
                             notification.URLs = Json.stringify(Json.toJson(jsonMap));
