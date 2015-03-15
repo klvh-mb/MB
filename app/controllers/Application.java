@@ -28,6 +28,7 @@ import models.UserChild;
 import models.UserInfo;
 import models.UserInfo.ParentType;
 
+import org.apache.commons.lang.StringUtils;
 import org.elasticsearch.index.query.AndFilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.OrFilterBuilder;
@@ -506,7 +507,7 @@ public class Application extends Controller {
 				byte[] decordedValue = new BASE64Decoder().decodeBuffer(userKey);
 				byte[] decValue = c.doFinal(decordedValue);
 				String decryptedValue = new String(decValue);
-				logger.underlyingLogger().debug("getLocalUser from mobile - " + userKey + "|" + decryptedValue);
+				logger.underlyingLogger().debug("getLocalUser from mobile - " + userKey + " => " + decryptedValue);
 				localUser = Application.getMobileLocalUser(decryptedValue);
 				return localUser;
 			}catch(Exception e) { 
@@ -656,24 +657,30 @@ public class Application extends Controller {
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			// User did not fill everything properly
-			return badRequest(views.html.login.render(filledForm, isOverDailySignupThreshold()));
+			return badRequest();
 		} else {
 			// Everything was filled
-			Result r  = PlayAuthenticate.handleAnthenticationByProvider(ctx(),
+			Result r = PlayAuthenticate.handleAnthenticationByProvider(ctx(),
 					 com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.Case.LOGIN,
 					 new MyUsernamePasswordAuthProvider(Play.application()));
+			
+			// check redirect result and flash for errors
+			String error = ctx().flash().get(controllers.Application.FLASH_ERROR_KEY);
+			if (!StringUtils.isEmpty(error)) {
+				return badRequest(error);
+			}
+			
 			String encryptedValue = null;
 			String plainData=session().get(PROVIDER_KEY)+"-"+session().get(USER_KEY);
 			try { 
-	    		
 	    		Key key = generateKey();
 	            Cipher c = Cipher.getInstance("AES");
 	            c.init(Cipher.ENCRYPT_MODE, key);
 	            byte[] encVal = c.doFinal(plainData.getBytes());
 	            encryptedValue = new BASE64Encoder().encode(encVal);
-	    		
+	    	} catch(Exception e) { 
+	    		return badRequest();
 	    	}
-	    	catch(Exception e) { }
 			return ok(encryptedValue.replace("+", "%2b"));
 		}
 	}
