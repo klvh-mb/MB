@@ -7,15 +7,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
 import models.Community;
@@ -38,7 +35,6 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
-import Decoder.BASE64Decoder;
 import viewmodel.BookmarkSummaryVM;
 import viewmodel.CommunityPostVM;
 import viewmodel.ConversationVM;
@@ -72,12 +68,7 @@ public class UserController extends Controller {
         return ok();
     }
     
-    public static Key generateKey() throws Exception {
-        Key key = new SecretKeySpec("TheBestSecretkey".getBytes(), "AES");
-        return key;
-	}
-    
-    public static String getQueryString(final play.mvc.Http.Request r, final Object key) {
+    public static String getMobileUserKey(final play.mvc.Http.Request r, final Object key) {
 		final String[] m = r.queryString().get(key);
 		if(m != null && m.length > 0) {
 			try {
@@ -89,28 +80,6 @@ public class UserController extends Controller {
 		}
 		return null;
 	}
-    
-    @Transactional
-    public static Result testURL() {
-        
-    	try {
-    		Key dkey = generateKey();
-            Cipher c = Cipher.getInstance("AES");
-            c.init(Cipher.DECRYPT_MODE, dkey);
-            byte[] decordedValue = new BASE64Decoder().decodeBuffer(getQueryString(request(), "key"));
-            byte[] decValue = c.doFinal(decordedValue);
-            String decryptedValue = new String(decValue);
-    		System.out.println(getQueryString(request(), "key")+"hhhhhhhhhhhhh "+decryptedValue);
-    		final User localUser = Application.getMobileLocalUser(decryptedValue);
-	    		
-		}catch(Exception e) { 
-			
-		}
-    	
-    	
-       
-        return ok();
-    }
     
     @Transactional(readOnly=true)
     public static Result isNewsfeedEnabledForCommunity(Long communityId) {
