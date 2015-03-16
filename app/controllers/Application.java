@@ -1,6 +1,7 @@
 package controllers;
 
 import Decoder.BASE64Decoder;
+import Decoder.BASE64Encoder;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import common.cache.LocationCache;
@@ -27,6 +28,7 @@ import models.UserChild;
 import models.UserInfo;
 import models.UserInfo.ParentType;
 
+import org.apache.commons.lang.StringUtils;
 import org.elasticsearch.index.query.AndFilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.OrFilterBuilder;
@@ -41,13 +43,11 @@ import play.db.jpa.Transactional;
 import play.i18n.Messages;
 import play.libs.Json;
 import play.mvc.Controller;
-import play.mvc.Http.Request;
 import play.mvc.Http.Session;
 import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
-import Decoder.BASE64Encoder;
 import targeting.community.CommunityTargetingEngine;
 import viewmodel.ApplicationInfoVM;
 import viewmodel.PostIndexVM;
@@ -89,9 +89,11 @@ public class Application extends Controller {
     public static final String SESSION_PROMOCODE = "PROMO_CODE";
     public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";
+
+	// mobile play authen key
 	private static final String USER_KEY = "pa.u.id";
 	private static final String PROVIDER_KEY = "pa.p.id";
-
+	
 	@Transactional
     public static Result index() {
         return mainFrontpage();
@@ -108,6 +110,31 @@ public class Application extends Controller {
         
         Application.setMobileUser(isMobile? "true":"false");
         
+        final User user = getLocalUser(session());
+		if (User.isLoggedIn(user) && user.userInfo == null) {
+		    if (user.fbLogin) {
+		        return isMobileUser()? 
+		                ok(views.html.mobile.signup_info_fb.render(user)):
+		                    ok(views.html.signup_info_fb.render(user));
+		    }
+    	    return isMobileUser()? 
+    	            ok(views.html.mobile.signup_info.render(user)):
+    	                ok(views.html.signup_info.render(user));
+		}
+        
+		if (user.isNewUser()) {
+            logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] Signup completed - "+(isMobileUser()?"mobile":"PC"));
+
+            String promoCode = session().get(SESSION_PROMOCODE);
+            GameAccount.setPointsForSignUp(user, promoCode);
+
+	        CommunityTargetingEngine.assignSystemCommunitiesToUser(user);
+	        
+	        UserController.sendGreetingMessageToNewUser();
+	        
+	        user.setNewUser(false);
+	    }
+		
         if (isMobile) {
             return ok(views.html.mb.mobile.frontpage.render());
         }
@@ -129,6 +156,8 @@ public class Application extends Controller {
     
     @Transactional
     public static Result mainKnowledge() {
+    	return mainFrontpage();
+    	/*
         UserAgentUtil userAgentUtil = new UserAgentUtil(request());
         boolean isMobile = userAgentUtil.isMobileUserAgent();
         
@@ -138,6 +167,7 @@ public class Application extends Controller {
             return ok(views.html.mb.mobile.knowledge.render());
         }
         return ok(views.html.mb.site.knowledge.render());
+        */
     }
     
     @Transactional
@@ -188,8 +218,11 @@ public class Application extends Controller {
     
     @Transactional
     public static Result mobileKnowledge() {
+    	return mobileFrontpage();
+    	/*
         setMobileUser();    // manually set mobile to true
         return ok(views.html.mb.mobile.knowledge.render());
+        */
     }
     
     @Transactional
@@ -330,9 +363,7 @@ public class Application extends Controller {
             logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] Login - PC");
         }
 	    
-	    // reset last login time
-	    user.setLastLogin(new Date());
-	    
+	    /* Move this code to frontpage
 		if (User.isLoggedIn(user) && user.userInfo == null) {
 		    if (user.fbLogin) {
 		        return isMobileUser()? 
@@ -343,7 +374,7 @@ public class Application extends Controller {
     	            ok(views.html.mobile.signup_info.render(user)):
     	                ok(views.html.signup_info.render(user));
 		}
-		
+	    
 	    if (user.isNewUser()) {
             logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] Signup completed - "+(isMobileUser()?"mobile":"PC"));
 
@@ -355,8 +386,9 @@ public class Application extends Controller {
 	        UserController.sendGreetingMessageToNewUser();
 	        
 	        user.setNewUser(false);
-	        //return redirect("/my#!/communities-discover");
 	    }
+	    */
+	    
 	    return isMobileUser()? ok(views.html.mb.mobile.home.render()) : ok(views.html.mb.site.home.render());
 	}
 	
@@ -446,7 +478,8 @@ public class Application extends Controller {
             localUser.children.add(userChild);
         }
         
-        return redirect("/my");
+        //return redirect("/my");
+        return redirect("/frontpage");
 	}
 	
 	private static Result handleSaveSignupInfoError(String error, boolean fb) {
@@ -461,26 +494,27 @@ public class Application extends Controller {
                 badRequest(views.html.signup_info.render(localUser));
         }
     }
-	   
+
 	public static User getLocalUser(final Session session) {
-		//if request from mobile 
-		if(UserController.getQueryString(request(), "key") != null ){
+		// request from mobile 
+		String userKey = UserController.getMobileUserKey(request(), "key");
+		if(userKey != null){
 			User localUser = null;
-	    	try {
-	    		Key dkey = UserController.generateKey();
-	            Cipher c = Cipher.getInstance("AES");
-	            c.init(Cipher.DECRYPT_MODE, dkey);
-	            byte[] decordedValue = new BASE64Decoder().decodeBuffer(UserController.getQueryString(request(), "key"));
-	            byte[] decValue = c.doFinal(decordedValue);
-	            String decryptedValue = new String(decValue);
-	    		System.out.println(UserController.getQueryString(request(), "key")+"hhhhhhhhhhhhh "+decryptedValue);
-	    		localUser = Application.getMobileLocalUser(decryptedValue);
-	    		return localUser;
+			try {
+				Key dkey = generateKey();
+				Cipher c = Cipher.getInstance("AES");
+				c.init(Cipher.DECRYPT_MODE, dkey);
+				byte[] decordedValue = new BASE64Decoder().decodeBuffer(userKey);
+				byte[] decValue = c.doFinal(decordedValue);
+				String decryptedValue = new String(decValue);
+				logger.underlyingLogger().debug("getLocalUser from mobile - " + userKey + " => " + decryptedValue);
+				localUser = Application.getMobileLocalUser(decryptedValue);
+				return localUser;
 			}catch(Exception e) { 
 				return null;
 			}
 		}
-		
+
 		//if request from web
 		final AuthUser currentAuthUser = PlayAuthenticate.getUser(session);
 		if (currentAuthUser == null) {
@@ -517,6 +551,11 @@ public class Application extends Controller {
             return User.noLoginUser();
         }
 		return localUser;
+	}
+	
+	public static Key generateKey() throws Exception {
+		Key key = new SecretKeySpec("TheBestSecretkey".getBytes(), "AES");
+		return key;
 	}
 	
 	public static Long getLocalUserId() {
@@ -611,6 +650,41 @@ public class Application extends Controller {
         }
     }
 	
+    @Transactional
+	public static Result doMobileLogin() throws AuthException {
+		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
+		final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
+				.bindFromRequest();
+		if (filledForm.hasErrors()) {
+			// User did not fill everything properly
+			return badRequest();
+		} else {
+			// Everything was filled
+			Result r = PlayAuthenticate.handleAnthenticationByProvider(ctx(),
+					 com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.Case.LOGIN,
+					 new MyUsernamePasswordAuthProvider(Play.application()));
+			
+			// check redirect result and flash for errors
+			String error = ctx().flash().get(controllers.Application.FLASH_ERROR_KEY);
+			if (!StringUtils.isEmpty(error)) {
+				return badRequest(error);
+			}
+			
+			String encryptedValue = null;
+			String plainData=session().get(PROVIDER_KEY)+"-"+session().get(USER_KEY);
+			try { 
+	    		Key key = generateKey();
+	            Cipher c = Cipher.getInstance("AES");
+	            c.init(Cipher.ENCRYPT_MODE, key);
+	            byte[] encVal = c.doFinal(plainData.getBytes());
+	            encryptedValue = new BASE64Encoder().encode(encVal);
+	    	} catch(Exception e) { 
+	    		return badRequest();
+	    	}
+			return ok(encryptedValue.replace("+", "%2b"));
+		}
+	}
+    
 	@Transactional
 	public static Result signup() {
 		final User localUser = getLocalUser(session());
@@ -712,59 +786,6 @@ public class Application extends Controller {
 		}
 	}
 	
-	@Transactional
-	public static Result doSignupForTest() throws AuthException {
-		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-		final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM
-				.bindFromRequest();
-		if (filledForm.hasErrors()) {
-			// User did not fill everything properly
-			return badRequest(views.html.signup.render(filledForm));
-		} else {
-			// Everything was filled
-			// do something with your part of the form before handling the user
-			// signup
-			Result r  = PlayAuthenticate.handleAnthenticationByProvider(ctx(),
-					 com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.Case.SIGNUP,
-					 new MyUsernamePasswordAuthProvider(Play.application()));
-			return r;
-			
-		}
-	}
-	 private static Key generateKey() throws Exception {
-	        Key key = new SecretKeySpec("TheBestSecretkey".getBytes(), "AES");
-	        return key;
-		}
-	
-	@Transactional
-	public static Result doLoginForTest() throws AuthException {
-		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-		final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
-				.bindFromRequest();
-		if (filledForm.hasErrors()) {
-			// User did not fill everything properly
-			return badRequest(views.html.login.render(filledForm, isOverDailySignupThreshold()));
-		} else {
-			// Everything was filled
-			Result r  = PlayAuthenticate.handleAnthenticationByProvider(ctx(),
-					 com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.Case.LOGIN,
-					 new MyUsernamePasswordAuthProvider(Play.application()));
-			String encryptedValue = null;
-			String plainData=session().get(PROVIDER_KEY)+"-"+session().get(USER_KEY);
-			try { 
-	    		
-	    		Key key = generateKey();
-	            Cipher c = Cipher.getInstance("AES");
-	            c.init(Cipher.ENCRYPT_MODE, key);
-	            byte[] encVal = c.doFinal(plainData.getBytes());
-	            encryptedValue = new BASE64Encoder().encode(encVal);
-	    		
-	    	}
-	    	catch(Exception e) { }
-			return ok(encryptedValue.replace("+", "%2b"));
-		}
-	}
-
 	@Transactional
 	public static Result privacy() {
 		TermsAndConditions terms = TermsAndConditions.getTermsAndConditions();
