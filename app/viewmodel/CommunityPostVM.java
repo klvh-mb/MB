@@ -14,7 +14,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import common.cache.CommunityMetaCache;
-
 import domain.DefaultValues;
 import processor.PrimarySocialRelationManager;
 import static processor.PrimarySocialRelationManager.PrimarySocialResult;
@@ -117,24 +116,38 @@ public class CommunityPostVM {
 	        
 	        if (User.isLoggedIn(user)){
 	            Set<PrimarySocialResult> srByUser = PrimarySocialRelationManager.getSocialRelationBy(user, likeCheckIds);
-	
+	            /*
 	    		for(int i = comments.size() - 1; i >= 0 ; i--) {
 	    			Comment comment = comments.get(i);
 	    			CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, user, post.noOfComments - i);
 	    			commentVM.isLike = srByUser.contains(new PrimarySocialResult(comment.id, comment.objectType, PrimarySocialRelation.Action.LIKED));
 	    			commentsVM.add(commentVM);
 	    		}
-	
+	            */
+	    		for (int i = 0; i < comments.size(); i++) {
+	                Comment comment = comments.get(i);
+	                CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, user, i+1);
+	                commentVM.isLike = srByUser != null &&
+	                    srByUser.contains(new PrimarySocialRelationManager.PrimarySocialResult(comment.id, comment.objectType, PrimarySocialRelation.Action.LIKED));
+	                commentsVM.add(commentVM);
+	            }
 	    		this.isLike = srByUser.contains(new PrimarySocialResult(post.id, post.objectType, PrimarySocialRelation.Action.LIKED));
 	    		this.isWantAnswer = srByUser.contains(new PrimarySocialResult(post.id, post.objectType, PrimarySocialRelation.Action.WANT_ANS));
 	        } else {
+	        	/*
 	            for(int i = comments.size() - 1; i >= 0 ; i--) {
 	                Comment comment = comments.get(i);
 	                CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, user, post.noOfComments - i);
 	                commentVM.isLike = false;
 	                commentsVM.add(commentVM);
 	            }
-	
+	        	*/
+	        	for (int i = 0; i < comments.size(); i++) {
+	                Comment comment = comments.get(i);
+	                CommunityPostCommentVM commentVM = CommunityPostCommentVM.communityPostCommentVM(comment, user, i+1);
+	                commentVM.isLike = false;
+	                commentsVM.add(commentVM);
+	            }
 	            this.isLike = false;
 	            this.isWantAnswer = false;
 	        }

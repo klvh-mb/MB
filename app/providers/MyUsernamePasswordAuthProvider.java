@@ -280,7 +280,7 @@ public class MyUsernamePasswordAuthProvider extends
 	@Override
     protected String onFbUserExists(final Context context) {
         context.flash().put(controllers.Application.FLASH_ERROR_KEY,
-                "您輸入的電郵地址不正確。如果您是用 Facebook 帳戶登記, 請按上方的 '使用Facebook登入' 重試。");
+                "您輸入的電郵地址不正確。如果您是用 Facebook 帳戶登記, 請按 '使用Facebook登入' 重試。");
         return super.onLoginUserNotFound(context);
     }
 	   
