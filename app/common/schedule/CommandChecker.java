@@ -1,5 +1,6 @@
 package common.schedule;
 
+import common.thread.NotificationThreadLocal;
 import data.DataBootstrap;
 import models.CommunityStatistics;
 import models.GameAccountTransaction;
@@ -68,9 +69,11 @@ public class CommandChecker {
                 logger.underlyingLogger().error("communityStatistics missing daysBefore parameter");
             }
         }
+        // PN communities
         else if (commandLine.startsWith("bootstrapPNCommunity")) {
             DataBootstrap.bootstrapPNCommunity();
         }
+        // PN reviews
         else if (commandLine.startsWith("bootstrapPNReviews")) {
             if (tokens.length > 1) {
                 String filePath = tokens[1];
@@ -79,6 +82,17 @@ public class CommandChecker {
                 DataBootstrap.bootstrapPNReviews(filePath);
             } else {
                 logger.underlyingLogger().error("bootstrapPNReviews missing file path");
+            }
+        }
+        // Community Posts
+        else if (commandLine.startsWith("bootstrapCommunityPosts")) {
+            if (tokens.length > 1) {
+                String filePath = tokens[1];
+                logger.underlyingLogger().info("Running bootstrapCommunityPosts with: "+filePath);
+                NotificationThreadLocal.disableNotification(true);
+                DataBootstrap.bootstrapCommunityPosts(filePath);
+            } else {
+                logger.underlyingLogger().error("bootstrapCommunityPosts missing file path");
             }
         }
     }

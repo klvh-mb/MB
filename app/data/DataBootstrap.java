@@ -8,6 +8,7 @@ import javax.persistence.Query;
 
 import common.cache.CommunityMetaCache;
 import customdata.file.ReviewFileReader;
+import customdata.file.PostsFileReader;
 import domain.CommentType;
 import domain.PostType;
 import models.Announcement;
@@ -869,6 +870,64 @@ public class DataBootstrap {
             }
         } catch (Exception e) {
             logger.underlyingLogger().error("Error in bootstrapPNReviews", e);
+        }
+    }
+
+    public static void bootstrapCommunityPosts(String filePath) {
+        PostsFileReader reader = new PostsFileReader();
+        try {
+            reader.read(filePath);
+            List<PostsFileReader.PostEntry> postEntries = reader.getPosts();
+
+            boolean allCompleted = true;
+            for (PostsFileReader.PostEntry post : postEntries) {
+                if (!post.isCompleted()) {
+                    logger.underlyingLogger().info("Incomplete post: "+post.toString());
+                    allCompleted = false;
+                }
+                else {
+                    for (PostsFileReader.Comment comment : post.comments) {
+                        if (!comment.isCompleted()) {
+                            logger.underlyingLogger().info("Incomplete comment: "+comment.toString());
+                            allCompleted = false;
+                        }
+                    }
+                }
+            }
+
+            if (!allCompleted) {
+                return;     // return if incomplete input data
+            }
+
+            for (PostsFileReader.PostEntry entry : postEntries) {
+                logger.underlyingLogger().info("Creating post: "+entry.toString());
+
+                User owner = User.findById(entry.userId);
+                Community community = Community.findByName(entry.commName);
+                 if (owner == null) {
+                    logger.underlyingLogger().info("Invalid data. userId="+entry.userId);
+                } else if (community == null) {
+                    logger.underlyingLogger().info("Invalid data. commName="+entry.commName);
+                } else {
+                    Post post = (Post) community.onPost(owner, entry.title, entry.body, PostType.QUESTION);
+                    post.setCreatedDate(entry.dateTime.toDate());
+                    post.setUpdatedDate(entry.dateTime.toDate());
+
+                    for (PostsFileReader.Comment pComment : entry.comments) {
+                        owner = User.findById(pComment.userId);
+                        Comment comment = (Comment) post.onComment(owner, pComment.body, CommentType.ANSWER);
+                        comment.setCreatedDate(pComment.dateTime.toDate());
+                        comment.setUpdatedDate(pComment.dateTime.toDate());
+                        comment.merge();
+
+                        post.socialUpdatedDate = pComment.dateTime.toDate();
+                    }
+
+                    post.merge();
+                }
+            }
+        } catch (Exception e) {
+            logger.underlyingLogger().error("Error in bootstrapCommunityPosts", e);
         }
     }
 
