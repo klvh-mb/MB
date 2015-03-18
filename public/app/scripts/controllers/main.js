@@ -1654,6 +1654,8 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     	function(data) {
     		$scope.noResult = false;
         	usSpinnerService.stop('loading...');
+        	
+        	writeMetaTitleDescription(data.ptl, data.pt);
     	}, 
     	function(rejection) {
     		$scope.noResult = true;
@@ -1857,6 +1859,8 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     	function(data) {
     		$scope.noResult = false;
     		usSpinnerService.stop('loading...');
+    		
+            writeMetaTitleDescription(data.ptl, data.pt);
     	},
     	function(rejection) {
     		$scope.noResult = true;
@@ -2934,6 +2938,8 @@ minibean.controller('PKViewPageController',function($scope, $route, $location, $
             if ($scope.pkview.id == null) {
                 $scope.showPKView = false;
             }
+            
+            writeMetaTitleDescription(data.ptl, data.pt);
         },
     	function(rejection) {
         	$location.path('/pkview/show');
@@ -3040,6 +3046,8 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
             if ($scope.campaign.cs == 'ANNOUNCED' || $scope.campaign.cs == 'CLOSED') {
                 $scope.announcedWinners = campaignService.campaignAnnouncedWinners.get({id:id});
             }
+            
+            writeMetaTitleDescription(data.nm, data.ds);
         }, 
         function(rejection) {
         	$location.path('/campaign/show');
@@ -3155,7 +3163,10 @@ minibean.controller('ArticlePageController',function($scope, $routeParams, artic
     
     $scope.article = articleService.ArticleInfo.get({id:$routeParams.id}, 
         function(data) {
-            $scope.relatedResult = articleService.getRelatedArticles.get({id:$routeParams.id, category_id:response.ct.id});
+            $scope.relatedResult = articleService.getRelatedArticles.get({id:$routeParams.id, category_id:data.ct.id});
+            
+            var title = data.nm + " - " + data.ct.name;
+            writeMetaTitleDescription(title, data.lds);
             
             // render mobile scroll nav bar
             if ($scope.userInfo.isMobile) {
