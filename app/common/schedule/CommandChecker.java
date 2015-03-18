@@ -1,6 +1,6 @@
 package common.schedule;
 
-import common.thread.NotificationThreadLocal;
+import common.thread.ThreadLocalOverride;
 import data.DataBootstrap;
 import models.CommunityStatistics;
 import models.GameAccountTransaction;
@@ -89,8 +89,9 @@ public class CommandChecker {
             if (tokens.length > 1) {
                 String filePath = tokens[1];
                 logger.underlyingLogger().info("Running bootstrapCommunityPosts with: "+filePath);
-                NotificationThreadLocal.disableNotification(true);
+                ThreadLocalOverride.disableNotification(true);
                 DataBootstrap.bootstrapCommunityPosts(filePath);
+                ThreadLocalOverride.disableNotification(false);
             } else {
                 logger.underlyingLogger().error("bootstrapCommunityPosts missing file path");
             }
