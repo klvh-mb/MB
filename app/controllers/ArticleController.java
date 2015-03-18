@@ -263,7 +263,6 @@ public class ArticleController extends Controller {
         }
         article.noOfViews++;
         ArticleVM vm = new ArticleVM(article, localUser);
-        vm.description = article.description;
         return ok(Json.toJson(vm));
     }
 	

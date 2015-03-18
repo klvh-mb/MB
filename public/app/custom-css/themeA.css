@@ -396,6 +396,14 @@ a:focus {
     width: 32px;
     height: 25px;
 }
+.header-notif-bar .notif li {
+    border-bottom: 1px solid #eee !important;
+    margin: 0 10px !important;
+    padding: 10px 0 !important;
+}
+.header-notif-bar .notif a {
+	line-height: 1.5 !important;
+}
 .header-notif-bar .read {
     background-color: #ffffff;
 }

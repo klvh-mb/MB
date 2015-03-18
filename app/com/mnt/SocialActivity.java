@@ -12,11 +12,12 @@ import models.Post;
 import models.PrimarySocialRelation;
 import models.SocialRelation;
 import models.User;
+
 import com.google.common.collect.Lists;
+
 import play.libs.Json;
-
 import common.cache.FriendCache;
-
+import common.utils.StringUtil;
 import domain.SocialObjectType;
 
 /**
@@ -99,7 +100,7 @@ public class SocialActivity {
                     notification.URLs = Json.stringify(Json.toJson(jsonMap));
                     notification.recipient = socialAction.actor;
                     notification.notificationType = NotificationType.COMM_JOIN_APPROVED;
-                    notification.message = "你正在關注「"+socialAction.getTargetObject().name+"」。";
+                    notification.message = "你正在關注「"+socialAction.getTargetObject().name+"」";
                     notification.status = 0;
                     notification.save();
                 }
@@ -113,7 +114,7 @@ public class SocialActivity {
                     notification.URLs = Json.stringify(Json.toJson(jsonMap));
                     notification.recipient = socialAction.actor;
                     notification.notificationType = NotificationType.FRD_ACCEPTED;
-                    notification.message = "你與 "+socialAction.getTargetObject().name+" 成為了朋友。";
+                    notification.message = "你與 "+socialAction.getTargetObject().name+" 成為了朋友";
                     notification.status = 0;
                     notification.save();
                 }
@@ -134,7 +135,7 @@ public class SocialActivity {
                     notification.usersName = socialAction.getActorObject().name;
                     notification.recipient = socialAction.targetOwner;
                     notification.notificationType = NotificationType.COMM_JOIN_REQUEST;
-                    notification.message = socialAction.getActorObject().name+" 想加入「" + socialAction.targetname+"」社群。";
+                    notification.message = socialAction.getActorObject().name+" 想加入「" + socialAction.targetname+"」社群";
                     notification.save();
                 }
 				break;
@@ -147,7 +148,7 @@ public class SocialActivity {
                     notification.URLs = Json.stringify(Json.toJson(jsonMap));
                     notification.recipient = socialAction.target;
                     notification.notificationType = NotificationType.FRD_REQUEST;
-                    notification.message = socialAction.getActorObject().name+" 想成為你的朋友。";
+                    notification.message = socialAction.getActorObject().name+" 想成為你的朋友";
                     notification.save();
                 }
 				break;
@@ -162,7 +163,7 @@ public class SocialActivity {
                     notification.URLs = Json.stringify(Json.toJson(jsonMap));
                     notification.recipient = socialAction.actor;
                     notification.notificationType = NotificationType.COMM_INVITE_REQUEST;
-                    notification.message = "有人推薦「"+socialAction.targetname+"」社群給您。";
+                    notification.message = "有人推薦「"+socialAction.targetname+"」社群給您";
                     notification.save();
                 }
 				break;
@@ -194,7 +195,7 @@ public class SocialActivity {
                     if (frdIds.size() > 0) {
                         String commLandingUrl = resolveCommunityLandingUrl(community.id, community.communityType, community.targetingType);
                         String postLandingUrl = resolvePostLandingUrl(post.id, community.id, community.communityType);
-                        String msgEnd = " 在「"+community.name+"」發佈了分享。";
+                        String msgEnd = " 在「"+community.name+"」發佈了分享";
 
                         List<User> frdMembers = community.getMembersIn(frdIds);
                         for(User user : frdMembers) {
@@ -246,7 +247,7 @@ public class SocialActivity {
                     if (sendToAll || frdIds.size() > 0) {
                         String commLandingUrl = resolveCommunityLandingUrl(community.id, community.communityType, community.targetingType);
                         String qnaLandingUrl = resolveQnALandingUrl(post.id, community.id, community.communityType);
-                        String msgEnd = " 在「"+community.name+"」發佈了新話題。";
+                        String msgEnd = " 在「"+community.name+"」發佈了新話題";
 
                         List<User> members = sendToAll ? community.getMembers() : community.getMembersIn(frdIds);
                         for(User user : members){
@@ -300,7 +301,7 @@ public class SocialActivity {
                         String landingUrl = resolveQnALandingUrl(post.id, post.community.id, post.community.communityType);
 
                         String shortTitle = post.getShortenedTitle();
-                        String msgEnd = " 把你的話題推上。"+((shortTitle.length() == 0) ? "" : "\""+shortTitle+"\"");
+                        String msgEnd = " 把你的話題推上 - "+((shortTitle.length() == 0) ? "" : "\""+shortTitle+"\"");
 
                         Notification notification =
                                 Notification.getNotification(owner_id, NotificationType.WANTED_ANS, socialAction.target, SocialObjectType.QUESTION);
@@ -349,7 +350,9 @@ public class SocialActivity {
                         String landingUrl = (socialAction.targetType == SocialObjectType.QUESTION) ?
                                 resolveQnALandingUrl(post.id, post.community.id, post.community.communityType) :
                                 resolvePostLandingUrl(post.id, post.community.id, post.community.communityType);
-                        String msgEnd = " 對你的分享讚好。";
+                                
+                        String shortBody =StringUtil.truncateWithDots(post.title, 12);
+                        String msgEnd = " 讚好您的話題"+((shortBody.length() >= 0) ? " - \""+shortBody+"\"" : "");
 
                         Notification notification =
                                 Notification.getNotification(owner_id, NotificationType.LIKED, socialAction.target, SocialObjectType.POST);
@@ -390,7 +393,9 @@ public class SocialActivity {
 
                         Post post = comment.getPost();
                         String landingUrl = resolvePostLandingUrl(post.id, post.community.id, post.community.communityType);
-                        String msgEnd = " 對你的留言讚好。";
+                        
+                        String shortBody = comment.getShortenedBody();
+                        String msgEnd = " 讚好您的留言"+((shortBody.length() >= 0) ? " - \""+shortBody+"\"" : "");
 
                         Notification notification =
                                 Notification.getNotification(owner_id, NotificationType.LIKED, socialAction.target, SocialObjectType.COMMENT);
@@ -433,7 +438,7 @@ public class SocialActivity {
                         String landingUrl = MY_PREFIX +"/qna-landing/id/"+comment.getPost().id+"/communityId/"+comment.getPost().community.id;
 
                         String shortBody = comment.getShortenedBody();
-                        String msgEnd = " 覺得你的回覆有用。"+((shortBody.length() >= 0) ? "\""+shortBody+"\"" : "");
+                        String msgEnd = " 讚好您的回覆"+((shortBody.length() >= 0) ? " - \""+shortBody+"\"" : "");
 
                         Notification notification =
                                 Notification.getNotification(owner_id, NotificationType.LIKED, socialAction.target, SocialObjectType.ANSWER);
@@ -478,12 +483,12 @@ public class SocialActivity {
                     String landingUrl = resolvePostLandingUrl(post.id, post.community.id, post.community.communityType);
 
                     String shortBody = comment.getShortenedBody();
-                    String msgEnd = " 在你的分享留言。";
+                    String msgEnd = " 在您的分享留言";
 
                     Notification notification =
                             Notification.getNotification(owner_id, NotificationType.COMMENT, post.id, SocialObjectType.POST);
                     if(notification == null){
-                        String msg = socialAction.actorname + msgEnd + ((shortBody.length() >= 0) ? "\""+shortBody+"\"" : "");
+                        String msg = socialAction.actorname + msgEnd + ((shortBody.length() >= 0) ? " - \""+shortBody+"\"" : "");
 
                         notification = new Notification();
                         notification.target = post.id;
@@ -520,7 +525,7 @@ public class SocialActivity {
 
                     String shortTitle = post.getShortenedTitle();
                     String shortBody = comment.getShortenedBody();
-                    String msgEnd = " 回應了話題\""+shortTitle+"\"。";
+                    String msgEnd = " 回應了您的話題 - \""+shortTitle+"\"";
 
                     // fan-out, or just to the post owner
                     Collection<Long> recipientIds;
@@ -540,7 +545,7 @@ public class SocialActivity {
                         Notification notification =
                                 Notification.getNotification(recipientId, NotificationType.ANSWERED, post.id, SocialObjectType.POST);
                         if(notification == null){
-                            String msg = socialAction.actorname + msgEnd +((shortBody.length() >= 0) ? "\""+shortBody+"\"" : "");
+                            String msg = socialAction.actorname + msgEnd +((shortBody.length() >= 0) ? " .. \""+shortBody+"\"" : "");
 
                             notification = new Notification();
                             notification.target = post.id;

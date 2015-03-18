@@ -130,8 +130,8 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 		noHTMLString = noHTMLString.replaceAll("[\\\r\\\n]+", " ");
 		noHTMLString = noHTMLString.replaceAll("&ldquo;", "\"");
 		noHTMLString = noHTMLString.replaceAll("&rdquo;", "\"");
-		if(noHTMLString.length() > 104) {
-			return noHTMLString.substring(0, 105);
+		if(noHTMLString.length() > DefaultValues.DEFAULT_PREVIEW_CHARS) {
+			return noHTMLString.substring(0, DefaultValues.DEFAULT_PREVIEW_CHARS);
 		}
 		return noHTMLString;
 		
