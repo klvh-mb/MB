@@ -14,7 +14,7 @@ import javax.persistence.Query;
 import javax.persistence.Transient;
 
 import com.mnt.SocialActivity;
-import common.thread.NotificationThreadLocal;
+import common.thread.ThreadLocalOverride;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
 import play.db.jpa.JPA;
@@ -178,7 +178,7 @@ public class PrimarySocialRelation extends domain.Entity implements Serializable
 	@Override
 	public void postSave() {
         if (isPostSave) {
-            if (NotificationThreadLocal.isDisableNotification()) {
+            if (ThreadLocalOverride.isDisableNotification()) {
                 logger.underlyingLogger().info("Notification is disabled for: "+this.id);
             } else {
 	            SocialActivity.handle(this);

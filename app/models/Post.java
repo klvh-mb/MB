@@ -1,5 +1,6 @@
 package models;
 
+import common.thread.ThreadLocalOverride;
 import common.utils.NanoSecondStopWatch;
 import common.utils.StringUtil;
 import indexing.CommentIndex;
@@ -32,7 +33,6 @@ import domain.Commentable;
 import domain.Likeable;
 import domain.PostType;
 import domain.SocialObjectType;
-import sun.security.util.BigInt;
 
 @Entity
 public class Post extends SocialObject implements Likeable, Commentable {
@@ -159,7 +159,8 @@ public class Post extends SocialObject implements Likeable, Commentable {
         if (this.socialUpdatedBy == null) {
         	this.socialUpdatedBy = this.owner;
         }
-        this.socialUpdatedDate = new Date();
+        Date override = ThreadLocalOverride.getSocialUpdatedDate();
+        this.socialUpdatedDate = (override == null) ? new Date() : override;
 
         // push to / remove from community
         if (!this.deleted) {
@@ -213,8 +214,9 @@ public class Post extends SocialObject implements Likeable, Commentable {
             throws SocialObjectNotCommentableException {
         // update last socialUpdatedDate in Post
     	this.socialUpdatedBy = user;
-        this.socialUpdatedDate = new Date();
-        this.community.socialUpdatedDate = new Date();
+        Date override = ThreadLocalOverride.getSocialUpdatedDate();
+        this.socialUpdatedDate = (override == null) ? new Date() : override;
+        this.community.socialUpdatedDate = (override == null) ? new Date() : override;
 
         // create Comment object
         Comment comment = new Comment(this, user, body);

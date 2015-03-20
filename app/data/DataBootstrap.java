@@ -7,6 +7,7 @@ import javax.persistence.Query;
 
 
 import common.cache.CommunityMetaCache;
+import common.thread.ThreadLocalOverride;
 import customdata.file.ReviewFileReader;
 import customdata.file.PostsFileReader;
 import domain.CommentType;
@@ -905,25 +906,27 @@ public class DataBootstrap {
                 User owner = User.findById(entry.userId);
                 Community community = Community.findByName(entry.commName);
                  if (owner == null) {
-                    logger.underlyingLogger().info("Invalid data. userId="+entry.userId);
+                     logger.underlyingLogger().info("Invalid data. userId="+entry.userId);
                 } else if (community == null) {
-                    logger.underlyingLogger().info("Invalid data. commName="+entry.commName);
+                     logger.underlyingLogger().info("Invalid data. commName="+entry.commName);
                 } else {
-                    Post post = (Post) community.onPost(owner, entry.title, entry.body, PostType.QUESTION);
-                    post.setCreatedDate(entry.dateTime.toDate());
-                    post.setUpdatedDate(entry.dateTime.toDate());
+                     ThreadLocalOverride.setSocialUpdatedDate(entry.dateTime.toDate());
+                     Post post = (Post) community.onPost(owner, entry.title, entry.body, PostType.QUESTION);
+                     ThreadLocalOverride.setSocialUpdatedDate(null);
+                     post.setCreatedDate(entry.dateTime.toDate());
+                     post.setUpdatedDate(entry.dateTime.toDate());
 
-                    for (PostsFileReader.Comment pComment : entry.comments) {
-                        owner = User.findById(pComment.userId);
-                        Comment comment = (Comment) post.onComment(owner, pComment.body, CommentType.ANSWER);
-                        comment.setCreatedDate(pComment.dateTime.toDate());
-                        comment.setUpdatedDate(pComment.dateTime.toDate());
-                        comment.merge();
+                     for (PostsFileReader.Comment pComment : entry.comments) {
+                         owner = User.findById(pComment.userId);
+                         ThreadLocalOverride.setSocialUpdatedDate(pComment.dateTime.toDate());
+                         Comment comment = (Comment) post.onComment(owner, pComment.body, CommentType.ANSWER);
+                         ThreadLocalOverride.setSocialUpdatedDate(null);
+                         comment.setCreatedDate(pComment.dateTime.toDate());
+                         comment.setUpdatedDate(pComment.dateTime.toDate());
+                         comment.merge();
+                     }
 
-                        post.socialUpdatedDate = pComment.dateTime.toDate();
-                    }
-
-                    post.merge();
+                     post.merge();
                 }
             }
         } catch (Exception e) {
