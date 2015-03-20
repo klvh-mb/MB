@@ -863,7 +863,10 @@ public class User extends SocialObject implements Subject, Socializable {
         } else {
             try {
                 return (User) getAuthUserFind(identity).getSingleResult();
-            } catch(javax.persistence.NoResultException e ) {
+            } catch(NoResultException e) {
+                return null;
+            } catch (Exception e) {
+                logger.underlyingLogger().error("Error in findByAuthUserIdentity", e);
                 return null;
             }
         }
@@ -1350,17 +1353,22 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(3, toBeUnfriend.id);
         query.setParameter(4, SocialRelation.Action.FRIEND);
         
-        SocialRelation sr= (SocialRelation) query.getSingleResult();
-        query = JPA.em().createQuery("DELETE  Notification n where socialActionID =?1");
-        query.setParameter(1, sr.id);
-        query.executeUpdate();
-
-        // delete SocialRelation
-        sr.delete();
-
-        // update friends cache
-        FriendCache.onUnFriend(this.id, toBeUnfriend.id);
-        
+        try {
+	        SocialRelation sr= (SocialRelation) query.getSingleResult();
+	        query = JPA.em().createQuery("DELETE  Notification n where socialActionID =?1");
+	        query.setParameter(1, sr.id);
+	        query.executeUpdate();
+	
+	        // delete SocialRelation
+	        sr.delete();
+	
+	        // update friends cache
+	        FriendCache.onUnFriend(this.id, toBeUnfriend.id);
+        } catch (NoResultException e) {
+        	logger.underlyingLogger().error(String.format("[u=%d][f=%d] Not a friend", this.id, toBeUnfriend.id), e);
+        } catch (Exception e) {
+            logger.underlyingLogger().error("Error in doUnFriend", e);
+        }
         return 1;
     }
     
@@ -1373,11 +1381,16 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(3, PrimarySocialRelation.Action.LIKED);
         query.setParameter(4, type);
         
-        PrimarySocialRelation sr= (PrimarySocialRelation) query.getSingleResult();
-        
-        sr.delete();
+        try {
+        	PrimarySocialRelation sr = (PrimarySocialRelation) query.getSingleResult();
+        	sr.delete();
 
-        GameAccountStatistics.recordunLike(this.id);
+        	GameAccountStatistics.recordunLike(this.id);
+        } catch (NoResultException e) {
+        	logger.underlyingLogger().error(String.format("[u=%d][sr.actor=%d][sr.type=%s] like not found", this.id, id, type.name()), e);
+        } catch (Exception e) {
+            logger.underlyingLogger().error("Error in doUnLike", e);
+        }
         return 1;
     }
 
@@ -1393,6 +1406,8 @@ public class User extends SocialObject implements Subject, Socializable {
         try {
             PrimarySocialRelation sr = (PrimarySocialRelation) query.getSingleResult();
             sr.delete();
+        } catch (NoResultException e) {
+        	logger.underlyingLogger().error(String.format("[u=%d][sr.actor=%d][sr.type=%s] unwant answer not found", this.id, id, type.name()), e);
         } catch (Exception e) {
             logger.underlyingLogger().error("Error in doUnwantAnswer", e);
         }
@@ -1408,11 +1423,18 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(3, SecondarySocialRelation.Action.BOOKMARKED);
         query.setParameter(4, type);
 
-        List<SecondarySocialRelation> srs = (List<SecondarySocialRelation>)query.getResultList();
-        for (SecondarySocialRelation sr : srs) {
-            sr.delete();
+        try {
+	        List<SecondarySocialRelation> srs = (List<SecondarySocialRelation>)query.getResultList();
+	        for (SecondarySocialRelation sr : srs) {
+	            sr.delete();
+	        }
+	        return srs.size();
+        } catch (NoResultException e) {
+        	logger.underlyingLogger().error(String.format("[u=%d][sr.actor=%d][sr.type=%s] bookmark not found", this.id, id, type.name()), e);
+        } catch (Exception e) {
+            logger.underlyingLogger().error("Error in doUnwantAnswer", e);
         }
-        return srs.size();
+        return 1;
     }
     
     public static int unBookmarkAllUsersOn(Long id, SocialObjectType type) {
@@ -1434,17 +1456,22 @@ public class User extends SocialObject implements Subject, Socializable {
         query.setParameter(3, community.id);
         query.setParameter(4, SocialRelation.Action.MEMBER);
         
-        SocialRelation sr= (SocialRelation) query.getSingleResult();
-        query = JPA.em().createQuery("DELETE Notification n where socialActionID =?1");
-        query.setParameter(1, sr.id);
-        query.executeUpdate();
-
-        // delete SocialRelation
-        sr.delete();
-
-        // remove community affinity
-        UserCommunityAffinity.onLeftCommunity(this.id, community.id);
-
+        try {
+	        SocialRelation sr = (SocialRelation) query.getSingleResult();
+	        query = JPA.em().createQuery("DELETE Notification n where socialActionID =?1");
+	        query.setParameter(1, sr.id);
+	        query.executeUpdate();
+	
+	        // delete SocialRelation
+	        sr.delete();
+	
+	        // remove community affinity
+	        UserCommunityAffinity.onLeftCommunity(this.id, community.id);
+        } catch (NoResultException e) {
+        	logger.underlyingLogger().error(String.format("[u=%d][c=%d] User not a member of community", this.id, community.id), e);
+        } catch (Exception e) {
+        	logger.underlyingLogger().error("Error in doUnwantAnswer", e);
+        }
         return 1;
     }
     
