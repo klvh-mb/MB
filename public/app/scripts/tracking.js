@@ -11,5 +11,5 @@ var ga_send_pv = function(page_code) {
     
     ga('create', 'UA-53905621-1', 'auto');
     ga('send', 'pageview');
-    log('ga_send_pv - '+window.location.host);
+    console.log('ga_send_pv - '+window.location.host);
 }
