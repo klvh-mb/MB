@@ -1402,6 +1402,7 @@ public class CommunityController extends Controller{
         final User localUser = Application.getLocalUser(session());
         final Post post = Post.findById(id);
         if (post == null) {
+        	logger.underlyingLogger().error("[u="+localUser.id+"][c="+communityId+"][p="+id+"] post not found");
             return notFound(); 
         }
         logger.underlyingLogger().info("[u="+localUser.id+"][c="+communityId+"][p="+id+"] postLanding");
@@ -1415,6 +1416,7 @@ public class CommunityController extends Controller{
         final User localUser = Application.getLocalUser(session());
         final Post post = Post.findById(id);
         if (post == null) {
+        	logger.underlyingLogger().error("[u="+localUser.id+"][c="+communityId+"][p="+id+"] qna not found");
             return notFound(); 
         }
         logger.underlyingLogger().info("[u="+localUser.id+"][c="+communityId+"][p="+id+"] qnaLanding");
