@@ -216,7 +216,11 @@ public class Post extends SocialObject implements Likeable, Commentable {
     	this.socialUpdatedBy = user;
         Date override = ThreadLocalOverride.getSocialUpdatedDate();
         this.socialUpdatedDate = (override == null) ? new Date() : override;
-        this.community.socialUpdatedDate = (override == null) ? new Date() : override;
+        if (override == null) {
+            this.community.socialUpdatedDate = new Date();
+        } else if (override.getTime() > this.community.socialUpdatedDate.getTime()) {
+            this.community.socialUpdatedDate = override;
+        }
 
         // create Comment object
         Comment comment = new Comment(this, user, body);
