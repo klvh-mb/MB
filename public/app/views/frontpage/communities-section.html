@@ -1,13 +1,13 @@
 
 <div id="frontpage-schools-section" class="general-box widget-box">
     <div class="section-header">
-        <img style="width:auto;height:28px;" data-ng-src="/assets/app/images/general/titles/schools_most_discussed.png">
-        <a class="pull-right" style="color:#ffffff;" href="/schools#!">進入幼兒班指南</a>
+        <img style="width:auto;height:28px;" data-ng-src="/assets/app/images/frontpage/schools_title_top.png">
+        <a class="pull-right" style="color:#ffffff;" href="/schools#!" ng-show="!userInfo.isMobile">進入幼兒班指南</a>
     </div>
     
     <div id="hot-schools">
         <div class="section-title">
-            熱門討論PN幼兒班
+            最多媽媽討論
         </div>
         <div class="section-details">
             <div class="schools-ranking-main">
@@ -18,7 +18,7 @@
 		                        <span class="rank-number ng-binding">{{$index+1}}</span>
 		                        <div class="school-info">
 		                            <a href="/schools#!/pn/{{pn.id}}">{{pn.n}}</a>
-		                            <span class="tag">{{pn.dis}}</span>
+		                            <a href="/schools#!/pn/district/{{pn.disId}}"><span class="tag">{{pn.dis}}</span></a>
 		                            <span class="school-info-tips" ng-if="pn.nop > 0">
 		                                <img src="../assets/app/images/general/icons/i-reply.png">{{pn.nop}}
 		                            </span>
@@ -41,7 +41,7 @@
 <div id="frontpage-communities-section" class="general-box widget-box">
     <div class="section-header">
         <img class="section-header-image" src="/assets/app/images/frontpage/bean-promo.png">
-        <a class="pull-right" href="/#!/communities-discover">所有媽媽社群</a>
+        <a class="pull-right" href="/#!/communities-discover" ng-show="!userInfo.isMobile">所有媽媽社群</a>
     </div>
     
     <div id="hot-topics">
