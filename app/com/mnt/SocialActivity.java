@@ -525,7 +525,8 @@ public class SocialActivity {
 
                     String shortTitle = post.getShortenedTitle();
                     String shortBody = comment.getShortenedBody();
-                    String msgEnd = " 回應了您的話題 - \""+shortTitle+"\"";
+                    String genMsgEnd = " 回應了話題 - \""+shortTitle+"\"";
+                    String yrMsgEnd = " 回應了您的話題 - \""+shortTitle+"\"";
 
                     // fan-out, or just to the post owner
                     Collection<Long> recipientIds;
@@ -538,9 +539,11 @@ public class SocialActivity {
                     }
 
                     for (Long recipientId : recipientIds) {
-                        if (recipientId == socialAction.actor) {
+                        if (recipientId.equals(socialAction.actor)) {
                             continue;   // skip the actor himself
                         }
+
+                        String msgEnd = recipientId.equals(post.owner.id) ? yrMsgEnd : genMsgEnd;
 
                         Notification notification =
                                 Notification.getNotification(recipientId, NotificationType.ANSWERED, post.id, SocialObjectType.POST);
