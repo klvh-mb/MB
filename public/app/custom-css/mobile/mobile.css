@@ -851,9 +851,18 @@ span.notif-count {
     width: 100%;
     height: 135px;
 }
+#frontpage-schools-section {
+    width: 100%;
+}
+#frontpage-communities-section {
+    width: 100%;
+}
+#frontpage-schools-section #hot-schools, 
 #frontpage-communities-section #hot-topics, 
 #frontpage-communities-section #hot-communities {
-    width: 95%;
+    width: 90%;
+    height: auto;
+    min-height: 10px;
 }
 #frontpage-featured-section #featured-game, 
 #frontpage-featured-section #featured-topic {
