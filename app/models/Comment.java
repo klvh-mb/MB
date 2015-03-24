@@ -15,6 +15,7 @@ import javax.persistence.Query;
 import common.utils.StringUtil;
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
+import processor.FeedProcessor;
 import domain.CommentType;
 import domain.Creatable;
 import domain.Likeable;
@@ -95,6 +96,30 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
     @Override
     public void save() {
         super.save();
+        
+        if (!this.deleted) {
+            switch(this.commentType) {
+                case SIMPLE: {
+                    owner.commentsCount++;
+                    break;
+                }
+                case ANSWER: {
+                    owner.answersCount++;
+                    break;
+                }
+            }
+        } else {
+            switch(this.commentType) {
+                case SIMPLE: {
+                    owner.commentsCount--;
+                    break;
+                }
+                case ANSWER: {
+                    owner.answersCount--;
+                    break;
+                }
+            }
+        }
     }
     
     public void delete(User deletedBy) {

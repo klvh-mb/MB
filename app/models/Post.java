@@ -198,6 +198,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
         for (Comment comment : this.comments) {
             comment.deleted = true;
             comment.deletedBy = deletedBy;
+            comment.save();
         }
         this.deleted = true;
         this.deletedBy = deletedBy;
@@ -251,12 +252,6 @@ public class Post extends SocialObject implements Likeable, Commentable {
         UserCommunityAffinity.onCommunityActivity(user.id, getCommunity().id);
         // push to community NF
         FeedProcessor.pushToCommunity(this);
-
-        if (type == CommentType.SIMPLE) {
-            user.commentsCount++;
-        } else if (type == CommentType.ANSWER) {
-            user.answersCount++;
-        }
         
         try {
             NanoSecondStopWatch sw = new NanoSecondStopWatch();
@@ -328,11 +323,6 @@ public class Post extends SocialObject implements Likeable, Commentable {
             throws SocialObjectNotCommentableException {
         // TODO delete comment logic
         this.noOfComments--;
-        if (type == CommentType.SIMPLE) {
-            user.commentsCount--;
-        } else if (type == CommentType.ANSWER) {
-            user.answersCount--;
-        }
     }
     
     public void indexPost(boolean withPhotos) {

@@ -185,7 +185,7 @@ minibean.controller('AllCommunitiesIndexWidgetController',function($scope, $rout
 });
     
 minibean.controller('FrontpageController',function($scope, $route, $location, $http, $routeParams, $interval, 
-    pkViewFactory, frontpageService, communitiesDiscoverService, newsFeedService, campaignService, pkViewService, articleService, tagwordService, usSpinnerService) {
+    pkViewFactory, frontpageService, communitiesDiscoverService, newsFeedService, campaignService, pkViewService, articleService, tagwordService, schoolsService, usSpinnerService) {
     
     $scope.get_header_metaData();
     
@@ -367,12 +367,16 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     //$scope.nextHotNewsFeeds(1);
     
     // hot communities
+    /*
     $scope.hotCommunities = frontpageService.hotCommunities.get({},
         function(data){
             $scope.hottestCommunity = data.hcomm[0];
         }
     );
-
+    */
+    
+    $scope.topDiscussedSchools = schoolsService.topDiscussedPNs.get();
+    
     // pkview
     $scope.redVote = function(pkview) {
         if (!$scope.userInfo.isLoggedIn) {

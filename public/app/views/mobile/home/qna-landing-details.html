@@ -123,6 +123,12 @@
                     <div data-ng-include data-src="'/assets/app/views/home/like-answer.html'"></div>
                 </div>
 	        </li>
+	        <li ng-show="post.n_c > commentsPreviewNum">
+                <span class="post-qna-answer-count" ng-show="post.n_c > commentsPreviewNum && post.ep">共{{post.n_c}}個回覆</span>
+                <a class="post-view-all-comments-link"href="" ng-show="post.n_c > commentsPreviewNum && !post.ep" data-ng-click="get_all_comments(post.id)">共{{post.n_c}}個回覆</a>
+                <a class="post-view-all-comments-link pull-right" href="" ng-show="post.n_c > commentsPreviewNum && !post.ep" data-ng-click="get_all_comments(post.id)">查看所有回覆</a>
+                <img id="comment-spinner_{{post.id}}" class="comment-spinner" style="display:none;" src="/assets/app/images/general/animated/green-spinner.gif">
+            </li>
 	        <!-- Post Answer box -->
 	        <li ng-show="(post.isC == true || (community.isM || community.isO)) && !isMyBookmarksPage && userInfo.isLoggedIn">
 	            <!--a data-ng-href="/my#!/profile/{{userInfo.id}}">

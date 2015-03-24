@@ -1,10 +1,41 @@
-<div ng-show="userInfo.isMobile">
-    <div id="frontpage-schools-section" class="general-box widget-box">
-        <div>
-            <a href="/schools#!" class="btn-schools-flat" style="margin-bottom:5px;">進入幼兒班指南</a>
-        </div>    
+
+<div id="frontpage-schools-section" class="general-box widget-box">
+    <div class="section-header">
+        <img style="width:auto;height:28px;" data-ng-src="/assets/app/images/general/titles/schools_most_discussed.png">
+        <a class="pull-right" style="color:#ffffff;" href="/schools#!">進入幼兒班指南</a>
     </div>
-    <span class="padding5"></span>
+    
+    <div id="hot-schools">
+        <div class="section-title">
+            熱門討論PN幼兒班
+        </div>
+        <div class="section-details">
+            <div class="schools-ranking-main">
+			    <div id="schools-ranking-top-discussed">
+		            <ul>
+		                <li ng-repeat="pn in topDiscussedSchools" ng-if="$index < frontpageHotCommunitiesCount">
+		                    <div class="school-list-entry" style="padding:5px;">
+		                        <span class="rank-number ng-binding">{{$index+1}}</span>
+		                        <div class="school-info">
+		                            <a href="/schools#!/pn/{{pn.id}}">{{pn.n}}</a>
+		                            <span class="tag">{{pn.dis}}</span>
+		                            <span class="school-info-tips" ng-if="pn.nop > 0">
+		                                <img src="../assets/app/images/general/icons/i-reply.png">{{pn.nop}}
+		                            </span>
+		                        </div>
+		                    </div>
+		                </li>
+		            </ul>
+			    </div>
+			</div>
+        </div>
+    </div>
+    
+    <div ng-show="userInfo.isMobile">
+        <div>
+            <a href="/schools#!" class="btn-schools-flat" style="margin-bottom:15px;">進入幼兒班指南</a>
+        </div>    
+	</div>
 </div>
 
 <div id="frontpage-communities-section" class="general-box widget-box">
@@ -116,7 +147,7 @@
         </div>    
     </div>
     
-    <div id="hot-communities">
+    <!--div id="hot-communities">
         <div class="section-title">
             熱門社群
         </div>
@@ -140,7 +171,7 @@
                 </li>                    
             </ul>
         </div>
-    </div>
+    </div-->
     
     <div ng-show="userInfo.isMobile">
         <div>
@@ -148,6 +179,7 @@
         </div>
     </div>
 </div>
+
 
 
 <style>
@@ -196,7 +228,7 @@
     height: auto;
     text-align: center;
     overflow: hidden;
-    margin-top: -15px;
+    margin-top: -8px;
     margin-bottom: 5px;
 }
 #hot-topics-slider .rsBullet {

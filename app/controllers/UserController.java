@@ -133,6 +133,9 @@ public class UserController extends Controller {
                 localUser.getArticleBookmarkCount(),
                 localUser.getPKViewBookmarkCount()
                 );
+        logger.underlyingLogger().debug("[u="+localUser.id+"] getBookmarkSummary - "+
+                summary.qnaBookmarkCount+"|"+summary.postBookmarkCount+"|"+
+        		summary.articleBookmarkCount+"|"+summary.pkViewBookmarkCount);
         return ok(Json.toJson(summary));
     }
     
