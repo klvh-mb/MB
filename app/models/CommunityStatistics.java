@@ -146,6 +146,7 @@ public class CommunityStatistics {
         executeUpdate();
     }
 
+    ///////////////////////////// Query API /////////////////////////////
     /**
      * Return list of communities, sorted by activity count.
      * @param numDaysBefore
@@ -177,6 +178,7 @@ public class CommunityStatistics {
         return result;
     }
 
+    ///////////////////////////// OnDemand API /////////////////////////////
     /**
      * @param numDaysBefore
      */

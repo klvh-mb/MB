@@ -1263,53 +1263,6 @@ public class User extends SocialObject implements Subject, Socializable {
     public static File getDefaultCoverPhoto() throws FileNotFoundException {
          return new File(Play.application().configuration().getString("storage.user.cover.noimage"));
     }
-    
-    @JsonIgnore
-    public List<Notification> getAllRequestNotification() {
-        
-        Query q = JPA.em().createQuery(
-                "SELECT n from Notification n where recipient = ?1 and ( " +
-                "( notificationType in (?2,?3,?5) and n.status in(?6,?8) ) or " +
-                "( notificationType in (?4,?7) and CREATED_DATE > ?9)" +
-                ") ORDER BY CREATED_DATE desc ");
-        q.setParameter(1, this.id);
-        q.setParameter(2, NotificationType.COMM_JOIN_REQUEST);
-        q.setParameter(3, NotificationType.COMM_INVITE_REQUEST);
-        q.setParameter(4, NotificationType.COMM_JOIN_APPROVED);
-        q.setParameter(5, NotificationType.FRD_REQUEST);
-        q.setParameter(7, NotificationType.FRD_ACCEPTED);
-        q.setParameter(6, 0);
-        q.setParameter(8, 1);
-        // subtract 7 days
-        DateTime sevenDaysBefore = (new DateTime()).minusDays(7);
-        q.setParameter(9, sevenDaysBefore.toDate());
-
-        List<Notification> notifications = q.getResultList();
-        return notifications;
-    }
-    
- 
-    @JsonIgnore
-    public List<Notification> getAllNotification() {
-        
-        Query q = JPA.em().createQuery(
-                "SELECT n from Notification n where recipient = ?1 and notificationType in (?2,?3,?4,?6,?7,?8,?9) and" +
-                " CREATED_DATE > ?5 ORDER BY UPDATED_DATE desc");
-        q.setParameter(1, this.id);
-        q.setParameter(2, NotificationType.COMMENT);
-        q.setParameter(3, NotificationType.ANSWERED);
-        q.setParameter(4, NotificationType.LIKED);
-        q.setParameter(6, NotificationType.POSTED);
-        q.setParameter(7, NotificationType.QUESTIONED);
-        q.setParameter(8, NotificationType.WANTED_ANS);
-        q.setParameter(9, NotificationType.CAMPAIGN);
-        // subtract 7 days
-        DateTime sevenDaysBefore = (new DateTime()).minusDays(7);
-        q.setParameter(5, sevenDaysBefore.toDate());
-
-        List<Notification> notifications = q.getResultList();
-        return notifications;
-    }
 
     @JsonIgnore
     public boolean isFriendOf(User localUser) {

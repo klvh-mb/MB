@@ -889,7 +889,7 @@ public class UserController extends Controller {
 		NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
 		final User localUser = Application.getLocalUser(session());
-		List<Notification> batchupNotif = localUser.getAllNotification();
+		List<Notification> batchupNotif = Notification.getAllNotification(localUser.id);
 		int unread_allNotif_count = 0;
 		int unread_reqNotif_count = 0;
     	List<NotificationVM> notif = new ArrayList<>();
@@ -900,7 +900,7 @@ public class UserController extends Controller {
     		notif.add(new NotificationVM(n));
     	}
     	
-    	List<Notification> requestNotif = localUser.getAllRequestNotification();
+    	List<Notification> requestNotif = Notification.getAllRequestNotification(localUser.id);
     	List<NotificationVM> requests = new ArrayList<>();
     	for(Notification n : requestNotif) {
     		if(n.status == 0){
