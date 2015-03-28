@@ -292,6 +292,16 @@ GET     /get-applied-pns                        controllers.PreNurseryController
 GET     /get-interviewed-pns                    controllers.PreNurseryController.getInterviewedPNs()
 GET     /get-offered-pns                        controllers.PreNurseryController.getOfferedPNs()
 
+# Kindergarten
+GET     /get-kg-info/:id                        controllers.KindergartenController.getKGInfo(id:Long)
+GET     /search-kgs-by-name/:query              controllers.KindergartenController.searchKGsByName(query:String)
+GET     /get-kgs-by-region/:region_id           controllers.KindergartenController.getKGsByRegion(region_id:Long)
+GET     /get-kgs-by-district/:district_id       controllers.KindergartenController.getKGsByDistrict(district_id:Long)
+GET     /get-kg-orgs-by-district/:district_id   controllers.KindergartenController.getKGOrgsByDistrict(district_id:Long)
+GET     /bookmark-kg/:id                        controllers.KindergartenController.onBookmark(id : Long)
+GET     /unbookmark-kg/:id                      controllers.KindergartenController.onUnBookmark(id : Long)
+GET     /get-bookmarked-kgs                     controllers.KindergartenController.getBookmarkedKGs()
+
 # Edm settings
 POST    /save-edm-settings                      controllers.UserSettingsController.saveEdmSettings
 GET     /get-edm-settings                       controllers.UserSettingsController.getEdmSettings
