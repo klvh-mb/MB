@@ -201,7 +201,6 @@ GET     /un-friend                  controllers.FriendsController.doUnFriend(id:
 # Community
 GET     /get-zodiac-year-communities            controllers.CommunityController.getZodiacYearCommunities
 GET     /get-district-communities               controllers.CommunityController.getDistrictCommunities
-GET     /get-topic-communities                  controllers.CommunityController.getTopicCommunities
 GET     /get-other-communities                  controllers.CommunityController.getOtherCommunities
 GET     /get-all-business-community-categories  controllers.CommunityController.getAllBusinessCommunityCategories
 GET     /get-all-social-community-categories    controllers.CommunityController.getAllSocialCommunityCategories
