@@ -551,8 +551,16 @@ public class UserController extends Controller {
     
     @Transactional
     public static Result getProfile(Long id) {
+    	NanoSecondStopWatch sw = new NanoSecondStopWatch();
+	    
     	User user = User.findById(id);
     	final User localUser = Application.getLocalUser(session());
+		
+		sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+user.getId()+"] getProfile(). Took "+sw.getElapsedMS()+"ms");
+        }
+
     	return ok(Json.toJson(ProfileVM.profile(user,localUser)));
     }
     

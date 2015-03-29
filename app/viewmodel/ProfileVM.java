@@ -100,11 +100,11 @@ public class ProfileVM {
             vm.signupDate = user.getCreatedDate().toString();
             vm.lastLogin = user.lastLogin.toString();
             vm.totalLogin = user.totalLogin;
-            vm.questionsCount = user.questionsCount;
-            vm.answersCounts = user.answersCount;
             vm.likesCount = user.likesCount;
             vm.wantAnsCount = user.wantAnsCount;
         }
+        vm.questionsCount = user.questionsCount;
+        vm.answersCounts = user.answersCount;
         
         return vm;
     }
