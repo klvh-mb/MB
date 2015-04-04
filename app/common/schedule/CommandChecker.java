@@ -73,6 +73,10 @@ public class CommandChecker {
         else if (commandLine.startsWith("bootstrapPNCommunity")) {
             DataBootstrap.bootstrapPNCommunity();
         }
+        // KG communities
+        else if (commandLine.startsWith("bootstrapKGCommunity")) {
+            DataBootstrap.bootstrapKGCommunity();
+        }
         // PN reviews
         else if (commandLine.startsWith("bootstrapPNReviews")) {
             if (tokens.length > 1) {

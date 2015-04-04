@@ -5,7 +5,7 @@ import java.util.*;
 import models.Community;
 import models.CommunityCategory;
 import models.PreNursery;
-import models.TargetingSocialObject;
+import models.Kindergarten;
 import viewmodel.CommunityCategoryMapVM;
 
 /**
@@ -23,12 +23,15 @@ public class CommunityMetaCache {
     private static List<CommunityCategoryMapVM> socialCommCategoryMapVMs = new ArrayList<>();
     // PreNursery community id to PN id
     private static Map<Long,Long> pnCommunityToIds = new HashMap<>();
+    // Kindergarten community id to KG id
+    private static Map<Long,Long> kgCommunityToIds = new HashMap<>();
 
     static {
         bizCatList = CommunityCategory.loadAllBusinessCategories();
         socialCatList = CommunityCategory.loadAllSocialCategories();
         loadSocialCommCategoryMapVMs();
         loadPreNurseryComms();
+        loadKindergartenComms();
     }
 
     private static void loadSocialCommCategoryMapVMs() {
@@ -53,6 +56,17 @@ public class CommunityMetaCache {
         }
     }
 
+    public static void loadKindergartenComms() {
+        List<Kindergarten> kgs = Kindergarten.findAll();
+
+        kgCommunityToIds.clear();
+        for (Kindergarten kg : kgs) {
+            if (kg.communityId != null) {
+                kgCommunityToIds.put(kg.communityId, kg.getId());
+            }
+        }
+    }
+
 
     //////////////// Cache Getters ////////////////
     public static List<CommunityCategory> getAllBusinessCategories() {
@@ -69,5 +83,9 @@ public class CommunityMetaCache {
 
     public static Long getPNIdFromCommunity(Long communityId) {
         return pnCommunityToIds.get(communityId);
+    }
+
+    public static Long getKGIdFromCommunity(Long communityId) {
+        return kgCommunityToIds.get(communityId);
     }
 }

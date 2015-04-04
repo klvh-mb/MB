@@ -87,7 +87,7 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
         // 1) school saved list
         SchoolSaved saved = new SchoolSaved(user.getId(), this.id, SchoolType.PN);
         saved.save();
-        // 2) join PN community
+        // 2) join PN community TODO (need to check on PN side)
         if (communityId != null) {
             try {
                 Community pnComm = Community.findById(communityId);
@@ -113,7 +113,7 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
                 saved.delete();
             }
         }
-        // 2) leave PN community
+        // 2) leave PN community TODO (need to check on PN side)
         if (communityId != null) {
             try {
                 Community pnComm = Community.findById(communityId);
@@ -138,6 +138,11 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
         }
     }
 
+    public static List<PreNursery> findAll() {
+        Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn");
+        return (List<PreNursery>)q.getResultList();
+    }
+
     public static PreNursery findByNameDistrictId(String pnName, Long districtId) {
         Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.name=?1 and pn.districtId=?2");
         q.setParameter(1, pnName);
@@ -149,9 +154,20 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
         }
     }
 
-    public static List<PreNursery> findAll() {
-        Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn");
-        return (List<PreNursery>)q.getResultList();
+    public static PreNursery findBy(String name, String nameEn, String address) {
+        Query q = (address == null) ?
+            JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.name=?1 and pn.nameEn=?2 and pn.address is null") :
+            JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.name=?1 and pn.nameEn=?2 and pn.address=?3");
+        q.setParameter(1, name);
+        q.setParameter(2, nameEn);
+        if (address != null) {
+            q.setParameter(3, address);
+        }
+        try {
+            return (PreNursery) q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static Long searchByNameCount(String nameSubStr) {
@@ -249,20 +265,5 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
 
     public String getNumAdmitted() {
         return numAdmitted;
-    }
-
-    ///////////////////// SQL /////////////////////
-    /**
-     * @return
-     */
-    public static String getDeleteAllSql() {
-        return "delete from PreNursery;";
-    }
-
-    /**
-     * @return
-     */
-    public String getInsertSql() {
-        return "";
     }
 }

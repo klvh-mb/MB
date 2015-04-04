@@ -1,5 +1,6 @@
 package data;
 
+import java.lang.annotation.Target;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import models.Community.CommunityType;
 import models.Emoticon;
 import models.Icon;
 import models.Icon.IconType;
+import models.Kindergarten;
 import models.Location;
 import models.Location.LocationCode;
 import models.PreNursery;
@@ -800,7 +802,7 @@ public class DataBootstrap {
             String name = pn.getName();
             String desc = pn.getName()+" PreNursery討論區";
             String targetingInfo = pn.getId().toString();
-            Community community = getOrCreatePNCommunity(name, desc, targetingInfo);
+            Community community = getOrCreateSchoolCommunity(TargetingType.PRE_NURSERY, name, desc, targetingInfo);
             if (community != null) {
                 pn.communityId = community.getId();
                 pn.merge();
@@ -809,6 +811,34 @@ public class DataBootstrap {
 
         // reload cache
         CommunityMetaCache.loadPreNurseryComms();
+    }
+
+    /**
+     * Invoked from command line
+     */
+    public static void bootstrapKGCommunity() {
+        // KG communities
+        List<Kindergarten> kgsNoPN = Kindergarten.findAll(false);
+        logger.underlyingLogger().info("bootstrapKGCommunity() - No PN. count="+kgsNoPN.size());
+
+        // Create new communities without PN
+        for (Kindergarten kg : kgsNoPN) {
+            String name = kg.getName();
+            String desc = kg.getName()+" 討論區";
+            String targetingInfo = kg.getId().toString();
+            Community community = getOrCreateSchoolCommunity(TargetingType.KINDY, name, desc, targetingInfo);
+            if (community != null) {
+                kg.communityId = community.getId();
+                kg.merge();
+            }
+        }
+
+        // Merge communityId with existing PN
+        int mergeCount = Kindergarten.mergeCommunityIdWithPN();
+        logger.underlyingLogger().info("bootstrapKGCommunity() - Merged PN. count="+mergeCount);
+
+        // reload cache
+        CommunityMetaCache.loadKindergartenComms();
     }
 
     /**
@@ -1029,8 +1059,8 @@ public class DataBootstrap {
     }
 
     @Transactional
-    private static Community getOrCreatePNCommunity(String name, String desc, String targetingInfo) {
-        Community newComm = Community.findByNameTargetingTypeInfo(name, TargetingType.PRE_NURSERY, targetingInfo);
+    private static Community getOrCreateSchoolCommunity(TargetingType targetingType, String name, String desc, String targetingInfo) {
+        Community newComm = Community.findByNameTargetingTypeInfo(name, targetingType, targetingInfo);
         if (newComm == null) {
             try {
                 newComm = Application.getMBAdmin().createCommunity(
@@ -1038,15 +1068,15 @@ public class DataBootstrap {
                         "/assets/app/images/general/icons/community/grad_hat.png");
                 newComm.system = true;
                 newComm.excludeFromNewsfeed = true;
-                newComm.targetingType = TargetingType.PRE_NURSERY;
+                newComm.targetingType = targetingType;
                 newComm.targetingInfo = targetingInfo;
 
-                logger.underlyingLogger().info("Created PN community (id="+newComm.getId()+"): "+name);
+                logger.underlyingLogger().info("Created "+targetingType+" community (id="+newComm.getId()+"): "+name);
             } catch (Exception e) {
-                logger.underlyingLogger().error("Error in getOrCreatePNCommunity", e);
+                logger.underlyingLogger().error("Error in getOrCreateSchoolCommunity", e);
             }
         } else {
-            logger.underlyingLogger().info("Updated with PN community (id="+newComm.getId()+"): "+name);
+            logger.underlyingLogger().info("Updated with "+targetingType+" community (id="+newComm.getId()+"): "+name);
         }
         return newComm;
     }
