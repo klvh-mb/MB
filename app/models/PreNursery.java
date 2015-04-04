@@ -1,5 +1,6 @@
 package models;
 
+import common.cache.CommunityMetaCache;
 import common.model.SchoolType;
 import domain.*;
 import play.db.jpa.JPA;
@@ -87,7 +88,7 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
         // 1) school saved list
         SchoolSaved saved = new SchoolSaved(user.getId(), this.id, SchoolType.PN);
         saved.save();
-        // 2) join PN community TODO (need to check on PN side)
+        // 2) join PN community
         if (communityId != null) {
             try {
                 Community pnComm = Community.findById(communityId);
@@ -113,13 +114,21 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
                 saved.delete();
             }
         }
-        // 2) leave PN community TODO (need to check on PN side)
+        // 2) leave PN community
         if (communityId != null) {
-            try {
-                Community pnComm = Community.findById(communityId);
-                user.leaveCommunity(pnComm);
-            } catch (Exception e) {
-                logger.underlyingLogger().error("Error un-joining PN community: "+communityId, e);
+            boolean leaveComm = true;
+
+            Long kgId = CommunityMetaCache.getKGIdFromCommunity(communityId);
+            if (kgId != null) {
+                leaveComm = SchoolSaved.findByUserSchoolId(user.getId(), kgId, SchoolType.KINDY).isEmpty();
+            }
+            if (leaveComm) {
+                try {
+                    Community pnComm = Community.findById(communityId);
+                    user.leaveCommunity(pnComm);
+                } catch (Exception e) {
+                    logger.underlyingLogger().error("Error un-joining PN community: "+communityId, e);
+                }
             }
         }
         // 3) remove bookmark record

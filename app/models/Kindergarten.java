@@ -1,5 +1,6 @@
 package models;
 
+import common.cache.CommunityMetaCache;
 import common.model.SchoolType;
 import domain.Commentable;
 import domain.Likeable;
@@ -105,7 +106,7 @@ public class Kindergarten extends SocialObject implements Likeable, Commentable 
         // 1) school saved list
         SchoolSaved saved = new SchoolSaved(user.getId(), this.id, SchoolType.KINDY);
         saved.save();
-        // 2) join KG community TODO (need to check on PN side)
+        // 2) join KG community
         if (communityId != null) {
             try {
                 Community pnComm = Community.findById(communityId);
@@ -131,13 +132,21 @@ public class Kindergarten extends SocialObject implements Likeable, Commentable 
                 saved.delete();
             }
         }
-        // 2) leave KG community TODO (need to check on PN side)
+        // 2) leave KG community
         if (communityId != null) {
-            try {
-                Community pnComm = Community.findById(communityId);
-                user.leaveCommunity(pnComm);
-            } catch (Exception e) {
-                logger.underlyingLogger().error("Error un-joining KG community: "+communityId, e);
+            boolean leaveComm = true;
+
+            Long pnId = CommunityMetaCache.getPNIdFromCommunity(communityId);
+            if (pnId != null) {
+                leaveComm = SchoolSaved.findByUserSchoolId(user.getId(), pnId, SchoolType.PN).isEmpty();
+            }
+            if (leaveComm) {
+                try {
+                    Community pnComm = Community.findById(communityId);
+                    user.leaveCommunity(pnComm);
+                } catch (Exception e) {
+                    logger.underlyingLogger().error("Error un-joining KG community: "+communityId, e);
+                }
             }
         }
         // 3) remove bookmark record
