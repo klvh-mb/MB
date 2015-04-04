@@ -38,7 +38,10 @@ public class SocialActivity {
             return MAGAZINE_PREFIX+"/business/community/"+commId;
         } else {
             if (targetingType != null && targetingType == TargetingType.PRE_NURSERY) {
+                // Note: If community is shared by PN and KG, PN url will take precedence.
                 return SCHOOL_PREFIX+"/pn/"+ CommunityMetaCache.getPNIdFromCommunity(commId);
+            } else if (targetingType != null && targetingType == TargetingType.KINDY) {
+                return SCHOOL_PREFIX+"/kg/"+ CommunityMetaCache.getKGIdFromCommunity(commId);
             } else {
                 return MY_PREFIX+"/community/"+commId;
             }
@@ -74,7 +77,8 @@ public class SocialActivity {
 
     private static boolean isSendToAllMembers(Community community) {
         return community.getTargetingType() != null &&
-               community.getTargetingType() == TargetingType.PRE_NURSERY;
+               (community.getTargetingType() == TargetingType.PRE_NURSERY ||
+                community.getTargetingType() == TargetingType.KINDY);
     }
     //////////////////////////////////////////////////
 

@@ -7,6 +7,7 @@ import models.CommunityStatistics;
 import models.FrontPageTopic;
 import models.FrontPageTopic.TopicType;
 import models.TargetingSocialObject;
+import org.elasticsearch.common.collect.Sets;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -16,10 +17,7 @@ import viewmodel.HotCommunityParentVM;
 import viewmodel.HotCommunityVM;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import domain.DefaultValues;
 
@@ -38,10 +36,13 @@ public class FrontPageController extends Controller {
     public static Result getHotCommunities() {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
+        Set<String> exludes = Sets.newHashSet(
+                TargetingSocialObject.TargetingType.PRE_NURSERY.toString(),
+                TargetingSocialObject.TargetingType.KINDY.toString());
+
         List<CommunityStatistics.StatisticsSummary> sortedStats =
                 CommunityStatistics.getMostActiveCommunities(
-                        DefaultValues.FRONTPAGE_HOT_COMMUNITIES_FOR_LAST_DAYS,
-                        TargetingSocialObject.TargetingType.PRE_NURSERY);
+                        DefaultValues.FRONTPAGE_HOT_COMMUNITIES_FOR_LAST_DAYS, exludes);
 
         Map<Long, CommunityStatistics.StatisticsSummary> statsMap = new HashMap<>();
         List<Long> ids = new ArrayList<>(sortedStats.size());

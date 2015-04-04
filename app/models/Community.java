@@ -159,7 +159,8 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	}
 
     private boolean shouldNotifyOnJoin() {
-        return targetingType == null || targetingType != TargetingType.PRE_NURSERY;
+        return targetingType == null ||
+               (targetingType != TargetingType.PRE_NURSERY && targetingType != TargetingType.KINDY);
     }
 
 	@Override

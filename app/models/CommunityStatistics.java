@@ -1,6 +1,7 @@
 package models;
 
 import common.cache.CommunityMetaCache;
+import common.utils.StringUtil;
 import domain.PostType;
 import org.elasticsearch.common.joda.time.LocalDate;
 import play.data.validation.Constraints;
@@ -8,12 +9,12 @@ import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
 import javax.persistence.*;
-import java.lang.annotation.Target;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Table to capture activity statistics by community. (Updated nightly, or on-demand)
@@ -85,11 +86,17 @@ public class CommunityStatistics {
 		setParameter(2, today.toDate()).
         executeUpdate();
 
-        if (targetingType == TargetingSocialObject.TargetingType.PRE_NURSERY) {
+        if (targetingType == TargetingSocialObject.TargetingType.PRE_NURSERY ||
+            targetingType == TargetingSocialObject.TargetingType.KINDY) {
             PreNursery pn = PreNursery.findById(CommunityMetaCache.getPNIdFromCommunity(communityId));
             if (pn != null) {
                 pn.noOfPosts++;
                 pn.merge();
+            }
+            Kindergarten kg = Kindergarten.findById(CommunityMetaCache.getKGIdFromCommunity(communityId));
+            if (kg != null) {
+                kg.noOfPosts++;
+                kg.merge();
             }
         }
     }
@@ -104,11 +111,17 @@ public class CommunityStatistics {
 		setParameter(2, today.toDate()).
         executeUpdate();
 
-        if (targetingType == TargetingSocialObject.TargetingType.PRE_NURSERY) {
+        if (targetingType == TargetingSocialObject.TargetingType.PRE_NURSERY ||
+            targetingType == TargetingSocialObject.TargetingType.KINDY) {
             PreNursery pn = PreNursery.findById(CommunityMetaCache.getPNIdFromCommunity(communityId));
             if (pn != null) {
                 pn.noOfPosts--;
                 pn.merge();
+            }
+            Kindergarten kg = Kindergarten.findById(CommunityMetaCache.getKGIdFromCommunity(communityId));
+            if (kg != null) {
+                kg.noOfPosts--;
+                kg.merge();
             }
         }
     }
@@ -152,15 +165,16 @@ public class CommunityStatistics {
      * @param numDaysBefore
      * @return
      */
-    public static List<StatisticsSummary> getMostActiveCommunities(int numDaysBefore, TargetingSocialObject.TargetingType excludeType) {
+    public static List<StatisticsSummary> getMostActiveCommunities(int numDaysBefore,
+                                                                   Set<String> excludeTargetTypes) {
         LocalDate since = (new LocalDate()).minusDays(numDaysBefore);
+        String idsForIn = StringUtil.collectionToString(excludeTargetTypes, ",");
 
         Query q = JPA.em().createNativeQuery("select s.communityId, SUM(s.numPosts), SUM(s.numComments) from CommunityStatistics s "+
-               "where s.activityDate > ?1 and (s.targetingType is NULL or s.targetingType <> ?2) "+
+               "where s.activityDate > ?1 and (s.targetingType is NULL or s.targetingType not in ("+idsForIn+")) "+
                "group by s.communityId "+
                "order by SUM(s.numPosts+s.numComments) desc");
         q.setParameter(1, since.toDate());
-        q.setParameter(2, excludeType.toString());
         List<Object[]> commRanks = q.getResultList();
 
         final List<StatisticsSummary> result = new ArrayList<>();
@@ -216,7 +230,7 @@ public class CommunityStatistics {
             }
         }
 
-        logger.underlyingLogger().info("CommunityStatistics - Done population (daysBefore="+numDaysBefore+")");
+        logger.underlyingLogger().info("CommunityStatistics - Done population (daysBefore=" + numDaysBefore + ")");
     }
 
     @Transactional

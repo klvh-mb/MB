@@ -244,6 +244,7 @@ public class Kindergarten extends SocialObject implements Likeable, Commentable 
             PreNursery pn = PreNursery.findBy(kg.name, kg.nameEn, kg.address);
             if (pn != null) {
                 kg.communityId = pn.communityId;
+                kg.noOfPosts = pn.noOfPosts;
                 kg.merge();
                 mergeCount++;
             }
