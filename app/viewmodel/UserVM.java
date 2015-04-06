@@ -28,6 +28,12 @@ public class UserVM {
     @JsonProperty("isMobile") public boolean isMobile = false;
     @JsonProperty("isFbLogin") public boolean isFbLogin = false;
     @JsonProperty("isHomeTourCompleted") public boolean isHomeTourCompleted = false;
+    @JsonProperty("questionsCount") public Long questionsCount;
+    @JsonProperty("answersCount") public Long answersCount;
+    
+    // signup verification
+    @JsonProperty("emailValidated") public boolean emailValidated = false;
+    @JsonProperty("newUser") public boolean newUser = false;
     
     // game
     @JsonProperty("enableSignInForToday") public boolean enableSignInForToday = false;
@@ -62,6 +68,11 @@ public class UserVM {
     	        
     	        this.enableSignInForToday = GameController.enableSignInForToday();
     		}
+    		this.questionsCount = user.questionsCount;
+    		this.answersCount = user.answersCount;
 	    }
+	    
+	    this.emailValidated = user.emailValidated;
+	    this.newUser = user.newUser;
 	}
 }
