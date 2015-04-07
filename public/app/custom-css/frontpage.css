@@ -623,6 +623,7 @@
     border-bottom: 2px solid #FCC9CB;
     /*box-shadow: 0 2px 1px -1px rgba(136, 136, 136, 0.3);*/
 }
+#frontpage-schools-section #schools-topics,
 #frontpage-communities-section #hot-topics,
 #frontpage-communities-section #hot-communities {
     width: 355px;
@@ -632,11 +633,13 @@
     margin: 5px 12px;
     vertical-align: top;
 }
+#frontpage-schools-section #schools-topics .hot-post,
 #frontpage-communities-section #hot-topics .hot-post,
 #frontpage-communities-section #hot-communities .hot-community {
     padding: 5px 0 3px 0;
     border-bottom: 1px dashed #eee;
 }
+#frontpage-schools-section #schools-topics .hot-post,
 #frontpage-communities-section #hot-topics .hot-post {
     line-height: 1.5;
 }
@@ -647,6 +650,8 @@
     min-width: 30px;
     display: inline-block;
 }
+#frontpage-schools-section #schools-topics .hot-post .hot-post-body a, 
+#frontpage-schools-section #schools-topics .hot-post .hot-post-body a:hover, 
 #frontpage-communities-section #hot-topics .hot-post .hot-post-body a, 
 #frontpage-communities-section #hot-topics .hot-post .hot-post-body a:hover, 
 #frontpage-communities-section #hot-communities .hot-community .hot-community-body a, 
@@ -654,10 +659,12 @@
     color: #0521AB;
     font-size: 13px;
 }
+#frontpage-schools-section #schools-topics .hot-post .hot-post-intro,
 #frontpage-communities-section #hot-topics .hot-post .hot-post-intro {
     color: #565656;
     font-size: 12px;
 }
+#frontpage-schools-section #schools-topics .hot-post img,
 #frontpage-communities-section #hot-topics .hot-post img, 
 #frontpage-communities-section #hot-communities .hot-community img {
     width: 15px;
@@ -665,6 +672,7 @@
     vertical-align: text-bottom;
     margin-right: 3px;
 }
+#frontpage-schools-section #schools-topics .hot-post .post-title-user-name img,
 #frontpage-communities-section #hot-topics .hot-post .post-title-user-name img, 
 #frontpage-communities-section #hot-communities .hot-community .post-title-user-name img {
     width: 12px;

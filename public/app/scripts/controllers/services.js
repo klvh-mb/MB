@@ -20,6 +20,13 @@ minibean.service('adminService',function($resource){
 });
 
 minibean.service('frontpageService',function($resource){
+    this.pnNewsFeeds = $resource(
+            '/get-pnnewsfeeds/:offset',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET', params:{offset:'@offset'}}
+            }
+    );
     this.hotNewsFeeds = $resource(
             '/get-hotnewsfeeds/:offset',
             {alt:'json',callback:'JSON_CALLBACK'},

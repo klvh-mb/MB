@@ -375,7 +375,53 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     );
     */
     
-    $scope.topDiscussedSchools = schoolsService.topDiscussedPNs.get();
+    //$scope.topDiscussedSchools = schoolsService.topDiscussedPNs.get();
+    
+    // Schools topics slider
+    $scope.renderSchoolsTopicsSlider = function() {
+        var opts = {
+            arrowsNav: false,
+            arrowsNavAutoHide: false,
+            fadeinLoadedSlide: false,
+            controlsInside: false,
+            controlNavigationSpacing: 0,
+            controlNavigation: 'bullets',
+            imageScaleMode: 'none',
+            imageAlignCenter: false,
+            loop: true,
+            transitionType: 'move',
+            keyboardNavEnabled: false,
+            navigateByClick: false,
+            block: {
+                delay: 400
+            },
+            autoPlay: {
+                enabled: true,
+                pauseOnHover: true,
+                stopAtAction: true,
+                delay: 5000
+            }
+        };            
+        if ($('#schools-topics-slider').length > 0) {
+            var schoolsTopicsSlider = $('#schools-topics-slider').royalSlider(opts);
+        }
+    }
+    $interval($scope.renderSchoolsTopicsSlider, 1500, 1);
+    
+    // pn newsfeed
+    $scope.pnNewsFeeds = { posts: [] };
+    $scope.nextPNNewsFeeds = function(offset) {
+        frontpageService.pnNewsFeeds.get({offset:offset},
+            function(data){
+                var posts = data.posts;
+                for (var i = 0; i < posts.length; i++) {
+                    $scope.pnNewsFeeds.posts.push(posts[i]);
+                }
+            }
+        );
+    }
+    $scope.nextPNNewsFeeds(0);
+    //$scope.nextPNNewsFeeds(1);
     
     // pkview
     $scope.redVote = function(pkview) {

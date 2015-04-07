@@ -1152,7 +1152,7 @@ public class CommunityController extends Controller{
     public static Result getPNfeeds(int offset) {
         final User localUser = Application.getLocalUser(session());
 
-        List<Post> newsFeeds = localUser.getFeedPosts(NewsfeedType.PreNursery, offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        List<Post> newsFeeds = localUser.getFeedPosts(NewsfeedType.PreNursery, offset, DefaultValues.FRONTPAGE_HOT_POSTS_COUNT);
 
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
