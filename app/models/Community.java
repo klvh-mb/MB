@@ -38,6 +38,7 @@ import domain.Likeable;
 import domain.PostType;
 import domain.Postable;
 import domain.SocialObjectType;
+import targeting.community.PNCommTargetingEngine;
 
 @Entity
 public class Community extends TargetingSocialObject implements Likeable, Postable, Joinable, Comparable<Community> {
@@ -142,7 +143,18 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 
 		return post;
 	}
-	
+
+    /**
+     * Post process on feed queue updated.
+     */
+    public void onFeedQueueUpdated() {
+        if (targetingType != null) {
+            if (targetingType == TargetingType.PRE_NURSERY) {
+                PNCommTargetingEngine.indexPNNewsfeed();
+            }
+        }
+    }
+
 	@Transactional
 	public void ownerAsMember(User user)
 			throws SocialObjectNotJoinableException {
@@ -318,7 +330,11 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		//}
 		//return null;
 	}
-	
+
+
+
+    ///////////////////////// Find Community APIs /////////////////////////
+
 	public static Community findById(Long id) {
 	    try {
 	        Query q = JPA.em().createQuery("SELECT c FROM Community c where id = ?1 and deleted = false");
@@ -352,6 +368,18 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 
         Query q = JPA.em().createQuery("SELECT c.id FROM Community c where c.communityType = ?1 and c.deleted = false");
         q.setParameter(1, commType);
+        try {
+            result = q.getResultList();
+        } catch (NoResultException e) {
+        }
+        return result;
+    }
+
+    public static List<Long> findIdsByTargetingType(TargetingSocialObject.TargetingType targetingType) {
+        List<Long> result = new ArrayList<>();
+
+        Query q = JPA.em().createQuery("SELECT c.id FROM Community c where c.targetingType = ?1 and c.deleted = false");
+        q.setParameter(1, targetingType);
         try {
             result = q.getResultList();
         } catch (NoResultException e) {
@@ -394,17 +422,6 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
         } catch (NoResultException e) {
         }
         return result;
-    }
-
-    public static CommunityType getCommunityTypeById(Long commId) {
-        Query q = JPA.em().createNativeQuery("SELECT c.communityType FROM Community c where c.id = ?1");
-        q.setParameter(1, commId.longValue());
-        Integer commTypeInt = (Integer) q.getSingleResult();
-        if (commTypeInt != null) {
-            return CommunityType.values()[commTypeInt];
-        } else {
-            return null;
-        }
     }
 
 	public static List<Community> findByTargetingType(TargetingSocialObject.TargetingType targetingType) {
@@ -474,7 +491,8 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
         }
         return null;
     }
-	
+
+
 	public static File getDefaultThumbnailCoverPhoto() throws FileNotFoundException {
 		return new File(STORAGE_COMMUNITY_COVER_THUMBNAIL_NOIMAGE);
 	}
@@ -497,7 +515,9 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
             return false;
 		}
 	}
-	
+
+    ///////////////////////// Find Posts, Questions APIs /////////////////////////
+
 	@JsonIgnore
 	public List<Post> getPostsOfCommunity(int offset, int limit) {
 		Query q = JPA.em().createQuery("Select p from Post p where community=?1 and postType=?2 and deleted = false order by socialUpdatedDate desc");
@@ -554,11 +574,25 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		q.setParameter(1, this.id);
 		return (List<User>)q.getResultList();
 	}
-	
+
+
+
 	public void sendInviteToJoin(User invitee)
 			throws SocialObjectNotJoinableException {
 		recordInviteRequestByCommunity(invitee);
 	}
+
+
+    public static CommunityType getCommunityTypeById(Long commId) {
+        Query q = JPA.em().createNativeQuery("SELECT c.communityType FROM Community c where c.id = ?1");
+        q.setParameter(1, commId.longValue());
+        Integer commTypeInt = (Integer) q.getSingleResult();
+        if (commTypeInt != null) {
+            return CommunityType.values()[commTypeInt];
+        } else {
+            return null;
+        }
+    }
 
 	public String getDescription() {
 		return description;
@@ -620,10 +654,6 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
         return excludeFromNewsfeed;
     }
 
-    public void setExcludeFromNewsfeed(boolean excludeFromNewsfeed) {
-        this.excludeFromNewsfeed = excludeFromNewsfeed;
-    }
-    
     @Override
     public boolean equals(Object o) {
         if (o != null && o instanceof Community) {

@@ -11,6 +11,7 @@ import java.util.*;
 
 import common.cache.CommunityMetaCache;
 import common.collection.Pair;
+import common.model.NewsfeedType;
 import common.utils.StringUtil;
 import models.Comment;
 import models.Community;
@@ -1083,7 +1084,7 @@ public class CommunityController extends Controller{
             NewsfeedCommTargetingEngine.indexCommNewsfeedForUser(noLoginUser.getId());
     	}
 
-        List<Post> newsFeeds = noLoginUser.getFeedPosts(true, offset, DefaultValues.FRONTPAGE_HOT_POSTS_COUNT);
+        List<Post> newsFeeds = noLoginUser.getFeedPosts(NewsfeedType.Social, offset, DefaultValues.FRONTPAGE_HOT_POSTS_COUNT);
 
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
@@ -1120,7 +1121,7 @@ public class CommunityController extends Controller{
             NewsfeedCommTargetingEngine.indexCommNewsfeedForUser(localUser.getId());
     	}
 
-        List<Post> newsFeeds = localUser.getFeedPosts(true, offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        List<Post> newsFeeds = localUser.getFeedPosts(NewsfeedType.Social, offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
@@ -1141,6 +1142,35 @@ public class CommunityController extends Controller{
         return ok(Json.toJson(vm));
     }
 
+    /**
+     * Play routes AJAX call. Return PN feed posts.
+     * @param offset
+     * @return
+     */
+    @Transactional
+    public static Result getPNfeeds(int offset) {
+        final User localUser = Application.getLocalUser(session());
+
+        List<Post> newsFeeds = localUser.getFeedPosts(NewsfeedType.PreNursery, offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        List<CommunityPostVM> posts = new ArrayList<>();
+        if (newsFeeds != null) {
+            final boolean isCommentable = true;    // must be open for PN NF entries
+
+            for (Post p : newsFeeds) {
+                CommunityPostVM post = new CommunityPostVM(p, localUser, isCommentable);
+                posts.add(post);
+            }
+        }
+
+        NewsFeedVM vm = new NewsFeedVM(localUser, posts);
+
+        sw.stop();
+        logger.underlyingLogger().info("[u="+localUser.id+"] getPNfeeds(offset="+offset+") count="+posts.size()+". vm create Took "+sw.getElapsedMS()+"ms");
+        return ok(Json.toJson(vm));
+    }
 
 
     /**
@@ -1159,7 +1189,7 @@ public class CommunityController extends Controller{
             BusinessFeedCommTargetingEngine.indexBusinessNewsfeedForUser(localUser.getId(), communityCategoryId);
     	}
 
-        List<Post> newsFeeds = localUser.getFeedPosts(false, offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+        List<Post> newsFeeds = localUser.getFeedPosts(NewsfeedType.Business, offset, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
 
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 

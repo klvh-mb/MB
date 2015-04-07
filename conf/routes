@@ -252,9 +252,12 @@ GET     /bookmark-post/:post_id                 controllers.CommunityController.
 GET     /get-my-updates/:timestamp              controllers.CommunityController.getMyUpdates(timestamp:Long)
 GET     /get-my-live-updates/:timestamp         controllers.CommunityController.getMyLiveUpdates(timestamp:Long)
 GET     /get-next-news-feeds/:timestamp         controllers.CommunityController.getNextNewsFeeds(timestamp:Long)    
+
+# Newsfeed
 GET     /get-newsfeeds/:offset                  controllers.CommunityController.getNewsfeeds(offset:Integer)
 GET     /get-businessfeeds/:offset/:commCatId   controllers.CommunityController.getBusinessfeedsByCategory(offset:Integer, commCatId:Long)
 GET     /get-hotnewsfeeds/:offset               controllers.CommunityController.getHotNewsfeeds(offset:Integer)
+GET     /get-pnnewsfeeds/:offset                controllers.CommunityController.getPNfeeds(offset:Integer)
 
 GET     /like-post/:post_id                     controllers.CommunityController.likeThePost(post_id:Long)
 GET     /unlike-post/:post_id                   controllers.CommunityController.unlikeThePost(post_id:Long)

@@ -11,6 +11,7 @@ import common.utils.NanoSecondStopWatch;
 import domain.PostType;
 import models.Community;
 import models.Post;
+import models.TargetingSocialObject;
 import models.User;
 import play.db.jpa.JPA;
 import play.libs.Akka;
@@ -21,6 +22,7 @@ import scala.concurrent.duration.Duration;
 import akka.actor.ActorSystem;
 
 import com.typesafe.plugin.RedisPlugin;
+import targeting.community.PNCommTargetingEngine;
 
 /**
  * Processor for NewsFeed.
@@ -35,12 +37,14 @@ public class FeedProcessor {
 	private static final String SOCIAL_FEED_KEY = JedisCache.SOCIAL_FEED_PREFIX;
     // List (User business feed)
     private static final String BIZ_FEED_KEY = JedisCache.BIZ_FEED_PREFIX;
+    // List (system-wide pre-nursery feed)
+    private static final String PN_FEED_KEY = JedisCache.PN_FEED_PREFIX;
     // SortedSet (community post queue)
     private static final String COMMUNITY = JedisCache.COMMUNITY_POST_PREFIX;
 
+    /////////////////////////// Refresh Newsfeed APIs ///////////////////////////
     /**
-     * @param userId
-     * @param postIds
+     * User specific social newsfeed (including nologin)
      */
     public static void refreshUserCommunityFeed(Long userId, List<String> postIds) {
 		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
@@ -63,8 +67,7 @@ public class FeedProcessor {
 	}
 
     /**
-     * @param userId
-     * @param postIds
+     * User specific business newsfeed.
      */
     public static void refreshBusinessCommunityFeed(Long userId, List<String> postIds) {
 		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
@@ -87,50 +90,75 @@ public class FeedProcessor {
 	}
 
     /**
-     * For homepage display.
+     * System widw PN newsfeed.
+     */
+    public static void refreshPNCommunityFeed(List<String> postIds) {
+		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
+		Jedis j = null;
+        try {
+            j = jedisPool.getResource();
+            j.del(PN_FEED_KEY);                 // delete previous list
+
+            for (String postId : postIds) {
+                j.rpush(PN_FEED_KEY, postId);   // push to list tail.
+            }
+
+            // skip TTL (system-wide)
+        } finally {
+            if (j != null) {
+		        jedisPool.returnResource(j);
+            }
+        }
+	}
+
+    /////////////////////////// Get Newsfeed APIs ///////////////////////////
+    /**
+     * For NF display.
      * @param u
      * @param offset
      * @param pagerows
      * @return
      */
 	public static List<String> getUserFeedIds(User u,int offset, int pagerows) {
-        JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
-        Jedis j = null;
-        List<String> ids = null;
-        try {
-            j = jedisPool.getResource();
-            // fetch front list entries
-            ids = j.lrange(SOCIAL_FEED_KEY + u.id, offset * pagerows, ((offset + 1)*pagerows-1));
-        } finally {
-            if (j != null) {
-		        jedisPool.returnResource(j);
-            }
-        }
-		return ids;
+        return getFeedIdsInternal(SOCIAL_FEED_KEY + u.id, offset, pagerows);
 	}
 
     /**
-     * For homepage display.
+     * For NF display.
      * @param u
      * @param offset
      * @param pagerows
      * @return
      */
 	public static List<String> getBusinessFeedIds(User u, int offset, int pagerows) {
+        return getFeedIdsInternal(BIZ_FEED_KEY + u.id, offset, pagerows);
+	}
+
+    /**
+     * For NF display.
+     * @param offset
+     * @param pagerows
+     * @return
+     */
+    public static List<String> getPNFeedIds(int offset, int pagerows) {
+		return getFeedIdsInternal(PN_FEED_KEY, offset, pagerows);
+	}
+
+    private static List<String> getFeedIdsInternal(String queueKey, int offset, int pagerows) {
         JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
         Jedis j = null;
         List<String> ids = null;
         try {
             j = jedisPool.getResource();
             // fetch front list entries
-            ids = j.lrange(BIZ_FEED_KEY + u.id, offset * pagerows, ((offset + 1)*pagerows-1));
+            ids = j.lrange(queueKey, offset * pagerows, ((offset + 1)*pagerows-1));
         } finally {
             if (j != null) {
 		        jedisPool.returnResource(j);
             }
         }
 		return ids;
-	}
+    }
 
     // For debugging
     public static List<String> getUserFeedIds(User u) {
@@ -148,13 +176,14 @@ public class FeedProcessor {
 		return ids;
 	}
 
+    /////////////////////////// Push and Remove APIs ///////////////////////////
     /**
      * Push post to community queue.
      * @param post
      */
 	public static void pushToCommunity(Post post) {
-        if (post.getCommunity().isExcludeFromNewsfeed()) {
-            return;     // NF disable
+        if (isSkipCommunityNFQueue(post)) {
+            return;     // skip NF
         }
 
         Long commId = post.getCommunity().getId();
@@ -182,7 +211,22 @@ public class FeedProcessor {
 		        jedisPool.returnResource(j);
             }
         }
+
+        // post push
+        post.getCommunity().onFeedQueueUpdated();
 	}
+
+    static boolean isSkipCommunityNFQueue(Post post) {
+        Community community = post.getCommunity();
+        return isSkipCommunityNFQueue(community.isExcludeFromNewsfeed(), community.getTargetingType().name());
+    }
+
+    static boolean isSkipCommunityNFQueue(boolean exludeFromNewsfeed, String targetingType) {
+        if (TargetingSocialObject.TargetingType.PRE_NURSERY.name().equals(targetingType)) {
+            return false;           // always pub to PN queues
+        }
+        return exludeFromNewsfeed;  // NF disabled
+    }
 
 	/**
      * Remove post from community queue.
@@ -205,6 +249,9 @@ public class FeedProcessor {
 		        jedisPool.returnResource(j);
             }
         }
+
+        // post remove
+        post.getCommunity().onFeedQueueUpdated();
     }
     
     /**
@@ -244,11 +291,13 @@ public class FeedProcessor {
 						public void invoke() throws Throwable {
                             NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
-                            final List<Object[]> commEntries = JPA.em().createNativeQuery("SELECT id, deleted, excludeFromNewsfeed, communityType from Community").getResultList();
+                            final List<Object[]> commEntries = JPA.em().createNativeQuery(
+                                    "SELECT id, deleted, excludeFromNewsfeed, communityType, targetingType from Community").getResultList();
 
                             logger.underlyingLogger().info("bootstrapCommunityLevelFeed - start. Total communities: "+commEntries.size());
 
                             int numActive=0, numDeleted=0, numExcludeNF=0;
+                            int numPN=0, numKG=0;
 
                             JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
 							Jedis j = null;
@@ -260,34 +309,46 @@ public class FeedProcessor {
                                         Boolean deleted = (Boolean) commEntry[1];
                                         Boolean excludeFromNewsfeed = (Boolean) commEntry[2];   // community level exclude NF
                                         Integer commTypeInt = (Integer) commEntry[3];
+                                        String targetType = (String) commEntry[4];              // targeting type
 
                                         // purge old queue from Redis
                                         j.del(COMMUNITY+communityId.longValue());
 
                                         if (deleted) {
                                             numDeleted++;
-                                        } else if (excludeFromNewsfeed) {
-                                            numExcludeNF++;
-                                        } else {
-                                            String queryStr;
-                                            // create queue and populate posts (un-deleted) if active
-                                            if (commTypeInt != null && Community.CommunityType.BUSINESS.ordinal() == commTypeInt) {
-                                                queryStr = "SELECT p from Post p where p.community.id=?1 and p.deleted=0 order by p.socialUpdatedDate desc";
-                                            } else {
-                                                // Questions only
-                                                int quesType = PostType.QUESTION.ordinal();
-                                                queryStr = "SELECT p from Post p where p.community.id=?1 and p.deleted=0 and p.postType="+quesType+" order by p.socialUpdatedDate desc";
+                                        }
+                                        else {
+                                            if (isSkipCommunityNFQueue(excludeFromNewsfeed, targetType)) {
+                                                numExcludeNF++;
                                             }
-                                            Query simpleQuery = JPA.em().createQuery(queryStr);
-                                            simpleQuery.setParameter(1, communityId.longValue());
-                                            simpleQuery.setFirstResult(0);
-                                            simpleQuery.setMaxResults(MAX_COMM_QUEUE_LENGTH);
+                                            else {
+                                                String queryStr;
+                                                // create queue and populate posts (un-deleted) if active
+                                                if (commTypeInt != null && Community.CommunityType.BUSINESS.ordinal() == commTypeInt) {
+                                                    queryStr = "SELECT p from Post p where p.community.id=?1 and p.deleted=0 order by p.socialUpdatedDate desc";
+                                                } else {
+                                                    // Questions only
+                                                    int quesType = PostType.QUESTION.ordinal();
+                                                    queryStr = "SELECT p from Post p where p.community.id=?1 and p.deleted=0 and p.postType="+quesType+" order by p.socialUpdatedDate desc";
+                                                }
+                                                Query simpleQuery = JPA.em().createQuery(queryStr);
+                                                simpleQuery.setParameter(1, communityId.longValue());
+                                                simpleQuery.setFirstResult(0);
+                                                simpleQuery.setMaxResults(MAX_COMM_QUEUE_LENGTH);
 
-                                            List<Post> posts = (List<Post>)simpleQuery.getResultList();
-                                            for (Post p: posts){
-                                                j.zadd(COMMUNITY+communityId.longValue(), p.getSocialUpdatedDate().getTime(), p.id.toString());
+                                                List<Post> posts = (List<Post>)simpleQuery.getResultList();
+                                                for (Post p: posts){
+                                                    j.zadd(COMMUNITY+communityId.longValue(), p.getSocialUpdatedDate().getTime(), p.id.toString());
+                                                }
+                                                numActive++;
                                             }
-                                            numActive++;
+
+                                            if (TargetingSocialObject.TargetingType.PRE_NURSERY.name().equals(targetType)) {
+                                                numPN++;
+                                            }
+                                            if (TargetingSocialObject.TargetingType.KINDY.name().equals(targetType)) {
+                                                numKG++;
+                                            }
                                         }
                                     } catch (Exception e) {
                                         logger.underlyingLogger().error("Error in bootstrapCommunityLevelFeed", e);
@@ -299,9 +360,13 @@ public class FeedProcessor {
                                 }
                             }
 
+                            // Note: System-wide feed - do index at startup.
+                            PNCommTargetingEngine.indexPNNewsfeed();
+
                             sw.stop();
                             logger.underlyingLogger().info("bootstrapCommunityLevelFeed - end. Took "+sw.getElapsedMS()+
-                                    "ms. NumActive="+numActive+", NumDeleted="+numDeleted+", NumExcludeNF="+numExcludeNF);
+                                    "ms. NumActive="+numActive+", NumDeleted="+numDeleted+", NumExcludeNF="+numExcludeNF+
+                                    ", NumPN="+numPN+", NumKG="+numKG);
 						}
 					});
 			    }

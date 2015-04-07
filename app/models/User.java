@@ -34,6 +34,7 @@ import javax.persistence.criteria.Root;
 import common.cache.FriendCache;
 import common.collection.Pair;
 import common.image.FaceFinder;
+import common.model.NewsfeedType;
 import common.utils.DateTimeUtil;
 import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
@@ -1517,7 +1518,44 @@ public class User extends SocialObject implements Subject, Socializable {
         }
         return result;
     }
-    
+
+    public List<Post> getFeedPosts(NewsfeedType feedType, int offset, int limit) {
+        final NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        List<String> ids;
+        switch (feedType) {
+            case Social:
+                ids = FeedProcessor.getUserFeedIds(this, offset, limit); break;
+            case Business:
+                ids = FeedProcessor.getBusinessFeedIds(this, offset, limit); break;
+            case PreNursery:
+                ids = FeedProcessor.getPNFeedIds(offset, limit); break;
+            default:
+                ids = null; break;
+        }
+
+        if (ids == null || ids.size() == 0) {
+            return null;
+        }
+        sw.stop();
+
+        final NanoSecondStopWatch sw2 = new NanoSecondStopWatch();
+
+        String idsStr = ids.toString();
+        String idsForIn = idsStr.substring(1, idsStr.length() - 1);
+
+        Query query = JPA.em().createQuery(
+                "SELECT p from Post p where p.id in (" + idsForIn + ") and p.deleted = false order by FIELD(p.id," + idsForIn + ")");
+        List<Post> results = (List<Post>)query.getResultList();
+        sw2.stop();
+
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+id+"] getFeedPosts(offset="+offset+",limit="+limit+") "+
+                    "Redis took "+sw.getElapsedMS()+"ms, DB took "+sw2.getElapsedMS()+"ms");
+        }
+        return results;
+    }
+
     public List<Post> getFeedPosts(boolean isSocialFeed, int offset, int limit) {
         final NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
