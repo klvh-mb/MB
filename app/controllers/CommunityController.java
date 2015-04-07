@@ -30,6 +30,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.joda.time.DateTime;
 
 import common.model.ZodiacYear;
+import common.utils.HtmlUtil;
 import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
 import models.Community.CommunityType;
@@ -584,7 +585,7 @@ public class CommunityController extends Controller{
                 DynamicForm.form(Community.class).bindFromRequest(
                         "name","description","icon","communityType");
         Community community = form.get();
-        community.description = Emoticon.replace(community.description);
+        community.description = HtmlUtil.convertTextToHtml(community.description);
         
         if (community.communityType == null) {
             community.communityType = CommunityType.OPEN;
@@ -665,7 +666,7 @@ public class CommunityController extends Controller{
 
         DynamicForm form = form().bindFromRequest();
         Long postId = Long.parseLong(form.get("post_id"));
-        String commentText = Emoticon.replace(form.get("commentText"));
+        String commentText = HtmlUtil.convertTextToHtml(form.get("commentText"));
         
         Post p = Post.findById(postId);
         Community c = p.community;
@@ -711,7 +712,7 @@ public class CommunityController extends Controller{
 
         Community c = Community.findById(communityId);
         if (CommunityPermission.canPostOnCommunity(localUser, c)) {
-            String postText = Emoticon.replace(form.get("postText"));
+            String postText = HtmlUtil.convertTextToHtml(form.get("postText"));
             boolean withPhotos = Boolean.parseBoolean(form.get("withPhotos"));
 
             Post p = (Post) c.onPost(localUser, null, postText, PostType.SIMPLE);
@@ -840,8 +841,8 @@ public class CommunityController extends Controller{
 
         DynamicForm form = DynamicForm.form().bindFromRequest();
         Long communityId = Long.parseLong(form.get("community_id"));
-        String questionTitle = Emoticon.replace(form.get("questionTitle"));
-        String questionText = Emoticon.replace(form.get("questionText"));
+        String questionTitle = HtmlUtil.convertTextToHtml(form.get("questionTitle"));
+        String questionText = HtmlUtil.convertTextToHtml(form.get("questionText"));
         int shortBodyCount = StringUtil.computePostShortBodyCount(questionText);
 
         Community c = Community.findById(communityId);
@@ -888,7 +889,7 @@ public class CommunityController extends Controller{
 
         DynamicForm form = form().bindFromRequest();
         Long postId = Long.parseLong(form.get("post_id"));
-        String answerText = Emoticon.replace(form.get("answerText"));
+        String answerText = HtmlUtil.convertTextToHtml(form.get("answerText"));
         
         Post p = Post.findById(postId);
         Community c = p.community;
@@ -933,7 +934,7 @@ public class CommunityController extends Controller{
         Long pkviewId = Long.parseLong(form.get("pkview_id"));
         Pair<PKViewMeta, Post> pkViewMeta = PKViewMeta.getPKViewById(pkviewId);;
         Long postId = pkViewMeta.second.id;
-        String commentText = Emoticon.replace(form.get("commentText"));
+        String commentText = HtmlUtil.convertTextToHtml(form.get("commentText"));
         String attribute = form.get("attribute");
 
         if (!PKViewMeta.isValidCommentAttribute(attribute)) {

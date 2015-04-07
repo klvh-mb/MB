@@ -47,6 +47,7 @@ import viewmodel.UserVM;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
 
+import common.utils.HtmlUtil;
 import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
 import domain.DefaultValues;
@@ -752,7 +753,7 @@ public class UserController extends Controller {
         
         Long receiverUserID = Long.parseLong(form.get("receiver_id"));
         User receiverUser = User.findById(receiverUserID);
-        String msgText = Emoticon.replace(form.get("msgText"));
+        String msgText = HtmlUtil.convertTextToHtml(form.get("msgText"));
         Conversation.sendMessage(localUser, receiverUser, msgText);
         Conversation conversation = Conversation.findBetween(localUser, receiverUser);
         return getMessages(conversation.id, 0L);
@@ -767,7 +768,7 @@ public class UserController extends Controller {
         }
         
         User superAdmin = Application.getMBAdmin();
-        String msgText = Emoticon.replace("歡迎來到「小萌豆 miniBean」~  立即發掘您喜愛的媽媽社群與話題。 請開心分享！");
+        String msgText = HtmlUtil.convertTextToHtml("歡迎來到「小萌豆 miniBean」~  立即發掘您喜愛的媽媽社群與話題。 請開心分享！");
         Conversation.sendMessage(superAdmin, localUser, msgText);
         return ok();
     }

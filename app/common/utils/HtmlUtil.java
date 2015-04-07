@@ -3,6 +3,8 @@ package common.utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import models.Emoticon;
+
 /**
  *  Note!!!: Logic also available in main.js.
  */
@@ -37,7 +39,7 @@ public class HtmlUtil {
                 result = result.replace(urlRef, "<a href=\""+urlRef+"\" target=\"_blank\">"+urlDisplay+"</a>");
             }
         }
-        return result;
+        return Emoticon.replace(result);
     }
 
     private static String escapeHtmlSpecialChars(String text) {
