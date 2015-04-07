@@ -73,6 +73,9 @@ public class Kindergarten extends SocialObject implements Likeable, Commentable 
     public int noOfViews = 0;
     public int noOfBookmarks = 0;
 
+    // date details
+    public String applicationDateText = null;
+
     // Ctor
     public Kindergarten() {
         this.objectType = SocialObjectType.KINDY;
@@ -219,25 +222,25 @@ public class Kindergarten extends SocialObject implements Likeable, Commentable 
         return (List<String>)q.getResultList();
     }
 
-    public static List<Kindergarten> getTopViewsPNs(int num) {
+    public static List<Kindergarten> getTopViews(int num) {
         Query q = JPA.em().createQuery("SELECT kg FROM Kindergarten kg order by kg.noOfViews desc");
         q.setMaxResults(num);
         return (List<Kindergarten>)q.getResultList();
     }
 
-    public static List<Kindergarten> getTopDiscussedPNs(int num) {
+    public static List<Kindergarten> getTopDiscussed(int num) {
         Query q = JPA.em().createQuery("SELECT kg FROM Kindergarten kg order by kg.noOfPosts desc");
         q.setMaxResults(num);
         return (List<Kindergarten>)q.getResultList();
     }
 
-    public static List<Kindergarten> getTopBookmarkedPNs(int num) {
+    public static List<Kindergarten> getTopBookmarked(int num) {
         Query q = JPA.em().createQuery("SELECT kg FROM Kindergarten kg order by kg.noOfBookmarks desc");
         q.setMaxResults(num);
         return (List<Kindergarten>)q.getResultList();
     }
 
-    public static List<Kindergarten> getBookmarkedPNs(Long userId) {
+    public static List<Kindergarten> getBookmarked(Long userId) {
         Query q = JPA.em().createQuery("SELECT kg FROM Kindergarten kg, SchoolSaved ss where ss.schoolType=?1 and ss.userId=?2 " +
                 "and ss.schoolId = kg.id");
         q.setParameter(1, SchoolType.KINDY);

@@ -46,14 +46,25 @@ public class PreNurseryVM {
     @JsonProperty("nov") public int noOfViews;
     @JsonProperty("nob") public int noOfBookmarks;
 
+    @JsonProperty("appTxt") public String applicationDateText = null;
+
     @JsonProperty("isLike") public boolean isLike = false;
     @JsonProperty("isBookmarked") public boolean isBookmarked = false;
 
+    /**
+     * @param pn
+     * @param user
+     */
     public PreNurseryVM(PreNursery pn, User user) {
         this(pn, user, false);
         this.isBookmarked = pn.isBookmarkedBy(user);
     }
 
+    /**
+     * @param pn
+     * @param user
+     * @param isBookmarked
+     */
     public PreNurseryVM(PreNursery pn, User user, boolean isBookmarked) {
         this.id = pn.id;
         this.communityId = pn.communityId;
@@ -92,6 +103,8 @@ public class PreNurseryVM {
         this.noOfLikes = pn.noOfLikes;
         this.noOfViews = pn.noOfViews;
         this.noOfBookmarks = pn.noOfBookmarks;
+
+        this.applicationDateText = pn.applicationDateText;
 
         if (User.isLoggedIn(user)){
             try {
