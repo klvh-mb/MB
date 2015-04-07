@@ -50,6 +50,7 @@ import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
 import targeting.community.CommunityTargetingEngine;
 import viewmodel.ApplicationInfoVM;
+import viewmodel.LocationVM;
 import viewmodel.PostIndexVM;
 import viewmodel.TodayWeatherInfoVM;
 import viewmodel.UserTargetProfileVM;
@@ -445,6 +446,7 @@ public class Application extends Controller {
         userInfo.numChildren = numChildren;
         
         localUser.userInfo = userInfo;
+        localUser.setNewUser(false);
         localUser.userInfo.save();
         
         // UseChild
@@ -871,4 +873,16 @@ public class Application extends Controller {
     public static Result ngAds() {
         return ok(views.html.ng_ads.render());
     }
+	
+	@Transactional
+    public static Result getHongKongDistricts() {
+		List<Location> locations = Location.getHongKongDistricts();
+		List<LocationVM> vms = new ArrayList<>();
+		for(Location location : locations){
+			LocationVM vm = LocationVM.locationVM(location);
+			vms.add(vm);
+		}
+		return ok(Json.toJson(vms));
+    }
+	
 }

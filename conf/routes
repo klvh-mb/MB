@@ -14,11 +14,7 @@ GET     /ads-mock                   controllers.Application.adsMock
 GET     /ads-plain                  controllers.Application.adsPlain
 GET     /ng-ads                     controllers.Application.ngAds
 
-# For Testing ONLY
-POST    /signupTest                 controllers.Application.doSignupForTest
-POST    /loginTest                  controllers.Application.doLoginForTest
-
-POST    /mobile/login               controllers.Application.doLoginForTest
+POST    /mobile/login               controllers.Application.doMobileLogin
 POST    /mobile/image/upload-profile-photo     controllers.UserController.uploadProfilePhotoMobile
 
 # Bing Webmaster
@@ -46,6 +42,8 @@ GET     /m-knowledge                controllers.Application.mobileKnowledge
 GET     /m-schools                  controllers.Application.mobileSchools
 #GET    /m-magazine                 controllers.Application.mobileMagazine
 GET     /m-login                    controllers.Application.mobileLogin
+
+GET		/get-all-districts          controllers.Application.getHongKongDistricts
 
 # Main
 GET     /                           controllers.Application.index
@@ -114,7 +112,6 @@ GET     /logout                     com.feth.play.module.pa.controllers.Authenti
 GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
 POST     /authenticate/mobile/:provider     com.feth.play.module.pa.controllers.Authenticate.mobileAuthenticate(provider: String)
 GET     /authenticatePopup/:provider    com.feth.play.module.pa.controllers.Authenticate.authenticatePopup(provider: String)
-GET     /test      controllers.UserController.testURL
  
 GET     /signup                     controllers.Application.signup
 POST    /signup                     controllers.Application.doSignup
