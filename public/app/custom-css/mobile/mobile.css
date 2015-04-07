@@ -875,6 +875,7 @@ span.notif-count {
 #frontpage-featured-section .featured-details .featured-main-area {
     /*width: auto;*/
     width: 100%;
+    min-height: 100px;
 }
 #frontpage-featured-section .featured-details .featured-area img {
     width: 225px;
