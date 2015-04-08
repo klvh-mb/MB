@@ -107,7 +107,7 @@ public class UserCommunityAffinity extends domain.Entity {
     public static List<UserCommunityAffinity> findSocialFeedCommunitiesByUser(Long userId) {
         Query q = JPA.em().createQuery("select u from UserCommunityAffinity u, Community c "+
                 "where u.userId = ?1 and u.newsfeedEnabled = 1 and u.communityId = c.id "+
-                "and c.deleted = 0 and c.communityType in (?2, ?3)");
+                "and c.deleted = 0 and c.excludeFromNewsfeed = false and c.communityType in (?2, ?3)");
         q.setParameter(1, userId);
         q.setParameter(2, Community.CommunityType.OPEN);
         q.setParameter(3, Community.CommunityType.CLOSE);
