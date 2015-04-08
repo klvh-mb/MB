@@ -145,7 +145,10 @@ public class UserController extends Controller {
 	    NanoSecondStopWatch sw = new NanoSecondStopWatch();
 	    
 		final User localUser = Application.getLocalUser(session());
-
+		if (localUser == null) {
+			return status(500);
+		}
+		
 		UserVM userInfo = new UserVM(localUser);
 		
 		sw.stop();

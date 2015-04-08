@@ -64,6 +64,7 @@ POST    /saveSignupInfo             controllers.Application.saveSignupInfo
 POST    /saveSignupInfoFb           controllers.Application.saveSignupInfoFb
 GET     /get-application-info       controllers.Application.getApplicationInfo
 GET     /get-user-target-profile    controllers.Application.getUserTargetProfile
+GET     /init-new-user              controllers.Application.initNewUser
 
 # PKView
 GET     /get-pkview-info/:id        controllers.PKViewController.infoPKView(id:Long)

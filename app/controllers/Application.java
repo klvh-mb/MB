@@ -45,6 +45,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.Session;
 import play.mvc.Result;
+import providers.MyLoginUsernamePasswordAuthUser;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
@@ -57,6 +58,7 @@ import viewmodel.UserTargetProfileVM;
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.exceptions.AuthException;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
+import com.feth.play.module.pa.providers.password.UsernamePasswordAuthUser;
 import com.feth.play.module.pa.user.AuthUser;
 import com.github.cleverage.elasticsearch.IndexQuery;
 import com.github.cleverage.elasticsearch.IndexResults;
@@ -123,16 +125,7 @@ public class Application extends Controller {
 		}
         
 		if (user.isNewUser()) {
-            logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] Signup completed - "+(isMobileUser()?"mobile":"PC"));
-
-            String promoCode = session().get(SESSION_PROMOCODE);
-            GameAccount.setPointsForSignUp(user, promoCode);
-
-	        CommunityTargetingEngine.assignSystemCommunitiesToUser(user);
-	        
-	        UserController.sendGreetingMessageToNewUser();
-	        
-	        user.setNewUser(false);
+            initNewUser();
 	    }
 		
         if (isMobile) {
@@ -485,11 +478,11 @@ public class Application extends Controller {
 	private static Result handleSaveSignupInfoError(String error, boolean fb) {
         final User localUser = getLocalUser(session());
         if (isMobileUser()) {
-            flash("error", error);
+            flash(FLASH_ERROR_KEY, error);
             return fb? badRequest(views.html.mobile.signup_info_fb.render(localUser)):
                 badRequest(views.html.mobile.signup_info.render(localUser));
         } else {
-            flash("error", error);
+            flash(FLASH_ERROR_KEY, error);
             return fb? badRequest(views.html.signup_info_fb.render(localUser)):
                 badRequest(views.html.signup_info.render(localUser));
         }
@@ -510,7 +503,7 @@ public class Application extends Controller {
 				logger.underlyingLogger().debug("getLocalUser from mobile - " + userKey + " => " + decryptedValue);
 				localUser = Application.getMobileLocalUser(decryptedValue);
 				return localUser;
-			}catch(Exception e) { 
+			} catch(Exception e) { 
 				return null;
 			}
 		}
@@ -621,7 +614,7 @@ public class Application extends Controller {
 				.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			// User did not fill everything properly
-			flash("error", "登入電郵或密碼錯誤");
+			flash(FLASH_ERROR_KEY, "登入電郵或密碼錯誤");
 			return isMobileUser()? 
 			        badRequest(views.html.mobile.login.render(filledForm, isOverDailySignupThreshold())):
 			            badRequest(views.html.login.render(filledForm, isOverDailySignupThreshold()));
@@ -640,7 +633,7 @@ public class Application extends Controller {
         final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM.bindFromRequest();
         if (filledForm.hasErrors()) {
             // User did not fill everything properly
-            flash("error", "登入電郵或密碼錯誤");
+            flash(FLASH_ERROR_KEY, "登入電郵或密碼錯誤");
             return isMobileUser()? 
                     badRequest(views.html.mobile.login.render(filledForm, isOverDailySignupThreshold())) : 
                         badRequest(views.html.login.render(filledForm, isOverDailySignupThreshold()));
@@ -653,8 +646,7 @@ public class Application extends Controller {
     @Transactional
 	public static Result doMobileLogin() throws AuthException {
 		com.feth.play.module.pa.controllers.Authenticate.noCache(response());
-		final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
-				.bindFromRequest();
+		final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			// User did not fill everything properly
 			return badRequest();
@@ -670,8 +662,23 @@ public class Application extends Controller {
 				return badRequest(error);
 			}
 			
+			// case where user not verify email yet
+			// for all cases, see MyUsernamePasswordAuthProvider.loginUser() and UsernamePasswordAuthProvider.authenticate()
+			MyLogin login = filledForm.get();
+			UsernamePasswordAuthUser authUser = new MyLoginUsernamePasswordAuthUser(login.getPassword(), login.getEmail());
+			final User u = User.findByUsernamePasswordIdentity(authUser);
+			if (u != null && !u.emailValidated) {
+				return badRequest("電郵尚未認證，請登入電郵並按認證連結 - "+u.email);
+			}
+			
+			// null-null
+			if (StringUtils.isEmpty(session().get(PROVIDER_KEY)) && 
+					StringUtils.isEmpty(session().get(USER_KEY))) {
+				return badRequest("沒有此用戶，請確認電郵或密碼無誤");
+			}
+			
 			String encryptedValue = null;
-			String plainData=session().get(PROVIDER_KEY)+"-"+session().get(USER_KEY);
+			String plainData = session().get(PROVIDER_KEY)+"-"+session().get(USER_KEY);
 			try { 
 	    		Key key = generateKey();
 	            Cipher c = Cipher.getInstance("AES");
@@ -684,6 +691,24 @@ public class Application extends Controller {
 			return ok(encryptedValue.replace("+", "%2b"));
 		}
 	}
+    
+    @Transactional
+    public static Result initNewUser() {
+    	final User user = getLocalUser(session());
+    	
+    	logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] Signup completed - "+(isMobileUser()?"mobile":"PC"));
+
+        String promoCode = session().get(SESSION_PROMOCODE);
+        GameAccount.setPointsForSignUp(user, promoCode);
+
+        CommunityTargetingEngine.assignSystemCommunitiesToUser(user);
+        
+        UserController.sendGreetingMessageToNewUser();
+        
+        user.setNewUser(false);
+        
+        return UserController.getUserInfo();
+    }
     
 	@Transactional
 	public static Result signup() {
