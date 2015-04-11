@@ -18,6 +18,7 @@ public class PreNurseryVM {
 
     @JsonProperty("id")  public Long id;
     @JsonProperty("commId") public Long communityId;
+    @JsonProperty("icon") public String icon;
     @JsonProperty("myd")  public boolean isMyDistrict;
     @JsonProperty("dis")  public String districtName;
     @JsonProperty("disId")  public Long districtId;
@@ -68,6 +69,7 @@ public class PreNurseryVM {
     public PreNurseryVM(PreNursery pn, User user, boolean isBookmarked) {
         this.id = pn.id;
         this.communityId = pn.communityId;
+        this.icon = pn.icon;
 
         this.isMyDistrict = false;
         if (user.userInfo != null && user.userInfo.location != null) {
