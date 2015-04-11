@@ -26,6 +26,7 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
 
     // name is inherited
     public String nameEn;
+    public String icon;
 
     public String phoneText;
     public String url;
