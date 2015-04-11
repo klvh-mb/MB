@@ -1,6 +1,6 @@
 update community set icon = '/assets/app/images/general/icons/community/kg/boxhill.png' where id in (select communityId from PreNursery where nameEn like '%Box Hill%');
 update community set icon = '/assets/app/images/general/icons/community/kg/catiline.png' where id in (select communityId from PreNursery where nameEn like '%Catiline K%');
-update community set icon = '/assets/app/images/general/icons/community/kg/creative.png' where id in (select communityId from PreNursery where nameEn like 'Creative K%');
+update community set icon = '/assets/app/images/general/icons/community/kg/creative.png' where id in (select communityId from PreNursery where nameEn like 'Creative%');
 update community set icon = '/assets/app/images/general/icons/community/kg/elh.png' where id in (select communityId from PreNursery where nameEn like 'Excel London%');
 update community set icon = '/assets/app/images/general/icons/community/kg/funful.png' where id in (select communityId from PreNursery where nameEn like '%Funful%');
 update community set icon = '/assets/app/images/general/icons/community/kg/hkpresch.png' where id in (select communityId from PreNursery where nameEn like '%Ascot%');
@@ -23,7 +23,7 @@ update community set icon = '/assets/app/images/general/icons/community/kg/york.
 
 update PreNursery set icon = '/assets/app/images/general/icons/community/kg/boxhill.png' where nameEn like '%Box Hill%';
 update PreNursery set icon = '/assets/app/images/general/icons/community/kg/catiline.png' where nameEn like '%Catiline K%';
-update PreNursery set icon = '/assets/app/images/general/icons/community/kg/creative.png' where nameEn like 'Creative K%';
+update PreNursery set icon = '/assets/app/images/general/icons/community/kg/creative.png' where nameEn like 'Creative%';
 update PreNursery set icon = '/assets/app/images/general/icons/community/kg/elh.png' where nameEn like 'Excel London%';
 update PreNursery set icon = '/assets/app/images/general/icons/community/kg/funful.png' where nameEn like '%Funful%';
 update PreNursery set icon = '/assets/app/images/general/icons/community/kg/hkpresch.png' where nameEn like '%Ascot%';
