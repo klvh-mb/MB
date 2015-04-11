@@ -740,6 +740,7 @@ public class Application extends Controller {
         		    List<ValidationError> errors = new ArrayList<>();
         	        errors.add(new ValidationError(Signup.EMAIL_EXISTS_ERROR_KEY, Signup.EMAIL_EXISTS_ERROR_MESSAGE));
         	        filledForm.errors().put(Signup.EMAIL_EXISTS_ERROR_KEY, errors);
+        	        logger.underlyingLogger().info("[email="+email+"] already registered");
                 }
     		}
 		}
