@@ -348,23 +348,6 @@ minibean.service('membersWidgetService',function($resource){
     );
 });
 
-minibean.service('pnService',function($resource){
-    this.PNCommunities = $resource(
-            '/get-pn-communities',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'GET', isArray:true}
-            }
-    );
-    this.PNs = $resource(
-            '/get-pns-by-community/:community_id',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'GET', params:{community_id:'@community_id'},isArray:true}
-            }
-    );
-});
-
 minibean.service('unJoinedCommunityWidgetService',function($resource){
     this.UnJoinedCommunities = $resource(
             '/get-unjoined-communities',

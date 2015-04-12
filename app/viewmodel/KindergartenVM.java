@@ -17,6 +17,7 @@ public class KindergartenVM {
 
     @JsonProperty("id")  public Long id;
     @JsonProperty("commId") public Long communityId;
+    @JsonProperty("icon") public String icon;
     @JsonProperty("myd")  public boolean isMyDistrict;
     @JsonProperty("dis")  public String districtName;
     @JsonProperty("disId")  public Long districtId;
@@ -84,6 +85,7 @@ public class KindergartenVM {
     public KindergartenVM(Kindergarten kg, User user, boolean isBookmarked) {
         this.id = kg.id;
         this.communityId = kg.communityId;
+        this.icon = kg.icon;
 
         this.isMyDistrict = false;
         if (user.userInfo != null && user.userInfo.location != null) {

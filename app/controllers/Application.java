@@ -696,7 +696,7 @@ public class Application extends Controller {
     public static Result initNewUser() {
     	final User user = getLocalUser(session());
     	
-    	logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] Signup completed - "+(isMobileUser()?"mobile":"PC"));
+    	logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] init new user - "+(isMobileUser()?"mobile":"PC"));
 
         String promoCode = session().get(SESSION_PROMOCODE);
         GameAccount.setPointsForSignUp(user, promoCode);
@@ -740,6 +740,7 @@ public class Application extends Controller {
         		    List<ValidationError> errors = new ArrayList<>();
         	        errors.add(new ValidationError(Signup.EMAIL_EXISTS_ERROR_KEY, Signup.EMAIL_EXISTS_ERROR_MESSAGE));
         	        filledForm.errors().put(Signup.EMAIL_EXISTS_ERROR_KEY, errors);
+        	        logger.underlyingLogger().info("[email="+email+"] already registered");
                 }
     		}
 		}
