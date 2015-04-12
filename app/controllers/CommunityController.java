@@ -16,7 +16,6 @@ import common.utils.StringUtil;
 import models.Comment;
 import models.Community;
 import models.CommunityCategory;
-import models.Emoticon;
 import models.Icon;
 import models.PrimarySocialRelation;
 import models.PKViewMeta;
@@ -808,12 +807,22 @@ public class CommunityController extends Controller{
     }
     
     @Transactional
+    public static Result getNewCommunityMembers(Long id) {
+        return getCommunityMembers(id, DefaultValues.NEW_COMMUNITY_MEMBERS_COUNT);	
+    }
+    
+    @Transactional
     public static Result getCommunityMembers(Long id) {
+        return getCommunityMembers(id, -1);	
+    }
+    
+    @Transactional
+    public static Result getCommunityMembers(Long id, int limit) {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         Community community = Community.findById(id);
         List<MembersWidgetChildVM> members = new ArrayList<>();
-        for(User member : community.getMembers()) {
+        for(User member : community.getMembers(limit)) {
             if(community.owner.equals(member)) {
                 members.add(new MembersWidgetChildVM(member.id, member.displayName, true));
             } else {

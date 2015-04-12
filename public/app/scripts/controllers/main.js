@@ -1298,7 +1298,7 @@ minibean.controller('CommunityMembersController',function($scope, $routeParams, 
         $scope.currentPage = page;
     }
     
-	$scope.result = membersWidgetService.CommunityMembers.get({id:id}, 
+	$scope.result = membersWidgetService.NewCommunityMembers.get({id:id}, 
 	   function() {
 	       $scope.setMemberPage(1);
 	   } 

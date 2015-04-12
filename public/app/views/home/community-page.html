@@ -47,8 +47,8 @@
 							<a ng-click="selectedTab = 1;">最新訊息</a>
 						</div>
 						<div class="divider-cus"></div>
-						<div ng-class="{activeTabBold: selectedTab == 2}" ng-show="userInfo.isLoggedIn">
-							<a ng-click="selectedTab = 2;">正在關注</a>
+						<div ng-class="{activeTabBold: selectedTab == 2}" ng-show="userInfo.isLoggedIn && userInfo.isSA">
+							<a ng-click="selectedTab = 2;">最新關注</a>
 						</div>
 						<div class="dropdown pull-right">
                             <a id="community-settings-dropdown" class="toolsbox toolsbox-single dropdown-toggle" data-toggle="dropdown"><span class="icon-title-contentSetup"></span></a>

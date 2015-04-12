@@ -32,7 +32,6 @@ import play.db.jpa.Transactional;
 
 import com.mnt.exception.SocialObjectNotJoinableException;
 
-import domain.DefaultValues;
 import domain.Joinable;
 import domain.Likeable;
 import domain.PostType;
@@ -191,11 +190,18 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	
 	@JsonIgnore
 	public List<User> getMembers() {
+		return getMembers(-1);
+	}
+	
+	@JsonIgnore
+	public List<User> getMembers(int limit) {
         Query query = JPA.em().createQuery(
-            "select u from User u where u.id in (select sr.actor from SocialRelation sr where sr.target = ?1 and sr.action = ?2) and u.deleted = false order by u.id"
+            "select u from User u where u.id in (select sr.actor from SocialRelation sr where sr.target = ?1 and sr.action = ?2) and u.deleted = false order by u.id desc"
         );
         query.setParameter(1, this.id);
         query.setParameter(2, SocialRelation.Action.MEMBER);
+        if (limit != -1)
+        	query.setMaxResults(limit);
         return (List<User>) query.getResultList();
 	}
 
