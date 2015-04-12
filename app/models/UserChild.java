@@ -29,4 +29,15 @@ public class UserChild {
 		JPA.em().persist(this);
 		JPA.em().flush();
 	}
+    
+    @Override
+    public String toString() {
+        return "UserChild{" +
+                "id=" + id +
+                ", birthYear=" + birthYear +
+                ", birthMonth=" + birthMonth +
+                ", birthDay=" + birthDay +
+                ", gender=" + gender.name() +
+                '}';
+    }
 }

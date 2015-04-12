@@ -440,6 +440,8 @@ public class Application extends Controller {
         localUser.userInfo = userInfo;
         localUser.userInfo.save();
         
+        logger.underlyingLogger().info("[u="+localUser.id+"][name="+localUser.displayName+"] doSaveSignupInfo userInfo="+userInfo.toString());
+        
         // UseChild
         int maxChildren = (numChildren > 5)? 5 : numChildren;
         for (int i = 1; i <= maxChildren; i++) {
@@ -469,6 +471,8 @@ public class Application extends Controller {
             
             userChild.save();
             localUser.children.add(userChild);
+            
+            logger.underlyingLogger().info("[u="+localUser.id+"][name="+localUser.displayName+"] doSaveSignupInfo userChild="+userChild.toString());
         }
         
         //return redirect("/my");
