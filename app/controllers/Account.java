@@ -38,11 +38,11 @@ public class Account extends Controller {
 	}
 
 	public static class PasswordChange {
-		@MinLength(5)
+		@MinLength(4)
 		@Required
 		public String password;
 
-		@MinLength(5)
+		@MinLength(4)
 		@Required
 		public String repeatPassword;
 
@@ -64,8 +64,7 @@ public class Account extends Controller {
 
 		public String validate() {
 			if (password == null || !password.equals(repeatPassword)) {
-				return Messages
-						.get("playauthenticate.change_password.error.passwords_not_same");
+				return Messages.get("playauthenticate.change_password.error.passwords_not_same");
 			}
 			return null;
 		}
