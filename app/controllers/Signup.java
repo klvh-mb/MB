@@ -20,6 +20,7 @@ import providers.MyUsernamePasswordAuthProvider.MyIdentity;
 import providers.MyUsernamePasswordAuthProvider.MySignup;
 import providers.MyUsernamePasswordAuthUser;
 import views.html.account.signup.password_forgot;
+import views.html.account.signup.password_forgot_sent;
 import views.html.account.signup.unverified;
 import views.html.account.signup.no_token_or_invalid;
 import views.html.account.signup.password_reset;
@@ -124,7 +125,7 @@ public class Signup extends Controller {
 				}
 			}
 
-			return redirect(routes.Application.mainHome());
+			return ok(password_forgot_sent.render(email));
 		}
 	}
 
