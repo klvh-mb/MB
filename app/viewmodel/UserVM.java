@@ -16,7 +16,7 @@ public class UserVM {
     @JsonProperty("birthYear") public String birthYear;
     @JsonProperty("gender") public String gender;
     @JsonProperty("aboutMe") public String aboutMe;
-    @JsonProperty("location") public Location location;
+    @JsonProperty("location") public LocationVM location;
     @JsonProperty("noOfFriends") public Long noOfFriends;
     @JsonProperty("noOfGroups") public int noOfGroups;
     @JsonProperty("isLoggedIn") public boolean isLoggedIn = false;
@@ -53,7 +53,7 @@ public class UserVM {
     				this.gender = user.userInfo.gender.name();
     			}
     			this.aboutMe = user.userInfo.aboutMe;
-    			this.location = user.userInfo.location;
+    			this.location = new LocationVM(user.userInfo.location);
 
         		this.noOfFriends = user.getFriendsSize();
         		this.noOfGroups = user.getListOfJoinedCommunityIds().size();
