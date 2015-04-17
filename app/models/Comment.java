@@ -15,7 +15,6 @@ import javax.persistence.Query;
 import common.utils.StringUtil;
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
-import processor.FeedProcessor;
 import domain.CommentType;
 import domain.Creatable;
 import domain.Likeable;
@@ -49,6 +48,10 @@ public class Comment extends SocialObject implements Comparable<Comment>, Likeab
     @ManyToOne(cascade = CascadeType.REMOVE)
   	public Folder folder;
 
+	public boolean mobile = false;
+	public boolean android = false;
+	public boolean ios = false;
+	
     /**
      * Ctor
      */
