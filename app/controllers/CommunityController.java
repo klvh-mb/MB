@@ -25,6 +25,7 @@ import models.TargetingSocialObject;
 import models.User;
 import models.UserCommunityAffinity;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.joda.time.DateTime;
 
@@ -853,6 +854,10 @@ public class CommunityController extends Controller{
         String questionTitle = HtmlUtil.convertTextToHtml(form.get("questionTitle"));
         String questionText = HtmlUtil.convertTextToHtml(form.get("questionText"));
         int shortBodyCount = StringUtil.computePostShortBodyCount(questionText);
+        
+        // flags from app
+        String android = form.get("android");
+        String ios = form.get("ios");
 
         Community c = Community.findById(communityId);
         if (CommunityPermission.canPostOnCommunity(localUser, c)) {
@@ -881,6 +886,13 @@ public class CommunityController extends Controller{
             	map.put("showM", "false");
             }
 
+            if (!StringUtils.isEmpty(android))
+            	p.android = true;
+            else if (!StringUtils.isEmpty(ios))
+            	p.ios = true;
+            else 
+            	p.mobile = Application.isMobileUser();
+            	
             return ok(Json.toJson(map));
         }
         return ok("You are not member of this community");
