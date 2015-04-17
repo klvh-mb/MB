@@ -30,7 +30,7 @@ public class LocationCache {
         hkDistrictsList = Location.getHongKongDistricts();
         for (Location district : hkDistrictsList) {
             hkDistrictsMap.put(district.id, district);
-            hkDistrictsVMList.add(LocationVM.locationVM(district));
+            hkDistrictsVMList.add(new LocationVM(district));
         }
 
         List<Location> hkRegionsList = Location.getHongKongRegions();

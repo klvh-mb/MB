@@ -25,6 +25,7 @@ import models.TargetingSocialObject;
 import models.User;
 import models.UserCommunityAffinity;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.joda.time.DateTime;
 
@@ -667,6 +668,10 @@ public class CommunityController extends Controller{
         Long postId = Long.parseLong(form.get("post_id"));
         String commentText = HtmlUtil.convertTextToHtml(form.get("commentText"));
         
+        // flags from app
+        String android = form.get("android");
+        String ios = form.get("ios");
+        
         Post p = Post.findById(postId);
         Community c = p.community;
         if(localUser.isMemberOf(c) == true || localUser.id.equals(c.owner.id)){
@@ -678,6 +683,14 @@ public class CommunityController extends Controller{
                 if(Boolean.parseBoolean(withPhotos)) {
                 	comment.ensureAlbumExist();
                 }
+                
+                if (!StringUtils.isEmpty(android))
+                	comment.android = true;
+                else if (!StringUtils.isEmpty(ios))
+                	comment.ios = true;
+                else 
+                	comment.mobile = Application.isMobileUser();
+                
                 p.setUpdatedDate(new Date());
                 p.merge();
 
@@ -714,11 +727,22 @@ public class CommunityController extends Controller{
             String postText = HtmlUtil.convertTextToHtml(form.get("postText"));
             boolean withPhotos = Boolean.parseBoolean(form.get("withPhotos"));
 
+            // flags from app
+            String android = form.get("android");
+            String ios = form.get("ios");
+
             Post p = (Post) c.onPost(localUser, null, postText, PostType.SIMPLE);
             if(withPhotos) {
                 p.ensureAlbumExist();
             }
 
+            if (!StringUtils.isEmpty(android))
+            	p.android = true;
+            else if (!StringUtils.isEmpty(ios))
+            	p.ios = true;
+            else 
+            	p.mobile = Application.isMobileUser();
+            
             p.indexPost(withPhotos);
 
             sw.stop();
@@ -853,6 +877,10 @@ public class CommunityController extends Controller{
         String questionTitle = HtmlUtil.convertTextToHtml(form.get("questionTitle"));
         String questionText = HtmlUtil.convertTextToHtml(form.get("questionText"));
         int shortBodyCount = StringUtil.computePostShortBodyCount(questionText);
+        
+        // flags from app
+        String android = form.get("android");
+        String ios = form.get("ios");
 
         Community c = Community.findById(communityId);
         if (CommunityPermission.canPostOnCommunity(localUser, c)) {
@@ -860,6 +888,14 @@ public class CommunityController extends Controller{
             
             Post p = (Post) c.onPost(localUser, questionTitle, questionText, PostType.QUESTION);
             p.shortBodyCount = shortBodyCount;
+            
+            if (!StringUtils.isEmpty(android))
+            	p.android = true;
+            else if (!StringUtils.isEmpty(ios))
+            	p.ios = true;
+            else 
+            	p.mobile = Application.isMobileUser();
+            
             p.merge();
             if(Boolean.parseBoolean(withPhotos)) {
                 p.ensureAlbumExist();
@@ -873,7 +909,7 @@ public class CommunityController extends Controller{
             Map<String,String> map = new HashMap<>();
             map.put("id", p.id.toString());
            
-            if (p.shortBodyCount>0){
+            if (p.shortBodyCount > 0){
             	map.put("text", p.body.substring(0,p.shortBodyCount));
             	map.put("showM", "true");
             } else{
@@ -900,6 +936,10 @@ public class CommunityController extends Controller{
         Long postId = Long.parseLong(form.get("post_id"));
         String answerText = HtmlUtil.convertTextToHtml(form.get("answerText"));
         
+        // flags from app
+        String android = form.get("android");
+        String ios = form.get("ios");
+        
         Post p = Post.findById(postId);
         Community c = p.community;
         if(CommunityPermission.canPostOnCommunity(localUser, c)){
@@ -910,6 +950,14 @@ public class CommunityController extends Controller{
                 if(Boolean.parseBoolean(withPhotos)) {
                 	comment.ensureAlbumExist();
                 }
+                
+                if (!StringUtils.isEmpty(android))
+                	comment.android = true;
+                else if (!StringUtils.isEmpty(ios))
+                	comment.ios = true;
+                else 
+                	comment.mobile = Application.isMobileUser();
+                
                 p.setUpdatedDate(new Date());
                 p.merge();
 

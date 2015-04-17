@@ -66,6 +66,10 @@ public class Post extends SocialObject implements Likeable, Commentable {
 	public User socialUpdatedBy;
 	public Date socialUpdatedDate = new Date();
 
+	public boolean mobile = false;
+	public boolean android = false;
+	public boolean ios = false;
+	
     /**
      * Ctor
      */

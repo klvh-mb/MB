@@ -11,12 +11,10 @@ public class LocationVM {
     @JsonProperty("name") public String name;
     @JsonProperty("displayName") public String displayName;
     
-    public static LocationVM locationVM(Location location) {
-        LocationVM locationVM = new LocationVM();
-        locationVM.id = location.id;
-        locationVM.type = location.locationType.toString();
-        locationVM.name = location.getName();
-        locationVM.displayName = location.getDisplayName();
-        return locationVM;
+    public LocationVM(Location location) {
+        this.id = location.id;
+        this.type = location.locationType.toString();
+        this.name = location.getName();
+        this.displayName = location.getDisplayName();
     }
 }
