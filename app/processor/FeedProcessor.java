@@ -12,6 +12,7 @@ import domain.PostType;
 import models.Community;
 import models.Post;
 import models.TargetingSocialObject;
+import models.TargetingSocialObject.TargetingType;
 import models.User;
 import play.db.jpa.JPA;
 import play.libs.Akka;
@@ -22,6 +23,7 @@ import scala.concurrent.duration.Duration;
 import akka.actor.ActorSystem;
 
 import com.typesafe.plugin.RedisPlugin;
+
 import targeting.community.PNCommTargetingEngine;
 
 /**
@@ -218,14 +220,19 @@ public class FeedProcessor {
 
     static boolean isSkipCommunityNFQueue(Post post) {
         Community community = post.getCommunity();
-        return isSkipCommunityNFQueue(community.isExcludeFromNewsfeed(), community.getTargetingType().name());
+        return isSkipCommunityNFQueue(community.isExcludeFromNewsfeed(), community.getTargetingType());
     }
 
-    static boolean isSkipCommunityNFQueue(boolean exludeFromNewsfeed, String targetingType) {
+    static boolean isSkipCommunityNFQueue(boolean excludeFromNewsfeed, TargetingType targetingType) {
+    	String value = (targetingType == null)? "" : targetingType.name();
+    	return isSkipCommunityNFQueue(excludeFromNewsfeed, value);
+    }
+    
+    static boolean isSkipCommunityNFQueue(boolean excludeFromNewsfeed, String targetingType) {
         if (TargetingSocialObject.TargetingType.PRE_NURSERY.name().equals(targetingType)) {
             return false;           // always pub to PN queues
         }
-        return exludeFromNewsfeed;  // NF disabled
+        return excludeFromNewsfeed;  // NF disabled
     }
 
 	/**

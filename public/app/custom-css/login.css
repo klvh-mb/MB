@@ -287,9 +287,9 @@ ul, li {
 
 /* Password related */
 .pwd-container {
-    padding: 0;
+    padding: 20px;
     position: relative;
-    width: 500px;
+    width: 100%;
     height: auto;
     margin: 0 auto;
 }
@@ -300,10 +300,6 @@ ul, li {
     height: 100%;
     /*padding: 10% 3% 20% 5%;*/
     padding: 20px 30px;
-}
-.pwd-container div.login-box:first-child div {
-    float: left;
-    width: 50%;
 }
 .pwd-container div.login-box:first-child p {
     color: gray;

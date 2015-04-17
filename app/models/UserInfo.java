@@ -66,4 +66,16 @@ public class UserInfo {
 		JPA.em().persist(this);
 		JPA.em().flush();
 	}
+	
+	@Override
+    public String toString() {
+        return "UserInfo{" +
+                "id=" + id +
+                ", birthYear=" + birthYear +
+                ", numChildren=" + numChildren +
+                ", location=" + location.displayName +
+                ", parentType=" + parentType.name() +
+                ", gender=" + gender.name() +
+                '}';
+    }
 }

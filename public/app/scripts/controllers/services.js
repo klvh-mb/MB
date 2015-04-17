@@ -339,8 +339,8 @@ minibean.service('editCommunityPageService',function($resource){
 });
 
 minibean.service('membersWidgetService',function($resource){
-    this.CommunityMembers = $resource(
-            '/get-community-members/:id',
+    this.NewCommunityMembers = $resource(
+            '/get-new-community-members/:id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get'}
