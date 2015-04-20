@@ -706,6 +706,22 @@ minibean.service('bookmarkService', function($resource) {
                 get: {method:'get', params:{pn_id:'@pn_id'}}
             }
     );
+    
+    this.bookmarkKG = $resource(
+            '/bookmark-kg/:kg_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{pn_id:'@kg_id'}}
+            }
+    );
+    
+    this.unbookmarkKG = $resource(
+            '/unbookmark-kg/:kg_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', params:{pn_id:'@kg_id'}}
+            }
+    );
 });
     
 minibean.service('likeFrameworkService', function($resource) {
@@ -974,6 +990,34 @@ minibean.service('schoolsService',function($resource){
                 get: {method:'get',isArray:true}
             }
     );
+    this.kgInfo = $resource(
+            '/get-kg-info/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
+	this.searchKGsByName = $resource(
+            '/search-kgs-by-name/:query',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.kgsByDistrict = $resource(
+            '/get-kgs-by-district/:district_id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.bookmarkedKGs = $resource(
+            '/get-bookmarked-kgs',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
 });
 
 minibean.service('articleService',function($resource){
@@ -1128,6 +1172,14 @@ minibean.service('myBookmarksService',function($resource){
     
     this.bookmarkedPNs = $resource(
             '/get-bookmarked-pns',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET', isArray:true}
+            }
+    );
+    
+    this.bookmarkedKGs = $resource(
+            '/get-bookmarked-kgs',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'GET', isArray:true}

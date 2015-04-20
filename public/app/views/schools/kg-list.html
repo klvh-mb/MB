@@ -1,5 +1,5 @@
-<div class="general-box school-list-title school-pn-list-title">
-    <b>幼兒服務<b>: </b></b><p>{{schools[0].dis}}</p> 有 <p>{{schools.length}}</p> 間幼稚園提供2-3歲幼兒服務 (PN幼兒班)
+<div class="general-box school-list-title school-kg-list-title">
+    </b><p>{{schools[0].dis}}</p> 有 <p>{{schools.length}}</p> 間幼稚園 (K班)
     <div class="school-list-filters">
         <span>
 	        學券申請: 
@@ -91,50 +91,50 @@
         <li ng-if="filteredSchools.length == 0">
             <div class="school-list-entry" style="font-size:16px;padding-bottom:10px;">沒有符合條件的幼兒班。請重新查看選項</div>
         </li>
-	    <li ng-repeat="pn in filteredSchools">
+	    <li ng-repeat="kg in filteredSchools">
 	        <div class="school-list-entry">
 	            <div class="school-info">
-	                <a href="/schools#!/pn/{{pn.id}}">
-	                    {{pn.n}}
+	                <a href="/schools#!/kg/{{kg.id}}">
+	                    {{kg.n}}
 	                </a>
-	                <span class="school-info-tips" ng-if="pn.nop > 0">
-                        <img src="../assets/app/images/general/icons/i-reply.png">{{pn.nop}}
+	                <span class="school-info-tips" ng-if="kg.nop > 0">
+                        <img src="../assets/app/images/general/icons/i-reply.png">{{kg.nop}}
                     </span>
-	                <span data-ng-include data-src="'/assets/app/views/schools/bookmark-pn.html'"></span>
+	                <span data-ng-include data-src="'/assets/app/views/schools/bookmark-kg.html'"></span>
 	                
-	                <a class="schools-map" ng-show="pn.map != null" href="{{pn.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i>地圖</a>
+	                <a class="schools-map" ng-show="kg.map != null" href="{{kg.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i>地圖</a>
 	
-	                <!--div class="school-info-note"><span ng-show="pn.adr">{{pn.adr}}</span></div-->
+	                <!--div class="school-info-note"><span ng-show="kg.adr">{{kg.adr}}</span></div-->
 	                <div class="school-info-attr">
 	                    <span class="school-attr-short">學券申請: 
-	                        <span ng-show="pn.cp">✓</span>
-	                        <span ng-show="!pn.cp">✘</span>
+	                        <span ng-show="kg.cp">✓</span>
+	                        <span ng-show="!kg.cp">✘</span>
 	                    </span>
 	                    <span class="school-attr">學校類別: 
-                            <span>{{pn.orgt || '--'}}</span>
+                            <span>{{kg.orgt || '--'}}</span>
                         </span>
 	                    <span class="school-attr-short">課程類別: 
-                            <span>{{pn.curt || '--'}}</span>
+                            <span>{{kg.curt || '--'}}</span>
                         </span>
 	                    <span class="school-attr">課堂: 
-                            <span ng-show="pn.ct == 'AM'">上午</span>
-                            <span ng-show="pn.ct == 'PM'">下午</span>
-                            <span ng-show="pn.ct == 'WD'">全日</span>
-                            <span ng-show="pn.ct == 'AM,PM'">上午、下午</span>
-                            <span ng-show="pn.ct == 'AM,WD'">上午、全日</span>
-                            <span ng-show="pn.ct == 'PM,WD'">下午、全日</span>
-                            <span ng-show="pn.ct == 'AM,PM,WD'">上午、下午、全日</span>
+                            <span ng-show="kg.ct == 'AM'">上午</span>
+                            <span ng-show="kg.ct == 'PM'">下午</span>
+                            <span ng-show="kg.ct == 'WD'">全日</span>
+                            <span ng-show="kg.ct == 'AM,PM'">上午、下午</span>
+                            <span ng-show="kg.ct == 'AM,WD'">上午、全日</span>
+                            <span ng-show="kg.ct == 'PM,WD'">下午、全日</span>
+                            <span ng-show="kg.ct == 'AM,PM,WD'">上午、下午、全日</span>
                         </span>
                         <!--span class="school-attr">辦學團體: 
-                            <span>{{pn.org || '--'}}</span>
+                            <span>{{kg.org || '--'}}</span>
                         </span-->
 	                </div>
 	                <!--div class="school-info-attr">
-					    <span>派表日期: {{pn.fds}}<span ng-show="!pn.fds">--</span></span>
-					    <span>報名日期: {{pn.ads}}<span ng-show="!pn.ads">--</span></span>
-					    <span>截止日期: {{pn.eds}}<span ng-show="!pn.eds">--</span></span>
+					    <span>派表日期: {{kg.fds}}<span ng-show="!kg.fds">--</span></span>
+					    <span>報名日期: {{kg.ads}}<span ng-show="!kg.ads">--</span></span>
+					    <span>截止日期: {{kg.eds}}<span ng-show="!kg.eds">--</span></span>
 					    <div class="pull-right" style="margin:auto auto;">
-					        <span style="margin-right:5px;" ng-show="pn.fom">申請表格: <a href="{{pn.fom}}" target="_blank"><i class="glyphicon glyphicon-download-alt"></i></a></span>
+					        <span style="margin-right:5px;" ng-show="kg.fom">申請表格: <a href="{{kg.fom}}" target="_blank"><i class="glyphicon glyphicon-download-alt"></i></a></span>
 					    </div>
 					</div-->
 	            </div>

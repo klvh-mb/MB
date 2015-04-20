@@ -37,6 +37,8 @@ public class KindergartenVM {
     @JsonProperty("ct")  public String classTimes;
     @JsonProperty("cur")  public String curriculum;
     @JsonProperty("curt")  public String curriculumType;
+    
+    @JsonProperty("hasPN")  public boolean hasPN;
 
     @JsonProperty("feeAmN")  public String annualFeeAM_N;
     @JsonProperty("feePmN")  public String annualFeePM_N;
@@ -114,6 +116,8 @@ public class KindergartenVM {
         this.curriculum = kg.curriculum;
         this.curriculumType = kg.curriculumType;
 
+        this.hasPN = kg.hasPN;
+        
         this.annualFeeAM_N = kg.annualFeeAM_N;
         this.annualFeePM_N = kg.annualFeePM_N;
         this.annualFeeWD_N = kg.annualFeeWD_N;

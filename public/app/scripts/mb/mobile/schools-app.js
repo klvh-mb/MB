@@ -42,6 +42,22 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/mobile/schools/pn-page.html',
         controller : 'PNPageController' 
       })
+      .when('/kg',{
+        templateUrl: '/assets/app/views/mobile/schools/kgs.html',
+        controller : 'ShowSchoolsController' 
+      })
+      .when('/kg/district/:districtId',{
+        templateUrl: '/assets/app/views/mobile/schools/kgs.html',
+        controller : 'ShowSchoolsController' 
+      })
+      .when('/kg/ranking',{
+        templateUrl: '/assets/app/views/mobile/schools/kg-ranking-page.html',
+        controller : 'SchoolsRankingController' 
+      })
+      .when('/kg/:id',{
+        templateUrl: '/assets/app/views/mobile/schools/kg-page.html',
+        controller : 'KGPageController' 
+      })
       .when('/error', {
     	  templateUrl: '/assets/app/views/error-page.html',
       })

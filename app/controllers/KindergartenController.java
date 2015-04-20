@@ -81,14 +81,14 @@ public class KindergartenController extends Controller {
 		final User localUser = Application.getLocalUser(session());
         List<Kindergarten> kgs = Kindergarten.getKGsByDistrict(districtId);
 
-        final List<KindergartenVM> pnVMs = new ArrayList<>();
+        final List<KindergartenVM> kgVMs = new ArrayList<>();
         for (Kindergarten kg : kgs) {
-            pnVMs.add(new KindergartenVM(kg, localUser));
+        	kgVMs.add(new KindergartenVM(kg, localUser));
         }
 
         sw.stop();
         logger.underlyingLogger().info("STS [u="+localUser.id+"][d="+districtId+"] getKGsByDistrict. Took "+sw.getElapsedMS()+"ms");
-		return ok(Json.toJson(pnVMs));
+		return ok(Json.toJson(kgVMs));
     }
 
     @Transactional
