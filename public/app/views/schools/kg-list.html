@@ -1,5 +1,5 @@
 <div class="general-box school-list-title school-kg-list-title">
-    </b><p>{{schools[0].dis}}</p> 有 <p>{{schools.length}}</p> 間幼稚園 (K班)
+    <p>{{schools[0].dis}}</p> 有 <p>{{schools.length}}</p> 間幼稚園 (K班)
     <div class="school-list-filters">
         <span>
 	        學券申請: 
@@ -124,6 +124,9 @@
                             <span ng-show="kg.ct == 'AM,WD'">上午、全日</span>
                             <span ng-show="kg.ct == 'PM,WD'">下午、全日</span>
                             <span ng-show="kg.ct == 'AM,PM,WD'">上午、下午、全日</span>
+                        </span>
+                        <span class="school-attr-short" ng-if="kg.hasPN">PN幼兒班:
+                            <span>✓</span>
                         </span>
                         <!--span class="school-attr">辦學團體: 
                             <span>{{kg.org || '--'}}</span>

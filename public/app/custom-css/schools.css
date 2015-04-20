@@ -52,9 +52,6 @@ PN      K
 	background-color: transparent;
 	margin: 5px 0;
 }
-#schools-search-wrapper {
-	
-}
 .schools-search input {
 	border-radius: 25px;
 	padding-left: 3%;
@@ -96,16 +93,21 @@ PN      K
 .schools-kg-search button, .schools-kg-search submit {
 	border-color: #C77B7B;
 }
-.schools-pn-search i {
+.schools-pn-search .schools-search-wrapper i {
     color: #57A857;
 }
-.schools-kg-search i {
+.schools-kg-search .schools-search-wrapper i {
     color: #B86B6B;
 }
-#schools-search-box .school-list-title {
-	background-color: #F7FCF7;
+.schools-pn-search .school-list-title {
+	background-color: #F3FDF2;
 	border: none;
-	border-bottom: solid 1px #ACCBAC;
+	border-bottom: solid 1px #7BC77E;
+}
+.schools-kg-search .school-list-title {
+    background-color: #FFF9F9;
+    border: none;
+    border-bottom: solid 1px #C77B7B;
 }
 #schools-search-box .dropdown-menu {
     top: 40px;

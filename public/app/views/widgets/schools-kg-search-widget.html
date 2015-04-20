@@ -1,7 +1,7 @@
 <form method="post" action="">
-	<div id="schools-search-box" name="schools-search-box">
-	    <a id="schools-search-wrapper" class="ng-pristine ng-valid">
-	        <div class="input-group innerB schools-search schools-kg-search">
+	<div id="schools-search-box" name="schools-search-box" class="schools-kg-search">
+	    <a class="schools-search-wrapper ng-pristine ng-valid">
+	        <div class="input-group innerB schools-search">
 	            <input type="text" name="schools-searchfield" id="schools-searchfield" class="form-control" ng-model="schoolQuery" data-ng-change="searchByName(schoolQuery)" placeholder="搜尋學校名稱 (所有區)">
 	            <div class="input-group-btn">
 	                <button id="submit-search" name="submit-search" class="btn btn-default" type="submit">
@@ -59,6 +59,9 @@
 		                            <span ng-show="kg.ct == 'PM,WD'">下午、全日</span>
 		                            <span ng-show="kg.ct == 'AM,PM,WD'">上午、下午、全日</span>
 		                        </span>
+		                        <span class="school-attr-short" ng-if="kg.hasPN">PN幼兒班:
+	                                <span>✓</span>
+	                            </span>
 		                        <!--span class="school-attr">辦學團體: 
 		                            <span>{{kg.org || '--'}}</span>
 		                        </span-->

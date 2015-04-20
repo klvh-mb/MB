@@ -50,6 +50,11 @@
 				<span ng-show="kg.ct == 'PM,WD'">下午、全日</span>
 				<span ng-show="kg.ct == 'AM,PM,WD'">上午、下午、全日</span>
             </div>
+            <div class="school-info-attr-short">
+                <span>PN幼兒班 : </span>
+                <span ng-show="kg.hasPN">✓</span>
+                <span ng-show="!kg.hasPN">✘</span>
+            </div>
             <div class="school-info-attr">
                 <span>辦學團體 : </span> 
                 <span>{{kg.org || '--'}}</span>
@@ -59,7 +64,7 @@
             <div class="school-info-note"><span>收錄人數 : </span> {{kg.nadm || '--'}}</div>
             <div class="school-info-note"><span>半日班全年收費 : </span> {{kg.feeHd || '--'}}</div>
             <div class="school-info-note"><span>全日班全年收費 : </span> {{kg.feeWd || '--'}}</div>
-            <div class="school-info-note" style="font-size:13px;margin-top:3px;">* 根據教育局提供的幼兒服務資料 (2013年9月資料)</div>
+            <div class="school-info-note" style="font-size:13px;margin-top:3px;">* 根據教育局提供的幼稚園資料 (2013年9月資料)</div>
 
             <div class="school-section-title">課程資料</div>
             <div class="school-info-note"><span>課程編排 : </span> {{kg.cur || '學校沒有提供'}}</div>
