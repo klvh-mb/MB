@@ -8,6 +8,49 @@ PN      K
 #EBFDEA #FFF4F4
 #F3FDF2 #FFF9F9
 */
+#schools-nav-subbar {
+    width: 100%;
+    height: auto;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #CACACA;
+    font-size: 16px;
+}
+#schools-nav-subbar .nav-menu {
+    padding: 10px 0px;
+}
+#schools-nav-subbar .nav-menu a.nav-item {
+    color: #333;
+    margin: 0;
+    border-left: 7px solid transparent;
+    border-bottom: none;
+}
+#schools-nav-subbar .nav-menu a.nav-item:hover {
+    text-decoration: none;
+}
+#schools-nav-subbar .nav-menu a.nav-item img {
+    top: -3px;
+    position: relative;
+    width: 24px;
+    margin-left: 2px;
+}
+#schools-nav-subbar .nav-menu .selected-green a.nav-item, 
+#schools-nav-subbar .nav-menu .selected-maroon a.nav-item {
+	color: #111;
+	border-left: 7px solid transparent;
+}
+#schools-nav-subbar .nav-menu .selected-green a.nav-item {
+	border-color: transparent;
+	border-left-color: #57A857;
+}
+#schools-nav-subbar .nav-menu .selected-maroon a.nav-item {
+	border-color: transparent;
+	border-left-color: #B86B6B;
+}
+#schools-nav-subbar .nav-menu .selected-green a.nav-item:hover,
+#schools-nav-subbar .nav-menu .selected-marron a.nav-item:hover {
+    color: #111;
+    border-bottom: none;
+}
 .tag {
     color: #CD8400;
     font-size: 14px;
