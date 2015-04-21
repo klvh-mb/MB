@@ -1007,6 +1007,15 @@ span.notif-count {
 .school-box .school-info-attr-short {
     width: 100%;
 }
+.school-box .school-info-table {
+    margin: 10px 0;
+    display: inline-table;
+    width: 100%;
+}
+.school-box .school-info-table tr td {
+    min-width: 50px;
+    padding: 5px 3px;
+}
 .school-box .school-title > li, 
 .school-box .school-title > li:first-child {
     width: 100%;
@@ -1025,6 +1034,9 @@ span.notif-count {
 .school-box .school-title .school-reviews-summary div:first-child {
 	border-right: 1px solid #aaa;
 	margin-bottom: 5px;
+}
+#school-box-main .school-box {
+  padding: 15px;
 }
 #school-box-main #community-header {
     margin-bottom: 15px;

@@ -560,7 +560,8 @@ PN      K
 .school-box .school-info-note,
 .school-box .school-info-note-short,
 .school-box .school-info-attr, 
-.school-box .school-info-attr-short {
+.school-box .school-info-attr-short, 
+.school-box .school-info-table {
 	width: 100%;
 	display: inline-block;
 	line-height: 1.6;
@@ -578,6 +579,29 @@ PN      K
 .school-box .school-info-attr-short {
     width: 38%;
     color: #5F1B1B;
+}
+.school-box .school-info-table {
+	margin: 10px;
+	display: inline-table;
+	width: 95%;
+}
+.school-box .school-info-table tr td:first-child {
+    background-color: #fff1dc;
+}
+.school-box .school-info-table tr:first-child td {
+    background-color: #fffff0;
+}
+.school-box .school-info-table tr td {
+    border: 1px solid orange;
+    background-color: #ffffff;
+    text-align: center;
+    padding: 5px 10px;
+}
+.school-box .school-info-table .school-info-table-content {
+    font-size: 15px;
+}
+.school-box .school-info-table span {
+    display: inline-block;
 }
 .school-box .school-info-note > span:first-child,
 .school-box .school-info-note-short > span:first-child, 

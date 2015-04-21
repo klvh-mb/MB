@@ -60,11 +60,74 @@
                 <span>{{kg.org || '--'}}</span>
             </div>
 
-            <div class="school-section-title">幼稚園(K班) 收生資料</div>
-            <div class="school-info-note"><span>收錄人數 : </span> {{kg.nadm || '--'}}</div>
-            <div class="school-info-note"><span>半日班全年收費 : </span> {{kg.feeHd || '--'}}</div>
-            <div class="school-info-note"><span>全日班全年收費 : </span> {{kg.feeWd || '--'}}</div>
+            <div class="school-section-title">學生人數</div>
+            <div class="school-info-note">
+                <table class="school-info-table" cellpadding="10" cellspacing="2">
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td><span>幼兒</span> <span>3-4歲</span></td>
+                            <td><span>低班</span> <span>4-5歲</span></td>
+                            <td><span>高班</span> <span>5-6歲</span></td>
+                            <td><span>總數</span></td>
+                        </tr>
+                        <tr>
+                            <td><div><span>上午班</span></div></td>
+                            <td class="school-info-table-content">{{kg.nadAmN || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadAmL || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadAmU || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadAmT || '--'}}</td>
+                        </tr>
+                        <tr>
+                            <td><div><span>下午班</span></div></td>
+                            <td class="school-info-table-content">{{kg.nadPmN || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadPmL || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadPmU || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadPmT || '--'}}</td>
+                        </tr>
+                        <tr>
+                            <td><div><span>全日班</span></div></td>
+                            <td class="school-info-table-content">{{kg.nadWdN || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadWdL || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadWdU || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadWdT || '--'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <div class="school-info-note" style="font-size:13px;margin-top:3px;">* 根據教育局提供的幼稚園資料 (2013年9月資料)</div>
+            
+            <div class="school-section-title">全年學費 (2014/15 學年)</div>
+            <div class="school-info-note">
+	            <table class="school-info-table" cellpadding="10" cellspacing="2">
+		            <tbody>
+			            <tr>
+				            <td style="font-size:13px;">* 全年學費 (期數)</td>
+				            <td><span>幼兒</span> <span>3-4歲</span></td>
+                            <td><span>低班</span> <span>4-5歲</span></td>
+                            <td><span>高班</span> <span>5-6歲</span></td>
+			            </tr>
+			            <tr>
+				            <td><div><span>上午班</span></div></td>
+				            <td class="school-info-table-content">{{kg.feeAmN || '--'}}</td>
+				            <td class="school-info-table-content">{{kg.feeAmL || '--'}}</td>
+				            <td class="school-info-table-content">{{kg.feeAmU || '--'}}</td>
+			            </tr>
+			            <tr>
+				            <td><div><span>下午班</span></div></td>
+				            <td class="school-info-table-content">{{kg.feePmN || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.feePmL || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.feePmU || '--'}}</td>
+			            </tr>
+			            <tr>
+				            <td><div><span>全日班</span></div></td>
+				            <td class="school-info-table-content">{{kg.feeWdN || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.feeWdL || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.feeWdU || '--'}}</td>
+			            </tr>
+		            </tbody>
+		        </table>
+	        </div>
 
             <div class="school-section-title">課程資料</div>
             <div class="school-info-note"><span>課程編排 : </span> {{kg.cur || '學校沒有提供'}}</div>
