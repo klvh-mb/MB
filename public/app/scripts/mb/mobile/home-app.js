@@ -79,8 +79,7 @@ angular.module('minibean', [
         controller: 'GameController'
       })
       .when('/game/rules',{
-        templateUrl: '/assets/app/views/home/game-rules.html',
-        controller: 'GameController'
+        templateUrl: '/assets/app/views/mobile/home/game-rules-page.html'
       })
       .when('/error', {
     	  templateUrl: '/assets/app/views/error-page.html',
