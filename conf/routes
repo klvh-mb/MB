@@ -44,6 +44,7 @@ GET     /m-schools                  controllers.Application.mobileSchools
 #GET    /m-knowledge                controllers.Application.mobileKnowledge
 #GET    /m-magazine                 controllers.Application.mobileMagazine
 GET     /m-login                    controllers.Application.mobileLogin
+GET     /m-app                      controllers.Application.mobileApp
 
 # Main
 GET     /                           controllers.Application.index

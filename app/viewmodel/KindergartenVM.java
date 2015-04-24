@@ -37,6 +37,8 @@ public class KindergartenVM {
     @JsonProperty("ct")  public String classTimes;
     @JsonProperty("cur")  public String curriculum;
     @JsonProperty("curt")  public String curriculumType;
+    
+    @JsonProperty("hasPN")  public boolean hasPN;
 
     @JsonProperty("feeAmN")  public String annualFeeAM_N;
     @JsonProperty("feePmN")  public String annualFeePM_N;
@@ -47,7 +49,7 @@ public class KindergartenVM {
     @JsonProperty("feeAmU")  public String annualFeeAM_UKG;
     @JsonProperty("feePmU")  public String annualFeePM_UKG;
     @JsonProperty("feeWdU")  public String annualFeeWD_UKG;
-
+    
     @JsonProperty("nadAmN")  public String numEnrollAM_N;
     @JsonProperty("nadPmN")  public String numEnrollPM_N;
     @JsonProperty("nadWdN")  public String numEnrollWD_N;
@@ -57,7 +59,10 @@ public class KindergartenVM {
     @JsonProperty("nadAmU")  public String numEnrollAM_UKG;
     @JsonProperty("nadPmU")  public String numEnrollPM_UKG;
     @JsonProperty("nadWdU")  public String numEnrollWD_UKG;
-
+    @JsonProperty("nadAmT")  public String numEnrollAM_T;
+    @JsonProperty("nadPmT")  public String numEnrollPM_T;
+    @JsonProperty("nadWdT")  public String numEnrollWD_T;
+    
     @JsonProperty("nop") public int noOfPosts;
     @JsonProperty("nol") public int noOfLikes;
     @JsonProperty("nov") public int noOfViews;
@@ -114,6 +119,8 @@ public class KindergartenVM {
         this.curriculum = kg.curriculum;
         this.curriculumType = kg.curriculumType;
 
+        this.hasPN = kg.hasPN;
+        
         this.annualFeeAM_N = kg.annualFeeAM_N;
         this.annualFeePM_N = kg.annualFeePM_N;
         this.annualFeeWD_N = kg.annualFeeWD_N;
@@ -133,6 +140,16 @@ public class KindergartenVM {
         this.numEnrollPM_UKG = kg.numEnrollPM_UKG;
         this.numEnrollWD_UKG = kg.numEnrollWD_UKG;
 
+        try {
+	        this.numEnrollAM_T = String.valueOf(Integer.parseInt(kg.numEnrollAM_N) + Integer.parseInt(kg.numEnrollAM_LKG) + Integer.parseInt(kg.numEnrollAM_UKG));
+	        this.numEnrollPM_T = String.valueOf(Integer.parseInt(kg.numEnrollPM_N) + Integer.parseInt(kg.numEnrollPM_LKG) + Integer.parseInt(kg.numEnrollPM_UKG));
+	        this.numEnrollWD_T = String.valueOf(Integer.parseInt(kg.numEnrollWD_N) + Integer.parseInt(kg.numEnrollWD_LKG) + Integer.parseInt(kg.numEnrollWD_UKG));
+        } catch (Exception e) {
+        	this.numEnrollAM_T = null;
+        	this.numEnrollPM_T = null;
+        	this.numEnrollWD_T = null;
+        }
+        
         this.noOfPosts = kg.noOfPosts;
         this.noOfLikes = kg.noOfLikes;
         this.noOfViews = kg.noOfViews;

@@ -77,6 +77,14 @@ public class GameLevel {
         return getGameLevels().get(0);
     }
     
+    public static GameLevel getNextGameLevel(GameLevel gameLevel) {
+    	for (GameLevel nextLevel : getGameLevels()) {
+    		if (nextLevel.level == gameLevel.level + 1)
+    			return nextLevel;
+    	}
+    	return null;
+    }
+    
     @Transactional
     public void save() {
         JPA.em().persist(this);

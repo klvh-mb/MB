@@ -982,6 +982,47 @@ span.notif-count {
 }
 
 /* schools */
+#schools-nav-subbar {
+    width: 100%;
+    height: auto;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #CACACA;
+    font-size: 15px;
+    background-color: #f8f8f8;
+    margin-top: -10px;
+}
+#schools-nav-subbar .nav-menu {
+    padding: 0px;
+}
+#schools-nav-subbar .nav-menu a.nav-item {
+    color: #333;
+    margin: 0;
+    padding: 5px 5px 0px 5px;
+    border-left: none;
+    border-bottom: 3px solid transparent;
+    margin-left: 5px;
+}
+#schools-nav-subbar .nav-menu a.nav-item img {
+    top: -3px;
+    position: relative;
+    width: 24px;
+    margin: 0 2px 0 0;
+}
+#schools-nav-subbar .nav-menu .selected-green a.nav-item, 
+#schools-nav-subbar .nav-menu .selected-maroon a.nav-item {
+    color: #111;
+    border-left: none;
+}
+#schools-nav-subbar .nav-menu .selected-green a.nav-item,
+#schools-nav-subbar .nav-menu .selected-green a.nav-item:hover {
+    border-color: transparent;
+    border-bottom: 3px solid #57A857;
+}
+#schools-nav-subbar .nav-menu .selected-maroon a.nav-item,
+#schools-nav-subbar .nav-menu .selected-maroon a.nav-item:hover {
+    border-color: transparent;
+    border-bottom: 3px solid #B86B6B;
+}
 .login-reminder {
     padding: 5px 0 0 10px;
 }
@@ -1007,6 +1048,15 @@ span.notif-count {
 .school-box .school-info-attr-short {
     width: 100%;
 }
+.school-box .school-info-table {
+    margin: 10px 0;
+    display: inline-table;
+    width: 100%;
+}
+.school-box .school-info-table tr td {
+    min-width: 50px;
+    padding: 5px 3px;
+}
 .school-box .school-title > li, 
 .school-box .school-title > li:first-child {
     width: 100%;
@@ -1025,6 +1075,9 @@ span.notif-count {
 .school-box .school-title .school-reviews-summary div:first-child {
 	border-right: 1px solid #aaa;
 	margin-bottom: 5px;
+}
+#school-box-main .school-box {
+  padding: 15px;
 }
 #school-box-main #community-header {
     margin-bottom: 15px;

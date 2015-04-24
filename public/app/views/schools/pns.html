@@ -7,20 +7,23 @@
     <div class="row">
         <div class="col-md-2 col-sm-2 col-xs-2" style="width:210px;">
             <div id="left-sidebar" ui-scrollfix="+{{leftSidebarTop}}">
+                <div data-ng-include data-src="'/assets/app/views/schools/nav-bar.html'"></div>
                 <div data-ng-include data-src="'/assets/app/views/widgets/schools-pn-ranking-index-widget.html'"></div>
             </div>
         </div>
         
         <div class="col-md-6 col-sm-6 col-xs-6" style="width:500px;">
             <div data-ng-include data-src="'/assets/app/views/widgets/schools-pn-search-widget.html'"></div>
-            <div id="wall" ng-show="searchTerm.length == 0 || searchPNsResults.length == 0">
+            <div id="wall" ng-show="searchTerm.length == 0 || searchResults.length == 0">
                 <div data-ng-include data-src="'/assets/app/views/widgets/schools-pn-districts-index-widget.html'"></div>
                 <div data-ng-include data-src="'/assets/app/views/schools/pn-list.html'"></div>
             </div>
         </div>
         
         <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
-            <div data-ng-include data-src="'/assets/app/views/widgets/schools-pn-bookmark-widget.html'"></div>
+            <div class="schools-pn-utility">
+                <div data-ng-include data-src="'/assets/app/views/widgets/schools-pn-bookmark-widget.html'"></div>
+            </div>
             <div data-ng-include data-src="'/assets/app/views/widgets/fb-likebox-widget.html'"></div>
             <div class="ads-factor-300x250">
                 <script adSize="300250" adSid="244781106677" ads-factor language='JavaScript' type="text/javascript"></script>

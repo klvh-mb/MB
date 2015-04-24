@@ -1,0 +1,91 @@
+<div id="schools-bookmarks-section" ng-if="!collapsible">
+	<div id="schools-bookmarks" class="general-box utility-box">
+	    <div class="bookmarks-title">
+	        <span class="schools-title-icon schools-title-icon-bookmark"></span>
+	        <img src="/assets/app/images/general/titles/schools_kg_bookmarks.png">
+	    </div>
+	    <div class="section-details">
+		    <div class="login-reminder" ng-if="!userInfo.isLoggedIn || bookmarkedSchools.length == 0">
+                <div class="login-reminder-text">
+                    按幼稚園右方的
+                    <img style="width:18px;vertical-align:text-bottom;margin:1px 1px;" src="/assets/app/images/general/icons/message_favorited.png">
+                    收藏方便査看
+                    <img style="width:100%;max-width:225px;margin-top:5px;" src="http://www.minibean.hk/image/frontpage/2015/2/17/bookmark-sample.jpg">
+                </div>          
+	            <div class="login-reminder-prompt" ng-if="!userInfo.isLoggedIn">
+                    請先 <a ng-href="{{getFbLoginUrl()}}"><img class="prompt-fb-login" src="../assets/app/images/login/facebook_login_s.jpg" /></a> <br>或以 <a href="/login">電郵登入</a> | <a href="/signup">會員注册</a>
+                </div>
+            </div>
+	        <ul ng-if="userInfo.isLoggedIn">
+	            <li ng-repeat="kg in bookmarkedSchools">
+	                <div class="school-details">
+	                    <div class="school-summary">
+	                        <a href="/schools#!/kg/{{kg.id}}">
+	                            <!--img style="width:20px;margin:0 4px 2px 0;" src="../assets/app/images/schools/green_book.png" /-->
+	                            <img style="width:18px;margin:0 4px 2px 0;" ng-src="{{kg.icon}}" ng-if="kg.icon != null" />
+	                            <img style="width:18px;margin:0 4px 2px 0;" src="/assets/app/images/general/icons/community/grad_hat.png" ng-if="kg.icon == null" />
+	                            {{kg.n}}
+	                        </a>
+	                        <span class="tag">{{kg.dis}}</span>
+	                        <span class="school-info-tips" ng-if="kg.nop > 0"><img style="width:14px;margin-left:6px;margin-right:3px" src="../assets/app/images/general/icons/i-reply.png">{{kg.nop}}</span>
+	                    </div>
+	                </div>
+	            </li>                    
+	        </ul>
+	    </div>
+	</div>
+</div>
+
+<div id="schools-bookmarks-section" ng-if="collapsible">
+    <div id="schools-bookmarks" class="general-box utility-box">
+        <div class="bookmarks-title">
+            <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseBookmarks">
+                <span class="schools-title-icon schools-title-icon-bookmark"></span>
+                <img src="/assets/app/images/general/titles/schools_kg_bookmarks.png" />
+                <img style="width:20px;position:absolute;top:7px;left:175px;" src="/assets/app/images/general/icons/white_more.png" />
+            </a>
+        </div>
+        <div ng-if="!userInfo.isLoggedIn || bookmarkedSchools.length == 0">
+            <div class="section-details">
+                <div class="login-reminder">
+	                <div class="login-reminder-text">
+	                    按幼稚園右方的
+	                    <img style="width:18px;vertical-align:text-bottom;margin:1px 1px;" src="/assets/app/images/general/icons/message_favorited.png">
+	                    收藏方便査看
+	                </div>
+	                <div id="collapseBookmarks" class="collapse">
+	                    <img style="width:100%;max-width:225px;margin-top:5px;" src="http://www.minibean.hk/image/frontpage/2015/2/18/bookmark-sample-m.jpg">
+    	                <div class="login-reminder-prompt" ng-show="!userInfo.isLoggedIn">
+                            請先 <a ng-href="{{getFbLoginUrl()}}"><img class="prompt-fb-login" src="../assets/app/images/login/facebook_login_s.jpg" /></a> <br>或以 <a href="/login">電郵登入</a> | <a href="/signup">會員注册</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul ng-if="userInfo.isLoggedIn"> 
+            <a data-toggle="collapse" data-parent="#accordion" data-target="#collapseBookmarks" ng-if="bookmarkedSchools.length > 0">
+                <li>
+                    <span class="bookmarks-summary">收藏了 "<b>{{bookmarkedSchools.length}}</b>" 間幼稚園</span>
+                </li>
+            </a>
+            <div class="section-details" >
+                <div id="collapseBookmarks" class="collapse">
+	                <li ng-repeat="kg in bookmarkedSchools">
+	                    <div class="school-details">
+	                        <div class="school-summary">
+	                            <a href="/schools#!/kg/{{kg.id}}">
+	                                <!--img style="width:20px;margin:0 4px 2px 0;" src="../assets/app/images/schools/green_book.png" /-->
+                                    <img style="width:18px;margin:0 4px 2px 0;" ng-src="{{kg.icon}}" ng-if="kg.icon != null" />
+                                    <img style="width:18px;margin:0 4px 2px 0;" src="/assets/app/images/general/icons/community/grad_hat.png" ng-if="kg.icon == null" />
+	                                {{kg.n}}
+	                            </a>
+	                            <span class="tag">{{kg.dis}}</span>
+	                            <span class="school-info-tips" ng-if="kg.nop > 0"><img style="width:14px;margin-left:6px;margin-right:3px" src="../assets/app/images/general/icons/i-reply.png">{{kg.nop}}</span>
+	                        </div>
+	                    </div>
+	                </li>
+	            </div>
+	        </div>                    
+	    </ul>
+    </div>
+</div>

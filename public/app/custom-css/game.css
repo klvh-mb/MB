@@ -121,3 +121,60 @@
     text-align: center;
     padding: 10px 0;
 }
+
+
+#game-rules-box {
+    overflow: hidden; 
+    background-color: white;
+    border: #FF7315 solid 2px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+#game-rules-box div {
+}
+#game-rules-box div p {
+    font-size: 14px;
+}
+#game-rules-box h4, #game-rules-box h5 {
+    padding: 5px 10px 7px 10px;
+    margin: 0; 
+}
+#game-rules-box h4 {
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    background-color: #FF7315;
+}
+#game-rules-box h5 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #556fb5;
+    border-bottom: 1px dashed #2EAB66;
+    margin: 5px 0 10px 0;
+    line-height: 1.4;
+}
+#game-rules-box .game-details {
+    padding: 5px 10px;
+    font-size: 14px;
+    color: #333;
+}
+#game-rules-box .game-details div {
+    margin: 5px 0; 
+}
+#game-rules-box .game-details .game-note {
+	font-size: 13px;
+	color: #666;
+	margin-left: 25px;
+	display: inline-block;
+}
+#game-rules-box .game-details .points {
+    margin: 0px 5px;
+    color: #FF6600;
+    font-weight: bold;
+    font-size: 13px;
+}
+#game-rules-box .game-details img {
+    width: 20px;
+    height: auto;
+    margin-bottom: 2px;
+}

@@ -6,22 +6,6 @@ minibean.factory('schoolsFactory',function(schoolsService, postManagementService
 
     var factory = {}; 
 
-    factory.likePN = function(pn_id, pn) {
-        likeFrameworkService.hitLikeOnPKView.get({"pn_id":pn_id}, 
-            function(data) {
-                pn.nol++;
-                pn.isLike=true;
-            });
-    }
-
-    factory.unlikePN = function(pn_id, pn) {
-        likeFrameworkService.hitUnlikeOnPKView.get({"pn_id":pn_id}, 
-            function(data) {
-                pn.nol--;
-                pn.isLike=false;
-            });
-    }
-    
     factory.bookmarkPN = function(pn_id, pns, bookmarkedPNs) {
         bookmarkService.bookmarkPN.get({"pn_id":pn_id}, function(data) {
             angular.forEach(pns, function(pn, key){
@@ -52,6 +36,43 @@ minibean.factory('schoolsFactory',function(schoolsService, postManagementService
                     	if (bookmarkedPN.id == pn_id) {
                     		//alert(pn_id+":"+bookmarkedPNs.indexOf(bookmarkedPN));
                     		bookmarkedPNs.splice(bookmarkedPNs.indexOf(bookmarkedPN),1);
+                    	}
+                    })
+                }
+            })
+        });
+    }
+    
+    factory.bookmarkKG = function(kg_id, kgs, bookmarkedKGs) {
+        bookmarkService.bookmarkKG.get({"kg_id":kg_id}, function(data) {
+            angular.forEach(kgs, function(kg, key){
+                if(kg.id == kg_id) {
+                    kg.isBookmarked = true;
+                    
+                    var bookmarked = false;
+                    angular.forEach(bookmarkedKGs, function(bookmarkedKG, key){
+                    	if (bookmarkedKG.id == kg_id) {
+                    		bookmarked = true;
+                    	}
+                    })
+                    if (!bookmarked) {
+                    	bookmarkedKGs.push(kg);
+                    }
+                }
+            })
+        });
+    }
+    
+    factory.unBookmarkKG = function(kg_id, kgs, bookmarkedKGs) {
+        bookmarkService.unbookmarkKG.get({"kg_id":kg_id}, function(data) {
+            angular.forEach(kgs, function(kg, key){
+                if(kg.id == kg_id) {
+                	kg.isBookmarked = false;
+                    
+                    angular.forEach(bookmarkedKGs, function(bookmarkedKG, key){
+                    	if (bookmarkedKG.id == kg_id) {
+                    		//alert(kg_id+":"+bookmarkedKGs.indexOf(bookmarkedKG));
+                    		bookmarkedKGs.splice(bookmarkedKGs.indexOf(bookmarkedKG),1);
                     	}
                     })
                 }

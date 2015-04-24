@@ -5,15 +5,18 @@
 
 <div class="themeA-container">
     <div class="row">
+        <div data-ng-include data-src="'/assets/app/views/mobile/schools/nav-bar.html'"></div>
         <div data-ng-include data-src="'/assets/app/views/widgets/schools-pn-search-widget.html'"></div>
-        <div id="wall" ng-show="searchTerm.length == 0 || searchPNsResults.length == 0">
-            <div data-ng-include data-src="'/assets/app/views/widgets/schools-pn-ranking-index-widget.html'"></div>
-            <div data-ng-include data-src="'/assets/app/views/widgets/schools-pn-bookmark-widget.html'" ng-init="collapsible = true"></div>
-            <div data-ng-include data-src="'/assets/app/views/widgets/schools-pn-districts-index-widget.html'"></div>
-            <div data-ng-include data-src="'/assets/app/views/schools/pn-list.html'"></div>
-            <div ng-show="!userInfo.isLoggedIn">
-                <div data-ng-include data-src="'/assets/app/views/widgets/prompt-signup-widget.html'"></div>
-	        </div>
+        <div id="wall" ng-show="searchTerm.length == 0 || searchResults.length == 0">
+            <div class="schools-pn-utility">
+	            <div data-ng-include data-src="'/assets/app/views/widgets/schools-pn-ranking-index-widget.html'"></div>
+	            <div data-ng-include data-src="'/assets/app/views/widgets/schools-pn-bookmark-widget.html'" ng-init="collapsible = true"></div>
+	            <div data-ng-include data-src="'/assets/app/views/widgets/schools-pn-districts-index-widget.html'"></div>
+	            <div data-ng-include data-src="'/assets/app/views/schools/pn-list.html'"></div>
+	            <div ng-show="!userInfo.isLoggedIn">
+	                <div data-ng-include data-src="'/assets/app/views/widgets/prompt-signup-widget.html'"></div>
+		        </div>
+		    </div>
         </div>
     </div>
     <div class="ads-factor-728x90">

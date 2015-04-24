@@ -4,12 +4,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
+import javax.persistence.*;
 
 import org.elasticsearch.common.joda.time.LocalDate;
 import play.db.jpa.JPA;
@@ -46,18 +41,31 @@ public class GameAccountStatistics  extends domain.Entity {
     // Get, create if not found
 	public static GameAccountStatistics getGameAccountStatistics(long userID) {
         Date today = (new LocalDate()).toDate();        // today without time
+        Query q = JPA.em().createQuery("SELECT u FROM GameAccountStatistics u where user_id = ?1 and activity_date =?2");
+        q.setParameter(1, userID);
+        q.setParameter(2, today);
 		try {
-	        Query q = JPA.em().createQuery("SELECT u FROM GameAccountStatistics u where user_id = ?1 and activity_date =?2");
-	        q.setParameter(1, userID);
-	        q.setParameter(2, today);
 	        return (GameAccountStatistics) q.getSingleResult();
-	    } catch (NoResultException e) {
+	    }
+        catch (NoResultException e) {
 	    	GameAccountStatistics statistics = new GameAccountStatistics();
 	    	statistics.user_id = userID;
 	    	statistics.activity_date = today;
 	    	statistics.save();
 	    	return statistics;
-	    } 
+	    }
+        catch (NonUniqueResultException ne) {
+            GameAccountStatistics statistics = null;
+            List<GameAccountStatistics> dups = (List<GameAccountStatistics>) q.getResultList();
+            for (GameAccountStatistics dup : dups) {
+                if (statistics == null) {
+                    statistics = dup;
+                } else {
+                    dup.delete();
+                }
+            }
+            return statistics;
+        }
 	}
 
     public static GameAccountStatistics recordSignin(long userID) {

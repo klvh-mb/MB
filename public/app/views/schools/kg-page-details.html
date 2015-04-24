@@ -1,0 +1,144 @@
+<div id="school-box-main" class="general-box school-kg-box">
+    <div class="school-box">
+        <div class="school-info">
+            <div class="nav-trail">
+                <img style="width:18px;vertical-align:text-bottom;" src="../assets/app/images/general/icons/gray_back.png" />
+                返回 <a ng-href="/schools#!/kg/district/{{kg.disId}}"><span class="tag">{{kg.dis}}幼稚園</span></a>
+                <span data-ng-include data-src="'/assets/app/views/schools/bookmark-kg.html'"></span>
+            </div>
+            
+            <ul class="school-title">
+                <li>
+	                <h2>
+		                <div><img style="width:30px;margin:0 8px 2px 0;" ng-src="{{kg.icon}}" ng-if="kg.icon != null" />{{kg.n}}</div>
+		                <div>{{kg.ne || ''}}</div>
+		            </h2>
+                </li>
+                <li>
+                    <div class="school-reviews-summary">
+                        <div><img style="width:18px;margin-right:3px;" src="../assets/app/images/general/icons/i-reply.png">討論: {{kg.nop}}</div>
+                        <div style="margin-top:5px;">
+                            <a data-ng-click="gotoId('school-community-main')">一齊討論<img style="width:16px;margin-left:5px;" src="/assets/app/images/general/animated/arrow.gif"></a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <a class="schools-map" ng-show="kg.map != null" href="{{kg.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i>地圖</a>
+
+            <div class="school-section-title">學校資料</div>
+            <div class="school-info-attr-short">
+                <span>學券申請 : </span>
+                <span ng-show="kg.cp">✓</span>
+                <span ng-show="!kg.cp">✘</span>
+            </div>
+            <div class="school-info-attr">
+                <span>學校類別 : </span>
+                <span>{{kg.orgt || '--'}}</span>
+            </div>
+            <div class="school-info-attr-short">
+                <span>課程類別 : </span> 
+                <span>{{kg.curt || '--'}}</span>
+            </div>
+            <div class="school-info-attr">
+                <span>課堂時間 : </span> 
+				<span ng-show="kg.ct == 'AM'">上午</span>
+				<span ng-show="kg.ct == 'PM'">下午</span>
+				<span ng-show="kg.ct == 'WD'">全日</span>
+				<span ng-show="kg.ct == 'AM,PM'">上午、下午</span>
+				<span ng-show="kg.ct == 'AM,WD'">上午、全日</span>
+				<span ng-show="kg.ct == 'PM,WD'">下午、全日</span>
+				<span ng-show="kg.ct == 'AM,PM,WD'">上午、下午、全日</span>
+            </div>
+            <div class="school-info-attr-short">
+                <span>PN幼兒班 : </span>
+                <span ng-show="kg.hasPN">✓</span>
+                <span ng-show="!kg.hasPN">✘</span>
+            </div>
+            <div class="school-info-attr">
+                <span>辦學團體 : </span> 
+                <span>{{kg.org || '--'}}</span>
+            </div>
+
+            <div class="school-section-title">學生人數</div>
+            <div class="school-info-note">
+                <table class="school-info-table" cellpadding="10" cellspacing="2">
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td><span>幼兒</span> <span>3-4歲</span></td>
+                            <td><span>低班</span> <span>4-5歲</span></td>
+                            <td><span>高班</span> <span>5-6歲</span></td>
+                            <td><span>總數</span></td>
+                        </tr>
+                        <tr>
+                            <td><div><span>上午班</span></div></td>
+                            <td class="school-info-table-content">{{kg.nadAmN || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadAmL || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadAmU || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadAmT || '--'}}</td>
+                        </tr>
+                        <tr>
+                            <td><div><span>下午班</span></div></td>
+                            <td class="school-info-table-content">{{kg.nadPmN || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadPmL || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadPmU || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadPmT || '--'}}</td>
+                        </tr>
+                        <tr>
+                            <td><div><span>全日班</span></div></td>
+                            <td class="school-info-table-content">{{kg.nadWdN || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadWdL || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadWdU || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadWdT || '--'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="school-info-note" style="font-size:13px;margin-top:3px;">* 根據教育局提供的幼稚園資料 (2013年9月資料)</div>
+            
+            <div class="school-section-title">全年學費 (2014/15 學年)</div>
+            <div class="school-info-note">
+	            <table class="school-info-table" cellpadding="10" cellspacing="2">
+		            <tbody>
+			            <tr>
+				            <td style="font-size:13px;">* 全年學費 (期數)</td>
+				            <td><span>幼兒</span> <span>3-4歲</span></td>
+                            <td><span>低班</span> <span>4-5歲</span></td>
+                            <td><span>高班</span> <span>5-6歲</span></td>
+			            </tr>
+			            <tr>
+				            <td><div><span>上午班</span></div></td>
+				            <td class="school-info-table-content">{{kg.feeAmN || '--'}}</td>
+				            <td class="school-info-table-content">{{kg.feeAmL || '--'}}</td>
+				            <td class="school-info-table-content">{{kg.feeAmU || '--'}}</td>
+			            </tr>
+			            <tr>
+				            <td><div><span>下午班</span></div></td>
+				            <td class="school-info-table-content">{{kg.feePmN || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.feePmL || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.feePmU || '--'}}</td>
+			            </tr>
+			            <tr>
+				            <td><div><span>全日班</span></div></td>
+				            <td class="school-info-table-content">{{kg.feeWdN || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.feeWdL || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.feeWdU || '--'}}</td>
+			            </tr>
+		            </tbody>
+		        </table>
+	        </div>
+
+            <div class="school-section-title">課程資料</div>
+            <div class="school-info-note"><span>課程編排 : </span> {{kg.cur || '學校沒有提供'}}</div>
+
+            <div class="school-section-title">聯絡資料</div>
+            <div class="school-info-note"><span>地址 :</span> {{kg.adr || '--'}}</div>
+            <div class="school-info-note-short" ng-show="kg.pho"><span>電話 :</span> {{kg.pho || '--'}}</div>
+            <div class="school-info-note-short" ng-show="kg.fax"><span>傳真 :</span> {{kg.fax || '--'}}</div>
+            <div class="school-info-note" ng-show="kg.em"><span>電郵 :</span> {{kg.em || '--'}}</div>
+            <div class="school-info-note" ng-show="kg.url"><span>網址 :</span> <a ng-href="{{kg.url || '--'}}" target="_blank">{{kg.url}}</a></div>
+            <div class="school-info-note" ng-show="kg.govUrl"><span>教局網址 :</span> <a ng-href="{{kg.govUrl || '--'}}" target="_blank"><img style="width:24px;" src="../assets/app/images/schools/school-gov.png" /></a></div>
+        </div>
+    </div>
+</div>

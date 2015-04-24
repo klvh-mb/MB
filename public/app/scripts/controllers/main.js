@@ -505,14 +505,6 @@ minibean.controller('GameController',function($scope, $http, $interval, $locatio
 
     $scope.get_header_metaData();
     
-    $scope.gameNewSignupPoints = DefaultValues.GAME_NEW_SIGNUP_POINTS;
-    $scope.gameProfilePicPoints = DefaultValues.GAME_PROFILE_PIC_POINTS;
-    $scope.gameDailySigninPoints = DefaultValues.GAME_DAILY_SIGNIN_POINTS;
-    $scope.gameReferralPoints = DefaultValues.GAME_REFERRAL_POINTS;
-    $scope.gamePostPoints = DefaultValues.GAME_POST_POINTS;
-    $scope.gameCommentPoints = DefaultValues.GAME_COMMENT_POINTS;
-    $scope.gameLikePoints = DefaultValues.GAME_LIKE_POINTS;
-    
     $scope.signInForToday = function() {
         var formData = {
         };
@@ -520,7 +512,7 @@ minibean.controller('GameController',function($scope, $http, $interval, $locatio
         return $http.post('/sign-in-for-today', formData)
             .success(function(data){
                 $scope.userInfo.enableSignInForToday = false;
-                prompt("<div><b>每日簽到 +"+$scope.gameDailySigninPoints+"個小豆豆!</b></div>", "bootbox-default-prompt game-bootbox-prompt", 1800);
+                prompt("<div><b>每日簽到 +"+$scope.gameConstants.POINTS_SIGNIN+"個小豆豆!</b></div>", "bootbox-default-prompt game-bootbox-prompt", 1800);
                 $interval($scope.reloadPage, 2000, 1);
                 usSpinnerService.stop('loading...');
             });
@@ -577,6 +569,9 @@ minibean.controller('ApplicationController',
             className: "popup-login-modal",
         });
     }
+    
+    $scope.gameConstants = GameConstants;
+    $scope.defaultValues = DefaultValues;
     
     // For fix sidebar
     $scope.leftSidebarTop = 0;
@@ -3251,7 +3246,7 @@ minibean.controller('PNPageController',function($scope, $routeParams, schoolsFac
 
     $scope.get_header_metaData();
     
-    $scope.selectNavBar('SCHOOLS', 1);
+    $scope.selectNavBar('SCHOOLS', 0);
     
     var id = $routeParams.id;
     usSpinnerService.spin('loading...');
@@ -3322,19 +3317,94 @@ minibean.controller('PNPageController',function($scope, $routeParams, schoolsFac
     
 });
 
+minibean.controller('KGPageController',function($scope, $routeParams, schoolsFactory, schoolsService, myBookmarksService, communityPageService, usSpinnerService) {
+
+    $scope.get_header_metaData();
+    
+    $scope.selectNavBar('SCHOOLS', 1);
+    
+    var id = $routeParams.id;
+    usSpinnerService.spin('loading...');
+    $scope.kg = schoolsService.kgInfo.get({id:id},
+    	function(data) {
+    		var commId = data.commId;
+    		$scope.community = communityPageService.Community.get({id:commId}, function(data){
+    	        usSpinnerService.stop('loading...');
+    	    });
+
+    		$scope._commId = commId;		// to be used in CommunityQnAController and CommunityMembersController
+    		$scope.selectedTab = 1;
+    		
+    		var title = data.n;
+    		if (data.ne && data.ne != undefined) {
+    			title += ' ' + data.ne;
+    		}
+    		writeMetaTitleDescription(title, data.cur);
+		}
+    );
+    
+    $scope.bookmarkedSchools = myBookmarksService.bookmarkedKGs.get();
+    
+    // search by name
+    $scope.maxSchoolsSearchCount = DefaultValues.MAX_SCHOOLS_SEARCH_COUNT;
+    $scope.resetSearch = function() {
+    	$scope.searchTerm = '';
+		$scope.searchResults = [];
+		$("#schools-searchfield").val('');
+        $("#schools-searchfield").trigger('input');
+        $scope.searchMode = false;
+    }
+    $scope.resetSearch();
+    
+    $scope.searchByName = function(schoolQuery) {
+		if(schoolQuery != undefined && schoolQuery.length > 0 && $scope.searchTerm != schoolQuery) {
+			$scope.searchMode = true;
+			$scope.searching = true;
+			$scope.searchTerm = schoolQuery;
+				
+			$scope.searchResults = schoolsService.searchKGsByName.get({query:schoolQuery},
+				function(data) {
+					$scope.searching = false;
+				}
+			);
+		}
+		if (schoolQuery == null || schoolQuery.length == 0) {
+			$scope.resetSearch();
+		}
+	}
+    
+    // bookmark
+    $scope.bookmarkKG = function(id) {
+    	var schools = [ $scope.kg ];
+    	if ($scope.searchMode) {
+    		schools = $scope.searchResults;
+    	}
+    	schoolsFactory.bookmarkKG(id, schools, $scope.bookmarkedSchools);	
+    }
+    
+    $scope.unBookmarkKG = function(id) {
+    	var schools = [ $scope.kg ];
+    	if ($scope.searchMode) {
+    		schools = $scope.searchResults;
+    	}
+    	schoolsFactory.unBookmarkKG(id, schools, $scope.bookmarkedSchools);
+    }
+    
+});
+
 minibean.controller('SchoolsRankingController',function($scope, $routeParams, $location, $interval, schoolsService, usSpinnerService) {
 
     $scope.get_header_metaData();
 
-    var type = 1;
-    if ($location.url().indexOf('/pn/') > -1) {
-    	type = 1;
-    } else if ($location.url().indexOf('/kindy/') > -1) {
-    	type = 2;
+    if ($location.path().indexOf('/pn') > -1) {
+    	$scope.selectNavBar('SCHOOLS', 0);
+    } else if ($location.path().indexOf('/kg') > -1) {
+    	$scope.selectNavBar('SCHOOLS', 1);
+    } else {
+    	$scope.selectNavBar('SCHOOLS', 0);
     }
-    $scope.selectNavBar('SCHOOLS', type);
     
-	if (type == 1) {	// PN
+	if ($scope.selectedNavSubBar == 0) {	// PN
 		$scope.topViewedSchools = schoolsService.topViewedPNs.get({},
 			function(data) {
 				$interval($scope.gotoRanking, 100, 1);
@@ -3345,50 +3415,53 @@ minibean.controller('SchoolsRankingController',function($scope, $routeParams, $l
 				$interval($scope.gotoRanking, 100, 1);
 			}
 		);
-	} else if (type == 2) {		// K
+	} else if ($scope.selectedNavSubBar == 1) {		// KG
 		$scope.topViewedSchools = [];
 		$scope.topBookmarkedSchools = [];
 	}
 	
 	$scope.gotoRanking = function() {
 		if ($scope.userInfo.isMobile) {
-			if ($location.url().indexOf('top-viewed') > -1) {
+			if ($location.path().indexOf('top-viewed') > -1) {
 				$scope.gotoId('schools-ranking-top-viewed');
-			} else if ($location.url().indexOf('top-bookmarked') > -1) {
+			} else if ($location.path().indexOf('top-bookmarked') > -1) {
 				$scope.gotoId('schools-ranking-top-bookmarked');
-		    } else if ($location.url().indexOf('top-discussed') > -1) {
+		    } else if ($location.path().indexOf('top-discussed') > -1) {
 				$scope.gotoId('schools-ranking-top-discussed');
 		    }
 		}
 		
 		// HACK for admin
 		if ($scope.userInfo.isE) {
-			if (type == 1) {	// PN
+			if ($scope.selectedNavSubBar == 0) {	// PN
 				$scope.topDiscussedSchools = schoolsService.topDiscussedPNs.get();
-			} else if (type == 2) {		// K
+			} else if ($scope.selectedNavSubBar == 1) {		// KG
 				$scope.topDiscussedSchools = [];
 			}
 		}
-		
 	}
     
 });
 
 minibean.controller('BookmarkedSchoolsController',function($scope, myBookmarksService) {
-	$scope.bookmarkedSchools = myBookmarksService.bookmarkedPNs.get();
+	if ($scope.selectedNavSubBar == 0) {	// PN
+		$scope.bookmarkedSchools = myBookmarksService.bookmarkedPNs.get();
+	} else if ($scope.selectedNavSubBar == 1) {	// KG
+		$scope.bookmarkedSchools = myBookmarksService.bookmarkedKGs.get();
+	}
 });
 
 minibean.controller('ShowSchoolsController',function($scope, $routeParams, $location, $filter, schoolsFactory, schoolsService, myBookmarksService, locationService, usSpinnerService) {
 
     $scope.get_header_metaData();
 
-    var type = 1;
-    if ($location.url().indexOf('/pn/') > -1) {
-    	type = 1;
-    } else if ($location.url().indexOf('/kindy/') > -1) {
-    	type = 2;
+    if ($location.path().indexOf('/pn') > -1) {
+    	$scope.selectNavBar('SCHOOLS', 0);
+    } else if ($location.path().indexOf('/kg') > -1) {
+    	$scope.selectNavBar('SCHOOLS', 1);
+    } else {
+    	$scope.selectNavBar('SCHOOLS', 0);
     }
-    $scope.selectNavBar('SCHOOLS', type);
     
     $scope.initSchools = function() {
     	$scope.selectedDistrictId = $routeParams.districtId;
@@ -3399,12 +3472,12 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $loca
     			$scope.selectedDistrictId = $scope.districts[0].id;
     		}
 		}
-	    if (type == 1) {	// PN
+	    if ($scope.selectedNavSubBar == 0) {	// PN
 	    	$scope.schools = schoolsService.pnsByDistrict.get({district_id:$scope.selectedDistrictId});
 	    	$scope.bookmarkedSchools = myBookmarksService.bookmarkedPNs.get();
-	    } else if (type == 2) {		// K
-	    	$scope.schools = [];
-	    	$scope.bookmarkedSchools = [];
+	    } else if ($scope.selectedNavSubBar == 1) {		// K
+	    	$scope.schools = schoolsService.kgsByDistrict.get({district_id:$scope.selectedDistrictId});
+	    	$scope.bookmarkedSchools = myBookmarksService.bookmarkedKGs.get();
 	    }
 	    $scope.filteredSchools = $scope.schools;
     }
@@ -3431,14 +3504,18 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $loca
 			$scope.searchMode = true;
 			$scope.searching = true;
 			$scope.searchTerm = schoolQuery;
-			if (type == 1) {
+			if ($scope.selectedNavSubBar == 0) {
 				$scope.searchResults = schoolsService.searchPNsByName.get({query:schoolQuery},
 					function(data) {
 						$scope.searching = false;
 					}
 				);
-			} else if (type == 2) {
-				
+			} else if ($scope.selectedNavSubBar == 1) {
+				$scope.searchResults = schoolsService.searchKGsByName.get({query:schoolQuery},
+					function(data) {
+						$scope.searching = false;
+					}
+				);
 			}
 		}
 		if (schoolQuery == null || schoolQuery.length == 0) {
@@ -3461,6 +3538,22 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $loca
     		schools = $scope.searchResults;
     	}
     	schoolsFactory.unBookmarkPN(id, schools, $scope.bookmarkedSchools);
+    }
+    
+    $scope.bookmarkKG = function(id) {
+    	var schools = $scope.filteredSchools;
+    	if ($scope.searchMode) {
+    		schools = $scope.searchResults;
+    	}
+    	schoolsFactory.bookmarkKG(id, schools, $scope.bookmarkedSchools);	
+    }
+    
+    $scope.unBookmarkKG = function(id) {
+    	var schools = $scope.filteredSchools;
+    	if ($scope.searchMode) {
+    		schools = $scope.searchResults;
+    	}
+    	schoolsFactory.unBookmarkKG(id, schools, $scope.bookmarkedSchools);
     }
     
     // remember all filters user set

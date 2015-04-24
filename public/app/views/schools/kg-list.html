@@ -1,0 +1,147 @@
+<div class="general-box school-list-title school-kg-list-title">
+    <p>{{schools[0].dis}}</p> 有 <p>{{schools.length}}</p> 間幼稚園 (K班)
+    <div class="school-list-filters">
+        <span>
+	        學券申請: 
+	        <div class="btn-group">
+			    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
+			        全部<span class="caret"></span>
+			    </button>
+			    <ul id="schools-coupon-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
+		            <li ng-click="applySchoolFilter('cp','all')" style="cursor:pointer;">
+		                <input type="radio" id="coupon-all" name="coupon" value="all"><label for="coupon-all">全部</label>
+		            </li>
+		            <li ng-click="applySchoolFilter('cp','true')" style="cursor:pointer;">
+	                    <input type="radio" id="coupon-yes" name="coupon" value="true"><label for="coupon-yes">有</label>
+	                </li>
+		            <li ng-click="applySchoolFilter('cp','false')" style="cursor:pointer;">
+		                <input type="radio" id="coupon-no" name="coupon" value="false"><label for="coupon-no">沒有</label>
+		            </li>
+			    </ul>
+		    </div>
+	    </span>
+        <span>
+            學校類別: 
+            <div class="btn-group">
+                <button data-toggle="dropdown" id="schools-org-type-filter-dropdow-btn" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
+                    全部<span class="caret"></span>
+                </button>
+                <ul id="schools-org-type-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
+                    <li ng-click="applySchoolFilter('orgt','all')" style="cursor:pointer;">
+                        <input type="radio" id="org-type-all" name="org-type" value="all"><label for="org-type-all">全部</label>
+                    </li>
+                    <li ng-click="applySchoolFilter('orgt','私立')" style="cursor:pointer;">
+                        <input type="radio" id="org-type-private" name="org-type" value="私立"><label for="org-type-private">私立</label>
+                    </li>
+                    <li ng-click="applySchoolFilter('orgt','非牟利')" style="cursor:pointer;">
+                        <input type="radio" id="org-type-nonprofit" name="org-type" value="非牟利"><label for="org-type-nonprofit">非牟利</label>
+                    </li>
+                </ul>
+            </div>
+        </span>
+        <span>
+            課程類別: 
+            <div class="btn-group">
+                <button data-toggle="dropdown" id="schools-cur-type-filter-dropdow-btn" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
+                    全部<span class="caret"></span>
+                </button>
+                <ul id="schools-cur-type-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
+                    <li ng-click="applySchoolFilter('curt','all')" style="cursor:pointer;">
+                        <input type="radio" id="cur-type-all" name="cur-type" value="all"><label for="cur-type-all">全部</label>
+                    </li>
+                    <li ng-click="applySchoolFilter('curt','本地')" style="cursor:pointer;">
+                        <input type="radio" id="cur-type-local" name="cur-type" value="本地"><label for="cur-type-local">本地</label>
+                    </li>
+                    <li ng-click="applySchoolFilter('curt','非本地')" style="cursor:pointer;">
+                        <input type="radio" id="cur-type-nonlocal" name="cur-type" value="非本地"><label for="cur-type-nonlocal">非本地</label>
+                    </li>
+                </ul>
+            </div>
+        </span>
+	    <span>
+	        課堂時間: 
+	        <div class="btn-group">
+		        <button data-toggle="dropdown" id="schools-classtimes-filter-dropdow-btn" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
+		            全部<span class="caret"></span>
+		        </button>
+		        <ul id="schools-classtimes-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
+		            <li ng-click="applySchoolFilter('ct','all')" style="cursor:pointer;">
+		                <input type="radio" id="classtimes-all" name="classtimes" value="all"><label for="classtimes-all">全部</label>
+		            </li>
+		            <li ng-click="applySchoolFilter('ct','AM')" style="cursor:pointer;">
+		                <input type="radio" id="classtimes-am" name="classtimes" value="AM"><label for="classtimes-am">上午</label>
+		            </li>
+		            <li ng-click="applySchoolFilter('ct','PM')" style="cursor:pointer;">
+		                <input type="radio" id="classtimes-pm" name="classtimes" value="PM"><label for="classtimes-pm">下午</label>
+		            </li>
+		            <li ng-click="applySchoolFilter('ct','WD')" style="cursor:pointer;">
+		                <input type="radio" id="classtimes-wd" name="classtimes" value="WD"><label for="classtimes-wd">全日</label>
+		            </li>
+		        </ul>
+	        </div>
+	    </span>
+        <p>({{filteredSchools.length}}間)</p>
+    </div>
+</div>
+<div class="general-box school-list">
+    <div ng-if="filtering">
+        <img class="comment-spinner" src="/assets/app/images/general/animated/green-spinner.gif">
+    </div>
+    <ul>
+        <li ng-if="filteredSchools.length == 0">
+            <div class="school-list-entry" style="font-size:16px;padding-bottom:10px;">沒有符合條件的幼兒班。請重新查看選項</div>
+        </li>
+	    <li ng-repeat="kg in filteredSchools">
+	        <div class="school-list-entry">
+	            <div class="school-info">
+	                <a href="/schools#!/kg/{{kg.id}}">
+	                    {{kg.n}}
+	                </a>
+	                <span class="school-info-tips" ng-if="kg.nop > 0">
+                        <img src="../assets/app/images/general/icons/i-reply.png">{{kg.nop}}
+                    </span>
+	                <span data-ng-include data-src="'/assets/app/views/schools/bookmark-kg.html'"></span>
+	                
+	                <a class="schools-map" ng-show="kg.map != null" href="{{kg.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i>地圖</a>
+	
+	                <!--div class="school-info-note"><span ng-show="kg.adr">{{kg.adr}}</span></div-->
+	                <div class="school-info-attr">
+	                    <span class="school-attr-short">學券申請: 
+	                        <span ng-show="kg.cp">✓</span>
+	                        <span ng-show="!kg.cp">✘</span>
+	                    </span>
+	                    <span class="school-attr">學校類別: 
+                            <span>{{kg.orgt || '--'}}</span>
+                        </span>
+	                    <span class="school-attr-short">課程類別: 
+                            <span>{{kg.curt || '--'}}</span>
+                        </span>
+	                    <span class="school-attr">課堂: 
+                            <span ng-show="kg.ct == 'AM'">上午</span>
+                            <span ng-show="kg.ct == 'PM'">下午</span>
+                            <span ng-show="kg.ct == 'WD'">全日</span>
+                            <span ng-show="kg.ct == 'AM,PM'">上午、下午</span>
+                            <span ng-show="kg.ct == 'AM,WD'">上午、全日</span>
+                            <span ng-show="kg.ct == 'PM,WD'">下午、全日</span>
+                            <span ng-show="kg.ct == 'AM,PM,WD'">上午、下午、全日</span>
+                        </span>
+                        <span class="school-attr-short" ng-if="kg.hasPN">PN幼兒班:
+                            <span>✓</span>
+                        </span>
+                        <!--span class="school-attr">辦學團體: 
+                            <span>{{kg.org || '--'}}</span>
+                        </span-->
+	                </div>
+	                <!--div class="school-info-attr">
+					    <span>派表日期: {{kg.fds}}<span ng-show="!kg.fds">--</span></span>
+					    <span>報名日期: {{kg.ads}}<span ng-show="!kg.ads">--</span></span>
+					    <span>截止日期: {{kg.eds}}<span ng-show="!kg.eds">--</span></span>
+					    <div class="pull-right" style="margin:auto auto;">
+					        <span style="margin-right:5px;" ng-show="kg.fom">申請表格: <a href="{{kg.fom}}" target="_blank"><i class="glyphicon glyphicon-download-alt"></i></a></span>
+					    </div>
+					</div-->
+	            </div>
+	        </div>
+	    </li>
+	</ul>
+</div>

@@ -245,6 +245,12 @@ public class Application extends Controller {
         return home(localUser);
     }
     
+    @Transactional
+    public static Result mobileApp() {
+        setMobileUser();    // manually set mobile to true
+        return ok(views.html.mb.mobile.mobileapp.render());
+    }
+    
 	//
 	// Mobile
 	//
