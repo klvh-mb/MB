@@ -56,6 +56,9 @@ update PreNursery set icon = '/assets/app/images/general/icons/community/kg/york
 update PreNursery set icon = '/assets/app/images/general/icons/community/kg/zenith.png' where nameEn like 'Zenith%';
 
 
+update community set icon = '/assets/app/images/general/icons/community/kg/stcatherine.png' where id in (select communityId from Kindergarten where nameEn like '%St Catherin%');
+
+
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/boxhill.png' where nameEn like '%Box Hill%';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/catiline.png' where nameEn like '%Catiline K%';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/cannan.png' where nameEn like '%Cannan %';

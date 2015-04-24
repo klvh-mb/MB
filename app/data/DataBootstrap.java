@@ -817,25 +817,58 @@ public class DataBootstrap {
      * Invoked from command line
      */
     public static void bootstrapKGCommunity() {
-        // KG communities
-        List<Kindergarten> kgsNoPN = Kindergarten.findAll(false);
-        logger.underlyingLogger().info("bootstrapKGCommunity() - No PN. count="+kgsNoPN.size());
+        int commExistsCount = 0;
+        int mergeCount = 0;
+        int commCreatedCount = 0;
 
-        // Create new communities without PN
-        for (Kindergarten kg : kgsNoPN) {
-            String name = kg.getName();
-            String desc = kg.getName()+" 討論區";
-            String targetingInfo = kg.getId().toString();
-            Community community = getOrCreateSchoolCommunity(TargetingType.KINDY, name, desc, targetingInfo);
-            if (community != null) {
-                kg.communityId = community.getId();
-                kg.merge();
+        List<Kindergarten> kgs = Kindergarten.findAll();
+        for (Kindergarten kg : kgs) {
+            if (kg.communityId == null) {
+                PreNursery pn = PreNursery.findBy(kg.name, kg.nameEn, kg.address);
+                if (pn != null) {
+                    kg.communityId = pn.communityId;
+                    kg.noOfPosts = pn.noOfPosts;
+                    kg.merge();
+                    mergeCount++;
+                }
+                else {
+                    String name = kg.getName();
+                    String desc = kg.getName()+" 討論區";
+                    String targetingInfo = kg.getId().toString();
+                    Community community = getOrCreateSchoolCommunity(TargetingType.KINDY, name, desc, targetingInfo);
+                    if (community != null) {
+                        kg.communityId = community.getId();
+                        kg.merge();
+                        commCreatedCount++;
+                    }
+                }
+            } else {
+                commExistsCount++;
+                logger.underlyingLogger().info("Has Comm already - KG("+kg.name+", "+kg.nameEn+", "+kg.address+")");
             }
         }
 
-        // Merge communityId with existing PN
-        int mergeCount = Kindergarten.mergeCommunityIdWithPN();
-        logger.underlyingLogger().info("bootstrapKGCommunity() - Merged PN. count="+mergeCount);
+        logger.underlyingLogger().info("commExistsCount("+commExistsCount+") commCreatedCount("+commCreatedCount+") mergeCount("+mergeCount+")");
+
+//        // KG communities
+//        List<Kindergarten> kgsNoPN = Kindergarten.findAll(false);
+//        logger.underlyingLogger().info("bootstrapKGCommunity() - No PN. count="+kgsNoPN.size());
+//
+//        // Create new communities without PN
+//        for (Kindergarten kg : kgsNoPN) {
+//            String name = kg.getName();
+//            String desc = kg.getName()+" 討論區";
+//            String targetingInfo = kg.getId().toString();
+//            Community community = getOrCreateSchoolCommunity(TargetingType.KINDY, name, desc, targetingInfo);
+//            if (community != null) {
+//                kg.communityId = community.getId();
+//                kg.merge();
+//            }
+//        }
+//
+//        // Merge communityId with existing PN
+//        int mergeCount = Kindergarten.mergeCommunityIdWithPN();
+//        logger.underlyingLogger().info("bootstrapKGCommunity() - Merged PN. count="+mergeCount);
 
         // reload cache
         CommunityMetaCache.loadKindergartenComms();
