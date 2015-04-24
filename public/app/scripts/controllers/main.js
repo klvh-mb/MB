@@ -3211,7 +3211,7 @@ minibean.controller('ArticlePageController',function($scope, $routeParams, artic
             $scope.relatedResult = articleService.getRelatedArticles.get({id:$routeParams.id, category_id:data.ct.id});
             
             var title = data.nm + " - " + data.ct.name;
-            writeMetaTitleDescription(title, data.lds);
+            writeMetaTitleDescription(title, data.lds, data.img_url);
             
             // render mobile scroll nav bar
             if ($scope.userInfo.isMobile) {

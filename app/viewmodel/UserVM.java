@@ -4,7 +4,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import controllers.Application;
 import controllers.GameController;
-import models.Location;
 import models.User;
 
 public class UserVM {

@@ -25,11 +25,13 @@ var writeMetaCanonical = function(absUrl) {
 	$('link[rel=canonical]').attr('href', absUrl);
 }
 
-var writeMetaTitleDescription = function(title, description) {
+var writeMetaTitleDescription = function(title, description, image) {
 	title = title + " - miniBean 小萌豆";
 	document.title = title;
 	$('meta[name=description]').attr('content', description.substring(0,150));
 	$('meta[name=keywords]').attr('content', title + ', ' + $('meta[name=keywords]').attr('content'));
+	if (image && image != undefined)
+		$('meta[property="og:image"]').attr('content', image);
 }
 
 //
