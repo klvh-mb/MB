@@ -25,6 +25,8 @@ delete from Kindergarten where nameEn = 'York International Pre-school';
 delete from Kindergarten where nameEn = 'York English Primary School & Kindergarten (Kowloon Tong)' and address like '九龍九龍塘九龍內地段%';
 
 delete from Kindergarten where nameEn = 'Causeway Bay Victoria International Kindergarten';
+delete from Kindergarten where nameEn = 'Kornhill Victoria Kindergarten';
+delete from Kindergarten where nameEn = 'Victoria Nursery';
 update Kindergarten set name = '維多利亞(海峰園)幼兒園', nameEn='Victoria (Harbour Heights) Nursery' where name = '銅鑼灣維多利亞幼兒園';
 
 
