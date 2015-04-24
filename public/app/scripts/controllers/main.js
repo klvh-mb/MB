@@ -505,14 +505,6 @@ minibean.controller('GameController',function($scope, $http, $interval, $locatio
 
     $scope.get_header_metaData();
     
-    $scope.gameNewSignupPoints = DefaultValues.GAME_NEW_SIGNUP_POINTS;
-    $scope.gameProfilePicPoints = DefaultValues.GAME_PROFILE_PIC_POINTS;
-    $scope.gameDailySigninPoints = DefaultValues.GAME_DAILY_SIGNIN_POINTS;
-    $scope.gameReferralPoints = DefaultValues.GAME_REFERRAL_POINTS;
-    $scope.gamePostPoints = DefaultValues.GAME_POST_POINTS;
-    $scope.gameCommentPoints = DefaultValues.GAME_COMMENT_POINTS;
-    $scope.gameLikePoints = DefaultValues.GAME_LIKE_POINTS;
-    
     $scope.signInForToday = function() {
         var formData = {
         };
@@ -520,7 +512,7 @@ minibean.controller('GameController',function($scope, $http, $interval, $locatio
         return $http.post('/sign-in-for-today', formData)
             .success(function(data){
                 $scope.userInfo.enableSignInForToday = false;
-                prompt("<div><b>每日簽到 +"+$scope.gameDailySigninPoints+"個小豆豆!</b></div>", "bootbox-default-prompt game-bootbox-prompt", 1800);
+                prompt("<div><b>每日簽到 +"+$scope.gameConstants.POINTS_SIGNIN+"個小豆豆!</b></div>", "bootbox-default-prompt game-bootbox-prompt", 1800);
                 $interval($scope.reloadPage, 2000, 1);
                 usSpinnerService.stop('loading...');
             });
@@ -577,6 +569,9 @@ minibean.controller('ApplicationController',
             className: "popup-login-modal",
         });
     }
+    
+    $scope.gameConstants = GameConstants;
+    $scope.defaultValues = DefaultValues;
     
     // For fix sidebar
     $scope.leftSidebarTop = 0;

@@ -552,7 +552,7 @@ public class SocialActivity {
                         Notification notification =
                                 Notification.getNotification(recipientId, NotificationType.ANSWERED, post.id, SocialObjectType.POST);
                         if(notification == null){
-                            String msg = socialAction.actorname + msgEnd +((shortBody.length() >= 0) ? " .. \""+shortBody+"\"" : "");
+                            String msg = socialAction.actorname + msgEnd; // + ((shortBody.length() >= 0) ? " .. \""+shortBody+"\"" : "");
 
                             notification = new Notification();
                             notification.target = post.id;

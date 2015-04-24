@@ -11,11 +11,11 @@
     </div>
     <div class="padding10"></div>
     
-    <h4>活力指數</h4>
+    <h4>我的等級</h4>
     <div class="game-details">
         <div>
-            活力級別: <span class="points">{{gameAccount.gln || '---'}} <img style="width:24px;" src="{{gameAccount.gli}}"></span>
-            <span style="font-size:12px;color:#666;">( 活力值: {{gameAccount.acpt || '---'}}分 )</span>
+            等級: <span class="points">{{gameAccount.gln || '--'}} <img style="width:24px;" src="{{gameAccount.gli}}"></span>
+            <span style="font-size:12px;color:#666;margin-left:25px;">( 距離升級到 L{{gameAccount.gl+1}} 還差 {{gameAccount.gnlpt-gameAccount.gmpt}} 小豆豆 )</span>
         </div>
     </div>
     <div class="padding10"></div>
@@ -23,11 +23,14 @@
     <h4>我的小豆豆</h4>
     <div class="game-details">
         <div>
-            小豆豆總數: <span class="points">{{gameAccount.gmpt || '---'}}</span>
+            小豆豆總值: <span class="points">{{gameAccount.gmpt || '--'}}</span>
         </div>
         <div>
-            已兌換: <span class="points">{{userInfo.rdpt || '---'}}</span>
-            <span style="font-size:12px;color:#666;" ng-show="userInfo.rdpt == null || userInfo.rdpt == 0">( 未有兌換禮品記錄 )</span>
+            可兌換: <span class="points">{{(gameAccount.gmpt-userInfo.rdpt) || '--'}}</span>
+        </div>
+        <div>
+            已兌換: <span class="points">{{gameAccount.rdpt || '--'}}</span>
+            <span style="font-size:12px;color:#666;margin-left:25px;" ng-show="gameAccount == null || gameAccount == 0">( 未有兌換禮品記錄 )</span>
         </div>
     </div>
     <div class="padding10"></div>
@@ -36,11 +39,11 @@
     <div class="game-details">
         <span ng-if="gameAccount.refs == 0">
             <span style="margin-right:10px;">用以下連結介紹你的朋友加入~~</span><br/>
-            <span style="margin-right:10px;">每個朋友成功註冊。你即可獲得<span style="margin:3px;" class="points">20</span>個小豆豆!</span> 
+            <span style="margin-right:10px;">每個朋友成功註冊。你即可獲得<span style="margin:3px;" class="points">{{gameConstants.POINTS_REFERRAL_SIGNUP}}</span>個小豆豆!</span> 
         </span>
         <span ng-if="gameAccount.refs > 0">
             <span style="margin-right:10px;">恭喜!! 你已成功介紹<span style="margin:3px;" class="points">{{gameAccount.refs}}</span>個新會員加入~~</span><br/>
-            <span style="margin-right:10px;">獲得<span style="margin:3px;" class="points">{{gameAccount.refs * gameReferralPoints}}</span>個小豆豆!</span> 
+            <span style="margin-right:10px;">獲得<span style="margin:3px;" class="points">{{gameAccount.refs * gameConstants.POINTS_REFERRAL_SIGNUP}}</span>個小豆豆!</span> 
         </span>
         <div>
             <input type='text' name='game-promo-link' id='game-promo-link' value='{{applicationInfo.baseUrl}}/signup-promo-code/{{gameAccount.pmcde}}'></input> 

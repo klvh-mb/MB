@@ -23,6 +23,7 @@ public class GameAccountVM {
     @JsonProperty("gl") public Long gameLevel;
     @JsonProperty("gln") public String gameLevelName;
     @JsonProperty("gli") public String gameLevelIcon;
+    @JsonProperty("gnlpt") public Long gameNextLevelPoints;
 
     public GameAccountVM(GameAccount account, GameAccountStatistics stat) {
         this.userId = account.user_id;
@@ -36,5 +37,6 @@ public class GameAccountVM {
         this.gameLevel = gameLevel.level;
         this.gameLevelName = gameLevel.name;
         this.gameLevelIcon = gameLevel.icon.url;
+        this.gameNextLevelPoints = gameLevel.toPoints;
     }
 }
