@@ -530,9 +530,6 @@ PN      K
 }
 
 /* pn page */
-.school-box-search #schools-search-box .dropdown-menu {
-	max-height: 450px;
-}
 #school-box-main {
     font-size: 15px;
 }
