@@ -291,7 +291,12 @@ PN      K
 	margin-right: 10px;
     padding: 2px 7px 1px 8px;
     min-width: 15px;
-    background-color: #57A857;
+}
+.school-list-entry .pn-rank-number {
+    background-color: #57A857;	
+}
+.school-list-entry .kg-rank-number {
+    background-color: #B86B6B;  
 }
 .school-list-entry .school-info > a:first-child {
 	color: #324fe1;
@@ -745,10 +750,18 @@ PN      K
 .schools-ranking-main .index-title {
 	margin: 10px;
     padding-bottom: 10px;
-	border-bottom: 1px dashed #57A857;
 }
-.schools-ranking-main .school-list {
+.schools-ranking-main .pn-index-title {
+    border-bottom: 1px dashed #57A857;	
+}
+.schools-ranking-main .kg-index-title {
+    border-bottom: 1px dashed #B86B6B;  
+}
+.schools-ranking-main .school-pn-list {
     border-color: #57A857;
+}
+.schools-ranking-main .school-kg-list {
+    border-color: #B86B6B;
 }
 .schools-ranking-main .school-list-entry {
 	border-bottom: none;

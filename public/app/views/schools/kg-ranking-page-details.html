@@ -1,13 +1,13 @@
 <ul class="schools-ranking-main">
     <li id="schools-ranking-top-viewed" class="schools-ranking-box">
-        <div class="general-box school-list">
+        <div class="general-box school-list school-kg-list">
             <ul>
-                <li class="index-title">
+                <li class="index-title kg-index-title">
                     <img style="width:auto;height:28px;" data-ng-src="/assets/app/images/general/titles/schools_most_viewed.png">
                 </li>
                 <li ng-repeat="kg in topViewedSchools">
                     <div class="school-list-entry">
-                        <span class="rank-number ng-binding">{{$index+1}}</span>
+                        <span class="rank-number kg-rank-number">{{$index+1}}</span>
                         <div class="school-info">
                             <a href="/schools#!/kg/{{kg.id}}">{{kg.n}}</a>
                             <span style="display: inline-block;">
@@ -23,14 +23,14 @@
         </div>
     </li>
     <li id="schools-ranking-top-bookmarked" class="schools-ranking-box">
-        <div class="general-box school-list">
+        <div class="general-box school-list school-kg-list">
             <ul>
-                <li class="index-title">
+                <li class="index-title kg-index-title">
                     <img style="width:auto;height:28px;" data-ng-src="/assets/app/images/general/titles/schools_most_bookmarked.png">
                 </li>
                 <li ng-repeat="kg in topBookmarkedSchools">
                     <div class="school-list-entry">
-                        <span class="rank-number ng-binding">{{$index+1}}</span>
+                        <span class="rank-number kg-rank-number">{{$index+1}}</span>
                         <div class="school-info">
                             <a href="/schools#!/kg/{{kg.id}}">{{kg.n}}</a>
                             <span style="display: inline-block;">
@@ -46,14 +46,14 @@
         </div>
     </li>
     <li id="schools-ranking-top-discussed" class="schools-ranking-box admin-visible-field" ng-if="userInfo.isE">
-	    <div class="general-box school-list">
+	    <div class="general-box school-list school-kg-list">
 	        <ul>
-	            <li class="index-title">
+	            <li class="index-title kg-index-title">
 	                <img style="width:auto;height:28px;" data-ng-src="/assets/app/images/general/titles/schools_most_discussed.png">
 	            </li>
 	            <li ng-repeat="kg in topDiscussedSchools">
 	                <div class="school-list-entry">
-	                    <span class="rank-number ng-binding">{{$index+1}}</span>
+	                    <span class="rank-number kg-rank-number">{{$index+1}}</span>
 	                    <div class="school-info">
 	                        <a href="/schools#!/kg/{{kg.id}}">{{kg.n}}</a>
 	                        <span style="display: inline-block;">
