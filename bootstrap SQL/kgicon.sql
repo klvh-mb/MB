@@ -55,9 +55,10 @@ update PreNursery set icon = '/assets/app/images/general/icons/community/kg/yano
 update PreNursery set icon = '/assets/app/images/general/icons/community/kg/york.png' where nameEn like 'York English%';
 update PreNursery set icon = '/assets/app/images/general/icons/community/kg/zenith.png' where nameEn like 'Zenith%';
 
-
+update community set icon = '/assets/app/images/general/icons/community/kg/hklingliang.png' where id in (select communityId from Kindergarten where nameEn = 'Hong Kong Ling Liang Church Kindergarten');
+update community set icon = '/assets/app/images/general/icons/community/kg/kentville.png' where id in (select communityId from Kindergarten where nameEn like 'Kentvi%');
 update community set icon = '/assets/app/images/general/icons/community/kg/stcatherine.png' where id in (select communityId from Kindergarten where nameEn like '%St Catherin%');
-
+update community set icon = '/assets/app/images/general/icons/community/kg/spk.png' where id in (select communityId from Kindergarten where nameEn = 'St Paul''s Kindergarten');
 
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/boxhill.png' where nameEn like '%Box Hill%';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/catiline.png' where nameEn like '%Catiline K%';
@@ -65,8 +66,10 @@ update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/ca
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/creative.png' where nameEn like 'Creative%';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/elh.png' where nameEn like 'Excel London%';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/funful.png' where nameEn like '%Funful%';
+update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/hklingliang.png' where nameEn = 'Hong Kong Ling Liang Church Kindergarten';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/hkpresch.png' where nameEn like '%Ascot%';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/holytrinity.png' where nameEn like 'Holy Trinity%';
+update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/kentville.png' where nameEn like 'Kentvi%';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/kcis.png' where nameEn like 'Kiangsu%Non%';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/kclocal.png' where nameEn like 'Kiangsu%(Local%';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/keenmind.png' where nameEn like 'Keen Mind%';
@@ -77,6 +80,7 @@ update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/lt
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/rhs.png' where nameEn like 'Rosar%';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/sjc.png' where nameEn like 'St Johannes%';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/spckg.png' where nameEn like 'HKSKH St Peter%';
+update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/spk.png' where nameEn = 'St Paul''s Kindergarten';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/spn.png' where nameEn like '%Paul%s Day%';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/stcatherine.png' where nameEn like '%St Catherin%';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/think.png' where nameEn like '%Think%';
