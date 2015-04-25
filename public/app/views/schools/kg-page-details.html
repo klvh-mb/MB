@@ -13,6 +13,9 @@
 		                <div><img style="width:30px;margin:0 8px 2px 0;" ng-src="{{kg.icon}}" ng-if="kg.icon != null" />{{kg.n}}</div>
 		                <div>{{kg.ne || ''}}</div>
 		            </h2>
+		            <span class="school-info-tips admin-visible-field" ng-if="userInfo.isE">
+                        <img src="../assets/app/images/general/icons/view.png">{{kg.nov}}
+                    </span>
                 </li>
                 <li>
                     <div class="school-reviews-summary">
