@@ -279,9 +279,6 @@ GET     /get-featured-topics                    controllers.FrontPageController.
 GET     /get-game-topics                        controllers.FrontPageController.getGameTopics()
 
 # PreNursery
-#GET     /get-pn-communities                     controllers.PreNurseryController.getPNCommunities()
-#GET     /get-pns-by-community/:community_id     controllers.PreNurseryController.getPNsByCommunity(community_id:Long)
-#GET     /get-pns-by-region/:region_id           controllers.PreNurseryController.getPNsByRegion(region_id:Long)
 GET     /get-pn-info/:id                        controllers.PreNurseryController.getPNInfo(id:Long)
 GET     /search-pns-by-name/:query              controllers.PreNurseryController.searchPNsByName(query:String)
 GET     /get-pns-by-district/:district_id       controllers.PreNurseryController.getPNsByDistrict(district_id:Long)
@@ -303,6 +300,9 @@ GET     /search-kgs-by-name/:query              controllers.KindergartenControll
 GET     /get-kgs-by-region/:region_id           controllers.KindergartenController.getKGsByRegion(region_id:Long)
 GET     /get-kgs-by-district/:district_id       controllers.KindergartenController.getKGsByDistrict(district_id:Long)
 GET     /get-kg-orgs-by-district/:district_id   controllers.KindergartenController.getKGOrgsByDistrict(district_id:Long)
+GET     /get-top-viewed-kgs                     controllers.KindergartenController.getTopViewedKGs
+GET     /get-top-discussed-kgs                  controllers.KindergartenController.getTopDiscussedKGs
+GET     /get-top-bookmarked-kgs                 controllers.KindergartenController.getTopBookmarkedKGs
 GET     /bookmark-kg/:id                        controllers.KindergartenController.onBookmark(id : Long)
 GET     /unbookmark-kg/:id                      controllers.KindergartenController.onUnBookmark(id : Long)
 GET     /get-bookmarked-kgs                     controllers.KindergartenController.getBookmarkedKGs()
