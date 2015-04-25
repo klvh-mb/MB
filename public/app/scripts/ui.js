@@ -4,7 +4,7 @@
 //
 
 var writeMetaCanonical = function(absUrl) {
-	//log('orginial: '+absUrl);
+	//log('orignial: '+absUrl);
 	if (absUrl.match(/\/frontpage#!/)) {
 		absUrl = absUrl.replace(/\/frontpage#!/, "/#!");
 	} else if (absUrl.match(/\/my#!/)) {
