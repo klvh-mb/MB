@@ -58,6 +58,7 @@ update PreNursery set icon = '/assets/app/images/general/icons/community/kg/zeni
 update community set icon = '/assets/app/images/general/icons/community/kg/hklingliang.png' where id in (select communityId from Kindergarten where nameEn = 'Hong Kong Ling Liang Church Kindergarten');
 update community set icon = '/assets/app/images/general/icons/community/kg/kentville.png' where id in (select communityId from Kindergarten where nameEn like 'Kentvi%');
 update community set icon = '/assets/app/images/general/icons/community/kg/stcatherine.png' where id in (select communityId from Kindergarten where nameEn like '%St Catherin%');
+update community set icon = '/assets/app/images/general/icons/community/kg/skh.png' where id in (select communityId from Kindergarten where nameEn = 'Sheng Kung Hui Kindergarten');
 update community set icon = '/assets/app/images/general/icons/community/kg/spk.png' where id in (select communityId from Kindergarten where nameEn = 'St Paul''s Kindergarten');
 
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/boxhill.png' where nameEn like '%Box Hill%';
@@ -79,6 +80,7 @@ update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/le
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/ltlingliang.png' where nameEn like 'Lam Tin Ling Liang%';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/rhs.png' where nameEn like 'Rosar%';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/sjc.png' where nameEn like 'St Johannes%';
+update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/skh.png' where nameEn = 'Sheng Kung Hui Kindergarten';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/spckg.png' where nameEn like 'HKSKH St Peter%';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/spk.png' where nameEn = 'St Paul''s Kindergarten';
 update Kindergarten set icon = '/assets/app/images/general/icons/community/kg/spn.png' where nameEn like '%Paul%s Day%';
