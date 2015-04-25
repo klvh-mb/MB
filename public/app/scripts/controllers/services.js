@@ -1011,6 +1011,27 @@ minibean.service('schoolsService',function($resource){
                 get: {method:'get',isArray:true}
             }
     );
+    this.topViewedKGs = $resource(
+            '/get-top-viewed-kgs',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.topDiscussedKGs = $resource(
+            '/get-top-discussed-kgs',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.topBookmarkedKGs = $resource(
+            '/get-top-bookmarked-kgs',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
     this.bookmarkedKGs = $resource(
             '/get-bookmarked-kgs',
             {alt:'json',callback:'JSON_CALLBACK'},

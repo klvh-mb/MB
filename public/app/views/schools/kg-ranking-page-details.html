@@ -5,15 +5,15 @@
                 <li class="index-title">
                     <img style="width:auto;height:28px;" data-ng-src="/assets/app/images/general/titles/schools_most_viewed.png">
                 </li>
-                <li ng-repeat="pn in topViewedSchools">
+                <li ng-repeat="kg in topViewedSchools">
                     <div class="school-list-entry">
                         <span class="rank-number ng-binding">{{$index+1}}</span>
                         <div class="school-info">
-                            <a href="/schools#!/pn/{{pn.id}}">{{pn.n}}</a>
+                            <a href="/schools#!/kg/{{kg.id}}">{{kg.n}}</a>
                             <span style="display: inline-block;">
-	                            <span class="tag">{{pn.dis}}</span>
-	                            <span class="school-info-tips" ng-if="pn.nov > 0">
-	                                <img src="/assets/app/images/general/icons/view.png"/>{{pn.nov}}
+	                            <span class="tag">{{kg.dis}}</span>
+	                            <span class="school-info-tips" ng-if="kg.nov > 0">
+	                                <img src="/assets/app/images/general/icons/view.png"/>{{kg.nov}}
 	                            </span>
 	                        </span>
                         </div>
@@ -28,17 +28,17 @@
                 <li class="index-title">
                     <img style="width:auto;height:28px;" data-ng-src="/assets/app/images/general/titles/schools_most_bookmarked.png">
                 </li>
-                <li ng-repeat="pn in topBookmarkedSchools">
+                <li ng-repeat="kg in topBookmarkedSchools">
                     <div class="school-list-entry">
                         <span class="rank-number ng-binding">{{$index+1}}</span>
                         <div class="school-info">
-                            <a href="/schools#!/pn/{{pn.id}}">{{pn.n}}</a>
+                            <a href="/schools#!/kg/{{kg.id}}">{{kg.n}}</a>
                             <span style="display: inline-block;">
-	                            <span class="tag">{{pn.dis}}</span>
-	                            <span class="school-info-tips" ng-if="pn.nob > 0">
-	                                <img src="/assets/app/images/general/icons/message_favorited.png">{{pn.nob}}
+	                            <span class="tag">{{kg.dis}}</span>
+	                            <span class="school-info-tips" ng-if="kg.nob > 0">
+	                                <img src="/assets/app/images/general/icons/message_favorited.png">{{kg.nob}}
 	                            </span>
-                            </span>
+	                        </span>
                         </div>
                     </div>
                 </li>
@@ -51,15 +51,15 @@
 	            <li class="index-title">
 	                <img style="width:auto;height:28px;" data-ng-src="/assets/app/images/general/titles/schools_most_discussed.png">
 	            </li>
-	            <li ng-repeat="pn in topDiscussedSchools">
+	            <li ng-repeat="kg in topDiscussedSchools">
 	                <div class="school-list-entry">
 	                    <span class="rank-number ng-binding">{{$index+1}}</span>
 	                    <div class="school-info">
-	                        <a href="/schools#!/pn/{{pn.id}}">{{pn.n}}</a>
+	                        <a href="/schools#!/kg/{{kg.id}}">{{kg.n}}</a>
 	                        <span style="display: inline-block;">
-		                        <span class="tag">{{pn.dis}}</span>
-		                        <span class="school-info-tips" ng-if="pn.nop > 0">
-		                            <img src="../assets/app/images/general/icons/i-reply.png">{{pn.nop}}
+		                        <span class="tag">{{kg.dis}}</span>
+		                        <span class="school-info-tips" ng-if="kg.nop > 0">
+		                            <img src="../assets/app/images/general/icons/i-reply.png">{{kg.nop}}
 		                        </span>
 		                    </span>
 	                    </div>

@@ -3416,8 +3416,16 @@ minibean.controller('SchoolsRankingController',function($scope, $routeParams, $l
 			}
 		);
 	} else if ($scope.selectedNavSubBar == 1) {		// KG
-		$scope.topViewedSchools = [];
-		$scope.topBookmarkedSchools = [];
+		$scope.topViewedSchools = schoolsService.topViewedKGs.get({},
+			function(data) {
+				$interval($scope.gotoRanking, 100, 1);
+    		}
+		);
+		$scope.topBookmarkedSchools = schoolsService.topBookmarkedKGs.get({},
+			function(data) {
+				$interval($scope.gotoRanking, 100, 1);
+			}
+		);
 	}
 	
 	$scope.gotoRanking = function() {
@@ -3436,7 +3444,7 @@ minibean.controller('SchoolsRankingController',function($scope, $routeParams, $l
 			if ($scope.selectedNavSubBar == 0) {	// PN
 				$scope.topDiscussedSchools = schoolsService.topDiscussedPNs.get();
 			} else if ($scope.selectedNavSubBar == 1) {		// KG
-				$scope.topDiscussedSchools = [];
+				$scope.topDiscussedSchools = schoolsService.topDiscussedKGs.get();
 			}
 		}
 	}
