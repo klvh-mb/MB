@@ -1,3 +1,4 @@
+
 <form method="post" action="">
 	<div id="schools-search-box" name="schools-search-box" class="schools-kg-search">
 	    <a class="schools-search-wrapper ng-pristine ng-valid">
@@ -36,6 +37,9 @@
 		                    <span class="school-info-tips" ng-if="kg.nop > 0">
                                 <img src="../assets/app/images/general/icons/i-reply.png">{{kg.nop}}
                             </span>
+                            <span class="school-info-tips admin-visible-field" ng-if="userInfo.isE">
+		                        <img src="../assets/app/images/general/icons/view.png">{{kg.nov}}
+		                    </span>
 		                    <span data-ng-include data-src="'/assets/app/views/schools/bookmark-kg.html'"></span>
 		                    
 		                    <div class="school-info-note"><span ng-show="kg.ne">{{kg.ne}}</span></div>

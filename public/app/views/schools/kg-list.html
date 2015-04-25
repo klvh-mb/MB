@@ -100,6 +100,9 @@
 	                <span class="school-info-tips" ng-if="kg.nop > 0">
                         <img src="../assets/app/images/general/icons/i-reply.png">{{kg.nop}}
                     </span>
+                    <span class="school-info-tips admin-visible-field" ng-if="userInfo.isE">
+                        <img src="../assets/app/images/general/icons/view.png">{{kg.nov}}
+                    </span>
 	                <span data-ng-include data-src="'/assets/app/views/schools/bookmark-kg.html'"></span>
 	                
 	                <a class="schools-map" ng-show="kg.map != null" href="{{kg.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i>地圖</a>
