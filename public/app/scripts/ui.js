@@ -26,7 +26,7 @@ var writeMetaCanonical = function(absUrl) {
 }
 
 var writeMetaTitleDescription = function(title, description, image) {
-	title = title + " - miniBean 小萌豆";
+	//title = title + " - miniBean 小萌豆";
 	document.title = title;
 	$('meta[name=description]').attr('content', description.substring(0,150));
 	$('meta[name=keywords]').attr('content', title + ', ' + $('meta[name=keywords]').attr('content'));
