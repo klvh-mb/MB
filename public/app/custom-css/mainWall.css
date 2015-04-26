@@ -62,6 +62,11 @@
     vertical-align: middle;
     margin-right: 3px;
 }
+.post-header span a, 
+.post-header1 span a, 
+.post-header2 span a {
+    display: inline-block;    
+}
 .post-header .post-favorite:after, 
 .post-header .post-favorited:after {
 	text-indent: 30px;

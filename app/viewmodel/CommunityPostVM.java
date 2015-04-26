@@ -50,7 +50,7 @@ public class CommunityPostVM {
 	@JsonProperty("isBookmarked") public boolean isBookmarked = false;
 	
 	@JsonProperty("pnId") public Long pnId = null;
-	@JsonProperty("kindyId") public Long kindyId = null;
+	@JsonProperty("kgId") public Long kgId = null;
 	
 	public CommunityPostVM(Post post, User user) {
         this(post, user, true, false);
@@ -93,7 +93,7 @@ public class CommunityPostVM {
 		this.isOwner = post.owner.id == user.id;
 
 		this.pnId = CommunityMetaCache.getPNIdFromCommunity(post.community.id);
-		//this.kindyId = CommunityMetaCache.getKindyIdFromCommId(post.community.id);
+		this.kgId = CommunityMetaCache.getKGIdFromCommunity(post.community.id);
 		
 		if(post.folder != null && !CollectionUtils.isEmpty(post.folder.resources)) {
 		    this.hasImage = true;
