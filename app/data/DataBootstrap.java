@@ -915,13 +915,17 @@ public class DataBootstrap {
                     logger.underlyingLogger().info("Invalid data. pnName="+review.pnName+" districtId="+review.districtId);
                 } else {
                     Community community = Community.findById(preNursery.communityId);
+                    ThreadLocalOverride.setSocialUpdatedDate(review.dateTime.toDate());
                     Post post = (Post) community.onPost(owner, review.title, review.body, PostType.QUESTION);
+                    ThreadLocalOverride.setSocialUpdatedDate(null);
                     post.setCreatedDate(review.dateTime.toDate());
                     post.setUpdatedDate(review.dateTime.toDate());
 
                     for (ReviewFileReader.ReviewComment reviewComment : review.comments) {
                         owner = User.findById(reviewComment.userId);
+                        ThreadLocalOverride.setSocialUpdatedDate(reviewComment.dateTime.toDate());
                         Comment comment = (Comment) post.onComment(owner, reviewComment.body, CommentType.ANSWER);
+                        ThreadLocalOverride.setSocialUpdatedDate(null);
                         comment.setCreatedDate(reviewComment.dateTime.toDate());
                         comment.setUpdatedDate(reviewComment.dateTime.toDate());
                         comment.merge();
