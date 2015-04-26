@@ -16,7 +16,7 @@
                     <span>
                         <span ng-if="post.pnId && post.kgId">
                             <a ng-href="/schools#!/pn/{{post.pnId}}" style="color:#008000"><img src="{{post.ci}}">{{post.cn}} (PN班)</a> / 
-                            <a ng-href="/schools#!/kg/{{post.kgId}}" style="color:#A63D3D"><img src="{{post.ci}}">{{post.cn}} (K班)</a>
+                            <a ng-href="/schools#!/kg/{{post.kgId}}" style="color:#A63D3D">{{post.cn}} (K班)</a>
                         </span>
                         <a ng-href="/schools#!/pn/{{post.pnId}}" ng-if="post.pnId && !post.kgId"><img src="{{post.ci}}">{{post.cn}}</a>
                         <a ng-href="/schools#!/kg/{{post.kgId}}" ng-if="post.kgId && !post.pnId"><img src="{{post.ci}}">{{post.cn}}</a>
