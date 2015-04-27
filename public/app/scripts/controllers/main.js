@@ -3339,7 +3339,7 @@ minibean.controller('KGPageController',function($scope, $routeParams, schoolsFac
     		if (data.ne && data.ne != undefined) {
     			title += ' ' + data.ne;
     		}
-    		writeMetaTitleDescription(title, data.cur, $scope.applicationInfo.baseUrl+"/assets/app/images/schools/kg_promo.png);
+    		writeMetaTitleDescription(title, data.cur, $scope.applicationInfo.baseUrl+"/assets/app/images/schools/kg_promo.png");
 		}
     );
     
