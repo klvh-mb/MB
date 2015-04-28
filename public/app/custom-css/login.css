@@ -292,6 +292,7 @@ ul, li {
     width: 100%;
     height: auto;
     margin: 0 auto;
+    max-width: 950px;
 }
 .pwd-container div.login-box:first-child {
     float: left;
