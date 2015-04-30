@@ -137,7 +137,7 @@
 
             <div class="school-section-title">聯絡資料</div>
             <div class="school-info-note"><span>地址 :</span> {{kg.adr || '--'}}</div>
-            <div class="school-info-note-short" ng-show="kg.pho"><span>電話 :</span> {{kg.pho || '--'}}</div>
+            <div class="school-info-note-short" ng-show="kg.pho"><span>電話 :</span> <span ng-if="!userInfo.isMobile">{{kg.pho || '--'}}</span><span ng-if="userInfo.isMobile"><a ng-href="tel:{{kg.pho || '--'}}">{{kg.pho || '--'}}</a></span></div>
             <div class="school-info-note-short" ng-show="kg.fax"><span>傳真 :</span> {{kg.fax || '--'}}</div>
             <div class="school-info-note" ng-show="kg.em"><span>電郵 :</span> {{kg.em || '--'}}</div>
             <div class="school-info-note" ng-show="kg.url"><span>網址 :</span> <a ng-href="{{kg.url || '--'}}" target="_blank">{{kg.url}}</a></div>
