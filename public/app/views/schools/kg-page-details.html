@@ -100,7 +100,7 @@
             </div>
             <div class="school-info-note" style="font-size:13px;margin-top:3px;">* 根據教育局提供的幼稚園資料 (2013年9月資料)</div>
             
-            <div class="school-section-title">全年學費 (2014/15 學年)</div>
+            <div class="school-section-title">全年學費 (2014/15 學年資料)</div>
             <div class="school-info-note">
 	            <table class="school-info-table" cellpadding="10" cellspacing="2">
 		            <tbody>
@@ -130,6 +130,36 @@
 			            </tr>
 		            </tbody>
 		        </table>
+		        
+		        <div class="school-info-note" style="margin-top:3px;" ng-show="kg.cp">以下是兌換學劵後的全年學費 (期數)</div> 
+		        <table class="school-info-table" cellpadding="10" cellspacing="2" ng-show="kg.cp">
+                    <tbody>
+                        <tr>
+                            <td style="font-size:13px;">* 全年學費 (期數)</td>
+                            <td><span>幼兒</span> <span>3-4歲</span></td>
+                            <td><span>低班</span> <span>4-5歲</span></td>
+                            <td><span>高班</span> <span>5-6歲</span></td>
+                        </tr>
+                        <tr>
+                            <td><div><span>上午班</span></div></td>
+                            <td class="school-info-table-content">{{kg.cpFeeAmN || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.cpFeeAmL || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.cpFeeAmU || '--'}}</td>
+                        </tr>
+                        <tr>
+                            <td><div><span>下午班</span></div></td>
+                            <td class="school-info-table-content">{{kg.cpFeePmN || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.cpFeePmL || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.cpFeePmU || '--'}}</td>
+                        </tr>
+                        <tr>
+                            <td><div><span>全日班</span></div></td>
+                            <td class="school-info-table-content">{{kg.cpFeeWdN || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.cpFeeWdL || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.cpFeeWdU || '--'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
 	        </div>
 
             <div class="school-section-title">課程資料</div>
