@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import domain.DefaultValues;
 import domain.SocialObjectType;
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
@@ -76,8 +77,8 @@ public class Message extends SocialObject implements Comparable<Message> {
 		}
 		
 		try {
-			q.setFirstResult((int) (offset*20));
-			q.setMaxResults(20);
+			q.setFirstResult((int) (offset*DefaultValues.CONVERSATION_MESSAGE_COUNT));
+			q.setMaxResults(DefaultValues.CONVERSATION_MESSAGE_COUNT);
 			return (List<Message>) q.getResultList();
 		} catch (NoResultException e) {
 			return null;
