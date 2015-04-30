@@ -83,11 +83,13 @@
 #message-list li:hover > div > a.message-notice {
     /*color: #496AAF;*/
 }
+#message-list a+div, 
 #message-list img+div {
     padding: 0 10px;
     display: inline-block;
     vertical-align: middle;
 }
+#message-list a+div+div, 
 #message-list img+div+div {
     float: right;
     position: relative;

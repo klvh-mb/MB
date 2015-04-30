@@ -4616,7 +4616,7 @@ minibean.controller('MyBookmarksController', function($scope, postFactory, myBoo
     }
 });
 
-minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $routeParams, $sce, searchFriendService, usSpinnerService, getMessageService, allConversationService) {
+minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $location, $routeParams, $sce, searchFriendService, usSpinnerService, getMessageService, allConversationService) {
 
     $scope.selectNavBar('HOME', -1);
 
@@ -4632,11 +4632,14 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 	if($routeParams.id == 0){
 		$scope.conversations = allConversationService.UserAllConversation.get(function(){
 			if($scope.conversations.length > 0){
+				if ($scope.userInfo.isMobile && $location.path().indexOf('/message-list') > -1) {
+					return;
+				}
 				$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
 			}
 		});
 	} else {
-	   if ($scope.userInfo.id == $routeParams.id) {
+		if ($scope.userInfo.id == $routeParams.id) {
             prompt("不可發私人訊息給自己");
         } else {
     		$scope.conversations = allConversationService.startConversation.get({id: $routeParams.id} ,function(){
@@ -4724,6 +4727,10 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 			$scope.noMore = false;
 			usSpinnerService.stop('loading...');
 		});
+	}
+	
+	$scope.openConversation = function(cid, uid) {
+		$location.path('/message/'+uid);
 	}
 	
     $scope.loadMore = false;

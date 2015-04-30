@@ -74,6 +74,14 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/mobile/home/business-post-landing-page.html',
         controller : 'PostLandingController'  
       })
+      .when('/message-list/:id',{
+    	templateUrl: '/assets/app/views/mobile/home/message-list.html',
+    	controller: 'UserConversationController'  
+      })
+      .when('/message/:id',{
+    	templateUrl: '/assets/app/views/mobile/home/message.html',
+    	controller: 'UserConversationController'  
+      })
       .when('/game',{
         templateUrl: '/assets/app/views/mobile/home/game-page.html',
         controller: 'GameController'
