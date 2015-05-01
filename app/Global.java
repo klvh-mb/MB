@@ -136,8 +136,8 @@ public class Global extends GlobalSettings {
      * scheduleJobs
      */
     private void scheduleJobs() {
-        // schedule Gamification EOD accounting daily at 12:10am HKT
-        JobScheduler.getInstance().schedule("gamificationEOD", "0 10 0 ? * *",
+        // schedule Gamification EOD accounting daily at 3:00am HKT
+        JobScheduler.getInstance().schedule("gamificationEOD", "0 00 3 ? * *",
             new Runnable() {
                 public void run() {
                     try {
@@ -153,8 +153,8 @@ public class Global extends GlobalSettings {
             }
         );
 
-        // schedule to purge notifications daily at 3:00am HKT
-        JobScheduler.getInstance().schedule("purgeNotification", "0 00 3 ? * *",
+        // schedule to purge notifications daily at 4:00am HKT
+        JobScheduler.getInstance().schedule("purgeNotification", "0 00 4 ? * *",
             new Runnable() {
                 public void run() {
                     try {
@@ -170,8 +170,8 @@ public class Global extends GlobalSettings {
             }
         );
 
-        // schedule to index tag words daily at 3:15am HKT
-        JobScheduler.getInstance().schedule("indexTagWords", "0 15 3 ? * *",
+        // schedule to index tag words daily at 4:15am HKT
+        JobScheduler.getInstance().schedule("indexTagWords", "0 15 4 ? * *",
             new Runnable() {
                 public void run() {
                     try {
