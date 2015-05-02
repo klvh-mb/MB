@@ -179,17 +179,17 @@ public class Folder extends SocialObject implements Serializable, Creatable, Upd
 			BufferedImage bimg = ImageIO.read(source);
 			final int origWidth  = bimg.getWidth();
 			final int origHeight = bimg.getHeight();
-			
+
+            // horizontal or square
 			if(origWidth >= origHeight) {
-                // horizontal or square
                 int targetPreviewWidth = (type == SocialObjectType.POST_PHOTO) ?
                         ImageDimensions.POST_IMAGE_PREVIEW_WIDTH_PX :
                         ImageDimensions.COMMENT_IMAGE_PREVIEW_WIDTH_PX;
                 if (origWidth > targetPreviewWidth) {
+                    double scaleFactor = ((double)targetPreviewWidth) / ((double)origWidth);
                     Thumbnails.of(source)
-                            .width(targetPreviewWidth)
-                            .keepAspectRatio(true)
-                            .toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
+                                .scale(scaleFactor)
+                                .toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
                 } else {
                     FileUtils.copyFile(source, new java.io.File(resource.getThumbnail()));
                 }
@@ -215,15 +215,17 @@ public class Folder extends SocialObject implements Serializable, Creatable, Upd
                         }
                     }, actorSystem.dispatcher()
                 );
-			} else {
+			}
+            // vertical pictures
+            else {
                 int targetPreviewHeight = (type == SocialObjectType.POST_PHOTO) ?
                         ImageDimensions.POST_IMAGE_PREVIEW_HEIGHT_PX :
                         ImageDimensions.COMMENT_IMAGE_PREVIEW_HEIGHT_PX;
                 if (origHeight > targetPreviewHeight) {
+                    double scaleFactor = ((double)targetPreviewHeight) / ((double)origHeight);
                     Thumbnails.of(source)
-                            .height(targetPreviewHeight)
-                            .keepAspectRatio(true)
-                            .toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
+                                .scale(scaleFactor)
+                                .toFiles(parentFile, Rename.PREFIX_DOT_THUMBNAIL);
                 } else {
                     FileUtils.copyFile(source, new java.io.File(resource.getThumbnail()));
                 }

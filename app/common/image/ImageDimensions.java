@@ -20,8 +20,8 @@ public interface ImageDimensions {
     public static final int LIGHTBOX_WIDTH_PX = (int) (880 * 1.3d);
     public static final int LIGHTBOX_HEIGHT_PX = (int) (620 * 1.3d);
 
-    public static final int POST_IMAGE_PREVIEW_WIDTH_PX = 255;
-    public static final int POST_IMAGE_PREVIEW_HEIGHT_PX = 255;
+    public static final int POST_IMAGE_PREVIEW_WIDTH_PX = 350;
+    public static final int POST_IMAGE_PREVIEW_HEIGHT_PX = 350;
 
     public static final int COMMENT_IMAGE_PREVIEW_WIDTH_PX = (int) (110 * 1.1d);
     public static final int COMMENT_IMAGE_PREVIEW_HEIGHT_PX = (int) (150 * 1.1d);
