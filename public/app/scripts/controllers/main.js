@@ -889,6 +889,10 @@ minibean.controller('ApplicationController',
         $window.scrollTo($window.pageXOffset, 0);
     }
     
+    $scope.gotoBottom = function() {
+        $window.scrollTo($window.pageXOffset, 2000);
+    }
+    
     $scope.gotoId = function(id) {
     	var offset = $('#'+id).offset();
     	if (offset && offset != undefined) {
@@ -4750,8 +4754,12 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
                 }
                 offset++;
                 $timeout(function(){
-                    var objDiv = document.getElementById('message-area');
-                    objDiv.scrollTop = objDiv.scrollHeight;
+                	if ($scope.userInfo.isMobile) {
+                		$scope.gotoId('message-input-box');
+                	} else {
+	                    var objDiv = document.getElementById('message-area');
+	                    objDiv.scrollTop = objDiv.scrollHeight;
+                	}
                 });
             });
     }

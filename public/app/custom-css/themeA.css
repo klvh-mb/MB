@@ -386,8 +386,8 @@ a:focus {
     position: relative;
 }
 #header-logo img, #header-logo-mobile img {
-    width: 138px !important;
-    height: 48px !important;
+    width: 130px !important;
+    height: 45px !important;
 }
 .header-notif-bar {
     margin-left: 65px;

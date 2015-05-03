@@ -23,7 +23,7 @@ var DefaultValues = new function() {
     this.DEFAULT_PAGINATION_COUNT = 10;
     this.VIEW_ALL_SHOW = 2; 
     this.POST_PHOTO_UPLOAD = 3;
-    this.CONVERSATION_MESSAGE_COUNT = 20;
+    this.CONVERSATION_MESSAGE_COUNT = 10;
     
     this.DEFAULT_REPORT_TYPE = "SPAM";
     
