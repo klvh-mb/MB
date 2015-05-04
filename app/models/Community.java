@@ -16,15 +16,16 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import common.cache.CommunityMetaCache;
 import common.collection.Pair;
 import common.image.FaceFinder;
 import common.utils.ImageFileUtil;
-
 import common.utils.StringUtil;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.codehaus.jackson.annotate.JsonIgnore;
-
 import org.joda.time.LocalDate;
+
 import play.Play;
 import play.data.format.Formats;
 import play.db.jpa.JPA;
@@ -34,6 +35,7 @@ import com.mnt.exception.SocialObjectNotJoinableException;
 
 import domain.Joinable;
 import domain.Likeable;
+import domain.PostSubType;
 import domain.PostType;
 import domain.Postable;
 import domain.SocialObjectType;
@@ -118,14 +120,26 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		Post post;
 		
 		if (type == PostType.QUESTION) {
-		    post = new Post(user, title, body, this);
+			post = new Post(user, title, body, this);
 			post.objectType = SocialObjectType.QUESTION;
 			post.postType = type;
 			post.setUpdatedDate(new Date());
+			
+			Long pnId = CommunityMetaCache.getPNIdFromCommunity(post.community.id);
+			Long kgId = CommunityMetaCache.getKGIdFromCommunity(post.community.id);
+			if (pnId != null && kgId != null)
+				post.postSubType = PostSubType.PN_KG;
+			else if (pnId != null)
+				post.postSubType = PostSubType.PN;
+			else if (kgId != null)
+				post.postSubType = PostSubType.KG;
+			else 
+				post.postSubType = PostSubType.COMMUNITY;
 		} else if (type == PostType.SIMPLE) {
-		    post = new Post(user, body, this);
+		    	post = new Post(user, body, this);
 			post.objectType = SocialObjectType.POST;
 			post.postType = type;
+			post.postSubType = PostSubType.COMMUNITY;
 			post.setUpdatedDate(new Date());
 		} else {
 		    throw new RuntimeException("Post type is not recognized");
