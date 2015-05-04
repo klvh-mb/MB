@@ -546,7 +546,7 @@ minibean.controller('ApplicationController',
     // login
     $scope.getFbLoginUrl = function() {
         var url = encodeURIComponent(window.location.href);
-        return "/authenticatePopup/facebook?rurl="+url;     // http%3A%2F%2Fminibean.com.hk%2Fmy%23%2F
+        return "/authenticatePopup/facebook?rurl="+url;     // http%3A%2F%2Fwww.minibean.hk%2Fmy%23%2F
     }
     
     $scope.popupLoginModal = function(titleText) {
