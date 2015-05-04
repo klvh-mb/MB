@@ -161,7 +161,7 @@ public class Notification  extends domain.Entity implements Serializable, Creata
             int lastDelimIdx = this.usersName != null ? this.usersName.lastIndexOf(",") : -1;
 			if(count >= 3 && lastDelimIdx != -1){
                 long othersCount = count - 2;
-				this.usersName = addUserName+", "+this.usersName.substring(0,lastDelimIdx)+" 與另外 "+othersCount+"人都";
+				this.usersName = addUserName+", "+this.usersName.substring(0,lastDelimIdx)+" 與另外"+othersCount+"人";
 			} else {
 				this.usersName = addUserName+", "+this.usersName;
             }
