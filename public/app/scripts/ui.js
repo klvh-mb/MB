@@ -188,6 +188,10 @@ $(window).on("blur focus", function(e) {
 // Common
 //
 
+var startsWith = function(str, s) {
+	return str.lastIndexOf(s, 0) === 0
+}
+
 var highlightLink = function(id) {
     $('#'+id).select();
 }
