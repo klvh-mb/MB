@@ -33,6 +33,7 @@ public class CommunityPostVM {
 	@JsonProperty("cs") public List<CommunityPostCommentVM> comments;
 	@JsonProperty("imgs") public Long[] images;
 	@JsonProperty("type") public String postType;
+	@JsonProperty("subtype") public String postSubType;
     @JsonProperty("ctyp") public String communityType;
 	@JsonProperty("cn") public String communityName;
 	@JsonProperty("ci") public String communityIcon;
@@ -79,6 +80,7 @@ public class CommunityPostVM {
 		}
 		this.noOfComments = post.noOfComments;
 		this.postType = post.postType.name();
+		this.postSubType = post.postSubType.name();
 		this.communityType = post.community.communityType.name();
 		this.communityName = post.community.name;
 		this.communityIcon = post.community.icon;
