@@ -3154,7 +3154,7 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
         });
     }
     
-     $scope.withdrawCampaign = function(campaignId) {
+    $scope.withdrawCampaign = function(campaignId) {
         var formData = {
             "campaignId" : campaignId
         };

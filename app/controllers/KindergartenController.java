@@ -2,13 +2,19 @@ package controllers;
 
 import common.utils.NanoSecondStopWatch;
 import domain.DefaultValues;
+import models.Community;
 import models.Kindergarten;
+import models.PreNursery;
+import models.TargetingSocialObject;
 import models.User;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import viewmodel.CommunitiesParentVM;
+import viewmodel.CommunitiesWidgetChildVM;
 import viewmodel.KindergartenVM;
+import viewmodel.PreNurseryVM;
 import viewmodel.StringVM;
 
 import java.util.ArrayList;
@@ -183,6 +189,28 @@ public class KindergartenController extends Controller {
         return ok();
     }
 
+    @Transactional
+	public static Result getBookmarkedKGCommunities() {
+    	final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+        	return ok(Json.toJson(new ArrayList<PreNurseryVM>()));
+        }
+    	
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+        
+        List<Kindergarten> kgs = Kindergarten.getBookmarked(localUser.getId());
+        List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
+        for (Kindergarten kg : kgs) {
+        	Community community = Community.findById(kg.communityId);
+        	communityList.add(new CommunitiesWidgetChildVM(community, localUser));
+        }
+        CommunitiesParentVM communitiesVM = new CommunitiesParentVM(communityList.size(), communityList);
+        
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] getBookmarkedKGCommunities. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(communitiesVM));
+    }
+    
     @Transactional
 	public static Result getBookmarkedKGs() {
         final User localUser = Application.getLocalUser(session());

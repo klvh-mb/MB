@@ -1,12 +1,16 @@
 package controllers;
 
 import common.utils.NanoSecondStopWatch;
+import models.Community;
 import models.PreNursery;
+import models.TargetingSocialObject;
 import models.User;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import viewmodel.CommunitiesParentVM;
+import viewmodel.CommunitiesWidgetChildVM;
 import viewmodel.PreNurseryVM;
 import viewmodel.StringVM;
 
@@ -108,7 +112,7 @@ public class PreNurseryController extends Controller {
     	NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
 		final User localUser = Application.getLocalUser(session());
-        List<PreNursery> pns = PreNursery.getTopViewsPNs(DefaultValues.TOP_SCHOOLS_RANKING_COUNT);
+        List<PreNursery> pns = PreNursery.getTopViews(DefaultValues.TOP_SCHOOLS_RANKING_COUNT);
 
         final List<PreNurseryVM> pnVMs = new ArrayList<>();
         for (PreNursery pn : pns) {
@@ -125,7 +129,7 @@ public class PreNurseryController extends Controller {
     	NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
 		final User localUser = Application.getLocalUser(session());
-        List<PreNursery> pns = PreNursery.getTopDiscussedPNs(DefaultValues.TOP_SCHOOLS_RANKING_COUNT);
+        List<PreNursery> pns = PreNursery.getTopDiscussed(DefaultValues.TOP_SCHOOLS_RANKING_COUNT);
 
         final List<PreNurseryVM> pnVMs = new ArrayList<>();
         for (PreNursery pn : pns) {
@@ -142,7 +146,7 @@ public class PreNurseryController extends Controller {
     	NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
 		final User localUser = Application.getLocalUser(session());
-        List<PreNursery> pns = PreNursery.getTopBookmarkedPNs(DefaultValues.TOP_SCHOOLS_RANKING_COUNT);
+        List<PreNursery> pns = PreNursery.getTopBookmarked(DefaultValues.TOP_SCHOOLS_RANKING_COUNT);
 
         final List<PreNurseryVM> pnVMs = new ArrayList<>();
         for (PreNursery pn : pns) {
@@ -185,6 +189,28 @@ public class PreNurseryController extends Controller {
     }
 
     @Transactional
+	public static Result getBookmarkedPNCommunities() {
+    	final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+        	return ok(Json.toJson(new ArrayList<PreNurseryVM>()));
+        }
+    	
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+        
+        List<PreNursery> pns = PreNursery.getBookmarked(localUser.getId());
+        List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
+        for (PreNursery pn : pns) {
+        	Community community = Community.findById(pn.communityId);
+        	communityList.add(new CommunitiesWidgetChildVM(community, localUser));
+        }
+        CommunitiesParentVM communitiesVM = new CommunitiesParentVM(communityList.size(), communityList);
+        
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] getBookmarkedPNCommunities. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(communitiesVM));
+    }
+    
+    @Transactional
 	public static Result getBookmarkedPNs() {
         final User localUser = Application.getLocalUser(session());
         if (!localUser.isLoggedIn()) {
@@ -193,7 +219,7 @@ public class PreNurseryController extends Controller {
 
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
         
-        List<PreNursery> pns = PreNursery.getBookmarkedPNs(localUser.getId());
+        List<PreNursery> pns = PreNursery.getBookmarked(localUser.getId());
         final List<PreNurseryVM> pnVMs = new ArrayList<>();
         for (PreNursery pn : pns) {
             pnVMs.add(new PreNurseryVM(pn, localUser, true));   // must be Bookmarked
@@ -209,7 +235,7 @@ public class PreNurseryController extends Controller {
     	NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
 		final User localUser = Application.getLocalUser(session());
-        List<PreNursery> pns = PreNursery.getFormReceivedPNs(localUser.getId());
+        List<PreNursery> pns = PreNursery.getFormReceived(localUser.getId());
 
         final List<PreNurseryVM> pnVMs = new ArrayList<>();
         for (PreNursery pn : pns) {
@@ -226,7 +252,7 @@ public class PreNurseryController extends Controller {
     	NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
 		final User localUser = Application.getLocalUser(session());
-        List<PreNursery> pns = PreNursery.getAppliedPNs(localUser.getId());
+        List<PreNursery> pns = PreNursery.getApplied(localUser.getId());
 
         final List<PreNurseryVM> pnVMs = new ArrayList<>();
         for (PreNursery pn : pns) {
@@ -243,7 +269,7 @@ public class PreNurseryController extends Controller {
     	NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
 		final User localUser = Application.getLocalUser(session());
-        List<PreNursery> pns = PreNursery.getInterviewedPNs(localUser.getId());
+        List<PreNursery> pns = PreNursery.getInterviewed(localUser.getId());
 
         final List<PreNurseryVM> pnVMs = new ArrayList<>();
         for (PreNursery pn : pns) {
@@ -260,7 +286,7 @@ public class PreNurseryController extends Controller {
     	NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
 		final User localUser = Application.getLocalUser(session());
-        List<PreNursery> pns = PreNursery.getOfferedPNs(localUser.getId());
+        List<PreNursery> pns = PreNursery.getOffered(localUser.getId());
 
         final List<PreNurseryVM> pnVMs = new ArrayList<>();
         for (PreNursery pn : pns) {

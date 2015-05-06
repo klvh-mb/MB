@@ -289,10 +289,7 @@ GET     /get-top-bookmarked-pns                 controllers.PreNurseryController
 GET     /bookmark-pn/:id                        controllers.PreNurseryController.onBookmark(id : Long)
 GET     /unbookmark-pn/:id                      controllers.PreNurseryController.onUnBookmark(id : Long)
 GET     /get-bookmarked-pns                     controllers.PreNurseryController.getBookmarkedPNs()
-GET     /get-form-received-pns                  controllers.PreNurseryController.getFormReceivedPNs()
-GET     /get-applied-pns                        controllers.PreNurseryController.getAppliedPNs()
-GET     /get-interviewed-pns                    controllers.PreNurseryController.getInterviewedPNs()
-GET     /get-offered-pns                        controllers.PreNurseryController.getOfferedPNs()
+GET     /get-bookmarked-pn-communities          controllers.PreNurseryController.getBookmarkedPNCommunities()
 
 # Kindergarten
 GET     /get-kg-info/:id                        controllers.KindergartenController.getKGInfo(id:Long)
@@ -306,6 +303,7 @@ GET     /get-top-bookmarked-kgs                 controllers.KindergartenControll
 GET     /bookmark-kg/:id                        controllers.KindergartenController.onBookmark(id : Long)
 GET     /unbookmark-kg/:id                      controllers.KindergartenController.onUnBookmark(id : Long)
 GET     /get-bookmarked-kgs                     controllers.KindergartenController.getBookmarkedKGs()
+GET     /get-bookmarked-kg-communities          controllers.KindergartenController.getBookmarkedKGCommunities()
 
 # Edm settings
 POST    /save-edm-settings                      controllers.UserSettingsController.saveEdmSettings

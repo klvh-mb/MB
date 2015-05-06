@@ -214,25 +214,25 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
         return (List<String>)q.getResultList();
     }
 
-    public static List<PreNursery> getTopViewsPNs(int num) {
+    public static List<PreNursery> getTopViews(int num) {
         Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn order by pn.noOfViews desc");
         q.setMaxResults(num);
         return (List<PreNursery>)q.getResultList();
     }
 
-    public static List<PreNursery> getTopDiscussedPNs(int num) {
+    public static List<PreNursery> getTopDiscussed(int num) {
         Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn order by pn.noOfPosts desc");
         q.setMaxResults(num);
         return (List<PreNursery>)q.getResultList();
     }
     
-    public static List<PreNursery> getTopBookmarkedPNs(int num) {
+    public static List<PreNursery> getTopBookmarked(int num) {
         Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn order by pn.noOfBookmarks desc");
         q.setMaxResults(num);
         return (List<PreNursery>)q.getResultList();
     }
 
-    public static List<PreNursery> getBookmarkedPNs(Long userId) {
+    public static List<PreNursery> getBookmarked(Long userId) {
         Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn, SchoolSaved ss where ss.schoolType=?1 and ss.userId=?2 " +
                 "and ss.schoolId = pn.id");
         q.setParameter(1, SchoolType.PN);
@@ -240,24 +240,24 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
         return (List<PreNursery>)q.getResultList();
     }
 
-    public static List<PreNursery> getFormReceivedPNs(Long userId) {
-        return getPNsBySavedStatus(userId, SchoolSaved.Status.GotForm);
+    public static List<PreNursery> getFormReceived(Long userId) {
+        return getBySavedStatus(userId, SchoolSaved.Status.GotForm);
     }
 
-    public static List<PreNursery> getAppliedPNs(Long userId) {
-        return getPNsBySavedStatus(userId, SchoolSaved.Status.Applied);
+    public static List<PreNursery> getApplied(Long userId) {
+        return getBySavedStatus(userId, SchoolSaved.Status.Applied);
     }
 
-    public static List<PreNursery> getInterviewedPNs(Long userId) {
-        return getPNsBySavedStatus(userId, SchoolSaved.Status.Interviewed);
+    public static List<PreNursery> getInterviewed(Long userId) {
+        return getBySavedStatus(userId, SchoolSaved.Status.Interviewed);
     }
 
-    public static List<PreNursery> getOfferedPNs(Long userId) {
-        return getPNsBySavedStatus(userId, SchoolSaved.Status.Offered);
+    public static List<PreNursery> getOffered(Long userId) {
+        return getBySavedStatus(userId, SchoolSaved.Status.Offered);
     }
 
 
-    private static List<PreNursery> getPNsBySavedStatus(Long userId, SchoolSaved.Status status) {
+    private static List<PreNursery> getBySavedStatus(Long userId, SchoolSaved.Status status) {
         Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn, SchoolSaved sr where sr.userId=?1 and sr.schoolType=?2 " +
                 "and sr.status=?3 and sr.schoolId = pn.id");
         q.setParameter(1, userId);
