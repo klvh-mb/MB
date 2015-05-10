@@ -47,7 +47,7 @@
                                 <td>報名截止:</td><td><b>{{campaign.ed | date:'yyyy年M月d日 h:mm a'}}</b></td>
                             </tr>
                         </table>
-                        <div style="padding:10px;">
+                        <div style="padding:10px;" ng-if="campaign.ct == 'ACTIONS'">
                             <span ng-if="campaign.ac && campaign.cs == 'PUBLISHED'">
                                 <span>
                                     <a href="" ng-click="popupCampaignNotStartModal()">

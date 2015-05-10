@@ -376,8 +376,7 @@ PN      K
 .school-list-filters .btn-group {
 	margin-right: 15px;
 }
-.schools-filter-dropdown-btn, 
-.btn-group.open .btn-primary.dropdown-toggle, .btn-primary.disabled, .btn-primary[disabled], .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active {
+.schools-filter-dropdown-btn, .schools-filter-dropdown-btn:hover, .schools-filter-dropdown-btn:focus, .schools-filter-dropdown-btn:active {
 	border: #bcbcbc solid thin;
 	border-bottom-left-radius: 3px;
 	border-top-left-radius: 3px;

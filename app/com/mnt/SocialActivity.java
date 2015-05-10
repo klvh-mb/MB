@@ -13,8 +13,6 @@ import models.PrimarySocialRelation;
 import models.SocialRelation;
 import models.User;
 
-import com.google.common.collect.Lists;
-
 import play.libs.Json;
 import common.cache.FriendCache;
 import common.utils.StringUtil;

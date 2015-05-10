@@ -54,10 +54,10 @@ public class Campaign extends SocialObject implements Commentable, Likeable {
 	public CampaignType campaignType;
 	
     public static enum CampaignType {
+    	INFO,
         ACTIONS,
         QUESTIONS,
-        VOTING,
-        PHOTO_CONTEST
+        VOTING
     }
     
     @Lob

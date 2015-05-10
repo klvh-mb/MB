@@ -74,8 +74,6 @@ public class CampaignVM {
             // TODO
         } else if (CampaignType.VOTING == campaign.campaignType) {
             // TODO
-        } else if (CampaignType.PHOTO_CONTEST == campaign.campaignType) {
-            // TODO
         }
         
         try {
