@@ -72,12 +72,16 @@ public class CommunityPostVM {
 		}
 		this.updatedOn = post.socialUpdatedDate.getTime();
 		this.postedTitle = post.title;
+		/* NOTE: disable post body show more until app supports... 
+		 * (comment body also not support show more at the moment)
 		if(post.shortBodyCount > 0){
 		    this.showMore= true; 
 		    this.postedText = post.body.substring(0,post.shortBodyCount);
 		} else {
 		    this.postedText = post.body;
 		}
+		*/
+		this.postedText = post.body;
 		this.noOfComments = post.noOfComments;
 		this.postType = post.postType.name();
 		this.postSubType = post.postSubType.name();
