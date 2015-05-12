@@ -78,6 +78,20 @@ public class CommunityTargetingEngine {
             assign(community, user);
         }
         */
+        
+        // PN community
+        if (targetProfile.getChildrenMinAgeMonths() > 6 && targetProfile.getChildrenMaxAgeMonths() <= 18) {
+            Community community = Community.findByTargetingTypeTargetingInfo(
+            		TargetingSocialObject.TargetingType.PUBLIC, "PRE_NURSERY");
+            assign(community, user);
+        }
+        
+        // KG community
+        if (targetProfile.getChildrenMinAgeMonths() > 18 && targetProfile.getChildrenMaxAgeMonths() <= 30) {
+        	Community community = Community.findByTargetingTypeTargetingInfo(
+            		TargetingSocialObject.TargetingType.PUBLIC, "KINDY");
+        	assign(community, user);
+        }
     }
     
     private static void assign(Community community, User user) {
