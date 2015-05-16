@@ -78,6 +78,13 @@ public class KindergartenVM {
     @JsonProperty("nadAmT")  public String numEnrollAM_T;
     @JsonProperty("nadPmT")  public String numEnrollPM_T;
     @JsonProperty("nadWdT")  public String numEnrollWD_T;
+
+    @JsonProperty("sufee")  public String summerUniformFee;
+    @JsonProperty("wufee")  public String winterUniformFee;
+    @JsonProperty("sbfee")  public String schoolBagFee;
+    @JsonProperty("tsfee")  public String teaAndSnacksFee;
+    @JsonProperty("tbfee")  public String textBooksFee;
+    @JsonProperty("wbfee")  public String workBooksFee;
     
     @JsonProperty("nop") public int noOfPosts;
     @JsonProperty("nol") public int noOfLikes;
@@ -155,6 +162,12 @@ public class KindergartenVM {
         this.numEnrollAM_UKG = kg.numEnrollAM_UKG;
         this.numEnrollPM_UKG = kg.numEnrollPM_UKG;
         this.numEnrollWD_UKG = kg.numEnrollWD_UKG;
+        this.summerUniformFee = kg.getSummerUniformFee();
+        this.winterUniformFee = kg.getWinterUniformFee();
+        this.schoolBagFee = kg.getSchoolBagFee();
+        this.teaAndSnacksFee = kg.getTeaAndSnacksFee();
+        this.textBooksFee = kg.getTextBooksFee();
+        this.workBooksFee = kg.getWorkBooksFee();
 
         // fee total
         try {

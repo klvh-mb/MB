@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
+ * NOTE: Not currently in use (as of 20150510).
+ *
  * Capturing the sharing relationship between users.
  *
  * Created by IntelliJ IDEA.
