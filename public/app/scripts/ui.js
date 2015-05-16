@@ -64,7 +64,7 @@ var homeTour = new Tour({
     element: "#my-communities",
     title: 
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_2.png\">" + 
-        "我關注的社群",
+        "正在關注的社群",
     content: 
         "您正在關注的社群會在這裏出現，方便隨時瀏覽或討論"
   },
@@ -72,7 +72,7 @@ var homeTour = new Tour({
     element: "#my-newsfeed",
     title: 
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_3.png\">" + 
-        "我的社群動向",
+        "社群動向",
     content: 
         "讓您預覽您正在關注的社群中最新，最熱門話題。輕易知道所有關注社群的最新動向"
   },
@@ -122,7 +122,7 @@ var mHomeTour = new Tour({
     element: "#site-tour-anchor",
     title: 
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_2.png\">" + 
-        "我關注的社群",
+        "正在關注的社群",
     content: 
         "您正在關注的社群會收藏到左方的選項表中，方便隨時瀏覽或討論"
   },
@@ -130,7 +130,7 @@ var mHomeTour = new Tour({
     element: "#site-tour-anchor",
     title: 
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_3.png\">" + 
-        "我的社群動向",
+        "社群動向",
     content: 
         "讓您預覽您正在關注的社群中最新，最熱門話題。輕易知道所有關注社群的最新動向"
   },
