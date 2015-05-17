@@ -48,12 +48,12 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
     private String annualFeeWD;
     private String numAdmitted;
 
-    private String summerUniformFee;
-    private String winterUniformFee;
-    private String schoolBagFee;
-    private String teaAndSnacksFee;
-    private String textBooksFee;
-    private String workBooksFee;
+//    private String summerUniformFee;
+//    private String winterUniformFee;
+//    private String schoolBagFee;
+//    private String teaAndSnacksFee;
+//    private String textBooksFee;
+//    private String workBooksFee;
 
     // stats
     public int noOfPosts = 0;
@@ -287,27 +287,27 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
         return numAdmitted;
     }
 
-    public String getSummerUniformFee() {
-        return summerUniformFee;
-    }
-
-    public String getWinterUniformFee() {
-        return winterUniformFee;
-    }
-
-    public String getSchoolBagFee() {
-        return schoolBagFee;
-    }
-
-    public String getTeaAndSnacksFee() {
-        return teaAndSnacksFee;
-    }
-
-    public String getTextBooksFee() {
-        return textBooksFee;
-    }
-
-    public String getWorkBooksFee() {
-        return workBooksFee;
-    }
+//    public String getSummerUniformFee() {
+//        return summerUniformFee;
+//    }
+//
+//    public String getWinterUniformFee() {
+//        return winterUniformFee;
+//    }
+//
+//    public String getSchoolBagFee() {
+//        return schoolBagFee;
+//    }
+//
+//    public String getTeaAndSnacksFee() {
+//        return teaAndSnacksFee;
+//    }
+//
+//    public String getTextBooksFee() {
+//        return textBooksFee;
+//    }
+//
+//    public String getWorkBooksFee() {
+//        return workBooksFee;
+//    }
 }

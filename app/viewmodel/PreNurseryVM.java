@@ -41,12 +41,12 @@ public class PreNurseryVM {
     @JsonProperty("feeHd")  public String annualFeeHD;
     @JsonProperty("feeWd")  public String annualFeeWD;
     @JsonProperty("nadm")  public String numAdmitted;
-    @JsonProperty("sufee")  public String summerUniformFee;
-    @JsonProperty("wufee")  public String winterUniformFee;
-    @JsonProperty("sbfee")  public String schoolBagFee;
-    @JsonProperty("tsfee")  public String teaAndSnacksFee;
-    @JsonProperty("tbfee")  public String textBooksFee;
-    @JsonProperty("wbfee")  public String workBooksFee;
+//    @JsonProperty("sufee")  public String summerUniformFee;
+//    @JsonProperty("wufee")  public String winterUniformFee;
+//    @JsonProperty("sbfee")  public String schoolBagFee;
+//    @JsonProperty("tsfee")  public String teaAndSnacksFee;
+//    @JsonProperty("tbfee")  public String textBooksFee;
+//    @JsonProperty("wbfee")  public String workBooksFee;
     
     @JsonProperty("nop") public int noOfPosts;
     @JsonProperty("nol") public int noOfLikes;
@@ -107,12 +107,12 @@ public class PreNurseryVM {
         this.annualFeeHD = pn.getAnnualFeeHD();
         this.annualFeeWD = pn.getAnnualFeeWD();
         this.numAdmitted = pn.getNumAdmitted();
-        this.summerUniformFee = pn.getSummerUniformFee();
-        this.winterUniformFee = pn.getWinterUniformFee();
-        this.schoolBagFee = pn.getSchoolBagFee();
-        this.teaAndSnacksFee = pn.getTeaAndSnacksFee();
-        this.textBooksFee = pn.getTextBooksFee();
-        this.workBooksFee = pn.getWorkBooksFee();
+//        this.summerUniformFee = pn.getSummerUniformFee();
+//        this.winterUniformFee = pn.getWinterUniformFee();
+//        this.schoolBagFee = pn.getSchoolBagFee();
+//        this.teaAndSnacksFee = pn.getTeaAndSnacksFee();
+//        this.textBooksFee = pn.getTextBooksFee();
+//        this.workBooksFee = pn.getWorkBooksFee();
 
         this.noOfPosts = pn.noOfPosts;
         this.noOfLikes = pn.noOfLikes;
