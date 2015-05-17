@@ -54,7 +54,7 @@ public class PreNurseryVM {
     @JsonProperty("nob") public int noOfBookmarks;
 
     @JsonProperty("appDateTxt") public String applicationDateText = null;
-    @JsonProperty("openDateTxt") public String openDateText = null;
+    @JsonProperty("openDayTxt") public String openDayText = null;
 
     @JsonProperty("isLike") public boolean isLike = false;
     @JsonProperty("isBookmarked") public boolean isBookmarked = false;
@@ -120,7 +120,7 @@ public class PreNurseryVM {
         this.noOfBookmarks = pn.noOfBookmarks;
 
         this.applicationDateText = pn.applicationDateText;
-        this.openDateText = pn.openDateText;
+        this.openDayText = pn.openDayText;
 
         if (User.isLoggedIn(user)){
             try {

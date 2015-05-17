@@ -63,7 +63,7 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
 
     // date details
     public String applicationDateText = null;
-    public String openDateText = null;
+    public String openDayText = null;
 
     // Ctor
     public PreNursery() {
