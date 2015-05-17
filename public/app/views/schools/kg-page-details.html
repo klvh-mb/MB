@@ -29,6 +29,19 @@
 
             <a class="schools-map" ng-show="kg.map != null" href="{{kg.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i>地圖</a>
 
+            <div ng-if="kg.appDateTxt || kg.openDayTxt">
+                <div class="school-section-title"><img style="width:24px;margin-right:7px;margin-bottom:2px;" src="../assets/app/images/general/icons/i-info-bubble.png">重要日期</div>
+                <div class="school-info-attr">
+                    <span><img style="width:16px;margin-right:7px;margin-bottom:2px;" src="../assets/app/images/general/icons/check.png">申請日期 : </span>
+                    <span>{{kg.appDateTxt || '--'}}</span>
+                </div>
+                <div class="school-info-attr">
+                    <span><img style="width:16px;margin-right:7px;margin-bottom:2px;" src="../assets/app/images/general/icons/check.png">Open Day : </span>
+                    <span>{{kg.openDayTxt || '--'}}</span>
+                </div>
+                <div class="school-info-note" style="font-size:13px;margin-top:10px;">* 資料由miniBean會員提供，最終以幼稚園官方網站或請致電幼稚園為準</div>
+            </div>
+
             <div class="school-section-title">學校資料</div>
             <div class="school-info-attr-short">
                 <span>學券申請 : </span>
@@ -62,7 +75,7 @@
                 <span>辦學團體 : </span> 
                 <span>{{kg.org || '--'}}</span>
             </div>
-            <!--div class="school-info-note" style="font-size:13px;margin-top:3px;">* 資料來自教育局網站</div-->
+            <!--div class="school-info-note" style="font-size:13px;margin-top:10px;">* 資料來自教育局網站</div-->
 
             <div class="school-section-title">學生人數</div>
             <div class="school-info-note">
@@ -99,7 +112,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="school-info-note" style="font-size:13px;margin-top:3px;">* 根據教育局提供的幼稚園資料 (2013年9月資料)</div>
+            <div class="school-info-note" style="font-size:13px;margin-top:10px;">* 根據教育局提供的幼稚園資料 (2013年9月資料)</div>
             
             <div class="school-section-title">全年學費 (2014/15 學年)</div>
             <div class="school-info-note">
@@ -132,7 +145,7 @@
 		            </tbody>
 		        </table>
 		        
-		        <div class="school-info-note" style="margin-top:3px;" ng-show="kg.cp">以下是兌換學劵後的全年學費 (期數)</div> 
+		        <div class="school-info-note" style="margin-top:10px;" ng-show="kg.cp">以下是兌換學劵後的全年學費 (期數)</div> 
 		        <table class="school-info-table" cellpadding="10" cellspacing="2" ng-show="kg.cp">
                     <tbody>
                         <tr>
@@ -169,21 +182,21 @@
                     <tbody>
                         <tr>
                             <td style="width:20%;background-color:#fff1dc;"><div><span>夏季校服</span></div></td>
-                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.sufee || '--'}}</td>
+                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.sufee || '沒有直接代辦'}}</td>
                             <td style="width:20%;background-color:#fff1dc;"><div><span>冬季校服</span></div></td>
-                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.wufee || '--'}}</td>
+                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.wufee || '沒有直接代辦'}}</td>
                         </tr>
                         <tr>
                             <td style="width:20%;background-color:#fff1dc;"><div><span>書包</span></div></td>
-                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.sbfee || '--'}}</td>
+                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.sbfee || '沒有直接代辦'}}</td>
                             <td style="width:20%;background-color:#fff1dc;"><div><span>茶點</span></div></td>
-                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.tsfee || '--'}}</td>
+                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.tsfee || '沒有直接代辦'}}</td>
                         </tr>
                         <tr>
                             <td style="width:20%;background-color:#fff1dc;"><div><span>課本</span></div></td>
-                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.tbfee || '--'}}</td>
+                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.tbfee || '沒有直接代辦'}}</td>
                             <td style="width:20%;background-color:#fff1dc;"><div><span>練習簿/作業</span></div></td>
-                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.wbfee || '--'}}</td>
+                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.wbfee || '沒有直接代辦'}}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -91,8 +91,9 @@ public class KindergartenVM {
     @JsonProperty("nov") public int noOfViews;
     @JsonProperty("nob") public int noOfBookmarks;
 
-    @JsonProperty("appTxt") public String applicationDateText = null;
-
+    @JsonProperty("appDateTxt") public String applicationDateText = null;
+    @JsonProperty("openDayTxt") public String openDayText = null;
+    
     @JsonProperty("isLike") public boolean isLike = false;
     @JsonProperty("isBookmarked") public boolean isBookmarked = false;
 
@@ -199,6 +200,7 @@ public class KindergartenVM {
         this.noOfBookmarks = kg.noOfBookmarks;
 
         this.applicationDateText = kg.applicationDateText;
+        this.openDayText = kg.openDayText;
 
         if (User.isLoggedIn(user)){
             try {

@@ -11,6 +11,7 @@ import play.db.jpa.Transactional;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Query;
+
 import java.util.List;
 
 /**
@@ -83,7 +84,8 @@ public class Kindergarten extends SocialObject implements Likeable, Commentable 
 
     // date details
     public String applicationDateText = null;
-
+    public String openDayText = null;
+    
     // Ctor
     public Kindergarten() {
         this.objectType = SocialObjectType.KINDY;
