@@ -54,10 +54,8 @@ public class Message extends SocialObject implements Comparable<Message> {
 	}
 
 	public static List<Message> findBetween(Conversation conversation, Long offset, User user) {
-		Query q = JPA
-				.em()
-				.createQuery(
-						"SELECT c from Message c  where conversation_id = ?2 and c.date > ?3 order by c.date desc ");
+		Query q = JPA.em().createQuery(
+				"SELECT m from Message m where conversation_id = ?2 and m.date > ?3 and m.deleted = 0 order by m.date desc ");
 		q.setParameter(2, conversation);
 		if(conversation.user1 == user){
 			conversation.user1_time = new Date();
@@ -77,17 +75,16 @@ public class Message extends SocialObject implements Comparable<Message> {
 		}
 		
 		try {
-			q.setFirstResult((int) (offset*DefaultValues.CONVERSATION_MESSAGE_COUNT));
+			q.setFirstResult((int) (offset * DefaultValues.CONVERSATION_MESSAGE_COUNT));
 			q.setMaxResults(DefaultValues.CONVERSATION_MESSAGE_COUNT);
 			return (List<Message>) q.getResultList();
 		} catch (NoResultException e) {
 			return null;
 		}
-		
 	}
 
 	public static Message findById(Long id) {
-		 Query q = JPA.em().createQuery("SELECT m FROM Message m where id = ?1");
+		 Query q = JPA.em().createQuery("SELECT m FROM Message m where id = ?1 and deleted = 0");
 	     q.setParameter(1, id);
 	     return (Message) q.getSingleResult();
 	}

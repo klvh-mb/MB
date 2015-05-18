@@ -38,7 +38,7 @@
             <!--div style="overflow:auto;" class="alert alert-info" role="alert" ng-show="userInfo.isLoggedIn && community.oid != userInfo.id">
                 <span style="height:30px;display:block;">
                     <span style="top:15px;position:absolute;font-size:15px;"><i class="glyphicon glyphicon-comment"></i> 發送私人訊息給店主</span>
-                    <a style="margin:5px 0" class="btn-general pull-right" data-ng-href="/my#!/message/{{community.oid}}">私人訊息</a>
+                    <a style="margin:5px 0" class="btn-general pull-right" data-ng-href="/my#!/start-conversation/{{community.oid}}">私人訊息</a>
                 </span>
             </div-->
             <div class="pin-brick" style="width:100%;padding:0px;" data-ng-repeat="post in posts.posts">

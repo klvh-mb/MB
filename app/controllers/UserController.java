@@ -698,7 +698,7 @@ public class UserController extends Controller {
     }
 	   
 	@Transactional
-	public static Result getAllConversation() {
+	public static Result getAllConversations() {
 		final User localUser = Application.getLocalUser(session());
 		List<ConversationVM> vms = new ArrayList<>();
 		List<Conversation> conversations =  localUser.findMyAllConversations();
@@ -785,7 +785,7 @@ public class UserController extends Controller {
         }
 		
         Conversation.archiveConversation(id, localUser);
-        return getAllConversation();
+        return getAllConversations();
     }
 	
     @Transactional
@@ -840,6 +840,38 @@ public class UserController extends Controller {
 			}
 		}
 		
+		return ok(Json.toJson(vms));
+    }
+	
+	@Transactional
+    public static Result openConversation(Long cid, Long id) {
+        final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
+        if (localUser.id == id) {
+            logger.underlyingLogger().error(String.format("[u1=%d] [u2=%d] Same user. Will not open conversation", localUser.id, id));
+            return status(500);
+        }
+        
+        Conversation conv = Conversation.findById(cid);
+        
+        List<ConversationVM> vms = new ArrayList<>();
+        User user = User.findById(id);
+        ConversationVM vm;
+		if(conv.user1 == localUser){
+			user = conv.user2;
+			vm = new ConversationVM(conv, user);
+			vm.hasMessage = true;
+		} else { 
+			user = conv.user1;
+			vm = new ConversationVM(conv, user);
+			vm.hasMessage = true;
+		}
+		vms.add(vm);
+        
 		return ok(Json.toJson(vms));
     }
 	

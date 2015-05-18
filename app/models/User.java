@@ -76,6 +76,7 @@ import com.mnt.exception.SocialObjectNotPostableException;
 
 import controllers.Application;
 import domain.CommentType;
+import domain.DefaultValues;
 import domain.PostType;
 import domain.SocialObjectType;
 import domain.Socializable;
@@ -1776,7 +1777,7 @@ public class User extends SocialObject implements Subject, Socializable {
     }
     
     public List<Conversation> findMyAllConversations() {
-        return Conversation.findAllConversations(this,20);
+        return Conversation.findAllConversations(this,DefaultValues.CONVERSATION_COUNT);
     }
     
     public Conversation findMyConversationsWith(User u) {

@@ -31,6 +31,7 @@ public class DefaultValues {
     public static int FRIENDS_UTILITY_COUNT = 9;
     
     public static int CONVERSATION_MESSAGE_COUNT = 10;
+    public static int CONVERSATION_COUNT = 100;
     
     public static int NEW_COMMUNITY_MEMBERS_COUNT = 200;
     

@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.OneToMany;
 import javax.persistence.Query;
 
@@ -58,6 +59,8 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 	
 	public int user2_noOfMessages = 0;
 
+	public Boolean deleted = false; 
+	
 	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "conversation")
 	public Set<Message> messages = new TreeSet<Message>();
 
@@ -85,7 +88,7 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 
 	public static Conversation findBetween(User u1, User u2) {
 		Query q = JPA.em().createQuery(
-		        "SELECT c from Conversation c  where ((user1 = ?1 and user2 = ?2) or (user1 = ?2 and user2 = ?1))");
+		        "SELECT c from Conversation c where ((user1 = ?1 and user2 = ?2) or (user1 = ?2 and user2 = ?1)) and c.deleted = 0");
 		q.setParameter(1, u1);
 		q.setParameter(2, u2);
 		
@@ -98,7 +101,7 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 
 	public static List<Conversation> findAllConversations(User user, int latest) {
 		Query q = JPA.em().createQuery(
-		        "SELECT c from Conversation c where " + 
+		        "SELECT c from Conversation c where deleted = 0 and " + 
 		        "(user1 = ?1 and (user1_archive_time < conv_time or user1_archive_time is NULL)) or " + 
 		        "(user2 = ?1 and (user2_archive_time < conv_time or user2_archive_time is NULL)) order by updated_date desc");
 		q.setParameter(1, user);
@@ -111,22 +114,20 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 	}
 
 	public static Conversation startConversation(User sender, User receiver) {
-		Conversation conversation;
-		conversation = findBetween(sender, receiver);
-		if(conversation == null)
-		conversation = new Conversation(sender, receiver);
-		Date date =  new Date();
-		conversation.user1_time = date;
-		conversation.conv_time = date;
-		conversation.save();
+		Conversation conversation = findBetween(sender, receiver);
+		if(conversation == null) {
+			conversation = new Conversation(sender, receiver);
+			Date date = new Date();
+			conversation.user1_time = date;
+			conversation.conv_time = date;
+			conversation.save();
+		}
 		return conversation;
 	}
 
 	public String getLastMessage(User user) {
-		Message message;
-		
 		Query q = JPA.em().createQuery(
-		        "SELECT m FROM Message m WHERE m.date=(SELECT MAX(date) FROM Message WHERE conversation_id = ?1) and m.date > ?2");
+		        "SELECT m FROM Message m WHERE m.date=(SELECT MAX(date) FROM Message WHERE conversation_id = ?1 and deleted = 0) and m.date > ?2 and deleted = 0");
         q.setParameter(1, this.id);
         if(this.user1 == user){
         	if(this.user2_archive_time == null){
@@ -143,9 +144,10 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
         }
         
 		try{
-			message = (Message) q.getSingleResult();
+			Message message = (Message) q.getSingleResult();
 			String body = message.body;
 			return body;
+			
 			/*
 			String data = null;
 			int i = body.indexOf("<img");
@@ -173,6 +175,10 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 			*/
 		} catch (NoResultException e) {
 		    return null;
+		} catch (NonUniqueResultException e) {
+			Message message = (Message) q.getResultList().get(0);
+			logger.underlyingLogger().error("Duplicate message found for id="+message.id+" in getLastMessage", e);
+			return message.body;
 		} catch (Exception e){
 		    logger.underlyingLogger().error("Error in getLastMessage", e);
 			return null;
@@ -180,7 +186,7 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 	}
 
 	public static Conversation findById(Long id) {
-		Query q = JPA.em().createQuery("SELECT c FROM Conversation c where id = ?1");
+		Query q = JPA.em().createQuery("SELECT c FROM Conversation c where id = ?1 and deleted = 0");
         q.setParameter(1, id);
         return (Conversation) q.getSingleResult();
 	}
@@ -209,7 +215,7 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 	
 	public static Long getUnreadConversationCount(Long userId) {
         Query q = JPA.em().createQuery(
-                "Select count(c) from Conversation c where " + 
+                "Select count(c) from Conversation c where c.deleted = 0 and " + 
                         "(c.user1.id = ?1 and c.user1_noOfMessages > 0 and (c.user1_time < c.conv_time or c.user1_time is null)) or " + 
                         "(c.user2.id = ?1 and c.user2_noOfMessages > 0 and (c.user2_time < c.conv_time or c.user2_time is null))");
         q.setParameter(1, userId);
@@ -218,7 +224,7 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
     }
 
 	public Long getMessageCount(User user) {
-        Query q = JPA.em().createQuery("Select count(c) from Message c where c.conversation = ?2 and c.date > ?1");
+        Query q = JPA.em().createQuery("Select count(m) from Message m where m.conversation = ?2 and m.date > ?1 and m.deleted = 0");
         q.setParameter(2, this);
         if(this.user1 == user){
             if(this.user2_archive_time == null){

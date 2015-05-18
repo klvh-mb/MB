@@ -1216,9 +1216,9 @@ minibean.service('myBookmarksService',function($resource){
     );
 });
 
-minibean.service('allConversationService',function($resource){
-    this.UserAllConversation = $resource(
-        '/get-all-Conversation',
+minibean.service('conversationService',function($resource){
+    this.allConversations = $resource(
+        '/get-all-conversations',
         {alt:'json',callback:'JSON_CALLBACK'},
         {
             get: {method:'get',isArray:true}
@@ -1226,15 +1226,23 @@ minibean.service('allConversationService',function($resource){
     );
     
     this.startConversation = $resource(
-        '/start-Conversation/:id',
+        '/start-conversation/:id',
         {alt:'json',callback:'JSON_CALLBACK'},
         {
             get: {method:'get', isArray:true}
         }
     );
     
+    this.openConversation = $resource(
+            '/open-conversation/:cid/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', isArray:true}
+            }
+        );
+    
     this.deleteConversation = $resource(
-        '/delete-Conversation/:id',
+        '/delete-conversation/:id',
         {alt:'json',callback:'JSON_CALLBACK'},
         {
             get: {method:'get', isArray:true}
