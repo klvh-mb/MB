@@ -213,6 +213,8 @@ public class KindergartenVM {
     }
     
     private String getFeeAfterCoupon(String value) {
+        if (value == null) return null;
+
     	int fee = parseFee(value);
     	if (fee == -1)
     		return value;
