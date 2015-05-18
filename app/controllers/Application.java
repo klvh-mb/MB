@@ -35,7 +35,6 @@ import org.elasticsearch.index.query.OrFilterBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.joda.time.DateTime;
 
-import play.Logger;
 import play.Play;
 import play.Routes;
 import play.data.DynamicForm;
@@ -530,8 +529,8 @@ public class Application extends Controller {
             return User.noLoginUser();
         }
 		
-		DateTime exp = new DateTime(currentAuthUser.expires());
-		Logger.debug("User ["+localUser.getId()+"|"+localUser.getDisplayName()+"] will expire in "+exp.toString());
+		//DateTime exp = new DateTime(currentAuthUser.expires());
+		//logger.underlyingLogger().debug("User ["+localUser.getId()+"|"+localUser.getDisplayName()+"] will expire in "+exp.toString());
 		
 		return localUser;
 	}
