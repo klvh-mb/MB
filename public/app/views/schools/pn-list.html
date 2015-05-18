@@ -1,10 +1,10 @@
 <div class="general-box school-list-title school-pn-list-title">
-    <p>{{schools[0].dis}}</p> 有 <p>{{schools.length}}</p> 間幼稚園提供2-3歲幼兒服務 (PN幼兒班)
+    <p>{{schools[0].dis}}</p> 有 <p>{{schools.length}}</p> 間幼稚園提供2-3歲幼兒服務 (PN班)
     <div class="school-list-filters">
         <span>
 	        學券申請: 
 	        <div class="btn-group">
-			    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
+			    <button data-toggle="dropdown" class="btn dropdown-toggle schools-filter-dropdown-btn">
 			        全部<span class="caret"></span>
 			    </button>
 			    <ul id="schools-coupon-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
@@ -23,7 +23,7 @@
         <span>
             學校類別: 
             <div class="btn-group">
-                <button data-toggle="dropdown" id="schools-org-type-filter-dropdow-btn" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
+                <button data-toggle="dropdown" id="schools-org-type-filter-dropdow-btn" class="btn dropdown-toggle schools-filter-dropdown-btn">
                     全部<span class="caret"></span>
                 </button>
                 <ul id="schools-org-type-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
@@ -42,7 +42,7 @@
         <span>
             課程類別: 
             <div class="btn-group">
-                <button data-toggle="dropdown" id="schools-cur-type-filter-dropdow-btn" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
+                <button data-toggle="dropdown" id="schools-cur-type-filter-dropdow-btn" class="btn dropdown-toggle schools-filter-dropdown-btn">
                     全部<span class="caret"></span>
                 </button>
                 <ul id="schools-cur-type-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
@@ -61,7 +61,7 @@
 	    <span>
 	        課堂時間: 
 	        <div class="btn-group">
-		        <button data-toggle="dropdown" id="schools-classtimes-filter-dropdow-btn" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
+		        <button data-toggle="dropdown" id="schools-classtimes-filter-dropdow-btn" class="btn dropdown-toggle schools-filter-dropdown-btn">
 		            全部<span class="caret"></span>
 		        </button>
 		        <ul id="schools-classtimes-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
@@ -100,10 +100,14 @@
 	                <span class="school-info-tips" ng-if="pn.nop > 0">
                         <img src="../assets/app/images/general/icons/i-reply.png">{{pn.nop}}
                     </span>
+                    <span class="school-info-tips admin-visible-field" ng-if="userInfo.isE">
+                        <img src="../assets/app/images/general/icons/view.png">{{pn.nov}}
+                    </span>
 	                <span data-ng-include data-src="'/assets/app/views/schools/bookmark-pn.html'"></span>
 	                
-	                <a class="schools-map" ng-show="pn.map != null" href="{{pn.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i>地圖</a>
-	
+	                <a class="schools-map" ng-show="pn.map" href="{{pn.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i>地圖</a>
+	                   
+                    <div class="school-info-note"><span class="school-info-tips" ng-show="pn.ne">{{pn.ne}}</span></div>
 	                <!--div class="school-info-note"><span ng-show="pn.adr">{{pn.adr}}</span></div-->
 	                <div class="school-info-attr">
 	                    <span class="school-attr-short">學券申請: 

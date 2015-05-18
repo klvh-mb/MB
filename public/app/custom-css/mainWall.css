@@ -36,6 +36,13 @@
     box-shadow: none;
     border: 1px solid #C0C2DD;
 }
+#wall-main .general-tips {
+	border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: #FFFFC2;
+    padding: 10px 15px;
+    text-align: center;
+}
 .post-header {
 }
 .post-header li {
@@ -61,6 +68,11 @@
     height: 18px;
     vertical-align: middle;
     margin-right: 3px;
+}
+.post-header span a, 
+.post-header1 span a, 
+.post-header2 span a {
+    display: inline-block;    
 }
 .post-header .post-favorite:after, 
 .post-header .post-favorited:after {

@@ -36,9 +36,12 @@
 		                    <span class="school-info-tips" ng-if="pn.nop > 0">
                                 <img src="../assets/app/images/general/icons/i-reply.png">{{pn.nop}}
                             </span>
+                            <span class="school-info-tips admin-visible-field" ng-if="userInfo.isE">
+		                        <img src="../assets/app/images/general/icons/view.png">{{pn.nov}}
+		                    </span>
 		                    <span data-ng-include data-src="'/assets/app/views/schools/bookmark-pn.html'"></span>
 		                    
-		                    <div class="school-info-note"><span ng-show="pn.ne">{{pn.ne}}</span></div>
+		                    <div class="school-info-note"><span class="school-info-tips" ng-show="pn.ne">{{pn.ne}}</span></div>
 		                    <div class="school-info-attr">
 			                    <span class="school-attr-short">學券申請: 
 		                            <span ng-show="pn.cp">✓</span>

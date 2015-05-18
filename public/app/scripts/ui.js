@@ -4,7 +4,7 @@
 //
 
 var writeMetaCanonical = function(absUrl) {
-	//log('orginial: '+absUrl);
+	//log('orignial: '+absUrl);
 	if (absUrl.match(/\/frontpage#!/)) {
 		absUrl = absUrl.replace(/\/frontpage#!/, "/#!");
 	} else if (absUrl.match(/\/my#!/)) {
@@ -25,11 +25,13 @@ var writeMetaCanonical = function(absUrl) {
 	$('link[rel=canonical]').attr('href', absUrl);
 }
 
-var writeMetaTitleDescription = function(title, description) {
-	title = title + " - miniBean 小萌豆";
+var writeMetaTitleDescription = function(title, description, image) {
+	//title = title + " - miniBean 小萌豆";
 	document.title = title;
 	$('meta[name=description]').attr('content', description.substring(0,150));
 	$('meta[name=keywords]').attr('content', title + ', ' + $('meta[name=keywords]').attr('content'));
+	if (image && image != undefined)
+		$('meta[property="og:image"]').attr('content', image);
 }
 
 //
@@ -62,7 +64,7 @@ var homeTour = new Tour({
     element: "#my-communities",
     title: 
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_2.png\">" + 
-        "我關注的社群",
+        "正在關注的社群",
     content: 
         "您正在關注的社群會在這裏出現，方便隨時瀏覽或討論"
   },
@@ -70,7 +72,7 @@ var homeTour = new Tour({
     element: "#my-newsfeed",
     title: 
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_3.png\">" + 
-        "我的社群動向",
+        "社群動向",
     content: 
         "讓您預覽您正在關注的社群中最新，最熱門話題。輕易知道所有關注社群的最新動向"
   },
@@ -120,7 +122,7 @@ var mHomeTour = new Tour({
     element: "#site-tour-anchor",
     title: 
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_2.png\">" + 
-        "我關注的社群",
+        "正在關注的社群",
     content: 
         "您正在關注的社群會收藏到左方的選項表中，方便隨時瀏覽或討論"
   },
@@ -128,7 +130,7 @@ var mHomeTour = new Tour({
     element: "#site-tour-anchor",
     title: 
         "<img style=\"width:32px;\" src=\"/assets/app/images/general/icons/ranking/rank_3.png\">" + 
-        "我的社群動向",
+        "社群動向",
     content: 
         "讓您預覽您正在關注的社群中最新，最熱門話題。輕易知道所有關注社群的最新動向"
   },
@@ -185,6 +187,10 @@ $(window).on("blur focus", function(e) {
 //
 // Common
 //
+
+var startsWith = function(str, s) {
+	return str.lastIndexOf(s, 0) === 0
+}
 
 var highlightLink = function(id) {
     $('#'+id).select();

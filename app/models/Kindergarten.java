@@ -11,6 +11,7 @@ import play.db.jpa.Transactional;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Query;
+
 import java.util.List;
 
 /**
@@ -68,6 +69,13 @@ public class Kindergarten extends SocialObject implements Likeable, Commentable 
     public String numEnrollPM_UKG;
     public String numEnrollWD_UKG;
 
+    private String summerUniformFee;
+    private String winterUniformFee;
+    private String schoolBagFee;
+    private String teaAndSnacksFee;
+    private String textBooksFee;
+    private String workBooksFee;
+
     // stats
     public int noOfPosts = 0;
     public int noOfLikes = 0;
@@ -76,7 +84,8 @@ public class Kindergarten extends SocialObject implements Likeable, Commentable 
 
     // date details
     public String applicationDateText = null;
-
+    public String openDayText = null;
+    
     // Ctor
     public Kindergarten() {
         this.objectType = SocialObjectType.KINDY;
@@ -269,4 +278,28 @@ public class Kindergarten extends SocialObject implements Likeable, Commentable 
         return mergeCount;
     }
 
+    ///////////////////// Getters /////////////////////
+    public String getSummerUniformFee() {
+        return summerUniformFee;
+    }
+
+    public String getWinterUniformFee() {
+        return winterUniformFee;
+    }
+
+    public String getSchoolBagFee() {
+        return schoolBagFee;
+    }
+
+    public String getTeaAndSnacksFee() {
+        return teaAndSnacksFee;
+    }
+
+    public String getTextBooksFee() {
+        return textBooksFee;
+    }
+
+    public String getWorkBooksFee() {
+        return workBooksFee;
+    }
 }

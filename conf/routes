@@ -179,11 +179,12 @@ GET     /image/get-thumbnail-cover-image-by-id/:id      controllers.UserControll
 GET     /image/get-original-image-by-id/:id     controllers.UserController.getOriginalImageByID(id :Long)
 
 # Conversation
-GET     /get-all-Conversation       controllers.UserController.getAllConversation()
+GET     /get-all-conversations      controllers.UserController.getAllConversations()
 GET     /get-messages/:id/:offset   controllers.UserController.getMessages(id: Long, offset: Long)
-GET     /start-Conversation/:id     controllers.UserController.startConversation(id: Long)
-GET     /delete-Conversation/:id    controllers.UserController.deleteConversation(id: Long)
-POST    /Message/sendMsg            controllers.UserController.sendMessage()
+GET     /start-conversation/:id     controllers.UserController.startConversation(id: Long)
+GET     /open-conversation/:cid/:id controllers.UserController.openConversation(cid: Long, id: Long)
+GET     /delete-conversation/:id    controllers.UserController.deleteConversation(id: Long)
+POST    /message/sendMsg            controllers.UserController.sendMessage()
 POST    /image/sendMessagePhoto     controllers.UserController.sendPhotoInMessage()
 GET     /user-friend-search         controllers.UserController.searchUserFriends(query: String)
 GET     /image/get-message-image-by-id/:id      controllers.UserController.getMessageImageByID(id :Long)
@@ -279,9 +280,6 @@ GET     /get-featured-topics                    controllers.FrontPageController.
 GET     /get-game-topics                        controllers.FrontPageController.getGameTopics()
 
 # PreNursery
-#GET     /get-pn-communities                     controllers.PreNurseryController.getPNCommunities()
-#GET     /get-pns-by-community/:community_id     controllers.PreNurseryController.getPNsByCommunity(community_id:Long)
-#GET     /get-pns-by-region/:region_id           controllers.PreNurseryController.getPNsByRegion(region_id:Long)
 GET     /get-pn-info/:id                        controllers.PreNurseryController.getPNInfo(id:Long)
 GET     /search-pns-by-name/:query              controllers.PreNurseryController.searchPNsByName(query:String)
 GET     /get-pns-by-district/:district_id       controllers.PreNurseryController.getPNsByDistrict(district_id:Long)
@@ -292,10 +290,7 @@ GET     /get-top-bookmarked-pns                 controllers.PreNurseryController
 GET     /bookmark-pn/:id                        controllers.PreNurseryController.onBookmark(id : Long)
 GET     /unbookmark-pn/:id                      controllers.PreNurseryController.onUnBookmark(id : Long)
 GET     /get-bookmarked-pns                     controllers.PreNurseryController.getBookmarkedPNs()
-GET     /get-form-received-pns                  controllers.PreNurseryController.getFormReceivedPNs()
-GET     /get-applied-pns                        controllers.PreNurseryController.getAppliedPNs()
-GET     /get-interviewed-pns                    controllers.PreNurseryController.getInterviewedPNs()
-GET     /get-offered-pns                        controllers.PreNurseryController.getOfferedPNs()
+GET     /get-bookmarked-pn-communities          controllers.PreNurseryController.getBookmarkedPNCommunities()
 
 # Kindergarten
 GET     /get-kg-info/:id                        controllers.KindergartenController.getKGInfo(id:Long)
@@ -303,9 +298,13 @@ GET     /search-kgs-by-name/:query              controllers.KindergartenControll
 GET     /get-kgs-by-region/:region_id           controllers.KindergartenController.getKGsByRegion(region_id:Long)
 GET     /get-kgs-by-district/:district_id       controllers.KindergartenController.getKGsByDistrict(district_id:Long)
 GET     /get-kg-orgs-by-district/:district_id   controllers.KindergartenController.getKGOrgsByDistrict(district_id:Long)
+GET     /get-top-viewed-kgs                     controllers.KindergartenController.getTopViewedKGs
+GET     /get-top-discussed-kgs                  controllers.KindergartenController.getTopDiscussedKGs
+GET     /get-top-bookmarked-kgs                 controllers.KindergartenController.getTopBookmarkedKGs
 GET     /bookmark-kg/:id                        controllers.KindergartenController.onBookmark(id : Long)
 GET     /unbookmark-kg/:id                      controllers.KindergartenController.onUnBookmark(id : Long)
 GET     /get-bookmarked-kgs                     controllers.KindergartenController.getBookmarkedKGs()
+GET     /get-bookmarked-kg-communities          controllers.KindergartenController.getBookmarkedKGCommunities()
 
 # Edm settings
 POST    /save-edm-settings                      controllers.UserSettingsController.saveEdmSettings

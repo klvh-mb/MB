@@ -16,9 +16,12 @@
                     </form>
                 </div> -->
                 <ul class="conversation-panel">
-                    <li class="conversation" data-ng-class="selectedIndex == $index?'message-list-active':conv.isReaded == true?'message-list-unread':'message-list-read'" data-ng-repeat="conv in conversations" data-ng-click="getMessages(conv.id, conv.uid); setSelectedIndex($index)" data-ng-show="conv.hm">
-                        <img data-ng-src="/image/get-mini-image-by-id/{{conv.uid}}" style="height:50px;">
-                        <div class="message-preview"><h5>{{conv.nm}}</h5><p data-ng-bind-html="conv.lm | to_trusted"></p></div>
+                    <li class="conversation" data-ng-class="selectedIndex == $index?'message-list-active':conv.isReaded == true?'message-list-unread':'message-list-read'" data-ng-repeat="conv in conversations" data-ng-show="conv.hm">
+                        <a ng-href="/my#!/profile/{{conv.uid}}"><img data-ng-src="/image/get-mini-image-by-id/{{conv.uid}}" style="height:50px;"></a>
+                        <div class="message-preview" data-ng-click="getMessages(conv.id, conv.uid); setSelectedIndex($index)">
+                            <h5>{{conv.nm}}</h5>
+                            <p data-ng-bind-html="conv.lm | to_trusted"></p>
+                        </div>
                         <div>
                             <p ng-show="conv.isToday"><span class="message-timestamp">{{conv.lmd|date:'h:mm a'}}</span></p>
                             <p ng-show="!conv.isToday"><span class="message-timestamp">{{conv.lmd|date:'M月dd日'}}</span></p>
@@ -99,7 +102,7 @@
                         </li>
                     </div>
                 </ul>
-                <div class="message-entry" ng-show="conversations.length > 0">
+                <div id="message-input-box" class="message-entry" ng-show="conversations.length > 0">
                     <form name="messageEntry" id="messageEntry" method="post" action="">
                         <div ng-show="selectedFiles != null">
     						<img class="post-photo-preview" ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 

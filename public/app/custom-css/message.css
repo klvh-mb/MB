@@ -83,11 +83,13 @@
 #message-list li:hover > div > a.message-notice {
     /*color: #496AAF;*/
 }
+#message-list a+div, 
 #message-list img+div {
     padding: 0 10px;
     display: inline-block;
     vertical-align: middle;
 }
+#message-list a+div+div, 
 #message-list img+div+div {
     float: right;
     position: relative;
@@ -100,8 +102,8 @@
     text-indent: -9999px;
     background-image: url(../images/general/icons/message_del.png);
     background-size: cover;
-    width: 9px;
-    height: 9px;
+    width: 12px;
+    height: 12px;
     padding: 5px;
     position: absolute;
     right: 6px;

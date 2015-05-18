@@ -23,6 +23,7 @@ import models.User;
 import org.apache.commons.lang.StringUtils;
 
 import play.data.DynamicForm;
+import play.data.Form.Field;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -48,8 +49,6 @@ public class CampaignController extends Controller {
         } else if (CampaignType.QUESTIONS == campaign.campaignType) {
             // TODO
         } else if (CampaignType.VOTING == campaign.campaignType) {
-            // TODO
-        } else if (CampaignType.PHOTO_CONTEST == campaign.campaignType) {
             // TODO
         }
         
@@ -125,8 +124,6 @@ public class CampaignController extends Controller {
             // TODO
         } else if (CampaignType.VOTING == campaign.campaignType) {
             // TODO
-        } else if (CampaignType.PHOTO_CONTEST == campaign.campaignType) {
-            // TODO
         }
         
         logger.underlyingLogger().debug(String.format("[u=%d][c=%d] User withdrew from campaign", localUser.id, campaignId));
@@ -144,8 +141,8 @@ public class CampaignController extends Controller {
         DynamicForm form = DynamicForm.form().bindFromRequest();
         
         Long campaignId = Long.parseLong(form.get("campaignId"));
-        //String realName = form.get("name");
-        //String phone = form.get("mobileNumber");
+        String realName = form.get("name");
+        String phone = form.get("mobileNumber");
         String email = form.get("email");
 
         Campaign campaign = Campaign.findById(campaignId);
@@ -153,8 +150,9 @@ public class CampaignController extends Controller {
             logger.underlyingLogger().error(String.format("[u=%d][c=%d] User tried to join campaign which does not exist", localUser.id, campaignId));
             return status(500);
         }
-        //if (StringUtils.isEmpty(realName) || StringUtils.isEmpty(phone) || StringUtils.isEmpty(email)) {
-        if (StringUtils.isEmpty(email)) {
+        if ((realName != null && StringUtils.isEmpty(realName)) || 
+        		(phone != null && StringUtils.isEmpty(phone)) || 
+        		(email != null && StringUtils.isEmpty(email))) {
             logger.underlyingLogger().error(String.format("[u=%d][c=%d] User tried to join campaign. Missing contact info.", localUser.id, campaignId));
             return status(502);
         }
@@ -190,8 +188,7 @@ public class CampaignController extends Controller {
                 break;
             }
             case QUESTIONS:
-            case VOTING:
-            case PHOTO_CONTEST: {
+            case VOTING: {
                 // TODO
                 break;
             }
@@ -200,7 +197,7 @@ public class CampaignController extends Controller {
         // Capture contact info from form.
         if (vm != null && vm.success) {
             GameAccount gameAccount = GameAccount.findByUserId(localUser.id);
-            gameAccount.setContactInfo(null, null, email);
+            gameAccount.setContactInfo(realName, phone, email);
             gameAccount.save();
         }
 

@@ -1,0 +1,46 @@
+<header>
+    <div data-ng-include style="width:100%;" data-src="'/assets/app/views/mobile/header-bar.html'"></div>
+    <div data-ng-include data-src="'/assets/app/views/mobile/nav-bar.html'"></div>
+</header>
+
+<div class="themeA-container" style="padding-bottom:10px;">
+    <div id="wall">
+        <div id="message-box" class="general-box">
+            <div id="message-list">
+                <div class="con-title">私人訊息</div>
+                <!-- <div id="message-search">
+                    <form id="message-searchwrapper" name="message-search" method="post" action="">
+                        <label for="Search Message"></label>
+                        <input type="text" name="message-searchfield" id="message-searchfield" placeholder="尋找朋友" />
+                        <input id="message-search-icon" name="message-search-icon" type="submit" value=" " class="icon-box icon-title-search" />
+                    </form>
+                </div> -->
+                <ul class="conversation-panel">
+                    <li class="conversation" data-ng-class="conv.isReaded?'message-list-unread':'message-list-read'" data-ng-repeat="conv in conversations" data-ng-show="conv.hm">
+                        <a ng-href="/my#!/profile/{{conv.uid}}"><img data-ng-src="/image/get-mini-image-by-id/{{conv.uid}}" style="height:50px;"></a>
+                        <div class="message-preview" data-ng-click="openConversation(conv.id, conv.uid)">
+                            <h5>{{conv.nm}}</h5>
+                            <p data-ng-bind-html="conv.lm | to_trusted"></p>
+                        </div>
+                        <div>
+                            <p ng-show="conv.isToday"><span class="message-timestamp">{{conv.lmd|date:'h:mm a'}}</span></p>
+                            <p ng-show="!conv.isToday"><span class="message-timestamp">{{conv.lmd|date:'M月dd日'}}</span></p>
+                            <a class="message-del-icon" data-ng-confirm-click="deleteConversation(conv.id)" data-ng-confirm-message="您確定刪除這個訊息嗎?"></a>
+                            <p class="message-tooltips">移除</p>
+                            <a ng-show="conv.mc > 0" class="message-notice">{{conv.mc}}</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--div class="ads-factor-728x90">
+            <script adSize="72890" adSid="477069296823" ads-factor language='JavaScript' type="text/javascript"></script>
+        </div-->
+    </div>
+</div>
+
+<div data-ng-include data-src="'/assets/app/views/home/show-image-modal.html'"></div>
+
+<script>
+    ga_send_pv();
+</script>

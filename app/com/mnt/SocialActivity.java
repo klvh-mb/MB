@@ -13,8 +13,6 @@ import models.PrimarySocialRelation;
 import models.SocialRelation;
 import models.User;
 
-import com.google.common.collect.Lists;
-
 import play.libs.Json;
 import common.cache.FriendCache;
 import common.utils.StringUtil;
@@ -529,17 +527,15 @@ public class SocialActivity {
 
                     String shortTitle = post.getShortenedTitle();
                     String shortBody = comment.getShortenedBody();
-                    String genMsgEnd = " 回應了話題 - \""+shortTitle+"\"";
-                    String yrMsgEnd = " 回應了您的話題 - \""+shortTitle+"\"";
+                    String genMsgEnd = " 回應了話題: \""+shortTitle+"\"";
+                    String yrMsgEnd = " 回應了您的話題: \""+shortTitle+"\"";
 
-                    // fan-out, or just to the post owner
-                    Collection<Long> recipientIds;
+                    // add owner and comment users
+                    Set<Long> recipientIds = post.getCommentUserIdsOfPost();
+                    recipientIds.add(post.owner.id);
+                    // fan-out if applicable
                     if (isSendToAllMembers(community)) {
-                        recipientIds = community.getMemberIds();
-                    } else {
-                        Set<Long> commentUserIds = post.getCommentUserIdsOfPost();
-                        commentUserIds.add(post.owner.id);
-                        recipientIds = commentUserIds;
+                        recipientIds.addAll(community.getMemberIds());
                     }
 
                     for (Long recipientId : recipientIds) {

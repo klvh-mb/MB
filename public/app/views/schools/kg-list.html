@@ -4,7 +4,7 @@
         <span>
 	        學券申請: 
 	        <div class="btn-group">
-			    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
+			    <button data-toggle="dropdown" class="btn dropdown-toggle schools-filter-dropdown-btn">
 			        全部<span class="caret"></span>
 			    </button>
 			    <ul id="schools-coupon-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
@@ -23,7 +23,7 @@
         <span>
             學校類別: 
             <div class="btn-group">
-                <button data-toggle="dropdown" id="schools-org-type-filter-dropdow-btn" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
+                <button data-toggle="dropdown" id="schools-org-type-filter-dropdow-btn" class="btn dropdown-toggle schools-filter-dropdown-btn">
                     全部<span class="caret"></span>
                 </button>
                 <ul id="schools-org-type-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
@@ -42,7 +42,7 @@
         <span>
             課程類別: 
             <div class="btn-group">
-                <button data-toggle="dropdown" id="schools-cur-type-filter-dropdow-btn" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
+                <button data-toggle="dropdown" id="schools-cur-type-filter-dropdow-btn" class="btn dropdown-toggle schools-filter-dropdown-btn">
                     全部<span class="caret"></span>
                 </button>
                 <ul id="schools-cur-type-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
@@ -61,7 +61,7 @@
 	    <span>
 	        課堂時間: 
 	        <div class="btn-group">
-		        <button data-toggle="dropdown" id="schools-classtimes-filter-dropdow-btn" class="btn btn-primary dropdown-toggle schools-filter-dropdown-btn">
+		        <button data-toggle="dropdown" id="schools-classtimes-filter-dropdow-btn" class="btn dropdown-toggle schools-filter-dropdown-btn">
 		            全部<span class="caret"></span>
 		        </button>
 		        <ul id="schools-classtimes-filter-dropdown" class="dropdown-menu schools-filter-dropdown" role="menu">
@@ -100,10 +100,14 @@
 	                <span class="school-info-tips" ng-if="kg.nop > 0">
                         <img src="../assets/app/images/general/icons/i-reply.png">{{kg.nop}}
                     </span>
+                    <span class="school-info-tips admin-visible-field" ng-if="userInfo.isE">
+                        <img src="../assets/app/images/general/icons/view.png">{{kg.nov}}
+                    </span>
 	                <span data-ng-include data-src="'/assets/app/views/schools/bookmark-kg.html'"></span>
 	                
 	                <a class="schools-map" ng-show="kg.map != null" href="{{kg.map}}" target="_blank"><i class="glyphicon glyphicon-map-marker"></i>地圖</a>
 	
+                    <div class="school-info-note"><span class="school-info-tips" ng-show="kg.ne">{{kg.ne}}</span></div>
 	                <!--div class="school-info-note"><span ng-show="kg.adr">{{kg.adr}}</span></div-->
 	                <div class="school-info-attr">
 	                    <span class="school-attr-short">學券申請: 
@@ -125,8 +129,9 @@
                             <span ng-show="kg.ct == 'PM,WD'">下午、全日</span>
                             <span ng-show="kg.ct == 'AM,PM,WD'">上午、下午、全日</span>
                         </span>
-                        <span class="school-attr-short" ng-if="kg.hasPN">PN幼兒班:
-                            <span>✓</span>
+                        <span class="school-attr-short">PN幼兒班: 
+                            <span ng-show="kg.hasPN">✓</span>
+                            <span ng-show="!kg.hasPN">✘</span>
                         </span>
                         <!--span class="school-attr">辦學團體: 
                             <span>{{kg.org || '--'}}</span>

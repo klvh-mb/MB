@@ -82,8 +82,9 @@ public class CommandChecker {
             if (tokens.length > 1) {
                 String filePath = tokens[1];
                 logger.underlyingLogger().info("Running bootstrapPNReviews with: "+filePath);
-
+                ThreadLocalOverride.disableNotification(true);
                 DataBootstrap.bootstrapPNReviews(filePath);
+                ThreadLocalOverride.disableNotification(false);
             } else {
                 logger.underlyingLogger().error("bootstrapPNReviews missing file path");
             }

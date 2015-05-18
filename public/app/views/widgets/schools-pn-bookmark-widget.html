@@ -29,6 +29,9 @@
 	                        <span class="tag">{{pn.dis}}</span>
 	                        <span class="school-info-tips" ng-if="pn.nop > 0"><img style="width:14px;margin-left:6px;margin-right:3px" src="../assets/app/images/general/icons/i-reply.png">{{pn.nop}}</span>
 	                    </div>
+	                    <div class="school-summary" style="margin-left:35px;color:#555;font-size:13px;" ng-if="pn.appDateTxt">
+                            [申請日期] {{pn.appDateTxt}}
+	                    </div>
 	                </div>
 	            </li>                    
 	        </ul>
@@ -81,6 +84,9 @@
 	                            </a>
 	                            <span class="tag">{{pn.dis}}</span>
 	                            <span class="school-info-tips" ng-if="pn.nop > 0"><img style="width:14px;margin-left:6px;margin-right:3px" src="../assets/app/images/general/icons/i-reply.png">{{pn.nop}}</span>
+	                        </div>
+	                        <div class="school-summary" style="margin-left:35px;color:#555;font-size:13px;" ng-if="pn.appDateTxt">
+	                            [申請日期] {{pn.appDateTxt}}
 	                        </div>
 	                    </div>
 	                </li>

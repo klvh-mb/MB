@@ -981,6 +981,71 @@ span.notif-count {
     border-radius: 0;
 }
 
+/* message */
+#message-list {
+    width: 100%;
+    float: none;
+}
+#message-content {
+    background-color: #FAFCFF;
+    display: inline-block;
+    width: 100%;
+    border-left: #bcbcbc thin solid;
+}
+.conversation-panel {
+	height: auto;
+    min-height: 250px;
+    max-height: none;
+    overflow-y: auto;
+    padding-bottom: 10px;
+}
+.message-del-icon {
+	width: 12px;
+    height: 12px;
+    display: block;
+}
+.message-del-icon:hover + .message-tooltips {
+    display: block;
+}
+.message-user .message-body, .message-replier .message-body {
+    max-width: 200px
+}
+#message-content #message-area {
+  height: auto;
+  min-height: 250px;
+  max-height: none;
+  overflow-y: auto;
+  padding-bottom: 10px;
+}
+.message-entry form div:first-child {
+  height: 65px;
+  width: 20%;
+}
+.message-entry form textarea {
+  position: relative;
+  top: 15px;
+  height: 65px;
+  width: 70%;
+}
+.message-user img {
+  left: 87%;
+}
+.message-user .message-body {
+  right: 60px;
+  float: right;
+  background-color: #B0CFF7;
+}
+#message-area .message-load-more {
+  position: relative;
+  left: 35%;
+  background-color: #8ABDF3;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 8px 10px;
+  border-radius: 25px;
+}
+
 /* schools */
 #schools-nav-subbar {
     width: 100%;

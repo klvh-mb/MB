@@ -2,13 +2,19 @@ package controllers;
 
 import common.utils.NanoSecondStopWatch;
 import domain.DefaultValues;
+import models.Community;
 import models.Kindergarten;
+import models.PreNursery;
+import models.TargetingSocialObject;
 import models.User;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import viewmodel.CommunitiesParentVM;
+import viewmodel.CommunitiesWidgetChildVM;
 import viewmodel.KindergartenVM;
+import viewmodel.PreNurseryVM;
 import viewmodel.StringVM;
 
 import java.util.ArrayList;
@@ -103,6 +109,57 @@ public class KindergartenController extends Controller {
     }
 
     @Transactional
+	public static Result getTopViewedKGs() {
+    	NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+		final User localUser = Application.getLocalUser(session());
+        List<Kindergarten> kgs = Kindergarten.getTopViews(DefaultValues.TOP_SCHOOLS_RANKING_COUNT);
+
+        final List<KindergartenVM> vms = new ArrayList<>();
+        for (Kindergarten kg : kgs) {
+            vms.add(new KindergartenVM(kg, localUser));
+        }
+
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] getTopViewedKGs. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(vms));
+    }
+
+    @Transactional
+	public static Result getTopDiscussedKGs() {
+    	NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+		final User localUser = Application.getLocalUser(session());
+        List<Kindergarten> kgs = Kindergarten.getTopDiscussed(DefaultValues.TOP_SCHOOLS_RANKING_COUNT);
+
+        final List<KindergartenVM> vms = new ArrayList<>();
+        for (Kindergarten kg : kgs) {
+            vms.add(new KindergartenVM(kg, localUser));
+        }
+
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] getTopDiscussedKGs. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(vms));
+    }
+
+    @Transactional
+	public static Result getTopBookmarkedKGs() {
+    	NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+		final User localUser = Application.getLocalUser(session());
+        List<Kindergarten> kgs = Kindergarten.getTopBookmarked(DefaultValues.TOP_SCHOOLS_RANKING_COUNT);
+
+        final List<KindergartenVM> vms = new ArrayList<>();
+        for (Kindergarten kg : kgs) {
+            vms.add(new KindergartenVM(kg, localUser));
+        }
+
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] getTopBookmarkedKGs. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(vms));
+    }
+
+    @Transactional
     public static Result onBookmark(Long id) {
 		User localUser = Application.getLocalUser(session());
 		if (!localUser.isLoggedIn()) {
@@ -132,6 +189,28 @@ public class KindergartenController extends Controller {
         return ok();
     }
 
+    @Transactional
+	public static Result getBookmarkedKGCommunities() {
+    	final User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+        	return ok(Json.toJson(new ArrayList<PreNurseryVM>()));
+        }
+    	
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+        
+        List<Kindergarten> kgs = Kindergarten.getBookmarked(localUser.getId());
+        List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
+        for (Kindergarten kg : kgs) {
+        	Community community = Community.findById(kg.communityId);
+        	communityList.add(new CommunitiesWidgetChildVM(community, localUser));
+        }
+        CommunitiesParentVM communitiesVM = new CommunitiesParentVM(communityList.size(), communityList);
+        
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] getBookmarkedKGCommunities. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(communitiesVM));
+    }
+    
     @Transactional
 	public static Result getBookmarkedKGs() {
         final User localUser = Application.getLocalUser(session());

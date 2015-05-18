@@ -1,5 +1,9 @@
 <div infinite-scroll='nextNewsFeeds()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>
     <div id="wall-main">
+        <div class="general-tips" style="margin-bottom:10px;">
+            您「正在關注」的社群最新話題會<br>
+            顯示在這「社群動向」中
+        </div>
         <div class="general-box">
 	    	<div data-ng-repeat="post in newsFeeds.posts">
 	            <div data-ng-show="post.type=='SIMPLE'">

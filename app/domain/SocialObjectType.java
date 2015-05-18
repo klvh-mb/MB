@@ -18,8 +18,8 @@ public enum SocialObjectType {
      ANSWER,
      TAGWORD,
      CAMPAIGN,
-     PK_VIEW,
-     REVIEW_COMMENT,
-     PRE_NURSERY,
-     KINDY
+     PK_VIEW,           // PK - Question with 2 sides
+     PRE_NURSERY,       // School
+     KINDY,             // School
+     PLAYROOM           // Playroom venue
 }

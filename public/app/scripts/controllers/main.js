@@ -47,10 +47,6 @@ minibean.controller('BusinessCommunityPageController', function($scope, $routePa
         });
     }
     
-    $scope.showImage = function(imageId) {
-        $scope.img_id = imageId;
-    }
-    
     $scope.coverImage = "/image/get-cover-community-image-by-id/" + $routeParams.id;
     
     $scope.openGroupCoverPhotoModal = function(id) {
@@ -546,7 +542,7 @@ minibean.controller('ApplicationController',
     // login
     $scope.getFbLoginUrl = function() {
         var url = encodeURIComponent(window.location.href);
-        return "/authenticatePopup/facebook?rurl="+url;     // http%3A%2F%2Fminibean.com.hk%2Fmy%23%2F
+        return "/authenticatePopup/facebook?rurl="+url;     // http%3A%2F%2Fwww.minibean.hk%2Fmy%23%2F
     }
     
     $scope.popupLoginModal = function(titleText) {
@@ -854,10 +850,6 @@ minibean.controller('ApplicationController',
 		}
 	});
    
-    $scope.showImage = function(imageId) {
-        $scope.img_id = imageId;
-    }
-
     $scope.toggleMenu = function() {
         if ($("#wrapper").hasClass("toggled")) {
             $("#slider-menu-backdrop").removeClass("modal-backdrop");
@@ -889,11 +881,19 @@ minibean.controller('ApplicationController',
         $window.scrollTo($window.pageXOffset, 0);
     }
     
+    $scope.gotoBottom = function() {
+        $window.scrollTo($window.pageXOffset, 2000);
+    }
+    
     $scope.gotoId = function(id) {
     	var offset = $('#'+id).offset();
     	if (offset && offset != undefined) {
         	$window.scrollTo($window.pageXOffset, $('#'+id).offset().top - 50);	// minus top bar height
     	}
+    }
+    
+    $scope.showImage = function(imageId) {
+        $scope.img_id = imageId;
     }
     
     $scope.openReportObjectModal = function (id, objectType) {
@@ -1131,11 +1131,6 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 		});
 		PhotoModalController.isProfileOn = false;
 	}
-
-    $scope.showImage = function(imageId) {
-        $scope.img_id = imageId;
-    }
-    
 });
 
 minibean.controller('EditCommunityController',function($scope,$q, $location,$routeParams, $http, usSpinnerService, iconsService, editCommunityPageService, $upload, profilePhotoModal){
@@ -1622,11 +1617,6 @@ minibean.controller('UserProfileController',function($scope, $routeParams, $loca
 	
 	$scope.active = "about";
 	$scope.profile = profileService.Profile.get({id:$routeParams.id});
-
-    $scope.showImage = function(imageId) {
-        $scope.img_id = imageId;
-    }
-    
 });
 
 minibean.controller('SearchPageController', function($scope, $routeParams, communityPageService, $http, communitySearchPageService, usSpinnerService){
@@ -1643,10 +1633,6 @@ minibean.controller('SearchPageController', function($scope, $routeParams, commu
 	       }
 	   });
 
-    $scope.showImage = function(imageId) {
-        $scope.img_id = imageId;
-    }
-	
 	var offset = 0;
 	var searchPost = true;
 	$scope.search_and_highlight = function(query) {
@@ -1683,7 +1669,7 @@ minibean.controller('SearchPageController', function($scope, $routeParams, commu
 });
 
 minibean.controller('PostLandingController', function($scope, $routeParams, $http, $upload, $timeout, $validator, 
-    postFactory, postLandingService, communityPageService, postManagementService, showImageService, usSpinnerService) {
+    postFactory, postLandingService, communityPageService, postManagementService, usSpinnerService) {
     
 	$scope.get_header_metaData();
 	
@@ -1712,10 +1698,6 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
     // Below is copied completely from CommunityPageController
     // for js functions to handle comment, comment photo, like, bookmark etc
     //
-    
-    $scope.showImage = function(imageId) {
-        $scope.img_id = imageId;
-    }
     
     $scope.isLoadingEnabled = false;
     
@@ -1888,7 +1870,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
 });
     
 minibean.controller('QnALandingController', function($scope, $routeParams, $http, $timeout, $upload, $validator, 
-    postFactory, qnaLandingService, communityPageService, postManagementService, showImageService, usSpinnerService) {
+    postFactory, qnaLandingService, communityPageService, postManagementService, usSpinnerService) {
 
     $scope.get_header_metaData();
 
@@ -1917,10 +1899,6 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     // Below is copied completely from CommunityQnAController
     // for js functions to handle comment, comment photo, like, bookmark etc
     //
-    
-    $scope.showImage = function(imageId) {
-        $scope.img_id = imageId;
-    }
     
     $scope.deletePost = function(postId) {
     	var posts = [ $scope.post ];
@@ -2204,10 +2182,6 @@ minibean.controller('CommunityPageController', function($scope, $routeParams, $i
                 $scope.newsfeedEnabled = data.newsfeedEnabled; 
             }
         );
-    }
-    
-    $scope.showImage = function(imageId) {
-        $scope.img_id = imageId;
     }
     
     $scope.coverImage = "/image/get-cover-community-image-by-id/" + $routeParams.id;
@@ -2843,7 +2817,7 @@ minibean.controller('CommunityQnAController',function($scope, postFactory, postM
 	}
 });
 
-minibean.controller('ArticleSliderController', function($scope, $routeParams, $interval, showImageService, usSpinnerService, articleService){
+minibean.controller('ArticleSliderController', function($scope, $routeParams, $interval, usSpinnerService, articleService){
 
     var catId = $routeParams.catId;
     if (catId == undefined) {
@@ -3150,7 +3124,7 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
         });
     }
     
-     $scope.withdrawCampaign = function(campaignId) {
+    $scope.withdrawCampaign = function(campaignId) {
         var formData = {
             "campaignId" : campaignId
         };
@@ -3211,7 +3185,10 @@ minibean.controller('ArticlePageController',function($scope, $routeParams, artic
             $scope.relatedResult = articleService.getRelatedArticles.get({id:$routeParams.id, category_id:data.ct.id});
             
             var title = data.nm + " - " + data.ct.name;
-            writeMetaTitleDescription(title, data.lds);
+            var imageUrl = data.img_url;
+            if (!startsWith(imageUrl,'http')) 
+            	imageUrl = $scope.applicationInfo.baseUrl+'/'+imageUrl;
+            writeMetaTitleDescription(title, data.lds, imageUrl);
             
             // render mobile scroll nav bar
             if ($scope.userInfo.isMobile) {
@@ -3264,7 +3241,7 @@ minibean.controller('PNPageController',function($scope, $routeParams, schoolsFac
     		if (data.ne && data.ne != undefined) {
     			title += ' ' + data.ne;
     		}
-    		writeMetaTitleDescription(title, data.cur);
+    		writeMetaTitleDescription(title, data.cur, $scope.applicationInfo.baseUrl+"/assets/app/images/schools/pn_promo.png");
 		}
     );
     
@@ -3339,7 +3316,7 @@ minibean.controller('KGPageController',function($scope, $routeParams, schoolsFac
     		if (data.ne && data.ne != undefined) {
     			title += ' ' + data.ne;
     		}
-    		writeMetaTitleDescription(title, data.cur);
+    		writeMetaTitleDescription(title, data.cur, $scope.applicationInfo.baseUrl+"/assets/app/images/schools/kg_promo.png");
 		}
     );
     
@@ -3416,8 +3393,16 @@ minibean.controller('SchoolsRankingController',function($scope, $routeParams, $l
 			}
 		);
 	} else if ($scope.selectedNavSubBar == 1) {		// KG
-		$scope.topViewedSchools = [];
-		$scope.topBookmarkedSchools = [];
+		$scope.topViewedSchools = schoolsService.topViewedKGs.get({},
+			function(data) {
+				$interval($scope.gotoRanking, 100, 1);
+    		}
+		);
+		$scope.topBookmarkedSchools = schoolsService.topBookmarkedKGs.get({},
+			function(data) {
+				$interval($scope.gotoRanking, 100, 1);
+			}
+		);
 	}
 	
 	$scope.gotoRanking = function() {
@@ -3436,7 +3421,7 @@ minibean.controller('SchoolsRankingController',function($scope, $routeParams, $l
 			if ($scope.selectedNavSubBar == 0) {	// PN
 				$scope.topDiscussedSchools = schoolsService.topDiscussedPNs.get();
 			} else if ($scope.selectedNavSubBar == 1) {		// KG
-				$scope.topDiscussedSchools = [];
+				$scope.topDiscussedSchools = schoolsService.topDiscussedKGs.get();
 			}
 		}
 	}
@@ -3600,7 +3585,7 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $loca
 	}
 });
 
-minibean.controller('ShowArticlesController',function($scope, $routeParams, articleFactory, articleService, tagwordService, showImageService, usSpinnerService) {
+minibean.controller('ShowArticlesController',function($scope, $routeParams, articleFactory, articleService, tagwordService, usSpinnerService) {
 
     $scope.get_header_metaData();
 
@@ -4608,7 +4593,7 @@ minibean.controller('MyBookmarksController', function($scope, postFactory, myBoo
     }
 });
 
-minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $routeParams, $sce, searchFriendService, usSpinnerService, getMessageService, allConversationService) {
+minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $location, $routeParams, $sce, searchFriendService, usSpinnerService, getMessageService, conversationService) {
 
     $scope.selectNavBar('HOME', -1);
 
@@ -4621,17 +4606,27 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
         $("#message-inputfield").trigger('input');    // need this to populate jquery val update to ng-model
     }
     
-	if($routeParams.id == 0){
-		$scope.conversations = allConversationService.UserAllConversation.get(function(){
+	if ($location.path().indexOf('/message-list') > -1) {
+		$scope.conversations = conversationService.allConversations.get(function(){
 			if($scope.conversations.length > 0){
-				$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
+				if (!$scope.userInfo.isMobile) {
+					$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
+				}
 			}
 		});
-	} else {
-	   if ($scope.userInfo.id == $routeParams.id) {
+	} else if ($location.path().indexOf('/start-conversation') > -1){
+		if ($scope.userInfo.id == $routeParams.id) {
             prompt("不可發私人訊息給自己");
         } else {
-    		$scope.conversations = allConversationService.startConversation.get({id: $routeParams.id} ,function(){
+    		$scope.conversations = conversationService.startConversation.get({id: $routeParams.id},function(){
+    			$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
+    		});
+        }
+	} else if ($location.path().indexOf('/open-conversation') > -1) {
+		if ($scope.userInfo.id == $routeParams.id) {
+            prompt("不可發私人訊息給自己");
+        } else {
+    		$scope.conversations = conversationService.openConversation.get({cid: $routeParams.cid, id: $routeParams.id},function(){
     			$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
     		});
         }
@@ -4695,27 +4690,32 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
             prompt("不可發私人訊息給自己");
             return;
         }
+        
 		$scope.receiverId = uid;
 		usSpinnerService.spin('loading...');
-		allConversationService.startConversation.get({id: uid},
-				function(data){
-			$scope.conversations = data;
-			$scope.selectedIndex = 0;
-			$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
-			usSpinnerService.stop('loading...');
-		});
+		conversationService.startConversation.get({id: uid},
+			function(data){
+				$scope.conversations = data;
+				$scope.selectedIndex = 0;
+				$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
+				usSpinnerService.stop('loading...');
+			});
 	}
 	
 	$scope.deleteConversation = function(cid) {
 		usSpinnerService.spin('loading...');
-		allConversationService.deleteConversation.get({id: cid},
-				function(data){
-			$scope.conversations = data;
-			$scope.selectedIndex = 0;
-			$scope.messages = 0;
-			$scope.noMore = false;
-			usSpinnerService.stop('loading...');
-		});
+		conversationService.deleteConversation.get({id: cid},
+			function(data){
+				$scope.conversations = data;
+				$scope.selectedIndex = 0;
+				$scope.messages = 0;
+				$scope.noMore = false;
+				usSpinnerService.stop('loading...');
+			});
+	}
+	
+	$scope.openConversation = function(cid,uid) {
+		$location.path('/open-conversation/'+cid+'/'+uid);
 	}
 	
     $scope.loadMore = false;
@@ -4735,14 +4735,14 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
                 }
                 offset++;
                 $timeout(function(){
-                    var objDiv = document.getElementById('message-area');
-                    objDiv.scrollTop = objDiv.scrollHeight;
+                	if ($scope.userInfo.isMobile) {
+                		$scope.gotoId('message-input-box');
+                	} else {
+	                    var objDiv = document.getElementById('message-area');
+	                    objDiv.scrollTop = objDiv.scrollHeight;
+                	}
                 });
             });
-    }
-	
-	$scope.showImage = function(imageId) {
-        $scope.img_id = imageId;
     }
     
 	$scope.selectedIndex = 0;  
@@ -4784,10 +4784,10 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 			"withPhotos" : $scope.selectedFiles.length != 0
 		};
 		usSpinnerService.spin('loading...');
-		$http.post('/Message/sendMsg', data) 
+		$http.post('/message/sendMsg', data) 
 			.success(function(messagedata) {
 				$scope.messages = messagedata.message;
-				$scope.conversations = allConversationService.UserAllConversation.get();
+				$scope.conversations = conversationService.allConversations.get();
 				usSpinnerService.stop('loading...');	
 				
 				$timeout(function(){

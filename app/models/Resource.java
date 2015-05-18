@@ -71,58 +71,27 @@ public class Resource extends SocialObject {
 	}
 
 	public String getPath() {
-		if (isExternal()) {
-			return resourceName;
-		} else {
-			return STORAGE_PATH + getStoragePartition() + "/"
-					+ owner.id + "/" + folder.id + "/" + id + "/" + resourceName;
-		}
+		return getStoragePath("");
 	}
-	
-	@Transactional
+
 	public String getThumbnail() {
-		if (isExternal()) {
-			return resourceName;
-		} else {
-			return STORAGE_PATH + getStoragePartition() + "/"
-					+ owner.id + "/" + folder.id + "/" + id + "/thumbnail." + resourceName;
-		}
+        return getStoragePath("thumbnail.");
 	}
-	
-	public java.io.File getThumbnailFile() {
-		java.io.File f = new java.io.File(getThumbnail());
-		if (f.exists()) {
-			return f;
-		}
-		return null;
-	}
-	
-	@Transactional
+
 	public String getMini() {
-		if (isExternal()) {
-			return resourceName;
-		} else {
-			return STORAGE_PATH + getStoragePartition() + "/"
-					+ owner.id + "/" + folder.id + "/" + id + "/mini." + resourceName;
-		}
+        return getStoragePath("mini.");
 	}
 	
-	@Transactional
 	public String getMiniComment() {
-		if (isExternal()) {
-			return resourceName;
-		} else {
-			return STORAGE_PATH + getStoragePartition() + "/"
-					+ owner.id + "/" + folder.id + "/" + id + "/miniComment." + resourceName;
-		}
+        return getStoragePath("miniComment.");
 	}
 
 	public java.io.File getRealFile() {
-		java.io.File f = new java.io.File(getPath());
-		if (f.exists()) {
-			return f;
-		}
-		return null;
+        return getFileObject(getPath());
+	}
+
+    public java.io.File getThumbnailFile() {
+        return getFileObject(getThumbnail());
 	}
 
 	public Long getSize() {
@@ -133,35 +102,31 @@ public class Resource extends SocialObject {
 		}
 	}
 
-	/*
-	@Override
-	public SocialObject onComment(User user, String body, CommentType type)
-			throws SocialObjectNotCommentableException {
-		Comment comment = new Comment(this, user, body);
-
-		if (type == CommentType.ANSWER) {
-			comment.commentType = type;
+    private String getStoragePath(String filePrefix) {
+		if (isExternal()) {
+			return resourceName;
+		} else {
+            if (filePrefix == null) {
+                filePrefix = "";
+            }
+			return STORAGE_PATH+getStoragePartition()+"/"+
+                   owner.id+"/"+folder.id+"/"+id+ "/"+filePrefix+resourceName;
 		}
-
-		if (type == CommentType.SIMPLE) {
-			comment.commentType = type;
-		}
-
-		if (comments == null) {
-			comments = new HashSet<Comment>();
-		}
-		comment.save();
-		this.comments.add(comment);
-		JPA.em().merge(this);
-		recordCommentOnCommunityPost(user);
-		return comment;
     }
-	*/
-	
+
     private String getStoragePartition() {
         return "part"+(owner.id / STORAGE_PARTITION_DIR_MAX);
     }
-	
+
+    public static java.io.File getFileObject(String path) {
+		java.io.File f = new java.io.File(path);
+		if (f.exists()) {
+			return f;
+		}
+		return null;
+	}
+
+    ///////////////////////// SQL Query /////////////////////////
 	public static Resource findById(Long id) {
 		Query q = JPA.em().createQuery("SELECT r FROM Resource r where id = ?1");
 		q.setParameter(1, id);

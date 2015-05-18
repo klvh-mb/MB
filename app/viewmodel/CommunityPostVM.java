@@ -33,6 +33,7 @@ public class CommunityPostVM {
 	@JsonProperty("cs") public List<CommunityPostCommentVM> comments;
 	@JsonProperty("imgs") public Long[] images;
 	@JsonProperty("type") public String postType;
+	@JsonProperty("subtype") public String postSubType;
     @JsonProperty("ctyp") public String communityType;
 	@JsonProperty("cn") public String communityName;
 	@JsonProperty("ci") public String communityIcon;
@@ -50,7 +51,7 @@ public class CommunityPostVM {
 	@JsonProperty("isBookmarked") public boolean isBookmarked = false;
 	
 	@JsonProperty("pnId") public Long pnId = null;
-	@JsonProperty("kindyId") public Long kindyId = null;
+	@JsonProperty("kgId") public Long kgId = null;
 	
 	public CommunityPostVM(Post post, User user) {
         this(post, user, true, false);
@@ -71,14 +72,19 @@ public class CommunityPostVM {
 		}
 		this.updatedOn = post.socialUpdatedDate.getTime();
 		this.postedTitle = post.title;
+		/* NOTE: disable post body show more until app supports... 
+		 * (comment body also not support show more at the moment)
 		if(post.shortBodyCount > 0){
 		    this.showMore= true; 
 		    this.postedText = post.body.substring(0,post.shortBodyCount);
 		} else {
 		    this.postedText = post.body;
 		}
+		*/
+		this.postedText = post.body;
 		this.noOfComments = post.noOfComments;
 		this.postType = post.postType.name();
+		this.postSubType = post.postSubType.name();
 		this.communityType = post.community.communityType.name();
 		this.communityName = post.community.name;
 		this.communityIcon = post.community.icon;
@@ -93,7 +99,7 @@ public class CommunityPostVM {
 		this.isOwner = post.owner.id == user.id;
 
 		this.pnId = CommunityMetaCache.getPNIdFromCommunity(post.community.id);
-		//this.kindyId = CommunityMetaCache.getKindyIdFromCommId(post.community.id);
+		this.kgId = CommunityMetaCache.getKGIdFromCommunity(post.community.id);
 		
 		if(post.folder != null && !CollectionUtils.isEmpty(post.folder.resources)) {
 		    this.hasImage = true;

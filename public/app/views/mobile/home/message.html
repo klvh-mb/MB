@@ -1,0 +1,95 @@
+<header>
+    <div data-ng-include style="width:100%;" data-src="'/assets/app/views/mobile/header-bar.html'"></div>
+    <div data-ng-include data-src="'/assets/app/views/mobile/nav-bar.html'"></div>
+</header>
+
+<div class="themeA-container" style="padding-bottom:10px;">
+    <div id="wall">
+        <div id="message-box" class="general-box">
+            <div id="message-content">
+                <div class="con-title">
+                    <a href="/my#!/message-list" style="color:black;font-weight:bold;"><img style="width:18px;vertical-align:text-bottom;" src="../assets/app/images/general/icons/gray_back.png" />私人訊息</span>
+                </div>
+                <ul id="message-area">
+                    <li ng-show="loadMore == true">
+                        <a class="message-load-more" data-ng-click="nextMessages()">Load Message</a>
+                    </li>
+                    <div data-ng-repeat="msg in messages.slice().reverse()">
+                        <!--div ng-show="createDateHeader(msg.cd)">
+                            <p class="message-timer">{{msg.cd|date:'M月dd日'}}</p>
+                        </div-->
+                        <li class="message-user" ng-show="msg.suid == userInfo.id">
+                            <div>
+                                <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height: 40px">
+                                <div class="message-body">
+                                    <span class="message-body-text" ng-bind-html="msg.txt | to_trusted"></span>
+                                    <div ng-if="msg.hasImage">
+                                        <a data-toggle="modal" data-target="#imageModal" href="">
+                                            <img class="message-body-image" data-ng-src="/image/get-message-image-by-id/{{msg.imgs}}" data-ng-click="showImage(msg.imgs)" alt="">
+                                        </a>
+                                    </div>
+                                    <span class="message-timestamp">{{msg.cd|date:'M月dd日 h:mm a'}}</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="message-replier" ng-show="msg.suid != userInfo.id" >
+                            <div>
+                                <img data-ng-src="/image/get-mini-image-by-id/{{msg.suid}}" style="height: 40px">
+                                <div class="message-body">
+                                    <span class="message-body-text" ng-bind-html="msg.txt | to_trusted"></span>
+                                    <div ng-if="msg.hasImage">
+                                        <a data-toggle="modal" data-target="#imageModal" href="">
+                                            <img class="message-body-image" data-ng-src="/image/get-message-image-by-id/{{msg.imgs}}" data-ng-click="showImage(msg.imgs)" alt="">
+                                        </a>
+                                    </div>
+                                    <span class="message-timestamp">{{msg.cd|date:'M月dd日 h:mm a'}}</span>
+                                </div>
+                            </div>
+                        </li>
+                    </div>
+                </ul>
+                <div id="message-input-box" class="message-entry" ng-show="conversations.length > 0">
+                    <form name="messageEntry" id="messageEntry" method="post" action="">
+                        <div ng-show="selectedFiles != null">
+                            <img class="post-photo-preview" ng-class="{partial_fade: hover}" ng-mouseenter="hover = true" ng-mouseleave="hover = false" 
+                                ng-repeat="f in selectedFiles" tooltip-placement="bottom" tooltip="移除相片" data-ng-click="remove_image($index)"
+                                ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}">
+                        </div>
+                        <label for="Input Message"></label>
+                        <textarea rows="4" cols="70" id="message-inputfield" name="message-inputfield" data-ng-model="messageText" data-ng-maxlength="500" maxlength="500"></textarea>
+                        <p ng-show="messageText.length >= 480">Reached message Limit</p>
+                    </form>
+                    <div style="margin:5px 15px;" class="post-comment-box">
+                        <button class="btn btn-primary ng-binding pull-right" ng-disabled="messageEntry.$pristine || (messageEntry.$dirty && !messageText.length)" type="submit" disabled="disabled" 
+                                data-ng-click="sendMessage(messageText);messageText='';">
+                            發出訊息
+                        </button>
+                        <input style="visibility:hidden;display:none;" id="send-photo-id" type="file" name="send-photo" ng-file-select="onFileSelect($files)"/>
+                        <a class="post-photo-icon pull-right" data-ng-show="selectedFiles.length == 0">
+                            <i class="icon-photo-camera-fill" data-ng-click="sendPhoto()"></i>
+                        </a>
+                        <a class="dropdown-toggle dropdown-hover colorChange pull-right" data-toggle="dropdown" href="">
+                            <img style="width:18px;margin:2px 7px 0 0;" src="../assets/app/images/emoticons/smile.png" />
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right icon-dropdown">
+                            <li data-ng-repeat="emoticon in emoticons">
+                                <a href="" data-ng-click="select_emoticon(emoticon.code)">
+                                    <img class="emoticon" data-ng-src="{{emoticon.url}}"/>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--div class="ads-factor-728x90">
+            <script adSize="72890" adSid="477069296823" ads-factor language='JavaScript' type="text/javascript"></script>
+        </div-->
+    </div>
+</div>
+
+<div data-ng-include data-src="'/assets/app/views/home/show-image-modal.html'"></div>
+
+<script>
+    ga_send_pv();
+</script>

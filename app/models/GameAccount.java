@@ -240,8 +240,11 @@ public class GameAccount extends domain.Entity {
     }
 
     public void setContactInfo(String realName, String phone, String email) {
-        this.realName = realName;
-        this.phone = phone;
-        this.email = email;
+    	if (realName != null)
+    		this.realName = realName;
+    	if (phone != null)
+    		this.phone = phone;
+    	if (email != null)
+    		this.email = email;
     }
 }

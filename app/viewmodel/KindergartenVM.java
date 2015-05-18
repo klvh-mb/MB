@@ -1,10 +1,16 @@
 package viewmodel;
 
+import java.text.DecimalFormat;
+
 import common.cache.LocationCache;
 import common.utils.StringUtil;
 import models.Kindergarten;
 import models.User;
+
+import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.annotate.JsonProperty;
+
+import domain.DefaultValues;
 
 /**
  * Created by IntelliJ IDEA.
@@ -50,6 +56,16 @@ public class KindergartenVM {
     @JsonProperty("feePmU")  public String annualFeePM_UKG;
     @JsonProperty("feeWdU")  public String annualFeeWD_UKG;
     
+    @JsonProperty("cpFeeAmN")  public String cpAnnualFeeAM_N;
+    @JsonProperty("cpFeePmN")  public String cpAnnualFeePM_N;
+    @JsonProperty("cpFeeWdN")  public String cpAnnualFeeWD_N;
+    @JsonProperty("cpFeeAmL")  public String cpAnnualFeeAM_LKG;
+    @JsonProperty("cpFeePmL")  public String cpAnnualFeePM_LKG;
+    @JsonProperty("cpFeeWdL")  public String cpAnnualFeeWD_LKG;
+    @JsonProperty("cpFeeAmU")  public String cpAnnualFeeAM_UKG;
+    @JsonProperty("cpFeePmU")  public String cpAnnualFeePM_UKG;
+    @JsonProperty("cpFeeWdU")  public String cpAnnualFeeWD_UKG;
+    
     @JsonProperty("nadAmN")  public String numEnrollAM_N;
     @JsonProperty("nadPmN")  public String numEnrollPM_N;
     @JsonProperty("nadWdN")  public String numEnrollWD_N;
@@ -62,14 +78,22 @@ public class KindergartenVM {
     @JsonProperty("nadAmT")  public String numEnrollAM_T;
     @JsonProperty("nadPmT")  public String numEnrollPM_T;
     @JsonProperty("nadWdT")  public String numEnrollWD_T;
+
+    @JsonProperty("sufee")  public String summerUniformFee;
+    @JsonProperty("wufee")  public String winterUniformFee;
+    @JsonProperty("sbfee")  public String schoolBagFee;
+    @JsonProperty("tsfee")  public String teaAndSnacksFee;
+    @JsonProperty("tbfee")  public String textBooksFee;
+    @JsonProperty("wbfee")  public String workBooksFee;
     
     @JsonProperty("nop") public int noOfPosts;
     @JsonProperty("nol") public int noOfLikes;
     @JsonProperty("nov") public int noOfViews;
     @JsonProperty("nob") public int noOfBookmarks;
 
-    @JsonProperty("appTxt") public String applicationDateText = null;
-
+    @JsonProperty("appDateTxt") public String applicationDateText = null;
+    @JsonProperty("openDayTxt") public String openDayText = null;
+    
     @JsonProperty("isLike") public boolean isLike = false;
     @JsonProperty("isBookmarked") public boolean isBookmarked = false;
 
@@ -139,7 +163,14 @@ public class KindergartenVM {
         this.numEnrollAM_UKG = kg.numEnrollAM_UKG;
         this.numEnrollPM_UKG = kg.numEnrollPM_UKG;
         this.numEnrollWD_UKG = kg.numEnrollWD_UKG;
+        this.summerUniformFee = kg.getSummerUniformFee();
+        this.winterUniformFee = kg.getWinterUniformFee();
+        this.schoolBagFee = kg.getSchoolBagFee();
+        this.teaAndSnacksFee = kg.getTeaAndSnacksFee();
+        this.textBooksFee = kg.getTextBooksFee();
+        this.workBooksFee = kg.getWorkBooksFee();
 
+        // fee total
         try {
 	        this.numEnrollAM_T = String.valueOf(Integer.parseInt(kg.numEnrollAM_N) + Integer.parseInt(kg.numEnrollAM_LKG) + Integer.parseInt(kg.numEnrollAM_UKG));
 	        this.numEnrollPM_T = String.valueOf(Integer.parseInt(kg.numEnrollPM_N) + Integer.parseInt(kg.numEnrollPM_LKG) + Integer.parseInt(kg.numEnrollPM_UKG));
@@ -150,12 +181,26 @@ public class KindergartenVM {
         	this.numEnrollWD_T = null;
         }
         
+        // fee after coupon
+    	if (couponSupport) {
+    		this.cpAnnualFeeAM_N = getFeeAfterCoupon(kg.annualFeeAM_N);
+            this.cpAnnualFeePM_N = getFeeAfterCoupon(kg.annualFeePM_N);
+            this.cpAnnualFeeWD_N = getFeeAfterCoupon(kg.annualFeeWD_N);
+            this.cpAnnualFeeAM_LKG = getFeeAfterCoupon(kg.annualFeeAM_LKG);
+            this.cpAnnualFeePM_LKG = getFeeAfterCoupon(kg.annualFeePM_LKG);
+            this.cpAnnualFeeWD_LKG = getFeeAfterCoupon(kg.annualFeeWD_LKG);
+            this.cpAnnualFeeAM_UKG = getFeeAfterCoupon(kg.annualFeeAM_UKG);
+            this.cpAnnualFeePM_UKG = getFeeAfterCoupon(kg.annualFeePM_UKG);
+            this.cpAnnualFeeWD_UKG = getFeeAfterCoupon(kg.annualFeeWD_UKG);
+    	}
+        
         this.noOfPosts = kg.noOfPosts;
         this.noOfLikes = kg.noOfLikes;
         this.noOfViews = kg.noOfViews;
         this.noOfBookmarks = kg.noOfBookmarks;
 
         this.applicationDateText = kg.applicationDateText;
+        this.openDayText = kg.openDayText;
 
         if (User.isLoggedIn(user)){
             try {
@@ -165,5 +210,47 @@ public class KindergartenVM {
             }
         }
         this.isBookmarked = isBookmarked;
+    }
+    
+    private String getFeeAfterCoupon(String value) {
+        if (value == null) return null;
+
+    	int fee = parseFee(value);
+    	if (fee == -1)
+    		return value;
+    	
+    	String feeSuffix = " "+value.substring(value.indexOf("("));
+    	
+    	if (fee <= DefaultValues.KG_COUPON_FIX_2014_15)
+    		return "$0"+feeSuffix;
+    	return formatFee(fee-DefaultValues.KG_COUPON_FIX_2014_15)+feeSuffix;
+    }
+    
+    private String formatFee(int fee) {
+    	DecimalFormat formatter = new DecimalFormat("#,###");
+    	return "$"+formatter.format(fee);
+    }
+    
+    private int parseFee(String value) {
+    	value = value.trim();
+    	if (StringUtils.isEmpty(value) || "-".equals(value))
+    		return -1;
+    	
+    	int start = 0;
+    	int end = value.length();
+    	
+    	if (value.contains("$")) {
+    		start = value.indexOf("$") + 1;
+    	}
+    	if (value.contains("(")) {
+			end = value.indexOf("(");
+		}
+    	String fee = value.substring(start, end).trim();
+    	fee = StringUtils.remove(fee, ",");
+    	try {
+    		return Integer.parseInt(fee);	
+    	} catch (Exception e) {
+    		return -1;
+    	}
     }
 }

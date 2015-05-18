@@ -1,19 +1,21 @@
 <ul class="schools-ranking-main">
     <li id="schools-ranking-top-viewed" class="schools-ranking-box">
-        <div class="general-box school-list">
+        <div class="general-box school-list school-pn-list">
             <ul>
-                <li class="index-title">
+                <li class="index-title pn-index-title">
                     <img style="width:auto;height:28px;" data-ng-src="/assets/app/images/general/titles/schools_most_viewed.png">
                 </li>
                 <li ng-repeat="pn in topViewedSchools">
                     <div class="school-list-entry">
-                        <span class="rank-number ng-binding">{{$index+1}}</span>
+                        <span class="rank-number pn-rank-number">{{$index+1}}</span>
                         <div class="school-info">
                             <a href="/schools#!/pn/{{pn.id}}">{{pn.n}}</a>
-                            <span class="tag">{{pn.dis}}</span>
-                            <span class="school-info-tips" ng-if="pn.nov > 0">
-                                <img src="/assets/app/images/general/icons/view.png"/>{{pn.nov}}
-                            </span>
+                            <span style="display: inline-block;">
+	                            <span class="tag">{{pn.dis}}</span>
+	                            <span class="school-info-tips" ng-if="pn.nov > 0">
+	                                <img src="/assets/app/images/general/icons/view.png"/>{{pn.nov}}
+	                            </span>
+	                        </span>
                         </div>
                     </div>
                 </li>
@@ -21,19 +23,21 @@
         </div>
     </li>
     <li id="schools-ranking-top-bookmarked" class="schools-ranking-box">
-        <div class="general-box school-list">
+        <div class="general-box school-list school-pn-list">
             <ul>
-                <li class="index-title">
+                <li class="index-title pn-index-title">
                     <img style="width:auto;height:28px;" data-ng-src="/assets/app/images/general/titles/schools_most_bookmarked.png">
                 </li>
                 <li ng-repeat="pn in topBookmarkedSchools">
                     <div class="school-list-entry">
-                        <span class="rank-number ng-binding">{{$index+1}}</span>
+                        <span class="rank-number pn-rank-number">{{$index+1}}</span>
                         <div class="school-info">
                             <a href="/schools#!/pn/{{pn.id}}">{{pn.n}}</a>
-                            <span class="tag">{{pn.dis}}</span>
-                            <span class="school-info-tips" ng-if="pn.nob > 0">
-                                <img src="/assets/app/images/general/icons/message_favorited.png">{{pn.nob}}
+                            <span style="display: inline-block;">
+	                            <span class="tag">{{pn.dis}}</span>
+	                            <span class="school-info-tips" ng-if="pn.nob > 0">
+	                                <img src="/assets/app/images/general/icons/message_favorited.png">{{pn.nob}}
+	                            </span>
                             </span>
                         </div>
                     </div>
@@ -42,20 +46,22 @@
         </div>
     </li>
     <li id="schools-ranking-top-discussed" class="schools-ranking-box admin-visible-field" ng-if="userInfo.isE">
-	    <div class="general-box school-list">
+	    <div class="general-box school-list school-pn-list">
 	        <ul>
-	            <li class="index-title">
+	            <li class="index-title pn-index-title">
 	                <img style="width:auto;height:28px;" data-ng-src="/assets/app/images/general/titles/schools_most_discussed.png">
 	            </li>
 	            <li ng-repeat="pn in topDiscussedSchools">
 	                <div class="school-list-entry">
-	                    <span class="rank-number ng-binding">{{$index+1}}</span>
+	                    <span class="rank-number pn-rank-number">{{$index+1}}</span>
 	                    <div class="school-info">
 	                        <a href="/schools#!/pn/{{pn.id}}">{{pn.n}}</a>
-	                        <span class="tag">{{pn.dis}}</span>
-	                        <span class="school-info-tips" ng-if="pn.nop > 0">
-	                            <img src="../assets/app/images/general/icons/i-reply.png">{{pn.nop}}
-	                        </span>
+	                        <span style="display: inline-block;">
+		                        <span class="tag">{{pn.dis}}</span>
+		                        <span class="school-info-tips" ng-if="pn.nop > 0">
+		                            <img src="../assets/app/images/general/icons/i-reply.png">{{pn.nop}}
+		                        </span>
+		                    </span>
 	                    </div>
 	                </div>
 	            </li>

@@ -32,6 +32,7 @@ public class TargetProfile {
     private int childrenMaxAgeMonths;
     
     private List<TargetYear> childYears;
+    private List<Integer> childMonths;
     private List<DateTime> childBirthDates;
     
     // TODO: Add Twins Target Support
@@ -39,6 +40,7 @@ public class TargetProfile {
     public static TargetProfile fromUser(User user) {
         TargetProfile profile = new TargetProfile();
         List<TargetYear> childYears = new ArrayList<TargetYear>();
+        List<Integer> childMonths = new ArrayList<Integer>();
         List<DateTime> childBirthDates = new ArrayList<DateTime>();
         
         if (user.userInfo == null) {
@@ -79,6 +81,7 @@ public class TargetProfile {
                         childrenMaxAge = months.getMonths();
                     }
                     childYears.add(TargetYear.valueOf(birthDate));
+                    childMonths.add(months.getMonths());
                     childBirthDates.add(birthDate);
                 }
             }
@@ -95,6 +98,7 @@ public class TargetProfile {
         profile.childrenMinAgeMonths = (childrenMinAge == null) ? Integer.MIN_VALUE : childrenMinAge;
         profile.childrenMaxAgeMonths = (childrenMaxAge == null) ? Integer.MAX_VALUE : childrenMaxAge;
         profile.childYears = childYears;
+        profile.childMonths = childMonths;
         profile.childBirthDates = childBirthDates;
         
         return profile;
@@ -126,6 +130,10 @@ public class TargetProfile {
 
     public List<TargetYear> getChildYears() {
         return childYears;
+    }
+    
+    public List<Integer> getChildMonths() {
+        return childMonths;
     }
     
     public List<DateTime> getChildBirthDates() {

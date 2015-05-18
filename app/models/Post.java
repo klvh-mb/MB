@@ -31,6 +31,7 @@ import com.mnt.exception.SocialObjectNotCommentableException;
 import domain.CommentType;
 import domain.Commentable;
 import domain.Likeable;
+import domain.PostSubType;
 import domain.PostType;
 import domain.SocialObjectType;
 
@@ -52,6 +53,9 @@ public class Post extends SocialObject implements Likeable, Commentable {
     
     @Required
     public PostType postType;
+    
+    @Required
+    public PostSubType postSubType;
     
     @ManyToOne(cascade = CascadeType.REMOVE)
     public Folder folder;

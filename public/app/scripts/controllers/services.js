@@ -1011,6 +1011,27 @@ minibean.service('schoolsService',function($resource){
                 get: {method:'get',isArray:true}
             }
     );
+    this.topViewedKGs = $resource(
+            '/get-top-viewed-kgs',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.topDiscussedKGs = $resource(
+            '/get-top-discussed-kgs',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.topBookmarkedKGs = $resource(
+            '/get-top-bookmarked-kgs',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
     this.bookmarkedKGs = $resource(
             '/get-bookmarked-kgs',
             {alt:'json',callback:'JSON_CALLBACK'},
@@ -1195,9 +1216,9 @@ minibean.service('myBookmarksService',function($resource){
     );
 });
 
-minibean.service('allConversationService',function($resource){
-    this.UserAllConversation = $resource(
-        '/get-all-Conversation',
+minibean.service('conversationService',function($resource){
+    this.allConversations = $resource(
+        '/get-all-conversations',
         {alt:'json',callback:'JSON_CALLBACK'},
         {
             get: {method:'get',isArray:true}
@@ -1205,15 +1226,23 @@ minibean.service('allConversationService',function($resource){
     );
     
     this.startConversation = $resource(
-        '/start-Conversation/:id',
+        '/start-conversation/:id',
         {alt:'json',callback:'JSON_CALLBACK'},
         {
             get: {method:'get', isArray:true}
         }
     );
     
+    this.openConversation = $resource(
+            '/open-conversation/:cid/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get', isArray:true}
+            }
+        );
+    
     this.deleteConversation = $resource(
-        '/delete-Conversation/:id',
+        '/delete-conversation/:id',
         {alt:'json',callback:'JSON_CALLBACK'},
         {
             get: {method:'get', isArray:true}

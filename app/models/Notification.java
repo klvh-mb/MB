@@ -161,7 +161,7 @@ public class Notification  extends domain.Entity implements Serializable, Creata
             int lastDelimIdx = this.usersName != null ? this.usersName.lastIndexOf(",") : -1;
 			if(count >= 3 && lastDelimIdx != -1){
                 long othersCount = count - 2;
-				this.usersName = addUserName+", "+this.usersName.substring(0,lastDelimIdx)+" 與另外 "+othersCount+"人都";
+				this.usersName = addUserName+", "+this.usersName.substring(0,lastDelimIdx)+" 與另外"+othersCount+"人";
 			} else {
 				this.usersName = addUserName+", "+this.usersName;
             }
@@ -262,11 +262,11 @@ public class Notification  extends domain.Entity implements Serializable, Creata
 	}
 
     /**
-     * Purge the READ notifications more than 7 days old, and everything > 2 months old.
+     * Purge the READ notifications more than 14 days old, and everything > 2 months old.
      */
 	@Transactional
 	public static void purgeNotification() {
-        DateTime sevenDaysBefore = (new DateTime()).minusDays(7);
+        DateTime sevenDaysBefore = (new DateTime()).minusDays(14);
         Query query = JPA.em().createQuery("DELETE Notification n where n.status = ?1 and CREATED_DATE < ?2");
         query.setParameter(1, Status.Read.ordinal());
         query.setParameter(2, sevenDaysBefore.toDate());

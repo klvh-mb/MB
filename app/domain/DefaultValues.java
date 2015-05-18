@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 public class DefaultValues {
 
 	public static int MAX_SCHOOLS_SEARCH_COUNT = 100;
+	public static int KG_COUPON_FIX_2014_15 = 20010;	// coupon fix amount
 	
     public static int POST_PREVIEW_CHARS = 300;
     public static int COMMENT_PREVIEW_CHARS = 200;
@@ -28,6 +29,9 @@ public class DefaultValues {
     public static int ARTICLES_UTILITY_COUNT = 4;
     public static int ARTICLES_RELATED_COUNT = 10;
     public static int FRIENDS_UTILITY_COUNT = 9;
+    
+    public static int CONVERSATION_MESSAGE_COUNT = 10;
+    public static int CONVERSATION_COUNT = 100;
     
     public static int NEW_COMMUNITY_MEMBERS_COUNT = 200;
     
