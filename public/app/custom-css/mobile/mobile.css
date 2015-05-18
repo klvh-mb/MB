@@ -993,14 +993,27 @@ span.notif-count {
     border-left: #bcbcbc thin solid;
 }
 .conversation-panel {
-  max-height: auto;
-  overflow-y: auto;
+	height: auto;
+    min-height: 250px;
+    max-height: none;
+    overflow-y: auto;
+    padding-bottom: 10px;
+}
+.message-del-icon {
+	width: 12px;
+    height: 12px;
+    display: block;
+}
+.message-del-icon:hover + .message-tooltips {
+    display: block;
 }
 .message-user .message-body, .message-replier .message-body {
     max-width: 200px
 }
 #message-content #message-area {
   height: auto;
+  min-height: 250px;
+  max-height: none;
   overflow-y: auto;
   padding-bottom: 10px;
 }

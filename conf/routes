@@ -179,11 +179,12 @@ GET     /image/get-thumbnail-cover-image-by-id/:id      controllers.UserControll
 GET     /image/get-original-image-by-id/:id     controllers.UserController.getOriginalImageByID(id :Long)
 
 # Conversation
-GET     /get-all-Conversation       controllers.UserController.getAllConversation()
+GET     /get-all-conversations      controllers.UserController.getAllConversations()
 GET     /get-messages/:id/:offset   controllers.UserController.getMessages(id: Long, offset: Long)
-GET     /start-Conversation/:id     controllers.UserController.startConversation(id: Long)
-GET     /delete-Conversation/:id    controllers.UserController.deleteConversation(id: Long)
-POST    /Message/sendMsg            controllers.UserController.sendMessage()
+GET     /start-conversation/:id     controllers.UserController.startConversation(id: Long)
+GET     /open-conversation/:cid/:id controllers.UserController.openConversation(cid: Long, id: Long)
+GET     /delete-conversation/:id    controllers.UserController.deleteConversation(id: Long)
+POST    /message/sendMsg            controllers.UserController.sendMessage()
 POST    /image/sendMessagePhoto     controllers.UserController.sendPhotoInMessage()
 GET     /user-friend-search         controllers.UserController.searchUserFriends(query: String)
 GET     /image/get-message-image-by-id/:id      controllers.UserController.getMessageImageByID(id :Long)

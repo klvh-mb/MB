@@ -33,11 +33,11 @@
 	            <div class="school-section-title"><img style="width:24px;margin-right:7px;margin-bottom:2px;" src="../assets/app/images/general/icons/i-info-bubble.png">重要日期</div>
 	            <div class="school-info-attr">
 	                <span><img style="width:16px;margin-right:7px;margin-bottom:2px;" src="../assets/app/images/general/icons/check.png">申請日期 : </span>
-	                <span>{{pn.appDateTxt || '--'}}</span>
+	                <span>{{pn.appDateTxt || '-'}}</span>
 	            </div>
 	            <div class="school-info-attr">
 	                <span><img style="width:16px;margin-right:7px;margin-bottom:2px;" src="../assets/app/images/general/icons/check.png">Open Day : </span>
-	                <span>{{pn.openDayTxt || '--'}}</span>
+	                <span>{{pn.openDayTxt || '-'}}</span>
 	            </div>
 	            <div class="school-info-note" style="font-size:13px;margin-top:10px;">* 資料由miniBean會員提供，最終以幼稚園官方網站或請致電幼稚園為準</div>
 	        </div>
@@ -50,11 +50,11 @@
             </div>
             <div class="school-info-attr">
                 <span>學校類別 : </span>
-                <span>{{pn.orgt || '--'}}</span>
+                <span>{{pn.orgt || '-'}}</span>
             </div>
             <div class="school-info-attr-short">
                 <span>課程類別 : </span> 
-                <span>{{pn.curt || '--'}}</span>
+                <span>{{pn.curt || '-'}}</span>
             </div>
             <div class="school-info-attr">
                 <span>課堂時間 : </span> 
@@ -68,26 +68,26 @@
             </div>
             <div class="school-info-attr">
                 <span>辦學團體 : </span> 
-                <span>{{pn.org || '--'}}</span>
+                <span>{{pn.org || '-'}}</span>
             </div>
             <!--div class="school-info-note" style="font-size:13px;margin-top:10px;">* 資料來自教育局網站</div-->
 
             <div class="school-section-title">幼兒班(PN班 2-3歲) 收生資料</div>
-            <div class="school-info-note"><span>收錄人數 : </span> {{pn.nadm || '--'}}</div>
-            <div class="school-info-note"><span>半日班全年收費 : </span> {{pn.feeHd || '--'}}</div>
-            <div class="school-info-note"><span>全日班全年收費 : </span> {{pn.feeWd || '--'}}</div>
+            <div class="school-info-note"><span>收錄人數 : </span> {{pn.nadm || '-'}}</div>
+            <div class="school-info-note"><span>半日班全年收費 : </span> {{pn.feeHd || '-'}}</div>
+            <div class="school-info-note"><span>全日班全年收費 : </span> {{pn.feeWd || '-'}}</div>
             <div class="school-info-note" style="font-size:13px;margin-top:10px;">* 根據教育局提供的幼兒服務資料 (2013年9月資料)</div>
 
             <div class="school-section-title">課程資料</div>
             <div class="school-info-note"><span>課程編排 : </span> {{pn.cur || '學校沒有提供'}}</div>
 
             <div class="school-section-title">聯絡資料</div>
-            <div class="school-info-note"><span>地址 :</span> {{pn.adr || '--'}}</div>
-            <div class="school-info-note-short" ng-show="pn.pho"><span>電話 :</span> <span ng-if="!userInfo.isMobile">{{pn.pho || '--'}}</span><span ng-if="userInfo.isMobile"><a ng-href="tel:{{pn.pho || '--'}}">{{pn.pho || '--'}}</a></span></div>
-            <div class="school-info-note-short" ng-show="pn.fax"><span>傳真 :</span> {{pn.fax || '--'}}</div>
-            <div class="school-info-note" ng-show="pn.em"><span>電郵 :</span> {{pn.em || '--'}}</div>
-            <div class="school-info-note" ng-show="pn.url"><span>網址 :</span> <a ng-href="{{pn.url || '--'}}" target="_blank">{{pn.url}}</a></div>
-            <div class="school-info-note" ng-show="pn.govUrl"><span>教局網址 :</span> <a ng-href="{{pn.govUrl || '--'}}" target="_blank"><img style="width:24px;" src="../assets/app/images/schools/school-gov.png" /></a></div>
+            <div class="school-info-note"><span>地址 :</span> {{pn.adr || '-'}}</div>
+            <div class="school-info-note-short" ng-show="pn.pho"><span>電話 :</span> <span ng-if="!userInfo.isMobile">{{pn.pho || '-'}}</span><span ng-if="userInfo.isMobile"><a ng-href="tel:{{pn.pho || '-'}}">{{pn.pho || '-'}}</a></span></div>
+            <div class="school-info-note-short" ng-show="pn.fax"><span>傳真 :</span> {{pn.fax || '-'}}</div>
+            <div class="school-info-note" ng-show="pn.em"><span>電郵 :</span> {{pn.em || '-'}}</div>
+            <div class="school-info-note" ng-show="pn.url"><span>網址 :</span> <a ng-href="{{pn.url || '-'}}" target="_blank">{{pn.url}}</a></div>
+            <div class="school-info-note" ng-show="pn.govUrl"><span>教局網址 :</span> <a ng-href="{{pn.govUrl || '-'}}" target="_blank"><img style="width:24px;" src="../assets/app/images/schools/school-gov.png" /></a></div>
         </div>
     </div>
 </div>

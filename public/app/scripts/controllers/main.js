@@ -4593,7 +4593,7 @@ minibean.controller('MyBookmarksController', function($scope, postFactory, myBoo
     }
 });
 
-minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $location, $routeParams, $sce, searchFriendService, usSpinnerService, getMessageService, allConversationService) {
+minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $location, $routeParams, $sce, searchFriendService, usSpinnerService, getMessageService, conversationService) {
 
     $scope.selectNavBar('HOME', -1);
 
@@ -4606,20 +4606,27 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
         $("#message-inputfield").trigger('input');    // need this to populate jquery val update to ng-model
     }
     
-	if($routeParams.id == 0){
-		$scope.conversations = allConversationService.UserAllConversation.get(function(){
+	if ($location.path().indexOf('/message-list') > -1) {
+		$scope.conversations = conversationService.allConversations.get(function(){
 			if($scope.conversations.length > 0){
-				if ($scope.userInfo.isMobile && $location.path().indexOf('/message-list') > -1) {
-					return;
+				if (!$scope.userInfo.isMobile) {
+					$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
 				}
-				$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
 			}
 		});
-	} else {
+	} else if ($location.path().indexOf('/start-conversation') > -1){
 		if ($scope.userInfo.id == $routeParams.id) {
             prompt("不可發私人訊息給自己");
         } else {
-    		$scope.conversations = allConversationService.startConversation.get({id: $routeParams.id} ,function(){
+    		$scope.conversations = conversationService.startConversation.get({id: $routeParams.id},function(){
+    			$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
+    		});
+        }
+	} else if ($location.path().indexOf('/open-conversation') > -1) {
+		if ($scope.userInfo.id == $routeParams.id) {
+            prompt("不可發私人訊息給自己");
+        } else {
+    		$scope.conversations = conversationService.openConversation.get({cid: $routeParams.cid, id: $routeParams.id},function(){
     			$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
     		});
         }
@@ -4683,31 +4690,32 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
             prompt("不可發私人訊息給自己");
             return;
         }
+        
 		$scope.receiverId = uid;
 		usSpinnerService.spin('loading...');
-		allConversationService.startConversation.get({id: uid},
-				function(data){
-			$scope.conversations = data;
-			$scope.selectedIndex = 0;
-			$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
-			usSpinnerService.stop('loading...');
-		});
+		conversationService.startConversation.get({id: uid},
+			function(data){
+				$scope.conversations = data;
+				$scope.selectedIndex = 0;
+				$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
+				usSpinnerService.stop('loading...');
+			});
 	}
 	
 	$scope.deleteConversation = function(cid) {
 		usSpinnerService.spin('loading...');
-		allConversationService.deleteConversation.get({id: cid},
-				function(data){
-			$scope.conversations = data;
-			$scope.selectedIndex = 0;
-			$scope.messages = 0;
-			$scope.noMore = false;
-			usSpinnerService.stop('loading...');
-		});
+		conversationService.deleteConversation.get({id: cid},
+			function(data){
+				$scope.conversations = data;
+				$scope.selectedIndex = 0;
+				$scope.messages = 0;
+				$scope.noMore = false;
+				usSpinnerService.stop('loading...');
+			});
 	}
 	
-	$scope.openConversation = function(cid, uid) {
-		$location.path('/message/'+uid);
+	$scope.openConversation = function(cid,uid) {
+		$location.path('/open-conversation/'+cid+'/'+uid);
 	}
 	
     $scope.loadMore = false;
@@ -4776,10 +4784,10 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 			"withPhotos" : $scope.selectedFiles.length != 0
 		};
 		usSpinnerService.spin('loading...');
-		$http.post('/Message/sendMsg', data) 
+		$http.post('/message/sendMsg', data) 
 			.success(function(messagedata) {
 				$scope.messages = messagedata.message;
-				$scope.conversations = allConversationService.UserAllConversation.get();
+				$scope.conversations = conversationService.allConversations.get();
 				usSpinnerService.stop('loading...');	
 				
 				$timeout(function(){

@@ -33,11 +33,11 @@
                 <div class="school-section-title"><img style="width:24px;margin-right:7px;margin-bottom:2px;" src="../assets/app/images/general/icons/i-info-bubble.png">重要日期</div>
                 <div class="school-info-attr">
                     <span><img style="width:16px;margin-right:7px;margin-bottom:2px;" src="../assets/app/images/general/icons/check.png">申請日期 : </span>
-                    <span>{{kg.appDateTxt || '--'}}</span>
+                    <span>{{kg.appDateTxt || '-'}}</span>
                 </div>
                 <div class="school-info-attr">
                     <span><img style="width:16px;margin-right:7px;margin-bottom:2px;" src="../assets/app/images/general/icons/check.png">Open Day : </span>
-                    <span>{{kg.openDayTxt || '--'}}</span>
+                    <span>{{kg.openDayTxt || '-'}}</span>
                 </div>
                 <div class="school-info-note" style="font-size:13px;margin-top:10px;">* 資料由miniBean會員提供，最終以幼稚園官方網站或請致電幼稚園為準</div>
             </div>
@@ -50,11 +50,11 @@
             </div>
             <div class="school-info-attr">
                 <span>學校類別 : </span>
-                <span>{{kg.orgt || '--'}}</span>
+                <span>{{kg.orgt || '-'}}</span>
             </div>
             <div class="school-info-attr-short">
                 <span>課程類別 : </span> 
-                <span>{{kg.curt || '--'}}</span>
+                <span>{{kg.curt || '-'}}</span>
             </div>
             <div class="school-info-attr">
                 <span>課堂時間 : </span> 
@@ -73,7 +73,7 @@
             </div>
             <div class="school-info-attr">
                 <span>辦學團體 : </span> 
-                <span>{{kg.org || '--'}}</span>
+                <span>{{kg.org || '-'}}</span>
             </div>
             <!--div class="school-info-note" style="font-size:13px;margin-top:10px;">* 資料來自教育局網站</div-->
 
@@ -90,24 +90,24 @@
                         </tr>
                         <tr>
                             <td><div><span>上午班</span></div></td>
-                            <td class="school-info-table-content">{{kg.nadAmN || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.nadAmL || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.nadAmU || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.nadAmT || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadAmN || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.nadAmL || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.nadAmU || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.nadAmT || '-'}}</td>
                         </tr>
                         <tr>
                             <td><div><span>下午班</span></div></td>
-                            <td class="school-info-table-content">{{kg.nadPmN || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.nadPmL || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.nadPmU || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.nadPmT || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadPmN || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.nadPmL || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.nadPmU || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.nadPmT || '-'}}</td>
                         </tr>
                         <tr>
                             <td><div><span>全日班</span></div></td>
-                            <td class="school-info-table-content">{{kg.nadWdN || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.nadWdL || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.nadWdU || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.nadWdT || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.nadWdN || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.nadWdL || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.nadWdU || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.nadWdT || '-'}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -126,21 +126,21 @@
 			            </tr>
 			            <tr>
 				            <td><div><span>上午班</span></div></td>
-				            <td class="school-info-table-content">{{kg.feeAmN || '--'}}</td>
-				            <td class="school-info-table-content">{{kg.feeAmL || '--'}}</td>
-				            <td class="school-info-table-content">{{kg.feeAmU || '--'}}</td>
+				            <td class="school-info-table-content">{{kg.feeAmN || '-'}}</td>
+				            <td class="school-info-table-content">{{kg.feeAmL || '-'}}</td>
+				            <td class="school-info-table-content">{{kg.feeAmU || '-'}}</td>
 			            </tr>
 			            <tr>
 				            <td><div><span>下午班</span></div></td>
-				            <td class="school-info-table-content">{{kg.feePmN || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.feePmL || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.feePmU || '--'}}</td>
+				            <td class="school-info-table-content">{{kg.feePmN || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.feePmL || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.feePmU || '-'}}</td>
 			            </tr>
 			            <tr>
 				            <td><div><span>全日班</span></div></td>
-				            <td class="school-info-table-content">{{kg.feeWdN || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.feeWdL || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.feeWdU || '--'}}</td>
+				            <td class="school-info-table-content">{{kg.feeWdN || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.feeWdL || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.feeWdU || '-'}}</td>
 			            </tr>
 		            </tbody>
 		        </table>
@@ -156,21 +156,21 @@
                         </tr>
                         <tr>
                             <td><div><span>上午班</span></div></td>
-                            <td class="school-info-table-content">{{kg.cpFeeAmN || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.cpFeeAmL || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.cpFeeAmU || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.cpFeeAmN || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.cpFeeAmL || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.cpFeeAmU || '-'}}</td>
                         </tr>
                         <tr>
                             <td><div><span>下午班</span></div></td>
-                            <td class="school-info-table-content">{{kg.cpFeePmN || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.cpFeePmL || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.cpFeePmU || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.cpFeePmN || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.cpFeePmL || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.cpFeePmU || '-'}}</td>
                         </tr>
                         <tr>
                             <td><div><span>全日班</span></div></td>
-                            <td class="school-info-table-content">{{kg.cpFeeWdN || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.cpFeeWdL || '--'}}</td>
-                            <td class="school-info-table-content">{{kg.cpFeeWdU || '--'}}</td>
+                            <td class="school-info-table-content">{{kg.cpFeeWdN || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.cpFeeWdL || '-'}}</td>
+                            <td class="school-info-table-content">{{kg.cpFeeWdU || '-'}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -182,21 +182,21 @@
                     <tbody>
                         <tr>
                             <td style="width:20%;background-color:#fff1dc;"><div><span>夏季校服</span></div></td>
-                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.sufee || '沒有直接代辦'}}</td>
+                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.sufee || '-'}}</td>
                             <td style="width:20%;background-color:#fff1dc;"><div><span>冬季校服</span></div></td>
-                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.wufee || '沒有直接代辦'}}</td>
+                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.wufee || '-'}}</td>
                         </tr>
                         <tr>
                             <td style="width:20%;background-color:#fff1dc;"><div><span>書包</span></div></td>
-                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.sbfee || '沒有直接代辦'}}</td>
+                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.sbfee || '-'}}</td>
                             <td style="width:20%;background-color:#fff1dc;"><div><span>茶點</span></div></td>
-                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.tsfee || '沒有直接代辦'}}</td>
+                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.tsfee || '-'}}</td>
                         </tr>
                         <tr>
                             <td style="width:20%;background-color:#fff1dc;"><div><span>課本</span></div></td>
-                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.tbfee || '沒有直接代辦'}}</td>
+                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.tbfee || '-'}}</td>
                             <td style="width:20%;background-color:#fff1dc;"><div><span>練習簿/作業</span></div></td>
-                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.wbfee || '沒有直接代辦'}}</td>
+                            <td style="width:30%;background-color:#ffffff;" class="school-info-table-content">{{kg.wbfee || '-'}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -206,12 +206,12 @@
             <div class="school-info-note"><span>課程編排 : </span> {{kg.cur || '學校沒有提供'}}</div>
 
             <div class="school-section-title">聯絡資料</div>
-            <div class="school-info-note"><span>地址 :</span> {{kg.adr || '--'}}</div>
-            <div class="school-info-note-short" ng-show="kg.pho"><span>電話 :</span> <span ng-if="!userInfo.isMobile">{{kg.pho || '--'}}</span><span ng-if="userInfo.isMobile"><a ng-href="tel:{{kg.pho || '--'}}">{{kg.pho || '--'}}</a></span></div>
-            <div class="school-info-note-short" ng-show="kg.fax"><span>傳真 :</span> {{kg.fax || '--'}}</div>
-            <div class="school-info-note" ng-show="kg.em"><span>電郵 :</span> {{kg.em || '--'}}</div>
-            <div class="school-info-note" ng-show="kg.url"><span>網址 :</span> <a ng-href="{{kg.url || '--'}}" target="_blank">{{kg.url}}</a></div>
-            <div class="school-info-note" ng-show="kg.govUrl"><span>教局網址 :</span> <a ng-href="{{kg.govUrl || '--'}}" target="_blank"><img style="width:24px;" src="../assets/app/images/schools/school-gov.png" /></a></div>
+            <div class="school-info-note"><span>地址 :</span> {{kg.adr || '-'}}</div>
+            <div class="school-info-note-short" ng-show="kg.pho"><span>電話 :</span> <span ng-if="!userInfo.isMobile">{{kg.pho || '-'}}</span><span ng-if="userInfo.isMobile"><a ng-href="tel:{{kg.pho || '-'}}">{{kg.pho || '-'}}</a></span></div>
+            <div class="school-info-note-short" ng-show="kg.fax"><span>傳真 :</span> {{kg.fax || '-'}}</div>
+            <div class="school-info-note" ng-show="kg.em"><span>電郵 :</span> {{kg.em || '-'}}</div>
+            <div class="school-info-note" ng-show="kg.url"><span>網址 :</span> <a ng-href="{{kg.url || '-'}}" target="_blank">{{kg.url}}</a></div>
+            <div class="school-info-note" ng-show="kg.govUrl"><span>教局網址 :</span> <a ng-href="{{kg.govUrl || '-'}}" target="_blank"><img style="width:24px;" src="../assets/app/images/schools/school-gov.png" /></a></div>
         </div>
     </div>
 </div>
