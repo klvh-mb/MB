@@ -698,40 +698,11 @@ public class UserController extends Controller {
     }
 	   
 	@Transactional
-	public static Result getAllConversations() {
-		final User localUser = Application.getLocalUser(session());
-		List<ConversationVM> vms = new ArrayList<>();
-		List<Conversation> conversations =  localUser.findMyAllConversations();
-		if(conversations != null ){
-			
-			for(Conversation conversation: conversations) {
-				ConversationVM vm ;
-				User user;
-				if(conversation.user1 == localUser){
-					user = conversation.user2;
-					vm = new ConversationVM(conversation, user);
-					vm.hasMessage = true;
-					vms.add(vm);
-				} else { 
-					user = conversation.user1;
-					vm = new ConversationVM(conversation, user);
-					if(vm.lastMsg != null){
-						vm.hasMessage = true;
-						vms.add(vm);
-					}
-				}
-			}
-		}
-		
-		return ok(Json.toJson(vms));
-	}
-	
-	@Transactional
 	public static Result getMessages(Long id, Long offset) {
 		final User localUser = Application.getLocalUser(session());
 		List<MessageVM> vms = new ArrayList<>();
 		Conversation conversation = Conversation.findById(id); 
-		List<Message> messages =  (List<Message>) localUser.getMessageForConversation(conversation, offset);
+		List<Message> messages =  conversation.getMessages(localUser, offset);
 		if(messages != null ){
 			for(Message message : messages) {
 				MessageVM vm = new MessageVM(message);
@@ -758,7 +729,7 @@ public class UserController extends Controller {
         User receiverUser = User.findById(receiverUserID);
         String msgText = HtmlUtil.convertTextToHtml(form.get("msgText"));
         Conversation.sendMessage(localUser, receiverUser, msgText);
-        Conversation conversation = Conversation.findBetween(localUser, receiverUser);
+        Conversation conversation = Conversation.findByUsers(localUser, receiverUser);
         return getMessages(conversation.id, 0L);
     }
 	
@@ -788,20 +759,48 @@ public class UserController extends Controller {
         return getAllConversations();
     }
 	
-    @Transactional
-    public static Result startConversation(Long id1, Long id2) {
-        if (id1 == id2) {
-            logger.underlyingLogger().error(String.format("[u1=%d] [u2=%d] Same user. Will not start conversation", id1, id2));
-            return status(500);
-        }
-        final User user1 = User.findById(id1);
-        final User user2 = User.findById(id2);
-        Conversation conversation = user1.findMyConversationsWith(user2);
-        conversation.addMessage(user1, ".");
-        conversation.addMessage(user2, ".");
-        return ok();
-    }
-    
+	private static List<ConversationVM> getAllConversations(User localUser, ConversationVM newConversationVM) {
+		List<ConversationVM> vms = new ArrayList<>();
+		List<Conversation> conversations = localUser.findMyConversations();
+		if (conversations != null) {
+			User otherUser;
+			for (Conversation conversation : conversations) {
+				// archived, dont show
+				if (conversation.isArchivedBy(localUser)) {
+					continue;
+				}
+
+				// add new conversation to top of list
+				if (newConversationVM != null && conversation.id == newConversationVM.id) {
+					continue;
+				}
+
+				if (conversation.user1 == localUser) {
+					otherUser = conversation.user2;
+				} else { 
+					otherUser = conversation.user1;
+				}
+				
+				ConversationVM vm = new ConversationVM(conversation, localUser, otherUser);
+				vms.add(vm);
+			}
+		}
+		
+		// always add new conversation to top of list
+		if (newConversationVM != null) {
+			vms.add(0,newConversationVM);
+		}
+		
+		return vms;	
+	}
+
+	@Transactional
+	public static Result getAllConversations() {
+		final User localUser = Application.getLocalUser(session());
+		List<ConversationVM> vms = getAllConversations(localUser, null);
+		return ok(Json.toJson(vms));
+	}
+	
 	@Transactional
     public static Result startConversation(Long id) {
         final User localUser = Application.getLocalUser(session());
@@ -815,32 +814,15 @@ public class UserController extends Controller {
             return status(500);
         }
         
-        User user = User.findById(id);
-        Conversation conversation = Conversation.startConversation(localUser, user);
-        conversation.setUpdatedDate(new Date());
-		List<ConversationVM> vms = new ArrayList<>();
-		List<Conversation> conversations =  localUser.findMyAllConversations();
-		if(conversations != null ){
-			for(Conversation conv: conversations) {
-				ConversationVM vm;
-				if(conv.user1 == localUser){
-					user = conv.user2;
-					vm = new ConversationVM(conv, user);
-					vm.hasMessage = true;
-				} else { 
-					user = conv.user1;
-					vm = new ConversationVM(conv, user);
-					vm.hasMessage = true;
-				}
-				if(conv == conversation){
-					vm.hasMessage = true;
-				}
-				 
-				vms.add(vm);
-			}
-		}
-		
-		return ok(Json.toJson(vms));
+        User otherUser = User.findById(id);
+        Conversation newConversation = Conversation.startConversation(localUser, otherUser);
+        ConversationVM newConversationVM = null;
+        if (newConversation != null) {
+        	newConversationVM = new ConversationVM(newConversation, localUser, otherUser);
+        }
+        List<ConversationVM> vms = getAllConversations(localUser, newConversationVM);
+
+        return ok(Json.toJson(vms));
     }
 	
 	@Transactional
@@ -859,17 +841,8 @@ public class UserController extends Controller {
         Conversation conv = Conversation.findById(cid);
         
         List<ConversationVM> vms = new ArrayList<>();
-        User user = User.findById(id);
-        ConversationVM vm;
-		if(conv.user1 == localUser){
-			user = conv.user2;
-			vm = new ConversationVM(conv, user);
-			vm.hasMessage = true;
-		} else { 
-			user = conv.user1;
-			vm = new ConversationVM(conv, user);
-			vm.hasMessage = true;
-		}
+        User otherUser = User.findById(id);
+        ConversationVM vm = new ConversationVM(conv, localUser, otherUser);
 		vms.add(vm);
         
 		return ok(Json.toJson(vms));

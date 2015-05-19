@@ -3,16 +3,13 @@ package models;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import domain.DefaultValues;
 import domain.SocialObjectType;
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
@@ -34,7 +31,7 @@ public class Message extends SocialObject implements Comparable<Message> {
 	@Required
 	public Date date = new Date();
 
-	@Column(length=500)
+	@Column(length=2000)
 	public String body;
 	
 	@ManyToOne(cascade = CascadeType.REMOVE)
@@ -51,36 +48,6 @@ public class Message extends SocialObject implements Comparable<Message> {
 	@Override
 	public int compareTo(Message o) {
 		 return date.compareTo(o.date);
-	}
-
-	public static List<Message> findBetween(Conversation conversation, Long offset, User user) {
-		Query q = JPA.em().createQuery(
-				"SELECT m from Message m where conversation_id = ?2 and m.date > ?3 and m.deleted = 0 order by m.date desc ");
-		q.setParameter(2, conversation);
-		if(conversation.user1 == user){
-			conversation.user1_time = new Date();
-			if(conversation.user1_archive_time == null){
-				q.setParameter(3, new Date(0));
-			} else {
-				q.setParameter(3, conversation.user1_archive_time);
-			}
-			
-		} else { 
-			conversation.user2_time = new Date();
-			if(conversation.user2_archive_time == null){
-				q.setParameter(3, new Date(0));
-			} else {
-				q.setParameter(3, conversation.user2_archive_time);
-			}
-		}
-		
-		try {
-			q.setFirstResult((int) (offset * DefaultValues.CONVERSATION_MESSAGE_COUNT));
-			q.setMaxResults(DefaultValues.CONVERSATION_MESSAGE_COUNT);
-			return (List<Message>) q.getResultList();
-		} catch (NoResultException e) {
-			return null;
-		}
 	}
 
 	public static Message findById(Long id) {

@@ -149,9 +149,8 @@
     font-weight: bold;
 }
 .message-notice:after {
-    //content: "新訊息";
-    content: "New";
-    font-size: small;
+    content: "則新訊息";
+    font-size: 12px;
 }
 .message-notice:hover {
     text-decoration: none;
