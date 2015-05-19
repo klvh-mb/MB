@@ -91,7 +91,7 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 
 	public static Conversation findByUsers(User u1, User u2) {
 		Query q = JPA.em().createQuery(
-		        "SELECT c from Conversation c where ((user1 = ?1 and user2 = ?2) or (user1 = ?2 and user2 = ?1)) and c.deleted = 0");
+		        "SELECT c from Conversation c where ( ((user1 = ?1 and user2 = ?2) or (user1 = ?2 and user2 = ?1)) ) and c.deleted = 0");
 		q.setParameter(1, u1);
 		q.setParameter(2, u2);
 		
@@ -134,9 +134,9 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 	
 	public static List<Conversation> findAllConversations(User user, int latest) {
 		Query q = JPA.em().createQuery(
-		        "SELECT c from Conversation c where deleted = 0 and " + 
-		        "(user1 = ?1 and (user1_archive_time < conv_time or user1_archive_time is NULL)) or " + 
-		        "(user2 = ?1 and (user2_archive_time < conv_time or user2_archive_time is NULL)) order by updated_date desc");
+		        "SELECT c from Conversation c where deleted = 0 and (" + 
+		        "(user1 = ?1 and (user1_archive_time < conv_time or user1_archive_time is null)) or " + 
+		        "(user2 = ?1 and (user2_archive_time < conv_time or user2_archive_time is null)) ) order by updated_date desc");
 		q.setParameter(1, user);
 		
 		try {
@@ -147,44 +147,48 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 	}
 
 	public static Conversation startConversation(User sender, User receiver) {
-		Conversation conversation = findByUsers(sender, receiver);
-		if(conversation == null) {
-			conversation = new Conversation(sender, receiver);
-			Date date = new Date();
-			conversation.setReadTime(sender);
-			conversation.conv_time = date;
-			conversation.save();
+		if (sender == null || receiver == null) {
+			return null;
 		}
+		
+		Conversation conversation = findByUsers(sender, receiver);
+		if (conversation != null) {
+			return conversation;
+		}
+		
+		Date now = new Date();
+		conversation = new Conversation(sender, receiver);
+		conversation.conv_time = now;
+		conversation.setUpdatedDate(now);
+		conversation.setReadTime(sender);
+		conversation.save();
 		return conversation;
 	}
 
-	public String getLastMessage() {
+	public String getLastMessage(User localUser) {
 		Query q = JPA.em().createQuery(
-		        "SELECT m FROM Message m WHERE m.date = (SELECT MAX(date) FROM Message WHERE conversation_id = ?1 and deleted = 0) and m.date > ?2 and deleted = 0");
+		        "SELECT m FROM Message m WHERE m.date = (SELECT MAX(date) FROM Message WHERE conversation_id = ?1 and deleted = 0) and m.date > ?2 and m.deleted = 0");
         q.setParameter(1, this.id);
-        q.setParameter(2, new Date(0));
         
-        /*
-        if(this.user1 == user){
-        	if(this.user2_archive_time == null){
-        		q.setParameter(2, new Date(0));
-        	} else {
-        		q.setParameter(2, this.user2_archive_time);
-        	}
-        } else {
+        if(this.user1 == localUser){
         	if(this.user1_archive_time == null){
         		q.setParameter(2, new Date(0));
         	} else {
         		q.setParameter(2, this.user1_archive_time);
         	}
+        } else {
+        	if(this.user2_archive_time == null){
+        		q.setParameter(2, new Date(0));
+        	} else {
+        		q.setParameter(2, this.user2_archive_time);
+        	}
         }
-        */
         
 		try{
 			Message message = (Message) q.getSingleResult();
 			return message.body;
 		} catch (NoResultException e) {
-		    return null;
+		    return "";
 		} catch (NonUniqueResultException e) {
 			Message message = (Message) q.getResultList().get(0);
 			logger.underlyingLogger().error("Duplicate message found for id="+message.id+" in getLastMessage", e);
@@ -202,18 +206,15 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 	}
 
 	public static Message sendMessage(User sender, User receiver, String msgText) {
-		Conversation conversation = Conversation.findByUsers(sender, receiver);
-		if(conversation == null){
-			conversation = Conversation.startConversation(sender, receiver);
-		}
+		Conversation conversation = Conversation.startConversation(sender, receiver);
 		return conversation.addMessage(sender, msgText);
 	}
 
 	public boolean isReadBy(User user) {
-		if(this.user1 == user){
-			return this.user1_time.getTime() >= this.conv_time.getTime();
+		if (this.user1 == user) {
+			return this.user1_time == null || (this.user1_time.getTime() >= this.conv_time.getTime());
 		} else { 
-			return this.user2_time.getTime() >= this.conv_time.getTime();
+			return this.user2_time == null || (this.user2_time.getTime() >= this.conv_time.getTime());
 		}
 	}
 	
@@ -224,9 +225,9 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 	
 	public static Long getUnreadConversationCount(Long userId) {
         Query q = JPA.em().createQuery(
-                "Select count(c) from Conversation c where c.deleted = 0 and " + 
+                "Select count(c) from Conversation c where c.deleted = 0 and (" + 
                         "(c.user1.id = ?1 and c.user1_noOfMessages > 0 and (c.user1_time < c.conv_time or c.user1_time is null)) or " + 
-                        "(c.user2.id = ?1 and c.user2_noOfMessages > 0 and (c.user2_time < c.conv_time or c.user2_time is null))");
+                        "(c.user2.id = ?1 and c.user2_noOfMessages > 0 and (c.user2_time < c.conv_time or c.user2_time is null)) )");
         q.setParameter(1, userId);
         Long ret = (Long) q.getSingleResult();
         return ret;
@@ -263,7 +264,7 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 	public void markDelete() {
 		logger.underlyingLogger().debug("[conv="+this.id+"] markDelete");
 		
-		Query q = JPA.em().createQuery("update Message set deleted = 1where conversation_id = ?1");
+		Query q = JPA.em().createQuery("update Message set deleted = 1 where conversation_id = ?1");
 		q.setParameter(1, this.id);
 		q.executeUpdate();
 		q = JPA.em().createQuery("update Conversation set deleted = 1 where id = ?1");
@@ -299,8 +300,23 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 	    }
 	}
 	
-	private boolean isArchivedByBoth() {
-		return (user1_archive_time != null && user1_archive_time.getTime() >= conv_time.getTime()) &&
-				(user2_archive_time != null && user2_archive_time.getTime() >= conv_time.getTime());
+	public boolean isArchivedBy(User user) {
+		if (this.messages.isEmpty()) {
+			return true;
+		}
+		
+		if (this.user1 == user) {
+			return user1_archive_time != null && user1_archive_time.getTime() >= conv_time.getTime();	
+		} else {
+			return user2_archive_time != null && user2_archive_time.getTime() >= conv_time.getTime();
+		}
+	}
+	
+	public boolean isArchivedByBoth() {
+		if (this.messages.isEmpty()) {
+			return true;
+		}
+		
+		return isArchivedBy(this.user1) && isArchivedBy(this.user2);
 	}
 }

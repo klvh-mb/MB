@@ -22,16 +22,16 @@ public class ConversationVM {
 	@JsonProperty("isRead") public Boolean isRead = false;
 	@JsonProperty("isToday") public Boolean isToday;
 	
-	public ConversationVM(Conversation conversation, User user, User otherUser) {
+	public ConversationVM(Conversation conversation, User localUser, User otherUser) {
 		this.name = otherUser.displayName;
 		this.userId = otherUser.id;
 		this.id = conversation.id;
 		this.lastMessageDate = conversation.getUpdatedDate();
-		this.unread = conversation.getUnreadCount(user);
+		this.unread = conversation.getUnreadCount(localUser);
 		try{
-			this.lastMessage = trimLastMessage(conversation.getLastMessage());
+			this.lastMessage = trimLastMessage(conversation.getLastMessage(localUser));
 			this.isToday = DateUtils.isSameDay(this.lastMessageDate, new Date());
-			this.isRead = conversation.isReadBy(user);
+			this.isRead = conversation.isReadBy(localUser);
 		} catch(NullPointerException e){
 			logger.underlyingLogger().error(e.getLocalizedMessage(), e);
 		}

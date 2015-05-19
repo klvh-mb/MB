@@ -698,32 +698,6 @@ public class UserController extends Controller {
     }
 	   
 	@Transactional
-	public static Result getAllConversations() {
-		final User localUser = Application.getLocalUser(session());
-		List<ConversationVM> vms = new ArrayList<>();
-		List<Conversation> conversations = localUser.findMyConversations();
-		if(conversations != null ){
-			for(Conversation conversation : conversations) {
-				User otherUser;
-				if(conversation.user1 == localUser){
-					otherUser = conversation.user2;
-				} else { 
-					otherUser = conversation.user1;
-				}
-
-				if (conversation.messages.isEmpty()) {
-					conversation.markDelete();
-				} else {
-					ConversationVM vm = new ConversationVM(conversation, localUser, otherUser);
-					vms.add(vm);
-				}
-			}
-		}
-		
-		return ok(Json.toJson(vms));
-	}
-	
-	@Transactional
 	public static Result getMessages(Long id, Long offset) {
 		final User localUser = Application.getLocalUser(session());
 		List<MessageVM> vms = new ArrayList<>();
@@ -785,20 +759,48 @@ public class UserController extends Controller {
         return getAllConversations();
     }
 	
-    @Transactional
-    public static Result startConversation(Long id1, Long id2) {
-        if (id1 == id2) {
-            logger.underlyingLogger().error(String.format("[u1=%d] [u2=%d] Same user. Will not start conversation", id1, id2));
-            return status(500);
-        }
-        final User user1 = User.findById(id1);
-        final User user2 = User.findById(id2);
-        Conversation conversation = user1.findMyConversationWith(user2);
-        conversation.addMessage(user1, ".");
-        conversation.addMessage(user2, ".");
-        return ok();
-    }
-    
+	private static List<ConversationVM> getAllConversations(User localUser, ConversationVM newConversationVM) {
+		List<ConversationVM> vms = new ArrayList<>();
+		List<Conversation> conversations = localUser.findMyConversations();
+		if (conversations != null) {
+			User otherUser;
+			for (Conversation conversation : conversations) {
+				// archived, dont show
+				if (conversation.isArchivedBy(localUser)) {
+					continue;
+				}
+
+				// add new conversation to top of list
+				if (newConversationVM != null && conversation.id == newConversationVM.id) {
+					continue;
+				}
+
+				if (conversation.user1 == localUser) {
+					otherUser = conversation.user2;
+				} else { 
+					otherUser = conversation.user1;
+				}
+				
+				ConversationVM vm = new ConversationVM(conversation, localUser, otherUser);
+				vms.add(vm);
+			}
+		}
+		
+		// always add new conversation to top of list
+		if (newConversationVM != null) {
+			vms.add(0,newConversationVM);
+		}
+		
+		return vms;	
+	}
+
+	@Transactional
+	public static Result getAllConversations() {
+		final User localUser = Application.getLocalUser(session());
+		List<ConversationVM> vms = getAllConversations(localUser, null);
+		return ok(Json.toJson(vms));
+	}
+	
 	@Transactional
     public static Result startConversation(Long id) {
         final User localUser = Application.getLocalUser(session());
@@ -813,18 +815,14 @@ public class UserController extends Controller {
         }
         
         User otherUser = User.findById(id);
-        Conversation conversation = Conversation.startConversation(localUser, otherUser);
-        conversation.setUpdatedDate(new Date());
-		List<ConversationVM> vms = new ArrayList<>();
-		List<Conversation> conversations =  localUser.findMyConversations();
-		if(conversations != null){
-			for(Conversation conv : conversations) {
-				ConversationVM vm = new ConversationVM(conv, localUser, otherUser);
-				vms.add(vm);
-			}
-		}
-		
-		return ok(Json.toJson(vms));
+        Conversation newConversation = Conversation.startConversation(localUser, otherUser);
+        ConversationVM newConversationVM = null;
+        if (newConversation != null) {
+        	newConversationVM = new ConversationVM(newConversation, localUser, otherUser);
+        }
+        List<ConversationVM> vms = getAllConversations(localUser, newConversationVM);
+
+        return ok(Json.toJson(vms));
     }
 	
 	@Transactional
