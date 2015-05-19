@@ -227,7 +227,7 @@ public class User extends SocialObject implements Subject, Socializable {
     }
 
     public Conversation sendMessage(User user, String msg) {
-        Conversation conversation = Conversation.findBetween(this, user);
+        Conversation conversation = Conversation.findByUsers(this, user);
 
         if (conversations == null || conversation == null) {
             conversation = new Conversation(this, user);
@@ -1776,22 +1776,14 @@ public class User extends SocialObject implements Subject, Socializable {
         this.permissions = permissions;
     }
     
-    public List<Conversation> findMyAllConversations() {
+    public List<Conversation> findMyConversations() {
         return Conversation.findAllConversations(this,DefaultValues.CONVERSATION_COUNT);
     }
     
-    public Conversation findMyConversationsWith(User u) {
-        return Conversation.findBetween(this, u);
+    public Conversation findMyConversationWith(User u) {
+        return Conversation.findByUsers(this, u);
     }
     
-    public List<Message> getMessageForConversation(Conversation conversation, Long offset) {
-        return Message.findBetween(conversation, offset, this);
-    }
-    
-    public void addMessageToConversation(Conversation conversation, String message) {
-        conversation.addMessage(this, message);
-    }
-
     public void startChat(User user2) {
         Conversation.startConversation(this, user2);
     }
