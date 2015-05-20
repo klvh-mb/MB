@@ -4597,6 +4597,8 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 
     $scope.selectNavBar('HOME', -1);
 
+    $scope.loading = false;
+    
     $scope.messageText = "";
 
     $scope.select_emoticon = function(code) {
@@ -4607,27 +4609,33 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
     }
     
 	if ($location.path().indexOf('/message-list') > -1) {
+		$scope.loading = true;
 		$scope.conversations = conversationService.allConversations.get(function(){
 			if($scope.conversations.length > 0){
 				if (!$scope.userInfo.isMobile) {
 					$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
 				}
 			}
+			$scope.loading = false;
 		});
 	} else if ($location.path().indexOf('/start-conversation') > -1){
 		if ($scope.userInfo.id == $routeParams.id) {
             prompt("不可發私人訊息給自己");
         } else {
+        	$scope.loading = true;
     		$scope.conversations = conversationService.startConversation.get({id: $routeParams.id},function(){
     			$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
+    			$scope.loading = false;
     		});
         }
 	} else if ($location.path().indexOf('/open-conversation') > -1) {
 		if ($scope.userInfo.id == $routeParams.id) {
             prompt("不可發私人訊息給自己");
         } else {
+        	$scope.loading = true;
     		$scope.conversations = conversationService.openConversation.get({cid: $routeParams.cid, id: $routeParams.id},function(){
     			$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
+    			$scope.loading = false;
     		});
         }
 	}

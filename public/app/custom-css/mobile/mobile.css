@@ -997,7 +997,6 @@ span.notif-count {
     min-height: 250px;
     max-height: none;
     overflow-y: auto;
-    padding-bottom: 10px;
 }
 .message-del-icon {
 	width: 12px;
