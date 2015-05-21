@@ -5,6 +5,8 @@ import data.DataBootstrap;
 import models.CommunityStatistics;
 import models.GameAccountTransaction;
 import tagword.TaggingEngine;
+import targeting.community.CommunityTargetingEngine;
+
 import java.io.*;
 
 /**
@@ -99,6 +101,26 @@ public class CommandChecker {
                 ThreadLocalOverride.disableNotification(false);
             } else {
                 logger.underlyingLogger().error("bootstrapCommunityPosts missing file path");
+            }
+        }
+        // Check and assign comms for all users
+        else if (commandLine.startsWith("assignCommunitiesToUsers")) {
+        	if (tokens.length > 1) {
+        		try {
+	        		Long fromUserId = Long.parseLong(tokens[1]);
+	        		Long toUserId = Long.parseLong(tokens[2]);
+	        		logger.underlyingLogger().info("Running assignCommunitiesToUsers with: "+fromUserId+" "+toUserId);
+	        		CommunityTargetingEngine.assignSystemCommunitiesToUsers(fromUserId, toUserId);
+	        		logger.underlyingLogger().info("Completed assignCommunitiesToUsers with: "+fromUserId+" "+toUserId);
+        		} catch (NumberFormatException e) {
+        			logger.underlyingLogger().error(
+        					"assignCommunitiesToUsers with wrong param format - "+tokens[1]+" "+tokens[2], e);
+        		} catch (Exception e) {
+        			logger.underlyingLogger().error(
+        					"assignCommunitiesToUsers with exception - "+e.getLocalizedMessage(), e);
+        		}
+        	} else {
+                logger.underlyingLogger().error("assignCommunitiesToUsers missing fromUserId, toUserId");
             }
         }
     }
