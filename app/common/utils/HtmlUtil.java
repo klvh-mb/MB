@@ -53,19 +53,20 @@ public class HtmlUtil {
      */
     public static Pair<String, String> convertTextWithTagWords(String text) {
         StringBuilder tagWords = new StringBuilder();
+        String resultText = text;
 
         Matcher matcher = TAGWORD_REGEX.matcher(text);
         while (matcher.find()) {
             String tagword = matcher.group(2);
             if (tagword != null) {
+                // cover both space before or after tagword
+                resultText = resultText.replace(TAGWORD_MARKER+tagword+" ", "");
+                resultText = resultText.replace(" "+TAGWORD_MARKER+tagword, "");
                 tagWords.append(tagword.toUpperCase()).append(",");
             }
         }
-        if (tagWords.length() > 0) {
-            text = text.replace(TAGWORD_MARKER, "");
-        }
 
-        String resultText = convertTextToHtml(text);
+        resultText = convertTextToHtml(resultText);
         String resultTagWords = (tagWords.length() > 0) ? tagWords.toString() : null;
         return new Pair<>(resultText, resultTagWords);
     }
