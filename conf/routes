@@ -306,6 +306,12 @@ GET     /unbookmark-kg/:id                      controllers.KindergartenControll
 GET     /get-bookmarked-kgs                     controllers.KindergartenController.getBookmarkedKGs()
 GET     /get-bookmarked-kg-communities          controllers.KindergartenController.getBookmarkedKGCommunities()
 
+# PlayRoom
+GET     /get-pr-info/:id                        controllers.PlayRoomController.getPlayRoomInfo(id:Long)
+GET     /search-prs-by-name/:query              controllers.PlayRoomController.searchByName(query:String)
+GET     /get-prs-by-district/:district_id       controllers.PlayRoomController.getPlayRoomsByDistrict(district_id:Long)
+
+
 # Edm settings
 POST    /save-edm-settings                      controllers.UserSettingsController.saveEdmSettings
 GET     /get-edm-settings                       controllers.UserSettingsController.getEdmSettings
