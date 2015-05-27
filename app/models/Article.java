@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Query;
@@ -38,16 +40,11 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	
 	public Date publishedDate;
 
+	@Enumerated(EnumType.STRING)
+	public SocialObjectType objectType = SocialObjectType.ARTICLE;
+	
 	@ManyToOne
 	public ArticleCategory category;
-	
-	public Article(String name, String description, Integer targetAge, ArticleCategory category) {
-		this.name = name;
-		this.description = description;
-		this.category = category;
-		this.publishedDate = new Date();
-		this.objectType = SocialObjectType.ARTICLE;
-	}
 	
 	@Transactional
 	public static List<Article> getArticlesByCategory(Long catId, int offset) {

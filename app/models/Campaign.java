@@ -38,6 +38,9 @@ public class Campaign extends SocialObject implements Commentable, Likeable {
 
     public Date endDate;
 	
+    @Enumerated(EnumType.STRING)
+	public SocialObjectType objectType = SocialObjectType.CAMPAIGN;
+	
 	@Enumerated(EnumType.STRING)
     public CampaignState campaignState;
 	
@@ -73,15 +76,6 @@ public class Campaign extends SocialObject implements Commentable, Likeable {
     
     public Campaign() {}
     
-	public Campaign(String name, String description, CampaignType campaignType, Date startDate, Date endDate) {
-		this.name = name;
-		this.description = description;
-		this.campaignType = campaignType;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.objectType = SocialObjectType.CAMPAIGN;
-	}
-	
 	@Transactional
 	public static List<Campaign> getAllCampaigns() {
 		Query q = JPA.em().createQuery("Select c from Campaign c where c.campaignState in (?1,?2,?3,?4) and c.deleted = false order by startDate desc,id desc");
@@ -89,7 +83,6 @@ public class Campaign extends SocialObject implements Commentable, Likeable {
 		q.setParameter(2, CampaignState.STARTED);
 		q.setParameter(3, CampaignState.ENDED);
 		q.setParameter(4, CampaignState.ANNOUNCED);
-		//q.setMaxResults(100);
 		return (List<Campaign>)q.getResultList();
 	}
 	

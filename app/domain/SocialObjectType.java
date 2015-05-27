@@ -18,6 +18,7 @@ public enum SocialObjectType {
      ANSWER,
      TAGWORD,
      CAMPAIGN,
+     GAME_GIFT,
      PK_VIEW,           // PK - Question with 2 sides
      PRE_NURSERY,       // School
      KINDY,             // School
