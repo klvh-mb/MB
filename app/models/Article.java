@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Query;
@@ -23,7 +21,6 @@ import com.mnt.exception.SocialObjectNotLikableException;
 import domain.Commentable;
 import domain.DefaultValues;
 import domain.Likeable;
-import domain.SocialObjectType;
 
 @Entity
 public class Article extends TargetingSocialObject implements Commentable, Likeable {
@@ -40,9 +37,6 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 	
 	public Date publishedDate;
 
-	@Enumerated(EnumType.STRING)
-	public SocialObjectType objectType = SocialObjectType.ARTICLE;
-	
 	@ManyToOne
 	public ArticleCategory category;
 	

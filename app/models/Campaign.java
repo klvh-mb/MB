@@ -19,7 +19,6 @@ import com.mnt.exception.SocialObjectNotLikableException;
 
 import domain.Commentable;
 import domain.Likeable;
-import domain.SocialObjectType;
 
 @Entity
 public class Campaign extends SocialObject implements Commentable, Likeable {
@@ -37,9 +36,6 @@ public class Campaign extends SocialObject implements Commentable, Likeable {
 	public Date startDate;
 
     public Date endDate;
-	
-    @Enumerated(EnumType.STRING)
-	public SocialObjectType objectType = SocialObjectType.CAMPAIGN;
 	
 	@Enumerated(EnumType.STRING)
     public CampaignState campaignState;

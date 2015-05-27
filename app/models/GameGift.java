@@ -6,9 +6,6 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -19,19 +16,12 @@ import com.mnt.exception.SocialObjectNotLikableException;
 
 import domain.Commentable;
 import domain.Likeable;
-import domain.SocialObjectType;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
 @Entity
 public class GameGift extends SocialObject implements Commentable, Likeable {
     private static play.api.Logger logger = play.api.Logger.apply(GameGift.class);
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long id;
-    
-    public String name;
     
     @Lob
 	public String description;
@@ -55,9 +45,6 @@ public class GameGift extends SocialObject implements Commentable, Likeable {
 
     public Date endDate;
 
-    @Enumerated(EnumType.STRING)
-	public SocialObjectType objectType = SocialObjectType.GAME_GIFT;
-	
     @Enumerated(EnumType.STRING)
     public RedeemType redeemType;
 	
