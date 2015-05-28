@@ -724,7 +724,15 @@ public class CommunityController extends Controller{
 
         Community c = Community.findById(communityId);
         if (CommunityPermission.canPostOnCommunity(localUser, c)) {
-            String postText = HtmlUtil.convertTextToHtml(form.get("postText"));
+            String postText;
+            String tagWords = null;
+            if (localUser.isSuperAdmin()) {
+                Pair<String, String> pair = HtmlUtil.convertTextWithTagWords(form.get("postText"));
+                postText = pair.first;
+                tagWords = pair.second;
+            } else {
+                postText = HtmlUtil.convertTextToHtml(form.get("postText"));
+            }
             boolean withPhotos = Boolean.parseBoolean(form.get("withPhotos"));
 
             // flags from app
@@ -732,6 +740,7 @@ public class CommunityController extends Controller{
             String ios = form.get("ios");
 
             Post p = (Post) c.onPost(localUser, null, postText, PostType.SIMPLE);
+            p.tagWords = tagWords;
             if(withPhotos) {
                 p.ensureAlbumExist();
             }
@@ -742,7 +751,8 @@ public class CommunityController extends Controller{
             	p.ios = true;
             else 
             	p.mobile = Application.isMobileUser();
-            
+            p.merge();
+
             p.indexPost(withPhotos);
 
             sw.stop();
@@ -875,7 +885,15 @@ public class CommunityController extends Controller{
         DynamicForm form = DynamicForm.form().bindFromRequest();
         Long communityId = Long.parseLong(form.get("community_id"));
         String questionTitle = HtmlUtil.convertTextToHtml(form.get("questionTitle"));
-        String questionText = HtmlUtil.convertTextToHtml(form.get("questionText"));
+        String questionText;
+        String tagWords = null;
+        if (localUser.isSuperAdmin()) {
+            Pair<String, String> pair = HtmlUtil.convertTextWithTagWords(form.get("questionText"));
+            questionText = pair.first;
+            tagWords = pair.second;
+        } else {
+            questionText = HtmlUtil.convertTextToHtml(form.get("questionText"));
+        }
         int shortBodyCount = StringUtil.computePostShortBodyCount(questionText);
         
         // flags from app
@@ -887,6 +905,7 @@ public class CommunityController extends Controller{
             String withPhotos = form.get("withPhotos");
             
             Post p = (Post) c.onPost(localUser, questionTitle, questionText, PostType.QUESTION);
+            p.tagWords = tagWords;
             p.shortBodyCount = shortBodyCount;
             
             if (!StringUtils.isEmpty(android))

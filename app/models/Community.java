@@ -118,31 +118,22 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	@Transactional
 	public SocialObject onPost(User user, String title, String body, PostType type) {
 		Post post;
-		
 		if (type == PostType.QUESTION) {
 			post = new Post(user, title, body, this);
 			post.objectType = SocialObjectType.QUESTION;
 			post.postType = type;
+            post.postSubType = resolvePostSubType(post);
 			post.setUpdatedDate(new Date());
-			
-			Long pnId = CommunityMetaCache.getPNIdFromCommunity(post.community.id);
-			Long kgId = CommunityMetaCache.getKGIdFromCommunity(post.community.id);
-			if (pnId != null && kgId != null)
-				post.postSubType = PostSubType.PN_KG;
-			else if (pnId != null)
-				post.postSubType = PostSubType.PN;
-			else if (kgId != null)
-				post.postSubType = PostSubType.KG;
-			else 
-				post.postSubType = PostSubType.COMMUNITY;
-		} else if (type == PostType.SIMPLE) {
-		    	post = new Post(user, body, this);
+		}
+        else if (type == PostType.SIMPLE) {
+		    post = new Post(user, body, this);
 			post.objectType = SocialObjectType.POST;
 			post.postType = type;
 			post.postSubType = PostSubType.COMMUNITY;
 			post.setUpdatedDate(new Date());
-		} else {
-		    throw new RuntimeException("Post type is not recognized");
+		}
+        else {
+		    throw new RuntimeException("Invalid PostType");
 		}
 		post.save();
 
@@ -156,6 +147,19 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 
 		return post;
 	}
+
+    private static PostSubType resolvePostSubType(Post post) {
+        Long pnId = CommunityMetaCache.getPNIdFromCommunity(post.community.id);
+        Long kgId = CommunityMetaCache.getKGIdFromCommunity(post.community.id);
+        if (pnId != null && kgId != null)
+            return PostSubType.PN_KG;
+        else if (pnId != null)
+            return PostSubType.PN;
+        else if (kgId != null)
+            return PostSubType.KG;
+        else
+            return PostSubType.COMMUNITY;
+    }
 
     /**
      * Post process on feed queue updated.

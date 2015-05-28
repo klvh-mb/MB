@@ -53,22 +53,24 @@ public class Post extends SocialObject implements Likeable, Commentable {
     
     @Required
     public PostType postType;
-    
     @Required
     public PostSubType postSubType;
     
     @ManyToOne(cascade = CascadeType.REMOVE)
     public Folder folder;
-    
+
+	@ManyToOne
+	public User socialUpdatedBy;
+	public Date socialUpdatedDate = new Date();
+
+    public String tagWords;     // comma separated list
+
+    // stats
     public int noOfComments = 0;
     public int noOfLikes = 0;
     public int noWantAns = 0;
     public int noOfViews = 0;
     public int shortBodyCount = 0;
-
-	@ManyToOne
-	public User socialUpdatedBy;
-	public Date socialUpdatedDate = new Date();
 
 	public boolean mobile = false;
 	public boolean android = false;

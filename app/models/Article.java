@@ -21,7 +21,6 @@ import com.mnt.exception.SocialObjectNotLikableException;
 import domain.Commentable;
 import domain.DefaultValues;
 import domain.Likeable;
-import domain.SocialObjectType;
 
 @Entity
 public class Article extends TargetingSocialObject implements Commentable, Likeable {
@@ -40,14 +39,6 @@ public class Article extends TargetingSocialObject implements Commentable, Likea
 
 	@ManyToOne
 	public ArticleCategory category;
-	
-	public Article(String name, String description, Integer targetAge, ArticleCategory category) {
-		this.name = name;
-		this.description = description;
-		this.category = category;
-		this.publishedDate = new Date();
-		this.objectType = SocialObjectType.ARTICLE;
-	}
 	
 	@Transactional
 	public static List<Article> getArticlesByCategory(Long catId, int offset) {
