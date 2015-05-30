@@ -33,7 +33,6 @@ import org.elasticsearch.index.query.AndFilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.OrFilterBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.joda.time.DateTime;
 
 import play.Play;
 import play.Routes;
@@ -511,7 +510,7 @@ public class Application extends Controller {
 				byte[] decordedValue = new BASE64Decoder().decodeBuffer(userKey);
 				byte[] decValue = c.doFinal(decordedValue);
 				String decryptedValue = new String(decValue);
-				logger.underlyingLogger().debug("getLocalUser from mobile - " + userKey + " => " + decryptedValue);
+				//logger.underlyingLogger().debug("getLocalUser from mobile - " + userKey + " => " + decryptedValue);
 				localUser = Application.getMobileLocalUser(decryptedValue);
 				return localUser;
 			} catch(Exception e) { 
@@ -635,7 +634,12 @@ public class Application extends Controller {
 			            badRequest(views.html.login.render(filledForm, isOverDailySignupThreshold()));
 		} else {
 			// Everything was filled
-			return UsernamePasswordAuthProvider.handleLogin(ctx());
+			Result r = UsernamePasswordAuthProvider.handleLogin(ctx());
+			final User localUser = getLocalUser(session());
+			if(User.isLoggedIn(localUser)) {
+				logger.underlyingLogger().info("[u="+localUser.id+"] [name="+localUser.displayName+"] Native login");
+			}
+			return r;
 		}
 	}
 
@@ -667,7 +671,7 @@ public class Application extends Controller {
 			return badRequest();
 		} else {
 			// Everything was filled
-			Result r = PlayAuthenticate.handleAnthenticationByProvider(ctx(),
+			Result r = PlayAuthenticate.handleAuthenticationByProvider(ctx(),
 					 com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider.Case.LOGIN,
 					 new MyUsernamePasswordAuthProvider(Play.application()));
 			
@@ -703,6 +707,8 @@ public class Application extends Controller {
 	    	} catch(Exception e) { 
 	    		return badRequest();
 	    	}
+			
+			logger.underlyingLogger().info("[u="+u.id+"] [name="+u.displayName+"] Native mobile login");
 			return ok(encryptedValue.replace("+", "%2b"));
 		}
 	}

@@ -494,7 +494,7 @@ public abstract class PlayAuthenticate {
             return play.mvc.Results.badRequest(views.html.login.render(filledForm, Application.isOverDailySignupThreshold()));
 		}
 		try {
-			return handleAnthenticationByProvider(context, payload, ap);
+			return handleAuthenticationByProvider(context, payload, ap);
 		} catch (final AuthException e) {
 			final Call c = getResolver().onException(e);
 			if (c != null) {
@@ -512,7 +512,7 @@ public abstract class PlayAuthenticate {
 		}
 	}
 
-	public static Result handleAnthenticationByProvider(final Context context,
+	public static Result handleAuthenticationByProvider(final Context context,
 			final Object payload, final AuthProvider ap) throws AuthException {
 		final Object o = ap.authenticate(context, payload);
 		if (o instanceof String) {
