@@ -33,7 +33,7 @@ public class GameGift extends SocialObject implements Commentable, Likeable {
     
     public String image;
     
-    public int quantity = 0;
+    public long quantity = 0;
     
     public int noOfLikes = 0;
     

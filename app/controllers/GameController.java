@@ -1,5 +1,6 @@
 package controllers;
 
+import common.utils.ImageUploadUtil;
 import common.utils.NanoSecondStopWatch;
 import models.GameAccount;
 import models.GameAccountStatistics;
@@ -12,6 +13,7 @@ import play.mvc.Result;
 import viewmodel.GameAccountVM;
 import viewmodel.GameTransactionVM;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,8 @@ import java.util.List;
 public class GameController extends Controller {
     private static final play.api.Logger logger = play.api.Logger.apply(GameController.class);
 
+    private static final ImageUploadUtil imageUploadUtil = new ImageUploadUtil("game");
+    
     private static final int TRANSACTION_PAGESIZE = 30;
 
     @Transactional
@@ -102,5 +106,14 @@ public class GameController extends Controller {
         }
 
         return ok();
+    }
+    
+    @Transactional
+    public static Result getImage(Long year, Long month, Long date, String name) {
+        response().setHeader("Cache-Control", "max-age=604800");
+        String path = imageUploadUtil.getImagePath(year, month, date, name);
+
+        logger.underlyingLogger().debug("getImage. path="+path);
+        return ok(new File(path));
     }
 }
