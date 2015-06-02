@@ -3,7 +3,6 @@ package models;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -33,9 +32,6 @@ public class GameGift extends SocialObject implements Commentable, Likeable {
     public String formUrl;
     
     public String image;
-    
-    @Column(length = 256)
-    public String tag;
     
     public long quantity = 0;
     

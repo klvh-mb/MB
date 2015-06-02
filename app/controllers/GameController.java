@@ -5,17 +5,21 @@ import common.utils.NanoSecondStopWatch;
 import models.GameAccount;
 import models.GameAccountStatistics;
 import models.GameAccountTransaction;
+import models.GameGift;
 import models.User;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import viewmodel.GameAccountVM;
+import viewmodel.GameGiftVM;
 import viewmodel.GameTransactionVM;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.mnt.exception.SocialObjectNotLikableException;
 
 /**
  *
@@ -105,6 +109,57 @@ public class GameController extends Controller {
             }
         }
 
+        return ok();
+    }
+
+    @Transactional
+    public static Result getAllGameGifts() {
+        List<GameGift> gameGifts = GameGift.getAllGameGifts();
+        List<GameGiftVM> vms = new ArrayList<>();
+        for (GameGift gameGift : gameGifts) {
+        	GameGiftVM vm = new GameGiftVM(gameGift, true);
+            vms.add(vm);
+        }
+        return ok(Json.toJson(vms));
+    }
+    
+    @Transactional
+    public static Result infoGameGift(Long gameGiftId) {
+        final User localUser = Application.getLocalUser(session());
+        
+        GameGift gameGift = GameGift.findById(gameGiftId);
+        if (gameGift == null) {
+            return notFound();
+        }
+        gameGift.noOfViews++;
+        GameGiftVM vm = new GameGiftVM(gameGift, localUser);
+        return ok(Json.toJson(vm));
+    }
+    
+    @Transactional
+    public static Result onLike(Long id) throws SocialObjectNotLikableException {
+        User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
+        GameGift gameGift = GameGift.findById(id);
+        gameGift.onLikedBy(localUser);
+        return ok();
+    }
+    
+    @Transactional
+    public static Result onUnlike(Long id) throws SocialObjectNotLikableException {
+        User localUser = Application.getLocalUser(session());
+        if (!localUser.isLoggedIn()) {
+            logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
+            return status(500);
+        }
+        
+        GameGift gameGift = GameGift.findById(id);
+        gameGift.onUnlikedBy(localUser);
+        localUser.doUnLike(id, gameGift.objectType);
         return ok();
     }
     

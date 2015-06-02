@@ -1,0 +1,9 @@
+<div id="game-box" class="box-a">
+    <h4>小豆豆記錄表 (最近30個記錄)</h4>
+    <h6>由"每日簽到"、"介紹新會員加入"所獲得的小豆豆會立即計算在"小豆豆總數"中。以其他方式獲得的小豆豆會在隔天反應</h6>
+    <ul class="record">
+        <li ng-repeat="transaction in gameTransactions"> 
+            {{transaction.tt | date:'yyyy-M-dd HH:mm'}} {{transaction.td}}獲得<span ng-show="transaction.tp < 0">-</span>{{transaction.tp}}個小豆豆
+        </li>
+    </ul>
+</div>

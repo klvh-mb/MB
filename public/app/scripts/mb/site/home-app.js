@@ -63,7 +63,7 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/home/community-page.html',
     	controller: 'CommunityPageController'  
       })
-      .when('/editCommunity/:id',{
+      .when('/edit-community/:id',{
         templateUrl: '/assets/app/views/home/edit-community.html',
         controller: 'EditCommunityController'
       })
@@ -98,6 +98,10 @@ angular.module('minibean', [
       .when('/game',{
         templateUrl: '/assets/app/views/home/game-page.html',
         controller: 'GameController'
+      })
+      .when('/game-gift/:id',{
+        templateUrl: '/assets/app/views/home/game-gift-page.html',
+        controller: 'GameGiftController'
       })
       //.when('/game/rules',{
       //  templateUrl: '/assets/app/views/home/game-rules-page.html'

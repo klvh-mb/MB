@@ -1,0 +1,21 @@
+<div id="user-info" ng-show="userInfo.isAdmin || userInfo.isE">
+    <div id="game-box" class="box-a" style="padding:5px 15px;">
+		<ul>
+		    <li class="game-gift" data-ng-repeat="gameGift in gameGifts">
+                <a href="#!/game-gift/{{gameGift.id}}">
+                    <img class="game-gift-thumb" data-ng-src="{{gameGift.im}}">
+                </a>
+                <div class="game-gift-summary pull-right">
+                    <a href="#!/game-gift/{{gameGift.id}}">
+                        {{gameGift.nm}}
+                    </a>
+                    <div style="display:block;">
+                        <span ng-show="userInfo.isE" class="view-count admin-visible-field" style="margin-left:10px;"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.png"/>{{gameGift.nov}}</span>
+                        <span ng-show="gameGift.nol > 0" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{gameGift.nol}}</span>
+                    </div>
+                    <!--p>{{gameGift.ds|limitTo:120}}...</p-->
+                </div>
+            </li>
+		</ul>
+	</div>
+</div>

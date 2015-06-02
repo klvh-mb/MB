@@ -11,16 +11,16 @@
     </div>
     <div class="padding10"></div>
     
-    <h4>我的等級</h4>
+    <!--h4>我的等級</h4>
     <div class="game-details">
         <div>
             等級: <span class="points">{{gameAccount.gln || '--'}} <img style="width:24px;" src="{{gameAccount.gli}}"></span>
             <span style="font-size:12px;color:#666;margin-left:25px;">( 距離升級到 L{{gameAccount.gl+1}} 還差 {{gameAccount.gnlpt-gameAccount.gmpt}} 小豆豆 )</span>
         </div>
     </div>
-    <div class="padding10"></div>
+    <div class="padding10"></div-->
     
-    <h4>我的小豆豆</h4>
+    <h4><img style="width:22px;" src="/assets/app/images/game/levels/l_1.jpg"> 我的小豆豆</h4>
     <div class="game-details">
         <div>
             小豆豆總值: <span class="points">{{gameAccount.gmpt || '--'}}</span>
@@ -30,7 +30,7 @@
         </div>
         <div>
             已兌換: <span class="points">{{gameAccount.rdpt || '--'}}</span>
-            <span style="font-size:12px;color:#666;margin-left:25px;" ng-show="gameAccount == null || gameAccount == 0">( 未有兌換禮品記錄 )</span>
+            <span style="font-size:12px;color:#666;margin-left:25px;" ng-show="gameAccount.rdpt == null || gameAccount.rdpt == 0">( 未有兌換禮品記錄 )</span>
         </div>
     </div>
     <div class="padding10"></div>
@@ -52,15 +52,4 @@
     </div>
     <div class="padding10"></div>
     <div><img src="/assets/app/images/frontpage/topic_footer_a.png" /></div>
-</div>
-<div class="padding10"></div>
-
-<div id="game-box" class="box-a">
-    <h4>小豆豆記錄表 (最近30個記錄)</h4>
-    <h6>由"每日簽到"、"介紹新會員加入"所獲得的小豆豆會立即計算在"小豆豆總數"中。以其他方式獲得的小豆豆會在隔天反應</h6>
-    <ul class="record">
-        <li ng-repeat="transaction in gameTransactions"> 
-            {{transaction.tt | date:'yyyy-M-dd HH:mm'}} {{transaction.td}}獲得<span ng-show="transaction.tp < 0">-</span>{{transaction.tp}}個小豆豆
-        </li>
-    </ul>
 </div>

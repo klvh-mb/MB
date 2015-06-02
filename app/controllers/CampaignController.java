@@ -23,7 +23,6 @@ import models.User;
 import org.apache.commons.lang.StringUtils;
 
 import play.data.DynamicForm;
-import play.data.Form.Field;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;

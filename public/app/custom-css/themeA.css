@@ -1791,7 +1791,7 @@ a:focus {
 .static-content-wrapper img {
     width: 80px;
     height: 60px;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 .static-content-wrapper ul {
     margin: 0;
@@ -1930,7 +1930,7 @@ a:focus {
     float: left;
     width: 185px;
     height: 138px;
-    border-radius: 10px;
+    border-radius: 3px;
 }
 .allpost-wrapper div {
     overflow: hidden;

@@ -181,7 +181,7 @@ minibean.controller('AllCommunitiesIndexWidgetController',function($scope, $rout
 });
     
 minibean.controller('FrontpageController',function($scope, $route, $location, $http, $routeParams, $interval, 
-    pkViewFactory, frontpageService, communitiesDiscoverService, newsFeedService, campaignService, pkViewService, articleService, tagwordService, schoolsService, usSpinnerService) {
+		pkViewFactory, frontpageService, communitiesDiscoverService, newsFeedService, campaignService, pkViewService, articleService, tagwordService, schoolsService, usSpinnerService) {
     
     $scope.get_header_metaData();
     
@@ -515,8 +515,37 @@ minibean.controller('GameController',function($scope, $http, $interval, $locatio
     }
     
     $scope.gameAccount = gameService.gameAccount.get();
-    
-    $scope.gameTransactions = gameService.gameTransactions.get({offset:0});
+});
+
+minibean.controller('GameTransactionsController',function($scope, $location, gameService, usSpinnerService) {
+
+	$scope.gameTransactions = gameService.gameTransactions.get({offset:0});
+	
+});
+
+minibean.controller('GameGiftController',function($routeParams, $scope, $location, gameService, usSpinnerService) {
+	
+	var id = $routeParams.id;
+    if (id == undefined) {
+    	$scope.gameGifts = gameService.allGameGifts.get({},
+    		function(data) {
+	        }	
+    	);
+    } else {
+    	$scope.gameGift = gameService.gameGiftInfo.get({id:id}, 
+	        function(data) {
+	            if ($scope.gameGift.id == null || ($scope.gameGift.gs == 'NEW' && !$scope.userInfo.isE)) {
+	                $scope.showGameGift = false;
+	            }
+	            
+	            writeMetaTitleDescription(data.nm, data.ds);
+	        }, 
+	        function(rejection) {
+	        	$location.path('/game');
+			}
+	    );
+    }
+	
 });
 
 minibean.controller('SearchController',function($scope, searchService){
@@ -1082,7 +1111,7 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 	$scope.genders = DefaultValues.genders;
 	$scope.parentBirthYears = DefaultValues.parentBirthYears;
 	$scope.childBirthYears = DefaultValues.childBirthYears;
-    $scope.locations = locationService.getAllDistricts.get();
+    $scope.locations = locationService.allDistricts.get();
     
     $scope.profileDataSaved = false;
 	$scope.updateUserProfileData = function() {
@@ -1134,8 +1163,6 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 });
 
 minibean.controller('EditCommunityController',function($scope,$q, $location,$routeParams, $http, usSpinnerService, iconsService, editCommunityPageService, $upload, profilePhotoModal){
-
-    $scope.get_header_metaData();
 
 	$scope.submitBtn = "儲存";
 	$scope.community = editCommunityPageService.EditCommunityPage.get({id:$routeParams.id}, 
@@ -1669,7 +1696,7 @@ minibean.controller('SearchPageController', function($scope, $routeParams, commu
 });
 
 minibean.controller('PostLandingController', function($scope, $routeParams, $http, $upload, $timeout, $validator, 
-    postFactory, postLandingService, communityPageService, postManagementService, usSpinnerService) {
+		postFactory, postLandingService, communityPageService, postManagementService, usSpinnerService) {
     
 	$scope.get_header_metaData();
 	
@@ -1870,7 +1897,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
 });
     
 minibean.controller('QnALandingController', function($scope, $routeParams, $http, $timeout, $upload, $validator, 
-    postFactory, qnaLandingService, communityPageService, postManagementService, usSpinnerService) {
+		postFactory, qnaLandingService, communityPageService, postManagementService, usSpinnerService) {
 
     $scope.get_header_metaData();
 
@@ -2087,8 +2114,8 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     }
 });
 
-minibean.controller('CommunityPageController', function($scope, $routeParams, $interval, profilePhotoModal,
-        pkViewFactory, communityPageService, communityJoinService, pkViewService, searchMembersService, usSpinnerService){
+minibean.controller('CommunityPageController', function($scope, $routeParams, $interval, profilePhotoModal, 
+		pkViewFactory, communityPageService, communityJoinService, pkViewService, searchMembersService, usSpinnerService){
     
     $scope.get_header_metaData();
 
@@ -3166,8 +3193,6 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
 
 minibean.controller('ArticlePageController',function($scope, $routeParams, articleFactory, usSpinnerService, articleService, tagwordService){
     
-    $scope.get_header_metaData();
-    
     $scope.selectNavBar($scope.getArticleCategoryGroup($routeParams.catId), $routeParams.catId);
     
     $scope.defaultCollapseCount = DefaultValues.TAGWORD_LIST_COLLAPSE_COUNT;
@@ -3221,8 +3246,6 @@ minibean.controller('ArticlePageController',function($scope, $routeParams, artic
 
 minibean.controller('PNPageController',function($scope, $routeParams, schoolsFactory, schoolsService, myBookmarksService, communityPageService, usSpinnerService) {
 
-    $scope.get_header_metaData();
-    
     $scope.selectNavBar('SCHOOLS', 0);
     
     var id = $routeParams.id;
@@ -3296,8 +3319,6 @@ minibean.controller('PNPageController',function($scope, $routeParams, schoolsFac
 
 minibean.controller('KGPageController',function($scope, $routeParams, schoolsFactory, schoolsService, myBookmarksService, communityPageService, usSpinnerService) {
 
-    $scope.get_header_metaData();
-    
     $scope.selectNavBar('SCHOOLS', 1);
     
     var id = $routeParams.id;
@@ -3370,8 +3391,6 @@ minibean.controller('KGPageController',function($scope, $routeParams, schoolsFac
 });
 
 minibean.controller('SchoolsRankingController',function($scope, $routeParams, $location, $interval, schoolsService, usSpinnerService) {
-
-    $scope.get_header_metaData();
 
     if ($location.path().indexOf('/pn') > -1) {
     	$scope.selectNavBar('SCHOOLS', 0);
@@ -3467,7 +3486,7 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $loca
 	    $scope.filteredSchools = $scope.schools;
     }
     
-    $scope.districts = locationService.getAllDistricts.get({},
+    $scope.districts = locationService.allDistricts.get({},
     	function(data) {
     		$scope.initSchools();
     	}
@@ -4595,6 +4614,8 @@ minibean.controller('MyBookmarksController', function($scope, postFactory, myBoo
 
 minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $location, $routeParams, $sce, searchFriendService, usSpinnerService, getMessageService, conversationService) {
 
+	$scope.get_header_metaData();
+	
     $scope.selectNavBar('HOME', -1);
 
     $scope.loading = false;
