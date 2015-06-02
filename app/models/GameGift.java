@@ -3,6 +3,7 @@ package models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -33,6 +34,9 @@ public class GameGift extends SocialObject implements Commentable, Likeable {
     
     public String image;
     
+    @Column(length = 256)
+    public String tag;
+    
     public long quantity = 0;
     
     public int noOfLikes = 0;
@@ -46,30 +50,39 @@ public class GameGift extends SocialObject implements Commentable, Likeable {
     public Date endDate;
 
     @Enumerated(EnumType.STRING)
+	public FeatureType featureType;
+	
+    @Enumerated(EnumType.STRING)
     public RedeemType redeemType;
 	
+    @Enumerated(EnumType.STRING)
+	public GiftType giftType;
+	
+    @Enumerated(EnumType.STRING)
+    public GiftState giftState;
+    
+    public static enum FeatureType {
+        NONE,
+        RECOMMEND,
+        SPONSORED
+    }
+
 	public static enum RedeemType {
         POINTS,
         LEVEL
     }
+
+	public static enum GiftType {
+    	EXPIRATION,
+        QUANTITY
+    }
     
-    @Enumerated(EnumType.STRING)
-    public GiftState giftState;
-	
 	public static enum GiftState {
         NEW,
         PUBLISHED,
         STARTED,
         ENDED,
         CLOSED
-    }
-	
-    @Enumerated(EnumType.STRING)
-	public GiftType giftType;
-	
-    public static enum GiftType {
-    	EXPIRATION,
-        QUANTITY
     }
     
     public GameGift() {}

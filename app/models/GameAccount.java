@@ -10,10 +10,10 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import common.utils.ShortCodeGenerator;
+import controllers.GameController;
 import domain.GamificationConstants;
 import email.EDMUtility;
 import models.GameAccountTransaction.TransactionType;
-
 import play.db.jpa.JPA;
 
 @Entity
@@ -175,11 +175,13 @@ public class GameAccount extends domain.Entity {
         account.auditFields.setUpdatedDate(new Date());
         account.merge();
 
-        GameAccountTransaction.recordPoints(user.id,
-                GamificationConstants.POINTS_SIGNIN,
-                TransactionType.SystemCredit,
-                GameAccountTransaction.TRANS_DESC_SIGNIN,
-                account.getGamePoints());
+        if (GameController.enableSignInForToday()) {
+	        GameAccountTransaction.recordPoints(user.id,
+	                GamificationConstants.POINTS_SIGNIN,
+	                TransactionType.SystemCredit,
+	                GameAccountTransaction.TRANS_DESC_SIGNIN,
+	                account.getGamePoints());
+        }
 	}
 
     /**
