@@ -26,7 +26,7 @@
                 </ul>
             </div>
             
-            <div data-ng-controller="GameController">
+            <div data-ng-controller="GameController" ng-if="userInfo.isLoggedIn">
                 <div data-ng-include data-src="'/assets/app/views/widgets/game-widget-light.html'"></div>
             </div>
             

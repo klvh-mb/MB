@@ -514,7 +514,7 @@ minibean.controller('GameController',function($scope, $http, $interval, $locatio
             });
     }
     
-    $scope.gameAccount = gameService.gameAccount.get();
+	$scope.gameAccount = gameService.gameAccount.get();	
 });
 
 minibean.controller('GameTransactionsController',function($scope, $location, gameService, usSpinnerService) {

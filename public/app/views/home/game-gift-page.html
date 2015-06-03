@@ -10,7 +10,7 @@
             <div data-ng-include data-src="'/assets/app/views/home/game-gift-page-details.html'"></div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
-            <div data-ng-controller="GameController">
+            <div data-ng-controller="GameController" ng-if="userInfo.isLoggedIn">
                 <div data-ng-include data-src="'/assets/app/views/widgets/game-widget.html'"></div>
             </div>
             <div data-ng-controller="GameGiftController">

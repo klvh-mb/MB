@@ -51,7 +51,7 @@ public class GameGiftVM {
 	    this.id = gameGift.id;
 	    this.name = gameGift.name;
 	    this.image = gameGift.image;
-	    this.imageThumb = StringUtils.isEmpty(gameGift.imageThumb)? this.image : this.imageThumb;
+	    this.imageThumb = StringUtils.isEmpty(gameGift.imageThumb)? gameGift.image : gameGift.imageThumb;
 	    if (!preview) {
 	    	this.description = gameGift.description;
 		    this.redeemInfo = gameGift.redeemInfo;

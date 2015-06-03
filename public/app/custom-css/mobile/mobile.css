@@ -811,6 +811,9 @@ span.notif-count {
     top: 0px;
     left: 20px;
 }
+#game-box .game-details .points {
+  margin: 3px 5px;
+}
 
 /* ads */
 .ads-factor-1x1 {
