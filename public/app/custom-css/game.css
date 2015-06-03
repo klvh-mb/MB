@@ -123,11 +123,6 @@
     font-weight: bold;
     font-size: 16px;
 }
-#game-box .game-details img {
-    width: 18px;
-    height: auto;
-    margin-bottom: 2px;
-}
 .game-bootbox-prompt .modal-dialog {
     top: 100px;
     font-size: 15px;
