@@ -525,13 +525,13 @@ minibean.controller('GameTransactionsController',function($scope, $location, gam
 
 minibean.controller('GameGiftController',function($routeParams, $scope, $location, gameService, usSpinnerService) {
 	
+	$scope.gameGifts = gameService.allGameGifts.get({},
+		function(data) {
+        }	
+	);
+	
 	var id = $routeParams.id;
-    if (id == undefined) {
-    	$scope.gameGifts = gameService.allGameGifts.get({},
-    		function(data) {
-	        }	
-    	);
-    } else {
+    if (id != undefined) {
     	$scope.gameGift = gameService.gameGiftInfo.get({id:id}, 
 	        function(data) {
 	            if ($scope.gameGift.id == null || ($scope.gameGift.gs == 'NEW' && !$scope.userInfo.isE)) {

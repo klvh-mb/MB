@@ -1,16 +1,11 @@
 <div id="game-box" class="box-a">
-    <h4>每日簽到</h4>
-    <div class="sign-in">
-        <span style="margin-right:10px;">立即簽到累積小豆豆!</span> 
-        <a class="btn btn-general btn-sign-in" href="" ng-show="userInfo.enableSignInForToday" ng-click="signInForToday();">
-            <img style="height:28px;width:auto;" src="/assets/app/images/game/sign_in.png"></img>
-        </a>
-        <a class="btn btn-general btn-signed-in" href="" ng-show="!userInfo.enableSignInForToday">
-            <img style="height:28px;width:auto;" src="/assets/app/images/game/signed_in.png"></img>
-        </a>
-    </div>
-    <div class="padding10"></div>
+    <h2>
+	    <img class="game-box-mascot" src="/assets/app/images/frontpage/mascot/green_right.png">
+        小豆豆中心
+    </h2>
+</div>
     
+<div id="game-box" class="box-a">
     <!--h4>我的等級</h4>
     <div class="game-details">
         <div>
@@ -23,15 +18,27 @@
     <h4><img style="width:22px;" src="/assets/app/images/game/levels/l_1.jpg"> 我的小豆豆</h4>
     <div class="game-details">
         <div>
-            小豆豆總值: <span class="points">{{gameAccount.gmpt || '--'}}</span>
+            小豆豆: <span class="points">{{gameAccount.gmpt || '--'}}</span>
         </div>
-        <div>
+        <!--div>
             可兌換: <span class="points">{{(gameAccount.gmpt-userInfo.rdpt) || '--'}}</span>
-        </div>
+        </div-->
         <div>
             已兌換: <span class="points">{{gameAccount.rdpt || '--'}}</span>
             <span style="font-size:12px;color:#666;margin-left:25px;" ng-show="gameAccount.rdpt == null || gameAccount.rdpt == 0">( 未有兌換禮品記錄 )</span>
         </div>
+    </div>
+    <div class="padding10"></div>
+    
+    <h4>每日簽到</h4>
+    <div class="sign-in">
+        <span style="margin-right:10px;">立即簽到累積小豆豆!</span> 
+        <a class="btn btn-general btn-sign-in" href="" ng-show="userInfo.enableSignInForToday" ng-click="signInForToday();">
+            <img style="height:28px;width:auto;" src="/assets/app/images/game/sign_in.png"></img>
+        </a>
+        <a class="btn btn-general btn-signed-in" href="" ng-show="!userInfo.enableSignInForToday">
+            <img style="height:28px;width:auto;" src="/assets/app/images/game/signed_in.png"></img>
+        </a>
     </div>
     <div class="padding10"></div>
     

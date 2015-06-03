@@ -39,7 +39,7 @@
                             <span class="btn-like-wrapper"><span ng-show="article.nov > 20 || userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{article.nov}}</span></span>
                             <span data-ng-include data-src="'/assets/app/views/home/like-article.html'"></span>
                         </li>
-                        <li><div style="font-size:16px;width:100%;" class="ng-binding" ng-bind-html="article.ds | to_trusted"></div></li>
+                        <li><div style="font-size:16px;width:100%;" ng-bind-html="article.ds | to_trusted"></div></li>
                         <li>
                             <span class="btn-like-wrapper"><span ng-show="article.nov > 20 || userInfo.isE" class="btn-like" style="margin-right:10px;"><img class="view-icon" style="vertical-align:sub;" data-ng-src="/assets/app/images/general/icons/view.png"/>{{article.nov}}</span></span>
                             <span data-ng-include data-src="'/assets/app/views/home/like-article.html'"></span>

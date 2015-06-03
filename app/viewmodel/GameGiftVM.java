@@ -6,26 +6,32 @@ import models.GameGift;
 import models.GameGift.GiftState;
 import models.User;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import com.mnt.exception.SocialObjectNotLikableException;
-
-import domain.DefaultValues;
 
 public class GameGiftVM {
 	@JsonProperty("id") public long id;
 	@JsonProperty("nm") public String name;
 	@JsonProperty("im") public String image;
+	@JsonProperty("imt") public String imageThumb;
 	@JsonProperty("ds") public String description;
 	@JsonProperty("ri") public String redeemInfo;
-	@JsonProperty("furl") public String formUrl;
+	@JsonProperty("ei") public String expirationInfo;
+	@JsonProperty("si") public String shippingInfo;
+	@JsonProperty("ci") public String customerCareInfo;
+	@JsonProperty("mi") public String moreInfo;
 	@JsonProperty("ft") public String featureType;
 	@JsonProperty("rt") public String redeemType;
 	@JsonProperty("gt") public String giftType;
 	@JsonProperty("gs") public String giftState;
 	@JsonProperty("sd") public Date startDate;
 	@JsonProperty("ed") public Date endDate;
-	@JsonProperty("qt") public Long quantity;
+	@JsonProperty("rp") public Long requiredPoints;
+	@JsonProperty("rl") public Long requiredLevel;
+	@JsonProperty("qt") public Long quantityTotal;
+	@JsonProperty("qa") public Long quantityAvailable;
 	@JsonProperty("cd") public Date createdDate;
     @JsonProperty("cb") public String createdBy;
     
@@ -45,11 +51,18 @@ public class GameGiftVM {
 	    this.id = gameGift.id;
 	    this.name = gameGift.name;
 	    this.image = gameGift.image;
-	    if (preview && gameGift.description.length() > DefaultValues.DEFAULT_PREVIEW_CHARS) {
-	        this.description = gameGift.description.substring(0, DefaultValues.DEFAULT_PREVIEW_CHARS);
-	    } else {
-	        this.description = gameGift.description;
+	    this.imageThumb = StringUtils.isEmpty(gameGift.imageThumb)? this.image : this.imageThumb;
+	    if (!preview) {
+	    	this.description = gameGift.description;
+		    this.redeemInfo = gameGift.redeemInfo;
+		    this.expirationInfo = gameGift.expirationInfo;
+		    this.shippingInfo = gameGift.shippingInfo;
+		    this.customerCareInfo = gameGift.customerCareInfo;
+		    this.moreInfo = gameGift.moreInfo;
 	    }
+	    
+	    this.featureType = gameGift.featureType.name();
+	    this.redeemType = gameGift.redeemType.name();
 		this.giftType = gameGift.giftType.name();
 		this.giftState = gameGift.giftState.name();
 		if ((gameGift.giftState == GiftState.NEW || 
@@ -60,6 +73,11 @@ public class GameGiftVM {
 		}
 		this.startDate = gameGift.startDate;
 		this.endDate = gameGift.endDate;
+		
+		this.requiredPoints = gameGift.requiredPoints;
+		this.requiredLevel = gameGift.requiredLevel;
+		this.quantityTotal = gameGift.quantityTotal;
+		this.quantityAvailable = gameGift.quantityAvailable;
 		
 		this.noOfLikes = gameGift.noOfLikes;
 		this.noOfViews = gameGift.noOfViews;

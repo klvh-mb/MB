@@ -1,20 +1,18 @@
 <div id="user-info" ng-show="userInfo.isAdmin || userInfo.isE">
-    <div id="game-box" class="box-a" style="padding:5px 15px;">
-	    <div id="game-info">
-	        <span class="pull-right">
-	            <a class="btn btn-sign-in" href="/my#!/game" ng-show="userInfo.enableSignInForToday">
-	                <img style="height:22px;width:auto;" src="/assets/app/images/game/sign_in.png"></img>
-	            </a>
-	            <a class="btn btn-signed-in" href="/my#!/game" ng-show="!userInfo.enableSignInForToday">
-	                <img style="height:22px;width:auto;" src="/assets/app/images/game/signed_in.png"></img>
-	            </a>
-	        </span>
-	        <div>
-	            <a class="" href="/my#!/game">
-                    <img style="width:22px;" src="/assets/app/images/game/levels/l_1.jpg"> 小豆豆: <span class="points">{{gameAccount.gmpt || '--'}}</span>
-                    <img style="width:14px;margin:0 3px 3px;float:none;" src="/assets/app/images/general/animated/arrow.gif">
-	            </a>
-	        </div>
-	    </div>
+    <div id="game-box" class="box-a">
+        <span class="pull-right" style="margin-top:5px;margin-right:10px;">
+            <a class="btn btn-sign-in" href="/my#!/game" ng-show="userInfo.enableSignInForToday">
+                <img style="height:22px;width:auto;" src="/assets/app/images/game/sign_in.png"></img>
+            </a>
+            <a class="btn btn-signed-in" href="/my#!/game" ng-show="!userInfo.enableSignInForToday">
+                <img style="height:22px;width:auto;" src="/assets/app/images/game/signed_in.png"></img>
+            </a>
+        </span>
+        <div class="game-details">
+            <a class="" href="/my#!/game">
+				<img style="width:22px;" src="/assets/app/images/game/levels/l_1.jpg"> 小豆豆: <span class="points">{{gameAccount.gmpt || '--'}}</span>
+				<img style="width:14px;margin:0 3px 3px;float:none;" src="/assets/app/images/general/animated/arrow.gif">
+            </a>
+        </div>
 	</div>
 </div>

@@ -7,12 +7,15 @@
     <div class="row">
         <div class="col-md-2 col-sm-2 col-xs-2" style="width:100px;"></div>
         <div class="col-md-6 col-sm-6 col-xs-6" style="width:480px;">
-            <div data-ng-include data-src="'/assets/app/views/home/game-page-details.html'"></div>
+            <div data-ng-include data-src="'/assets/app/views/home/game-gift-page-details.html'"></div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
-            <!--div data-ng-controller="GameController">
-                <div ng-init="hideStats = true" data-ng-include data-src="'/assets/app/views/widgets/my-profile-widget.html'"></div>
-            </div-->
+            <div data-ng-controller="GameController">
+                <div data-ng-include data-src="'/assets/app/views/widgets/game-widget.html'"></div>
+            </div>
+            <div data-ng-controller="GameGiftController">
+                <div data-ng-include data-src="'/assets/app/views/widgets/game-gifts-widget.html'"></div>
+            </div>
             <div data-ng-include data-src="'/assets/app/views/home/game-rules.html'"></div>
             <div class="ads-factor-300x250">
                 <script adSize="300250" adSid="842233366698" ads-factor language='JavaScript' type="text/javascript"></script>

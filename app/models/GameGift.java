@@ -3,10 +3,10 @@ package models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.Lob;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
@@ -23,24 +23,36 @@ import play.db.jpa.Transactional;
 public class GameGift extends SocialObject implements Commentable, Likeable {
     private static play.api.Logger logger = play.api.Logger.apply(GameGift.class);
     
-    @Lob
+    public String image;
+
+    public String imageThumb;
+    
+    @Column(length = 1024)
 	public String description;
 	
-    @Lob
+    @Column(length = 1024)
     public String redeemInfo;
     
-    public String formUrl;
+    @Column(length = 1024)
+    public String expirationInfo;
     
-    public String image;
+    @Column(length = 1024)
+    public String shippingInfo;
     
-    public long quantity = 0;
+    @Column(length = 1024)
+    public String customerCareInfo;
     
-    public int noOfLikes = 0;
+    @Column(length = 1024)
+    public String moreInfo;
     
-	public int noOfViews = 0;
-	
-	public int noOfRedeems = 0;
-	
+    public long requiredPoints = 0L;
+    
+    public long requiredLevel = 0L;
+    
+    public long quantityTotal = 0L;
+    
+    public long quantityAvailable = 0L;
+    
 	public Date startDate;
 
     public Date endDate;
@@ -80,6 +92,12 @@ public class GameGift extends SocialObject implements Commentable, Likeable {
         ENDED,
         CLOSED
     }
+	
+    public int noOfLikes = 0;
+    
+	public int noOfViews = 0;
+	
+	public int noOfRedeems = 0;
     
     public GameGift() {}
     

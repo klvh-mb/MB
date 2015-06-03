@@ -1,0 +1,30 @@
+<div id="game-box" class="box-a">
+    <img style="width:100%;padding:15px;" ng-src="{{gameGift.im}}">
+    
+    <h3>{{gameGift.nm}}</h3>
+    
+    <div class="game-details" style="text-align:center;"><span>{{gameGift.ds}}</span></div>
+    <div class="padding10"></div>
+    
+    <h4>換領規則</h4>
+    <div class="game-details"><span class="game-details-info" ng-bind-html="gameGift.ri | to_trusted"></span></div>
+    <div class="padding10"></div>
+    
+    <h4>換領有效期</h4>
+    <div class="game-details"><span class="game-details-info" ng-bind-html="gameGift.ei | to_trusted"></span></div>
+    <div class="padding10"></div>
+    
+    <h4>領取方式</h4>
+    <div class="game-details"><span class="game-details-info" ng-bind-html="gameGift.si | to_trusted"></span></div>
+    <div class="padding10"></div>
+    
+    <h4>客戶服務</h4>
+    <div class="game-details"><span class="game-details-info" ng-bind-html="gameGift.ci | to_trusted"></span></div>
+    <div class="padding10"></div>
+    
+    <h4>注意事項</h4>
+    <div class="game-details"><span class="game-details-info" ng-bind-html="gameGift.mi | to_trusted"></span></div>
+    <div class="padding10"></div>
+    
+    <div><img src="/assets/app/images/frontpage/topic_footer_a.png" /></div>
+</div>

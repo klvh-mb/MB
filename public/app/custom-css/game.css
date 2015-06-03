@@ -52,15 +52,30 @@
     border: #7acff2 solid 1px;
     border-radius: 10px;
     margin-bottom: 10px;
-}
-#game-box div {
-}
-#game-box div p {
     font-size: 14px;
 }
-#game-box h4, #game-box h5, #game-box h6 {
+#game-box .game-box-mascot {
+	height: 50px;
+	width: auto;
+	position: absolute;
+	top: -10px;
+	left: 20px;
+}
+#game-box h1, #game-box h2, #game-box h3, #game-box h4, #game-box h5, #game-box h6 {
     padding: 10px;
     margin: 0; 
+}
+#game-box h2 {
+	font-size: 20px;
+	font-weight: bold;
+    color: #556fb5;
+    padding-left: 55px;
+}
+#game-box h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #556fb5;
+    text-align: center;
 }
 #game-box h4 {
     font-size: 15px;
@@ -93,8 +108,14 @@
     font-size: 14px;
     color: #000000;
 }
+#game-box .game-details .game-details-info {
+    white-space: pre-wrap;
+}
 #game-box .game-details div {
     margin: 3px 0; 
+}
+#game-box .game-details a {
+    color: #333;
 }
 #game-box .game-details .points {
     margin: 3px 10px;
@@ -181,24 +202,49 @@
 	padding: 0;
 	margin: 0;
 }
+#game-box a {
+    text-decoration: none;
+}
 .game-gift {
     font-size: 14px;
-    padding: 8px 0;
+    padding: 10px 0;
     border-bottom: 1px dashed #eee;
 }
-.game-gift img.game-gift-thumb {
-    width: 100px;
-    height: 50px;
+.game-gift .game-gift-thumb {
+	width: 40%;
+    height: auto;
+    display: inline-block;
+}
+.game-gift .game-gift-thumb img {
+	width: 100%;
+    height: auto;
     border-radius: 3px;
 }
+.game-gift .game-gift-summary span {
+	font-size: 12px;
+	color: #333;
+}
 .game-gift .game-gift-summary {
+	width: 58%;
+	height: auto;
     display: inline-block;
-    position: absolute;
-    overflow: hidden;
-    padding: 0 10px;
+    padding-left: 10px;
+    vertical-align: middle;
 }
 .game-gift .game-gift-summary a {
   font-size: 14px;
   color: #324fe1;
   line-height: 1.2;
+}
+.game-gift .game-gift-redeem-btn {
+	display: inline-block;
+	margin-top: 8px;
+    margin-right: 10px;
+}
+.game-gift .game-gift-redeem-btn a {
+	font-size: 13px;
+	color: white;
+	background-color: #1BA117;
+	border-radius: 5px;
+	padding: 5px 8px;
 }

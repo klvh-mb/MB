@@ -804,6 +804,13 @@ span.notif-count {
     margin: 3px 0;
     line-height: 20px;
 }
+#game-box .game-box-mascot {
+    height: 50px;
+    width: auto;
+    position: absolute;
+    top: 0px;
+    left: 20px;
+}
 
 /* ads */
 .ads-factor-1x1 {
