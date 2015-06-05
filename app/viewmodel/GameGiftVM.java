@@ -4,6 +4,7 @@ import java.util.Date;
 
 import models.GameGift;
 import models.GameGift.GiftState;
+import models.RedeemTransaction;
 import models.User;
 
 import org.apache.commons.lang3.StringUtils;
@@ -38,7 +39,7 @@ public class GameGiftVM {
 	@JsonProperty("ac") public boolean isActive = false;
 	@JsonProperty("nol") public int noOfLikes;
     @JsonProperty("nov") public int noOfViews;
-    @JsonProperty("isRedeemed") public boolean isRedeemed = false;
+    @JsonProperty("isPending") public boolean isPending = false;
     @JsonProperty("isLike") public boolean isLike = false;
 
     @JsonProperty("rc") public Long redeemedUsersCount = -1L;
@@ -86,7 +87,11 @@ public class GameGiftVM {
     public GameGiftVM(GameGift gameGift, User user) {
         this(gameGift);
         
-        this.isRedeemed = false;	//GameGiftRedeemTransaction.isRedeemed(user.id, gameGift.id);
+        RedeemTransaction redeemTransaction = 
+        		RedeemTransaction.getPendingRedeemTransaction(user, gameGift.id, RedeemTransaction.RedeemType.GAME_GIFT);
+        if (redeemTransaction != null) {
+        	this.isPending = true;
+        }
         
         try {
             this.isLike = gameGift.isLikedBy(user);

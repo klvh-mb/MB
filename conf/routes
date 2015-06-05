@@ -338,13 +338,12 @@ POST    /sign-in-for-today                      controllers.GameController.signI
 GET     /get-gameaccount                        controllers.GameController.getGameAccount()
 GET     /get-transactions/:offset               controllers.GameController.getGameTransactions(offset : String)
 GET     /invite-by-mail/:mail                   controllers.UserController.inviteByEmail(mail: String)
-GET     /request-redemption/:id/:points         controllers.UserController.requestToRedemption(id: Long,points: Long)
 
 GET     /get-all-game-gifts                     controllers.GameController.getAllGameGifts()
 GET     /get-game-gift-info/:id                 controllers.GameController.infoGameGift(id:Long)
 GET     /like-game-gift/:id                     controllers.GameController.onLike(id:Long)
 GET     /unlike-game-gift/:id                   controllers.GameController.onUnlike(id:Long)
-#GET     /redeem-game-gift/:id                   controllers.GameController.redeemGameGift(id:Long)
+POST    /redeem-game-gift                       controllers.GameController.redeemGameGift()
 
 # Admin
 GET     /admin/get-campaign-joiners/:id         controllers.AdminController.getCampaignJoiners(id :Long)

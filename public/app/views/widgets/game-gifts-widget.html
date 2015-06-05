@@ -17,7 +17,7 @@
                     <span>{{gameGift.rp}}</span>
                 </span>
                 <div style="display:block;">
-                    <div class="game-gift-redeem-btn"><a href="#!/game-gift/{{gameGift.id}}">立即換領</a></div>
+                    <a class="game-gift-redeem-btn" href="#!/game-gift/{{gameGift.id}}">立即換領</a>
                     <span ng-show="gameGift.nol > 0" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{gameGift.nol}}</span>
                     <span ng-show="userInfo.isE" class="view-count admin-visible-field"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.png"/>{{gameGift.nov}}</span>
                 </div>

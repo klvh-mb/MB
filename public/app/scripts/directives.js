@@ -101,6 +101,10 @@ minibean.directive('ngConfirmClick', [function() {
         restrict: 'A',
         link: function(scope, element, attrs) {
             element.bind('click', function() {
+                var className = attrs.ngConfirmClassName;
+                if (!className) {
+                    className = "post-bootbox-modal";
+                }
                 var message = attrs.ngConfirmMessage;
                 if (message) {
                     /*
@@ -114,7 +118,7 @@ minibean.directive('ngConfirmClick', [function() {
                     bootbox.dialog({
                       message: message,
                       title: "",
-                      className: "post-bootbox-modal",
+                      className: className,
                       buttons: {
                         cancel: {
                           label: "取消",

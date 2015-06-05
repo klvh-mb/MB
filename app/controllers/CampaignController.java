@@ -11,6 +11,7 @@ import campaign.validator.ValidationResult;
 import com.mnt.exception.SocialObjectNotLikableException;
 
 import common.utils.ImageUploadUtil;
+import domain.SocialObjectType;
 import email.EDMUtility;
 import models.Campaign;
 import models.Campaign.CampaignType;
@@ -27,9 +28,9 @@ import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import viewmodel.CampaignUserJoinStatusVM;
 import viewmodel.CampaignVM;
 import viewmodel.CampaignWinnerVM;
+import viewmodel.ResponseStatusVM;
 
 public class CampaignController extends Controller {
     private static play.api.Logger logger = play.api.Logger.apply(CampaignController.class);
@@ -156,7 +157,7 @@ public class CampaignController extends Controller {
             return status(502);
         }
         
-        CampaignUserJoinStatusVM vm = null;
+        ResponseStatusVM status = null;
 
         switch (campaign.campaignType) {
             case ACTIONS: {
@@ -165,8 +166,8 @@ public class CampaignController extends Controller {
                     return status(501);
                 }
 
-                vm = validateUserActions(localUser, campaign);
-                if (vm.success) {
+                status = validateUserActions(localUser, campaign);
+                if (status.success) {
                     CampaignActionsUser campaignUser = CampaignActionsUser.getCampaignActionsUser(localUser.id, campaign.id);
                     if (campaignUser != null && campaignUser.withdraw) {
                         // user withdrawn before
@@ -194,13 +195,13 @@ public class CampaignController extends Controller {
         }
 
         // Capture contact info from form.
-        if (vm != null && vm.success) {
+        if (status != null && status.success) {
             GameAccount gameAccount = GameAccount.findByUserId(localUser.id);
             gameAccount.setContactInfo(realName, phone, email);
             gameAccount.save();
         }
 
-        return ok(Json.toJson(vm));
+        return ok(Json.toJson(status));
     }
 
     /**
@@ -208,13 +209,13 @@ public class CampaignController extends Controller {
      * @param campaign
      * @return
      */
-    private static CampaignUserJoinStatusVM validateUserActions(User user, Campaign campaign) {
+    private static ResponseStatusVM validateUserActions(User user, Campaign campaign) {
         ValidationResult result = CampaignValidationEngine.validateCampaign(campaign, user.getId());
         if (!result.isSuccess()) {
             logger.underlyingLogger().info(String.format("[u=%d][c=%d] Failed campaign validation. %s",
                     user.id, campaign.id, result.getSystemMessages().toString()));
         }
-        return new CampaignUserJoinStatusVM(campaign.id, user.id, result.isSuccess(), result.getMessages());
+        return new ResponseStatusVM(SocialObjectType.CAMPAIGN.name(), campaign.id, user.id, result.isSuccess(), result.getMessages());
     }
     
     @Transactional

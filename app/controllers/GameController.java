@@ -1,12 +1,15 @@
 package controllers;
 
+import static play.data.Form.form;
 import common.utils.ImageUploadUtil;
 import common.utils.NanoSecondStopWatch;
 import models.GameAccount;
 import models.GameAccountStatistics;
 import models.GameAccountTransaction;
 import models.GameGift;
+import models.RedeemTransaction;
 import models.User;
+import play.data.DynamicForm;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -14,12 +17,17 @@ import play.mvc.Result;
 import viewmodel.GameAccountVM;
 import viewmodel.GameGiftVM;
 import viewmodel.GameTransactionVM;
+import viewmodel.ResponseStatusVM;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.mnt.exception.SocialObjectNotLikableException;
+
+import domain.SocialObjectType;
+import email.EDMUtility;
 
 /**
  *
@@ -136,6 +144,57 @@ public class GameController extends Controller {
         return ok(Json.toJson(vm));
     }
     
+    @Transactional
+	public static Result redeemGameGift() {
+		final User localUser = Application.getLocalUser(session());
+		if (!localUser.isLoggedIn()) {
+            return status(599);
+        }
+		
+		DynamicForm form = form().bindFromRequest();
+        Long id = Long.parseLong(form.get("id"));
+        
+		GameGift gameGift = GameGift.findById(id);
+        if (gameGift == null) {
+            logger.underlyingLogger().error(String.format("[u=%d][g=%d] User tried to redeem game gift which does not exist", localUser.id, id));
+            return status(500);
+        }
+        
+        ResponseStatusVM status = validateGameGiftRedeemTransaction(localUser, gameGift);
+        if (status.success) {
+	        RedeemTransaction redeemTransaction = new RedeemTransaction();
+	        redeemTransaction.user = localUser;
+	        redeemTransaction.redeemType = RedeemTransaction.RedeemType.GAME_GIFT;
+	        redeemTransaction.objId = gameGift.id;
+	        redeemTransaction.transactionState = RedeemTransaction.TransactionState.REQUESTED;
+	        redeemTransaction.setCreatedDate(new Date());
+	        redeemTransaction.save();        
+
+	        logger.underlyingLogger().info(String.format("[u=%d][g=%d] Successfully requested redeem game gift", localUser.id, gameGift.id));
+
+	        String notifText = "New Redeem Request (u="+localUser.id+") to game gift (g="+gameGift.id+")";
+	        EDMUtility.getInstance().sendMailToMB(notifText, notifText);
+        }
+        
+        return ok(Json.toJson(status));
+	}
+	
+	private static ResponseStatusVM validateGameGiftRedeemTransaction(User user, GameGift gameGift) {
+		// Duplicate redeem!!
+		RedeemTransaction redeemTransaction = 
+        		RedeemTransaction.getPendingRedeemTransaction(user, gameGift.id, RedeemTransaction.RedeemType.GAME_GIFT);
+        if (redeemTransaction != null) {
+        	logger.underlyingLogger().error(String.format("[u=%d][g=%d] Duplicate redeem game gift!", user.id, gameGift.id));
+        	String message = "您已要求換領這禮品，如未收到換領通知，請 1) PM miniBean Facebook 專頁 或 2) 電郵至 info@minibean.com.hk";
+        	return new ResponseStatusVM(SocialObjectType.GAME_GIFT.name(), gameGift.id, user.id, false, message);
+        }
+        
+        // TODO: validate points
+        
+        
+        return new ResponseStatusVM(SocialObjectType.GAME_GIFT.name(), gameGift.id, user.id, true);
+    }
+	
     @Transactional
     public static Result onLike(Long id) throws SocialObjectNotLikableException {
         User localUser = Application.getLocalUser(session());

@@ -800,6 +800,9 @@ span.notif-count {
 }
 
 /* Game */
+.game-bootbox-prompt .modal-content {
+    width: 250px;
+}
 #game-info div {
     margin: 3px 0;
     line-height: 20px;
@@ -813,6 +816,9 @@ span.notif-count {
 }
 #game-box .game-details .points {
   margin: 3px 5px;
+}
+.game-gift a.game-gift-redeem-action-btn {
+    width: 80%;
 }
 
 /* ads */
@@ -1051,7 +1057,7 @@ span.notif-count {
   color: white;
   font-size: 12px;
   font-weight: bold;
-  padding: 8px 10px;
+  padding: 8px 15px;
   border-radius: 25px;
 }
 

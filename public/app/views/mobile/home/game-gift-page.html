@@ -6,6 +6,9 @@
 <div class="themeA-container">
     <div class="row">
         <div id="wall">
+            <div data-ng-controller="GameController" ng-if="userInfo.isLoggedIn">
+                <div data-ng-include ng-init="showProfileImage = true" data-src="'/assets/app/views/widgets/game-widget-light.html'"></div>
+            </div>
             <div data-ng-include data-src="'/assets/app/views/home/game-gift-page-details.html'"></div>
             <div data-ng-controller="GameGiftController">
                 <div data-ng-include data-src="'/assets/app/views/widgets/game-gifts-widget.html'"></div>
