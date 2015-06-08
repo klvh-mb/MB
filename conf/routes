@@ -262,6 +262,8 @@ GET     /get-newsfeeds/:offset                  controllers.CommunityController.
 GET     /get-businessfeeds/:offset/:commCatId   controllers.CommunityController.getBusinessfeedsByCategory(offset:Integer, commCatId:Long)
 GET     /get-hotnewsfeeds/:offset               controllers.CommunityController.getHotNewsfeeds(offset:Integer)
 GET     /get-pnnewsfeeds/:offset                controllers.CommunityController.getPNfeeds(offset:Integer)
+GET     /get-kgnewsfeeds/:offset                controllers.CommunityController.getKGfeeds(offset:Integer)
+
 
 GET     /like-post/:post_id                     controllers.CommunityController.likeThePost(post_id:Long)
 GET     /unlike-post/:post_id                   controllers.CommunityController.unlikeThePost(post_id:Long)

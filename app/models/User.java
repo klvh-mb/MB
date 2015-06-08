@@ -1531,6 +1531,8 @@ public class User extends SocialObject implements Subject, Socializable {
                 ids = FeedProcessor.getBusinessFeedIds(this, offset, limit); break;
             case PreNursery:
                 ids = FeedProcessor.getPNFeedIds(offset, limit); break;
+            case Kindy:
+                ids = FeedProcessor.getKGFeedIds(offset, limit); break;
             default:
                 ids = null; break;
         }

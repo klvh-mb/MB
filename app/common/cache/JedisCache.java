@@ -21,6 +21,7 @@ public class JedisCache {
     public static final String SOCIAL_FEED_PREFIX = SYS_PREFIX + "user_";
     public static final String BIZ_FEED_PREFIX = SYS_PREFIX + "biz_";
     public static final String PN_FEED_PREFIX = SYS_PREFIX + "pn_";
+    public static final String KG_FEED_PREFIX = SYS_PREFIX + "kg_";
     public static final String COMMUNITY_POST_PREFIX = SYS_PREFIX + "comm_";
     public final static String TODAY_WEATHER_KEY = "TODAY_WEATHER";
     
