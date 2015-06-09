@@ -20,14 +20,15 @@ public class GameAccountTransaction  extends domain.Entity {
     public static final String TRANS_DESC_SIGNUP = "新會員奬賞";
     public static final String TRANS_DESC_REFERRAL = "介紹新會員加入";
     public static final String TRANS_DESC_PROFILEPIC = "上載個人頭像照片";
-    public static final String TRANS_DESC_SIGNIN = "每日簽到";
+    public static final String TRANS_DESC_DAILY_SIGNIN = "每日簽到";
     public static final String TRANS_DESC_POSTS = "發佈新話題";
     public static final String TRANS_DESC_COMMENTS = "回覆話題";
     public static final String TRANS_DESC_LIKES = "讚好";
-
+    public static final String TRANS_DESC_REDEEM = "換領";
+    
     public static enum TransactionType {
 		SystemCredit,
-		Redemption,
+		Redeem,
 		Bonus,
 		Penalty
 	}

@@ -20,11 +20,8 @@
         <div>
             小豆豆: <span class="points">{{gameAccount.gmpt || '--'}}</span>
         </div>
-        <!--div>
-            可兌換: <span class="points">{{(gameAccount.gmpt-userInfo.rdpt) || '--'}}</span>
-        </div-->
         <div>
-            已兌換: <span class="points">{{gameAccount.rdpt || '--'}}</span>
+            已兌換: <span class="points" style="color:#999;">{{gameAccount.rdpt || '--'}}</span>
             <span style="font-size:12px;color:#666;margin-left:25px;" ng-show="gameAccount.rdpt == null || gameAccount.rdpt == 0">( 未有兌換禮品記錄 )</span>
         </div>
     </div>

@@ -508,11 +508,16 @@ minibean.controller('GameController',function($scope, $http, $interval, $locatio
         return $http.post('/sign-in-for-today', formData)
             .success(function(data){
                 $scope.userInfo.enableSignInForToday = false;
-                prompt("<div><b>每日簽到 +"+$scope.gameConstants.POINTS_SIGNIN+"個小豆豆!</b></div>", 
+                prompt("<div><b>每日簽到 +"+$scope.gameConstants.POINTS_DAILY_SIGNIN+"個小豆豆!</b></div>", 
                 		"bootbox-default-prompt game-bootbox-prompt", 1800);
-                $interval($scope.reloadPage, 2000, 1);
+                $interval($scope.reloadGamePage, 2000, 1);
                 usSpinnerService.stop('loading...');
             });
+    }
+    
+    $scope.reloadGamePage = function() {
+    	$scope.reloadPage();
+    	$scope.reloadGameAccount();
     }
 });
 
@@ -570,6 +575,7 @@ minibean.controller('GameGiftController',function($routeParams, $scope, $locatio
             if (data.success) {
                 prompt("我們已收到您的換領禮品要求~ 請按照「換領規則」聯絡我們", "bootbox-default-prompt game-bootbox-prompt", 5000);
                 $scope.gameGift.isPending = true;
+                $scope.reloadGameAccount();
             } else {
                 prompt(data.messages[0], "bootbox-default-prompt game-bootbox-prompt", 8000);
                 $scope.errorStatus = true;
@@ -737,6 +743,10 @@ minibean.controller('ApplicationController',
     }
     
     // application and user data
+    $scope.reloadGameAccount = function() {
+    	$scope.gameAccount = gameService.gameAccount.get();    	
+    }
+
     $scope.applicationInfo = applicationInfoService.ApplicationInfo.get();
     $scope.userInfo = userInfoService.UserInfo.get(
         function(data) {

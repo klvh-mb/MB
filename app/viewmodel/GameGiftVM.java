@@ -30,7 +30,6 @@ public class GameGiftVM {
 	@JsonProperty("sd") public Date startDate;
 	@JsonProperty("ed") public Date endDate;
 	@JsonProperty("rp") public Long requiredPoints;
-	@JsonProperty("rl") public Long requiredLevel;
 	@JsonProperty("qt") public Long quantityTotal;
 	@JsonProperty("qa") public Long quantityAvailable;
 	@JsonProperty("cd") public Date createdDate;
@@ -76,7 +75,6 @@ public class GameGiftVM {
 		this.endDate = gameGift.endDate;
 		
 		this.requiredPoints = gameGift.requiredPoints;
-		this.requiredLevel = gameGift.requiredLevel;
 		this.quantityTotal = gameGift.quantityTotal;
 		this.quantityAvailable = gameGift.quantityAvailable;
 		

@@ -5,14 +5,6 @@ var DefaultValues = new function() {
     this.FRONTPAGE_HOT_NEWSFEED_COUNT = 5;
     this.FRONTPAGE_HOT_COMMUNITIES_COUNT = 8;
     
-    this.GAME_NEW_SIGNUP_POINTS = 50;
-    this.GAME_PROFILE_PIC_POINTS = 150;
-    this.GAME_DAILY_SIGNIN_POINTS = 5;
-    this.GAME_POST_POINTS = 2;
-    this.GAME_COMMENT_POINTS = 1;
-    this.GAME_LIKE_POINTS = 0;
-    this.GAME_REFERRAL_POINTS = 80;
-
     this.TAGWORD_LIST_COLLAPSE_COUNT = 4;
     this.AUTO_SCROLL_INTERVAL = 6000;
     this.ARTICLE_SLIDER_COUNT = 6;

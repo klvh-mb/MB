@@ -106,7 +106,7 @@ public class GameController extends Controller {
     public static Result signInForToday() {
         final User currUser = Application.getLocalUser(session());
 
-        if (currUser.isLoggedIn()) {
+        if (enableSignInForToday()) {
             // check if user signed in for today
             GameAccountStatistics stat = GameAccountStatistics.recordSignin(currUser.getId());
             if (stat.num_sign_in == 1) {
@@ -162,6 +162,10 @@ public class GameController extends Controller {
         
         ResponseStatusVM status = validateGameGiftRedeemTransaction(localUser, gameGift);
         if (status.success) {
+        	// deduct points
+        	GameAccount.redeemGameGift(localUser, gameGift);
+        	
+        	// record new redeem transaction
 	        RedeemTransaction redeemTransaction = new RedeemTransaction();
 	        redeemTransaction.user = localUser;
 	        redeemTransaction.redeemType = RedeemTransaction.RedeemType.GAME_GIFT;
@@ -170,10 +174,11 @@ public class GameController extends Controller {
 	        redeemTransaction.setCreatedDate(new Date());
 	        redeemTransaction.save();        
 
-	        logger.underlyingLogger().info(String.format("[u=%d][g=%d] Successfully requested redeem game gift", localUser.id, gameGift.id));
-
+	        // email admin
 	        String notifText = "New Redeem Request (u="+localUser.id+") to game gift (g="+gameGift.id+")";
 	        EDMUtility.getInstance().sendMailToMB(notifText, notifText);
+	        
+	        logger.underlyingLogger().info(String.format("[u=%d][g=%d] Successfully requested redeem game gift", localUser.id, gameGift.id));
         }
         
         return ok(Json.toJson(status));

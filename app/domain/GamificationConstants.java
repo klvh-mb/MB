@@ -14,17 +14,17 @@ public interface GamificationConstants {
     
     /**
      * Points
-     * Conversion Rate = 0.007 (as of Nov 29th, 2014)
-     * i.e. $50 gift = 50 / 0.007 = 7143 points (~285 days to get with full activity)
+     * 10 points = $1 (as of 9 June 2015)
+     * e.g. 1 referral = 25 points => 20 referral = 500 points = $50 coupon
      */
     public static final int POINTS_SIGNUP = 10;
-    public static final int POINTS_UPLOAD_PROFILE_PHOTO = 20;
-    public static final int POINTS_SIGNIN = 2;
-    public static final int POINTS_POST = 2;
-    public static final int POINTS_COMMENT = 1;
+    public static final int POINTS_UPLOAD_PROFILE_PHOTO = 25;
+    public static final int POINTS_DAILY_SIGNIN = 2;
+    public static final int POINTS_POST = 0;
+    public static final int POINTS_COMMENT = 0;
     public static final int POINTS_LIKE = 0;             // not open yet
 
-    public static final int POINTS_REFERRAL_SIGNUP = 20;
+    public static final int POINTS_REFERRAL_SIGNUP = 25;
 
     /**
      * Limit on Points accounting

@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import models.GameAccountTransaction.TransactionType;
 import domain.Creatable;
 import domain.Updatable;
 import play.data.validation.Constraints.Required;
