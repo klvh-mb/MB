@@ -41,6 +41,8 @@ public class FeedProcessor {
     private static final String BIZ_FEED_KEY = JedisCache.BIZ_FEED_PREFIX;
     // List (system-wide pre-nursery feed)
     private static final String PN_FEED_KEY = JedisCache.PN_FEED_PREFIX;
+    // List (system-wide kg feed)
+    private static final String KG_FEED_KEY = JedisCache.KG_FEED_PREFIX;
     // SortedSet (community post queue)
     private static final String COMMUNITY = JedisCache.COMMUNITY_POST_PREFIX;
 
@@ -104,7 +106,27 @@ public class FeedProcessor {
             for (String postId : postIds) {
                 j.rpush(PN_FEED_KEY, postId);   // push to list tail.
             }
+            // skip TTL (system-wide)
+        } finally {
+            if (j != null) {
+		        jedisPool.returnResource(j);
+            }
+        }
+	}
 
+    /**
+     * System widw KG newsfeed.
+     */
+    public static void refreshKGCommunityFeed(List<String> postIds) {
+		JedisPool jedisPool = play.Play.application().plugin(RedisPlugin.class).jedisPool();
+		Jedis j = null;
+        try {
+            j = jedisPool.getResource();
+            j.del(KG_FEED_KEY);                 // delete previous list
+
+            for (String postId : postIds) {
+                j.rpush(KG_FEED_KEY, postId);   // push to list tail.
+            }
             // skip TTL (system-wide)
         } finally {
             if (j != null) {
@@ -144,6 +166,10 @@ public class FeedProcessor {
      */
     public static List<String> getPNFeedIds(int offset, int pagerows) {
 		return getFeedIdsInternal(PN_FEED_KEY, offset, pagerows);
+	}
+
+    public static List<String> getKGFeedIds(int offset, int pagerows) {
+		return getFeedIdsInternal(KG_FEED_KEY, offset, pagerows);
 	}
 
     private static List<String> getFeedIdsInternal(String queueKey, int offset, int pagerows) {
@@ -229,8 +255,11 @@ public class FeedProcessor {
     }
     
     static boolean isSkipCommunityNFQueue(boolean excludeFromNewsfeed, String targetingType) {
-        if (TargetingSocialObject.TargetingType.PRE_NURSERY.name().equals(targetingType)) {
+        if (TargetingType.PRE_NURSERY.name().equals(targetingType)) {
             return false;           // always pub to PN queues
+        }
+        if (TargetingType.KINDY.name().equals(targetingType)) {
+            return false;           // always pub to KG queues
         }
         return excludeFromNewsfeed;  // NF disabled
     }
@@ -369,6 +398,7 @@ public class FeedProcessor {
 
                             // Note: System-wide feed - do index at startup.
                             PNCommTargetingEngine.indexPNNewsfeed();
+                            PNCommTargetingEngine.indexKGNewsfeed();
 
                             sw.stop();
                             logger.underlyingLogger().info("bootstrapCommunityLevelFeed - end. Took "+sw.getElapsedMS()+

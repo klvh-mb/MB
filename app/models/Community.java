@@ -169,6 +169,9 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
             if (targetingType == TargetingType.PRE_NURSERY) {
                 PNCommTargetingEngine.indexPNNewsfeed();
             }
+            else if (targetingType == TargetingType.KINDY) {
+                PNCommTargetingEngine.indexKGNewsfeed();
+            }
         }
     }
 

@@ -1249,6 +1249,35 @@ public class CommunityController extends Controller{
         return ok(Json.toJson(vm));
     }
 
+    /**
+     * Play routes AJAX call. Return KG feed posts.
+     * @param offset
+     * @return
+     */
+    @Transactional
+    public static Result getKGfeeds(int offset) {
+        final User localUser = Application.getLocalUser(session());
+
+        List<Post> newsFeeds = localUser.getFeedPosts(NewsfeedType.Kindy, offset, DefaultValues.FRONTPAGE_HOT_POSTS_COUNT);
+
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        List<CommunityPostVM> posts = new ArrayList<>();
+        if (newsFeeds != null) {
+            final boolean isCommentable = true;    // must be open for KG NF entries
+
+            for (Post p : newsFeeds) {
+                CommunityPostVM post = new CommunityPostVM(p, localUser, isCommentable);
+                posts.add(post);
+            }
+        }
+
+        NewsFeedVM vm = new NewsFeedVM(localUser, posts);
+
+        sw.stop();
+        logger.underlyingLogger().info("[u="+localUser.id+"] getKGfeeds(offset="+offset+") count="+posts.size()+". vm create Took "+sw.getElapsedMS()+"ms");
+        return ok(Json.toJson(vm));
+    }
 
     /**
      * Play routes AJAX call. Return business feed posts.
