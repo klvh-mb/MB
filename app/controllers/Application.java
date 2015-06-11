@@ -884,6 +884,11 @@ public class Application extends Controller {
 	    return ok(views.xml.sitemap.render());
 	}
 	
+	@Transactional
+	public static Result robots() {
+	    return ok(views.txt.robots.render());
+	}
+	
 	//
 	// Test Ads
 	//
