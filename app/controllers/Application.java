@@ -22,7 +22,6 @@ import models.GameAccountReferral;
 import models.Location;
 import models.SecurityRole;
 import models.TermsAndConditions;
-import models.TrackingCode.TrackingTarget;
 import models.User;
 import models.UserChild;
 import models.UserInfo;
@@ -107,10 +106,7 @@ public class Application extends Controller {
     
     @Transactional
     public static Result mainFrontpage() {
-        UserAgentUtil userAgentUtil = new UserAgentUtil(request());
-        boolean isMobile = userAgentUtil.isMobileUserAgent();
-        
-        Application.setMobileUser(isMobile? "true":"false");
+    	setMobileUser();
         
         final User user = getLocalUser(session());
 		if (User.isLoggedIn(user) && user.userInfo == null) {
@@ -128,7 +124,7 @@ public class Application extends Controller {
             initNewUser();
 	    }
 		
-        if (isMobile) {
+        if (isMobileUser()) {
             return ok(views.html.mb.mobile.frontpage.render());
         }
         return ok(views.html.mb.site.frontpage.render());
@@ -136,12 +132,9 @@ public class Application extends Controller {
 	
     @Transactional
     public static Result mainArticles() {
-        UserAgentUtil userAgentUtil = new UserAgentUtil(request());
-        boolean isMobile = userAgentUtil.isMobileUserAgent();
+        setMobileUser();
         
-        Application.setMobileUser(isMobile? "true":"false");
-        
-        if (isMobile) {
+        if (isMobileUser()) {
             return ok(views.html.mb.mobile.articles.render());
         }
         return ok(views.html.mb.site.articles.render());
@@ -151,12 +144,9 @@ public class Application extends Controller {
     public static Result mainKnowledge() {
     	return mainFrontpage();
     	/*
-        UserAgentUtil userAgentUtil = new UserAgentUtil(request());
-        boolean isMobile = userAgentUtil.isMobileUserAgent();
+        setMobileUser();
         
-        Application.setMobileUser(isMobile? "true":"false");
-        
-        if (isMobile) {
+        if (isMobileUser()) {
             return ok(views.html.mb.mobile.knowledge.render());
         }
         return ok(views.html.mb.site.knowledge.render());
@@ -165,12 +155,9 @@ public class Application extends Controller {
     
     @Transactional
     public static Result mainSchools() {
-        UserAgentUtil userAgentUtil = new UserAgentUtil(request());
-        boolean isMobile = userAgentUtil.isMobileUserAgent();
+        setMobileUser();
         
-        Application.setMobileUser(isMobile? "true":"false");
-        
-        if (isMobile) {
+        if (isMobileUser()) {
             return ok(views.html.mb.mobile.schools.render());
         }
         return ok(views.html.mb.site.schools.render());
@@ -180,12 +167,9 @@ public class Application extends Controller {
     public static Result mainMagazine() {
     	return mainFrontpage();
     	/*
-        UserAgentUtil userAgentUtil = new UserAgentUtil(request());
-        boolean isMobile = userAgentUtil.isMobileUserAgent();
+        setMobileUser();
         
-        Application.setMobileUser(isMobile? "true":"false");
-        
-        if (isMobile) {
+        if (isMobileUser()) {
             return ok(views.html.mb.mobile.magazine.render());
         }
         return ok(views.html.mb.site.magazine.render());
@@ -199,13 +183,13 @@ public class Application extends Controller {
 	
     @Transactional
     public static Result mobileFrontpage() {
-        setMobileUser();    // manually set mobile to true
+        setMobileUser();
         return ok(views.html.mb.mobile.frontpage.render());
     }
     
     @Transactional
     public static Result mobileArticles() {
-        setMobileUser();    // manually set mobile to true
+        setMobileUser();
         return ok(views.html.mb.mobile.articles.render());
     }
     
@@ -213,14 +197,14 @@ public class Application extends Controller {
     public static Result mobileKnowledge() {
     	return mobileFrontpage();
     	/*
-        setMobileUser();    // manually set mobile to true
+        setMobileUser();
         return ok(views.html.mb.mobile.knowledge.render());
         */
     }
     
     @Transactional
     public static Result mobileSchools() {
-        setMobileUser();    // manually set mobile to true
+        setMobileUser();
         return ok(views.html.mb.mobile.schools.render());
     }
     
@@ -228,14 +212,14 @@ public class Application extends Controller {
     public static Result mobileMagazine() {
     	return mobileFrontpage();
     	/*
-        setMobileUser();    // manually set mobile to true
+        setMobileUser();
         return ok(views.html.mb.mobile.magazine.render());
         */
     }
     
     @Transactional
     public static Result mobileHome() {
-        setMobileUser();    // manually set mobile to true
+        setMobileUser();
         
         final User localUser = getLocalUser(session());
         if(!User.isLoggedIn(localUser)) {
@@ -247,7 +231,7 @@ public class Application extends Controller {
     
     @Transactional
     public static Result mobileApp() {
-        setMobileUser();    // manually set mobile to true
+        setMobileUser();
         return ok(views.html.mb.mobile.mobileapp.render());
     }
     
@@ -264,12 +248,24 @@ public class Application extends Controller {
 	}
 	
 	public static void setMobileUser() {
-	    setMobileUser("true");
+		UserAgentUtil userAgentUtil = new UserAgentUtil(request());
+		if (userAgentUtil != null) {
+			boolean isMobile = userAgentUtil.isMobileUserAgent();
+			session().put("mobile",  isMobile? "true" : "false");
+		}
 	}
 	
-	public static void setMobileUser(String value) {
-        session().put("mobile", value);
-    }
+	public static void setMobileUserAgent(User user) {
+		if (user.isLoggedIn()) {
+			UserAgentUtil userAgentUtil = new UserAgentUtil(request());
+			if (userAgentUtil != null && userAgentUtil.getUserAgent() != null) {
+				user.lastLoginUserAgent = userAgentUtil.getUserAgent();
+				if (userAgentUtil.detectAndroid() || userAgentUtil.detectIphone()) {
+					GameAccount.setPointsForAppLogin(user);
+				}
+			}
+		}
+	}
 	
 	@Transactional
     public static Result mobileLogin() {
@@ -318,29 +314,16 @@ public class Application extends Controller {
     }
 
     @Transactional
-	public static Result homeWithPromoCode(String promoCode) {
+	public static Result signupWithPromoCode(String promoCode) {
 		// put into http session
         session().put(SESSION_PROMOCODE, promoCode);
 
-	    UserAgentUtil userAgentUtil = new UserAgentUtil(request());
-	    boolean isMobile = userAgentUtil.isMobileUserAgent();
-
-	    setMobileUser(isMobile? "true":"false");
-
-        final User localUser = getLocalUser(session());
-		if(!User.isLoggedIn(localUser)) {
-		    return login();
-		}
-
-		return home(localUser);
+		return signup();
 	}
 
 	@Transactional
 	public static Result home() {
-	    UserAgentUtil userAgentUtil = new UserAgentUtil(request());
-	    boolean isMobile = userAgentUtil.isMobileUserAgent();
-	    
-	    setMobileUser(isMobile? "true":"false");
+	    setMobileUser();
 	    
         final User localUser = getLocalUser(session());
 		if(!User.isLoggedIn(localUser)) {
@@ -607,13 +590,10 @@ public class Application extends Controller {
     
 	@Transactional
 	public static Result login() {
-	    UserAgentUtil userAgentUtil = new UserAgentUtil(request());
-        boolean isMobile = userAgentUtil.isMobileUserAgent();
-        
-        setMobileUser(isMobile? "true":"false");
+        setMobileUser();
         
 		final User localUser = getLocalUser(session());
-		if(User.isLoggedIn(localUser)) {
+		if (User.isLoggedIn(localUser)) {
 			return redirect("/my");
 		}
 		return isMobileUser()?
@@ -733,11 +713,14 @@ public class Application extends Controller {
     
 	@Transactional
 	public static Result signup() {
+		setMobileUser();
+		
 		final User localUser = getLocalUser(session());
 		if(User.isLoggedIn(localUser)) {
 			return redirect("/my");
 		}
-		TrackingController.track(TrackingTarget.SIGNUP_PAGE, isMobileUser());
+		
+		//TrackingController.track(TrackingTarget.SIGNUP_PAGE, isMobileUser());
 		return isMobileUser()? 
 		        ok(views.html.mobile.signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM)):
 		            ok(views.html.signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));

@@ -64,6 +64,7 @@ public class Global extends GlobalSettings {
             	
             	// reset last login time
             	final User user = controllers.Application.getLocalUser(session);
+    		    controllers.Application.setMobileUserAgent(user);
     		    user.setLastLogin(new Date());
     		    
                 //return routes.Application.mainHome();

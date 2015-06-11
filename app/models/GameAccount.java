@@ -44,6 +44,7 @@ public class GameAccount extends domain.Entity {
 	public String city;
 
 	public Boolean has_upload_profile_pic = false;
+	public Boolean app_login = false;
 
     public String promoCode;
 	public Long number_of_referral_signups = 0L;
@@ -204,6 +205,28 @@ public class GameAccount extends domain.Entity {
 	}
 	
 	/**
+     * App login.
+     * @param user
+     */
+	public static void setPointsForAppLogin(User user) {
+		GameAccount account = GameAccount.findByUserId(user.id);
+
+        if (!account.app_login) {
+            logger.underlyingLogger().info("[u="+user.id+"] Gamification - Crediting app login");
+
+            account.addPointsAcross(GamificationConstants.POINTS_APP_LOGIN);
+            account.app_login = true;
+            account.auditFields.setUpdatedDate(new Date());
+            account.merge();
+            GameAccountTransaction.recordPoints(user.id,
+                    GamificationConstants.POINTS_APP_LOGIN,
+                    TransactionType.SystemCredit,
+                    GameAccountTransaction.TRANS_DESC_APP_LOGIN,
+                    account.getGamePoints());
+        }
+	}
+	
+	/**
      * Redeem game gift.
      * @param user
      */
@@ -222,6 +245,25 @@ public class GameAccount extends domain.Entity {
                 account.getGamePoints());
 	}
 
+	/**
+     * Adjust points.
+     * @param user
+     */
+	public static void adjustPoints(User user, long points) {
+		GameAccount account = GameAccount.findByUserId(user.id);
+
+        logger.underlyingLogger().info("[u="+user.id+"] Gamification - Adjust points="+points);
+
+        account.addPointsAcross(points);
+        account.auditFields.setUpdatedDate(new Date());
+        account.merge();
+        GameAccountTransaction.recordPoints(user.id,
+                points,
+                TransactionType.Adjustment,
+                GameAccountTransaction.TRANS_DESC_ADJUSTMENT,
+                account.getGamePoints());
+	}
+	
     /**
      * @param email
      */

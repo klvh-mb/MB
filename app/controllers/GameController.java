@@ -190,12 +190,22 @@ public class GameController extends Controller {
         		RedeemTransaction.getPendingRedeemTransaction(user, gameGift.id, RedeemTransaction.RedeemType.GAME_GIFT);
         if (redeemTransaction != null) {
         	logger.underlyingLogger().error(String.format("[u=%d][g=%d] Duplicate redeem game gift!", user.id, gameGift.id));
-        	String message = "您已要求換領這禮品，如未收到換領通知，請 1) PM miniBean Facebook 專頁 或 2) 電郵至 info@minibean.com.hk";
+        	String message = "您已要求換領這禮品，如未收到換領通知，請 1) 發私人訊息至 miniBean Facebook 專頁 或 2) 電郵至 info@minibean.com.hk";
         	return new ResponseStatusVM(SocialObjectType.GAME_GIFT.name(), gameGift.id, user.id, false, message);
         }
         
-        // TODO: validate points
-        
+        // Validate points
+        GameAccount gameAccount = GameAccount.findByUserId(user.id);
+        if (gameAccount == null) {
+        	logger.underlyingLogger().error(String.format("[u=%d] No game account!", user.id));
+        	String message = "請稍後重試，或 1) 發私人訊息至 miniBean Facebook 專頁 或 2) 電郵至 info@minibean.com.hk";
+        	return new ResponseStatusVM(SocialObjectType.GAME_GIFT.name(), gameGift.id, user.id, false, message);
+        } else if (gameAccount.getGamePoints() < gameGift.requiredPoints) {
+        	logger.underlyingLogger().error(String.format("[u=%d][g=%d] Not enough points [%d] to redeem game gift [%d]!", 
+        			user.id, gameGift.id, gameAccount.getGamePoints(), gameGift.requiredPoints));
+        	String message = "這次換領禮品需要"+gameGift.requiredPoints+"小豆豆。您的小豆豆數值是"+gameAccount.getGamePoints()+"，還未足夠~";
+        	return new ResponseStatusVM(SocialObjectType.GAME_GIFT.name(), gameGift.id, user.id, false, message);
+        }
         
         return new ResponseStatusVM(SocialObjectType.GAME_GIFT.name(), gameGift.id, user.id, true);
     }

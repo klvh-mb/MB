@@ -57,7 +57,7 @@ GET     /articles                   controllers.Application.mainArticles
 GET     /login                      controllers.Application.login
 
 # Home
-GET     /signup-promo-code/:promoCode      controllers.Application.homeWithPromoCode(promoCode:String)
+GET     /signup-promo-code/:promoCode      controllers.Application.signupWithPromoCode(promoCode:String)
 
 POST    /login                      controllers.Application.doLogin
 POST    /login-popup                controllers.Application.doLoginPopup

@@ -25,7 +25,8 @@ public interface GamificationConstants {
     public static final int POINTS_LIKE = 0;             // not open yet
 
     public static final int POINTS_REFERRAL_SIGNUP = 25;
-
+    public static final int POINTS_APP_LOGIN = 10;
+    
     /**
      * Limit on Points accounting
      */

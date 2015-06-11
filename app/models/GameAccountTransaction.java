@@ -24,13 +24,16 @@ public class GameAccountTransaction  extends domain.Entity {
     public static final String TRANS_DESC_POSTS = "發佈新話題";
     public static final String TRANS_DESC_COMMENTS = "回覆話題";
     public static final String TRANS_DESC_LIKES = "讚好";
+    public static final String TRANS_DESC_APP_LOGIN = "首次APP登入";
     public static final String TRANS_DESC_REDEEM = "換領";
+    public static final String TRANS_DESC_ADJUSTMENT = "調整帳戶";
     
     public static enum TransactionType {
 		SystemCredit,
 		Redeem,
 		Bonus,
-		Penalty
+		Penalty,
+		Adjustment
 	}
     
 	@Id
