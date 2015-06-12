@@ -4,6 +4,9 @@ import java.security.Key;
 
 import javax.crypto.Cipher;
 
+import org.apache.commons.lang.StringUtils;
+
+import models.User;
 import play.data.DynamicForm;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
@@ -17,7 +20,7 @@ import com.feth.play.module.pa.PlayAuthenticate;
 import controllers.Application;
 
 public class Authenticate extends Controller {
-
+	private static final play.api.Logger logger = play.api.Logger.apply(Authenticate.class);
 	
 	private static final String PAYLOAD_KEY = "p";
 	private static final String USER_KEY = "pa.u.id";
@@ -37,28 +40,41 @@ public class Authenticate extends Controller {
 		final String payload = getQueryString(request(), PAYLOAD_KEY);
 		Result result = PlayAuthenticate.handleAuthentication(provider, ctx(), payload);
 		play.api.mvc.Result wrappedResult = result.getWrappedResult();
+		User user = null;
 		if (wrappedResult instanceof play.api.mvc.PlainResult) {
-		    play.api.mvc.PlainResult plainResult = (play.api.mvc.PlainResult)wrappedResult;
+			play.api.mvc.PlainResult plainResult = (play.api.mvc.PlainResult)wrappedResult;
 		    session();
-		    Application.getLocalUser(session());
+		    user = Application.getLocalUser(session());
 		    int code = plainResult.header().status();
-		    if (code == OK){
+		    if (code == OK) {
 		    	return ok();
 		    }
-		      // Cache
-		  }
+		    // Cache
+		    
+		}
+		
 		String encryptedValue = null;
-		String plainData=session().get(PROVIDER_KEY)+"-"+session().get(USER_KEY);
+		String providerKey = session().get(PROVIDER_KEY);
+		String userKey = session().get(USER_KEY);
+		String plainData = providerKey + "-" + userKey;
+		if (StringUtils.isEmpty(providerKey) || "null".equals(providerKey.trim()) || 
+				StringUtils.isEmpty(userKey) || "null".equals(userKey.trim())) {
+			logger.underlyingLogger().error((user == null? "" : "[u=" + user.id + "] ") + "mobileAuthenticate login failure key=" + plainData);
+			return status(500);			
+		}
+		
+		logger.underlyingLogger().info((user == null? "" : "[u=" + user.id + "] ") + "mobileAuthenticate key=" + plainData);
 		try { 
-    		
     		Key key = Application.generateKey();
             Cipher c = Cipher.getInstance("AES");
             c.init(Cipher.ENCRYPT_MODE, key);
             byte[] encVal = c.doFinal(plainData.getBytes());
             encryptedValue = new BASE64Encoder().encode(encVal);
-    		
+            logger.underlyingLogger().info((user == null? "" : "[u=" + user.id + "] ") + "mobileAuthenticate encryptedKey=" + encryptedValue);
+    	} catch(Exception e) { 
+    		logger.underlyingLogger().error((user == null? "" : "[u=" + user.id + "] ") + "mobileAuthenticate login failure key=" + plainData, e);
+    		return status(500);
     	}
-    	catch(Exception e) { }
 		return ok(encryptedValue.replace("+", "%2b"));
 	}
 	
