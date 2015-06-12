@@ -3321,11 +3321,8 @@ minibean.controller('PNPageController',function($scope, $routeParams, schoolsFac
     		$scope._commId = commId;		// to be used in CommunityQnAController and CommunityMembersController
     		$scope.selectedTab = 1;
     		
-    		var title = data.n;
-    		if (data.ne && data.ne != undefined) {
-    			title += ' ' + data.ne;
-    		}
-    		writeMetaTitleDescription(title, data.cur, $scope.applicationInfo.baseUrl+"/assets/app/images/schools/pn_promo.png");
+    		var meta = getMetaForSchool(data);
+    		writeMetaTitleDescription(meta.title, meta.description, $scope.applicationInfo.baseUrl+"/assets/app/images/schools/pn_promo.png");
 		}
     );
     
@@ -3398,7 +3395,9 @@ minibean.controller('KGPageController',function($scope, $routeParams, schoolsFac
     		if (data.ne && data.ne != undefined) {
     			title += ' ' + data.ne;
     		}
-    		writeMetaTitleDescription(title, data.cur, $scope.applicationInfo.baseUrl+"/assets/app/images/schools/kg_promo.png");
+    		
+    		var meta = getMetaForSchool(data);
+    		writeMetaTitleDescription(meta.title, meta.description, $scope.applicationInfo.baseUrl+"/assets/app/images/schools/kg_promo.png");
 		}
     );
     

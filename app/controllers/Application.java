@@ -232,7 +232,7 @@ public class Application extends Controller {
     @Transactional
     public static Result mobileApp() {
         setMobileUser();
-        return ok(views.html.mb.mobile.mobileapp.render());
+        return ok(views.html.mb.mobile.android_ios.render());
     }
     
 	//

@@ -1,3 +1,4 @@
-# robotstxt.org
-
 User-agent: *
+Disallow:
+
+Sitemap: http://www.minibean.hk/seo/sitemap.xml
