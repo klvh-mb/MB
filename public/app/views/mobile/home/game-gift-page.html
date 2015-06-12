@@ -6,13 +6,13 @@
 <div class="themeA-container">
     <div class="row">
         <div id="wall">
-            <div data-ng-include data-src="'/assets/app/views/home/game-page-details.html'"></div>
+            <div data-ng-controller="GameController" ng-if="userInfo.isLoggedIn">
+                <div data-ng-include ng-init="showProfileImage = true" data-src="'/assets/app/views/widgets/game-widget-light.html'"></div>
+            </div>
+            <div data-ng-include data-src="'/assets/app/views/home/game-gift-page-details.html'"></div>
             <div data-ng-controller="GameGiftController">
                 <div data-ng-include data-src="'/assets/app/views/widgets/game-gifts-widget.html'"></div>
             </div>
-			<div data-ng-controller="GameTransactionsController">
-			    <div data-ng-include data-src="'/assets/app/views/home/game-transactions.html'"></div>
-			</div>
         </div>
 
         <div class="padding20"></div>

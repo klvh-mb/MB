@@ -1,0 +1,28 @@
+<div id="game-box" class="box-a">
+    <h4>儲小豆豆換領豐富禮品</h4>
+    <ul style="padding:5px 15px;">
+        <li class="game-gift" data-ng-repeat="gameGift in gameGifts">
+            <div class="game-gift-thumb">
+                <a href="#!/game-gift/{{gameGift.id}}">
+                    <img data-ng-src="{{gameGift.imt}}">
+                </a>
+            </div>
+            <div class="game-gift-summary">
+                <a href="#!/game-gift/{{gameGift.id}}">
+                    {{gameGift.nm}}
+                </a>
+                <span style="display:block;">
+                    <span ng-show="gameGift.rt == 'POINTS'">小豆豆: </span>
+                    <span ng-show="gameGift.rt == 'LEVEL'">等級: </span>
+                    <span>{{gameGift.rp}}</span>
+                </span>
+                <div style="display:block;">
+                    <a class="game-gift-redeem-btn" href="#!/game-gift/{{gameGift.id}}">立即換領</a>
+                    <span ng-show="gameGift.nol > 0" class="like-count"><img data-ng-src="/assets/app/images/general/icons/liked_1.png"/>{{gameGift.nol}}</span>
+                    <span ng-show="userInfo.isE" class="view-count admin-visible-field"><img class="view-icon" data-ng-src="/assets/app/images/general/icons/view.png"/>{{gameGift.nov}}</span>
+                </div>
+                <!--p>{{gameGift.ds|limitTo:50}}...</p-->
+            </div>
+        </li>
+	</ul>
+</div>

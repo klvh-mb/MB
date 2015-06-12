@@ -101,6 +101,12 @@
                     </div>
                     <!--About End -->
                 </div>
+                <div data-ng-controller="GameController">
+                    <div data-ng-include data-src="'/assets/app/views/widgets/game-widget.html'"></div>
+                </div>
+                <div data-ng-controller="GameGiftController">
+                    <div data-ng-include data-src="'/assets/app/views/widgets/game-gifts-widget.html'"></div>
+                </div>
                 <div ng-controller="MyFriendsUtilityController" data-ng-show="result.friends.length > 0">
                     <div data-ng-include data-src="'/assets/app/views/utilities/friendsUtility.html'"></div>
                 </div>

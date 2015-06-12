@@ -13,7 +13,6 @@ import common.utils.ShortCodeGenerator;
 import domain.GamificationConstants;
 import email.EDMUtility;
 import models.GameAccountTransaction.TransactionType;
-
 import play.db.jpa.JPA;
 
 @Entity
@@ -33,7 +32,7 @@ public class GameAccount extends domain.Entity {
     private Double firstPersonMultiplier = 1d;
 
     // Redemption
-	public Long redeemed_points;
+	public Long redeemed_points = 0L;
 	public Date last_redemption_time;
 
     // Contact information
@@ -45,6 +44,7 @@ public class GameAccount extends domain.Entity {
 	public String city;
 
 	public Boolean has_upload_profile_pic = false;
+	public Boolean app_login = false;
 
     public String promoCode;
 	public Long number_of_referral_signups = 0L;
@@ -171,14 +171,14 @@ public class GameAccount extends domain.Entity {
         logger.underlyingLogger().info("[u="+user.id+"] Gamification - Crediting signin");
 
         GameAccount account = GameAccount.findByUserId(user.id);
-        account.addPointsAcross(GamificationConstants.POINTS_SIGNIN);
+        account.addPointsAcross(GamificationConstants.POINTS_DAILY_SIGNIN);
         account.auditFields.setUpdatedDate(new Date());
         account.merge();
 
         GameAccountTransaction.recordPoints(user.id,
-                GamificationConstants.POINTS_SIGNIN,
+                GamificationConstants.POINTS_DAILY_SIGNIN,
                 TransactionType.SystemCredit,
-                GameAccountTransaction.TRANS_DESC_SIGNIN,
+                GameAccountTransaction.TRANS_DESC_DAILY_SIGNIN,
                 account.getGamePoints());
 	}
 
@@ -203,7 +203,67 @@ public class GameAccount extends domain.Entity {
                     account.getGamePoints());
         }
 	}
+	
+	/**
+     * App login.
+     * @param user
+     */
+	public static void setPointsForAppLogin(User user) {
+		GameAccount account = GameAccount.findByUserId(user.id);
 
+        if (!account.app_login) {
+            logger.underlyingLogger().info("[u="+user.id+"] Gamification - Crediting app login");
+
+            account.addPointsAcross(GamificationConstants.POINTS_APP_LOGIN);
+            account.app_login = true;
+            account.auditFields.setUpdatedDate(new Date());
+            account.merge();
+            GameAccountTransaction.recordPoints(user.id,
+                    GamificationConstants.POINTS_APP_LOGIN,
+                    TransactionType.SystemCredit,
+                    GameAccountTransaction.TRANS_DESC_APP_LOGIN,
+                    account.getGamePoints());
+        }
+	}
+	
+	/**
+     * Redeem game gift.
+     * @param user
+     */
+	public static void redeemGameGift(User user, GameGift gameGift) {
+		GameAccount account = GameAccount.findByUserId(user.id);
+
+        logger.underlyingLogger().info("[u="+user.id+"] Gamification - Redeem game gift");
+
+        account.redeemPoints(gameGift.requiredPoints);
+        account.auditFields.setUpdatedDate(new Date());
+        account.merge();
+        GameAccountTransaction.recordPoints(user.id,
+        		gameGift.requiredPoints,
+                TransactionType.Redeem,
+                GameAccountTransaction.TRANS_DESC_REDEEM + gameGift.name,
+                account.getGamePoints());
+	}
+
+	/**
+     * Adjust points.
+     * @param user
+     */
+	public static void adjustPoints(User user, long points) {
+		GameAccount account = GameAccount.findByUserId(user.id);
+
+        logger.underlyingLogger().info("[u="+user.id+"] Gamification - Adjust points="+points);
+
+        account.addPointsAcross(points);
+        account.auditFields.setUpdatedDate(new Date());
+        account.merge();
+        GameAccountTransaction.recordPoints(user.id,
+                points,
+                TransactionType.Adjustment,
+                GameAccountTransaction.TRANS_DESC_ADJUSTMENT,
+                account.getGamePoints());
+	}
+	
     /**
      * @param email
      */
@@ -227,6 +287,11 @@ public class GameAccount extends domain.Entity {
         game_points += newPoints;
     }
 
+    public void redeemPoints(long points) {
+        game_points -= points;
+        redeemed_points += points;
+    }
+    
     public Long getGamePoints() {
         return game_points;
     }
@@ -235,6 +300,10 @@ public class GameAccount extends domain.Entity {
         return activity_points;
     }
 
+    public Long getRedeemedPoints() {
+    	return redeemed_points;
+    }
+    
     public Double getFirstPersonMultiplier() {
         return (firstPersonMultiplier == null) ? 1d : firstPersonMultiplier;
     }

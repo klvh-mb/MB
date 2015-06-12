@@ -40,7 +40,6 @@ import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
 import common.utils.StringUtil;
 import models.Community.CommunityType;
-import models.Notification.NotificationType;
 import models.SocialRelation.Action;
 import models.TargetingSocialObject.TargetingType;
 import models.TokenAction.Type;
@@ -49,7 +48,6 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.joda.time.DateTime;
 
 import play.Play;
 import play.data.format.Formats;
@@ -169,6 +167,9 @@ public class User extends SocialObject implements Subject, Socializable {
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JsonIgnore
     public Folder albumCoverProfile;
+
+    @JsonIgnore
+    public String lastLoginUserAgent;
 
     @Override
     @JsonIgnore
@@ -1531,6 +1532,8 @@ public class User extends SocialObject implements Subject, Socializable {
                 ids = FeedProcessor.getBusinessFeedIds(this, offset, limit); break;
             case PreNursery:
                 ids = FeedProcessor.getPNFeedIds(offset, limit); break;
+            case Kindy:
+                ids = FeedProcessor.getKGFeedIds(offset, limit); break;
             default:
                 ids = null; break;
         }

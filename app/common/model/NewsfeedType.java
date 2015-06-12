@@ -9,5 +9,6 @@ package common.model;
 public enum NewsfeedType {
     Social,
     Business,
-    PreNursery
+    PreNursery,
+    Kindy
 }

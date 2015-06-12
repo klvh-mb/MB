@@ -4,9 +4,9 @@
         <a title="user-picture" href="/my#!/about/activities"><img src="{{profileImage}}" alt="user-picture"></a>
         <a href="/my#!/about/activities" class="userName">{{userInfo.displayName|limitTo:10}}<span ng-show="userInfo.displayName.length > 10">...</span></a>
     </div>
-    <div id="user-info" ng-show="!hideStats && (userInfo.isAdmin || userInfo.isE)">
+    <div id="user-info" ng-show="!hideStats">
         <div id="game-info">
-            <span class="pull-right">
+            <span class="pull-right" style="margin-top:2px;">
                 <a class="btn btn-sign-in" href="/my#!/game" ng-show="userInfo.enableSignInForToday">
                     <img style="height:22px;width:auto;" src="/assets/app/images/game/sign_in.png"></img>
                 </a>
@@ -14,19 +14,19 @@
                     <img style="height:22px;width:auto;" src="/assets/app/images/game/signed_in.png"></img>
                 </a>
             </span>
-            <div>
+            <!--div>
                 <a class="" href="/my#!/game">
-                活力級別: <span class="points">{{gameAccount.gln || '--'}} <img src="{{gameAccount.gli}}"></span>
+                    等級: <span class="points">{{gameAccount.gln || '--'}} <img src="{{gameAccount.gli}}"></span>
                 </a>
-            </div>
+            </div-->
             <div>
                 <a class="" href="/my#!/game">
-                小豆豆總數: <span class="points">{{gameAccount.gmpt || '--'}}</span>
+                    <img style="width:22px;" src="/assets/app/images/game/levels/l_1.jpg"> 小豆豆: <span class="points">{{gameAccount.gmpt || '--'}}</span>
                 </a>
             </div>
             <!--div>
                 <a class="" href="/my#!/game">
-                小豆豆已兌換數: <span class="points">{{userInfo.rdpt || '--'}}</span>
+                    小豆豆已兌換數: <span class="points">{{userInfo.rdpt || '--'}}</span>
                 </a>
             </div-->
         </div>

@@ -2,6 +2,7 @@
 //
 // write meta
 //
+var META_DESCRIPTION_CHAR_LIMIT = 150;
 
 var writeMetaCanonical = function(absUrl) {
 	//log('orignial: '+absUrl);
@@ -26,12 +27,44 @@ var writeMetaCanonical = function(absUrl) {
 }
 
 var writeMetaTitleDescription = function(title, description, image) {
-	//title = title + " - miniBean 小萌豆";
+	title = title + " | miniBean 小萌豆";
 	document.title = title;
-	$('meta[name=description]').attr('content', description.substring(0,150));
+	$('meta[name=description]').attr('content', description.substring(0,META_DESCRIPTION_CHAR_LIMIT));
 	$('meta[name=keywords]').attr('content', title + ', ' + $('meta[name=keywords]').attr('content'));
-	if (image && image != undefined)
+	if (image && image != undefined) {
 		$('meta[property="og:image"]').attr('content', image);
+	}
+}
+
+var getMetaForSchool = function(obj) {
+	var title, description;
+	
+	var name = obj.n;
+	if (obj.ne && obj.ne != undefined) {
+		name += ' ' + obj.ne;
+	}
+	title = name + ' 收生與收費資料';
+	
+	var schoolType = '';
+	var hasPN = '';
+	if (obj.hasPN == undefined) {
+		schoolType = '幼兒班';
+	} else {
+		schoolType = '幼稚園';
+		hasPN = (obj.hasPN? '有' : '沒有') + '提供幼兒班，';
+	}
+	
+	description = schoolType + '概覽：' + 
+		obj.orgt + '學校，' +
+		(obj.cp? '可' : '不可') + '兌現學券，' +
+		hasPN + 
+		'位於' + obj.dis + '。' +
+		'立即查看更多收生與收費資料。';
+	
+	return {
+		title: title,
+		description: description
+	}
 }
 
 //

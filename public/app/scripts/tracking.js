@@ -1,6 +1,6 @@
 
 var ga_send_pv = function(page_code) {
-    if (window.location.host.indexOf('localhost') === 0) {
+    if (window.location.host.indexOf('localhost') === 0 || window.location.host.indexOf('192.168.1') === 0) {
         return;
     }
     

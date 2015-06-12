@@ -25,6 +25,9 @@ public class PNCommTargetingEngine {
     // Configurations for news feed
     public static final int NEWSFEED_FULLLENGTH = Play.application().configuration().getInt(ConfigurationKeys.NEWSFEED_FULLLENGTH_PROP, 120);
 
+    /**
+     * PN
+     */
     public static void indexPNNewsfeed() {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
@@ -64,6 +67,50 @@ public class PNCommTargetingEngine {
 
         sw.stop();
         logger.underlyingLogger().info("indexPNNewsfeed - end. Took "+sw.getElapsedMS()+"ms");
+	}
+
+    /**
+     * KG
+     */
+    public static void indexKGNewsfeed() {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        // get list of kg comm ids
+        List<Long> kgCommIds = Community.findIdsByTargetingType(TargetingSocialObject.TargetingType.KINDY);
+
+        PostDistributionTracker distTracker = new PostDistributionTracker();
+
+        for (Long commId : kgCommIds) {
+            // targeted count
+            int commCount = NEWSFEED_FULLLENGTH;
+            // real posts
+            LinkedList<Tuple> commPosts = FeedProcessor.getCommunityMostRecentPosts(commId, commCount);
+
+            if (commPosts.size() > 0) {
+                distTracker.addCommunity(commId, commPosts);  // pass real posts to distribution tracker
+            }
+        }
+
+        final List<String> nfPostIds = new ArrayList<>();
+
+        while (nfPostIds.size() < NEWSFEED_FULLLENGTH) {
+            Pair<Long, Tuple> postPair = distTracker.peekLatest(null);
+
+            if (postPair != null) {
+                nfPostIds.add(postPair.second.getElement());
+                distTracker.removeLatest(postPair.first);
+            }
+            else {
+                logger.underlyingLogger().info("KG NF_size="+nfPostIds.size());
+                break;
+            }
+        }
+
+        // Refresh with result
+        FeedProcessor.refreshKGCommunityFeed(nfPostIds);
+
+        sw.stop();
+        logger.underlyingLogger().info("indexKGNewsfeed - end. Took "+sw.getElapsedMS()+"ms");
 	}
 }
 

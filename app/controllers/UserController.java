@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,6 @@ import models.Community;
 import models.Conversation;
 import models.Emoticon;
 import models.GameAccount;
-import models.GameRedemption;
 import models.Location;
 import models.Message;
 import models.Notification;
@@ -964,19 +962,6 @@ public class UserController extends Controller {
         } else {
             logger.underlyingLogger().info("Not signed in. Skipped signup invitation to: "+email);
         }
-		return ok();
-	}
-
-    /**
-     * TODO: Redemption flow TBD
-     * @param id
-     * @param points
-     * @return
-     */
-    @Transactional
-    public static Result requestToRedemption(Long id, Long points) {
-		final User localUser = User.findById(id);
-		GameRedemption.requestToRedemption(localUser, points);
 		return ok();
 	}
 }

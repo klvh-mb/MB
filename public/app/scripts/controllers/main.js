@@ -181,7 +181,7 @@ minibean.controller('AllCommunitiesIndexWidgetController',function($scope, $rout
 });
     
 minibean.controller('FrontpageController',function($scope, $route, $location, $http, $routeParams, $interval, 
-    pkViewFactory, frontpageService, communitiesDiscoverService, newsFeedService, campaignService, pkViewService, articleService, tagwordService, schoolsService, usSpinnerService) {
+		pkViewFactory, frontpageService, communitiesDiscoverService, newsFeedService, campaignService, pkViewService, articleService, tagwordService, schoolsService, usSpinnerService) {
     
     $scope.get_header_metaData();
     
@@ -508,15 +508,90 @@ minibean.controller('GameController',function($scope, $http, $interval, $locatio
         return $http.post('/sign-in-for-today', formData)
             .success(function(data){
                 $scope.userInfo.enableSignInForToday = false;
-                prompt("<div><b>每日簽到 +"+$scope.gameConstants.POINTS_SIGNIN+"個小豆豆!</b></div>", "bootbox-default-prompt game-bootbox-prompt", 1800);
-                $interval($scope.reloadPage, 2000, 1);
+                prompt("<div><b>每日簽到 +"+$scope.gameConstants.POINTS_DAILY_SIGNIN+"個小豆豆!</b></div>", 
+                		"bootbox-default-prompt game-bootbox-prompt", 1800);
+                $interval($scope.reloadGamePage, 2000, 1);
                 usSpinnerService.stop('loading...');
             });
     }
     
-    $scope.gameAccount = gameService.gameAccount.get();
+    $scope.reloadGamePage = function() {
+    	$scope.reloadPage();
+    	$scope.reloadGameAccount();
+    }
+});
+
+minibean.controller('GameTransactionsController',function($scope, $location, gameService, usSpinnerService) {
+
+	$scope.gameTransactions = gameService.gameTransactions.get({offset:0});
+	
+});
+
+minibean.controller('GameGiftController',function($routeParams, $scope, $location, $http, gameService, usSpinnerService) {
+	
+	$scope.gameGifts = gameService.allGameGifts.get({},
+		function(data) {
+        }	
+	);
+	
+	var id = $routeParams.id;
+    if (id != undefined) {
+    	$scope.gameGift = gameService.gameGiftInfo.get({id:id}, 
+	        function(data) {
+	            if ($scope.gameGift.id == null || ($scope.gameGift.gs == 'NEW' && !$scope.userInfo.isE)) {
+	                $scope.showGameGift = false;
+	            }
+	            
+	            writeMetaTitleDescription(data.nm, data.ds);
+	        }, 
+	        function(rejection) {
+	        	$location.path('/game');
+			}
+	    );
+    }
     
-    $scope.gameTransactions = gameService.gameTransactions.get({offset:0});
+    $scope.redeemGameGift = function(id) {
+    	if (!$scope.userInfo.isLoggedIn) {
+    		$scope.popupLoginModal('小豆豆換禮品','再以小豆豆換領禮品','game-bootbox-prompt');
+    		return;
+    	}
+    	
+    	// check points
+    	if ($scope.gameAccount.gmpt < $scope.gameGift.rp) {
+    		prompt("這次換領禮品需要 <b style='color:#FF6600;'>"+$scope.gameGift.rp+
+    				"</b> 小豆豆。您的小豆豆數值是 <b style='color:#FF6600;'>"+$scope.gameAccount.gmpt+"</b>，還未足夠~", 
+    				"bootbox-default-prompt game-bootbox-prompt", 5000);
+    		return;
+    	}
+
+    	var formData = {
+    			"id":id
+        };
+        $scope.errorGameGiftNotExist = false;        
+        $scope.errorStatus = false;
+        usSpinnerService.spin('loading...');
+        return $http.post('/redeem-game-gift', formData).success(function(data){
+            usSpinnerService.stop('loading...');
+            if (data.success) {
+                prompt("我們已收到您的換領禮品要求~ 請按照「換領規則」聯絡我們", "bootbox-default-prompt game-bootbox-prompt", 5000);
+                $scope.gameGift.isPending = true;
+                $scope.reloadGameAccount();
+            } else {
+                prompt(data.messages[0], "bootbox-default-prompt game-bootbox-prompt", 8000);
+                $scope.errorStatus = true;
+            }
+        }).error(function(data, status, headers, config) {
+            if(status == 599){
+                usSpinnerService.stop('loading...');
+                $scope.popupLoginModal('小豆豆換禮品','再以小豆豆換領禮品','game-bootbox-prompt');
+            } else if(status == 500){
+                usSpinnerService.stop('loading...');
+                prompt("沒有此禮品", "bootbox-default-prompt game-bootbox-prompt", 5000);
+                $scope.errorGameGiftNotExist = true;
+            }
+        });
+    }
+	
 });
 
 minibean.controller('SearchController',function($scope, searchService){
@@ -530,7 +605,7 @@ minibean.controller('SearchController',function($scope, searchService){
 
 minibean.controller('ApplicationController', 
     function($scope, $location, $interval, $route, $window, $modal,  
-        applicationInfoService, announcementsService, headerBarMetadataService, userInfoService,
+        applicationInfoService, announcementsService, headerBarMetadataService, userInfoService, gameService, 
         acceptJoinRequestService, acceptFriendRequestService, notificationMarkReadService,
         communitiesDiscoverService, articleService, iconsService, usSpinnerService) {
 
@@ -545,16 +620,26 @@ minibean.controller('ApplicationController',
         return "/authenticatePopup/facebook?rurl="+url;     // http%3A%2F%2Fwww.minibean.hk%2Fmy%23%2F
     }
     
-    $scope.popupLoginModal = function(titleText) {
+    $scope.prompt = function(message, className, timeout) {
+    	prompt(message, className, timeout);
+    }
+    
+    $scope.popupLoginModal = function(titleText,bodyText,className) {
     	if (titleText == undefined || titleText == null) {
     		titleText = "參加活動";
+    	}
+    	if (bodyText == undefined || bodyText == null) {
+    		bodyText = "再參加活動";
+    	}
+    	if (className == undefined || className == null) {
+    		className = "popup-login-modal";
     	}
         var rurl = $scope.getFbLoginUrl();
         bootbox.dialog({
             message: 
                 "<div style='margin:0 20px;font-size:15px;line-height:2.4;'>" + 
                 "    <div>" +
-                "        請先 <a onclick='window.location=\""+rurl+"\"'><img style='height:26px;' src='../assets/app/images/login/facebook_login_s.jpg' /></a> 再" + titleText + 
+                "        請先 <a onclick='window.location=\""+rurl+"\"'><img style='height:26px;' src='../assets/app/images/login/facebook_login_s.jpg' /></a> " + bodyText + 
                 "    </div>" +
                 "    <div>" +
                 "        或以 <a onclick='window.location=\"\/login\"'>電郵登入</a> | " +
@@ -562,7 +647,7 @@ minibean.controller('ApplicationController',
                 "    </div>" + 
                 "</div>",
             title: titleText,
-            className: "popup-login-modal",
+            className: className
         });
     }
     
@@ -657,6 +742,11 @@ minibean.controller('ApplicationController',
         $interval($scope.adjustNavSlider, 500, 1);
     }
     
+    // application and user data
+    $scope.reloadGameAccount = function() {
+    	$scope.gameAccount = gameService.gameAccount.get();    	
+    }
+
     $scope.applicationInfo = applicationInfoService.ApplicationInfo.get();
     $scope.userInfo = userInfoService.UserInfo.get(
         function(data) {
@@ -668,7 +758,7 @@ minibean.controller('ApplicationController',
         }
 	);
 	$scope.userTargetProfile = userInfoService.UserTargetProfile.get();
-
+	$scope.gameAccount = gameService.gameAccount.get();
     $scope.emoticons = iconsService.getEmoticons.get();
 
     $scope.topAnnouncements = announcementsService.getTopAnnouncements.get();
@@ -1082,18 +1172,18 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 	$scope.genders = DefaultValues.genders;
 	$scope.parentBirthYears = DefaultValues.parentBirthYears;
 	$scope.childBirthYears = DefaultValues.childBirthYears;
-    $scope.locations = locationService.getAllDistricts.get();
+    $scope.locations = locationService.allDistricts.get();
     
     $scope.profileDataSaved = false;
 	$scope.updateUserProfileData = function() {
         if ($("#signup-info").valid()) {
             var formData = {
-                parent_firstname : $scope.userAbout.firstName,
-                parent_lastname  : $scope.userAbout.lastName,
-                parent_displayname : $scope.userAbout.displayName,
-                parent_aboutme : $scope.userAbout.userInfo.aboutMe,
-                parent_birth_year : $scope.userAbout.userInfo.birthYear,
-                parent_location : $scope.userAbout.userInfo.location.id
+                "parent_firstname"	: $scope.userAbout.firstName,
+                "parent_lastname"  	: $scope.userAbout.lastName,
+                "parent_displayname": $scope.userAbout.displayName,
+                "parent_aboutme" 	: $scope.userAbout.userInfo.aboutMe,
+                "parent_birth_year" : $scope.userAbout.userInfo.birthYear,
+                "parent_location" 	: $scope.userAbout.userInfo.location.id
             };
 
             usSpinnerService.spin('loading...');
@@ -1134,8 +1224,6 @@ minibean.controller('UserAboutController',function($routeParams, $scope, $http, 
 });
 
 minibean.controller('EditCommunityController',function($scope,$q, $location,$routeParams, $http, usSpinnerService, iconsService, editCommunityPageService, $upload, profilePhotoModal){
-
-    $scope.get_header_metaData();
 
 	$scope.submitBtn = "儲存";
 	$scope.community = editCommunityPageService.EditCommunityPage.get({id:$routeParams.id}, 
@@ -1669,7 +1757,7 @@ minibean.controller('SearchPageController', function($scope, $routeParams, commu
 });
 
 minibean.controller('PostLandingController', function($scope, $routeParams, $http, $upload, $timeout, $validator, 
-    postFactory, postLandingService, communityPageService, postManagementService, usSpinnerService) {
+		postFactory, postLandingService, communityPageService, postManagementService, usSpinnerService) {
     
 	$scope.get_header_metaData();
 	
@@ -1870,7 +1958,7 @@ minibean.controller('PostLandingController', function($scope, $routeParams, $htt
 });
     
 minibean.controller('QnALandingController', function($scope, $routeParams, $http, $timeout, $upload, $validator, 
-    postFactory, qnaLandingService, communityPageService, postManagementService, usSpinnerService) {
+		postFactory, qnaLandingService, communityPageService, postManagementService, usSpinnerService) {
 
     $scope.get_header_metaData();
 
@@ -2087,8 +2175,8 @@ minibean.controller('QnALandingController', function($scope, $routeParams, $http
     }
 });
 
-minibean.controller('CommunityPageController', function($scope, $routeParams, $interval, profilePhotoModal,
-        pkViewFactory, communityPageService, communityJoinService, pkViewService, searchMembersService, usSpinnerService){
+minibean.controller('CommunityPageController', function($scope, $routeParams, $interval, profilePhotoModal, 
+		pkViewFactory, communityPageService, communityJoinService, pkViewService, searchMembersService, usSpinnerService){
     
     $scope.get_header_metaData();
 
@@ -3166,8 +3254,6 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
 
 minibean.controller('ArticlePageController',function($scope, $routeParams, articleFactory, usSpinnerService, articleService, tagwordService){
     
-    $scope.get_header_metaData();
-    
     $scope.selectNavBar($scope.getArticleCategoryGroup($routeParams.catId), $routeParams.catId);
     
     $scope.defaultCollapseCount = DefaultValues.TAGWORD_LIST_COLLAPSE_COUNT;
@@ -3221,8 +3307,6 @@ minibean.controller('ArticlePageController',function($scope, $routeParams, artic
 
 minibean.controller('PNPageController',function($scope, $routeParams, schoolsFactory, schoolsService, myBookmarksService, communityPageService, usSpinnerService) {
 
-    $scope.get_header_metaData();
-    
     $scope.selectNavBar('SCHOOLS', 0);
     
     var id = $routeParams.id;
@@ -3237,11 +3321,8 @@ minibean.controller('PNPageController',function($scope, $routeParams, schoolsFac
     		$scope._commId = commId;		// to be used in CommunityQnAController and CommunityMembersController
     		$scope.selectedTab = 1;
     		
-    		var title = data.n;
-    		if (data.ne && data.ne != undefined) {
-    			title += ' ' + data.ne;
-    		}
-    		writeMetaTitleDescription(title, data.cur, $scope.applicationInfo.baseUrl+"/assets/app/images/schools/pn_promo.png");
+    		var meta = getMetaForSchool(data);
+    		writeMetaTitleDescription(meta.title, meta.description, $scope.applicationInfo.baseUrl+"/assets/app/images/schools/pn_promo.png");
 		}
     );
     
@@ -3296,8 +3377,6 @@ minibean.controller('PNPageController',function($scope, $routeParams, schoolsFac
 
 minibean.controller('KGPageController',function($scope, $routeParams, schoolsFactory, schoolsService, myBookmarksService, communityPageService, usSpinnerService) {
 
-    $scope.get_header_metaData();
-    
     $scope.selectNavBar('SCHOOLS', 1);
     
     var id = $routeParams.id;
@@ -3316,7 +3395,9 @@ minibean.controller('KGPageController',function($scope, $routeParams, schoolsFac
     		if (data.ne && data.ne != undefined) {
     			title += ' ' + data.ne;
     		}
-    		writeMetaTitleDescription(title, data.cur, $scope.applicationInfo.baseUrl+"/assets/app/images/schools/kg_promo.png");
+    		
+    		var meta = getMetaForSchool(data);
+    		writeMetaTitleDescription(meta.title, meta.description, $scope.applicationInfo.baseUrl+"/assets/app/images/schools/kg_promo.png");
 		}
     );
     
@@ -3370,8 +3451,6 @@ minibean.controller('KGPageController',function($scope, $routeParams, schoolsFac
 });
 
 minibean.controller('SchoolsRankingController',function($scope, $routeParams, $location, $interval, schoolsService, usSpinnerService) {
-
-    $scope.get_header_metaData();
 
     if ($location.path().indexOf('/pn') > -1) {
     	$scope.selectNavBar('SCHOOLS', 0);
@@ -3467,7 +3546,7 @@ minibean.controller('ShowSchoolsController',function($scope, $routeParams, $loca
 	    $scope.filteredSchools = $scope.schools;
     }
     
-    $scope.districts = locationService.getAllDistricts.get({},
+    $scope.districts = locationService.allDistricts.get({},
     	function(data) {
     		$scope.initSchools();
     	}
@@ -4595,6 +4674,8 @@ minibean.controller('MyBookmarksController', function($scope, postFactory, myBoo
 
 minibean.controller('UserConversationController',function($scope, $http, $filter, $timeout, $upload, $location, $routeParams, $sce, searchFriendService, usSpinnerService, getMessageService, conversationService) {
 
+	$scope.get_header_metaData();
+	
     $scope.selectNavBar('HOME', -1);
 
     $scope.loading = false;

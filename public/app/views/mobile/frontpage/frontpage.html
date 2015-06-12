@@ -7,6 +7,10 @@
     <div id="frontpage" class="row">
         <div id="wall">
         
+            <div data-ng-controller="GameController" ng-if="userInfo.isLoggedIn">
+                <div data-ng-include ng-init="showProfileImage = true" data-src="'/assets/app/views/widgets/game-widget-light.html'"></div>
+            </div>
+            
             <!-- slider - promo, campaigns, announcements, voting -->
             <div class="frontpage-section">
                 <div data-ng-include data-src="'/assets/app/views/mobile/frontpage/slider-section.html'"></div>

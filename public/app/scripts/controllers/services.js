@@ -162,10 +162,31 @@ minibean.service('gameService',function($resource) {
                 get: {method:'get',params:{offset:'@offset'},isArray:true}
             }
     );
+    this.allGameGifts = $resource(
+            '/get-all-game-gifts',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.gameGiftInfo = $resource(
+            '/get-game-gift-info/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
+    this.redeemGameGift = $resource(
+            '/redeem-game-gift/:id',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get'}
+            }
+    );
 });
 
 minibean.service('locationService',function($resource){
-    this.getAllDistricts = $resource(
+    this.allDistricts = $resource(
             '/get-all-districts',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
@@ -330,7 +351,7 @@ minibean.service('profilePhotoModal',function( $modal){
 
 minibean.service('editCommunityPageService',function($resource){
     this.EditCommunityPage = $resource(
-            '/editCommunity/:id',
+            '/edit-community/:id',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get', params:{id:'@id'}}

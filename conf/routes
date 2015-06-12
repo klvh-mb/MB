@@ -23,6 +23,9 @@ GET     /googlee42c6d2bf91e90b7.html    controllers.Application.googleWebmaster
 # sitemap.xml
 GET     /sitemap.xml                controllers.Application.sitemap
 
+# robots.txt
+GET     /robots.txt                 controllers.Application.robots
+
 GET     /favicon.ico                controllers.Assets.at(path="/public", file="app/images/favicon-1.ico")
 GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
 GET     /privacy                    controllers.Application.privacy
@@ -57,7 +60,7 @@ GET     /articles                   controllers.Application.mainArticles
 GET     /login                      controllers.Application.login
 
 # Home
-GET     /signup-promo-code/:promoCode      controllers.Application.homeWithPromoCode(promoCode:String)
+GET     /signup-promo-code/:promoCode      controllers.Application.signupWithPromoCode(promoCode:String)
 
 POST    /login                      controllers.Application.doLogin
 POST    /login-popup                controllers.Application.doLoginPopup
@@ -217,7 +220,7 @@ GET     /image/get-cover-community-image-by-id/:id  controllers.CommunityControl
 GET     /image/get-thumbnail-cover-community-image-by-id/:id      controllers.CommunityController.getThumbnailCoverCommunityImageById(id :Long)
 GET     /get-mini-cover-community-image-by-id/:id           controllers.CommunityController.getMiniCoverCommunityImageById(id :Long)
 GET     /community/:id                          controllers.CommunityController.getCommunityInfoById(id :Long)
-GET     /editCommunity/:id                      controllers.CommunityController.getEditCommunityInfo(id :Long)
+GET     /edit-community/:id                     controllers.CommunityController.getEditCommunityInfo(id :Long)
 GET     /community/join/:id                     controllers.CommunityController.joinToCommunity(id : Long)
 GET     /community/leave/:id                    controllers.CommunityController.leaveThisCommunity(id : Long)
 GET     /get-community-members/:id              controllers.CommunityController.getCommunityMembers(id : Long)
@@ -262,6 +265,8 @@ GET     /get-newsfeeds/:offset                  controllers.CommunityController.
 GET     /get-businessfeeds/:offset/:commCatId   controllers.CommunityController.getBusinessfeedsByCategory(offset:Integer, commCatId:Long)
 GET     /get-hotnewsfeeds/:offset               controllers.CommunityController.getHotNewsfeeds(offset:Integer)
 GET     /get-pnnewsfeeds/:offset                controllers.CommunityController.getPNfeeds(offset:Integer)
+GET     /get-kgnewsfeeds/:offset                controllers.CommunityController.getKGfeeds(offset:Integer)
+
 
 GET     /like-post/:post_id                     controllers.CommunityController.likeThePost(post_id:Long)
 GET     /unlike-post/:post_id                   controllers.CommunityController.unlikeThePost(post_id:Long)
@@ -338,7 +343,12 @@ POST    /sign-in-for-today                      controllers.GameController.signI
 GET     /get-gameaccount                        controllers.GameController.getGameAccount()
 GET     /get-transactions/:offset               controllers.GameController.getGameTransactions(offset : String)
 GET     /invite-by-mail/:mail                   controllers.UserController.inviteByEmail(mail: String)
-GET     /request-redemption/:id/:points         controllers.UserController.requestToRedemption(id: Long,points: Long)
+
+GET     /get-all-game-gifts                     controllers.GameController.getAllGameGifts()
+GET     /get-game-gift-info/:id                 controllers.GameController.infoGameGift(id:Long)
+GET     /like-game-gift/:id                     controllers.GameController.onLike(id:Long)
+GET     /unlike-game-gift/:id                   controllers.GameController.onUnlike(id:Long)
+POST    /redeem-game-gift                       controllers.GameController.redeemGameGift()
 
 # Admin
 GET     /admin/get-campaign-joiners/:id         controllers.AdminController.getCampaignJoiners(id :Long)

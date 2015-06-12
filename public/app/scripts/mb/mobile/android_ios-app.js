@@ -19,7 +19,7 @@ angular.module('minibean', [
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
       .when('/game/rules',{
-        templateUrl: '/assets/app/views/mobile/mobileapp/game-rules-page.html'
+        templateUrl: '/assets/app/views/mobile/android_ios/game-rules-page.html'
       })
       .when('/error', {
     	  templateUrl: '/assets/app/views/error-page.html',
