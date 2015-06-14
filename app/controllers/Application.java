@@ -91,10 +91,6 @@ public class Application extends Controller {
     public static final String FLASH_MESSAGE_KEY = "message";
 	public static final String FLASH_ERROR_KEY = "error";
 
-	// mobile play authen key
-	private static final String USER_KEY = "pa.u.id";
-	private static final String PROVIDER_KEY = "pa.p.id";
-	
 	@Transactional
     public static Result index() {
         return mainFrontpage();
@@ -672,13 +668,15 @@ public class Application extends Controller {
 			}
 			
 			// null-null
-			if (StringUtils.isEmpty(session().get(PROVIDER_KEY)) && 
-					StringUtils.isEmpty(session().get(USER_KEY))) {
+			String providerKey = session().get(PlayAuthenticate.PROVIDER_KEY);
+			String userKey = session().get(PlayAuthenticate.USER_KEY);
+			if (StringUtils.isEmpty(providerKey) || "null".equals(providerKey.trim()) || 
+					StringUtils.isEmpty(userKey) || "null".equals(userKey.trim())) {
 				return badRequest("沒有此用戶，請確認電郵或密碼無誤");
 			}
 			
 			String encryptedValue = null;
-			String plainData = session().get(PROVIDER_KEY)+"-"+session().get(USER_KEY);
+			String plainData = session().get(PlayAuthenticate.PROVIDER_KEY)+"-"+session().get(PlayAuthenticate.USER_KEY);
 			try { 
 	    		Key key = generateKey();
 	            Cipher c = Cipher.getInstance("AES");

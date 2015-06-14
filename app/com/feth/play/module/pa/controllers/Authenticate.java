@@ -23,8 +23,6 @@ public class Authenticate extends Controller {
 	private static final play.api.Logger logger = play.api.Logger.apply(Authenticate.class);
 	
 	private static final String PAYLOAD_KEY = "p";
-	private static final String USER_KEY = "pa.u.id";
-	private static final String PROVIDER_KEY = "pa.p.id";
 	
 	public static void noCache(final Response response) {
 		// http://stackoverflow.com/questions/49547/making-sure-a-web-page-is-not-cached-across-all-browsers
@@ -54,8 +52,8 @@ public class Authenticate extends Controller {
 		}
 		
 		String encryptedValue = null;
-		String providerKey = session().get(PROVIDER_KEY);
-		String userKey = session().get(USER_KEY);
+		String providerKey = session().get(PlayAuthenticate.PROVIDER_KEY);
+		String userKey = session().get(PlayAuthenticate.USER_KEY);
 		String plainData = providerKey + "-" + userKey;
 		if (StringUtils.isEmpty(providerKey) || "null".equals(providerKey.trim()) || 
 				StringUtils.isEmpty(userKey) || "null".equals(userKey.trim())) {
