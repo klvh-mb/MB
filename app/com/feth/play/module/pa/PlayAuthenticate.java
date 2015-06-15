@@ -127,11 +127,11 @@ public abstract class PlayAuthenticate {
 		return userService;
 	}
 
-	private static final String ORIGINAL_URL = "pa.url.orig";
-	private static final String USER_KEY = "pa.u.id";
-	private static final String PROVIDER_KEY = "pa.p.id";
-	private static final String EXPIRES_KEY = "pa.u.exp";
-	private static final String SESSION_ID_KEY = "pa.s.id";
+	public static final String ORIGINAL_URL = "pa.url.orig";
+	public static final String USER_KEY = "pa.u.id";
+	public static final String PROVIDER_KEY = "pa.p.id";
+	public static final String EXPIRES_KEY = "pa.u.exp";
+	public static final String SESSION_ID_KEY = "pa.s.id";
 
 	public static Configuration getConfiguration() {
 		return Play.application().configuration()
@@ -173,8 +173,8 @@ public abstract class PlayAuthenticate {
 	    // User logged in once more - wanna make some updates?
         final AuthUser u = getUserService().update(authUser);
 
-		session.put(PlayAuthenticate.USER_KEY, u.getId());
-		session.put(PlayAuthenticate.PROVIDER_KEY, u.getProvider());
+		session.put(USER_KEY, u.getId());
+		session.put(PROVIDER_KEY, u.getProvider());
 		if (u.expires() != AuthUser.NO_EXPIRATION) {
 			session.put(EXPIRES_KEY, Long.toString(u.expires()));
 		} else {
