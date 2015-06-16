@@ -623,7 +623,7 @@ public class UserController extends Controller {
 		} 
 		
 		try {
-			return ok(User.getDefaultUserPhoto());
+			return ok(User.getDefaultThumbnailUserPhoto());
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}
@@ -639,7 +639,7 @@ public class UserController extends Controller {
 		} 
 		
 		try {
-			return ok(User.getDefaultUserPhoto());
+			return ok(User.getDefaultThumbnailUserPhoto());
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}
@@ -655,7 +655,7 @@ public class UserController extends Controller {
 		}
 		
 		try {
-			return ok(User.getDefaultUserPhoto());
+			return ok(User.getDefaultThumbnailUserPhoto());
 		} catch (FileNotFoundException e) {
 			return ok("no image set");
 		}
