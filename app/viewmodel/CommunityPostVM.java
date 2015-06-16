@@ -50,6 +50,10 @@ public class CommunityPostVM {
     @JsonProperty("isWtAns") public boolean isWantAnswer = false;
 	@JsonProperty("isBookmarked") public boolean isBookmarked = false;
 	
+	@JsonProperty("and") public boolean android = false;
+	@JsonProperty("ios") public boolean ios = false;
+	@JsonProperty("mob") public boolean mobile = false;
+	
 	@JsonProperty("pnId") public Long pnId = null;
 	@JsonProperty("kgId") public Long kgId = null;
 	
@@ -98,6 +102,10 @@ public class CommunityPostVM {
 		this.isCommentable = isCommentable;
 		this.isOwner = post.owner.id == user.id;
 
+		this.android = post.android;
+		this.ios = post.ios;
+		this.mobile = post.mobile;
+		
 		this.pnId = CommunityMetaCache.getPNIdFromCommunity(post.community.id);
 		this.kgId = CommunityMetaCache.getKGIdFromCommunity(post.community.id);
 		
