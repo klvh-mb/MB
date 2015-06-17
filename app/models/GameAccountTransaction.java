@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Query;
 
 import domain.GamificationConstants;
+import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
@@ -40,6 +41,7 @@ public class GameAccountTransaction  extends domain.Entity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
 	
+	@Required
 	public Long userId;
 	
 	public Long transactedPoints;

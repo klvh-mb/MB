@@ -163,12 +163,12 @@ public class KindergartenVM {
         this.numEnrollAM_UKG = kg.numEnrollAM_UKG;
         this.numEnrollPM_UKG = kg.numEnrollPM_UKG;
         this.numEnrollWD_UKG = kg.numEnrollWD_UKG;
-        this.summerUniformFee = kg.getSummerUniformFee();
-        this.winterUniformFee = kg.getWinterUniformFee();
-        this.schoolBagFee = kg.getSchoolBagFee();
-        this.teaAndSnacksFee = kg.getTeaAndSnacksFee();
-        this.textBooksFee = kg.getTextBooksFee();
-        this.workBooksFee = kg.getWorkBooksFee();
+        this.summerUniformFee = kg.getSummerUniformFee() == null? "-" : kg.getSummerUniformFee();
+        this.winterUniformFee = kg.getWinterUniformFee() == null? "-" : kg.getSummerUniformFee();
+        this.schoolBagFee = kg.getSchoolBagFee() == null? "-" : kg.getSchoolBagFee();
+        this.teaAndSnacksFee = kg.getTeaAndSnacksFee() == null? "-" : kg.getTeaAndSnacksFee();
+        this.textBooksFee = kg.getTextBooksFee() == null? "-" : kg.getTextBooksFee();
+        this.workBooksFee = kg.getWorkBooksFee() == null? "-" : kg.getWorkBooksFee();
 
         // fee total
         try {
