@@ -13,6 +13,7 @@ import common.utils.ShortCodeGenerator;
 import domain.GamificationConstants;
 import email.EDMUtility;
 import models.GameAccountTransaction.TransactionType;
+import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 
 @Entity
@@ -23,6 +24,7 @@ public class GameAccount extends domain.Entity {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
 	
+	@Required
 	public Long user_id;
 
 	private Long game_points = 0L;      // total capped points redeemable
