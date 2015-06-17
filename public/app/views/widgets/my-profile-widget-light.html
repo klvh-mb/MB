@@ -8,9 +8,9 @@
         </a>
     </span>
     <div class="game-details">
-        <a style="vertical-align:middle;" href="/my#!/game">
-            <img style="width:22px;margin-left:5px;" src="/assets/app/images/game/levels/l_1.jpg"> 小豆豆: <span class="points">{{gameAccount.gmpt || '--'}}</span>
-            <img style="width:14px;margin:0 3px 3px;float:none;" src="/assets/app/images/general/animated/arrow.gif">
+        <a style="vertical-align:middle;" href="/my#!/about/activities">
+            <img style="width:25px;height:25px;border-radius:25px;" ng-src="{{profileImage}}" ng-show="showProfileImage">
+            <span style="color:#3691E0;font-weight:bold;margin-left:3px;">{{userInfo.displayName|limitTo:18}}<span ng-show="userInfo.displayName.length > 18">...</span></span>
         </a>
     </div>
 </div>

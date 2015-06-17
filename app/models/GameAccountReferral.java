@@ -38,6 +38,11 @@ public class GameAccountReferral extends domain.Entity {
      * @param signupEmail
      */
     public static void addReferralRecord(String promoCode, String signupEmail) {
+        GameAccountReferral existingReferral = findBySignupEmail(signupEmail);
+        if (existingReferral != null) {
+            throw new IllegalStateException("signupEmail already has referral: "+signupEmail);
+        }
+
         GameAccountReferral referral = new GameAccountReferral();
         referral.setPromoCode(promoCode);
         referral.setSignupEmail(signupEmail);

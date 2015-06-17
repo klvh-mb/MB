@@ -24,6 +24,10 @@ public class CommunityPostCommentVM {
 	@JsonProperty("isO") public boolean isOwner = false;
 	@JsonProperty("isLike") public boolean isLike = false;     // filled outside
 	
+	@JsonProperty("and") public boolean android = false;
+	@JsonProperty("ios") public boolean ios = false;
+	@JsonProperty("mob") public boolean mobile = false;
+	
 	public static CommunityPostCommentVM communityPostCommentVM(Comment comment, User user, int number) {
 		CommunityPostCommentVM postCommentVM = new CommunityPostCommentVM();
 		postCommentVM.commentId = comment.id;
@@ -35,6 +39,10 @@ public class CommunityPostCommentVM {
 		postCommentVM.attribute = comment.getAttribute();
 		postCommentVM.number = number;
 		postCommentVM.isOwner = comment.owner.id == user.id;
+		
+		postCommentVM.android = comment.android;
+		postCommentVM.ios = comment.ios;
+		postCommentVM.mobile = comment.mobile;
 		
 		if(comment.folder != null && !CollectionUtils.isEmpty(comment.folder.resources)) {
 			postCommentVM.hasImage = true;
