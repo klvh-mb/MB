@@ -1,0 +1,41 @@
+<header>
+    <div data-ng-include style="width:100%;" data-src="'/assets/app/views/header-bar.html'"></div>
+</header>
+
+<div class="themeA-container">
+    <div data-ng-include data-src="'/assets/app/views/nav-bar.html'"></div>
+    <div class="row">
+        <div class="col-md-2 col-sm-2 col-xs-2" style="width:10px;">
+            
+        </div>
+        
+        <div class="col-md-6 col-sm-6 col-xs-6" style="width:700px;">
+            <div data-ng-include data-src="'/assets/app/views/schools/kg-newsfeed-page-details.html'"></div>
+        </div>
+        
+        <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
+            <div class="schools-kg-utility">
+                <div data-ng-include data-src="'/assets/app/views/widgets/schools-kg-ranking-index-widget.html'"></div>
+                <div data-ng-include data-src="'/assets/app/views/widgets/schools-kg-bookmark-widget.html'" ng-controller="BookmarkedSchoolsController"></div>
+            </div>
+            <div data-ng-include data-src="'/assets/app/views/widgets/fb-likebox-widget.html'"></div>
+            <div class="ads-factor-300x250">
+                <script adSize="300250" adSid="244781106677" ads-factor language='JavaScript' type="text/javascript"></script>
+            </div>
+            <div class="ads-factor-1x1" ng-if="userInfo.isLoggedIn">
+                <script adSize="11" adSid="985037346676" ads-factor language='JavaScript' type="text/javascript"></script>
+            </div>
+        </div>
+    </div>
+    <div class="ads-factor-728x90">
+        <script adSize="72890" adSid="630501056805" ads-factor language='JavaScript' type="text/javascript"></script>
+    </div>
+</div>
+
+<div id="back-to-top" style="z-index:1000">
+    <a data-ng-click="gotoTop()"><span class="icon-title-arrow-up"></span>Top</a>
+</div>
+
+<script>
+    ga_send_pv();
+</script>

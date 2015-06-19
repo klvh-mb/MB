@@ -54,6 +54,10 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/mobile/schools/kgs.html',
         controller : 'ShowSchoolsController' 
       })
+      .when('/kg/newsfeed',{
+        templateUrl: '/assets/app/views/mobile/schools/kg-newsfeed-page.html',
+        controller : 'SchoolsNewsfeedController' 
+      })
       .when('/kg/ranking',{
         templateUrl: '/assets/app/views/mobile/schools/kg-ranking-page.html',
         controller : 'SchoolsRankingController' 
