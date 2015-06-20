@@ -27,6 +27,13 @@ minibean.service('frontpageService',function($resource){
                 get: {method:'GET', params:{offset:'@offset'}}
             }
     );
+    this.kgNewsFeeds = $resource(
+            '/get-kgnewsfeeds/:offset',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET', params:{offset:'@offset'}}
+            }
+    );
     this.hotNewsFeeds = $resource(
             '/get-hotnewsfeeds/:offset',
             {alt:'json',callback:'JSON_CALLBACK'},

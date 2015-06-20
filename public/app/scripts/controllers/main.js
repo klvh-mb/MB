@@ -406,7 +406,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     
     // pn newsfeed
     $scope.pnNewsFeeds = { posts: [] };
-    $scope.nextPNNewsFeeds = function(offset) {
+    $scope.nextPnNewsFeeds = function(offset) {
         frontpageService.pnNewsFeeds.get({offset:offset},
             function(data){
                 var posts = data.posts;
@@ -416,8 +416,23 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
             }
         );
     }
-    $scope.nextPNNewsFeeds(0);
-    //$scope.nextPNNewsFeeds(1);
+    $scope.nextPnNewsFeeds(0);
+    
+    // kg newsfeed
+    /*
+    $scope.kgNewsFeeds = { posts: [] };
+    $scope.nextKgNewsFeeds = function(offset) {
+        frontpageService.kgNewsFeeds.get({offset:offset},
+            function(data){
+                var posts = data.posts;
+                for (var i = 0; i < posts.length; i++) {
+                    $scope.kgNewsFeeds.posts.push(posts[i]);
+                }
+            }
+        );
+    }
+    $scope.nextKgNewsFeeds(0);
+    */
     
     // pkview
     $scope.redVote = function(pkview) {
@@ -3448,6 +3463,73 @@ minibean.controller('KGPageController',function($scope, $routeParams, schoolsFac
     	schoolsFactory.unBookmarkKG(id, schools, $scope.bookmarkedSchools);
     }
     
+});
+
+minibean.controller('SchoolsNewsfeedController',function($scope, $location, postFactory, frontpageService, usSpinnerService) {
+	
+	if ($location.path().indexOf('/pn') > -1) {
+		$scope.isPN = true;
+    	$scope.selectNavBar('SCHOOLS', 0);
+    } else if ($location.path().indexOf('/kg') > -1) {
+    	$scope.isKG = true;
+    	$scope.selectNavBar('SCHOOLS', 1);
+    } else {
+    	$scope.isPN = true;
+    	$scope.selectNavBar('SCHOOLS', 0);
+    }
+
+	$scope.newsFeeds = { posts: [] };
+	
+	var noMore = false;
+	var offset = 0;
+	$scope.nextNewsFeeds = function() {
+		if ($scope.isBusy) return;
+		if (noMore) return;
+		$scope.isBusy = true;
+		
+		if ($scope.selectedNavSubBar == 0) {	// PN
+			frontpageService.pnNewsFeeds.get({offset:offset},
+				function(data){
+					var posts = data.posts;
+					if(posts.length == 0) {
+						noMore = true;
+					}
+					
+					for (var i = 0; i < posts.length; i++) {
+						$scope.newsFeeds.posts.push(posts[i]);
+				    }
+				    $scope.isBusy = false;
+					offset++;
+				}
+			);
+		} else if ($scope.selectedNavSubBar == 1) {		// KG
+			frontpageService.kgNewsFeeds.get({offset:offset},
+				function(data){
+					var posts = data.posts;
+					if(posts.length == 0) {
+						noMore = true;
+					}
+					
+					for (var i = 0; i < posts.length; i++) {
+						$scope.newsFeeds.posts.push(posts[i]);
+				    }
+				    $scope.isBusy = false;
+					offset++;
+				}
+			);
+		}
+	}
+
+	// first batch
+	$scope.nextNewsFeeds();
+	
+	$scope.bookmarkPost = function(post_id) {
+        postFactory.bookmarkPost(post_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.unBookmarkPost = function(post_id) {
+        postFactory.unBookmarkPost(post_id, $scope.newsFeeds.posts);
+    }
 });
 
 minibean.controller('SchoolsRankingController',function($scope, $routeParams, $location, $interval, schoolsService, usSpinnerService) {
