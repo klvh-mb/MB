@@ -284,6 +284,18 @@ GET     /get-promo2-topics                      controllers.FrontPageController.
 GET     /get-featured-topics                    controllers.FrontPageController.getFeaturedTopics()
 GET     /get-game-topics                        controllers.FrontPageController.getGameTopics()
 
+# PlayGroup
+GET     /get-pg-info/:id                        controllers.PlayGroupController.getPGInfo(id:Long)
+GET     /search-pgs-by-name/:query              controllers.PlayGroupController.searchPGsByName(query:String)
+GET     /get-pgs-by-district/:district_id       controllers.PlayGroupController.getPGsByDistrict(district_id:Long)
+GET     /get-top-viewed-pgs                     controllers.PlayGroupController.getTopViewedPGs
+GET     /get-top-discussed-pgs                  controllers.PlayGroupController.getTopDiscussedPGs
+GET     /get-top-bookmarked-pgs                 controllers.PlayGroupController.getTopBookmarkedPGs
+GET     /bookmark-pg/:id                        controllers.PlayGroupController.onBookmark(id : Long)
+GET     /unbookmark-pg/:id                      controllers.PlayGroupController.onUnBookmark(id : Long)
+GET     /get-bookmarked-pgs                     controllers.PlayGroupController.getBookmarkedPGs()
+GET     /get-bookmarked-pg-communities          controllers.PlayGroupController.getBookmarkedPGCommunities()
+
 # PreNursery
 GET     /get-pn-info/:id                        controllers.PreNurseryController.getPNInfo(id:Long)
 GET     /search-pns-by-name/:query              controllers.PreNurseryController.searchPNsByName(query:String)

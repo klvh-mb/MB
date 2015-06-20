@@ -2,6 +2,7 @@ package viewmodel;
 
 import common.cache.LocationCache;
 import common.utils.StringUtil;
+import domain.DefaultValues;
 import models.PlayRoom;
 import models.User;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -13,8 +14,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * To change this template use File | Settings | File Templates.
  */
 public class PlayRoomVM {
-    private static final String MAPURL_PREFIX = "http://maps.google.com.hk/maps?q=";
-
     @JsonProperty("id")  public Long id;
     @JsonProperty("commId") public Long communityId;
     @JsonProperty("icon") public String icon;
@@ -73,7 +72,7 @@ public class PlayRoomVM {
         this.email = p.getEmail();
         this.address = p.getAddress();
         if (p.getMapUrlSuffix() != null) {
-            this.mapUrl = MAPURL_PREFIX + p.getMapUrlSuffix();
+            this.mapUrl = DefaultValues.GOOGLEMAP_PREFIX + p.getMapUrlSuffix();
         }
 
         this.noOfPosts = p.noOfPosts;

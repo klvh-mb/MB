@@ -78,7 +78,7 @@ public class CommunityStatistics {
 
     @Transactional
     public static void onNewPost(Long communityId, TargetingSocialObject.TargetingType targetingType) {
-        LocalDate today = new LocalDate();
+        final LocalDate today = new LocalDate();
         getCommunityStatistics(communityId, today);
 
         JPA.em().createQuery("UPDATE CommunityStatistics s SET s.numPosts = s.numPosts + 1 where s.communityId = ?1 and s.activityDate = ?2").
@@ -86,8 +86,15 @@ public class CommunityStatistics {
 		setParameter(2, today.toDate()).
         executeUpdate();
 
-        if (targetingType == TargetingSocialObject.TargetingType.PRE_NURSERY ||
+        // Handle no of posts in school entities.
+        if (targetingType == TargetingSocialObject.TargetingType.PLAYGROUP ||
+            targetingType == TargetingSocialObject.TargetingType.PRE_NURSERY ||
             targetingType == TargetingSocialObject.TargetingType.KINDY) {
+            PlayGroup pg = PlayGroup.findById(CommunityMetaCache.getPGIdFromCommunity(communityId));
+            if (pg != null) {
+                pg.noOfPosts++;
+                pg.merge();
+            }
             PreNursery pn = PreNursery.findById(CommunityMetaCache.getPNIdFromCommunity(communityId));
             if (pn != null) {
                 pn.noOfPosts++;

@@ -48,7 +48,10 @@ public class DefaultValues {
 
     public static int MAX_ARTICLES_COUNT = 100;
     public static int MAX_CAMPAIGN_COUNT = 100;
-    
+
+    public static final String GOOGLEMAP_PREFIX = "http://maps.google.com.hk/maps?q=";
+
+
     static {
         init();
     }
