@@ -28,6 +28,7 @@ public class PlayGroupVM {
     @JsonProperty("adr")  public String address;
     @JsonProperty("map")  public String mapUrl;
 
+    @JsonProperty("desc")  public String description;
     @JsonProperty("targ")  public String target;
     @JsonProperty("tclz")  public String trailClass;
     @JsonProperty("isEng")  public boolean inEnglish;
@@ -74,6 +75,7 @@ public class PlayGroupVM {
             this.mapUrl = DefaultValues.GOOGLEMAP_PREFIX + pg.mapUrlSuffix;
         }
 
+        this.description = pg.description;
         this.target = pg.target;
         this.trailClass = pg.trailClass;
         this.inEnglish = pg.inEnglish;

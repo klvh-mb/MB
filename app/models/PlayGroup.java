@@ -35,6 +35,7 @@ public class PlayGroup extends SocialObject implements Likeable, Commentable {
     public String mapUrlSuffix;
 
     // business attributes
+    public String description;
     public String target;
     public String trailClass;
     public boolean inEnglish;
