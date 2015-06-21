@@ -354,6 +354,7 @@ GET     /image/game/:year/:month/:date/:name        controllers.GameController.g
 POST    /sign-in-for-today                      controllers.GameController.signInForToday()
 GET     /get-gameaccount                        controllers.GameController.getGameAccount()
 GET     /get-transactions/:offset               controllers.GameController.getGameTransactions(offset : String)
+GET     /get-signup-referrals                   controllers.GameController.getSignupReferrals()
 GET     /invite-by-mail/:mail                   controllers.UserController.inviteByEmail(mail: String)
 
 GET     /get-all-game-gifts                     controllers.GameController.getAllGameGifts()

@@ -3,7 +3,9 @@ package controllers;
 import static play.data.Form.form;
 import common.utils.ImageUploadUtil;
 import common.utils.NanoSecondStopWatch;
+
 import models.GameAccount;
+import models.GameAccountReferral;
 import models.GameAccountStatistics;
 import models.GameAccountTransaction;
 import models.GameGift;
@@ -14,10 +16,7 @@ import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import viewmodel.GameAccountVM;
-import viewmodel.GameGiftVM;
-import viewmodel.GameTransactionVM;
-import viewmodel.ResponseStatusVM;
+import viewmodel.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -83,6 +82,29 @@ public class GameController extends Controller {
         }
         else {
             logger.underlyingLogger().info("User is not logged in, no game transactions returning");
+            return ok();
+        }
+    }
+
+    @Transactional
+    public static Result getSignupReferrals() {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        final User currUser = Application.getLocalUser(session());
+        if (currUser.isLoggedIn()) {
+            List<User> referrals = GameAccountReferral.findSignedUpUsersReferredBy(currUser.id);
+
+            List<UserVM> vms = new ArrayList<>();
+            for (User referral : referrals) {
+                vms.add(new UserVM(referral));
+            }
+
+            sw.stop();
+            logger.underlyingLogger().info("[u="+currUser.id+"] getSignupReferrals="+referrals.size()+". Took "+sw.getElapsedMS()+"ms");
+            return ok(Json.toJson(vms));
+        }
+        else {
+             logger.underlyingLogger().info("User is not logged in, no signup referrals returning");
             return ok();
         }
     }

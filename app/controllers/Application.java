@@ -699,11 +699,10 @@ public class Application extends Controller {
     	logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] init new user - "+(isMobileUser()?"mobile":"PC"));
 
         String promoCode = session().get(SESSION_PROMOCODE);
-        if (!StringUtils.isEmpty(promoCode)) {
-        	GameAccount.setPointsForSignUp(user, promoCode);
-            GameAccountReferral.addReferralRecord(promoCode, user);
-        }
-        
+        GameAccountReferral.processAnyReferral(promoCode, user);
+
+        GameAccount.setPointsForSignUp(user);
+
         CommunityTargetingEngine.assignSystemCommunitiesToUser(user);
         
         UserController.sendGreetingMessageToNewUser();
@@ -806,6 +805,12 @@ public class Application extends Controller {
 			// Everything was filled
 		    String email = filledForm.get().email;
 		    session().put(SIGNUP_EMAIL, email);
+
+            // native signup with promoCode
+            String promoCode = session().get(SESSION_PROMOCODE);
+            if (promoCode != null) {
+                GameAccountReferral.addNonValidatedReferral(promoCode, email);
+            }
 
             logger.underlyingLogger().info("STS [email="+email+"] Native signup submitted");
 			return UsernamePasswordAuthProvider.handleSignup(ctx());
