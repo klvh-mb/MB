@@ -1,29 +1,57 @@
+<div id="game-box" class="box-a">
+    <h2>
+        <img class="game-box-mascot" src="/assets/app/images/frontpage/mascot/green_right.png">
+        積分規則
+    </h2>
+</div>
+
 <div id="game-rules-box" class="box-a">
     <h4>小豆豆是什麼?</h4>
     <div class="game-details">
-        <div><a href="/gift-center">gift center</a> will constantly have new gifts reward to users<br></div>
-        <div>Once users accumulate enough 小豆豆 for a gift (or other defined methods like levels), users can redeem gifts</div>     
+        <div>為了回饋用戶對我們的支持，miniBean的註冊用戶可以將自己在網站/App上的各種行為獲得小豆豆，兌換成為商品獎勵。</div>
     </div>
+    <div class="padding10"></div>
     
     <h4>如何累積小豆豆?</h4>
     <div class="game-details">
-        <h5>每個用戶都可以使小萌豆更豐富完善！請完成以下行動，便可得到相等小豆豆！</h5>
+        <h5>每個用戶都可以使小萌豆更豐富完善！<br>請完成以下行動，累積小豆豆！</h5>
         <div>
             <div>
-	            <img src="/assets/app/images/general/icons/ranking/rank_1.png">每日簽到<span class="points">+{{gameConstants.POINTS_SIGNIN}}小豆豆</span><br>
-	            <span class="game-note">Once a day</span>
-	        </div>
-	        <div>
-	            <img src="/assets/app/images/general/icons/ranking/rank_2.png">介紹新會員<span class="points">+{{gameConstants.POINTS_REFERRAL_SIGNUP}}小豆豆</span><br>
-	            <span class="game-note">Refer user to signup with your code</span>
-	        </div>
-	        <div>
-	            <img src="/assets/app/images/general/icons/ranking/rank_3.png">上載個人照片<span class="points">+{{gameConstants.POINTS_UPLOAD_PROFILE_PHOTO}}小豆豆</span><br>
-	            <span class="game-note">First time only</span>
-	        </div>
+                <img src="/assets/app/images/general/icons/ranking/rank_1.png">每日簽到<span class="points">+{{gameConstants.POINTS_DAILY_SIGNIN}}小豆豆</span><br>
+                <span class="game-note">每日只限一次</span>
+            </div>
+            <div>
+                <img src="/assets/app/images/general/icons/ranking/rank_2.png">介紹新會員<span class="points">+{{gameConstants.POINTS_REFERRAL_SIGNUP}}小豆豆</span><br>
+                <span class="game-note">沒有次數上限 (只限於每日小豆豆累積上限)</span>
+            </div>
+            <div>
+                <img src="/assets/app/images/general/icons/ranking/rank_3.png">上載個人照片<span class="points">+{{gameConstants.POINTS_UPLOAD_PROFILE_PHOTO}}小豆豆</span><br>
+                <span class="game-note">只限第一次</span>
+            </div>
+            <div>
+                <img src="/assets/app/images/general/icons/ranking/rank_4.png">Android App 首次登入<span class="points">+{{gameConstants.POINTS_APP_LOGIN}}小豆豆</span><br>
+                <span class="game-note">只限第一次</span>
+            </div>
         </div>
     </div>
+    <div class="padding10"></div>
+    
+    <h4>累積小豆豆有沒有上限?</h4>
+    <div class="game-details">
+        <div style="margin-left:20px;">每日累積上限為<span class="points">{{gameConstants.LIMIT_DAILY_POINTS}}小豆豆</span></div>
+    </div>
     <div class="padding5"></div>
+    
+    <h4>如何兌換禮品?</h4>
+    <div class="game-details">
+        <div>兌換禮品需要一定的小豆豆數量，當你的水果數滿足兌換該禮品所需數量，並且滿足兌換的其他額外條件時，即可兌換禮品。</div>
+        <div class="padding5"></div>
+        <div>1) 到 <a href="my#!/game">小豆豆中心</a> 頁面 (戶必須為注冊會員)</div>
+        <div>2) 査看「我的小豆豆」數量，並選擇可兌換禮品</div>
+        <div>3) 於已選禮品頁面按「立即換領」，並跟據換領規則進行換領</div>
+        
+    </div>
+    <div class="padding10"></div>
 </div>
 
 <!--div id="game-rules-box" class="box-a">

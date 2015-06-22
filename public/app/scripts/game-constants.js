@@ -10,8 +10,9 @@ var GameConstants = new function() {
 	this.POINTS_REFERRAL_SIGNUP = 25;
 	this.POINTS_APP_LOGIN = 10;
 
-    this.LIMIT_DAILY_POINTS_LOW = 30;
-    this.LIMIT_DAILY_POINTS_HIGH = 50;
+	this.LIMIT_DAILY_POINTS = 500;
+    this.LIMIT_DAILY_POINTS_LOW = 0;
+    this.LIMIT_DAILY_POINTS_HIGH = 0;
     
     this.L1_FROM_POINTS = 0;
     this.L1_TO_POINTS = 30;

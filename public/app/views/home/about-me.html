@@ -47,6 +47,12 @@
                 </div>
             </div>
             <div class="col-md-4 col-sm-4 col-xs-4" style="width:310px;">
+                <div data-ng-controller="GameController">
+                    <div data-ng-include data-src="'/assets/app/views/widgets/game-widget.html'"></div>
+                </div>
+                <div data-ng-controller="GameGiftController">
+                    <div data-ng-include data-src="'/assets/app/views/widgets/game-gifts-widget.html'"></div>
+                </div>
                 <div id="about" class="general-box">
                     <div class="con-title">
                         <span class="icon-box icon-box-blueLight icon-title-profile-about"></span>關於
@@ -100,12 +106,6 @@
                         </ul>
                     </div>
                     <!--About End -->
-                </div>
-                <div data-ng-controller="GameController">
-                    <div data-ng-include data-src="'/assets/app/views/widgets/game-widget.html'"></div>
-                </div>
-                <div data-ng-controller="GameGiftController">
-                    <div data-ng-include data-src="'/assets/app/views/widgets/game-gifts-widget.html'"></div>
                 </div>
                 <div ng-controller="MyFriendsUtilityController" data-ng-show="result.friends.length > 0">
                     <div data-ng-include data-src="'/assets/app/views/utilities/friendsUtility.html'"></div>

@@ -69,7 +69,7 @@
 	font-size: 20px;
 	font-weight: bold;
     color: #556fb5;
-    padding-left: 55px;
+    padding-left: 60px;
 }
 #game-box h3 {
     font-size: 18px;
@@ -201,6 +201,7 @@
     width: 20px;
     height: auto;
     margin-bottom: 2px;
+    margin-right: 5px;
 }
 
 #game-box ul {
@@ -209,6 +210,13 @@
 }
 #game-box a {
     text-decoration: none;
+}
+#game-box a.game-rules-url {
+    position: relative;
+    float: right;
+    font-size: 13px;
+    font-weight: normal;
+    margin-top: 3px;
 }
 .game-gift {
     font-size: 14px;
