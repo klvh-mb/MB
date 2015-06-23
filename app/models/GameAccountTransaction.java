@@ -68,6 +68,13 @@ public class GameAccountTransaction  extends domain.Entity {
         q.setMaxResults(pageSize);
         return (List<GameAccountTransaction>) q.getResultList();
 	}
+    
+    @Transactional(readOnly = true)
+	public static List<GameAccountTransaction> getLatestTransactions(int pageSize) {
+        Query q = JPA.em().createQuery("SELECT u FROM GameAccountTransaction u order by transactedTime desc");
+        q.setMaxResults(pageSize);
+        return (List<GameAccountTransaction>) q.getResultList();
+	}
 
     /**
      * @param userId

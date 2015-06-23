@@ -536,9 +536,16 @@ minibean.controller('GameController',function($scope, $http, $interval, $locatio
     }
 });
 
-minibean.controller('GameTransactionsController',function($scope, $location, gameService, usSpinnerService) {
+minibean.controller('GameTransactionsController',function($scope, $interval, gameService, usSpinnerService) {
 
 	$scope.gameTransactions = gameService.gameTransactions.get({offset:0});
+	
+	$scope.getLatestGameTransactions = function() {
+		if ($scope.userInfo.isSA) {
+			$scope.latestGameTransactions = gameService.latestGameTransactions.get();	
+		}		
+	}
+	$interval($scope.getLatestGameTransactions, 1000, 1);
 	
 });
 
