@@ -7,14 +7,16 @@ import javax.persistence.Id;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import org.apache.commons.lang.StringUtils;
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 
 import java.util.Date;
+import java.util.List;
 
 /**
- *  GameAccountReferral should only be applicable to native signup.
- *  - Keeping record of which promoCode was used with which signup email.
+ *  GameAccountReferral
+ *  - Keep record of which promoCode (Referrer) was used with which User (new Signup).
  */
 @Entity
 public class GameAccountReferral extends domain.Entity {
@@ -23,43 +25,93 @@ public class GameAccountReferral extends domain.Entity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
-	
-	@Required
-    private Long userId;
-    
+
 	@Required
     private String promoCode;
 
+    private Long userId;
     private String signupEmail;
+
+    @Required
+    private boolean validated = false;  // signup has been valideted.
+
 
     /**
      * Ctor
      */
 	public GameAccountReferral() {}
 
+    /**
+     * For native signup - create nonValidated referral.
+     * @param promoCode
+     * @param email
+     */
+    public static void addNonValidatedReferral(String promoCode, String email) {
+        GameAccountReferral existingReferral = findBySignupEmail(email);
+        if (existingReferral != null) {
+            logger.underlyingLogger().info("GameAccountReferral already exists. email="+email+" promoCode="+promoCode);
+        } else {
+            GameAccountReferral referral = new GameAccountReferral();
+            referral.setPromoCode(promoCode);
+            referral.setSignupEmail(email);
+            referral.setValidated(false);
+            referral.setCreatedDate(new Date());
+            referral.save();
+        }
+    }
 
     /**
      * @param promoCode
      * @param user
      */
-    public static void addReferralRecord(String promoCode, User user) {
+    public static void processAnyReferral(String promoCode, User user) {
+        // 1) search by user id (FB flow)
         GameAccountReferral existingReferral = findByUserId(user.id);
-        if (existingReferral != null) {
-            throw new IllegalStateException("User already has referral: id="+user.id+" email="+user.email);
+        // 2) search by user email (native flow)
+        if (existingReferral == null && user.email != null) {
+            existingReferral = findBySignupEmail(user.email);
         }
 
-        GameAccountReferral referral = new GameAccountReferral();
-        referral.setPromoCode(promoCode);
-        referral.setUserId(user.id);
-        referral.setSignupEmail(user.email);
-        referral.setCreatedDate(new Date());
-        referral.save();
+        String referrerPromoCode = null;
+
+        if (existingReferral != null) {
+            if (existingReferral.validated) {
+                throw new IllegalStateException("User already referred and validated: id="+user.id+" email="+user.email+" promoCode="+promoCode);
+            } else {
+                // set validated (from native signup flow)
+                existingReferral.setValidated(true);
+                existingReferral.setUserId(user.getId());
+                existingReferral.merge();
+                referrerPromoCode = existingReferral.getPromoCode();
+            }
+        } else if (!StringUtils.isEmpty(promoCode)) {
+            GameAccountReferral referral = new GameAccountReferral();
+            referral.setValidated(true);
+            referral.setPromoCode(promoCode);
+            referral.setUserId(user.id);
+            referral.setSignupEmail(user.email);
+            referral.setCreatedDate(new Date());
+            referral.save();
+            referrerPromoCode = promoCode;
+        }
+
+        // 3) Credit referrer points
+        if (referrerPromoCode != null) {
+            GameAccount.setPointsForReferral(referrerPromoCode);
+        }
     }
 
-    /**
-     * @param userId
-     * @return
-     */
+    ///////////////////// Find APIs /////////////////////
+    public static List<User> findSignedUpUsersReferredBy(Long referrerId) {
+        Query q = JPA.em().createQuery(
+                "SELECT us FROM GameAccountReferral r, GameAccount g, User us "+
+                "where g.user_id=?1 and g.promoCode=r.promoCode and r.validated=?2 and r.userId=us.id "+
+                "and us.deleted = false order by us.id");
+        q.setParameter(1, referrerId);
+        q.setParameter(2, true);    // validated only
+        return (List<User>) q.getResultList();
+    }
+
     public static GameAccountReferral findByUserId(Long userId) {
 	    try {
 	        Query q = JPA.em().createQuery("SELECT r FROM GameAccountReferral r where userId = ?1");
@@ -69,11 +121,7 @@ public class GameAccountReferral extends domain.Entity {
 	        return null;
 	    }
 	}
-    
-    /**
-     * @param email
-     * @return
-     */
+
     public static GameAccountReferral findBySignupEmail(String email) {
 	    try {
 	        Query q = JPA.em().createQuery("SELECT r FROM GameAccountReferral r where signupEmail = ?1");
@@ -84,6 +132,7 @@ public class GameAccountReferral extends domain.Entity {
 	    }
 	}
 
+    ///////////////////// Getters/Setters /////////////////////
     public Long getUserId() {
         return userId;
     }
@@ -106,5 +155,9 @@ public class GameAccountReferral extends domain.Entity {
 
     public void setSignupEmail(String signupEmail) {
         this.signupEmail = signupEmail;
+    }
+
+    public void setValidated(boolean validated) {
+        this.validated = validated;
     }
 }

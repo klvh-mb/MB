@@ -406,7 +406,7 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
     
     // pn newsfeed
     $scope.pnNewsFeeds = { posts: [] };
-    $scope.nextPNNewsFeeds = function(offset) {
+    $scope.nextPnNewsFeeds = function(offset) {
         frontpageService.pnNewsFeeds.get({offset:offset},
             function(data){
                 var posts = data.posts;
@@ -416,8 +416,23 @@ minibean.controller('FrontpageController',function($scope, $route, $location, $h
             }
         );
     }
-    $scope.nextPNNewsFeeds(0);
-    //$scope.nextPNNewsFeeds(1);
+    $scope.nextPnNewsFeeds(0);
+    
+    // kg newsfeed
+    /*
+    $scope.kgNewsFeeds = { posts: [] };
+    $scope.nextKgNewsFeeds = function(offset) {
+        frontpageService.kgNewsFeeds.get({offset:offset},
+            function(data){
+                var posts = data.posts;
+                for (var i = 0; i < posts.length; i++) {
+                    $scope.kgNewsFeeds.posts.push(posts[i]);
+                }
+            }
+        );
+    }
+    $scope.nextKgNewsFeeds(0);
+    */
     
     // pkview
     $scope.redVote = function(pkview) {
@@ -521,9 +536,16 @@ minibean.controller('GameController',function($scope, $http, $interval, $locatio
     }
 });
 
-minibean.controller('GameTransactionsController',function($scope, $location, gameService, usSpinnerService) {
+minibean.controller('GameTransactionsController',function($scope, $interval, gameService, usSpinnerService) {
 
 	$scope.gameTransactions = gameService.gameTransactions.get({offset:0});
+	
+	$scope.getLatestGameTransactions = function() {
+		if ($scope.userInfo.isSA) {
+			$scope.latestGameTransactions = gameService.latestGameTransactions.get();	
+		}		
+	}
+	$interval($scope.getLatestGameTransactions, 1000, 1);
 	
 });
 
@@ -542,7 +564,7 @@ minibean.controller('GameGiftController',function($routeParams, $scope, $locatio
 	                $scope.showGameGift = false;
 	            }
 	            
-	            writeMetaTitleDescription(data.nm, data.ds);
+	            writeMetaTitleDescription(data.nm, data.ds, $scope.formatToExternalUrl(data.im));
 	        }, 
 	        function(rejection) {
 	        	$location.path('/game');
@@ -613,6 +635,16 @@ minibean.controller('ApplicationController',
 	$scope.$on('$viewContentLoaded', function() {
 		writeMetaCanonical($location.absUrl());
 	});
+	
+	$scope.formatToExternalUrl = function(url) {
+        if (!startsWith(url,'http')) {
+        	if (!startsWith(url,'/')) {
+        		url = '/' + url;
+        	}
+        	url = $scope.applicationInfo.baseUrl + url;
+        }
+        return url;
+	}
 	
     // login
     $scope.getFbLoginUrl = function() {
@@ -956,8 +988,7 @@ minibean.controller('ApplicationController',
     //
     
     $scope.displayLink = function(link) {
-        var link = $scope.applicationInfo.baseUrl + link;
-        
+        var link = formatToExternalUrl(link);
         bootbox.dialog({
             message: 
                 "<input type='text' name='post-link' id='post-link' value="+link+"></input>" + 
@@ -3154,7 +3185,7 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
                 $scope.announcedWinners = campaignService.campaignAnnouncedWinners.get({id:id});
             }
             
-            writeMetaTitleDescription(data.nm, data.ds);
+            writeMetaTitleDescription(data.nm, data.ds, $scope.formatToExternalUrl(data.im));
         }, 
         function(rejection) {
         	$location.path('/campaign/show');
@@ -3271,10 +3302,7 @@ minibean.controller('ArticlePageController',function($scope, $routeParams, artic
             $scope.relatedResult = articleService.getRelatedArticles.get({id:$routeParams.id, category_id:data.ct.id});
             
             var title = data.nm + " - " + data.ct.name;
-            var imageUrl = data.img_url;
-            if (!startsWith(imageUrl,'http')) 
-            	imageUrl = $scope.applicationInfo.baseUrl+'/'+imageUrl;
-            writeMetaTitleDescription(title, data.lds, imageUrl);
+            writeMetaTitleDescription(title, data.lds, $scope.formatToExternalUrl(data.img_url));
             
             // render mobile scroll nav bar
             if ($scope.userInfo.isMobile) {
@@ -3322,7 +3350,7 @@ minibean.controller('PNPageController',function($scope, $routeParams, schoolsFac
     		$scope.selectedTab = 1;
     		
     		var meta = getMetaForSchool(data);
-    		writeMetaTitleDescription(meta.title, meta.description, $scope.applicationInfo.baseUrl+"/assets/app/images/schools/pn_promo.png");
+    		writeMetaTitleDescription(meta.title, meta.description, $scope.formatToExternalUrl("/assets/app/images/schools/pn_promo.png"));
 		}
     );
     
@@ -3397,7 +3425,7 @@ minibean.controller('KGPageController',function($scope, $routeParams, schoolsFac
     		}
     		
     		var meta = getMetaForSchool(data);
-    		writeMetaTitleDescription(meta.title, meta.description, $scope.applicationInfo.baseUrl+"/assets/app/images/schools/kg_promo.png");
+    		writeMetaTitleDescription(meta.title, meta.description, $scope.formatToExternalUrl("/assets/app/images/schools/kg_promo.png"));
 		}
     );
     
@@ -3448,6 +3476,73 @@ minibean.controller('KGPageController',function($scope, $routeParams, schoolsFac
     	schoolsFactory.unBookmarkKG(id, schools, $scope.bookmarkedSchools);
     }
     
+});
+
+minibean.controller('SchoolsNewsfeedController',function($scope, $location, postFactory, frontpageService, usSpinnerService) {
+	
+	if ($location.path().indexOf('/pn') > -1) {
+		$scope.isPN = true;
+    	$scope.selectNavBar('SCHOOLS', 0);
+    } else if ($location.path().indexOf('/kg') > -1) {
+    	$scope.isKG = true;
+    	$scope.selectNavBar('SCHOOLS', 1);
+    } else {
+    	$scope.isPN = true;
+    	$scope.selectNavBar('SCHOOLS', 0);
+    }
+
+	$scope.newsFeeds = { posts: [] };
+	
+	var noMore = false;
+	var offset = 0;
+	$scope.nextNewsFeeds = function() {
+		if ($scope.isBusy) return;
+		if (noMore) return;
+		$scope.isBusy = true;
+		
+		if ($scope.selectedNavSubBar == 0) {	// PN
+			frontpageService.pnNewsFeeds.get({offset:offset},
+				function(data){
+					var posts = data.posts;
+					if(posts.length == 0) {
+						noMore = true;
+					}
+					
+					for (var i = 0; i < posts.length; i++) {
+						$scope.newsFeeds.posts.push(posts[i]);
+				    }
+				    $scope.isBusy = false;
+					offset++;
+				}
+			);
+		} else if ($scope.selectedNavSubBar == 1) {		// KG
+			frontpageService.kgNewsFeeds.get({offset:offset},
+				function(data){
+					var posts = data.posts;
+					if(posts.length == 0) {
+						noMore = true;
+					}
+					
+					for (var i = 0; i < posts.length; i++) {
+						$scope.newsFeeds.posts.push(posts[i]);
+				    }
+				    $scope.isBusy = false;
+					offset++;
+				}
+			);
+		}
+	}
+
+	// first batch
+	$scope.nextNewsFeeds();
+	
+	$scope.bookmarkPost = function(post_id) {
+        postFactory.bookmarkPost(post_id, $scope.newsFeeds.posts);
+    }
+    
+    $scope.unBookmarkPost = function(post_id) {
+        postFactory.unBookmarkPost(post_id, $scope.newsFeeds.posts);
+    }
 });
 
 minibean.controller('SchoolsRankingController',function($scope, $routeParams, $location, $interval, schoolsService, usSpinnerService) {

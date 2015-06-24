@@ -114,7 +114,7 @@ public class GameAccount extends domain.Entity {
      * Sign up.
      * @param user
      */
-	public static void setPointsForSignUp(User user, String promoCode) {
+	public static void setPointsForSignUp(User user) {
         GameAccount account = GameAccount.findByUserId(user.id);
 
 		account.addPointsAcross(GamificationConstants.POINTS_SIGNUP);
@@ -127,24 +127,14 @@ public class GameAccount extends domain.Entity {
                 account.getGamePoints());
 
         logger.underlyingLogger().info("[u="+user.id+"] Gamification - Credited signup");
-
-        accountForSignupReferral(user.email, promoCode);
 	}
 
-    // check if this signup came from a referral.
-	private static void accountForSignupReferral(String email, String promoCode) {
-        GameAccount referrerAccount = null;
-
-        if (promoCode != null) {
-            referrerAccount = findByPromoCode(promoCode);
-        }
-        else {
-            GameAccountReferral referral = GameAccountReferral.findBySignupEmail(email);
-            if (referral != null) {
-                referrerAccount = findByPromoCode(referral.getPromoCode());
-            }
-        }
-
+    /**
+     * Referral.
+     * @param referrerPromoCode
+     */
+	public static void setPointsForReferral(String referrerPromoCode) {
+        GameAccount referrerAccount = GameAccount.findByPromoCode(referrerPromoCode);
         if (referrerAccount != null) {
             if (referrerAccount.number_of_referral_signups < GamificationConstants.LIMIT_REFERRAL_SIGNUP) {
                 long referrerId = referrerAccount.user_id;
@@ -162,6 +152,9 @@ public class GameAccount extends domain.Entity {
             referrerAccount.number_of_referral_signups++;
             referrerAccount.auditFields.setUpdatedDate(new Date());
             referrerAccount.merge();
+        }
+        else {
+            logger.underlyingLogger().error("Error Gamification. No GameAccount found from "+referrerPromoCode);
         }
     }
 

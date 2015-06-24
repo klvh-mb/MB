@@ -94,7 +94,7 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/mobile/home/game-gift-page.html',
         controller: 'GameGiftController'
       })
-      .when('/game/rules',{
+      .when('/game-rules',{
         templateUrl: '/assets/app/views/mobile/home/game-rules-page.html'
       })
       .when('/error', {

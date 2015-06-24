@@ -86,6 +86,7 @@ public class Application extends Controller {
     public static final int SIGNUP_DAILY_LIMIT = 
             Play.application().configuration().getInt("signup.daily.limit", 1000);
     
+    public static final String APP_USER_KEY = "key";
     public static final String SIGNUP_EMAIL = "signup_email";
     public static final String SESSION_PROMOCODE = "PROMO_CODE";
     public static final String FLASH_MESSAGE_KEY = "message";
@@ -256,9 +257,6 @@ public class Application extends Controller {
 			UserAgentUtil userAgentUtil = new UserAgentUtil(request());
 			if (userAgentUtil != null && userAgentUtil.getUserAgent() != null) {
 				user.lastLoginUserAgent = userAgentUtil.getUserAgent();
-				if (userAgentUtil.detectAndroid() || userAgentUtil.detectIphone()) {
-					GameAccount.setPointsForAppLogin(user);
-				}
 			}
 		}
 	}
@@ -479,7 +477,7 @@ public class Application extends Controller {
 
 	public static User getLocalUser(final Session session) {
 		// request from mobile 
-		String userKey = UserController.getMobileUserKey(request(), "key");
+		String userKey = UserController.getMobileUserKey(request(), APP_USER_KEY);
 		if(userKey != null){
 			User localUser = null;
 			String decryptedValue = null;
@@ -491,7 +489,7 @@ public class Application extends Controller {
 				byte[] decValue = c.doFinal(decordedValue);
 				decryptedValue = new String(decValue);
 				//logger.underlyingLogger().debug("getLocalUser from mobile - " + userKey + " => " + decryptedValue);
-				localUser = Application.getMobileLocalUser(decryptedValue);
+				localUser = getMobileLocalUser(decryptedValue);
 				return localUser;
 			} catch(Exception e) { 
 				logger.underlyingLogger().error("Failed to getLocalUser from mobile - " + userKey + " => " + decryptedValue, e);
@@ -624,7 +622,7 @@ public class Application extends Controller {
     public static Result doLoginPopup() {
         DynamicForm form = DynamicForm.form().bindFromRequest();
         String redirectURL = form.get("rurl");
-        session().put("pa.url.orig", redirectURL);
+        session().put(PlayAuthenticate.ORIGINAL_URL, redirectURL);
         com.feth.play.module.pa.controllers.Authenticate.noCache(response());
         final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM.bindFromRequest();
         if (filledForm.hasErrors()) {
@@ -662,9 +660,9 @@ public class Application extends Controller {
 			// for all cases, see MyUsernamePasswordAuthProvider.loginUser() and UsernamePasswordAuthProvider.authenticate()
 			MyLogin login = filledForm.get();
 			UsernamePasswordAuthUser authUser = new MyLoginUsernamePasswordAuthUser(login.getPassword(), login.getEmail());
-			final User u = User.findByUsernamePasswordIdentity(authUser);
-			if (u != null && !u.emailValidated) {
-				return badRequest("電郵尚未認證，請登入電郵並按認證連結 - "+u.email);
+			final User user = User.findByUsernamePasswordIdentity(authUser);
+			if (user != null && !user.emailValidated) {
+				return badRequest("電郵尚未認證，請登入電郵並按認證連結 - "+user.email);
 			}
 			
 			// null-null
@@ -686,8 +684,13 @@ public class Application extends Controller {
 	    	} catch(Exception e) { 
 	    		return badRequest();
 	    	}
+
+			// credit for first app login
+			if (user != null) {
+				GameAccount.setPointsForAppLogin(user);
+			}
 			
-			logger.underlyingLogger().info("[u="+u.id+"] [name="+u.displayName+"] Native mobile login");
+			logger.underlyingLogger().info("[u="+user.id+"] [name="+user.displayName+"] Native mobile login");
 			return ok(encryptedValue.replace("+", "%2b"));
 		}
 	}
@@ -699,11 +702,10 @@ public class Application extends Controller {
     	logger.underlyingLogger().info("STS [u="+user.id+"][name="+user.displayName+"] init new user - "+(isMobileUser()?"mobile":"PC"));
 
         String promoCode = session().get(SESSION_PROMOCODE);
-        if (!StringUtils.isEmpty(promoCode)) {
-        	GameAccount.setPointsForSignUp(user, promoCode);
-            GameAccountReferral.addReferralRecord(promoCode, user);
-        }
-        
+        GameAccountReferral.processAnyReferral(promoCode, user);
+
+        GameAccount.setPointsForSignUp(user);
+
         CommunityTargetingEngine.assignSystemCommunitiesToUser(user);
         
         UserController.sendGreetingMessageToNewUser();
@@ -807,6 +809,12 @@ public class Application extends Controller {
 		    String email = filledForm.get().email;
 		    session().put(SIGNUP_EMAIL, email);
 
+            // native signup with promoCode
+            String promoCode = session().get(SESSION_PROMOCODE);
+            if (promoCode != null) {
+                GameAccountReferral.addNonValidatedReferral(promoCode, email);
+            }
+
             logger.underlyingLogger().info("STS [email="+email+"] Native signup submitted");
 			return UsernamePasswordAuthProvider.handleSignup(ctx());
 		}
@@ -873,16 +881,6 @@ public class Application extends Controller {
 	@Transactional
 	public static Result googleWebmaster() {
 	    return ok(views.html.google_webmaster.render());
-	}
-	
-	@Transactional
-	public static Result sitemap() {
-	    return ok(views.xml.sitemap.render());
-	}
-	
-	@Transactional
-	public static Result robots() {
-	    return ok(views.txt.robots.render());
 	}
 	
 	//

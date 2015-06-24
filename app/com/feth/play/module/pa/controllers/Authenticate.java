@@ -6,6 +6,7 @@ import javax.crypto.Cipher;
 
 import org.apache.commons.lang.StringUtils;
 
+import models.GameAccount;
 import models.User;
 import play.data.DynamicForm;
 import play.db.jpa.Transactional;
@@ -73,6 +74,12 @@ public class Authenticate extends Controller {
     		logger.underlyingLogger().error((user == null? "" : "[u=" + user.id + "] ") + "mobileAuthenticate login failure key=" + plainData, e);
     		return status(500);
     	}
+		
+		// credit for first app login
+		if (user != null) {
+			GameAccount.setPointsForAppLogin(user);
+		}
+		
 		return ok(encryptedValue.replace("+", "%2b"));
 	}
 	
@@ -89,7 +96,7 @@ public class Authenticate extends Controller {
 	    DynamicForm form = DynamicForm.form().bindFromRequest();
 	
         String redirectURL = form.get("rurl");   // TODO: Need to get actual url from context object
-        session().put("pa.url.orig", redirectURL);
+        session().put(PlayAuthenticate.ORIGINAL_URL, redirectURL);
         noCache(response());
 
         final String payload = getQueryString(request(), PAYLOAD_KEY);

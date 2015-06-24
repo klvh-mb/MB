@@ -13,12 +13,12 @@
     <div class="game-details">
         <div>
             <a class="" href="/my#!/game">
-                小豆豆: <span class="points">{{gameAccount.gmpt || '--'}}</span>
+                小豆豆: <span class="points">{{gameAccount.gmpt || '0'}}</span>
             </a>
         </div>
         <div>
             <a class="" href="/my#!/game">
-                已兌換: <span class="points">{{gameAccount.rdpt || '--'}}</span>
+                已兌換: <span class="points" style="color:#999;">{{gameAccount.rdpt || '--'}}</span>
                 <span style="font-size:12px;color:#666;margin-left:25px;" ng-show="gameAccount.rdpt == null || gameAccount.rdpt == 0">( 未有兌換禮品記錄 )</span>
             </a>
         </div>

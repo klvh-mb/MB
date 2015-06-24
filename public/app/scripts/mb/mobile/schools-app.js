@@ -34,6 +34,10 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/mobile/schools/pns.html',
         controller : 'ShowSchoolsController' 
       })
+      .when('/pn/newsfeed',{
+        templateUrl: '/assets/app/views/mobile/schools/pn-newsfeed-page.html',
+        controller : 'SchoolsNewsfeedController' 
+      })
       .when('/pn/ranking',{
         templateUrl: '/assets/app/views/mobile/schools/pn-ranking-page.html',
         controller : 'SchoolsRankingController' 
@@ -49,6 +53,10 @@ angular.module('minibean', [
       .when('/kg/district/:districtId',{
         templateUrl: '/assets/app/views/mobile/schools/kgs.html',
         controller : 'ShowSchoolsController' 
+      })
+      .when('/kg/newsfeed',{
+        templateUrl: '/assets/app/views/mobile/schools/kg-newsfeed-page.html',
+        controller : 'SchoolsNewsfeedController' 
       })
       .when('/kg/ranking',{
         templateUrl: '/assets/app/views/mobile/schools/kg-ranking-page.html',

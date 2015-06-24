@@ -1,0 +1,27 @@
+<div id="school-box-main" class="general-box school-kg-box">
+    <div class="school-box">
+        <div id="wall">
+            <div class="nav-trail">
+                <img style="width:18px;vertical-align:text-bottom;" src="../assets/app/images/general/icons/gray_back.png" />
+                返回 <a class="nav-item nav-item-green" href="/schools#!/kg">全港幼稚園(K班)</a>
+            </div>
+	        <div class="tab-content">	            
+	            <div id="qnapost">
+	                <div infinite-scroll='nextNewsFeeds()' infinite-scroll-disabled='isBusy' infinite-scroll-distance='1'>
+					    <div id="wall-main">
+					        <div class="general-tips" style="margin-bottom:15px;">
+					            所有幼稚園最新討論~ 看看媽媽爸爸在討論什麼
+					        </div>
+					        <div class="general-box">
+					            <div data-ng-repeat="post in newsFeeds.posts">
+					                <div data-ng-include data-src="'/assets/app/views/home/qna-bar.html'"></div>
+					            </div>
+					        </div>
+					    </div>
+					</div>
+					<span ng-show="isBusy" spinner-start-active="1" us-spinner="{top:'inherit'}"></span>
+	            </div>
+	        </div>
+	    </div>
+    </div>
+</div>

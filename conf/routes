@@ -20,12 +20,6 @@ GET     /BingSiteAuth.xml           controllers.Application.bingWebmaster
 # Google Webmaster
 GET     /googlee42c6d2bf91e90b7.html    controllers.Application.googleWebmaster
 
-# sitemap.xml
-GET     /sitemap.xml                controllers.Application.sitemap
-
-# robots.txt
-GET     /robots.txt                 controllers.Application.robots
-
 GET     /favicon.ico                controllers.Assets.at(path="/public", file="app/images/favicon-1.ico")
 GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
 GET     /privacy                    controllers.Application.privacy
@@ -284,6 +278,18 @@ GET     /get-promo2-topics                      controllers.FrontPageController.
 GET     /get-featured-topics                    controllers.FrontPageController.getFeaturedTopics()
 GET     /get-game-topics                        controllers.FrontPageController.getGameTopics()
 
+# PlayGroup
+GET     /get-pg-info/:id                        controllers.PlayGroupController.getPGInfo(id:Long)
+GET     /search-pgs-by-name/:query              controllers.PlayGroupController.searchPGsByName(query:String)
+GET     /get-pgs-by-district/:district_id       controllers.PlayGroupController.getPGsByDistrict(district_id:Long)
+GET     /get-top-viewed-pgs                     controllers.PlayGroupController.getTopViewedPGs
+GET     /get-top-discussed-pgs                  controllers.PlayGroupController.getTopDiscussedPGs
+GET     /get-top-bookmarked-pgs                 controllers.PlayGroupController.getTopBookmarkedPGs
+GET     /bookmark-pg/:id                        controllers.PlayGroupController.onBookmark(id : Long)
+GET     /unbookmark-pg/:id                      controllers.PlayGroupController.onUnBookmark(id : Long)
+GET     /get-bookmarked-pgs                     controllers.PlayGroupController.getBookmarkedPGs()
+GET     /get-bookmarked-pg-communities          controllers.PlayGroupController.getBookmarkedPGCommunities()
+
 # PreNursery
 GET     /get-pn-info/:id                        controllers.PreNurseryController.getPNInfo(id:Long)
 GET     /search-pns-by-name/:query              controllers.PreNurseryController.searchPNsByName(query:String)
@@ -341,7 +347,9 @@ GET     /image/game/:year/:month/:date/:name        controllers.GameController.g
 # Gamification
 POST    /sign-in-for-today                      controllers.GameController.signInForToday()
 GET     /get-gameaccount                        controllers.GameController.getGameAccount()
-GET     /get-transactions/:offset               controllers.GameController.getGameTransactions(offset : String)
+GET     /get-game-transactions/:offset          controllers.GameController.getGameTransactions(offset : String)
+GET     /get-latest-game-transactions           controllers.GameController.getLatestGameTransactions()
+GET     /get-signup-referrals                   controllers.GameController.getSignupReferrals()
 GET     /invite-by-mail/:mail                   controllers.UserController.inviteByEmail(mail: String)
 
 GET     /get-all-game-gifts                     controllers.GameController.getAllGameGifts()

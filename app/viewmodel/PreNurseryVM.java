@@ -3,6 +3,7 @@ package viewmodel;
 import common.cache.LocationCache;
 import common.utils.StringUtil;
 
+import domain.DefaultValues;
 import models.User;
 import models.PreNursery;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -14,8 +15,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * To change this template use File | Settings | File Templates.
  */
 public class PreNurseryVM {
-    private static final String MAPURL_PREFIX = "http://maps.google.com.hk/maps?q=";
-
     @JsonProperty("id")  public Long id;
     @JsonProperty("commId") public Long communityId;
     @JsonProperty("icon") public String icon;
@@ -95,7 +94,7 @@ public class PreNurseryVM {
         this.email = pn.email;
         this.address = pn.address;
         if (pn.mapUrlSuffix != null) {
-            this.mapUrl = MAPURL_PREFIX + pn.mapUrlSuffix;
+            this.mapUrl = DefaultValues.GOOGLEMAP_PREFIX + pn.mapUrlSuffix;
         }
 
         this.organization = pn.organization;

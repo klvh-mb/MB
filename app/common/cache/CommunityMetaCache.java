@@ -4,6 +4,7 @@ import java.util.*;
 
 import models.Community;
 import models.CommunityCategory;
+import models.PlayGroup;
 import models.PreNursery;
 import models.Kindergarten;
 import viewmodel.CommunityCategoryMapVM;
@@ -21,6 +22,8 @@ public class CommunityMetaCache {
     private static List<CommunityCategory> socialCatList;
 
     private static List<CommunityCategoryMapVM> socialCommCategoryMapVMs = new ArrayList<>();
+    // PlayGroup community id to PG id
+    private static Map<Long,Long> pgCommunityToIds = new HashMap<>();
     // PreNursery community id to PN id
     private static Map<Long,Long> pnCommunityToIds = new HashMap<>();
     // Kindergarten community id to KG id
@@ -30,6 +33,8 @@ public class CommunityMetaCache {
         bizCatList = CommunityCategory.loadAllBusinessCategories();
         socialCatList = CommunityCategory.loadAllSocialCategories();
         loadSocialCommCategoryMapVMs();
+
+        loadPlayGroupComms();
         loadPreNurseryComms();
         loadKindergartenComms();
     }
@@ -45,9 +50,18 @@ public class CommunityMetaCache {
         }
     }
 
+    public static void loadPlayGroupComms() {
+        List<PlayGroup> pgs = PlayGroup.findAll();
+        pgCommunityToIds.clear();
+        for (PlayGroup pg : pgs) {
+            if (pg.communityId != null) {
+                pgCommunityToIds.put(pg.communityId, pg.getId());
+            }
+        }
+    }
+
     public static void loadPreNurseryComms() {
         List<PreNursery> pns = PreNursery.findAll();
-
         pnCommunityToIds.clear();
         for (PreNursery pn : pns) {
             if (pn.communityId != null) {
@@ -58,7 +72,6 @@ public class CommunityMetaCache {
 
     public static void loadKindergartenComms() {
         List<Kindergarten> kgs = Kindergarten.findAll();
-
         kgCommunityToIds.clear();
         for (Kindergarten kg : kgs) {
             if (kg.communityId != null) {
@@ -79,6 +92,10 @@ public class CommunityMetaCache {
 
     public static List<CommunityCategoryMapVM> getSocialCommCategoryMapVMs() {
         return socialCommCategoryMapVMs;
+    }
+
+    public static Long getPGIdFromCommunity(Long communityId) {
+        return pgCommunityToIds.get(communityId);
     }
 
     public static Long getPNIdFromCommunity(Long communityId) {

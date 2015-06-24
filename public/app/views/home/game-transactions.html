@@ -1,7 +1,10 @@
 <div id="game-box" class="box-a">
-    <h4>小豆豆記錄表 (最近30個記錄)</h4>
+    <h4>小豆豆記錄 (最近30個記錄)</h4>
     <!--h6>由"每日簽到"、"介紹新會員加入"所獲得的小豆豆會立即計算在"小豆豆總數"中。以其他方式獲得的小豆豆會在隔天反應</h6-->
     <ul class="record">
+        <li ng-if="!gameTransactions || gameTransactions.length == 0">
+            未有小豆豆積分記錄
+        </li>
         <li ng-repeat="transaction in gameTransactions"> 
             {{transaction.tt | date:'yyyy-M-dd HH:mm'}}
             <span ng-if="transaction.ty != 'Redeem' && transaction.ty != 'Penalty'">
@@ -10,6 +13,22 @@
             <span ng-show="transaction.ty == 'Redeem' || transaction.ty == 'Penalty'">
                 {{transaction.td}}扣除{{transaction.tp}}個小豆豆
             </span>
+        </li>
+    </ul>
+</div>
+
+<div id="game-box" class="box-a" ng-if="userInfo.isSA">
+    <h4>所有小豆豆最新記錄</h4>
+    <ul class="record">
+        <li class="admin-visible-field" ng-repeat="transaction in latestGameTransactions"> 
+            {{transaction.tt | date:'yyyy-M-dd HH:mm'}} 
+            <span ng-if="transaction.ty != 'Redeem' && transaction.ty != 'Penalty'">
+                {{transaction.td}}獲得{{transaction.tp}}個小豆豆
+            </span>
+            <span ng-show="transaction.ty == 'Redeem' || transaction.ty == 'Penalty'">
+                {{transaction.td}}扣除{{transaction.tp}}個小豆豆
+            </span>
+            <div>[u={{transaction.uid}}][points={{transaction.ntp}}]</div>
         </li>
     </ul>
 </div>

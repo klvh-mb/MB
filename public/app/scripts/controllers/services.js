@@ -27,6 +27,13 @@ minibean.service('frontpageService',function($resource){
                 get: {method:'GET', params:{offset:'@offset'}}
             }
     );
+    this.kgNewsFeeds = $resource(
+            '/get-kgnewsfeeds/:offset',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'GET', params:{offset:'@offset'}}
+            }
+    );
     this.hotNewsFeeds = $resource(
             '/get-hotnewsfeeds/:offset',
             {alt:'json',callback:'JSON_CALLBACK'},
@@ -156,10 +163,17 @@ minibean.service('gameService',function($resource) {
             }
     );
     this.gameTransactions = $resource(
-            '/get-transactions/:offset',
+            '/get-game-transactions/:offset',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get',params:{offset:'@offset'},isArray:true}
+            }
+    );
+    this.latestGameTransactions = $resource(
+            '/get-latest-game-transactions',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
             }
     );
     this.allGameGifts = $resource(

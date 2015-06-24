@@ -4,6 +4,7 @@ import static play.data.Form.form;
 import common.utils.ImageUploadUtil;
 import common.utils.NanoSecondStopWatch;
 import models.GameAccount;
+import models.GameAccountReferral;
 import models.GameAccountStatistics;
 import models.GameAccountTransaction;
 import models.GameGift;
@@ -14,10 +15,7 @@ import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import viewmodel.GameAccountVM;
-import viewmodel.GameGiftVM;
-import viewmodel.GameTransactionVM;
-import viewmodel.ResponseStatusVM;
+import viewmodel.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,6 +24,7 @@ import java.util.List;
 
 import com.mnt.exception.SocialObjectNotLikableException;
 
+import domain.DefaultValues;
 import domain.SocialObjectType;
 import email.EDMUtility;
 
@@ -37,8 +36,6 @@ public class GameController extends Controller {
 
     private static final ImageUploadUtil imageUploadUtil = new ImageUploadUtil("game");
     
-    private static final int TRANSACTION_PAGESIZE = 30;
-
     @Transactional
     public static Result getGameAccount() {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
@@ -71,7 +68,7 @@ public class GameController extends Controller {
             int offsetInt = Integer.parseInt(offset);
 
             List<GameAccountTransaction> transactions =
-                    GameAccountTransaction.getTransactions(currUser.id, offsetInt, TRANSACTION_PAGESIZE);
+                    GameAccountTransaction.getTransactions(currUser.id, offsetInt, DefaultValues.GAME_TRANSACTION_PAGESIZE);
             List<GameTransactionVM> vms = new ArrayList<GameTransactionVM>();
             for (GameAccountTransaction transaction : transactions) {
                 vms.add(new GameTransactionVM(transaction));
@@ -83,6 +80,53 @@ public class GameController extends Controller {
         }
         else {
             logger.underlyingLogger().info("User is not logged in, no game transactions returning");
+            return ok();
+        }
+    }
+
+    @Transactional
+    public static Result getLatestGameTransactions() {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        final User currUser = Application.getLocalUser(session());
+
+        if (currUser.isLoggedIn() && currUser.isSuperAdmin()) {
+            List<GameAccountTransaction> transactions =
+                    GameAccountTransaction.getLatestTransactions(DefaultValues.GAME_TRANSACTION_ADMIN_PAGESIZE);
+            List<GameTransactionVM> vms = new ArrayList<GameTransactionVM>();
+            for (GameAccountTransaction transaction : transactions) {
+                vms.add(new GameTransactionVM(transaction));
+            }
+            
+            sw.stop();
+            logger.underlyingLogger().info("[u="+currUser.id+"] getLatestGameTransactions. Took "+sw.getElapsedMS()+"ms");
+            return ok(Json.toJson(vms));
+        }
+        else {
+            logger.underlyingLogger().info("User is not super admin, no game transactions returning");
+            return ok();
+        }
+    }
+    
+    @Transactional
+    public static Result getSignupReferrals() {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        final User currUser = Application.getLocalUser(session());
+        if (currUser.isLoggedIn()) {
+            List<User> referrals = GameAccountReferral.findSignedUpUsersReferredBy(currUser.id);
+
+            List<UserVM> vms = new ArrayList<>();
+            for (User referral : referrals) {
+                vms.add(new UserVM(referral));
+            }
+
+            sw.stop();
+            logger.underlyingLogger().info("[u="+currUser.id+"] getSignupReferrals="+referrals.size()+". Took "+sw.getElapsedMS()+"ms");
+            return ok(Json.toJson(vms));
+        }
+        else {
+             logger.underlyingLogger().info("User is not logged in, no signup referrals returning");
             return ok();
         }
     }

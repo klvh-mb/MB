@@ -19,8 +19,6 @@ import domain.DefaultValues;
  * To change this template use File | Settings | File Templates.
  */
 public class KindergartenVM {
-    private static final String MAPURL_PREFIX = "http://maps.google.com.hk/maps?q=";
-
     @JsonProperty("id")  public Long id;
     @JsonProperty("commId") public Long communityId;
     @JsonProperty("icon") public String icon;
@@ -133,7 +131,7 @@ public class KindergartenVM {
         this.email = kg.email;
         this.address = kg.address;
         if (kg.mapUrlSuffix != null) {
-            this.mapUrl = MAPURL_PREFIX + kg.mapUrlSuffix;
+            this.mapUrl = DefaultValues.GOOGLEMAP_PREFIX + kg.mapUrlSuffix;
         }
 
         this.organization = kg.organization;
