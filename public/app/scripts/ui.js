@@ -222,7 +222,7 @@ $(window).on("blur focus", function(e) {
 //
 
 var startsWith = function(str, s) {
-	return str.lastIndexOf(s, 0) === 0
+	return str.indexOf(s, 0) === 0;
 }
 
 var highlightLink = function(id) {

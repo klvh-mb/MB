@@ -28,8 +28,7 @@
             <span ng-show="transaction.ty == 'Redeem' || transaction.ty == 'Penalty'">
                 {{transaction.td}}扣除{{transaction.tp}}個小豆豆
             </span>
-            [u={{transaction.uid}}]
-            [points={{transaction.ntp}}]
+            <div>[u={{transaction.uid}}][points={{transaction.ntp}}]</div>
         </li>
     </ul>
 </div>

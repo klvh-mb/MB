@@ -564,7 +564,7 @@ minibean.controller('GameGiftController',function($routeParams, $scope, $locatio
 	                $scope.showGameGift = false;
 	            }
 	            
-	            writeMetaTitleDescription(data.nm, data.ds);
+	            writeMetaTitleDescription(data.nm, data.ds, $scope.formatToExternalUrl(data.im));
 	        }, 
 	        function(rejection) {
 	        	$location.path('/game');
@@ -635,6 +635,16 @@ minibean.controller('ApplicationController',
 	$scope.$on('$viewContentLoaded', function() {
 		writeMetaCanonical($location.absUrl());
 	});
+	
+	$scope.formatToExternalUrl = function(url) {
+        if (!startsWith(url,'http')) {
+        	if (!startsWith(url,'/')) {
+        		url = '/' + url;
+        	}
+        	url = $scope.applicationInfo.baseUrl + url;
+        }
+        return url;
+	}
 	
     // login
     $scope.getFbLoginUrl = function() {
@@ -978,8 +988,7 @@ minibean.controller('ApplicationController',
     //
     
     $scope.displayLink = function(link) {
-        var link = $scope.applicationInfo.baseUrl + link;
-        
+        var link = formatToExternalUrl(link);
         bootbox.dialog({
             message: 
                 "<input type='text' name='post-link' id='post-link' value="+link+"></input>" + 
@@ -3176,7 +3185,7 @@ minibean.controller('CampaignPageController',function($scope, $route, $location,
                 $scope.announcedWinners = campaignService.campaignAnnouncedWinners.get({id:id});
             }
             
-            writeMetaTitleDescription(data.nm, data.ds);
+            writeMetaTitleDescription(data.nm, data.ds, $scope.formatToExternalUrl(data.im));
         }, 
         function(rejection) {
         	$location.path('/campaign/show');
@@ -3293,10 +3302,7 @@ minibean.controller('ArticlePageController',function($scope, $routeParams, artic
             $scope.relatedResult = articleService.getRelatedArticles.get({id:$routeParams.id, category_id:data.ct.id});
             
             var title = data.nm + " - " + data.ct.name;
-            var imageUrl = data.img_url;
-            if (!startsWith(imageUrl,'http')) 
-            	imageUrl = $scope.applicationInfo.baseUrl+'/'+imageUrl;
-            writeMetaTitleDescription(title, data.lds, imageUrl);
+            writeMetaTitleDescription(title, data.lds, $scope.formatToExternalUrl(data.img_url));
             
             // render mobile scroll nav bar
             if ($scope.userInfo.isMobile) {
@@ -3344,7 +3350,7 @@ minibean.controller('PNPageController',function($scope, $routeParams, schoolsFac
     		$scope.selectedTab = 1;
     		
     		var meta = getMetaForSchool(data);
-    		writeMetaTitleDescription(meta.title, meta.description, $scope.applicationInfo.baseUrl+"/assets/app/images/schools/pn_promo.png");
+    		writeMetaTitleDescription(meta.title, meta.description, $scope.formatToExternalUrl("/assets/app/images/schools/pn_promo.png"));
 		}
     );
     
@@ -3419,7 +3425,7 @@ minibean.controller('KGPageController',function($scope, $routeParams, schoolsFac
     		}
     		
     		var meta = getMetaForSchool(data);
-    		writeMetaTitleDescription(meta.title, meta.description, $scope.applicationInfo.baseUrl+"/assets/app/images/schools/kg_promo.png");
+    		writeMetaTitleDescription(meta.title, meta.description, $scope.formatToExternalUrl("/assets/app/images/schools/kg_promo.png"));
 		}
     );
     

@@ -35,7 +35,7 @@ public class DefaultValues {
     public static final int CONVERSATION_COUNT = 100;
     
     public static final int GAME_TRANSACTION_PAGESIZE = 30;
-    public static final int GAME_TRANSACTION_ADMIN_PAGESIZE = 100;
+    public static final int GAME_TRANSACTION_ADMIN_PAGESIZE = 200;
     
     public static final int NEW_COMMUNITY_MEMBERS_COUNT = 200;
     

@@ -9,7 +9,7 @@ package domain;
 public interface GamificationConstants {
 
     /**
-     * To be in sync with default-values.js
+     * To be in sync with game-constants.js
      */
     
     /**
