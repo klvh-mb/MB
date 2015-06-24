@@ -883,16 +883,6 @@ public class Application extends Controller {
 	    return ok(views.html.google_webmaster.render());
 	}
 	
-	@Transactional
-	public static Result sitemap() {
-	    return ok(views.xml.sitemap.render());
-	}
-	
-	@Transactional
-	public static Result robots() {
-	    return ok(views.txt.robots.render());
-	}
-	
 	//
 	// Test Ads
 	//
