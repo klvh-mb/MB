@@ -20,11 +20,13 @@ public class GameAccountVM {
     @JsonProperty("rdpt")   public Long redeemedPoints;
     @JsonProperty("refs")   public Long noReferralSignups;
     @JsonProperty("signedIn") public Boolean isSignedInToday;
+    @JsonProperty("profilePic") public Boolean hasUploadProfilePic;
+    @JsonProperty("appLogin") public Boolean appLogin;
     @JsonProperty("gl") public Long gameLevel;
     @JsonProperty("gln") public String gameLevelName;
     @JsonProperty("gli") public String gameLevelIcon;
     @JsonProperty("gnlpt") public Long gameNextLevelPoints;
-
+    
     public GameAccountVM(GameAccount account, GameAccountStatistics stat) {
         this.userId = account.user_id;
         this.promoCode = account.promoCode;
@@ -33,6 +35,8 @@ public class GameAccountVM {
         this.redeemedPoints = account.redeemed_points;
         this.noReferralSignups = account.number_of_referral_signups;
         this.isSignedInToday = stat.num_sign_in > 0;
+        this.hasUploadProfilePic = account.has_upload_profile_pic;
+        this.appLogin = account.app_login;
         GameLevel gameLevel = GameLevel.getGameLevel(account.getActivityPoints());
         this.gameLevel = gameLevel.level;
         this.gameLevelName = gameLevel.name;
