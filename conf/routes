@@ -306,6 +306,8 @@ GET     /bookmark-pn/:id                        controllers.PreNurseryController
 GET     /unbookmark-pn/:id                      controllers.PreNurseryController.onUnBookmark(id : Long)
 GET     /get-bookmarked-pns                     controllers.PreNurseryController.getBookmarkedPNs()
 GET     /get-bookmarked-pn-communities          controllers.PreNurseryController.getBookmarkedPNCommunities()
+GET     /get-pn-apps                            controllers.PreNurseryController.getAppDates()
+GET     /get-pn-apps-by-district/:district_id   controllers.PreNurseryController.getAppDatesByDistrict(district_id:Long)
 
 # Kindergarten
 GET     /get-kg-info/:id                        controllers.KindergartenController.getKGInfo(id:Long)
@@ -320,6 +322,9 @@ GET     /bookmark-kg/:id                        controllers.KindergartenControll
 GET     /unbookmark-kg/:id                      controllers.KindergartenController.onUnBookmark(id : Long)
 GET     /get-bookmarked-kgs                     controllers.KindergartenController.getBookmarkedKGs()
 GET     /get-bookmarked-kg-communities          controllers.KindergartenController.getBookmarkedKGCommunities()
+GET     /get-kg-apps                            controllers.KindergartenController.getAppDates()
+GET     /get-kg-apps-by-district/:district_id   controllers.KindergartenController.getAppDatesByDistrict(district_id:Long)
+
 
 # PlayRoom
 GET     /get-pr-info/:id                        controllers.PlayRoomController.getPlayRoomInfo(id:Long)

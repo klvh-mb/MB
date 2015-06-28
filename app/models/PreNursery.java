@@ -8,6 +8,7 @@ import play.db.jpa.Transactional;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,6 +64,8 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
 
     // date details
     public String applicationDateText = null;
+    @Temporal(TemporalType.DATE)
+	public Date applicationDate = null;
     public String openDayText = null;
 
     // Ctor
@@ -274,6 +277,19 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
         return (List<PreNursery>)q.getResultList();
     }
 
+    public static List<PreNursery> getWithApplicationDates() {
+        Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.applicationDate is not null " +
+                        "order by pn.applicationDate desc");
+        return (List<PreNursery>)q.getResultList();
+    }
+
+    public static List<PreNursery> getWithApplicationDatesDistrict(Long districtId) {
+        Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.applicationDate is not null " +
+                        "and pn.districtId = ?1 order by pn.applicationDate desc");
+        q.setParameter(1, districtId);
+        return (List<PreNursery>)q.getResultList();
+    }
+
     ///////////////////// Getters /////////////////////
     public String getAnnualFeeHD() {
         return annualFeeHD;
@@ -286,28 +302,4 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
     public String getNumAdmitted() {
         return numAdmitted;
     }
-
-//    public String getSummerUniformFee() {
-//        return summerUniformFee;
-//    }
-//
-//    public String getWinterUniformFee() {
-//        return winterUniformFee;
-//    }
-//
-//    public String getSchoolBagFee() {
-//        return schoolBagFee;
-//    }
-//
-//    public String getTeaAndSnacksFee() {
-//        return teaAndSnacksFee;
-//    }
-//
-//    public String getTextBooksFee() {
-//        return textBooksFee;
-//    }
-//
-//    public String getWorkBooksFee() {
-//        return workBooksFee;
-//    }
 }
