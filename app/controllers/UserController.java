@@ -811,6 +811,8 @@ public class UserController extends Controller {
 	
 	@Transactional
     public static Result startConversation(Long id) {
+		NanoSecondStopWatch sw = new NanoSecondStopWatch();
+		
         final User localUser = Application.getLocalUser(session());
         if (!localUser.isLoggedIn()) {
             logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
@@ -823,18 +825,22 @@ public class UserController extends Controller {
         }
         
         User otherUser = User.findById(id);
-        Conversation newConversation = Conversation.startConversation(localUser, otherUser);
-        ConversationVM newConversationVM = null;
-        if (newConversation != null) {
-        	newConversationVM = new ConversationVM(newConversation, localUser, otherUser);
+        Conversation conversation = Conversation.startConversation(localUser, otherUser);
+        ConversationVM conversationVM = null;
+        if (conversation != null) {
+        	conversationVM = new ConversationVM(conversation, localUser, otherUser);
         }
-        List<ConversationVM> vms = getAllConversations(localUser, newConversationVM);
+        List<ConversationVM> vms = getAllConversations(localUser, conversationVM);
 
+        logger.underlyingLogger().debug("[u1="+localUser.id+"][u2="+id+"] startConversation. Took "+sw.getElapsedMS()+"ms");
+        
         return ok(Json.toJson(vms));
     }
 	
 	@Transactional
-    public static Result openConversation(Long cid, Long id) {
+    public static Result openConversation(Long id) {
+		NanoSecondStopWatch sw = new NanoSecondStopWatch();
+		
         final User localUser = Application.getLocalUser(session());
         if (!localUser.isLoggedIn()) {
             logger.underlyingLogger().error(String.format("[u=%d] User not logged in", localUser.id));
@@ -846,13 +852,15 @@ public class UserController extends Controller {
             return status(500);
         }
         
-        Conversation conv = Conversation.findById(cid);
+        User otherUser = User.findById(id);
+        Conversation conversation = Conversation.startConversation(localUser, otherUser);
         
         List<ConversationVM> vms = new ArrayList<>();
-        User otherUser = User.findById(id);
-        ConversationVM vm = new ConversationVM(conv, localUser, otherUser);
-		vms.add(vm);
+        ConversationVM conversationVM = new ConversationVM(conversation, localUser, otherUser);
+		vms.add(conversationVM);
         
+		logger.underlyingLogger().debug("[u1="+localUser.id+"][u2="+id+"] openConversation. Took "+sw.getElapsedMS()+"ms");
+		
 		return ok(Json.toJson(vms));
     }
 	
