@@ -38,22 +38,19 @@ public class GameController extends Controller {
     
     @Transactional
     public static Result getGameAccount() {
-        NanoSecondStopWatch sw = new NanoSecondStopWatch();
-
         final User currUser = Application.getLocalUser(session());
-
         if (currUser.isLoggedIn()) {
+            NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
             GameAccount gameAccount = GameAccount.findByUserId(currUser.id);
             GameAccountStatistics stat = GameAccountStatistics.getGameAccountStatistics(currUser.id);
 
             GameAccountVM vm = new GameAccountVM(gameAccount, stat);
-
             sw.stop();
             logger.underlyingLogger().info("[u="+currUser.id+"] getGameAccount. Took "+sw.getElapsedMS()+"ms");
             return ok(Json.toJson(vm));
         }
         else {
-            logger.underlyingLogger().info("User is not logged in, no game account returning");
             return ok();
         }
     }

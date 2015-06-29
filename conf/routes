@@ -9,6 +9,9 @@
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
+GET     /sitemap.xml                controllers.Assets.at(path="/public",file="app/sitemap.xml")
+GET     /robots.txt                 controllers.Assets.at(path="/public",file="app/robots.txt")
+
 # Test Adsfactor
 GET     /ads-mock                   controllers.Application.adsMock
 GET     /ads-plain                  controllers.Application.adsPlain
@@ -54,7 +57,8 @@ GET     /articles                   controllers.Application.mainArticles
 GET     /login                      controllers.Application.login
 
 # Home
-GET     /signup-promo-code/:promoCode      controllers.Application.signupWithPromoCode(promoCode:String)
+GET     /signup-promo-code/:promoCode   controllers.Application.signupWithPromoCode(promoCode:String)
+GET     /signup-code/:promoCode     controllers.Application.signupWithPromoCode(promoCode:String)
 
 POST    /login                      controllers.Application.doLogin
 POST    /login-popup                controllers.Application.doLoginPopup
@@ -302,6 +306,8 @@ GET     /bookmark-pn/:id                        controllers.PreNurseryController
 GET     /unbookmark-pn/:id                      controllers.PreNurseryController.onUnBookmark(id : Long)
 GET     /get-bookmarked-pns                     controllers.PreNurseryController.getBookmarkedPNs()
 GET     /get-bookmarked-pn-communities          controllers.PreNurseryController.getBookmarkedPNCommunities()
+GET     /get-pn-apps                            controllers.PreNurseryController.getAppDates()
+GET     /get-pn-apps-by-district/:district_id   controllers.PreNurseryController.getAppDatesByDistrict(district_id:Long)
 
 # Kindergarten
 GET     /get-kg-info/:id                        controllers.KindergartenController.getKGInfo(id:Long)
@@ -316,6 +322,9 @@ GET     /bookmark-kg/:id                        controllers.KindergartenControll
 GET     /unbookmark-kg/:id                      controllers.KindergartenController.onUnBookmark(id : Long)
 GET     /get-bookmarked-kgs                     controllers.KindergartenController.getBookmarkedKGs()
 GET     /get-bookmarked-kg-communities          controllers.KindergartenController.getBookmarkedKGCommunities()
+GET     /get-kg-apps                            controllers.KindergartenController.getAppDates()
+GET     /get-kg-apps-by-district/:district_id   controllers.KindergartenController.getAppDatesByDistrict(district_id:Long)
+
 
 # PlayRoom
 GET     /get-pr-info/:id                        controllers.PlayRoomController.getPlayRoomInfo(id:Long)

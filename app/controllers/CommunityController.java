@@ -5,8 +5,6 @@ import static play.data.Form.form;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import common.cache.CommunityMetaCache;
@@ -636,17 +634,6 @@ public class CommunityController extends Controller{
             community.communityType = CommunityType.CLOSE;
         }
         
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
-        
-        try {
-            if(dataToUpdate.get("dte") != null) {
-                java.util.Date date = sdf.parse(dataToUpdate.get("dte"));
-                community.createDate =date;
-            }
-        } catch (ParseException e) {
-            logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));
-        }
-        
         community.icon = dataToUpdate.get("icon");
         community.merge();
 
@@ -745,18 +732,23 @@ public class CommunityController extends Controller{
                 p.ensureAlbumExist();
             }
 
-            if (!StringUtils.isEmpty(android))
+            StringBuilder device = new StringBuilder();
+            if (!StringUtils.isEmpty(android)) {
             	p.android = true;
-            else if (!StringUtils.isEmpty(ios))
+                device.append(" android ");
+            } else if (!StringUtils.isEmpty(ios)) {
             	p.ios = true;
-            else 
+                device.append(" ios ");
+            } else {
             	p.mobile = Application.isMobileUser();
+                device.append(" mobile ");
+            }
             p.merge();
 
             p.indexPost(withPhotos);
 
             sw.stop();
-            logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"] postOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
+            logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"]"+device+"postOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
             return ok(Json.toJson(p.id));
         }
         
@@ -908,14 +900,19 @@ public class CommunityController extends Controller{
             p.tagWords = tagWords;
             p.shortBodyCount = shortBodyCount;
             
-            if (!StringUtils.isEmpty(android))
+            StringBuilder device = new StringBuilder();
+            if (!StringUtils.isEmpty(android)) {
             	p.android = true;
-            else if (!StringUtils.isEmpty(ios))
+                device.append(" android ");
+            } else if (!StringUtils.isEmpty(ios)) {
             	p.ios = true;
-            else 
+                device.append(" ios ");
+            } else {
             	p.mobile = Application.isMobileUser();
-            
+                device.append(" mobile ");
+            }
             p.merge();
+
             if(Boolean.parseBoolean(withPhotos)) {
                 p.ensureAlbumExist();
             }
@@ -923,7 +920,7 @@ public class CommunityController extends Controller{
             p.indexPost(Boolean.parseBoolean(withPhotos));
 
             sw.stop();
-            logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"] postQuestionOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
+            logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"]"+device+"postQuestionOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
             
             Map<String,String> map = new HashMap<>();
             map.put("id", p.id.toString());
@@ -935,7 +932,6 @@ public class CommunityController extends Controller{
             	map.put("text", p.body);
             	map.put("showM", "false");
             }
-
             return ok(Json.toJson(map));
         }
         return ok("You are not member of this community");
@@ -969,24 +965,27 @@ public class CommunityController extends Controller{
                 if(Boolean.parseBoolean(withPhotos)) {
                 	comment.ensureAlbumExist();
                 }
-                
-                if (!StringUtils.isEmpty(android))
+
+                StringBuilder device = new StringBuilder();
+                if (!StringUtils.isEmpty(android)) {
                 	comment.android = true;
-                else if (!StringUtils.isEmpty(ios))
+                    device.append(" android ");
+                } else if (!StringUtils.isEmpty(ios)) {
                 	comment.ios = true;
-                else 
+                    device.append(" ios ");
+                } else {
                 	comment.mobile = Application.isMobileUser();
-                
+                    device.append(" mobile ");
+                }
                 p.setUpdatedDate(new Date());
                 p.merge();
 
                 sw.stop();
-                logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"][p="+postId+"] answerToQuestionOnQnACommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
+                logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"][p="+postId+"]"+device+"answerToQuestionOnQnACommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
 
                 Map<String, String> map = new HashMap<>();
                 map.put("id", comment.id.toString());
                 map.put("text", comment.body);
-                
                 return ok(Json.toJson(map));
             } catch (SocialObjectNotCommentableException e) {
                 logger.underlyingLogger().error(ExceptionUtils.getStackTrace(e));

@@ -6,9 +6,6 @@ angular.module('minibean', [
   'xeditable',
   'ui.bootstrap',
   'ui.bootstrap.tpls',
-  'ui.bootstrap.datetimepicker',
-  'validator',
-  'validator.rules',
   'angularSpinner',
   'truncate',
   'ui.tinymce',
@@ -18,7 +15,7 @@ angular.module('minibean', [
 ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
-      .when('/game/rules',{
+      .when('/game-rules',{
         templateUrl: '/assets/app/views/mobile/android_ios/game-rules-page.html'
       })
       .when('/error', {

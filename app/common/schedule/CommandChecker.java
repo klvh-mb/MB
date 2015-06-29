@@ -52,9 +52,11 @@ public class CommandChecker {
 
         String[] tokens = commandLine.split("\\s");
 
+        // TagWords
         if (commandLine.startsWith("indexTagWords")) {
             TaggingEngine.indexTagWords();
         }
+        // GamificationEOD
         else if (commandLine.startsWith("gamificationEOD")) {
             if (tokens.length > 1) {
                 Integer daysBefore = Integer.valueOf(tokens[1]);
@@ -63,6 +65,7 @@ public class CommandChecker {
                 logger.underlyingLogger().error("gamificationEOD missing daysBefore parameter");
             }
         }
+        // Community Stats
         else if (commandLine.startsWith("communityStatistics")) {
             if (tokens.length > 1) {
                 Integer daysBefore = Integer.valueOf(tokens[1]);
@@ -71,14 +74,29 @@ public class CommandChecker {
                 logger.underlyingLogger().error("communityStatistics missing daysBefore parameter");
             }
         }
-        // PN communities
-        else if (commandLine.startsWith("bootstrapPNCommunity")) {
-            DataBootstrap.bootstrapPNCommunity();
+        // PN communities (DONE)
+//        else if (commandLine.startsWith("bootstrapPNCommunity")) {
+//            DataBootstrap.bootstrapPNCommunity();
+//        }
+        // KG communities (DONE)
+//        else if (commandLine.startsWith("bootstrapKGCommunity")) {
+//            DataBootstrap.bootstrapKGCommunity();
+//        }
+
+        // PlayGroup
+        else if (commandLine.startsWith("bootstrapPG")) {
+            if (tokens.length > 1) {
+                String filePath = tokens[1];
+                logger.underlyingLogger().info("Running bootstrapPG with: "+filePath);
+                DataBootstrap.bootstrapPlayGroups(filePath);
+            } else {
+                logger.underlyingLogger().error("bootstrapPG missing file path");
+            }
         }
-        // KG communities
-        else if (commandLine.startsWith("bootstrapKGCommunity")) {
-            DataBootstrap.bootstrapKGCommunity();
+        else if (commandLine.startsWith("bootstrapPGCommunity")) {
+            DataBootstrap.bootstrapPGCommunity();
         }
+
         // PN reviews
         else if (commandLine.startsWith("bootstrapPNReviews")) {
             if (tokens.length > 1) {

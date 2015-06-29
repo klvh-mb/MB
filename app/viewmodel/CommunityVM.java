@@ -1,7 +1,5 @@
 package viewmodel;
 
-import java.util.Date;
-
 import common.collection.Pair;
 import models.Community;
 import models.Community.CommunityType;
@@ -13,7 +11,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class CommunityVM {
 	@JsonProperty("lu") public Long loggedUserId;
 	@JsonProperty("lun") public String loggedUserName;
-	
 	@JsonProperty("n") public String name;
 	@JsonProperty("d") public String description;
 	@JsonProperty("nom") public int noOfMembers;
@@ -21,7 +18,6 @@ public class CommunityVM {
 	@JsonProperty("ttyp") public TargetingSocialObject.TargetingType targetingType;
 	@JsonProperty("tinfo") public String targetingInfo;
 	@JsonProperty("icon") public String icon;
-	@JsonProperty("dte") public Date createDate;
 	@JsonProperty("id") public long id;
 	@JsonProperty("oid") public long oid;
 	@JsonProperty("sys") public boolean system;
@@ -44,7 +40,6 @@ public class CommunityVM {
 		vm.targetingType = c.targetingType;
 		vm.targetingInfo = c.targetingInfo;
 		vm.icon = c.icon;
-		vm.createDate = c.createDate;
 		vm.id = c.id;
 		vm.oid = c.owner.id;
 		vm.system = c.system;

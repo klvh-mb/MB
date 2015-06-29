@@ -67,3 +67,13 @@ CREATE INDEX tagwordscore_idx_twid_score ON TagWordScore (tagWordId, score);
 
 -- PreNursery
 CREATE INDEX prenursery_idx_region_dist ON prenursery (regionId, districtId);
+
+
+-- GameAccount
+CREATE INDEX gameaccount_idx_userid ON GameAccount (User_id);
+-- GameAccountStatistics
+CREATE INDEX gameaccountstatistics_idx_userid ON GameAccountStatistics (User_id);
+
+-- Conversation
+CREATE INDEX conversation_idx_user1_updateddate ON Conversation (user1_id, updated_date);
+CREATE INDEX conversation_idx_user2_updateddate ON Conversation (user2_id, updated_date);

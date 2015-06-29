@@ -3,7 +3,6 @@ package controllers;
 import common.utils.NanoSecondStopWatch;
 import models.Community;
 import models.PreNursery;
-import models.TargetingSocialObject;
 import models.User;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -298,18 +297,35 @@ public class PreNurseryController extends Controller {
 		return ok(Json.toJson(pnVMs));
     }
 
+    @Transactional
+    public static Result getAppDates() {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
-    /**
-     * @deprecated
-     */
-    public static Result getPNCommunities() {
-        return ok(Json.toJson(new ArrayList<>()));
+        final User localUser = Application.getLocalUser(session());
+        List<PreNursery> pns = PreNursery.getWithApplicationDates();
+
+        final List<PreNurseryVM> pnVMs = new ArrayList<>();
+        for (PreNursery pn : pns) {
+            pnVMs.add(new PreNurseryVM(pn, localUser));
+        }
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] PN getApplicationDates. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(pnVMs));
     }
 
-    /**
-     * @deprecated
-     */
-	public static Result getPNsByCommunity(Long communityId) {
-        return ok(Json.toJson(new ArrayList<>()));
-	}
+    @Transactional
+	public static Result getAppDatesByDistrict(Long districtId) {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        final User localUser = Application.getLocalUser(session());
+        List<PreNursery> pns = PreNursery.getWithApplicationDatesDistrict(districtId);
+
+        final List<PreNurseryVM> pnVMs = new ArrayList<>();
+        for (PreNursery pn : pns) {
+            pnVMs.add(new PreNurseryVM(pn, localUser));
+        }
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] PN getApplicationDatesByDistrict. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(pnVMs));
+    }
 }

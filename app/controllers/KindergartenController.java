@@ -4,8 +4,6 @@ import common.utils.NanoSecondStopWatch;
 import domain.DefaultValues;
 import models.Community;
 import models.Kindergarten;
-import models.PreNursery;
-import models.TargetingSocialObject;
 import models.User;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -228,6 +226,38 @@ public class KindergartenController extends Controller {
 
         sw.stop();
         logger.underlyingLogger().info("STS [u="+localUser.id+"] getBookmarkedKGs. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(vms));
+    }
+
+    @Transactional
+    public static Result getAppDates() {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        final User localUser = Application.getLocalUser(session());
+        List<Kindergarten> list = Kindergarten.getWithApplicationDates();
+
+        final List<KindergartenVM> vms = new ArrayList<>();
+        for (Kindergarten kg : list) {
+            vms.add(new KindergartenVM(kg, localUser));
+        }
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] KG getApplicationDates. Took "+sw.getElapsedMS()+"ms");
+		return ok(Json.toJson(vms));
+    }
+
+    @Transactional
+	public static Result getAppDatesByDistrict(Long districtId) {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
+        final User localUser = Application.getLocalUser(session());
+        List<Kindergarten> list = Kindergarten.getWithApplicationDatesDistrict(districtId);
+
+        final List<KindergartenVM> vms = new ArrayList<>();
+        for (Kindergarten kg : list) {
+            vms.add(new KindergartenVM(kg, localUser));
+        }
+        sw.stop();
+        logger.underlyingLogger().info("STS [u="+localUser.id+"] KG getApplicationDatesByDistrict. Took "+sw.getElapsedMS()+"ms");
 		return ok(Json.toJson(vms));
     }
 }

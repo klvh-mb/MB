@@ -3,8 +3,6 @@ package viewmodel;
 import models.Community;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.util.Date;
-
 /**
  * Created by IntelliJ IDEA.
  * Date: 6/12/14
@@ -16,7 +14,6 @@ public class HotCommunityVM {
 	@JsonProperty("d")      public String description;
 	@JsonProperty("typ")    public Community.CommunityType communityType;
 	@JsonProperty("icon")   public String icon;
-	@JsonProperty("dte")    public Date createDate;
 	@JsonProperty("id")     public long id;
     @JsonProperty("nom")    public long noOfMembers;
     @JsonProperty("nopst") public long noOfRecentPosts;
@@ -28,7 +25,6 @@ public class HotCommunityVM {
         vm.description = c.getDescription();
         vm.communityType = c.getCommunityType();
         vm.icon = c.getIcon();
-        vm.createDate = c.getCreateDate();
         vm.id = c.getId();
         vm.noOfMembers = c.getMemberCount();
         vm.noOfRecentPosts = noOfRecentPosts;

@@ -444,7 +444,7 @@ public class Post extends SocialObject implements Likeable, Commentable {
         if (title == null || title.startsWith("http")) {
             return "";
         } else {
-            return StringUtil.truncateWithDots(title, 12);
+            return StringUtil.truncateWithDots(title, 20);
         }
     }
 

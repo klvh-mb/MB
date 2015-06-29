@@ -697,6 +697,8 @@ public class UserController extends Controller {
 	   
 	@Transactional
 	public static Result getMessages(Long id, Long offset) {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
 		final User localUser = Application.getLocalUser(session());
 		List<MessageVM> vms = new ArrayList<>();
 		Conversation conversation = Conversation.findById(id); 
@@ -710,6 +712,9 @@ public class UserController extends Controller {
 		Map<String, Object> map = new HashMap<>();
 		map.put("message", vms);
 		map.put("counter", localUser.getUnreadConversationCount());
+
+        sw.stop();
+        logger.underlyingLogger().info("[u="+localUser.id+"][c="+id+"] getMessages(offset="+offset+"). Took "+sw.getElapsedMS()+"ms");
 		return ok(Json.toJson(map));
 	}
 	
@@ -794,8 +799,13 @@ public class UserController extends Controller {
 
 	@Transactional
 	public static Result getAllConversations() {
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
 		final User localUser = Application.getLocalUser(session());
 		List<ConversationVM> vms = getAllConversations(localUser, null);
+
+        sw.stop();
+        logger.underlyingLogger().info("[u="+localUser.id+"] getAllConversations. Took "+sw.getElapsedMS()+"ms");
 		return ok(Json.toJson(vms));
 	}
 	

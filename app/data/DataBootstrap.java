@@ -1,14 +1,13 @@
 package data;
 
-import java.lang.annotation.Target;
 import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Query;
 
-
 import common.cache.CommunityMetaCache;
 import common.thread.ThreadLocalOverride;
+import customdata.file.PlayGroupFileReader;
 import customdata.file.ReviewFileReader;
 import customdata.file.PostsFileReader;
 import domain.CommentType;
@@ -25,6 +24,7 @@ import models.Icon.IconType;
 import models.Kindergarten;
 import models.Location;
 import models.Location.LocationCode;
+import models.PlayGroup;
 import models.PreNursery;
 import models.Post;
 import models.SecurityRole;
@@ -847,31 +847,47 @@ public class DataBootstrap {
                 logger.underlyingLogger().info("Has Comm already - KG("+kg.name+", "+kg.nameEn+", "+kg.address+")");
             }
         }
-
         logger.underlyingLogger().info("commExistsCount("+commExistsCount+") commCreatedCount("+commCreatedCount+") mergeCount("+mergeCount+")");
-
-//        // KG communities
-//        List<Kindergarten> kgsNoPN = Kindergarten.findAll(false);
-//        logger.underlyingLogger().info("bootstrapKGCommunity() - No PN. count="+kgsNoPN.size());
-//
-//        // Create new communities without PN
-//        for (Kindergarten kg : kgsNoPN) {
-//            String name = kg.getName();
-//            String desc = kg.getName()+" 討論區";
-//            String targetingInfo = kg.getId().toString();
-//            Community community = getOrCreateSchoolCommunity(TargetingType.KINDY, name, desc, targetingInfo);
-//            if (community != null) {
-//                kg.communityId = community.getId();
-//                kg.merge();
-//            }
-//        }
-//
-//        // Merge communityId with existing PN
-//        int mergeCount = Kindergarten.mergeCommunityIdWithPN();
-//        logger.underlyingLogger().info("bootstrapKGCommunity() - Merged PN. count="+mergeCount);
 
         // reload cache
         CommunityMetaCache.loadKindergartenComms();
+    }
+
+    /**
+     * Invoked from command line
+     */
+    public static void bootstrapPlayGroups(String filePath) {
+        PlayGroupFileReader reader = new PlayGroupFileReader();
+        try {
+            reader.read(filePath);
+            List<PlayGroup> pgs = reader.getPGs();
+            logger.underlyingLogger().info("bootstrapPlayGroups() creating - count="+pgs.size());
+            for (PlayGroup pg : pgs) {
+                pg.save();
+            }
+            logger.underlyingLogger().info("bootstrapPlayGroups() done - count="+pgs.size());
+        } catch (Exception e) {
+            logger.underlyingLogger().error("Error in bootstrapPlayGroups", e);
+        }
+    }
+
+    public static void bootstrapPGCommunity() {
+        // PG communities
+        List<PlayGroup> pns = PlayGroup.findAll();
+        logger.underlyingLogger().info("bootstrapPGCommunity() - count="+pns.size());
+
+        for (PlayGroup pn : pns) {
+            String name = pn.getName();
+            String desc = pn.getName()+" PlayGroup討論區";
+            String targetingInfo = pn.getId().toString();
+            Community community = getOrCreateSchoolCommunity(TargetingType.PLAYGROUP, name, desc, targetingInfo);
+            if (community != null) {
+                pn.communityId = community.getId();
+                pn.merge();
+            }
+        }
+        // reload cache
+        CommunityMetaCache.loadPlayGroupComms();
     }
 
     /**

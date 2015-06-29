@@ -8,10 +8,9 @@ import domain.SocialObjectType;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Query;
+import javax.persistence.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -84,6 +83,8 @@ public class Kindergarten extends SocialObject implements Likeable, Commentable 
 
     // date details
     public String applicationDateText = null;
+    @Temporal(TemporalType.DATE)
+	public Date applicationDate = null;
     public String openDayText = null;
     
     // Ctor
@@ -255,6 +256,19 @@ public class Kindergarten extends SocialObject implements Likeable, Commentable 
                 "and ss.schoolId = kg.id");
         q.setParameter(1, SchoolType.KINDY);
         q.setParameter(2, userId);
+        return (List<Kindergarten>)q.getResultList();
+    }
+
+    public static List<Kindergarten> getWithApplicationDates() {
+        Query q = JPA.em().createQuery("SELECT kg FROM Kindergarten kg where kg.applicationDate is not null " +
+                        "order by kg.applicationDate desc");
+        return (List<Kindergarten>)q.getResultList();
+    }
+
+    public static List<Kindergarten> getWithApplicationDatesDistrict(Long districtId) {
+        Query q = JPA.em().createQuery("SELECT kg FROM Kindergarten kg where kg.applicationDate is not null " +
+                        "and kg.districtId = ?1 order by kg.applicationDate desc");
+        q.setParameter(1, districtId);
         return (List<Kindergarten>)q.getResultList();
     }
 

@@ -523,7 +523,7 @@ minibean.controller('GameController',function($scope, $http, $interval, $locatio
         return $http.post('/sign-in-for-today', formData)
             .success(function(data){
                 $scope.userInfo.enableSignInForToday = false;
-                prompt("<div><b>每日簽到 +"+$scope.gameConstants.POINTS_DAILY_SIGNIN+"個小豆豆!</b></div>", 
+                prompt("<div><b>每日簽到 +"+$scope.gameConstants.POINTS_DAILY_SIGNIN+"小豆豆!</b></div>", 
                 		"bootbox-default-prompt game-bootbox-prompt", 1800);
                 $interval($scope.reloadGamePage, 2000, 1);
                 usSpinnerService.stop('loading...');

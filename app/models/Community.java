@@ -27,7 +27,6 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.joda.time.LocalDate;
 
 import play.Play;
-import play.data.format.Formats;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 
@@ -76,9 +75,6 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 	@Column(length=2000)
 	public String description;
 	
-	@Formats.DateTime(pattern = "yyyy-MM-dd")
-	public Date createDate;
-
     public Date socialUpdatedDate = new Date();
 
 	public boolean adminPostOnly = false;
@@ -651,14 +647,6 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 
 	public void setAlbumPhotoProfile(Folder albumPhotoProfile) {
 		this.albumPhotoProfile = albumPhotoProfile;
-	}
-
-	public Date getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
 	}
 
 	public List<Folder> getFolders() {
