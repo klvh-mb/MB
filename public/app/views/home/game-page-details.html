@@ -37,11 +37,11 @@
     <div class="game-details">
         <span ng-if="gameAccount.refs == 0">
             <span style="margin-right:10px;">用以下連結介紹你的朋友加入~~</span><br/>
-            <span style="margin-right:10px;">每個朋友成功註冊。你即可獲得<span style="margin:3px;" class="points">{{gameConstants.POINTS_REFERRAL_SIGNUP}}</span>個小豆豆!</span> 
+            <span style="margin-right:10px;">每個朋友成功註冊。你即可獲得<span style="margin:3px;" class="points">{{gameConstants.POINTS_REFERRAL_SIGNUP}}</span>小豆豆!</span> 
         </span>
         <span ng-if="gameAccount.refs > 0">
             <span style="margin-right:10px;">恭喜!! 你已成功介紹<span style="margin:3px;" class="points">{{gameAccount.refs}}</span>個新會員加入~~</span><br/>
-            <span style="margin-right:10px;">獲得<span style="margin:3px;" class="points">{{gameAccount.refs * gameConstants.POINTS_REFERRAL_SIGNUP}}</span>個小豆豆!</span> 
+            <span style="margin-right:10px;">獲得<span style="margin:3px;" class="points">{{gameAccount.refs * gameConstants.POINTS_REFERRAL_SIGNUP}}</span>小豆豆!</span> 
         </span>
         <div>
             <input type='text' name='game-promo-link' id='game-promo-link' value='{{applicationInfo.baseUrl}}/signup-code/{{gameAccount.pmcde}}'></input> 

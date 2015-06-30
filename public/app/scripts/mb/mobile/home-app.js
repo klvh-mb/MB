@@ -82,7 +82,7 @@ angular.module('minibean', [
     	templateUrl: '/assets/app/views/mobile/home/message.html',
     	controller: 'UserConversationController'  
       })
-      .when('/open-conversation/:cid/:id',{
+      .when('/open-conversation/:id',{
     	templateUrl: '/assets/app/views/mobile/home/message.html',
     	controller: 'UserConversationController'  
       })
