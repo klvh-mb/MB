@@ -3,6 +3,7 @@ package customdata.file;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -16,6 +17,10 @@ public class SchoolAppDatesSQLGenerator {
     private static final String ID_COL = "Id";
     private static final String NAME_COL = "Name";
     private static final String START_COL = "Application Start Date";
+    private static final String SORT_COL = "Sort Date";
+
+    private static SimpleDateFormat fromFormatter = new SimpleDateFormat("MM/dd/yyyy");
+    private static SimpleDateFormat toFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
     // Note: Change to your local path to tsv file
     private static final String FILE_PATH = "/Users/vichoty/Downloads/AppDates.tsv";
@@ -49,6 +54,9 @@ public class SchoolAppDatesSQLGenerator {
                             entry.name = value;
                         } else if (header.equals(START_COL)) {
                             entry.appDateText = value;
+                        } else if (header.equals(SORT_COL)) {
+                            Date d = fromFormatter.parse(value);
+                            entry.sortDateText = toFormatter.format(d);
                         }
                     }
                 }
@@ -66,6 +74,9 @@ public class SchoolAppDatesSQLGenerator {
         for (SchoolEntry entry : entries) {
             StringBuilder sb = new StringBuilder();
             sb.append("UPDATE PRENURSERY set applicationDateText='").append(entry.appDateText).append("' ");
+            if (entry.sortDateText != null) {
+                sb.append(", applicationDate='").append(entry.sortDateText).append("' ");
+            }
             sb.append("WHERE id=").append(entry.id).append(" AND name='").append(entry.name).append("';");
             System.out.println(sb.toString());
         }
@@ -88,6 +99,7 @@ public class SchoolAppDatesSQLGenerator {
         public String id;
         public String name;
         public String appDateText;
+        public String sortDateText;
 
         @Override
         public String toString() {
