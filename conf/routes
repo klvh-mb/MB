@@ -183,7 +183,7 @@ GET     /image/get-original-image-by-id/:id     controllers.UserController.getOr
 GET     /get-all-conversations      controllers.UserController.getAllConversations()
 GET     /get-messages/:id/:offset   controllers.UserController.getMessages(id: Long, offset: Long)
 GET     /start-conversation/:id     controllers.UserController.startConversation(id: Long)
-GET     /open-conversation/:cid/:id controllers.UserController.openConversation(cid: Long, id: Long)
+GET     /open-conversation/:id      controllers.UserController.openConversation(id: Long)
 GET     /delete-conversation/:id    controllers.UserController.deleteConversation(id: Long)
 POST    /message/sendMsg            controllers.UserController.sendMessage()
 POST    /image/sendMessagePhoto     controllers.UserController.sendPhotoInMessage()

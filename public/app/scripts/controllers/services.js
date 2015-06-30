@@ -1269,12 +1269,12 @@ minibean.service('conversationService',function($resource){
     );
     
     this.openConversation = $resource(
-            '/open-conversation/:cid/:id',
-            {alt:'json',callback:'JSON_CALLBACK'},
-            {
-                get: {method:'get', isArray:true}
-            }
-        );
+        '/open-conversation/:id',
+        {alt:'json',callback:'JSON_CALLBACK'},
+        {
+            get: {method:'get', isArray:true}
+        }
+    );
     
     this.deleteConversation = $resource(
         '/delete-conversation/:id',

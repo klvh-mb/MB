@@ -4809,7 +4809,7 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
             prompt("不可發私人訊息給自己");
         } else {
         	$scope.loading = true;
-    		$scope.conversations = conversationService.openConversation.get({cid: $routeParams.cid, id: $routeParams.id},function(){
+    		$scope.conversations = conversationService.openConversation.get({id: $routeParams.id},function(){
     			$scope.getMessages($scope.conversations[0].id, $scope.conversations[0].uid);
     			$scope.loading = false;
     		});
@@ -4898,8 +4898,8 @@ minibean.controller('UserConversationController',function($scope, $http, $filter
 			});
 	}
 	
-	$scope.openConversation = function(cid,uid) {
-		$location.path('/open-conversation/'+cid+'/'+uid);
+	$scope.openConversation = function(uid) {
+		$location.path('/open-conversation/'+uid);
 	}
 	
     $scope.loadMore = false;
