@@ -31,11 +31,11 @@
 
             <div ng-if="pn.appDateTxt || pn.openDayTxt">
 	            <div class="school-section-title"><img style="width:24px;margin-right:7px;margin-bottom:2px;" src="../assets/app/images/general/icons/i-info_bubble.png">重要日期</div>
-	            <div class="school-info-attr">
+	            <div class="school-info-attr" style="width:100%;" ng-if="pn.appDateTxt">
 	                <span><img style="width:16px;margin-right:7px;margin-bottom:2px;" src="../assets/app/images/general/icons/check.png">申請日期 : </span>
 	                <span>{{pn.appDateTxt || '-'}}</span>
 	            </div>
-	            <div class="school-info-attr">
+	            <div class="school-info-attr" style="width:100%;" ng-if="pn.openDayTxt">
 	                <span><img style="width:16px;margin-right:7px;margin-bottom:2px;" src="../assets/app/images/general/icons/check.png">Open Day : </span>
 	                <span>{{pn.openDayTxt || '-'}}</span>
 	            </div>
