@@ -279,13 +279,13 @@ public class PreNursery extends SocialObject implements Likeable, Commentable {
 
     public static List<PreNursery> getWithApplicationDates() {
         Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.applicationDate is not null " +
-                        "order by pn.applicationDate desc");
+                        "order by pn.applicationDate");
         return (List<PreNursery>)q.getResultList();
     }
 
     public static List<PreNursery> getWithApplicationDatesDistrict(Long districtId) {
         Query q = JPA.em().createQuery("SELECT pn FROM PreNursery pn where pn.applicationDate is not null " +
-                        "and pn.districtId = ?1 order by pn.applicationDate desc");
+                        "and pn.districtId = ?1 order by pn.applicationDate");
         q.setParameter(1, districtId);
         return (List<PreNursery>)q.getResultList();
     }
