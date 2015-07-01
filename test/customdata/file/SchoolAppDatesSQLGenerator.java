@@ -13,10 +13,13 @@ import java.util.*;
  */
 public class SchoolAppDatesSQLGenerator {
 
+    private static final String TABLE = "Kindergarten";
+
     private static final String INCLUDE_COL = "Include";
     private static final String ID_COL = "Id";
     private static final String NAME_COL = "Name";
     private static final String START_COL = "Application Start Date";
+    private static final String OPENDAY_COL = "Open Day";
     private static final String SORT_COL = "Sort Date";
 
     private static SimpleDateFormat fromFormatter = new SimpleDateFormat("MM/dd/yyyy");
@@ -24,6 +27,7 @@ public class SchoolAppDatesSQLGenerator {
 
     // Note: Change to your local path to tsv file
     private static final String FILE_PATH = "/Users/vichoty/Downloads/AppDates.tsv";
+
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new FileReader(FILE_PATH));
@@ -54,6 +58,10 @@ public class SchoolAppDatesSQLGenerator {
                             entry.name = value;
                         } else if (header.equals(START_COL)) {
                             entry.appDateText = value;
+                        } else if (header.equals(OPENDAY_COL)) {
+                            if (!"N".equalsIgnoreCase(value)) {
+                                entry.openDayText = value;
+                            }
                         } else if (header.equals(SORT_COL)) {
                             Date d = fromFormatter.parse(value);
                             entry.sortDateText = toFormatter.format(d);
@@ -73,7 +81,10 @@ public class SchoolAppDatesSQLGenerator {
 
         for (SchoolEntry entry : entries) {
             StringBuilder sb = new StringBuilder();
-            sb.append("UPDATE PRENURSERY set applicationDateText='").append(entry.appDateText).append("' ");
+            sb.append("UPDATE "+TABLE+" set applicationDateText='").append(entry.appDateText).append("' ");
+            if (entry.openDayText != null) {
+                sb.append(", openDayText='").append(entry.openDayText).append("' ");
+            }
             if (entry.sortDateText != null) {
                 sb.append(", applicationDate='").append(entry.sortDateText).append("' ");
             }
@@ -99,6 +110,7 @@ public class SchoolAppDatesSQLGenerator {
         public String id;
         public String name;
         public String appDateText;
+        public String openDayText;
         public String sortDateText;
 
         @Override
