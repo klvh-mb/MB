@@ -76,7 +76,8 @@ public class GameAccountReferral extends domain.Entity {
 
         if (existingReferral != null) {
             if (existingReferral.validated) {
-                throw new IllegalStateException("User already referred and validated: id="+user.id+" email="+user.email+" promoCode="+promoCode);
+            	logger.underlyingLogger().error("User already referred and validated: id="+user.id+" email="+user.email+" promoCode="+promoCode);
+                //throw new IllegalStateException("User already referred and validated: id="+user.id+" email="+user.email+" promoCode="+promoCode);
             } else {
                 // set validated (from native signup flow)
                 existingReferral.setValidated(true);
