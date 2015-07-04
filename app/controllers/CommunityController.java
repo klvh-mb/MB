@@ -364,7 +364,11 @@ public class CommunityController extends Controller{
             return ok("no image set");
         }
     }
-    
+
+    /**
+     * Invoked from user profile - my communities.
+     * @return
+     */
     @Transactional
     public static Result getMyCommunities() {
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
@@ -374,11 +378,9 @@ public class CommunityController extends Controller{
 
         List<Community> communities = localUser.getListOfJoinedCommunities();
         for(Community community : communities) {
-        	if (TargetingSocialObject.TargetingType.PRE_NURSERY.equals(community.targetingType) ||
-        	    TargetingSocialObject.TargetingType.KINDY.equals(community.targetingType)) {
-        		continue;   // skip
-        	}
-            communityList.add(new CommunitiesWidgetChildVM(community, localUser));
+        	if (community.shouldJoinNotifyProfileInclude()) {
+                communityList.add(new CommunitiesWidgetChildVM(community, localUser));
+            }
         }
         CommunitiesParentVM communitiesVM = new CommunitiesParentVM(communityList.size(), communityList);
 
@@ -388,19 +390,29 @@ public class CommunityController extends Controller{
         }
         return ok(Json.toJson(communitiesVM));
     }
-    
+
+    /**
+     * Invoked from user profile - other user's communities.
+     * @return
+     */
     @Transactional
     public static Result getUserCommunities(Long id) {
-        logger.underlyingLogger().debug("getUserCommunities");
+        NanoSecondStopWatch sw = new NanoSecondStopWatch();
+
         final User user = User.findById(id);
         final User localUser = Application.getLocalUser(session());
         List<CommunitiesWidgetChildVM> communityList = new ArrayList<>();
         for(Community community : user.getListOfJoinedCommunities()) {
-            CommunitiesWidgetChildVM vm = new CommunitiesWidgetChildVM(community, localUser); 
-            communityList.add(vm);
+            if (community.shouldJoinNotifyProfileInclude()) {
+                communityList.add(new CommunitiesWidgetChildVM(community, localUser));
+            }
         }
-
         CommunitiesParentVM communitiesVM = new CommunitiesParentVM(communityList.size(), communityList);
+
+        sw.stop();
+        if (logger.underlyingLogger().isDebugEnabled()) {
+            logger.underlyingLogger().debug("[u="+localUser.id+"] getUserCommunities("+id+"). Took "+sw.getElapsedMS()+"ms");
+        }
         return ok(Json.toJson(communitiesVM));
     }
 
@@ -1051,14 +1063,18 @@ public class CommunityController extends Controller{
     public static Result getInitialQuestions(Long id) {
         final User localUser = Application.getLocalUser(session());
         final Community community = Community.findById(id);
-        List<Post> posts = community.getQuestionsOfCommunity(0, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
-        
-        CommunityPostsVM postsVM = CommunityPostsVM.posts(community, localUser, posts);
-    
-        if (logger.underlyingLogger().isDebugEnabled()) {
-            logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getInitialQuestions="+postsVM.posts.size());
+        if (community != null) {
+            List<Post> posts = community.getQuestionsOfCommunity(0, DefaultValues.DEFAULT_INFINITE_SCROLL_COUNT);
+
+            CommunityPostsVM postsVM = CommunityPostsVM.posts(community, localUser, posts);
+
+            if (logger.underlyingLogger().isDebugEnabled()) {
+                logger.underlyingLogger().debug("[u="+localUser.id+"][c="+id+"] getInitialQuestions="+postsVM.posts.size());
+            }
+            return ok(Json.toJson(postsVM));
+        } else {
+            return ok();
         }
-        return ok(Json.toJson(postsVM));
     }
 
     @Transactional
