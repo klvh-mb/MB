@@ -54,7 +54,7 @@ var getMetaForSchool = function(obj) {
 		hasPN = (obj.hasPN? '有' : '沒有') + '提供幼兒班，';
 	}
 	
-	description = schoolType + '概覽：' + 
+	description = name + ' 是一所' + 	//schoolType + '概覽：' + 
 		obj.orgt + '學校，' +
 		(obj.cp? '可' : '不可') + '兌現學券，' +
 		hasPN + 
