@@ -1,10 +1,12 @@
 package com.mnt;
 
+import java.io.IOException;
 import java.util.*;
 
 import common.cache.CommunityMetaCache;
 import models.Comment;
 import models.Community;
+import models.Gcm;
 import models.TargetingSocialObject.TargetingType;
 import models.Notification;
 import models.Notification.NotificationType;
@@ -105,6 +107,7 @@ public class SocialActivity {
                     notification.message = "你正在關注「"+socialAction.getTargetObject().name+"」";
                     notification.status = 0;
                     notification.save();
+                    sendNotificationToMobile(notification.message, notification.recipient);
                 }
 				break;
 
@@ -119,6 +122,7 @@ public class SocialActivity {
                     notification.message = "你與 "+socialAction.getTargetObject().name+" 成為了朋友";
                     notification.status = 0;
                     notification.save();
+                    sendNotificationToMobile(notification.message, notification.recipient);
                 }
 				break;
 			}
@@ -139,6 +143,7 @@ public class SocialActivity {
                     notification.notificationType = NotificationType.COMM_JOIN_REQUEST;
                     notification.message = socialAction.getActorObject().name+" 想加入「" + socialAction.targetname+"」社群";
                     notification.save();
+                    sendNotificationToMobile(notification.message, notification.recipient);
                 }
 				break;
 
@@ -152,6 +157,7 @@ public class SocialActivity {
                     notification.notificationType = NotificationType.FRD_REQUEST;
                     notification.message = socialAction.getActorObject().name+" 想成為你的朋友";
                     notification.save();
+                    sendNotificationToMobile(notification.message, notification.recipient);
                 }
 				break;
 
@@ -167,6 +173,7 @@ public class SocialActivity {
                     notification.notificationType = NotificationType.COMM_INVITE_REQUEST;
                     notification.message = "有人推薦「"+socialAction.targetname+"」社群給您";
                     notification.save();
+                    sendNotificationToMobile(notification.message, notification.recipient);
                 }
 				break;
 			}
@@ -229,6 +236,7 @@ public class SocialActivity {
                                 notification.message = msgSubjects + msgEnd;
                                 notification.merge();
                             }
+                            sendNotificationToMobile(notification.message, notification.recipient);
                         }
                     }
                 }
@@ -287,6 +295,7 @@ public class SocialActivity {
                                 notification.message = msgSubjects + msgEnd;
                                 notification.merge();
                             }
+                            sendNotificationToMobile(notification.message, notification.recipient);
                         }
                     }
                 }
@@ -334,6 +343,7 @@ public class SocialActivity {
                             notification.status = 0;
                             notification.merge();
                         }
+                        sendNotificationToMobile(notification.message, notification.recipient);
                     }
                 }
                 break;
@@ -384,6 +394,8 @@ public class SocialActivity {
                             notification.status = 0;
                             notification.merge();
                         }
+                        sendNotificationToMobile(notification.message, notification.recipient);
+                        
                     }
                     // Liked COMMENT
                     else if(socialAction.targetType == SocialObjectType.COMMENT) {
@@ -427,6 +439,7 @@ public class SocialActivity {
                             notification.status = 0;
                             notification.merge();
                         }
+                        sendNotificationToMobile(notification.message, notification.recipient);
 
                     }
                     // Liked ANSWER
@@ -470,6 +483,7 @@ public class SocialActivity {
                             notification.status = 0;
                             notification.merge();
                         }
+                        sendNotificationToMobile(notification.message, notification.recipient);
                     }
                 }
 				break;
@@ -515,6 +529,7 @@ public class SocialActivity {
                         notification.message = msgSubjects + msgEnd;
                         notification.merge();
                     }
+                    sendNotificationToMobile(notification.message, notification.recipient);
                 }
 				break;
 
@@ -573,10 +588,21 @@ public class SocialActivity {
                             notification.status = 0;
                             notification.merge();
                         }
+                        sendNotificationToMobile(notification.message, notification.recipient);
                     }
                 }
 				break;	
 			}
 		} 
+	}
+	
+	public static void sendNotificationToMobile(String msg, Long id){
+		  try {
+          		Gcm gcm = Gcm.findById(id);
+				Sender.sendNotificationMessage(gcm.reg_id ,msg);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		
 	}
 }

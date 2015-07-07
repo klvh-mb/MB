@@ -17,6 +17,8 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.OneToMany;
 import javax.persistence.Query;
 
+import com.mnt.SocialActivity;
+
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 import domain.Creatable;
@@ -80,8 +82,10 @@ public class Conversation extends domain.Entity implements Serializable, Creatab
 		if(this.user1 == sender){
 			setReadTime(this.user1);
 			this.user2_noOfMessages++;
+			SocialActivity.sendNotificationToMobile(this.user1.getName()+" : "+body, this.user2.id);
 		} else {
 			setReadTime(this.user2);
+			SocialActivity.sendNotificationToMobile(this.user2.getName()+" : "+body, this.user1.id);
 			this.user1_noOfMessages++;
 		}
 		this.save();
