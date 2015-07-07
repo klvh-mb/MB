@@ -34,6 +34,8 @@ object ApplicationBuild extends Build {
     "redis.clients" % "jedis" % "2.0.0",
     "org.sedis" % "sedis" % "1.0.1",
     "org.jsoup" % "jsoup" % "1.7.3",
+    "com.ganyo" % "gcm-server" % "1.0.2",
+    "com.googlecode.json-simple" % "json-simple" % "1.1",
     //"com.typesafe" %% "play-plugins-redis" % "2.1-1-RC2"
     "com.github.fedy2" % "yahoo-weather-java-api" % "1.1.0"
   )
