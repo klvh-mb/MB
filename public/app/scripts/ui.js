@@ -1,4 +1,21 @@
 
+var dismissAndroidAppDownloadTips = function() {
+	$('#androidAppDownloadTips').hide();
+	sessionStorage.setItem('dismissAndroidAppDownloadTips','true');
+	// use sessionStorage for current session only
+	//localStorage.setItem('dismissAndroidAppDownloadTips','true');
+}
+
+var showAndroidAppDownloadTips = function() {
+	// use sessionStorage for current session only
+	//var dismiss = localStorage.getItem('dismissAndroidAppDownloadTips');
+	var dismiss = sessionStorage.getItem('dismissAndroidAppDownloadTips');
+	if (isAndroid() && dismiss != 'true') {
+		return true;
+	}
+	return false;
+}
+
 //
 // write meta
 //
@@ -220,6 +237,20 @@ $(window).on("blur focus", function(e) {
 //
 // Common
 //
+
+var isAndroid = function() {
+	if (/Android/i.test(navigator.userAgent)) {
+		return true;
+	}
+	return false;
+}
+
+var isMobile = function() {
+	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+		return true;
+	}
+	return false;
+}
 
 var startsWith = function(str, s) {
 	return str.indexOf(s, 0) === 0;
