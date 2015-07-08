@@ -631,6 +631,10 @@ minibean.controller('ApplicationController',
         acceptJoinRequestService, acceptFriendRequestService, notificationMarkReadService,
         communitiesDiscoverService, articleService, iconsService, usSpinnerService) {
 
+	// agent
+	$scope.showAndroidAppDownloadTips = showAndroidAppDownloadTips();
+	//$scope.agent = navigator.userAgent;
+	
 	// meta
 	$scope.$on('$viewContentLoaded', function() {
 		writeMetaCanonical($location.absUrl());

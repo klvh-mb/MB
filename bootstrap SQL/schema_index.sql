@@ -1,6 +1,8 @@
 -- User
 CREATE INDEX user_idx_created_system ON user (created_date, system);
 
+-- Notification
+CREATE INDEX notification_idx_recipient_created ON Notification (recipient, CREATED_DATE);
 
 -- SocialRelation (Friends, Community Members)
 CREATE INDEX socialrel_idx_actor_action ON socialrelation (actor, action);

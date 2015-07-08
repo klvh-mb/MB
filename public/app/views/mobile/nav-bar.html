@@ -30,7 +30,7 @@
         </ul>
     </div>
 </div>
-
+        
 <!--div id="nav-holder" ng-if="selectedNavBar == 'HOT_ARTICLES'">
     <div id="nav-slider" class="royalSlider rsDefaultInv">
         <div class="rsContent">
@@ -75,6 +75,31 @@
             </a>
         </div>
     </div>
+</div>
+
+<div data-ng-include data-src="'/assets/app/views/mobile/schools/nav-bar.html'" ng-if="selectedNavBar == 'SCHOOLS'"></div>
+
+<div id="androidAppDownloadTips" class="tips-banner" ng-if="showAndroidAppDownloadTips">
+    <a href="" onclick="dismissAndroidAppDownloadTips()">
+        <img style="width:12px;height:auto;margin-right:5px;" src="/assets/app/images/general/icons/i-close.png"></img>
+    </a>
+    <a href="https://play.google.com/store/apps/details?id=miniBean.app.AppController">
+        <img style="width:58px;height:auto;border-radius:10px;" src="/assets/app/images/logo-mB-72x72.png"></img>
+        <div>
+            <span class="tips-main">
+                下載 miniBean 應用程式
+            </span>
+            <span class="tips-main">
+                更多幼稚園資訊！
+            </span>
+            <span class="tips-small">
+                立即下載
+            </span>
+        </div>
+    </a>
+    <button class="btn btn-red ng-binding" style="right:10px;position:absolute;margin-top:15px;background-color:#EAAD4F;">
+	    <a href="https://play.google.com/store/apps/details?id=miniBean.app.AppController" style="color:#ffffff;">下載</a>
+	</button>
 </div>
 
 <style>

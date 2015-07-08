@@ -88,6 +88,7 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 
 	public boolean promoted = false;
 
+
     /**
      * Ctor
      */
@@ -182,13 +183,15 @@ public class Community extends TargetingSocialObject implements Likeable, Postab
 		if (communityType == CommunityType.CLOSE) {
 			recordJoinRequest(user);
 		} else {
-			beMemberOfOpenCommunity(user, shouldNotifyOnJoin());
+			beMemberOfOpenCommunity(user, shouldJoinNotifyProfileInclude());
 		}
 	}
 
-    private boolean shouldNotifyOnJoin() {
+    public boolean shouldJoinNotifyProfileInclude() {
         return targetingType == null ||
-               (targetingType != TargetingType.PRE_NURSERY && targetingType != TargetingType.KINDY);
+               (targetingType != TargetingType.PLAYGROUP &&
+                targetingType != TargetingType.PRE_NURSERY &&
+                targetingType != TargetingType.KINDY);
     }
 
 	@Override

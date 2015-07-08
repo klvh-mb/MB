@@ -261,13 +261,13 @@ public class Kindergarten extends SocialObject implements Likeable, Commentable 
 
     public static List<Kindergarten> getWithApplicationDates() {
         Query q = JPA.em().createQuery("SELECT kg FROM Kindergarten kg where kg.applicationDate is not null " +
-                        "order by kg.applicationDate desc");
+                        "order by kg.applicationDate");
         return (List<Kindergarten>)q.getResultList();
     }
 
     public static List<Kindergarten> getWithApplicationDatesDistrict(Long districtId) {
         Query q = JPA.em().createQuery("SELECT kg FROM Kindergarten kg where kg.applicationDate is not null " +
-                        "and kg.districtId = ?1 order by kg.applicationDate desc");
+                        "and kg.districtId = ?1 order by kg.applicationDate");
         q.setParameter(1, districtId);
         return (List<Kindergarten>)q.getResultList();
     }
