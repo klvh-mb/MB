@@ -598,7 +598,7 @@ public class SocialActivity {
 	
 	public static void sendNotificationToMobile(String msg, Long id){
 		  try {
-          		Gcm gcm = Gcm.findById(id);
+          		Gcm gcm = Gcm.getGcmByUser_id(id);
 				Sender.sendNotificationMessage(gcm.reg_id ,msg);
 			} catch (IOException e) {
 				e.printStackTrace();

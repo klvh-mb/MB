@@ -146,6 +146,9 @@ POST    /login/password/forgot      controllers.Signup.doForgotPassword
 GET     /get-general-announcements  controllers.AnnouncementController.getGeneralAnnouncements
 GET     /get-top-announcements      controllers.AnnouncementController.getTopAnnouncements
 
+#GCM Service
+POST	/saveGCMKey/:key			controllers.UserController.saveGCMKey(key : String)
+
 # User Info Service
 GET     /get-user-info              controllers.UserController.getUserInfo
 GET     /complete-home-tour         controllers.UserController.completeHomeTour

@@ -18,6 +18,7 @@ import models.Community;
 import models.Conversation;
 import models.Emoticon;
 import models.GameAccount;
+import models.Gcm;
 import models.Location;
 import models.Message;
 import models.Notification;
@@ -982,4 +983,11 @@ public class UserController extends Controller {
         }
 		return ok();
 	}
+    
+    @Transactional
+    public static Result saveGCMKey(String key){
+    	final User localUser = Application.getLocalUser(session());
+    	Gcm gsm = Gcm.getGcmByUser_id(key, localUser.id);
+    	return ok();
+    }
 }
