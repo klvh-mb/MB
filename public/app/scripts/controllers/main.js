@@ -564,7 +564,11 @@ minibean.controller('GameGiftController',function($routeParams, $scope, $locatio
 	                $scope.showGameGift = false;
 	            }
 	            
-	            writeMetaTitleDescription(data.nm, data.ds, $scope.formatToExternalUrl(data.im));
+	            var desc = data.ds;
+	            if (!desc) {
+	            	desc = data.ri;
+	            }
+	            writeMetaTitleDescription(data.nm, desc, $scope.formatToExternalUrl(data.im));
 	        }, 
 	        function(rejection) {
 	        	$location.path('/game');
