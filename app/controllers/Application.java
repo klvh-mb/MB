@@ -399,7 +399,7 @@ public class Application extends Controller {
         if (User.isDisplayNameExists(parentDisplayName)) {
             return handleSaveSignupInfoError("\""+parentDisplayName+"\" 已被選用。請選擇另一個顯示名稱重試", fb);
         }
-        if (parentBirthYear == null || parentLocation == null || parentType == null) {
+        if (StringUtils.isEmpty(parentBirthYear) || parentLocation == null || parentType == null) {
             return handleSaveSignupInfoError("請填寫您的生日，地區，媽媽身份", fb);
         }
         

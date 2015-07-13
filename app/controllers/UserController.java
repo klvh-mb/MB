@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import models.Community;
 import models.Conversation;
@@ -267,7 +268,7 @@ public class UserController extends Controller {
 	    String parentFirstName = form.get("parent_firstname");
 	    String parentLastName = form.get("parent_lastname");
 	    String parentAboutMe = form.get("parent_aboutme");
-	    if (parentDisplayName == null || parentFirstName == null || parentLastName == null) {
+	    if (StringUtils.isEmpty(parentDisplayName) || StringUtils.isEmpty(parentFirstName) || StringUtils.isEmpty(parentLastName)) {
 	        logger.underlyingLogger().error(String.format(
 	                "[u=%d][displayname=%s][firstname=%s][lastname=%s] displayname, firstname or lastname missing", 
 	                localUser.id, parentDisplayName, parentFirstName, parentLastName));
@@ -298,7 +299,7 @@ public class UserController extends Controller {
         String parentBirthYear = form.get("parent_birth_year");
         Location parentLocation = Location.getLocationById(Integer.valueOf(form.get("parent_location")));
         
-        if (parentBirthYear == null || parentLocation == null) {
+        if (StringUtils.isEmpty(parentBirthYear) || parentLocation == null) {
             logger.underlyingLogger().error(String.format(
                     "[u=%d][birthYear=%s][location=%s] birthYear or location missing", localUser.id, parentBirthYear, parentLocation.displayName));
             return status(500, "請填寫您的生日，地區");
