@@ -28,7 +28,7 @@
                 <img src="/assets/app/images/general/icons/ranking/rank_3.png">上載個人照片<span class="points">+{{gameConstants.POINTS_UPLOAD_PROFILE_PHOTO}}小豆豆</span><br>
                 <span class="game-note">只限第一次</span>
             </div>
-            <div>
+            <div ng-if="!android_ios">
                 <img src="/assets/app/images/general/icons/ranking/rank_4.png">Android App 首次登入<span class="points">+{{gameConstants.POINTS_APP_LOGIN}}小豆豆</span><br>
                 <span class="game-note">只限第一次</span>
                 <a style="font-weight:bold;margin-left:35px;" href="https://play.google.com/store/apps/details?id=miniBean.app.AppController" target="_blank">
