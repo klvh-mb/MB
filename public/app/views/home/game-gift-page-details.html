@@ -4,7 +4,6 @@
 	    
 	    <h3>{{gameGift.nm}}</h3>
 	    <div class="game-details" style="text-align:center;"><span>兌換: {{gameGift.rp}}小豆豆</span></div>
-	    <div class="game-details" style="text-align:center;"><span>{{gameGift.ds}}</span></div>
 	    
 	    <div class="padding10"></div>
 	    <div style="width:100%;text-align:center;">
@@ -13,7 +12,17 @@
             <a ng-if="userInfo.isLoggedIn && gameGift.isPending" class="game-gift-redeem-pending-btn" ng-click="prompt('您已要求換領這禮品，如未收到換領通知，請 1) PM miniBean Facebook 專頁 或 2) 電郵至 info@minibean.com.hk', 'bootbox-default-prompt game-bootbox-prompt', 8000)">已要求換領</a>
 	    </div>
 	    <div class="padding10"></div>
-	    
+
+        <div ng-if="gameGift.ds">
+            <div class="game-details" style="padding:0 20px;"><span class="game-details-info" ng-bind-html="gameGift.ds | to_trusted"></span></div>
+            <div class="padding10"></div>
+        </div>
+        
+        <a class="" href="/my#!/game-rules">
+            <h5>如何累積小豆豆？<!--img style="width:14px;margin:0 3px 3px;float:none;" src="/assets/app/images/general/animated/arrow.gif"--></h5> 
+        </a>
+        <div class="padding10"></div>
+        
 	    <div ng-if="gameGift.ri">
 		    <h4>換領規則</h4>
 		    <div class="game-details"><span class="game-details-info" ng-bind-html="gameGift.ri | to_trusted"></span></div>

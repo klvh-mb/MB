@@ -21,8 +21,8 @@
                         <div>你可以到其他用戶的主頁，發私人訊息給對方。</div>
                     </li>
                     <li class="conversation" data-ng-class="conv.isRead?'message-list-read':'message-list-unread'" data-ng-repeat="conv in conversations">
-                        <!--a ng-href="/my#!/profile/{{conv.uid}}"><img data-ng-src="/image/get-mini-image-by-id/{{conv.uid}}" style="height:50px;"></a-->
-                        <a data-ng-click="openConversation(conv.uid)"><img data-ng-src="/image/get-mini-image-by-id/{{conv.uid}}" style="height:50px;"></a>
+                        <a ng-href="/my#!/profile/{{conv.uid}}"><img data-ng-src="/image/get-mini-image-by-id/{{conv.uid}}" style="height:50px;"></a>
+                        <!--a data-ng-click="openConversation(conv.uid)"><img data-ng-src="/image/get-mini-image-by-id/{{conv.uid}}" style="height:50px;"></a-->
                         <div class="message-preview" data-ng-click="openConversation(conv.uid)">
                             <h5>{{conv.nm}}</h5>
                             <p data-ng-bind-html="conv.lm | to_trusted"></p>

@@ -244,7 +244,7 @@ public class GameController extends Controller {
         } else if (gameAccount.getGamePoints() < gameGift.requiredPoints) {
         	logger.underlyingLogger().error(String.format("[u=%d][g=%d] Not enough points [%d] to redeem game gift [%d]!", 
         			user.id, gameGift.id, gameAccount.getGamePoints(), gameGift.requiredPoints));
-        	String message = "這次換領禮品需要"+gameGift.requiredPoints+"小豆豆。您的小豆豆數值是"+gameAccount.getGamePoints()+"，還未足夠~";
+        	String message = "這次換領禮品需要"+gameGift.requiredPoints+"小豆豆。您現在只有"+gameAccount.getGamePoints()+"小豆豆，還未足夠~";
         	return new ResponseStatusVM(SocialObjectType.GAME_GIFT.name(), gameGift.id, user.id, false, message);
         }
         
