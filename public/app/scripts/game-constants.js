@@ -1,7 +1,7 @@
 var GameConstants = new function() {
 
 	this.POINTS_SIGNUP = 10;
-	this.POINTS_UPLOAD_PROFILE_PHOTO = 25;
+	this.POINTS_UPLOAD_PROFILE_PHOTO = 10;
 	this.POINTS_DAILY_SIGNIN = 2;
 	this.POINTS_POST = 0;
 	this.POINTS_COMMENT = 0;
