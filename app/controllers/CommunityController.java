@@ -303,7 +303,12 @@ public class CommunityController extends Controller{
     @Transactional
     public static Result getPostImageById(Long id) {
     	response().setHeader("Cache-Control", "max-age=604800");
-        return ok(Resource.findById(id).getThumbnailFile());
+    	Resource resource = Resource.findById(id);
+        if (resource == null || resource.getThumbnailFile() == null) {
+        	logger.underlyingLogger().error("[imageId="+id+"] getPostImageById");
+        	return ok();
+        }
+        return ok(resource.getThumbnailFile());
     }
     
     @Transactional
@@ -1370,6 +1375,10 @@ public class CommunityController extends Controller{
     public static Result getOriginalPostImageByID(Long id) {
         response().setHeader("Cache-Control", "max-age=604800");
         Resource resource = Resource.findById(id);
+        if (resource == null || resource.getRealFile() == null) {
+        	logger.underlyingLogger().error("[imageId="+id+"] getOriginalPostImageByID");
+        	return ok();
+        }
         return ok(resource.getRealFile());
     }
     
