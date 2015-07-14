@@ -1,11 +1,13 @@
 package common.image;
 
-import javax.imageio.ImageIO;
+import common.utils.ImageFileUtil;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+
 import jjil.algorithm.RgbAvgGray;
 import jjil.core.Rect;
 import jjil.core.RgbImage;
@@ -29,7 +31,7 @@ public class FaceFinder {
      * @throws Exception
      */
     public static BufferedImage getSquarePictureWithFace(File origFile) throws IOException {
-        BufferedImage origImage = ImageIO.read(origFile);
+        BufferedImage origImage = ImageFileUtil.readImageFile(origFile);
         LOGGER.underlyingLogger().info("getSquarePictureWithFace - w="+origImage.getWidth()+" h="+origImage.getHeight());
 
         if (origImage.getWidth() != origImage.getHeight()) {
@@ -50,7 +52,7 @@ public class FaceFinder {
      * @throws IOException
      */
     public static BufferedImage getRectPictureWithFace(File origFile, double widthToHeightRatio) throws IOException {
-        BufferedImage origImage = ImageIO.read(origFile);
+    	BufferedImage origImage = ImageFileUtil.readImageFile(origFile);
         LOGGER.underlyingLogger().info("getRectPictureWithFace - w="+origImage.getWidth()+" h="+origImage.getHeight());
 
         int newHeight = (int) (origImage.getWidth() / widthToHeightRatio);

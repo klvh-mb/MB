@@ -1,9 +1,13 @@
 package common.utils;
 
+import net.coobird.thumbnailator.Thumbnails;
+
 import org.apache.commons.io.FileUtils;
+
 import play.Play;
 
 import javax.imageio.ImageIO;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +19,8 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 public class ImageFileUtil {
-
+	private static final play.api.Logger logger = play.api.Logger.apply(ImageFileUtil.class);
+	
     private static String IMAGE_TEMP_PATH = Play.application().configuration().getString("image.temp");
 
     static {
@@ -38,5 +43,12 @@ public class ImageFileUtil {
             ext = "gif";
         }
         ImageIO.write(image, ext, file);
+    }
+    
+    public static BufferedImage readImageFile(File file) throws IOException {
+    	// !!! Don't use ImageIO to read image file as it ignores EXIF information which may needs rotation
+    	//BufferedImage bi = ImageIO.read(file);    	
+    	BufferedImage bi = Thumbnails.of(file).scale(1).asBufferedImage();
+    	return bi;
     }
 }

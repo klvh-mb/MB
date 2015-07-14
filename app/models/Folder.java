@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import javax.imageio.ImageIO;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -17,6 +16,7 @@ import javax.persistence.OneToMany;
 
 import akka.actor.ActorSystem;
 import common.image.ImageDimensions;
+import common.utils.ImageFileUtil;
 import common.utils.NanoSecondStopWatch;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.name.Rename;
@@ -176,7 +176,7 @@ public class Folder extends SocialObject implements Serializable, Creatable, Upd
                 type == SocialObjectType.COMMENT_PHOTO) {
             NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
-			BufferedImage bimg = ImageIO.read(source);
+			BufferedImage bimg = ImageFileUtil.readImageFile(source);
 			final int origWidth  = bimg.getWidth();
 			final int origHeight = bimg.getHeight();
 
@@ -259,7 +259,7 @@ public class Folder extends SocialObject implements Serializable, Creatable, Upd
 		else if (type == SocialObjectType.PRIVATE_PHOTO) {
             NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
-            BufferedImage bimg = ImageIO.read(source);
+            BufferedImage bimg = ImageFileUtil.readImageFile(source);
 			final int origWidth  = bimg.getWidth();
 			final int origHeight = bimg.getHeight();
 
