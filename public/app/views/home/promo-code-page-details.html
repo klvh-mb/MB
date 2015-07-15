@@ -5,8 +5,11 @@
 	    <h3>{{gameGift.nm}}</h3>
 	    <div class="game-details" style="text-align:center;"><span>兌換: {{gameGift.rp}}小豆豆</span></div>
 	    <div class="game-details" style="text-align:center;" ng-if="gameGift.lpu > 0"><span">每個用戶最多可換領: {{gameGift.lpu}}</span></div>
-	    <div class="game-details" style="text-align:center;" ng-if="gameGift.isPending"><span style="color:#556fb5;">Promo Code: {{promoCode}}</span></div>
 	    
+	    <div class="padding10"></div>
+	    <div class="game-details" style="text-align:center;"><span style="color:#556fb5;">這是您朋友的介紹 Code: {{promoCode}}</span></div>
+	    <div class="game-details" style="text-align:center;"><span style="color:#556fb5;">請以Facebook用戶身份註册成為miniBean會員，</span></div>
+	    <div class="game-details" style="text-align:center;"><span style="color:#556fb5;">您朋友即可累積 +{{gameConstants.POINTS_REFERRAL_SIGNUP}}小豆豆！</span></div>
 	    <div class="padding10"></div>
 	    <div style="width:100%;text-align:center;">
             <a class="game-gift-redeem-action-btn" ng-href="{{signupWithPromoCodeUrl}}">加入 miniBean 成為會員</a>
