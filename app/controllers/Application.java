@@ -314,6 +314,14 @@ public class Application extends Controller {
 
 		return signup();
 	}
+    
+    @Transactional
+	public static Result detailsForPromoCode(String promoCode) {
+		// put into http session
+        session().put(SESSION_PROMOCODE, promoCode);
+
+		return redirect("/frontpage#!/promo-code-page/"+promoCode);
+	}
 
 	@Transactional
 	public static Result home() {

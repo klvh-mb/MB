@@ -89,21 +89,23 @@ public class GameGiftVM {
     public GameGiftVM(GameGift gameGift, User user) {
         this(gameGift);
         
-        List<RedeemTransaction> redeemTransactions = 
-        		RedeemTransaction.getPendingRedeemTransactions(user, gameGift.id, RedeemTransaction.RedeemType.GAME_GIFT);
-        if (redeemTransactions != null && redeemTransactions.size() > 0) {
-        	this.isPending = true;
-        	this.pendingCount = redeemTransactions.size();
-        }
+        if (user.isLoggedIn()) {
+	        List<RedeemTransaction> redeemTransactions = 
+	        		RedeemTransaction.getPendingRedeemTransactions(user, gameGift.id, RedeemTransaction.RedeemType.GAME_GIFT);
+	        if (redeemTransactions != null && redeemTransactions.size() > 0) {
+	        	this.isPending = true;
+	        	this.pendingCount = redeemTransactions.size();
+	        }
         
-        try {
-            this.isLike = gameGift.isLikedBy(user);
-        } catch (SocialObjectNotLikableException e) {
-            ;
-        }
-        
-        if (user.isLoggedIn() && user.isEditor()) {
-            this.redeemedUsersCount = 0L;	//GameController.getRedeemedUsersCount(gameGift.id);
+	        try {
+	            this.isLike = gameGift.isLikedBy(user);
+	        } catch (SocialObjectNotLikableException e) {
+	            ;
+	        }
+	        
+	        if (user.isEditor()) {
+	            this.redeemedUsersCount = 0L;	//GameController.getRedeemedUsersCount(gameGift.id);
+	        }
         }
     }
 }

@@ -2,6 +2,32 @@
 
 var minibean = angular.module('minibean');
 
+minibean.controller('PromoCodeController',function($routeParams, $scope, $location, $http, gameService, usSpinnerService) {
+	
+	$scope.promoCode = $routeParams.promoCode;
+	$scope.signupWithPromoCodeUrl = $scope.applicationInfo.baseUrl+'/signup-promo-code/'+$scope.promoCode;
+	
+	var id = 4;		// temp hardcode to eugene game gift
+    if (id != undefined) {
+    	$scope.gameGift = gameService.gameGiftInfo.get({id:id}, 
+	        function(data) {
+	            if ($scope.gameGift.id == null || ($scope.gameGift.gs == 'NEW' && !$scope.userInfo.isE)) {
+	                $scope.showGameGift = false;
+	            }
+	            
+	            var desc = data.ds;
+	            if (!desc) {
+	            	desc = data.ri;
+	            }
+	            writeMetaTitleDescription(data.nm, desc, $scope.formatToExternalUrl(data.im));
+	        }, 
+	        function(rejection) {
+	        	$location.path('/game-rules');
+			}
+	    );
+    }
+});
+
 minibean.controller('AdminCampaignJoinersController',function($scope, $route, $location, $http, $routeParams, adminService){
     $scope.joiners = adminService.campaignJoiners.get({id:$routeParams.id});
 });
@@ -1719,7 +1745,7 @@ minibean.controller('UserProfileController',function($scope, $routeParams, $loca
 	
 	$scope.$watch($routeParams.id, function (navigateTo) {
 		if($routeParams.id  == $scope.userInfo.id){
-			 $location.path("about/activities");
+			 $location.path("/about/activities");
 		}
 	});
 	

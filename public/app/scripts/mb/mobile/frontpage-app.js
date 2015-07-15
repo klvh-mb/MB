@@ -22,6 +22,11 @@ angular.module('minibean', [
 ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
+      // TEMP hardcode promo code page
+      .when('/promo-code-page/:promoCode',{
+        templateUrl: '/assets/app/views/mobile/home/promo-code-page.html',
+        controller: 'PromoCodeController'
+      })
       .when('/', {
         templateUrl: '/assets/app/views/mobile/frontpage/frontpage.html', 
         controller : 'FrontpageController'
