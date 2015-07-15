@@ -1,6 +1,7 @@
 package viewmodel;
 
 import java.util.Date;
+import java.util.List;
 
 import models.GameGift;
 import models.GameGift.GiftState;
@@ -32,12 +33,14 @@ public class GameGiftVM {
 	@JsonProperty("rp") public Long requiredPoints;
 	@JsonProperty("qt") public Long quantityTotal;
 	@JsonProperty("qa") public Long quantityAvailable;
+	@JsonProperty("lpu") public Long limitPerUser;
 	@JsonProperty("cd") public Date createdDate;
     @JsonProperty("cb") public String createdBy;
     
 	@JsonProperty("ac") public boolean isActive = false;
 	@JsonProperty("nol") public int noOfLikes;
     @JsonProperty("nov") public int noOfViews;
+    @JsonProperty("pc") public int pendingCount = 0;
     @JsonProperty("isPending") public boolean isPending = false;
     @JsonProperty("isLike") public boolean isLike = false;
 
@@ -77,6 +80,7 @@ public class GameGiftVM {
 		this.requiredPoints = gameGift.requiredPoints;
 		this.quantityTotal = gameGift.quantityTotal;
 		this.quantityAvailable = gameGift.quantityAvailable;
+		this.limitPerUser = gameGift.limitPerUser;
 		
 		this.noOfLikes = gameGift.noOfLikes;
 		this.noOfViews = gameGift.noOfViews;
@@ -85,10 +89,11 @@ public class GameGiftVM {
     public GameGiftVM(GameGift gameGift, User user) {
         this(gameGift);
         
-        RedeemTransaction redeemTransaction = 
-        		RedeemTransaction.getPendingRedeemTransaction(user, gameGift.id, RedeemTransaction.RedeemType.GAME_GIFT);
-        if (redeemTransaction != null) {
+        List<RedeemTransaction> redeemTransactions = 
+        		RedeemTransaction.getPendingRedeemTransactions(user, gameGift.id, RedeemTransaction.RedeemType.GAME_GIFT);
+        if (redeemTransactions != null && redeemTransactions.size() > 0) {
         	this.isPending = true;
+        	this.pendingCount = redeemTransactions.size();
         }
         
         try {

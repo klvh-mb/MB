@@ -51,6 +51,8 @@ public class GameGift extends SocialObject implements Commentable, Likeable {
     
     public long quantityAvailable = 0L;
     
+    public long limitPerUser = 0L;
+    
 	public Date startDate;
 
     public Date endDate;

@@ -582,6 +582,13 @@ minibean.controller('GameGiftController',function($routeParams, $scope, $locatio
     		return;
     	}
     	
+    	// check limit per user
+    	if ($scope.gameGift.lpu > 0 && $scope.gameGift.pc >= $scope.gameGift.lpu) {
+    		prompt("每個用戶最多可換領 <b>"+$scope.gameGift.lpu+"次</b>", 
+    				"bootbox-default-prompt game-bootbox-prompt", 5000);
+    		return;
+    	}
+    	
     	// check points
     	if ($scope.gameAccount.gmpt < $scope.gameGift.rp) {
     		prompt("這次換領禮品需要 <b style='color:#FF6600;'>"+$scope.gameGift.rp+
@@ -601,6 +608,7 @@ minibean.controller('GameGiftController',function($routeParams, $scope, $locatio
             if (data.success) {
                 prompt("我們已收到您的換領禮品要求~ 請按照「換領規則」聯絡我們", "bootbox-default-prompt game-bootbox-prompt", 5000);
                 $scope.gameGift.isPending = true;
+                $scope.gameGift.pc++;
                 $scope.reloadGameAccount();
             } else {
                 prompt(data.messages[0], "bootbox-default-prompt game-bootbox-prompt", 8000);

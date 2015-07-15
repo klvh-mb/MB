@@ -77,14 +77,14 @@ public class RedeemTransaction extends domain.Entity implements Serializable, Cr
 	}
 	
 	@Transactional
-    public static RedeemTransaction getPendingRedeemTransaction(User user, Long objId, RedeemType redeemType) {
+    public static List<RedeemTransaction> getPendingRedeemTransactions(User user, Long objId, RedeemType redeemType) {
         Query q = JPA.em().createQuery("Select t from RedeemTransaction t where user = ?1 and objId = ?2 and redeemType = ?3 and transactionState <> ?4");
         q.setParameter(1, user);
         q.setParameter(2, objId);
         q.setParameter(3, redeemType);
         q.setParameter(4, TransactionState.COMPLETE);
         try {
-            return (RedeemTransaction)q.getSingleResult();
+            return (List<RedeemTransaction>)q.getResultList();
         } catch (NoResultException e) {
             return null;
         }

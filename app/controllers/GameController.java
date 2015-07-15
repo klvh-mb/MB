@@ -226,15 +226,28 @@ public class GameController extends Controller {
 	}
 	
 	private static ResponseStatusVM validateGameGiftRedeemTransaction(User user, GameGift gameGift) {
-		// Duplicate redeem!!
-		RedeemTransaction redeemTransaction = 
-        		RedeemTransaction.getPendingRedeemTransaction(user, gameGift.id, RedeemTransaction.RedeemType.GAME_GIFT);
-        if (redeemTransaction != null) {
+		// limit per user
+		List<RedeemTransaction> redeemTransactions = 
+        		RedeemTransaction.getPendingRedeemTransactions(user, gameGift.id, RedeemTransaction.RedeemType.GAME_GIFT);
+		int pendingCount = 0;
+		if (redeemTransactions != null && redeemTransactions.size() > 0) {
+			pendingCount = redeemTransactions.size();
+		}
+		if (gameGift.limitPerUser > 0 && pendingCount >= gameGift.limitPerUser) {
+			logger.underlyingLogger().error(String.format("[u=%d][g=%d][pendingCount=%d][limitPerUser=%d] Exceed limit per user!", user.id, gameGift.id, pendingCount, gameGift.limitPerUser));
+        	String message = "每個用戶最多可換領 "+gameGift.limitPerUser+"次";
+        	return new ResponseStatusVM(SocialObjectType.GAME_GIFT.name(), gameGift.id, user.id, false, message);
+		}
+		
+		// OK to redeem many
+		/*
+        if (redeemTransactions != null && redeemTransactions.size() > 0) {
         	logger.underlyingLogger().error(String.format("[u=%d][g=%d] Duplicate redeem game gift!", user.id, gameGift.id));
         	String message = "您已要求換領這禮品，如未收到換領通知，請 1) 發私人訊息至 miniBean Facebook 專頁 或 2) 電郵至 info@minibean.com.hk";
         	return new ResponseStatusVM(SocialObjectType.GAME_GIFT.name(), gameGift.id, user.id, false, message);
         }
-        
+        */
+		
         // Validate points
         GameAccount gameAccount = GameAccount.findByUserId(user.id);
         if (gameAccount == null) {
