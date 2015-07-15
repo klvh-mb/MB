@@ -98,7 +98,11 @@ public class GameAccountReferral extends domain.Entity {
 
         // 3) Credit referrer points
         if (referrerPromoCode != null) {
-            GameAccount.setPointsForReferral(referrerPromoCode);
+        	if (user.fbLogin) {
+        		GameAccount.setPointsForReferral(referrerPromoCode);
+        	} else {
+        		logger.underlyingLogger().warn("Referree is not fb user, skip credit points: id="+user.id+" email="+user.email+" promoCode="+promoCode);
+        	}
         }
     }
 

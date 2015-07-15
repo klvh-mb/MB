@@ -23,15 +23,16 @@
             <div>
                 <img src="/assets/app/images/general/icons/ranking/rank_2.png">介紹新會員<span class="points">+{{gameConstants.POINTS_REFERRAL_SIGNUP}}小豆豆</span><br>
                 <span class="game-note">沒有次數上限 (只限於每日小豆豆累積上限)</span>
+                <span class="game-note" style="color:#555;">*註意: 被邀請加入者必需以Facebook用戶身份註冊成為miniBean會員</span>
             </div>
             <div>
                 <img src="/assets/app/images/general/icons/ranking/rank_3.png">上載個人照片<span class="points">+{{gameConstants.POINTS_UPLOAD_PROFILE_PHOTO}}小豆豆</span><br>
                 <span class="game-note">只限第一次</span>
             </div>
-            <div ng-if="!android_ios">
+            <div>
                 <img src="/assets/app/images/general/icons/ranking/rank_4.png">Android App 首次登入<span class="points">+{{gameConstants.POINTS_APP_LOGIN}}小豆豆</span><br>
                 <span class="game-note">只限第一次</span>
-                <a style="font-weight:bold;margin-left:35px;" href="https://play.google.com/store/apps/details?id=miniBean.app.AppController" target="_blank">
+                <a ng-if="!android_ios" style="font-weight:bold;margin-left:35px;" href="https://play.google.com/store/apps/details?id=miniBean.app.AppController" target="_blank">
                     <img style="width:64px;" src="/assets/app/images/general/google-play.jpg">
                     立即下載
                 </a>

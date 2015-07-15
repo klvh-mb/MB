@@ -41,12 +41,13 @@
     <div class="game-details">
         <span ng-if="gameAccount.refs == 0">
             <span style="margin-right:10px;">用以下連結介紹你的朋友加入~~</span><br/>
-            <span style="margin-right:10px;">每個朋友成功註冊。你即可獲得<span style="margin:3px;" class="points">{{gameConstants.POINTS_REFERRAL_SIGNUP}}</span>小豆豆!</span> 
+            <span style="margin-right:10px;">每個朋友成功註冊。你即可獲得<span style="margin:3px;" class="points">{{gameConstants.POINTS_REFERRAL_SIGNUP}}</span>小豆豆!</span><br/> 
         </span>
         <span ng-if="gameAccount.refs > 0">
             <span style="margin-right:10px;">恭喜!! 你已成功介紹<span style="margin:3px;" class="points">{{gameAccount.refs}}</span>個新會員加入~~</span><br/>
-            <span style="margin-right:10px;">獲得<span style="margin:3px;" class="points">{{gameAccount.refs * gameConstants.POINTS_REFERRAL_SIGNUP}}</span>小豆豆!</span> 
+            <span style="margin-right:10px;">獲得<span style="margin:3px;" class="points">{{gameAccount.refs * gameConstants.POINTS_REFERRAL_SIGNUP}}</span>小豆豆!</span><br/>
         </span>
+        <span class="game-note" style="color:#555;">*註意: 被邀請加入者必需以Facebook用戶身份註冊成為miniBean會員</span>
         <div>
             <input type='text' name='game-promo-link' id='game-promo-link' value='{{applicationInfo.baseUrl}}/signup-code/{{gameAccount.pmcde}}'></input> 
             <a style='padding:5px 7px;font-size:14px;' class='toolsbox toolsbox-single' onclick='highlightLink("game-promo-link")'><i class='glyphicon glyphicon-link'></i></a>
