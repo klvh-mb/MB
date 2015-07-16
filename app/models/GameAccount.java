@@ -138,7 +138,6 @@ public class GameAccount extends domain.Entity {
         if (referrerAccount != null) {
             if (referrerAccount.number_of_referral_signups < GamificationConstants.LIMIT_REFERRAL_SIGNUP) {
                 long referrerId = referrerAccount.user_id;
-                long numReferralsNow = referrerAccount.number_of_referral_signups + 1;
 
                 int points;
                 String desc;
@@ -159,9 +158,9 @@ public class GameAccount extends domain.Entity {
                         referrerAccount.getGamePoints());
 
                 if (creditReferral) {
-                    logger.underlyingLogger().info("[u="+referrerId+"] Gamification - Credited referral. Num referrals="+numReferralsNow);
+                    logger.underlyingLogger().info("[u="+referrerId+"] Gamification - Credited referral. Num referrals="+referrerAccount.number_of_referral_signups);
                 } else {
-                    logger.underlyingLogger().info("[u="+referrerId+"] Gamification - Referral not credited. Num referrals="+numReferralsNow);
+                    logger.underlyingLogger().info("[u="+referrerId+"] Gamification - Referral not credited. Num referrals="+referrerAccount.number_of_referral_signups);
                 }
             }
             referrerAccount.auditFields.setUpdatedDate(new Date());
