@@ -65,6 +65,11 @@ public class CommandChecker {
                 logger.underlyingLogger().error("gamificationEOD missing daysBefore parameter");
             }
         }
+        // Redemption
+        else if (commandLine.startsWith("redemptionSummary")) {
+
+        }
+
         // Community Stats
         else if (commandLine.startsWith("communityStatistics")) {
             if (tokens.length > 1) {

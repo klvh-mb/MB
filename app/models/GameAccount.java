@@ -133,21 +133,35 @@ public class GameAccount extends domain.Entity {
      * Referral.
      * @param referrerPromoCode
      */
-	public static void setPointsForReferral(String referrerPromoCode) {
+	public static void setPointsForReferral(String referrerPromoCode, boolean creditReferral, String email) {
         GameAccount referrerAccount = GameAccount.findByPromoCode(referrerPromoCode);
         if (referrerAccount != null) {
             if (referrerAccount.number_of_referral_signups < GamificationConstants.LIMIT_REFERRAL_SIGNUP) {
                 long referrerId = referrerAccount.user_id;
                 long numReferralsNow = referrerAccount.number_of_referral_signups + 1;
 
-                referrerAccount.addPointsAcross(GamificationConstants.POINTS_REFERRAL_SIGNUP);
+                int points;
+                String desc;
+                if (creditReferral) {
+                    points = GamificationConstants.POINTS_REFERRAL_SIGNUP;
+                    desc = GameAccountTransaction.TRANS_DESC_REFERRAL;
+                } else {
+                    points = 0;
+                    desc = GameAccountTransaction.TRANS_DESC_REFERRAL_EMAIL+email;
+                }
+
+                referrerAccount.addPointsAcross(points);
                 GameAccountTransaction.recordPoints(referrerId,
-                        GamificationConstants.POINTS_REFERRAL_SIGNUP,
+                        points,
                         TransactionType.SystemCredit,
-                        GameAccountTransaction.TRANS_DESC_REFERRAL,
+                        desc,
                         referrerAccount.getGamePoints());
 
-                logger.underlyingLogger().info("[u="+referrerId+"] Gamification - Credited referral. Num referrals = "+numReferralsNow);
+                if (creditReferral) {
+                    logger.underlyingLogger().info("[u="+referrerId+"] Gamification - Credited referral. Num referrals="+numReferralsNow);
+                } else {
+                    logger.underlyingLogger().info("[u="+referrerId+"] Gamification - Referral not credited. Num referrals="+numReferralsNow);
+                }
             }
             referrerAccount.number_of_referral_signups++;
             referrerAccount.auditFields.setUpdatedDate(new Date());
