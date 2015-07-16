@@ -13,9 +13,12 @@
             <a ng-if="userInfo.isLoggedIn && !gameGift.isPending" class="game-gift-redeem-action-btn" href="" ng-confirm-click="redeemGameGift(gameGift.id)" ng-confirm-message="確定使用小豆豆換領禮品嗎?" ng-confirm-class-name="game-bootbox-prompt">立即換領</a>
             <a ng-if="userInfo.isLoggedIn && gameGift.isPending" class="game-gift-redeem-pending-btn" ng-click="prompt('您已要求換領這禮品，如未收到換領通知，請 1) PM miniBean Facebook 專頁 或 2) 電郵至 info@minibean.com.hk', 'bootbox-default-prompt game-bootbox-prompt', 8000)">已要求換領</a>
 	    </div-->
-	    <div style="width:100%;text-align:center;">
+	    <div style="width:100%;text-align:center;" ng-if="gameGift.ac">
             <a ng-if="!userInfo.isLoggedIn" class="game-gift-redeem-action-btn" href="" ng-click="popupLoginModal('小豆豆換禮品','再以小豆豆換領禮品','game-bootbox-prompt')">立即換領</a>
             <a ng-if="userInfo.isLoggedIn" class="game-gift-redeem-action-btn" href="" ng-confirm-click="redeemGameGift(gameGift.id)" ng-confirm-message="確定使用小豆豆換領禮品嗎?" ng-confirm-class-name="game-bootbox-prompt">立即換領</a>
+        </div>
+        <div style="width:100%;text-align:center;" ng-if="!gameGift.ac">
+            <a class="game-gift-redeem-pending-btn" href="">- 換領已結束 -</a>
         </div>
 	    <div class="padding10"></div>
 
@@ -65,9 +68,12 @@
             <a ng-if="userInfo.isLoggedIn && !gameGift.isPending" class="game-gift-redeem-action-btn" href="" ng-confirm-click="redeemGameGift(gameGift.id)" ng-confirm-message="確定使用小豆豆換領禮品嗎?" ng-confirm-class-name="game-bootbox-prompt">立即換領</a>
             <a ng-if="userInfo.isLoggedIn && gameGift.isPending" class="game-gift-redeem-pending-btn" ng-click="prompt('您已要求換領這禮品，如未收到換領通知，請 1) PM miniBean Facebook 專頁 或 2) 電郵至 info@minibean.com.hk', 'bootbox-default-prompt game-bootbox-prompt', 8000)">已要求換領</a>
         </div-->
-        <div style="width:100%;text-align:center;">
+        <div style="width:100%;text-align:center;" ng-if="gameGift.ac">
             <a ng-if="!userInfo.isLoggedIn" class="game-gift-redeem-action-btn" href="" ng-click="popupLoginModal('小豆豆換禮品','再以小豆豆換領禮品','game-bootbox-prompt')">立即換領</a>
             <a ng-if="userInfo.isLoggedIn" class="game-gift-redeem-action-btn" href="" ng-confirm-click="redeemGameGift(gameGift.id)" ng-confirm-message="確定使用小豆豆換領禮品嗎?" ng-confirm-class-name="game-bootbox-prompt">立即換領</a>
+        </div>
+        <div style="width:100%;text-align:center;" ng-if="!gameGift.ac">
+            <a class="game-gift-redeem-pending-btn" href="">- 換領已結束 -</a>
         </div>
         <div class="padding10"></div>
     </div>

@@ -11,8 +11,11 @@
 	    <div class="game-details" style="text-align:center;"><span style="color:#556fb5;">請以Facebook用戶身份註册成為miniBean會員，</span></div>
 	    <div class="game-details" style="text-align:center;"><span style="color:#556fb5;">您朋友即可累積 +{{gameConstants.POINTS_REFERRAL_SIGNUP}}小豆豆！</span></div>
 	    <div class="padding10"></div>
-	    <div style="width:100%;text-align:center;">
+	    <div style="width:100%;text-align:center;" ng-if="gameGift.ac">
             <a class="game-gift-redeem-action-btn" ng-href="{{signupWithPromoCodeUrl}}">加入 miniBean 成為會員</a>
+        </div>
+        <div style="width:100%;text-align:center;" ng-if="!gameGift.ac">
+            <a class="game-gift-redeem-pending-btn" href="">- 換領已結束 -</a>
         </div>
 	    <div class="padding10"></div>
 
