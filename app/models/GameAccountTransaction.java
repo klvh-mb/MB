@@ -19,8 +19,8 @@ public class GameAccountTransaction  extends domain.Entity {
     private static final play.api.Logger logger = play.api.Logger.apply(GameAccountTransaction.class);
 
     public static final String TRANS_DESC_SIGNUP = "新會員奬賞";
-    public static final String TRANS_DESC_REFERRAL = "介紹新會員加入";
-    public static final String TRANS_DESC_REFERRAL_EMAIL = "介紹新會員(非Facebook註冊不獲小豆豆) - ";
+    public static final String TRANS_DESC_REFERRAL = "介紹新會員以FB加入";
+    public static final String TRANS_DESC_REFERRAL_EMAIL = "介紹新會員以電郵加入";
     public static final String TRANS_DESC_PROFILEPIC = "上載個人頭像照片";
     public static final String TRANS_DESC_DAILY_SIGNIN = "每日簽到";
     public static final String TRANS_DESC_POSTS = "發佈新話題";
