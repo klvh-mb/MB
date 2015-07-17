@@ -68,8 +68,9 @@ CREATE INDEX tagwordscore_idx_twid_score ON TagWordScore (tagWordId, score);
 
 
 -- PreNursery
-CREATE INDEX prenursery_idx_region_dist ON prenursery (regionId, districtId);
-
+CREATE INDEX prenursery_idx_dist ON prenursery (districtId);
+-- Kindergarten
+CREATE INDEX kindergarten_idx_dist ON kindergarten (districtId);
 
 -- GameAccount
 CREATE INDEX gameaccount_idx_userid ON GameAccount (User_id);

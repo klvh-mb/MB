@@ -11,3 +11,4 @@ UPDATE PreNursery set applicationDateText='12月上網睇,1月報名' , applicat
 UPDATE PreNursery set applicationDateText='夠1歲就報得' , openDayText='有,10月打去問' , applicationDate='2016-12-31' WHERE id=234 AND name='基督教香港信義會頌安幼兒學校';
 UPDATE PreNursery set applicationDateText='8月29日 - 9月12日, 2015' , openDayText='冇OPENDAY, 但可預約參觀, 星期1-5 1430-1600' , applicationDate='2015-08-29' WHERE id=282 AND name='綠茵英文(國際)幼稚園(常寧路)';
 UPDATE PreNursery set applicationDateText='夠1歲半就可以報名,全年申請,有位就可以Interview' , applicationDate='2016-12-31' WHERE id=428 AND name='基督教宣道會沙田幼兒學校';
+UPDATE PreNursery set applicationDateText='9月9日 - 9月11日索取報名表. 報名日期: 2015年9月12日' , applicationDate='2015-09-12' WHERE id=365 AND name='蘇浙小學校(本地課程)';
