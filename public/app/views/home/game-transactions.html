@@ -8,9 +8,10 @@
         <li ng-repeat="transaction in gameTransactions"> 
             {{transaction.tt | date:'yyyy-M-dd HH:mm'}}
             <span ng-if="transaction.ty != 'Redeem' && transaction.ty != 'Penalty'">
-                {{transaction.td}}獲得{{transaction.tp}}小豆豆
+                <span ng-if="transaction.tp > 0">{{transaction.td}}獲得{{transaction.tp}}小豆豆</span>
+                <span ng-if="transaction.tp == 0">{{transaction.td}}(不獲小豆豆)</span>
             </span>
-            <span ng-show="transaction.ty == 'Redeem' || transaction.ty == 'Penalty'">
+            <span ng-if="transaction.ty == 'Redeem' || transaction.ty == 'Penalty'">
                 {{transaction.td}}扣除{{transaction.tp}}小豆豆
             </span>
         </li>
@@ -23,9 +24,10 @@
         <li class="admin-visible-field" ng-repeat="transaction in latestGameTransactions"> 
             {{transaction.tt | date:'yyyy-M-dd HH:mm'}} 
             <span ng-if="transaction.ty != 'Redeem' && transaction.ty != 'Penalty'">
-                {{transaction.td}}獲得{{transaction.tp}}小豆豆
+                <span ng-if="transaction.tp > 0">{{transaction.td}}獲得{{transaction.tp}}小豆豆</span>
+                <span ng-if="transaction.tp == 0">{{transaction.td}}(不獲小豆豆)</span>
             </span>
-            <span ng-show="transaction.ty == 'Redeem' || transaction.ty == 'Penalty'">
+            <span ng-if="transaction.ty == 'Redeem' || transaction.ty == 'Penalty'">
                 {{transaction.td}}扣除{{transaction.tp}}小豆豆
             </span>
             <div>
