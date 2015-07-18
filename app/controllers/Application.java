@@ -258,7 +258,7 @@ public class Application extends Controller {
 			UserAgentUtil userAgentUtil = new UserAgentUtil(request());
             String agentStr = userAgentUtil.getUserAgent();
 			if (agentStr != null) {
-				user.lastLoginUserAgent = userAgentUtil.getUserAgent().substring(0, Math.max(100, agentStr.length()));
+				user.lastLoginUserAgent = userAgentUtil.getUserAgent().substring(0, Math.min(100, agentStr.length()));
 			}
 		}
 	}
