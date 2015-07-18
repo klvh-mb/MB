@@ -16,6 +16,7 @@ import java.util.Map.Entry;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import javax.validation.constraints.Max;
 
 import models.GameAccount;
 import models.GameAccountReferral;
@@ -255,8 +256,9 @@ public class Application extends Controller {
 	public static void setMobileUserAgent(User user) {
 		if (user.isLoggedIn()) {
 			UserAgentUtil userAgentUtil = new UserAgentUtil(request());
-			if (userAgentUtil.getUserAgent() != null) {
-				user.lastLoginUserAgent = userAgentUtil.getUserAgent().substring(0, 100);
+            String agentStr = userAgentUtil.getUserAgent();
+			if (agentStr != null) {
+				user.lastLoginUserAgent = userAgentUtil.getUserAgent().substring(0, Math.max(100, agentStr.length()));
 			}
 		}
 	}
