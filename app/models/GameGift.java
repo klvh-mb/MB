@@ -143,6 +143,17 @@ public class GameGift extends SocialObject implements Commentable, Likeable {
         user.likesCount--;
     }
     
+    public boolean isActive() {
+    	boolean active = false;
+    	if ((giftState == GiftState.NEW || 
+				giftState == GiftState.PUBLISHED || 
+				giftState == GiftState.STARTED) && 
+				endDate.after(new Date())) {
+    		active = true;
+    	}
+    	return active;
+    }
+    
 	@Override
     public boolean equals(Object o) {
         if (o != null && o instanceof GameGift) {

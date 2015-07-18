@@ -10,6 +10,7 @@ import models.GameAccountTransaction;
 import models.GameGift;
 import models.RedeemTransaction;
 import models.User;
+import models.GameGift.GiftState;
 import play.data.DynamicForm;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -226,6 +227,13 @@ public class GameController extends Controller {
 	}
 	
 	private static ResponseStatusVM validateGameGiftRedeemTransaction(User user, GameGift gameGift) {
+		// is active?
+		if (!gameGift.isActive()) {
+			logger.underlyingLogger().error(String.format("[u=%d][g=%d][state=%s][endDate=%s] Game gift not active!", user.id, gameGift.id, gameGift.giftState.name(), gameGift.endDate.toString()));
+        	String message = "- 換領已結束 -";
+        	return new ResponseStatusVM(SocialObjectType.GAME_GIFT.name(), gameGift.id, user.id, false, message);
+		}
+			
 		// limit per user
 		List<RedeemTransaction> redeemTransactions = 
         		RedeemTransaction.getPendingRedeemTransactions(user, gameGift.id, RedeemTransaction.RedeemType.GAME_GIFT);

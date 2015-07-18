@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import models.GameGift;
-import models.GameGift.GiftState;
 import models.RedeemTransaction;
 import models.User;
 
@@ -68,12 +67,7 @@ public class GameGiftVM {
 	    this.redeemType = gameGift.redeemType.name();
 		this.giftType = gameGift.giftType.name();
 		this.giftState = gameGift.giftState.name();
-		if ((gameGift.giftState == GiftState.NEW || 
-				gameGift.giftState == GiftState.PUBLISHED || 
-				gameGift.giftState == GiftState.STARTED) && 
-				gameGift.endDate.after(new Date())) {
-		    this.isActive = true;
-		}
+		this.isActive = gameGift.isActive();
 		this.startDate = gameGift.startDate;
 		this.endDate = gameGift.endDate;
 		
