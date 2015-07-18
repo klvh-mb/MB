@@ -255,8 +255,8 @@ public class Application extends Controller {
 	public static void setMobileUserAgent(User user) {
 		if (user.isLoggedIn()) {
 			UserAgentUtil userAgentUtil = new UserAgentUtil(request());
-			if (userAgentUtil != null && userAgentUtil.getUserAgent() != null) {
-				user.lastLoginUserAgent = userAgentUtil.getUserAgent();
+			if (userAgentUtil.getUserAgent() != null) {
+				user.lastLoginUserAgent = userAgentUtil.getUserAgent().substring(0, 100);
 			}
 		}
 	}
