@@ -13,6 +13,7 @@ import common.utils.ShortCodeGenerator;
 import domain.GamificationConstants;
 import email.EDMUtility;
 import models.GameAccountTransaction.TransactionType;
+import org.joda.time.LocalDate;
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 
@@ -117,16 +118,24 @@ public class GameAccount extends domain.Entity {
 	public static void setPointsForSignUp(User user) {
         GameAccount account = GameAccount.findByUserId(user.id);
 
-		account.addPointsAcross(GamificationConstants.POINTS_SIGNUP);
+		long addedPoints = account.addPointsAcross(GamificationConstants.POINTS_SIGNUP);
         account.auditFields.setUpdatedDate(new Date());
 		account.save();
-		GameAccountTransaction.recordPoints(user.id,
-                GamificationConstants.POINTS_SIGNUP,
-                TransactionType.SystemCredit,
-                GameAccountTransaction.TRANS_DESC_SIGNUP,
-                account.getGamePoints());
 
-        logger.underlyingLogger().info("[u="+user.id+"] Gamification - Credited signup");
+        if (addedPoints > 0) {
+            GameAccountTransaction.recordPoints(user.id,
+                    GamificationConstants.POINTS_SIGNUP,
+                    TransactionType.SystemCredit,
+                    GameAccountTransaction.TRANS_DESC_SIGNUP,
+                    account.getGamePoints());
+            logger.underlyingLogger().info("[u="+user.id+"] Gamification - Credited signup");
+        } else {
+            GameAccountTransaction.recordPoints(user.id,
+                    0, TransactionType.SystemCredit,
+                    GameAccountTransaction.TRANS_DESC_SIGNUP+GameAccountTransaction.TRANS_DESC_DAILYMAX_REACHED,
+                    account.getGamePoints());
+            logger.underlyingLogger().info("[u="+user.id+"] Gamification - NOT Credited signup. Daily max reached.");
+        }
 	}
 
     /**
@@ -142,26 +151,27 @@ public class GameAccount extends domain.Entity {
                 int points;
                 String desc;
                 if (creditReferral) {
-                    points = GamificationConstants.POINTS_REFERRAL_SIGNUP;
-                    desc = GameAccountTransaction.TRANS_DESC_REFERRAL;
                     referrerAccount.number_of_referral_signups++;
+
+                    long addedPoints = referrerAccount.addPointsAcross(GamificationConstants.POINTS_REFERRAL_SIGNUP);
+                    if (addedPoints > 0) {
+                        points = GamificationConstants.POINTS_REFERRAL_SIGNUP;
+                        desc = GameAccountTransaction.TRANS_DESC_REFERRAL;
+                        logger.underlyingLogger().info("[u="+referrerId+"] Gamification - Credited referral. Num referrals="+referrerAccount.number_of_referral_signups);
+                    } else {
+                        points = 0;
+                        desc = GameAccountTransaction.TRANS_DESC_REFERRAL+GameAccountTransaction.TRANS_DESC_DAILYMAX_REACHED;
+                        logger.underlyingLogger().info("[u="+referrerId+"] Gamification - NOT Credited Referral. Daily max reached.");
+                    }
                 } else {
                     points = 0;
                     desc = GameAccountTransaction.TRANS_DESC_REFERRAL_EMAIL;
+                    logger.underlyingLogger().info("[u="+referrerId+"] Gamification - NOT Credited Referral. Email signup");
                 }
 
-                referrerAccount.addPointsAcross(points);
                 GameAccountTransaction.recordPoints(referrerId,
-                        points,
-                        TransactionType.SystemCredit,
-                        desc,
+                        points, TransactionType.SystemCredit, desc,
                         referrerAccount.getGamePoints());
-
-                if (creditReferral) {
-                    logger.underlyingLogger().info("[u="+referrerId+"] Gamification - Credited referral. Num referrals="+referrerAccount.number_of_referral_signups);
-                } else {
-                    logger.underlyingLogger().info("[u="+referrerId+"] Gamification - Referral not credited. Num referrals="+referrerAccount.number_of_referral_signups);
-                }
             }
             referrerAccount.auditFields.setUpdatedDate(new Date());
             referrerAccount.merge();
@@ -176,18 +186,25 @@ public class GameAccount extends domain.Entity {
      * @param user
      */
 	public static void setPointsForSignin(User user) {
-        logger.underlyingLogger().info("[u="+user.id+"] Gamification - Crediting signin");
-
         GameAccount account = GameAccount.findByUserId(user.id);
-        account.addPointsAcross(GamificationConstants.POINTS_DAILY_SIGNIN);
+        long addedPoints = account.addPointsAcross(GamificationConstants.POINTS_DAILY_SIGNIN);
         account.auditFields.setUpdatedDate(new Date());
         account.merge();
 
-        GameAccountTransaction.recordPoints(user.id,
-                GamificationConstants.POINTS_DAILY_SIGNIN,
-                TransactionType.SystemCredit,
-                GameAccountTransaction.TRANS_DESC_DAILY_SIGNIN,
-                account.getGamePoints());
+        if (addedPoints > 0) {
+            GameAccountTransaction.recordPoints(user.id,
+                    GamificationConstants.POINTS_DAILY_SIGNIN,
+                    TransactionType.SystemCredit,
+                    GameAccountTransaction.TRANS_DESC_DAILY_SIGNIN,
+                    account.getGamePoints());
+            logger.underlyingLogger().info("[u="+user.id+"] Gamification - Credited Signin.");
+        } else {
+            GameAccountTransaction.recordPoints(user.id,
+                    0, TransactionType.SystemCredit,
+                    GameAccountTransaction.TRANS_DESC_DAILY_SIGNIN+GameAccountTransaction.TRANS_DESC_DAILYMAX_REACHED,
+                    account.getGamePoints());
+            logger.underlyingLogger().info("[u="+user.id+"] Gamification - NOT Credited Signin. Daily max reached.");
+        }
 	}
 
     /**
@@ -198,17 +215,25 @@ public class GameAccount extends domain.Entity {
 		GameAccount account = GameAccount.findByUserId(user.id);
 
         if (!account.has_upload_profile_pic) {
-            logger.underlyingLogger().info("[u="+user.id+"] Gamification - Crediting profile picture upload");
-
-            account.addPointsAcross(GamificationConstants.POINTS_UPLOAD_PROFILE_PHOTO);
+            long addedPoints = account.addPointsAcross(GamificationConstants.POINTS_UPLOAD_PROFILE_PHOTO);
             account.has_upload_profile_pic = true;
             account.auditFields.setUpdatedDate(new Date());
             account.merge();
-            GameAccountTransaction.recordPoints(user.id,
-                    GamificationConstants.POINTS_UPLOAD_PROFILE_PHOTO,
-                    TransactionType.SystemCredit,
-                    GameAccountTransaction.TRANS_DESC_PROFILEPIC,
-                    account.getGamePoints());
+
+            if (addedPoints > 0) {
+                GameAccountTransaction.recordPoints(user.id,
+                        GamificationConstants.POINTS_UPLOAD_PROFILE_PHOTO,
+                        TransactionType.SystemCredit,
+                        GameAccountTransaction.TRANS_DESC_PROFILEPIC,
+                        account.getGamePoints());
+                logger.underlyingLogger().info("[u="+user.id+"] Gamification - Credited profile picture upload");
+            } else {
+                GameAccountTransaction.recordPoints(user.id,
+                        0, TransactionType.SystemCredit,
+                        GameAccountTransaction.TRANS_DESC_PROFILEPIC+GameAccountTransaction.TRANS_DESC_DAILYMAX_REACHED,
+                        account.getGamePoints());
+                logger.underlyingLogger().info("[u="+user.id+"] Gamification - NOT Credited profile picture upload. Daily max reached.");
+            }
         }
 	}
 	
@@ -220,17 +245,25 @@ public class GameAccount extends domain.Entity {
 		GameAccount account = GameAccount.findByUserId(user.id);
 
         if (!account.app_login) {
-            logger.underlyingLogger().info("[u="+user.id+"] Gamification - Crediting app login");
-
-            account.addPointsAcross(GamificationConstants.POINTS_APP_LOGIN);
+            long addedPoints = account.addPointsAcross(GamificationConstants.POINTS_APP_LOGIN);
             account.app_login = true;
             account.auditFields.setUpdatedDate(new Date());
             account.merge();
-            GameAccountTransaction.recordPoints(user.id,
-                    GamificationConstants.POINTS_APP_LOGIN,
-                    TransactionType.SystemCredit,
-                    GameAccountTransaction.TRANS_DESC_APP_LOGIN,
-                    account.getGamePoints());
+
+            if (addedPoints > 0) {
+                GameAccountTransaction.recordPoints(user.id,
+                        GamificationConstants.POINTS_APP_LOGIN,
+                        TransactionType.SystemCredit,
+                        GameAccountTransaction.TRANS_DESC_APP_LOGIN,
+                        account.getGamePoints());
+                logger.underlyingLogger().info("[u="+user.id+"] Gamification - Credited app login");
+            } else {
+                GameAccountTransaction.recordPoints(user.id,
+                        0, TransactionType.SystemCredit,
+                        GameAccountTransaction.TRANS_DESC_APP_LOGIN+GameAccountTransaction.TRANS_DESC_DAILYMAX_REACHED,
+                        account.getGamePoints());
+                logger.underlyingLogger().info("[u="+user.id+"] Gamification - NOT Credited app login. Daily max reached.");
+            }
         }
 	}
 	
@@ -282,17 +315,16 @@ public class GameAccount extends domain.Entity {
         logger.underlyingLogger().info("[u="+user_id+"] Promocode="+promoCode+". Sent signup invitation to: "+email);
     }
 
-    public void addPointsAcross(long newPoints) {
-        game_points += newPoints;
-        activity_points += newPoints;
-    }
+    public long addPointsAcross(long newPoints) {
+        int ptsToday = GameAccountTransaction.getTransactionPointsForDay(this.user_id, new LocalDate());
 
-    public void addPointsActivityOnly(long newPoints) {
-        activity_points += newPoints;
-    }
-
-    public void addPointsGameOnly(long newPoints) {
-        game_points += newPoints;
+        if (ptsToday < GamificationConstants.LIMIT_DAILY_POINTS) {
+            game_points += newPoints;
+            activity_points += newPoints;
+            return newPoints;
+        } else {
+            return 0;
+        }
     }
 
     public void redeemPoints(long points) {

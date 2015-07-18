@@ -33,10 +33,8 @@ public interface GamificationConstants {
     public static final long LIMIT_POST = 5;
     public static final long LIMIT_COMMENT = 5;
     public static final long LIMIT_LIKE = 5;
-    public static final long LIMIT_REFERRAL_SIGNUP = 20;
-    
-    public static final long LIMIT_DAILY_POINTS_LOW = 30;
-    public static final long LIMIT_DAILY_POINTS_HIGH = 50;
+    public static final long LIMIT_REFERRAL_SIGNUP = 20;    // FB signup referral
+    public static final long LIMIT_DAILY_POINTS = 200;
 
     /**
      * Game levels

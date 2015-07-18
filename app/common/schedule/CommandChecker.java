@@ -56,19 +56,16 @@ public class CommandChecker {
         if (commandLine.startsWith("indexTagWords")) {
             TaggingEngine.indexTagWords();
         }
-        // GamificationEOD
-        else if (commandLine.startsWith("gamificationEOD")) {
-            if (tokens.length > 1) {
-                Integer daysBefore = Integer.valueOf(tokens[1]);
-                GameAccountTransaction.performEndOfDayTasks(daysBefore);
-            } else {
-                logger.underlyingLogger().error("gamificationEOD missing daysBefore parameter");
-            }
-        }
-        // Redemption
-        else if (commandLine.startsWith("redemptionSummary")) {
 
-        }
+        // GamificationEOD  (Not used)
+//        else if (commandLine.startsWith("gamificationEOD")) {
+//            if (tokens.length > 1) {
+//                Integer daysBefore = Integer.valueOf(tokens[1]);
+//                GameAccountTransaction.performEndOfDayTasks(daysBefore);
+//            } else {
+//                logger.underlyingLogger().error("gamificationEOD missing daysBefore parameter");
+//            }
+//        }
 
         // Community Stats
         else if (commandLine.startsWith("communityStatistics")) {
@@ -79,6 +76,7 @@ public class CommandChecker {
                 logger.underlyingLogger().error("communityStatistics missing daysBefore parameter");
             }
         }
+
         // PN communities (DONE)
 //        else if (commandLine.startsWith("bootstrapPNCommunity")) {
 //            DataBootstrap.bootstrapPNCommunity();
