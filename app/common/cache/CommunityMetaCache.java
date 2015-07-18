@@ -1,6 +1,7 @@
 package common.cache;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import models.Community;
 import models.CommunityCategory;
@@ -16,8 +17,7 @@ import viewmodel.CommunityCategoryMapVM;
  * To change this template use File | Settings | File Templates.
  */
 public class CommunityMetaCache {
-    // Permanent cache loaded up on system startup.
-
+    ///////// Permanent cache loaded up on system startup /////////
     private static List<CommunityCategory> bizCatList;
     private static List<CommunityCategory> socialCatList;
 
@@ -28,6 +28,10 @@ public class CommunityMetaCache {
     private static Map<Long,Long> pnCommunityToIds = new HashMap<>();
     // Kindergarten community id to KG id
     private static Map<Long,Long> kgCommunityToIds = new HashMap<>();
+
+    ///////// Cache updated ondemand /////////
+    private static Map<Long, Long> commIdToMemCount = new ConcurrentHashMap<>();
+
 
     static {
         bizCatList = CommunityCategory.loadAllBusinessCategories();
@@ -104,5 +108,18 @@ public class CommunityMetaCache {
 
     public static Long getKGIdFromCommunity(Long communityId) {
         return kgCommunityToIds.get(communityId);
+    }
+
+    public static Long getMemberCountInCommunity(Long communityId) {
+        Long count = commIdToMemCount.get(communityId);
+        if (count == null) {
+            count = Community.loadMemberCount(communityId);
+            commIdToMemCount.put(communityId, count);
+        }
+        return count;
+    }
+
+    public static void refreshMemberCountInCommunity(Long communityId) {
+        commIdToMemCount.put(communityId, Community.loadMemberCount(communityId));
     }
 }

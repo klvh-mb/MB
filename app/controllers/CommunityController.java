@@ -185,7 +185,6 @@ public class CommunityController extends Controller{
     
     @Transactional
     public static List<CommunitiesWidgetChildVM> getCommunitiesByTargetingType(TargetingType targetingType) {
-    
         NanoSecondStopWatch sw = new NanoSecondStopWatch();
 
         final User localUser = Application.getLocalUser(session());

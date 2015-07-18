@@ -1,5 +1,6 @@
 package models;
 
+import common.cache.CommunityMetaCache;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import play.data.format.Formats;
@@ -60,15 +61,19 @@ public class UserCommunityAffinity extends domain.Entity {
     @Transactional
     public static UserCommunityAffinity onJoinedCommunity(Long userId, Long communityId) {
         try {
+            UserCommunityAffinity affinity;
             synchronized (UserCommunityAffinity.class) {
-                UserCommunityAffinity affinity = findByUserCommunity(userId, communityId);
+                affinity = findByUserCommunity(userId, communityId);
                 if (affinity == null) {
                     affinity = new UserCommunityAffinity(userId, communityId);
                 }
                 affinity.lastJoined = new Date();       // update the join time
                 affinity.save();
-                return affinity;
+
             }
+
+            CommunityMetaCache.refreshMemberCountInCommunity(communityId);
+            return affinity;
         } catch (Exception e) {
             logger.underlyingLogger().error("Error in onJoinedCommunity(u="+userId+",c="+communityId+")", e);
             return null;
@@ -81,6 +86,7 @@ public class UserCommunityAffinity extends domain.Entity {
 		setParameter(1, userId).
 		setParameter(2, communityId).
         executeUpdate();
+        CommunityMetaCache.refreshMemberCountInCommunity(communityId);
     }
 
     @Transactional
