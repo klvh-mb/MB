@@ -17,7 +17,6 @@ import com.feth.play.module.pa.PlayAuthenticate;
  * EDMUtility (via emails)
  */
 public class EDMUtility {
-	
 	protected static final String PROVIDER_KEY = "password";
 	protected static final String SETTING_KEY_MAIL = "mail";
 
@@ -42,22 +41,19 @@ public class EDMUtility {
 		sendMail("miniBean Invitation", body, email);
 	}
 
-    /**
-     * @param userName
-     */
-	public void requestRedemptionMail(String userName) {
-		//final boolean isSecure = getConfiguration().getBoolean(SETTING_KEY_VERIFICATION_LINK_SECURE);
-	    //final String url = routes.Signup.verify(token).absoluteURL(ctx.request(), isSecure);
-        
-		final String text = getEmailTemplate(
-				"views.html.account.email.redemption_mail", userName);
-		final String html = getEmailTemplate(
-				"views.html.account.email.redemption_mail", userName);
-
-		Body body =  new Body(text, html);
-		
-		sendMail("request For redemption", body, Play.application().configuration().getString("smtp.user"));
-	}
+//	public void requestRedemptionMail(String userName) {
+//		//final boolean isSecure = getConfiguration().getBoolean(SETTING_KEY_VERIFICATION_LINK_SECURE);
+//	    //final String url = routes.Signup.verify(token).absoluteURL(ctx.request(), isSecure);
+//
+//		final String text = getEmailTemplate(
+//				"views.html.account.email.redemption_mail", userName);
+//		final String html = getEmailTemplate(
+//				"views.html.account.email.redemption_mail", userName);
+//
+//		Body body =  new Body(text, html);
+//
+//		sendMail("request For redemption", body, Play.application().configuration().getString("smtp.user"));
+//	}
 
     /**
      * @param subject
@@ -68,7 +64,15 @@ public class EDMUtility {
         sendMail(subject, body, Play.application().configuration().getString("smtp.user"));
     }
 
-
+    /**
+     * @param subject
+     * @param bodyText
+     * @param email
+     */
+    public void sendMail(final String subject, final String bodyText, String email) {
+        Body body =  new Body(bodyText);
+        sendMail(subject, body, email);
+    }
 
 	protected Cancellable sendMail(final String subject, final Body body,
 			final String recipient) {

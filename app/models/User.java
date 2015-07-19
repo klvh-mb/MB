@@ -1211,6 +1211,23 @@ public class User extends SocialObject implements Subject, Socializable {
         return count;
     }
 
+    @Transactional
+    public static Pair<Integer,String> getAndroidTargetEdmUsers() {
+        StringBuilder sb = new StringBuilder();
+
+        Query q = JPA.em().createNativeQuery(
+            "select CONCAT(id,',',email,',',firstName,',',lastName,',') from User where deleted=0 and emailValidated=1 and "+
+            "email is not null and email not like '%abc.com' and email not like '%xxx.com' and firstName is not null and lastName is not null and id not in (1,2,4,5,102,1098,1124,575,1374,1119,1431) "+
+            "and id not in (select g.userId from gameaccounttransaction g where g.transactionDescription like '%APP%') "+
+            "and (lastLoginUserAgent is NULL OR lastLoginUserAgent not like '%iphone%') "+
+            "order by id");
+        List<String> results = (List<String>) q.getResultList();
+        for (String res : results) {
+            sb.append(res).append("\n");
+        }
+        return new Pair<>(results.size(),sb.toString());
+    }
+
     @JsonIgnore
     public LinkedAccount getAccountByProvider(final String providerKey) {
         return LinkedAccount.findByProviderKey(this, providerKey);

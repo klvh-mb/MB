@@ -1,9 +1,12 @@
 package common.schedule;
 
+import common.collection.Pair;
 import common.thread.ThreadLocalOverride;
 import data.DataBootstrap;
+import email.EDMUtility;
 import models.CommunityStatistics;
 import models.GameAccountTransaction;
+import models.User;
 import tagword.TaggingEngine;
 import targeting.community.CommunityTargetingEngine;
 
@@ -55,6 +58,19 @@ public class CommandChecker {
         // TagWords
         if (commandLine.startsWith("indexTagWords")) {
             TaggingEngine.indexTagWords();
+        }
+        // EDM Emails
+        else if (commandLine.startsWith("edmAppTargets")) {
+            if (tokens.length > 1) {
+                String email = tokens[1];
+                Pair<Integer,String> csv = User.getAndroidTargetEdmUsers();
+                logger.underlyingLogger().info("getAndroidTargetEdmUsers. Count="+csv.first);
+
+                EDMUtility.getInstance().sendMail("Target Android EMD users", csv.second, email);
+                logger.underlyingLogger().info("getAndroidTargetEdmUsers. Sent to "+email);
+            } else {
+                logger.underlyingLogger().error("Error. edmAppTargets missing email parameter");
+            }
         }
 
         // GamificationEOD  (Not used)
