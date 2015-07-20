@@ -261,7 +261,8 @@
     margin-right: 10px;
 }
 .game-gift a.game-gift-redeem-action-btn, 
-.game-gift a.game-gift-redeem-pending-btn {
+.game-gift a.game-gift-redeem-pending-btn,
+.game-gift a.game-gift-redeem-end-btn {
 	font-weight: bold;
     font-size: 20px;
 	color: white;
@@ -277,4 +278,7 @@
 }
 .game-gift a.game-gift-redeem-pending-btn {
     background-color: #4B9149;
+}
+.game-gift a.game-gift-redeem-end-btn {
+    background-color: #aaa;
 }
