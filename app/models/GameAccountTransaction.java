@@ -2,6 +2,7 @@ package models;
 
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +11,7 @@ import javax.persistence.Query;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+
 import play.data.validation.Constraints.Required;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
@@ -47,16 +49,24 @@ public class GameAccountTransaction  extends domain.Entity {
 	@Required
 	public Long userId;
 	
+	@Required
 	public Long transactedPoints;
-	 
+	
+	@Required
 	public Date transactedTime;
 	
+	@Required
 	public Long newTotalPoints;
 	
+	@Required
 	public TransactionType transactionType;
 
+	@Required
     public String transactionDescription;
 
+    @Required
+    public Boolean deleted = false;
+    
     /**
      * Ctor
      */
@@ -68,7 +78,7 @@ public class GameAccountTransaction  extends domain.Entity {
         DateTime end = new DateTime(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), 23, 59, 59);
 
         Query q = JPA.em().createQuery(
-                "SELECT transactedPoints FROM GameAccountTransaction where userId=?1 and transactedTime >= ?2 and transactedTime <= ?3");
+                "SELECT transactedPoints FROM GameAccountTransaction where userId=?1 and transactedTime >= ?2 and transactedTime <= ?3 and deleted = false");
         q.setParameter(1, userId);
         q.setParameter(2, start.toDate());
         q.setParameter(3, end.toDate());
@@ -83,7 +93,7 @@ public class GameAccountTransaction  extends domain.Entity {
 
     @Transactional(readOnly = true)
 	public static List<GameAccountTransaction> getTransactions(Long userId, int offset, int pageSize) {
-        Query q = JPA.em().createQuery("SELECT u FROM GameAccountTransaction u where userId = ?1 order by transactedTime desc");
+        Query q = JPA.em().createQuery("SELECT u FROM GameAccountTransaction u where userId = ?1 and deleted = false order by transactedTime desc");
         q.setParameter(1, userId);
 
         q.setFirstResult(offset);
@@ -93,7 +103,7 @@ public class GameAccountTransaction  extends domain.Entity {
     
     @Transactional(readOnly = true)
 	public static List<GameAccountTransaction> getLatestTransactions(int pageSize) {
-        Query q = JPA.em().createQuery("SELECT u FROM GameAccountTransaction u order by transactedTime desc");
+        Query q = JPA.em().createQuery("SELECT u FROM GameAccountTransaction u where deleted = false order by transactedTime desc");
         q.setMaxResults(pageSize);
         return (List<GameAccountTransaction>) q.getResultList();
 	}
