@@ -94,13 +94,13 @@ public class CommandChecker {
         }
 
         // PN communities (DONE)
-//        else if (commandLine.startsWith("bootstrapPNCommunity")) {
-//            DataBootstrap.bootstrapPNCommunity();
-//        }
+        else if (commandLine.startsWith("bootstrapPNCommunity")) {
+            DataBootstrap.bootstrapPNCommunity();
+        }
         // KG communities (DONE)
-//        else if (commandLine.startsWith("bootstrapKGCommunity")) {
-//            DataBootstrap.bootstrapKGCommunity();
-//        }
+        else if (commandLine.startsWith("bootstrapKGCommunity")) {
+            DataBootstrap.bootstrapKGCommunity();
+        }
 
         // PlayGroup
         else if (commandLine.startsWith("bootstrapPG")) {
