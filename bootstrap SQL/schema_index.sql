@@ -74,6 +74,8 @@ CREATE INDEX kindergarten_idx_dist ON kindergarten (districtId);
 
 -- GameAccount
 CREATE INDEX gameaccount_idx_userid ON GameAccount (User_id);
+-- GameAccountTransaction
+CREATE INDEX gameaccounttransaction_idx_userid ON GameAccountTransaction (userId);
 -- GameAccountStatistics
 CREATE INDEX gameaccountstatistics_idx_userid ON GameAccountStatistics (User_id);
 

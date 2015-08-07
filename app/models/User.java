@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -1221,9 +1222,17 @@ public class User extends SocialObject implements Subject, Socializable {
             "and id not in (select g.userId from gameaccounttransaction g where g.transactionDescription like '%APP%') "+
             "and (lastLoginUserAgent is NULL OR lastLoginUserAgent not like '%iphone%') "+
             "order by id");
-        List<String> results = (List<String>) q.getResultList();
-        for (String res : results) {
-            sb.append(res).append("\n");
+        List<Object> results = (List<Object>) q.getResultList();
+        for (Object res : results) {
+            if (res instanceof String) {
+                sb.append((String)res).append("\n");
+            } else {
+                try {
+                    sb.append(new String((byte[])res, "UTF-8")).append("\n");
+                } catch (Exception e) {
+                    logger.underlyingLogger().error("Failed to create string");
+                }
+            }
         }
         return new Pair<>(results.size(),sb.toString());
     }
