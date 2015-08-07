@@ -25,7 +25,7 @@ object ApplicationBuild extends Build {
     "org.mindrot" % "jbcrypt" % "0.3m",
     "org.apache.httpcomponents" % "httpclient" % "4.2.5",
     "net.coobird" % "thumbnailator" % "0.4.7",
-    "com.clever-age" % "play2-elasticsearch" % "0.6-SNAPSHOT",
+    "com.clever-age" % "play2-elasticsearch" % "0.5.5",
     "commons-pool" % "commons-pool" % "1.5.5",
     "commons-lang" % "commons-lang" % "2.6",
     "commons-collections" % "commons-collections" % "3.2.1",

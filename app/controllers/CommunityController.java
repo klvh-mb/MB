@@ -761,7 +761,7 @@ public class CommunityController extends Controller{
             }
             p.merge();
 
-            p.indexPost(withPhotos);
+            //p.indexPost(withPhotos);
 
             sw.stop();
             logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"]"+device+"postOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
@@ -933,7 +933,7 @@ public class CommunityController extends Controller{
                 p.ensureAlbumExist();
             }
 
-            p.indexPost(Boolean.parseBoolean(withPhotos));
+            //p.indexPost(Boolean.parseBoolean(withPhotos));
 
             sw.stop();
             logger.underlyingLogger().info("STS [u="+localUser.id+"][c="+c.id+"]"+device+"postQuestionOnCommunity - photo="+withPhotos+". Took "+sw.getElapsedMS()+"ms");
