@@ -1,0 +1,30 @@
+<ul class="schools-ranking-main">
+    <li id="schools-appdates" class="schools-dates-box">
+        <div class="general-box school-list school-kg-list">
+            <ul>
+                <li class="index-title kg-index-title">
+                    <img style="width:auto;height:28px;" data-ng-src="/assets/app/images/general/titles/schools_most_viewed.png">
+                </li>
+                <li ng-repeat="kg in appDatesSchools">
+                    <div class="school-list-entry">
+                        <div class="school-info">
+                            <table>
+                                <tr>
+                                    <td width=50%>
+                                        <img style="width:25px;margin:0 2px 2px 0;" ng-src="{{kg.icon}}" ng-if="kg.icon != null" />
+                                        <img style="width:25px;margin:0 2px 2px 0;" data-ng-src="/assets/app/images/general/icons/community/grad_hat.png" ng-if="kg.icon == null" />
+                                        <a href="/schools#!/kg/{{kg.id}}">{{kg.n}}</a>
+                                        <span style="display: inline-block;">
+                                            <span class="tag">{{kg.dis}}</span>
+                                        </span>
+                                    </td>
+                                    <td width=50%><span class="school-info-tips">{{kg.appDateTxt}}</span><td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </li>
+</ul>

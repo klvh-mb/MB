@@ -746,6 +746,14 @@ PN      K
 .schools-ranking-main > li.schools-ranking-box:first-child {
 	margin-right: 5px;
 }
+.schools-ranking-main li.schools-dates-box {
+	width: 100%;
+	display: inline-block;
+	vertical-align: top;
+}
+.schools-ranking-main > li.schools-dates-box:first-child {
+	margin-right: 5px;
+}
 .schools-ranking-main .index-title {
 	margin: 10px;
     padding-bottom: 10px;

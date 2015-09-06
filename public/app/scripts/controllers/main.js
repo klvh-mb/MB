@@ -3608,6 +3608,11 @@ minibean.controller('SchoolsRankingController',function($scope, $routeParams, $l
 				$interval($scope.gotoRanking, 100, 1);
 			}
 		);
+        $scope.appDatesSchools = schoolsService.appDatesPNs.get({},
+			function(data) {
+				$interval($scope.gotoRanking, 100, 1);
+			}
+		);
 	} else if ($scope.selectedNavSubBar == 1) {		// KG
 		$scope.topViewedSchools = schoolsService.topViewedKGs.get({},
 			function(data) {
@@ -3615,6 +3620,11 @@ minibean.controller('SchoolsRankingController',function($scope, $routeParams, $l
     		}
 		);
 		$scope.topBookmarkedSchools = schoolsService.topBookmarkedKGs.get({},
+			function(data) {
+				$interval($scope.gotoRanking, 100, 1);
+			}
+		);
+        $scope.appDatesSchools = schoolsService.appDatesKGs.get({},
 			function(data) {
 				$interval($scope.gotoRanking, 100, 1);
 			}

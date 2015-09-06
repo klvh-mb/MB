@@ -990,6 +990,13 @@ minibean.service('schoolsService',function($resource){
                 get: {method:'get',isArray:true}
             }
     );
+    this.appDatesPNs = $resource(
+            '/get-pn-app-dates',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
     this.bookmarkedPNs = $resource(
             '/get-bookmarked-pns',
             {alt:'json',callback:'JSON_CALLBACK'},
@@ -1062,6 +1069,13 @@ minibean.service('schoolsService',function($resource){
     );
     this.topBookmarkedKGs = $resource(
             '/get-top-bookmarked-kgs',
+            {alt:'json',callback:'JSON_CALLBACK'},
+            {
+                get: {method:'get',isArray:true}
+            }
+    );
+    this.appDatesKGs = $resource(
+            '/get-kg-app-dates',
             {alt:'json',callback:'JSON_CALLBACK'},
             {
                 get: {method:'get',isArray:true}

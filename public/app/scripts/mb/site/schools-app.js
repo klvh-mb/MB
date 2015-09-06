@@ -43,6 +43,10 @@ angular.module('minibean', [
         templateUrl: '/assets/app/views/schools/pn-ranking-page.html',
         controller : 'SchoolsRankingController' 
       })
+      .when('/pn/dates',{
+        templateUrl: '/assets/app/views/schools/pn-dates-page.html',
+        controller : 'SchoolsRankingController'
+      })
       .when('/pn/:id',{
         templateUrl: '/assets/app/views/schools/pn-page.html',
         controller : 'PNPageController' 
@@ -62,6 +66,10 @@ angular.module('minibean', [
       .when('/kg/ranking',{
         templateUrl: '/assets/app/views/schools/kg-ranking-page.html',
         controller : 'SchoolsRankingController' 
+      })
+      .when('/kg/dates',{
+        templateUrl: '/assets/app/views/schools/kg-dates-page.html',
+        controller : 'SchoolsRankingController'
       })
       .when('/kg/:id',{
         templateUrl: '/assets/app/views/schools/kg-page.html',

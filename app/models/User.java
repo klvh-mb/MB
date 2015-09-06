@@ -1218,7 +1218,7 @@ public class User extends SocialObject implements Subject, Socializable {
 
         Query q = JPA.em().createNativeQuery(
             "select CONCAT(id,',',email,',',firstName,',',lastName,',') from User where deleted=0 and emailValidated=1 and "+
-            "email is not null and email not like '%abc.com' and email not like '%xxx.com' and firstName is not null and lastName is not null and id not in (1,2,4,5,102,1098,1124,575,1374,1119,1431) "+
+            "email is not null and email not like '%abc.com' and email not like '%xxx.com' and firstName is not null and lastName is not null and id not in (1,2,4,5,102,919,1063,1098,1124,575,1374,1119,1431,1820,2403,2842) "+
             "and id not in (select g.userId from gameaccounttransaction g where g.transactionDescription like '%APP%') "+
             "and (lastLoginUserAgent is NULL OR lastLoginUserAgent not like '%iphone%') "+
             "order by id");
