@@ -3610,6 +3610,7 @@ minibean.controller('SchoolsRankingController',function($scope, $routeParams, $l
 		);
         $scope.appDatesSchools = schoolsService.appDatesPNs.get({},
 			function(data) {
+                writeMetaTitleDescription('幼兒班申請日期(2016-2017)', '幼兒班申請日期(2016-2017)');
 				$interval($scope.gotoRanking, 100, 1);
 			}
 		);
@@ -3626,6 +3627,7 @@ minibean.controller('SchoolsRankingController',function($scope, $routeParams, $l
 		);
         $scope.appDatesSchools = schoolsService.appDatesKGs.get({},
 			function(data) {
+                writeMetaTitleDescription('幼稚園申請日期(2016-2017)', '幼稚園申請日期(2016-2017)');
 				$interval($scope.gotoRanking, 100, 1);
 			}
 		);
