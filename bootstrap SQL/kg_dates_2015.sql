@@ -1,7 +1,5 @@
 -- TODO
 UPDATE Kindergarten set applicationDateText='12月上網睇,1月開始報' , applicationDate='2016-01-31' WHERE id=695 AND name='劍鳴幼稚園';
-UPDATE Kindergarten set applicationDateText='於9月7日瀏覽「入學申請」版頁' , applicationDate='2015-09-07' WHERE id=676 AND name='國際英文幼稚園(羅福道)';
-UPDATE Kindergarten set applicationDateText='於9月7日瀏覽「入學申請」版頁' , applicationDate='2015-09-07' WHERE id=677 AND name='國際英文幼稚園(雅息士道)';
 UPDATE Kindergarten set applicationDateText='9月30日網站內公佈, 10月開始報' , applicationDate='2015-10-31' WHERE id=711 AND name='根德園幼稚園';
 UPDATE Kindergarten set applicationDateText='10月下旬上網睇',applicationDate='2015-10-31' WHERE id=250 AND name='天主教聖瑪加利大幼稚園';
 
@@ -29,6 +27,12 @@ UPDATE Kindergarten set applicationDateText='2015年8月10日 - 10月23日',appl
 UPDATE Kindergarten set applicationDateText='下載報名表: 2015年9月14日(9:30am) - 9月20日. 遞交日期: 2015年9月21日 - 9月22日(9:30-11:30am & 1:30-4pm)',applicationDate='2015-09-22' WHERE id=133 and name='協恩中學附屬幼稚園';
 
 UPDATE Kindergarten set applicationDateText='派發報名表: 2015年9月5日. 報名日期: 2015年9月19日 - 9月23日', applicationDate='2015-09-23' WHERE name like'嘉德麗幼稚園%';
+
+UPDATE Kindergarten set applicationDateText='2016-17年度入學申請已結束' , applicationDate='2015-09-07' WHERE id=676 AND name='國際英文幼稚園(羅福道)';
+UPDATE Kindergarten set applicationDateText='2016-17年度入學申請已結束' , applicationDate='2015-09-07' WHERE id=677 AND name='國際英文幼稚園(雅息士道)';
+UPDATE Kindergarten set applicationDateText='2015年9月24日 - 9月30日進行網上預約登記新生報名', applicationDate='2015-09-30' WHERE id=386 AND name like '玫瑰崗%';
+UPDATE Kindergarten set applicationDateText='2015年9月18日(10am) - 10月16日(5pm) 網上報名', applicationDate='2015-10-16' WHERE name like '維多利亞%';
+
 
 
 

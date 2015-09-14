@@ -1,12 +1,9 @@
 -- TODO
 UPDATE PreNursery set applicationDateText='12月上網睇,1月開始報' , applicationDate='2016-01-31' WHERE id=205 AND name='劍鳴幼稚園';
-UPDATE PreNursery set applicationDateText='9月上網睇,1月開始報' , applicationDate='2016-01-31' WHERE id=148 AND name='基督教中心幼稚園';
-UPDATE PreNursery set applicationDateText='9月上網睇,11月7日拎Form' , applicationDate='2015-11-07' WHERE id=105 AND name='樂基幼兒學校(駿景園)';
 UPDATE PreNursery set applicationDateText='12月上網睇,1月報名' , applicationDate='2016-01-31' WHERE id=195 AND name='香港聖公會青山聖彼得堂青雲路幼稚園';
-UPDATE PreNursery set applicationDateText='於9月7日瀏覽「入學申請」版頁', applicationDate='2015-09-07' WHERE name='國際英文幼稚園';
 
 UPDATE PreNursery set applicationDateText='2016年3月1日' , applicationDate='2016-03-01' WHERE id=44 AND name='聖保祿幼兒園';
-UPDATE PreNursery set applicationDateText='冇指定日子, 依家可申請, 要mark 低申請2016/17年' , applicationDate='2016-12-31' WHERE id=466 AND name='約克英文小學暨幼稚園(九龍塘)';
+UPDATE PreNursery set applicationDateText='冇指定日子, 要mark低申請2016/17年' , applicationDate='2016-12-31' WHERE id=466 AND name='約克英文小學暨幼稚園(九龍塘)';
 UPDATE PreNursery set applicationDateText='3月17日, 2015' , openDayText='過左' , applicationDate='2015-03-17' WHERE id=73 AND name='博士山(香港)國際幼稚園';
 UPDATE PreNursery set applicationDateText='夠1歲就可以報名' , applicationDate='2016-12-31' WHERE id=437 AND name='明雅國際幼兒學校';
 UPDATE PreNursery set applicationDateText='夠1歲就報得' , openDayText='有,10月打去問' , applicationDate='2016-12-31' WHERE id=234 AND name='基督教香港信義會頌安幼兒學校';
@@ -30,4 +27,15 @@ UPDATE PreNursery set applicationDateText='2015年9月14日 - 9月18日(10am-5pm
 UPDATE PreNursery set applicationDateText='2015年8月10日 - 10月23日',applicationDate='2015-10-23' WHERE id=35 and name='偉思幼兒園';
 
 UPDATE PreNursery set applicationDateText='派發報名表: 2015年9月5日. 報名日期: 2015年9月19日 - 9月23日', applicationDate='2015-09-23' WHERE name like'嘉德麗幼稚園%';
+UPDATE PreNursery set applicationDateText='2016-17年度入學申請已結束', applicationDate=NULL WHERE name='國際英文幼稚園';
+UPDATE PreNursery set applicationDateText='2015年11月13日或以前', applicationDate='2015-11-13' WHERE id=105 AND name='樂基幼兒學校(駿景園)';
+UPDATE PreNursery set applicationDateText='2015年11月14日或以前', applicationDate='2015-11-14' WHERE id=435 AND name='樂基幼兒學校(九龍塘)';
+
+UPDATE PreNursery set applicationDateText='2015年12月15日透過網頁公布申請詳情', applicationDate='2015-12-15' WHERE id=204 AND name like '迦南%';
+UPDATE PreNursery set applicationDateText='2015年12月15日透過網頁公布申請詳情', applicationDate='2015-12-15' WHERE id=473 AND name like '迦南%';
+UPDATE PreNursery set applicationDateText='2015年9月24日 - 9月30日進行網上預約登記新生報名', applicationDate='2015-09-30' WHERE id=373 AND name like '玫瑰崗%';
+UPDATE PreNursery set applicationDateText='2015年9月21日(10am) - 12月4日(5pm) 網上報名', applicationDate='2015-12-04' WHERE name like '維多利亞%';
+
+
+
 
