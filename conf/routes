@@ -180,6 +180,9 @@ GET     /image/get-thumbnail-image-by-id/:id        controllers.UserController.g
 GET     /image/get-thumbnail-cover-image-by-id/:id      controllers.UserController.getThumbnailCoverImageByID(id :Long)
 GET     /image/get-original-image-by-id/:id     controllers.UserController.getOriginalImageByID(id :Long)
 
+#User Gcm
+POST	/saveGCMKey/:key			controllers.UserController.saveGcmKey(key : String)
+
 # Conversation
 GET     /get-all-conversations      controllers.UserController.getAllConversations()
 GET     /get-messages/:id/:offset   controllers.UserController.getMessages(id: Long, offset: Long)
@@ -283,17 +286,17 @@ GET     /get-promo2-topics                      controllers.FrontPageController.
 GET     /get-featured-topics                    controllers.FrontPageController.getFeaturedTopics()
 GET     /get-game-topics                        controllers.FrontPageController.getGameTopics()
 
-# PlayGroup
-GET     /get-pg-info/:id                        controllers.PlayGroupController.getPGInfo(id:Long)
-GET     /search-pgs-by-name/:query              controllers.PlayGroupController.searchPGsByName(query:String)
-GET     /get-pgs-by-district/:district_id       controllers.PlayGroupController.getPGsByDistrict(district_id:Long)
-GET     /get-top-viewed-pgs                     controllers.PlayGroupController.getTopViewedPGs
-GET     /get-top-discussed-pgs                  controllers.PlayGroupController.getTopDiscussedPGs
-GET     /get-top-bookmarked-pgs                 controllers.PlayGroupController.getTopBookmarkedPGs
-GET     /bookmark-pg/:id                        controllers.PlayGroupController.onBookmark(id : Long)
-GET     /unbookmark-pg/:id                      controllers.PlayGroupController.onUnBookmark(id : Long)
-GET     /get-bookmarked-pgs                     controllers.PlayGroupController.getBookmarkedPGs()
-GET     /get-bookmarked-pg-communities          controllers.PlayGroupController.getBookmarkedPGCommunities()
+# PlayGroup (deprecated)
+#GET     /get-pg-info/:id                        controllers.PlayGroupController.getPGInfo(id:Long)
+#GET     /search-pgs-by-name/:query              controllers.PlayGroupController.searchPGsByName(query:String)
+#GET     /get-pgs-by-district/:district_id       controllers.PlayGroupController.getPGsByDistrict(district_id:Long)
+#GET     /get-top-viewed-pgs                     controllers.PlayGroupController.getTopViewedPGs
+#GET     /get-top-discussed-pgs                  controllers.PlayGroupController.getTopDiscussedPGs
+#GET     /get-top-bookmarked-pgs                 controllers.PlayGroupController.getTopBookmarkedPGs
+#GET     /bookmark-pg/:id                        controllers.PlayGroupController.onBookmark(id : Long)
+#GET     /unbookmark-pg/:id                      controllers.PlayGroupController.onUnBookmark(id : Long)
+#GET     /get-bookmarked-pgs                     controllers.PlayGroupController.getBookmarkedPGs()
+#GET     /get-bookmarked-pg-communities          controllers.PlayGroupController.getBookmarkedPGCommunities()
 
 # PreNursery
 GET     /get-pn-info/:id                        controllers.PreNurseryController.getPNInfo(id:Long)
@@ -327,10 +330,10 @@ GET     /get-kg-app-dates                       controllers.KindergartenControll
 GET     /get-kg-app-dates-by-district/:district_id  controllers.KindergartenController.getAppDatesByDistrict(district_id:Long)
 
 
-# PlayRoom
-GET     /get-pr-info/:id                        controllers.PlayRoomController.getPlayRoomInfo(id:Long)
-GET     /search-prs-by-name/:query              controllers.PlayRoomController.searchByName(query:String)
-GET     /get-prs-by-district/:district_id       controllers.PlayRoomController.getPlayRoomsByDistrict(district_id:Long)
+# PlayRoom (deprecated)
+#GET     /get-pr-info/:id                        controllers.PlayRoomController.getPlayRoomInfo(id:Long)
+#GET     /search-prs-by-name/:query              controllers.PlayRoomController.searchByName(query:String)
+#GET     /get-prs-by-district/:district_id       controllers.PlayRoomController.getPlayRoomsByDistrict(district_id:Long)
 
 
 # Edm settings

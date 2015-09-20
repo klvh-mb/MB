@@ -19,6 +19,7 @@ import models.Community;
 import models.Conversation;
 import models.Emoticon;
 import models.GameAccount;
+import models.Gcm;
 import models.Location;
 import models.Message;
 import models.Notification;
@@ -983,4 +984,16 @@ public class UserController extends Controller {
         }
 		return ok();
 	}
+
+    @Transactional
+    public static Result saveGcmKey(String key){
+        final User localUser = Application.getLocalUser(session());
+
+        if (localUser.isLoggedIn()) {
+            Gcm.createUpdateGcmKey(localUser.id, key);
+        } else {
+            logger.underlyingLogger().info("Not signed in. Skipped saveGcmKey.");
+        }
+		return ok();
+    }
 }
